@@ -1,4 +1,5 @@
 import React from 'react';
+import { useForm, useFieldArray, Controller } from 'react-hook-form';
 import { Button, TextField, Container, Typography, Grid, MenuItem, FormControl, InputLabel, Select, Card, CardContent, CardActions } from '@mui/material';
 import CustomAppBar from '../components/AppBar';
 import Sidebar from '../components/Sidebar';
@@ -10,7 +11,50 @@ const EventManagment: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = React.useState(true);
   const [eventType, setEventType] = React.useState<string>('');
   const [role, setRole] = React.useState<string>('');
-  const [formData, setFormData] = React.useState({
+  const { control, handleSubmit, reset, setValue } = useForm();
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'subEvents'
+  });
+
+/*
+ * Handles the submission of the form data.
+ * 
+ * The `data` parameter is an object containing the form data.
+ */
+const onSubmit = (data: object) => {
+  const payload = {
+    ...data,
+    eventType,
+    role
+  };
+  
+  console.log('Payload:', payload);
+};
+
+/*
+ * Clears the form and resets state variables.
+ * 
+ * This function performs the following actions:
+ * - Resets the form using the `reset` function (likely from a form library).
+ * - Sets the `eventType` state to an empty string.
+ * - Sets the `role` state to an empty string.
+ */
+const handleClear = () => {
+  reset();
+  setEventType('');
+  setRole('');
+};
+
+/*
+ * Adds a new sub-event to the list.
+ * 
+ * This function creates a new sub-event with empty or default values for
+ * all properties and appends it to a collection of sub-events. This is
+ * typically used for initializing a new entry in a form or list.
+ */
+const handleAddSubEvent = () => {
+  append({
     id: '',
     parentId: '',
     name: '',
@@ -24,92 +68,11 @@ const EventManagment: React.FC = () => {
     amount: '',
     discount: ''
   });
-  const [subEvents, setSubEvents] = React.useState<Array<typeof formData>>([]);
-  const [showSubEvents, setShowSubEvents] = React.useState(false);
-
-  const handleSidebarToggle = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, index?: number) => {
-    if (index !== undefined) {
-      const updatedSubEvents = [...subEvents];
-      updatedSubEvents[index] = {
-        ...updatedSubEvents[index],
-        [e.target.name]: e.target.value
-      };
-      setSubEvents(updatedSubEvents);
-    } else {
-      setFormData({
-        ...formData,
-        [e.target.name]: e.target.value
-      });
-    }
-  };
-
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    // Construct payload for API call
-    const payload = {
-      ...formData,
-      eventType,
-      role,
-      subEvents
-    };
-    
-    console.log('Payload:', payload);
-  };
-
-  const handleClear = () => {
-    setFormData({
-      id: '',
-      parentId: '',
-      name: '',
-      description: '',
-      startDate: '',
-      endDate: '',
-      venueId: '',
-      interval: '',
-      companyId: '',
-      title: '',
-      amount: '',
-      discount: ''
-    });
-    setEventType('');
-    setRole('');
-    setSubEvents([]);
-    setShowSubEvents(false); // Hide sub-event forms on clear
-  };
-
-  const handleAddSubEvent = () => {
-    setShowSubEvents(true);
-    setSubEvents([...subEvents, {
-      id: '',
-      parentId: '',
-      name: '',
-      description: '',
-      startDate: '',
-      endDate: '',
-      venueId: '',
-      interval: '',
-      companyId: '',
-      title: '',
-      amount: '',
-      discount: ''
-    }]);
-  };
-
-  const handleRemoveSubEvent = (index: number) => {
-    const updatedSubEvents = subEvents.filter((_, i) => i !== index);
-    setSubEvents(updatedSubEvents);
-    if (updatedSubEvents.length === 0) {
-      setShowSubEvents(false); // Hide sub-event forms if none remain
-    }
-  };
+};
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <CustomAppBar sidebarOpen={sidebarOpen} onSidebarToggle={handleSidebarToggle} />
+      <CustomAppBar sidebarOpen={sidebarOpen} onSidebarToggle={() => setSidebarOpen(!sidebarOpen)} />
       <div style={{ display: 'flex', flexGrow: 1, marginTop: 64 }}>
         <Sidebar open={sidebarOpen} />
         <Container style={{ flexGrow: 1, padding: '20px', marginLeft: sidebarOpen ? 24 : 0 }}>
@@ -118,193 +81,259 @@ const EventManagment: React.FC = () => {
           </Typography>
           <Card>
             <CardContent>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <Grid container spacing={3}>
                   {/* Main Event Fields */}
                   <Grid item xs={12} sm={6} md={3}>
-                    <TextField 
-                      label="ID" 
-                      variant="outlined" 
-                      margin="normal" 
-                      fullWidth 
+                    <Controller
                       name="id"
-                      value={formData.id}
-                      onChange={handleChange}
-                      required 
+                      control={control}
+                      render={({ field }) => (
+                        <TextField 
+                          label="ID" 
+                          variant="outlined" 
+                          margin="normal" 
+                          fullWidth 
+                          {...field} 
+                          required 
+                        />
+                      )}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={3}>
-                    <TextField 
-                      label="Parent ID" 
-                      variant="outlined" 
-                      margin="normal" 
-                      fullWidth 
+                    <Controller
                       name="parentId"
-                      value={formData.parentId}
-                      onChange={handleChange}
-                      required 
+                      control={control}
+                      render={({ field }) => (
+                        <TextField 
+                          label="Parent ID" 
+                          variant="outlined" 
+                          margin="normal" 
+                          fullWidth 
+                          {...field} 
+                          required 
+                        />
+                      )}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={3}>
-                    <TextField 
-                      label="Name" 
-                      variant="outlined" 
-                      margin="normal" 
-                      fullWidth 
+                    <Controller
                       name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      required 
+                      control={control}
+                      render={({ field }) => (
+                        <TextField 
+                          label="Name" 
+                          variant="outlined" 
+                          margin="normal" 
+                          fullWidth 
+                          {...field} 
+                          required 
+                        />
+                      )}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={3}>
-                    <TextField 
-                      label="Description" 
-                      variant="outlined" 
-                      margin="normal" 
-                      fullWidth 
+                    <Controller
                       name="description"
-                      value={formData.description}
-                      onChange={handleChange}
-                      required 
+                      control={control}
+                      render={({ field }) => (
+                        <TextField 
+                          label="Description" 
+                          variant="outlined" 
+                          margin="normal" 
+                          fullWidth 
+                          {...field} 
+                          required 
+                        />
+                      )}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={3}>
-                    <TextField 
-                      label="Start Date" 
-                      type="date" 
-                      variant="outlined" 
-                      margin="normal" 
-                      fullWidth 
+                    <Controller
                       name="startDate"
-                      value={formData.startDate}
-                      onChange={handleChange}
-                      required 
-                      InputLabelProps={{ shrink: true }} 
+                      control={control}
+                      render={({ field }) => (
+                        <TextField 
+                          label="Start Date" 
+                          type="date" 
+                          variant="outlined" 
+                          margin="normal" 
+                          fullWidth 
+                          {...field} 
+                          required 
+                          InputLabelProps={{ shrink: true }} 
+                        />
+                      )}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={3}>
-                    <TextField 
-                      label="End Date" 
-                      type="date" 
-                      variant="outlined" 
-                      margin="normal" 
-                      fullWidth 
+                    <Controller
                       name="endDate"
-                      value={formData.endDate}
-                      onChange={handleChange}
-                      required 
-                      InputLabelProps={{ shrink: true }} 
+                      control={control}
+                      render={({ field }) => (
+                        <TextField 
+                          label="End Date" 
+                          type="date" 
+                          variant="outlined" 
+                          margin="normal" 
+                          fullWidth 
+                          {...field} 
+                          required 
+                          InputLabelProps={{ shrink: true }} 
+                        />
+                      )}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={3}>
-                    <TextField 
-                      label="Venue ID" 
-                      variant="outlined" 
-                      margin="normal" 
-                      fullWidth 
+                    <Controller
                       name="venueId"
-                      value={formData.venueId}
-                      onChange={handleChange}
-                      required 
+                      control={control}
+                      render={({ field }) => (
+                        <TextField 
+                          label="Venue ID" 
+                          variant="outlined" 
+                          margin="normal" 
+                          fullWidth 
+                          {...field} 
+                          required 
+                        />
+                      )}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={3}>
                     <FormControl fullWidth margin="normal">
                       <InputLabel>Event Type</InputLabel>
-                      <Select
-                        value={eventType}
-                        onChange={(e) => setEventType(e.target.value as string)}
-                        label="Event Type"
-                      >
-                        {eventTypes.map((type) => (
-                          <MenuItem key={type} value={type}>
-                            {type.charAt(0).toUpperCase() + type.slice(1)}
-                          </MenuItem>
-                        ))}
-                      </Select>
+                      <Controller
+                        name="eventType"
+                        control={control}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            label="Event Type"
+                            onChange={(e) => {
+                              setValue('eventType', e.target.value as string);
+                              setEventType(e.target.value as string);
+                            }}
+                          >
+                            {eventTypes.map((type) => (
+                              <MenuItem key={type} value={type}>
+                                {type.charAt(0).toUpperCase() + type.slice(1)}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        )}
+                      />
                     </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={6} md={3}>
                     <FormControl fullWidth margin="normal">
                       <InputLabel>Role</InputLabel>
-                      <Select
-                        value={role}
-                        onChange={(e) => setRole(e.target.value as string)}
-                        label="Role"
-                      >
-                        {roles.map((roleItem) => (
-                          <MenuItem key={roleItem} value={roleItem}>
-                            {roleItem.charAt(0).toUpperCase() + roleItem.slice(1)}
-                          </MenuItem>
-                        ))}
-                      </Select>
+                      <Controller
+                        name="role"
+                        control={control}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            label="Role"
+                            onChange={(e) => {
+                              setValue('role', e.target.value as string);
+                              setRole(e.target.value as string);
+                            }}
+                          >
+                            {roles.map((roleItem) => (
+                              <MenuItem key={roleItem} value={roleItem}>
+                                {roleItem.charAt(0).toUpperCase() + roleItem.slice(1)}
+                              </MenuItem>
+                            ))}
+                          </Select>
+                        )}
+                      />
                     </FormControl>
                   </Grid>
                   <Grid item xs={12} sm={6} md={3}>
-                    <TextField 
-                      label="Interval" 
-                      variant="outlined" 
-                      margin="normal" 
-                      fullWidth 
+                    <Controller
                       name="interval"
-                      value={formData.interval}
-                      onChange={handleChange}
-                      required 
+                      control={control}
+                      render={({ field }) => (
+                        <TextField 
+                          label="Interval" 
+                          variant="outlined" 
+                          margin="normal" 
+                          fullWidth 
+                          {...field} 
+                          required 
+                        />
+                      )}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={3}>
-                    <TextField 
-                      label="Company ID" 
-                      variant="outlined" 
-                      margin="normal" 
-                      fullWidth 
+                    <Controller
                       name="companyId"
-                      value={formData.companyId}
-                      onChange={handleChange}
-                      required 
+                      control={control}
+                      render={({ field }) => (
+                        <TextField 
+                          label="Company ID" 
+                          variant="outlined" 
+                          margin="normal" 
+                          fullWidth 
+                          {...field} 
+                          required 
+                        />
+                      )}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={3}>
-                    <TextField 
-                      label="Title" 
-                      variant="outlined" 
-                      margin="normal" 
-                      fullWidth 
+                    <Controller
                       name="title"
-                      value={formData.title}
-                      onChange={handleChange}
-                      required 
+                      control={control}
+                      render={({ field }) => (
+                        <TextField 
+                          label="Title" 
+                          variant="outlined" 
+                          margin="normal" 
+                          fullWidth 
+                          {...field} 
+                          required 
+                        />
+                      )}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={3}>
-                    <TextField 
-                      label="Amount" 
-                      variant="outlined" 
-                      margin="normal" 
-                      fullWidth 
+                    <Controller
                       name="amount"
-                      value={formData.amount}
-                      onChange={handleChange}
-                      required 
+                      control={control}
+                      render={({ field }) => (
+                        <TextField 
+                          label="Amount" 
+                          variant="outlined" 
+                          margin="normal" 
+                          fullWidth 
+                          {...field} 
+                          required 
+                        />
+                      )}
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} md={3}>
-                    <TextField 
-                      label="Discount" 
-                      variant="outlined" 
-                      margin="normal" 
-                      fullWidth 
+                    <Controller
                       name="discount"
-                      value={formData.discount}
-                      onChange={handleChange}
-                      required 
+                      control={control}
+                      render={({ field }) => (
+                        <TextField 
+                          label="Discount" 
+                          variant="outlined" 
+                          margin="normal" 
+                          fullWidth 
+                          {...field} 
+                          required 
+                        />
+                      )}
                     />
                   </Grid>
 
                   {/* Conditionally Render Sub Events Section */}
-                  {showSubEvents && subEvents.map((subEvent, index) => (
-                    <Grid item xs={12} key={index}>
+                  {fields.map((field, index) => (
+                    <Grid item xs={12} key={field.id}>
                       <Card style={{ position: 'relative', marginBottom: 20 }}>
                         <CardContent>
                           <div style={{ position: 'relative' }}>
@@ -312,157 +341,215 @@ const EventManagment: React.FC = () => {
                               variant="contained"
                               color="secondary"
                               style={{ position: 'absolute', top: 10, right: 10 }}
-                              onClick={() => handleRemoveSubEvent(index)}
+                              onClick={() => remove(index)}
                             >
                               Remove Sub Event
                             </Button>
                             <Typography variant="h6">Sub Event #{index + 1}</Typography>
                             <Grid container spacing={3}>
-                            <Grid item xs={12} sm={6} md={4}>
-                            <TextField
-                              label="ID"
-                              variant="outlined"
-                              margin="normal"
-                              fullWidth
-                              name="id"
-                              value={subEvent.id}
-                              onChange={(e) => handleChange(e, index)}
-                              required
-                            />
-                            </Grid>
-                            <Grid item xs={12} sm={6} md={4}>
-                            <TextField
-                              label="Parent ID"
-                              variant="outlined"
-                              margin="normal"
-                              fullWidth
-                              name="parentId"
-                              value={subEvent.parentId}
-                              onChange={(e) => handleChange(e, index)}
-                              required
-                            />
+                              <Grid item xs={12} sm={6} md={4}>
+                                <Controller
+                                  name={`subEvents.${index}.id`}
+                                  control={control}
+                                  render={({ field }) => (
+                                    <TextField
+                                      label="ID"
+                                      variant="outlined"
+                                      margin="normal"
+                                      fullWidth
+                                      {...field}
+                                      required
+                                    />
+                                  )}
+                                />
                               </Grid>
                               <Grid item xs={12} sm={6} md={4}>
-                            <TextField
-                              label="Name"
-                              variant="outlined"
-                              margin="normal"
-                              fullWidth
-                              name="name"
-                              value={subEvent.name}
-                              onChange={(e) => handleChange(e, index)}
-                              required
-                            /></Grid>
-                            <Grid item xs={12} sm={6} md={4}>
-                            <TextField
-                              label="Description"
-                              variant="outlined"
-                              margin="normal"
-                              fullWidth
-                              name="description"
-                              value={subEvent.description}
-                              onChange={(e) => handleChange(e, index)}
-                              required
-                            /></Grid>
-                            <Grid item xs={12} sm={6} md={4}>
-                            <TextField
-                              label="Start Date"
-                              type="date"
-                              variant="outlined"
-                              margin="normal"
-                              fullWidth
-                              name="startDate"
-                              value={subEvent.startDate}
-                              onChange={(e) => handleChange(e, index)}
-                              required
-                              InputLabelProps={{ shrink: true }}
-                            /></Grid>
-                            <Grid item xs={12} sm={6} md={4}>
-                            <TextField
-                              label="End Date"
-                              type="date"
-                              variant="outlined"
-                              margin="normal"
-                              fullWidth
-                              name="endDate"
-                              value={subEvent.endDate}
-                              onChange={(e) => handleChange(e, index)}
-                              required
-                              InputLabelProps={{ shrink: true }}
-                            /></Grid>
-                            <Grid item xs={12} sm={6} md={4}>
-                            <TextField
-                              label="Venue ID"
-                              variant="outlined"
-                              margin="normal"
-                              fullWidth
-                              name="venueId"
-                              value={subEvent.venueId}
-                              onChange={(e) => handleChange(e, index)}
-                              required
-                            /></Grid>
-                            <Grid item xs={12} sm={6} md={4}>
-                            <TextField
-                              label="Interval"
-                              variant="outlined"
-                              margin="normal"
-                              fullWidth
-                              name="interval"
-                              value={subEvent.interval}
-                              onChange={(e) => handleChange(e, index)}
-                              required
-                            /></Grid>
-                            <Grid item xs={12} sm={6} md={4}>
-                            <TextField
-                              label="Company ID"
-                              variant="outlined"
-                              margin="normal"
-                              fullWidth
-                              name="companyId"
-                              value={subEvent.companyId}
-                              onChange={(e) => handleChange(e, index)}
-                              required
-                            /></Grid>
-                            <Grid item xs={12} sm={6} md={4}>
-                            <TextField
-                              label="Title"
-                              variant="outlined"
-                              margin="normal"
-                              fullWidth
-                              name="title"
-                              value={subEvent.title}
-                              onChange={(e) => handleChange(e, index)}
-                              required
-                            /></Grid>
-                            <Grid item xs={12} sm={6} md={4}>
-                            <TextField
-                              label="Amount"
-                              variant="outlined"
-                              margin="normal"
-                              fullWidth
-                              name="amount"
-                              value={subEvent.amount}
-                              onChange={(e) => handleChange(e, index)}
-                              required
-                            /></Grid>
-                            <Grid item xs={12} sm={6} md={4}>
-                            <TextField
-                              label="Discount"
-                              variant="outlined"
-                              margin="normal"
-                              fullWidth
-                              name="discount"
-                              value={subEvent.discount}
-                              onChange={(e) => handleChange(e, index)}
-                              required
-                            /></Grid>
+                                <Controller
+                                  name={`subEvents.${index}.parentId`}
+                                  control={control}
+                                  render={({ field }) => (
+                                    <TextField
+                                      label="Parent ID"
+                                      variant="outlined"
+                                      margin="normal"
+                                      fullWidth
+                                      {...field}
+                                      required
+                                    />
+                                  )}
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={6} md={4}>
+                                <Controller
+                                  name={`subEvents.${index}.name`}
+                                  control={control}
+                                  render={({ field }) => (
+                                    <TextField
+                                      label="Name"
+                                      variant="outlined"
+                                      margin="normal"
+                                      fullWidth
+                                      {...field}
+                                      required
+                                    />
+                                  )}
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={6} md={4}>
+                                <Controller
+                                  name={`subEvents.${index}.description`}
+                                  control={control}
+                                  render={({ field }) => (
+                                    <TextField
+                                      label="Description"
+                                      variant="outlined"
+                                      margin="normal"
+                                      fullWidth
+                                      {...field}
+                                      required
+                                    />
+                                  )}
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={6} md={4}>
+                                <Controller
+                                  name={`subEvents.${index}.startDate`}
+                                  control={control}
+                                  render={({ field }) => (
+                                    <TextField
+                                      label="Start Date"
+                                      type="date"
+                                      variant="outlined"
+                                      margin="normal"
+                                      fullWidth
+                                      {...field}
+                                      required
+                                      InputLabelProps={{ shrink: true }}
+                                    />
+                                  )}
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={6} md={4}>
+                                <Controller
+                                  name={`subEvents.${index}.endDate`}
+                                  control={control}
+                                  render={({ field }) => (
+                                    <TextField
+                                      label="End Date"
+                                      type="date"
+                                      variant="outlined"
+                                      margin="normal"
+                                      fullWidth
+                                      {...field}
+                                      required
+                                      InputLabelProps={{ shrink: true }}
+                                    />
+                                  )}
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={6} md={4}>
+                                <Controller
+                                  name={`subEvents.${index}.venueId`}
+                                  control={control}
+                                  render={({ field }) => (
+                                    <TextField
+                                      label="Venue ID"
+                                      variant="outlined"
+                                      margin="normal"
+                                      fullWidth
+                                      {...field}
+                                      required
+                                    />
+                                  )}
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={6} md={4}>
+                                <Controller
+                                  name={`subEvents.${index}.interval`}
+                                  control={control}
+                                  render={({ field }) => (
+                                    <TextField
+                                      label="Interval"
+                                      variant="outlined"
+                                      margin="normal"
+                                      fullWidth
+                                      {...field}
+                                      required
+                                    />
+                                  )}
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={6} md={4}>
+                                <Controller
+                                  name={`subEvents.${index}.companyId`}
+                                  control={control}
+                                  render={({ field }) => (
+                                    <TextField
+                                      label="Company ID"
+                                      variant="outlined"
+                                      margin="normal"
+                                      fullWidth
+                                      {...field}
+                                      required
+                                    />
+                                  )}
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={6} md={4}>
+                                <Controller
+                                  name={`subEvents.${index}.title`}
+                                  control={control}
+                                  render={({ field }) => (
+                                    <TextField
+                                      label="Title"
+                                      variant="outlined"
+                                      margin="normal"
+                                      fullWidth
+                                      {...field}
+                                      required
+                                    />
+                                  )}
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={6} md={4}>
+                                <Controller
+                                  name={`subEvents.${index}.amount`}
+                                  control={control}
+                                  render={({ field }) => (
+                                    <TextField
+                                      label="Amount"
+                                      variant="outlined"
+                                      margin="normal"
+                                      fullWidth
+                                      {...field}
+                                      required
+                                    />
+                                  )}
+                                />
+                              </Grid>
+                              <Grid item xs={12} sm={6} md={4}>
+                                <Controller
+                                  name={`subEvents.${index}.discount`}
+                                  control={control}
+                                  render={({ field }) => (
+                                    <TextField
+                                      label="Discount"
+                                      variant="outlined"
+                                      margin="normal"
+                                      fullWidth
+                                      {...field}
+                                      required
+                                    />
+                                  )}
+                                />
+                              </Grid>
                             </Grid>
                           </div>
                         </CardContent>
                       </Card>
                     </Grid>
                   ))}
-                  <Grid item xs={12} >
+                  <Grid item xs={12}>
                     <Button 
                       variant="contained" 
                       color="primary" 
