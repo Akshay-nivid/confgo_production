@@ -1,14 +1,43 @@
-import React from 'react';
-import { Button } from '@mui/material';
+import "@/styles/main.scss";
 
-const App: React.FC = () => {
-  return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <Button variant="contained" color="primary">
-        Hello, Material UI!
-      </Button>
-    </div>
-  );
-};
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+} from "react-router-dom";
 
-export default App;
+import Layout from "./pages/Layout";
+import Coupon from "./pages/coupon";
+import routes from "@/router/routes";
+import Login from "@/pages/Login/Login";
+import AuthenticatedRoute from "./router/AuthenticatedRoute";
+import Dashboard from "@/pages/dashborad";
+import Events from "@/pages/events";
+import CalendarRoute from "./pages/calendar";
+import Register from "./pages/Register/Register";
+import CreateAccount from "./pages/Register/CreateAccount";
+import AddOrganization from "./pages/Register/AddOrganization";
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <>
+      <Route path={routes.login()} element={<Login />} />
+      <Route path={routes.register()} element={<Register />} />
+      <Route path={routes.createAccount()} element={<CreateAccount/>}/>
+      <Route path={routes.addOrganization()} element={<AddOrganization/>}/>
+      <Route element={<AuthenticatedRoute />}>
+        <Route path={routes.home()} element={<Layout />}>
+          <Route index element={<Dashboard />} />
+
+          <Route path={routes.events()} element={<Events />} />
+
+          <Route path={routes.coupon()} element={<Coupon />} />
+
+          <Route path={routes.calendar()} element={<CalendarRoute />} />
+        </Route>
+      </Route>
+    </>
+  )
+);
+
+export default router;
