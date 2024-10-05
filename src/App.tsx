@@ -18,6 +18,8 @@ import Register from "./pages/Register/Register";
 import CreateAccount from "./pages/Register/CreateAccount";
 import AddOrganization from "./pages/Register/AddOrganization";
 import PaymentMethod from "./pages/Register/PaymentMethod";
+import CreateEvent from "./pages/events/CreateEvent";
+import AddProgram from "./pages/events/AddProgram";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,6 +34,8 @@ const router = createBrowserRouter(
           <Route index element={<Dashboard />} />
 
           <Route path={routes.events()} element={<Events />} />
+
+          <Route path={routes.createEvent()} element={<CreateEvent />} />
 
           <Route path={routes.coupon()} element={<Coupon />} />
 

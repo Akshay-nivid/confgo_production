@@ -1,0 +1,47 @@
+.create-event{
+    &-container{
+        background-color: $bg_secondary;
+    }
+    &-next-btn{
+        background-color: $drawerActive !important;
+        color: $bg_secondary !important;
+        min-width: 25rem !important;
+        text-transform: none !important;
+        font-size: $h5 !important;
+        font-weight: $font_large !important;
+    }
+    &-back-btn{
+        background-color: $bg_secondary !important;
+        color: $drawerActive !important;
+        min-width: 25rem !important;
+        border: 1px solid $drawerActive !important;
+        text-transform: none !important;
+        font-size: $h5 !important;
+        font-weight: $font_large !important;
+    }
+    &-title{
+        font-weight: $font_bold !important;
+        font-size: $h3 !important;
+        padding-bottom: 4rem !important;
+    }
+}
+
+.add-program{
+    &-container{
+        background-color: $bg_secondary;
+    }
+    &-next-btn{
+        background-color: $drawerActive !important;
+        color: $bg_secondary !important;
+        min-width: 15rem !important;
+    }
+    &-back-btn{
+        background-color: $bg_secondary !important;
+        color: $drawerActive !important;
+        min-width: 15rem !important;
+    }
+    &-display-item{
+        height: 5rem;
+        background-color: $background;
+    }
+}
