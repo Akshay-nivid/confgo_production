@@ -130,3 +130,45 @@
   font-size: $h6;
   font-weight: $font_medium;
 }
+
+.stepperContainer {
+  max-width: 400px;
+  padding-left: 30px;
+  padding-top: 50px;
+}
+
+
+
+.stepIconBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.stepperIcon {
+  width: 15rem !important;
+  height: 15rem !important;
+}
+
+.nextButton {
+  margin: auto !important;
+  display: block !important;
+  width: 352px !important;
+  height: 45px !important;
+  background-color: #2EAC2B !important;
+  color: #FFFFFF !important;
+    
+}
+
+.backButton {
+  margin: auto !important;
+  display: block !important;
+  width: 352px !important;
+  height: 45px !important;
+  border: 2px solid #2EAC2B !important; 
+  color: #2EAC2B !important;
+}
+
