@@ -131,44 +131,90 @@
   font-weight: $font_medium;
 }
 
-.stepperContainer {
-  max-width: 400px;
-  padding-left: 30px;
-  padding-top: 50px;
+//DataGrid css starts here
+.custom-data-grid  {
+  margin-top: 1rem;
+  .status-container{
+    display: flex;
+    .MuiGrid2-root {
+      align-self: center;
+      .MuiTypography-root{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.4rem;
+      padding: 0.4rem;
+      width: 10rem;
+    }
+  }
+  }
+  .default-label{
+    font-size: $h6;
+    color: $text_primary;
+    font-weight: $font_medium;
+  }
+  &-grid{
+    margin: 4rem;
+    .list-title{
+      font-size: $h2 !important;
+      font-weight: $font_bold !important;
+    }
+  }
+  .MuiDataGrid-columnHeader {
+    border-color: $bg_secondary;
+    .MuiDataGrid-columnSeparator{
+      display: none;
+    }
+    .MuiDataGrid-columnHeaderTitleContainer{
+      font-size: $h6;
+      color: $light_grey;
+      font-weight: $font_medium;
+    }
+  }
+  .MuiDataGrid-cell {
+    border-color: $bg_secondary;
+    background-color: $white;
+  }
+  .stepperContainer {
+    max-width: 400px;
+    padding-left: 30px;
+    padding-top: 50px;
+  }
+  
+  
+  
+  .stepIconBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+  }
+  
+  .stepperIcon {
+    width: 15rem !important;
+    height: 15rem !important;
+  }
+  
+  .nextButton {
+    margin: auto !important;
+    display: block !important;
+    width: 352px !important;
+    height: 45px !important;
+    background-color: #2EAC2B !important;
+    color: #FFFFFF !important;
+      
+  }
+  
+  .backButton {
+    margin: auto !important;
+    display: block !important;
+    width: 352px !important;
+    height: 45px !important;
+    border: 2px solid #2EAC2B !important; 
+    color: #2EAC2B !important;
+  }
+  
 }
-
-
-
-.stepIconBox {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-}
-
-.stepperIcon {
-  width: 15rem !important;
-  height: 15rem !important;
-}
-
-.nextButton {
-  margin: auto !important;
-  display: block !important;
-  width: 352px !important;
-  height: 45px !important;
-  background-color: #2EAC2B !important;
-  color: #FFFFFF !important;
-    
-}
-
-.backButton {
-  margin: auto !important;
-  display: block !important;
-  width: 352px !important;
-  height: 45px !important;
-  border: 2px solid #2EAC2B !important; 
-  color: #2EAC2B !important;
-}
-
+//DataGrid css ends here

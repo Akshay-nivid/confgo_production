@@ -9,7 +9,6 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { SubmitHandler, useForm } from "react-hook-form";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { phoneRules, emailRules } from '@/Utils/Validation';
-import { useNavigate } from "react-router-dom";
 import PaymentMethodImage from "@/assets/png/payment-method.png"
 import countries from "@/Utils/country/country.json"
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
@@ -22,7 +21,6 @@ const PaymentMethod = React.memo(() => {
     const onSubmit: SubmitHandler<FormData> = (data) => {
         console.log(data, 'gggg')
     };
-    const navigate = useNavigate();
 
     // const location = useLocation();
     type FormData = {
