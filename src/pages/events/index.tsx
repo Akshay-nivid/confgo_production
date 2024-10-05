@@ -13,16 +13,25 @@ const Events = () => {
     { label: 'Confirm', description: '' }
   ];
 
+   /* 
+   * The function sets the active step of the stepper.
+   */
   const handleStepChange = (step: number) => {
     setActiveStep(step);
   };
 
+   /* 
+   * The handleNext function is used to move the stepper to the next step.
+   */
   const handleNext = () => {
     if (activeStep < steps.length - 1) {
       setActiveStep((prevStep) => prevStep + 1);
     }
   };
 
+   /* 
+   * The handleBack function is used to move the stepper to the previous step.
+   */
   const handleBack = () => {
     if (activeStep > 0) {
       setActiveStep((prevStep) => prevStep - 1);
