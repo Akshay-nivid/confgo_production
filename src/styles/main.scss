@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "../components/style";
+@import "../pages/Register/styles";
+@import "../pages/Layout/layout";
+@import "../pages/Login/styles";
+@import "../styles/variables";
