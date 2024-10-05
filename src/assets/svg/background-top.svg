@@ -1,0 +1,31 @@
+<svg width="355" height="356" viewBox="0 0 355 356" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M61 39L61 347" stroke="#E4E7EC"/>
+<path d="M87 39L87 347" stroke="#E4E7EC"/>
+<path d="M113 39L113 347" stroke="#E4E7EC"/>
+<path d="M139 39L139 347" stroke="#E4E7EC"/>
+<path d="M165 39L165 347" stroke="#E4E7EC"/>
+<path d="M191 39L191 347" stroke="#E4E7EC"/>
+<path d="M217 39L217 347" stroke="#E4E7EC"/>
+<path d="M243 39L243 347" stroke="#E4E7EC"/>
+<path d="M269 39L269 347" stroke="#E4E7EC"/>
+<path d="M295 39L295 347" stroke="#E4E7EC"/>
+<path d="M321 39L321 347" stroke="#E4E7EC"/>
+<path d="M34 63L342 63" stroke="#E4E7EC"/>
+<path d="M34 89L342 89" stroke="#E4E7EC"/>
+<path d="M34 115L342 115" stroke="#E4E7EC"/>
+<path d="M34 141L342 141" stroke="#E4E7EC"/>
+<path d="M34 167L342 167" stroke="#E4E7EC"/>
+<path d="M34 193L342 193" stroke="#E4E7EC"/>
+<path d="M34 219L342 219" stroke="#E4E7EC"/>
+<path d="M34 245L342 245" stroke="#E4E7EC"/>
+<path d="M34 271H342" stroke="#E4E7EC"/>
+<path d="M34 297H342" stroke="#E4E7EC"/>
+<path d="M34 323H342" stroke="#E4E7EC"/>
+<rect width="355" height="356" fill="url(#paint0_radial_70_1824)" fill-opacity="0.7"/>
+<defs>
+<radialGradient id="paint0_radial_70_1824" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(177.5 178) rotate(90) scale(178 177.5)">
+<stop offset="0.414065" stop-color="#D9D9D9" stop-opacity="0"/>
+<stop offset="1" stop-color="white"/>
+</radialGradient>
+</defs>
+</svg>

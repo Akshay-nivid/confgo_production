@@ -1,0 +1,132 @@
+.error-text {
+  color: $danger !important;
+  font-size: 0.833rem !important;
+}
+
+.plan-card-active {
+  background-color: $bg_light !important;
+  border: 0.188rem solid $bg_primary !important;
+  color: $text_primary !important;
+}
+
+.plan-card {
+  max-width: 36rem;
+  max-height: 6.833rem;
+  background-color: $bg_secondary;
+  border: 0.083rem solid $border_faded;
+  margin-top: 2.5rem;
+  overflow: hidden;
+  border-radius: 0.4rem;
+  color: $text_faded;
+  & .MuiFormControlLabel-root {
+    margin: 0 !important;
+    padding-block: 1.5rem;
+    padding-inline: 1.5rem !important;
+    width: 100% !important;
+
+    & .MuiFormControlLabel-label {
+      width: 100% !important;
+    }
+  }
+  &-header {
+    font-size: $h4 !important;
+  }
+  &-price {
+    font-size: $h5;
+  }
+  &-discount-percent {
+    background-color: $bg_primary;
+    padding-inline: 1.083rem;
+    padding-block: 0.666rem;
+    font-weight: $font_bold;
+    font-size: $h5;
+    border-radius: 0.417rem;
+    color: $bg_secondary;
+  }
+}
+
+// Custom Textfield styles
+
+.custom-text-field {
+
+  margin-bottom: 0.8rem;
+  caret-color: $text_dark;
+  color: $text_dark;
+  & .label-header{
+    font-weight: $font_medium;
+    color: $text_primary;
+  }
+  input:-webkit-autofill {
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: $text_dark !important;
+    caret-color: $text_dark;
+  }
+  & .MuiInputBase-input {
+    background-color: $bg_secondary;
+  }
+  &-icon-btn {
+    &:focus {
+      outline: none;
+    }
+ 
+  }
+  input[type=number] {
+    // Hide spin buttons in WebKit browsers (Chrome, Safari)
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+        -webkit-appearance: none; 
+        margin: 0; 
+    }
+
+    // Hide spin buttons in Firefox
+    -moz-appearance: textfield; // Use textfield appearance
+}
+  & .MuiInputBase-input::placeholder {
+    color: $text_dark !important;
+    font-size: $h6;
+  }
+  .MuiOutlinedInput-notchedOutline {
+    border: 0.083rem solid $border_input;
+    color: $text_dark !important;
+  }
+
+  .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: $border_input;
+  }
+  .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: $border_faded;
+  }
+
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: $border_input;
+  }
+
+  .MuiInputLabel-outlined {
+    color: $text_dark;
+    font-size: $h6;
+
+    &.Mui-focused {
+      color: $text_dark;
+      font-weight: $font_normal;
+      font-size: $h6;
+    }
+  }
+  
+
+}
+
+.custom-select {
+  & .MuiOutlinedInput-notchedOutline {
+    border: 0.083rem solid $border_faded;
+  }
+  & .MuiSelect-select {
+    background-color: $bg_secondary;
+  }
+}
+
+// Custom Checkbox styles
+
+.checkbox-label {
+  font-size: $h6;
+  font-weight: $font_medium;
+}

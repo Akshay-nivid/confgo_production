@@ -1,0 +1,93 @@
+.login-main-container {
+  height: 100vh;
+  & .grid-layout {
+    min-height: 100% !important;
+    max-width: 110rem;
+    margin-inline: auto;
+
+    & .grid-left {
+      min-height: 100%;
+      justify-content: end !important;
+      align-items: center !important;
+      display: flex !important;
+      padding: 1.66rem !important;
+      & .left-image-container {
+        height: 100%;
+        width: 100%;
+        max-width: 47.166rem;
+        max-height: 63.333rem;
+        padding: 1.666rem;
+        display: flex;
+        justify-content: center;
+        background: url("../assets/png/login-img.png");
+        background-repeat: no-repeat;
+        border-radius: 1.666rem;
+        background-size: 100% 100%;
+        min-height: 70vh;
+      }
+    }
+    & .grid-right {
+      min-height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      & .right-content-wrapper {
+        height: 100% !important;
+        width: 100% !important;
+        max-width: 47.166rem;
+        max-height: 63.333rem;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        flex-direction: column !important;
+        padding: 1.666rem;
+        row-gap: 3.5rem;
+        & .right-header-wrapper {
+          max-width: 38.33rem !important;
+          display: flex;
+          flex-direction: column;
+          text-align: center;
+          row-gap: 1.33rem;
+
+          & .header-title {
+            font-size: $h1 !important;
+            font-weight: $font_extrabold !important;
+          }
+          & .header-description {
+            font-size: $h6;
+          }
+        }
+
+        & .form-wrapper {
+          width: 100%;
+          max-width: 28.25rem;
+          margin-inline: auto;
+          & .form {
+            display: flex;
+            flex-direction: column;
+            row-gap: 2.083rem;
+          }
+        }
+        & .forgot-password-link {
+          font-size: $h6;
+          font-weight: $font_bold;
+          margin-top: 2.25rem;
+          width: max-content;
+          margin-left: auto;
+        }
+        & .already-have-account-link {
+          text-align: center;
+          font-size: $h5 !important;
+          font-weight: $font_bold !important;
+          margin-top: 4rem !important;
+          & .signup-now-text {
+            color: $bg_primary;
+            font-size: $h6;
+            font-weight: $font_bold;
+          }
+        }
+      }
+    }
+  }
+}
