@@ -17,6 +17,7 @@ import CalendarRoute from "./pages/calendar";
 import Register from "./pages/Register/Register";
 import CreateAccount from "./pages/Register/CreateAccount";
 import AddOrganization from "./pages/Register/AddOrganization";
+import PaymentMethod from "./pages/Register/PaymentMethod";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -25,6 +26,7 @@ const router = createBrowserRouter(
       <Route path={routes.register()} element={<Register />} />
       <Route path={routes.createAccount()} element={<CreateAccount/>}/>
       <Route path={routes.addOrganization()} element={<AddOrganization/>}/>
+      <Route path={routes.paymentMehod()} element={<PaymentMethod/>}/>
       <Route element={<AuthenticatedRoute />}>
         <Route path={routes.home()} element={<Layout />}>
           <Route index element={<Dashboard />} />
