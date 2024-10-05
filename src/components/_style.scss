@@ -175,14 +175,15 @@
     border-color: $bg_secondary;
     background-color: $white;
   }
+  
+}
+
+.custom-stepper {
   .stepperContainer {
     max-width: 400px;
     padding-left: 30px;
     padding-top: 50px;
   }
-  
-  
-  
   .stepIconBox {
     display: flex;
     align-items: center;
@@ -202,8 +203,8 @@
     display: block !important;
     width: 352px !important;
     height: 45px !important;
-    background-color: #2EAC2B !important;
-    color: #FFFFFF !important;
+    background-color: $drawerActive !important;
+    color: $white !important;
       
   }
   
@@ -212,9 +213,8 @@
     display: block !important;
     width: 352px !important;
     height: 45px !important;
-    border: 2px solid #2EAC2B !important; 
-    color: #2EAC2B !important;
+    border: 2px solid $drawerActive !important; 
+    color: $drawerActive !important;
   }
-  
 }
 //DataGrid css ends here

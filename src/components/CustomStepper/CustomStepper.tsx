@@ -11,7 +11,9 @@ interface CustomStepperProps {
   activeStep: number;
   onStepChange: (step: number) => void;
 }
-
+/*
+*  Customized Common stepper  component 
+*/
 const CustomStepper: React.FC<CustomStepperProps> = ({ steps, activeStep, onStepChange }) => {
 
   /*

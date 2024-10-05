@@ -3,6 +3,9 @@ import CustomStepper from "@/components/CustomStepper/CustomStepper";
 import CustomStepperButton from '@/components/CustomButton/CustomStepperButton';
 import { Box } from '@mui/material';
 
+/*
+*Event component
+*/
 const Events = () => {
   const [activeStep, setActiveStep] = useState(0);
 
@@ -39,7 +42,7 @@ const Events = () => {
   };
 
   return (
-    <div>
+    <div className='custom-stepper'>
   
       <CustomStepper steps={steps} activeStep={activeStep} onStepChange={handleStepChange}/>
 

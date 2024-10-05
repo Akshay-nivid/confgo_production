@@ -14,7 +14,9 @@ interface CustomStepperButtonProps {
     endIcon?: React.ReactNode;
 
 }
-
+/*
+*  Customized common stepper button component 
+*/
 const CustomStepperButton: React.FC<CustomStepperButtonProps> = ({
     onClick,
     label,
