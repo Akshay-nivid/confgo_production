@@ -6,7 +6,6 @@ import {
   Typography,
 } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import { SubmitHandler } from "react-hook-form";
 import {  useNavigate } from "react-router-dom";
 import PlanCard from "@/components/PlanCard";
 import BasicPlanImage from '@/assets/svg/basic-plan-icon.svg';
@@ -60,12 +59,6 @@ const Register = () => {
     setcurrentPlan(event.target.value);
   };
 
-  type FormData = {
-    fullName: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-  };
   const navigate = useNavigate();
   // const { handleSubmit, control } = useForm<FormData>();
 

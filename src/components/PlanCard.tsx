@@ -19,8 +19,6 @@ const PlanCard: React.FC<PlanCardProps> = ({
   value,
   header,
   price,
-  discount,
-  isDicount = false,
   isActive,
   image
 }) => {
