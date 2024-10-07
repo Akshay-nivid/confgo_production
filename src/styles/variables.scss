@@ -1,32 +1,38 @@
 $background: #f7f7f7;
-$bg_primary: #3A5AFE;
-$bg_secondary: #ffffff;
-$bg_primary_light: #f2faf2;
-$border_primary: #c8cbd9;
-$border_input: #D0D5DD;
-$border_faded: #dcdcdc;
-$text_light: #787878;
-$text_dark: #807f7f;
-$text_primary: #000000;
-$text_faded: #b3b3b3;
-$bg_input_background: #fafafa;
-$danger: #e71515;
-$drawerActive: #2eac2b;
-$text_color: hsl(28, 91%, 54%);
+$clr_blue: #3a5afe;
+$clr_white: #ffffff;
 $bg_light: #f0f9ff;
 $bg_plans: #eaf5ff;
+
+$clr_black: #000000;
+$bg_input_background: #fafafa;
+$clr_red: #e71515;
+$clr_orange: hsl(28, 91%, 54%);
+$clr_green: #2eac2b;
+$clr_green_light: #f2faf2;
+$clr_gray_extra_dark: #787878;
+$clr_gray_dark: #807f7f;
+$clr_grey: #718096;
+$clr_gray_medium: #b3b3b3;
+$clr_gray_light: #c8cbd9;
+$clr_gray_extra_light: #d0d5dd;
+$clr_gray_faded: #dcdcdc;
+
+$border_list: #f8f9ff;
 //Font weight
-$font_small: 300;
 $font_normal: 400;
 $font_medium: 500;
+$font_semibold: 600;
 $font_bold: 700;
-$font_extrabold: 800;
+$font_800: 800;
 
 // Font Size
 
 $h1: 3.333rem; // 40px
-$h2: 2.167rem; //26px
-$h3: 2rem; //24 px
-$h4: 1.666rem; // 20px
-$h5: 1.333rem; //16px
-$h6: 1.167rem; //14px
+$h2: 2.5rem; //30px
+$h3: 2.167rem; //26px
+$h4: 2rem; //24 px
+$h5: 1.666rem; // 20px
+$h6: 1.333rem; //16px
+$p1: 1.167rem; //14px
+$p2: 1rem; //12px

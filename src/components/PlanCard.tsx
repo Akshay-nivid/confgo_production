@@ -1,4 +1,4 @@
-import { Box, FormControlLabel, Radio, Typography } from "@mui/material";
+import { FormControlLabel, Radio, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 
 type PlanCardProps = {
@@ -8,7 +8,7 @@ type PlanCardProps = {
   discount?: string;
   isDicount: boolean;
   isActive: boolean;
-  image:React.ReactNode
+  image: React.ReactNode;
 };
 
 /*
@@ -19,10 +19,8 @@ const PlanCard: React.FC<PlanCardProps> = ({
   value,
   header,
   price,
-  discount,
-  isDicount = false,
   isActive,
-  image
+  image,
 }) => {
   return (
     <Grid
@@ -31,11 +29,10 @@ const PlanCard: React.FC<PlanCardProps> = ({
       className={isActive ? "plan-card plan-card-active" : "plan-card"}
       minWidth={"100%"}
     >
-      
       <FormControlLabel
         value={value}
         control={<Radio className="plan-card-radio-button" />}
-        labelPlacement="start" 
+        labelPlacement="start"
         label={
           <Grid
             container
@@ -43,7 +40,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
             alignItems={"center"}
           >
             <Grid>{image}</Grid>
-            <Grid flexDirection={"column"} marginLeft={2}>   
+            <Grid flexDirection={"column"} marginLeft={2}>
               <Typography className="plan-card-header">{header}</Typography>
               <Typography className="plan-card-price">
                 ${price}/monthly
