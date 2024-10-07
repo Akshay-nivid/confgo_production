@@ -43,5 +43,16 @@
     &-display-item{
         height: 5rem;
         background-color: $background;
+        padding: 1rem !important;
+    }
+    &-display-container{
+        padding: 1rem !important;
+        padding-top: 4rem !important;
+    }
+    &-title{
+        font-weight: $font_bold !important;
+        font-size: $h3 !important;
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
     }
 }
