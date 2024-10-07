@@ -79,12 +79,12 @@
         & .already-have-account-link {
           text-align: center;
           font-size: $h6 !important;
-          font-weight: $font_700 !important;
+          font-weight: $font_bold !important;
           margin-top: 4rem !important;
           & .signup-now-text {
             color: $clr_blue;
             font-size: $p1;
-            font-weight: $font_700;
+            font-weight: $font_bold;
           }
         }
       }

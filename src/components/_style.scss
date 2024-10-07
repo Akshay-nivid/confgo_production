@@ -38,7 +38,7 @@
     background-color: $clr_blue;
     padding-inline: 1.083rem;
     padding-block: 0.666rem;
-    font-weight: $font_500;
+    font-weight: $font_medium;
     font-size: $h6;
     border-radius: 0.417rem;
     color: $clr_white;
@@ -52,7 +52,7 @@
   caret-color: $clr_black;
   color: $clr_black;
   & .label-header {
-    font-weight: $font_500;
+    font-weight: $font_medium;
     color: $clr_black;
   }
   input:-webkit-autofill {
@@ -105,7 +105,7 @@
 
     &.Mui-focused {
       color: $clr_black;
-      font-weight: $font_400;
+      font-weight: $font_normal;
       font-size: $h6;
     }
   }
@@ -124,53 +124,52 @@
 
 .checkbox-label {
   font-size: $p1;
-  font-weight: $font_500;
+  font-weight: $font_medium;
 }
 
 //DataGrid css starts here
-.custom-data-grid  {
+.custom-data-grid {
   margin-top: 1rem;
-  .status-container{
+  .status-container {
     display: flex;
     .MuiGrid2-root {
       align-self: center;
-      .MuiTypography-root{
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 0.4rem;
-      padding: 0.4rem;
-      width: 10rem;
+      .MuiTypography-root {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.4rem;
+        padding: 0.4rem;
+        width: 10rem;
+      }
     }
   }
-  }
-  .default-label{
+  .default-label {
     font-size: $h6;
-    color: $text_primary;
+    color: $clr_black;
     font-weight: $font_medium;
   }
-  &-grid{
+  &-grid {
     margin: 4rem;
-    .list-title{
+    .list-title {
       font-size: $h2 !important;
       font-weight: $font_bold !important;
     }
   }
   .MuiDataGrid-columnHeader {
-    border-color: $bg_secondary;
-    .MuiDataGrid-columnSeparator{
+    border-color: $clr_white;
+    .MuiDataGrid-columnSeparator {
       display: none;
     }
-    .MuiDataGrid-columnHeaderTitleContainer{
+    .MuiDataGrid-columnHeaderTitleContainer {
       font-size: $h6;
-      color: $light_grey;
+      color: $clr_grey;
       font-weight: $font_medium;
     }
   }
   .MuiDataGrid-cell {
-    border-color: $bg_secondary;
-    background-color: $white;
+    border-color: $clr_white;
+    background-color: $clr_white;
   }
-  
 }
 //DataGrid css ends here
