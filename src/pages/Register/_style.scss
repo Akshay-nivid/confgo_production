@@ -10,13 +10,12 @@
       justify-content: center !important;
       align-items: center !important;
       display: flex !important;
-      background: url("../assets/svg/background-top.svg") no-repeat top  
-      ;
+      background: url("../assets/svg/background-top.svg") no-repeat top;
       background-position: center -50px;
-    background-repeat: no-repeat;
-    // background-position: top ;
-    border-radius: 1.666rem;
-    background-size: 50%;
+      background-repeat: no-repeat;
+      // background-position: top ;
+      border-radius: 1.666rem;
+      background-size: 50%;
       // padding: 1.66rem !important;
       & .left-content-wrapper {
         height: 100%;
@@ -26,10 +25,10 @@
         // padding: 20px;
         display: flex;
         justify-content: center;
-      
+
         & .left-inner-content {
           align-items: center;
-          justify-content:center;
+          justify-content: center;
           max-width: 36rem;
           display: flex;
           flex-direction: column;
@@ -38,16 +37,16 @@
             font-size: $h6;
           }
         }
-        & .plan-choose-btn{
+        & .plan-choose-btn {
           font-size: $h6;
-          background-color: $bg_primary;
+          background-color: $clr_blue;
           width: 100%;
-         &:focus{
-          outline: none;
-         }
+          &:focus {
+            outline: none;
+          }
         }
-        & .login-label{
-          color: $bg_primary;
+        & .login-label {
+          color: $clr_blue;
         }
         & .form-wrapper {
           width: 100%;
@@ -60,14 +59,13 @@
           }
         }
       }
-
     }
     & .grid-right {
       min-height: 100%;
       display: flex;
       justify-content: center;
       align-items: flex-start; /* Change this to flex-start to align items at the top */
-  
+
       & .right-content-wrapper {
           background: url("../assets/png/register_background.png") no-repeat top center;
           background-size: cover; /* Ensure the background image covers the area */
@@ -79,20 +77,29 @@
           align-items: center; /* Center items horizontally */
           row-gap: 3.5rem; /* Space between elements */
           
-         //hide background image in the mobile
-          @media screen and (max-width: 600px) {
-            background: none;
-             };
-      }
-  }
   
+        background: url("../assets/png/register_background.png") no-repeat top center;
+        background-size: cover; /* Ensure the background image covers the area */
+        height: 100% !important;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column; /* Keep items in a column */
+        justify-content: flex-start; /* Align children to the top */
+        align-items: center; /* Center items horizontally */
+        row-gap: 3.5rem; /* Space between elements */
+      }
+             //hide background image in the mobile
+             @media screen and (max-width: 600px) {
+              background: none;
+               };
+    }
   }
 }
 .checkbox-text-grey{
-  color: $text_light; 
+  color: $clr_gray_light; 
 }
 .link-text-blue{
-  color:$bg_primary;
+  color:$clr_blue;
 }
 .stepper-box {
   width: 100px;
@@ -106,7 +113,7 @@
 }
 
 .stepper-box.active {
-  background-color: $bg_primary; /* Color when active */
+  background-color: $clr_blue; /* Color when active */
 }
 
 .stepper-box.inactive {

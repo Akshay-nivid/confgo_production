@@ -1,0 +1,50 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+html {
+  font-size: 75%;
+}
+
+// font size
+.text-h1 {
+  font-size: $h1 !important;
+}
+.text-h2 {
+  font-size: $h2 !important;
+}
+.text-h3 {
+  font-size: $h3 !important;
+}
+.text-h4 {
+  font-size: $h4 !important;
+}
+.text-h5 {
+  font-size: $h5 !important;
+}
+.text-h6 {
+  font-size: $h6 !important;
+}
+.text-p1 {
+  font-size: $p1 !important;
+}
+.text-p2 {
+  font-size: $p2 !important;
+}
+
+// font weight
+.font-300 {
+  font-weight: $font_normal !important;
+}
+.font-400 {
+  font-weight: $font_normal !important;
+}
+.font-500 {
+  font-weight: $font_medium !important;
+}
+.font-700 {
+  font-weight: $font_bold !important;
+}
+.font-800 {
+  font-weight: $font_800 !important;
+}

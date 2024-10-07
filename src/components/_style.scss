@@ -1,23 +1,23 @@
 .error-text {
-  color: $danger !important;
+  color: $clr_red !important;
   font-size: 0.833rem !important;
 }
 
 .plan-card-active {
   background-color: $bg_light !important;
-  border: 0.188rem solid $bg_primary !important;
-  color: $text_primary !important;
+  border: 0.188rem solid $clr_blue !important;
+  color: $clr_black !important;
 }
 
 .plan-card {
   max-width: 36rem;
   max-height: 6.833rem;
-  background-color: $bg_secondary;
-  border: 0.083rem solid $border_faded;
+  background-color: $clr_white;
+  border: 0.083rem solid $clr_gray_light;
   margin-top: 2.5rem;
   overflow: hidden;
   border-radius: 0.4rem;
-  color: $text_faded;
+  color: $clr_gray_faded;
   & .MuiFormControlLabel-root {
     margin: 0 !important;
     padding-block: 1.5rem;
@@ -29,157 +29,152 @@
     }
   }
   &-header {
-    font-size: $h4 !important;
+    font-size: $h5 !important;
   }
   &-price {
-    font-size: $h5;
+    font-size: $h6;
   }
   &-discount-percent {
-    background-color: $bg_primary;
+    background-color: $clr_blue;
     padding-inline: 1.083rem;
     padding-block: 0.666rem;
-    font-weight: $font_bold;
-    font-size: $h5;
+    font-weight: $font_medium;
+    font-size: $h6;
     border-radius: 0.417rem;
-    color: $bg_secondary;
+    color: $clr_white;
   }
 }
 
 // Custom Textfield styles
 
 .custom-text-field {
-
   margin-bottom: 0.8rem;
-  caret-color: $text_dark;
-  color: $text_dark;
-  & .label-header{
+  caret-color: $clr_black;
+  color: $clr_black;
+  & .label-header {
     font-weight: $font_medium;
-    color: $text_primary;
+    color: $clr_black;
   }
   input:-webkit-autofill {
     -webkit-background-clip: text !important;
-    -webkit-text-fill-color: $text_dark !important;
-    caret-color: $text_dark;
+    -webkit-text-fill-color: $clr_black !important;
+    caret-color: $clr_black;
   }
   & .MuiInputBase-input {
-    background-color: $bg_secondary;
+    background-color: $clr_white;
   }
   &-icon-btn {
     &:focus {
       outline: none;
     }
- 
   }
-  input[type=number] {
+  input[type="number"] {
     // Hide spin buttons in WebKit browsers (Chrome, Safari)
     &::-webkit-inner-spin-button,
     &::-webkit-outer-spin-button {
-        -webkit-appearance: none; 
-        margin: 0; 
+      -webkit-appearance: none;
+      margin: 0;
     }
 
     // Hide spin buttons in Firefox
     -moz-appearance: textfield; // Use textfield appearance
-}
+  }
   & .MuiInputBase-input::placeholder {
-    color: $text_dark !important;
-    font-size: $h6;
+    color: $clr_gray_extra_dark !important;
+    font-size: $p1;
   }
   .MuiOutlinedInput-notchedOutline {
-    border: 0.083rem solid $border_input;
-    color: $text_dark !important;
+    border: 0.083rem solid $clr_gray_light;
+    color: $clr_gray_extra_dark !important;
   }
 
   .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
-    border-color: $border_input;
+    border-color: $clr_gray_light;
   }
   .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
-    border-color: $border_faded;
+    border-color: $clr_gray_light;
   }
 
   .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-    border-color: $border_input;
+    border-color: $clr_gray_light;
   }
 
   .MuiInputLabel-outlined {
-    color: $text_dark;
+    color: $clr_black;
     font-size: $h6;
 
     &.Mui-focused {
-      color: $text_dark;
+      color: $clr_black;
       font-weight: $font_normal;
       font-size: $h6;
     }
   }
-  
-
 }
 
 .custom-select {
   & .MuiOutlinedInput-notchedOutline {
-    border: 0.083rem solid $border_faded;
+    border: 0.083rem solid $clr_gray_faded;
   }
   & .MuiSelect-select {
-    background-color: $bg_secondary;
+    background-color: $clr_white;
   }
 }
 
 // Custom Checkbox styles
 
 .checkbox-label {
-  font-size: $h6;
+  font-size: $p1;
   font-weight: $font_medium;
 }
 .error-input{
   .MuiOutlinedInput-notchedOutline {
-    border-color: $danger !important;
+    border-color: $clr_red !important;
   }
 }
 
 //DataGrid css starts here
-.custom-data-grid  {
+.custom-data-grid {
   margin-top: 1rem;
-  .status-container{
+  .status-container {
     display: flex;
     .MuiGrid2-root {
       align-self: center;
-      .MuiTypography-root{
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 0.4rem;
-      padding: 0.4rem;
-      width: 10rem;
+      .MuiTypography-root {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.4rem;
+        padding: 0.4rem;
+        width: 10rem;
+      }
     }
   }
-
-  }
-  .default-label{
+  .default-label {
     font-size: $h6;
-    color: $text_primary;
+    color: $clr_black;
     font-weight: $font_medium;
   }
-  &-grid{
+  &-grid {
     margin: 4rem;
-    .list-title{
+    .list-title {
       font-size: $h2 !important;
       font-weight: $font_bold !important;
     }
   }
   .MuiDataGrid-columnHeader {
-    border-color: $bg_secondary;
-    .MuiDataGrid-columnSeparator{
+    border-color: $clr_white;
+    .MuiDataGrid-columnSeparator {
       display: none;
     }
-    .MuiDataGrid-columnHeaderTitleContainer{
+    .MuiDataGrid-columnHeaderTitleContainer {
       font-size: $h6;
-      color: $light_grey;
+      color: $clr_grey;
       font-weight: $font_medium;
     }
   }
   .MuiDataGrid-cell {
-    border-color: $bg_secondary;
-    background-color: $white;
+    border-color: $clr_white;
+    background-color: $clr_white;
   }
   .css-wop1k0-MuiDataGrid-footerContainer {
     display: block;
@@ -187,8 +182,9 @@
   .css-de9k3v-MuiDataGrid-selectedRowCount {
 visibility: hidden;
   }
+}
 //   .css-wop1k0-MuiDataGrid-footerContainer{
 // display: none;
 //   }
-}
+
 //DataGrid css ends here

@@ -1,25 +1,60 @@
-import React, { useState } from 'react';
-import { Button, TextField, Container, Typography, Avatar, MenuItem, Select, FormControl, InputLabel, Card, CardContent } from '@mui/material';
-import { Delete as DeleteIcon } from '@mui/icons-material';
-import Sidebar from './Layout/Sidebar';
-
+import React, { useState } from "react";
+import {
+  Button,
+  TextField,
+  Container,
+  Typography,
+  Avatar,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+  Card,
+  CardContent,
+} from "@mui/material";
+import { Delete as DeleteIcon } from "@mui/icons-material";
+import Sidebar from "./dashboard-layout/Sidebar";
 
 // List of Indian states
 const states = [
-  'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana',
-  'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur',
-  'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu',
-  'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal'
+  "Andhra Pradesh",
+  "Arunachal Pradesh",
+  "Assam",
+  "Bihar",
+  "Chhattisgarh",
+  "Goa",
+  "Gujarat",
+  "Haryana",
+  "Himachal Pradesh",
+  "Jharkhand",
+  "Karnataka",
+  "Kerala",
+  "Madhya Pradesh",
+  "Maharashtra",
+  "Manipur",
+  "Meghalaya",
+  "Mizoram",
+  "Nagaland",
+  "Odisha",
+  "Punjab",
+  "Rajasthan",
+  "Sikkim",
+  "Tamil Nadu",
+  "Telangana",
+  "Tripura",
+  "Uttar Pradesh",
+  "Uttarakhand",
+  "West Bengal",
 ];
 
 const CompanyRegistration: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [image, setImage] = useState<File | null>(null);
-  const [selectedState, setSelectedState] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [phone, setPhone] = useState<string>('');
-  const [emailError, setEmailError] = useState<string>('');
-  const [phoneError, setPhoneError] = useState<string>('');
+  const [selectedState, setSelectedState] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
+  const [emailError, setEmailError] = useState<string>("");
+  const [phoneError, setPhoneError] = useState<string>("");
 
   const handleSidebarToggle = () => {
     setSidebarOpen(!sidebarOpen);
@@ -34,25 +69,27 @@ const CompanyRegistration: React.FC = () => {
 
   const handleClearImage = () => {
     setImage(null);
-    const fileInput = document.getElementById('image-upload') as HTMLInputElement;
-    if (fileInput) fileInput.value = '';
+    const fileInput = document.getElementById(
+      "image-upload"
+    ) as HTMLInputElement;
+    if (fileInput) fileInput.value = "";
   };
 
   const validateEmail = (value: string) => {
     if (!/\S+@\S+\.\S+/.test(value)) {
-      setEmailError('Invalid email address');
+      setEmailError("Invalid email address");
       return false;
     }
-    setEmailError('');
+    setEmailError("");
     return true;
   };
 
   const validatePhone = (value: string) => {
     if (!/^\d{10}$/.test(value)) {
-      setPhoneError('Invalid phone number');
+      setPhoneError("Invalid phone number");
       return false;
     }
-    setPhoneError('');
+    setPhoneError("");
     return true;
   };
 
@@ -69,14 +106,16 @@ const CompanyRegistration: React.FC = () => {
   };
 
   const handleClearForm = () => {
-    setEmail('');
-    setPhone('');
-    setSelectedState('');
+    setEmail("");
+    setPhone("");
+    setSelectedState("");
     setImage(null);
-    setEmailError('');
-    setPhoneError('');
-    const fileInput = document.getElementById('image-upload') as HTMLInputElement;
-    if (fileInput) fileInput.value = '';
+    setEmailError("");
+    setPhoneError("");
+    const fileInput = document.getElementById(
+      "image-upload"
+    ) as HTMLInputElement;
+    if (fileInput) fileInput.value = "";
   };
 
   const handleSubmit = () => {
@@ -95,40 +134,51 @@ const CompanyRegistration: React.FC = () => {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-      <CustomAppBar sidebarOpen={sidebarOpen} onSidebarToggle={handleSidebarToggle} />
-      <div style={{ display: 'flex', flexGrow: 1, marginTop: 64 }}>
+    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+      <CustomAppBar
+        sidebarOpen={sidebarOpen}
+        onSidebarToggle={handleSidebarToggle}
+      />
+      <div style={{ display: "flex", flexGrow: 1, marginTop: 64 }}>
         <Sidebar open={sidebarOpen} />
-        <Container style={{ flexGrow: 1, padding: '20px', marginLeft: sidebarOpen ? 24 : 0 }}>
+        <Container
+          style={{
+            flexGrow: 1,
+            padding: "20px",
+            marginLeft: sidebarOpen ? 24 : 0,
+          }}
+        >
           <Typography variant="h5" gutterBottom>
             Company Registration
           </Typography>
-          
-          <Card variant="outlined" style={{ marginBottom: '20px' }}>
-            <CardContent style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+
+          <Card variant="outlined" style={{ marginBottom: "20px" }}>
+            <CardContent
+              style={{
+                display: "flex",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
               <input
                 type="file"
                 id="image-upload"
                 accept="image/*"
-                style={{ display: 'none' }}
+                style={{ display: "none" }}
                 onChange={handleImageChange}
               />
               <Avatar
-                src={image ? URL.createObjectURL(image) : '/default-avatar.png'}
+                src={image ? URL.createObjectURL(image) : "/default-avatar.png"}
                 alt="Preview"
-                style={{ width: 100, height: 100, marginBottom: '20px' }}
+                style={{ width: 100, height: 100, marginBottom: "20px" }}
               />
               <label htmlFor="image-upload">
-                <Button
-                  variant="contained"
-                  color="primary"
-                  component="span"
-                >
-                  {image ? 'Change Image' : 'Upload Image'}
+                <Button variant="contained" color="primary" component="span">
+                  {image ? "Change Image" : "Upload Image"}
                 </Button>
               </label>
               {image && (
-                <div style={{ marginTop: '10px' }}>
+                <div style={{ marginTop: "10px" }}>
                   <Button
                     variant="outlined"
                     color="secondary"
@@ -143,8 +193,8 @@ const CompanyRegistration: React.FC = () => {
           </Card>
 
           <form>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px' }}>
-              <div style={{ flex: '1 1 48%' }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "20px" }}>
+              <div style={{ flex: "1 1 48%" }}>
                 <TextField
                   label="Phone"
                   variant="outlined"
@@ -158,7 +208,7 @@ const CompanyRegistration: React.FC = () => {
                   inputProps={{ maxLength: 10 }}
                 />
               </div>
-              <div style={{ flex: '1 1 48%' }}>
+              <div style={{ flex: "1 1 48%" }}>
                 <TextField
                   label="Email"
                   variant="outlined"
@@ -172,16 +222,24 @@ const CompanyRegistration: React.FC = () => {
                   helperText={emailError}
                 />
               </div>
-              <div style={{ flex: '1 1 48%' }}>
-                <TextField label="Company Name" variant="outlined" margin="normal" fullWidth required />
+              <div style={{ flex: "1 1 48%" }}>
+                <TextField
+                  label="Company Name"
+                  variant="outlined"
+                  margin="normal"
+                  fullWidth
+                  required
+                />
               </div>
-              <div style={{ flex: '1 1 48%' }}>
+              <div style={{ flex: "1 1 48%" }}>
                 <FormControl variant="outlined" fullWidth margin="normal">
                   <InputLabel htmlFor="state-select">State</InputLabel>
                   <Select
                     id="state-select"
                     value={selectedState}
-                    onChange={(event) => setSelectedState(event.target.value as string)}
+                    onChange={(event) =>
+                      setSelectedState(event.target.value as string)
+                    }
                     label="State"
                   >
                     {states.map((state) => (
@@ -192,7 +250,7 @@ const CompanyRegistration: React.FC = () => {
                   </Select>
                 </FormControl>
               </div>
-              <div style={{ flex: '1 1 48%' }}>
+              <div style={{ flex: "1 1 48%" }}>
                 <TextField
                   label="Company Address"
                   variant="outlined"
@@ -205,11 +263,26 @@ const CompanyRegistration: React.FC = () => {
               </div>
             </div>
 
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '20px' }}>
-              <Button variant="contained" color="primary" onClick={handleSubmit}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: "10px",
+                marginTop: "20px",
+              }}
+            >
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleSubmit}
+              >
                 Submit
               </Button>
-              <Button variant="outlined" color="secondary" onClick={handleClearForm}>
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={handleClearForm}
+              >
                 Clear
               </Button>
             </div>

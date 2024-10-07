@@ -1,45 +1,84 @@
 import "@/styles/main.scss";
 
-import {
-  createBrowserRouter,
-  createRoutesFromElements,
-  Route,
-} from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 
-import Layout from "./pages/Layout";
+import Layout from "./pages/dashboard-layout";
 import Coupon from "./pages/coupon";
 import routes from "@/router/routes";
-import Login from "@/pages/Login/Login";
+import Login from "@/pages/login/Login";
 import AuthenticatedRoute from "./router/AuthenticatedRoute";
-import Dashboard from "@/pages/dashborad";
+import Dashboard from "@/pages/dashboard";
 import Events from "@/pages/events";
-import CalendarRoute from "./pages/calendar";
-import Register from "./pages/Register/Register";
-import CreateAccount from "./pages/Register/CreateAccount";
-import AddOrganization from "./pages/Register/AddOrganization";
-import PaymentMethod from "./pages/Register/PaymentMethod";
+import CalendarRoute from "@/pages/calendar";
+import Register from "@/pages/register/Register";
+import CreateAccount from "./pages/register/CreateAccount";
+import AddOrganization from "./pages/register/AddOrganization";
+import PaymentMethod from "./pages/register/PaymentMethod";
+import Home from "@/pages/home/Home";
+import Pricing from "@/pages/pricing/Pricing";
+import HomeLayout from "@/pages/home-layout";
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <>
-      <Route path={routes.login()} element={<Login />} />
-      <Route path={routes.register()} element={<Register />} />
-      <Route path={routes.createAccount()} element={<CreateAccount/>}/>
-      <Route path={routes.addOrganization()} element={<AddOrganization/>}/>
-      <Route path={routes.paymentMehod()} element={<PaymentMethod/>}/>
-      <Route element={<AuthenticatedRoute />}>
-        <Route path={routes.home()} element={<Layout />}>
-          <Route index element={<Dashboard />} />
+const router = createBrowserRouter([
+  {
+    path: routes.login(),
+    element: <Login />,
+  },
+  {
+    path: routes.register(),
+    element: <Register />,
+  },
+  {
+    path: routes.createAccount(),
+    element: <CreateAccount />,
+  },
+  {
+    path: routes.addOrganization(),
+    element: <AddOrganization />,
+  },
+  {
+    path: routes.paymentMehod(),
+    element: <PaymentMethod />,
+  },
 
-          <Route path={routes.events()} element={<Events />} />
-
-          <Route path={routes.coupon()} element={<Coupon />} />
-
-          <Route path={routes.calendar()} element={<CalendarRoute />} />
-        </Route>
-      </Route>
-    </>
-  )
-);
+  {
+    element: <HomeLayout />,
+    children: [
+      {
+        path: routes.home(),
+        element: <Home />,
+      },
+      {
+        path: routes.pricing(),
+        element: <Pricing />,
+      },
+    ],
+  },
+  {
+    element: <AuthenticatedRoute />,
+    children: [
+      {
+        element: <Layout />,
+        children: [
+          {
+            path: routes.dashboard(),
+            element: <Dashboard />,
+          },
+          {
+            path: routes.events(),
+            element: <Events />,
+          },
+          {
+            path: routes.coupon(),
+            element: <Coupon />,
+          },
+          {
+            path: routes.calendar(),
+            element: <CalendarRoute />,
+          },
+        ],
+      },
+    ],
+  },
+]);
 
 export default router;
