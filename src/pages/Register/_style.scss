@@ -103,19 +103,17 @@
 }
 .stepper-box {
   width: 100px;
-  height: 8px; /* Adjust height as needed */
+  height: 8px; 
   border: 1px solid #ccc;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  color: white; /* Default text color */
-}
-
-.stepper-box.active {
-  background-color: $clr_blue; /* Color when active */
-}
-
-.stepper-box.inactive {
-  background-color: $bg_light; /* Default color */
+  color: white;
+  &.active{
+    background-color: $clr_blue;
+  }
+  &.inactive{
+    background-color: $bg_light; 
+  }
 }
