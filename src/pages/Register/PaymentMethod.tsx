@@ -31,8 +31,8 @@ const PaymentMethod = React.memo(() => {
         }
     }
     return (
-        <Box className="left-content-wrapper">
-            <Box className="left-inner-content">
+        <Grid className="left-content-wrapper">
+            <Grid className="left-inner-content">
                 <Grid container flexDirection={"row"} spacing={2} alignSelf={"start"} onClick={handleBack}>
                     <ArrowBackIcon />
                     <Typography>Back</Typography>
@@ -44,24 +44,24 @@ const PaymentMethod = React.memo(() => {
                 <Box className={"form-wrapper"}>
                     <img src={PaymentMethodImage}></img>
                     {/* renders paypal button */}
-                        <PayPalButton />
-                        {/* temporary button navigate to success page */}
-                        <CustomButton
-                            className="plan-choose-btn"
-                            onClick={handleClick}
-                            label="Next"
-                            variant="contained"
-                            color="primary"
-                            size="large"
-                        />
+                    <PayPalButton />
+                    {/* temporary button navigate to success page */}
+                    <CustomButton
+                        className="plan-choose-btn"
+                        onClick={handleClick}
+                        label="Next"
+                        variant="contained"
+                        color="primary"
+                        size="large"
+                    />
                 </Box>
                 <Grid container flexDirection={"row"} spacing={2}>
                     <Typography>Already have an account?  </Typography>
                     <Typography className="login-label" alignContent={"flex-end"}> Log In</Typography>
                 </Grid>
                 <StepperBoxes activeStep={4} />
-            </Box>
-        </Box>
+            </Grid>
+        </Grid>
 
     )
 });

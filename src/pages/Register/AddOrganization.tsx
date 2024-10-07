@@ -19,7 +19,9 @@ const AddOrganization = React.memo(() => {
     const { setDataById} :any= useStore();
     const pageSwitch = useStore((state: any) => state?.compData?.['register']) ?? [];
     const form3=useStore((state: any) => state?.compData?.['form3']) ?? [];
-    // form submission function
+/*
+ * function to handle submission of the form
+ */
     const onSubmit: SubmitHandler<FormData> = () => { };
 /*
  * Component used to handle form and switching form 

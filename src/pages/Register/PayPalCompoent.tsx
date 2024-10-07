@@ -29,8 +29,8 @@ const PayPalButton: React.FC = () => {
                     return actions.order.create({
                         purchase_units: [{
                             amount: {
-                                currency_code: 'USD', // Required currency code
-                                value: '10.00', // Replace with the desired amount
+                                currency_code: 'USD',
+                                value: '10.00', 
                             },
                         }],
                         intent: 'CAPTURE'

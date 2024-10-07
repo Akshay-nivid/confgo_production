@@ -12,17 +12,23 @@ import useStore from "@/Libs/store";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { StepperBoxes } from "./StepperBox";
 import { emailRules, phoneRules } from "@/Utils/Validation";
-// A functional component to render create account form 
+/*
+ * funtional componet to render create form field
+ */
 const CreateAccount = React.memo(() => {
     const { setDataById }: any = useStore();
     const pageSwitch = useStore((state: any) => state?.compData?.['register']) ?? [];
     const form2 = useStore((state: any) => state?.compData?.['form2']) ?? [];
     const { handleSubmit, control, getValues } = useForm<FormData>();
-    // form submission function
+    /*
+     * function to handle form submission 
+     */
     const onSubmit: SubmitHandler<FormData> = () => {
 
     };
-
+    /*
+     * function to change the state and store form fields
+     */
     const handleClick = () => {
         const values = getValues();
         if (!values.fullName || !values.lastName || !values.email || !values.phoneNumber) {
@@ -33,22 +39,26 @@ const CreateAccount = React.memo(() => {
         }
 
     };
-
+    /*
+     * Form fields used in FormData
+     */
     type FormData = {
         fullName: string;
         lastName: string;
         email: string;
         phoneNumber: number;
     };
-
+    /*
+     * function to handle back button
+     */
     const handleBack = () => {
         if (pageSwitch.data == 'two') {
             setDataById('register', { data: 'one' });
         }
     }
     return (
-        <Box className="left-content-wrapper">
-            <Box className="left-inner-content">
+        <Grid className="left-content-wrapper">
+            <Grid className="left-inner-content">
                 <Grid container flexDirection={"row"} spacing={2} alignSelf={"start"} onClick={handleBack}>
                     <ArrowBackIcon />
                     <Typography>Back</Typography>
@@ -68,7 +78,7 @@ const CreateAccount = React.memo(() => {
                                 control={control}
                                 name="fullName"
                                 type="text"
-                                rules={{required: true}}
+                                rules={{ required: true }}
                             />
                             <CustomTextField
                                 defaultValue={form2?.field_values?.lastName}
@@ -78,7 +88,7 @@ const CreateAccount = React.memo(() => {
                                 control={control}
                                 name="lastName"
                                 type="text"
-                                rules={{required: true}}
+                                rules={{ required: true }}
                             />
                             <CustomTextField
                                 defaultValue={form2?.field_values?.email}
@@ -117,8 +127,8 @@ const CreateAccount = React.memo(() => {
                     <Typography className="login-label" alignContent={"flex-end"}> Log In</Typography>
                 </Grid>
                 <StepperBoxes activeStep={2} />
-            </Box>
-        </Box>
+            </Grid>
+        </Grid>
     )
 });
 

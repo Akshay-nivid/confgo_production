@@ -22,9 +22,9 @@ const Register = () => {
           {pageSwitch == '' && <AddPlan />}
           {pageSwitch.data == 'one' && <AddPlan />}
           {pageSwitch.data == 'two' && <CreateAccount />}
-          {pageSwitch.data=='three'&&<AddOrganization/>}
-          {pageSwitch.data==='four'&&<PaymentMethod/>}
-          {pageSwitch.data==='five'&&<RegistrationSuccess/>}
+          {pageSwitch.data == 'three' && <AddOrganization />}
+          {pageSwitch.data === 'four' && <PaymentMethod />}
+          {pageSwitch.data === 'five' && <RegistrationSuccess />}
         </Grid>
 
         <Grid size={{ xs: 12, sm: 6 }} className="grid-right">

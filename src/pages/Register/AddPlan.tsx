@@ -1,7 +1,6 @@
 import Grid from "@mui/material/Grid2";
 import React, { useState,useEffect } from 'react';
 import {
-    Box,
     FormControl,
     RadioGroup,
     Typography,
@@ -13,7 +12,9 @@ import StandardPlanImage from '@/assets/svg/standard-plan-icon.svg';
 import useStore from "@/Libs/store";
 import PlanCard from "@/components/PlanCard";
 import { StepperBoxes } from "./StepperBox";
-
+/*
+ * sample plan data will be replaced after integration of api
+ */
 const PLANS = {
     basic: "Basic",
     proffesional: "Proffesional",
@@ -46,43 +47,38 @@ const PLANS = {
       image: <StandardPlanImage />
     },
   ];
-// A functional component that renders a simple greeting
+/*
+ * compoent to render the plan
+ */
 const AddPlan = React.memo(() => {
     const [currentPlan, setcurrentPlan] = useState(PLANS.basic);
-    const pageSwitch = useStore((state: any) => state?.compData?.['register']) ?? [];
     const form1=useStore((state: any) => state?.compData?.['form1']) ?? [];
     const { setDataById} :any= useStore();
   const handleChangePlan = (event: React.ChangeEvent<HTMLInputElement>) => {
     setcurrentPlan(event.target.value);
   };
-useEffect(()=>{
-    if(form1?.field_values){
-        setcurrentPlan(form1?.field_values?.header)
+/*
+ * get state data if selected plan data is there
+ */
+  useEffect(() => {
+    if (form1?.field_values) {
+      setcurrentPlan(form1?.field_values?.header)
     }
 
-},[])
-  type FormData = {
-    fullName: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-  };
-   const handleClick=()=>{
- const planDetail=   plans.find((item)=>item.header===currentPlan);
- console.log(planDetail,'3434343434')
-    setDataById('register',{data:'two'});
-    setDataById('form1',{field_values:planDetail});
-   }
-//    const handleBack=()=>{
-//     if()
-//    }
+  }, [])
 
+/*
+ * function to change the state and store selected plan
+ */
+  const handleClick = () => {
+    const planDetail = plans.find((item) => item.header === currentPlan);
+    setDataById('register', { data: 'two' });
+    setDataById('form1', { field_values: planDetail });
+  }
     return(
-        <Box className="left-content-wrapper">
-        <Box className="left-inner-content">
-
+        <Grid className="left-content-wrapper">
+        <Grid className="left-inner-content">
           <FormControl className="w-full">
-
             <Grid alignSelf={"center"}>
               <Typography fontWeight={800} textAlign={"center"} variant="h2" lineHeight={2} >Choose Plan</Typography>
               <Typography textAlign={"center"} variant="h6">Everything you might need and then some more in an accessible and intuitive package.</Typography>
@@ -107,7 +103,6 @@ useEffect(()=>{
             </RadioGroup>
           </FormControl>
           <Typography variant="h5" alignSelf={"flex-end"}>View Pricing details?</Typography>
-          {/* <Divider></Divider> */}
           <CustomButton
             className="plan-choose-btn"
             onClick={handleClick}
@@ -121,8 +116,8 @@ useEffect(()=>{
             <Typography className="login-label" alignContent={"flex-end"}> Log In</Typography>
           </Grid>
           <StepperBoxes activeStep={1}/>
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
 )});
 
 export default AddPlan;
