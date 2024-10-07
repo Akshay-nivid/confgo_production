@@ -34,9 +34,9 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   rules?: RegisterOptions<T>;
   control?: Control<T>;
   style?: React.CSSProperties;
-  showHeader?:boolean
-  requiredField?:boolean
-  
+  showHeader?: boolean
+  requiredField?: boolean
+
 }
 
 interface InputPropsType {
@@ -46,7 +46,7 @@ interface InputPropsType {
   max?: number;
 }
 /*
- * re-usable custom Textfield component
+ * component used to render textfield
  */
 const CustomTextField = <T extends FieldValues>({
   name,
@@ -55,9 +55,9 @@ const CustomTextField = <T extends FieldValues>({
   placeholder,
   control,
   rules,
-  showHeader=false,
-  requiredField=false,
-  
+  showHeader = false,
+  requiredField = false,
+
   ...props
 }: ICustomTextFieldProps<T>) => {
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -140,7 +140,7 @@ const CustomTextField = <T extends FieldValues>({
   return (
     <>
       <FormControl fullWidth className="custom-text-field">
-      {showHeader&&<Typography className="label-header" variant="h6">{placeholder}{requiredField&&<span className="error-text">*</span>}</Typography>}  
+        {showHeader && <Typography className="label-header" variant="h6">{placeholder}{requiredField && <span className="error-text">*</span>}</Typography>}
         {label ? <InputLabel htmlFor={name}>{label}</InputLabel> : <></>}
         <Controller
           name={name}

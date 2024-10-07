@@ -15,6 +15,11 @@ interface CustomButtonProps {
 
 }
 
+/**
+ * Component used to render button
+ * @param param
+ * @returns 
+ */
 const CustomButton: React.FC<CustomButtonProps> = ({
     onClick,
     label,
@@ -25,13 +30,10 @@ const CustomButton: React.FC<CustomButtonProps> = ({
     className,
     startIcon,
     endIcon,
-
-
-
 }) => {
     return (
         <Button
-        type={'submit'}
+            type={'submit'}
             startIcon={startIcon}
             endIcon={endIcon}
             className={className}
