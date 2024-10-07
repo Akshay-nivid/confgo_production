@@ -8,6 +8,11 @@ import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";
 import { ServiceCard } from "../home/Home";
 import { FAQ } from "../home/Home";
+
+/**
+ * pricing page component
+ * @returns
+ */
 const Pricing = () => {
   return (
     <Grid

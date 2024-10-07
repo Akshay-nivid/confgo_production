@@ -16,29 +16,13 @@ const ViewPricingBanner = () => {
     <Grid container className={"plan-selection-banner"}>
       <Grid size={12}>
         <Box>
-          <Typography
-            textAlign={"center"}
-            marginBottom={"0.833rem"}
-            color="white"
-            className="text-h1 font-800"
-          >
+          <Typography textAlign={"center"}>
             Choose Your Conference <br /> Web App Plan!
           </Typography>
-          <Typography
-            textAlign={"center"}
-            marginBottom={"2.833rem"}
-            className="text-p1"
-            color="white"
-          >
+          <Typography textAlign={"center"}>
             Discover the Perfect Package to Elevate Your Event Experience
           </Typography>
-          <Box
-            display="flex"
-            gap={"0.75rem"}
-            marginInline="auto"
-            width="max-content"
-            className="plan-section-button-container"
-          >
+          <Box className="plan-section-button-container">
             <Button
               onClick={() => {
                 navigate(routes.pricing());

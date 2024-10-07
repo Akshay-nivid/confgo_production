@@ -3,6 +3,12 @@ import Footer from "./Footer";
 import Navbar from "./Navbar";
 import { Outlet } from "react-router-dom";
 import { useLocation } from "react-router-dom";
+import "./_style.scss";
+
+/**
+ * home layout component
+ *
+ */
 const HomeLayout = () => {
   /**
    * scroll to top of the window on initial loading of the page
@@ -12,13 +18,12 @@ const HomeLayout = () => {
     window.scrollTo({
       top: 0,
       left: 0,
-      //   behavior: "smooth",
     });
   }, [location.pathname]);
 
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <Outlet />
       <Footer />
     </>

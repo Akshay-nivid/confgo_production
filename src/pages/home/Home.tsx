@@ -12,10 +12,14 @@ import {
   GridEndTwoImg,
   ExportPlanImg,
   AttentionTracking,
-  OnlinePayment,
   SeamlessIntegration,
 } from "@/assets/svg";
+import FeatureCard from "./FeatureCard";
 
+/**
+ * home page component
+ * @returns
+ */
 const HomePage = () => {
   return (
     <Box className="home-page-main">
@@ -49,7 +53,7 @@ const HomePage = () => {
                   <Grid container>
                     <Grid size={6} className={"grid-left planning-content"}>
                       <Typography
-                        marginBottom="1.33rem"
+                        // marginBottom="1.33rem"
                         className="planning-title text-h2"
                       >
                         Effortless Planning & <br /> Execution
@@ -79,7 +83,7 @@ const HomePage = () => {
                       alignItems={"end"}
                       justifyContent={"end"}
                     >
-                      <ExportPlanImg className="h-[49rem] w-[65rem]" />
+                      <ExportPlanImg className="export-plan-image" />
                     </Grid>
                   </Grid>
                 </Box>
@@ -93,7 +97,7 @@ const HomePage = () => {
                   <Grid
                     container
                     className="attendance-tracking-content"
-                    columnSpacing={"1.67rem"}
+                    columnSpacing={1}
                   >
                     <Grid
                       size={6}
@@ -117,7 +121,7 @@ const HomePage = () => {
                         alignItems={"end"}
                         className="tracking-image-container"
                       >
-                        <AttentionTracking className="h-[28rem] w-[45rem]" />
+                        <AttentionTracking className=" attendance-tracking-image" />
                       </Box>
                     </Grid>
                     <Grid
@@ -126,8 +130,6 @@ const HomePage = () => {
                       container
                       alignItems={"end"}
                       justifyContent={"end"}
-                      paddingTop="6.67rem"
-                      paddingLeft="3.58rem"
                     >
                       <Typography className="tracking-title text-h2">
                         Seamless Attendance Tracking on Android and iOS
@@ -145,7 +147,7 @@ const HomePage = () => {
                         alignItems={"end"}
                         className="tracking-image-container"
                       >
-                        <AttentionTracking className="h-[28rem] w-[45rem]" />
+                        <AttentionTracking className="attendance-tracking-image" />
                       </Box>
                     </Grid>
                   </Grid>
@@ -153,11 +155,7 @@ const HomePage = () => {
               </Grid>
             </Grid>
           </Box>
-          <Box
-            width={"100%"}
-            className="features-cta-section"
-            marginBottom="7.5rem"
-          >
+          <Box width={"100%"} className="features-cta-section">
             <Typography
               textAlign={"center"}
               className="features-cta-title text-h5 font-700"
@@ -165,19 +163,13 @@ const HomePage = () => {
               Powerful Features for Seamless Conferences
             </Typography>
             <Typography
-              className="features-cta-description text-p1 text"
+              className="features-cta-description text-p1"
               textAlign={"center"}
             >
               Discover the tools that enhance your meetings and elevate your
               events.
             </Typography>
-            <Box
-              width={"100%"}
-              display={"flex"}
-              justifyContent={"center"}
-              marginTop={"2.92rem"}
-              className="features-cta-button-container"
-            >
+            <Box className="features-cta-button-container">
               <Button
                 className="mx-auto features-cta-button"
                 variant="outlined"
@@ -254,15 +246,23 @@ export default HomePage;
 const HeroSection = () => {
   return (
     <Grid container className="hero-section-main">
-      <Grid size={1}></Grid>
+      <Grid size={1} className="hero-section-spacer"></Grid>
       <Grid paddingTop={"16.75rem"} size={10} className="hero-section-content">
-        <Box height={"100%"} display={"flex"} flexDirection={"column"}>
-          <Box>
-            <Typography textAlign={"center"} className="text-h1 font-700">
+        <Box
+          height={"100%"}
+          display={"flex"}
+          flexDirection={"column"}
+          className="hero-section-container"
+        >
+          <Box className="hero-section-text-container">
+            <Typography
+              textAlign={"center"}
+              className="hero-section-title text-h1 font-700"
+            >
               Your Ultimate Conference Software.
             </Typography>
             <Typography
-              className="text-p1"
+              className="hero-section-description text-p1"
               textAlign={"center"}
               fontWeight={400}
             >
@@ -280,20 +280,41 @@ const HeroSection = () => {
               marginInline={"auto"}
               marginBottom={"5.17rem"}
               width={"max-content"}
+              className="hero-section-buttons"
             >
-              <Button variant="contained" color="primary">
+              <Button
+                variant="contained"
+                color="primary"
+                className="hero-section-button"
+              >
                 Get Started
               </Button>
-              <Button color="primary" variant="outlined">
+              <Button
+                color="primary"
+                variant="outlined"
+                className="hero-section-button"
+              >
                 Watch Our Videos
               </Button>
             </Box>
           </Box>
-          <Grid size={12}>
-            <Box width={"100%"} height={"100%"}>
-              <Grid container columnSpacing={"20px"}>
-                <Grid size={2}>
-                  <Box height={"100%"} width={"100%"}>
+          <Grid size={12} className="hero-section-image-grid">
+            <Box
+              width={"100%"}
+              height={"100%"}
+              className="hero-section-image-container"
+            >
+              <Grid
+                container
+                columnSpacing={"20px"}
+                className="hero-section-image-row"
+              >
+                <Grid size={2} className="hero-section-left-column">
+                  <Box
+                    height={"100%"}
+                    width={"100%"}
+                    className="hero-section-side-box"
+                  >
                     <Grid
                       container
                       height={"100%"}
@@ -303,12 +324,19 @@ const HeroSection = () => {
                       alignItems={"center"}
                       rowGap={"1.33rem"}
                       paddingBlock={"2rem"}
+                      className="hero-section-side-grid"
                     >
-                      <Grid size={12}>
-                        <GridEndOneImg className="w-[18.08rem] h-[25.5rem] rounded-[1.25rem]" />
+                      <Grid
+                        size={12}
+                        className="hero-section-side-image-wrapper"
+                      >
+                        <GridEndOneImg className="hero-section-side-image-large w-[18.08rem] h-[25.5rem] rounded-[1.25rem]" />
                       </Grid>
-                      <Grid size={12}>
-                        <GridEndTwoImg className="w-[18.0833rem] h-[7.8333rem] rounded-[1.25rem]" />
+                      <Grid
+                        size={12}
+                        className="hero-section-side-image-wrapper"
+                      >
+                        <GridEndTwoImg className="hero-section-side-image-small w-[18.0833rem] h-[7.8333rem] rounded-[1.25rem]" />
                       </Grid>
                     </Grid>
                   </Box>
@@ -317,32 +345,37 @@ const HeroSection = () => {
                   size={8}
                   borderRadius={"1.25rem 1.25rem 0 0"}
                   overflow={"hidden"}
+                  className="hero-section-middle-column"
                 >
-                  <img className="h-full w-full " src={gridMiddleImg} alt="" />
+                  <img
+                    className="hero-section-middle-image h-full w-full"
+                    src={gridMiddleImg}
+                    alt=""
+                  />
                 </Grid>
-                <Grid size={2}>
-                  <Box
-                    height={"100%"}
-                    // width={"100%"}
-                    // bgcolor={"lightblue"}
-                    // display={"flex"}
-                    // alignItems={"center"}
-                  >
+                <Grid size={2} className="hero-section-right-column">
+                  <Box height={"100%"} className="hero-section-side-box">
                     <Grid
                       container
-                      // bgcolor={"red"}
                       height={"100%"}
                       flexDirection={"column"}
                       justifyContent={"flex-end"}
                       alignItems={"center"}
                       rowGap={"1.33rem"}
                       paddingBlock={"2rem"}
+                      className="hero-section-side-grid"
                     >
-                      <Grid size={12}>
-                        <GridEndOneImg className="w-[18.08rem] h-[25.5rem] rounded-[1.25rem]" />
+                      <Grid
+                        size={12}
+                        className="hero-section-side-image-wrapper"
+                      >
+                        <GridEndOneImg className="hero-section-side-image-large w-[18.08rem] h-[25.5rem] rounded-[1.25rem]" />
                       </Grid>
-                      <Grid size={12}>
-                        <GridEndTwoImg className="w-[18.0833rem] h-[7.8333rem] rounded-[1.25rem]" />
+                      <Grid
+                        size={12}
+                        className="hero-section-side-image-wrapper"
+                      >
+                        <GridEndTwoImg className="hero-section-side-image-small w-[18.0833rem] h-[7.8333rem] rounded-[1.25rem]" />
                       </Grid>
                     </Grid>
                   </Box>
@@ -352,98 +385,7 @@ const HeroSection = () => {
           </Grid>
         </Box>
       </Grid>
-      <Grid size={1}></Grid>
-    </Grid>
-  );
-};
-
-const FeatureCard = ({
-  flexDirection = "row",
-}: {
-  flexDirection?: "row" | "row-reverse";
-}) => {
-  const paddingLeft = flexDirection === "row-reverse" ? "5rem" : "";
-  const paddingRight = flexDirection === "row" ? "5rem" : "";
-  const alignItems = flexDirection === "row" ? "end" : "start";
-  const justifyContent = flexDirection === "row" ? "start" : "end";
-  return (
-    <Grid container marginBottom={"8.333rem"} flexDirection={flexDirection}>
-      <Grid
-        size={6}
-        paddingLeft={paddingLeft}
-        paddingRight={paddingRight}
-        alignItems={alignItems}
-        justifyContent={justifyContent}
-      >
-        <OnlinePayment className="h-[49.1rem]  w-max" />
-      </Grid>
-      <Grid
-        size={6}
-        display={"flex"}
-        flexDirection={"column"}
-        rowGap={"2.5rem"}
-      >
-        <Box className="space-y-[1.667rem] ">
-          <Typography className="text-h2 font-600">Social Promotion</Typography>
-          <Typography className="text-p1">
-            Amplify your conference's reach with our powerful Social Promotion
-            feature. Seamlessly integrate social media platforms to promote your
-            event and engage with a wider audience. Share updates,
-            announcements, and highlights directly from the platform to your
-            followers. Encourage participants to spread the word with
-            easy-to-use sharing tools. Leverage the power of social networks to
-            boost visibility, attract more attendees, and create a buzz around
-            your event. Maximize your conference's impact with a strong online
-            presence.
-          </Typography>
-        </Box>
-        <Box
-          width={"100%"}
-          display={"flex"}
-          flexDirection={"column"}
-          rowGap={"2.5rem"}
-        >
-          <Grid container columnSpacing={"2.083rem"}>
-            <Grid size={6}>
-              <SeamlessIntegration className="h-[5.41rem] w-[5.41rem]  mb-[1.333rem]" />
-              <Box>
-                <Typography
-                  variant="h6"
-                  fontWeight={600}
-                  marginBottom={"0.667rem"}
-                >
-                  Seamless Integration
-                </Typography>
-                <Typography className="text-p1">
-                  Effortlessly connect your conference with popular social media
-                  platforms, making it easy to share updates and engage with
-                  your audience.
-                </Typography>
-              </Box>
-            </Grid>
-            <Grid size={6}>
-              <SeamlessIntegration className="h-[5.41rem] w-[5.41rem] mb-[1.333rem]" />
-              <Box>
-                <Typography
-                  variant="h6"
-                  fontWeight={600}
-                  marginBottom={"0.667rem"}
-                >
-                  Seamless Integration
-                </Typography>
-                <Typography className="text-p1">
-                  Effortlessly connect your conference with popular social media
-                  platforms, making it easy to share updates and engage with
-                  your audience.
-                </Typography>
-              </Box>
-            </Grid>
-          </Grid>
-        </Box>
-        <Button variant="outlined" className="w-max">
-          Get Started
-        </Button>
-      </Grid>
+      <Grid size={1} className="hero-section-spacer"></Grid>
     </Grid>
   );
 };

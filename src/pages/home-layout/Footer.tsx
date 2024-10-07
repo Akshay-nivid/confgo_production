@@ -6,91 +6,91 @@ import routes from "@/router/routes";
 
 const Footer = () => {
   return (
-    <Grid container bgcolor={"black"} paddingBlock={"3.33rem"}>
+    <Grid container className="footer">
       <Grid size={1}></Grid>
       <Grid size={10}>
-        <Box className="w-full">
+        <Box className="footer-content">
           <Grid container>
             <Grid size={8}>
-              <Typography
-                color="white"
-                marginBottom={"1rem"}
-                className="text-h1 font-500"
-              >
+              <Typography className="footer-title">
                 Do you have <br /> any questions?
               </Typography>
-              <Typography
-                color="white"
-                className="text-h6"
-                marginBottom={"3.33rem"}
-              >
+              <Typography className="footer-subtitle">
                 Feel free to send us your questions or request a free
                 consultation.
               </Typography>
-              <Button variant="contained"> Send a messaage</Button>
+              <Button variant="contained" className="footer-button">
+                Send a message
+              </Button>
             </Grid>
-            {/* <Grid size={4} display={"flex"} alignItems={"center"}>
-              <Typography color="white" className="text-p1">
-                Complete Conference Management at Your Fingertips
-              </Typography>
-            </Grid> */}
           </Grid>
         </Box>
       </Grid>
       <Grid size={1}></Grid>
       <Grid size={12}>
-        <Box width={"100%"} marginTop={"8rem"}>
+        <Box className="footer-links-section">
           <Grid container>
             <Grid size={1}></Grid>
             <Grid size={10}>
-              <Box className={"w-full"}>
+              <Box className="footer-links-content">
                 <Grid container>
                   <Grid size={8}>
-                    <Box marginBottom={"4rem"}>
+                    <Box className="footer-nav-links">
                       <ul>
-                        <li className="space-x-[2.66rem]">
-                          <Link className="text-white" to={routes.home()}>
+                        <li className="footer-nav-list">
+                          <Link className="footer-nav-item" to={routes.home()}>
                             Home
                           </Link>
-                          <Link className="text-white" to={routes.feature()}>
+                          <Link
+                            className="footer-nav-item"
+                            to={routes.feature()}
+                          >
                             Feature
                           </Link>
-                          <Link className="text-white" to={routes.pricing()}>
+                          <Link
+                            className="footer-nav-item"
+                            to={routes.pricing()}
+                          >
                             Pricing
                           </Link>
-                          <Link className="text-white" to={routes.demo()}>
+                          <Link className="footer-nav-item" to={routes.demo()}>
                             Demo
                           </Link>
-                          <Link className="text-white" to={routes.contact()}>
+                          <Link
+                            className="footer-nav-item"
+                            to={routes.contact()}
+                          >
                             Contacts
                           </Link>
                         </li>
                       </ul>
                     </Box>
-                    <Box width={"100%"}>
+                    <Box className="footer-contact-info">
                       <Grid container>
                         <Grid size={4}>
-                          <Box marginBottom={"5.33rem"}>
-                            <Typography variant="body2" color="white">
+                          <Box className="footer-contact-block">
+                            <Typography className="footer-contact-label">
                               CALL US
                             </Typography>
-                            <Typography color="white">0497 2701371</Typography>
+                            <Typography className="footer-contact-value">
+                              0497 2701371
+                            </Typography>
                           </Box>
-                          <Box>
-                            <Typography variant="body2" color="white">
+                          <Box className="footer-contact-block">
+                            <Typography className="footer-contact-label">
                               EMAIL US
                             </Typography>
-                            <Typography color="white">
+                            <Typography className="footer-contact-value">
                               support@confgo.co
                             </Typography>
                           </Box>
                         </Grid>
                         <Grid size={8}>
-                          <Box>
-                            <Typography variant="body2" color="white">
+                          <Box className="footer-contact-block">
+                            <Typography className="footer-contact-label">
                               VISIT US
                             </Typography>
-                            <Typography color="white">
+                            <Typography className="footer-contact-value">
                               Torch Club 18 Waverly Pl, <br /> New York, NY
                               10003, USA
                             </Typography>
@@ -99,28 +99,15 @@ const Footer = () => {
                       </Grid>
                     </Box>
                   </Grid>
-                  <Grid
-                    size={4}
-                    display={"flex"}
-                    alignItems={"flex-end"}
-                    justifyContent={"flex-end"}
-                    flexDirection={"column"}
-                  >
-                    <img
-                      className="h-max w-max mb-[3.91rem]"
-                      src={AppLogo}
-                      alt=""
-                    />
-
-                    <Typography
-                      color="white"
-                      textAlign={"end"}
-                      marginBottom={"0.66rem"}
-                    >
-                      Don't know where to get your car tinted? Logoipsum —
-                      practical, safe, and affordable.
+                  <Grid size={4} className="footer-logo-section">
+                    <img className="footer-logo" src={AppLogo} alt="App Logo" />
+                    <Typography className="footer-description">
+                      Don't know where to get your car tinted? <br /> Logoipsum
+                      — practical, safe, and affordable.
                     </Typography>
-                    <Typography color="white">© 2024 — Copyright</Typography>
+                    <Typography className="footer-copyright">
+                      © 2024 — Copyright
+                    </Typography>
                   </Grid>
                 </Grid>
               </Box>
