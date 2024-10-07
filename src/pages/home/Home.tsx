@@ -5,12 +5,8 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Grid from "@mui/material/Grid2";
 import { Typography, Button } from "@mui/material";
-import ViewPricingBanner from "@/components/ViewPricingBanner/ViewPricingBanner";
-import {
-  gridMiddleImg,
-  gridStartOneImg,
-  gridStartTwoImg,
-} from "@/assets/images";
+import ViewPricingBanner from "@/pages/home/ViewPricingBanner";
+import { gridMiddleImg } from "@/assets/images";
 import {
   GridEndOneImg,
   GridEndTwoImg,
@@ -83,11 +79,7 @@ const HomePage = () => {
                       alignItems={"end"}
                       justifyContent={"end"}
                     >
-                      <img
-                        className="object-contain"
-                        src={ExportPlanImg}
-                        alt="Export Plan"
-                      />
+                      <ExportPlanImg className="h-[49rem] w-[65rem]" />
                     </Grid>
                   </Grid>
                 </Box>
@@ -125,11 +117,7 @@ const HomePage = () => {
                         alignItems={"end"}
                         className="tracking-image-container"
                       >
-                        <img
-                          className="tracking-image"
-                          src={AttentionTracking}
-                          alt="Attention Tracking"
-                        />
+                        <AttentionTracking className="h-[28rem] w-[45rem]" />
                       </Box>
                     </Grid>
                     <Grid
@@ -157,11 +145,7 @@ const HomePage = () => {
                         alignItems={"end"}
                         className="tracking-image-container"
                       >
-                        <img
-                          className="tracking-image"
-                          src={AttentionTracking}
-                          alt="Attention Tracking"
-                        />
+                        <AttentionTracking className="h-[28rem] w-[45rem]" />
                       </Box>
                     </Grid>
                   </Grid>
@@ -305,66 +289,67 @@ const HeroSection = () => {
               </Button>
             </Box>
           </Box>
-          <Box width={"100%"} flex={1}>
-            <Grid container className="image-layout-container">
-              <Grid
-                className="grid-start"
-                flexDirection={"column"}
-                size={2}
-                display={"flex"}
-                justifyContent={"flex-end"}
-                alignItems={"flex-end"}
-                rowGap={"1.33rem"}
-                paddingBlock={"2.25rem"}
-                paddingInline={"1.17rem"}
-              >
-                <img
-                  className="h-max w-max rounded-[1.25rem]"
-                  src={gridStartOneImg}
-                  alt=""
-                />
-
-                <img
-                  className="h-max w-max rounded-[1.25rem]"
-                  src={gridStartTwoImg}
-                  alt=""
-                />
+          <Grid size={12}>
+            <Box width={"100%"} height={"100%"}>
+              <Grid container columnSpacing={"20px"}>
+                <Grid size={2}>
+                  <Box height={"100%"} width={"100%"}>
+                    <Grid
+                      container
+                      height={"100%"}
+                      display={"flex"}
+                      flexDirection={"column"}
+                      justifyContent={"flex-end"}
+                      alignItems={"center"}
+                      rowGap={"1.33rem"}
+                      paddingBlock={"2rem"}
+                    >
+                      <Grid size={12}>
+                        <GridEndOneImg className="w-[18.08rem] h-[25.5rem] rounded-[1.25rem]" />
+                      </Grid>
+                      <Grid size={12}>
+                        <GridEndTwoImg className="w-[18.0833rem] h-[7.8333rem] rounded-[1.25rem]" />
+                      </Grid>
+                    </Grid>
+                  </Box>
+                </Grid>
+                <Grid
+                  size={8}
+                  borderRadius={"1.25rem 1.25rem 0 0"}
+                  overflow={"hidden"}
+                >
+                  <img className="h-full w-full " src={gridMiddleImg} alt="" />
+                </Grid>
+                <Grid size={2}>
+                  <Box
+                    height={"100%"}
+                    // width={"100%"}
+                    // bgcolor={"lightblue"}
+                    // display={"flex"}
+                    // alignItems={"center"}
+                  >
+                    <Grid
+                      container
+                      // bgcolor={"red"}
+                      height={"100%"}
+                      flexDirection={"column"}
+                      justifyContent={"flex-end"}
+                      alignItems={"center"}
+                      rowGap={"1.33rem"}
+                      paddingBlock={"2rem"}
+                    >
+                      <Grid size={12}>
+                        <GridEndOneImg className="w-[18.08rem] h-[25.5rem] rounded-[1.25rem]" />
+                      </Grid>
+                      <Grid size={12}>
+                        <GridEndTwoImg className="w-[18.0833rem] h-[7.8333rem] rounded-[1.25rem]" />
+                      </Grid>
+                    </Grid>
+                  </Box>
+                </Grid>
               </Grid>
-              <Grid
-                className="grid-middle"
-                height={"100%"}
-                size={{ xs: 8 }}
-                display={"flex"}
-                overflow={"hidden"}
-                borderRadius={"1.25rem 1.25rem 0 0"}
-              >
-                <img className="h-full w-full" src={gridMiddleImg} alt="" />
-              </Grid>
-              <Grid
-                className="grid-end"
-                size={{ xs: 2 }}
-                container
-                flexDirection={"column"}
-                justifyContent={"flex-end"}
-                alignItems={"flex-start"}
-                rowGap={"1.33rem"}
-                paddingBlock={"2.25rem"}
-                paddingInline={"1.17rem"}
-              >
-                <img
-                  className="h-max w-max rounded-[1.25rem]"
-                  src={GridEndOneImg}
-                  alt=""
-                />
-
-                <img
-                  className="h-max w-max rounded-[1.25rem]"
-                  src={GridEndTwoImg}
-                  alt=""
-                />
-              </Grid>
-            </Grid>
-          </Box>
+            </Box>
+          </Grid>
         </Box>
       </Grid>
       <Grid size={1}></Grid>
@@ -373,16 +358,6 @@ const HeroSection = () => {
 };
 
 const FeatureCard = ({
-  // image,
-  // header,
-  // description,
-  // subIconStart,
-  // SubIconEnd,
-  // subHeaderStart,
-  // subHeaderEnd,
-  // subDescritpionStart,
-  // subDescriptionEnd,
-  // onClick,
   flexDirection = "row",
 }: {
   flexDirection?: "row" | "row-reverse";
@@ -400,9 +375,7 @@ const FeatureCard = ({
         alignItems={alignItems}
         justifyContent={justifyContent}
       >
-        <Box>
-          <img className="h-max w-max" src={OnlinePayment} alt="" />
-        </Box>
+        <OnlinePayment className="h-[49.1rem]  w-max" />
       </Grid>
       <Grid
         size={6}
@@ -432,11 +405,7 @@ const FeatureCard = ({
         >
           <Grid container columnSpacing={"2.083rem"}>
             <Grid size={6}>
-              <img
-                className="h-max w-max mb-[1.333rem]"
-                src={SeamlessIntegration}
-                alt=""
-              />
+              <SeamlessIntegration className="h-[5.41rem] w-[5.41rem]  mb-[1.333rem]" />
               <Box>
                 <Typography
                   variant="h6"
@@ -453,11 +422,7 @@ const FeatureCard = ({
               </Box>
             </Grid>
             <Grid size={6}>
-              <img
-                className="h-max w-max mb-[1.333rem]"
-                src={SeamlessIntegration}
-                alt=""
-              />
+              <SeamlessIntegration className="h-[5.41rem] w-[5.41rem] mb-[1.333rem]" />
               <Box>
                 <Typography
                   variant="h6"
@@ -514,7 +479,7 @@ export const ServiceCard = () => {
       width={"100%"}
       className="service-card-main flex justify-center items-center flex-col"
     >
-      <img className="h-max w-max mb-[42px]" src={SeamlessIntegration} alt="" />
+      <SeamlessIntegration className="h-[7rem] w-[7rem] mb-[3.5rem]" />
       <Box>
         <Typography
           variant="h5"

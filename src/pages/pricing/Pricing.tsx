@@ -128,7 +128,8 @@ const PlanCard = () => {
         boxShadow="rgba(0, 0, 0, 0.24) 0rem 0.25rem 0.667rem"
       >
         <Box marginBottom={"2.91rem"} display={"flex"} columnGap={"1.3rem"}>
-          <img className="w-max h-max" src={BasicPlanSvg} alt="" />
+          <BasicPlanSvg className="w-[4.91rem] h-[4.91rem]" />
+
           <Box>
             <Typography variant="body1">Basic Plan</Typography>
             <Typography>Perfect for Small Events</Typography>
