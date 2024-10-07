@@ -8,90 +8,119 @@ import {
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { SubmitHandler, useForm } from "react-hook-form";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import { useNavigate } from "react-router-dom";
-// A functional component that renders a simple greeting
+import useStore from "@/Libs/store";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { StepperBoxes } from "./StepperBox";
+/*
+ * Organization form 
+ */
 const AddOrganization = React.memo(() => {
-    const { handleSubmit, control } = useForm<FormData>();
-
+    const { handleSubmit, control,getValues } = useForm<FormData>();
+    const { setDataById} :any= useStore();
+    const pageSwitch = useStore((state: any) => state?.compData?.['register']) ?? [];
+    const form3=useStore((state: any) => state?.compData?.['form3']) ?? [];
     // form submission function
     const onSubmit: SubmitHandler<FormData> = () => { };
-    const navigate = useNavigate();
+/*
+ * Component used to handle form and switching form 
+ */
     const handleClick = () => {
-        const currentPath = window.location.pathname;
-        navigate(`${currentPath}/payment`, { state: { currentPath } });
+        const values = getValues();
+        if(!values.organizationName||!values.organizationAddress||!values.organizationAddress||!values.organizationEmail){
+            return
+        }else{
+            setDataById('register',{data:'four'});
+            setDataById('form3',{field_values:values});
+        }
+       
     };
-    // const location = useLocation();
+
+/*
+ * FormData type 
+ */
     type FormData = {
         organizationName: string;
         organizationEmail: string;
         organizationPhone: number;
         organizationAddress: number;
     };
-    return <Box className="register-main-container">
-        <Grid container className="grid-layout">
-            <Grid size={{ xs: 12, sm: 6 }} className="grid-left">
-                <Box className="left-content-wrapper">
-                    <Box className="left-inner-content">
-                        <Grid alignSelf={"center"}>
-                            <Typography fontWeight={800} textAlign={"center"} variant="h3" lineHeight={2} >Add Organization Details</Typography>
-                            <Typography textAlign={"center"} variant="h6">Join us and streamline your conference<br /> management today.</Typography>
-                        </Grid>
-                        <Box className={"form-wrapper"}>
-                            <form onSubmit={handleSubmit(onSubmit)} className="form">
-                                <FormControl >
-
-                                    <CustomTextField
-                                        placeholder="Organization Name"
-                                        control={control}
-                                        name="organizationName"
-                                        type="text"
-                                    />
-                                    <CustomTextField
-                                        placeholder="Organization Email"
-                                        control={control}
-                                        name="organizationEmail"
-                                        type="text"
-                                    />
-                                    <CustomTextField
-                                        placeholder="Organization Phone"
-                                        name="organizationPhone"
-                                        type="number"
-                                        control={control}
-                                    />
-                                    <CustomTextField
-                                        placeholder="Organization Address"
-                                        control={control}
-                                        name="organizationAddress"
-                                        type="text"
-                                    />
-
-                                </FormControl>
-                                <CustomButton
-                                    className="plan-choose-btn"
-                                    onClick={handleClick}
-                                    label="Next"
-                                    variant="contained"
-                                    color="primary"
-                                    size="large"
-                                />
-                            </form>
-                        </Box>
-                        <Grid container flexDirection={"row"} spacing={2}>
-                            <Typography>Already have an account?  </Typography>
-                            <Typography className="login-label" alignContent={"flex-end"}> Log In</Typography>
-                        </Grid>
-                    </Box>
-                </Box>
+/*
+ * function handle back of function 
+ */
+    const handleBack=()=>{
+        if(pageSwitch.data=='three'){
+            setDataById('register',{data:'two'});    
+        }
+       }
+    return (
+        <Box className="left-content-wrapper">
+            <Box className="left-inner-content">
+            <Grid  container flexDirection={"row"} spacing={2} alignSelf={"start"} onClick={handleBack}>
+            <ArrowBackIcon />
+            <Typography>Back</Typography>
             </Grid>
-            <Grid size={{ xs: 12, sm: 6 }} className="grid-right">
-                <Grid container className="right-content-wrapper">
-                    {/* <Box sx={{}}>
-                        <Typography>New Teext</Typography>
-                    </Box> */}
+                <Grid alignSelf={"center"}>
+                    <Typography fontWeight={800} textAlign={"center"} variant="h3" lineHeight={2} >Add Organization Details</Typography>
+                    <Typography textAlign={"center"} variant="h6">Join us and streamline your conference<br /> management today.</Typography>
                 </Grid>
-            </Grid>
-        </Grid>
-    </Box>
+                <Box className={"form-wrapper"}>
+                    <form onSubmit={handleSubmit(onSubmit)} className="form">
+                        <FormControl >
+                            <CustomTextField
+                            defaultValue={form3?.field_values?.organizationName}
+                              requiredField={true}
+                              showHeader={true}
+                                placeholder="Organization Name"
+                                control={control}
+                                name="organizationName"
+                                type="text"
+                            />
+                            <CustomTextField
+                            defaultValue={form3?.field_values?.organizationEmail}
+                              requiredField={true}
+                              showHeader={true}
+                                placeholder="Organization Email"
+                                control={control}
+                                name="organizationEmail"
+                                type="text"
+                            />
+                            <CustomTextField
+                            defaultValue={form3?.field_values?.organizationPhone}
+                              requiredField={true}
+                              showHeader={true}
+                                placeholder="Organization Phone"
+                                name="organizationPhone"
+                                type="number"
+                                control={control}
+                            />
+                            <CustomTextField
+                              defaultValue={form3?.field_values?.organizationAddress}
+                              requiredField={true}
+                              showHeader={true}
+                                placeholder="Organization Address"
+                                control={control}
+                                name="organizationAddress"
+                                type="text"
+                            />
+                        </FormControl>
+                        <CustomButton
+                            className="plan-choose-btn"
+                            onClick={handleClick}
+                            label="Next"
+                            variant="contained"
+                            color="primary"
+                            size="large"
+                        />
+                    </form>
+                </Box>
+                <Grid container flexDirection={"row"} spacing={2}>
+                    <Typography>Already have an account?  </Typography>
+                    <Typography className="login-label" alignContent={"flex-end"}> Log In</Typography>
+                </Grid>
+                <StepperBoxes activeStep={3}/>
+            </Box>
+        </Box>
+    )
 });
 
 export default AddOrganization;

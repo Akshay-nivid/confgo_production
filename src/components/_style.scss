@@ -130,3 +130,8 @@
   font-size: $h6;
   font-weight: $font_medium;
 }
+.error-input{
+  .MuiOutlinedInput-notchedOutline {
+    border-color: $danger !important;
+  }
+}
