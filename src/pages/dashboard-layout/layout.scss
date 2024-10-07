@@ -3,7 +3,7 @@
 }
 
 .text-danger {
-  color: $danger !important;
+  color: $clr_red !important;
 }
 
 .layout-container {
@@ -64,9 +64,9 @@
     padding: 0.75rem 1.666rem;
     border-radius: 0.417rem;
     font-size: 1.5rem;
-    color: $text_light;
+    color: $clr_gray_light;
     &:hover {
-      background-color: $bg_primary_light;
+      background-color: $clr_green_light;
     }
     span {
       font-size: 1.25rem;
@@ -74,15 +74,15 @@
     }
   }
   .active {
-    color: $drawerActive;
-    background-color: $bg_primary_light;
+    color: $clr_green;
+    background-color: $clr_green_light;
     span {
-      color: $drawerActive;
+      color: $clr_green;
     }
   }
   &-active-drawer-icon {
     path {
-      fill: $drawerActive;
+      fill: $clr_green;
     }
   }
 }
@@ -91,14 +91,14 @@
 
 .navbar {
   border-bottom-width: 0.0416rem;
-  border-bottom-color: $border_primary;
+  border-bottom-color: $clr_gray_medium;
   display: flex;
   overflow: hidden;
   align-items: center;
   background-color: $background;
   min-height: 6.666rem;
   &-logo-container {
-    background-color: $bg_secondary;
+    background-color: $clr_white;
     height: 6.666rem;
     display: flex;
     align-items: center;
@@ -132,7 +132,7 @@
   font-size: 0.95rem !important;
   font-weight: 600;
   text-align: right;
-  color: $text_light;
+  color: $clr_gray_light;
 }
 
 .circular-avatar {

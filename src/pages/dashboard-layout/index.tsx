@@ -1,5 +1,5 @@
 import Sidebar from "./Sidebar";
-import Navbar from "./Navbar";
+import AppBar from "./AppBar";
 import Grid from "@mui/material/Grid2";
 import { Outlet } from "react-router-dom";
 import { Box, Button } from "@mui/material";
@@ -11,7 +11,7 @@ import { Box, Button } from "@mui/material";
 const Layout = () => {
   return (
     <Box className="layout-container">
-      <Navbar />
+      <AppBar />
       <Box className="layout-container-grid-wrapper">
         <Grid container className="layout-container-grid">
           <Grid size={2}>
