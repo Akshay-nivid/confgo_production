@@ -1,0 +1,54 @@
+.home-page-main {
+  .hero-section-main {
+    background: url("/src/assets/images/hero-section-bg-image.jpg") no-repeat
+      bottom;
+    height: max-content;
+    color: white;
+    background-size: cover;
+
+    & .image-layout-container {
+      & .grid-middle {
+        height: 100%;
+        background: url("/src/assets/svg/frame-main.svg") no-repeat;
+        background-position: bottom;
+        background-size: cover;
+      }
+    }
+  }
+  & .complete-conference-management-container {
+    margin-top: 7.33rem;
+    margin-bottom: 5.33rem;
+  }
+  & .effortless-planning-execution {
+    margin-bottom: 2.5rem;
+    background-color: #eaf6e9;
+    border-radius: 1.67rem;
+    & .grid-left {
+      padding-block: 5.83rem;
+      padding-left: 5.08rem;
+      & .planning-description {
+        margin-bottom: 2rem;
+      }
+    }
+    & .grid-right {
+      padding-top: 6.67rem;
+      padding-left: 3.58rem;
+    }
+  }
+  & .seamless-attendance-tracking {
+    margin-bottom: 7.42rem;
+    & .grid-left {
+      background-color: #f0f2ff;
+      padding-inline: 3.58rem;
+      padding-top: 3.33rem;
+      row-gap: 1rem;
+      border-radius: 1.67rem;
+    }
+    & .grid-right {
+      background-color: #fcfeec;
+      padding-top: 3.33rem;
+      padding-inline: 3.58rem;
+      border-radius: 1.67rem;
+    }
+  }
+}
