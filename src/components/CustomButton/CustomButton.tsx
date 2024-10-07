@@ -19,6 +19,11 @@ interface CustomButtonProps {
 
 }
 
+/**
+ * Component used to render button
+ * @param param
+ * @returns 
+ */
 const CustomButton: React.FC<CustomButtonProps> = ({
     onClick,
     label,

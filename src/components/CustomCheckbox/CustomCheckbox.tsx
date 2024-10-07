@@ -12,9 +12,8 @@ interface ICheckbox<T extends FieldValues> {
 }
 
 /*
- * custom checkbox  component
+ * component used to render checkbox
  */
-
 const CustomCheckbox = <T extends FieldValues>({
   control,
   name,

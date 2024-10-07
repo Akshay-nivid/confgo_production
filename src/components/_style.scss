@@ -135,3 +135,60 @@
     border-color: $danger !important;
   }
 }
+
+//DataGrid css starts here
+.custom-data-grid  {
+  margin-top: 1rem;
+  .status-container{
+    display: flex;
+    .MuiGrid2-root {
+      align-self: center;
+      .MuiTypography-root{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.4rem;
+      padding: 0.4rem;
+      width: 10rem;
+    }
+  }
+
+  }
+  .default-label{
+    font-size: $h6;
+    color: $text_primary;
+    font-weight: $font_medium;
+  }
+  &-grid{
+    margin: 4rem;
+    .list-title{
+      font-size: $h2 !important;
+      font-weight: $font_bold !important;
+    }
+  }
+  .MuiDataGrid-columnHeader {
+    border-color: $bg_secondary;
+    .MuiDataGrid-columnSeparator{
+      display: none;
+    }
+    .MuiDataGrid-columnHeaderTitleContainer{
+      font-size: $h6;
+      color: $light_grey;
+      font-weight: $font_medium;
+    }
+  }
+  .MuiDataGrid-cell {
+    border-color: $bg_secondary;
+    background-color: $white;
+  }
+  .css-wop1k0-MuiDataGrid-footerContainer {
+    display: block;
+  }
+  .css-de9k3v-MuiDataGrid-selectedRowCount {
+visibility: hidden;
+  }
+//   .css-wop1k0-MuiDataGrid-footerContainer{
+// display: none;
+//   }
+}
+//DataGrid css ends here
