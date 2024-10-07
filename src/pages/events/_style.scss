@@ -1,23 +1,23 @@
 .create-event{
     &-container{
-        background-color: $bg_secondary;
+        background-color: $white;
     }
     &-next-btn{
-        background-color: $drawerActive !important;
-        color: $bg_secondary !important;
+        background-color: $clr_green !important;
+        color: $white !important;
         min-width: 25rem !important;
         text-transform: none !important;
         font-size: $h5 !important;
-        font-weight: $font_large !important;
+        font-weight: $font_semibold !important;
     }
     &-back-btn{
-        background-color: $bg_secondary !important;
-        color: $drawerActive !important;
+        background-color: $white !important;
+        color: $clr_green !important;
         min-width: 25rem !important;
-        border: 1px solid $drawerActive !important;
+        border: 1px solid $clr_green !important;
         text-transform: none !important;
         font-size: $h5 !important;
-        font-weight: $font_large !important;
+        font-weight: $font_semibold !important;
     }
     &-title{
         font-weight: $font_bold !important;
@@ -28,16 +28,16 @@
 
 .add-program{
     &-container{
-        background-color: $bg_secondary;
+        background-color: $white;
     }
     &-next-btn{
-        background-color: $drawerActive !important;
-        color: $bg_secondary !important;
+        background-color: $clr_green !important;
+        color: $white !important;
         min-width: 15rem !important;
     }
     &-back-btn{
-        background-color: $bg_secondary !important;
-        color: $drawerActive !important;
+        background-color: $white !important;
+        color: $clr_green !important;
         min-width: 15rem !important;
     }
     &-display-item{

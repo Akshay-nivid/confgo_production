@@ -52,10 +52,10 @@
 
           & .header-title {
             font-size: $h1 !important;
-            font-weight: $font_extrabold !important;
+            font-weight: $font_800 !important;
           }
           & .header-description {
-            font-size: $h6;
+            font-size: $p1;
           }
         }
 
@@ -71,19 +71,19 @@
         }
         & .forgot-password-link {
           font-size: $h6;
-          font-weight: $font_bold;
+          font-weight: $font_800;
           margin-top: 2.25rem;
           width: max-content;
           margin-left: auto;
         }
         & .already-have-account-link {
           text-align: center;
-          font-size: $h5 !important;
+          font-size: $h6 !important;
           font-weight: $font_bold !important;
           margin-top: 4rem !important;
           & .signup-now-text {
-            color: $bg_primary;
-            font-size: $h6;
+            color: $clr_blue;
+            font-size: $p1;
             font-weight: $font_bold;
           }
         }

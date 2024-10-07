@@ -9,6 +9,13 @@ import StepperActive from "./stepper-active.svg"
 import StepperCurrent from "./Stepper-current.svg"
 import StepperDefault from "./stepper-default.svg"
 
+import GridEndOneImg from "./grid-end-one.svg";
+import GridEndTwoImg from "./grid-end-two.svg";
+import ExportPlanImg from "./export-plan.svg";
+import AttentionTracking from "./attention-tracking.svg";
+import OnlinePayment from "./online-payment.svg";
+import SeamlessIntegration from "./seamless-integration.svg";
+import BasicPlanSvg from "./basic-plan.svg";
 export {
   CalenderIcon,
   EventIcon,
@@ -19,5 +26,12 @@ export {
   LogoutIcon,
   StepperActive,
   StepperCurrent,
-  StepperDefault
+  StepperDefault,
+  GridEndOneImg,
+  GridEndTwoImg,
+  SeamlessIntegration,
+  ExportPlanImg,
+  AttentionTracking,
+  OnlinePayment,
+  BasicPlanSvg,
 };

@@ -3,7 +3,7 @@ import CustomRadio from '@/components/CustomRadio/CustomRadio';
 import CustomTextField from '@/components/CustomTextfield/CustomTextField';
 import { Box, FormControl, IconButton, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler, useFieldArray } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import EditIcon from '@/assets/svg/edit-program-icon.svg';
@@ -33,9 +33,14 @@ type FormData = {
         location: string;
     }[];
 };
+type ProgramProps = {
+    formSubmit: boolean;
+    onSubmitHandler: (event: React.FormEvent<HTMLFormElement>, type: string) => void;
+    data: any;
+}
 
-const AddProgram = React.memo(() => {
-    const navigate = useNavigate();
+    const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHandler, data }) => {
+        const navigate = useNavigate();
     const { handleSubmit, control, watch, setValue } = useForm<FormData>({
         defaultValues: {
             programs: [
@@ -62,7 +67,27 @@ const AddProgram = React.memo(() => {
         { label: 'Paid', value: 'PAID' },
         { label: 'Free', value: 'FREE' }
     ];
-    const onSubmit: SubmitHandler<FormData> = () => { };
+
+    useEffect(() => {
+        if(formSubmit){
+            handleSubmit(onSubmit)();
+        }
+    },[formSubmit])
+
+    const onSubmit: SubmitHandler<FormData> = (data: any) => { 
+        console.log('testform',data)
+        onSubmitHandler && onSubmitHandler(data?.savedPrograms,'PROGRAM')
+    };
+
+    useEffect(() => {
+        if(data){
+            console.log('testdata',data)
+            setValue('programs', data);
+            setValue('savedPrograms', data);
+            //setFormValues(data,setValue)
+        }
+    },[data])
+
     const handleSaveNewPrograms = () => {
         setValue('savedPrograms',watch('programs'))
         
@@ -80,7 +105,7 @@ const AddProgram = React.memo(() => {
             price: '',
             location: '',
         })
-        setProgramIndex(watch('savedPrograms').length)
+        setProgramIndex(watch('savedPrograms')?.length? watch('savedPrograms').length: 0)  
     }
 
     const handleEdit = (index: number) => {
@@ -124,10 +149,10 @@ const AddProgram = React.memo(() => {
                 <Box className="">
                     <Box className="">
                         <Grid alignSelf={"center"}>
-                            <Typography textAlign={"center"} variant="h3" lineHeight={2} >Add Programmes</Typography>
+                            <Typography textAlign={"start"} variant="h3" lineHeight={2} className="add-program-title" >Add Programmes</Typography>
                         </Grid>
                         <Box className={"form-wrapper1"}>
-                            <form onSubmit={handleSubmit(onSubmit)} className="form1">
+                            <form onSubmit={handleSubmit(onSubmit)}>
                             {fields.map((field, index) => {
                                 
                                 if(index === programIndex){
@@ -242,16 +267,16 @@ const AddProgram = React.memo(() => {
                     </Box>
                 </Box>
                 </Grid>
-                <Grid size={{ xs: 12, sm: 4 }} spacing={2}>
+                <Grid container direction={'column'} className='add-program-display-container' size={{ xs: 12, sm: 4 }} spacing={2}>
                 {watch('savedPrograms')?.map((field, index) => (
-                    field.programName && (<Box key={field.id} mb={2}>
+                    field.programName && (
 
-                        <Grid container className='add-program-display-item' size={{ xs: 12, sm: 12 }}>
-                            <Grid size={{ xs: 9, sm: 9 }}>
+                        <Grid key={field.id} container className='add-program-display-item' size={{ xs: 12, sm: 12 }}>
+                            <Grid size={{ xs: 8, sm: 8 }}>
                                 {field.programName}
                             </Grid>
 
-                            <Grid size={{ xs: 3, sm: 3 }}>
+                            <Grid size={{ xs: 4, sm: 4 }}>
                                 <IconButton onClick={() => handleEdit(index)}>
                                     <EditIcon />
                                 </IconButton>
@@ -261,7 +286,7 @@ const AddProgram = React.memo(() => {
                             </Grid>
 
                         </Grid>
-                    </Box>)
+                   )
                 ))}
                    
                 </Grid>

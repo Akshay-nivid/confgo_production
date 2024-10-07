@@ -15,6 +15,7 @@ import {
   EventIcon,
   DashboardIcon,
 } from "@/assets/svg";
+import routes from "@/router/routes";
 
 interface SidebarProps {
   open: boolean;
@@ -22,25 +23,25 @@ interface SidebarProps {
 
 const sidebarItems = [
   {
-    path: "/",
+    path: routes.dashboard(),
     icon: DashboardIcon,
     label: "Dashboard",
     exact: true,
   },
   {
-    path: "/events",
+    path: routes.events(),
     icon: EventIcon,
     label: "Events",
     exact: false,
   },
   {
-    path: "/coupon",
+    path: routes.coupon(),
     icon: CouponIcon,
     label: "Coupon",
     exact: false,
   },
   {
-    path: "/calendar",
+    path: routes.calendar(),
     icon: CalenderIcon,
     label: "Calendar",
     exact: false,
@@ -53,10 +54,15 @@ const sidebarItems = [
  */
 const Sidebar: React.FC<SidebarProps> = ({ open }) => {
   const location = useLocation();
-
-  const isActiveLink = (path: string) => {
-    return path === location.pathname;
+  const isActiveLink = (path: string, exact: boolean) => {
+    const isActive = exact
+      ? path === location.pathname
+      : location.pathname.startsWith(path);
+    console.log(`${path} isActive: ${isActive}`);
+    return isActive;
   };
+
+  console.log("Current location:", location.pathname);
 
   return (
     <Drawer
@@ -69,7 +75,8 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
         <p className="text-start list-header">MENU</p>
         <List className="sidebar-list">
           {sidebarItems.map((item) => {
-            const isActive = isActiveLink(item.path);
+            const isActive = isActiveLink(item.path, item.exact);
+
             return (
               <NavLink to={item.path} key={item.path}>
                 <ListItem>

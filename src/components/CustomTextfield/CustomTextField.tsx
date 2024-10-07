@@ -160,9 +160,9 @@ const CustomTextField = <T extends FieldValues>({
                   // helperText={error ? error[name]?.message:''}
                   type={type === "password" ? passwordType : type}
                   label={label}
-                  className="custom-text-field"
+                  className={error? "custom-text-field error-input": "custom-text-field"}
                   placeholder={placeholder}
-                  required
+                  //required
                   {...inputProps()}
                 />
                 {error?.message && (

@@ -3,8 +3,10 @@
 @tailwind utilities;
 
 @import "../components/style";
-@import "../pages/Register/styles";
-@import "../pages/Layout/layout";
-@import "../pages/Login/styles";
+@import "../pages/register/style";
+@import "../pages/dashboard-layout/layout";
+@import "../pages/login/style";
+@import "../pages/home/style";
+@import "../styles/App.scss";
 @import "../styles/variables";
-@import "../pages/events/styles";
+@import "../pages/events/style";

@@ -5,6 +5,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import { StepIconProps } from '@mui/material/StepIcon';
 import { StepperActive, StepperCurrent, StepperDefault } from '@/assets/svg';
+import { IconButton } from '@mui/material';
 
 interface CustomStepperProps {
   steps: { label: string; description: string }[];
@@ -23,14 +24,20 @@ const CustomStepper: React.FC<CustomStepperProps> = ({ steps, activeStep, onStep
     const { active, completed } = props;
 
     return (
-      <Box className="stepIconBox">
+      <Box className="custom-stepper-step-icon-box">
       {completed ? (
-        <StepperActive  className='stepperIcon'/> 
+          <IconButton className='custom-stepper-stepper-icon'>
+            <StepperActive />
+          </IconButton>
       
       ) : active ? (
-        <StepperCurrent className='stepperIcon'/>
+            <IconButton className='custom-stepper-stepper-icon'>
+              <StepperCurrent />
+            </IconButton>
       ) : (
-        <StepperDefault className='stepperIcon' />
+              <IconButton className='custom-stepper-stepper-icon'>
+                <StepperDefault />
+              </IconButton>
       )}
     </Box>
     );
@@ -38,7 +45,7 @@ const CustomStepper: React.FC<CustomStepperProps> = ({ steps, activeStep, onStep
 
   return (
     <>
-      <Box className="stepperContainer">
+      <Box className="custom-stepper-container">
         <Stepper activeStep={activeStep} orientation="vertical">
           {steps.map((step, index) => (
             <Step key={step.label}>
