@@ -1,5 +1,5 @@
-const CalendarRoute = () => {
-  return <div>CalendarRoute</div>;
+const CalendarPage = () => {
+  return <div>CalendarPage</div>;
 };
 
-export default CalendarRoute;
+export default CalendarPage;

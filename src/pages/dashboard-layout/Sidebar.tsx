@@ -1,5 +1,5 @@
-import React from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import React from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 
 import {
   Drawer,
@@ -7,15 +7,15 @@ import {
   ListItem,
   ListItemText,
   ListItemButton,
-} from "@mui/material";
+} from '@mui/material';
 
 import {
   CalenderIcon,
   CouponIcon,
   EventIcon,
   DashboardIcon,
-} from "@/assets/svg";
-import routes from "@/router/routes";
+} from '@/assets/svg';
+import routes from '@/router/routes';
 
 interface SidebarProps {
   open: boolean;
@@ -25,25 +25,25 @@ const sidebarItems = [
   {
     path: routes.dashboard(),
     icon: DashboardIcon,
-    label: "Dashboard",
+    label: 'Dashboard',
     exact: true,
   },
   {
     path: routes.events(),
     icon: EventIcon,
-    label: "Events",
+    label: 'Events',
     exact: false,
   },
   {
     path: routes.coupon(),
     icon: CouponIcon,
-    label: "Coupon",
+    label: 'Coupon',
     exact: false,
   },
   {
     path: routes.calendar(),
     icon: CalenderIcon,
-    label: "Calendar",
+    label: 'Calendar',
     exact: false,
   },
 ];
@@ -61,8 +61,6 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
     console.log(`${path} isActive: ${isActive}`);
     return isActive;
   };
-
-  console.log("Current location:", location.pathname);
 
   return (
     <Drawer
@@ -83,7 +81,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
                   <ListItemButton>
                     <item.icon
                       className={
-                        isActive ? "sidebar-list-active-drawer-icon" : ""
+                        isActive ? 'sidebar-list-active-drawer-icon' : ''
                       }
                     />
                     <ListItemText>{item.label}</ListItemText>

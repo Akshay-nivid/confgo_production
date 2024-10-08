@@ -52,7 +52,7 @@
 
           & .header-title {
             font-size: $h1 !important;
-            font-weight: $font_800 !important;
+            font-weight: $font_extrabold !important;
           }
           & .header-description {
             font-size: $p1;
@@ -71,7 +71,7 @@
         }
         & .forgot-password-link {
           font-size: $h6;
-          font-weight: $font_800;
+          font-weight: $font_extrabold;
           margin-top: 2.25rem;
           width: max-content;
           margin-left: auto;

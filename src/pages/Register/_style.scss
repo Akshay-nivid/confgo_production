@@ -64,56 +64,60 @@
       min-height: 100%;
       display: flex;
       justify-content: center;
-      align-items: flex-start; /* Change this to flex-start to align items at the top */
+      align-items: flex-start;
 
       & .right-content-wrapper {
-          background: url("../assets/png/register_background.png") no-repeat top center;
-          background-size: cover; /* Ensure the background image covers the area */
-          height: 100% !important;
-          width: 100% !important;
-          display: flex !important;
-          flex-direction: column; /* Keep items in a column */
-          justify-content: flex-start; /* Align children to the top */
-          align-items: center; /* Center items horizontally */
-          row-gap: 3.5rem; /* Space between elements */
-          
-  
-        background: url("../assets/png/register_background.png") no-repeat top center;
-        background-size: cover; /* Ensure the background image covers the area */
+        background: url("../assets/png/register_background.png") no-repeat top
+          center;
+        background-size: cover;
         height: 100% !important;
         width: 100% !important;
         display: flex !important;
-        flex-direction: column; /* Keep items in a column */
-        justify-content: flex-start; /* Align children to the top */
-        align-items: center; /* Center items horizontally */
-        row-gap: 3.5rem; /* Space between elements */
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        row-gap: 3.5rem;
+
+        background: url("../assets/png/register_background.png") no-repeat top
+          center;
+        background-size: cover;
+        height: 100% !important;
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        row-gap: 3.5rem;
       }
-             //hide background image in the mobile
-             @media screen and (max-width: 600px) {
-              background: none;
-               };
+      //hide background image in the mobile
+      @media screen and (max-width: 600px) {
+        background: none;
+      }
     }
   }
 }
-.checkbox-text-grey{
-  color: $clr_gray_light; 
+.checkbox-text-grey {
+  color: $clr_gray_light;
 }
-.link-text-blue{
-  color:$clr_blue;
+.link-text-blue {
+  color: $clr_blue;
 }
 .stepper-box {
   width: 100px;
-  height: 8px; 
+  height: 8px;
   border: 1px solid #ccc;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
   color: white;
-  &.active{
+  &.active {
     background-color: $clr_blue;
   }
-  &.inactive{
-    background-color: $bg_light; 
+  &.inactive {
+    background-color: $bg_light;
   }
+}
+.cursor-container {
+  cursor: pointer;
 }
