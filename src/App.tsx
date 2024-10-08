@@ -14,7 +14,7 @@ import Register from "@/pages/register/Register";
 import CreateAccount from "./pages/register/CreateAccount";
 import AddOrganization from "./pages/register/AddOrganization";
 import PaymentMethod from "./pages/register/PaymentMethod";
-import Home from "@/pages/home/Home";
+import Home from "@/pages/home";
 import Pricing from "@/pages/pricing/Pricing";
 import HomeLayout from "@/pages/home-layout";
 

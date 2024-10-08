@@ -6,8 +6,8 @@ import Button from "@mui/material/Button/Button";
 import { BasicPlanSvg } from "@/assets/svg";
 import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";
-import { ServiceCard } from "../home/Home";
-import { FAQ } from "../home/Home";
+// import { ServiceCard } from "../home/Home";
+// import { FAQ } from "../home/Home";
 
 /**
  * pricing page component
@@ -81,9 +81,7 @@ const Pricing = () => {
                   {Array(4)
                     .fill(null)
                     .map(() => (
-                      <Grid size={3}>
-                        <ServiceCard />
-                      </Grid>
+                      <Grid size={3}>{/* <ServiceCard /> */}</Grid>
                     ))}
                 </Grid>
               </Box>
@@ -99,12 +97,12 @@ const Pricing = () => {
               </Typography>
             </Grid>
             <Grid size={12} marginBottom={"9.16rem"}>
+              {/* <FAQ />
               <FAQ />
               <FAQ />
               <FAQ />
               <FAQ />
-              <FAQ />
-              <FAQ />
+              <FAQ /> */}
             </Grid>
           </Grid>
         </Box>
