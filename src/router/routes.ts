@@ -7,6 +7,7 @@ const routes = {
   addOrganization: () => "/register/account/organization",
   paymentMehod: () => "register/account/organization/payment",
   events: () => "/events",
+  createEvent: () => "/event/create",
   coupon: () => "/coupon",
   form1: () => "/pages/form1",
   form2: () => "/pages/form2",

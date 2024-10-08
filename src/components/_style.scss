@@ -178,3 +178,84 @@
   }
 }
 //DataGrid css ends here
+.custom-stepper {
+  background-color: $white;
+  margin: 1rem !important;
+  &-container {
+    max-width: 33rem;
+    padding-left: 2.5rem;
+    padding-top: 4.2rem;
+  }
+  &-step-icon-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+  }
+  
+  &-stepper-icon {
+    width: 15rem !important;
+    height: 15rem !important;
+  }
+  
+  &-next-button {
+    margin: auto !important;
+    display: block !important;
+    width: 30rem !important;
+    height: 4rem !important;
+    background-color: $clr_green !important;
+    color: $white !important;
+    text-transform: none !important;  
+    font-size: $h6 !important;
+    font-weight: $font_semibold !important;
+    margin-top: 4rem !important;
+  }
+  
+  &-back-button {
+    margin: auto !important;
+    display: block !important;
+    width: 30rem !important;
+    height: 4rem !important;
+    border: 2px solid $clr_green !important; 
+    color: $clr_green !important;
+    background-color: $white !important;
+    text-transform: none !important;  
+    font-size: $h6 !important;
+    font-weight: $font_semibold !important;
+    margin-bottom: 4rem !important;
+  }
+  &-other-details{
+    font-weight: $font_normal !important;
+    font-size: $h6 !important;
+  }
+  &-bottom-spacing{
+    height: 10rem !important;
+  }
+    &-conference-details {
+      &-content {
+        &-container {
+          background-color: $medium_grey;
+          width: 50rem !important;
+          padding: 2rem !important;
+        }
+  
+        &-title {
+          font-weight: $font_normal !important;
+          font-size: $h3 !important;
+        }
+  
+        &-sub-title {
+          font-weight: $font_normal !important;
+          font-size: $h4 !important;
+        }
+      }
+    }
+}
+
+.error-input{
+  .MuiOutlinedInput-notchedOutline {
+    border-color: $clr_red !important;
+  }
+}
