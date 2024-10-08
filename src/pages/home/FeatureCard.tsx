@@ -16,10 +16,10 @@ const FeatureCard = ({
 
   return (
     <Grid container className={`feature-card ${isReversed ? "reversed" : ""}`}>
-      <Grid className="feature-card__image-container">
+      <Grid size={6} className="feature-card__image-container">
         <OnlinePayment className="feature-card__image" />
       </Grid>
-      <Grid className="feature-card__content">
+      <Grid size={6} className="feature-card__content">
         <Box className="feature-card__header">
           <Typography className="feature-card__title">
             Social Promotion

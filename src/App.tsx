@@ -1,22 +1,22 @@
-import "@/styles/main.scss";
+import '@/styles/main.scss';
 
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter } from 'react-router-dom';
 
-import Layout from "./pages/dashboard-layout";
-import Coupon from "./pages/coupon";
-import routes from "@/router/routes";
-import AuthenticatedRoute from "./router/AuthenticatedRoute";
-import Dashboard from "@/pages/dashboard";
-import Events from "@/pages/events";
-import CalendarRoute from "@/pages/calendar";
-import Home from "@/pages/home/Home";
-import Pricing from "@/pages/pricing/Pricing";
-import HomeLayout from "@/pages/home-layout";
-import Login from "./pages/Login/Login";
-import Register from "./pages/Register/Register";
-import CreateAccount from "./pages/Register/CreateAccount";
-import AddOrganization from "./pages/Register/AddOrganization";
-import PaymentMethod from "./pages/Register/PaymentMethod";
+import Layout from './pages/dashboard-layout';
+import Coupon from './pages/coupon';
+import routes from '@/router/routes';
+import AuthenticatedRoute from './router/AuthenticatedRoute';
+import Dashboard from '@/pages/dashboard';
+import Events from '@/pages/events';
+import CalendarRoute from '@/pages/calendar';
+import Home from '@/pages/Home';
+import Pricing from '@/pages/Pricing/Pricing';
+import HomeLayout from '@/pages/Home-Layout';
+import Login from './pages/Login/Login';
+import Register from './pages/Register/Register';
+import CreateAccount from './pages/Register/CreateAccount';
+import AddOrganization from './pages/Register/AddOrganization';
+import PaymentMethod from './pages/Register/PaymentMethod';
 
 const router = createBrowserRouter([
   {
