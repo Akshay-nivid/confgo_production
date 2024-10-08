@@ -28,9 +28,6 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({data}) 
                     return (<><span>&bull; {`${item.sessionStartTime? moment(item.sessionStartTime, "HH:mm").format("h:mm A"):''}: ${item.programName}: ${item.programDescription}`}.</span><br /></>)
                 })
             }</>}
-            {/* <Typography textAlign={"center"} variant="h3" lineHeight={2} className="custom-stepper-conference-details-content-sub-title">Add-Ons</Typography>
-            <span>&bull; August 25,2024 Sunday.</span><br />
-            <span>&bull; Govt Medical College Thrissur.</span><br /> */}
         </Grid>
     </Grid>
 });
