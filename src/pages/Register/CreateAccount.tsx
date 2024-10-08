@@ -8,98 +8,128 @@ import {
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { SubmitHandler, useForm } from "react-hook-form";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import { useLocation, useNavigate } from "react-router-dom";
-// A functional component that renders a simple greeting
+import useStore from "@/Libs/store";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { StepperBoxes } from "./StepperBox";
+import { emailRules, phoneRules } from "@/Utils/Validation";
+/*
+ * funtional componet to render create form field
+ */
 const CreateAccount = React.memo(() => {
-    const { handleSubmit, control } = useForm<FormData>();
-    const navigate = useNavigate();
-    // form submission function
-    const onSubmit: SubmitHandler<FormData> = () => { };
+    const { setDataById }: any = useStore();
+    const pageSwitch = useStore((state: any) => state?.compData?.['register']) ?? [];
+    const form2 = useStore((state: any) => state?.compData?.['form2']) ?? [];
+    const { handleSubmit, control, getValues } = useForm<FormData>();
+    /*
+     * function to handle form submission 
+     */
+    const onSubmit: SubmitHandler<FormData> = () => {
 
-    const handleClick = () => {
-        const currentPath = window.location.pathname;
-        navigate(`${currentPath}/organization`,{state:{currentPath}});
     };
-    const location = useLocation();
-    const userData = location.state;
-    console.log(userData, 'rrrrrr')
+    /*
+     * function to change the state and store form fields
+     */
+    const handleClick = () => {
+        const values = getValues();
+        if (!values.fullName || !values.lastName || !values.email || !values.phoneNumber) {
+            return
+        } else {
+            setDataById('register', { data: 'three', field_values: values });
+            setDataById('form2', { field_values: values });
+        }
+
+    };
+    /*
+     * Form fields used in FormData
+     */
     type FormData = {
         fullName: string;
         lastName: string;
         email: string;
         phoneNumber: number;
     };
-    return <Box className="register-main-container">
-        <Grid container className="grid-layout">
-            <Grid size={{ xs: 12, sm: 6 }} className="grid-left">
-                <Box className="left-content-wrapper">
-                    <Box className="left-inner-content">
-                        <Grid alignSelf={"center"}>
-                            <Typography fontWeight={800} textAlign={"center"} variant="h3" lineHeight={2} >Create Your Account</Typography>
-                            <Typography textAlign={"center"} variant="h6">Join us and streamline your conference management today.</Typography>
-                        </Grid>
-                        <Box className={"form-wrapper"}>
-                            <form onSubmit={handleSubmit(onSubmit)} className="form">
-                                <FormControl >
-                                    <CustomTextField
-                                        placeholder="Full Name"
-                                        control={control}
-                                        name="fullName"
-                                        type="text"
-                                    />
-                                    <CustomTextField
-                                        placeholder="Last Name"
-                                        control={control}
-                                        name="lastName"
-
-                                        // label={"Email Address"}
-                                        type="text"
-                                    />
-                                    <CustomTextField
-                                        placeholder="Email"
-                                        name="email"
-                                        type="email"
-                                        control={control}
-                                    />
-                                    <CustomTextField
-                                        placeholder="Phone Number"
-                                        control={control}
-                                        name="phoneNumber"
-                                        type="number"
-                                    />
-
-                                </FormControl>
-                                <CustomButton
-                                    className="plan-choose-btn"
-                                    onClick={handleClick}
-                                    label="Next"
-                                    variant="contained"
-                                    color="primary"
-                                    size="large"
-                                />
-                            </form>
-                        </Box>
-                        <Grid container flexDirection={"row"} spacing={2}>
-                            <Typography>Already have an account?  </Typography>
-                            <Typography className="login-label" alignContent={"flex-end"}> Log In</Typography>
-                        </Grid>
-                        {/* <Typography className="left-description-text">
-            Create your account and take the first step towards seamless
-            event management.
-          </Typography> */}
-
-                    </Box>
-                </Box>
-            </Grid>
-            <Grid size={{ xs: 12, sm: 6 }} className="grid-right">
-                <Grid container className="right-content-wrapper">
-                    <Box sx={{}}>
-                        <Typography>New Teext</Typography>
-                    </Box>
+    /*
+     * function to handle back button
+     */
+    const handleBack = () => {
+        if (pageSwitch.data == 'two') {
+            setDataById('register', { data: 'one' });
+        }
+    }
+    return (
+        <Grid className="left-content-wrapper">
+            <Grid className="left-inner-content">
+                <Grid container flexDirection={"row"} spacing={2} alignSelf={"start"} onClick={handleBack}>
+                    <ArrowBackIcon />
+                    <Typography>Back</Typography>
                 </Grid>
+                <Grid alignSelf={"center"}>
+                    <Typography fontWeight={800} textAlign={"center"} variant="h3" lineHeight={2} >Create Your Account</Typography>
+                    <Typography textAlign={"center"} variant="h6">Join us and streamline your conference management today.</Typography>
+                </Grid>
+                <Box className={"form-wrapper"}>
+                    <form onSubmit={handleSubmit(onSubmit)} className="form">
+                        <FormControl >
+                            <CustomTextField
+                                defaultValue={form2?.field_values?.fullName}
+                                requiredField={true}
+                                showHeader={true}
+                                placeholder="Full Name"
+                                control={control}
+                                name="fullName"
+                                type="text"
+                                rules={{ required: true }}
+                            />
+                            <CustomTextField
+                                defaultValue={form2?.field_values?.lastName}
+                                requiredField={true}
+                                showHeader={true}
+                                placeholder="Last Name"
+                                control={control}
+                                name="lastName"
+                                type="text"
+                                rules={{ required: true }}
+                            />
+                            <CustomTextField
+                                defaultValue={form2?.field_values?.email}
+                                requiredField={true}
+                                showHeader={true}
+                                placeholder="Email"
+                                name="email"
+                                type="email"
+                                control={control}
+                                rules={emailRules}
+                            />
+                            <CustomTextField
+                                defaultValue={form2?.field_values?.phoneNumber}
+                                requiredField={true}
+                                showHeader={true}
+                                placeholder="Phone Number"
+                                control={control}
+                                name="phoneNumber"
+                                type="number"
+                                rules={phoneRules}
+                            />
+
+                        </FormControl>
+                        <CustomButton
+                            className="plan-choose-btn"
+                            onClick={handleClick}
+                            label="Next"
+                            variant="contained"
+                            color="primary"
+                            size="large"
+                        />
+                    </form>
+                </Box>
+                <Grid container flexDirection={"row"} spacing={2}>
+                    <Typography>Already have an account?  </Typography>
+                    <Typography className="login-label" alignContent={"flex-end"}> Log In</Typography>
+                </Grid>
+                <StepperBoxes activeStep={2} />
             </Grid>
         </Grid>
-    </Box>
+    )
 });
 
 export default CreateAccount;

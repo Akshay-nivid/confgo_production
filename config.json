@@ -1,6 +1,6 @@
 {
     "api":{
-        "url":"https:api-vi-lottery.speedika.com/api",
+        "url":"http://localhost:4444/api/",
         "key":""
     }
 }
