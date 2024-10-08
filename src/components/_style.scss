@@ -126,6 +126,11 @@
   font-size: $p1;
   font-weight: $font_medium;
 }
+.error-input{
+  .MuiOutlinedInput-notchedOutline {
+    border-color: $clr_red !important;
+  }
+}
 
 //DataGrid css starts here
 .custom-data-grid {
