@@ -1,12 +1,13 @@
-.navbar {
+.nav {
   position: fixed;
   left: 0;
   right: 0;
-  max-height: 4.5rem;
+  min-height: 4.5rem;
+  padding-block: 1rem;
   border: none;
   overflow: hidden;
   z-index: 1000;
-  background-color: $clr_gray_medium;
+  background-color: $clr_gray_extra_dark;
   &-spacer-left,
   &-spacer-right {
     flex: 0 0 8.33%;
@@ -174,7 +175,7 @@
 
 .plan-selection-banner {
   &__content {
-    background: url("/src/assets/png/plan-banner-image.png") no-repeat center;
+    background: url('/src/assets/png/plan-banner-image.png') no-repeat center;
     background-size: cover;
     justify-content: center;
     margin-top: 9.16rem;

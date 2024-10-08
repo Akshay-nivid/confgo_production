@@ -2,11 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "../components/style";
-@import "../pages/register/style";
-@import "../pages/dashboard-layout/layout";
-@import "../pages/login/style";
-@import "../pages/home/style";
-@import "../styles/App.scss";
-@import "../styles/variables";
-@import "../pages/home/style";
+@import '../components/style';
+@import '../pages/register/style';
+@import '../pages/dashboard-layout/layout';
+@import '../pages/login/style';
+@import '../pages/home/style';
+@import '../styles/App.scss';
+@import '../styles/variables';
+@import '../pages/home/style';
+@import '../pages/pricing/style';
