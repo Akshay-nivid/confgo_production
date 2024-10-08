@@ -72,7 +72,7 @@ const AddOtherDetails: React.FC<EventProps> = React.memo(({ formSubmit, onSubmit
                 </Grid>
                 <Grid>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        =                                <Grid container spacing={2} alignItems={'center'} justifyContent={'center'}>
+                        <Grid container spacing={2} alignItems={'center'} justifyContent={'center'}>
                             <Grid size={{ xs: 12, sm: 6 }} >
                                 <CustomSelect
                                     name="food"
