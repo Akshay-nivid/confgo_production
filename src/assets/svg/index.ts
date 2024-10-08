@@ -5,6 +5,10 @@ import CouponIcon from "./coupon.svg";
 import AppLogo from "./logo.svg";
 import SettingsIcon from "./settings.svg";
 import LogoutIcon from "./logout.svg";
+import StepperActive from "./stepper-active.svg"
+import StepperCurrent from "./Stepper-current.svg"
+import StepperDefault from "./stepper-default.svg"
+
 import GridEndOneImg from "./grid-end-one.svg";
 import GridEndTwoImg from "./grid-end-two.svg";
 import ExportPlanImg from "./export-plan.svg";
@@ -20,6 +24,9 @@ export {
   AppLogo,
   SettingsIcon,
   LogoutIcon,
+  StepperActive,
+  StepperCurrent,
+  StepperDefault,
   GridEndOneImg,
   GridEndTwoImg,
   SeamlessIntegration,

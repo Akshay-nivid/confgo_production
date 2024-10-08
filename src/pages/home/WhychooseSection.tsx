@@ -1,6 +1,6 @@
-import Grid from "@mui/material/Grid2";
-import Typography from "@mui/material/Typography";
-import { ServiceCard } from "../home-layout/ServiceCard";
+import Grid from '@mui/material/Grid2';
+import Typography from '@mui/material/Typography';
+import { ServiceCard } from '../Home-Layout/ServiceCard';
 
 /**
  * why choose ui section component for home page
@@ -14,13 +14,13 @@ const WhychooseSection = () => {
         <Grid size={12} className="whychoose-section__header">
           <Typography
             className="whychoose-section__header-title text-h5 font-700"
-            textAlign={"center"}
+            textAlign={'center'}
           >
             Why Choose Confgo?
           </Typography>
           <Typography
             className="whychoose-section__header-description text-p1"
-            textAlign={"center"}
+            textAlign={'center'}
           >
             Discover the tools that enhance your meetings and elevate your
             events.

@@ -1,6 +1,6 @@
-import FAQCard from "@/pages/home-layout/FaqAccordion";
-import Grid from "@mui/material/Grid2";
-import Typography from "@mui/material/Typography";
+import FAQCard from '@/pages/Home-Layout/FaqAccordion';
+import Grid from '@mui/material/Grid2';
+import Typography from '@mui/material/Typography';
 
 /**
  * faq section ui component for home page
@@ -14,12 +14,12 @@ const FaqSection = () => {
         <Grid size={12} className="faq-section__header">
           <Typography
             className="faq-section__header-title text-h5 font-700"
-            textAlign={"center"}
+            textAlign={'center'}
           >
             Frequently asked questions
           </Typography>
           <Typography
-            textAlign={"center"}
+            textAlign={'center'}
             className="faq-section__header-description text-p1"
           >
             Find solutions, clarifications, and insights to the most commonly
