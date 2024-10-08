@@ -85,7 +85,7 @@ const Events = () => {
         {activeStep === 0 && <CreateEvent formSubmit={formSubmit?.event} onSubmitHandler={onSubmitHandler} data={formData?.event} />}
         {activeStep === 1 && <AddProgram formSubmit={formSubmit?.program} onSubmitHandler={onSubmitHandler} data={formData?.program} />}
         {activeStep === 2 && <AddOtherDetails formSubmit={formSubmit?.adds} onSubmitHandler={onSubmitHandler} data={formData?.adds} />}
-        {activeStep === 3 && <ConferenceDetails />}
+        {activeStep === 3 && <ConferenceDetails data={formData} />}
         <Grid container direction={'column'} justifyContent={'center'} alignItems={'center'} spacing={2} size={{ xs: 12, sm: 12 }}>
           <Grid>
             <CustomButton
