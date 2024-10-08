@@ -23,7 +23,7 @@ const HomeLayout = () => {
 
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar />
       <Outlet />
       <Footer />
     </>

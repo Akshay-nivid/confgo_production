@@ -1,0 +1,58 @@
+.create-event{
+    &-container{
+        background-color: $white;
+    }
+    &-next-btn{
+        background-color: $clr_green !important;
+        color: $white !important;
+        min-width: 25rem !important;
+        text-transform: none !important;
+        font-size: $h6 !important;
+        font-weight: $font_semibold !important;
+    }
+    &-back-btn{
+        background-color: $white !important;
+        color: $clr_green !important;
+        min-width: 25rem !important;
+        border: 1px solid $clr_green !important;
+        text-transform: none !important;
+        font-size: $h6 !important;
+        font-weight: $font_semibold !important;
+    }
+    &-title{
+        font-weight: $font_bold !important;
+        font-size: $h3 !important;
+        padding-bottom: 4rem !important;
+    }
+}
+
+.add-program{
+    &-container{
+        background-color: $white;
+    }
+    &-next-btn{
+        background-color: $clr_green !important;
+        color: $white !important;
+        min-width: 15rem !important;
+    }
+    &-back-btn{
+        background-color: $white !important;
+        color: $clr_green !important;
+        min-width: 15rem !important;
+    }
+    &-display-item{
+        height: 5rem;
+        background-color: $background;
+        padding: 1rem !important;
+    }
+    &-display-container{
+        padding: 1rem !important;
+        padding-top: 4rem !important;
+    }
+    &-title{
+        font-weight: $font_bold !important;
+        font-size: $h3 !important;
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+}

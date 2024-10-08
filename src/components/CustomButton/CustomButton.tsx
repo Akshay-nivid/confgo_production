@@ -13,10 +13,6 @@ interface CustomButtonProps {
     startIcon?: React.ReactNode;
     endIcon?: React.ReactNode;
     type?: 'button' | 'submit' ;
-
-
-
-
 }
 
 /**
@@ -35,9 +31,6 @@ const CustomButton: React.FC<CustomButtonProps> = ({
     startIcon,
     endIcon,
     type
-
-
-
 }) => {
     return (
         <Button
