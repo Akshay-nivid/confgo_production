@@ -1,3 +1,6 @@
+/**
+ * CustomRadio component handles the customization of the radio group
+ */
 import {
     Radio,
     RadioGroup,

@@ -1,7 +1,8 @@
+/*
+*Events component handles the event creation
+*/
 import { useState } from 'react';
 import CustomStepper from "@/components/CustomStepper/CustomStepper";
-import CustomStepperButton from '@/components/CustomButton/CustomStepperButton';
-import { Box } from '@mui/material';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import Grid from '@mui/material/Grid2';
 import CreateEvent from './CreateEvent';
@@ -9,23 +10,17 @@ import AddProgram from './AddProgram';
 import AddOtherDetails from './AddOtherDetails';
 import ConferenceDetails from './ConferenceDetails';
 
+const steps = [
+  { label: 'Create Event', description: '' },
+  { label: 'Add Program', description: '' },
+  { label: 'Add Ons', description: '' },
+  { label: 'Confirm', description: '' }
+];
 
-/*
-*Event component
-*/
 const Events = () => {
   const [activeStep, setActiveStep] = useState(0);
   const [formSubmit, setFormSubmit] = useState<any>({ event: false, program: false });
   const [formData, setFormData] = useState<any>({});
-
-
-  const steps = [
-    { label: 'Create Event', description: '' },
-    { label: 'Add Program', description: '' },
-    { label: 'Add Ons', description: '' },
-    { label: 'Confirm', description: '' }
-  ];
-
 
   /* 
   * The function sets the active step of the stepper.
@@ -51,8 +46,11 @@ const Events = () => {
     }
   };
 
+  /**
+   * Method handles the final submission of all forms
+   */
   const handleSubmit = () => {
-    console.log('submitformdata',formData)
+    console.log('submitformdata', formData)
   }
 
   /* 
@@ -64,15 +62,18 @@ const Events = () => {
     }
   };
 
+  /**
+   * Method handles the submission of the various forms
+   * @param data : form data
+   * @param type : 'EVENT' | 'PROGRAM' | 'ADDS'
+   */
   const onSubmitHandler = (data: object, type: string) => {
-    console.log('formdata', data)
     const formKey = type === 'EVENT' ? 'event' : type === 'PROGRAM' ? 'program' : type === 'ADDS' ? 'adds' : null;
     if (formKey) {
       setFormData({ ...formData, [formKey]: data });
     }
     setActiveStep((prevStep) => prevStep + 1);
   }
-  console.log('formdata', formData)
 
 
   return (
@@ -89,8 +90,8 @@ const Events = () => {
           <Grid>
             <CustomButton
               className="custom-stepper-next-button"
-              onClick={activeStep === 3? handleSubmit: handleNext}
-              label={activeStep === 3? "Submit": "Next"}
+              onClick={activeStep === 3 ? handleSubmit : handleNext}
+              label={activeStep === 3 ? "Submit" : "Next"}
               disabled={activeStep === steps.length}
             />
           </Grid>
@@ -103,16 +104,14 @@ const Events = () => {
             />
           </Grid>
           {activeStep === 2 && <Grid className="custom-stepper-other-details">
-            <span>&bull; The standard cost of providing food and beverages for each attendee: $25 per person.</span><br/>
-            <span>&bull; Additional charges for customized meal options, such as special dietary needs or <br/>&nbsp; premium choices: Add $5 per person for vegan or gluten-free options.</span><br/>
-            <span>&bull; Any extra services, such as waitstaff, special presentation, or additional snacks:<br/>&nbsp; Add $200 for additional snack stations during breaks.</span><br/>
+            <span>&bull; The standard cost of providing food and beverages for each attendee: $25 per person.</span><br />
+            <span>&bull; Additional charges for customized meal options, such as special dietary needs or <br />&nbsp; premium choices: Add $5 per person for vegan or gluten-free options.</span><br />
+            <span>&bull; Any extra services, such as waitstaff, special presentation, or additional snacks:<br />&nbsp; Add $200 for additional snack stations during breaks.</span><br />
             <span>&bull; 50% deposit required upon booking, with the balance due on the day of the event.</span>
-
           </Grid>}
           <Grid className="custom-stepper-bottom-spacing"></Grid>
         </Grid>
       </Grid>
-
     </Grid>
   );
 };

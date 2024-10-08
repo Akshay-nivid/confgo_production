@@ -1,3 +1,6 @@
+/**
+ * CustomStepper component handles the customization of the stepper functionality
+ */
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Stepper from '@mui/material/Stepper';
