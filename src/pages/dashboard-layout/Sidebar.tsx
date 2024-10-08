@@ -62,8 +62,6 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
     return isActive;
   };
 
-  console.log('Current location:', location.pathname);
-
   return (
     <Drawer
       variant="persistent"

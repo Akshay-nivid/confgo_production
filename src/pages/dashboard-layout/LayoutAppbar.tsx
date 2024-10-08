@@ -6,7 +6,7 @@ import { SettingsIcon, LogoutIcon, AppLogo } from '@/assets/svg';
 import Grid from '@mui/material/Grid2';
 
 /**
- * Component used to render navbar
+ * ui component for appbar in dashboard
  * @returns
  */
 export default function LayoutAppbar() {
