@@ -13,6 +13,7 @@ import {
   Controller,
   FieldValues,
   Path,
+  PathValue,
   RegisterOptions,
 } from "react-hook-form";
 import { useState } from "react";
@@ -34,9 +35,10 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   rules?: RegisterOptions<T>;
   control?: Control<T>;
   style?: React.CSSProperties;
-  showHeader?: boolean
-  requiredField?: boolean
-
+  showHeader?:boolean
+  requiredField?:boolean
+  defaultValue?:PathValue<T, Path<T>>
+  
 }
 
 interface InputPropsType {
@@ -55,9 +57,10 @@ const CustomTextField = <T extends FieldValues>({
   placeholder,
   control,
   rules,
-  showHeader = false,
-  requiredField = false,
-
+  showHeader=false,
+  requiredField=false,
+  defaultValue,
+  
   ...props
 }: ICustomTextFieldProps<T>) => {
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -144,6 +147,7 @@ const CustomTextField = <T extends FieldValues>({
         {label ? <InputLabel htmlFor={name}>{label}</InputLabel> : <></>}
         <Controller
           name={name}
+          defaultValue={defaultValue}
           control={control}
           rules={rules}
           render={({ field, fieldState: { error } }) => {

@@ -32,7 +32,7 @@
           max-width: 36rem;
           display: flex;
           flex-direction: column;
-          row-gap: 2.08rem;
+          row-gap: 0.8rem;
           & .left-description-text {
             font-size: $h6;
           }
@@ -60,67 +60,6 @@
         }
       }
     }
-    // & .grid-right {
-    //   min-height: 100%;
-    //   display: flex;
-    //   justify-content: center;
-    //   align-items: center;
-
-    //   & .right-content-wrapper {
-    //     background: url("../assets/png/register_background.png") no-repeat top center
-    //     ;
-    //   background-repeat: no-repeat;
-    //   background-position: top center;
-    //     height: 100% !important;
-    //     width: 100% !important;
-    //     // max-width: 47.166rem;
-    //     // max-height: 63.33rem;
-    //     display: flex !important;
-    //     justify-content: center !important;
-    //     align-items: center !important;
-    //     flex-direction: column !important;
-    //     // padding: 1.666rem;
-    //     row-gap: 3.5rem;
-    //     & .right-header-wrapper {
-    //       max-width: 460px !important;
-    //       display: flex;
-    //       flex-direction: column;
-    //       text-align: center;
-    //       row-gap: 1.33rem;
-
-    //       & .header-title {
-    //         font-size: $h1 !important;
-    //         font-weight: $font_800 !important;
-    //       }
-    //       & .header-description {
-    //         font-size: $h6;
-    //       }
-
-    //     }
-
-    //     & .form-wrapper {
-    //       width: 100%;
-    //       max-width: 28.25rem;
-    //       margin-inline: auto;
-    //       & .form {
-    //         display: flex;
-    //         flex-direction: column;
-    //         row-gap: 2.083rem;
-    //       }
-    //     }
-    //     & .already-have-account-link {
-    //       text-align: center;
-    //       font-size: $h5 !important;
-    //       font-weight: $font_bold !important;
-    //       margin-top: 4rem !important;
-    //       & .signIn-now-text {
-    //         color: $bg_primary;
-    //         font-size: $h6;
-    //         font-weight: $font_bold;
-    //       }
-    //     }
-    //   }
-    // }
     & .grid-right {
       min-height: 100%;
       display: flex;
@@ -128,8 +67,18 @@
       align-items: flex-start; /* Change this to flex-start to align items at the top */
 
       & .right-content-wrapper {
-        background: url("../assets/png/register_background.png") no-repeat top
-          center;
+          background: url("../assets/png/register_background.png") no-repeat top center;
+          background-size: cover; /* Ensure the background image covers the area */
+          height: 100% !important;
+          width: 100% !important;
+          display: flex !important;
+          flex-direction: column; /* Keep items in a column */
+          justify-content: flex-start; /* Align children to the top */
+          align-items: center; /* Center items horizontally */
+          row-gap: 3.5rem; /* Space between elements */
+          
+  
+        background: url("../assets/png/register_background.png") no-repeat top center;
         background-size: cover; /* Ensure the background image covers the area */
         height: 100% !important;
         width: 100% !important;
@@ -138,9 +87,33 @@
         justify-content: flex-start; /* Align children to the top */
         align-items: center; /* Center items horizontally */
         row-gap: 3.5rem; /* Space between elements */
-
-        /* Other existing styles remain unchanged */
       }
+             //hide background image in the mobile
+             @media screen and (max-width: 600px) {
+              background: none;
+               };
     }
+  }
+}
+.checkbox-text-grey{
+  color: $clr_gray_light; 
+}
+.link-text-blue{
+  color:$clr_blue;
+}
+.stepper-box {
+  width: 100px;
+  height: 8px; 
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  color: white;
+  &.active{
+    background-color: $clr_blue;
+  }
+  &.inactive{
+    background-color: $bg_light; 
   }
 }
