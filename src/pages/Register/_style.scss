@@ -35,17 +35,20 @@
           row-gap: 0.8rem;
           & .left-description-text {
             font-size: $h6;
+            color: $clr_grey;
           }
         }
         & .plan-choose-btn {
           font-size: $h6;
           background-color: $clr_blue;
           width: 100%;
+          text-transform: none !important;
           &:focus {
             outline: none;
           }
         }
         & .login-label {
+          font-weight: $font_semibold;
           color: $clr_blue;
         }
         & .form-wrapper {
@@ -58,35 +61,45 @@
             row-gap: 2.083rem;
           }
         }
+        .success-container {
+          .divider-box {
+             background-color: $clr_gray_light;
+             height: 0.05rem;
+             width: 100%;
+           }
+           .subheader-text{
+            font-weight: $font_semibold;
+           }
+         }
+
       }
     }
     & .grid-right {
       min-height: 100%;
       display: flex;
       justify-content: center;
-      align-items: flex-start; /* Change this to flex-start to align items at the top */
+      align-items: flex-start; 
 
       & .right-content-wrapper {
           background: url("../assets/png/register_background.png") no-repeat top center;
-          background-size: cover; /* Ensure the background image covers the area */
+          background-size: cover; 
           height: 100% !important;
           width: 100% !important;
           display: flex !important;
-          flex-direction: column; /* Keep items in a column */
-          justify-content: flex-start; /* Align children to the top */
-          align-items: center; /* Center items horizontally */
-          row-gap: 3.5rem; /* Space between elements */
+          flex-direction: column; 
+          justify-content: flex-start; 
+          align-items: center; 
+          row-gap: 3.5rem; 
           
   
         background: url("../assets/png/register_background.png") no-repeat top center;
-        background-size: cover; /* Ensure the background image covers the area */
+        background-size: cover; 
         height: 100% !important;
         width: 100% !important;
         display: flex !important;
-        flex-direction: column; /* Keep items in a column */
-        justify-content: flex-start; /* Align children to the top */
-        align-items: center; /* Center items horizontally */
-        row-gap: 3.5rem; /* Space between elements */
+        justify-content: flex-start; 
+        align-items: center; 
+        row-gap: 3.5rem; 
       }
              //hide background image in the mobile
              @media screen and (max-width: 600px) {
@@ -117,3 +130,8 @@
     background-color: $bg_light; 
   }
 }
+.cursor-container{
+  cursor: pointer;
+}
+
+

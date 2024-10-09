@@ -10,17 +10,16 @@ import useStore from "@/Libs/store";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { StepperBoxes } from "./StepperBox";
 import PayPalButton from "./PayPalCompoent";
-// A functional component that renders payment method screen
+import { useNavigate } from "react-router-dom";
+import routes from "@/router/routes";
+/*
+ * functional compoent used to render payment method 
+ */
 const PaymentMethod = React.memo(() => {
     const { setDataById }: any = useStore();
     const pageSwitch = useStore((state: any) => state?.compData?.['register']) ?? [];
+    const navigate = useNavigate();
 
-    /*
-     * function to handle the state and render new compoent
-     */
-    const handleClick = () => {
-        setDataById('register', { data: 'five' });
-    };
 
     /*
      * function to render prevoius componet while updating state
@@ -30,16 +29,30 @@ const PaymentMethod = React.memo(() => {
             setDataById('register', { data: 'three' });
         }
     }
+/*
+ * function to handle navigate to login page
+ */
+    const handleLogin = () => {
+        navigate(routes.login())
+    }
+
+    const handleClick=()=>{
+        setDataById('register', { data: 'five' });
+    }
     return (
-        <Grid className="left-content-wrapper">
+        <Grid>
+            <Grid container spacing={5}>
+            <Grid container columnSpacing={2} alignItems={"center"} display={"flex"} className="cursor-container" size={{ xs: 2 }} onClick={handleBack}>
+                    <Grid display={"flex"} alignItems={"center"}>
+                         <ArrowBackIcon />
+                    <Typography variant="h6">Back</Typography>
+                    </Grid>
+                </Grid>  
+                <Grid className="left-content-wrapper">
             <Grid className="left-inner-content">
-                <Grid container flexDirection={"row"} spacing={2} alignSelf={"start"} onClick={handleBack}>
-                    <ArrowBackIcon />
-                    <Typography>Back</Typography>
-                </Grid>
                 <Grid alignSelf={"center"}>
                     <Typography fontWeight={800} textAlign={"center"} variant="h3" lineHeight={2} >Payment Method</Typography>
-                    <Typography textAlign={"center"} variant="h6">Everything you might need and then some more in<br /> an accessible and intuitive package.</Typography>
+                    <Typography className="left-description-text" textAlign={"center"} variant="h6" mb={2}>Everything you might need and then some more in<br /> an accessible and intuitive package.</Typography>
                 </Grid>
                 <Box className={"form-wrapper"}>
                     <img src={PaymentMethodImage}></img>
@@ -55,14 +68,22 @@ const PaymentMethod = React.memo(() => {
                         size="large"
                     />
                 </Box>
-                <Grid container flexDirection={"row"} spacing={2}>
-                    <Typography>Already have an account?  </Typography>
-                    <Typography className="login-label" alignContent={"flex-end"}> Log In</Typography>
-                </Grid>
-                <StepperBoxes activeStep={4} />
+                <Grid container spacing={6} justifyContent={"center"} >
+                            <Grid container spacing={1} display={"flex"}  >
+                                <Typography variant="h6">Already have an account?</Typography>
+                                <Grid onClick={handleLogin}>
+                                    <Typography variant="h6" className="login-label cursor-container" alignContent="flex-end"> Log In</Typography>
+                                </Grid>
+                            </Grid>
+                            <Grid container spacing={4} >
+                                <StepperBoxes activeStep={3} />
+                            </Grid>
+                        </Grid>
             </Grid>
-        </Grid>
+        </Grid> 
+            </Grid>
 
+        </Grid>
     )
 });
 
