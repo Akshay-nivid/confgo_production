@@ -123,7 +123,7 @@ const Events = () => {
             data={formData?.adds}
           />
         )}
-        {activeStep === 3 && <ConferenceDetails />}
+        {activeStep === 3 && <ConferenceDetails data={formData}/>}
         <Grid
           container
           direction={'column'}

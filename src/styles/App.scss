@@ -33,14 +33,16 @@ html {
 }
 
 // font weight
-.font-300 {
-  font-weight: $font_normal !important;
-}
+
 .font-400 {
   font-weight: $font_normal !important;
 }
+
 .font-500 {
   font-weight: $font_medium !important;
+}
+.font-600 {
+  font-weight: $font_semibold !important;
 }
 .font-700 {
   font-weight: $font_bold !important;

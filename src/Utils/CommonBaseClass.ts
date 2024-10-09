@@ -77,3 +77,12 @@ export const setFormValues = <T extends object>(data: Partial<T>, setValue: (key
     }
   }
 };
+/**
+ * Method Converts the entire string to lowercase, then capitalize the first letter
+ * @param input : the string to convert
+ * @returns : converted string
+ */
+export const toSentenceCase = (input: string) => {
+  if(!input) return '';
+  return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
+};

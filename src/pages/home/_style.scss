@@ -1,11 +1,11 @@
 .hero-section-main {
-  background: url("/src/assets/images/hero-section-bg-image.jpg") no-repeat
+  background: url('/src/assets/images/hero-section-bg-image.jpg') no-repeat
     bottom;
   height: max-content;
-  color: white;
+  color: $clr_white;
   background-size: cover;
   .hero-section-content {
-    padding-top: 16.75rem;
+    padding-top: 11.25rem;
     .hero-section-container {
       height: 100%;
       display: flex;
@@ -40,7 +40,6 @@
         }
         .hero-section-side-image-small {
           width: 100%;
-          // width: 30vw;
           height: 7.8333rem;
           border-radius: 1.25rem;
         }
@@ -131,7 +130,6 @@
     align-items: flex-end;
   }
   .export-plan-image-wrapper {
-    // padding-top: 6.667rem;
     height: 85%;
     width: 100%;
     margin-top: 1.667rem;
@@ -274,18 +272,6 @@
         margin-bottom: 0.3rem;
       }
 
-      &-description {
-        color: $clr_grey;
-      }
-    }
-  }
-}
-
-.whychoose-section {
-  padding-bottom: 6.83rem;
-  &__content {
-    .whychoose-section__header {
-      margin-bottom: 6rem;
       &-description {
         color: $clr_grey;
       }
