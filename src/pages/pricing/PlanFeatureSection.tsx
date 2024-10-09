@@ -115,9 +115,7 @@ const PlanFeatureSection = () => {
             container
             key={index}
             size={12}
-            paddingBlock={'1.4rem'}
-            marginBottom={'2rem'}
-            borderBottom={'1px solid #E0E0E0'}
+            
             className="planfeaturesection__table-row"
           >
             <Grid size={6} className="planfeaturesection__table-cell">

@@ -119,6 +119,9 @@
   &
 
   &__table-row {
+    padding-block: 1.4rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid $clr_gray_light;
   }
 
   &__table-cell {
