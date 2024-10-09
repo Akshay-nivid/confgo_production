@@ -78,29 +78,23 @@
       min-height: 100%;
       display: flex;
       justify-content: center;
-      align-items: flex-start; 
+      align-items: flex-start;
 
       & .right-content-wrapper {
-          background: url("../assets/png/register_background.png") no-repeat top center;
-          background-size: cover; 
-          height: 100% !important;
-          width: 100% !important;
-          display: flex !important;
-          flex-direction: column; 
-          justify-content: flex-start; 
-          align-items: center; 
-          row-gap: 3.5rem; 
-          
-  
         background: url("../assets/png/register_background.png") no-repeat top center;
-        background-size: cover; 
         height: 100% !important;
         width: 100% !important;
         display: flex !important;
-        justify-content: flex-start; 
-        align-items: center; 
-        row-gap: 3.5rem; 
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;     
+        // Hide background image on mobile
+        @media screen and (max-width: 799px) {
+          background: none;
+        }
       }
+      
+     
     }
   }
 }
