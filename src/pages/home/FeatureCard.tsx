@@ -1,11 +1,8 @@
 import { ArrowIconSvg, SeamlessIntegration } from "@/assets/svg";
 import { Box, Typography, Button } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import {OnlinePayment} from "@/assets/png";
 /**
- *
  * card component to display features of the platform
- * @returns
  */
 const FeatureCard = ({
   flexDirection = "row",
@@ -17,7 +14,6 @@ const FeatureCard = ({
   return (
     <Grid container className={`feature-card ${isReversed ? "reversed" : ""}`}>
       <Grid size={6} className="feature-card__image-container">
-        {/* <img src={OnlinePayment} className="feature-card__image" /> */}
       </Grid>
       <Grid size={6} className="feature-card__content">
         <Box className="feature-card__header">
