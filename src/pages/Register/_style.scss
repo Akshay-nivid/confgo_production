@@ -101,33 +101,29 @@
         align-items: center; 
         row-gap: 3.5rem; 
       }
-             //hide background image in the mobile
-             @media screen and (max-width: 600px) {
-              background: none;
-               };
     }
   }
 }
-.checkbox-text-grey{
-  color: $clr_gray_light; 
+.checkbox-text-grey {
+  color: $clr_gray_light;
 }
-.link-text-blue{
-  color:$clr_blue;
+.link-text-blue {
+  color: $clr_blue;
 }
 .stepper-box {
   width: 100px;
-  height: 8px; 
+  height: 8px;
   border: 1px solid #ccc;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 10px;
   color: white;
-  &.active{
+  &.active {
     background-color: $clr_blue;
   }
-  &.inactive{
-    background-color: $bg_light; 
+  &.inactive {
+    background-color: $bg_light;
   }
 }
 .cursor-container{

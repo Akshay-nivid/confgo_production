@@ -1,8 +1,8 @@
-import { Box } from "@mui/material";
-import Grid from "@mui/material/Grid2";
-import { Link } from "react-router-dom";
-import AppLogoUrl from "@/assets/AppLogo.svg?url";
-import routes from "@/router/routes";
+import { Box } from '@mui/material';
+import Grid from '@mui/material/Grid2';
+import { Link } from 'react-router-dom';
+import AppLogoUrl from '@/assets/AppLogo.svg?url';
+import routes from '@/router/routes';
 
 /**
  * navbar component
@@ -10,44 +10,44 @@ import routes from "@/router/routes";
  */
 const Navbar = () => {
   return (
-    <Grid container className="navbar">
-      <Grid size={1} className="navbar-spacer-left"></Grid>
-      <Grid size={10} className="navbar-content">
-        <Box className="navbar-inner">
+    <Grid container className="nav">
+      <Grid size={1} className="nav-spacer-left"></Grid>
+      <Grid size={10} className="nav-content">
+        <Box className="nav-inner">
           <Grid container>
-            <Grid className="navbar-logo-container">
-              <img className="navbar-logo" src={AppLogoUrl} alt="AppLogo" />
+            <Grid className="nav-logo-container">
+              <img className="nav-logo" src={AppLogoUrl} alt="AppLogo" />
             </Grid>
-            <Grid className="navbar-links-container">
-              <Box className="navbar-links">
-                <Link className="navbar-link" to={routes.home()}>
+            <Grid className="nav-links-container">
+              <Box className="nav-links">
+                <Link className="nav-link" to={routes.home()}>
                   Home
                 </Link>
-                <Link className="navbar-link" to={routes.feature()}>
+                <Link className="nav-link" to={routes.feature()}>
                   Features
                 </Link>
-                <Link className="navbar-link" to={routes.pricing()}>
+                <Link className="nav-link" to={routes.pricing()}>
                   Pricing
                 </Link>
-                <Link className="navbar-link" to={routes.demo()}>
-                  Demo{" "}
+                <Link className="nav-link" to={routes.demo()}>
+                  Demo{' '}
                 </Link>
-                <Link className="navbar-link" to={routes.contact()}>
+                <Link className="nav-link" to={routes.contact()}>
                   Contact us
                 </Link>
               </Box>
-              <div className="navbar-divider" />
-              <Link className="navbar-auth-link" to={routes.login()}>
+              <div className="nav-divider" />
+              <Link className="nav-auth-link" to={routes.login()}>
                 Login
               </Link>
-              <Link className="navbar-auth-link" to={routes.register()}>
+              <Link className="nav-auth-link" to={routes.register()}>
                 Signup
               </Link>
             </Grid>
           </Grid>
         </Box>
       </Grid>
-      <Grid size={1} className="navbar-spacer-right"></Grid>
+      <Grid size={1} className="nav-spacer-right"></Grid>
     </Grid>
   );
 };

@@ -1,8 +1,8 @@
-import Sidebar from "./Sidebar";
-import AppBar from "./AppBar";
-import Grid from "@mui/material/Grid2";
-import { Outlet } from "react-router-dom";
-import { Box, Button } from "@mui/material";
+import Sidebar from './Sidebar';
+import LayoutAppbar from './LayoutAppbar';
+import Grid from '@mui/material/Grid2';
+import { Outlet } from 'react-router-dom';
+import { Box, Button } from '@mui/material';
 
 /**
  * component used to render layout
@@ -11,7 +11,7 @@ import { Box, Button } from "@mui/material";
 const Layout = () => {
   return (
     <Box className="layout-container">
-      <AppBar />
+      <LayoutAppbar />
       <Box className="layout-container-grid-wrapper">
         <Grid container className="layout-container-grid">
           <Grid size={2}>
@@ -25,7 +25,7 @@ const Layout = () => {
               Footer
               <Button
                 onClick={() => {
-                  localStorage.removeItem("isLoggedIn");
+                  localStorage.removeItem('isLoggedIn');
                   window.location.reload();
                 }}
               >

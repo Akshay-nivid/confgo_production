@@ -54,3 +54,35 @@ export function processAPIResponse(response: any,api:string ) {
   }
   return { status, message, data }
 }
+
+/**
+ * A utility function to set form values in a type-safe manner.
+ * This function iterates over the provided data object and sets the values
+ * in the form using the provided setValue function.
+ *
+ * @param data - An object containing the form data to set. It is of type Partial<T>,
+ *               meaning it can contain any subset of the keys defined in type T.
+ * @param setValue - A callback function that takes a key and a value, allowing
+ *                   the form's state to be updated accordingly. This function
+ *                   expects a key of type keyof T and a value of type T[keyof T].
+ */
+export const setFormValues = <T extends object>(data: Partial<T>, setValue: (key: keyof T, value: T[keyof T]) => void) => {
+  for (const key in data) {
+    if (key in data) {
+      const value = data[key as keyof T];
+      
+      if (value !== undefined) { 
+        setValue(key as keyof T, value); 
+      }
+    }
+  }
+};
+/**
+ * Method Converts the entire string to lowercase, then capitalize the first letter
+ * @param input : the string to convert
+ * @returns : converted string
+ */
+export const toSentenceCase = (input: string) => {
+  if(!input) return '';
+  return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
+};

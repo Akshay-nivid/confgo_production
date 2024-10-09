@@ -1,9 +1,8 @@
-import { useEffect } from "react";
-import Footer from "./Footer";
-import Navbar from "./Navbar";
-import { Outlet } from "react-router-dom";
-import { useLocation } from "react-router-dom";
-import "./_style.scss";
+import { useEffect } from 'react';
+import Footer from './Footer';
+import Navbar from './Navbar';
+import { Outlet } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 /**
  * home layout component
@@ -23,7 +22,7 @@ const HomeLayout = () => {
 
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar />
       <Outlet />
       <Footer />
     </>
