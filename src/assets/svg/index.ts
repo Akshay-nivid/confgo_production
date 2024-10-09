@@ -13,9 +13,9 @@ import GridEndOneImg from "./grid-end-one.svg";
 import GridEndTwoImg from "./grid-end-two.svg";
 import ExportPlanImg from "./export-plan.svg";
 import AttentionTracking from "./attention-tracking.svg";
-import OnlinePayment from "./online-payment.svg";
 import SeamlessIntegration from "./seamless-integration.svg";
 import BasicPlanSvg from "./basic-plan.svg";
+import CheckIcon from "./check.svg";
 import PlayIconSvg from "./play-icon.svg";
 import ArrowIconSvg from "./arrow-icon.svg";
 import AppLogoWhite from "./logo-white-icon.svg";
@@ -38,8 +38,8 @@ export {
   SeamlessIntegration,
   ExportPlanImg,
   AttentionTracking,
-  OnlinePayment,
   BasicPlanSvg,
+  CheckIcon,
   PlayIconSvg,
   ArrowIconSvg,
   AppLogoWhite,

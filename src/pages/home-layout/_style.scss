@@ -236,3 +236,15 @@
     }
   }
 }
+
+.whychoose-section {
+  padding-bottom: 6.83rem;
+  &__content {
+    .whychoose-section__header {
+      margin-bottom: 6rem;
+      &-description {
+        color: $clr_grey;
+      }
+    }
+  }
+}
