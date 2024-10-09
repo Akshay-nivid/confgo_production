@@ -9,6 +9,7 @@ const routes = {
   events: () => "/events",
   createEvent: () => "/event/create",
   coupon: () => "/coupon",
+  createCoupon: ()=> "/coupon/create",
   form1: () => "/pages/form1",
   form2: () => "/pages/form2",
   calendar: () => "/calendar",
