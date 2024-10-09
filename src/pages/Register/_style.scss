@@ -35,17 +35,20 @@
           row-gap: 0.8rem;
           & .left-description-text {
             font-size: $h6;
+            color: $clr_grey;
           }
         }
         & .plan-choose-btn {
           font-size: $h6;
           background-color: $clr_blue;
           width: 100%;
+          text-transform: none !important;
           &:focus {
             outline: none;
           }
         }
         & .login-label {
+          font-weight: $font_semibold;
           color: $clr_blue;
         }
         & .form-wrapper {
@@ -58,6 +61,17 @@
             row-gap: 2.083rem;
           }
         }
+        .success-container {
+          .divider-box {
+             background-color: $clr_gray_light;
+             height: 0.05rem;
+             width: 100%;
+           }
+           .subheader-text{
+            font-weight: $font_semibold;
+           }
+         }
+
       }
     }
     & .grid-right {
@@ -67,32 +81,20 @@
       align-items: flex-start;
 
       & .right-content-wrapper {
-        background: url("../assets/png/register_background.png") no-repeat top
-          center;
-        background-size: cover;
+        background: url("../assets/png/register_background.png") no-repeat top center;
         height: 100% !important;
         width: 100% !important;
         display: flex !important;
         flex-direction: column;
         justify-content: flex-start;
-        align-items: center;
-        row-gap: 3.5rem;
-
-        background: url("../assets/png/register_background.png") no-repeat top
-          center;
-        background-size: cover;
-        height: 100% !important;
-        width: 100% !important;
-        display: flex !important;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        row-gap: 3.5rem;
+        align-items: center;     
+        // Hide background image on mobile
+        @media screen and (max-width: 799px) {
+          background: none;
+        }
       }
-      //hide background image in the mobile
-      @media screen and (max-width: 600px) {
-        background: none;
-      }
+      
+     
     }
   }
 }
@@ -118,6 +120,8 @@
     background-color: $bg_light;
   }
 }
-.cursor-container {
+.cursor-container{
   cursor: pointer;
 }
+
+
