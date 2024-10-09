@@ -18,6 +18,10 @@ import SeamlessIntegration from "./seamless-integration.svg";
 import BasicPlanSvg from "./basic-plan.svg";
 import PlayIconSvg from "./play-icon.svg";
 import ArrowIconSvg from "./arrow-icon.svg";
+import AppLogoWhite from "./logo-white-icon.svg";
+import Divider from "./divider.svg";
+import AppThemeLogo from "./appLogo.svg";
+
 export {
   CalenderIcon,
   EventIcon,
@@ -37,5 +41,8 @@ export {
   OnlinePayment,
   BasicPlanSvg,
   PlayIconSvg,
-  ArrowIconSvg
+  ArrowIconSvg,
+  AppLogoWhite,
+  Divider,
+  AppThemeLogo
 };
