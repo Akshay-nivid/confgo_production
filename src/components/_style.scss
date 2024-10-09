@@ -76,8 +76,6 @@
       margin: 0;
     }
 
-    // Hide spin buttons in Firefox
-    -moz-appearance: textfield; // Use textfield appearance
   }
   & .MuiInputBase-input::placeholder {
     color: $clr_gray_dark !important;

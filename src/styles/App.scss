@@ -9,6 +9,10 @@ html {
 body,p,li,a,div,span,button {
   font-family: 'Inter', sans-serif !important;
 }
+
+.MuiTypography-root {
+  font-family:'Courier New', Courier, monospace !important;
+}
 // font size
 .text-h1 {
   font-size: $h1 !important;

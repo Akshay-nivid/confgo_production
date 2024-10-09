@@ -10,8 +10,6 @@
     margin-bottom: 4.41rem;
   }
 
-  &__header {
-  }
 
   &__title {
     text-align: center !important;
@@ -27,27 +25,23 @@
     margin-bottom: 5rem !important;
   }
 
-  &__cards {
-  }
 
-  &__card {
-  }
 }
 
 .plancard {
   &__container {
-    background: linear-gradient(to bottom, #f1f1f1, transparent);
+    background: linear-gradient(to bottom, $clr_offwhite, transparent);
     padding: 1.25rem;
     border-radius: 2.5rem;
   }
 
   &__content {
-    background-color: white;
+    background-color: $clr_white;
     width: 100%;
     padding-block: 2.083rem;
     padding-inline: 1.833rem;
     border-radius: 1.85rem;
-    box-shadow: rgba(0, 0, 0, 0.24) 0rem 0.25rem 0.667rem;
+    box-shadow: $clr_gray_light 0rem 0.25rem 0.667rem;
   }
 
   &__header {
@@ -60,21 +54,11 @@
     height: 4.91rem;
   }
 
-  &__title-container {
-  }
-
-  &__title {
-  }
-
-  &__subtitle {
-  }
 
   &__price {
     margin-bottom: 3.83rem;
   }
 
-  &__price-period {
-  }
 
   &__features {
     display: flex;
@@ -83,11 +67,6 @@
     margin-bottom: 5.16rem;
   }
 
-  &__feature {
-  }
-
-  &__button {
-  }
 }
 
 
@@ -96,36 +75,27 @@
     padding-block: 7rem;
   }
 
-  &__content {
-  }
 
   &__header {
     margin-bottom: 8rem;
   }
 
-  &__title {
-  }
-
-  &__description {
-  }
 
   &__table-header {
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
   }
 
   &__table-header-cell {
     padding-inline: 1rem;
   }
-  &
+  
 
   &__table-row {
-    padding-block: 1.4rem;
-    margin-bottom: 2rem;
+    padding-block: 1.6rem;
+    // margin-bottom: 2rem;
     border-bottom: 1px solid $clr_gray_light;
   }
 
-  &__table-cell {
-  }
 
   &__badge {
     &-icon {

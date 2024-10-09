@@ -6,7 +6,7 @@ import { CheckIcon } from '@/assets/svg';
 
 /**
  * Plan Feature Section ui component
- * @returns
+ * 
  */
 const PlanFeatureSection = () => {
   const features = [
@@ -119,7 +119,7 @@ const PlanFeatureSection = () => {
             className="planfeaturesection__table-row"
           >
             <Grid size={6} className="planfeaturesection__table-cell">
-              <Typography className="text-h6 font-500">
+              <Typography className="text-p1 font-400">
                 {data?.title}
               </Typography>
             </Grid>

@@ -1,6 +1,5 @@
 import React from 'react';
 import Button from '@mui/material/Button';
-import clsx from 'clsx';
 
 interface CustomButtonProps {
   onClick?: () => void;
@@ -38,7 +37,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       type={type || 'button'}
       startIcon={startIcon}
       endIcon={endIcon}
-      className={clsx('custom-button', className)}
+      className={ className}
       onClick={onClick}
       variant={variant}
       disabled={disabled}

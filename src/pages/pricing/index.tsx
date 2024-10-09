@@ -1,8 +1,9 @@
-import Box from '@mui/material/Box';
 import { PlanSection } from './PlanSection';
 import WhychooseSection from '../Home-Layout/WhychooseSection';
 import FaqSection from '../Home/FaqSection';
 import PlanFeatureSection from './PlanFeatureSection';
+import Grid from '@mui/material/Grid2';
+import Box from '@mui/material/Box';
 
 /**
  * pricing page component
