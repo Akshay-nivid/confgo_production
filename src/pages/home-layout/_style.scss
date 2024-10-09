@@ -7,7 +7,6 @@
   border: none;
   overflow: hidden;
   z-index: 1000;
-  background-color: $clr_gray_extra_dark;
   &-spacer-left,
   &-spacer-right {
     flex: 0 0 8.33%;
@@ -26,12 +25,10 @@
   &-logo-container {
     flex: 0 0 16.67%;
     max-width: 16.67%;
-    background-color: transparent;
-  }
-
-  &-logo {
-    height: max-content;
-    width: max-content;
+    &-icon{
+      width: 11rem;
+      height: 4rem;
+    }
   }
 
   &-links-container {
@@ -45,19 +42,17 @@
 
   &-links {
     display: flex;
-    color: $clr_white;
     column-gap: 2.5rem;
   }
 
   &-link {
-    color: $clr_white;
     text-decoration: none;
   }
 
   &-divider {
-    min-height: 50%;
-    width: 1px;
-    background-color: $clr_white;
+    width: 2rem;
+    height: 2rem;
+    margin-top: -0.2rem;
   }
 
   &-auth-link {
@@ -66,6 +61,24 @@
   }
 }
 
+.nav-theme-white{
+ color: $clr_white;
+ &-background{
+  background-color:$clr_white;
+ }
+ path{
+  stroke: $clr_white;
+  }
+}
+.nav-theme-black{
+  color: $clr_black;
+  &-background{
+  background-color:$clr_black;
+  }
+  path{
+    stroke: $clr_black;
+    }
+}
 .service-card {
   display: flex;
   justify-content: center;
