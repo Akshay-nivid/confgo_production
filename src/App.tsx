@@ -14,9 +14,8 @@ import Pricing from '@/pages/Pricing';
 import HomeLayout from '@/pages/Home-Layout';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
-import CreateAccount from './pages/Register/CreateAccount';
-import AddOrganization from './pages/Register/AddOrganization';
-import PaymentMethod from './pages/Register/PaymentMethod';
+import LoginOrg from '@/pages/LoginOrg/loginOrg';
+import SetPassword from '@/pages/SetPassword/SetPassword';
 
 const router = createBrowserRouter([
   {
@@ -27,19 +26,6 @@ const router = createBrowserRouter([
     path: routes.register(),
     element: <Register />,
   },
-  {
-    path: routes.createAccount(),
-    element: <CreateAccount />,
-  },
-  {
-    path: routes.addOrganization(),
-    element: <AddOrganization />,
-  },
-  {
-    path: routes.paymentMehod(),
-    element: <PaymentMethod />,
-  },
-
   {
     element: <HomeLayout />,
     children: [
@@ -78,6 +64,14 @@ const router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: routes.LoginOrg(),
+    element: <LoginOrg />,
+  },
+  {
+    path: routes.SetPassword(),
+    element: <SetPassword />,
   },
 ]);
 

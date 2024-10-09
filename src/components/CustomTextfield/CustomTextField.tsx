@@ -15,8 +15,8 @@ import {
   Path,
   PathValue,
   RegisterOptions,
-} from 'react-hook-form';
-import { useState } from 'react';
+} from "react-hook-form";
+import { useState } from "react";
 import { clsx } from 'clsx';
 
 interface ICustomTextFieldProps<T extends FieldValues> {
@@ -36,11 +36,11 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   rules?: RegisterOptions<T>;
   control?: Control<T>;
   style?: React.CSSProperties;
+  showHeader?:boolean
+  requiredField?:boolean
+  defaultValue?:PathValue<T, Path<T>>
   className?: string;
   formControlClassName?: string;
-  showHeader?: boolean;
-  requiredField?: boolean;
-  defaultValue?: PathValue<T, Path<T>>;
 }
 
 interface InputPropsType {
@@ -144,17 +144,9 @@ const CustomTextField = <T extends FieldValues>({
 
   return (
     <>
-      <FormControl
-        fullWidth
-        className={clsx('custom-text-field', props.formControlClassName)}
-      >
-        {showHeader && (
-          <Typography className="label-header" variant="h6">
-            {placeholder}
-            {requiredField && <span className="error-text">*</span>}
-          </Typography>
-        )}
-        {label ? <InputLabel htmlFor={name}>{label}</InputLabel> : <></>}
+      <FormControl fullWidth className="custom-text-field">
+        {showHeader && <Typography className="label-header" variant="h6">{placeholder}{requiredField && <span className="error-text">*</span>}</Typography>}
+        {<InputLabel htmlFor={name}>{placeholder}</InputLabel> }
         <Controller
           name={name}
           defaultValue={defaultValue}

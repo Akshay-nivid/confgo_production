@@ -1,11 +1,9 @@
+
 const routes = {
   home: () => "/",
   dashboard: () => "/dashboard",
   login: () => "/login",
   register: () => "/register",
-  createAccount: () => "/register/account",
-  addOrganization: () => "/register/account/organization",
-  paymentMehod: () => "register/account/organization/payment",
   events: () => "/events",
   createEvent: () => "/event/create",
   coupon: () => "/coupon",
@@ -16,6 +14,8 @@ const routes = {
   feature: () => "/feature",
   contact: () => "/contact",
   demo: () => "/demo",
+  LoginOrg: () => "/organization/login",
+  SetPassword : () => "/setpassword",
 };
 
 export default routes;

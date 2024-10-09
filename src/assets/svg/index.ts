@@ -17,6 +17,8 @@ import OnlinePayment from "./online-payment.svg";
 import SeamlessIntegration from "./seamless-integration.svg";
 import BasicPlanSvg from "./basic-plan.svg";
 import CheckIcon from "./check.svg";
+import PlayIconSvg from "./play-icon.svg";
+import ArrowIconSvg from "./arrow-icon.svg";
 export {
   CalenderIcon,
   EventIcon,
@@ -36,4 +38,6 @@ export {
   OnlinePayment,
   BasicPlanSvg,
   CheckIcon,
+  PlayIconSvg,
+  ArrowIconSvg
 };

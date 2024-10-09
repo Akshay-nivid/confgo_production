@@ -13,12 +13,12 @@ const Pricing = () => {
   return (
     <Box className="pricing-main">
       <PlanSection />
-      <PlanFeatureSection />
-      <WhychooseSection />
+      <PlanFeatureSection/>
+      <WhychooseSection/>
       <Box className="faq-section__container">
         <FaqSection />
       </Box>
-    </Box>
+    </Box>  
   );
 };
 
