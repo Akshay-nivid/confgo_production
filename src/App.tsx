@@ -17,6 +17,8 @@ import Register from './pages/Register/Register';
 import CreateAccount from './pages/Register/CreateAccount';
 import AddOrganization from './pages/Register/AddOrganization';
 import PaymentMethod from './pages/Register/PaymentMethod';
+import LoginOrg from '@/pages/LoginOrg/loginOrg';
+import SetPassword from '@/pages/SetPassword/SetPassword';
 
 const router = createBrowserRouter([
   {
@@ -78,6 +80,14 @@ const router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: routes.LoginOrg(),
+    element: <LoginOrg />,
+  },
+  {
+    path: routes.SetPassword(),
+    element: <SetPassword />,
   },
 ]);
 
