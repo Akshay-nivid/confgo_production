@@ -127,6 +127,9 @@
   font-size: $p1;
   font-weight: $font_medium;
 }
+.custom-checkbox .MuiSvgIcon-root {
+  border-radius: 50%;
+}
 .error-input{
   .MuiOutlinedInput-notchedOutline {
     border-color: $clr_red !important;
