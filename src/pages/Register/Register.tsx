@@ -25,7 +25,7 @@ const Register = () => {
           {pageSwitch.data === "five" && <RegistrationSuccess />}
         </Grid>
 
-        <Grid size={{ xs: 12, sm: 6 }} className="grid-right">
+        <Grid size={{ xs: 0,md:6 }} className="grid-right">
           <Box height={"100%"} className="right-content-wrapper"></Box>
         </Grid>
       </Grid>

@@ -12,6 +12,8 @@ import useStore from "@/Libs/store";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { StepperBoxes } from "./StepperBox";
 import { emailRules, phoneRules } from "@/Utils/Validation";
+import { useNavigate } from "react-router-dom";
+import routes from "@/router/routes";
 /*
  * funtional componet to render create form field
  */
@@ -20,6 +22,7 @@ const CreateAccount = React.memo(() => {
     const pageSwitch = useStore((state: any) => state?.compData?.['register']) ?? [];
     const form2 = useStore((state: any) => state?.compData?.['form2']) ?? [];
     const { handleSubmit, control, getValues } = useForm<FormData>();
+    const navigate = useNavigate();
     /*
      * function to handle form submission 
      */
@@ -56,77 +59,100 @@ const CreateAccount = React.memo(() => {
             setDataById('register', { data: 'one' });
         }
     }
+    /*
+     * function to handle navigate to login page
+     */
+    const handleLogin = () => {
+        navigate(routes.login())
+    }
     return (
-        <Grid className="left-content-wrapper">
-            <Grid className="left-inner-content">
-                <Grid container flexDirection={"row"} spacing={2} alignSelf={"start"} onClick={handleBack}>
+        <Grid>
+            <Grid container spacing={5}>
+                <Grid columnGap={1} alignItems={"center"} display={"flex"} className="cursor-container" size={{ xs: 2 }} onClick={handleBack}>
                     <ArrowBackIcon />
-                    <Typography>Back</Typography>
+                    <Typography variant="h6">Back</Typography>
                 </Grid>
-                <Grid alignSelf={"center"}>
-                    <Typography fontWeight={800} textAlign={"center"} variant="h3" lineHeight={2} >Create Your Account</Typography>
-                    <Typography textAlign={"center"} variant="h6">Join us and streamline your conference management today.</Typography>
+                <Grid className="left-content-wrapper">
+                    <Grid className="left-inner-content">
+                        <Grid container spacing={2}>
+                        <Grid  alignSelf={"center"}>
+                            <Typography fontWeight={800} textAlign={"center"} variant="h3" lineHeight={2} >Create Your Account</Typography>
+                            <Typography className="left-description-text" textAlign={"center"} variant="h6" mb={2}>Join us and streamline your conference management today.</Typography>
+                        </Grid>
+                        </Grid>
+                       
+                        <Box className={"form-wrapper"}>
+                            <form onSubmit={handleSubmit(onSubmit)} className="form">
+                                <FormControl >
+                                    <Grid container spacing={2}>
+                                        
+                                        <Grid container className='w-full'>
+                                            <CustomTextField
+                                                defaultValue={form2?.field_values?.fullName}
+                                                placeholder="Full Name"
+                                                control={control}
+                                                name="fullName"
+                                                type="text"
+                                                rules={{ required: true }}
+                                            />
+                                        </Grid>
+                                        <Grid container className='w-full'>
+                                            <CustomTextField
+                                                defaultValue={form2?.field_values?.lastName}
+                                                placeholder="Last Name"
+                                                control={control}
+                                                name="lastName"
+                                                type="text"
+                                                rules={{ required: true }}
+                                            />
+                                        </Grid>
+                                        <Grid container className='w-full'>
+                                            <CustomTextField
+                                                defaultValue={form2?.field_values?.email}
+                                                placeholder="Email"
+                                                name="email"
+                                                type="email"
+                                                control={control}
+                                                rules={emailRules}
+                                            />
+                                        </Grid>
+                                        <Grid container className='w-full'>
+                                            <CustomTextField
+                                                defaultValue={form2?.field_values?.phoneNumber}
+                                                placeholder="Phone Number"
+                                                control={control}
+                                                name="phoneNumber"
+                                                type="number"
+                                                rules={phoneRules}
+                                            />
+                                        </Grid>
+                                    </Grid>
+                                </FormControl>
+                                <Grid container mb={2} className="w-full" >
+                                    <CustomButton
+                                        className="plan-choose-btn"
+                                        onClick={handleClick}
+                                        label="Next"
+                                        variant="contained"
+                                        color="primary"
+                                        size="large"
+                                    />
+                                </Grid>
+                            </form>
+                        </Box>
+                        <Grid container spacing={6} justifyContent={"center"} >
+                            <Grid container spacing={1} display={"flex"}  >
+                                <Typography variant="h6">Already have an account?</Typography>
+                                <Grid onClick={handleLogin}>
+                                    <Typography variant="h6" className="login-label cursor-container" alignContent="flex-end"> Log In</Typography>
+                                </Grid>
+                            </Grid>
+                            <Grid container spacing={3} >
+                                <StepperBoxes activeStep={2} />
+                            </Grid>
+                        </Grid>
+                    </Grid>
                 </Grid>
-                <Box className={"form-wrapper"}>
-                    <form onSubmit={handleSubmit(onSubmit)} className="form">
-                        <FormControl >
-                            <CustomTextField
-                                defaultValue={form2?.field_values?.fullName}
-                                requiredField={true}
-                                showHeader={true}
-                                placeholder="Full Name"
-                                control={control}
-                                name="fullName"
-                                type="text"
-                                rules={{ required: true }}
-                            />
-                            <CustomTextField
-                                defaultValue={form2?.field_values?.lastName}
-                                requiredField={true}
-                                showHeader={true}
-                                placeholder="Last Name"
-                                control={control}
-                                name="lastName"
-                                type="text"
-                                rules={{ required: true }}
-                            />
-                            <CustomTextField
-                                defaultValue={form2?.field_values?.email}
-                                requiredField={true}
-                                showHeader={true}
-                                placeholder="Email"
-                                name="email"
-                                type="email"
-                                control={control}
-                                rules={emailRules}
-                            />
-                            <CustomTextField
-                                defaultValue={form2?.field_values?.phoneNumber}
-                                requiredField={true}
-                                showHeader={true}
-                                placeholder="Phone Number"
-                                control={control}
-                                name="phoneNumber"
-                                type="number"
-                                rules={phoneRules}
-                            />
-
-                        </FormControl>
-                        <CustomButton
-                            className="plan-choose-btn"
-                            onClick={handleClick}
-                            label="Next"
-                            variant="contained"
-                            color="primary"
-                            size="large"
-                        />
-                    </form>
-                </Box>
-                <Grid container flexDirection={"row"} spacing={2}>
-                    <Typography>Already have an account?  </Typography>
-                    <Typography className="login-label" alignContent={"flex-end"}> Log In</Typography>
-                </Grid>
-                <StepperBoxes activeStep={2} />
             </Grid>
         </Grid>
     )

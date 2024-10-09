@@ -141,13 +141,8 @@ const CustomTextField = <T extends FieldValues>({
   return (
     <>
       <FormControl fullWidth className="custom-text-field">
-        {showHeader && (
-          <Typography className="label-header" variant="h6">
-            {placeholder}
-            {requiredField && <span className="error-text">*</span>}
-          </Typography>
-        )}
-        {label ? <InputLabel htmlFor={name}>{label}</InputLabel> : <></>}
+        {showHeader && <Typography className="label-header" variant="h6">{placeholder}{requiredField && <span className="error-text">*</span>}</Typography>}
+        {<InputLabel htmlFor={name}>{placeholder}</InputLabel> }
         <Controller
           name={name}
           defaultValue={defaultValue}
