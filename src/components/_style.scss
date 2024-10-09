@@ -48,7 +48,7 @@
 // Custom Textfield styles
 
 .custom-text-field {
-  margin-bottom: 0.8rem;
+  margin-bottom: 1rem;
   caret-color: $clr_black;
   color: $clr_black;
   & .label-header {
@@ -102,6 +102,7 @@
   .MuiInputLabel-outlined {
     color: $clr_black;
     font-size: $h6;
+    background-color: $clr_white;
 
     &.Mui-focused {
       color: $clr_black;
@@ -175,6 +176,9 @@
   .MuiDataGrid-cell {
     border-color: $clr_white;
     background-color: $clr_white;
+  }
+  .MuiDataGrid-footerContainer{
+    display: block;
   }
 }
 //DataGrid css ends here
