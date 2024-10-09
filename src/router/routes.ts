@@ -1,3 +1,4 @@
+
 const routes = {
   home: () => "/",
   dashboard: () => "/dashboard",
@@ -13,6 +14,8 @@ const routes = {
   feature: () => "/feature",
   contact: () => "/contact",
   demo: () => "/demo",
+  LoginOrg: () => "/organization/login",
+  SetPassword : () => "/setpassword",
 };
 
 export default routes;

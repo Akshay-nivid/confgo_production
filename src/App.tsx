@@ -14,6 +14,8 @@ import Pricing from '@/pages/Pricing/Pricing';
 import HomeLayout from '@/pages/Home-Layout';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
+import LoginOrg from '@/pages/LoginOrg/loginOrg';
+import SetPassword from '@/pages/SetPassword/SetPassword';
 
 const router = createBrowserRouter([
   {
@@ -62,6 +64,14 @@ const router = createBrowserRouter([
         ],
       },
     ],
+  },
+  {
+    path: routes.LoginOrg(),
+    element: <LoginOrg />,
+  },
+  {
+    path: routes.SetPassword(),
+    element: <SetPassword />,
   },
 ]);
 

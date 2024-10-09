@@ -1,4 +1,4 @@
-import { OnlinePayment, SeamlessIntegration } from "@/assets/svg";
+import { ArrowIconSvg, OnlinePayment, SeamlessIntegration } from "@/assets/svg";
 import { Box, Typography, Button } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 
@@ -66,7 +66,7 @@ const FeatureCard = ({
             </Grid>
           </Grid>
         </Box>
-        <Button variant="outlined" className="feature-card__button">
+        <Button variant="outlined" className="feature-card__button" endIcon={<ArrowIconSvg/>}>
           Get Started
         </Button>
       </Grid>

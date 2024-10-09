@@ -1,5 +1,5 @@
 import { gridMiddleImg } from "@/assets/images";
-import { GridEndOneImg, GridEndTwoImg } from "@/assets/svg";
+import { GridEndOneImg, GridEndTwoImg, PlayIconSvg } from "@/assets/svg";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
@@ -32,19 +32,19 @@ const HeroSection = () => {
               experience.
             </Typography>
 
-            <Box className="hero-section-buttons">
+            <Grid container className="hero-section-buttons">
               <CustomButton
                 variant="contained"
                 label="Get Started"
-              ></CustomButton>
+                className="get-started-button"
+              />
               <CustomButton
+                startIcon={<PlayIconSvg/>}
                 variant="outlined"
                 label="Watch Our Videos"
-                className="hero-section-button"
-              >
-                {/* Watch Our Videos */}
-              </CustomButton>
-            </Box>
+                className="watch-video-button"
+              />
+            </Grid>
           </Box>
           <Grid size={12} className="hero-section-image-grid">
             <Box
