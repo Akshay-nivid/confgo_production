@@ -7,11 +7,11 @@ import { useState } from "react";
 import Grid from "@mui/material/Grid2";
 
 /**
- * component used to input the otp
+ * component used to verify the otp
  */
 
 interface OtpComponentProps {
-  onOtpVerify: (status: boolean) => void; // Callback to notify OTP verification status
+  onOtpVerify: (status: boolean) => void; 
 }
 
 const OtpComponent: React.FC<OtpComponentProps> = ({ onOtpVerify }) => {
@@ -22,19 +22,19 @@ const OtpComponent: React.FC<OtpComponentProps> = ({ onOtpVerify }) => {
 
 
   const { handleSubmit } = useForm<FormData>({
-    defaultValues: { otp: '' }, // Set initial OTP value to an empty string
+    defaultValues: { otp: '' }, 
   });
 
   /**
    * Handle to submit the Otp
    */
   const onSubmit: SubmitHandler<FormData> = () => {
-    console.log("Form Submitted", otp);
+    
     onOtpVerify(true); 
   };
 
   return (
-    <Grid height={"100%"} className="left-content-wrapper">
+    <Grid  className="left-content-wrapper">
       <Grid className="left-header-wrapper">
         <Typography className="header-title">Verify Your Account</Typography>
         <Typography className="header-description">

@@ -54,7 +54,7 @@ const SetPasswordComponent = () => {
   };
 
   return (
-          <Grid height={"100%"} className="left-content-wrapper">
+          <Grid className="left-content-wrapper">
             <Grid className="left-header-wrapper">
               <Typography className="header-title">Set Password</Typography>
               <Typography className="header-description">Your new password must be different to</Typography>
