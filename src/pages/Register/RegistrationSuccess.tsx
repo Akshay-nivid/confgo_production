@@ -8,8 +8,9 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import SuccessTickImage from '@/assets/png/sucess-tick.png'
 import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";
-// A functional component that renders a simple greeting
-
+/*
+ * functional compoent to render Registration success page
+ */
 const RegistrationSuccess = React.memo(() => {
   const navigate = useNavigate();
   /*
