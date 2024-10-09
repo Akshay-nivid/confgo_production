@@ -2,6 +2,7 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import FeatureCard from "./FeatureCard";
+import { ArrowIconSvg } from "@/assets/svg";
 
 /**
  * feature section ui component for home page
@@ -29,8 +30,9 @@ const FeatureSection = () => {
           <Box className="feature-section-main__header-button-container">
             <CustomButton
               label="See All Features"
-              className="features-cta-button"
+              className="feature-section-main__header-button-container-feature-all-button"
               variant="outlined"
+              endIcon={<ArrowIconSvg/>}
             />
           </Box>
         </Grid>
