@@ -185,6 +185,9 @@
 .custom-stepper {
   background-color: $white;
   margin: 1rem !important;
+  &-main{
+    border-right: 1px solid $clr_border;
+  }
   &-container {
     max-width: 33rem;
     padding-left: 2.5rem;
@@ -208,20 +211,23 @@
   &-next-button {
     margin: auto !important;
     display: block !important;
-    width: 30rem !important;
+    width: 10rem !important;
     height: 4rem !important;
     background-color: $clr_green !important;
     color: $white !important;
     text-transform: none !important;  
     font-size: $h6 !important;
     font-weight: $font_semibold !important;
-    margin-top: 4rem !important;
+    margin-right: 0.5rem !important;
+    margin-top: 2rem !important;
+    margin-bottom: 4rem !important;
+    box-shadow: none !important;
   }
   
   &-back-button {
     margin: auto !important;
     display: block !important;
-    width: 30rem !important;
+    width: 10rem !important;
     height: 4rem !important;
     border: 2px solid $clr_green !important; 
     color: $clr_green !important;
@@ -229,7 +235,9 @@
     text-transform: none !important;  
     font-size: $h6 !important;
     font-weight: $font_semibold !important;
+    margin-top: 2rem !important;
     margin-bottom: 4rem !important;
+    box-shadow: none !important;
   }
   &-other-details{
     font-weight: $font_normal !important;
