@@ -9,17 +9,16 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { SubmitHandler, useForm } from "react-hook-form";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import useStore from "@/Libs/store";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { StepperBoxes } from "./StepperBox";
 import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";
+import { emailRules, phoneRules } from "@/Utils/Validation";
 /*
  * Organization form 
  */
 const AddOrganization = React.memo(() => {
     const { handleSubmit, control, getValues } = useForm<FormData>();
     const { setDataById }: any = useStore();
-    const pageSwitch = useStore((state: any) => state?.compData?.['register']) ?? [];
     const form3 = useStore((state: any) => state?.compData?.['form3']) ?? [];
     const navigate = useNavigate();
     /*
@@ -32,9 +31,9 @@ const AddOrganization = React.memo(() => {
     const handleClick = () => {
         const values = getValues();
         if (!values.organizationName || !values.organizationAddress || !values.organizationAddress || !values.organizationEmail) {
-            return
+            return 
         } else {
-            setDataById('register', { data: 'four' });
+            setDataById('register', { data: 'PAYMENT_METHOD_PAGE' });
             setDataById('form3', { field_values: values });
         }
 
@@ -49,14 +48,7 @@ const AddOrganization = React.memo(() => {
         organizationPhone: number;
         organizationAddress: number;
     };
-    /*
-     * function handle back of function 
-     */
-    const handleBack = () => {
-        if (pageSwitch.data == 'three') {
-            setDataById('register', { data: 'two' });
-        }
-    }
+
     /*
      * function to handle navigate to login page
      */
@@ -66,12 +58,6 @@ const AddOrganization = React.memo(() => {
     return (
         <Grid>
             <Grid container spacing={5}  >
-                <Grid container columnSpacing={2} alignItems={"center"} display={"flex"} className="cursor-container" size={{ xs: 2 }} onClick={handleBack}>
-                    <Grid display={"flex"} alignItems={"center"}>
-                        <ArrowBackIcon />
-                        <Typography variant="h6">Back</Typography>
-                    </Grid>
-                </Grid>
                 <Grid className="left-content-wrapper">
                     <Grid className="left-inner-content">
                         <Grid alignSelf={"center"}>
@@ -89,6 +75,7 @@ const AddOrganization = React.memo(() => {
                                                 control={control}
                                                 name="organizationName"
                                                 type="text"
+                                                rules={{ required:{value:true,message:"Organization name is required"} }}
                                             />
                                         </Grid>
                                         <Grid container className='w-full'>
@@ -98,6 +85,7 @@ const AddOrganization = React.memo(() => {
                                                 control={control}
                                                 name="organizationEmail"
                                                 type="text"
+                                                rules={emailRules}
                                             />
                                         </Grid>
                                         <Grid container className='w-full'>
@@ -107,6 +95,7 @@ const AddOrganization = React.memo(() => {
                                                 name="organizationPhone"
                                                 type="number"
                                                 control={control}
+                                                rules={phoneRules}
                                             />
 
                                         </Grid>
@@ -117,12 +106,14 @@ const AddOrganization = React.memo(() => {
                                                 control={control}
                                                 name="organizationAddress"
                                                 type="text"
+                                                rules={{ required:{value:true,message:"Organization address is required"} }}
                                             />
                                         </Grid>
                                     </Grid>
                                 </FormControl>
                                 <Grid container mb={2} className="w-full" >
                                     <CustomButton
+                                        type="submit"
                                         className="plan-choose-btn"
                                         onClick={handleClick}
                                         label="Next"
