@@ -14,9 +14,6 @@
       & .left-content-wrapper {
         height: 100%;
         width: 100%;
-        // min-width: 47.166rem;
-        // max-height: 63.333rem;
-        // padding: 20px;
         display: flex;
         justify-content: center;
 
@@ -27,13 +24,21 @@
           display: flex;
           flex-direction: column;
           row-gap: 0.8rem;
+          & .success-icon{
+            padding-top: 2rem;
+            svg{
+              width: 8rem;
+              height: 8rem;
+            }
+          }
           & .left-description-text {
             font-size: $h6;
-            color: $clr_grey;
+            color: $clr_gray_medium;
             font-weight: $font_normal;
           }
           & .left-plan-text{
             font-weight: $font_bold;
+            line-height: 4rem;
           }
           & .view-all-plans{
             padding-bottom: 3rem;
@@ -45,13 +50,17 @@
           background-color: $clr_blue;
           width: 100%;
           text-transform: none !important;
+          svg{
+            path{
+              fill: $clr_white;
+            }
+          }
           &:focus {
             outline: none;
           }
         }
         & .form-wrapper {
           width: 100%;
-          // max-width: 28.25rem;
           margin-inline: auto;
           & .form {
             display: flex;

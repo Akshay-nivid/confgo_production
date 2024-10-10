@@ -5,21 +5,19 @@ import {
   Typography,
 } from "@mui/material";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import SuccessTickImage from '@/assets/png/sucess-tick.png'
+import { SuccessTickImage } from "@/assets/svg";
 /*
  * functional compoent to render Registration success page
  */
 const RegistrationSuccess = React.memo(() => {
   return (
-    <Grid>
-      <Grid className="left-content-wrapper">
-        <Grid className="left-inner-content">
-          <Grid container spacing={4}>
-            <Grid container justifyContent={'center'}>
-              <img src={SuccessTickImage}></img>
+      <Grid container className="left-content-wrapper" >
+        <Grid container className="left-inner-content" spacing={4}>
+            <Grid container justifyContent={'center'} className="success-icon">
+              <SuccessTickImage />
               <Grid alignSelf={"center"}>
-                <Typography fontWeight={800} textAlign={"center"} variant="h4" lineHeight={2} >Login and Payment Successful</Typography>
-                <Typography className="checkbox-text-grey" textAlign={"center"} variant="h6">Check your email to set your password and access your dashboard.</Typography>
+                <Typography  className="left-plan-text"textAlign={"center"} variant="h4" lineHeight={2} >Login and Payment Successful</Typography>
+                <Typography className="left-description-text" textAlign={"center"} variant="h6">Check your email to set your password and access your dashboard.</Typography>
               </Grid>
             </Grid>
             <Grid className="form-wrapper success-container">
@@ -64,11 +62,8 @@ const RegistrationSuccess = React.memo(() => {
                 </Grid>
               </Grid>
             </Grid>
-          </Grid>
         </Grid>
       </Grid>
-    </Grid>
-
   )
 });
 

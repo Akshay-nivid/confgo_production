@@ -25,7 +25,7 @@ const PaymentMethod = React.memo(() => {
                 <Grid className="left-content-wrapper">
                     <Grid className="left-inner-content">
                         <Grid alignSelf={"center"}>
-                            <Typography fontWeight={800} textAlign={"center"} variant="h3" lineHeight={2} >Payment Method</Typography>
+                            <Typography  className="left-plan-text" textAlign={"center"} variant="h3" lineHeight={2} >Payment Method</Typography>
                             <Typography className="left-description-text" textAlign={"center"} variant="h6" mb={2}>Everything you might need and then some more in<br /> an accessible and intuitive package.</Typography>
                         </Grid>
                         <Box className={"form-wrapper"}>

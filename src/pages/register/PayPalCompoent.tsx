@@ -1,11 +1,14 @@
 import React, { useRef } from 'react';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import Grid from '@mui/material/Grid2';
+import useStore from '@/Libs/store';
 
 /*
  * Component used to handle PayPal button 
  */
 const PayPalButton: React.FC = () => {
+    const { setDataById }: any = useStore();
+
     const initialOptions = {
         clientId: "AQ9K1hDjjXSmmQz1aBt3FDjLTkrl8DRJvnUC6H6_eXAw-wzz6eC2eoYmSOEJcdN0prPUX1hsSm8bfGtK", // Replace with your PayPal Client ID
         currency: "USD",
@@ -19,9 +22,9 @@ const PayPalButton: React.FC = () => {
      * @param
      */
     const handleApprove = async (_data: any, actions: any) => {
-        const details = await actions.order.capture();
-        console.log('Transaction completed by ' + details.payer.name.given);
-        alert('Transaction completed by ' + details.payer.name.given);
+         await actions.order.capture();
+         setDataById('register', { data: 'REGISTRATION_SUCCESS_PAGE' });
+
     };
 
     const handleCardButtonClick = () => {

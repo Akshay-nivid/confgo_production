@@ -55,10 +55,10 @@ const Register = () => {
   return (
     <Grid container className="register-main-container">
       <Grid container justifyContent={'space-between'} direction={'column'} className="grid-left" size={{ xs: 12, sm: 6 }} >
-        <Grid container alignItems={"center"} display={"flex"} className="back-button" onClick={handleBack} >
+        {pageSwitch.data !== "REGISTRATION_SUCCESS_PAGE" && <Grid container alignItems={"center"} display={"flex"} className="back-button" onClick={handleBack} >
           <ArrowBackIcon />
           <Typography variant="h6">Back</Typography>
-        </Grid>
+        </Grid>}
         <Grid container justifyContent={'center'}>
           {pageSwitch == "" && <AddPlan />}
           {pageSwitch.data == "PLAN_PAGE" && <AddPlan />}
@@ -67,7 +67,7 @@ const Register = () => {
           {pageSwitch.data === "PAYMENT_METHOD_PAGE" && <PaymentMethod />}
           {pageSwitch.data === "REGISTRATION_SUCCESS_PAGE" && <RegistrationSuccess />}
         </Grid>
-        <Grid container direction={'column'}  className="register-stepper" spacing={3}>
+        {pageSwitch.data !== "REGISTRATION_SUCCESS_PAGE" && <Grid container direction={'column'} className="register-stepper" spacing={3}>
           <Grid container spacing={1} justifyContent={"center"} display={"flex"}>
             <Typography variant="h6">Already have an account?</Typography>
             <Grid onClick={handleLogin}>
@@ -77,7 +77,7 @@ const Register = () => {
           <Grid container justifyContent={"center"}>
             <StepperBoxes activeStep={pageSwitch?.step} />
           </Grid>
-        </Grid>
+        </Grid>}
       </Grid>
       <Grid container size={{ xs: 12, md: 6 }} className="grid-right"></Grid>
     </Grid>

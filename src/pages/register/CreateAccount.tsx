@@ -1,5 +1,5 @@
 import Grid from "@mui/material/Grid2";
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
     Box,
     FormControl,
@@ -19,13 +19,6 @@ const CreateAccount = React.memo(() => {
     const { handleSubmit, control, getValues } = useForm<FormData>();
 
     /*
-    * useEffect used to set stepper info
-    */
-    useEffect(() => {
-        setDataById('register', { data: 'CREATE_ACCOUNT_PAGE', step: 2 });
-    }, [])
-
-    /*
      * function to handle form submission 
      */
     const onSubmit: SubmitHandler<FormData> = () => {
@@ -39,7 +32,7 @@ const CreateAccount = React.memo(() => {
         if (!values.fullName || !values.lastName || !values.email || !values.phoneNumber) {
             return
         } else {
-            setDataById('register', { data: 'ADD_ORGANIZATION_PAGE', field_values: values });
+            setDataById('register', { data: 'ADD_ORGANIZATION_PAGE', field_values: values, step: 3 });
             setDataById('form2', { field_values: values });
         }
 
@@ -61,7 +54,7 @@ const CreateAccount = React.memo(() => {
                     <Grid className="left-inner-content">
                         <Grid container spacing={2}>
                         <Grid  alignSelf={"center"}>
-                            <Typography fontWeight={800} textAlign={"center"} variant="h3" lineHeight={2} >Create Your Account</Typography>
+                            <Typography className="left-plan-text" textAlign={"center"} variant="h3" lineHeight={2} >Create Your Account</Typography>
                             <Typography className="left-description-text" textAlign={"center"} variant="h6" mb={2}>Join us and streamline your conference management today.</Typography>
                         </Grid>
                         </Grid>

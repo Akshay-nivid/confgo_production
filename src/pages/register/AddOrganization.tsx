@@ -1,5 +1,5 @@
 import Grid from "@mui/material/Grid2";
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
     Box,
     FormControl,
@@ -17,13 +17,6 @@ const AddOrganization = React.memo(() => {
     const { handleSubmit, control, getValues } = useForm<FormData>();
     const { setDataById }: any = useStore();
     const form3 = useStore((state: any) => state?.compData?.['form3']) ?? [];
-
-    /*
-    * useEffect used to set stepper info
-    */
-    useEffect(() => {
-        setDataById('register', { data: 'ADD_ORGANIZATION_PAGE', step: 3 });
-    }, [])
 
     /*
      * function to handle submission of the form
@@ -59,7 +52,7 @@ const AddOrganization = React.memo(() => {
                 <Grid className="left-content-wrapper">
                     <Grid className="left-inner-content">
                         <Grid alignSelf={"center"}>
-                            <Typography fontWeight={800} textAlign={"center"} variant="h3" lineHeight={2} >Add Organization Details</Typography>
+                            <Typography className="left-plan-text" textAlign={"center"} variant="h3" lineHeight={2} >Add Organization Details</Typography>
                             <Typography className="left-description-text" textAlign={"center"} variant="h6" mb={2}>Join us and streamline your conference<br /> management today.</Typography>
                         </Grid>
                         <Box className={"form-wrapper"}>

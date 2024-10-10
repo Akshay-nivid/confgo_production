@@ -13,6 +13,7 @@ import useStore from "@/Libs/store";
 import PlanCard from "@/components/PlanCard";
 import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";
+import { ArrowIconSvg } from "@/assets/svg";
 /*
  * sample plan data will be replaced after integration of api
  */
@@ -74,7 +75,7 @@ const AddPlan = React.memo(() => {
    */
   const handleClick = () => {
     const planDetail = plans.find((item) => item.header === currentPlan);
-    setDataById('register', { data: 'CREATE_ACCOUNT_PAGE' });
+    setDataById('register', { data: 'CREATE_ACCOUNT_PAGE', step: 2 });
     setDataById('form1', { field_values: planDetail });
   }
   /*
@@ -119,10 +120,9 @@ const AddPlan = React.memo(() => {
           <Grid container mb={2} className="w-full" >
           <CustomButton
             className="plan-choose-btn"
+            endIcon={<ArrowIconSvg/>}
             onClick={handleClick}
-            label="Choose Plan →"
-            variant="contained"
-            color="primary"
+            label="Choose Plan"
             size="large"
           />
           </Grid>
