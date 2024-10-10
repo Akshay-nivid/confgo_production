@@ -22,6 +22,8 @@ import AppLogoWhite from "./logo-white-icon.svg";
 import Divider from "./divider.svg";
 import AppThemeLogo from "./appLogo.svg";
 
+import SupportIcon from "./support.svg";
+
 export {
   CalenderIcon,
   EventIcon,
