@@ -51,21 +51,8 @@ const FeatureCard = ({
                  {feature?.description}
                 </Typography>
               </Box>
-            </Grid>
+              </Grid>
             ))}
-            {/* <Grid className="feature-card__feature">
-              <SeamlessIntegration className="feature-card__feature-icon" />
-              <Box className="feature-card__feature-content">
-                <Typography className="feature-card__feature-title">
-                  Seamless Integration
-                </Typography>
-                <Typography className="feature-card__feature-description">
-                  Effortlessly connect your conference with popular social media
-                  platforms, making it easy to share updates and engage with
-                  your audience.
-                </Typography>
-              </Box>
-            </Grid> */}
           </Grid>
         </Box>
         <Button variant="outlined" className="feature-card__button" endIcon={<ArrowIconSvg/>}>
