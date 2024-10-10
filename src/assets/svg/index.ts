@@ -8,7 +8,6 @@ import LogoutIcon from "./logout.svg";
 import StepperActive from "./stepper-active.svg"
 import StepperCurrent from "./Stepper-current.svg"
 import StepperDefault from "./stepper-default.svg"
-
 import GridEndOneImg from "./grid-end-one.svg";
 import GridEndTwoImg from "./grid-end-two.svg";
 import ExportPlanImg from "./export-plan.svg";
@@ -21,6 +20,7 @@ import ArrowIconSvg from "./arrow-icon.svg";
 import AppLogoWhite from "./logo-white-icon.svg";
 import Divider from "./divider.svg";
 import AppThemeLogo from "./appLogo.svg";
+import LockIcon from "./lock-icon.svg";
 
 import SupportIcon from "./support.svg";
 
@@ -46,5 +46,6 @@ export {
   ArrowIconSvg,
   AppLogoWhite,
   Divider,
-  AppThemeLogo
+  AppThemeLogo,
+  LockIcon
 };
