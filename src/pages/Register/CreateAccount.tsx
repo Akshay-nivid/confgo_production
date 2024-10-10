@@ -9,7 +9,6 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { SubmitHandler, useForm } from "react-hook-form";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import useStore from "@/Libs/store";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { StepperBoxes } from "./StepperBox";
 import { emailRules, phoneRules } from "@/Utils/Validation";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +18,6 @@ import routes from "@/router/routes";
  */
 const CreateAccount = React.memo(() => {
     const { setDataById }: any = useStore();
-    const pageSwitch = useStore((state: any) => state?.compData?.['register']) ?? [];
     const form2 = useStore((state: any) => state?.compData?.['form2']) ?? [];
     const { handleSubmit, control, getValues } = useForm<FormData>();
     const navigate = useNavigate();
@@ -37,7 +35,7 @@ const CreateAccount = React.memo(() => {
         if (!values.fullName || !values.lastName || !values.email || !values.phoneNumber) {
             return
         } else {
-            setDataById('register', { data: 'three', field_values: values });
+            setDataById('register', { data: 'ADD_ORGANIZATION_PAGE', field_values: values });
             setDataById('form2', { field_values: values });
         }
 
@@ -52,14 +50,6 @@ const CreateAccount = React.memo(() => {
         phoneNumber: number;
     };
     /*
-     * function to handle back button
-     */
-    const handleBack = () => {
-        if (pageSwitch.data == 'two') {
-            setDataById('register', { data: 'one' });
-        }
-    }
-    /*
      * function to handle navigate to login page
      */
     const handleLogin = () => {
@@ -67,11 +57,7 @@ const CreateAccount = React.memo(() => {
     }
     return (
         <Grid>
-            <Grid container spacing={5}>
-                <Grid columnGap={1} alignItems={"center"} display={"flex"} className="cursor-container" size={{ xs: 2 }} onClick={handleBack}>
-                    <ArrowBackIcon />
-                    <Typography variant="h6">Back</Typography>
-                </Grid>
+            <Grid  container spacing={5}>
                 <Grid className="left-content-wrapper">
                     <Grid className="left-inner-content">
                         <Grid container spacing={2}>
@@ -85,7 +71,6 @@ const CreateAccount = React.memo(() => {
                             <form onSubmit={handleSubmit(onSubmit)} className="form">
                                 <FormControl >
                                     <Grid container spacing={2}>
-                                        
                                         <Grid container className='w-full'>
                                             <CustomTextField
                                                 defaultValue={form2?.field_values?.fullName}
@@ -93,7 +78,7 @@ const CreateAccount = React.memo(() => {
                                                 control={control}
                                                 name="fullName"
                                                 type="text"
-                                                rules={{ required: true }}
+                                                rules={{ required:{value:true,message:"Name is required"} }}
                                             />
                                         </Grid>
                                         <Grid container className='w-full'>
@@ -103,7 +88,7 @@ const CreateAccount = React.memo(() => {
                                                 control={control}
                                                 name="lastName"
                                                 type="text"
-                                                rules={{ required: true }}
+                                                rules={{ required:{value:true,message:"Last Name is required"} }}
                                             />
                                         </Grid>
                                         <Grid container className='w-full'>
@@ -130,6 +115,7 @@ const CreateAccount = React.memo(() => {
                                 </FormControl>
                                 <Grid container mb={2} className="w-full" >
                                     <CustomButton
+                                    type="submit"
                                         className="plan-choose-btn"
                                         onClick={handleClick}
                                         label="Next"

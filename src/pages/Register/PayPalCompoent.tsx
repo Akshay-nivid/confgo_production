@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import Grid from '@mui/material/Grid2';
+
 /*
- * Component used to handle paypal button 
+ * Component used to handle PayPal button 
  */
 const PayPalButton: React.FC = () => {
     const initialOptions = {
@@ -10,35 +11,47 @@ const PayPalButton: React.FC = () => {
         currency: "USD",
         intent: "capture",
     };
-/*
- * functional compoent used to approve the payment functionality
-*@ param
- */
-    const handleApprove = async (data: any, actions: any) => {
+
+    const paypalButtonRef = useRef<HTMLDivElement>(null);
+
+    /*
+     * Functional component used to approve the payment functionality
+     * @param
+     */
+    const handleApprove = async (_data: any, actions: any) => {
         const details = await actions.order.capture();
         console.log('Transaction completed by ' + details.payer.name.given);
         alert('Transaction completed by ' + details.payer.name.given);
     };
 
+    const handleCardButtonClick = () => {
+        if (paypalButtonRef.current) {
+            paypalButtonRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    };
+
     return (
-        <Grid >
-        <PayPalScriptProvider options={initialOptions}>
-            <PayPalButtons 
-                style={{ layout: 'vertical' }}
-                createOrder={(data, actions) => {
-                    return actions.order.create({
-                        purchase_units: [{
-                            amount: {
-                                currency_code: 'USD',
-                                value: '10.00', 
-                            },
-                        }],
-                        intent: 'CAPTURE'
-                    });
-                }}
-                onApprove={handleApprove}
-            />
-        </PayPalScriptProvider>
+        <Grid>
+            <PayPalScriptProvider options={initialOptions}>
+                <div ref={paypalButtonRef}>
+                    <PayPalButtons
+                        style={{ layout: 'vertical' }}
+                        createOrder={(_data, actions) => {
+                            return actions.order.create({
+                                purchase_units: [{
+                                    amount: {
+                                        currency_code: 'USD',
+                                        value: '10.00',
+                                    },
+                                }],
+                                intent: 'CAPTURE'
+                            });
+                        }}
+                        onApprove={handleApprove}
+                        onClick={handleCardButtonClick} // Add the click handler here
+                    />
+                </div>
+            </PayPalScriptProvider>
         </Grid>
     );
 };
