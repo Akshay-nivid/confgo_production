@@ -7,13 +7,11 @@ import CustomButton from '@/components/CustomButton/CustomButton';
 import Grid from '@mui/material/Grid2';
 import CreateEvent from './CreateEvent';
 import AddProgram from './AddProgram';
-import AddOtherDetails from './AddOtherDetails';
 import ConferenceDetails from './ConferenceDetails';
 
 const steps = [
   { label: 'Create Event', description: '' },
   { label: 'Add Program', description: '' },
-  { label: 'Add Ons', description: '' },
   { label: 'Confirm', description: '' },
 ];
 
@@ -42,8 +40,6 @@ const Events = () => {
           ? 'event'
           : activeStep === 1
           ? 'program'
-          : activeStep === 2
-          ? 'adds'
           : null;
 
       if (formKey) {
@@ -83,8 +79,6 @@ const Events = () => {
         ? 'event'
         : type === 'PROGRAM'
         ? 'program'
-        : type === 'ADDS'
-        ? 'adds'
         : null;
     if (formKey) {
       setFormData({ ...formData, [formKey]: data });
@@ -92,16 +86,25 @@ const Events = () => {
     setActiveStep((prevStep) => prevStep + 1);
   };
 
+  /**
+   * Method handles the saving of the program
+   * @param data : form data
+   */
+  const onSaveHandler = (data: object) => {
+      setFormData({ ...formData, ['program']: data });
+  };
+  console.log('testdata',formData)
+
   return (
     <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper">
-      <Grid size={{ xs: 12, sm: 2 }}>
+      <Grid size={{ xs: 12, sm: 2 }} className="custom-stepper-main">
         <CustomStepper
           steps={steps}
           activeStep={activeStep}
           onStepChange={handleStepChange}
         />
       </Grid>
-      <Grid size={{ xs: 12, sm: 10 }}>
+      <Grid container size={{ xs: 12, sm: 10 }}>
         {activeStep === 0 && (
           <CreateEvent
             formSubmit={formSubmit?.event}
@@ -113,33 +116,23 @@ const Events = () => {
           <AddProgram
             formSubmit={formSubmit?.program}
             onSubmitHandler={onSubmitHandler}
+            onSaveHandler={onSaveHandler}
             data={formData?.program}
           />
         )}
-        {activeStep === 2 && (
-          <AddOtherDetails
-            formSubmit={formSubmit?.adds}
-            onSubmitHandler={onSubmitHandler}
-            data={formData?.adds}
-          />
-        )}
-        {activeStep === 3 && <ConferenceDetails data={formData}/>}
+        {activeStep === 2 && <ConferenceDetails data={formData}/>}
+
         <Grid
           container
-          direction={'column'}
-          justifyContent={'center'}
-          alignItems={'center'}
+          justifyContent={'right'}
           spacing={2}
-          size={{ xs: 12, sm: 12 }}
+          size={{ xs: activeStep === 2? 10: 9, sm: activeStep === 2? 10: 9}}
+          sx={{
+            width: '100%'
+          }}
+          className="custom-stepper-button-container"
         >
-          <Grid>
-            <CustomButton
-              className="custom-stepper-next-button"
-              onClick={activeStep === 3 ? handleSubmit : handleNext}
-              label={activeStep === 3 ? 'Submit' : 'Next'}
-              disabled={activeStep === steps.length}
-            />
-          </Grid>
+         
           <Grid>
             <CustomButton
               className="custom-stepper-back-button"
@@ -148,7 +141,21 @@ const Events = () => {
               disabled={activeStep === 0}
             />
           </Grid>
-          {activeStep === 2 && (
+          <Grid>
+            {<CustomButton
+              className={`custom-stepper-next-button ${
+                activeStep === 0
+                  ? 'custom-stepper-next-button-event'
+                  : activeStep === 1
+                  ? 'custom-stepper-next-button-program'
+                  : 'custom-stepper-next-button-details'
+              } ${activeStep === 1 && !(formData?.program?.[0]?.programName) ? 'disabled-button' : ''}`}
+              onClick={activeStep === 2 ? handleSubmit : handleNext}
+              label={activeStep === 2 ? 'Submit' : 'Next'}
+              disabled={(activeStep === steps.length) || (activeStep === 1 && !(formData?.program?.[0]?.programName))}
+            />}
+          </Grid>
+          {activeStep === 1 && (
             <Grid className="custom-stepper-other-details">
               <span>
                 &bull; The standard cost of providing food and beverages for
@@ -174,9 +181,10 @@ const Events = () => {
                 on the day of the event.
               </span>
             </Grid>
-          )}
-          <Grid className="custom-stepper-bottom-spacing"></Grid>
+          )} 
+           {activeStep === 1 &&<Grid className="custom-stepper-bottom-spacing"></Grid>}
         </Grid>
+        <Grid container className="custom-stepper-button-container" size={{ xs: activeStep === 2? 2: 3, sm: activeStep === 2? 2: 3}}></Grid>
       </Grid>
     </Grid>
   );

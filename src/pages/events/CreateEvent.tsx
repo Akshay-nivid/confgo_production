@@ -6,13 +6,14 @@ import CustomRadio from '@/components/CustomRadio/CustomRadio';
 import CustomTextField from '@/components/CustomTextfield/CustomTextField';
 import { Box, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; 
 type EventProps = {
     formSubmit: boolean;
     onSubmitHandler: (event: React.FormEvent<HTMLFormElement>, type: string) => void;
-    data: object;
+    data: any;
 }
 
 type FormData = {
@@ -22,7 +23,8 @@ type FormData = {
     date: Date,
     venue: string,
     agenda: string,
-    speakers: string
+    speakers: string,
+    description: string
 };
 
 const typeArray = [
@@ -33,6 +35,15 @@ const typeArray = [
 
 const CreateEvent: React.FC<EventProps> = React.memo(({ formSubmit, onSubmitHandler, data }) => {
     const { handleSubmit, control, setValue } = useForm<FormData>();
+
+    const [editorContent, setEditorContent] = useState('');
+
+    console.log('testvalue',editorContent,typeof(editorContent))
+
+    const handleChange = (value: any) => {
+        setEditorContent(value);
+        setValue('description',value)
+    };
 
 
     /**
@@ -58,6 +69,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(({ formSubmit, onSubmitHand
     useEffect(() => {
         if (data) {
             setFormValues(data, setValue)
+            data?.description && setEditorContent(data?.description);
         }
     }, [data])
 
@@ -67,11 +79,37 @@ const CreateEvent: React.FC<EventProps> = React.memo(({ formSubmit, onSubmitHand
             <Grid size={{ xs: 0, sm: 3 }}></Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
                 <Grid >
-                    <Typography textAlign={"center"} variant="h3" lineHeight={2} className="create-event-title">Create New Conference</Typography>
+                    <Typography textAlign={"center"} variant="h3" lineHeight={2} className="create-event-title">Create Event</Typography>
                 </Grid>
                 <Grid>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <Grid container spacing={2} alignItems={'center'} justifyContent={'center'}>
+                        <Grid size={{ xs: 12, sm: 12 }} >
+                                <CustomTextField
+                                    placeholder="Event Name"
+                                    control={control}
+                                    name="name"
+                                    type="text"
+                                    rules={{ required: true }}
+                                />
+                            </Grid>
+                            <Grid size={{ xs: 12, sm: 12 }} >
+                                <ReactQuill
+                                    value={editorContent}
+                                    onChange={handleChange}
+                                    theme="snow"
+                                    placeholder="Type your message here..."
+                                />
+                                {/* <CustomTextField
+                                    placeholder="Event Description"
+                                    control={control}
+                                    name="description"
+                                    type="text"
+                                    rules={{ required: true }}
+                                    multiline={true}
+                                    rows={4}
+                                /> */}
+                            </Grid>
                             <Grid size={{ xs: 12, sm: 12 }} >
                                 <CustomRadio
                                     control={control}
@@ -80,15 +118,6 @@ const CreateEvent: React.FC<EventProps> = React.memo(({ formSubmit, onSubmitHand
                                     options={typeArray}
                                     row={true}
                                     value={'OFFLINE'}
-                                />
-                            </Grid>
-                            <Grid size={{ xs: 12, sm: 6 }} >
-                                <CustomTextField
-                                    placeholder="Conference Name"
-                                    control={control}
-                                    name="name"
-                                    type="text"
-                                    rules={{ required: true }}
                                 />
                             </Grid>
                             <Grid size={{ xs: 12, sm: 6 }} >
@@ -104,7 +133,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(({ formSubmit, onSubmitHand
                                     placeholder="Date & Time"
                                     control={control}
                                     name="date"
-                                    type="date"
+                                    type="datetime-local"
                                 />
                             </Grid>
                             <Grid size={{ xs: 12, sm: 6 }} >
@@ -123,7 +152,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(({ formSubmit, onSubmitHand
                                     type="text"
                                 />
                             </Grid>
-                            <Grid size={{ xs: 12, sm: 6 }} >
+                            <Grid size={{ xs: 12, sm: 12 }} >
                                 <CustomTextField
                                     placeholder="Speakers"
                                     control={control}

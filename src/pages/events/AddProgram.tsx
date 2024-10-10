@@ -8,8 +8,10 @@ import { Box, IconButton, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler, useFieldArray } from 'react-hook-form';
+import AddIcon from '@/assets/svg/program-add.svg';
 import EditIcon from '@/assets/svg/edit-program-icon.svg';
 import DeleteIcon from '@/assets/svg/delete-program-icon.svg';
+import CustomSelect from '@/components/CustomSelectBox/CustomSelect';
 
 
 type FormData = {
@@ -22,6 +24,11 @@ type FormData = {
         type: string;
         price: string;
         location: string;
+        food: string;
+        beverage: string;
+        attendees: string;
+        mealTime: string;
+
     }[];
     savedPrograms: {
         id?: string;
@@ -33,11 +40,16 @@ type FormData = {
         type: string;
         price: string;
         location: string;
+        food: string;
+        beverage: string;
+        attendees: string;
+        mealTime: string;
     }[];
 };
 type ProgramProps = {
     formSubmit: boolean;
-    onSubmitHandler: (event: React.FormEvent<HTMLFormElement>, type: string) => void;
+    onSubmitHandler: (event: any, type: string) => void;
+    onSaveHandler: (event: any) => void;
     data: any;
 }
 const typeArray = [
@@ -45,7 +57,18 @@ const typeArray = [
     { label: 'Free', value: 'FREE' }
 ];
 
-const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHandler, data }) => {
+const foodArray = [
+    { label: 'Food 1', value: 'FOOD1' },
+    { label: 'Food 2', value: 'FOOD2' },
+    { label: 'Food 3', value: 'FOOD3' }
+];
+const beverageArray = [
+    { label: 'Beverage 1', value: 'BEVERAGE1' },
+    { label: 'Beverage 2', value: 'BEVERAGE2' },
+    { label: 'Beverage 3', value: 'BEVERAGE3' }
+];
+
+const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHandler, data, onSaveHandler }) => {
     const { handleSubmit, control, watch, setValue } = useForm<FormData>({
         defaultValues: {
             programs: [
@@ -58,6 +81,10 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
                     type: 'PAID',
                     price: '',
                     location: '',
+                    food: '',
+                    beverage: '',
+                    attendees: '',
+                    mealTime: ''
                 },
             ],
         },
@@ -82,7 +109,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
      * @param data : form data
      */
     const onSubmit: SubmitHandler<FormData> = (data: any) => {
-        onSubmitHandler && onSubmitHandler(data?.savedPrograms, 'PROGRAM')
+        onSubmitHandler && onSubmitHandler(data?.savedPrograms,'PROGRAM')
     };
 
     /**
@@ -100,6 +127,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
      */
     const handleSaveNewPrograms = () => {
         setValue('savedPrograms', watch('programs'))
+        onSaveHandler && onSaveHandler(watch('programs'))
     }
 
     /**
@@ -116,6 +144,10 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
             type: 'PAID',
             price: '',
             location: '',
+            food: '',
+            beverage: '',
+            attendees: '',
+            mealTime: ''
         })
         setProgramIndex(watch('savedPrograms')?.length ? watch('savedPrograms').length : 0)
     }
@@ -151,6 +183,10 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
                     type: 'PAID',
                     price: '',
                     location: '',
+                    food: '',
+                    beverage: '',
+                    attendees: '',
+                    mealTime: ''
                 })
             }
             else {
@@ -164,11 +200,11 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
     return <Box className="add-program-container">
         <Grid container className="">
             <Grid container size={{ xs: 12, sm: 12 }} direction={'row'} className="">
-                <Grid size={{ xs: 12, sm: 8 }}>
-                    <Box className="">
+                <Grid size={{ xs: 12, sm: 8 }} className="add-program-form-container">
+                    <Box className="add-program-form-spacing">
                         <Box className="">
                             <Grid alignSelf={"center"}>
-                                <Typography textAlign={"start"} variant="h3" lineHeight={2} className="add-program-title" >Add Programmes</Typography>
+                                <Typography textAlign={"start"} variant="h3" lineHeight={2} className="add-program-title" >Add Program</Typography>
                             </Grid>
                             <Box className={"form-wrapper1"}>
                                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -198,7 +234,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
                                                             placeholder="Session Start Time"
                                                             control={control}
                                                             name={`programs.${index}.sessionStartTime`}
-                                                            type="date"
+                                                            type="time"
                                                         />
                                                     </Grid>
                                                     <Grid size={{ xs: 12, sm: 6 }} >
@@ -206,7 +242,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
                                                             placeholder="Session End Time"
                                                             control={control}
                                                             name={`programs.${index}.sessionEndTime`}
-                                                            type="date"
+                                                            type="time"
                                                         />
                                                     </Grid>
                                                     <Grid size={{ xs: 12, sm: 6 }} >
@@ -235,7 +271,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
                                                             value={'PAID'}
                                                         />
                                                     </Grid>
-                                                    <Grid size={{ xs: 12, sm: 6 }} >
+                                                    <Grid size={{ xs: 12, sm: 12 }} >
                                                         <CustomTextField
                                                             placeholder="Price"
                                                             control={control}
@@ -243,38 +279,58 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
                                                             type="text"
                                                         />
                                                     </Grid>
-
-
-
+                                                    <Grid size={{ xs: 12, sm: 12 }}>
+                                                        <Typography variant="h3" lineHeight={2} className="add-program-add-ons-title">Add Other Details</Typography>
+                                                    </Grid>
+                                                    <Grid size={{ xs: 12, sm: 6 }} >
+                                                        <CustomSelect
+                                                            name={`programs.${index}.food`}
+                                                            label="Food Option"
+                                                            options={foodArray}
+                                                            control={control}
+                                                            fullWidth
+                                                        />
+                                                    </Grid>
+                                                    <Grid size={{ xs: 12, sm: 6 }} >
+                                                        <CustomSelect
+                                                            name={`programs.${index}.beverage`}
+                                                            label="Beverage Option"
+                                                            options={beverageArray}
+                                                            control={control}
+                                                            fullWidth
+                                                        />
+                                                    </Grid>
+                                                    <Grid size={{ xs: 12, sm: 6 }} >
+                                                        <CustomTextField
+                                                            placeholder="Total Attendees"
+                                                            control={control}
+                                                            name={`programs.${index}.attendees`}
+                                                            type="number"
+                                                        />
+                                                    </Grid>
+                                                    <Grid size={{ xs: 12, sm: 6 }} >
+                                                        <CustomTextField
+                                                            placeholder="Meal Times"
+                                                            control={control}
+                                                            name={`programs.${index}.mealTime`}
+                                                            type="time"
+                                                        />
+                                                    </Grid>
                                                     <Grid container direction={'row'}
-                                                        justifyContent="center"
+                                                        justifyContent="right"
                                                         alignItems="center"
-                                                        style={{ width: '100%' }}
                                                         size={{ xs: 12, sm: 12 }}
                                                     >
                                                         <Grid>
                                                             <CustomButton
-                                                                className="create-event-back-btn"
-                                                                onClick={handleAddNewPrograms}
-                                                                label="Add New Programmes"
-                                                                variant="contained"
-                                                                color="primary"
-                                                                size="large"
-                                                            />
-                                                        </Grid>
-                                                        <Grid>
-                                                            <CustomButton
                                                                 className="create-event-next-btn"
                                                                 onClick={handleSaveNewPrograms}
-                                                                label="Save New Programmes"
+                                                                label="Save"
                                                                 variant="contained"
                                                                 size="large"
                                                             />
                                                         </Grid>
                                                     </Grid>
-
-
-
                                                 </Grid>
                                             </Box>
                                         }
@@ -286,6 +342,20 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
                     </Box>
                 </Grid>
                 <Grid container direction={'column'} className='add-program-display-container' size={{ xs: 12, sm: 4 }} spacing={2}>
+                    <Grid container justifyContent={'right'}>
+                        <Grid>
+                            <CustomButton
+                                className="add-program-add-btn"
+                                onClick={handleAddNewPrograms}
+                                label="Add"
+                                variant="contained"
+                                color="primary"
+                                size="large"
+                                startIcon={<AddIcon />}
+                            />
+                        </Grid>
+                    </Grid>
+
                     {watch('savedPrograms')?.map((field, index) => (
                         field.programName && (
 

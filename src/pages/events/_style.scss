@@ -5,19 +5,21 @@
     &-next-btn{
         background-color: $clr_green !important;
         color: $white !important;
-        min-width: 25rem !important;
+        min-width: 10rem !important;
         text-transform: none !important;
         font-size: $h6 !important;
         font-weight: $font_semibold !important;
+        box-shadow: none !important;
     }
     &-back-btn{
         background-color: $white !important;
         color: $clr_green !important;
-        min-width: 25rem !important;
+        min-width: 10rem !important;
         border: 1px solid $clr_green !important;
         text-transform: none !important;
         font-size: $h6 !important;
         font-weight: $font_semibold !important;
+        box-shadow: none !important;
     }
     &-title{
         font-weight: $font_bold !important;
@@ -29,6 +31,7 @@
 .add-program{
     &-container{
         background-color: $white;
+        padding-left: 1rem;
     }
     &-next-btn{
         background-color: $clr_green !important;
@@ -41,18 +44,41 @@
         min-width: 15rem !important;
     }
     &-display-item{
-        height: 5rem;
+        height: 4.2rem;
         background-color: $background;
         padding: 1rem !important;
+        margin-bottom: 1.05rem !important;
     }
     &-display-container{
         padding: 1rem !important;
         padding-top: 4rem !important;
+        padding-right: 3rem !important;
     }
     &-title{
         font-weight: $font_bold !important;
         font-size: $h3 !important;
         padding-top: 2rem !important;
         padding-bottom: 2rem !important;
+    }
+    &-add-btn{
+        background-color: $white !important;
+        color: $clr_green !important;
+        min-width: 10rem !important;
+        border: 1px solid $clr_green !important;
+        text-transform: none !important;
+        font-size: $h6 !important;
+        font-weight: $font_semibold !important;
+        box-shadow: none !important;
+    }
+    &-form-spacing{
+        padding-top: 0.9rem;
+    }
+    &-form-container{
+        padding-right: 1rem !important;
+        border-right: 1px solid $clr_border;
+    }
+    &-add-ons-title{
+        font-weight: $font_normal !important;
+        font-size: $h6 !important;
     }
 }
