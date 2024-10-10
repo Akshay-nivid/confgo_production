@@ -37,6 +37,8 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   showHeader?: boolean;
   requiredField?: boolean;
   defaultValue?: PathValue<T, Path<T>>;
+  multiline?: boolean;
+  rows?: number;
 }
 
 interface InputPropsType {
@@ -58,6 +60,8 @@ const CustomTextField = <T extends FieldValues>({
   showHeader = false,
   requiredField = false,
   defaultValue,
+  multiline,
+  rows,
 
   ...props
 }: ICustomTextFieldProps<T>) => {
@@ -161,6 +165,8 @@ const CustomTextField = <T extends FieldValues>({
                   id={name}
                   type={type === 'password' ? passwordType : type}
                   label={label}
+                  multiline={multiline? true: false}
+                  rows={rows? rows: 1}
                   className={
                     error
                       ? 'custom-text-field error-input'
