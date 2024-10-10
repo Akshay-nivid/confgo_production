@@ -226,10 +226,24 @@
 
   &__image-container {
     padding-right: 5rem;
-    background:url("/src/assets/png/online-payment.png");
     background-size: contain;
     background-repeat: no-repeat;
-
+    
+    &.card-1 {
+      background-image: url('/src/assets/png/online-payment.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+    &.card-2 {
+      background-image: url('/src/assets/png/unlimited-conference.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+    &.card-3 {
+      background-image: url('/src/assets/png/registration-management.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
     .reversed & {
       align-items: flex-start;
       justify-content: flex-end;
@@ -238,6 +252,8 @@
       background-position: right;
     }
   }
+
+ 
 
   &__image {
     height: 100%;
@@ -254,7 +270,7 @@
   &__header {
     display: flex;
     flex-direction: column;
-    gap: 1.667rem;
+    gap: 1rem;
   }
 
   &__title {
@@ -288,8 +304,9 @@
   }
 
   &__feature-title {
-    font-weight: $font_semibold;
-    margin-bottom: 0.667rem;
+    font-size: $p1 !important;
+    font-weight: $font_semibold !important;
+    margin-bottom: 0.25rem !important;
   }
 
   &__feature-description {

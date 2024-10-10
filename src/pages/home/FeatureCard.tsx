@@ -1,6 +1,7 @@
-import { ArrowIconSvg, SeamlessIntegration } from "@/assets/svg";
+import { ArrowIconSvg  } from "@/assets/svg";
 import { Box, Typography, Button } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import clsx from "clsx";
 /**
  * card component to display features of the platform
  */
@@ -8,23 +9,25 @@ const FeatureCard = ({
   flexDirection = "row",
   title ,
   description,
+  className,
   features,
 }: {
     flexDirection?: "row" | "row-reverse";
     title: string;
     description: string;
-    features: {
-      key: string;
-      title: string;
-      description: string;
-      icon: React.ReactNode;
+    className?: string;
+    features?: {
+      key?: string;
+      title?: string;
+      description?: string;
+      icon?: React.ReactNode;
     }[];
 }) => {
   const isReversed = flexDirection === "row-reverse";
 
   return (
-    <Grid container className={`feature-card ${isReversed ? "reversed" : ""}`}>
-      <Grid size={6} className="feature-card__image-container">
+    <Grid container className={clsx("feature-card", isReversed ? "reversed" : "")}>
+      <Grid size={6} className={clsx("feature-card__image-container ", className)}>
       </Grid>
       <Grid size={6} className="feature-card__content">
         <Box className="feature-card__header">
@@ -37,15 +40,15 @@ const FeatureCard = ({
         </Box>
         <Box className="feature-card__features">
           <Grid container className="feature-card__features-grid">
-            {features.map((feature)=>(
-              <Grid key={feature.key} className="feature-card__feature">
-              {feature.icon}
+            {features?.map((feature)=>(
+              <Grid key={feature?.key} className="feature-card__feature">
+              {feature?.icon}
               <Box className="feature-card__feature-content">
                 <Typography className="feature-card__feature-title">
-                  {feature.title}
+                  {feature?.title}
                 </Typography>
                 <Typography className="feature-card__feature-description">
-                 {feature.description}
+                 {feature?.description}
                 </Typography>
               </Box>
             </Grid>
