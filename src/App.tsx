@@ -14,6 +14,7 @@ import Pricing from '@/pages/Pricing/Pricing';
 import HomeLayout from '@/pages/Home-Layout';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
+import CreateCoupon from './pages/coupon/CreateCoupon';
 
 const router = createBrowserRouter([
   {
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
           {
             path: routes.coupon(),
             element: <Coupon />,
+          },
+          {
+            path: routes.createCoupon(),
+            element: <CreateCoupon/>,
           },
           {
             path: routes.calendar(),

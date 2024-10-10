@@ -156,9 +156,11 @@
     font-weight: $font_medium;
   }
   &-grid {
-    margin: 4rem;
+    margin-left: 3rem;
+    margin-right: 3rem;
+    //margin: 3rem;
     .list-title {
-      font-size: $h2 !important;
+      font-size: $h3 !important;
       font-weight: $font_bold !important;
     }
   }
