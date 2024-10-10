@@ -12,7 +12,6 @@ import StandardPlanImage from '@/assets/svg/standard-plan-icon.svg';
 import useStore from "@/Libs/store";
 import PlanCard from "@/components/PlanCard";
 import { StepperBoxes } from "./StepperBox";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";
 /*
@@ -76,14 +75,8 @@ const AddPlan = React.memo(() => {
    */
   const handleClick = () => {
     const planDetail = plans.find((item) => item.header === currentPlan);
-    setDataById('register', { data: 'two' });
+    setDataById('register', { data: 'CREATE_ACCOUNT_PAGE' });
     setDataById('form1', { field_values: planDetail });
-  }
-  /*
- * function to handle back button
- */
-  const handleBack = () => {
-    navigate('/');
   }
   /*
  * function to handle view plan details
@@ -100,12 +93,6 @@ const AddPlan = React.memo(() => {
   return (
     <Grid>
       <Grid container spacing={5}>
-      <Grid container  spacing={2} alignSelf={"start"} >
-        <Grid columnGap={1}  alignItems={"center"} display={"flex"} className="cursor-container" size={{xs:2}} onClick={handleBack}>
-        <ArrowBackIcon />
-        <Typography variant="h6">Back</Typography>
-        </Grid>
-      </Grid>
       <Grid  className="left-content-wrapper">
         <Grid className="left-inner-content">
           <FormControl className="w-full">

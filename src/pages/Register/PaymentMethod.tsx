@@ -5,8 +5,6 @@ import {
     Typography,
 } from "@mui/material";
 import PaymentMethodImage from "@/assets/png/payment-method.png"
-import useStore from "@/Libs/store";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { StepperBoxes } from "./StepperBox";
 import PayPalButton from "./PayPalCompoent";
 import { useNavigate } from "react-router-dom";
@@ -15,17 +13,7 @@ import routes from "@/router/routes";
  * functional compoent used to render payment method 
  */
 const PaymentMethod = React.memo(() => {
-    const { setDataById }: any = useStore();
-    const pageSwitch = useStore((state: any) => state?.compData?.['register']) ?? [];
     const navigate = useNavigate();
-    /*
-     * function to render prevoius componet while updating state
-     */
-    const handleBack = () => {
-        if (pageSwitch.data == 'four') {
-            setDataById('register', { data: 'three' });
-        }
-    }
     /*
      * function to handle navigate to login page
      */
@@ -35,12 +23,6 @@ const PaymentMethod = React.memo(() => {
     return (
         <Grid>
             <Grid container spacing={5}>
-                <Grid container columnSpacing={2} alignItems={"center"} display={"flex"} className="cursor-container" size={{ xs: 2 }} onClick={handleBack}>
-                    <Grid display={"flex"} alignItems={"center"}>
-                        <ArrowBackIcon />
-                        <Typography variant="h6">Back</Typography>
-                    </Grid>
-                </Grid>
                 <Grid className="left-content-wrapper">
                     <Grid className="left-inner-content">
                         <Grid alignSelf={"center"}>
@@ -66,7 +48,6 @@ const PaymentMethod = React.memo(() => {
                     </Grid>
                 </Grid>
             </Grid>
-
         </Grid>
     )
 });
