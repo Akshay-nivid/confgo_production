@@ -5,11 +5,31 @@
   color: $clr_white;
   background-size: cover;
   .hero-section-content {
-    padding-top: 16.75rem;
+    padding-top: 11.25rem;
     .hero-section-container {
       height: 100%;
       display: flex;
       flex-direction: column;
+      .get-started-button {
+        border-radius: 4.2rem;
+        height: 4.8rem !important;
+        width: 13.4rem !important;
+        background-color: $clr_white;
+        color: $clr_black;
+        font-weight: $font_semibold;
+        font-size: $p1;
+        text-transform: none;
+      }
+      .watch-video-button{
+        border: 0.2rem solid $clr_white;
+        border-radius: 4.2rem;
+        height: 4.8rem !important;
+        width: 17rem !important;
+        color: $clr_white;
+        font-weight: $font_semibold;
+        font-size: $p1;
+        text-transform: none;
+      }
       .hero-section-buttons {
         margin-top: 2.42rem;
         display: flex;
@@ -176,7 +196,24 @@
       justify-content: center;
       flex-direction: column;
       align-items: center;
+      &-feature-all-button{
+        border: 0.2rem solid $clr_black;
+        border-radius: 4.2rem;
+        height: 4.8rem;
+        width: 16.58rem;
+        color: $clr_black;
+        font-weight: $font_semibold;
+        font-size: $p1;
+        text-transform: none;
+        span{
+          svg{
+            width: 1.9rem;
+            height: 1.9rem;
+          }
+        }
+      }
     }
+    
   }
 }
 .feature-card {
@@ -188,18 +225,35 @@
   }
 
   &__image-container {
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-start;
     padding-right: 5rem;
-
+    background-size: contain;
+    background-repeat: no-repeat;
+    
+    &.card-1 {
+      background-image: url('/src/assets/png/online-payment.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+    &.card-2 {
+      background-image: url('/src/assets/png/unlimited-conference.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+    &.card-3 {
+      background-image: url('/src/assets/png/registration-management.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
     .reversed & {
       align-items: flex-start;
       justify-content: flex-end;
       padding-left: 5rem;
       padding-right: 0;
+      background-position: right;
     }
   }
+
+ 
 
   &__image {
     height: 100%;
@@ -216,7 +270,7 @@
   &__header {
     display: flex;
     flex-direction: column;
-    gap: 1.667rem;
+    gap: 1rem;
   }
 
   &__title {
@@ -250,8 +304,9 @@
   }
 
   &__feature-title {
-    font-weight: $font_semibold;
-    margin-bottom: 0.667rem;
+    font-size: $p1 !important;
+    font-weight: $font_semibold !important;
+    margin-bottom: 0.25rem !important;
   }
 
   &__feature-description {
@@ -259,7 +314,20 @@
   }
 
   &__button {
-    width: max-content;
+    border: 0.2rem solid $clr_black !important;
+    border-radius: 4.2rem !important;
+    height: 4.8rem !important;
+    width: 14.1rem !important;
+    color: $clr_black !important;
+    font-weight: $font_semibold !important;
+    font-size: $p1 !important;
+    text-transform: none !important;
+    span{
+      svg{
+        width: 1.9rem;
+        height: 1.9rem;
+      }
+    }
   }
 }
 
@@ -272,18 +340,6 @@
         margin-bottom: 0.3rem;
       }
 
-      &-description {
-        color: $clr_grey;
-      }
-    }
-  }
-}
-
-.whychoose-section {
-  padding-bottom: 6.83rem;
-  &__content {
-    .whychoose-section__header {
-      margin-bottom: 6rem;
       &-description {
         color: $clr_grey;
       }

@@ -49,6 +49,7 @@ const Login = () => {
                   control={control}
                   name="email"
                   label={"Email Address"}
+                  placeholder={"Email Address"}
                   type="email"
                 />
                 <CustomTextField
@@ -56,6 +57,7 @@ const Login = () => {
                   label={"Password"}
                   type="password"
                   control={control}
+                  placeholder={"Password"}
                 />
 
                 <CustomCheckbox

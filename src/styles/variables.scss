@@ -3,10 +3,11 @@ $clr_blue: #3a5afe;
 $clr_white: #ffffff;
 $bg_light: #f0f9ff;
 $bg_plans: #eaf5ff;
-$border_list: #F8F9FF;
-$light_grey:#718096;
-$white: #FFFFFF;
-$medium_grey:#F2F2F2; 
+$border_list: #f8f9ff;
+$light_grey: #718096;
+$white: #ffffff;
+$clr_offwhite:#F1F1F1;
+$medium_grey: #f2f2f2;
 
 $clr_black: #000000;
 $bg_input_background: #fafafa;
@@ -24,7 +25,7 @@ $clr_gray_medium: #b3b3b3;
 $clr_gray_light: #c8cbd9;
 $clr_gray_extra_light: #d0d5dd;
 $clr_gray_faded: #dcdcdc;
-
+$clr_sub_header:#636363;
 $border_list: #f8f9ff;
 //Font weight
 $font_normal: 400;
@@ -43,3 +44,5 @@ $h5: 1.666rem; // 20px
 $h6: 1.333rem; //16px
 $p1: 1.167rem; //14px
 $p2: 1rem; //12px
+
+$font: 'Inter', sans-serif;

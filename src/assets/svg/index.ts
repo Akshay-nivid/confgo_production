@@ -8,14 +8,28 @@ import LogoutIcon from "./logout.svg";
 import StepperActive from "./stepper-active.svg"
 import StepperCurrent from "./Stepper-current.svg"
 import StepperDefault from "./stepper-default.svg"
-
 import GridEndOneImg from "./grid-end-one.svg";
 import GridEndTwoImg from "./grid-end-two.svg";
 import ExportPlanImg from "./export-plan.svg";
 import AttentionTracking from "./attention-tracking.svg";
-import OnlinePayment from "./online-payment.svg";
 import SeamlessIntegration from "./seamless-integration.svg";
 import BasicPlanSvg from "./basic-plan.svg";
+import CheckIcon from "./check.svg";
+import PlayIconSvg from "./play-icon.svg";
+import ArrowIconSvg from "./arrow-icon.svg";
+import AppLogoWhite from "./logo-white-icon.svg";
+import Divider from "./divider.svg";
+import AppThemeLogo from "./appLogo.svg";
+import LockIcon from "./lock-icon.svg";
+import SupportIcon from "./support.svg";
+import SecureTransaction from "./secure-transaction.svg";
+import FlexiblePaymentOptions from "./flexible-payment.svg";
+import EndlessEvent from "./endless-event.svg";
+import ScalableMember from "./scalable-member.svg";
+import StreamlinedRegistration from './streamlined-registartion.svg'
+import RealTimeTracking from "./realtime-tracking.svg";
+import SuccessTickImage from "./success-tick-icon.svg";
+
 export {
   CalenderIcon,
   EventIcon,
@@ -32,6 +46,20 @@ export {
   SeamlessIntegration,
   ExportPlanImg,
   AttentionTracking,
-  OnlinePayment,
   BasicPlanSvg,
+  CheckIcon,
+  PlayIconSvg,
+  ArrowIconSvg,
+  AppLogoWhite,
+  Divider,
+  AppThemeLogo,
+  LockIcon,
+  SupportIcon,
+  SecureTransaction,
+  FlexiblePaymentOptions,
+  EndlessEvent,
+  ScalableMember,
+  StreamlinedRegistration,
+  RealTimeTracking,
+  SuccessTickImage
 };

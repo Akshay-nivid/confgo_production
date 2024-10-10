@@ -68,7 +68,7 @@
       outline: none;
     }
   }
-  input[type="number"] {
+  input[type='number'] {
     // Hide spin buttons in WebKit browsers (Chrome, Safari)
     &::-webkit-inner-spin-button,
     &::-webkit-outer-spin-button {
@@ -76,11 +76,9 @@
       margin: 0;
     }
 
-    // Hide spin buttons in Firefox
-    -moz-appearance: textfield; // Use textfield appearance
   }
   & .MuiInputBase-input::placeholder {
-    color: $clr_gray_extra_dark !important;
+    color: $clr_gray_dark !important;
     font-size: $p1;
   }
   .MuiOutlinedInput-notchedOutline {
@@ -100,14 +98,13 @@
   }
 
   .MuiInputLabel-outlined {
-    color: $clr_black;
-    font-size: $h6;
+    color: $clr_grey;
+    font-size: $p1;
     background-color: $clr_white;
-
     &.Mui-focused {
-      color: $clr_black;
+      color: $clr_grey;
       font-weight: $font_normal;
-      font-size: $h6;
+      font-size: $p1;
     }
   }
 }
@@ -126,6 +123,9 @@
 .checkbox-label {
   font-size: $p1;
   font-weight: $font_medium;
+}
+.custom-checkbox .MuiSvgIcon-root {
+  border-radius: 50%;
 }
 .error-input{
   .MuiOutlinedInput-notchedOutline {
@@ -200,12 +200,12 @@
     height: 2rem;
     border-radius: 50%;
   }
-  
+
   &-stepper-icon {
     width: 15rem !important;
     height: 15rem !important;
   }
-  
+
   &-next-button {
     margin: auto !important;
     display: block !important;
@@ -213,30 +213,30 @@
     height: 4rem !important;
     background-color: $clr_green !important;
     color: $white !important;
-    text-transform: none !important;  
+    text-transform: none !important;
     font-size: $h6 !important;
     font-weight: $font_semibold !important;
     margin-top: 4rem !important;
   }
-  
+
   &-back-button {
     margin: auto !important;
     display: block !important;
     width: 30rem !important;
     height: 4rem !important;
-    border: 2px solid $clr_green !important; 
+    border: 2px solid $clr_green !important;
     color: $clr_green !important;
     background-color: $white !important;
-    text-transform: none !important;  
+    text-transform: none !important;
     font-size: $h6 !important;
     font-weight: $font_semibold !important;
     margin-bottom: 4rem !important;
   }
-  &-other-details{
+  &-other-details {
     font-weight: $font_normal !important;
     font-size: $h6 !important;
   }
-  &-bottom-spacing{
+  &-bottom-spacing {
     height: 10rem !important;
   }
     &-conference-details {
@@ -260,8 +260,15 @@
     }
 }
 
-.error-input{
+
+.error-input {
   .MuiOutlinedInput-notchedOutline {
     border-color: $clr_red !important;
   }
+}
+.helper-text{
+    color: $clr_red !important;
+    font-size:$p2 !important;
+    margin: 0 !important;
+    margin-top: -0.9rem !important;
 }

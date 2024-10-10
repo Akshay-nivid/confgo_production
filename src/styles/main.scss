@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;800;900&display=swap");
 
 @import '../components/style';
 @import '../pages/register/style';
@@ -12,3 +13,5 @@
 @import '../pages/pricing/style';
 @import '../pages/home/style';
 @import '../pages/home-layout/style';
+@import '../pages/LoginOrg/style';
+@import '../pages/SetPassword/style'
