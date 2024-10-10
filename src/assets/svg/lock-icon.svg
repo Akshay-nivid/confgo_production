@@ -1,0 +1,27 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_d_120_1864)">
+<rect x="2" y="1" width="60" height="60" rx="8.4" fill="white"/>
+<rect x="2.5" y="1.5" width="59" height="59" rx="7.9" stroke="#D0D5DD"/>
+<g clip-path="url(#clip0_120_1864)">
+<path d="M37.25 25.6001H26.75C23.4363 25.6001 20.75 28.2864 20.75 31.6001V38.5001C20.75 41.8138 23.4363 44.5001 26.75 44.5001H37.25C40.5637 44.5001 43.25 41.8138 43.25 38.5001V31.6001C43.25 28.2864 40.5637 25.6001 37.25 25.6001Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M26.585 25.6V20.2C26.585 18.715 27.7999 17.5 29.2849 17.5H34.7149C36.1999 17.5 37.4149 18.715 37.4149 20.2V25.6" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M31.9998 36.4C33.491 36.4 34.6998 35.1912 34.6998 33.7C34.6998 32.2088 33.491 31 31.9998 31C30.5086 31 29.2998 32.2088 29.2998 33.7C29.2998 35.1912 30.5086 36.4 31.9998 36.4Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M32 39.0999V36.3999" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_d_120_1864" x="0" y="0" width="64" height="64" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="1"/>
+<feGaussianBlur stdDeviation="1"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.0627451 0 0 0 0 0.0941176 0 0 0 0 0.156863 0 0 0 0.05 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_120_1864"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_120_1864" result="shape"/>
+</filter>
+<clipPath id="clip0_120_1864">
+<rect width="36" height="36" fill="white" transform="translate(14 13)"/>
+</clipPath>
+</defs>
+</svg>

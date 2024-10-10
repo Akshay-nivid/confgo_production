@@ -3,7 +3,7 @@ import ConfrenceManagementSection from './ConfrenceManagementSection';
 import FaqSection from './FaqSection';
 import FeatureSection from './FeatureSection';
 import HeroSection from './HeroSection';
-import WhychooseSection from './WhychooseSection';
+import WhychooseSection from '../Home-Layout/WhychooseSection';
 
 /*
  * home page component

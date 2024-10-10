@@ -9,6 +9,10 @@ html {
 body,p,li,a,div,span,button {
   font-family: 'Inter', sans-serif !important;
 }
+
+.MuiTypography-root {
+  font-family:'Courier New', Courier, monospace !important;
+}
 // font size
 .text-h1 {
   font-size: $h1 !important;
@@ -36,14 +40,16 @@ body,p,li,a,div,span,button {
 }
 
 // font weight
-.font-300 {
-  font-weight: $font_normal !important;
-}
+
 .font-400 {
   font-weight: $font_normal !important;
 }
+
 .font-500 {
   font-weight: $font_medium !important;
+}
+.font-600 {
+  font-weight: $font_semibold !important;
 }
 .font-700 {
   font-weight: $font_bold !important;
