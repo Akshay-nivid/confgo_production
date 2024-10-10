@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import routes from "@/router/routes";
 import { useState } from "react";
 import Grid from "@mui/material/Grid2";
+import { LockIcon } from "@/assets/svg";
 
 /**
  * component used to verify the otp
@@ -36,12 +37,12 @@ const OtpComponent: React.FC<OtpComponentProps> = ({ onOtpVerify }) => {
   return (
     <Grid  className="left-content-wrapper">
       <Grid className="left-header-wrapper">
+        <Grid justifyContent={'center'} display={'flex'}>
+          <LockIcon />
+        </Grid>
         <Typography className="header-title">Verify Your Account</Typography>
         <Typography className="header-description">
-          Enter the OTP sent to +91 9876543210 /
-        </Typography>
-        <Typography className="header-description">
-          abcd@gmail.com to complete the process.
+          Enter the OTP sent to +91 9876543210 <br/> abcd@gmail.com to complete the process.
         </Typography>
       </Grid>
 
