@@ -11,7 +11,6 @@ import ProPlanImage from '@/assets/svg/pro-plan.svg';
 import StandardPlanImage from '@/assets/svg/standard-plan-icon.svg';
 import useStore from "@/Libs/store";
 import PlanCard from "@/components/PlanCard";
-import { StepperBoxes } from "./StepperBox";
 import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";
 /*
@@ -114,8 +113,8 @@ const AddPlan = React.memo(() => {
               ))}
             </RadioGroup>
           </FormControl>
-          <Grid alignSelf={"flex-end"} onClick={handleViewPlanDetails}>
-          <Typography  className="cursor-container" variant="h5" mb={3}>View Pricing details?</Typography>
+          <Grid container className="view-all-plans" alignSelf={"flex-end"} onClick={handleViewPlanDetails}>
+          <Typography className="cursor-container" variant="h5">View all Pricing details?</Typography>
           </Grid>
           <Grid container mb={2} className="w-full" >
           <CustomButton

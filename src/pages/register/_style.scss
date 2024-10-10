@@ -33,7 +33,11 @@
             font-weight: $font_normal;
           }
           & .left-plan-text{
-            font-weight: $font_extrabold;
+            font-weight: $font_bold;
+          }
+          & .view-all-plans{
+            padding-bottom: 3rem;
+            padding-top: 1.5rem;
           }
         }
         & .plan-choose-btn {
