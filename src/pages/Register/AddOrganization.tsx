@@ -1,5 +1,5 @@
 import Grid from "@mui/material/Grid2";
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     Box,
     FormControl,
@@ -9,9 +9,6 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { SubmitHandler, useForm } from "react-hook-form";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import useStore from "@/Libs/store";
-import { StepperBoxes } from "./StepperBox";
-import { useNavigate } from "react-router-dom";
-import routes from "@/router/routes";
 import { emailRules, phoneRules } from "@/Utils/Validation";
 /*
  * Organization form 
@@ -20,7 +17,14 @@ const AddOrganization = React.memo(() => {
     const { handleSubmit, control, getValues } = useForm<FormData>();
     const { setDataById }: any = useStore();
     const form3 = useStore((state: any) => state?.compData?.['form3']) ?? [];
-    const navigate = useNavigate();
+
+    /*
+    * useEffect used to set stepper info
+    */
+    useEffect(() => {
+        setDataById('register', { data: 'ADD_ORGANIZATION_PAGE', step: 3 });
+    }, [])
+
     /*
      * function to handle submission of the form
      */
@@ -49,12 +53,6 @@ const AddOrganization = React.memo(() => {
         organizationAddress: number;
     };
 
-    /*
-     * function to handle navigate to login page
-     */
-    const handleLogin = () => {
-        navigate(routes.login())
-    }
     return (
         <Grid>
             <Grid container spacing={5}  >
@@ -124,17 +122,6 @@ const AddOrganization = React.memo(() => {
                                 </Grid>
                             </form>
                         </Box>
-                        <Grid container spacing={6} justifyContent={"center"} >
-                            <Grid container spacing={1} display={"flex"}  >
-                                <Typography variant="h6">Already have an account?</Typography>
-                                <Grid onClick={handleLogin}>
-                                    <Typography variant="h6" className="login-label cursor-container" alignContent="flex-end"> Log In</Typography>
-                                </Grid>
-                            </Grid>
-                            <Grid container spacing={3} >
-                                <StepperBoxes activeStep={3} />
-                            </Grid>
-                        </Grid>
                     </Grid>
                 </Grid>
             </Grid>

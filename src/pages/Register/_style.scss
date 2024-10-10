@@ -1,23 +1,16 @@
 .register-main-container {
-  // height: 100vh;
-  & .grid-layout {
-    min-height: 100% !important;
-    // max-width: 110rem;
-    padding: 2rem;
-    margin-inline: auto;
+      height: 100vh;
+    & .back-button{
+      cursor: pointer;
+      padding-left: 12rem !important;
+      padding-top: 2rem;
+    }
     & .grid-left {
       min-width: min(42rem, 100%);
-      min-height: 100%;
-      justify-content: center !important;
-      align-items: center !important;
-      display: flex !important;
       background: url("../assets/svg/background-top.svg") no-repeat top;
       background-position: center -50px;
       background-repeat: no-repeat;
-      // background-position: top ;
       border-radius: 1.666rem;
-      background-size: 50%;
-      // padding: 1.66rem !important;
       & .left-content-wrapper {
         height: 100%;
         width: 100%;
@@ -37,6 +30,10 @@
           & .left-description-text {
             font-size: $h6;
             color: $clr_grey;
+            font-weight: $font_normal;
+          }
+          & .left-plan-text{
+            font-weight: $font_extrabold;
           }
         }
         & .plan-choose-btn {
@@ -47,10 +44,6 @@
           &:focus {
             outline: none;
           }
-        }
-        & .login-label {
-          font-weight: $font_semibold;
-          color: $clr_blue;
         }
         & .form-wrapper {
           width: 100%;
@@ -75,40 +68,24 @@
 
       }
     }
-    & .grid-right {
-      min-height: 100%;
+    & .login-label {
+      font-weight: $font_semibold;
+      color: $clr_blue;
+    }
+    & .register-stepper{
       display: flex;
-      justify-content: center;
-      align-items: flex-start;
-
-      & .right-content-wrapper {
-        height: 100%;
-        width: 100%;
-        display: flex;
-        background: url("../assets/png/login-bg.png");
-        background-repeat: no-repeat;
-        border-radius: unset;
-        background-size: 120% 120%;
-        min-height: 70vh;
-        & .image-content-text{
-          margin-left: 4.875rem;
-          margin-top: 4.125rem;
-          color:$white;
-        
-          & .paragraph{
-            font-size: 2.167rem;
-          }
-        }    
+      margin-bottom: 4rem;
+    }
+    & .grid-right {
+      background: url("../assets/png/login-bg.png");
+      background-repeat: no-repeat;
+      background-size: cover;  
         // Hide background image on mobile
         @media screen and (max-width: 799px) {
           background: none;
-        }
       }
-      
-     
     }
   }
-}
 .checkbox-text-grey {
   color: $clr_gray_light;
 }
@@ -137,10 +114,6 @@
 }
 .cursor-container{
   cursor: pointer;
-  &.back-button{
-    position: absolute;
-    top: 1rem;
-  }
 }
 
 

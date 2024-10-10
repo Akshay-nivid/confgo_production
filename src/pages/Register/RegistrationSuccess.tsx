@@ -6,19 +6,10 @@ import {
 } from "@mui/material";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import SuccessTickImage from '@/assets/png/sucess-tick.png'
-import { useNavigate } from "react-router-dom";
-import routes from "@/router/routes";
 /*
  * functional compoent to render Registration success page
  */
 const RegistrationSuccess = React.memo(() => {
-  const navigate = useNavigate();
-  /*
- * function to handle navigate to login page
- */
-  const handleLogin = () => {
-    navigate(routes.login())
-  }
   return (
     <Grid>
       <Grid className="left-content-wrapper">
@@ -71,14 +62,6 @@ const RegistrationSuccess = React.memo(() => {
                     size="large"
                   />
                 </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid container spacing={6} justifyContent={"center"} >
-            <Grid container spacing={1} display={"flex"}  >
-              <Typography variant="h6">Already have an account?</Typography>
-              <Grid onClick={handleLogin}>
-                <Typography variant="h6" className="login-label cursor-container" alignContent="flex-end"> Log In</Typography>
               </Grid>
             </Grid>
           </Grid>

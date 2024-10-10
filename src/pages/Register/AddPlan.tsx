@@ -64,10 +64,10 @@ const AddPlan = React.memo(() => {
    * get state data if selected plan data is there
    */
   useEffect(() => {
+    setDataById('register', { data: 'PLAN_PAGE', step: 1 });
     if (form1?.field_values) {
       setcurrentPlan(form1?.field_values?.header)
     }
-
   }, [])
 
   /*
@@ -84,12 +84,7 @@ const AddPlan = React.memo(() => {
   const handleViewPlanDetails=()=>{
     navigate(routes.pricing());
   }
-/*
- * function to handle navigate to login page
- */
-  const handleLogin=()=>{
-    navigate(routes.login())
-  }
+
   return (
     <Grid>
       <Grid container spacing={5}>
@@ -97,7 +92,7 @@ const AddPlan = React.memo(() => {
         <Grid className="left-inner-content">
           <FormControl className="w-full">
             <Grid alignSelf={"center"}>
-              <Typography fontWeight={800} textAlign={"center"} variant="h2" lineHeight={2} >Choose Plan</Typography>
+              <Typography className="left-plan-text" textAlign={"center"} variant="h2" lineHeight={2} >Choose Plan</Typography>
               <Typography className="left-description-text" textAlign={"center"} variant="h6">Everything you might need and then some more in an accessible and intuitive package.</Typography>
             </Grid>
             <RadioGroup
@@ -132,17 +127,6 @@ const AddPlan = React.memo(() => {
             size="large"
           />
           </Grid>
-            <Grid container spacing={6} justifyContent={"center"} >
-              <Grid container spacing={1} display={"flex"}  >
-              <Typography  variant="h6">Already have an account?</Typography>
-              <Grid onClick={handleLogin}>
-              <Typography variant="h6" className="login-label cursor-container" alignContent="flex-end"> Log In</Typography>
-              </Grid>
-              </Grid>
-              <Grid container spacing={3} >
-              <StepperBoxes activeStep={1} />
-              </Grid>
-            </Grid>
         </Grid>
       </Grid>
       </Grid>

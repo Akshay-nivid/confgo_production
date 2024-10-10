@@ -1,25 +1,24 @@
 import Grid from "@mui/material/Grid2";
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
     Box,
     Typography,
 } from "@mui/material";
 import PaymentMethodImage from "@/assets/png/payment-method.png"
-import { StepperBoxes } from "./StepperBox";
 import PayPalButton from "./PayPalCompoent";
-import { useNavigate } from "react-router-dom";
-import routes from "@/router/routes";
+import useStore from "@/Libs/store";
 /*
  * functional compoent used to render payment method 
  */
 const PaymentMethod = React.memo(() => {
-    const navigate = useNavigate();
+    const { setDataById }: any = useStore();
+ 
     /*
-     * function to handle navigate to login page
-     */
-    const handleLogin = () => {
-        navigate(routes.login())
-    }
+   * useEffect used to set stepper info
+   */
+    useEffect(() => {
+        setDataById('register', { data: 'PAYMENT_METHOD_PAGE', step: 4 });
+    }, [])
     return (
         <Grid>
             <Grid container spacing={5}>
@@ -34,17 +33,6 @@ const PaymentMethod = React.memo(() => {
                             {/* renders paypal button */}
                             <PayPalButton />
                         </Box>
-                        <Grid container spacing={6} justifyContent={"center"} >
-                            <Grid container spacing={1} display={"flex"}  >
-                                <Typography variant="h6">Already have an account?</Typography>
-                                <Grid onClick={handleLogin}>
-                                    <Typography variant="h6" className="login-label cursor-container" alignContent="flex-end"> Log In</Typography>
-                                </Grid>
-                            </Grid>
-                            <Grid container spacing={4} >
-                                <StepperBoxes activeStep={3} />
-                            </Grid>
-                        </Grid>
                     </Grid>
                 </Grid>
             </Grid>
