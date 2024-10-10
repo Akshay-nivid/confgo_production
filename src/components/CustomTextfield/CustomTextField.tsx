@@ -15,8 +15,10 @@ import {
   Path,
   PathValue,
   RegisterOptions,
-} from 'react-hook-form';
-import { useState } from 'react';
+} from "react-hook-form";
+import { useState } from "react";
+import { clsx } from 'clsx';
+
 interface ICustomTextFieldProps<T extends FieldValues> {
   prefixIconButton?: React.ReactNode;
   prefixIcon?: React.ReactNode;
@@ -34,9 +36,11 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   rules?: RegisterOptions<T>;
   control?: Control<T>;
   style?: React.CSSProperties;
-  showHeader?: boolean;
-  requiredField?: boolean;
-  defaultValue?: PathValue<T, Path<T>>;
+  showHeader?:boolean
+  requiredField?:boolean
+  defaultValue?:PathValue<T, Path<T>>
+  className?: string;
+  formControlClassName?: string;
 }
 
 interface InputPropsType {
@@ -161,11 +165,12 @@ const CustomTextField = <T extends FieldValues>({
                   id={name}
                   type={type === 'password' ? passwordType : type}
                   label={label}
-                  className={
+                  className={clsx(
                     error
                       ? 'custom-text-field error-input'
-                      : 'custom-text-field'
-                  }
+                      : 'custom-text-field',
+                    props.className
+                  )}
                   placeholder={placeholder}
                   {...inputProps()}
                 />

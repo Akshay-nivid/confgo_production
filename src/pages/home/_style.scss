@@ -5,7 +5,7 @@
   color: $clr_white;
   background-size: cover;
   .hero-section-content {
-    padding-top: 16.75rem;
+    padding-top: 11.25rem;
     .hero-section-container {
       height: 100%;
       display: flex;
@@ -225,16 +225,17 @@
   }
 
   &__image-container {
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-start;
     padding-right: 5rem;
+    background:url("/src/assets/png/online-payment.png");
+    background-size: contain;
+    background-repeat: no-repeat;
 
     .reversed & {
       align-items: flex-start;
       justify-content: flex-end;
       padding-left: 5rem;
       padding-right: 0;
+      background-position: right;
     }
   }
 
@@ -322,18 +323,6 @@
         margin-bottom: 0.3rem;
       }
 
-      &-description {
-        color: $clr_grey;
-      }
-    }
-  }
-}
-
-.whychoose-section {
-  padding-bottom: 6.83rem;
-  &__content {
-    .whychoose-section__header {
-      margin-bottom: 6rem;
       &-description {
         color: $clr_grey;
       }

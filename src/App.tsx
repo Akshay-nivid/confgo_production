@@ -10,7 +10,7 @@ import Dashboard from '@/pages/dashboard';
 import Events from '@/pages/events';
 import CalendarRoute from '@/pages/calendar';
 import Home from '@/pages/Home';
-import Pricing from '@/pages/Pricing/Pricing';
+import Pricing from '@/pages/Pricing';
 import HomeLayout from '@/pages/Home-Layout';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
