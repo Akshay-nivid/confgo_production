@@ -21,6 +21,14 @@ import AppLogoWhite from "./logo-white-icon.svg";
 import Divider from "./divider.svg";
 import AppThemeLogo from "./appLogo.svg";
 import LockIcon from "./lock-icon.svg";
+import SupportIcon from "./support.svg";
+import SecureTransaction from "./secure-transaction.svg";
+import FlexiblePaymentOptions from "./flexible-payment.svg";
+import EndlessEvent from "./endless-event.svg";
+import ScalableMember from "./scalable-member.svg";
+import StreamlinedRegistration from './streamlined-registartion.svg'
+import RealTimeTracking from "./realtime-tracking.svg";
+import SuccessTickImage from "./success-tick-icon.svg";
 
 export {
   CalenderIcon,
@@ -45,5 +53,13 @@ export {
   AppLogoWhite,
   Divider,
   AppThemeLogo,
-  LockIcon
+  LockIcon,
+  SupportIcon,
+  SecureTransaction,
+  FlexiblePaymentOptions,
+  EndlessEvent,
+  ScalableMember,
+  StreamlinedRegistration,
+  RealTimeTracking,
+  SuccessTickImage
 };

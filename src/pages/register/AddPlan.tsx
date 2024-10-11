@@ -11,10 +11,9 @@ import ProPlanImage from '@/assets/svg/pro-plan.svg';
 import StandardPlanImage from '@/assets/svg/standard-plan-icon.svg';
 import useStore from "@/Libs/store";
 import PlanCard from "@/components/PlanCard";
-import { StepperBoxes } from "./StepperBox";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";
+import { ArrowIconSvg } from "@/assets/svg";
 /*
  * sample plan data will be replaced after integration of api
  */
@@ -65,10 +64,10 @@ const AddPlan = React.memo(() => {
    * get state data if selected plan data is there
    */
   useEffect(() => {
+    setDataById('register', { data: 'PLAN_PAGE', step: 1 });
     if (form1?.field_values) {
       setcurrentPlan(form1?.field_values?.header)
     }
-
   }, [])
 
   /*
@@ -76,14 +75,8 @@ const AddPlan = React.memo(() => {
    */
   const handleClick = () => {
     const planDetail = plans.find((item) => item.header === currentPlan);
-    setDataById('register', { data: 'two' });
+    setDataById('register', { data: 'CREATE_ACCOUNT_PAGE', step: 2 });
     setDataById('form1', { field_values: planDetail });
-  }
-  /*
- * function to handle back button
- */
-  const handleBack = () => {
-    navigate('/');
   }
   /*
  * function to handle view plan details
@@ -91,26 +84,15 @@ const AddPlan = React.memo(() => {
   const handleViewPlanDetails=()=>{
     navigate(routes.pricing());
   }
-/*
- * function to handle navigate to login page
- */
-  const handleLogin=()=>{
-    navigate(routes.login())
-  }
+
   return (
     <Grid>
       <Grid container spacing={5}>
-      <Grid container  spacing={2} alignSelf={"start"} >
-        <Grid columnGap={1}  alignItems={"center"} display={"flex"} className="cursor-container" size={{xs:2}} onClick={handleBack}>
-        <ArrowBackIcon />
-        <Typography variant="h6">Back</Typography>
-        </Grid>
-      </Grid>
       <Grid  className="left-content-wrapper">
         <Grid className="left-inner-content">
           <FormControl className="w-full">
             <Grid alignSelf={"center"}>
-              <Typography fontWeight={800} textAlign={"center"} variant="h2" lineHeight={2} >Choose Plan</Typography>
+              <Typography className="left-plan-text" textAlign={"center"} variant="h2" lineHeight={2} >Choose Plan</Typography>
               <Typography className="left-description-text" textAlign={"center"} variant="h6">Everything you might need and then some more in an accessible and intuitive package.</Typography>
             </Grid>
             <RadioGroup
@@ -132,30 +114,18 @@ const AddPlan = React.memo(() => {
               ))}
             </RadioGroup>
           </FormControl>
-          <Grid alignSelf={"flex-end"} onClick={handleViewPlanDetails}>
-          <Typography  className="cursor-container" variant="h5" mb={3}>View Pricing details?</Typography>
+          <Grid container className="view-all-plans" alignSelf={"flex-end"} onClick={handleViewPlanDetails}>
+          <Typography className="cursor-container" variant="h5">View all Pricing details?</Typography>
           </Grid>
           <Grid container mb={2} className="w-full" >
           <CustomButton
             className="plan-choose-btn"
+            endIcon={<ArrowIconSvg/>}
             onClick={handleClick}
-            label="Choose Plan →"
-            variant="contained"
-            color="primary"
+            label="Choose Plan"
             size="large"
           />
           </Grid>
-            <Grid container spacing={6} justifyContent={"center"} >
-              <Grid container spacing={1} display={"flex"}  >
-              <Typography  variant="h6">Already have an account?</Typography>
-              <Grid onClick={handleLogin}>
-              <Typography variant="h6" className="login-label cursor-container" alignContent="flex-end"> Log In</Typography>
-              </Grid>
-              </Grid>
-              <Grid container spacing={3} >
-              <StepperBoxes activeStep={1} />
-              </Grid>
-            </Grid>
         </Grid>
       </Grid>
       </Grid>

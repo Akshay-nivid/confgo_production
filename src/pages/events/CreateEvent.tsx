@@ -6,6 +6,7 @@ import CustomRadio from '@/components/CustomRadio/CustomRadio';
 import CustomTextField from '@/components/CustomTextfield/CustomTextField';
 import { Box, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import ReactQuill from 'react-quill';
@@ -19,12 +20,17 @@ type EventProps = {
 type FormData = {
     type: string,
     name: string,
-    specialty: string,
-    date: Date,
-    venue: string,
-    agenda: string,
+    startDate: Date,
+    endDate: Date,
     speakers: string,
-    description: string
+    description: string,
+    location: string,
+    address: string,
+    city: string,
+    state: string,
+    country: string,
+    pin: string,
+    url: string
 };
 
 const typeArray = [
@@ -34,11 +40,10 @@ const typeArray = [
 ];
 
 const CreateEvent: React.FC<EventProps> = React.memo(({ formSubmit, onSubmitHandler, data }) => {
-    const { handleSubmit, control, setValue } = useForm<FormData>();
+    const { handleSubmit, control, setValue, watch, formState: { errors } } = useForm<FormData>();
 
     const [editorContent, setEditorContent] = useState('');
 
-    console.log('testvalue',editorContent,typeof(editorContent))
 
     const handleChange = (value: any) => {
         setEditorContent(value);
@@ -71,8 +76,13 @@ const CreateEvent: React.FC<EventProps> = React.memo(({ formSubmit, onSubmitHand
             setFormValues(data, setValue)
             data?.description && setEditorContent(data?.description);
         }
+        else{
+            setValue('type','OFFLINE')
+        }
     }, [data])
 
+
+    
 
     return <Box className="create-event-container">
         <Grid container size={{ xs: 12, sm: 12 }} justifyContent="center" alignItems="center" spacing={4}>
@@ -84,6 +94,9 @@ const CreateEvent: React.FC<EventProps> = React.memo(({ formSubmit, onSubmitHand
                 <Grid>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <Grid container spacing={2} alignItems={'center'} justifyContent={'center'}>
+                        <Grid size={{ xs: 12, sm: 12 }}>
+                                <Typography variant="h3" className="create-event-description">Event Name</Typography>
+                            </Grid>
                         <Grid size={{ xs: 12, sm: 12 }} >
                                 <CustomTextField
                                     placeholder="Event Name"
@@ -93,22 +106,23 @@ const CreateEvent: React.FC<EventProps> = React.memo(({ formSubmit, onSubmitHand
                                     rules={{ required: true }}
                                 />
                             </Grid>
-                            <Grid size={{ xs: 12, sm: 12 }} >
+                            <Grid size={{ xs: 12, sm: 12 }}>
+                                <Typography variant="h3" className="create-event-description">Event Description</Typography>
+                            </Grid>
+                            <Grid size={{ xs: 12, sm: 12 }} className="create-event-description">
                                 <ReactQuill
+                                    className={(errors?.description || watch('description') === '<p><br></p>')? "create-event-description-error": ''}
                                     value={editorContent}
                                     onChange={handleChange}
                                     theme="snow"
-                                    placeholder="Type your message here..."
+                                    placeholder="Type your description here..."
                                 />
-                                {/* <CustomTextField
-                                    placeholder="Event Description"
+                                <CustomTextField
                                     control={control}
                                     name="description"
-                                    type="text"
+                                    type="hidden"
                                     rules={{ required: true }}
-                                    multiline={true}
-                                    rows={4}
-                                /> */}
+                                />
                             </Grid>
                             <Grid size={{ xs: 12, sm: 12 }} >
                                 <CustomRadio
@@ -122,44 +136,85 @@ const CreateEvent: React.FC<EventProps> = React.memo(({ formSubmit, onSubmitHand
                             </Grid>
                             <Grid size={{ xs: 12, sm: 6 }} >
                                 <CustomTextField
-                                    placeholder="Specialty"
+                                    placeholder="Start Date"
                                     control={control}
-                                    name="specialty"
-                                    type="text"
+                                    name="startDate"
+                                    type="date"
+                                    defaultValue={moment(new Date()).format('YYYY-MM-DD')}
                                 />
                             </Grid>
                             <Grid size={{ xs: 12, sm: 6 }} >
                                 <CustomTextField
-                                    placeholder="Date & Time"
+                                    placeholder="End Date"
                                     control={control}
-                                    name="date"
-                                    type="datetime-local"
+                                    name="endDate"
+                                    type="date"
+                                    defaultValue={moment(new Date()).format('YYYY-MM-DD')}
                                 />
                             </Grid>
-                            <Grid size={{ xs: 12, sm: 6 }} >
+                            {watch('type') !== 'OFFLINE' && <Grid size={{ xs: 12, sm: 12 }} >
                                 <CustomTextField
-                                    placeholder="Venue/Location"
+                                    placeholder="Url"
                                     control={control}
-                                    name="venue"
+                                    name="url"
                                     type="text"
+                                    rules={{ required: watch('type') === 'ONLINE' }}
                                 />
-                            </Grid>
-                            <Grid size={{ xs: 12, sm: 6 }} >
+                            </Grid>}
+                            {watch('type') !== 'ONLINE' && <><Grid size={{ xs: 12, sm: 12 }} >
                                 <CustomTextField
-                                    placeholder="Agenda"
+                                    placeholder="Location"
                                     control={control}
-                                    name="agenda"
+                                    name="location"
                                     type="text"
+                                    rules={{ required: watch('type') === 'OFFLINE' }}
                                 />
                             </Grid>
                             <Grid size={{ xs: 12, sm: 12 }} >
                                 <CustomTextField
-                                    placeholder="Speakers"
+                                    placeholder="Address"
                                     control={control}
-                                    name="speakers"
+                                    name="address"
                                     type="text"
+                                    rules={{ required: watch('type') === 'OFFLINE' }}
                                 />
                             </Grid>
+                            <Grid size={{ xs: 12, sm: 6 }} >
+                                <CustomTextField
+                                    placeholder="City"
+                                    control={control}
+                                    name="city"
+                                    type="text"
+                                    rules={{ required: watch('type') === 'OFFLINE' }}
+                                />
+                            </Grid>
+                            <Grid size={{ xs: 12, sm: 6 }} >
+                                <CustomTextField
+                                    placeholder="State"
+                                    control={control}
+                                    name="state"
+                                    type="text"
+                                    rules={{ required: watch('type') === 'OFFLINE' }}
+                                />
+                            </Grid>
+                            <Grid size={{ xs: 12, sm: 6 }} >
+                                <CustomTextField
+                                    placeholder="Country"
+                                    control={control}
+                                    name="country"
+                                    type="text"
+                                    rules={{ required: watch('type') === 'OFFLINE' }}
+                                />
+                            </Grid>
+                            <Grid size={{ xs: 12, sm: 6 }} >
+                                <CustomTextField
+                                    placeholder="Pin Code"
+                                    control={control}
+                                    name="pin"
+                                    type="text"
+                                    rules={{ required: watch('type') === 'OFFLINE' }}
+                                />
+                            </Grid></>}
                         </Grid>
 
                     </form>

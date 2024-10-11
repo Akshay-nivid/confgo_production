@@ -11,6 +11,8 @@ interface CustomSelectProps {
     error?: boolean;
     helperText?: string;
     fullWidth?: boolean;
+    rules?: any;
+
 }
 
 const CustomSelect: React.FC<CustomSelectProps> = ({
@@ -19,6 +21,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
     options,
     control,
     defaultValue = '',
+    rules,
     error = false,
     helperText,
     fullWidth = false,
@@ -30,12 +33,14 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
                 name={name}
                 control={control}
                 defaultValue={defaultValue}
-                render={({ field }) => (
+                rules={rules}
+                render={({ field, fieldState: { error } }) => (
                     <Select
                         {...field}
                         labelId={`${name}-label`}
                         // label={label}
                         placeholder={label}
+                        className={error ? 'error-input': ''}
                         displayEmpty
                     >
                         <MenuItem value="" disabled>

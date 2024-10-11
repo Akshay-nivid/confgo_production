@@ -63,7 +63,11 @@ const Events = () => {
    * The handleBack function is used to move the stepper to the previous step.
    */
   const handleBack = () => {
-    if (activeStep > 0) {
+    setFormSubmit({
+      event: false,
+      program: false,
+    })
+    if (activeStep >= 0) {
       setActiveStep((prevStep) => prevStep - 1);
     }
   };
@@ -93,7 +97,6 @@ const Events = () => {
   const onSaveHandler = (data: object) => {
       setFormData({ ...formData, ['program']: data });
   };
-  console.log('testdata',formData)
 
   return (
     <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper">
@@ -126,7 +129,7 @@ const Events = () => {
           container
           justifyContent={'right'}
           spacing={2}
-          size={{ xs: activeStep === 2? 10: 9, sm: activeStep === 2? 10: 9}}
+          size={{ xs: activeStep === 2? 12: 9, sm: activeStep === 2? 12: 9}}
           sx={{
             width: '100%'
           }}
