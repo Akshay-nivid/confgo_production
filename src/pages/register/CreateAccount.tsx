@@ -9,10 +9,7 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { SubmitHandler, useForm } from "react-hook-form";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import useStore from "@/Libs/store";
-import { StepperBoxes } from "./StepperBox";
 import { emailRules, phoneRules } from "@/Utils/Validation";
-import { useNavigate } from "react-router-dom";
-import routes from "@/router/routes";
 /*
  * funtional componet to render create form field
  */
@@ -20,7 +17,7 @@ const CreateAccount = React.memo(() => {
     const { setDataById }: any = useStore();
     const form2 = useStore((state: any) => state?.compData?.['form2']) ?? [];
     const { handleSubmit, control, getValues } = useForm<FormData>();
-    const navigate = useNavigate();
+
     /*
      * function to handle form submission 
      */
@@ -35,7 +32,7 @@ const CreateAccount = React.memo(() => {
         if (!values.fullName || !values.lastName || !values.email || !values.phoneNumber) {
             return
         } else {
-            setDataById('register', { data: 'ADD_ORGANIZATION_PAGE', field_values: values });
+            setDataById('register', { data: 'ADD_ORGANIZATION_PAGE', field_values: values, step: 3 });
             setDataById('form2', { field_values: values });
         }
 
@@ -49,12 +46,7 @@ const CreateAccount = React.memo(() => {
         email: string;
         phoneNumber: number;
     };
-    /*
-     * function to handle navigate to login page
-     */
-    const handleLogin = () => {
-        navigate(routes.login())
-    }
+
     return (
         <Grid>
             <Grid  container spacing={5}>
@@ -62,7 +54,7 @@ const CreateAccount = React.memo(() => {
                     <Grid className="left-inner-content">
                         <Grid container spacing={2}>
                         <Grid  alignSelf={"center"}>
-                            <Typography fontWeight={800} textAlign={"center"} variant="h3" lineHeight={2} >Create Your Account</Typography>
+                            <Typography className="left-plan-text" textAlign={"center"} variant="h3" lineHeight={2} >Create Your Account</Typography>
                             <Typography className="left-description-text" textAlign={"center"} variant="h6" mb={2}>Join us and streamline your conference management today.</Typography>
                         </Grid>
                         </Grid>
@@ -126,17 +118,6 @@ const CreateAccount = React.memo(() => {
                                 </Grid>
                             </form>
                         </Box>
-                        <Grid container spacing={6} justifyContent={"center"} >
-                            <Grid container spacing={1} display={"flex"}  >
-                                <Typography variant="h6">Already have an account?</Typography>
-                                <Grid onClick={handleLogin}>
-                                    <Typography variant="h6" className="login-label cursor-container" alignContent="flex-end"> Log In</Typography>
-                                </Grid>
-                            </Grid>
-                            <Grid container spacing={3} >
-                                <StepperBoxes activeStep={2} />
-                            </Grid>
-                        </Grid>
                     </Grid>
                 </Grid>
             </Grid>

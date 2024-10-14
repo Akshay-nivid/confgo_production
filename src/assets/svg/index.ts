@@ -28,6 +28,8 @@ import EndlessEvent from "./endless-event.svg";
 import ScalableMember from "./scalable-member.svg";
 import StreamlinedRegistration from './streamlined-registartion.svg'
 import RealTimeTracking from "./realtime-tracking.svg";
+import SuccessTickImage from "./success-tick-icon.svg";
+
 export {
   CalenderIcon,
   EventIcon,
@@ -58,5 +60,6 @@ export {
   EndlessEvent,
   ScalableMember,
   StreamlinedRegistration,
-  RealTimeTracking
+  RealTimeTracking,
+  SuccessTickImage
 };
