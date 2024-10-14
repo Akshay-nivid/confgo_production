@@ -1,0 +1,68 @@
+.user-login {
+    
+    &.layout {
+      height: 100vh;
+      .grid-left {
+        background-color: $clr_teal;
+      }
+  
+      .grid-right {
+        .right-content-wrapper {
+          max-width: 33.333rem;
+          .header-content-wrapper {
+            margin-bottom: 3.2rem;
+            .header-title {
+                font-size: $h1;
+                font-weight: $font-bold;
+            
+            }
+  
+            .header-description {
+                font-size: $h6;
+                color: $clr_gray_dark_text;
+            }
+          }
+  
+          .form-wrapper {
+            margin-bottom: 2rem;
+            .form {
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+                padding-inline: 2rem;
+                .checkbox-wrapper {
+                    display: flex;
+                    align-items: center;
+                    .MuiSvgIcon-root {
+                        font-size: 1.66rem !important;
+                    }   
+                    .remember-me-text {
+                        font-size: $p2;
+                        font-weight: $font-medium;
+                    }
+              
+                  }
+                  .login-button {
+                    border-radius: 4rem;
+                    background-color: $clr_teal;
+                    height: 3.5rem;
+                  }
+            }
+          }
+          
+          .forget-password-text {
+            margin-bottom: 4rem;
+            font-size: $p1;
+            font-weight: $font-medium;
+          }   
+          .dont-have-account-text {
+            font-size: $p1;
+            font-weight: $font-medium;
+            span {
+                color: $clr_teal;
+            }
+          }
+        }
+      }
+    }
+  }
