@@ -1,3 +1,4 @@
+import Coupon from "@/pages/coupon";
 
 const routes = {
   home: () => "/",

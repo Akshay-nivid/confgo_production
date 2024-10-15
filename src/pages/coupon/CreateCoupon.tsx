@@ -6,18 +6,21 @@ import CustomTextField from '@/components/CustomTextfield/CustomTextField';
 import CustomSelect from '@/components/CustomSelectBox/CustomSelect';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import apiClient from '@/Libs/Https/API-client';
+import { useNavigate } from 'react-router-dom';
+import routes from '@/router/routes';
 
 interface CouponFormData {
   name: string;
   code: string;
   startDate: string;
   endDate?: string;
-  discountType: 'percentage' | 'flat';
+  discountType: '';
   discountValue: string;
   maxUses: string;
   maxDiscountValue: string;
   minPurchaseValue: string;
   description?: string;
+  type?: string;
 }
 
 const CreateCoupon: React.FC = () => {
@@ -27,7 +30,7 @@ const CreateCoupon: React.FC = () => {
       name: '',
       startDate: '',
       endDate: '',
-      discountType: 'percentage',
+      discountType: '',
       discountValue: '',
       maxUses: '',
       maxDiscountValue: '',
@@ -40,22 +43,27 @@ const CreateCoupon: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
-
+  const navigate = useNavigate();
+  
   const onSubmit = async (data: CouponFormData) => {
     setLoading(true);
     try {
       const req = {
         ...data,
+        status:1,
         timesUsed: 0,
         companyId: 1,
       };
 
       const response = await apiClient.post('coupon', req);
-      
+
       if (response.status === 201 && response.data.status === 'success') {
         setSnackbarMessage(response.data.message);
         setSnackbarSeverity('success');
-        reset(); 
+        reset();
+        setTimeout(() => {
+          navigate(routes.coupon()); // Redirect to the coupon list
+      }, 1500); 
       } else {
         throw new Error(response.data.message || 'Unexpected error occurred');
       }
@@ -75,32 +83,36 @@ const CreateCoupon: React.FC = () => {
 
   const discountTypeOptions = [
     { value: 'percentage', label: 'Percentage' },
-    { value: 'flat', label: 'Flat' },
+    { value: 'flat', label: 'Flat Rate' },
   ];
 
   return (
-    <Box className='create-coupon-container'>
+    <Box className="create-coupon-container">
+       <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleSnackbarClose}>
+        <Alert onClose={handleSnackbarClose} severity={snackbarSeverity}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
       <Grid container size={{ xs: 12, sm: 12 }} justifyContent='center' alignItems='center' spacing={4}>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <Grid>
-            <Typography textAlign={'center'} variant='h3' lineHeight={2} className='create-coupon-title'>
+        <Grid size={{ xs: 12, sm: 6 }} className="create-coupon-grid">
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <Typography textAlign={'center'} lineHeight={2} className='create-coupon-title'>
               Create New Coupon
             </Typography>
           </Grid>
-          <Grid>
-            <form onSubmit={handleSubmit(onSubmit)} className='form1'>
+          <Grid size={{ xs: 12, sm: 6 }} className="create-coupon-form">
+            <form onSubmit={handleSubmit(onSubmit)} >
               <Grid container spacing={2} alignItems={'center'} justifyContent={'center'}>
                 {/* Coupon fields */}
                 <Grid size={{ xs: 12, sm: 6 }}>
                   <CustomTextField
                     name='name'
                     placeholder='Coupon Name'
-                    control={control}
+                    control={control}             
                     rules={{ required: 'Coupon Name is required' }}
                     requiredField
                   />
                 </Grid>
-
                 <Grid size={{ xs: 12, sm: 6 }}>
                   <CustomTextField
                     name='code'
@@ -110,7 +122,26 @@ const CreateCoupon: React.FC = () => {
                     requiredField
                   />
                 </Grid>
-
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  <CustomSelect
+                    name='discountType'
+                    label='Discount Type'
+                   // defaultValue=""
+                    control={control}
+                    options={discountTypeOptions}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid size={{ xs: 12, sm: 6 }}>
+                  <CustomTextField
+                    name='discountValue'
+                    placeholder='Discount Value'
+                    control={control}
+                    rules={{ required: 'Discount Value is required' }}
+                    type='number'
+                    requiredField
+                  />
+                </Grid>    
                 <Grid size={{ xs: 12, sm: 6 }}>
                   <CustomTextField
                     placeholder='Start Date'
@@ -127,75 +158,52 @@ const CreateCoupon: React.FC = () => {
                     name='endDate'
                     control={control}
                     type='date'
-                    placeholder='End Date'
-                  />
-                </Grid>
-
-                <Grid size={{ xs: 12, sm: 6 }}>
-                  <CustomSelect
-                    name='discountType'
-                    label='Type of Discount'
-                    control={control}
-                    options={discountTypeOptions}
-                    helperText='Select Type of Discount'
-                    fullWidth
-                  />
-                </Grid>
-
-                <Grid size={{ xs: 12, sm: 6 }}>
-                  <CustomTextField
-                    name='discountValue'
-                    placeholder='Discount Value'
-                    control={control}
-                    rules={{ required: 'Discount Value is required' }}
-                    type='number'
                     requiredField
+                    rules={{ required: 'Expiry Date is required' }}
+                    placeholder='Expiry Date'
                   />
                 </Grid>
-
                 <Grid size={{ xs: 12, sm: 6 }}>
                   <CustomTextField
                     name='maxUses'
-                    placeholder='Total Redemptions'
+                    placeholder='Maximum Usage'
                     control={control}
-                    rules={{ required: 'Total Redemptions is required' }}
                     type='number'
                     requiredField
                   />
                 </Grid>
-
                 <Grid size={{ xs: 12, sm: 6 }}>
                   <CustomTextField
                     name='maxDiscountValue'
                     placeholder='Maximum Discount Amount'
                     control={control}
-                    rules={{ required: 'Maximum Discount Amount is required' }}
                     type='number'
                     requiredField
                   />
                 </Grid>
-
                 <Grid size={{ xs: 12, sm: 12 }}>
                   <CustomTextField
                     name='minPurchaseValue'
                     placeholder='Minimum Purchase Amount'
                     control={control}
-                    rules={{ required: 'Minimum Purchase Amount is required' }}
                     type='number'
                     requiredField
                   />
                 </Grid>
-
+                
                 <Grid size={{ xs: 12, sm: 12 }}>
                   <CustomTextField
                     name='description'
-                    placeholder='Coupon Description'
+                    multiline={true}
+                    rows={4} 
+                    placeholder='Description'
                     control={control}
                   />
                 </Grid>
                 <Grid container size={{ xs: 12, sm: 6 }} justifyContent='center' alignItems='center' spacing={4}>
-                  <Grid size={{ xs: 12, sm: 6 }}>
+                  <Grid  >
                     <CustomButton
+                      className="create-coupon-next-btn"
                       label='Submit'
                       variant='contained'
                       color='primary'
@@ -204,17 +212,14 @@ const CreateCoupon: React.FC = () => {
                       disabled={loading}
                     />
                   </Grid>
+               
                 </Grid>
               </Grid>
             </form>
           </Grid>
         </Grid>
       </Grid>
-        <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleSnackbarClose}>
-          <Alert onClose={handleSnackbarClose} severity={snackbarSeverity}>
-            {snackbarMessage}
-          </Alert>
-        </Snackbar>
+     
     </Box>
   );
 };
