@@ -1,73 +1,49 @@
-.user-payment {
-    
-    &.layout {
-      height: 100vh;
-      .grid-left {
-        background-color: $clr_teal;
+
+  .payment{
+    padding-block: 2rem;
+    .payment-content{
+      max-width:35.333rem;
+    }
+    .header-content-wrapper {
+      margin-bottom: 2rem;
+  
+      .header-title {
+          font-size: $h1;
+          font-weight: $font-bold;
+          margin-bottom: 3rem;
+      
       }
-  
-      .grid-right {
-        .right-content-wrapper {
-          max-width: 33.333rem;
-          .header-content-wrapper {
-            margin-bottom: 2rem;
-
-            .header-title {
-                font-size: $h1;
-                font-weight: $font-bold;
-                margin-bottom: 3rem;
-            
-            }
-            .payment-method-image {
-              margin-bottom: 1rem;
-            }
-          }
-  
-          .form-wrapper {
-            margin-bottom: 2rem;
-            .form {
-                display: flex;
-                flex-direction: column;
-                gap: 1.5rem;
-              
-                  
-                  .login-button {
-                    
-                    height: 100%;
-                    border: .14rem solid $clr_teal;
-                    background-color: transparent;
-                    color: $clr_teal;
-                    box-shadow: none;
-                    border-radius: .8rem;
-                    width: 100%;
-                    font-weight: $font-medium;
-                   
-                  }
-            }
-          }
-          .button-wrapper {
-            margin-top: 3rem;
-            .payment-button {
-                width: 100%;
-               border-radius: 4rem;
-               background-color: $clr_teal;
-               height: 45px;
-
-            }
-          }
-          .forget-password-text {
-            margin-bottom: 4rem;
-            font-size: $p1;
-            font-weight: $font-medium;
-          }   
-          .dont-have-account-text {
-            font-size: $p1;
-            font-weight: $font-medium;
-            span {
-                color: $clr_teal;
-            }
-          }
-        }
+      .payment-method-image {
+        margin-bottom: 1rem;
       }
     }
+    .form-wrapper {
+      margin-bottom: 2rem;
+      .coupon-button {
+            
+        height: 100%;
+        padding-inline: 1rem;
+        border: .14rem solid $clr_teal;
+        background-color: transparent;
+        color: $clr_teal;
+        box-shadow: none;
+        border-radius: .8rem;
+        width: 100%;
+        font-weight: $font-medium;
+        
+       
+      }
+    }
+    .button-wrapper {
+      margin-top: 3rem;
+      width: 100%;
+      .payment-button {
+          width: 100%;
+         border-radius: 4rem;
+         background-color: $clr_teal;
+         height: 45px;
+  
+    } 
   }
+}
+

@@ -175,7 +175,7 @@ const CustomTextField = <T extends FieldValues>({
                   {...inputProps()}
                 />
                 {error?.message && (
-                  <FormHelperText className="helper-text">
+                  <FormHelperText className="error-text">
                     {error.message}
                   </FormHelperText>
                 )}

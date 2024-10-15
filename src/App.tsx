@@ -19,19 +19,27 @@ import SetPassword from '@/pages/SetPassword/SetPassword';
 import UserLogin from '@/pages/Participants/user-login';
 import UserRegister from '@/pages/Participants/user-register';
 import Payment from './pages/Participants/payment/Payment';
+import UserAuthentication from './pages/Participants/authentication';
 
 const userRoutes = () => [
+
+ 
   {
-    path: routes.userLogin(),
-    element: <UserLogin />,
-  },
-  {
-    path: routes.userRegister(),
-    element: <UserRegister />,
-  },
-  {
-    path: routes.userPayment(),
-    element: <Payment />,
+    element: <UserAuthentication />,
+    children: [
+      {
+        path: routes.userLogin(),
+        element: <UserLogin />,
+      },
+      {
+        path: routes.userRegister(),
+        element: <UserRegister />,
+      },
+      {
+        path: routes.userPayment(),
+        element: <Payment />,
+      },
+    ]
   },
 ]
 

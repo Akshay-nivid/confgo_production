@@ -1,13 +1,12 @@
 .user-register {
   &.layout {
     height: 100vh;
-    .grid-left {
-      background-color: $clr_teal;
-    }
-
-    .grid-right {
-      .right-content-wrapper {
-        max-width: 33.333rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+    .content-wrapper {
+        max-width: 35.333rem;
         .header-content-wrapper {
           margin-bottom: 3.2rem;
           .header-title {
@@ -39,7 +38,7 @@
 
         .already-have-account-text {
           font-size: $p1;
-          font-weight: $font-medium;
+          font-weight: $font-semibold;
           margin-top: 3.5rem !important;
           span {
             color: $clr_teal;
@@ -48,4 +47,4 @@
       }
     }
   }
-}
+

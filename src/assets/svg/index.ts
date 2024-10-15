@@ -29,6 +29,7 @@ import ScalableMember from "./scalable-member.svg";
 import StreamlinedRegistration from './streamlined-registartion.svg'
 import RealTimeTracking from "./realtime-tracking.svg";
 import SuccessTickImage from "./success-tick-icon.svg";
+import CouponIconColored from "./coupon-icon.svg";
 
 export {
   CalenderIcon,
@@ -61,5 +62,6 @@ export {
   ScalableMember,
   StreamlinedRegistration,
   RealTimeTracking,
-  SuccessTickImage
+  SuccessTickImage,
+  CouponIconColored
 };
