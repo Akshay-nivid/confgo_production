@@ -16,9 +16,6 @@ const routes = {
   demo: () => "/demo",
   LoginOrg: () => "/organization/login",
   SetPassword : () => "/setpassword",
-  userLogin: () => "/user-login",
-  userRegister: () => "/user-register",
-  userPayment: () => "/user-payment",
 };
 
 export default routes;

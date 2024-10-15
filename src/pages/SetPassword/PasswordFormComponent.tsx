@@ -4,6 +4,8 @@ import CustomTextField from '@/components/CustomTextfield/CustomTextField';
 import Grid from '@mui/material/Grid2';
 import CheckIcon from '@mui/icons-material/Check';
 import clsx from 'clsx';
+import { validateConfirmPassword, validateMinLength, validatePassword, validateRequiredField } from '@/Utils/Validation';
+import { REGEX } from '@/Utils/Validation';
 /**
  * Component use to set password
  * @returns
@@ -25,15 +27,12 @@ const SetPasswordComponent = () => {
   const password = watch('password');
 
 
-  // Regex for special character validation
-  const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
 
 
   /**
    * function used to handle form submission
    */
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log('Form Submitted', data);
   };
 
   return (
@@ -64,15 +63,9 @@ const SetPasswordComponent = () => {
               control={control}
               name="password"
               rules={{
-                required: 'Password is required',
-                minLength: {
-                  value: 8,
-                  message: 'Password must be at least 8 characters',
-                },
-                pattern: {
-                  value: specialCharRegex,
-                  message: 'Password must contain one special character',
-                },
+                required: validateRequiredField({fieldName:'Password'}),
+                minLength: validateMinLength({fieldName:'Password',minLength:8}),
+                pattern:validatePassword({})
               }}
               type="password"
               placeholder="Password"
@@ -89,9 +82,8 @@ const SetPasswordComponent = () => {
               placeholder="Confirm Password"
               control={control}
               rules={{
-                required: 'Confirm Password is required',
-                validate: (value) =>
-                  value === password || 'Passwords do not match',
+                required: validateRequiredField({fieldName:'Confirm Password'}),
+                validate:(value)=> validateConfirmPassword({password,confirmPassword:value})
               }}
               className="setpassword__input"
             />
@@ -112,7 +104,7 @@ const SetPasswordComponent = () => {
             </Box>
             <Box display={'flex'} gap={1} alignItems={'center'} className="setpassword__requirement">
               <CheckIcon className={clsx("setpassword__check-icon ", {
-                'active': specialCharRegex.test(password),
+                'active': REGEX.PASSWORD_REGEX.test(password),
               })} />
               <Typography className="setpassword__requirement-text text-p2 font-400">Must contain one special character</Typography>
             </Box>

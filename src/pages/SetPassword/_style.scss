@@ -101,6 +101,8 @@
     color: $clr_blue;
     font-size: $p1;
     font-weight: $font_medium;
+    cursor: pointer;
+    margin-left: 0.3rem;
   }
 }
 
@@ -157,8 +159,9 @@
       }
 
       .setpassword__requirements {
+        margin-top: 0.5rem;
         .setpassword__requirement {
-         
+         margin-bottom: 0.3rem;
           .setpassword__check-icon {
             background-color: $clr_requirement_text;
             color: $clr_white;
