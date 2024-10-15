@@ -1,11 +1,12 @@
-import { Button, Typography } from "@mui/material";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { Button, FormHelperText, Typography } from "@mui/material";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import OtpInput from 'react-otp-input';
 import { Link } from "react-router-dom";
 import routes from "@/router/routes";
-import { useState } from "react";
 import Grid from "@mui/material/Grid2";
 import { LockIcon } from "@/assets/svg";
+import { useEffect } from "react";
+import apiClient from "@/Libs/Https/API-client";
 
 /**
  * component used to verify the otp
@@ -19,23 +20,37 @@ const OtpComponent: React.FC<OtpComponentProps> = ({ onOtpVerify }) => {
   type FormData = {
     otp: string;
   };
-  const [otp, setOtp] = useState('');
+  useEffect(()=>{
+    getUserDetails();
+  },[])
 
-
-  const { handleSubmit } = useForm<FormData>({
+  const getUserDetails = async()=>{
+    try{
+      const req={}
+      const response = await apiClient.post('/',req)
+      if(response.status === 200){
+        console.log(response.data,'response')
+      }else{
+        console.log(response.data,'response')
+      }
+    }catch(error){
+      console.log(error,'error')
+    }
+  }
+  const { handleSubmit, control, formState: { errors } } = useForm<FormData>({
     defaultValues: { otp: '' }, 
   });
 
   /**
    * Handle to submit the Otp
    */
-  const onSubmit: SubmitHandler<FormData> = () => {
-    
-    onOtpVerify(true); 
+  const onSubmit: SubmitHandler<FormData> = (data: FormData) => {
+    console.log(data, 'data');
+    onOtpVerify(true); // Uncommented this line
   };
 
   return (
-    <Grid  className="left-content-wrapper">
+    <Grid className="left-content-wrapper">
       <Grid className="left-header-wrapper">
         <Grid justifyContent={'center'} display={'flex'}>
           <LockIcon />
@@ -45,30 +60,47 @@ const OtpComponent: React.FC<OtpComponentProps> = ({ onOtpVerify }) => {
           Enter the OTP sent to +91 9876543210 <br/> abcd@gmail.com to complete the process.
         </Typography>
       </Grid>
-
       <Grid className="form-wrapper">
         <form noValidate onSubmit={handleSubmit(onSubmit)} className="form">
           <Grid className="otp-input-container">
-            <OtpInput
-              value={otp}
-              onChange={setOtp}
-              numInputs={6} 
-              shouldAutoFocus 
-              renderInput={(props) => (
-                <input
-                  {...props}
-                  className="otp-input"
-                  onKeyDown={(e) => {
-                    if (e.key !== 'Backspace' && isNaN(Number(e.key))) {
-                      e.preventDefault();
-                    }
-                  }}
-                />
+            <Controller
+              name="otp"
+              control={control}
+              rules={{ 
+                required: 'OTP is required', 
+                minLength: { value: 6, message: 'OTP must be 6 digits' },
+              }}
+              render={({ field }) => (
+                <>
+                  <OtpInput
+                    value={field.value}
+                    onChange={field.onChange}
+                    numInputs={6}
+                    shouldAutoFocus 
+                    renderInput={(props) => (
+                      <input
+                        {...props}
+                        className="otp-input"
+                        onKeyDown={(e) => {
+                          if (e.key !== 'Backspace' && isNaN(Number(e.key))) {
+                            e.preventDefault();
+                          }
+                        }}
+                      />
+                    )}
+                    containerStyle={{ display: 'flex', justifyContent: 'space-between' }} 
+                  />
+                </>
               )}
-              containerStyle={{ display: 'flex', justifyContent: 'space-between' }} 
             />
           </Grid>
-
+          {errors.otp && (
+            <Grid>
+              <FormHelperText className="helper-text" error>
+                {errors.otp.message}
+              </FormHelperText>
+            </Grid>
+          )}
           <Button type="submit" variant="contained" className="w-full custom-button">
             Verify
           </Button>
