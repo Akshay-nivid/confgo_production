@@ -32,7 +32,7 @@ const SetPasswordComponent = () => {
   /**
    * function used to handle form submission
    */
-  const onSubmit: SubmitHandler<FormData> = (data) => {
+  const onSubmit: SubmitHandler<FormData> = () => {
   };
 
   return (
