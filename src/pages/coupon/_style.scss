@@ -1,38 +1,41 @@
 .create-coupon {
-    &-container {
-        background-color: $white;
-        margin: 1rem;
-        border-radius: 10px;
-    }
+  &-container {
+    background-color: $white;
+    margin: 1rem;
+    border-radius: 0.9rem;
+  }
+  &-grid {
+    margin-top: $h5 !important;
+  }
+  &-form {
+    padding-top: 1rem !important;
+    padding-bottom: 3rem !important;
+  }
+  &-next-btn {
+    max-height: 4rem;
+    background-color: $clr_green !important;
+    color: $clr_white !important;
+    min-width: 25rem !important;
+    text-transform: none !important;
+    font-size: $h6 !important;
+    font-weight: $font_medium !important;
+  }
 
-    &-grid {
-        margin-top: 20px !important;
-    }
+  &-filter-btn {
+    max-height: 4rem;
+    background-color: $clr_white !important;
+    color: $clr_green !important;
+    max-width: 21rem !important;
+    border: 1px solid $clr_green !important;
+    text-transform: none !important;
+    font-size: $p1 !important;
+    font-weight: $font_normal !important;
 
-    &-form {
-        padding-top: 1rem !important;
-        padding-bottom: 3rem !important;
-        color: red !important;
-    }
-    &-next-btn {
-        max-height: 4rem;
-        background-color: $clr_green !important;
-        color: $clr_white !important;
-        min-width: 25rem !important;
-        text-transform: none !important;
-        font-size: $h6 !important;
-        font-weight: $font_medium !important;
-      }
-      &-title {
-        font-weight: $font_bold !important;
-        font-size: $h4 !important;
-        margin: 2rem !important;
-      }
+  }
+
+  &-title {
+    font-weight: $font_bold !important;
+    font-size: $h4 !important;
+    margin: 2rem !important;
+  }
 }
-
-
-// .coupon-title {
-//     font-size: $h4 !important;
-//     margin-left: 1rem !important;
-//     font-weight: $font_bold !important;
-// }

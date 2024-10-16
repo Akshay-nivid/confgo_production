@@ -17,6 +17,7 @@ import Register from './pages/Register/Register';
 import CreateCoupon from './pages/coupon/CreateCoupon';
 import LoginOrg from '@/pages/LoginOrg/loginOrg';
 import SetPassword from '@/pages/SetPassword/SetPassword';
+import CouponView from './pages/coupon/CouponView';
 
 const router = createBrowserRouter([
   {
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
           {
             path: routes.createCoupon(),
             element: <CreateCoupon/>,
+          },
+          {
+            path: routes.CouponView(),
+            element: <CouponView/>,
           },
           {
             path: routes.calendar(),

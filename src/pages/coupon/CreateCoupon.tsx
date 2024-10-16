@@ -8,6 +8,7 @@ import CustomButton from '@/components/CustomButton/CustomButton';
 import apiClient from '@/Libs/Https/API-client';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
+import { processAPIResponse } from '@/Utils/CommonBaseClass';
 
 interface CouponFormData {
   name: string;
@@ -45,20 +46,20 @@ const CreateCoupon: React.FC = () => {
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const navigate = useNavigate();
   
+  //on submit of create
   const onSubmit = async (data: CouponFormData) => {
     setLoading(true);
     try {
       const req = {
         ...data,
-        status:1,
-        timesUsed: 0,
+        statusId:1,
         companyId: 1,
       };
 
       const response = await apiClient.post('coupon', req);
-
-      if (response.status === 201 && response.data.status === 'success') {
-        setSnackbarMessage(response.data.message);
+      const { status, message } = await processAPIResponse(response, "createCoupon");
+      if (status) {
+        setSnackbarMessage(message);
         setSnackbarSeverity('success');
         reset();
         setTimeout(() => {

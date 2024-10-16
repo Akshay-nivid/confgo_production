@@ -1,35 +1,45 @@
-import CustomButton from "@/components/CustomButton/CustomButton";
+
 import { DataGridList } from "@/components/DataGrid/DataGridList"
 import routes from "@/router/routes";
-import { Typography } from "@mui/material";
 import Grid from '@mui/material/Grid2';
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddIcon from '@mui/icons-material/Add';
 import TuneRoundedIcon from '@mui/icons-material/TuneRounded';
+import FilterModal from "@/components/CustomFilter/FilterModal";
+import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
 import { useForm } from "react-hook-form";
-import CustomSearchTextField from "@/components/CustomSearchTextField/CustomeSearchTextField";
+import apiClient from "@/Libs/Https/API-client";
+import { processAPIResponse } from "@/Utils/CommonBaseClass";
+import CustomButton from "@/components/CustomButton/CustomButton";
+import { Typography } from "@mui/material";
+
+
 /**
  * Method used to render coupon list
  * @returns 
  */
 const Coupon = () => {
   const navigate = useNavigate();
-  const { control, handleSubmit, reset } = useForm();
+  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
+  const [filters, setFilters] = useState({});
   const [source, setSource] = useState({});
+  const [loading, setLoading] = useState(false); // To indicate loading state for API
+
+  const { control } = useForm();
   useEffect(() => {
     couponList();
-  }, [])
+  }, [filters])
   // const [filterValue, setFilterValue] = useState(''); 
   /**
   *  Fetch summary balance when the component mounts
   */
   const couponList = useCallback(() => {
-
     const req = {
       offset: 0,
       limit: 5,
-      // head:filterValue
+      filters:filters
     };
 
     setSource({
@@ -42,15 +52,79 @@ const Coupon = () => {
   }, []);
 
   const columns = [
-    { type: 'default', field: 'id', headerName: "ID", width: 150 },
-    { type: 'default', field: 'name', headerName: "Coupon Name", width: 250 },
-    { type: 'default', field: 'discountType', headerName: "Type", width: 200 },
-    { type: 'default', field: 'endDate', headerName: "Expiry Date", width: 250 },
-    // { type: 'default', field: 'agent_name', headerName: "Host/Organizer", width: 300 },
-    { type: 'dots', field: 'statusId', headerName: "", width: 250 }
+    { type: 'default', field: 'id', headerName: "ID", width: 200 },
+    { type: 'default', field: 'name', headerName: "Coupon Name", width: 200 },
+    { type: 'default', field: 'discountType', headerName: "Type", width: 250 },
+    { type: 'default', field: 'endDate', headerName: "Expiry Date", width: 250 }
   ]
+  /**
+   * Apply filter 
+   * @param newFilters 
+   */
+  const handleApplyFilters = (newFilters: any) => {
+    // Update filters when modal is applied
+    setSource({
+      method: 'POST',
+      data: {
+        offset: 0,
+        limit: 5,
+        filters: {
+          ...newFilters,
+        },
+      },
+      url: `coupon/list`,
+      listName: 'couponList',
+    });
+    setFilters(newFilters);
+  };
 
-
+  /**
+   * Row click navigation
+   */
+  const handleRowClick = () => {
+    navigate(routes.CouponView());
+  }
+  // Function to handle search API for autocomplete
+  const handleSearch = async (query: string) => {
+    setLoading(true);
+    try {
+      let req = {
+        filters: {
+          name: query
+        }
+      };
+      const response = await await apiClient.post(`coupon/list`, req);
+      const { status, data, message } = await processAPIResponse(response, 'couponList');
+      if (status) {
+        setSearchResults(data);
+      }
+     // Update the options based on API response
+    } catch (error) {
+      console.error('Error fetching search results:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  // Function to handle search API for autocomplete
+ // New handler for when a coupon is selected from autocomplete
+ const handleAutocompleteChange = (selected: any) => {
+  //setSelectedCoupon(selected); // Update selected coupon
+  if (selected) {
+    // Here you can filter the data grid based on the selected coupon
+    setSource({
+      method: 'POST',
+      data: {
+        offset: 0,
+        limit: 5,
+        filters: {
+          id: selected.id, // Assuming the selected coupon has an 'id'
+        },
+      },
+      url: `coupon/list`,
+      listName: 'couponList',
+    });
+  }
+};
   return (
     <Grid container className="custom-list">
       <Grid size={{ xs: 4 }} >
@@ -60,16 +134,19 @@ const Coupon = () => {
       </Grid>
 
       {/* Buttons for 'Create New Coupon' and 'Filters' */}
-      <Grid container size={{ xs: 8 }}  spacing={2} justifyContent='flex-end'  >
+      <Grid container size={{ xs: 8 }} spacing={2} justifyContent='flex-end'  >
         <Grid container>
-          <CustomSearchTextField
+        <CustomAutocomplete
             name="search"
-            control={control}
-            placeholder="Search by Id or Name"
-            rules={{}}
-            style={{ margin: '0px 0' }}
             className="custom-search-text-field"
+            control={control}
+            options={searchResults} // Dynamic options based on API results
+            getOptionLabel={(option:any) => option.name || ''} // Adjust based on your data structure
+            onSearch={handleSearch} // Call the search function
+            loading={loading} 
+            onChange={handleAutocompleteChange}
           />
+
         </Grid>
         <Grid container spacing={2}>
           <CustomButton
@@ -86,7 +163,7 @@ const Coupon = () => {
           />
           <CustomButton
             className="custom-list-filter-btn"
-            // onClick={}
+            onClick={() => setIsFilterModalOpen(true)}
             label="Filters"
             startIcon={<TuneRoundedIcon />}
             variant="contained"
@@ -96,8 +173,15 @@ const Coupon = () => {
         </Grid>
       </Grid>
       <Grid size={{ xs: 12 }} >
-        <DataGridList source={source} title="Coupon" hideFooterPagination={false} columns={columns} id="coupon-datagrid" />
+        <DataGridList source={source} onRowClick={handleRowClick} title="Coupon" hideFooterPagination={false} columns={columns} id="coupon-datagrid" />
       </Grid>
+
+      {/* Filter Modal */}
+      <FilterModal
+        open={isFilterModalOpen}
+        onClose={() => setIsFilterModalOpen(false)}
+        onApplyFilters={handleApplyFilters}
+      />
     </Grid>
   )
 }

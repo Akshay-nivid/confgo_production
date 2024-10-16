@@ -7,6 +7,7 @@ import { CircularProgress, MenuItem, Pagination, Select, Typography } from '@mui
 import { Logger } from '../../Utils/Logger';
 import Grid from '@mui/material/Grid2';
 import StatusComponent from '../Status/StatusComponent';
+import { NoRecords } from '../NoRecords/NoRecords';
 
 type DefColumn = {
     type?: string;
@@ -34,10 +35,11 @@ type DataGridListProps = {
 export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFooterPagination, source, dataTransformer, title, onRowClick, subNode, data }) => {
     const setDataById = useStore((state: any) => state.setDataById)
     const dataInfo = useStore((state: any) => state?.compData?.[id]) ?? [];
-
     const prevPageRef = useRef<any>();
-    const [pageSize, setPageSize] = useState(5);
-    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = dataInfo.pageSize || 5;
+    const currentPage = dataInfo.currentPage || 1;
+    // const [pageSize, setPageSize] = useState(5);
+    // const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(false); // Added loading state
 
     const totalItems = dataInfo?.pagination?.total || 0;
@@ -71,7 +73,7 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
             if (status) {
                 const pagination = response?.data?.pagination;
                 setDataById(id, { pagination: pagination, source: source, data: dataTransformer ? dataTransformer(subNode ? data?.[subNode] : data) : subNode ? data?.[subNode] : data, count: subNode ? data?.pagination?.total : pagination.total, dataTransformer: dataTransformer });
-                setPageSize(response?.data?.pagination?.limit);
+                // setPageSize(response?.data?.pagination?.limit);
             }
             else {
                 setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message })
@@ -87,7 +89,7 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
      * Method to handle pagination and call API
      */
     const onPaginationChange = (pageSize: any, currentPage: any) => {
-        setPageSize(dataInfo.source.data.limit);
+        //setPageSize(dataInfo.source.data.limit);
         let newSource = { ...dataInfo?.source };
         let newSourceData = newSource['data'];
         if (currentPage < prevPageRef.current) {
@@ -121,13 +123,6 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
                     cellClassName: 'default-label'
                 };
             }
-            if (item.type === 'dots') {
-                return {
-                    ...item,
-                    // cellClassName: 'dots',
-                    renderCell: () => <span className='dots'>...</span>
-                };
-            }
             return item;
         });
     }, [columns]);
@@ -136,27 +131,31 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
     * funtion to handles page limt 
     */
     const handlePageSizeChange = (newSize: number) => {
-        setPageSize(newSize);
-        setCurrentPage(1);
+        // setPageSize(newSize);
+        // setCurrentPage(1);
         onPaginationChange(newSize, 1);
     };
     /*
     * funtion to handles pagination 
     */
     const handlePageChange = (_event: any, newPage: number) => {
-        setCurrentPage(newPage);
+        // setCurrentPage(newPage);
 
         onPaginationChange(pageSize, newPage);
     };
 
+    /**
+     * Function which set pagination
+     * @param props 
+     */
     function CustomPagination(props: any) {
         return (
             <Grid container className="pagination" justifyContent="space-between" spacing={2} alignItems={"center"}>
                 <Grid display={'flex'} alignItems={'center'}>
-                    <Typography className='pagination-label'> Show result: </Typography>
+                    <Typography className='pagination-label'> Show result : </Typography>
                     <Select
-                        sx={{ marginTop: 1 }}
                         value={props.rowsPerPage}
+                        defaultValue={10}
                         onChange={(event) => {
                             const newValue = event.target.value;
                             handlePageSizeChange(newValue); // Call the size change function
@@ -174,7 +173,7 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
                 <Grid alignSelf={'flex-end'}>
                     <Pagination
                         count={dataInfo.pagination.totalPages}
-                        page={currentPage}
+                        page={dataInfo.pagination.currentPage}
                         onChange={handlePageChange}
                         className="pagination"
                     />
@@ -215,20 +214,14 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
                                 count: dataInfo.pagination.totalPages,
                                 page: currentPage + 1, // Convert to 1-based
                                 onPageChange: handlePageChange,
-                                rowsPerPage: pageSize,
+                                rowsPerPage: dataInfo.pagination.limit,
                                 className: 'custom-pagination'
                             }
                         }}
                     />
-                    {/* <Grid container justifyContent={"space-between"}>
-                    <Grid display={"flex"}>
-<Typography>Show Result</Typography>
-<CustomSelect />
-                    </Grid>
-                </Grid> */}
                 </Grid>
             ) : (
-                <>No data available.</> // Fallback if no data is present
+                <NoRecords/>
             )}
         </Grid>
     );

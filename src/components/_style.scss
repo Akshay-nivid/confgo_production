@@ -143,6 +143,7 @@
   margin-top: 1rem;
   border-radius: $p2 !important;
   border: 0rem !important;
+  cursor: pointer;
   .status-container {
     display: flex;
     .MuiGrid2-root {
@@ -157,14 +158,6 @@
       }
       
     }
-  }
-  .dots{
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
-    font-size: $h4 !important;
-    color: $clr_gray_medium !important;
-    font-weight: $font_bold !important;
   }
   .default-label {
     text-align: center;
@@ -231,7 +224,7 @@
   border-top: 1px solid #ccc;
   display: flex;
   justify-content: space-between;
-  padding: 8px;
+  padding: 0.9rem;
 }
 .pagination{
   .MuiPaginationItem-root{
@@ -285,6 +278,11 @@
     border-radius: 10px;
   }
 
+  &-filters{
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+   
+  }
   &-grid {
       margin-top: 20px !important;
   }
@@ -295,6 +293,16 @@
   }
 
 }
+.custom-autopopulate {
+  /* Remove the default border or outline */
+  border: none;
+  box-shadow: none; /* Remove box shadow if needed */
+}
+
+.custom-autopopulate .MuiOutlinedInput-notchedOutline {
+  border: none; /* Ensure no outline */
+}
+
 .custom-search-text-field{
   max-height: 4.2rem !important;
   min-width: 33rem !important;
@@ -398,4 +406,32 @@
     font-size:$p2 !important;
     margin: 0 !important;
     margin-top: -0.9rem !important;
+}
+
+.no-record {
+  &-container {
+      width: '100%';
+      background-color: $white;
+      margin: 1rem;
+      border-radius: 0.9rem;
+      justify-content: center !important;
+  }
+  &-image{
+    margin-top: 10rem !important;
+  }
+  &-title{
+    display: flex;
+    font-weight: $font_semibold !important;
+    font-size: $p3 !important;
+    justify-content: center !important;
+    margin-top: 3rem !important;
+    color:$clr_black !important;
+  }
+  &-subtitle{
+    font-weight: $font_normal !important;
+    font-size: $p1 !important;
+    justify-content: center !important;
+    margin-bottom: 10rem !important;
+    color:$clr_gray_extra_dark !important;
+  }
 }
