@@ -33,7 +33,7 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data }
      * Method groups the data based on the date
      */
     const groupedData = data?.program?.reduce((acc: any, program: any) => {
-        const date = moment(program.startDateTime).format('YYYY-MM-DD');
+        const date = moment(program.startTime).format('YYYY-MM-DD');
         if (!acc[date]) {
             acc[date] = [];
         }
@@ -76,8 +76,8 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data }
                             <Grid container sx={{ width: 'fit-content' }} className="custom-stepper-conference-details-content-time" justifyContent={'flex-start'} alignItems={'center'}>
                                 {moment(program.startDateTime).format('h:mm A')}
                             </Grid>
-                            {program.programType === 'PROGRAM' ? <><Grid>{`${program.programName}:`}</Grid>
-                                <Grid>{program.programDescription}</Grid></> : <Grid>{`${program.addOns}`}</Grid>
+                            {program.programType === 'PROGRAM' ? <><Grid>{`${program.name}:`}</Grid>
+                                <Grid>{program.description}</Grid></> : <Grid>{`${program.addonId}`}</Grid>
                             }
                         </Grid>
                     ))}

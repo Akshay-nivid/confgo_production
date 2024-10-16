@@ -12,30 +12,31 @@ import AddIcon from '@/assets/svg/program-add.svg';
 import EditIcon from '@/assets/svg/edit-program-icon.svg';
 import DeleteIcon from '@/assets/svg/delete-program-icon.svg';
 import CustomSelect from '@/components/CustomSelectBox/CustomSelect';
+import moment from 'moment';
 
 
 type FormData = {
     programs: {
         programType: string;
-        programName: string;
-        programDescription: string;
-        startDateTime: string;
-        endDateTime: string;
+        name: string;
+        description: string;
+        startTime: string;
+        endTime: string;
         type: string;
-        price: string;
-        addOns: string;
+        amount: string;
+        addonId: string;
 
     }[];
     savedPrograms: {
         id?: string;
         programType: string;
-        programName: string;
-        programDescription: string;
-        startDateTime: string;
-        endDateTime: string;
+        name: string;
+        description: string;
+        startTime: string;
+        endTime: string;
         type: string;
-        price: string;
-        addOns: string;
+        amount: string;
+        addonId: string;
     }[];
 };
 type ProgramProps = {
@@ -66,13 +67,13 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
             programs: [
                 {
                     programType: 'PROGRAM',
-                    programName: '',
-                    programDescription: '',
-                    startDateTime: '',
-                    endDateTime: '',
+                    name: '',
+                    description: '',
+                    startTime: moment(new Date()).format('YYYY-MM-DDTHH:mm'),
+                    endTime: moment(new Date()).format('YYYY-MM-DDTHH:mm'),
                     type: 'PAID',
-                    price: '',
-                    addOns: '',
+                    amount: '',
+                    addonId: '',
                 },
             ],
         },
@@ -133,13 +134,13 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
         setValue('programs', watch('savedPrograms'))
         append({
             programType: 'PROGRAM',
-            programName: '',
-            programDescription: '',
-            startDateTime: '',
-            endDateTime: '',
+            name: '',
+            description: '',
+            startTime: moment(new Date()).format('YYYY-MM-DDTHH:mm'),
+            endTime: moment(new Date()).format('YYYY-MM-DDTHH:mm'),
             type: 'PAID',
-            price: '',
-            addOns: '',
+            amount: '',
+            addonId: '',
         })
         setProgramIndex(watch('savedPrograms')?.length ? watch('savedPrograms').length : 0)
     }
@@ -168,13 +169,13 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
             if (index === 0) {
                 append({
                     programType: 'PROGRAM',
-                    programName: '',
-                    programDescription: '',
-                    startDateTime: '',
-                    endDateTime: '',
+                    name: '',
+                    description: '',
+                    startTime: moment(new Date()).format('YYYY-MM-DDTHH:mm'),
+                    endTime: moment(new Date()).format('YYYY-MM-DDTHH:mm'),
                     type: 'PAID',
-                    price: '',
-                    addOns: ''
+                    amount: '',
+                    addonId: ''
                 })
             }
             else {
@@ -229,7 +230,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
                                                         <CustomTextField
                                                             placeholder="Program Name"
                                                             control={control}
-                                                            name={`programs.${index}.programName`}
+                                                            name={`programs.${index}.name`}
                                                             type="text"
                                                             rules={{ required: true }}
                                                         />
@@ -238,14 +239,14 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
                                                         <CustomTextField
                                                             placeholder="Program Description"
                                                             control={control}
-                                                            name={`programs.${index}.programDescription`}
+                                                            name={`programs.${index}.description`}
                                                             type="text"
                                                             rules={{ required: true }}
                                                         />
                                                     </Grid></>}
                                                     {watch(`programs.${index}.programType`) === 'ADD_ONS' && <Grid size={{ xs: 12, sm: 12 }} className="add-program-addons-grid">
                                                         <CustomSelect
-                                                            name={`programs.${index}.addOns`}
+                                                            name={`programs.${index}.addonId`}
                                                             label="Add Ons Option"
                                                             options={addOnArray}
                                                             control={control}
@@ -258,7 +259,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
                                                         <CustomTextField
                                                             placeholder="Start Date & Time"
                                                             control={control}
-                                                            name={`programs.${index}.startDateTime`}
+                                                            name={`programs.${index}.startTime`}
                                                             type="datetime-local"
                                                             rules={{ required: true }}
                                                         />
@@ -267,7 +268,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
                                                         <CustomTextField
                                                             placeholder="End Date & Time"
                                                             control={control}
-                                                            name={`programs.${index}.endDateTime`}
+                                                            name={`programs.${index}.endTime`}
                                                             type="datetime-local"
                                                             rules={{ required: true }}
                                                         />
@@ -286,7 +287,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
                                                         <CustomTextField
                                                             placeholder="Price"
                                                             control={control}
-                                                            name={`programs.${index}.price`}
+                                                            name={`programs.${index}.amount`}
                                                             type="text"
                                                             rules={{ required: true }}
                                                         />
@@ -319,11 +320,11 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
                 <Grid container direction={'column'} className='add-program-display-container' size={{ xs: 12, sm: 4 }} spacing={2}>
 
                     {watch('savedPrograms')?.map((field, index) => (
-                        (field.programType === 'PROGRAM'? field.programName: field.addOns) && (
+                        (field.programType === 'PROGRAM'? field.name: field.addonId) && (
                             
                             <Grid key={field.id} container className='add-program-display-item' size={{ xs: 12, sm: 12 }}>
                                 <Grid size={{ xs: 8, sm: 8 }}>
-                                    {field.programType === 'PROGRAM'? field.programName: field.addOns}
+                                    {field.programType === 'PROGRAM'? field.name: field.addonId}
                                 </Grid>
 
                                 <Grid size={{ xs: 4, sm: 4 }}>

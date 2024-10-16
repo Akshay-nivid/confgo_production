@@ -20,16 +20,16 @@ type EventProps = {
 type FormData = {
     type: string,
     name: string,
-    startDate: Date,
-    endDate: Date,
+    startTime: Date,
+    endTime: Date,
     speakers: string,
     description: string,
-    location: string,
+    venueName: string,
     address: string,
     city: string,
     state: string,
     country: string,
-    pin: string,
+    postalCode: string,
     url: string
 };
 
@@ -138,7 +138,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(({ formSubmit, onSubmitHand
                                 <CustomTextField
                                     placeholder="Start Date"
                                     control={control}
-                                    name="startDate"
+                                    name="startTime"
                                     type="date"
                                     defaultValue={moment(new Date()).format('YYYY-MM-DD')}
                                 />
@@ -147,7 +147,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(({ formSubmit, onSubmitHand
                                 <CustomTextField
                                     placeholder="End Date"
                                     control={control}
-                                    name="endDate"
+                                    name="endTime"
                                     type="date"
                                     defaultValue={moment(new Date()).format('YYYY-MM-DD')}
                                 />
@@ -165,7 +165,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(({ formSubmit, onSubmitHand
                                 <CustomTextField
                                     placeholder="Location"
                                     control={control}
-                                    name="location"
+                                    name="venueName"
                                     type="text"
                                     rules={{ required: watch('type') === 'OFFLINE' }}
                                 />
@@ -210,7 +210,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(({ formSubmit, onSubmitHand
                                 <CustomTextField
                                     placeholder="Pin Code"
                                     control={control}
-                                    name="pin"
+                                    name="postalCode"
                                     type="text"
                                     rules={{ required: watch('type') === 'OFFLINE' }}
                                 />

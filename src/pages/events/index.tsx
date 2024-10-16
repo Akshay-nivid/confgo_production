@@ -1,13 +1,15 @@
 /*
  *Events component handles the event creation
  */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CustomStepper from '@/components/CustomStepper/CustomStepper';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import Grid from '@mui/material/Grid2';
 import CreateEvent from './CreateEvent';
 import AddProgram from './AddProgram';
 import ConferenceDetails from './ConferenceDetails';
+import apiClient from '@/Libs/Https/API-client';
+import { processAPIResponse } from '@/Utils/CommonBaseClass';
 
 const steps = [
   { label: 'Create Event', description: '' },
@@ -22,6 +24,21 @@ const Events = () => {
     program: false,
   });
   const [formData, setFormData] = useState<any>({});
+  const [statusId, setStatusId] = useState('');
+
+
+  useEffect(() => {
+    handleGetEventStatusApiCall()
+  },[])
+
+  const handleGetEventStatusApiCall = async () => {
+    const response = await apiClient.get('event/status');
+    const { status, data, message } = await processAPIResponse(response,'event-status');
+    if(status){
+      const id = data?.find((item: any) => item.statusName === 'ACTIVE' )?.id
+      setStatusId(id)
+    }
+  }
 
   /*
    * The function sets the active step of the stepper.
@@ -55,9 +72,59 @@ const Events = () => {
   /**
    * Method handles the final submission of all forms
    */
-  const handleSubmit = () => {
-    console.log('submitformdata', formData);
+  const handleSubmit = async () => {
+    const req = createFormRequest(formData)
+    const response = await apiClient.post('event',req);
+    const { status, data, message } = await processAPIResponse(response,'event-status');
+    if(status){
+     
+    }
   };
+
+  /**
+   * Method creates the form request for event creation
+   * @param data : request data
+   */
+  const createFormRequest = (data: any) => {
+    const event = data?.event;
+    const programs = data?.program || [];
+  
+    const program = programs.filter((item: any) => item.programType === 'PROGRAM');
+    const addOn = programs.filter((item: any) => item.programType === 'ADD_ONS');
+  
+    let req: any = {
+      name: event?.name,
+      description: event?.description,
+      startTime: event?.startTime,
+      endTime: event?.endTime,
+      statusId
+    };
+  
+    // Handle URL and Venue logic
+    if (event?.programType === 'ONLINE') {
+      req['url'] = event?.url;
+    } else {
+      req['venue'] = {
+        name: event?.name,
+        address: event?.address,
+        city: event?.city,
+        state: event?.state,
+        country: event?.country,
+        postalCode: event?.postalCode,
+      };
+      if (event?.programType !== 'OFFLINE') {
+        req['url'] = event?.url;
+      }
+    }
+  
+    // Remove unwanted fields from programs and add-ons
+    req['programs'] = program.map(({ addonId, type, programType, ...rest }: any) => { return {...rest, statusId} });
+    req['addon'] = addOn.map(({ description, name, type, programType, ...rest }: any) => rest);
+  
+    return req;
+  };
+  
+  
 
   /*
    * The handleBack function is used to move the stepper to the previous step.
@@ -152,10 +219,10 @@ const Events = () => {
                   : activeStep === 1
                   ? 'custom-stepper-next-button-program'
                   : 'custom-stepper-next-button-details'
-              } ${activeStep === 1 && !(formData?.program?.[0]?.programName) ? 'disabled-button' : ''}`}
+              } ${activeStep === 1 && !(formData?.program?.[0]?.name) ? 'disabled-button' : ''}`}
               onClick={activeStep === 2 ? handleSubmit : handleNext}
               label={activeStep === 2 ? 'Submit' : 'Next'}
-              disabled={(activeStep === steps.length) || (activeStep === 1 && !(formData?.program?.[0]?.programName))}
+              disabled={(activeStep === steps.length) || (activeStep === 1 && !(formData?.program?.[0]?.name))}
             />}
           </Grid>
           {activeStep === 1 && (
