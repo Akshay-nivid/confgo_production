@@ -9,6 +9,7 @@ import apiClient from '@/Libs/Https/API-client';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';
+import CustomDatePicker from '@/components/CustomDatePicker/CustomDatePicker';
 
 interface CouponFormData {
   name: string;
@@ -45,14 +46,14 @@ const CreateCoupon: React.FC = () => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const navigate = useNavigate();
-  
+
   //on submit of create
   const onSubmit = async (data: CouponFormData) => {
     setLoading(true);
     try {
       const req = {
         ...data,
-        statusId:1,
+        statusId: 1,
         companyId: 1,
       };
 
@@ -64,7 +65,7 @@ const CreateCoupon: React.FC = () => {
         reset();
         setTimeout(() => {
           navigate(routes.coupon()); // Redirect to the coupon list
-      }, 1500); 
+        }, 1500);
       } else {
         throw new Error(response.data.message || 'Unexpected error occurred');
       }
@@ -89,7 +90,7 @@ const CreateCoupon: React.FC = () => {
 
   return (
     <Box className="create-coupon-container">
-       <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleSnackbarClose}>
+      <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleSnackbarClose}>
         <Alert onClose={handleSnackbarClose} severity={snackbarSeverity}>
           {snackbarMessage}
         </Alert>
@@ -109,7 +110,7 @@ const CreateCoupon: React.FC = () => {
                   <CustomTextField
                     name='name'
                     placeholder='Coupon Name'
-                    control={control}             
+                    control={control}
                     rules={{ required: 'Coupon Name is required' }}
                     requiredField
                   />
@@ -127,7 +128,7 @@ const CreateCoupon: React.FC = () => {
                   <CustomSelect
                     name='discountType'
                     label='Discount Type'
-                   // defaultValue=""
+                    // defaultValue=""
                     control={control}
                     options={discountTypeOptions}
                     fullWidth
@@ -144,24 +145,24 @@ const CreateCoupon: React.FC = () => {
                   />
                 </Grid>    
                 <Grid size={{ xs: 12, sm: 6 }}>
-                  <CustomTextField
+                  <CustomDatePicker
                     placeholder='Start Date'
                     name='startDate'
                     control={control}
                     rules={{ required: 'Start Date is required' }}
-                    type='date'
+                    label='Start Date'
                     requiredField
                   />
                 </Grid>
 
                 <Grid size={{ xs: 12, sm: 6 }}>
-                  <CustomTextField
+                  <CustomDatePicker
+                    placeholder='Expiry Date'
                     name='endDate'
                     control={control}
-                    type='date'
-                    requiredField
                     rules={{ required: 'Expiry Date is required' }}
-                    placeholder='Expiry Date'
+                    label='End Date'
+                    requiredField
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
@@ -191,12 +192,12 @@ const CreateCoupon: React.FC = () => {
                     requiredField
                   />
                 </Grid>
-                
+
                 <Grid size={{ xs: 12, sm: 12 }}>
                   <CustomTextField
                     name='description'
                     multiline={true}
-                    rows={4} 
+                    rows={4}
                     placeholder='Description'
                     control={control}
                   />
@@ -213,14 +214,14 @@ const CreateCoupon: React.FC = () => {
                       disabled={loading}
                     />
                   </Grid>
-               
+
                 </Grid>
               </Grid>
             </form>
           </Grid>
         </Grid>
       </Grid>
-     
+
     </Box>
   );
 };
