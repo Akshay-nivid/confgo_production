@@ -13,7 +13,7 @@ import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { Typography } from "@mui/material";
-
+import { ISource } from "@/Libs/type";
 
 /**
  * Method used to render coupon list
@@ -24,7 +24,7 @@ const Coupon = () => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [filters, setFilters] = useState({});
-  const [source, setSource] = useState({});
+  const [source, setSource] = useState<ISource | undefined>(undefined);
   const [loading, setLoading] = useState(false); // To indicate loading state for API
 
   const { control } = useForm();

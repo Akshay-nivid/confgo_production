@@ -8,6 +8,7 @@ import { Logger } from '../../Utils/Logger';
 import Grid from '@mui/material/Grid2';
 import StatusComponent from '../Status/StatusComponent';
 import { NoRecords } from '../NoRecords/NoRecords';
+import { ISource } from '@/Libs/type';
 
 type DefColumn = {
     type?: string;
@@ -16,11 +17,12 @@ type DefColumn = {
     width: number;
     renderCell?: (params: any) => JSX.Element;
 };
+  
 type DataGridListProps = {
-    id: any;
+    id: string;
     columns: DefColumn[];
     hideFooterPagination: boolean;
-    source?: any;
+    source?: ISource; 
     dataTransformer?: Function;
     data?: any;
     title?: String
@@ -35,6 +37,7 @@ type DataGridListProps = {
 export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFooterPagination, source, dataTransformer, title, onRowClick, subNode, data }) => {
     const setDataById = useStore((state: any) => state.setDataById)
     const dataInfo = useStore((state: any) => state?.compData?.[id]) ?? [];
+    console.log(dataInfo);
     const prevPageRef = useRef<any>();
     const pageSize = dataInfo.pageSize || 5;
     const currentPage = dataInfo.currentPage || 1;
