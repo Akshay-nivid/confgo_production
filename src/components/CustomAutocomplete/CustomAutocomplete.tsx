@@ -15,6 +15,11 @@ interface ICustomAutocompleteProps<T> {
   onSearch: (query: string) => void; // Prop for handling API search
   loading: boolean; // Prop to indicate if data is loading
 }
+
+/**
+ * Autocomplete search component
+ * @author Neethu
+ */
 const CustomAutocomplete = <T,>({
   name,
   options,
