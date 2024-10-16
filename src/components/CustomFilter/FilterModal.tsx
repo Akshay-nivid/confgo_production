@@ -7,7 +7,10 @@ interface FilterDialogProps {
   onClose: () => void;
   onApplyFilters: (filters: any) => void;
 }
-
+/**
+ * Filter modal 
+ * @author Neethu
+ */
 const FilterDialog: React.FC<FilterDialogProps> = ({ open, onClose, onApplyFilters }) => {
   const { control, handleSubmit } = useForm();
 
