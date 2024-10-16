@@ -17,6 +17,12 @@ import Register from './pages/register/Register';
 import LoginOrg from '@/pages/LoginOrg/loginOrg';
 import SetPassword from '@/pages/SetPassword/SetPassword';
 
+
+
+
+
+
+
 const router = createBrowserRouter([
   {
     path: routes.login(),
