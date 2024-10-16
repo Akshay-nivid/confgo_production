@@ -1,0 +1,132 @@
+.register-main-container {
+      height: 100vh;
+    & .back-button{
+      cursor: pointer;
+      padding-left: 12rem !important;
+      padding-top: 2rem;
+    }
+    & .grid-left {
+      min-width: min(42rem, 100%);
+      background: url("../assets/svg/background-top.svg") no-repeat top;
+      background-position: center -50px;
+      background-repeat: no-repeat;
+      border-radius: 1.666rem;
+      & .left-content-wrapper {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+        & .left-inner-content {
+          align-items: center;
+          justify-content: center;
+          max-width: 36rem;
+          display: flex;
+          flex-direction: column;
+          row-gap: 0.8rem;
+          & .success-icon{
+            padding-top: 2rem;
+            svg{
+              width: 8rem;
+              height: 8rem;
+            }
+          }
+          & .left-description-text {
+            font-size: $h6;
+            color: $clr_gray_medium;
+            font-weight: $font_normal;
+          }
+          & .left-plan-text{
+            font-weight: $font_bold;
+            line-height: 4rem;
+          }
+          & .view-all-plans{
+            padding-bottom: 3rem;
+            padding-top: 1.5rem;
+          }
+        }
+        & .plan-choose-btn {
+          font-size: $h6;
+          background-color: $clr_blue;
+          width: 100%;
+          text-transform: none !important;
+          svg{
+            path{
+              fill: $clr_white;
+            }
+          }
+          &:focus {
+            outline: none;
+          }
+        }
+        & .form-wrapper {
+          width: 100%;
+          margin-inline: auto;
+          & .form {
+            display: flex;
+            flex-direction: column;
+            row-gap: 2.083rem;
+          }
+        }
+        .success-container {
+          .divider-box {
+             background-color: $clr_gray_light;
+             height: 0.05rem;
+             width: 100%;
+           }
+           .subheader-text{
+            font-weight: $font_semibold;
+           }
+         }
+
+      }
+    }
+    & .login-label {
+      font-weight: $font_semibold;
+      color: $clr_blue;
+    }
+    & .register-stepper{
+      display: flex;
+      margin-bottom: 4rem;
+    }
+    & .grid-right {
+      background: url("../assets/png/login-bg.png");
+      background-repeat: no-repeat;
+      background-size: cover;  
+        // Hide background image on mobile
+        @media screen and (max-width: 799px) {
+          background: none;
+      }
+    }
+  }
+.checkbox-text-grey {
+  color: $clr_gray_light;
+}
+.link-text-blue {
+  color: $clr_blue;
+}
+.stepper-box {
+  width: 8rem;
+  height: 0.5rem;
+  border: 0.1rem solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  color: white;
+  &.active {
+    background-color: $clr_blue;
+  }
+  &.inactive {
+    background-color: $bg_light;
+  }
+  @media screen and (max-width: 600px) {
+    width: 5rem;
+    height: 0.4rem;
+  }
+}
+.cursor-container{
+  cursor: pointer;
+}
+
+

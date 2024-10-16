@@ -36,7 +36,11 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
                         labelId={`${name}-label`}
                         // label={label}
                         placeholder={label}
+                        displayEmpty
                     >
+                        <MenuItem value="" disabled>
+                            {label} 
+                        </MenuItem>
                         {options.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
                                 {option.label}

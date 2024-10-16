@@ -4,6 +4,10 @@ import { Link } from "react-router-dom";
 import AppLogo from "@/assets/AppLogo.svg?url";
 import routes from "@/router/routes";
 
+/**
+ * footer component
+ *
+ */
 const Footer = () => {
   return (
     <Grid container className="footer">

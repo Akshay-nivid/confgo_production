@@ -37,7 +37,7 @@
   height: 100% !important;
 
   & .MuiPaper-root {
-    width: "100%";
+    width: '100%';
     position: relative;
     overflow-y: auto;
     border: none;
@@ -87,15 +87,15 @@
   }
 }
 
-// Navbar
+//layout appbar
 
-.navbar {
+.appbar {
   border-bottom-width: 0.0416rem;
-  border-bottom-color: $clr_gray_medium;
+  border-bottom-color: $clr_gray_faded;
   display: flex;
   overflow: hidden;
   align-items: center;
-  background-color: $background;
+  background-color: $background !important;
   min-height: 6.666rem;
   &-logo-container {
     background-color: $clr_white;

@@ -1,116 +1,221 @@
-.home-page-main {
-  .hero-section-main {
-    background: url("/src/assets/images/hero-section-bg-image.jpg") no-repeat
-      bottom;
-    height: max-content;
-    color: white;
-    background-size: cover;
+.hero-section-main {
+  background: url('/src/assets/images/hero-section-bg-image.jpg') no-repeat
+    bottom;
+  height: max-content;
+  color: $clr_white;
+  background-size: cover;
+  .hero-section-content {
+    padding-top: 11.25rem;
+    .hero-section-container {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      .get-started-button {
+        border-radius: 4.2rem;
+        height: 4.8rem !important;
+        width: 13.4rem !important;
+        background-color: $clr_white;
+        color: $clr_black;
+        font-weight: $font_semibold;
+        font-size: $p1;
+        text-transform: none;
+      }
+      .watch-video-button{
+        border: 0.2rem solid $clr_white;
+        border-radius: 4.2rem;
+        height: 4.8rem !important;
+        width: 17rem !important;
+        color: $clr_white;
+        font-weight: $font_semibold;
+        font-size: $p1;
+        text-transform: none;
+      }
+      .hero-section-buttons {
+        margin-top: 2.42rem;
+        display: flex;
+        column-gap: 1.83rem;
+        align-items: center;
+        margin-inline: auto;
+        margin-bottom: 5.17rem;
+        width: max-content;
+      }
+      .hero-section-left-column {
+        .hero-section-side-box {
+          height: 100%;
+          width: 100%;
+          .hero-section-side-grid {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            row-gap: 0.5rem;
+            padding-block: 2rem;
+          }
+        }
+        .hero-section-side-image-large {
+          width: 100%;
+          height: 25.5rem;
+          border-radius: 1.25rem;
+        }
+        .hero-section-side-image-small {
+          width: 100%;
+          height: 7.8333rem;
+          border-radius: 1.25rem;
+        }
+      }
 
-    & .image-layout-container {
-      & .grid-middle {
-        height: 100%;
-        background: url("/src/assets/svg/frame-main.svg") no-repeat;
-        background-position: bottom;
-        background-size: cover;
+      .hero-section-middle-column {
+        border-radius: 1.25rem 1.25rem 0 0;
+        overflow: hidden;
+        .hero-section-middle-image {
+          height: 100%;
+          width: 100%;
+        }
+      }
+      .hero-section-right-column {
+        .hero-section-side-grid {
+          height: 100%;
+          flex-direction: column;
+          justify-content: flex-end;
+          align-items: center;
+          row-gap: 0.5rem;
+          padding-block: 2rem;
+          .hero-section-side-image-large {
+            height: 25.5rem;
+            width: 100%;
+            border-radius: 1.25rem;
+          }
+          .hero-section-side-image-small {
+            height: 7.8333rem;
+            width: 100%;
+            border-radius: 1.25rem;
+          }
+        }
+      }
+      .hero-section-title {
+        line-height: 4rem;
+        font-size: $h1;
+        font-weight: $font_bold;
+        margin-bottom: 1rem;
       }
     }
+  }
+}
+
+.confrence-management-section-main {
+  padding-block: 6.83rem;
+  .confrence-management-section-header-content {
+    margin-bottom: 5rem;
+    .conference-management-title {
+      font-size: $h2;
+      font-weight: $font_bold;
+      line-height: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .conference-management-description {
+      font-size: $p1;
+      color: $clr_grey;
+    }
+  }
+  .confrence-management-effortless-content {
+    padding-block: 5.833rem;
+    padding-inline: 5.083rem;
+
     .planning-title {
       margin-bottom: 1.33rem;
+      line-height: 3rem;
+      font-size: $h2;
+      font-weight: $font_semibold;
     }
-    .export-plan-image {
-      height: 49rem;
-      width: 65rem;
-    }
-
-    .attendance-tracking-section {
-      .attendance-tracking-image {
-        height: 28rem;
-        width: 45rem;
-      }
-      .tracking-content-right {
-        padding-top: 6.67rem;
-        padding-left: 3.58rem;
-      }
-    }
-    .features-cta-section {
-      margin-bottom: 7.5rem;
-      .features-cta-button-container {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        margin-top: 2.92rem;
-      }
+    .planning-description {
+      margin-bottom: 2rem;
+      line-height: 2.167rem;
+      color: $clr_grey;
     }
   }
-
-  & .complete-conference-management-container {
-    margin-top: 7.33rem;
-    margin-bottom: 5.33rem;
-  }
-  & .effortless-planning-execution {
+  .confrence-management-content-wrapper {
+    background-color: $clr_honeydew;
+    border-radius: 1.667rem;
     margin-bottom: 2.5rem;
-    background-color: #eaf6e9;
-    border-radius: 1.67rem;
-    & .grid-left {
-      padding-block: 5.83rem;
-      padding-left: 5.08rem;
-      & .planning-description {
-        margin-bottom: 2rem;
+  }
+  .export-plan-image {
+    height: 100%;
+    width: 100%;
+  }
+  .export-plan-grid-right {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  .export-plan-image-wrapper {
+    height: 85%;
+    width: 100%;
+    margin-top: 1.667rem;
+  }
+}
+
+.conference-management-grid-main {
+  .grid-left {
+    background-color: $clr_purple_light;
+  }
+  .grid-right {
+    background-color: $clr_yellow_light;
+  }
+  .grid-left,
+  .grid-right {
+    padding-top: 3.333rem;
+    padding-inline: 3.583rem;
+    border-radius: 1.667rem;
+
+    .tracking-image-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: end;
+      .attendance-tracking-image {
+        height: 100%;
+        width: 100%;
       }
     }
-    & .grid-right {
-      padding-top: 6.67rem;
-      padding-left: 3.58rem;
-    }
-  }
-  & .seamless-attendance-tracking {
-    margin-bottom: 7.42rem;
-    & .grid-left {
-      background-color: #f0f2ff;
-      padding-inline: 3.58rem;
-      padding-top: 3.33rem;
-      row-gap: 1rem;
-      border-radius: 1.67rem;
-    }
-    & .grid-right {
-      background-color: #fcfeec;
-      padding-top: 3.33rem;
-      padding-inline: 3.58rem;
-      border-radius: 1.67rem;
-    }
   }
 }
 
-.plan-selection-banner {
-  background: url("/src/assets/png/plan-banner-image.png") no-repeat center;
-  background-size: cover;
-  justify-content: center;
-  margin-top: 9.16rem;
-  margin-bottom: 4.833rem;
-  border-radius: 1.667rem;
-  padding-block: 4.5rem;
-  .banner-content {
-    .banner-title {
-      text-align: center;
-      margin-bottom: 0.833rem;
-      color: white;
+.feature-section-main {
+  padding-bottom: 4rem;
+  .feature-section-main__header {
+    margin-bottom: 8rem;
+    &-description {
+      margin-bottom: 3rem;
+      color: $clr_gray_dark;
     }
-
-    .banner-subtitle {
-      text-align: center;
-      margin-bottom: 2.833rem;
-      color: white;
-    }
-
-    .button-container {
+    &-button-container {
+      width: 100%;
       display: flex;
-      gap: 0.75rem;
-      margin-inline: auto;
-      width: max-content;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      &-feature-all-button{
+        border: 0.2rem solid $clr_black;
+        border-radius: 4.2rem;
+        height: 4.8rem;
+        width: 16.58rem;
+        color: $clr_black;
+        font-weight: $font_semibold;
+        font-size: $p1;
+        text-transform: none;
+        span{
+          svg{
+            width: 1.9rem;
+            height: 1.9rem;
+          }
+        }
+      }
     }
+    
   }
 }
-
 .feature-card {
   margin-bottom: 8.333rem;
   flex-direction: row;
@@ -120,22 +225,38 @@
   }
 
   &__image-container {
-    flex: 0 0 50%;
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-start;
     padding-right: 5rem;
-
+    background-size: contain;
+    background-repeat: no-repeat;
+    
+    &.card-1 {
+      background-image: url('/src/assets/png/online-payment.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+    &.card-2 {
+      background-image: url('/src/assets/png/unlimited-conference.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+    &.card-3 {
+      background-image: url('/src/assets/png/registration-management.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
     .reversed & {
       align-items: flex-start;
       justify-content: flex-end;
       padding-left: 5rem;
       padding-right: 0;
+      background-position: right;
     }
   }
 
+ 
+
   &__image {
-    height: 49.1rem;
+    height: 100%;
     width: max-content;
   }
 
@@ -149,7 +270,7 @@
   &__header {
     display: flex;
     flex-direction: column;
-    gap: 1.667rem;
+    gap: 1rem;
   }
 
   &__title {
@@ -183,8 +304,9 @@
   }
 
   &__feature-title {
-    font-weight: $font_semibold;
-    margin-bottom: 0.667rem;
+    font-size: $p1 !important;
+    font-weight: $font_semibold !important;
+    margin-bottom: 0.25rem !important;
   }
 
   &__feature-description {
@@ -192,6 +314,35 @@
   }
 
   &__button {
-    width: max-content;
+    border: 0.2rem solid $clr_black !important;
+    border-radius: 4.2rem !important;
+    height: 4.8rem !important;
+    width: 14.1rem !important;
+    color: $clr_black !important;
+    font-weight: $font_semibold !important;
+    font-size: $p1 !important;
+    text-transform: none !important;
+    span{
+      svg{
+        width: 1.9rem;
+        height: 1.9rem;
+      }
+    }
+  }
+}
+
+.faq-section {
+  padding-bottom: 6.83rem;
+  &__content {
+    .faq-section__header {
+      margin-bottom: 4rem;
+      &-title {
+        margin-bottom: 0.3rem;
+      }
+
+      &-description {
+        color: $clr_grey;
+      }
+    }
   }
 }

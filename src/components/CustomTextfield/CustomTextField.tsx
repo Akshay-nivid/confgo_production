@@ -6,8 +6,8 @@ import {
   IconButton,
   FormHelperText,
   Typography,
-} from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material"; // Example icon, replace with your preferred icon
+} from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material'; // Example icon, replace with your preferred icon
 import {
   Control,
   Controller,
@@ -17,6 +17,7 @@ import {
   RegisterOptions,
 } from "react-hook-form";
 import { useState } from "react";
+import { clsx } from 'clsx';
 
 interface ICustomTextFieldProps<T extends FieldValues> {
   prefixIconButton?: React.ReactNode;
@@ -38,7 +39,8 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   showHeader?:boolean
   requiredField?:boolean
   defaultValue?:PathValue<T, Path<T>>
-  
+  className?: string;
+  formControlClassName?: string;
 }
 
 interface InputPropsType {
@@ -57,10 +59,10 @@ const CustomTextField = <T extends FieldValues>({
   placeholder,
   control,
   rules,
-  showHeader=false,
-  requiredField=false,
+  showHeader = false,
+  requiredField = false,
   defaultValue,
-  
+
   ...props
 }: ICustomTextFieldProps<T>) => {
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -107,13 +109,13 @@ const CustomTextField = <T extends FieldValues>({
       );
     }
 
-    if (type === "password") {
+    if (type === 'password') {
       propsObj.endAdornment = (
         <InputAdornment position="end">
           <IconButton
-            className="custom-text-field-icon-btn"
+            className={`custom-text-field-icon-btn`}
             onClick={
-              type === "password"
+              type === 'password'
                 ? handleTogglePassword
                 : props.handleToggleSuffixIcon
             }
@@ -144,14 +146,14 @@ const CustomTextField = <T extends FieldValues>({
     <>
       <FormControl fullWidth className="custom-text-field">
         {showHeader && <Typography className="label-header" variant="h6">{placeholder}{requiredField && <span className="error-text">*</span>}</Typography>}
-        {label ? <InputLabel htmlFor={name}>{label}</InputLabel> : <></>}
+        {<InputLabel htmlFor={name}>{placeholder}</InputLabel> }
         <Controller
           name={name}
           defaultValue={defaultValue}
           control={control}
           rules={rules}
           render={({ field, fieldState: { error } }) => {
-            const passwordType = isShowPassword ? "text" : "password";
+            const passwordType = isShowPassword ? 'text' : 'password';
             return (
               <>
                 <OutlinedInput
@@ -161,15 +163,19 @@ const CustomTextField = <T extends FieldValues>({
                   name={name}
                   error={error?.message ? true : false}
                   id={name}
-                  // helperText={error ? error[name]?.message:''}
-                  type={type === "password" ? passwordType : type}
+                  type={type === 'password' ? passwordType : type}
                   label={label}
-                  className={error? "custom-text-field error-input": "custom-text-field"}
+                  className={clsx(
+                    error
+                      ? 'custom-text-field error-input'
+                      : 'custom-text-field',
+                    props.className
+                  )}
                   placeholder={placeholder}
                   {...inputProps()}
                 />
                 {error?.message && (
-                  <FormHelperText className="helper-text">
+                  <FormHelperText className="error-text">
                     {error.message}
                   </FormHelperText>
                 )}
