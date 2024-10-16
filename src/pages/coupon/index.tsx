@@ -16,8 +16,8 @@ import { Typography } from "@mui/material";
 import { ISource } from "@/Libs/type";
 
 /**
- * Method used to render coupon list
- * @returns 
+ * Used to render coupon list
+ * @author Neethu 
  */
 const Coupon = () => {
   const navigate = useNavigate();
@@ -28,6 +28,9 @@ const Coupon = () => {
   const [loading, setLoading] = useState(false); // To indicate loading state for API
 
   const { control } = useForm();
+    /**
+    * Useeffect hook handles the api call 
+    */
   useEffect(() => {
     couponList();
   }, [filters])

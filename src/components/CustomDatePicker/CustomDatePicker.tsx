@@ -15,7 +15,10 @@ interface ICustomDatePickerProps<T extends FieldValues> {
   className?: string;
   formControlClassName?: string;
 }
-
+/**
+ * Component used to render date picker for start and end date
+ * @author Neethu
+ */
 const CustomDatePicker = <T extends FieldValues>({
   name,
   label,

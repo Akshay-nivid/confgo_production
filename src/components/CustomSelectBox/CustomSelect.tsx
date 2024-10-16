@@ -12,7 +12,9 @@ interface CustomSelectProps {
     helperText?: string;
     fullWidth?: boolean;
 }
-
+/*
+ * component used to render dropdownlist
+*/
 const CustomSelect: React.FC<CustomSelectProps> = ({
     name,
     label,

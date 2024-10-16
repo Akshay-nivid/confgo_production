@@ -11,6 +11,7 @@ interface FilterDialogProps {
 const FilterDialog: React.FC<FilterDialogProps> = ({ open, onClose, onApplyFilters }) => {
   const { control, handleSubmit } = useForm();
 
+  //On apply button click
   const onSubmit = (data: any) => {
     onApplyFilters(data);
     onClose(); // Close the dialog after applying filters

@@ -4,7 +4,7 @@ import vector from "../../assets/png/Vector.png";
 
 /**
  * No Record Found 
- * @returns 
+ * @author Neethu
  */
 export const NoRecords: React.FC = () => {
 

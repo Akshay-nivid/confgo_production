@@ -37,7 +37,6 @@ type DataGridListProps = {
 export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFooterPagination, source, dataTransformer, title, onRowClick, subNode, data }) => {
     const setDataById = useStore((state: any) => state.setDataById)
     const dataInfo = useStore((state: any) => state?.compData?.[id]) ?? [];
-    console.log(dataInfo);
     const prevPageRef = useRef<any>();
     const pageSize = dataInfo.pageSize || 5;
     const currentPage = dataInfo.currentPage || 1;
