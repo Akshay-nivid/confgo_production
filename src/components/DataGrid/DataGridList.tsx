@@ -38,8 +38,6 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
     const prevPageRef = useRef<any>();
     const pageSize = dataInfo.pageSize || 5;
     const currentPage = dataInfo.currentPage || 1;
-    // const [pageSize, setPageSize] = useState(5);
-    // const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(false); // Added loading state
 
     const totalItems = dataInfo?.pagination?.total || 0;

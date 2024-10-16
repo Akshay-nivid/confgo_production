@@ -6,7 +6,7 @@ import vector from "../../assets/png/Vector.png";
  * No Record Found 
  * @returns 
  */
-export const NoRecords: React.FC<any> = () => {
+export const NoRecords: React.FC = () => {
 
     return (
         <Grid
