@@ -19,6 +19,12 @@ import LoginOrg from '@/pages/LoginOrg/loginOrg';
 import SetPassword from '@/pages/SetPassword/SetPassword';
 import CouponView from './pages/coupon/CouponView';
 
+
+
+
+
+
+
 const router = createBrowserRouter([
   {
     path: routes.login(),
