@@ -130,12 +130,12 @@ const UserLogin = () => {
               if (credential) {
                 try {
                   const decodedToken: GoogleUser = jwtDecode(credential);
-                  console.log('Decoded Google User', decodedToken);
+                  Logger.info('Decoded Google User', decodedToken);
                 } catch (error) {
-                  console.error('Failed to decode token', error);
+                  Logger.error('Failed to decode token', error);
                 }
               } else {
-                console.error('No credential received');
+                Logger.error('No credential received');
               }
             }}
             onError={() => {}}
