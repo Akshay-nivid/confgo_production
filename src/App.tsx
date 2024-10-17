@@ -16,10 +16,43 @@ import Login from './pages/Login/Login';
 import Register from './pages/register/Register';
 import LoginOrg from '@/pages/LoginOrg/loginOrg';
 import SetPassword from '@/pages/SetPassword/SetPassword';
+import UserLayout from './pages/User/User-Layout';
+import UserLogin from './pages/User/User-Login';
+import UserRegister from './pages/User/User-Register';
+import UserOtp from './pages/User/User-Otp';
+import UserSetPassword from './pages/User/User-Setpassword';
+import UserSetpasswordSuccessful from './pages/User/User-Setpassword-Successful';
 
 
 
-
+const userRoutes = [
+  {
+    element: <UserLayout />,
+    children: [
+      {
+        path: routes.userLogin(),
+        element: <UserLogin />,
+      },
+      {
+        path: routes.userRegister(),
+        element: <UserRegister />,
+      },
+      {
+        path: routes.userOtp(),
+        element: <UserOtp />,
+      },
+      {
+        path: routes.userSetPassword(),
+        element: <UserSetPassword />,
+      },
+      {
+        path: routes.userSetPasswordSuccessful(),
+        element: <UserSetpasswordSuccessful />,
+      },
+     
+    ],
+  },
+];
 
 
 
@@ -79,6 +112,7 @@ const router = createBrowserRouter([
     path: routes.SetPassword(),
     element: <SetPassword />,
   },
+  ...userRoutes,
 ]);
 
 export default router;

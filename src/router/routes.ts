@@ -15,7 +15,14 @@ const routes = {
   contact: () => "/contact",
   demo: () => "/demo",
   LoginOrg: () => "/organization/login",
-  SetPassword : () => "/setpassword",
+  SetPassword: () => "/setpassword",
+  user: () => "/user",
+  userLogin: () => "/user/login",
+  userRegister: () => "/user/register",
+  userOtp: () => "/user/otp",
+  userSetPassword: () => "/user/setpassword",
+  userSetPasswordSuccessful: () => "/user/setpassword-successful",
+  programSelection: () => "/user/programs",
 };
 
 export default routes;
