@@ -13,9 +13,11 @@ import Home from '@/pages/Home';
 import Pricing from '@/pages/Pricing';
 import HomeLayout from '@/pages/Home-Layout';
 import Login from './pages/Login/Login';
-import Register from './pages/register/Register';
+import Register from './pages/Register/Register';
+import CreateCoupon from './pages/coupon/CreateCoupon';
 import LoginOrg from '@/pages/LoginOrg/loginOrg';
 import SetPassword from '@/pages/SetPassword/SetPassword';
+import CouponView from './pages/coupon/CouponView';
 
 
 
@@ -62,6 +64,14 @@ const router = createBrowserRouter([
           {
             path: routes.coupon(),
             element: <Coupon />,
+          },
+          {
+            path: routes.createCoupon(),
+            element: <CreateCoupon/>,
+          },
+          {
+            path: routes.CouponView(),
+            element: <CouponView/>,
           },
           {
             path: routes.calendar(),
