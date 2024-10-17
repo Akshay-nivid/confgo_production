@@ -1,0 +1,41 @@
+.create-coupon {
+  &-container {
+    background-color: $white;
+    margin: 1rem;
+    border-radius: 0.9rem;
+  }
+  &-grid {
+    margin-top: $h5 !important;
+  }
+  &-form {
+    padding-top: 1rem !important;
+    padding-bottom: 3rem !important;
+  }
+  &-next-btn {
+    max-height: 4rem;
+    background-color: $clr_green !important;
+    color: $clr_white !important;
+    min-width: 25rem !important;
+    text-transform: none !important;
+    font-size: $h6 !important;
+    font-weight: $font_medium !important;
+  }
+
+  &-filter-btn {
+    max-height: 4rem;
+    background-color: $clr_white !important;
+    color: $clr_green !important;
+    max-width: 21rem !important;
+    border: 0.083rem solid $clr_green !important;
+    text-transform: none !important;
+    font-size: $p1 !important;
+    font-weight: $font_normal !important;
+
+  }
+
+  &-title {
+    font-weight: $font_bold !important;
+    font-size: $h4 !important;
+    margin: 2rem !important;
+  }
+}

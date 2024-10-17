@@ -1,3 +1,4 @@
+import Coupon from "@/pages/coupon";
 
 const routes = {
   home: () => "/",
@@ -7,6 +8,8 @@ const routes = {
   events: () => "/events",
   createEvent: () => "/event/create",
   coupon: () => "/coupon",
+  createCoupon: ()=> "/coupon/create",
+  CouponView:()=>"/coupon/view",
   form1: () => "/pages/form1",
   form2: () => "/pages/form2",
   calendar: () => "/calendar",
