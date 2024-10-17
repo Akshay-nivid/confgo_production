@@ -30,7 +30,7 @@ import StreamlinedRegistration from './streamlined-registartion.svg'
 import RealTimeTracking from "./realtime-tracking.svg";
 import SuccessTickImage from "./success-tick-icon.svg";
 import CouponIconColored from "./coupon-icon.svg";
-
+import SetPasswordSuccessfulIcon from "./set-password-successful-icon.svg";
 export {
   CalenderIcon,
   EventIcon,
@@ -63,5 +63,6 @@ export {
   StreamlinedRegistration,
   RealTimeTracking,
   SuccessTickImage,
-  CouponIconColored
+  CouponIconColored,
+  SetPasswordSuccessfulIcon
 };

@@ -3,6 +3,7 @@
 export const REGEX = {
   PASSWORD_REGEX: /[!@#$%^&*(),.?":{}|<>]/,
   EMAIL_REGEX: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  PHONE_REGEX: /^\+?[1-9]\d{1,14}$/,
 };
 
 export const AUTH_STRINGS = {
@@ -131,5 +132,40 @@ export const validateMinLength = ({
       `${
         fieldName ? fieldName : 'Field'
       } must be at least ${minLength} characters long`,
+  };
+};
+
+/**
+ * @description: Validate phone number
+ * @param {message} message - The message to display if the phone number is invalid (default: Invalid phone number)
+ *
+ */
+export const validatePhoneNumber = ({ message }: { message?: string }) => {
+  return {
+    value: REGEX.PHONE_REGEX,
+    message: message || 'Invalid phone number',
+  };
+};
+
+/**
+ * @description: Validate maximum length
+ * @param {message} message - The message to display if the field is too long (default: Field cannot exceed ${maxLength} characters)
+ * @param {maxLength} maxLength - The maximum length of the field
+ * @param {fieldName} fieldName - The name of the field to display if the field is required (default: Field)
+ *
+ */
+export const validateMaxLength = ({
+  message,
+  maxLength,
+  fieldName,
+}: {
+  message?: string;
+  maxLength: number;
+  fieldName?: string;
+}) => {
+  return {
+    value: maxLength,
+    message:
+      message || `${ fieldName ? fieldName : 'Field'} must not exceed ${maxLength} characters`,
   };
 };

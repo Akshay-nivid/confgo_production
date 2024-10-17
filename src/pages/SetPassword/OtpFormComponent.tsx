@@ -1,8 +1,6 @@
 import { Button, Typography } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import OtpInput from 'react-otp-input';
-import { Link } from 'react-router-dom';
-import routes from '@/router/routes';
 import Grid from '@mui/material/Grid2';
 import { Controller } from 'react-hook-form';
 import { validateMinLength, validateRequiredField } from '@/Utils/Validation';
