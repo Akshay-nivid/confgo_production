@@ -30,8 +30,8 @@ const UserSetPassword = () => {
   /**
    * function to handle login
    */
-  const handleLogin = () => {
-    console.log('Login');
+  const handleLogin = (data:ISetPasswordForm) => {
+    return data;
   };
 
   const password = watch('password');

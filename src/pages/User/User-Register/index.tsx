@@ -14,6 +14,7 @@ import { GoogleLogin } from '@react-oauth/google';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import apiClient from '@/Libs/Https/API-client';
+import { Logger } from '@/Utils/Logger';
 
 interface IUserRegister {
   firstName: string;
@@ -46,11 +47,11 @@ const UserRegister = () => {
             userId: token.userId, 
           },
         });
-      } else {
-        console.log(response, 'response');
-      }
+        return response;
+      } 
     } catch (error) {
-      console.log(error, 'error');
+      Logger.error('Error in register', error);
+      return error;
     }
   };
 

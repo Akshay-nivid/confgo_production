@@ -1,10 +1,13 @@
 import { Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-// import {useLocation} from 'react-router-dom';
 
+
+/**
+ * 
+ * @returns 
+ */
 const UserLayout = () => {
-  // const location = useLocation().pathname;
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <Box  className="user-layout">

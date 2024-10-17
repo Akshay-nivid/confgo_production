@@ -5,11 +5,12 @@ import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import { Controller, useForm } from 'react-hook-form';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import OtpInput from 'react-otp-input';
 import { LockIcon } from '@/assets/svg';
 import { useEffect } from 'react';
 import apiClient from '@/Libs/Https/API-client';
+import { Logger } from '@/Utils/Logger';
 
 /**
  * User Otp page component
@@ -56,14 +57,11 @@ const UserOtp = () => {
     };
     try{
     const response = await apiClient.post('token/validateotp', body);
-    console.log(response, 'response');
     if(response.data.status === 'success'){
       navigate(routes.userSetPassword());
-    }else{
-        console.log(response, 'response');
-      }
-    } catch (error) {
-      console.log(error, 'error');
+    }
+  } catch (error) {
+    Logger.error('Error in otp', error);
     }
   };
 
@@ -72,7 +70,7 @@ const handleResendOtp = async () => {
     phone: phoneNumber,
     type: 'RESET_PASSWORD_OTP',
   });
-  console.log(response, 'response');
+  return response;
 };
 
   return (
