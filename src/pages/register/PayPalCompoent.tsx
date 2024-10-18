@@ -11,7 +11,7 @@ const PayPalButton: React.FC = () => {
     const form1 = useStore((state: any) => state?.compData?.['form1']) ?? [];
     const form2 = useStore((state: any) => state?.compData?.['form2']) ?? [];
     const form3 = useStore((state: any) => state?.compData?.['form3']) ?? [];
-    console.log(form1,'form1',form2,'form2',form3,'form3');
+    console.log(form1, 'form1', form2, 'form2', form3, 'form3');
     const { setDataById }: any = useStore();
 
     const initialOptions = {
@@ -27,13 +27,13 @@ const PayPalButton: React.FC = () => {
      * @param
      */
     const handleApprove = async (_data: any, actions: any) => {
-         await actions.order.capture();
-         CreateAccount();
+        await actions.order.capture();
+        CreateAccount();
     };
     /*
      * Functional create a new Account 
      *
-     */    
+     */
     const CreateAccount = async () => {
 
         try {
@@ -41,24 +41,22 @@ const PayPalButton: React.FC = () => {
                 firstName: form2.field_values.fullName,
                 lastName: form2.field_values.lastName,
                 email: form2.field_values.email,
+                phone: form2.field_values.phoneNumber,
                 companyPhone: form3.field_values.organizationPhone,
                 companyEmail: form3.field_values.organizationEmail,
                 companyName: form3.field_values.organizationName,
                 companyAddress: form3.field_values.organizationAddress,
-                planId: 2,
-                password: 'Abcd@1234'
+                planId: 1,
+                statusId: 1
             }
-            console.log(req, 'req');
             const response = await apiClient.post('company', req);
-            if (response.status === 200) {
+            if (response.data.status === 'success') {
+                setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:"Registration Successfully and please check your email for further instructions"});
                 setDataById('register', { data: 'REGISTRATION_SUCCESS_PAGE' });
-                console.log('Account created successfully');
-            } else {
-                console.log('Account creation failed');
             }
 
-        } catch (error) {
-            console.log(error)
+        } catch (error:any) {
+            setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:error.response.data.message})
         }
     }
 
@@ -80,7 +78,7 @@ const PayPalButton: React.FC = () => {
                                     amount: {
                                         currency_code: 'USD',
                                         // value: form1.field_values.price,
-                                        value:'1'
+                                        value: '1'
                                     },
                                 }],
                                 intent: 'CAPTURE'

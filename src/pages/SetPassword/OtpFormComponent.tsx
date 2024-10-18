@@ -22,12 +22,10 @@ interface otpDataFields{
   type:string
 }
 const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
-  // const location = useLocation();
   const { setDataById }: any = useStore();
   const userDetails = useStore((state: any) => state?.compData?.['userDataRegister']) ?? [];
   const [userData, setUserData] = useState<any>(null);
   const [otpData,setOtpData]=useState<otpDataFields>();
-  console.log(userDetails, 'userDetails')
   type FormData = {
     otp: string;
   };
@@ -58,7 +56,6 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
    * function used to get user by id
    */
   const getUserById = async () => {
-    console.log(userDetails.data.userId, 'userDetails')
     try {
       const requestBody = {
         userId: userDetails.data.userId,
@@ -114,7 +111,6 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
         otp: otp,
         type:otpData?.type,
       }
-      console.log(requestBody,'requestBody validate api')
       const response = await apiClient.post(`token/validateotp`, requestBody)
       if (response.data.status === 'success') {
         onOtpVerify(true);

@@ -4,6 +4,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Link } from "react-router-dom";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import routes from "@/router/routes";
+import apiClient from "@/Libs/Https/API-client";
+import useStore from "@/Libs/store";
 
 /**
  * Component used to login an org
@@ -15,16 +17,32 @@ const LoginOrg = () => {
     email: string;
     password: string;
   };
-
+  const { setDataById }: any = useStore();
   const { handleSubmit, control } = useForm<FormData>();
 
   /**
    * function used to handle form submission
    */
 
-  const onSubmit: SubmitHandler<FormData> = () => {};
+  const onSubmit: SubmitHandler<FormData> = (data) => {
+    LoginOrg(data);
+  };
 
-  return (
+  const LoginOrg = async(data:FormData) => {
+    try {
+      const requestBody = {
+        username: data.email,
+        password: data.password,
+      }
+      const response =await apiClient.post('auth', requestBody);
+      if(response.data.status ==='success') {
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:"Login Successfully"});
+      }
+    } catch (error:any) {
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:error.response.data.message});
+    }
+  }
+    return (
     <Box className="login-org-main-container">
       <Grid container className="grid-layout">
         <Grid size={{ xs: 12, sm: 6 }} className="grid-left">
