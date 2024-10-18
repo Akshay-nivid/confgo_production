@@ -1,9 +1,7 @@
 import '@/styles/main.scss';
-
-import { createBrowserRouter } from 'react-router-dom';
-
-import Layout from './pages/dashboard-layout';
-import Coupon from './pages/coupon';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { useState } from 'react';
+ // Import your SnackBarView component
 import routes from '@/router/routes';
 import AuthenticatedRoute from './router/AuthenticatedRoute';
 import Dashboard from '@/pages/dashboard';
@@ -16,13 +14,21 @@ import Login from './pages/Login/Login';
 import Register from './pages/register/Register';
 import LoginOrg from '@/pages/LoginOrg/loginOrg';
 import SetPassword from '@/pages/SetPassword/SetPassword';
+import VerifyMailPage from './pages/register/VerifyMailPage';
+import { SnackBarView } from './components/SnackBarView';
+import Layout from './pages/dashboard-layout';
+import Coupon from './pages/coupon';
+import useStore from './Libs/store';
 
+// Define the SnackBarInfo type
+type SnackBarInfo = {
+  open: boolean;
+  autoHideDuration: number;
+  severity: 'success' | 'info' | 'warning' | 'error';
+  message: string;
+};
 
-
-
-
-
-
+// Create your router configuration
 const router = createBrowserRouter([
   {
     path: routes.login(),
@@ -31,6 +37,10 @@ const router = createBrowserRouter([
   {
     path: routes.register(),
     element: <Register />,
+  },
+  {
+    path: routes.verifyEmail(),
+    element: <VerifyMailPage />,
   },
   {
     element: <HomeLayout />,
@@ -81,4 +91,25 @@ const router = createBrowserRouter([
   },
 ]);
 
-export default router;
+// Create an App component to wrap everything
+function App() {
+  const snackBarInfo = useStore((state: any) => state.compData?.["snackBarInfo"]);
+console.log(snackBarInfo,'snackBarInfo')
+
+  return (
+    <>
+      {snackBarInfo && (
+        <SnackBarView
+          open={snackBarInfo.open}
+          autoHideDuration={snackBarInfo.autoHideDuration}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          severity={snackBarInfo.severity}
+          text={snackBarInfo.message}
+        />
+      )}
+      <RouterProvider router={router} />
+    </>
+  );
+}
+
+export default App;
