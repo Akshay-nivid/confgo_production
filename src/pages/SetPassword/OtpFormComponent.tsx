@@ -1,11 +1,13 @@
 import { Button, Typography } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import OtpInput from 'react-otp-input';
-import { Link } from 'react-router-dom';
-import routes from '@/router/routes';
 import Grid from '@mui/material/Grid2';
 import { Controller } from 'react-hook-form';
 import { validateMinLength, validateRequiredField } from '@/Utils/Validation';
+import { useEffect, useState } from 'react';
+import apiClient from '@/Libs/Https/API-client';
+import useStore from '@/Libs/store';
+import { Logger } from '@/Utils/Logger';
 
 /**
  * component used to verify the otp
@@ -14,11 +16,29 @@ import { validateMinLength, validateRequiredField } from '@/Utils/Validation';
 interface OtpComponentProps {
   onOtpVerify: (status: boolean) => void;
 }
-
-const OtpComponent: React.FC<OtpComponentProps> = ({ onOtpVerify }) => {
+interface otpDataFields{
+  otp:string,
+  token:string,
+  type:string
+}
+const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
+  // const location = useLocation();
+  const { setDataById }: any = useStore();
+  const userDetails = useStore((state: any) => state?.compData?.['userDataRegister']) ?? [];
+  const [userData, setUserData] = useState<any>(null);
+  const [otpData,setOtpData]=useState<otpDataFields>();
+  console.log(userDetails, 'userDetails')
   type FormData = {
     otp: string;
   };
+  /**
+   * useEffect hook used to get user by id
+   */
+  useEffect(() => {
+    getUserById();
+
+  }, [])
+
 
   const {
     handleSubmit,
@@ -31,11 +51,80 @@ const OtpComponent: React.FC<OtpComponentProps> = ({ onOtpVerify }) => {
   /**
    * otp form submit handler
    */
-
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log(data);
-    onOtpVerify(true);
+    verifyOtp(data.otp);
   };
+  /**
+   * function used to get user by id
+   */
+  const getUserById = async () => {
+    console.log(userDetails.data.userId, 'userDetails')
+    try {
+      const requestBody = {
+        userId: userDetails.data.userId,
+        token: userDetails.data.token
+      }
+      const response = await apiClient.post(`user/details`, requestBody)
+      if (response.data.status === 'success') {
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:'Registration Successfully' })
+        setDataById('userDataRegister', { data:{userId:userDetails.data.userId,token:userDetails.data.token,email:response.data.data.email,phone:response.data.data.phone} });
+        getOtp(response.data.data.phone);
+        setUserData(response.data.data)
+      }else{
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:'Something went wrong' })
+      }
+    } catch (error:any) {
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:error.response.data.message })
+      Logger.error(error,'OtpFormComponent.tsx')
+    }
+  }
+  /**
+   * function used to get otp
+   * @param phone 
+   */
+  const getOtp = async (phone: string) => {
+    try {
+      const requestBody = {
+        phone: userData?.phone ?? phone,
+        type: 'REGISTRATION_OTP'
+      }
+      const response = await apiClient.post(`token/otp`, requestBody)
+      if (response.data.status === 'success') {
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:"OTP sent successfully" })
+        setOtpData(
+          {otp:response.data.data.otp,token:response.data.data.token,type:response.data.data.type}
+        )
+     
+      }
+    } catch (error:any) {
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:error.response.data.message })
+      Logger.error(error,'OtpFormComponent.tsx')
+    }
+  };
+
+  /**
+   * function used to verify otp
+   * @param otp 
+   */
+  const verifyOtp = async (otp: string) => {
+    try {
+      const requestBody = {
+        userId: userDetails.data.userId,
+        token: otpData?.token,
+        otp: otp,
+        type:otpData?.type,
+      }
+      console.log(requestBody,'requestBody validate api')
+      const response = await apiClient.post(`token/validateotp`, requestBody)
+      if (response.data.status === 'success') {
+        onOtpVerify(true);
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:"Otp verified successfully" })
+      }
+    } catch (error:any) {
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:error.response.data.message })
+      Logger.error(error,'OtpFormComponent.tsx')
+    }
+  }
 
   return (
     <Grid size={12} container className="otpcomponent__content-wrapper">
@@ -47,7 +136,7 @@ const OtpComponent: React.FC<OtpComponentProps> = ({ onOtpVerify }) => {
           textAlign={'center'}
           className="otpcomponent__header-description "
         >
-          Enter the OTP sent to +91 9876543210 <br /> abcd@gmail.com to complete
+          Enter the OTP sent to {userData?.phone} <br /> to complete
           the process.
         </Typography>
       </Grid>
@@ -117,8 +206,8 @@ const OtpComponent: React.FC<OtpComponentProps> = ({ onOtpVerify }) => {
           className="otpcomponent__already-have-account-text"
         >
           Didn't receive the code?
-          <span onClick={() => {}} className="otpcomponent__signup-now-text">
-             Resend OTP 
+          <span onClick={() => { getOtp(userData.phone) }} className="otpcomponent__signup-now-text">
+            Resend OTP
           </span>
         </Typography>
       </Grid>
