@@ -1,4 +1,5 @@
 
+
 const routes = {
   home: () => "/",
   dashboard: () => "/dashboard",
@@ -7,6 +8,8 @@ const routes = {
   events: () => "/events",
   createEvent: () => "/event/create",
   coupon: () => "/coupon",
+  createCoupon: ()=> "/coupon/create",
+  CouponView:()=>"/coupon/view",
   form1: () => "/pages/form1",
   form2: () => "/pages/form2",
   calendar: () => "/calendar",
@@ -17,6 +20,13 @@ const routes = {
   LoginOrg: () => "/organization/login",
   SetPassword : () => "/setpassword",
   verifyEmail : () => `/verify-email/:token/:id`,
+  user: () => "/user",
+  userLogin: () => "/user/login",
+  userRegister: () => "/user/register",
+  userOtp: () => "/user/otp",
+  userSetPassword: () => "/user/setpassword",
+  userSetPasswordSuccessful: () => "/user/setpassword-successful",
+  programSelection: () => "/user/programs",
 };
 
 export default routes;
