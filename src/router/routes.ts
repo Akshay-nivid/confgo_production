@@ -16,6 +16,7 @@ const routes = {
   demo: () => "/demo",
   LoginOrg: () => "/organization/login",
   SetPassword : () => "/setpassword",
+  verifyEmail : () => `/verify-email/:token/:id`,
 };
 
 export default routes;
