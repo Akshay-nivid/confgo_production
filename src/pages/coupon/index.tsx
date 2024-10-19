@@ -91,7 +91,7 @@ const Coupon = () => {
   const handleSearch = async (query: string) => {
     setLoading(true);
     try {
-      let req = {
+      const req = {
         filters: {
           name: query
         }
