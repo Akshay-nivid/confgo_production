@@ -84,8 +84,8 @@ const Coupon = () => {
   /**
    * Row click navigation
    */
-  const handleRowClick = () => {
-    navigate(routes.CouponView());
+  const handleRowClick = (id: number | string) => {
+    navigate(routes.CouponView(id)); 
   }
   // Function to handle search API for autocomplete
   const handleSearch = async (query: string) => {
@@ -176,7 +176,7 @@ const Coupon = () => {
         </Grid>
       </Grid>
       <Grid size={{ xs: 12 }} >
-        <DataGridList source={source} onRowClick={handleRowClick} title="Coupon" hideFooterPagination={false} columns={columns} id="coupon-datagrid" />
+        <DataGridList source={source}   onRowClick={(params:any) => handleRowClick(params.id)}  title="Coupon" hideFooterPagination={false} columns={columns} id="coupon-datagrid" />
       </Grid>
 
       {/* Filter Modal */}
