@@ -70,8 +70,8 @@ const router = createBrowserRouter([
             element: <CreateCoupon/>,
           },
           {
-            path: routes.CouponView(),
-            element: <CouponView/>,
+            path: routes.CouponView(":id"), // Add dynamic id parameter here
+            element: <CouponView />,
           },
           {
             path: routes.calendar(),
