@@ -324,7 +324,7 @@
 
 //DataGrid css ends here
 .custom-stepper {
-  background-color: $white;
+  background-color: $clr_white;
   margin: 1rem !important;
   &-container {
     max-width: 33rem;
@@ -365,7 +365,7 @@
     height: 4rem !important;
     border: 0.167rem solid $clr_green !important;
     color: $clr_green !important;
-    background-color: $white !important;
+    background-color: $clr_white !important;
     text-transform: none !important;
     font-size: $h6 !important;
     font-weight: $font_semibold !important;
@@ -415,7 +415,7 @@
 .no-record {
   &-container {
       width: '100%';
-      background-color: $white;
+      background-color: $clr_white;
       margin: 1rem;
       border-radius: 0.9rem;
       justify-content: center !important;

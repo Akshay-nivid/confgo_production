@@ -1,17 +1,17 @@
 .create-event{
     &-container{
-        background-color: $white;
+        background-color: $clr_white;
     }
     &-next-btn{
         background-color: $clr_green !important;
-        color: $white !important;
+        color: $clr_white !important;
         min-width: 25rem !important;
         text-transform: none !important;
         font-size: $h6 !important;
         font-weight: $font_semibold !important;
     }
     &-back-btn{
-        background-color: $white !important;
+        background-color: $clr_white !important;
         color: $clr_green !important;
         min-width: 25rem !important;
         border: 1px solid $clr_green !important;
@@ -28,15 +28,15 @@
 
 .add-program{
     &-container{
-        background-color: $white;
+        background-color: $clr_white;
     }
     &-next-btn{
         background-color: $clr_green !important;
-        color: $white !important;
+        color: $clr_white !important;
         min-width: 15rem !important;
     }
     &-back-btn{
-        background-color: $white !important;
+        background-color: $clr_white !important;
         color: $clr_green !important;
         min-width: 15rem !important;
     }
