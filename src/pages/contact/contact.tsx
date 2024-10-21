@@ -63,11 +63,10 @@ const Contact = () => {
      * change state of recapcha
      * @param value 
      */
-    const validateReCAPTCHA = (value: any) => {
+    const validateReCAPTCHA = (value: string|null) => {
         console.log("validate", value);
         const token = value;
         console.log("token", token);
-        
         setRecapcha(false);
     };
     /**
