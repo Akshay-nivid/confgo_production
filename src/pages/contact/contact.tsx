@@ -42,7 +42,7 @@ const boxArray = [
         info: 'Support@confgo.com'
     }]
 
-
+//contact page
 const Contact = () => {
     const { handleSubmit, control, formState: {errors} } = useForm<FormData>();
     const [recapcha, setRecapcha] = useState(true)
@@ -52,12 +52,13 @@ const Contact = () => {
         console.log("validate");
         setRecapcha(false);
     };
+ //submit handler
     const onSubmit: SubmitHandler<FormData> = (data:FormData) => {
         console.log(data);
            
     };
     return (
-        <Box >
+     
             <Grid container className='contact-page' size={{ lg: 12 }}   >
                 {/* top bar */}
                 <Grid container className='contact-container ' size={{ lg: 12, xs: 12 }} spacing={0} justifyContent='center' alignItems='center' >
@@ -70,13 +71,13 @@ const Contact = () => {
                 <Grid container className='contact-content' size={12} spacing={2} >
                     <Grid container className='contact-content-wrapper' size={{ lg: 12, xs: 12 }} spacing={3} justifyContent='center' >
                         <Grid container size={{ lg: 4, xs: 10 }} className='contact-info' sx={{ order: { xs: 2, lg: 1 } }}>
-                            <Box>
+                            <Box> 
                                 <Grid container size={{ lg: 12, xs: 12 }} spacing={2} >
                                     <Grid size={{ lg: 10, xs: 12}} className='contact-info_header'>
                                         <Typography className='contact-info_title'>Get in Touch </Typography>
                                         <Typography className='contact-info_description'>Everything you might need and then some more in an accessible and intuitive package.</Typography>
                                     </Grid ><Box/>
-                                    {/* for map */}
+                                   
                                     <Grid size={{ lg: 6, xs: 12 }}  className='contact-info_details'>
                                      
                                         {boxArray.map((item) => (
@@ -127,7 +128,7 @@ const Contact = () => {
                                             }
                                         />
                                     </Grid>
-                                    <Grid size={{ lg: 12, xs: 12 }}>
+                                    <Grid size={{ lg: 6, xs: 12 }}>
                                         <CustomTextField
                                             control={control}
                                             name="email"
@@ -143,7 +144,7 @@ const Contact = () => {
                                            
                                         />
                                     </Grid>
-                                    <Grid size={{ lg: 12, xs: 12 }}>
+                                    <Grid size={{ lg: 6, xs: 12 }}>
                                         <CustomTextField
                                             name='phoneNumber'
                                             label="Phone Number"
@@ -196,7 +197,7 @@ const Contact = () => {
 
                 </Grid>
             </Grid>
-        </Box>
+      
     )
 }
 
