@@ -13,7 +13,9 @@ export type SnackBarViewProps = {
 export const SnackBarView: React.FC<SnackBarViewProps> = (props) => {
     const clearDataById = useStore((state:any) => state?.clearDataById)
 
-    // Final message generation from text
+    /**
+     * Final message generation from text
+     */
     const finalMessage = useMemo(() => {
       if (typeof props?.text === "string") {
         return props.text;

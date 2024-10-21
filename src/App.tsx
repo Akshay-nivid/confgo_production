@@ -19,15 +19,9 @@ import Coupon from './pages/coupon';
 import useStore from './Libs/store';
 import CouponView from './pages/coupon/CouponView';
 
-// Define the SnackBarInfo type
-type SnackBarInfo = {
-  open: boolean;
-  autoHideDuration: number;
-  severity: 'success' | 'info' | 'warning' | 'error';
-  message: string;
-};
 
-// Create your router configuration
+
+
 
 
 import UserLayout from './pages/User/User-Layout';
@@ -39,7 +33,9 @@ import UserSetpasswordSuccessful from './pages/User/User-Setpassword-Successful'
 import Register from './pages/register/Register';
 
 
-
+/**
+ * Create your router configuration
+ */ 
 const userRoutes = [
   {
     element: <UserLayout />,
@@ -142,7 +138,6 @@ const router = createBrowserRouter([
   ...userRoutes,
 ]);
 
-// Create an App component to wrap everything
 function App() {
   const snackBarInfo = useStore((state: any) => state.compData?.["snackBarInfo"]);
 

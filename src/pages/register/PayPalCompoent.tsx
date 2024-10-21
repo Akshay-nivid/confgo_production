@@ -11,11 +11,10 @@ const PayPalButton: React.FC = () => {
     const form1 = useStore((state: any) => state?.compData?.['form1']) ?? [];
     const form2 = useStore((state: any) => state?.compData?.['form2']) ?? [];
     const form3 = useStore((state: any) => state?.compData?.['form3']) ?? [];
-    console.log(form1, 'form1', form2, 'form2', form3, 'form3');
     const { setDataById }: any = useStore();
 
     const initialOptions = {
-        clientId: "AQ9K1hDjjXSmmQz1aBt3FDjLTkrl8DRJvnUC6H6_eXAw-wzz6eC2eoYmSOEJcdN0prPUX1hsSm8bfGtK", // Replace with your PayPal Client ID
+        clientId: "AQ9K1hDjjXSmmQz1aBt3FDjLTkrl8DRJvnUC6H6_eXAw-wzz6eC2eoYmSOEJcdN0prPUX1hsSm8bfGtK", 
         currency: "USD",
         intent: "capture",
     };
@@ -85,7 +84,7 @@ const PayPalButton: React.FC = () => {
                             });
                         }}
                         onApprove={handleApprove}
-                        onClick={handleCardButtonClick} // Add the click handler here
+                        onClick={handleCardButtonClick}
                     />
                 </div>
             </PayPalScriptProvider>

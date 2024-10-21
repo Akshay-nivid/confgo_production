@@ -46,7 +46,7 @@ const OtpComponent: React.FC<OtpComponentProps> = ({ onOtpVerify }) => {
    */
   const onSubmit: SubmitHandler<FormData> = (data: FormData) => {
     console.log(data, 'data');
-    onOtpVerify(true); // Uncommented this line
+    onOtpVerify(true); 
   };
 
   return (

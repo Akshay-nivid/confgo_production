@@ -97,7 +97,6 @@ const CreateAccount = React.memo(() => {
                                     <CustomButton
                                     type="submit"
                                         className="plan-choose-btn"
-                                        // onClick={handleClick}
                                         label="Next"
                                         variant="contained"
                                         color="primary"

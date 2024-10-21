@@ -27,7 +27,9 @@ const LoginOrg = () => {
   const onSubmit: SubmitHandler<FormData> = (data) => {
     LoginOrg(data);
   };
-
+  /**
+   * function used to login an organization
+   */
   const LoginOrg = async(data:FormData) => {
     try {
       const requestBody = {
