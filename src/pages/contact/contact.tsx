@@ -83,7 +83,7 @@ const Contact = () => {
                                     {boxArray.map((item) => (
 
                                         <Grid key={item.id} container className='contact-info_item'>
-                                            <Grid size={{ lg: 3 }}>
+                                            <Grid size={{ lg: 3 }} className='contact-info_icon'>
                                                 {item.icon}
                                             </Grid>
                                             <Grid size={{ lg: 8 }} >
