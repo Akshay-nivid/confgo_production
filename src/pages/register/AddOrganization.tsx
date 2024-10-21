@@ -14,26 +14,16 @@ import { emailRules, phoneRules } from "@/Utils/Validation";
  * Organization form 
  */
 const AddOrganization = React.memo(() => {
-    const { handleSubmit, control, getValues } = useForm<FormData>();
+    const { handleSubmit, control } = useForm<FormData>();
     const { setDataById }: any = useStore();
     const form3 = useStore((state: any) => state?.compData?.['form3']) ?? [];
 
     /*
      * function to handle submission of the form
      */
-    const onSubmit: SubmitHandler<FormData> = () => { };
-    /*
-     * Component used to handle form and switching form 
-     */
-    const handleClick = () => {
-        const values = getValues();
-        if (!values.organizationName || !values.organizationAddress || !values.organizationAddress || !values.organizationEmail) {
-            return 
-        } else {
-            setDataById('register', { data: 'PAYMENT_METHOD_PAGE' });
-            setDataById('form3', { field_values: values });
-        }
-
+    const onSubmit: SubmitHandler<FormData> = (data) => { 
+        setDataById('register', { data: 'PAYMENT_METHOD_PAGE' });
+        setDataById('form3', { field_values: data });
     };
 
     /*
@@ -106,7 +96,6 @@ const AddOrganization = React.memo(() => {
                                     <CustomButton
                                         type="submit"
                                         className="plan-choose-btn"
-                                        onClick={handleClick}
                                         label="Next"
                                         variant="contained"
                                         color="primary"

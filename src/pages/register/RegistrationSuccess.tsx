@@ -6,10 +6,16 @@ import {
 } from "@mui/material";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { SuccessTickImage } from "@/assets/svg";
+import routes from "@/router/routes";
+import { useNavigate } from "react-router-dom";
 /*
  * functional compoent to render Registration success page
  */
 const RegistrationSuccess = React.memo(() => {
+  const navigate=useNavigate();
+  const handleHome=()=>{
+    navigate(routes.home());
+  }
   return (
       <Grid container className="left-content-wrapper" >
         <Grid container className="left-inner-content" spacing={4}>
@@ -54,10 +60,11 @@ const RegistrationSuccess = React.memo(() => {
                 <Grid container mb={2} className="w-full" >
                   <CustomButton
                     className="plan-choose-btn"
-                    label="Set Password"
+                    label="Home"
                     variant="contained"
                     color="primary"
                     size="large"
+                    onClick={handleHome}
                   />
                 </Grid>
               </Grid>

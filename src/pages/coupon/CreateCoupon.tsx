@@ -100,12 +100,12 @@ const CreateCoupon: React.FC = () => {
       </Snackbar>
       <Grid container size={{ xs: 12, sm: 12 }} justifyContent='center' alignItems='center' spacing={4}>
         <Grid size={{ xs: 12, sm: 6 }} className="create-coupon-grid">
-          <Grid size={{ xs: 12, sm: 6 }}>
+          <Grid size={{ xs: 12, sm: 12 }}>
             <Typography textAlign={'center'} lineHeight={2} className='create-coupon-title'>
               Create New Coupon
             </Typography>
           </Grid>
-          <Grid size={{ xs: 12, sm: 6 }} className="create-coupon-form">
+          <Grid size={{ xs: 12, sm: 12 }} className="create-coupon-form">
             <form onSubmit={handleSubmit(onSubmit)} >
               <Grid container spacing={2} alignItems={'center'} justifyContent={'center'}>
                 {/* Coupon fields */}

@@ -51,7 +51,6 @@ const Register = () => {
         break;
     }
   };
-
   return (
     <Grid container className="register-main-container">
       <Grid container justifyContent={'space-between'} direction={'column'} className="grid-left" size={{ xs: 12, sm: 6 }} >

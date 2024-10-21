@@ -6,17 +6,25 @@ import CheckIcon from '@mui/icons-material/Check';
 import clsx from 'clsx';
 import { validateConfirmPassword, validateMinLength, validatePassword, validateRequiredField } from '@/Utils/Validation';
 import { REGEX } from '@/Utils/Validation';
+import apiClient from '@/Libs/Https/API-client';
+import useStore from '@/Libs/store';
+import { useNavigate } from 'react-router-dom';
+import routes from '@/router/routes';
 /**
  * Component use to set password
  * @returns
  */
 
 const SetPasswordComponent = () => {
+  const setDataById = useStore((state: any) => state.setDataById)
+  const navigate=useNavigate();
   type FormData = {
     confirmPassword: string;
     password: string;
   };
-
+  /**
+   * function react hook form
+   */
   const { handleSubmit,control,watch } = useForm<FormData>({
     defaultValues: {
       password: '',
@@ -26,14 +34,38 @@ const SetPasswordComponent = () => {
 
   const password = watch('password');
 
-
-
-
+  const userDetails = useStore((state: any) => state?.compData?.['userDataRegister']) ?? [];
   /**
    * function used to handle form submission
    */
-  const onSubmit: SubmitHandler<FormData> = () => {
+  const onSubmit: SubmitHandler<FormData> = (data) => {
+    createPassword(data.password);
   };
+  /**
+   * function used to create password
+   * @param password 
+   */
+  const createPassword=async(password:string)=>{
+    try{
+      const requestBody={
+        password:password,
+        userId: userDetails.data.userId,
+        token: userDetails.data.token,
+        type:"USER_REGISTRATION",
+        email:userDetails.data.email,
+      }
+      const response=await apiClient.put(`user/setpassword`,requestBody);
+      if(response.data.status==='success'){
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:'Registration Successfully' })
+        navigate(routes.LoginOrg());
+      }else{
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:'Something went wrong' })
+      }
+    }
+    catch(error:any){
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:error.response.data.message})
+    }
+  }
 
   return (
     <Grid container size={12} className="setpassword">
@@ -107,6 +139,12 @@ const SetPasswordComponent = () => {
                 'active': REGEX.PASSWORD_REGEX.test(password),
               })} />
               <Typography className="setpassword__requirement-text text-p2 font-400">Must contain one special character</Typography>
+            </Box>
+            <Box display={'flex'} gap={1} alignItems={'center'} className="setpassword__requirement">
+              <CheckIcon className={clsx("setpassword__check-icon ", {
+                'active': REGEX.PASSWORD_REGEX_UPP.test(password),
+              })} />
+              <Typography className="setpassword__requirement-text text-p2 font-400">Must contain one Upper case letter</Typography>
             </Box>
           </Box>
           <Button
