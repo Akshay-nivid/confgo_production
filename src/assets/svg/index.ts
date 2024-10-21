@@ -31,9 +31,9 @@ import RealTimeTracking from "./realtime-tracking.svg";
 import SuccessTickImage from "./success-tick-icon.svg";
 import CouponIconColored from "./coupon-icon.svg";
 import SetPasswordSuccessfulIcon from "./set-password-successful-icon.svg";
-import LocatioIcon from "./Location.svg";
-import MessageIcon from "./Message.svg";
-import CallIcon from "./Call.svg";
+import LocatioIcon from "./location-icon.svg";
+import MessageIcon from "./message-icon.svg";
+import CallIcon from "./call-icon.svg";
 
 export {
   CalenderIcon,
