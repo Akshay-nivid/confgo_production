@@ -3,6 +3,7 @@
 export const REGEX = {
   PASSWORD_REGEX: /[!@#$%^&*(),.?":{}|<>]/,
   EMAIL_REGEX: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  PASSWORD_REGEX_UPP: /[A-Z]/,
   PHONE_REGEX: /^\+?[1-9]\d{1,14}$/,
 };
 
@@ -27,7 +28,7 @@ export const phoneRules = {
     message: AUTH_STRINGS.ERRORS.PPI_INVALID_LENGTH,
   },
   pattern: {
-    value: /^\+?[1-9]\d{1,14}$/, // A simple regex for international phone numbers
+    value: /^\d{10}$/,
     message: AUTH_STRINGS.ERRORS.PPI_INVALID_REGEXP,
   },
 };

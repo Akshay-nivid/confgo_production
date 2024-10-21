@@ -25,7 +25,7 @@ type DataGridListProps = {
     source?: ISource; 
     dataTransformer?: Function;
     data?: any;
-    title?: String
+    title?: string
     onRowClick?: (params: any) => void;
     subNode?: string;
 };
@@ -90,8 +90,8 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
      */
     const onPaginationChange = (pageSize: any, currentPage: any) => {
         //setPageSize(dataInfo.source.data.limit);
-        let newSource = { ...dataInfo?.source };
-        let newSourceData = newSource['data'];
+        const newSource = { ...dataInfo?.source };
+        const newSourceData = newSource['data'];
         if (currentPage < prevPageRef.current) {
 
             newSourceData['offset'] = currentPage === 1 ? currentPage - 1 : newSourceData['offset'] - newSourceData['limit'];

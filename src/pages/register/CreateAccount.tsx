@@ -16,26 +16,14 @@ import { emailRules, phoneRules } from "@/Utils/Validation";
 const CreateAccount = React.memo(() => {
     const { setDataById }: any = useStore();
     const form2 = useStore((state: any) => state?.compData?.['form2']) ?? [];
-    const { handleSubmit, control, getValues } = useForm<FormData>();
+    const { handleSubmit, control } = useForm<FormData>();
 
     /*
      * function to handle form submission 
      */
-    const onSubmit: SubmitHandler<FormData> = () => {
-
-    };
-    /*
-     * function to change the state and store form fields
-     */
-    const handleClick = () => {
-        const values = getValues();
-        if (!values.fullName || !values.lastName || !values.email || !values.phoneNumber) {
-            return
-        } else {
-            setDataById('register', { data: 'ADD_ORGANIZATION_PAGE', field_values: values, step: 3 });
-            setDataById('form2', { field_values: values });
-        }
-
+    const onSubmit: SubmitHandler<FormData> = (data) => {
+        setDataById('register', { data: 'ADD_ORGANIZATION_PAGE', field_values: data, step: 3 });
+        setDataById('form2', { field_values: data });
     };
     /*
      * Form fields used in FormData
@@ -109,11 +97,11 @@ const CreateAccount = React.memo(() => {
                                     <CustomButton
                                     type="submit"
                                         className="plan-choose-btn"
-                                        onClick={handleClick}
                                         label="Next"
                                         variant="contained"
                                         color="primary"
                                         size="large"
+                                    
                                     />
                                 </Grid>
                             </form>

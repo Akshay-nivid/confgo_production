@@ -1,4 +1,4 @@
-import Coupon from "@/pages/coupon";
+
 
 const routes = {
   home: () => "/",
@@ -9,7 +9,7 @@ const routes = {
   createEvent: () => "/event/create",
   coupon: () => "/coupon",
   createCoupon: ()=> "/coupon/create",
-  CouponView:()=>"/coupon/view",
+  CouponView: (id:string|number) => `/coupon/${id}`,
   form1: () => "/pages/form1",
   form2: () => "/pages/form2",
   calendar: () => "/calendar",
@@ -18,7 +18,8 @@ const routes = {
   contact: () => "/contact",
   demo: () => "/demo",
   LoginOrg: () => "/organization/login",
-  SetPassword: () => "/setpassword",
+  SetPassword : () => "/setpassword",
+  verifyEmail : () => `/verify-email/:token/:id`,
   user: () => "/user",
   userLogin: () => "/user/login",
   userRegister: () => "/user/register",
