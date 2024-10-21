@@ -14,7 +14,13 @@ const Navbar = () => {
   /**
    * useMemo used to provide color to nav based on path
    */
+  // navbar theme based on path
+  const getLinkClassName = useMemo(() => {
+    return (path: string) => `nav-link ${location.pathname === path ? 'active' : ''}`;
+  }, [location.pathname]);
+
   const theme = useMemo(() => {
+    
     const themeMapper: any = {
       '/': { bgcolor: 'nav-theme-black-background', color: 'nav-theme-white' }
     };
@@ -33,28 +39,28 @@ const Navbar = () => {
             </Grid>
             <Grid className="nav-links-container">
               <Box className={`nav-links ${theme.color}`}>
-                <Link className="nav-link " to={routes.home()}>
-                  Home
-                </Link>
-                <Link className="nav-link" to={routes.feature()}>
-                  Features
-                </Link>
-                <Link className="nav-link" to={routes.pricing()}>
-                  Pricing
-                </Link>
-                <Link className="nav-link" to={routes.demo()}>
-                  Demo{' '}
-                </Link>
-                <Link className="nav-link" to={routes.contact()}>
-                  Contact us
-                </Link>
-                <Divider className={`nav-divider ${theme.color}`} />
-                <Link className={`nav-link`} to={routes.login()}>
-                  Login
-                </Link>
-                <Link className="nav-link" to={routes.register()}>
-                  Signup
-                </Link>
+              <Link className={getLinkClassName(routes.home())} to={routes.home()}>
+        Home
+      </Link>
+      <Link className={getLinkClassName(routes.feature())} to={routes.feature()}>
+        Features
+      </Link>
+      <Link className={getLinkClassName(routes.pricing())} to={routes.pricing()}>
+        Pricing
+      </Link>
+      <Link className={getLinkClassName(routes.demo())} to={routes.demo()}>
+        Demo
+      </Link>
+      <Link className={getLinkClassName(routes.contact())} to={routes.contact()}>
+        Contact us
+      </Link>
+      <Divider className={`nav-divider ${theme.color}`} />
+      <Link className={getLinkClassName(routes.login())} to={routes.login()}>
+        Login
+      </Link>
+      <Link className={getLinkClassName(routes.register())} to={routes.register()}>
+        Signup
+      </Link>
               </Box>
 
             </Grid>

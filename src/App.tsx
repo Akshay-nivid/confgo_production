@@ -18,6 +18,7 @@ import CreateCoupon from './pages/coupon/CreateCoupon';
 import LoginOrg from '@/pages/LoginOrg/loginOrg';
 import SetPassword from '@/pages/SetPassword/SetPassword';
 import CouponView from './pages/coupon/CouponView';
+import Contact from './pages/contact/contact';
 
 
 
@@ -66,7 +67,7 @@ const router = createBrowserRouter([
   {
     path: routes.login(),
     element: <Login />,
-  },
+  }, 
   {
     path: routes.register(),
     element: <Register />,
@@ -82,6 +83,10 @@ const router = createBrowserRouter([
         path: routes.pricing(),
         element: <Pricing />,
       },
+      {
+        path: routes.contact(),
+        element: <Contact />,
+      }, 
     ],
   },
   {
