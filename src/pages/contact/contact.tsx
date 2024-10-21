@@ -5,10 +5,13 @@ import { useRef, useState } from 'react';
 import { validateEmail, validatePhoneNumber, validateRequiredField } from '@/Utils/Validation';
 import ReCAPTCHA from 'react-google-recaptcha';
 import Grid from '@mui/material/Grid2';
-
+import useStore from '@/Libs/store';    
 import { CallIcon } from '@/assets/svg';
 import { LocatioIcon } from '@/assets/svg';
 import { MessageIcon } from '@/assets/svg';
+
+import apiClient from '@/Libs/Https/API-client';
+import { Logger } from '@/Utils/Logger';
 
 
 
@@ -21,7 +24,10 @@ interface FormData {
     message: string;
     validateReCAPTCHA: Boolean
 }
-//maping for icons
+
+/**
+ * mapping for icons
+ */
 const boxArray = [
 
     {
@@ -42,25 +48,59 @@ const boxArray = [
         info: 'Support@confgo.com'
     }]
 
-//contact page
+/*
+ * componenet used to display contact page
+ * @returns 
+ */
 const Contact = () => {
-    const { handleSubmit, control, formState: { errors } } = useForm<FormData>();
+    const { handleSubmit, control } = useForm<FormData>();
     const [recapcha, setRecapcha] = useState(true)
     const recaptchaRef = useRef<ReCAPTCHA>(null);
-    //change state of recapcha
-    const validateReCAPTCHA = () => {
-        console.log("validate");
+     const { setDataById }: any = useStore();
+   
+     /**
+    //**
+     * change state of recapcha
+     * @param value 
+     */
+    const validateReCAPTCHA = (value: any) => {
+        console.log("validate", value);
+        const token = value;
+        console.log("token", token);
+        
         setRecapcha(false);
     };
-    //submit handler
-    const onSubmit: SubmitHandler<FormData> = (data: FormData) => {
-        console.log(data);
-
-    };
+    /**
+     * submit handler
+     * @param data 
+     */
+    const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
+        try {
+           
+            
+            const request = {
+                 firstName: data.name,
+                lastName: data.lastName,
+                companyName: data.companyName,
+                gRecaptcha: recaptchaRef.current?.getValue() || '',
+                phone: data.phoneNumber,
+                email: data.email,
+                message: data.message
+            }
+             const response = await apiClient.post('notification/contact',  request)
+           if(response.data.status === 'success'){
+            setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:"Form submitted successfully"})
+           }
+            console.log('Form submitted successfully:', response.data);
+           
+        } catch (error) {
+            Logger.error('Error submitting form:', error);
+               }
+    }
     return (
 
         <Grid container className='contact-page' size={{ lg: 12 }}   >
-            {/* top bar */}
+            
             <Grid container className='contact-container ' size={{ lg: 12, xs: 12 }} spacing={0} justifyContent='center' alignItems='center' >
                 <Grid className='contact-header-content'>
                     <Typography className='contact-header-title'>Contact Our Team</Typography>

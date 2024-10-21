@@ -12,9 +12,9 @@ const Navbar = () => {
   const location = useLocation(); // Get the current path
 
   /**
-   * useMemo used to provide color to nav based on path
    */
-  // navbar theme based on path
+  /* navbar theme based on path 
+  */
   const getLinkClassName = useMemo(() => {
     return (path: string) => `nav-link ${location.pathname === path ? 'active' : ''}`;
   }, [location.pathname]);
