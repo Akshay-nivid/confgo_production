@@ -10,7 +10,7 @@ import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; 
+import 'react-quill/dist/quill.snow.css';
 type EventProps = {
     formSubmit: boolean;
     onSubmitHandler: (event: React.FormEvent<HTMLFormElement>, type: string) => void;
@@ -44,10 +44,13 @@ const CreateEvent: React.FC<EventProps> = React.memo(({ formSubmit, onSubmitHand
 
     const [editorContent, setEditorContent] = useState('');
 
-
+    /**
+     * Method handles the on change event for description editor
+     * @param value : event value
+     */
     const handleChange = (value: any) => {
         setEditorContent(value);
-        setValue('description',value)
+        setValue('description', value)
     };
 
 
@@ -76,13 +79,13 @@ const CreateEvent: React.FC<EventProps> = React.memo(({ formSubmit, onSubmitHand
             setFormValues(data, setValue)
             data?.description && setEditorContent(data?.description);
         }
-        else{
-            setValue('type','OFFLINE')
+        else {
+            setValue('type', 'OFFLINE')
         }
     }, [data])
 
 
-    
+
 
     return <Box className="create-event-container">
         <Grid container size={{ xs: 12, sm: 12 }} justifyContent="center" alignItems="center" spacing={4}>
@@ -94,10 +97,10 @@ const CreateEvent: React.FC<EventProps> = React.memo(({ formSubmit, onSubmitHand
                 <Grid>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <Grid container spacing={2} alignItems={'center'} justifyContent={'center'}>
-                        <Grid size={{ xs: 12, sm: 12 }}>
+                            <Grid size={{ xs: 12, sm: 12 }}>
                                 <Typography variant="h3" className="create-event-description">Event Name</Typography>
                             </Grid>
-                        <Grid size={{ xs: 12, sm: 12 }} >
+                            <Grid size={{ xs: 12, sm: 12 }} >
                                 <CustomTextField
                                     placeholder="Event Name"
                                     control={control}
@@ -111,7 +114,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(({ formSubmit, onSubmitHand
                             </Grid>
                             <Grid size={{ xs: 12, sm: 12 }} className="create-event-description">
                                 <ReactQuill
-                                    className={(errors?.description || watch('description') === '<p><br></p>')? "create-event-description-error": ''}
+                                    className={(errors?.description || watch('description') === '<p><br></p>') ? "create-event-description-error" : ''}
                                     value={editorContent}
                                     onChange={handleChange}
                                     theme="snow"
@@ -170,51 +173,51 @@ const CreateEvent: React.FC<EventProps> = React.memo(({ formSubmit, onSubmitHand
                                     rules={{ required: watch('type') === 'OFFLINE' }}
                                 />
                             </Grid>
-                            <Grid size={{ xs: 12, sm: 12 }} >
-                                <CustomTextField
-                                    placeholder="Address"
-                                    control={control}
-                                    name="address"
-                                    type="text"
-                                    rules={{ required: watch('type') === 'OFFLINE' }}
-                                />
-                            </Grid>
-                            <Grid size={{ xs: 12, sm: 6 }} >
-                                <CustomTextField
-                                    placeholder="City"
-                                    control={control}
-                                    name="city"
-                                    type="text"
-                                    rules={{ required: watch('type') === 'OFFLINE' }}
-                                />
-                            </Grid>
-                            <Grid size={{ xs: 12, sm: 6 }} >
-                                <CustomTextField
-                                    placeholder="State"
-                                    control={control}
-                                    name="state"
-                                    type="text"
-                                    rules={{ required: watch('type') === 'OFFLINE' }}
-                                />
-                            </Grid>
-                            <Grid size={{ xs: 12, sm: 6 }} >
-                                <CustomTextField
-                                    placeholder="Country"
-                                    control={control}
-                                    name="country"
-                                    type="text"
-                                    rules={{ required: watch('type') === 'OFFLINE' }}
-                                />
-                            </Grid>
-                            <Grid size={{ xs: 12, sm: 6 }} >
-                                <CustomTextField
-                                    placeholder="Pin Code"
-                                    control={control}
-                                    name="postalCode"
-                                    type="text"
-                                    rules={{ required: watch('type') === 'OFFLINE' }}
-                                />
-                            </Grid></>}
+                                <Grid size={{ xs: 12, sm: 12 }} >
+                                    <CustomTextField
+                                        placeholder="Address"
+                                        control={control}
+                                        name="address"
+                                        type="text"
+                                        rules={{ required: watch('type') === 'OFFLINE' }}
+                                    />
+                                </Grid>
+                                <Grid size={{ xs: 12, sm: 6 }} >
+                                    <CustomTextField
+                                        placeholder="City"
+                                        control={control}
+                                        name="city"
+                                        type="text"
+                                        rules={{ required: watch('type') === 'OFFLINE' }}
+                                    />
+                                </Grid>
+                                <Grid size={{ xs: 12, sm: 6 }} >
+                                    <CustomTextField
+                                        placeholder="State"
+                                        control={control}
+                                        name="state"
+                                        type="text"
+                                        rules={{ required: watch('type') === 'OFFLINE' }}
+                                    />
+                                </Grid>
+                                <Grid size={{ xs: 12, sm: 6 }} >
+                                    <CustomTextField
+                                        placeholder="Country"
+                                        control={control}
+                                        name="country"
+                                        type="text"
+                                        rules={{ required: watch('type') === 'OFFLINE' }}
+                                    />
+                                </Grid>
+                                <Grid size={{ xs: 12, sm: 6 }} >
+                                    <CustomTextField
+                                        placeholder="Pin Code"
+                                        control={control}
+                                        name="postalCode"
+                                        type="text"
+                                        rules={{ required: watch('type') === 'OFFLINE' }}
+                                    />
+                                </Grid></>}
                         </Grid>
 
                     </form>

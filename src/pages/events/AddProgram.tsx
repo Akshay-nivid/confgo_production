@@ -13,8 +13,7 @@ import EditIcon from '@/assets/svg/edit-program-icon.svg';
 import DeleteIcon from '@/assets/svg/delete-program-icon.svg';
 import CustomSelect from '@/components/CustomSelectBox/CustomSelect';
 import moment from 'moment';
-import apiClient from '@/Libs/Https/API-client';
-import { getValueFromArrayBasedOnParameter, processAPIResponse } from '@/Utils/CommonBaseClass';
+import { getValueFromArrayBasedOnParameter } from '@/Utils/CommonBaseClass';
 
 
 type FormData = {
@@ -57,11 +56,7 @@ const programTypeArray = [
     { label: 'Program', value: 'PROGRAM' },
     { label: 'Add Ons', value: 'ADD_ONS' }
 ];
-const addOnArray = [
-    { label: 'Add On 1', value: 'ADD1' },
-    { label: 'Add On 2', value: 'ADD2' },
-    { label: 'Add On 2', value: 'ADD3' }
-];
+
 
 
 const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHandler, data, onSaveHandler, addOnOptions }) => {
@@ -87,14 +82,14 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
     });
     const [programIndex, setProgramIndex] = useState(0);
 
- 
+
 
     /**
      * Useeffect hook submits the form based on the formSubmit variable
      */
     useEffect(() => {
         if (formSubmit) {
-            onSubmitHandler && onSubmitHandler(data?.savedPrograms,'PROGRAM')
+            onSubmitHandler && onSubmitHandler(data?.savedPrograms, 'PROGRAM')
         }
     }, [formSubmit])
 
@@ -103,7 +98,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
      * @param data : form data
      */
     const onSubmit: SubmitHandler<FormData> = (data: any) => {
-        onSubmitHandler && onSubmitHandler(data?.savedPrograms,'PROGRAM')
+        onSubmitHandler && onSubmitHandler(data?.savedPrograms, 'PROGRAM')
     };
 
     /**
@@ -170,7 +165,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
         programsCopy.splice(index, 1);
         setValue('savedPrograms', programsCopy)
         const saveProgram = programsCopy
-        
+
         remove(index)
         if ((index === programsCopy.length)) {
             if (index === 0) {
@@ -212,7 +207,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
                 <Grid size={{ xs: 12, sm: 8 }} className="add-program-form-container">
                     <Box className="add-program-form-spacing">
                         <Box className="">
-                            
+
                             <Grid container justifyContent={'space-between'} alignItems={'center'}>
                                 <Grid>
                                     <Typography textAlign={"start"} variant="h3" lineHeight={2} className="add-program-title" >Add Program</Typography>
@@ -255,15 +250,15 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
                                                             rules={{ required: true }}
                                                         />
                                                     </Grid>
-                                                    <Grid size={{ xs: 12, sm: 6 }} >
-                                                        <CustomTextField
-                                                            placeholder="Program Description"
-                                                            control={control}
-                                                            name={`programs.${index}.description`}
-                                                            type="text"
-                                                            rules={{ required: true }}
-                                                        />
-                                                    </Grid></>}
+                                                        <Grid size={{ xs: 12, sm: 6 }} >
+                                                            <CustomTextField
+                                                                placeholder="Program Description"
+                                                                control={control}
+                                                                name={`programs.${index}.description`}
+                                                                type="text"
+                                                                rules={{ required: true }}
+                                                            />
+                                                        </Grid></>}
                                                     {watch(`programs.${index}.programType`) === 'ADD_ONS' && <Grid size={{ xs: 12, sm: 12 }} className="add-program-addons-grid">
                                                         <CustomSelect
                                                             name={`programs.${index}.addonId`}
@@ -272,7 +267,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
                                                             control={control}
                                                             rules={{ required: true }}
                                                             fullWidth
-                                                            
+
                                                         />
                                                     </Grid>}
                                                     <Grid size={{ xs: 12, sm: 6 }} >
@@ -340,11 +335,11 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
                 <Grid container direction={'column'} className='add-program-display-container' size={{ xs: 12, sm: 4 }} spacing={2}>
 
                     {watch('savedPrograms')?.map((field, index) => (
-                        (field.programType === 'PROGRAM'? field.name: field.addonId) && (
-                            
+                        (field.programType === 'PROGRAM' ? field.name : field.addonId) && (
+
                             <Grid key={field.id} container className='add-program-display-item' size={{ xs: 12, sm: 12 }}>
                                 <Grid size={{ xs: 8, sm: 8 }}>
-                                    {field.programType === 'PROGRAM'? field.name: getValueFromArrayBasedOnParameter(addOnOptions, 'value', field.addonId, 'label')}
+                                    {field.programType === 'PROGRAM' ? field.name : getValueFromArrayBasedOnParameter(addOnOptions, 'value', field.addonId, 'label')}
                                 </Grid>
 
                                 <Grid size={{ xs: 4, sm: 4 }}>
