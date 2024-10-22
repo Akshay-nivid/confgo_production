@@ -10,19 +10,19 @@ export function processAPIResponse(response: any,api:string ) {
   let message: any = "Success"
   let data: any;
   try {
-    if (response.data.code === 401 && !api.includes("login")) {
+    if (response.status === 401 && !api.includes("login")) {
       status = false
       message = response.data.message   
       sessionStorage.clear();
       window.location.href = '/login'; 
       return { status, message, data }
     }
-    else if(response.data.code === 401 && api.includes("login")){
+    else if(response.status === 401 && api.includes("login")){
       status = false
       message = response.data.message;
       return { status, message, data }
     }
-    else if (response.data.code == 400) {
+    else if (response.status == 400) {
       status = false;
       if (Array.isArray(response.data.message)) {
         message = response.data.message[0].msg;
@@ -30,7 +30,7 @@ export function processAPIResponse(response: any,api:string ) {
         message = response.data.message;
       }
     }
-    else if (response.data.code == 403) {
+    else if (response.status == 403) {
       status = false;
       if (Array.isArray(response.data.message)) {
         message = response.data.message[0].msg;

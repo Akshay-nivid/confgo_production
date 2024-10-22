@@ -4,20 +4,16 @@ import Grid from '@mui/material/Grid2';
 import { useNavigate, useParams } from 'react-router-dom';
 import apiClient from '@/Libs/Https/API-client';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';
-
+import CustomTextField from '@/components/CustomTextfield/CustomTextField';
 import { useForm } from 'react-hook-form';
-
+import CustomDatePicker from '@/components/CustomDatePicker/CustomDatePicker';
+import CustomSelect from '@/components/CustomSelectBox/CustomSelect';
 import moment from 'moment';
-
+import CustomButton from '@/components/CustomButton/CustomButton';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
-
-import routes from '@/router/routes';
-import CustomTextField from '@/components/CustomTextfield/CustomTextField';
 import CustomSnackbar from '@/components/CustomSnackbar/CustomSnackbar';
-import CustomButton from '@/components/CustomButton/CustomButton';
-import CustomSelect from '@/components/CustomSelectBox/CustomSelect';
-import CustomDatePicker from '@/components/CustomDatePicker/CustomDatePicker';
+import routes from '@/router/routes';
 
 
 /**
@@ -104,11 +100,11 @@ const CouponView: React.FC = () => {
           setTimeout(() => {
             navigate(routes.coupon()); // Redirect to the coupon list
           }, 1500);
-        
+
         }
-      } 
-
-
+      } else {
+        console.log('No changes to update');
+      }
     } catch (err) {
       setError('Failed to update coupon details.');
     } finally {
@@ -217,7 +213,7 @@ const CouponView: React.FC = () => {
                         placeholder='Start Date'
                         name='startDate'
                         control={control}
-                        defaultValue={coupon?.startDate ? moment(coupon.startDate).format('YYYY-MM-DD') : null}
+                        defaultValue={coupon?.startDate ? new Date(coupon.startDate) : null} // Convert to Date object
                         rules={{ required: 'Start Date is required' }}
                         label='Start Date'
                         requiredField

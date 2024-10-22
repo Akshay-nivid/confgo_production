@@ -130,7 +130,7 @@
 // Custom Checkbox styles
 
 .checkbox-label {
-  font-size: $p1;
+  font-size: $p2;
   font-weight: $font_medium;
 }
 .custom-checkbox .MuiSvgIcon-root {
@@ -385,9 +385,109 @@
     font-size: 10rem !important;
   }
 }
+
+.custom-pagination {
+  background-color: #f5f5f5;
+  border-top: 0.083rem solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.9rem;
+}
+.pagination{
+  .MuiPaginationItem-root{
+    font-size: $p3 !important;
+    color: $clr_gray_medium !important;      
+  }
+  .MuiPaginationItem-previousNext{
+    color: $clr_gray_dark !important;   
+    font-size: $p1 !important;   
+  }
+  .Mui-selected {
+          font-size: $p3 !important;
+          border-radius: $p3 !important;
+          background-color: $clr_green_light !important;  
+          color: $clr_green !important;           
+        }
+}
+.custom-list{
+  margin-top: 2.2rem !important;
+  margin-left: 2rem !important;
+  margin-right: 2rem !important;
+  &-next-btn {
+    max-height: 4rem;
+    background-color: $clr_green !important;
+    color: $clr_white !important;
+    max-width: 19rem !important;
+    text-transform: none !important;
+    font-size: $p2 !important;
+    font-weight: $font_normal !important;
+  }
+
+  &-filter-btn {
+    max-height: 4rem;
+    background-color: $clr_white !important;
+    color: $clr_green !important;
+    max-width: 21rem !important;
+    border: 0.083rem solid $clr_green !important;
+    text-transform: none !important;
+    font-size: $p2 !important;
+    font-weight: $font_normal !important;
+
+  }
+  &-list-title {
+    font-weight: $font_bold !important;
+    font-size: $h4 !important;
+    padding-left: 1rem !important;
+  }
+  &-container {
+    background-color: $clr_white;
+    margin: 1rem;
+    border-radius: 0.83rem;
+  }
+
+  &-filters{
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+   
+  }
+  &-grid {
+      margin-top: $p1 !important;
+  }
+
+  &-form {
+      padding-top: 1rem !important;
+      padding-bottom: 3rem !important;
+  }
+
+}
+.custom-autopopulate {
+  /* Remove the default border or outline */
+  border: none;
+  box-shadow: none; /* Remove box shadow if needed */
+}
+
+.custom-autopopulate .MuiOutlinedInput-notchedOutline {
+  border: none; /* Ensure no outline */
+}
+
+.custom-search-text-field{
+  max-height: 4.2rem !important;
+  min-width: 33rem !important;
+  background-color: $clr_white !important;
+  color: $clr_gray_medium !important; 
+  font-weight: $font_normal !important;
+  font-size: $h6 !important;
+  border-radius: 0.5rem !important;
+  padding-left: 0rem !important;
+  &-icon{
+    color: $clr_gray_medium !important;
+    font-size: 10rem !important;
+  }
+}
+
 //DataGrid css ends here
 .custom-stepper {
-  background-color: $white;
+  background-color: $clr_white;
   margin: 1rem !important;
   &-container {
     max-width: 33rem;
@@ -471,6 +571,7 @@
 .helper-text{
     color: $clr_red !important;
     font-size:$p2 !important;
+    font-size: $p2;
     margin: 0 !important;
     margin-top: -0.9rem !important;
 }

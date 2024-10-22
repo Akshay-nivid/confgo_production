@@ -1,0 +1,97 @@
+
+
+
+.user-setpassword {
+
+    .content-container {
+      max-width:33.33rem;
+    }
+    .lock-icon {
+        font-size: 3.2rem;
+        margin-bottom: 1rem;
+      }
+    .setpassword__requirements {
+        margin-top: 2.5rem;
+        margin-bottom: 2rem;
+        .setpassword__requirement {
+        //  margin-bottom: 0.3rem;
+          .setpassword__check-icon {
+            background-color: $clr_requirement_text;
+            color: $clr_white;
+            border-radius:50%;
+            padding: 0.25rem;
+            &.active{
+              background-color: $clr_green;
+            }
+          }
+          .setpassword__requirement-text {
+            color: $clr_requirement_text;
+          }
+        
+        }
+      }
+    .header-container {
+      margin-bottom: 3.5rem;
+      .header-title {
+        font-size: $h2;
+        font-weight: $font-bold;
+      }
+      .header-subtitle {
+        font-size: $p2;
+        color: $clr_gray_dark_text;
+      }
+    }
+    .form {
+      margin-bottom: 3rem;
+      .textfield-container {
+        // margin-bottom: 3.33rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.66rem;
+      }
+      .login-button {
+        background-color: $clr_black;
+      }
+    }
+    .navigation-text-container {
+      text-align: center;
+      margin-bottom: 3.33rem;
+      .signup-text {
+        font-size: $p2;
+        margin-bottom: 1.66rem;
+        color: $clr_gray_dark_text;
+        font-weight: $font-medium;
+        .signup-text-highlight {
+          color: $clr_black;
+          font-weight: $font-bold;
+        }
+      }
+      .forgot-password-text {
+        font-size: $p2;
+        font-weight: $font-bold;
+      }
+    }
+    .sso-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .sso-header-container {
+      margin-bottom: 2rem;
+      display: flex;
+      width: 100%;
+      align-items: center;
+      gap: .5rem;
+      .sso-header-text {
+        font-size: $p3;
+        font-weight: $font-medium;
+      }
+      .sso-header-line {
+        background-color: $clr_gray_faded;
+        height: 0.11rem;
+        flex:1;
+      }
+    }
+  
+  }
+  

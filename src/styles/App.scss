@@ -1,11 +1,14 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Inter', sans-serif !important;
 }
 
 html {
   font-size: 75%;
+ 
 }
-
+body,p,li,a,div,span,button,h1,h2,h3,h4,h5,h6,label,input {
+  font-family: 'Inter', sans-serif !important;
+}
 // font size
 .text-h1 {
   font-size: $h1 !important;
@@ -26,21 +29,23 @@ html {
   font-size: $h6 !important;
 }
 .text-p1 {
-  font-size: $p1 !important;
+  font-size: $p2 !important;
 }
 .text-p2 {
-  font-size: $p2 !important;
+  font-size: $p3 !important;
 }
 
 // font weight
-.font-300 {
-  font-weight: $font_normal !important;
-}
+
 .font-400 {
   font-weight: $font_normal !important;
 }
+
 .font-500 {
   font-weight: $font_medium !important;
+}
+.font-600 {
+  font-weight: $font_semibold !important;
 }
 .font-700 {
   font-weight: $font_bold !important;

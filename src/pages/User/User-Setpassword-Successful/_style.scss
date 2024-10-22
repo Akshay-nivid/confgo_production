@@ -1,0 +1,31 @@
+.user-login {
+    .content-container {
+      max-width:33.33rem;
+    }
+
+    .set-password-successful-icon {
+      margin-bottom: 2rem;
+      height: 8rem;
+      width: 8rem;
+    }
+    
+    .header-container {
+      margin-bottom: 3.5rem;
+      .header-title {
+        font-size: $h2;
+        font-weight: $font-bold;
+      }
+      .header-subtitle {
+        font-size: $p2;
+        color: $clr_gray_dark_text;
+      }
+    }
+      .got-to-login-button {
+        background-color: $clr_black;
+      }
+    
+   
+   
+  
+  }
+  

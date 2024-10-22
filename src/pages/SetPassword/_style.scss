@@ -1,0 +1,184 @@
+.setpassword {
+  &__container {
+    height: 100vh;
+
+    .grid-layout {
+      min-height: 100% !important;
+      .grid-left {
+        background: url('../assets/svg/background-top.svg') no-repeat top;
+        background-position: center -7.5rem;
+        background-repeat: no-repeat;
+        background-size: 50%;
+        padding-top: 10rem;
+
+        .setpassword__content {
+          max-width: 31.66rem;
+          .icon-wrapper {
+            .lock-icon {
+              font-size: 4rem;
+              margin-bottom: 1rem;
+            }
+          }
+        }
+      }
+      .grid-right {
+        .right-image-container {
+          height: 100%;
+          width: 100%;
+          display: flex;
+          background: url('../assets/png/login-bg.png');
+          background-repeat: no-repeat;
+          border-radius: unset;
+          background-size: 100% 100%;
+          min-height: 70vh;
+          .image-content-text {
+            margin-left: 4.875rem;
+            margin-top: 4.125rem;
+            color: $clr_white;
+            .paragraph {
+              font-size: $h5 !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.otpcomponent {
+  &__header-wrapper {
+    margin-bottom: 3.5rem;
+  }
+
+  &__header-title {
+    font-size: $h2 !important;
+    font-weight: $font_bold !important;
+  }
+
+  &__header-description {
+    font-size: $p2 !important;
+    color: $clr_sub_header !important;
+  }
+  &__form-wrapper {
+    margin-bottom: 2rem;
+  }
+  &__otp-input-container {
+    margin-bottom: 3.5rem;
+    max-width: 75%;
+    margin-inline: auto;
+    &-otp-input {
+      width: 3.3333rem !important;
+      height: 3.3333rem;
+      font-size: 1.5rem;
+      text-align: center;
+
+      border: 0.0833rem solid $clr_gray_light;
+      border-radius: 0.3333rem;
+      color: $clr_black;
+      background-color: $clr_white;
+      transition: border-color 0.3s;
+    }
+    &-otp-input:focus {
+      border-color: $clr_blue;
+      outline: none;
+    }
+
+    &-otp-input:hover {
+      border-color: $clr_blue;
+    }
+  }
+  &__error-text {
+    color: $clr_red;
+    margin-top: 1rem !important;
+    text-align: center;
+  }
+  &__already-have-account-text {
+    font-size: $p2 !important;
+    font-weight: $font_medium;
+    color: $clr_sub_header;
+  }
+  &__signup-now-text {
+    color: $clr_blue;
+    font-size: $p2;
+    font-weight: $font_medium;
+    cursor: pointer;
+    margin-left: 0.3rem;
+  }
+}
+
+.setpassword {
+  &__header-wrapper {
+    margin-bottom: 3rem;
+  }
+  &__header-title {
+    font-size: $h2 !important;
+    font-weight: $font_bold !important;
+  }
+  &__header-description {
+    font-size: $p2 !important;
+    color: $clr_sub_header !important;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.7rem;
+  }
+  &__input-label {
+    font-size: $p2 !important;
+    font-weight: $font_medium !important;
+    color: $clr_black !important;
+    margin-bottom: 0.5rem !important;
+  }
+}
+
+.setpassword {
+  &__header-wrapper {
+    margin-bottom: 3rem;
+
+    .setpassword__header-title {
+      font-size: $h2 !important;
+      font-weight: $font_bold !important;
+    }
+    .setpassword__header-description {
+      font-size: $p2 !important;
+      color: $clr_sub_header !important;
+    }
+  }
+
+  &__form-wrapper {
+    .setpassword__form {
+      .setpassword__input-container {
+        .setpassword__input-label {
+          font-size: $p2 !important;
+          font-weight: $font_medium !important;
+          color: $clr_black !important;
+          margin-bottom: 0.5rem !important;
+        }
+       
+      }
+
+      .setpassword__requirements {
+        margin-top: 0.5rem;
+        .setpassword__requirement {
+         margin-bottom: 0.3rem;
+          .setpassword__check-icon {
+            background-color: $clr_requirement_text;
+            color: $clr_white;
+            border-radius:50%;
+            padding: 0.25rem;
+            &.active{
+              background-color: $clr_green;
+            }
+          }
+          .setpassword__requirement-text {
+            color: $clr_requirement_text;
+          }
+        
+        }
+      }
+
+      
+    }
+  }
+}

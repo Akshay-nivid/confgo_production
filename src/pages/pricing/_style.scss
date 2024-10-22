@@ -1,0 +1,106 @@
+.pricing-main {
+  .faq-section__container {
+    margin-top: 4rem;
+  }
+}
+
+.plansection {
+  &__container {
+    margin-top: 8rem;
+    margin-bottom: 4.41rem;
+  }
+
+
+  &__title {
+    text-align: center !important;
+    margin-bottom: 0.833rem !important;
+  }
+
+  &__subtitle {
+    text-align: center !important;
+    margin-bottom: 4rem !important;
+  }
+
+  &__buttons {
+    margin-bottom: 5rem !important;
+  }
+
+
+}
+
+.plancard {
+  &__container {
+    background: linear-gradient(to bottom, $clr_offwhite, transparent);
+    padding: 1.25rem;
+    border-radius: 2.5rem;
+  }
+
+  &__content {
+    background-color: $clr_white;
+    width: 100%;
+    padding-block: 2.083rem;
+    padding-inline: 1.833rem;
+    border-radius: 1.85rem;
+    box-shadow: $clr_gray_light 0rem 0.25rem 0.667rem;
+  }
+
+  &__header {
+    column-gap: 1.3rem;
+    margin-bottom: 2.91rem;
+  }
+
+  &__icon {
+    width: 4.91rem;
+    height: 4.91rem;
+  }
+
+
+  &__price {
+    margin-bottom: 3.83rem;
+  }
+
+
+  &__features {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.85rem;
+    margin-bottom: 5.16rem;
+  }
+
+}
+
+
+.planfeaturesection {
+  &__container {
+    padding-block: 7rem;
+  }
+
+
+  &__header {
+    margin-bottom: 8rem;
+  }
+
+
+  &__table-header {
+    margin-bottom: 3rem;
+  }
+
+  &__table-header-cell {
+    padding-inline: 1rem;
+  }
+  
+
+  &__table-row {
+    padding-block: 1.6rem;
+    // margin-bottom: 2rem;
+    border-bottom: 1px solid $clr_gray_light;
+  }
+
+
+  &__badge {
+    &-icon {
+      height: 1.8rem  ;
+      width: 1.8rem;
+    }
+  }
+}

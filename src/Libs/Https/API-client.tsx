@@ -59,7 +59,7 @@ class ApiClient {
 
   static getHeaders() {
     const token = ApiClient.getToken();
-    let retVal: any = {};
+    const retVal: any = {};
     if (token) {
       retVal['Authorization'] = `Bearer ${token}`
     }

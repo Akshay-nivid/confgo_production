@@ -1,0 +1,70 @@
+
+
+.user-otp {
+   .content-container {
+     max-width:33.33rem;
+   }
+   .lock-icon {
+    font-size: 3.2rem;
+    margin-bottom: 1rem;
+   }
+   .header-container {
+     margin-bottom: 3.5rem;
+     .header-title {
+       font-size: $h2;
+       font-weight: $font-bold;
+     }
+     .header-subtitle {
+       font-size: $p2;
+       color: $clr_gray_dark_text;
+     }
+   }
+   .form {
+     margin-bottom: 3rem;
+     .verify-button {
+       background-color: $clr_black;
+     }
+     .otp-container{
+      max-width: 85%;
+      margin: 0 auto;
+      margin-bottom: 3.33rem;
+   }
+   }
+   .navigation-text-container {
+     text-align: center;
+     margin-bottom: 3.33rem;
+     .resend-text {
+       font-size: $p2;
+       margin-bottom: 1.66rem;
+       color: $clr_gray_dark_text;
+       font-weight: $font-medium;
+       .resend-text-highlight {
+         color: $clr_black;
+         font-weight: $font-bold;
+       }
+     }
+   }
+   .sso-container {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+   }
+   .sso-header-container {
+     margin-bottom: 2rem;
+     display: flex;
+     width: 100%;
+     align-items: center;
+     gap: .5rem;
+     .sso-header-text {
+       font-size: $p3;
+       font-weight: $font-medium;
+     }
+     .sso-header-line {
+       background-color: $clr_gray_faded;
+       height: 0.11rem;
+       flex:1;
+     }
+   }
+ 
+ }
+ 
