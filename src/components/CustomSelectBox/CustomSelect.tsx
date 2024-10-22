@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormControl, Select, MenuItem, FormHelperText } from '@mui/material';
+import { FormControl, Select, MenuItem, FormHelperText, SelectChangeEvent } from '@mui/material';
 import { Controller } from 'react-hook-form';
 
 interface CustomSelectProps {
@@ -11,8 +11,11 @@ interface CustomSelectProps {
     error?: boolean;
     helperText?: string;
     fullWidth?: boolean;
+    disabled?: boolean;
 }
-
+/*
+ * component used to render dropdownlist
+*/
 const CustomSelect: React.FC<CustomSelectProps> = ({
     name,
     label,
@@ -22,6 +25,8 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
     error = false,
     helperText,
     fullWidth = false,
+    disabled=false,
+ 
 }) => {
     return (
         <FormControl className="custom-text-field" variant="outlined" error={error} fullWidth={fullWidth}>
@@ -36,13 +41,16 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
                         labelId={`${name}-label`}
                         // label={label}
                         placeholder={label}
+                        className='placeholder'
+                        
                         displayEmpty
+                        disabled={disabled}
                     >
-                        <MenuItem value="" disabled>
+                        <MenuItem value=""  className='placeholder' disabled>
                             {label} 
                         </MenuItem>
                         {options.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
+                            <MenuItem  key={option.value} value={option.value}>
                                 {option.label}
                             </MenuItem>
                         ))}
