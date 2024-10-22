@@ -56,7 +56,7 @@
   }
 
   &__header-description {
-    font-size: $p1 !important;
+    font-size: $p2 !important;
     color: $clr_sub_header !important;
   }
   &__form-wrapper {
@@ -93,13 +93,13 @@
     text-align: center;
   }
   &__already-have-account-text {
-    font-size: $p1 !important;
+    font-size: $p2 !important;
     font-weight: $font_medium;
     color: $clr_sub_header;
   }
   &__signup-now-text {
     color: $clr_blue;
-    font-size: $p1;
+    font-size: $p2;
     font-weight: $font_medium;
     cursor: pointer;
     margin-left: 0.3rem;
@@ -115,7 +115,7 @@
     font-weight: $font_bold !important;
   }
   &__header-description {
-    font-size: $p1 !important;
+    font-size: $p2 !important;
     color: $clr_sub_header !important;
   }
 
@@ -125,7 +125,7 @@
     row-gap: 0.7rem;
   }
   &__input-label {
-    font-size: $p1 !important;
+    font-size: $p2 !important;
     font-weight: $font_medium !important;
     color: $clr_black !important;
     margin-bottom: 0.5rem !important;
@@ -141,7 +141,7 @@
       font-weight: $font_bold !important;
     }
     .setpassword__header-description {
-      font-size: $p1 !important;
+      font-size: $p2 !important;
       color: $clr_sub_header !important;
     }
   }
@@ -150,7 +150,7 @@
     .setpassword__form {
       .setpassword__input-container {
         .setpassword__input-label {
-          font-size: $p1 !important;
+          font-size: $p2 !important;
           font-weight: $font_medium !important;
           color: $clr_black !important;
           margin-bottom: 0.5rem !important;

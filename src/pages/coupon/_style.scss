@@ -1,6 +1,6 @@
 .create-coupon {
   &-container {
-    background-color: $white;
+    background-color: $clr_white;
     margin: 1rem;
     border-radius: 0.9rem;
   }
@@ -28,7 +28,7 @@
     max-width: 21rem !important;
     border: 0.083rem solid $clr_green !important;
     text-transform: none !important;
-    font-size: $p1 !important;
+    font-size: $p2 !important;
     font-weight: $font_normal !important;
 
   }
