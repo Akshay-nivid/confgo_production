@@ -17,7 +17,7 @@
         background-color: $clr_white;
         color: $clr_black;
         font-weight: $font_semibold;
-        font-size: $p1;
+        font-size: $p2;
         text-transform: none;
       }
       .watch-video-button{
@@ -27,7 +27,7 @@
         width: 17rem !important;
         color: $clr_white;
         font-weight: $font_semibold;
-        font-size: $p1;
+        font-size: $p2;
         text-transform: none;
       }
       .hero-section-buttons {
@@ -115,7 +115,7 @@
     }
 
     .conference-management-description {
-      font-size: $p1;
+      font-size: $p2;
       color: $clr_grey;
     }
   }
@@ -203,7 +203,7 @@
         width: 16.58rem;
         color: $clr_black;
         font-weight: $font_semibold;
-        font-size: $p1;
+        font-size: $p2;
         text-transform: none;
         span{
           svg{
@@ -279,7 +279,7 @@
   }
 
   &__description {
-    font-size: $p1 !important;
+    font-size: $p2 !important;
   }
 
   &__features {
@@ -304,13 +304,13 @@
   }
 
   &__feature-title {
-    font-size: $p1 !important;
+    font-size: $p2 !important;
     font-weight: $font_semibold !important;
     margin-bottom: 0.25rem !important;
   }
 
   &__feature-description {
-    font-size: $p1;
+    font-size: $p2;
   }
 
   &__button {
@@ -320,7 +320,7 @@
     width: 14.1rem !important;
     color: $clr_black !important;
     font-weight: $font_semibold !important;
-    font-size: $p1 !important;
+    font-size: $p2 !important;
     text-transform: none !important;
     span{
       svg{

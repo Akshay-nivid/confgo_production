@@ -31,8 +31,8 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   max?: number;
   type?: string;
   name: Path<T>;
-  label?: string;
-  placeholder?: string;
+  label: string;
+  placeholder: string;
   rules?: RegisterOptions<T>;
   control?: Control<T>;
   style?: React.CSSProperties;
@@ -82,7 +82,6 @@ const CustomTextField = <T extends FieldValues>({
    */
   const inputProps = () => {
     const propsObj: InputPropsType = {};
-
     if (props.prefixIconButton) {
       propsObj.startAdornment = (
         <InputAdornment position="start">

@@ -1,7 +1,7 @@
 import { Box, Button, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import routes from "@/router/routes";
 import apiClient from "@/Libs/Https/API-client";
@@ -19,7 +19,7 @@ const LoginOrg = () => {
   };
   const { setDataById }: any = useStore();
   const { handleSubmit, control } = useForm<FormData>();
-
+  const navigate = useNavigate();
   /**
    * function used to handle form submission
    */
@@ -35,10 +35,13 @@ const LoginOrg = () => {
       const requestBody = {
         username: data.email,
         password: data.password,
+
       }
-      const response =await apiClient.post('auth', requestBody);
+      const response =await apiClient.post('auth/login', requestBody);
       if(response.data.status ==='success') {
+        sessionStorage.setItem("token", response.data.data.token);
         setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:"Login Successfully"});
+        navigate(routes.dashboard());
       }
     } catch (error:any) {
       setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:error.response.data.message});

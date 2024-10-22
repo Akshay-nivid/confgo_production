@@ -39,6 +39,10 @@
     align-items: center;
     column-gap: 2.75rem;
   }
+  .nav-link.active {
+    color: $clr_blue;
+
+  }
 
   &-links {
     display: flex;
@@ -155,7 +159,7 @@
 
   .footer-contact-label {
     color: $clr_white;
-    font-size: $p1;
+    font-size: $p2;
   }
 
   .footer-contact-value {

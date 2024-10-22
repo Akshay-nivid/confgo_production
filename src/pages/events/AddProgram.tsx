@@ -13,6 +13,8 @@ import EditIcon from '@/assets/svg/edit-program-icon.svg';
 import DeleteIcon from '@/assets/svg/delete-program-icon.svg';
 import CustomSelect from '@/components/CustomSelectBox/CustomSelect';
 import moment from 'moment';
+import apiClient from '@/Libs/Https/API-client';
+import { getValueFromArrayBasedOnParameter, processAPIResponse } from '@/Utils/CommonBaseClass';
 
 
 type FormData = {
@@ -44,6 +46,7 @@ type ProgramProps = {
     onSubmitHandler: (event: any, type: string) => void;
     onSaveHandler: (event: any) => void;
     data: any;
+    addOnOptions?: any
 }
 const typeArray = [
     { label: 'Paid', value: 'PAID' },
@@ -61,7 +64,7 @@ const addOnArray = [
 ];
 
 
-const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHandler, data, onSaveHandler }) => {
+const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHandler, data, onSaveHandler, addOnOptions }) => {
     const { handleSubmit, control, watch, setValue } = useForm<FormData>({
         defaultValues: {
             programs: [
@@ -84,12 +87,14 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
     });
     const [programIndex, setProgramIndex] = useState(0);
 
+ 
+
     /**
      * Useeffect hook submits the form based on the formSubmit variable
      */
     useEffect(() => {
         if (formSubmit) {
-            handleSubmit(onSubmit)();
+            onSubmitHandler && onSubmitHandler(data?.savedPrograms,'PROGRAM')
         }
     }, [formSubmit])
 
@@ -164,10 +169,22 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
         const programsCopy = [...watch('savedPrograms')]
         programsCopy.splice(index, 1);
         setValue('savedPrograms', programsCopy)
+        const saveProgram = programsCopy
+        
         remove(index)
         if ((index === programsCopy.length)) {
             if (index === 0) {
                 append({
+                    programType: 'PROGRAM',
+                    name: '',
+                    description: '',
+                    startTime: moment(new Date()).format('YYYY-MM-DDTHH:mm'),
+                    endTime: moment(new Date()).format('YYYY-MM-DDTHH:mm'),
+                    type: 'PAID',
+                    amount: '',
+                    addonId: ''
+                })
+                saveProgram.push({
                     programType: 'PROGRAM',
                     name: '',
                     description: '',
@@ -183,8 +200,11 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
             }
 
         }
+        onSaveHandler && onSaveHandler(saveProgram)
 
     }
+
+
 
     return <Box className="add-program-container">
         <Grid container className="">
@@ -248,7 +268,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
                                                         <CustomSelect
                                                             name={`programs.${index}.addonId`}
                                                             label="Add Ons Option"
-                                                            options={addOnArray}
+                                                            options={addOnOptions}
                                                             control={control}
                                                             rules={{ required: true }}
                                                             fullWidth
@@ -324,7 +344,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHan
                             
                             <Grid key={field.id} container className='add-program-display-item' size={{ xs: 12, sm: 12 }}>
                                 <Grid size={{ xs: 8, sm: 8 }}>
-                                    {field.programType === 'PROGRAM'? field.name: field.addonId}
+                                    {field.programType === 'PROGRAM'? field.name: getValueFromArrayBasedOnParameter(addOnOptions, 'value', field.addonId, 'label')}
                                 </Grid>
 
                                 <Grid size={{ xs: 4, sm: 4 }}>
