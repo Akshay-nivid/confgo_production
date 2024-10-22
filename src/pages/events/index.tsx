@@ -10,6 +10,7 @@ import AddProgram from './AddProgram';
 import ConferenceDetails from './ConferenceDetails';
 import apiClient from '@/Libs/Https/API-client';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';
+import { Alert, Snackbar } from '@mui/material';
 
 const steps = [
   { label: 'Create Event', description: '' },
@@ -25,20 +26,41 @@ const Events = () => {
   });
   const [formData, setFormData] = useState<any>({});
   const [statusId, setStatusId] = useState('');
+  const [addOnOptions, setAddOnOptions] = useState<any>()
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
+
 
 
   useEffect(() => {
     handleGetEventStatusApiCall()
+    handleAddOnOptionsApiCall();
   },[])
 
+  /**
+   * Method handles the api call for getting event statuses
+   */
   const handleGetEventStatusApiCall = async () => {
-    const response = await apiClient.get('event/status');
-    const { status, data, message } = await processAPIResponse(response,'event-status');
+    const response = await apiClient.post('event/status/list',{});
+    const { status, data } = await processAPIResponse(response,'event-status');
     if(status){
       const id = data?.find((item: any) => item.statusName === 'ACTIVE' )?.id
       setStatusId(id)
     }
   }
+
+  /**
+   * Method handles the api call for getting add on options
+   */
+  const handleAddOnOptionsApiCall = async () => {
+    const response = await apiClient.post('addon/list',{});
+    const { status, data } = await processAPIResponse(response,'event-add-on');
+    if(status){
+        const optionsData = data?.map((item: any)=> ({label: item.name, value: item.id}))
+        setAddOnOptions(optionsData);
+    }
+}
 
   /*
    * The function sets the active step of the stepper.
@@ -73,12 +95,27 @@ const Events = () => {
    * Method handles the final submission of all forms
    */
   const handleSubmit = async () => {
-    const req = createFormRequest(formData)
-    const response = await apiClient.post('event',req);
-    const { status, data, message } = await processAPIResponse(response,'event-status');
-    if(status){
-     
+    try {
+      const req = createFormRequest(formData)
+      const response = await apiClient.post('event', req);
+      const { status, data, message } = await processAPIResponse(response, 'event-status');
+      if (status) {
+        setSnackbarMessage(message);
+        setSnackbarSeverity('success');
+      }
+      else {
+        const errorMessage = message || 'An error occurred while creating the event.';
+        setSnackbarMessage(errorMessage);
+        setSnackbarSeverity('error');
+      }
     }
+    catch (e) {
+      console.error(e)
+    }
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
   };
 
   /**
@@ -97,7 +134,8 @@ const Events = () => {
       description: event?.description,
       startTime: event?.startTime,
       endTime: event?.endTime,
-      statusId
+      statusId,
+      amount: 0
     };
   
     // Handle URL and Venue logic
@@ -151,7 +189,7 @@ const Events = () => {
         : type === 'PROGRAM'
         ? 'program'
         : null;
-    if (formKey) {
+    if (formKey && data) {
       setFormData({ ...formData, [formKey]: data });
     }
     setActiveStep((prevStep) => prevStep + 1);
@@ -167,6 +205,11 @@ const Events = () => {
 
   return (
     <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper">
+       <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleSnackbarClose}>
+        <Alert onClose={handleSnackbarClose} severity={snackbarSeverity}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
       <Grid size={{ xs: 12, sm: 2 }} className="custom-stepper-main">
         <CustomStepper
           steps={steps}
@@ -188,9 +231,10 @@ const Events = () => {
             onSubmitHandler={onSubmitHandler}
             onSaveHandler={onSaveHandler}
             data={formData?.program}
+            addOnOptions={addOnOptions}
           />
         )}
-        {activeStep === 2 && <ConferenceDetails data={formData}/>}
+        {activeStep === 2 && <ConferenceDetails data={formData} addOnOptions={addOnOptions}/>}
 
         <Grid
           container
@@ -219,10 +263,10 @@ const Events = () => {
                   : activeStep === 1
                   ? 'custom-stepper-next-button-program'
                   : 'custom-stepper-next-button-details'
-              } ${activeStep === 1 && !(formData?.program?.[0]?.name) ? 'disabled-button' : ''}`}
+              } ${activeStep === 1 && !(formData?.program?.[0]?.name || formData?.program?.[0]?.addonId) ? 'disabled-button' : ''}`}
               onClick={activeStep === 2 ? handleSubmit : handleNext}
               label={activeStep === 2 ? 'Submit' : 'Next'}
-              disabled={(activeStep === steps.length) || (activeStep === 1 && !(formData?.program?.[0]?.name))}
+              disabled={(activeStep === steps.length) || (activeStep === 1 && !(formData?.program?.[0]?.name || formData?.program?.[0]?.addonId))}
             />}
           </Grid>
           {activeStep === 1 && (

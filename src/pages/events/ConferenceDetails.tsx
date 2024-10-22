@@ -1,7 +1,7 @@
 /**
  * ConferenceDetails component displays the conference details
  */
-import { toSentenceCase } from '@/Utils/CommonBaseClass';
+import { getValueFromArrayBasedOnParameter, toSentenceCase } from '@/Utils/CommonBaseClass';
 import { Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import moment from 'moment';
@@ -13,9 +13,10 @@ import LocationIcon from '@/assets/svg/event-location.svg';
 
 type ConferenceDetailsProps = {
     data: any;
+    addOnOptions?: any;
 }
 
-const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data }) => {
+const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data, addOnOptions }) => {
 
     const startDate = moment(data?.event?.startDate).format("MMMM D, YYYY");
     const endDate = moment(data?.event?.endDate).format("MMMM D, YYYY");
@@ -67,7 +68,7 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data }
             <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper-conference-details-content-header-container" alignItems={'center'}>
                 <Typography variant="h3" lineHeight={2} className="custom-stepper-conference-details-content-sub-title">Programs</Typography>
             </Grid>
-            {Object.keys(groupedData).map((date: any) => (
+            {groupedData && Object.keys(groupedData)?.map((date: any) => (
                 <Grid container spacing={2}>
                     <Grid container sx={{ width: 'fit-content' }} className="custom-stepper-conference-details-content-date" justifyContent={'flex-start'} alignItems={'center'}>
                         <DateIcon />{moment(date).format('MMMM D')}</Grid>
@@ -77,7 +78,7 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data }
                                 {moment(program.startDateTime).format('h:mm A')}
                             </Grid>
                             {program.programType === 'PROGRAM' ? <><Grid>{`${program.name}:`}</Grid>
-                                <Grid>{program.description}</Grid></> : <Grid>{`${program.addonId}`}</Grid>
+                                <Grid>{program.description}</Grid></> : <Grid>{`${getValueFromArrayBasedOnParameter(addOnOptions, 'value', program.addonId, 'label')}`}</Grid>
                             }
                         </Grid>
                     ))}
