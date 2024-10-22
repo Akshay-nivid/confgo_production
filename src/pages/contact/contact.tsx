@@ -5,14 +5,12 @@ import { useRef, useState } from 'react';
 import { validateEmail, validatePhoneNumber, validateRequiredField } from '@/Utils/Validation';
 import ReCAPTCHA from 'react-google-recaptcha';
 import Grid from '@mui/material/Grid2';
-import useStore from '@/Libs/store';    
+import useStore from '@/Libs/store';
 import { CallIcon } from '@/assets/svg';
 import { LocatioIcon } from '@/assets/svg';
 import { MessageIcon } from '@/assets/svg';
-
 import apiClient from '@/Libs/Https/API-client';
 import { Logger } from '@/Utils/Logger';
-
 
 
 interface FormData {
@@ -56,29 +54,25 @@ const Contact = () => {
     const { handleSubmit, control } = useForm<FormData>();
     const [recapcha, setRecapcha] = useState(true)
     const recaptchaRef = useRef<ReCAPTCHA>(null);
-     const { setDataById }: any = useStore();
-   
-     /**
-    //**
-     * change state of recapcha
-     * @param value 
-     */
-    const validateReCAPTCHA = (value: string|null) => {
-        console.log("validate", value);
-        const token = value;
-        console.log("token", token);
+    const { setDataById }: any = useStore();
+
+    /**
+   //**
+    * change state of recapcha
+    * @param value 
+    */
+    const validateReCAPTCHA = () => {
         setRecapcha(false);
     };
+
     /**
      * submit handler
      * @param data 
      */
     const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
         try {
-           
-            
             const request = {
-                 firstName: data.name,
+                firstName: data.name,
                 lastName: data.lastName,
                 companyName: data.companyName,
                 gRecaptcha: recaptchaRef.current?.getValue() || '',
@@ -86,20 +80,18 @@ const Contact = () => {
                 email: data.email,
                 message: data.message
             }
-             const response = await apiClient.post('notification/contact',  request)
-           if(response.data.status === 'success'){
-            setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:"Form submitted successfully"})
-           }
-            console.log('Form submitted successfully:', response.data);
-           
+            const response = await apiClient.post('notification/contact', request)
+            if (response.data.status === 'success') {
+                setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Form submitted successfully" })
+            }
         } catch (error) {
             Logger.error('Error submitting form:', error);
-               }
+        }
     }
     return (
 
         <Grid container className='contact-page' size={{ lg: 12 }}   >
-            
+
             <Grid container className='contact-container ' size={{ lg: 12, xs: 12 }} spacing={0} justifyContent='center' alignItems='center' >
                 <Grid className='contact-header-content'>
                     <Typography className='contact-header-title'>Contact Our Team</Typography>
@@ -116,11 +108,8 @@ const Contact = () => {
                                     <Typography className='contact-info_title'>Get in Touch </Typography>
                                     <Typography className='contact-info_description'>Everything you might need and then some more in an accessible and intuitive package.</Typography>
                                 </Grid ><Box />
-
                                 <Grid size={{ lg: 6, xs: 12 }} className='contact-info_details'>
-
                                     {boxArray.map((item) => (
-
                                         <Grid key={item.id} container className='contact-info_item'>
                                             <Grid size={{ lg: 3 }} className='contact-info_icon'>
                                                 {item.icon}
@@ -131,13 +120,11 @@ const Contact = () => {
                                             </Grid>
                                         </Grid>
                                     ))}
-
                                 </Grid>
                             </Grid>
                         </Box>
                     </Grid>
                     <Grid container size={{ lg: 4, xs: 9.5 }} spacing={0} className='contact-form' sx={{ order: { xs: 1, lg: 2 } }}  >
-
                         <form noValidate onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }} >
                             <Grid container size={{ lg: 12, xs: 12 }} spacing={3} justifyContent='center' alignItems='center'>
                                 <Grid size={{ lg: 6, xs: 12 }} >
@@ -180,7 +167,6 @@ const Contact = () => {
                                                 pattern: validateEmail({})
                                             }
                                         }
-
                                     />
                                 </Grid>
                                 <Grid size={{ lg: 6, xs: 12 }}>
@@ -228,15 +214,10 @@ const Contact = () => {
 
                             </Grid>
                         </form>
-
-
                     </Grid>
-
                 </Grid>
-
             </Grid>
         </Grid>
-
     )
 }
 

@@ -43,13 +43,13 @@
         font-size: $h2!important;
        
         .contact-info_title{
-         color: $white;   
+         color: $clr_white;   
         font-size: $h2!important;
         font-weight: $font_bold !important;
      } .contact-info_description{
         font-size: $h6!important;
         font-family: $font;
-        color: $white;
+        color: $clr_white;
 
      }
     
@@ -62,12 +62,12 @@
             font-family: $font;
            }
        .contact-info-label{
-        color: $white;
+        color: $clr_white;
         font-size: $h6!important;
         font-weight: $font_normal;
        }
        .contact-info-value{
-        color: $white;
+        color: $clr_white;
         font-size: $h6!important;
         font-weight: $font_normal;
        }
@@ -92,12 +92,12 @@
             opacity: 0.6;
             background:$clr_blue;
             border-radius: .7rem;
-            color: $white;
+            color: $clr_white;
            }
            .contact-form-submit-button{
             background: $clr_blue;
             border-radius: .5rem;
-            color: $white;
+            color: $clr_white;
            }
            
 

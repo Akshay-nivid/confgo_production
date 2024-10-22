@@ -37,7 +37,7 @@
         font-weight: $font-bold;
       }
       .header-subtitle {
-        font-size: $p1;
+        font-size: $p2;
         color: $clr_gray_dark_text;
       }
     }
@@ -57,7 +57,7 @@
       text-align: center;
       margin-bottom: 3.33rem;
       .signup-text {
-        font-size: $p1;
+        font-size: $p2;
         margin-bottom: 1.66rem;
         color: $clr_gray_dark_text;
         font-weight: $font-medium;
@@ -67,7 +67,7 @@
         }
       }
       .forgot-password-text {
-        font-size: $p1;
+        font-size: $p2;
         font-weight: $font-bold;
       }
     }
@@ -83,7 +83,7 @@
       align-items: center;
       gap: .5rem;
       .sso-header-text {
-        font-size: $p2;
+        font-size: $p3;
         font-weight: $font-medium;
       }
       .sso-header-line {
