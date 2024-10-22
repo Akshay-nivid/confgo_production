@@ -1,0 +1,107 @@
+.contact-page {
+    height: full;
+    margin-top: .816rem;
+      
+    .contact-container {
+        .contact-header-content{
+            flex-direction: column !important;
+            width: 42.375rem !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .contact-header-title {
+            font-size: $h1 !important;
+            font-weight: $font_bold !important;
+            color: $clr_black;
+            text-align: center;
+        }
+        .contact-header-description {
+            color: $clr_sub_header;  
+            font-size: $h6 !important;
+            font-weight: $font_normal !important;
+            text-align: center;
+        }
+    }
+    .contact-content{
+        padding-bottom: 5rem;
+        margin-top: 3.375rem;
+        .contact-content-wrapper{
+        width: full !important;
+         height:auto ;
+        border-radius: 0.7rem;
+
+        .contact-info{
+             background-image: url('/src/assets/svg/contact-svg.svg');
+             border-radius: 0.7rem;
+             background-size: cover;
+           
+       .contact-info_header{
+       
+        margin-left: 2.3125rem;
+        margin-top: 3.375rem;
+        font-size: $h2!important;
+       
+        .contact-info_title{
+         color: $white;   
+        font-size: $h2!important;
+        font-weight: $font_bold !important;
+     } .contact-info_description{
+        font-size: $h6!important;
+        font-family: $font;
+        color: $white;
+
+     }
+    
+     }
+        .contact-info_details{
+            margin-left: 2.3125rem;
+           font-size: $h6!important;
+           .contact-info_item{         
+            margin-top: 3.5rem;
+            font-family: $font;
+           }
+       .contact-info-label{
+        color: $white;
+        font-size: $h6!important;
+        font-weight: $font_normal;
+       }
+       .contact-info-value{
+        color: $white;
+        font-size: $h6!important;
+        font-weight: $font_normal;
+       }
+           .contact-page-icon{
+         
+        width: 3.5rem;
+        height: 3.5rem;
+       }}
+    }
+        .contact-form{
+            .contact-form-recaptcha{
+                margin-right: auto;
+            }
+           
+            .contact-form-textarea{
+                width: 100%;
+                height: 7rem !important;
+                border: 1.5px solid $clr_requirement_text;
+            }
+        
+           .contact-form-submit-button:disabled{
+            opacity: 0.6;
+            background:$clr_blue;
+            border-radius: .7rem;
+            color: $white;
+           }
+           .contact-form-submit-button{
+            background: $clr_blue;
+            border-radius: .5rem;
+            color: $white;
+           }
+           
+
+    }
+}
+    }
+}

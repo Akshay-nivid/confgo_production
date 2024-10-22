@@ -18,6 +18,7 @@ import Layout from './pages/dashboard-layout';
 import Coupon from './pages/coupon';
 import useStore from './Libs/store';
 import CouponView from './pages/coupon/CouponView';
+import Contact from './pages/contact/contact';
 
 
 
@@ -71,7 +72,7 @@ const router = createBrowserRouter([
   {
     path: routes.login(),
     element: <Login />,
-  },
+  }, 
   {
     path: routes.register(),
     element: <Register />,
@@ -91,6 +92,10 @@ const router = createBrowserRouter([
         path: routes.pricing(),
         element: <Pricing />,
       },
+      {
+        path: routes.contact(),
+        element: <Contact />,
+      }, 
     ],
   },
   {

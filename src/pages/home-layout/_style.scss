@@ -39,6 +39,10 @@
     align-items: center;
     column-gap: 2.75rem;
   }
+  .nav-link.active {
+    color: $clr_blue;
+
+  }
 
   &-links {
     display: flex;
