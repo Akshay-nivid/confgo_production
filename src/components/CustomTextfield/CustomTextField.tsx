@@ -41,7 +41,7 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   defaultValue?:PathValue<T, Path<T>>
   className?: string;
   formControlClassName?: string;
-  multiline?: boolean;
+  multiline?:boolean;
   rows?: number;
 }
 
@@ -64,9 +64,8 @@ const CustomTextField = <T extends FieldValues>({
   showHeader = false,
   requiredField = false,
   defaultValue,
-  multiline,
+  multiline=false,
   rows,
-
   ...props
 }: ICustomTextFieldProps<T>) => {
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -150,7 +149,7 @@ const CustomTextField = <T extends FieldValues>({
     <>
       <FormControl fullWidth className="custom-text-field">
         {showHeader && <Typography className="label-header" variant="h6">{placeholder}{requiredField && <span className="error-text">*</span>}</Typography>}
-        {<InputLabel htmlFor={name}>{placeholder}</InputLabel> }
+        {<InputLabel htmlFor={name}  className='custom-text-field-placeholder'>{placeholder}</InputLabel> }
         <Controller
           name={name}
           defaultValue={defaultValue}
@@ -167,6 +166,8 @@ const CustomTextField = <T extends FieldValues>({
                   name={name}
                   error={error?.message ? true : false}
                   id={name}
+                  multiline={multiline}
+                  rows={rows}
                   type={type === 'password' ? passwordType : type}
                   label={label}
                   multiline={multiline? true: false}
@@ -177,7 +178,7 @@ const CustomTextField = <T extends FieldValues>({
                       : 'custom-text-field',
                     props.className
                   )}
-                  placeholder={placeholder}
+                  placeholder={type === "date" ? "" : placeholder} 
                   {...inputProps()}
                 />
                 {error?.message && (

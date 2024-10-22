@@ -14,7 +14,9 @@ interface CustomSelectProps {
     rules?: any;
 
 }
-
+/*
+ * component used to render dropdownlist
+*/
 const CustomSelect: React.FC<CustomSelectProps> = ({
     name,
     label,
@@ -40,14 +42,14 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
                         labelId={`${name}-label`}
                         // label={label}
                         placeholder={label}
-                        className={error ? 'error-input': ''}
+                        className={error ? 'error-input placeholder': 'placeholder'}
                         displayEmpty
                     >
-                        <MenuItem value="" disabled>
+                        <MenuItem value=""  className='placeholder' disabled>
                             {label} 
                         </MenuItem>
                         {options.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
+                            <MenuItem  key={option.value} value={option.value}>
                                 {option.label}
                             </MenuItem>
                         ))}
