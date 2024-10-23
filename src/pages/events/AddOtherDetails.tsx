@@ -17,7 +17,6 @@ type EventProps = {
 type FormData = {
     food: string,
     beverage: string,
-    specialty: string,
     attendees: string,
     mealTime: Date
 };

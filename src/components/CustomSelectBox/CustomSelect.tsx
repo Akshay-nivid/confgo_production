@@ -12,6 +12,8 @@ interface CustomSelectProps {
     helperText?: string;
     fullWidth?: boolean;
     disabled?: boolean;
+    rules?: any;
+
 }
 /*
  * component used to render dropdownlist
@@ -22,6 +24,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
     options,
     control,
     defaultValue = '',
+    rules,
     error = false,
     helperText,
     fullWidth = false,
@@ -35,14 +38,14 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
                 name={name}
                 control={control}
                 defaultValue={defaultValue}
-                render={({ field }) => (
+                rules={rules}
+                render={({ field, fieldState: { error } }) => (
                     <Select
                         {...field}
                         labelId={`${name}-label`}
                         // label={label}
                         placeholder={label}
-                        className='placeholder'
-                        
+                        className={error ? 'error-input placeholder': 'placeholder'}
                         displayEmpty
                         disabled={disabled}
                     >

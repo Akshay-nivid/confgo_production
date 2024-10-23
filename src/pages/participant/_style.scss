@@ -1,0 +1,30 @@
+.participant_nav {
+    box-shadow: 0px 4px 64px 0px $clr_light_black;
+    &-conatiner{
+        padding: 1.7rem;
+    }
+    &-link {
+        padding: 0.5rem 1rem;
+        color: inherit;
+        align-self: center;
+    }
+    
+    &-divider {
+        height: 70%;
+        margin-right: 0.5rem;
+        margin-top: 0.5rem;
+        path {
+            stroke: $clr_yellow_green;
+        }
+    }
+    
+    &-signButton {
+        width: 10.92rem;
+        height: 3.5rem;
+        border-radius: 4.6rem !important;
+        background-color: $clr_yellow_green !important;
+        color: $clr_teal !important;
+        font-weight: $font_bold !important;
+        white-space: nowrap;
+    }
+}

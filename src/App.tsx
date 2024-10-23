@@ -32,6 +32,7 @@ import UserOtp from './pages/User/User-Otp';
 import UserSetPassword from './pages/User/User-Setpassword';
 import UserSetpasswordSuccessful from './pages/User/User-Setpassword-Successful';
 import Register from './pages/register/Register';
+import ParticipantHome from './pages/participant/Participant-Home';
 
 
 /**
@@ -141,6 +142,10 @@ const router = createBrowserRouter([
     element: <SetPassword />,
   },
   ...userRoutes,
+  {
+    path: routes.participantHome(),
+    element: <ParticipantHome />,
+  },
 ]);
 
 function App() {

@@ -178,6 +178,8 @@ const CustomTextField = <T extends FieldValues>({
                 //  onChange={onChange}
                   type={type === 'password' ? passwordType : type}
                   label={label}
+                  multiline={multiline? true: false}
+                  rows={rows? rows: 1}
                   className={clsx(
                     error
                       ? 'custom-text-field error-input'
