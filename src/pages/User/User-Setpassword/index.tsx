@@ -14,6 +14,12 @@ import Grid from '@mui/material/Grid2';
 import clsx from 'clsx';
 import { useForm } from 'react-hook-form';
 import { LockIcon } from '@/assets/svg';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import apiClient from '@/Libs/Https/API-client';
+import { Logger } from '@/Utils/Logger';
+import useStore from '@/Libs/store';
+import routes from '@/router/routes';
 
 interface ISetPasswordForm {
   password: string;
@@ -26,13 +32,60 @@ interface ISetPasswordForm {
  */
 const UserSetPassword = () => {
   const { control, handleSubmit, watch } = useForm<ISetPasswordForm>();
-
+  const location = useLocation();
+  const {userId,email} = location.state;
+  console.log(userId,email,'userId,email')
+  const [token,setToken] = useState<string>('');
+  const setDataById = useStore((state: any) => state.setDataById)
+  const navigate=useNavigate();
+  useEffect(()=>{
+    console.log(userId,email,'userId,email')
+    getToken()
+  },[])
   /**
-   * function to handle login
+   * function to get the token 
    */
-  const handleLogin = (data:ISetPasswordForm) => {
-    return data;
-  };
+  const getToken = async () => {
+    try{
+      const response = await apiClient.post('token', {userId,email,type:'USER_REGISTRATION'})
+      if(response.data.status === 'success'){
+        console.log(response.data.data.token,'response.data.token')
+        setToken(response.data.data.token)
+      }
+      return response;
+    }catch(error){
+      Logger.error('User Set Password Error',error)
+    }
+ 
+  }
+  /**
+   * function to create the password
+   * @param password 
+   */
+  const createPassword=async(password:string)=>{
+    try{
+      const requestBody={
+        password:password,
+        userId: userId,
+        token: token,
+        type:"USER_REGISTRATION",
+        email:email,
+      }
+      const response=await apiClient.put(`user/setpassword`,requestBody);
+      if(response.data.status==='success'){
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:'Registration Successfully' })
+        navigate(routes.userSetPasswordSuccessful());
+      }else{
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:'Something went wrong' })
+      }
+    }
+    catch(error:any){
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:error.response.data.message})
+    }
+  }
+  const handleLogin = async (data:ISetPasswordForm) => {
+    createPassword(data.password);
+  }
 
   const password = watch('password');
   return (
