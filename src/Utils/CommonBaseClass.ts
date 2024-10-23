@@ -6,7 +6,6 @@
  * @returns An object containing status and message extracted from the response.
  */
 export function processAPIResponse(response: any,api:string ) {
-  console.log("processAPIResponse ",response);
   let status = false
   let message: any = "Success"
   let data: any;

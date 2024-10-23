@@ -12,6 +12,7 @@ interface ICustomDatePickerProps<T extends FieldValues> {
   showHeader?: boolean;
   requiredField?: boolean;
   defaultValue?: any;
+  disabled?:boolean;
   className?: string;
   formControlClassName?: string;
 }

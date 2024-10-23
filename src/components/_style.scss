@@ -73,7 +73,7 @@
   }
   &-placeholder{
     color: $clr_black !important; 
-    font-size: $p2 !important;
+    font-size: $p1 !important;
     font-weight: $font_normal !important;
   }
   input[type='number'] {
@@ -87,7 +87,7 @@
   }
   & .MuiInputBase-input::placeholder {
     color: $clr_gray_dark !important;
-    font-size: $p2;
+    font-size: $p1;
   }
   .MuiOutlinedInput-notchedOutline {
     border: 0.083rem solid $clr_gray_light;
@@ -107,12 +107,12 @@
 
   .MuiInputLabel-outlined {
     color: $clr_grey;
-    font-size: $p2;
+    font-size: $p1;
     // background-color: $clr_white;
     &.Mui-focused {
       // color: $clr_blue;
       font-weight: $font_normal;
-      // font-size: $p2;
+      // font-size: $p1;
 
     }
   }
@@ -145,11 +145,14 @@
 //DataGrid css starts here
 .custom-data-grid {
   margin-top: 1rem;
-  border-radius: $p3 !important;
+  border-radius: $p2 !important;
   border: 0rem !important;
+  font-size: $p1;
   cursor: pointer;
   .status-container {
     display: flex;
+    font-size: $p1;
+   
     .MuiGrid2-root {
       align-self: center;
       .MuiTypography-root {
@@ -158,7 +161,31 @@
         justify-content: center;
         // border-radius: 0.4rem;
         padding: 0.4rem;
-        width: 10rem;
+        width: 9rem;
+        font-weight: $font_normal !important;
+        background-color: $clr_light_green !important;
+        color: $clr_dark_green !important;
+        border-radius: 0.8rem !important;
+      }
+      
+    }
+  }
+  .status-active {
+    display: flex;
+ 
+    .MuiGrid2-root {
+      align-self: center;
+      .MuiTypography-root {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        // border-radius: 0.4rem;
+        padding: 0.4rem;
+        width: 9rem;
+        color: $clr_light_orange !important;
+        background-color: $clr_dark_orange !important;
+        border-radius: 0.8rem !important;
+        font-weight: $font_normal !important;
       }
       
     }
@@ -166,7 +193,7 @@
   .default-label {
     text-align: center;
     justify-content: center !important;
-    font-size: $p1 !important;
+    font-size: $p3 !important;
     color: $clr_black !important;
     padding-left: 3rem !important;
     font-weight: $font_normal !important;
@@ -187,7 +214,7 @@
     padding: 3rem 3rem 4rem 3rem !important;
     &-label{
       padding-right: 1rem !important;
-      font-size:  $p1 !important;
+      font-size:  $p3 !important;
     }
   }
   
@@ -213,13 +240,149 @@
     border-color: $clr_white;
     background-color: $clr_white;
     font-weight: $font_normal;
-    font-size:$p2 !important;
+    font-size:$p1 !important;
     justify-content: center !important;
    
   }
 
   .MuiDataGrid-footerContainer{
     display: block;
+  }
+}
+
+.custom-pagination {
+  background-color: #f5f5f5;
+  border-top: 0.083rem solid #ccc;
+  display: flex;
+  justify-content: space-between;
+  padding: 0.9rem;
+}
+.pagination{
+  .MuiPaginationItem-root{
+    font-size: $p2 !important;
+    color: $clr_gray_medium !important;      
+  }
+  .MuiPaginationItem-previousNext{
+    color: $clr_gray_dark !important;   
+    font-size: $p3 !important;   
+  }
+  .Mui-selected {
+          font-size: $p2 !important;
+          border-radius: $p2 !important;
+          background-color: $clr_green_light !important;  
+          color: $clr_green !important;           
+        }
+}
+.custom-list{
+  margin-top: 2.2rem !important;
+  margin-left: 2rem !important;
+  margin-right: 2rem !important;
+  &-next-btn {
+    max-height: 4rem;
+    background-color: $clr_green !important;
+    color: $clr_white !important;
+    max-width: 19rem !important;
+    text-transform: none !important;
+    font-size: $p1 !important;
+    font-weight: $font_normal !important;
+  }
+  &-edit-btn {
+    max-height: 4rem;
+    background-color: $clr_green !important;
+    color: $clr_white !important;
+    max-width: 19rem !important;
+    text-transform: none !important;
+    font-size: $p1 !important;
+    font-weight: $font_normal !important;
+    float: right !important;
+  }
+
+  &-save-btn {
+    max-height: 4rem;
+    background-color: $clr_green !important;
+    color: $clr_white !important;
+    max-width: 19rem !important;
+    text-transform: none !important;
+    font-size: $p1 !important;
+    font-weight: $font_normal !important;
+    float: right !important;
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  &-filter-btn {
+    max-height: 4rem;
+    background-color: $clr_white !important;
+    color: $clr_green !important;
+    max-width: 21rem !important;
+    border: 0.083rem solid $clr_green !important;
+    text-transform: none !important;
+    font-size: $p1 !important;
+    font-weight: $font_normal !important;
+
+  }
+  &-list-title {
+    font-weight: $font_bold !important;
+    font-size: $h4 !important;
+    padding-left: 1rem !important;
+  }
+  &-container {
+    background-color: $clr_white;
+    margin: 1rem;
+    border-radius: 0.83rem;
+  }
+
+  &-filters{
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+   
+  }
+  &-grid {
+      margin-top: $p3 !important;
+  }
+
+  &-form {
+      padding-top: 1rem !important;
+      padding-bottom: 3rem !important;
+  }
+
+}
+.custom-autopopulate {
+  /* Remove the default border or outline */
+  border: none;
+  box-shadow: none; /* Remove box shadow if needed */
+}
+
+.custom-autopopulate .MuiOutlinedInput-notchedOutline {
+  border: none; /* Ensure no outline */
+}
+
+.custom-search-text-field{
+  max-height: 4.2rem !important;
+  min-width: 33rem !important;
+  background-color: $clr_white !important;
+  color: $clr_gray_medium !important; 
+  font-weight: $font_normal !important;
+  font-size: $h6 !important;
+  border-radius: 0.5rem !important;
+  padding-left: 0rem !important;
+  &-icon{
+    color: $clr_gray_medium !important;
+    font-size: 10rem !important;
+  }
+}
+.custom-user-search-field{
+  max-height: 4.2rem !important;
+  min-width: 33rem !important;
+  background-color: $clr_light_grey !important;
+  color: $clr_gray_medium !important; 
+  font-weight: $font_normal !important;
+  font-size: $h6 !important;
+  border-radius: 0.5rem !important;
+  padding-left: 0rem !important;
+  &-icon{
+    color: $clr_gray_medium !important;
+    font-size: 10rem !important;
   }
 }
 
@@ -392,7 +555,7 @@
     height: 3.2rem !important;
     border: 2px solid $clr_green !important;
     color: $clr_green !important;
-    background-color: $clr_white !important;
+    background-color: $white !important;
     text-transform: none !important;
     font-size: $p1 !important;
     font-weight: $font_semibold !important;
@@ -482,7 +645,8 @@
 
 .helper-text{
     color: $clr_red !important;
-    font-size:$p3 !important;
+    font-size:$p2 !important;
+    font-size: $p2;
     margin: 0 !important;
     margin-top: -0.9rem !important;
 }
@@ -490,7 +654,7 @@
 .no-record {
   &-container {
       width: '100%';
-      background-color: $clr_white;
+      background-color: $white;
       margin: 1rem;
       border-radius: 0.9rem;
       justify-content: center !important;
@@ -501,16 +665,23 @@
   &-title{
     display: flex;
     font-weight: $font_semibold !important;
-    font-size: $p1 !important;
+    font-size: $p3 !important;
     justify-content: center !important;
     margin-top: 3rem !important;
     color:$clr_black !important;
   }
   &-subtitle{
     font-weight: $font_normal !important;
-    font-size: $p2 !important;
+    font-size: $p1 !important;
     justify-content: center !important;
     margin-bottom: 10rem !important;
     color:$clr_gray_extra_dark !important;
   }
+}
+
+
+.custom-alert {
+  font-weight: bold; /* Bold text */
+  border-radius: 0.83rem; /* Rounded corners */
+  box-shadow: 0rem 0.33rem 0.83rem rgba(0, 0, 0, 0.1); /* Custom shadow */
 }

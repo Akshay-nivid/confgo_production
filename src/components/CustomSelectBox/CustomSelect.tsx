@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormControl, Select, MenuItem, FormHelperText } from '@mui/material';
+import { FormControl, Select, MenuItem, FormHelperText, SelectChangeEvent } from '@mui/material';
 import { Controller } from 'react-hook-form';
 
 interface CustomSelectProps {
@@ -11,6 +11,7 @@ interface CustomSelectProps {
     error?: boolean;
     helperText?: string;
     fullWidth?: boolean;
+    disabled?: boolean;
     rules?: any;
 
 }
@@ -27,6 +28,8 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
     error = false,
     helperText,
     fullWidth = false,
+    disabled=false,
+ 
 }) => {
     return (
         <FormControl className="custom-text-field" variant="outlined" error={error} fullWidth={fullWidth}>
@@ -44,6 +47,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
                         placeholder={label}
                         className={error ? 'error-input placeholder': 'placeholder'}
                         displayEmpty
+                        disabled={disabled}
                     >
                         <MenuItem value=""  className='placeholder' disabled>
                             {label} 

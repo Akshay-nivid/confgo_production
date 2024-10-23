@@ -24,7 +24,7 @@ const CustomAutocomplete = <T,>({
   name,
   options,
   getOptionLabel,
-  placeholder = "Search Coupon Name",
+  placeholder : placeholder,
   control,
   rules,
   onSearch,
