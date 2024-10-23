@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import NavBar from '@/pages/participant/NavBar';
 
 
 /**
@@ -11,8 +12,7 @@ const UserLayout = () => {
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <Box  className="user-layout">
-        <Box className="user-layout-header"></Box>
-
+        <NavBar/>
         <Box className="user-layout-content">
           <Box className="user-layout-card">
             <Outlet />
