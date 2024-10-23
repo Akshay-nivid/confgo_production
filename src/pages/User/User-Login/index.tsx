@@ -11,10 +11,31 @@ import { Link } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import apiClient from '@/Libs/Https/API-client';
 import { Logger } from '@/Utils/Logger';
+import useStore from '@/Libs/store';
 interface IUserLogin {
   username: string;
   password: string;
 }
+
+interface GoogleUserData {
+  iss: string; 
+  azp: string;
+  aud: string; 
+  sub: string;
+  hd: string; 
+  email: string;
+  email_verified: boolean; 
+  exp: number;
+  family_name: string; 
+  given_name: string; 
+  iat: number; 
+  jti: string; 
+  name: string; 
+  nbf: number; 
+  picture: string; 
+  phone_number:string;
+}
+
 
 /**
  * User Login page component
@@ -22,19 +43,49 @@ interface IUserLogin {
  */
 const UserLogin = () => {
   const { control, handleSubmit } = useForm<IUserLogin>();
-
+  const { setDataById }: any = useStore();
   /**
    * function to handle login
    */
   const handleLogin = async (data: IUserLogin) => {
     try {
-      const response = await apiClient.post('auth', data);
+      const response = await apiClient.post('auth/login', data);
+      if(response.data.status === 'success'){
+        sessionStorage.setItem("token", response.data.data.token);
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
+      }
       return response;
-    } catch (error: unknown) {
+    } catch (error: any) {
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: error.response.data.message });
       Logger.error('Error in login', error);
       return error;
     }
   };
+
+  /**
+   * function to handle google login
+   * @param {any} data - The data to be sent to the server
+   */
+  const googleLogin = async (data:GoogleUserData) => {
+    try {
+      const requestBody = {
+        provider: "google",
+        providerUserId: data.sub ?? '',
+        firstName: data.given_name ?? '',
+        lastName: data.family_name ?? '',
+        email: data.email ?? '',
+        ...(data.phone_number ? { phone: data.phone_number } : {}) 
+      };
+      const response = await apiClient.post('auth/ssoLogin', requestBody)
+      if (response.data.status === 'success') {
+        sessionStorage.setItem("token", response.data.data.token);
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
+      }
+    } catch (error: unknown) {
+      Logger.error('Error in google login', error);
+      return error;
+    }
+  }
 
   return (
     <Grid

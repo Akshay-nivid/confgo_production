@@ -58,7 +58,7 @@ const UserOtp = () => {
     try{
     const response = await apiClient.post('token/validateotp', body);
     if(response.data.status === 'success'){
-      navigate(routes.userSetPassword());
+      navigate(routes.userSetPassword(),{state:{userId:userId,email:email,phoneNumber:phoneNumber}});
     }
   } catch (error) {
     Logger.error('Error in otp', error);
