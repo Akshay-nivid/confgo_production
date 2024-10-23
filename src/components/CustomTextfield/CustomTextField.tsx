@@ -16,7 +16,7 @@ import {
   PathValue,
   RegisterOptions,
 } from "react-hook-form";
-import { useState } from "react";
+import { EventHandler, useState } from "react";
 import { clsx } from 'clsx';
 
 interface ICustomTextFieldProps<T extends FieldValues> {
@@ -31,18 +31,21 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   max?: number;
   type?: string;
   name: Path<T>;
-  label: string;
-  placeholder: string;
+  label?: string;
+  placeholder?: string;
   rules?: RegisterOptions<T>;
   control?: Control<T>;
   style?: React.CSSProperties;
-  showHeader?:boolean
-  requiredField?:boolean
-  defaultValue?:PathValue<T, Path<T>>
+  showHeader?:boolean;
+  requiredField?:boolean;
+  defaultValue?:PathValue<T, Path<T>>;
+  value?:PathValue<T, Path<T>>;
   className?: string;
   formControlClassName?: string;
   multiline?:boolean;
   rows?: number;
+  disabled?: boolean;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 interface InputPropsType {
@@ -64,7 +67,10 @@ const CustomTextField = <T extends FieldValues>({
   showHeader = false,
   requiredField = false,
   defaultValue,
+  value,
+  onChange,
   multiline=false,
+  disabled= false,
   rows,
   ...props
 }: ICustomTextFieldProps<T>) => {
@@ -82,6 +88,7 @@ const CustomTextField = <T extends FieldValues>({
    */
   const inputProps = () => {
     const propsObj: InputPropsType = {};
+
     if (props.prefixIconButton) {
       propsObj.startAdornment = (
         <InputAdornment position="start">
@@ -153,6 +160,7 @@ const CustomTextField = <T extends FieldValues>({
           name={name}
           defaultValue={defaultValue}
           control={control}
+          disabled={disabled}
           rules={rules}
           render={({ field, fieldState: { error } }) => {
             const passwordType = isShowPassword ? 'text' : 'password';
@@ -167,6 +175,7 @@ const CustomTextField = <T extends FieldValues>({
                   id={name}
                   multiline={multiline}
                   rows={rows}
+                //  onChange={onChange}
                   type={type === 'password' ? passwordType : type}
                   label={label}
                   multiline={multiline? true: false}

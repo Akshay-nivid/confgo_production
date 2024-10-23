@@ -15,6 +15,13 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { Typography } from "@mui/material";
 import { ISource } from "@/Libs/type";
 
+
+interface FilterType {
+  id?: number;
+  name?: string;
+  // Add other filter fields here if needed
+}
+
 /**
  * Used to render coupon list
  * @author Neethu 
@@ -23,17 +30,19 @@ const Coupon = () => {
   const navigate = useNavigate();
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState<FilterType>({});
   const [source, setSource] = useState<ISource | undefined>(undefined);
   const [loading, setLoading] = useState(false); // To indicate loading state for API
 
   const { control } = useForm();
-    /**
-    * Useeffect hook handles the api call 
-    */
+  /**
+  * Useeffect hook handles the api call 
+  */
   useEffect(() => {
-    couponList();
-  }, [filters])
+    if (!filters.id) {
+      couponList();
+    }
+  }, [])
   // const [filterValue, setFilterValue] = useState(''); 
   /**
   *  Fetch summary balance when the component mounts
@@ -42,7 +51,7 @@ const Coupon = () => {
     const req = {
       offset: 0,
       limit: 5,
-      filters:filters
+      filters: filters
     };
 
     setSource({
@@ -85,7 +94,7 @@ const Coupon = () => {
    * Row click navigation
    */
   const handleRowClick = (id: number | string) => {
-    navigate(routes.CouponView(id)); 
+    navigate(routes.CouponView(id));
   }
   // Function to handle search API for autocomplete
   const handleSearch = async (query: string) => {
@@ -101,7 +110,7 @@ const Coupon = () => {
       if (status) {
         setSearchResults(data);
       }
-     // Update the options based on API response
+      // Update the options based on API response
     } catch (error) {
       console.error('Error fetching search results:', error);
     } finally {
@@ -109,25 +118,28 @@ const Coupon = () => {
     }
   };
   // Function to handle search API for autocomplete
- // New handler for when a coupon is selected from autocomplete
- const handleAutocompleteChange = (selected: any) => {
-  //setSelectedCoupon(selected); // Update selected coupon
-  if (selected) {
-    // Here you can filter the data grid based on the selected coupon
-    setSource({
-      method: 'POST',
-      data: {
-        offset: 0,
-        limit: 5,
-        filters: {
-          id: selected.id, // Assuming the selected coupon has an 'id'
+  // New handler for when a coupon is selected from autocomplete
+  const handleAutocompleteChange = (selected: any) => {
+    //setSelectedCoupon(selected); // Update selected coupon
+    if (selected) {
+      // Here you can filter the data grid based on the selected coupon
+      setSource({
+        method: 'POST',
+        data: {
+          offset: 0,
+          limit: 5,
+          filters: {
+            id: selected.id, // Assuming the selected coupon has an 'id'
+          },
         },
-      },
-      url: `coupon/list`,
-      listName: 'couponList',
-    });
-  }
-};
+        url: `coupon/list`,
+        listName: 'couponList',
+      });
+      setFilters({
+        id: selected.id, 
+      });
+    }
+  };
   return (
     <Grid container className="custom-list">
       <Grid size={{ xs: 4 }} >
@@ -139,14 +151,15 @@ const Coupon = () => {
       {/* Buttons for 'Create New Coupon' and 'Filters' */}
       <Grid container size={{ xs: 8 }} spacing={2} justifyContent='flex-end'  >
         <Grid container>
-        <CustomAutocomplete
+          <CustomAutocomplete
             name="search"
             className="custom-search-text-field"
             control={control}
+            placeholder="Search Coupon Name"
             options={searchResults} // Dynamic options based on API results
-            getOptionLabel={(option:any) => option.name || ''} // Adjust based on your data structure
+            getOptionLabel={(option: any) => option.name || ''} // Adjust based on your data structure
             onSearch={handleSearch} // Call the search function
-            loading={loading} 
+            loading={loading}
             onChange={handleAutocompleteChange}
           />
 
@@ -176,7 +189,7 @@ const Coupon = () => {
         </Grid>
       </Grid>
       <Grid size={{ xs: 12 }} >
-        <DataGridList source={source}   onRowClick={(params:any) => handleRowClick(params.id)}  title="Coupon" hideFooterPagination={false} columns={columns} id="coupon-datagrid" />
+        <DataGridList source={source} onRowClick={(params: any) => handleRowClick(params.id)} title="Coupon" hideFooterPagination={false} columns={columns} id="coupon-datagrid" />
       </Grid>
 
       {/* Filter Modal */}

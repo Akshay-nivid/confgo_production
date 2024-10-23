@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';
 import CustomDatePicker from '@/components/CustomDatePicker/CustomDatePicker';
+import CustomSnackbar from '@/components/CustomSnackbar/CustomSnackbar';
 
 interface CouponFormData {
   name: string;
@@ -63,7 +64,7 @@ const CreateCoupon: React.FC = () => {
       const response = await apiClient.post('coupon', req);
       const { status, message } = await processAPIResponse(response, "createCoupon");
       if (status) {
-        setSnackbarMessage(message);
+        setSnackbarMessage("Coupon Created Successfully");
         setSnackbarSeverity('success');
         reset();
         setTimeout(() => {
@@ -93,11 +94,12 @@ const CreateCoupon: React.FC = () => {
 
   return (
     <Box className="create-coupon-container">
-      <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleSnackbarClose}>
-        <Alert onClose={handleSnackbarClose} severity={snackbarSeverity}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
+      <CustomSnackbar
+        open={snackbarOpen}
+        message={snackbarMessage}
+        severity={snackbarSeverity}
+        onClose={handleSnackbarClose}
+      />
       <Grid container size={{ xs: 12, sm: 12 }} justifyContent='center' alignItems='center' spacing={4}>
         <Grid size={{ xs: 12, sm: 6 }} className="create-coupon-grid">
           <Grid size={{ xs: 12, sm: 12 }}>

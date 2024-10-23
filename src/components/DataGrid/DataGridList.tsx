@@ -66,14 +66,22 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
      * @param source 
      */
     const handleApiCall = async (source: any) => {
-        try {
+        try { 
             setLoading(true);
             const response = await apiClient.post(source.url, source.data);
             const { status, data, message } = await processAPIResponse(response, source.listName);
             if (status) {
                 const pagination = response?.data?.pagination;
-                setDataById(id, { pagination: pagination, source: source, data: dataTransformer ? dataTransformer(subNode ? data?.[subNode] : data) : subNode ? data?.[subNode] : data, count: subNode ? data?.pagination?.total : pagination.total, dataTransformer: dataTransformer });
-                // setPageSize(response?.data?.pagination?.limit);
+                const processedData = dataTransformer 
+                    ? dataTransformer(subNode ? data?.[subNode] : data) 
+                    : subNode ? data?.[subNode] : data;
+                // Check if the data array is empty
+                if (!processedData || processedData.length === 0) {
+                    setDataById(id, { pagination, source, data: null, count: 0, dataTransformer });
+                } else {
+                    setDataById(id, { pagination: pagination, source: source, data: dataTransformer ? dataTransformer(subNode ? data?.[subNode] : data) : subNode ? data?.[subNode] : data, count: subNode ? data?.pagination?.total : pagination.total, dataTransformer: dataTransformer });
+               
+                }
             }
             else {
                 setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message })
@@ -112,7 +120,16 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
             if (item.type === 'status') {
                 return {
                     ...item,
-                    cellClassName: 'status-container',
+                    cellClassName: (params: any) => {
+                    switch (params.value) {
+                        case 'Pending':
+                            return 'status-container'; // Class for pending status (red)
+                        case 'Active':
+                            return 'status-active'; // Class for active status (blue)
+                        default:
+                            return 'status-container'; // Default class for other statuses
+                        }
+                    },
                     renderCell: (params: any) => <StatusComponent value={params.value}
                     />
                 };
@@ -185,8 +202,7 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
         <Grid container className="custom-data-grid-grid">
             {loading ? (
                 <CircularProgress/>
-            ) : dataInfo?.data ? (
-
+            ) : dataInfo?.data && dataInfo?.data?.length >0 ? (
                 <Grid style={{ width: '100%' }}>
                     <DataGrid
                         rows={dataInfo?.data?.rows || dataInfo?.data}
