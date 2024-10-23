@@ -87,3 +87,16 @@ export const toSentenceCase = (input: string) => {
   if(!input) return '';
   return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
 };
+
+/**
+ * Method returns the value to be taken from the data array based on a comparison parameter
+ * @param data : data array
+ * @param cmp1 : parameter to be compared in the data
+ * @param cmp2 : value to be compared 
+ * @param name : returned parameter
+ * @returns 
+ */
+export const getValueFromArrayBasedOnParameter = (data: any, cmp1: any, cmp2: any, name: any) => {
+  if(!(data || cmp1 || cmp2 || name)) return '';
+  return data?.find((item: any) => item[cmp1] == cmp2)?.[name]
+}
