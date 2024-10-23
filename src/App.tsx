@@ -1,6 +1,6 @@
 import '@/styles/main.scss';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import routes from '@/router/routes';
+import routes from './router/routes';
 import AuthenticatedRoute from './router/AuthenticatedRoute';
 import Dashboard from '@/pages/dashboard';
 import Events from '@/pages/events';
@@ -33,6 +33,8 @@ import UserSetPassword from './pages/User/User-Setpassword';
 import UserSetpasswordSuccessful from './pages/User/User-Setpassword-Successful';
 import Register from './pages/register/Register';
 import ParticipantHome from './pages/participant/Participant-Home';
+import FormBuilder from './components/FormBuilder/FormBuilder';
+import React from 'react';
 
 
 /**
@@ -62,6 +64,8 @@ const userRoutes = [
         path: routes.userSetPasswordSuccessful(),
         element: <UserSetpasswordSuccessful />,
       },
+     
+    
      
     ],
   },
@@ -103,6 +107,11 @@ const router = createBrowserRouter([
     element: <AuthenticatedRoute />,
     children: [
       {
+        path: routes.formBuilder(),
+        element: <FormBuilder />,
+      }, 
+      {
+        
         element: <Layout />,
         children: [
           {
@@ -129,6 +138,7 @@ const router = createBrowserRouter([
             path: routes.calendar(),
             element: <CalendarRoute />,
           },
+          
         ],
       },
     ],
@@ -146,6 +156,7 @@ const router = createBrowserRouter([
     path: routes.participantHome(),
     element: <ParticipantHome />,
   },
+  
 ]);
 
 function App() {

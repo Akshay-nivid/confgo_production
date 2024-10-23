@@ -29,6 +29,7 @@ const routes = {
   userSetPassword: () => "/user/setpassword",
   userSetPasswordSuccessful: () => "/user/setpassword-successful",
   programSelection: () => "/user/programs",
+  formBuilder:()=>"/formbuilder",
 };
 
 export default routes;

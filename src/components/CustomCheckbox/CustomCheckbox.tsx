@@ -1,48 +1,49 @@
+import React from "react";
 import { Checkbox, FormControlLabel } from "@mui/material";
-import { Control, Controller, FieldValues, Path } from "react-hook-form";
+import { Controller, Control } from "react-hook-form";
 
-interface ICheckbox<T extends FieldValues> {
-  control: Control<T>;
-  name: Path<T>;
-  label?: string;
+interface CustomCheckboxProps {
+  name: string;
+  label: string;
+  control: Control<any>;
+  defaultValue?: boolean;
+  rules?: object;
   labelPlacement?: "end" | "start" | "top" | "bottom";
-  required?: boolean;
-  disabled?: boolean;
-  value?: boolean;
 }
 
-/*
- * component used to render checkbox
- */
-const CustomCheckbox = <T extends FieldValues>({
-  control,
+const CustomCheckbox: React.FC<CustomCheckboxProps> = ({
   name,
   label,
+  control,
+  defaultValue = false,
   labelPlacement,
-  ...props
-}: ICheckbox<T>) => {
+  rules = {},
+}) => {
   return (
     <Controller
-      control={control}
       name={name}
-      render={({ field }) => {
-        return (
+      control={control}
+      defaultValue={defaultValue}
+      rules={rules}
+      render={({ field: { onChange, value }, fieldState: { error } }) => (
+        <>
           <FormControlLabel
             labelPlacement={labelPlacement ? labelPlacement : "end"}
-            label={<span className={"checkbox-label"}>{label}</span>}
             control={
               <Checkbox
-                color="primary"
+                checked={value}
+                onChange={(e) => onChange(e.target.checked)}
                 className="custom-checkbox"
-                {...field}
-                {...props}
               />
             }
+            label={<span className={"checkbox-label"}>{label}</span>}
           />
-        );
-      }}
+          {error && <span style={{ color: "red" }}>{error.message}</span>}
+        </>
+      )}
     />
   );
 };
 
 export default CustomCheckbox;
+
