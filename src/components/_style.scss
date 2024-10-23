@@ -324,12 +324,28 @@
 
 //DataGrid css ends here
 .custom-stepper {
-  background-color: $clr_white;
+  background-color: $background;
+  padding-right: 3rem !important;
   margin: 1rem !important;
+  &-main{
+    border-right: 1px solid $clr_gray_very_light;
+    background-color: $clr_white;
+  }
   &-container {
     max-width: 33rem;
     padding-left: 2.5rem;
     padding-top: 4.2rem;
+    pointer-events: none;
+    .MuiStepConnector-line{
+      border-color: $clr_green !important;
+      min-height: 3.5rem ;
+    }
+    .MuiStepLabel-root{
+      padding: 0;
+    }
+  }
+  &-button-container{
+    background-color: $clr_white;
   }
   &-step-icon-box {
     display: flex;
@@ -348,54 +364,105 @@
   &-next-button {
     margin: auto !important;
     display: block !important;
-    width: 30rem !important;
-    height: 4rem !important;
+    width: 7rem !important;
+    height: 3.2rem !important;
     background-color: $clr_green !important;
     color: $clr_white !important;
     text-transform: none !important;
-    font-size: $h6 !important;
+    font-size: $p1 !important;
     font-weight: $font_semibold !important;
-    margin-top: 4rem !important;
+    margin-top: 2rem !important;
+    margin-bottom: 4rem !important;
+    box-shadow: none !important;
+    &-event{
+      margin-right: 0.5rem !important;
+    }
+    &-program{
+      margin-right: 7.5rem !important;
+    }
+    &-details{
+      margin-right: 2rem !important;
+    }
   }
 
   &-back-button {
     margin: auto !important;
     display: block !important;
-    width: 30rem !important;
-    height: 4rem !important;
-    border: 0.167rem solid $clr_green !important;
+    width: 7rem !important;
+    height: 3.2rem !important;
+    border: 2px solid $clr_green !important;
     color: $clr_green !important;
     background-color: $clr_white !important;
     text-transform: none !important;
-    font-size: $h6 !important;
+    font-size: $p1 !important;
     font-weight: $font_semibold !important;
+    margin-top: 2rem !important;
     margin-bottom: 4rem !important;
+    box-shadow: none !important;
   }
   &-other-details {
     font-weight: $font_normal !important;
     font-size: $h6 !important;
+    padding-bottom: 5rem !important;
   }
   &-bottom-spacing {
     height: 10rem !important;
   }
     &-conference-details {
+      background-color: $clr_white;
       &-content {
-        &-container {
-          background-color: $medium_grey;
-          width: 50rem !important;
-          padding: 2rem !important;
+          &-container {
+            padding: 2rem !important;
+          }
+      
+          &-title {
+            font-weight: $font_bold !important;
+            font-size: $h3 !important;
+            padding-top: 1rem;
+          }
+      
+          &-sub-title {
+            font-weight: $font_semibold !important;
+            font-size: $h5 !important;
+            padding-left: 1.5rem;
+          }
+      
+          &-header-container {
+            height: 4.16rem;
+            border-radius: 0.83rem;
+            background-color: $medium_grey;
+          }
+
+          &-type {
+            height: 2.83rem;
+            border-radius: 0.66rem;
+            background-color: $clr_status_bar;
+            padding-left: 1rem;
+            padding-right: 1rem;
+          }
+          &-date-icon{
+            svg{
+              width: 1.5rem;
+              height: 1.5rem;
+            }
+          }
+          &-date {
+            height: 2.83rem;
+            border-radius: 0.66rem;
+            background-color: $clr_status_bar;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            svg{
+              width: 1.5rem;
+              height: 1.5rem;
+            }
+          }
+          &-time {
+            background-color: $clr_green_medium;
+            padding: 0.6rem;
+            border-radius: 0.4rem;
+          }
         }
-  
-        &-title {
-          font-weight: $font_normal !important;
-          font-size: $h3 !important;
-        }
-  
-        &-sub-title {
-          font-weight: $font_normal !important;
-          font-size: $h5 !important;
-        }
-      }
     }
 }
 
@@ -405,6 +472,14 @@
     border-color: $clr_red !important;
   }
 }
+.indent {
+  padding-left: 2rem; 
+}
+.disabled-button {
+  background-color: $clr_disabled !important; 
+  cursor: not-allowed !important; 
+}
+
 .helper-text{
     color: $clr_red !important;
     font-size:$p3 !important;

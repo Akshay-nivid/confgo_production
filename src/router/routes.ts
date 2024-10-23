@@ -7,6 +7,7 @@ const routes = {
   register: () => "/register",
   events: () => "/events",
   createEvent: () => "/event/create",
+  template: () => "/template",
   coupon: () => "/coupon",
   createCoupon: ()=> "/coupon/create",
   CouponView: (id:string|number) => `/coupon/${id}`,
