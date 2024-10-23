@@ -102,9 +102,7 @@ const CouponView: React.FC = () => {
           }, 1500);
 
         }
-      } else {
-        console.log('No changes to update');
-      }
+      } 
     } catch (err) {
       setError('Failed to update coupon details.');
     } finally {

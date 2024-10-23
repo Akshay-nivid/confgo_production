@@ -604,13 +604,9 @@
   }
 }
 
-// .custom-snackbar {
-//   background-color: #333; /* Custom background color */
-//   color: #fff; /* Custom text color */
-// }
 
 .custom-alert {
   font-weight: bold; /* Bold text */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Custom shadow */
+  border-radius: 0.83rem; /* Rounded corners */
+  box-shadow: 0rem 0.33rem 0.83rem rgba(0, 0, 0, 0.1); /* Custom shadow */
 }
