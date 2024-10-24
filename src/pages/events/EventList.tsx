@@ -55,11 +55,11 @@ const EventList = () => {
 
   const columns = [
     { type: 'default', field: 'id', headerName: "ID", width: 150 },
-    { type: 'default', field: 'code', headerName: "Conference Name", width: 200 },
-    { type: 'default', field: 'discountType', headerName: "Type", width: 150 },
-    { type: 'default', field: 'endDate', headerName: "Date & Time", width: 250 },
+    { type: 'default', field: 'name', headerName: "Conference Name", width: 200 },
+    { type: 'default', field: 'type', headerName: "Type", width: 150 },
+    { type: 'dateField', field: 'createdOn', headerName: "Date & Time", width: 250,dateFormat:'DD/MM/YYYY' },
     { type: 'default', field: 'description', headerName: "Host/Organizer", width: 200 },
-    { type: 'default', field: 'statusId', headerName: "Status", width: 150 }
+    { type: 'status', field: 'statusId', headerName: "Status", width: 150 }
   ]
   /**
    * Apply filter 

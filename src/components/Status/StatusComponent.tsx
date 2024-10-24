@@ -8,7 +8,7 @@ interface AppBarProps {
 }
 
 const statusValues: any = [
-  { id: "0", textColor: '#D6983A', cellColor: '#FFECDF' },
+  { id: "1", textColor: '#D6983A', cellColor: '#FFECDF' },
   { id: "1", textColor: '#2C3DC3', cellColor: '#E8EBFF' },
   { id: ["2", "3"], textColor: '#0CAF60', cellColor: '#E7F7EF' },
   { id: ["4"], textColor: '##2C3CD3', cellColor: '#E8EBFF' },
@@ -17,9 +17,9 @@ const statusValues: any = [
 
 const getStatusValue = (id: string) => {
   switch (id) {
-    case "0":
-      return "Pending";
     case "1":
+      return "Pending";
+    case "Active":
       return "Ongoing";
     case "2":
       return "Completed";
@@ -43,8 +43,8 @@ const findStatusById = (id: string) => {
 const StatusComponent: React.FC<AppBarProps> = ({ value }) => {
   const status = findStatusById(value);
   return (
-    <Grid >
-      <Typography sx={{ backgroundColor: status?.cellColor, color: status?.textColor, fontFamily: 'inherit', fontWeight: 600, fontSize: 14 }}>{getStatusValue(value)}</Typography>
+    <Grid mt={2}>
+      <Typography sx={{ backgroundColor: status?.cellColor, color: status?.textColor, fontFamily: 'inherit', fontWeight: 600, fontSize: 14,textAlign:"center",borderRadius:10 }}>{getStatusValue(value)}</Typography>
     </Grid>
   );
 };
