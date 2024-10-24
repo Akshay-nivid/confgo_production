@@ -10,17 +10,38 @@ import {
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
-import { GoogleLogin } from '@react-oauth/google';
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import apiClient from '@/Libs/Https/API-client';
 import { Logger } from '@/Utils/Logger';
+import { jwtDecode } from 'jwt-decode';
+import useStore from '@/Libs/store';
 
 interface IUserRegister {
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
+}
+
+interface GoogleUserData {
+  iss: string;
+  azp: string;
+  aud: string;
+  sub: string;
+  hd: string;
+  email: string;
+  email_verified: boolean;
+  exp: number;
+  family_name: string;
+  given_name: string;
+  iat: number;
+  jti: string;
+  name: string;
+  nbf: number;
+  picture: string;
+  phone_number: string;
 }
 
 /**
@@ -30,12 +51,40 @@ interface IUserRegister {
 const UserRegister = () => {
   const { control, handleSubmit } = useForm<IUserRegister>();
   const navigate = useNavigate();
+  const { setDataById }: any = useStore();
+
+  /**
+   * function to handle google login
+   * @param {any} data - The data to be sent to the server
+   */
+  const googleSsoLogin = async (data: GoogleUserData) => {
+    try {
+      const requestBody = {
+        provider: "google",
+        providerUserId: data.sub ?? '',
+        firstName: data.given_name ?? '',
+        lastName: data.family_name ?? '',
+        email: data.email ?? '',
+        ...(data.phone_number ? { phone: data.phone_number } : {})
+      };
+      const response = await apiClient.post('auth/ssoLogin', requestBody)
+      if (response.data.status === 'success') {
+        setDataById('participantLogin', true)
+        sessionStorage.setItem("token", response.data.data.token);
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
+      }
+    } catch (error: unknown) {
+      Logger.error('Error in google login', error);
+      return error;
+    }
+  }
+
   /**
    * function to handle login
    */
   const handleLogin = async (data: IUserRegister) => {
     const response = await apiClient.post('user', data);
-  
+
     try {
       if (response.data.status === 'success') {
         const token = response?.data?.data?.token;
@@ -44,11 +93,11 @@ const UserRegister = () => {
             email: data.email,
             phoneNumber: data.phone,
             token: token.token,
-            userId: token.userId, 
+            userId: token.userId,
           },
         });
         return response;
-      } 
+      }
     } catch (error) {
       Logger.error('Error in register', error);
       return error;
@@ -158,8 +207,20 @@ const UserRegister = () => {
             size="large"
             shape="square"
             useOneTap
-            onSuccess={() => {}}
-            onError={() => {}}
+            onSuccess={(credentialResponse: CredentialResponse) => {
+              const credential = credentialResponse.credential;
+              if (credential) {
+                try {
+                  const decodedToken: GoogleUserData = jwtDecode(credential);
+                  googleSsoLogin(decodedToken)
+                } catch (error) {
+                  Logger.error('Failed to decode token', error);
+                }
+              } else {
+                Logger.error('No credential received');
+              }
+            }}
+            onError={() => { }}
           />
         </Box>
       </Grid>
