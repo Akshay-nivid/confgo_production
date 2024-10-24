@@ -9,6 +9,7 @@ import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import { DataGridList } from "@/components/DataGrid/DataGridList";
 import FilterModal from "@/components/CustomFilter/FilterModal";
+import { Logger } from "@/Utils/Logger";
 
 /**
  * Event registered user list
@@ -68,8 +69,11 @@ const UserListCard = () => {
     });
     setFilters(newFilters);
     };
-    // Function to handle search API for autocomplete
-    // New handler for when a coupon is selected from autocomplete
+    /**
+    *  Function to handle search API for autocomplete
+    * @param selected 
+    * New handler for when a coupon is selected from autocomplete
+    */
     const handleAutocompleteChange = (selected: any) => {
         //setSelectedCoupon(selected); // Update selected coupon
         if (selected) {
@@ -89,8 +93,9 @@ const UserListCard = () => {
         }
     };
 
-
-    // Function to handle search API for autocomplete
+    /**
+    *   Function to handle search API for autocomplete
+    */
     const handleSearch = async (query: string) => {
         setLoading(true);
         try {
@@ -100,13 +105,12 @@ const UserListCard = () => {
                 }
             };
             const response = await await apiClient.post(`coupon/list`, req);
-            const { status, data, message } = await processAPIResponse(response, 'couponList');
+            const { status, data } = await processAPIResponse(response, 'couponList');
             if (status) {
                 setSearchResults(data);
             }
-            // Update the options based on API response
         } catch (error) {
-            console.error('Error fetching search results:', error);
+            Logger.error('UserListCard.tsx', error);
         } finally {
             setLoading(false);
         }

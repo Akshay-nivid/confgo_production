@@ -25,7 +25,7 @@ class ApiClient {
       },
       (error) => {
         if (error.response.status && (error.response.status === 401 || error.response.status === 403)) {
-          window.location.href = "/logout"
+          window.location.href = "/"
         }
         return Promise.reject(error);
       }

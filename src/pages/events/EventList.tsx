@@ -13,6 +13,7 @@ import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { Typography } from "@mui/material";
 import { ISource } from "@/Libs/type";
+import { Logger } from "@/Utils/Logger";
 
 /**
  * Used to render events list
@@ -25,7 +26,6 @@ const EventList = () => {
   const [filters, setFilters] = useState({});
   const [source, setSource] = useState<ISource | undefined>(undefined);
   const [loading, setLoading] = useState(false); // To indicate loading state for API
-
   const { control } = useForm();
     /**
     * Useeffect hook handles the api call 
@@ -54,13 +54,6 @@ const EventList = () => {
   }, []);
 
   const columns = [
-    // { type: 'default', field: 'id', headerName: "ID", width: 200 },
-    // { type: 'default', field: 'name', headerName: "Conference Name", width: 200 },
-    // { type: 'default', field: 'event_class', headerName: "Type", width: 250 },
-    // { type: 'default', field: 'start_time', headerName: "Date & Time", width: 250 },
-    // { type: 'default', field: 'created_by', headerName: "Host/Organizer", width: 250 },
-    // { type: 'default', field: 'status', headerName: "Status", width: 250 }
-
     { type: 'default', field: 'id', headerName: "ID", width: 150 },
     { type: 'default', field: 'code', headerName: "Conference Name", width: 200 },
     { type: 'default', field: 'discountType', headerName: "Type", width: 150 },
@@ -73,7 +66,6 @@ const EventList = () => {
    * @param newFilters 
    */
   const handleApplyFilters = (newFilters: any) => {
-    // Update filters when modal is applied
     setSource({
       method: 'GET',
       data: {
@@ -95,7 +87,9 @@ const EventList = () => {
   const handleRowClick = (id: number | string) => {
    navigate(routes.viewEvent(id)); 
   }
-  // Function to handle search API for autocomplete
+/**
+   * Function to handle search API for autocomplete
+*/
   const handleSearch = async (query: string) => {
     setLoading(true);
     try {
@@ -105,37 +99,38 @@ const EventList = () => {
         }
       };
       const response = await await apiClient.get(`event/list`, req);
-      const { status, data, message } = await processAPIResponse(response, 'eventList');
+      const { status, data } = await processAPIResponse(response, 'eventList');
       if (status) {
         setSearchResults(data);
       }
      // Update the options based on API response
     } catch (error) {
-      console.error('Error fetching search results:', error);
+     Logger.error(error,'EventList.tsx');
     } finally {
       setLoading(false);
     }
   };
-  // Function to handle search API for autocomplete
- // New handler for when an event is selected from autocomplete
- const handleAutocompleteChange = (selected: any) => {
-  //setSelectedEvent(selected); // Update selected event
-  if (selected) {
-    // Here you can filter the data grid based on the selected event
-    setSource({
-      method: 'GET',
-      data: {
-        offset: 0,
-        limit: 5,
-        filters: {
-          id: selected.id, // Assuming the selected event has an 'id'
-        },
-      },
-      url: `event/list`,
-      listName: 'eventList',
-    });
-  }
-};
+    /**
+       * Function to handle search API for autocomplete
+       *  New handler for when an event is selected from autocomplete
+       * @param selected 
+    */
+    const handleAutocompleteChange = (selected: any) => {
+        if (selected) {
+            setSource({
+                method: 'GET',
+                data: {
+                    offset: 0,
+                    limit: 5,
+                    filters: {
+                        id: selected.id, // Assuming the selected event has an 'id'
+                    },
+                },
+                url: `event/list`,
+                listName: 'eventList',
+            });
+        }
+    };
   return (
     <Grid container className="custom-list">
       <Grid size={{ xs: 4 }} >

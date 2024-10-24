@@ -17,6 +17,9 @@ const RegistrationSuccess = React.memo(() => {
   const navigate=useNavigate();
   const handleHome=()=>{
     clearDataById('register');
+    clearDataById('form1');
+    clearDataById('form2');
+    clearDataById('form3');
     navigate(routes.home());
   }
   return (

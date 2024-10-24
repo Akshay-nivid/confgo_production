@@ -89,7 +89,6 @@ const FormBuilder = () => {
 
   const isFieldRequired = watch("required");
 
-  console.log(formFields);
 
   function handleSaveToLocalStorage(key: string, data: any) {
     localStorage.setItem(key, JSON.stringify(data));
