@@ -12,28 +12,29 @@ import { jwtDecode } from 'jwt-decode';
 import apiClient from '@/Libs/Https/API-client';
 import { Logger } from '@/Utils/Logger';
 import useStore from '@/Libs/store';
+import { processAPIResponse } from '@/Utils/CommonBaseClass';
 interface IUserLogin {
   username: string;
   password: string;
 }
 
 interface GoogleUserData {
-  iss: string; 
+  iss: string;
   azp: string;
-  aud: string; 
+  aud: string;
   sub: string;
-  hd: string; 
+  hd: string;
   email: string;
-  email_verified: boolean; 
+  email_verified: boolean;
   exp: number;
-  family_name: string; 
-  given_name: string; 
-  iat: number; 
-  jti: string; 
-  name: string; 
-  nbf: number; 
-  picture: string; 
-  phone_number:string;
+  family_name: string;
+  given_name: string;
+  iat: number;
+  jti: string;
+  name: string;
+  nbf: number;
+  picture: string;
+  phone_number: string;
 }
 
 
@@ -47,18 +48,16 @@ const UserLogin = () => {
   /**
    * function to handle login
    */
-  const handleLogin = async (data: IUserLogin) => {
-    try {
-      const response = await apiClient.post('auth/login', data);
-      if(response.data.status === 'success'){
-        sessionStorage.setItem("token", response.data.data.token);
-        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
-      }
-      return response;
-    } catch (error: any) {
-      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: error.response.data.message });
-      Logger.error('Error in login', error);
-      return error;
+  const handleLogin = async (obj: IUserLogin) => {
+    const response = await apiClient.post('auth/login', obj);
+    const { status, message } = processAPIResponse(response, "authLogin");
+    if (status) {
+      sessionStorage.setItem("token", response.data.data.token);
+      setDataById('participantLogin', true)
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
+    }
+    else {
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message });
     }
   };
 
@@ -66,24 +65,24 @@ const UserLogin = () => {
    * function to handle google login
    * @param {any} data - The data to be sent to the server
    */
-  const googleLogin = async (data:GoogleUserData) => {
-    try {
-      const requestBody = {
-        provider: "google",
-        providerUserId: data.sub ?? '',
-        firstName: data.given_name ?? '',
-        lastName: data.family_name ?? '',
-        email: data.email ?? '',
-        ...(data.phone_number ? { phone: data.phone_number } : {}) 
-      };
-      const response = await apiClient.post('auth/ssoLogin', requestBody)
-      if (response.data.status === 'success') {
-        sessionStorage.setItem("token", response.data.data.token);
-        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
-      }
-    } catch (error: unknown) {
-      Logger.error('Error in google login', error);
-      return error;
+  const googleSsoLogin = async (obj: GoogleUserData) => {
+    const requestBody = {
+      provider: "google",
+      providerUserId: obj.sub ?? '',
+      firstName: obj.given_name ?? '',
+      lastName: obj.family_name ?? '',
+      email: obj.email ?? '',
+      ...(obj.phone_number ? { phone: obj.phone_number } : {})
+    };
+    const response = await apiClient.post('auth/ssoLogin', requestBody)
+    const { status, message } = processAPIResponse(response, "authLogin");
+    if (status) {
+      setDataById('participantLogin', true)
+      sessionStorage.setItem("token", response.data.data.token);
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
+    }
+    else {
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message });
     }
   }
 
@@ -172,16 +171,11 @@ const UserLogin = () => {
             shape="square"
             useOneTap
             onSuccess={(credentialResponse: CredentialResponse) => {
-              interface GoogleUser {
-                email: string;
-                name: string;
-                picture: string;
-              }
               const credential = credentialResponse.credential;
               if (credential) {
                 try {
-                  const decodedToken: GoogleUser = jwtDecode(credential);
-                  Logger.info('Decoded Google User', decodedToken);
+                  const decodedToken: GoogleUserData = jwtDecode(credential);
+                  googleSsoLogin(decodedToken)
                 } catch (error) {
                   Logger.error('Failed to decode token', error);
                 }
@@ -189,7 +183,7 @@ const UserLogin = () => {
                 Logger.error('No credential received');
               }
             }}
-            onError={() => {}}
+            onError={() => { }}
           />
         </Box>
       </Grid>
