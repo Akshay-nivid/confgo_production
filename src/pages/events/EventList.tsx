@@ -57,7 +57,7 @@ const EventList = () => {
     { type: 'default', field: 'id', headerName: "ID", width: 150 },
     { type: 'default', field: 'name', headerName: "Conference Name", width: 200 },
     { type: 'default', field: 'type', headerName: "Type", width: 150 },
-    { type: 'dateField', field: 'createdOn', headerName: "Date & Time", width: 250,dateFormat:'DD/MM/YYYY' },
+    { type: 'dateField', field: 'createdOn', headerName: "Date & Time", width: 250,dateFormat:'DD-MM-YYYY hh:mm A' },
     { type: 'default', field: 'description', headerName: "Host/Organizer", width: 200 },
     { type: 'status', field: 'statusId', headerName: "Status", width: 150 }
   ]

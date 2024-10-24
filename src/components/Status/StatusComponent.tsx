@@ -8,11 +8,11 @@ interface AppBarProps {
 }
 
 const statusValues: any = [
-  { id: "1", textColor: '#D6983A', cellColor: '#FFECDF' },
-  { id: "1", textColor: '#2C3DC3', cellColor: '#E8EBFF' },
+  { id: "0", textColor: '#D6983A', cellColor: '#FFECDF' },
+  { id: "5", textColor: '#0CAF60', cellColor: '#E7F7EF' },
   { id: ["2", "3"], textColor: '#0CAF60', cellColor: '#E7F7EF' },
-  { id: ["4"], textColor: '##2C3CD3', cellColor: '#E8EBFF' },
-  { id: ["7"], textColor: '#D32C2C', cellColor: '#FFE8EC' },
+  { id: "4", textColor: '#2C3CD3', cellColor: '#E8EBFF' },
+  { id: "1", textColor: '#D32C2C', cellColor: '#FFE8EC' },
 ];
 
 const getStatusValue = (id: string) => {
@@ -43,8 +43,8 @@ const findStatusById = (id: string) => {
 const StatusComponent: React.FC<AppBarProps> = ({ value }) => {
   const status = findStatusById(value);
   return (
-    <Grid mt={2}>
-      <Typography sx={{ backgroundColor: status?.cellColor, color: status?.textColor, fontFamily: 'inherit', fontWeight: 600, fontSize: 14,textAlign:"center",borderRadius:10 }}>{getStatusValue(value)}</Typography>
+    <Grid className="data-grid-status">
+      <Typography sx={{ backgroundColor: status?.cellColor, color: status?.textColor, fontFamily: 'inherit', fontWeight: 600, fontSize: 15,textAlign:"center",borderRadius:10, }}>{getStatusValue(value)}</Typography>
     </Grid>
   );
 };
