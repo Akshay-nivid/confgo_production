@@ -34,7 +34,11 @@ import UserSetpasswordSuccessful from './pages/User/User-Setpassword-Successful'
 import Register from './pages/register/Register';
 import ParticipantHome from './pages/participant/Participant-Home';
 import FormBuilder from './components/FormBuilder/FormBuilder';
-import React from 'react';
+import ViewEventDetail from './pages/events/view/ViewEventDetail';
+import CreateEvent from './pages/events/CreateEvent';
+import EventList from './pages/events/EventList';
+
+
 
 
 /**
@@ -119,8 +123,17 @@ const router = createBrowserRouter([
             element: <Dashboard />,
           },
           {
-            path: routes.events(),
+            path:routes.createEvent(),
             element: <Events />,
+          },
+          {
+            path:routes.events(),
+            element:<EventList/>
+          },
+          {
+            path:routes.viewEvent(":id"),
+            element:<ViewEventDetail/>
+
           },
           {
             path: routes.coupon(),

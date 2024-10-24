@@ -8,12 +8,15 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { SuccessTickImage } from "@/assets/svg";
 import routes from "@/router/routes";
 import { useNavigate } from "react-router-dom";
+import useStore from "@/Libs/store";
 /*
  * functional compoent to render Registration success page
  */
 const RegistrationSuccess = React.memo(() => {
+  const { clearDataById }: any = useStore();
   const navigate=useNavigate();
   const handleHome=()=>{
+    clearDataById('register');
     navigate(routes.home());
   }
   return (

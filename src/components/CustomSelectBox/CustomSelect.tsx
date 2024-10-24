@@ -1,5 +1,4 @@
 import { FormControl, Select, MenuItem, FormHelperText } from '@mui/material';
-import React from 'react';
 import { Controller, Control, FieldValues, Path, RegisterOptions, PathValue } from 'react-hook-form';
 
 interface CustomSelectProps<T extends FieldValues> {
@@ -14,6 +13,7 @@ interface CustomSelectProps<T extends FieldValues> {
   rules?: RegisterOptions<T>; 
     variant?: 'outlined' | 'filled' | 'standard';
     size?:"small" | "medium" | undefined;
+    disabled?:boolean;
 }
 
 const CustomSelect = <T extends FieldValues>({
@@ -25,6 +25,7 @@ const CustomSelect = <T extends FieldValues>({
   defaultValue ,
   variant = 'outlined',
   rules,
+  disabled=false
 }: CustomSelectProps<T>) => {
   return (
     <Controller
@@ -43,11 +44,12 @@ const CustomSelect = <T extends FieldValues>({
             labelId={`${name}-label`}
             placeholder={label}
             displayEmpty
+            disabled={disabled}
           >
             <MenuItem value="" disabled>
               {label}
             </MenuItem>
-            {options.map((option) => (
+            {options?.map((option) => (
               <MenuItem key={option.value} value={option.value}>
                 {option.label}
               </MenuItem>

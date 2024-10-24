@@ -107,6 +107,137 @@
     }
 }
 
+.event-detail {
+    &-card {
+        margin: 2rem;
+        border-radius: 1rem;
+        background-color:$clr_white;
+        // height: 100vh;
+    }
+    &-header{
+       padding: 2rem;
+        font-weight: $font_semibold;
+        font-size: $h4;
+        &-status{
+            margin-left: 0.2rem;
+            background-color: $clr_red_light;
+            width: 6rem;
+            height: 3rem;
+            padding: 0.5rem;
+            color: $clr_red;
+            border-radius: 0.5rem;
+            font-size: $h6;
+            font-weight: $font_normal;
+        }
+    }
+    
+
+    &-tab-layout {
+        margin: 1.8rem;
+        background-color: $background;
+        color: $clr_white;
+        .MuiTab-textColorPrimary {
+            color: $clr_gray_light;
+            font-weight: $font_medium;
+            text-transform: none;
+            font-size: $h6 ;
+            border-bottom: 2px solid $clr_tab_border_color;
+        }
+
+        .Mui-selected {
+            color: $clr_black !important;
+            font-weight: $font_semibold !important; 
+            text-transform: none !important;   
+        }
+
+        .MuiTabs-indicator {
+            background-color: $clr_green !important;
+        }
+
+    }
+    &-event-info-card{
+        &-publish-btn{
+            background-color: $clr_green !important;
+            color: $clr_white !important;
+            min-width: 15rem !important;
+        }
+        &-invite-participant-btn{
+            background-color: $clr_white !important;
+            color: $clr_green !important;
+            min-width: 15rem !important;
+            border: 1px solid $clr_green !important;
+        }
+    }
+    &-speakers-card{
+        &-speaker-list{
+            gap: 1rem;
+            min-width: 10rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+        }
+        &-speaker-designation{
+            color: $clr_gray_light;
+        }
+    }
+    &-sessions-card{
+        &-session-list{
+            gap: 1rem;
+        }
+        &-header{
+            font-weight: $font_semibold;
+            font-size: $h5 !important;
+         
+        }
+        &-sub-header{
+            font-weight: $font_normal;
+            font-size: $h6;
+            color: $clr_gray_light;
+        }
+    }
+
+  
+} 
+
+.user-list-card{
+    padding-right:1rem !important;
+    &-add-btn{
+        background-color: $clr_white !important;
+        color: $clr_green !important;
+        width: 7rem !important;
+        height: 3.2rem !important;
+        border: 1px solid $clr_green !important;
+        text-transform: none !important;
+        font-size: $p1 !important;
+        font-weight: $font_semibold !important;
+        box-shadow: none !important;
+        border-radius: 2.25rem !important;
+    }
+    &-form-spacing{
+        padding-top: 0.9rem;
+    }
+    &-form-container{
+        padding-right: 1rem !important;
+        border-right: 1px solid $clr_gray_very_light;
+    }
+    &-add-ons-title{
+        font-weight: $font_normal !important;
+        font-size: $h6 !important;
+    }
+    &-save-btn{
+        background-color: $clr_green !important;
+        color: $clr_white !important;
+        min-width: 7rem !important;
+        height: 3.2rem !important;
+        text-transform: none !important;
+        font-size: $p1 !important;
+        font-weight: $font_semibold !important;
+        box-shadow: none !important;
+    }
+    &-addons-grid{
+        padding-bottom: 1rem;
+    }
+}
+
 .event-template {
     background-color: $clr_white;
 }
