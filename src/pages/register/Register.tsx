@@ -10,21 +10,29 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";
 import { StepperBoxes } from "./StepperBox";
+import { useEffect } from "react";
 /*
  * Component used to register company for scheduling meting,metups etc
  */
 const Register = () => {
+
   const pageSwitch =
     useStore((state: any) => state?.compData?.["register"]) ?? [];
   const navigate = useNavigate();
-  const { setDataById }: any = useStore();
+  const { setDataById,clearDataById }: any = useStore();
 
   /*
   * function to handle navigate to login page
   */
   const handleLogin = () => {
-    navigate(routes.login())
+    navigate(routes.LoginOrg())
   }
+  useEffect(()=>{
+    clearDataById('register');
+    clearDataById('form1');
+    clearDataById('form2');
+    clearDataById('form3');
+  },[])
   /*
   *function  handle all registration compoents back button
   */

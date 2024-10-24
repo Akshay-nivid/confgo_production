@@ -96,7 +96,7 @@
       }
       .create-form-button-container {
         width: 100%;
-        border-top: 1px solid $clr_gray_light;
+        border-top: 0.0625rem solid $clr_gray_light;
         padding-top: 1.5rem;
       }
       .create-form-button {
@@ -115,7 +115,7 @@
       width: 100%;
     }
     .form-container {
-      border-top: 1px solid $clr-gray-light;
+      border-top: 0.0625rem solid $clr-gray-light;
       padding-top: 3rem;
       .save-button-containier {
         width: 70%;

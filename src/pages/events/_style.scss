@@ -141,7 +141,7 @@
             font-weight: $font_medium;
             text-transform: none;
             font-size: $h6 ;
-            border-bottom: 2px solid $clr_tab_border_color;
+            border-bottom: 0.125rem solid $clr_tab_border_color;
         }
 
         .Mui-selected {
@@ -165,7 +165,7 @@
             background-color: $clr_white !important;
             color: $clr_green !important;
             min-width: 15rem !important;
-            border: 1px solid $clr_green !important;
+            border: 0.063rem solid $clr_green !important;
         }
     }
     &-speakers-card{
@@ -205,7 +205,7 @@
         color: $clr_green !important;
         width: 7rem !important;
         height: 3.2rem !important;
-        border: 1px solid $clr_green !important;
+        border: 0.063rem solid $clr_green !important;
         text-transform: none !important;
         font-size: $p1 !important;
         font-weight: $font_semibold !important;
@@ -217,7 +217,7 @@
     }
     &-form-container{
         padding-right: 1rem !important;
-        border-right: 1px solid $clr_gray_very_light;
+        border-right: 1rem solid $clr_gray_very_light;
     }
     &-add-ons-title{
         font-weight: $font_normal !important;
