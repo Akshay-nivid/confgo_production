@@ -175,6 +175,10 @@
             overflow-x: auto;
             scroll-snap-type: x mandatory;
         }
+        &-speaker-header{
+            font-size: 2rem !important;
+            font-weight: $font-bold !important;
+        }
         &-speaker-designation{
             color: $clr_gray_light;
         }
