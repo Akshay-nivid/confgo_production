@@ -1,6 +1,6 @@
 import '@/styles/main.scss';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import routes from '@/router/routes';
+import routes from './router/routes';
 import AuthenticatedRoute from './router/AuthenticatedRoute';
 import Dashboard from '@/pages/dashboard';
 import Events from '@/pages/events';
@@ -33,6 +33,12 @@ import UserSetPassword from './pages/User/User-Setpassword';
 import UserSetpasswordSuccessful from './pages/User/User-Setpassword-Successful';
 import Register from './pages/register/Register';
 import ParticipantHome from './pages/participant/Participant-Home';
+import FormBuilder from './components/FormBuilder/FormBuilder';
+import ViewEventDetail from './pages/events/view/ViewEventDetail';
+import CreateEvent from './pages/events/CreateEvent';
+import EventList from './pages/events/EventList';
+
+
 
 
 /**
@@ -62,6 +68,8 @@ const userRoutes = [
         path: routes.userSetPasswordSuccessful(),
         element: <UserSetpasswordSuccessful />,
       },
+     
+    
      
     ],
   },
@@ -103,6 +111,11 @@ const router = createBrowserRouter([
     element: <AuthenticatedRoute />,
     children: [
       {
+        path: routes.formBuilder(),
+        element: <FormBuilder />,
+      }, 
+      {
+        
         element: <Layout />,
         children: [
           {
@@ -110,8 +123,17 @@ const router = createBrowserRouter([
             element: <Dashboard />,
           },
           {
-            path: routes.events(),
+            path:routes.createEvent(),
             element: <Events />,
+          },
+          {
+            path:routes.events(),
+            element:<EventList/>
+          },
+          {
+            path:routes.viewEvent(":id"),
+            element:<ViewEventDetail/>
+
           },
           {
             path: routes.coupon(),
@@ -129,6 +151,7 @@ const router = createBrowserRouter([
             path: routes.calendar(),
             element: <CalendarRoute />,
           },
+          
         ],
       },
     ],
@@ -146,6 +169,7 @@ const router = createBrowserRouter([
     path: routes.participantHome(),
     element: <ParticipantHome />,
   },
+  
 ]);
 
 function App() {

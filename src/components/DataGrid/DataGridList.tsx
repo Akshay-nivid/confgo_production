@@ -9,6 +9,7 @@ import Grid from '@mui/material/Grid2';
 import StatusComponent from '../Status/StatusComponent';
 import { NoRecords } from '../NoRecords/NoRecords';
 import { ISource } from '@/Libs/type';
+import moment from 'moment';
 
 type DefColumn = {
     type?: string;
@@ -41,7 +42,6 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
     const pageSize = dataInfo.pageSize || 5;
     const currentPage = dataInfo.currentPage || 1;
     const [loading, setLoading] = useState(false); // Added loading state
-
     const totalItems = dataInfo?.pagination?.total || 0;
     /*
     * total pages
@@ -69,7 +69,7 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
         try { 
             setLoading(true);
             const response = await apiClient.post(source.url, source.data);
-            const { status, data, message } = await processAPIResponse(response, source.listName);
+            const { status, data, message } = await processAPIResponse(response, source.listName); 
             if (status) {
                 const pagination = response?.data?.pagination;
                 const processedData = dataTransformer 
@@ -120,16 +120,7 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
             if (item.type === 'status') {
                 return {
                     ...item,
-                    cellClassName: (params: any) => {
-                    switch (params.value) {
-                        case 'Pending':
-                            return 'status-container'; // Class for pending status (red)
-                        case 'Active':
-                            return 'status-active'; // Class for active status (blue)
-                        default:
-                            return 'status-container'; // Default class for other statuses
-                        }
-                    },
+                      cellClassName: 'default-label',
                     renderCell: (params: any) => <StatusComponent value={params.value}
                     />
                 };
@@ -139,8 +130,15 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
                     ...item,
                     cellClassName: 'default-label'
                 };
+            }else if(item.type==='dateField'){
+               return{ 
+                ...item,
+                cellClassName:'default-label',
+                renderCell: (params: { value: any }) => <div>{moment(params.value).format(item.dateFormat)}</div>
+            }
             }
             return item;
+            
         });
     }, [columns]);
 

@@ -6,7 +6,8 @@ const routes = {
   login: () => "/login",
   register: () => "/register",
   events: () => "/events",
-  createEvent: () => "/event/create",
+  createEvent: () => "/events/create",
+  viewEvent:(id:string|number)=>`/events/detail/${id}`,
   template: () => "/template",
   coupon: () => "/coupon",
   createCoupon: ()=> "/coupon/create",
@@ -29,6 +30,7 @@ const routes = {
   userSetPassword: () => "/user/setpassword",
   userSetPasswordSuccessful: () => "/user/setpassword-successful",
   programSelection: () => "/user/programs",
+  formBuilder:()=>"/formbuilder",
 };
 
 export default routes;
