@@ -40,7 +40,7 @@ export const PlanCard = () => {
         </Box>
         <Button
           onClick={() => {
-            setDataById('register', { data: 'two' });
+            setDataById('register', { data: 'CREATE_ACCOUNT_PAGE' });
             navigate(routes.register());
           }}
           fullWidth
