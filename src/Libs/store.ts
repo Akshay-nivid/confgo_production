@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from 'zustand/middleware'
+import { createJSONStorage, persist } from 'zustand/middleware'
 import apiClient from "./Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 
@@ -26,6 +26,26 @@ interface StoreState {
     resetStore: () => void;
     POST: (params: ApiRequestOptions) => void;
 }
+
+/**
+ * Custom storage object that filters out snackBarInfo
+ */
+const customStorage = {
+    getItem: (name: string) => {
+        const str = localStorage.getItem(name);
+        if (!str) return null;
+        const state = JSON.parse(str);
+        return JSON.stringify(state);
+    },
+    setItem: (name: string, value: string) => {
+        const state = JSON.parse(value);
+        if (state?.state && state?.state?.compData) {
+            delete state?.state?.compData?.snackBarInfo;
+        }
+        localStorage.setItem(name, JSON.stringify(state));
+    },
+    removeItem: (name: string) => localStorage.removeItem(name),
+};
 
 const useStore = create<StoreState>()(
     persist(
@@ -93,6 +113,7 @@ const useStore = create<StoreState>()(
         }),
         {
             name: "global-state-storage", // Unique name for local storage key
+            storage: createJSONStorage(() => customStorage),
         }
     ),
 );
