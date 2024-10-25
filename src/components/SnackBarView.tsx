@@ -41,6 +41,7 @@ export const SnackBarView: React.FC<SnackBarViewProps> = (props) => {
     return (
         <Snackbar id='snack-bar'
             open={props.open}
+            className='snackBar'
             autoHideDuration={props.autoHideDuration}
             onClose={onClose}
             anchorOrigin={props.anchorOrigin}>
