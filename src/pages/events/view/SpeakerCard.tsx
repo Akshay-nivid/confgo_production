@@ -6,15 +6,10 @@ const SpeakerCard = (eventData: any) => {
     <Grid className="event-detail-speakers-card" container spacing={2}>
       <Grid container size={{ xs: 12, sm: 10 }}>
         <Grid className="event-detail-speakers-card-speaker-list" direction={'row'} display={'flex'}>
-          {eventData.eventData.speakers.map((item: any) => {
-            return (
-              <Grid container direction={'column'} spacing={1}>
-                <img src={item.profile_image} alt={item.name} />
-                <Typography variant="h6">{item.name}</Typography>
-                <Typography className="event-detail-speakers-card-speaker-designation" variant="body1">{item.designation}</Typography>
-              </Grid>
-            )
-          })}
+          <Grid direction={"column"}>
+          <Typography variant="h6">Event Contributors </Typography>
+          <Typography variant="body1">Event Contributors allows you to easily add and manage key participants in your event, such as speakers, sponsors, guests, and other contributors. Keep track of all the important roles to ensure a smooth and successful event experience.</Typography>
+          </Grid>
         </Grid>
       </Grid>
     </Grid>

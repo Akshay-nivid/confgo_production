@@ -14,6 +14,9 @@ import PlanCard from "@/components/PlanCard";
 import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";
 import { ArrowIconSvg } from "@/assets/svg";
+import { Logger } from "@/Utils/Logger";
+import apiClient from "@/Libs/Https/API-client";
+import { processAPIResponse } from "@/Utils/CommonBaseClass";
 /*
  * sample plan data will be replaced after integration of api
  */
@@ -52,23 +55,67 @@ const plans = [
 /*
  * compoent to render the plan
  */
+type PlanType = {
+  id: number;
+  name: string;
+  amount: string; 
+  currency: string | null;
+  validityDay: number;
+  statusId: number;
+  assetId: number | null; 
+  createdBy: string | null;
+  createdOn: string; 
+  description: string | null; 
+  modifiedBy: string | null; 
+  modifiedOn: string; 
+  planPropertyAssignments: any[]; 
+};
 const AddPlan = React.memo(() => {
-  const [currentPlan, setcurrentPlan] = useState(PLANS.basic);
+  const [currentPlan, setcurrentPlan] = useState('');
   const form1 = useStore((state: any) => state?.compData?.['form1']) ?? [];
   const { setDataById }: any = useStore();
   const navigate = useNavigate();
   const handleChangePlan = (event: React.ChangeEvent<HTMLInputElement>) => {
     setcurrentPlan(event.target.value);
   };
+  const [planList,setPlanList]=useState<PlanType[]>([]);
   /*
    * get state data if selected plan data is there
    */
   useEffect(() => {
-    setDataById('register', { data: 'PLAN_PAGE', step: 1 });
-    if (form1?.field_values) {
-      setcurrentPlan(form1?.field_values?.header)
+    const fetchData = async () => {
+      await getPlanData();
+      setDataById('register', { data: 'PLAN_PAGE', step: 1 });
+  
+      if (form1?.field_values) {
+        setcurrentPlan(form1.field_values.name);
+      }else{
+
+      }
+    };
+  
+    fetchData();
+  }, []);
+
+  const getPlanData = async () => {
+    try {
+      const response = await apiClient.post(`plan/list`, {});
+      const { status, data, message } = await processAPIResponse(response, 'plan list');
+      if (status) {
+        console.log(data,'full data is getting here')
+        setPlanList(data);
+        if(form1?.field_values){
+          setcurrentPlan(form1.field_values.name)
+        }else{
+          setcurrentPlan(data[0].name)
+        }
+        
+      }
+
+    } catch (error) {
+      Logger.error(error)
     }
-  }, [])
+  }
 
   /*
    * function to change the state and store selected plan
@@ -100,16 +147,16 @@ const AddPlan = React.memo(() => {
               value={currentPlan}
               onChange={handleChangePlan}
             >
-              {plans.map((plan) => (
+              {planList.map((plan) => (
                 <PlanCard
-                  image={plan.image}
-                  isActive={currentPlan === plan.value}
-                  key={plan.value}
-                  value={plan.value}
-                  header={plan.header}
-                  price={plan.price}
-                  discount={plan.discount}
-                  isDicount={plan.isDicount}
+                  image={''}
+                  isActive={currentPlan === plan.name}
+                  key={plan.id}
+                  value={plan.name}
+                  header={plan.name}
+                  price={plan.amount}
+                  discount={''}
+                  isDicount={false}
                 />
               ))}
             </RadioGroup>

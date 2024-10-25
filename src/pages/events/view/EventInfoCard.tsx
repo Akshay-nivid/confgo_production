@@ -8,7 +8,7 @@ const EventInfoCard = (eventData: any) => {
         <Grid className="event-detail-event-info-card" container spacing={2}>
             <Grid container size={{ xs: 12, sm: 10 }}>
                 <Grid>
-                    <Typography variant="h6">{eventData.eventData.event_info}</Typography>
+                    <Typography variant="h6">{eventData?.eventData?.description}</Typography>
                 </Grid>
             </Grid>
             <Grid container size={{ xs: 12, sm: 10 }} direction={'row'}>
