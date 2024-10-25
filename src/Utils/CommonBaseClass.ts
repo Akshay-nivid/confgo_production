@@ -6,10 +6,12 @@
  * @returns An object containing status and message extracted from the response.
  */
 export function processAPIResponse(response: any, api: string) {
+
   let status = false
   let message: any = "Success"
   let data: any;
-  const resData = response?.response?.data;
+  const resData = response?.response?.data || response?.data?.data;
+  console.log(response,'response')
 
   try {
     if (response.status === 401 && !api.includes("login")) {
@@ -36,7 +38,7 @@ export function processAPIResponse(response: any, api: string) {
       status = true;
       message = message;
       if (!Array.isArray(resData)) {
-        data = resData?.data;
+        data = resData?.data||resData;
       }
       else {
         data = resData;
