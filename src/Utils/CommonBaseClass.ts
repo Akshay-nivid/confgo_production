@@ -11,7 +11,6 @@ export function processAPIResponse(response: any, api: string) {
   let message: any = "Success"
   let data: any;
   const resData = response?.response?.data || response?.data?.data;
-  console.log(response,'response')
 
   try {
     if (response.status === 401 && !api.includes("login")) {
@@ -26,12 +25,14 @@ export function processAPIResponse(response: any, api: string) {
       message = resData.message;
       return { status, message, data }
     }
-    else if (response.status === 400 || response.status == 403) {
+    else if (response.status === 400 || response.status == 403 || response.status == 500) {
       status = false;
       if (Array.isArray(resData.message)) {
         message = resData.message[0].msg;
+        data = resData;
       } else {
         message = resData.message;
+        data = resData;
       }
     }
     else if (response.status == 200) {

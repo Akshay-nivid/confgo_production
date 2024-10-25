@@ -691,3 +691,15 @@
   height: 6rem;
   margin-top: 1rem;
 }
+
+.snackBar{
+  .MuiPaper-root{
+    align-items: center;
+    .MuiAlert-action{
+      padding:0.5rem !important
+    }
+    .MuiAlert-message{
+     font-size: $p3 !important;
+    }
+  }
+}
