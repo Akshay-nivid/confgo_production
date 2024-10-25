@@ -34,9 +34,9 @@ export function processAPIResponse(response: any, api: string) {
         data = resData;
       }
     }
-    else if (response.status == 200) {
+    else if (response.status == 200 || response.status == 201) {
       status = true;
-      message = message;
+      message = response.data?.message? response.data?.message: message;
       if (!Array.isArray(resData)) {
         data = resData?.data;
       }

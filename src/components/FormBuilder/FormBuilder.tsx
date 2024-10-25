@@ -18,7 +18,7 @@ import React from "react";
 export interface ICreateFormField {
   title: string;
   fieldType: string;
-  required: boolean;
+  required: [];
   id: string;
   option?: { value: string }[];
 }
@@ -32,7 +32,7 @@ const selectOptions = [
   { label: "Checkbox", value: "checkbox" },
   { label: "Radio", value: "radio" },
   { label: "Select", value: "select" },
-  { label: "Adress", value: "address" },
+  { label: "Address", value: "address" },
 ];
 
 const isFieldTypePresent = (type: string) =>
@@ -64,15 +64,14 @@ const FormBuilder = () => {
     };
 
     setFormFields((prev) => {
-      const updatedFields = [...prev, newData];
-      // Optionally, you can sort the fields by id for better consistency
+      const updatedFields = [...prev, newData].reverse();;
       return updatedFields;
     });
 
     reset({
       title: "",
       fieldType: "",
-      required: false,
+      required: [],
       option: [{ value: "" }],
     });
   }
@@ -103,6 +102,23 @@ const FormBuilder = () => {
 
   return (
     <Grid justifyContent={"center"} container className="form-builder layout">
+      <Grid container size={12} spacing={2}>
+        <Grid size={12}>
+        <Typography className="form-builder-title">
+              Custom Form Builder
+            </Typography> 
+        </Grid>
+        <Grid size={12} className="form-builder-content-container">
+        <Typography className="form-builder-content">
+        Custom Fields Builder allows you to easily create and customize fields for your forms. Tailor your input options
+         to gather the
+            </Typography> 
+            <Typography className="form-builder-content">
+             exact information you need, with a simple and user-friendly interface.
+            </Typography> 
+        </Grid>
+       
+      </Grid>
       <Grid display={"flex"} className="grid-left" size={6}>
         {formFields.length < 1 ? (
           <Box
@@ -128,17 +144,13 @@ const FormBuilder = () => {
         size={6}
         className="grid-right"
         display={"flex"}
-        // alignItems={"center"}
         overflow={"auto"}
         height={"100%"}
         paddingBlock={"2rem"}
       >
         <Box className="content-container">
           <Box className="header-container">
-            <Typography textAlign={"center"} className="header-title">
-              Build Your Form
-            </Typography>
-            <Typography textAlign={"center"} className="header-subtitle">
+            <Typography textAlign={"center"} className="form-builder-sub-title">
               Create your own form fields
             </Typography>
           </Box>
@@ -214,12 +226,8 @@ const FormBuilder = () => {
                 )}
                 <CustomCheckbox
                   control={control}
-                  label={
-                    isFieldRequired
-                      ? "field is mandotory"
-                      : "field is optional "
-                  }
                   name="required"
+                  options={[{label: 'Mandatory', value: 'true'}]}
                 />
               </Box>
 
@@ -271,11 +279,10 @@ const CreatedFormFieldList = ({
     defaultValues: {
       title: "",
       fieldType: "",
-      required: false,
+      required: [],
     },
   });
 
-  const isFieldRequired = watch("required");
 
   const handleChange =
     ({
@@ -326,7 +333,7 @@ const CreatedFormFieldList = ({
 
   return (
     <>
-      {formFields.map((field, index) => {
+      {formFields?.map((field, index) => {
         return (
           <Box key={field.id} className="field-accordion-card">
             <Accordion expanded={expanded === field.id}>
@@ -358,9 +365,9 @@ const CreatedFormFieldList = ({
                     </Typography>
 
                     <Typography className="field-header">
-                      Required :{" "}
+                      Mandatory :{" "}
                       <span className="field-value">
-                        {field.required.toString()}
+                        {field.required?.length > 0? 'Yes': 'No'}
                       </span>{" "}
                     </Typography>
                   </Box>
@@ -406,7 +413,6 @@ const CreatedFormFieldList = ({
                       >
                         <Grid size={12}>
                           <CustomTextField
-                            size="small"
                             control={control}
                             name="title"
                             placeholder="Field Name"
@@ -444,7 +450,6 @@ const CreatedFormFieldList = ({
                                   flexDirection={"column"}
                                 >
                                   <CustomTextField
-                                    size="small"
                                     defaultValue={optn.value}
                                     control={control}
                                     name={`option.${index}.value`}
@@ -461,12 +466,8 @@ const CreatedFormFieldList = ({
                       </Grid>
                       <CustomCheckbox
                         control={control}
-                        label={
-                          isFieldRequired
-                            ? "field is mandotory"
-                            : "field is optional "
-                        }
                         name="required"
+                        options={[{label: 'Mandatory', value: 'true'}]}
                       />
                     </Box>
                     <Box className="save-button-container">

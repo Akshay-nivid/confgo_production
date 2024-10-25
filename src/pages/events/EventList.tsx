@@ -41,6 +41,8 @@ const EventList = () => {
     const req = {
       offset: 0,
       limit: 5,
+      sortBy: 'id',
+      sortDirection: 'DESC',
       filters:filters
     };
 
