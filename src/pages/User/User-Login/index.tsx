@@ -9,13 +9,17 @@ import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-import apiClient from '@/Libs/Https/API-client';
 import { Logger } from '@/Utils/Logger';
 import useStore from '@/Libs/store';
-import { processAPIResponse } from '@/Utils/CommonBaseClass';
+import { registerComponent } from '@/Libs/DataHandler/dataHandler';
 interface IUserLogin {
   username: string;
   password: string;
+}
+
+type UserProps = {
+  id: string;
+  source?: any;
 }
 
 interface GoogleUserData {
@@ -42,28 +46,38 @@ interface GoogleUserData {
  * User Login page component
  *
  */
-const UserLogin = () => {
+const UserLogin = (props: UserProps) => {
+  ({ props } = registerComponent(props));
+
   const { control, handleSubmit } = useForm<IUserLogin>();
-  const { setDataById }: any = useStore();
+  const setDataById = useStore((state: any) => state.setDataById);
+  const POST = useStore((state: any) => state.POST);
+
   /**
    * function to handle login
    */
   const handleLogin = async (obj: IUserLogin) => {
-    const response = await apiClient.post('auth/login', obj);
-    const { status, message } = processAPIResponse(response, "authLogin");
-    if (status) {
-      sessionStorage.setItem("token", response.data.data.token);
-      setDataById('participantLogin', true)
-      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
-    }
-    else {
-      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message });
-    }
+    await POST({
+      url: 'auth/login',
+      body: obj,
+      id: props?.id,
+      successCB: (context: any) => {
+        if (context?.success) {
+          sessionStorage.setItem("token", context.data?.token);
+          setDataById('participantLogin', true);
+          setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
+        }
+      },
+      errorCB: (context: any) => {
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
+      }
+    });
   };
+
 
   /**
    * function to handle google login
-   * @param {any} data - The data to be sent to the server
+   * @param {any}
    */
   const googleSsoLogin = async (obj: GoogleUserData) => {
     const requestBody = {
@@ -74,16 +88,22 @@ const UserLogin = () => {
       email: obj.email ?? '',
       ...(obj.phone_number ? { phone: obj.phone_number } : {})
     };
-    const response = await apiClient.post('auth/ssoLogin', requestBody)
-    const { status, message } = processAPIResponse(response, "authLogin");
-    if (status) {
-      setDataById('participantLogin', true)
-      sessionStorage.setItem("token", response.data.data.token);
-      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
-    }
-    else {
-      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message });
-    }
+
+    await POST({
+      url: 'auth/ssoLogin',
+      body: requestBody,
+      id: props?.id,
+      successCB: (context: any) => {
+        if (context?.success) {
+          sessionStorage.setItem("token", context.data?.token);
+          setDataById('participantLogin', true);
+          setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
+        }
+      },
+      errorCB: (context: any) => {
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
+      }
+    });
   }
 
   return (

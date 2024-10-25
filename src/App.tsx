@@ -44,7 +44,7 @@ const userRoutes = [
     children: [
       {
         path: routes.userLogin(),
-        element: <UserLogin />,
+        element: <UserLogin id="participant-userLogin" />,
       },
       {
         path: routes.userRegister(),
@@ -153,7 +153,7 @@ function App() {
 
   return (
     <>
-      {snackBarInfo && (
+      {snackBarInfo?.open && (
         <SnackBarView
           open={snackBarInfo.open}
           autoHideDuration={snackBarInfo.autoHideDuration}
