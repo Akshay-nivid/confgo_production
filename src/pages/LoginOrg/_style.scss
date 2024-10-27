@@ -85,8 +85,15 @@
               row-gap: 2.083rem;
             }
             & .custom-button {
+              width: 360px;
+              height: 45px;
+              border-radius:5px;
               padding: 14px 116px;
               background-color: $clr_blue;
+              row-gap: 8px;
+              font-weight: 500;
+              font-size: 14px;
+              line-height: 16.94px;
             }
           }
           & .forgot-password-link {

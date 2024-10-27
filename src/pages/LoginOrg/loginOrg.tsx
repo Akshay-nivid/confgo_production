@@ -92,8 +92,9 @@ const LoginOrg = () => {
                     type="submit"
                     variant="contained"
                     className="w-full custom-button"
+                    style={{ textTransform: "none" }}
                   >
-                    Login
+                    Log In
                   </Button>
                 </form>
               </Grid>
