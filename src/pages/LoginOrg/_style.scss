@@ -4,7 +4,7 @@
     min-height: 100% !important;
     max-width: 100vw;
     margin-inline: auto;
-    & .grid-right{
+    & .grid-right {
       min-height: 100%;
       justify-content: end !important;
       align-items: center !important;
@@ -18,18 +18,18 @@
         border-radius: unset;
         background-size: 120% 120%;
         min-height: 70vh;
-        & .image-content-text{
+        & .image-content-text {
           margin-left: 4.875rem;
           margin-top: 4.125rem;
-          color:$clr_white;
-        
-          & .paragraph{
+          color: $clr_white;
+
+          & .paragraph {
             font-size: 2.167rem;
           }
         }
       }
     }
-    & .grid-left  {
+    & .grid-left {
       min-height: 100%;
       display: flex;
       justify-content: center;
@@ -51,64 +51,77 @@
           max-width: 36rem;
           display: flex;
           flex-direction: column;
-          row-gap: 0.8rem;
-        & .left-header-wrapper {
-          max-width: 38.33rem !important;
-          display: flex;
-          flex-direction: column;
-          text-align: center;
-          row-gap: 1.33rem;
-
-          & .header-title {
-            font-size: $h1 !important;
-            font-weight: $font_normal !important;
-          }
-          & .header-description {
-            font-size: $h5;
-            font-weight: $font_normal;
-            line-height: 1.21rem;
+          padding-top: 2.5rem;
+          & .left-header-wrapper {
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.21rem; 
             text-align: center;
+            
 
+            & .header-title {
+              font-size: 1.875rem;
+              font-weight: 700;
+              line-height: 3.5625rem;
+              text-align: center;
+            }
+            & .header-description {
+              font-size: 16px;
+              font-weight: 400;
+              line-height: 19.36px;
+              text-align: center;
+              color: #636363;
+            }
           }
-          
-        }
 
-        & .form-wrapper {
-          width: 100%;
-          max-width: 28.25rem;
-          margin-inline: auto;
-          & .form {
-            display: flex;
-            flex-direction: column;
-            row-gap: 2.083rem;
+          & .form-wrapper {
+            width: 360px;
+            height: 207px;
+            padding-top: 40px;
+            margin-inline: auto;
+            & .form {
+              display: flex;
+              flex-direction: column;
+              row-gap: 2.083rem;
+            }
+            & .custom-button {
+              padding: 14px 116px;
+              background-color: $clr_blue;
+            }
           }
-          & .custom-button{
-            padding: 14px 116px;
-            background-color: $clr_blue;
+          & .forgot-password-link {
+            font-size: 1.125rem;
+            font-weight: 700;
+            width: 19.9375rem; 
+            width: -moz-max-content;
+            width: max-content;
+            margin: auto;
+            line-height: 1.5rem;
+            color: #3a5afe;
+            height: 1.5rem; 
+            color: $clr_blue;
+            padding-top:0.625rem;
           }
         }
-        & .forgot-password-link {
-          font-size: $h6;
-          font-weight: $font_bold;
-          width: max-content;
-          margin: auto;
-          line-height: 2.5rem;
-          color: $clr_blue;
-      }
-          
+        &.account-link {
+          width: 19.9375rem;
+          height: 4.0625rem; 
+          margin-top: 1.0625rem;
         }
         & .already-have-account-link {
           text-align: center;
-          font-size: $h5 !important;
-          font-weight: $font_bold !important;
+          font-size: 1.125rem;
+          font-weight: 500 !important;
+          line-height: 1.5rem;
           margin-top: 4rem !important;
           & .signup-now-text {
-            color: $clr_blue;
-            font-size: $h6;
-            font-weight: $font_bold;
+            color: #3a5afe;
+            font-size: 1.125rem;
+            font-weight: 700;
+            line-height: 1.5rem;
           }
         }
-      } 
+      }
     }
   }
 }

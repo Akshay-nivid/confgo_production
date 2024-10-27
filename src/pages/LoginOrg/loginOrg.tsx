@@ -30,87 +30,104 @@ const LoginOrg = () => {
   /**
    * function used to login an organization
    */
-  const LoginOrg = async(data:FormData) => {
+  const LoginOrg = async (data: FormData) => {
     try {
       const requestBody = {
         username: data.email,
         password: data.password,
-
-      }
-      const response =await apiClient.post('auth/login', requestBody);
-      if(response.data.status ==='success') {
+      };
+      const response = await apiClient.post("auth/login", requestBody);
+      if (response.data.status === "success") {
         sessionStorage.setItem("token", response.data.data.token);
-        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:"Login Successfully"});
+        setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "success",
+          message: "Login Successfully",
+        });
         navigate(routes.dashboard());
       }
-    } catch (error:any) {
-      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:error.response.data.message});
+    } catch (error: any) {
+      setDataById("snackBarInfo", {
+        open: true,
+        autoHideDuration: 2000,
+        severity: "error",
+        message: error.response.data.message,
+      });
     }
-  }
-    return (
+  };
+  return (
     <Box className="login-org-main-container">
       <Grid container className="grid-layout">
         <Grid size={{ xs: 12, sm: 6 }} className="grid-left">
           <Grid className="left-content-wrapper">
-                <Grid className="left-inner-content">
-                <Grid className="left-header-wrapper">
+            <Grid className="left-inner-content">
+              <Grid className="left-header-wrapper">
                 <Typography className="header-title">Welcome Back!</Typography>
                 <Typography className="header-description">
-                        Access your dashboard and stay on top of your conferences.
+                  Access your dashboard and stay on top of your conferences.
                 </Typography>
-                </Grid>
-                <Grid className="form-wrapper">
+              </Grid>
+              <Grid className="form-wrapper">
                 <form
-                    noValidate
-                    onSubmit={handleSubmit(onSubmit)}
-                    className="form"
+                  noValidate
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="form"
                 >
-                    <CustomTextField
+                  <CustomTextField
                     control={control}
                     name="email"
                     label={"Email Address"}
                     type="email"
-                    
-                    />
-                    <CustomTextField
+                    placeholder="Email Address"
+                  />
+                  <CustomTextField
                     name="password"
                     label={"Password"}
                     type="password"
-                    
+                    placeholder="Password"
                     control={control}
-                    />
-                    <Button type="submit" variant="contained" className="w-full custom-button">
+                  />
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    className="w-full custom-button"
+                  >
                     Login
-                    </Button>
+                  </Button>
                 </form>
-                
-                </Grid>
+              </Grid>
 
-                <Grid>
+              <Grid className="account-link">
                 <Typography className="already-have-account-link">
-                    Don’t have an account? 
-                    <span className="signup-now-text">
+                  Don’t have an account?
+                  <span className="signup-now-text">
                     {""}
                     <Link to={routes.register()}> Sign Up </Link>{" "}
-                    </span>
-                    Now
+                  </span>
+                  Now
                 </Typography>
                 <Link className="" to={routes.login()}>
-                    <div className=" forgot-password-link">Forgot Password?</div>{" "}
+                  <div className="forgot-password-link">Forgot Password?</div>{" "}
                 </Link>
-                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
         <Grid size={{ xs: 12, sm: 6 }} className="grid-right">
           <Box className="right-image-container">
             <Typography className="image-content-text">
-                <Typography className="paragraph"> Unlock the Future of Conference </Typography> 
-                <Typography className="paragraph"> Management – Join Us Today! </Typography>
+              <Typography className="paragraph">
+                {" "}
+                Unlock the Future of Conference{" "}
+              </Typography>
+              <Typography className="paragraph">
+                {" "}
+                Management – Join Us Today!{" "}
+              </Typography>
             </Typography>
           </Box>
         </Grid>
-        
       </Grid>
     </Box>
   );
