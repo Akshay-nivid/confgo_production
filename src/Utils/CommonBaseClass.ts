@@ -6,6 +6,7 @@
  * @returns An object containing status and message extracted from the response.
  */
 export function processAPIResponse(response: any, api: string) {
+
   let status = false
   let message: any = "Success"
   let data: any;
@@ -38,7 +39,7 @@ export function processAPIResponse(response: any, api: string) {
       status = true;
       message = response.data?.message? response.data?.message: message;
       if (!Array.isArray(resData)) {
-        data = resData?.data;
+        data = resData?.data||resData;
       }
       else {
         data = resData;

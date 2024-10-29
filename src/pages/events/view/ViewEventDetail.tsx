@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
@@ -11,10 +11,66 @@ import Sessions from "./Sessions";
 import LocationCard from "./LocationCard";
 import UserListCard from "./UserListCard";
 import TemplateCard from "./TemplateCard";
+import { Logger } from "@/Utils/Logger";
+import apiClient from "@/Libs/Https/API-client";
+import { useParams } from "react-router-dom";
+import { processAPIResponse } from "@/Utils/CommonBaseClass";
+import moment from "moment";
 import FormBuilder from "@/components/FormBuilder/FormBuilder";
+import StatusComponent from "@/components/Status/StatusComponent";
 
 const ViewEventDetail = () => {
-
+  interface Status {
+    id: number;
+    statusName: string;
+    description: string;
+  }
+  
+  interface Program {
+    amount: string;
+    companyId: number;
+    description: string;
+    discount: number | null;
+    endTime: string;
+    eventClass: string;
+    id: number;
+    interval: string;
+    name: string;
+    parentId: number;
+    startTime: string; 
+    status: Status;
+    statusId: number;
+    title: string;
+    venueId: number;
+  }
+  
+  interface Venue {
+    id: number;
+    name: string;
+    address: string;
+    city: string;
+    state: string;
+  }
+  
+  interface Addon {
+    addons: Program[];
+    amount: string;
+    companyId: number;
+    description: string;
+    discount: number;
+    endTime: string; 
+    eventClass: string;
+    id: number;
+    interval: string;
+    name: string;
+    programs: Program[];
+    startTime: string; 
+    status: Status;
+    statusId: number;
+    title: string;
+    venue: Venue;
+    venueId: number;
+  }
   const eventData = {
     event_name: 'Annual Cardiology Symposium',
     time: "Aug 26, 2024 11:27 am",
@@ -103,19 +159,38 @@ const ViewEventDetail = () => {
   const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
+  const {id } = useParams<Record<string, string | undefined>>();
+  const [eventFullData,setEventFullData]=useState<Addon>();
+
+  useEffect(() => {
+    getEventDetails();
+  }, [])
+  /**
+   *function to  get Event detail
+   */
+  const getEventDetails = async () => {
+    try {
+      const response = await apiClient.get(`event/${id}`);
+      const { status, data } = await processAPIResponse(response, 'eventData');
+      if (status) {
+        setEventFullData(data)
+      }
+    } catch (error) {
+      Logger.error('ViewEventDetail', error);
+    }
+  }
 
   return <Grid >
     <Grid container
       className="event-detail-card" spacing={2} >
-      <Grid container size={{ xs: 12, sm: 12 }} flexDirection={"column"} >
+      <Grid size={{ xs: 12, sm: 12 }} flexDirection={"column"} >
         <Grid className="event-detail-header" size={{ xs: 12, sm: 6 }} >
-          <Grid display={"flex"} >
-            <Typography variant="h4">{eventData.event_name}</Typography>
-            <Grid alignItems={"center"} className="event-detail-header-status">
-              <Typography textAlign={"center"} variant="h6">{eventData.status}</Typography>
-            </Grid>
+          <Grid display={"flex"}>
+            <Typography variant="h4">{eventFullData?.name}</Typography>
+          {eventFullData?.statusId &&
+          <Grid ml={2}> <StatusComponent value={eventFullData?.statusId.toString()}/></Grid>}
           </Grid>
-          <Typography variant="h6">{eventData.time}</Typography>
+          <Typography variant="h6">{moment(eventFullData?.startTime).format('MMM D, YYYY h:mm a')}</Typography>
         </Grid>
       </Grid>
       <Grid container direction={"column"} size={{ xs: 12, sm: 12 }} >
@@ -123,7 +198,7 @@ const ViewEventDetail = () => {
         <Grid container direction={"column"} size={{ xs: 10, sm: 10 }} >
             <TabList className="event-detail-tab-layout" onChange={handleChange} aria-label="lab API tabs example">
               <Tab label="Event Information" value="1" />
-              <Tab label="Speakers" value="2" />
+              <Tab label="Event Contributors" value="2" />
               <Tab label="Sessions" value="3" />
               <Tab label="Location" value="4" />
               <Tab label="Users" value="5" />
@@ -131,15 +206,14 @@ const ViewEventDetail = () => {
               <Tab label="Custom Fields" value="7" />
             </TabList>
           </Grid>
-        
           <TabPanel value="1">
-            <EventInfoCard eventData={eventData} />
+            <EventInfoCard eventData={eventFullData} />
           </TabPanel>
           <TabPanel value="2">
             <SepekerCard eventData={eventData} />
           </TabPanel>
           <TabPanel value="3">
-            <Sessions eventData={eventData} />
+            <Sessions eventData={eventFullData} />
           </TabPanel>
           <TabPanel value="4">
             <LocationCard eventData={eventData} />

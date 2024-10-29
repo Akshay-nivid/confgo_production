@@ -44,7 +44,7 @@ const StatusComponent: React.FC<AppBarProps> = ({ value }) => {
   const status = findStatusById(value);
   return (
     <Grid className="data-grid-status">
-      <Typography sx={{ backgroundColor: status?.cellColor, color: status?.textColor, fontFamily: 'inherit', fontWeight: 600, fontSize: 15,textAlign:"center",borderRadius:10, }}>{getStatusValue(value)}</Typography>
+      <Typography sx={{alignItems:"center", backgroundColor: status?.cellColor, color: status?.textColor, fontFamily: 'inherit', fontWeight: 600, fontSize: 15,textAlign:"center",borderRadius:2, }}>{getStatusValue(value)}</Typography>
     </Grid>
   );
 };
