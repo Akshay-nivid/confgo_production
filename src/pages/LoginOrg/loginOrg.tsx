@@ -6,6 +6,7 @@ import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import routes from "@/router/routes";
 import apiClient from "@/Libs/Https/API-client";
 import useStore from "@/Libs/store";
+import { processAPIResponse } from "@/Utils/CommonBaseClass";
 
 /**
  * Component used to login an org
@@ -30,29 +31,41 @@ const LoginOrg = () => {
   /**
    * function used to login an organization
    */
-  const LoginOrg = async (data: FormData) => {
+  const LoginOrg = async (loginFields: FormData) => {
     try {
       const requestBody = {
-        username: data.email,
-        password: data.password,
+        username: loginFields.email,
+        password: loginFields.password,
       };
       const response = await apiClient.post("auth/login", requestBody);
-      if (response.data.status === "success") {
-        sessionStorage.setItem("token", response.data.data.token);
+      const { status, data, message } = await processAPIResponse(
+        response,
+        "orgLogin"
+      );
+      if (status) {
+        sessionStorage.setItem("token", data?.token);
+        apiClient.setToken(data?.token);
         setDataById("snackBarInfo", {
           open: true,
           autoHideDuration: 2000,
           severity: "success",
-          message: "Login Successfully",
+          message: message,
         });
         navigate(routes.dashboard());
+      } else {
+        setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "error",
+          message: message,
+        });
       }
     } catch (error: any) {
       setDataById("snackBarInfo", {
         open: true,
         autoHideDuration: 2000,
         severity: "error",
-        message: error.response.data.message,
+        message: error.toString(),
       });
     }
   };

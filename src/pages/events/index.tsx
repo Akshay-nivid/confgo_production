@@ -12,6 +12,9 @@ import apiClient from '@/Libs/Https/API-client';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';
 import { Alert, Snackbar } from '@mui/material';
 import { Logger } from '@/Utils/Logger';
+import { useNavigate } from 'react-router-dom';
+import routes from '@/router/routes';
+import useStore from '@/Libs/store';
 
 const steps = [
   { label: 'Create Event', description: '' },
@@ -28,9 +31,8 @@ const Events = () => {
   const [formData, setFormData] = useState<any>({});
   const [statusId, setStatusId] = useState('');
   const [addOnOptions, setAddOnOptions] = useState<any>()
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
+  const navigate = useNavigate();
+  const { setDataById }: any = useStore();
 
 
   /**
@@ -101,15 +103,13 @@ const Events = () => {
     try {
       const req = createFormRequest(formData)
       const response = await apiClient.post('event', req);
-      const { status, data, message } = await processAPIResponse(response, 'event-status');
+      const { status,  message } = await processAPIResponse(response, 'event-status');
       if (status) {
-        setSnackbarMessage(message);
-        setSnackbarSeverity('success');
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:message});
+        navigate(routes.events());
       }
       else {
-        const errorMessage = message || 'An error occurred while creating the event.';
-        setSnackbarMessage(errorMessage);
-        setSnackbarSeverity('error');
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:message});
       }
     }
     catch (e) {
@@ -117,9 +117,6 @@ const Events = () => {
     }
   };
 
-  const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
-  };
 
   /**
    * Method creates the form request for event creation
@@ -159,7 +156,7 @@ const Events = () => {
     }
 
     // Remove unwanted fields from programs and add-ons
-    req['programs'] = program.map(({ addonId, type, programType, ...rest }: any) => { return { ...rest, statusId } });
+    req['programs'] = program.map(({ addonId, type, programType, amount, ...rest }: any) => { return { ...rest, statusId, amount: amount? amount: 0 } });
     req['addon'] = addOn.map(({ description, name, type, programType, ...rest }: any) => rest);
 
     return req;
@@ -208,11 +205,6 @@ const Events = () => {
 
   return (
     <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper">
-      <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleSnackbarClose}>
-        <Alert onClose={handleSnackbarClose} severity={snackbarSeverity}>
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
       <Grid size={{ xs: 12, sm: 2 }} className="custom-stepper-main">
         <CustomStepper
           steps={steps}
