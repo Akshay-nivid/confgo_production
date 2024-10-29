@@ -16,6 +16,7 @@ import apiClient from "@/Libs/Https/API-client";
 import { useParams } from "react-router-dom";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import moment from "moment";
+import EventStatus from "./EventStatus";
 
 const ViewEventDetail = () => {
   interface Status {
@@ -185,9 +186,10 @@ const ViewEventDetail = () => {
         <Grid className="event-detail-header" size={{ xs: 12, sm: 6 }} >
           <Grid display={"flex"} >
             <Typography variant="h4">{eventFullData?.name}</Typography>
-            <Grid alignItems={"center"} className="event-detail-header-status">
+            {/* <Grid alignItems={"center"} className="event-detail-header-status">
               <Typography textAlign={"center"} variant="h6">{eventFullData?.status.statusName}</Typography>
-            </Grid>
+            </Grid> */}
+            <EventStatus status={eventFullData?.status.statusName}/>
           </Grid>
           <Typography variant="h6">{moment(eventFullData?.startTime).format('MMM D, YYYY h:mm a')}</Typography>
         </Grid>

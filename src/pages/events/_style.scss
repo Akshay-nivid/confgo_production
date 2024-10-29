@@ -198,7 +198,31 @@
             color: $clr_gray_light;
         }
     }
-
+    &-template-card {
+        &-header {
+            font-weight: $font-bold !important;
+            font-size: $h5 !important;
+        }
+        &-selection{
+            padding: 0.1rem;
+            cursor: pointer;
+            &:active {
+                border-radius: 0.8rem;
+                background-color:$clr_green;
+            }
+        }
+    }
+    &-status-box-active{
+        margin-left: 0.2rem;
+        background-color: $clr_red_light;
+        width: 6rem;
+        height: 3rem;
+        padding: 0.5rem;
+        color: $clr_red;
+        border-radius: 0.5rem;
+        font-size: $h6;
+        font-weight: $font_normal;
+    }
   
 } 
 

@@ -1,15 +1,15 @@
 import CustomButton from "@/components/CustomButton/CustomButton"
-import { Typography } from "@mui/material"
 import Grid from "@mui/material/Grid2"
 import DoneOutlineOutlinedIcon from '@mui/icons-material/DoneOutlineOutlined';
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
-import parse from 'html-react-parser';
+import HTMLReactParser from "html-react-parser/lib/index";
 const EventInfoCard = (eventData: any) => {
+    const description=HTMLReactParser(typeof eventData?.eventData?.description === 'string' ? eventData?.eventData?.description : '')
     return (
         <Grid className="event-detail-event-info-card" container spacing={2}>
             <Grid container size={{ xs: 12, sm: 10 }}>
                 <Grid>
-                    <Typography variant="h6">{parse(eventData?.eventData?.description)}</Typography>
+               {description}
                 </Grid>
             </Grid>
             <Grid container size={{ xs: 12, sm: 10 }} direction={'row'}>
