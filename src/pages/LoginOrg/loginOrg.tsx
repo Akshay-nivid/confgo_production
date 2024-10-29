@@ -92,11 +92,13 @@ const LoginOrg = () => {
                     name="email"
                     label={"Email Address"}
                     type="email"
+                    placeholder="Email Address"
                   />
                   <CustomTextField
                     name="password"
                     label={"Password"}
                     type="password"
+                    placeholder="Password"
                     control={control}
                   />
                   <Button
