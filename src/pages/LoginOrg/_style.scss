@@ -24,7 +24,7 @@
           color: $clr_white;
 
           & .paragraph {
-            font-size: 2.167rem;
+            font-size: $h3;
           }
         }
       }
@@ -53,24 +53,24 @@
           flex-direction: column;
           padding-top: 2.5rem;
           & .left-header-wrapper {
-            font-size: 1rem;
-            font-weight: 400;
+            font-size: $p3;
+            font-weight: $font_normal;
             line-height: 1.21rem; 
             text-align: center;
             
 
             & .header-title {
-              font-size: 1.875rem;
-              font-weight: 700;
+              font-size: $h4;
+              font-weight: $font_bold;
               line-height: 3.5625rem;
               text-align: center;
             }
             & .header-description {
-              font-size: 16px;
-              font-weight: 400;
+              font-size: $h6;
+              font-weight: $font_normal;
               line-height: 19.36px;
               text-align: center;
-              color: #636363;
+              color: $clr_sub_header;
             }
           }
 
@@ -91,22 +91,21 @@
               padding: 14px 116px;
               background-color: $clr_blue;
               row-gap: 8px;
-              font-weight: 500;
-              font-size: 14px;
+              font-weight: $font_medium;
+              font-size: $p3;
               line-height: 16.94px;
             }
           }
           & .forgot-password-link {
-            font-size: 1.125rem;
-            font-weight: 700;
+            font-size: $p2;
+            font-weight: $font_bold;
             width: 19.9375rem; 
             width: -moz-max-content;
             width: max-content;
             margin: auto;
             line-height: 1.5rem;
-            color: #3a5afe;
-            height: 1.5rem; 
             color: $clr_blue;
+            height: 1.5rem; 
             padding-top:0.625rem;
           }
         }
@@ -117,14 +116,14 @@
         }
         & .already-have-account-link {
           text-align: center;
-          font-size: 1.125rem;
-          font-weight: 500 !important;
+          font-size: $p2;
+          font-weight: $font_medium !important;
           line-height: 1.5rem;
           margin-top: 4rem !important;
           & .signup-now-text {
-            color: #3a5afe;
-            font-size: 1.125rem;
-            font-weight: 700;
+            color: $clr_blue;
+            font-size: $p2;
+            font-weight: $font_bold;
             line-height: 1.5rem;
           }
         }
