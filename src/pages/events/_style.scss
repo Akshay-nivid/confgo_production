@@ -167,6 +167,10 @@
             min-width: 15rem !important;
             border: 0.063rem solid $clr_green !important;
         }
+        &-event-link{
+            background-color: $clr_bright_gray;
+            border: 1px solid white
+        }
     }
     &-speakers-card{
         &-speaker-list{
@@ -236,8 +240,4 @@
     &-addons-grid{
         padding-bottom: 1rem;
     }
-}
-
-.event-template {
-    background-color: $clr_white;
 }
