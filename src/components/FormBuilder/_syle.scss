@@ -66,7 +66,8 @@
         width: 100%;
         max-width: 31.67rem;
         padding-inline: 1rem;
-        min-height: 100%;
+        overflow: auto !important;
+        height: 44rem !important;
         margin-inline: auto;
         .header-container {
           margin-bottom: 3.5rem;
@@ -107,6 +108,19 @@
         max-width: 41.67rem;
         margin-bottom: 2rem;
       }
+    }
+
+    &-title{
+      font-size: $h4 !important;
+    }
+    &-content{
+      font-size: $h6 !important;
+      &-container{
+        margin-bottom: 2rem;
+      }
+    }
+    &-sub-title{
+      font-size: $h6 !important;
     }
   }
   

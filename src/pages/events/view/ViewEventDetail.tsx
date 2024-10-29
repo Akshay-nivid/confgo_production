@@ -17,6 +17,7 @@ import { useParams } from "react-router-dom";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import moment from "moment";
 import EventStatus from "./EventStatus";
+import FormBuilder from "@/components/FormBuilder/FormBuilder";
 
 const ViewEventDetail = () => {
   interface Status {
@@ -204,6 +205,7 @@ const ViewEventDetail = () => {
               <Tab label="Location" value="4" />
               <Tab label="Users" value="5" />
               <Tab label="Template" value="6" />
+              <Tab label="Custom Fields" value="7" />
             </TabList>
           </Grid>
           <TabPanel value="1">
@@ -223,6 +225,9 @@ const ViewEventDetail = () => {
           </TabPanel>
           <TabPanel value="6">
             <TemplateCard />
+          </TabPanel>
+          <TabPanel value="7">
+            <FormBuilder />
           </TabPanel>
         </TabContext>
       </Grid>
