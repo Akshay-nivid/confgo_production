@@ -11,6 +11,7 @@ import Sessions from "./Sessions";
 import LocationCard from "./LocationCard";
 import UserListCard from "./UserListCard";
 import TemplateCard from "./TemplateCard";
+import FormBuilder from "@/components/FormBuilder/FormBuilder";
 
 const ViewEventDetail = () => {
 
@@ -127,6 +128,7 @@ const ViewEventDetail = () => {
               <Tab label="Location" value="4" />
               <Tab label="Users" value="5" />
               <Tab label="Template" value="6" />
+              <Tab label="Custom Fields" value="7" />
             </TabList>
           </Grid>
         
@@ -147,6 +149,9 @@ const ViewEventDetail = () => {
           </TabPanel>
           <TabPanel value="6">
             <TemplateCard />
+          </TabPanel>
+          <TabPanel value="7">
+            <FormBuilder />
           </TabPanel>
         </TabContext>
       </Grid>
