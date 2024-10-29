@@ -1,0 +1,118 @@
+.user-program-selection {
+  .content-container {
+    max-width: 37.33rem;
+    .header-container {
+      margin-bottom: 3.5rem;
+      .header-title {
+        font-size: $h2;
+        font-weight: $font-bold;
+      }
+    }
+    .programs-container {
+    }
+  }
+}
+
+.program-card {
+  padding-bottom: 2.3rem;
+  border-bottom: 0.12rem solid $clr_gray_faded;
+
+  .program-list-item-checkbox {
+    padding: 0;
+    margin-left: 0.9rem;
+    margin-right: 0.5rem;
+    svg {
+      width: 1.6rem;
+      height: 1.6rem;
+      fill: $clr_black;
+    }
+  }
+  .program-date-container {
+    margin-bottom: 1.8rem;
+    .program-date {
+      font-size: $h6;
+      font-weight: $font-bold;
+    }
+  }
+
+  .select-program-text {
+    margin-bottom: 1.2rem;
+    font-size: $h6;
+    font-weight: $font-medium;
+  }
+  .program-list-container {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    .program-list-item {
+      .program-list-item-label {
+        font-size: $p1;
+        font-weight: $font-normal;
+      }
+      .program-list-item-checkbox {
+        padding: 0 !important;
+        margin-left: 0.8rem;
+        margin-right: 0.5rem;
+        .MuiFormControlLabel-root {
+          .MuiFormControlLabel-label {
+            font-size: 1rem !important;
+            font-weight: 700 !important;
+          }
+        }
+        svg {
+          width: 1.6rem;
+          height: 1.6rem;
+          fill: $clr_black;
+        }
+      }
+    }
+  }
+  .select-food-text {
+    margin-block: 1.2rem;
+    font-size: $h6;
+    font-weight: $font-medium;
+  }
+  .food-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    .food-list-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      .food-list-item-label {
+        font-size: $h6;
+        font-weight: $font-semibold;
+      }
+      .food-list-item-checkbox {
+        padding: 0 !important;
+        margin-left: 0.8rem;
+        margin-right: 0.5rem;
+        .MuiFormControlLabel-root {
+          .MuiFormControlLabel-label {
+            font-size: 1rem !important;
+            font-weight: 700 !important;
+          }
+        }
+        svg {
+          width: 1.6rem;
+          height: 1.6rem;
+          fill: $clr_black;
+        }
+      }
+      .food-list-item-radio {
+        svg {
+          fill: $clr_black;
+        }
+      }
+      .food-list-item-radio-label {
+        font-size: $p1;
+        font-weight: $font-normal;
+        &.checked {
+          color: $clr_blue;
+        }
+      }
+    }
+  }
+}

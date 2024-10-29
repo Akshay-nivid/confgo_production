@@ -1,0 +1,89 @@
+import React from "react";
+import Grid from "@mui/material/Grid2";
+import { EventRegistrationSuccessIcon, QrIcon } from "@/assets/svg";
+import { Box, Typography } from "@mui/material";
+import CustomButton from "@/components/CustomButton/CustomButton";
+const RegistrationCompleted = () => {
+  return (
+    <Grid container className="event-registration-completed">
+      <Grid size={12} display={"flex"} justifyContent={"center"}>
+        <EventRegistrationSuccessIcon className="registration-completed-icon" />
+      </Grid>
+      <Grid size={12} display={"flex"} justifyContent={"center"}>
+        <Typography className="main-header">Registration Complete!</Typography>
+      </Grid>
+      <Grid
+        className="sub-header-container"
+        size={12}
+        display={"flex"}
+        justifyContent={"center"}
+      >
+        <Typography className="sub-header">
+          You're officially registered for the Tech Innovators Summit 2024!
+        </Typography>
+      </Grid>
+      <Grid size={12} display={"flex"} justifyContent={"center"}>
+        <Typography className="qr-header">Entry pass</Typography>
+      </Grid>
+      <Grid
+        className="qr-code-container"
+        size={12}
+        display={"flex"}
+        justifyContent={"center"}
+      >
+        <QrIcon className="qr-icon" />
+      </Grid>
+
+      <Grid size={12}>
+        <Box className="payment-bill-details-container">
+          <Box className="payment-bill-details">
+            <Box className="payment-bill-item">
+              <Typography className="info-text">Programs Total</Typography>
+              <Typography className="info-text">$720</Typography>
+            </Box>
+            <Box className="payment-bill-item">
+              <Typography className="info-text">Food Total</Typography>
+              <Typography className="info-text">$100</Typography>
+            </Box>
+          </Box>
+          <Box className="divider"></Box>
+          <Box className="payment-bill-details">
+            <Box className="payment-bill-item">
+              <Typography className="info-text">Subtotal</Typography>
+              <Typography className="info-text">$720</Typography>
+            </Box>
+            <Box className="payment-bill-item">
+              <Typography className="info-text">Coupon Code Applied</Typography>
+              <Typography className="info-text">$100</Typography>
+            </Box>
+          </Box>
+          <Box className="divider"></Box>
+          <Box className="payment-grand-total-container">
+            <Typography className="grand-total-info-text">
+              Grand Total
+            </Typography>
+            <Typography className="grand-total-info-text">$100</Typography>
+          </Box>
+        </Box>
+      </Grid>
+      <Grid size={12} display={"flex"} justifyContent={"center"}>
+        <CustomButton
+          size="large"
+          label="Back to Home"
+          className="back-to-home-btn"
+          onClick={() => {}}
+        />
+      </Grid>
+      <Grid size={12} className="note-container">
+        <Typography className="note-text">Note:</Typography>
+        <Typography className="note-description">
+          Your event ticket has been sent to your registered email address.
+          Please check your inbox (and spam folder) for the confirmation email,
+          including your ticket and event details.
+        </Typography>
+      </Grid>
+    </Grid>
+  );
+};
+
+export default RegistrationCompleted;
