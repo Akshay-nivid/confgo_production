@@ -16,8 +16,8 @@ import apiClient from "@/Libs/Https/API-client";
 import { useParams } from "react-router-dom";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import moment from "moment";
-import EventStatus from "./EventStatus";
 import FormBuilder from "@/components/FormBuilder/FormBuilder";
+import StatusComponent from "@/components/Status/StatusComponent";
 
 const ViewEventDetail = () => {
   interface Status {
@@ -183,14 +183,12 @@ const ViewEventDetail = () => {
   return <Grid >
     <Grid container
       className="event-detail-card" spacing={2} >
-      <Grid container size={{ xs: 12, sm: 12 }} flexDirection={"column"} >
+      <Grid size={{ xs: 12, sm: 12 }} flexDirection={"column"} >
         <Grid className="event-detail-header" size={{ xs: 12, sm: 6 }} >
-          <Grid display={"flex"} >
+          <Grid display={"flex"}>
             <Typography variant="h4">{eventFullData?.name}</Typography>
-            {/* <Grid alignItems={"center"} className="event-detail-header-status">
-              <Typography textAlign={"center"} variant="h6">{eventFullData?.status.statusName}</Typography>
-            </Grid> */}
-            <EventStatus status={eventFullData?.status.statusName}/>
+          {eventFullData?.statusId &&
+          <Grid ml={2}> <StatusComponent value={eventFullData?.statusId.toString()}/></Grid>}
           </Grid>
           <Typography variant="h6">{moment(eventFullData?.startTime).format('MMM D, YYYY h:mm a')}</Typography>
         </Grid>
