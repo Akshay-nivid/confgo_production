@@ -102,7 +102,6 @@ const AddPlan = React.memo(() => {
       const response = await apiClient.post(`plan/list`, {});
       const { status, data, message } = await processAPIResponse(response, 'plan list');
       if (status) {
-        console.log(data,'full data is getting here')
         setPlanList(data);
         if(form1?.field_values){
           setcurrentPlan(form1.field_values.name)
