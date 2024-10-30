@@ -1,46 +1,41 @@
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-// import template1 from '../../../assets/png/template1.png'
-// import template2 from '../../../assets/png/template2.png'
-// import template3 from '../../../assets/png/template3.png'
+import template1 from '../../../assets/png/template1.png'
+
 
 const TemplateCard = () => {
-    const templateData = [
+    interface TemplateType{
+        id:number,
+        name:string,
+        description:string,
+        image:string
+    }
+    const templateData :TemplateType[] = [
         {
             id: 1,
             name: 'Template 1',
             description: 'Description 1',
-            image: 'template1'
-        },
-        {
-            id: 1,
-            name: 'Template 1',
-            description: 'Description 1',
-            image: 'template2',
-        },
-        {
-            id: 1,
-            name: 'Template 1',
-            description: 'Description 1',
-            image: 'template3',
+            image: template1
         },
     ]
+    /**
+   *function to handle template selection
+   */
+    const templateSelected=(_item:TemplateType)=>{
+    }
     return (
-        <Grid container spacing={2}>
+        <Grid className="event-detail-template-card" container spacing={2}>
             <Grid container size={{ xs: 12, md:12}}>
-                <Typography variant="h6">
+                <Typography className="event-detail-template-card-header" >
                     Templates
                 </Typography>
             </Grid>
-            <Grid container size={{ xs: 12, md: 6, lg: 4 }}>
-            </Grid>
-            <Grid container size={{ xs: 12, md: 6, lg: 4 }}>
-                {templateData.map((item) => (
-                    <Grid display={'flex'} justifyContent={'center'} alignItems={'center'} key={item.id}>
-                        <img src={item.image} alt={item.name} width={100} height={100} />
-                    </Grid>
-                ))}
-
+            <Grid container className="event-detail-template-card-selection" >
+            {templateData.map((item) => (
+                <Grid onClick={() => templateSelected(item)}>
+                    <img id={item.id.toString()} src={item.image} alt={item.name} />
+                </Grid>
+            ))}
             </Grid>
         </Grid>
     );
