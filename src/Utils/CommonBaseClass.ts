@@ -1,56 +1,52 @@
-
-
 /**
- * Process the API response to extract status and message. 
- * @param 
+ * Process the API response to extract status and message.
+ * @param
  * @returns An object containing status and message extracted from the response.
  */
 export function processAPIResponse(response: any, api: string) {
-  let status = false
-  let message: any = "Success"
+  let status = false;
+  let message: any = "Success";
   let data: any;
-  const resData = response?.response?.data;
+  const resData = response?.response?.data || response?.data?.data;
 
   try {
     if (response.status === 401 && !api.includes("login")) {
-      status = false
-      message = resData.message
-      sessionStorage.clear();
-      window.location.href = '/login';
-      return { status, message, data }
-    }
-    else if (response.status === 401 && api.includes("login")) {
-      status = false
+      status = false;
       message = resData.message;
-      return { status, message, data }
-    }
-    else if (response.status === 400 || response.status == 403) {
+      sessionStorage.clear();
+      window.location.href = "/login";
+      return { status, message, data };
+    } else if (response.status === 401 && api.includes("login")) {
+      status = false;
+      message = resData.message;
+      return { status, message, data };
+    } else if (
+      response.status === 400 ||
+      response.status == 403 ||
+      response.status == 500
+    ) {
       status = false;
       if (Array.isArray(resData.message)) {
         message = resData.message[0].msg;
+        data = resData;
       } else {
         message = resData.message;
-      }
-    }
-    else if (response.status == 200) {
-      status = true;
-      message = message;
-      if (!Array.isArray(resData)) {
-        data = resData?.data;
-      }
-      else {
         data = resData;
       }
-    }
-    else{
+    } else if (response.status == 200 || response.status == 201) {
+      status = true;
+      message = response.data?.message ? response.data?.message : message;
+      if (!Array.isArray(resData)) {
+        data = resData?.data || resData;
+      } else {
+        data = resData;
+      }
+    } else {
       status = false;
       message = resData.message;
     }
-
-  } catch (e) {
-
-  }
-  return { status, message, data }
+  } catch (e) {}
+  return { status, message, data };
 }
 
 /**
@@ -64,13 +60,16 @@ export function processAPIResponse(response: any, api: string) {
  *                   the form's state to be updated accordingly. This function
  *                   expects a key of type keyof T and a value of type T[keyof T].
  */
-export const setFormValues = <T extends object>(data: Partial<T>, setValue: (key: keyof T, value: T[keyof T]) => void) => {
+export const setFormValues = <T extends object>(
+  data: Partial<T>,
+  setValue: (key: keyof T, value: T[keyof T]) => void
+) => {
   for (const key in data) {
     if (key in data) {
       const value = data[key as keyof T];
-      
-      if (value !== undefined) { 
-        setValue(key as keyof T, value); 
+
+      if (value !== undefined) {
+        setValue(key as keyof T, value);
       }
     }
   }
@@ -81,7 +80,7 @@ export const setFormValues = <T extends object>(data: Partial<T>, setValue: (key
  * @returns : converted string
  */
 export const toSentenceCase = (input: string) => {
-  if(!input) return '';
+  if (!input) return "";
   return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
 };
 
@@ -89,11 +88,16 @@ export const toSentenceCase = (input: string) => {
  * Method returns the value to be taken from the data array based on a comparison parameter
  * @param data : data array
  * @param cmp1 : parameter to be compared in the data
- * @param cmp2 : value to be compared 
+ * @param cmp2 : value to be compared
  * @param name : returned parameter
- * @returns 
+ * @returns
  */
-export const getValueFromArrayBasedOnParameter = (data: any, cmp1: any, cmp2: any, name: any) => {
-  if(!(data || cmp1 || cmp2 || name)) return '';
-  return data?.find((item: any) => item[cmp1] == cmp2)?.[name]
-}
+export const getValueFromArrayBasedOnParameter = (
+  data: any,
+  cmp1: any,
+  cmp2: any,
+  name: any
+) => {
+  if (!(data || cmp1 || cmp2 || name)) return "";
+  return data?.find((item: any) => item[cmp1] == cmp2)?.[name];
+};

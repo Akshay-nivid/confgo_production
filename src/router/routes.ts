@@ -4,7 +4,8 @@ const routes = {
   login: () => "/login",
   register: () => "/register",
   events: () => "/events",
-  createEvent: () => "/event/create",
+  createEvent: () => "/events/create",
+  viewEvent: (id: string | number) => `/events/detail/${id}`,
   template: () => "/template",
   coupon: () => "/coupon",
   createCoupon: () => "/coupon/create",
@@ -30,6 +31,7 @@ const routes = {
   selectedPrograms: () => "/user/selected-programs",
   userPaymentMethod: () => "/user/payment",
   userEventRegistrationCompleted: () => "/user/event-registration-completed",
+  formBuilder: () => "/formbuilder",
 };
 
 export default routes;

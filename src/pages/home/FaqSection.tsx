@@ -1,4 +1,4 @@
-import FAQCard from "@/pages/Home-Layout/FaqAccordion";
+import FAQCard from "../home-layout/FaqAccordion";
 import Grid from "@mui/material/Grid2";
 import Typography from "@mui/material/Typography";
 

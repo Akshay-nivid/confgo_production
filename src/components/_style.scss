@@ -685,3 +685,21 @@
   border-radius: 0.83rem; /* Rounded corners */
   box-shadow: 0rem 0.33rem 0.83rem rgba(0, 0, 0, 0.1); /* Custom shadow */
 }
+
+.data-grid-status{
+  width: 8rem;
+  height: 6rem;
+  margin-top: 1rem;
+}
+
+.snackBar{
+  .MuiPaper-root{
+    align-items: center;
+    .MuiAlert-action{
+      padding:0.5rem !important
+    }
+    .MuiAlert-message{
+     font-size: $p3 !important;
+    }
+  }
+}

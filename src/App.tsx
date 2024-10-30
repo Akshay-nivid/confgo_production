@@ -5,9 +5,9 @@ import AuthenticatedRoute from "./router/AuthenticatedRoute";
 import Dashboard from "@/pages/dashboard";
 import Events from "@/pages/events";
 import CalendarRoute from "@/pages/calendar";
-import Home from "@/pages/Home";
-import Pricing from "@/pages/Pricing";
-import HomeLayout from "@/pages/Home-Layout";
+import Home from "./pages/home";
+import Pricing from "./pages/pricing";
+import HomeLayout from "./pages/home-layout";
 import Login from "./pages/Login/Login";
 import CreateCoupon from "./pages/coupon/CreateCoupon";
 import LoginOrg from "@/pages/LoginOrg/loginOrg";
@@ -19,6 +19,7 @@ import Coupon from "./pages/coupon";
 import useStore from "./Libs/store";
 import CouponView from "./pages/coupon/CouponView";
 import Contact from "./pages/contact/contact";
+import "@/styles/main.scss";
 
 import UserLayout from "./pages/User/User-Layout";
 import UserLogin from "./pages/User/User-Login";
@@ -32,6 +33,10 @@ import ProgramSelection from "./pages/User/Program-Selection";
 import SelectedPrograms from "./pages/User/Selected-Programs";
 import PaymentMethod from "./pages/User/Payment-Method";
 import RegistrationCompleted from "./pages/User/Registration-Completed";
+import FormBuilder from "./components/FormBuilder/FormBuilder";
+import ViewEventDetail from "./pages/events/view/ViewEventDetail";
+import CreateEvent from "./pages/events/CreateEvent";
+import EventList from "./pages/events/EventList";
 
 /**
  * Create your router configuration
@@ -46,7 +51,7 @@ const userRoutes = [
       },
       {
         path: routes.userLogin(),
-        element: <UserLogin />,
+        element: <UserLogin id="participant-userLogin" />,
       },
       {
         path: routes.userRegister(),
@@ -114,6 +119,10 @@ const router = createBrowserRouter([
     element: <AuthenticatedRoute />,
     children: [
       {
+        path: routes.formBuilder(),
+        element: <FormBuilder />,
+      },
+      {
         element: <Layout />,
         children: [
           {
@@ -121,8 +130,16 @@ const router = createBrowserRouter([
             element: <Dashboard />,
           },
           {
-            path: routes.events(),
+            path: routes.createEvent(),
             element: <Events />,
+          },
+          {
+            path: routes.events(),
+            element: <EventList />,
+          },
+          {
+            path: routes.viewEvent(":id"),
+            element: <ViewEventDetail />,
           },
           {
             path: routes.coupon(),
@@ -166,7 +183,7 @@ function App() {
 
   return (
     <>
-      {snackBarInfo && (
+      {snackBarInfo?.open && (
         <SnackBarView
           open={snackBarInfo.open}
           autoHideDuration={snackBarInfo.autoHideDuration}

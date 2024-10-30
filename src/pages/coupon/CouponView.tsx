@@ -211,7 +211,7 @@ const CouponView: React.FC = () => {
                         placeholder='Start Date'
                         name='startDate'
                         control={control}
-                        defaultValue={coupon?.startDate ? new Date(coupon.startDate) : null} // Convert to Date object
+                        defaultValue={coupon?.startDate ? moment(coupon.startDate).format('YYYY-MM-DD') : null}
                         rules={{ required: 'Start Date is required' }}
                         label='Start Date'
                         requiredField
