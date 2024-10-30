@@ -21,7 +21,7 @@ const SelectedPrograms = () => {
   console.log(selectedProgramIdArray, "selectedProgramIdArray");
   const selectedPrograms = event?.programs
     ? event.programs
-        .filter((item: src any) =>
+        .filter((item: any) =>
           selectedProgramIdArray?.selectedProgramsId?.includes(
             item.id.toString()
           )
@@ -84,7 +84,7 @@ const SelectedPrograms = () => {
 
                     <Box className="food-list-container">
                       <Box className="">
-                        {event?.addons.map((item, index) => (
+                        {event?.addons.map((item:any, index:number) => (
                           <Box key={index} className="food-list-item">
                             <CustomCheckbox
                               control={control}
