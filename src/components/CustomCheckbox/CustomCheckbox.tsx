@@ -22,6 +22,7 @@ interface FxCheckEditProps extends Partial<ControllerProps> {
   label?: string;
   updateOptions?: boolean;
   value?: any;
+  control?:any
 }
 
 /*

@@ -55,7 +55,7 @@ const userRoutes = [
       },
       {
         path: routes.userRegister(),
-        element: <UserRegister />,
+        element: <UserRegister id="participant-userRegister" />,
       },
       {
         path: routes.userOtp(),
