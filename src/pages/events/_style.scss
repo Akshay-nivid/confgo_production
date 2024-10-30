@@ -182,6 +182,43 @@
         &-speaker-designation{
             color: $clr_gray_light;
         }
+        &-speaker-add-button{
+            border: solid 0.05rem $clr_black !important;
+            color:$clr_black !important
+        }
+        &-contributor-back-label{
+        font-size: $h6 !important;
+        font-weight: $font-semibold !important;
+        }
+        &-contributor-header{
+            font-size: $h5 !important;
+            font-weight: $font-semibold !important;
+
+        }
+        &-btn-container{
+            justify-content: center;
+            align-items: center;
+            margin: 2rem;
+
+            
+            &-photo-btn{
+                border:solid 0.05rem $clr_green !important ;
+                margin-right: 1rem !important;
+                color: $clr_green !important;
+            }
+            &-submit-btn{
+                margin-left: 1rem !important;
+                background-color: $clr_green !important;
+            }
+            &-photo-txt{
+                color: $clr_red;
+            }
+            &-selected-img{
+                width: 5rem;
+                height: 5rem;
+                
+            }
+        }
     }
     &-sessions-card{
         &-session-list{
