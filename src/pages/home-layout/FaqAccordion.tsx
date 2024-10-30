@@ -12,8 +12,9 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
  */
 const FAQCard = () => {
   return (
-    <Accordion disableGutters>
+    <Accordion disableGutters className="faq-accordion">
       <AccordionSummary
+        className="faq-accordion-summary"
         expandIcon={<ExpandMoreIcon />}
         aria-controls="panel1a-content"
         id="panel1a-header"
