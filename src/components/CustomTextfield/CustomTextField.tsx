@@ -45,7 +45,7 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   multiline?: boolean;
   rows?: number;
   disabled?: boolean;
-  size?: "small" | "medium" | "large";
+  size?: "small" | "medium" | undefined;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   readOnly?: boolean;
 }
@@ -187,8 +187,6 @@ const CustomTextField = <T extends FieldValues>({
                   size={size}
                   error={error?.message ? true : false}
                   id={name}
-                  multiline={multiline}
-                  rows={rows}
                   //  onChange={onChange}
                   type={type === "password" ? passwordType : type}
                   label={label}
