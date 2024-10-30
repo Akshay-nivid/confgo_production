@@ -21,7 +21,7 @@ const SelectedPrograms = () => {
   console.log(selectedProgramIdArray, "selectedProgramIdArray");
   const selectedPrograms = event?.programs
     ? event.programs
-        .filter((item: any) =>
+        .filter((item: src any) =>
           selectedProgramIdArray?.selectedProgramsId?.includes(
             item.id.toString()
           )
