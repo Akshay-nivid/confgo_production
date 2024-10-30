@@ -99,12 +99,12 @@ const useStore = create<StoreState>()(
                 const response = await apiClient.post(url, body);
                 const { status, data, message } = processAPIResponse(response, id);
                 if (status) {
-                    let context = { ...data, loading: false, success: true }
+                    let context = { data: data, loading: false, success: true }
                     get().setDataById(id, { context, timestamp: Date.now() });
                     successCB?.(context);
 
                 } else {
-                    let context = { ...data, loading: false }
+                    let context = { data: data, loading: false, message:message }
                     get().setDataById(id, { message, context });
                     errorCB?.(context)
                 }
