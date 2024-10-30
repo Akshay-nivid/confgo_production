@@ -5,7 +5,7 @@ $bg_light: #f0f9ff;
 $bg_plans: #eaf5ff;
 $border_list: #f8f9ff;
 $light_grey: #718096;
-$clr_offwhite:#F1F1F1;
+$clr_offwhite: #f1f1f1;
 $medium_grey: #f2f2f2;
 
 $clr_black: #000000;
@@ -22,28 +22,28 @@ $clr_yellow_light: #fcfeeb;
 $clr_gray_dark: #807f7f;
 $clr_requirement_text: #979797;
 $clr_teal: #0b4b54;
-$clr_tab_border_color:#CFD4DA;
-$clr_light_black: #0000000D;
+$clr_tab_border_color: #cfd4da;
+$clr_light_black: #0000000d;
 $clr_gray_dark_text: #404040;
-$clr_yellow_green: #E9F549;
+$clr_yellow_green: #e9f549;
 $clr_grey: #718096;
 $clr_gray_medium: #b3b3b3;
 $clr_gray_light: #c8cbd9;
 $clr_gray_extra_light: #d0d5dd;
 $clr_gray_faded: #dcdcdc;
-$clr_gray_very_light: #E9E9E9;
+$clr_gray_very_light: #e9e9e9;
 $clr_disabled: #ccc;
-$clr_sub_header:#636363;
+$clr_sub_header: #636363;
 $border_list: #f8f9ff;
-$clr_status_bar: #E8EBFF;
-$clr_green_medium: #E7F7EF;
-$clr_field:#424242;
-$clr_light_grey:#F6F6F6;
-$clr_light_orange:#FFECDF;
-$clr_dark_orange:#F39200;
-$clr_light_green:#E7F7EF;
-$clr_dark_green:#0CAF60;
-$clr_blue:#3a5afe;
+$clr_status_bar: #e8ebff;
+$clr_green_medium: #e7f7ef;
+$clr_field: #424242;
+$clr_light_grey: #f6f6f6;
+$clr_light_orange: #ffecdf;
+$clr_dark_orange: #f39200;
+$clr_light_green: #e7f7ef;
+$clr_dark_green: #0caf60;
+$clr_blue: #3a5afe;
 
 //Font weight
 $font_normal: 400;
@@ -60,9 +60,8 @@ $h3: 2.167rem; //26px
 $h4: 2rem; //24 px
 $h5: 1.666rem; // 20px
 $h6: 1.333rem; //16px
-$p1: 1.25rem;
-$p2: 1.167rem;
+$p1: 1.25rem; // 15px
+$p2: 1.167rem; // 14px
 $p3: 1rem; //12px
 
-
-$font: 'Inter', sans-serif;
+$font: "Inter", sans-serif;

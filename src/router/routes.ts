@@ -1,5 +1,3 @@
-
-
 const routes = {
   home: () => "/",
   dashboard: () => "/dashboard",
@@ -7,11 +5,11 @@ const routes = {
   register: () => "/register",
   events: () => "/events",
   createEvent: () => "/events/create",
-  viewEvent:(id:string|number)=>`/events/detail/${id}`,
+  viewEvent: (id: string | number) => `/events/detail/${id}`,
   template: () => "/template",
   coupon: () => "/coupon",
-  createCoupon: ()=> "/coupon/create",
-  CouponView: (id:string|number) => `/coupon/${id}`,
+  createCoupon: () => "/coupon/create",
+  CouponView: (id: string | number) => `/coupon/${id}`,
   form1: () => "/pages/form1",
   form2: () => "/pages/form2",
   calendar: () => "/calendar",
@@ -20,8 +18,8 @@ const routes = {
   contact: () => "/contact",
   demo: () => "/demo",
   LoginOrg: () => "/organization/login",
-  SetPassword : () => "/setpassword",
-  verifyEmail : () => `/verify-email/:token/:id`,
+  SetPassword: () => "/setpassword",
+  verifyEmail: () => `/verify-email/:token/:id`,
   user: () => "/user",
   participantHome: () => "/participant/home",
   userLogin: () => "/user/login",
@@ -30,7 +28,10 @@ const routes = {
   userSetPassword: () => "/user/setpassword",
   userSetPasswordSuccessful: () => "/user/setpassword-successful",
   programSelection: () => "/user/programs",
-  formBuilder:()=>"/formbuilder",
+  selectedPrograms: () => "/user/selected-programs",
+  userPaymentMethod: () => "/user/payment",
+  userEventRegistrationCompleted: () => "/user/event-registration-completed",
+  formBuilder: () => "/formbuilder",
 };
 
 export default routes;

@@ -6,8 +6,8 @@ import {
   IconButton,
   FormHelperText,
   Typography,
-} from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material'; // Example icon, replace with your preferred icon
+} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material"; // Example icon, replace with your preferred icon
 import {
   Control,
   Controller,
@@ -17,7 +17,7 @@ import {
   RegisterOptions,
 } from "react-hook-form";
 import { EventHandler, useState } from "react";
-import { clsx } from 'clsx';
+import { clsx } from "clsx";
 
 interface ICustomTextFieldProps<T extends FieldValues> {
   prefixIconButton?: React.ReactNode;
@@ -36,15 +36,16 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   rules?: RegisterOptions<T>;
   control?: Control<T>;
   style?: React.CSSProperties;
-  showHeader?:boolean;
-  requiredField?:boolean;
-  defaultValue?:PathValue<T, Path<T>>;
-  value?:PathValue<T, Path<T>>;
+  showHeader?: boolean;
+  requiredField?: boolean;
+  defaultValue?: PathValue<T, Path<T>>;
+  value?: PathValue<T, Path<T>>;
   className?: string;
   formControlClassName?: string;
-  multiline?:boolean;
+  multiline?: boolean;
   rows?: number;
   disabled?: boolean;
+  size?: "small" | "medium" | "large";
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
@@ -68,9 +69,10 @@ const CustomTextField = <T extends FieldValues>({
   requiredField = false,
   defaultValue,
   value,
+  size = "medium",
   onChange,
-  multiline=false,
-  disabled= false,
+  multiline = false,
+  disabled = false,
   rows,
   ...props
 }: ICustomTextFieldProps<T>) => {
@@ -118,13 +120,13 @@ const CustomTextField = <T extends FieldValues>({
       );
     }
 
-    if (type === 'password') {
+    if (type === "password") {
       propsObj.endAdornment = (
         <InputAdornment position="end">
           <IconButton
             className={`custom-text-field-icon-btn`}
             onClick={
-              type === 'password'
+              type === "password"
                 ? handleTogglePassword
                 : props.handleToggleSuffixIcon
             }
@@ -154,8 +156,17 @@ const CustomTextField = <T extends FieldValues>({
   return (
     <>
       <FormControl fullWidth className="custom-text-field">
-        {showHeader && <Typography className="label-header" variant="h6">{placeholder}{requiredField && <span className="error-text">*</span>}</Typography>}
-        {<InputLabel htmlFor={name}  className='custom-text-field-placeholder'>{placeholder}</InputLabel> }
+        {showHeader && (
+          <Typography className="label-header" variant="h6">
+            {placeholder}
+            {requiredField && <span className="error-text">*</span>}
+          </Typography>
+        )}
+        {
+          <InputLabel htmlFor={name} className="custom-text-field-placeholder">
+            {placeholder}
+          </InputLabel>
+        }
         <Controller
           name={name}
           defaultValue={defaultValue}
@@ -163,7 +174,7 @@ const CustomTextField = <T extends FieldValues>({
           disabled={disabled}
           rules={rules}
           render={({ field, fieldState: { error } }) => {
-            const passwordType = isShowPassword ? 'text' : 'password';
+            const passwordType = isShowPassword ? "text" : "password";
             return (
               <>
                 <OutlinedInput
@@ -171,22 +182,23 @@ const CustomTextField = <T extends FieldValues>({
                   {...field}
                   {...props}
                   name={name}
+                  size={size}
                   error={error?.message ? true : false}
                   id={name}
                   multiline={multiline}
                   rows={rows}
-                //  onChange={onChange}
-                  type={type === 'password' ? passwordType : type}
+                  //  onChange={onChange}
+                  type={type === "password" ? passwordType : type}
                   label={label}
-                  multiline={multiline? true: false}
-                  rows={rows? rows: 1}
+                  multiline={multiline ? true : false}
+                  rows={rows ? rows : 1}
                   className={clsx(
                     error
-                      ? 'custom-text-field error-input'
-                      : 'custom-text-field',
+                      ? "custom-text-field error-input"
+                      : "custom-text-field",
                     props.className
                   )}
-                  placeholder={type === "date" ? "" : placeholder} 
+                  placeholder={type === "date" ? "" : placeholder}
                   {...inputProps()}
                 />
                 {error?.message && (
