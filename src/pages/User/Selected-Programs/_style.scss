@@ -1,0 +1,112 @@
+.selected-programs-main {
+  .selected-programs-main-header {
+    .header-title {
+      margin-bottom: 0.5rem;
+      font-size: $h2;
+      font-weight: $font-bold;
+    }
+    .header-description {
+      margin-bottom: 3rem;
+      font-size: $h6;
+      font-weight: $font_bold;
+      color: $clr_requirement_text;
+    }
+  }
+  .selected-program-card-wrapper {
+    background-color: $clr_gray_very_light;
+    border-radius: 0.88rem;
+    // max-width: 50rem;
+    margin-inline: auto;
+    .selected-program-card-content {
+      padding-inline: 2.5rem;
+      padding-block: 1.666rem;
+      .sub-header {
+        margin-bottom: 2rem;
+        font-size: $h6;
+        font-weight: $font_semibold;
+      }
+      .program-list-container {
+        margin-bottom: 2rem;
+      }
+    }
+    .divider {
+      height: 0.1rem;
+      width: 100%;
+      background-color: $clr_gray_extra_light;
+    }
+    .subtotal-container {
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+      padding-top: 2rem;
+      padding-bottom: 2.5rem;
+      .total-text {
+        font-size: $h5;
+        font-weight: $font_bold;
+      }
+    }
+  }
+  .coupon-container {
+    margin-top: 1.66rem;
+    width: 100%;
+    margin-bottom: 2rem;
+    .coupon-header-text {
+      margin-bottom: 1.4rem;
+    }
+    .apply-coupon-button {
+      height: 100%;
+      width: 100%;
+      color: $clr_black;
+      border-color: $clr_black;
+      border-radius: 0.5rem;
+      font-size: $p1;
+      .coupon-icon {
+      }
+    }
+  }
+  .grand-total-container {
+    display: flex;
+    justify-content: space-between;
+    padding-inline: 2.5rem;
+    background-color: $clr_gray_very_light;
+    margin-bottom: 4rem;
+    border-radius: 0.88rem;
+    .total-text {
+      font-weight: $font_semibold;
+      font-size: $h5;
+      padding-block: 1rem;
+    }
+  }
+  .navigation-btn-group-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: 0.8rem;
+    .back-btn {
+      border-color: $clr_black;
+      color: $clr_black;
+      min-width: 8rem;
+    }
+    .next-btn {
+      background-color: $clr_black;
+      min-width: 8rem;
+    }
+  }
+  .food-list-item-checkbox,
+  .program-list-item-checkbox {
+    padding: 0 !important;
+    margin-left: 0.8rem;
+    margin-right: 0.5rem;
+    .MuiFormControlLabel-root {
+      .MuiFormControlLabel-label {
+        font-size: 1rem !important;
+        font-weight: 700 !important;
+      }
+    }
+    svg {
+      width: 1.6rem;
+      height: 1.6rem;
+      fill: $clr_black;
+    }
+  }
+}

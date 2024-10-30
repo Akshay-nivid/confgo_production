@@ -43,7 +43,6 @@ const isFieldTypePresent = (type: string) =>
  *
  */
 const FormBuilder = () => {
-
   const { control, handleSubmit, reset, watch } = useForm<ICreateFormField>({
     defaultValues: {
       title: "",
@@ -64,7 +63,7 @@ const FormBuilder = () => {
     };
 
     setFormFields((prev) => {
-      const updatedFields = [...prev, newData].reverse();;
+      const updatedFields = [...prev, newData].reverse();
       return updatedFields;
     });
 
@@ -88,7 +87,6 @@ const FormBuilder = () => {
 
   const isFieldRequired = watch("required");
 
-
   function handleSaveToLocalStorage(key: string, data: any) {
     localStorage.setItem(key, JSON.stringify(data));
   }
@@ -104,20 +102,20 @@ const FormBuilder = () => {
     <Grid justifyContent={"center"} container className="form-builder layout">
       <Grid container size={12} spacing={2}>
         <Grid size={12}>
-        <Typography className="form-builder-title">
-              Custom Form Builder
-            </Typography> 
+          <Typography className="form-builder-title">
+            Custom Form Builder
+          </Typography>
         </Grid>
         <Grid size={12} className="form-builder-content-container">
-        <Typography className="form-builder-content">
-        Custom Fields Builder allows you to easily create and customize fields for your forms. Tailor your input options
-         to gather the
-            </Typography> 
-            <Typography className="form-builder-content">
-             exact information you need, with a simple and user-friendly interface.
-            </Typography> 
+          <Typography className="form-builder-content">
+            Custom Fields Builder allows you to easily create and customize
+            fields for your forms. Tailor your input options to gather the
+          </Typography>
+          <Typography className="form-builder-content">
+            exact information you need, with a simple and user-friendly
+            interface.
+          </Typography>
         </Grid>
-       
       </Grid>
       <Grid display={"flex"} className="grid-left" size={6}>
         {formFields.length < 1 ? (
@@ -227,7 +225,7 @@ const FormBuilder = () => {
                 <CustomCheckbox
                   control={control}
                   name="required"
-                  options={[{label: 'Mandatory', value: 'true'}]}
+                  options={[{ label: "Mandatory", value: "true" }]}
                 />
               </Box>
 
@@ -282,7 +280,6 @@ const CreatedFormFieldList = ({
       required: [],
     },
   });
-
 
   const handleChange =
     ({
@@ -367,7 +364,7 @@ const CreatedFormFieldList = ({
                     <Typography className="field-header">
                       Mandatory :{" "}
                       <span className="field-value">
-                        {field.required?.length > 0? 'Yes': 'No'}
+                        {field.required?.length > 0 ? "Yes" : "No"}
                       </span>{" "}
                     </Typography>
                   </Box>
@@ -467,7 +464,7 @@ const CreatedFormFieldList = ({
                       <CustomCheckbox
                         control={control}
                         name="required"
-                        options={[{label: 'Mandatory', value: 'true'}]}
+                        options={[{ label: "Mandatory", value: "true" }]}
                       />
                     </Box>
                     <Box className="save-button-container">
@@ -489,4 +486,3 @@ const CreatedFormFieldList = ({
     </>
   );
 };
-
