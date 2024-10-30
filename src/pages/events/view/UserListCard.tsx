@@ -105,7 +105,7 @@ const UserListCard = () => {
             id: selected.id,
           },
         },
-        url: `user/participant/list`,
+        url: `event/participant/list`,
         listName: "participant-list-",
       });
     }
