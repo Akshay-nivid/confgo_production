@@ -46,6 +46,7 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   rows?: number;
   disabled?: boolean;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  readOnly?: boolean;
 }
 
 interface InputPropsType {
@@ -72,6 +73,7 @@ const CustomTextField = <T extends FieldValues>({
   multiline=false,
   disabled= false,
   rows,
+  readOnly = false,
   ...props
 }: ICustomTextFieldProps<T>) => {
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -180,6 +182,7 @@ const CustomTextField = <T extends FieldValues>({
                   label={label}
                   multiline={multiline? true: false}
                   rows={rows? rows: 1}
+                  readOnly={readOnly? readOnly: false}
                   className={clsx(
                     error
                       ? 'custom-text-field error-input'
