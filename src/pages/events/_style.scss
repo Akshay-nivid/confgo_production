@@ -159,13 +159,13 @@
         &-publish-btn{
             background-color: $clr_green !important;
             color: $clr_white !important;
-            min-width: 15rem !important;
+            text-transform: none !important;
         }
         &-invite-participant-btn{
             background-color: $clr_white !important;
             color: $clr_green !important;
-            min-width: 15rem !important;
             border: 0.063rem solid $clr_green !important;
+            text-transform: none !important;
         }
         &-event-link{
             background-color: $clr_bright_gray;
