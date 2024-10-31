@@ -235,15 +235,11 @@
 
         }
         &-list-row{
-            // width: 200px;
             display: flex;
             scrollbar-width: 1rem;
             scroll-behavior: smooth;
             overflow-wrap: anywhere;
             overflow-x: auto;
-            // display: flex; // Ensures the children are laid out horizontally
-            // overflow-x: auto; // Enables horizontal scrolling
-            // white-space: nowrap; // Prevents wrapping of content
         &-container{
             justify-content: center;
             align-items: center;
@@ -253,16 +249,17 @@
             height: 16.875rem;
             border-radius: 0.5rem;
         }
-        &-name{
-font-size: $h6 !important;
-font-weight: $font-semibold !important;
-        }
-        &-type{
-font-size: $p2;
-color: $clr-gray-light;
-
-        }
-        }
+                &-name {
+                    font-size: $h6 !important;
+                    font-weight: $font-semibold !important;
+                }
+        
+                &-type {
+                    font-size: $p2;
+                    color: $clr-gray-light;
+        
+                }
+                }
     }
     &-sessions-card{
         &-session-list{
@@ -346,17 +343,3 @@ color: $clr-gray-light;
         padding-bottom: 1rem;
     }
 }
-// .event-detail-speakers-card-list-item {
-//     display: inline-block; /* Ensures items are in a row */
-//     margin-right: 16px; /* Space between items */
-//     text-align: center; /* Center align text */
-//     width: 150px; /* Fixed width for each item */
-//   }
-  
-//   .event-detail-speakers-card-list-img {
-//     width: 100%; /* Set image width to fill item */
-//     height: 100px; /* Set a fixed height for the image */
-//     border-radius: 8px; /* Rounded corners */
-//     object-fit: cover; /* Ensure the image covers the area */
-//   }
-  
