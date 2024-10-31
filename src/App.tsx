@@ -37,6 +37,7 @@ import FormBuilder from "./components/FormBuilder/FormBuilder";
 import ViewEventDetail from "./pages/events/view/ViewEventDetail";
 import CreateEvent from "./pages/events/CreateEvent";
 import EventList from "./pages/events/EventList";
+import DynamicUserForm from "./pages/User/DynamicUserForm";
 
 /**
  * Create your router configuration
@@ -80,6 +81,10 @@ const userRoutes = [
       {
         path: routes.userEventRegistrationCompleted(),
         element: <RegistrationCompleted />,
+      },
+      {
+        path: routes.dynamicUserForm(),
+        element: <DynamicUserForm />,
       },
     ],
   },
