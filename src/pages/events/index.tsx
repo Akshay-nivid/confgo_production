@@ -144,6 +144,7 @@ const Events = () => {
     } else {
       req['venue'] = {
         name: event?.name,
+        mapUrl: event?.mapUrl.match(/src="([^"]*)"/)?.[1],
         address: event?.address,
         city: event?.city,
         state: event?.state,
