@@ -8,7 +8,6 @@ import CalendarRoute from "@/pages/calendar";
 import Home from "./pages/home";
 import Pricing from "./pages/pricing";
 import HomeLayout from "./pages/home-layout";
-import Login from "./pages/Login/Login";
 import CreateCoupon from "./pages/coupon/CreateCoupon";
 import LoginOrg from "@/pages/LoginOrg/loginOrg";
 import SetPassword from "@/pages/SetPassword/SetPassword";
@@ -87,10 +86,6 @@ const userRoutes = [
 
 const router = createBrowserRouter([
   {
-    path: routes.login(),
-    element: <Login />,
-  },
-  {
     path: routes.register(),
     element: <Register />,
   },
@@ -162,7 +157,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: routes.LoginOrg(),
+    path: routes.loginOrg(),
     element: <LoginOrg />,
   },
   {

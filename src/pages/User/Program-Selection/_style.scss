@@ -42,10 +42,8 @@
       font-weight: $font-medium;
     }
     .program-list-container {
-      margin-bottom: 2rem;
       display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
+      align-items: center;
       .program-list-item {
         .program-list-item-label {
           font-size: $p1;
@@ -69,24 +67,22 @@
         }
       }
     }
-    .select-food-text {
+    .select-add-on-text {
       margin-block: 1.2rem;
       font-size: $h6;
       font-weight: $font-medium;
     }
-    .food-list-container {
+    .add-on-list-container {
       display: flex;
       flex-direction: column;
-      gap: 0.8rem;
-      .food-list-item {
+      .add-on-list-item {
         display: flex;
-        flex-direction: column;
-        gap: 0.8rem;
-        .food-list-item-label {
+        align-items: center;
+        .add-on-list-item-label {
           font-size: $h6;
           font-weight: $font-semibold;
         }
-        .food-list-item-checkbox {
+        .add-on-list-item-checkbox {
           padding: 0 !important;
           margin-left: 0.8rem;
           margin-right: 0.5rem;
@@ -102,12 +98,12 @@
             fill: $clr_black;
           }
         }
-        .food-list-item-radio {
+        .add-on-list-item-radio {
           svg {
             fill: $clr_black;
           }
         }
-        .food-list-item-radio-label {
+        .add-on-list-item-radio-label {
           font-size: $p1;
           font-weight: $font-normal;
           &.checked {

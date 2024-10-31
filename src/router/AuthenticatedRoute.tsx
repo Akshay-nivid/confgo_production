@@ -5,7 +5,7 @@ import routes from "./routes";
 const AuthenticatedRoute = () => {
   const isLoggedIn = true;
   if (!isLoggedIn) {
-    return <Navigate to={routes.login()} />;
+    return <Navigate to={routes.loginOrg()} />;
   }
   return <Outlet />;
 };

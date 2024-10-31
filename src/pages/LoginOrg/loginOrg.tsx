@@ -121,7 +121,7 @@ const LoginOrg = () => {
                   </span>
                   Now
                 </Typography>
-                <Link className="" to={routes.login()}>
+                <Link className="" to={routes.loginOrg()}>
                   <div className="forgot-password-link">Forgot Password?</div>{" "}
                 </Link>
               </Grid>
