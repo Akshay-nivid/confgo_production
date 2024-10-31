@@ -64,7 +64,7 @@
 }
 
 .file-upload {
-  border: 1px solid $clr-gray-light;
+  border: 0.05rem solid $clr-gray-light;
   border-radius: 0.5rem;
   max-width: 40.25rem;
   margin: 0 auto;
@@ -185,7 +185,7 @@
   }
 }
 .image-list-item-bar {
-  height: 20px; 
+  height: 1rem; 
 }
 
 .image-list-item-bar-title {
