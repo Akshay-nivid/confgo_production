@@ -25,6 +25,7 @@ type FormData = {
     speakers: string,
     description: string,
     venueName: string,
+    mapUrl: string,
     address: string,
     city: string,
     state: string,
@@ -164,7 +165,22 @@ const CreateEvent: React.FC<EventProps> = React.memo(({ formSubmit, onSubmitHand
                                     rules={{ required: watch('type') === 'ONLINE' }}
                                 />
                             </Grid>}
-                            {watch('type') !== 'ONLINE' && <><Grid size={{ xs: 12, sm: 12 }} >
+                           
+                            {watch('type') !== 'ONLINE' && <>
+                                <Grid container alignItems="center" size={{ xs: 12, sm: 12 }}>
+                                <CustomTextField
+                                    placeholder="Location URL (must be an embed URL)"
+                                    control={control}
+                                    name="mapUrl"
+                                    type="text"
+                                    rules={{
+                                    required: true,
+                                    validate: (value) =>
+                                        /embed/.test(value) || 'URL must contain "embed"',
+                                    }}
+                                />
+                            </Grid>
+                            <Grid size={{ xs: 12, sm: 12 }} >
                                 <CustomTextField
                                     placeholder="Location"
                                     control={control}
