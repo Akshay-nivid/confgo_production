@@ -270,7 +270,7 @@ const ViewEventDetail = () => {
             <Sessions eventData={eventFullData} />
           </TabPanel>
           <TabPanel value="4">
-            <LocationCard eventData={eventData} />
+            <LocationCard  />
           </TabPanel>
           <TabPanel value="5">
             <UserListCard />
