@@ -53,7 +53,9 @@ const FileUpload: React.FC<FileUploadProps> = ({
       fileName: "",
     },
   });
-
+/*
+ * function to handle the file upload 
+ */
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const uploadedFiles = event.target.files;
     if (!uploadedFiles) return;
@@ -83,13 +85,17 @@ const FileUpload: React.FC<FileUploadProps> = ({
     setError(null);
     setUploadSuccess(false);
   };
-
+/*
+ * function to remove file from the state
+ */
   const handleFileRemove = () => {
     setFile(null);
     setValue("fileName", ""); // Clear the file name input
     setUploadSuccess(false);
   };
-
+/*
+ * function to handle submit button 
+ */
   const handleSubmit = async (data: { fileName: string }) => {
     if (!file) {
       setError({ message: "No file selected. Please upload a file." });

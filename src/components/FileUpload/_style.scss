@@ -6,6 +6,10 @@
     height: 100vh;
     backdrop-filter: blur(4rem);
   }
+  &-close-icon{
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+  }
 
   &__content {
     width: 90%;
@@ -47,23 +51,25 @@
   }
 
   &__upload-container {
-    width: 90%;
-    max-width: 31.25rem; // 500px to rem
-    padding: 2rem;
+    width: 100%;
+    height: 50vh;
+    justify-content: center;
+    max-width: 40.25rem;
     background-color: white;
     border-radius: 0.5rem;
     box-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.1);
     margin: 0 auto;
-    margin-top: 1.5rem; // Add space above the upload container
-    z-index: 1; // Ensure it appears above the image list if needed
+    margin-top: 10rem; 
+    z-index: 1; 
+    align-content: center;
   }
 }
 
 .file-upload {
-  padding: 1rem; // 16px to rem
+
   border: 1px solid #ccc;
   border-radius: 0.5rem;
-  max-width: 31.25rem;
+  max-width: 40.25rem;
   margin: 0 auto;
 
   &__input {

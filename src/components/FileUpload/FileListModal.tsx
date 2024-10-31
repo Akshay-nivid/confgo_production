@@ -13,6 +13,8 @@ import { Logger } from "@/Utils/Logger";
 import ImageListDisplay from "./ImageListDisplay";
 import FileUpload from "./FileUpload";
 import "./_style.scss";
+import Grid from "@mui/material/Grid2";
+import CloseIcon from '@mui/icons-material/Close';
 
 interface CustomFile {
   id: number;
@@ -139,7 +141,9 @@ const FileListModal: React.FC<FileListModalProps> = ({
     <Modal open={open} onClose={handleClose} aria-labelledby="modal-title" className="modal">
       <Box className="modal__container">
         <Box className="modal__content">
-
+        <Grid className="modal-close-icon" container justifyContent={"flex-end"} onClick={handleClose}>
+          <CloseIcon/>
+        </Grid>
           <Autocomplete
             limitTags={2}
             freeSolo
@@ -151,7 +155,6 @@ const FileListModal: React.FC<FileListModalProps> = ({
               <TextField {...params} label="Search by name" variant="outlined" fullWidth className="modal__search-input" />
             )}
           />
-
           {loading ? (
             <Box display="flex" justifyContent="center" mt={2}>
               <CircularProgress />
@@ -169,7 +172,6 @@ const FileListModal: React.FC<FileListModalProps> = ({
               />
             </Box>
           )}
-
           {multipleSelect && (
             <Button variant="contained" color="primary" fullWidth className="modal__confirm-button" onClick={handleConfirmSelection}>
               Confirm Selection
@@ -179,7 +181,6 @@ const FileListModal: React.FC<FileListModalProps> = ({
           <Button variant="outlined" color="secondary" fullWidth className="modal__upload-button" onClick={() => setUploadModalOpen(true)}>
             Upload New File
           </Button>
-
           {/* FileUpload Modal */}
           <Modal open={uploadModalOpen} onClose={() => setUploadModalOpen(false)}>
             <Box className="modal__upload-container">

@@ -32,6 +32,10 @@ const ImageListDisplay: React.FC<ImageListDisplayProps> = ({
   multipleSelect = false,
   imagesPerRow = 5,
 }) => {
+  /**
+   * Handles the selection of a file
+   * @param file The file to select or toggle.
+   */
   const handleFileSelect = (file: CustomFile) => {
     onSelectFile(file);
   };
