@@ -63,14 +63,9 @@ const ImageListDisplay: React.FC<ImageListDisplayProps> = ({
                     />
                   ) : null
                 }
-                sx={{
-                  height: 20,
-                  "& .MuiImageListItemBar-title": {
-                    fontSize: "0.875rem",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  },
+                classes={{
+                  root: 'image-list-item-bar',
+                  title: 'image-list-item-bar-title',
                 }}
               />
             </ImageListItem>

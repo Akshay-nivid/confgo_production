@@ -13,33 +13,32 @@
 
   &__content {
     width: 90%;
-    max-width: 37.5rem; // 600px is approximately 37.5rem
-    padding: 2rem; // Add padding to the content
-    background-color: white;
+    max-width: 37.5rem;
+    padding: 2rem; 
+    background-color:$clr_white;
     border-radius: 0.5rem;
-    box-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.1);
-    position: relative; // Ensure this is present for absolute positioning
+    position: relative; 
   }
 
   &__close-button {
-    position: absolute; // Keeps it positioned relative to the content
-    top: 0.625rem; // Adjust top position
-    right: 0.625rem; // Adjust right position
-    z-index: 10; // Ensure it's on top of other elements
-    background: transparent; // Optional: Make button background transparent
-    border: none; // Optional: Remove default border
-    cursor: pointer; // Change cursor to pointer
+    position: absolute; 
+    top: 0.625rem; 
+    right: 0.625rem; 
+    z-index: 10; 
+    background: transparent; 
+    border: none;
+    cursor: pointer;
   }
 
   &__search-input {
-    margin-bottom: 1.5rem; // Increased margin for space below the search input
-    padding: 0.5rem; // Additional padding for the search input
+    margin-bottom: 1.5rem; 
+    padding: 0.5rem; 
   }
 
   &__image-list {
-    max-height: 28rem; // Increased height to ensure the last row is fully visible
-    overflow-y: hidden; // Keeping it hidden to prevent scrolling 
-    margin-bottom: 1.5rem; // Keep this for space below the image list
+    max-height: 28rem; 
+    overflow-y: hidden; 
+    margin-bottom: 1.5rem;
   }
 
   &__confirm-button {
@@ -55,9 +54,8 @@
     height: 50vh;
     justify-content: center;
     max-width: 40.25rem;
-    background-color: white;
+    background-color:$clr_white;
     border-radius: 0.5rem;
-    box-shadow: 0 0.25rem 1.25rem rgba(0, 0, 0, 0.1);
     margin: 0 auto;
     margin-top: 10rem; 
     z-index: 1; 
@@ -66,8 +64,7 @@
 }
 
 .file-upload {
-
-  border: 1px solid #ccc;
+  border: 1px solid $clr-gray-light;
   border-radius: 0.5rem;
   max-width: 40.25rem;
   margin: 0 auto;
@@ -92,7 +89,7 @@
 
   &__text-field {
     margin-top: 1rem; 
-    padding: 0.5rem; // Add padding to the text field
+    padding: 0.5rem;
   }
 
   &__submit-button {
@@ -101,7 +98,7 @@
 
   &__success-message {
     margin-top: 1rem; 
-    color: green;
+    color: $clr_green;
   }
 }
 
@@ -119,7 +116,7 @@
   &__image {
     width: 100%;
     height: auto;
-    padding: 0.5rem; // Add padding around images
+    padding: 0.5rem;
   }
 
   &__checkbox {
@@ -129,10 +126,10 @@
 
 
 .file-upload {
-  padding: 1rem; // 16px to rem
-  border: 1px solid #ccc;
-  border-radius: 0.5rem; // 8px to rem
-  max-width: 31.25rem; // 500px to rem
+  padding: 1rem; 
+  border: 0.05rem solid ;
+  border-radius: 0.5rem; 
+  max-width: 31.25rem;
   margin: 0 auto;
 
   &__input {
@@ -140,13 +137,13 @@
   }
 
   &__select-button {
-    margin-top: 0.5rem; // 8px to rem
+    margin-top: 0.5rem; 
   }
 
   &__file-info {
     display: flex;
     align-items: center;
-    margin-top: 0.5rem; // 8px to rem
+    margin-top: 0.5rem;
   }
 
   &__file-name {
@@ -154,16 +151,16 @@
   }
 
   &__text-field {
-    margin-top: 1rem; // 16px to rem
+    margin-top: 1rem; 
   }
 
   &__submit-button {
-    margin-top: 1rem; // 16px to rem
+    margin-top: 1rem; 
   }
 
   &__success-message {
-    margin-top: 1rem; // 16px to rem
-    color: green;
+    margin-top: 1rem; 
+    color: $clr_green;
   }
 }
 
@@ -184,6 +181,16 @@
   }
 
   &__checkbox {
-    margin-left: 0.25rem; // 4px to rem
+    margin-left: 0.25rem;
   }
+}
+.image-list-item-bar {
+  height: 20px; 
+}
+
+.image-list-item-bar-title {
+  font-size: 0.875rem;
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
 }

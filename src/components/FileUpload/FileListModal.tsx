@@ -33,7 +33,10 @@ interface FileListModalProps {
   multipleSelect?: boolean;
   imagesPerRow?: number;
 }
-
+/*
+ * function to fetch file 
+@param companyId,searchQuery
+ */
 const fetchFilesFromAPI = async (companyId: number, searchQuery: string) => {
   const req = {
     filters: {
@@ -62,7 +65,10 @@ const FileListModal: React.FC<FileListModalProps> = ({
   const [autocompleteOptions, setAutocompleteOptions] = useState<string[]>([]);
   const [uploadModalOpen, setUploadModalOpen] = useState(false); // State to control FileUpload modal
 
-  // Fetch files from the server based on companyId and search query
+/*
+ * function to fetch file 
+  @param searchQuery
+ */
   const fetchFiles = useCallback(
     async (searchQuery: string = "") => {
       try {
@@ -94,7 +100,10 @@ const FileListModal: React.FC<FileListModalProps> = ({
     }
   }, [open, fetchFiles]);
 
-  // Handle search term changes in the Autocomplete input
+/*
+ * Handle search term changes in the Autocomplete input
+  @param _event ,value
+ */ 
   const handleSearchChange = (_event: React.ChangeEvent<{}>, value: string) => {
     setSearchTerm(value);
     if (delayTime.current) {
@@ -105,7 +114,10 @@ const FileListModal: React.FC<FileListModalProps> = ({
     }, 1000);
   };
 
-  // Handle file selection
+ /*
+ * Handle file selection 
+  @param file
+ */
   const handleFileSelect = (file: CustomFile) => {
     if (multipleSelect) {
       setSelectedFiles((prevSelected) =>
@@ -120,21 +132,22 @@ const FileListModal: React.FC<FileListModalProps> = ({
     }
   };
 
-  // Handle confirming selection
+ /*
+ * Handle confirming selection
+ */ 
   const handleConfirmSelection = () => {
     onSelectFile(selectedFiles);
     handleClose();
   };
 
-  // Handle successful file upload
+  /*
+  *  Handle successful file upload
+  */ 
   const handleUploadSuccess = async (uploadedFile: CustomFile) => {
-    // Close the upload modal
     setUploadModalOpen(false);
-
-    // Fetch the updated file list and auto-select the uploaded file
-    await fetchFiles(); // Refresh the file list
-    setSelectedFiles([uploadedFile]); // Select the uploaded file
-    onSelectFile([uploadedFile]); // Notify parent of the selection
+    await fetchFiles(); 
+    setSelectedFiles([uploadedFile]); 
+    onSelectFile([uploadedFile]);
   };
 
 	return (
