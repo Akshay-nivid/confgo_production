@@ -45,7 +45,7 @@ const UserListCard = () => {
     setSource({
       method: "POST",
       data: req,
-      url: `event/participant/list`,
+      url: `participant/list`,
       listName: "eventPartcipantList",
     });
     return;
@@ -62,10 +62,10 @@ const UserListCard = () => {
       return {
         ...item,
         id: item?.id,
-        name: item?.participant?.user?.firstName,
-        email: item?.participant?.user?.email,
+        name: item?.user?.firstName,
+        email: item?.user?.email,
         createdOn: item?.createdOn,
-        registrationType: item?.participant?.registrationType,
+        registrationType: item?.registrationType,
       };
     });
   };
@@ -84,7 +84,7 @@ const UserListCard = () => {
           ...newFilters,
         },
       },
-      url: `event/participant/list`,
+      url: `participant/list`,
       listName: "participantList",
     });
     setFilters(newFilters);
@@ -105,7 +105,7 @@ const UserListCard = () => {
             id: selected.id,
           },
         },
-        url: `event/participant/list`,
+        url: `participant/list`,
         listName: "participant-list-",
       });
     }
@@ -124,7 +124,7 @@ const UserListCard = () => {
         },
       };
       const response = await await apiClient.post(
-        `event/participant/list`,
+        `participant/list`,
         req
       );
       const { status, data } = await processAPIResponse(
@@ -182,7 +182,7 @@ const UserListCard = () => {
             control={control}
             options={searchResults}
             getOptionLabel={(option: any) =>
-              option.participant?.user?.firstName || ""
+              option.user?.firstName || ""
             }
             onSearch={handleSearch}
             loading={loading}
