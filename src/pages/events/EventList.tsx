@@ -14,7 +14,7 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { Typography } from "@mui/material";
 import { ISource } from "@/Libs/type";
 import { Logger } from "@/Utils/Logger";
-
+import useStore from '@/Libs/store';
 /**
  * Used to render events list
  * @author Vanisree 
@@ -27,6 +27,7 @@ const EventList = () => {
   const [source, setSource] = useState<ISource | undefined>(undefined);
   const [loading, setLoading] = useState(false); // To indicate loading state for API
   const { control } = useForm();
+
     /**
     * Useeffect hook handles the api call 
     */
@@ -95,7 +96,7 @@ const EventList = () => {
   const handleSearch = async (query: string) => {
     setLoading(true);
     try {
-      let req = {
+      let req:any = {
         filters: {
           name: query
         }
