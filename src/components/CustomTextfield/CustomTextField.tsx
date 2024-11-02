@@ -7,7 +7,7 @@ import {
   FormHelperText,
   Typography,
 } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Visibility, VisibilityOff } from "@mui/icons-material"; // Example icon, replace with your preferred icon
 import {
   Control,
   Controller,
@@ -56,6 +56,9 @@ interface InputPropsType {
   max?: string | number;
 }
 
+/*
+ * component used to render textfield
+ */
 const CustomTextField = <T extends FieldValues>({
   name,
   type,
@@ -77,10 +80,16 @@ const CustomTextField = <T extends FieldValues>({
 }: ICustomTextFieldProps<T>) => {
   const [isShowPassword, setIsShowPassword] = useState(false);
 
+  /*
+   * A function hide and show password text
+   */
   const handleTogglePassword = () => {
     setIsShowPassword((prev) => !prev);
   };
 
+  /**
+   * A fucntion which returns an object named propsObj which contains InputPropsType values by checking whether specific props are present or not.
+   */
   const inputProps = () => {
     const propsObj: InputPropsType = {};
 
@@ -106,9 +115,14 @@ const CustomTextField = <T extends FieldValues>({
     if (props.suffixIconButton) {
       propsObj.endAdornment = (
         <InputAdornment position="end">
-          <IconButton onClick={props.handleToggleSuffixIcon}>
-            {props.suffixIconButton}
-          </IconButton>
+          <IconButton
+            className={`custom-text-field-icon-btn`}
+            onClick={
+              type === "password"
+                ? handleTogglePassword
+                : props.handleToggleSuffixIcon
+            }
+          ></IconButton>
         </InputAdornment>
       );
     }
@@ -184,6 +198,7 @@ const CustomTextField = <T extends FieldValues>({
           return (
             <>
               <OutlinedInput
+                autoComplete="false"
                 {...field}
                 {...props}
                 name={name}

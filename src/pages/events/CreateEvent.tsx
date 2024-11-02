@@ -93,19 +93,6 @@ const CreateEvent: React.FC<EventProps> = React.memo(
       }
     }, [data]);
 
-    const handleUrlValidation = (value: string | Date) => {
-      // Convert Date to string if necessary
-      const urlString = value instanceof Date ? value.toISOString() : value;
-
-      return isValidUrl(urlString);
-    };
-
-    const isValidUrl = (url: string) => {
-      console.log("@!#!@#", url);
-      const regex = /^(ftp|http|https):\/\/[^ "]+$/;
-      return regex.test(url);
-    };
-
     return (
       <Box className="create-event-container">
         <Grid
@@ -231,21 +218,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                         control={control}
                         name="url"
                         type="text"
-                        rules={{
-                          required:
-                            watch("type") === "ONLINE"
-                              ? "URL is required when the type is ONLINE"
-                              : false,
-                          validate: (value) => {
-                            if (
-                              watch("type") === "ONLINE" &&
-                              !handleUrlValidation(value)
-                            ) {
-                              return "Please enter a valid URL.";
-                            }
-                            return true;
-                          },
-                        }}
+                        rules={{ required: watch("type") === "ONLINE" }}
                       />
                       {errors.url && (
                         <Typography color="error" variant="body2">
