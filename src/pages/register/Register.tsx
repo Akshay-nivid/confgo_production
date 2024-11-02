@@ -25,7 +25,7 @@ const Register = () => {
   * function to handle navigate to login page
   */
   const handleLogin = () => {
-    navigate(routes.LoginOrg())
+    navigate(routes.loginOrg())
   }
   useEffect(()=>{
     clearDataById('register');

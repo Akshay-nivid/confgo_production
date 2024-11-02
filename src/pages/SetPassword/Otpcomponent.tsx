@@ -111,7 +111,7 @@ const OtpComponent: React.FC<OtpComponentProps> = ({ onOtpVerify }) => {
         <Typography className="already-have-account-link">
           Didn't receive the code?
           <span className="signup-now-text">
-            <Link to={routes.LoginOrg()}> Resend OTP </Link>
+            <Link to={routes.loginOrg()}> Resend OTP </Link>
           </span>
         </Typography>
       </Grid>

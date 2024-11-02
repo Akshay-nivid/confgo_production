@@ -1,6 +1,7 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomCheckbox from "@/components/CustomCheckbox/CustomCheckbox";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
+import { registerComponent } from "@/Libs/DataHandler/dataHandler";
 import apiClient from "@/Libs/Https/API-client";
 import useStore from "@/Libs/store";
 import routes from "@/router/routes";
@@ -31,6 +32,9 @@ export interface IProgram {
   eventProgramSchedules: any[];
 }
 
+type ProgramProps = {
+  id: string
+}
 export interface Status {
   id: number;
   statusName: string;
@@ -40,12 +44,11 @@ interface FormValues {
   programs: [string];
   addons: [string];
 }
-const ProgramCard: React.FC = () => {
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormValues>({
+const ProgramCard = (props:ProgramProps) => {
+  let context: any;
+  ({ props, context } = registerComponent(props));
+
+  const { control, handleSubmit} = useForm<FormValues>({
     defaultValues: {
       programs: undefined,
       addons: undefined,
@@ -55,11 +58,7 @@ const ProgramCard: React.FC = () => {
   });
 
   const navigate = useNavigate();
-  const {
-    compData: { event },
-    setDataById,
-    POST,
-  } = useStore();
+  const { compData: { event }, setDataById, POST, } = useStore();
 
   function onNext(data: any) {
     console.log(data);
@@ -82,24 +81,15 @@ const ProgramCard: React.FC = () => {
         selectedAddonsId: data.addons,
       },
     });
-    // POST({
-    //   url: "participant",
-    //   body,
-    //   id: "selectedPrograms",
-    //   successCB: (data) => {
-    //     console.log(data);
-    //   },
-    //   errorCB: () => {},
-    // });
   }
 
-  event.programs.sort(
+  event?.programs?.sort(
     (a: IProgram, b: IProgram) =>
       new Date(a.startTime).getTime() - new Date(b.startTime).getTime()
   );
 
   // Step 2: Group by date
-  const groupedPrograms = event.programs.reduce(
+  const groupedPrograms = event?.programs?.reduce(
     (acc: IProgram[][], program: IProgram) => {
       const programDate = new Date(program.startTime)
         .toISOString()
@@ -193,7 +183,7 @@ const ProgramCard: React.FC = () => {
 
                 <Box className="food-list-container">
                   <Box className="">
-                    {event?.addons.map((item, index) => (
+                    {event?.addons.map((item:any, index:number) => (
                       <Box key={index} className="food-list-item">
                         <CustomCheckbox
                           control={control}

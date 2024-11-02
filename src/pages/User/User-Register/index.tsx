@@ -25,6 +25,10 @@ interface IUserRegister {
   phone: string;
 }
 
+type UserProps = {
+  id: string;
+}
+
 interface GoogleUserData {
   iss: string;
   azp: string;
@@ -48,10 +52,11 @@ interface GoogleUserData {
  * User Register page component
  *
  */
-const UserRegister = () => {
+const UserRegister = (props: UserProps) => {
   const { control, handleSubmit } = useForm<IUserRegister>();
   const navigate = useNavigate();
-  const { setDataById }: any = useStore();
+  const setDataById = useStore((state: any) => state.setDataById);
+  const POST = useStore((state: any) => state.POST);
 
   /**
    * function to handle google login
@@ -83,25 +88,27 @@ const UserRegister = () => {
    * function to handle login
    */
   const handleLogin = async (data: IUserRegister) => {
-    const response = await apiClient.post('user', data);
-
-    try {
-      if (response.data.status === 'success') {
-        const token = response?.data?.data?.token;
-        navigate(routes.userOtp(), {
+    await POST({
+      url: 'user',
+      body: data,
+      id: props?.id,
+      successCB: (context: any) => {
+        console.log(context,'context')
+        if (context?.success) {
+         navigate(routes.userOtp(), {
           state: {
             email: data.email,
             phoneNumber: data.phone,
-            token: token.token,
-            userId: token.userId,
+            token: context?.data?.token?.token,
+            userId: context?.data?.token?.userId,
           },
         });
-        return response;
+        }
+      },
+      errorCB: (context: any) => {
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
       }
-    } catch (error) {
-      Logger.error('Error in register', error);
-      return error;
-    }
+    });
   };
 
   return (

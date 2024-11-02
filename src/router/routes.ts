@@ -1,7 +1,6 @@
 const routes = {
   home: () => "/",
   dashboard: () => "/dashboard",
-  login: () => "/login",
   register: () => "/register",
   events: () => "/events",
   createEvent: () => "/events/create",
@@ -17,7 +16,7 @@ const routes = {
   feature: () => "/feature",
   contact: () => "/contact",
   demo: () => "/demo",
-  LoginOrg: () => "/organization/login",
+  loginOrg: () => "/organization/login",
   SetPassword: () => "/setpassword",
   verifyEmail: () => `/verify-email/:token/:id`,
   user: () => "/user",

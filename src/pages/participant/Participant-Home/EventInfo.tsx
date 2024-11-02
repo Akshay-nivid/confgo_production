@@ -1,5 +1,6 @@
 import useStore from '@/Libs/store';
 import CustomButton from '@/components/CustomButton/CustomButton';
+import routes from '@/router/routes';
 import { Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +11,7 @@ type EventInfoProps = {
 type dataProps = {
     name: string;
     description: string;
+    id: string;
 }
 /**
  * Component used ot draw event details
@@ -17,19 +19,16 @@ type dataProps = {
  * @returns 
  */
 export default function EventInfo({ data }: EventInfoProps) {
-    let { name, description }: dataProps = data;
-    const participantLogin = useStore((state: any) => state.compData?.["participantLogin"]);
+    let { name, description, id }: dataProps = data;
     const navigate = useNavigate();
+    const setDataById = useStore((state: any) => state.setDataById);
 
     /**
      * Method used to handle participate button
      */
     const handleParticipate = () => {
-        if (participantLogin) {
-            navigate('/user/details')
-        } else {
-            navigate('/user/login')
-        }
+        setDataById('eventSelected', { id: id });
+        navigate(routes.programSelection())
     }
 
     return (

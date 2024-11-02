@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { Logger } from '@/Utils/Logger';
 import useStore from '@/Libs/store';
@@ -19,7 +19,6 @@ interface IUserLogin {
 
 type UserProps = {
   id: string;
-  source?: any;
 }
 
 interface GoogleUserData {
@@ -52,6 +51,7 @@ const UserLogin = (props: UserProps) => {
   const { control, handleSubmit } = useForm<IUserLogin>();
   const setDataById = useStore((state: any) => state.setDataById);
   const POST = useStore((state: any) => state.POST);
+  const navigate = useNavigate();
 
   /**
    * function to handle login
@@ -66,6 +66,7 @@ const UserLogin = (props: UserProps) => {
           sessionStorage.setItem("token", context.data?.token);
           setDataById('participantLogin', true);
           setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
+          navigate(routes.programSelection())
         }
       },
       errorCB: (context: any) => {
@@ -98,6 +99,7 @@ const UserLogin = (props: UserProps) => {
           sessionStorage.setItem("token", context.data?.token);
           setDataById('participantLogin', true);
           setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
+          navigate(routes.programSelection())
         }
       },
       errorCB: (context: any) => {
