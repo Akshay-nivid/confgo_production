@@ -60,6 +60,10 @@ const CreateAccount = React.memo(() => {
                                                 type="text"
                                                 rules={{ 
                                                     required:{value:true,message:"Name is required"},
+                                                    pattern: {
+                                                        value: /^(?!\s*$)(?!\s+$).+/,
+                                                    message: "Name cannot be only spaces"
+                                                },
                                                  }}
                                             />
                                         </Grid>
@@ -70,7 +74,13 @@ const CreateAccount = React.memo(() => {
                                                 control={control}
                                                 name="lastName"
                                                 type="text"
-                                                rules={{ required:{value:true,message:"Last Name is required"} }}
+                                                rules={{ 
+                                                    required:{value:true,message:"Last Name is required"},
+                                                    pattern: {
+                                                        value: /^(?!\s*$)(?!\s+$).+/,
+                                                    message: "Last name cannot be only spaces"
+                                                },
+                                                 }}
                                             />
                                         </Grid>
                                         <Grid container className='w-full'>
