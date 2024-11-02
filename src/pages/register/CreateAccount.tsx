@@ -58,7 +58,9 @@ const CreateAccount = React.memo(() => {
                                                 control={control}
                                                 name="fullName"
                                                 type="text"
-                                                rules={{ required:{value:true,message:"Name is required"} }}
+                                                rules={{ 
+                                                    required:{value:true,message:"Name is required"},
+                                                 }}
                                             />
                                         </Grid>
                                         <Grid container className='w-full'>
