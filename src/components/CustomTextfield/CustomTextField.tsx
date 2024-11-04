@@ -23,9 +23,11 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   prefixIconButton?: React.ReactNode;
   prefixIcon?: React.ReactNode;
   suffixIconButton?: React.ReactNode;
+  suffixIconSecondButton?: React.ReactNode;
   suffixIcon?: React.ReactNode;
   handleToggleprefixIcon?: () => void;
   handleToggleSuffixIcon?: () => void;
+  handleToggleSuffixSecondIcon?: () => void;
   // isShowPassword?: boolean;
   min?: number;
   max?: number;
@@ -48,6 +50,7 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   size?: "small" | "medium" | undefined;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   readOnly?: boolean;
+  onBlur?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 interface InputPropsType {
@@ -76,6 +79,7 @@ const CustomTextField = <T extends FieldValues>({
   disabled = false,
   rows,
   readOnly = false,
+  onBlur,
   ...props
 }: ICustomTextFieldProps<T>) => {
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -118,6 +122,10 @@ const CustomTextField = <T extends FieldValues>({
           <IconButton onClick={props.handleToggleSuffixIcon}>
             {props.suffixIconButton}
           </IconButton>
+          {props.suffixIconSecondButton && <IconButton onClick={props.handleToggleSuffixSecondIcon}>
+            {props.suffixIconSecondButton}
+          </IconButton>
+          }
         </InputAdornment>
       );
     }
@@ -153,6 +161,14 @@ const CustomTextField = <T extends FieldValues>({
       propsObj.max = props.max;
     }
     return propsObj;
+  };
+
+  /**
+   * Method handles the on blur event
+   * @param event : on blur event parameter
+   */
+  const handleBlur = (event: any) => {
+    onBlur && onBlur(event);
   };
 
   return (
@@ -200,6 +216,7 @@ const CustomTextField = <T extends FieldValues>({
                     props.className
                   )}
                   placeholder={type === "date" ? "" : placeholder}
+                  onBlur={handleBlur} 
                   {...inputProps()}
                 />
                 {error?.message && (

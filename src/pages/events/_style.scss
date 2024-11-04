@@ -113,6 +113,29 @@
         border-radius: 1rem;
         background-color:$clr_white;
         // height: 100vh;
+        &-link{
+            &-label{
+                input{
+                    width: 6rem;
+                    background-color: $clr_bright_gray !important;
+                }
+            }
+            &-text{
+                input{
+                    width: 18rem;
+                }
+            }
+            &-error-message{
+                color: $clr_red !important;
+            }
+        }
+        &-published-link{
+            &-text{
+                input{
+                    width: 25rem;
+                }
+            }
+        }
     }
     &-header{
        padding: 2rem;
@@ -160,12 +183,20 @@
             background-color: $clr_green !important;
             color: $clr_white !important;
             text-transform: none !important;
+            height: 4rem;
+        }
+        &-unpublish-btn{
+            background-color: $clr_medium_red !important;
+            color: $clr_white !important;
+            text-transform: none !important;
+            height: 4rem;
         }
         &-invite-participant-btn{
             background-color: $clr_white !important;
             color: $clr_green !important;
             border: 0.063rem solid $clr_green !important;
             text-transform: none !important;
+            height: 4rem;
         }
         &-event-link{
             background-color: $clr_bright_gray;
