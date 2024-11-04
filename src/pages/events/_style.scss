@@ -7,7 +7,7 @@
     font-weight: $font_semibold !important;
     &-error {
       .ql-snow {
-        border: 1px solid $clr_red !important;
+        border: 0.0625rem solid $clr_red !important;
       }
     }
   }
@@ -24,7 +24,7 @@
     background-color: $clr_white !important;
     color: $clr_green !important;
     min-width: 10rem !important;
-    border: 1px solid $clr_green !important;
+    border: 0.0625rem solid $clr_green !important;
     text-transform: none !important;
     font-size: $h6 !important;
     font-weight: $font_semibold !important;
@@ -74,7 +74,7 @@
     color: $clr_green !important;
     width: 7rem !important;
     height: 3.2rem !important;
-    border: 1px solid $clr_green !important;
+    border: 0.0625rem solid $clr_green !important;
     text-transform: none !important;
     font-size: $p1 !important;
     font-weight: $font_semibold !important;
@@ -86,7 +86,7 @@
   }
   &-form-container {
     padding-right: 1rem !important;
-    border-right: 1px solid $clr_gray_very_light;
+    border-right: 0.0625rem solid $clr_gray_very_light;
   }
   &-add-ons-title {
     font-weight: $font_normal !important;
@@ -198,7 +198,7 @@
     }
     &-event-link {
       background-color: $clr_bright_gray;
-      border: 1px solid white;
+      border: 0.0625rem solid white;
     }
   }
   &-speakers-card {
@@ -391,7 +391,7 @@
     background-color: $clr_white;
     color: $clr_green !important;
     min-width: 8rem !important;
-    border: 1px solid $clr_green !important;
+    border: 0.0625rem solid $clr_green !important;
     text-transform: none;
     font-size: $h6;
     font-weight: $font_semibold !important;
@@ -419,8 +419,8 @@
     letter-spacing: 0.0187rem !important;  
 }
 .location-button{
-    width:1.8rem !important;
-    height : 2.1rem !important;
+    width:1.8rem ;
+    height : 2.1rem ;
     
 }
 .edit-map {

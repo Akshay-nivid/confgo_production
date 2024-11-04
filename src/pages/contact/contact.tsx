@@ -10,7 +10,7 @@ import { CallIcon } from '@/assets/svg';
 import { LocatioIcon } from '@/assets/svg';
 import { MessageIcon } from '@/assets/svg';
 import { Logger } from '@/Utils/Logger';
-import { redirect, useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 
 interface FormData {
