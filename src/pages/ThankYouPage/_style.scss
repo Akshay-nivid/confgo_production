@@ -1,0 +1,48 @@
+.thankyou-main {
+    height: 100vh;
+    .grid-left {
+        width: full;
+        color: red;
+        background-image: url('/src/assets/svg/thankyou-right-bg.svg') !important;
+    }
+    .grid-right {
+        background-color: transparent;
+        .grid-right-image {
+            background-image: url('/src/assets/svg/forgetpassword-bg.svg') !important;
+            background-repeat: no-repeat;
+            height: 20rem;
+            margin-bottom: 10rem;
+            padding-top: 15.6875rem;
+            .grid-right-image-text {
+                font-family: $font;
+                font-size: $h2;
+                font-weight: $font_bold;
+                line-height: 3.5625rem;
+            }
+            .thankyou-icon {
+                height: 10rem;
+                width: 10rem;
+                background-image: url('/src/assets/svg/success-tick.svg');
+                background-size: cover;
+                margin-top: 1.5625rem !important;
+            }
+            .grid-right-text{
+                text-align: center; 
+                font-family: $font;
+                font-size: $h6;
+                padding-top: 1.5625rem;
+            }
+            .thankyou-button{
+                text-align: center;
+                margin-top: 1.5625rem;
+            }.button-back-to-home {
+                margin-top: 2rem;
+                font-size: $h6;
+                font-weight: $font_medium;
+                background-color: transparent;
+                color: $clr_black;
+                }
+            
+        }
+    }
+}
