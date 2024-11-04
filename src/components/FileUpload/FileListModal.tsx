@@ -3,7 +3,6 @@ import {
   Modal,
   Box,
   CircularProgress,
-  Alert,
   Autocomplete,
   TextField,
   Button,
@@ -59,7 +58,6 @@ const FileListModal: React.FC<FileListModalProps> = ({
   const [files, setFiles] = useState<CustomFile[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<CustomFile[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const delayTime = useRef<number | undefined>(undefined);
   const [autocompleteOptions, setAutocompleteOptions] = useState<string[]>([]);
@@ -73,10 +71,8 @@ const FileListModal: React.FC<FileListModalProps> = ({
     async (searchQuery: string = "") => {
       try {
         setLoading(true);
-        setError(null);
         const response = await fetchFilesFromAPI(companyId, searchQuery);
         const { data } = response.data;
-
         if (Array.isArray(data)) {
           setFiles(data);
           setAutocompleteOptions(data.map((file: CustomFile) => file.name));
@@ -85,7 +81,6 @@ const FileListModal: React.FC<FileListModalProps> = ({
         }
       } catch (error) {
         Logger.error("Error fetching files:", error);
-        setError("Failed to fetch files. Please try again.");
         setFiles([]);
       } finally {
         setLoading(false);
@@ -172,8 +167,6 @@ const FileListModal: React.FC<FileListModalProps> = ({
             <Box display="flex" justifyContent="center" mt={2}>
               <CircularProgress />
             </Box>
-          ) : error ? (
-            <Alert severity="error">{error}</Alert>
           ) : (
             <Box className="modal__image-list">
               <ImageListDisplay

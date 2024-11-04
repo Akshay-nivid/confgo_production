@@ -3,8 +3,6 @@ import {
   Box,
   Typography,
   IconButton,
-  Snackbar,
-  Alert,
   Tooltip,
 } from "@mui/material";
 import { CloudUpload, Delete, CheckCircle } from "@mui/icons-material";
@@ -15,15 +13,14 @@ import CustomButton from "../CustomButton/CustomButton";
 import CustomTextField from "../CustomTextfield/CustomTextField";
 import Grid from "@mui/material/Grid2";
 import "./_style.scss";
+import useStore from "@/Libs/store";
 interface FileUploadProps {
   maxFileSizeMB?: number;
   allowedFileTypes?: string[];
   onUploadSuccess?: (file: CustomFile) => void; // Callback prop for successful upload
 }
 
-interface FileError {
-  message: string;
-}
+
 
 interface CustomFile {
   id: number;
@@ -44,10 +41,8 @@ const FileUpload: React.FC<FileUploadProps> = ({
   onUploadSuccess, // Destructure new prop
 }) => {
   const [file, setFile] = useState<File | null>(null);
-  const [error, setError] = useState<FileError | null>(null);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
-
+  const setDataById = useStore((state: any) => state.setDataById);
   const { control, handleSubmit: handleFormSubmit, setValue } = useForm({
     defaultValues: {
       fileName: "",
@@ -66,23 +61,16 @@ const FileUpload: React.FC<FileUploadProps> = ({
     const isFileSizeValid = selectedFile.size <= maxFileSizeMB * 1024 * 1024;
 
     if (!isFileTypeValid) {
-      setError({
-        message: `Invalid file type. Only ${allowedFileTypes.join(", ")} are allowed.`,
-      });
-      setSnackbarOpen(true);
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: `Invalid file type. Only ${allowedFileTypes.join(", ")} are allowed.` });
       return;
     }
 
     if (!isFileSizeValid) {
-      setError({
-        message: `File size exceeds the maximum allowed size of ${maxFileSizeMB} MB.`,
-      });
-      setSnackbarOpen(true);
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: `File size exceeds the maximum allowed size of ${maxFileSizeMB} MB.`});
       return;
     }
 
     setFile(selectedFile);
-    setError(null);
     setUploadSuccess(false);
   };
 /*
@@ -98,14 +86,12 @@ const FileUpload: React.FC<FileUploadProps> = ({
  */
   const handleSubmit = async (data: { fileName: string }) => {
     if (!file) {
-      setError({ message: "No file selected. Please upload a file." });
-      setSnackbarOpen(true);
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: `No file selected. Please upload a file.`}); 
       return;
     }
 
     if (!data.fileName.trim()) {
-      setError({ message: "Please enter a name for the image." });
-      setSnackbarOpen(true);
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "Please enter a name for the image."}); 
       return;
     }
 
@@ -130,8 +116,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
         onUploadSuccess(uploadedFileData);
       }
     } catch (error) {
-      setError({ message: "Upload failed. Please try again." });
-      setSnackbarOpen(true);
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "Upload failed. Please try again."}); 
     }
   };
 
@@ -210,17 +195,6 @@ const FileUpload: React.FC<FileUploadProps> = ({
           )}
         </Grid>
       </Grid>
-
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarOpen(false)}
-        className="file-upload__snackbar"
-      >
-        <Alert onClose={() => setSnackbarOpen(false)} severity="error">
-          {error?.message}
-        </Alert>
-      </Snackbar>
     </Box>
   );
 };
