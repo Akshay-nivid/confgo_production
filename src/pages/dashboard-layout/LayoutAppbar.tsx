@@ -2,7 +2,8 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import { Avatar, Divider, Menu, MenuItem } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
-import { SettingsIcon, LogoutIcon, AppLogo } from '@/assets/svg';
+import { SettingsIcon, LogoutIcon } from '@/assets/svg';
+import  AppLogo  from '@/assets/svg/app-logo.svg';
 import Grid from '@mui/material/Grid2';
 
 /**

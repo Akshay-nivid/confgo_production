@@ -315,13 +315,13 @@ const ViewEventDetail = () => {
 
   return <Grid >
     <Grid container
-      className="event-detail-card" spacing={2} >
+      className="event-detail-card" >
       <Grid size={{ xs: 12, sm: 12 }} flexDirection={"column"} >
         <Grid className="event-detail-header" size={{ xs: 12, sm: 6 }} >
           <Grid container justifyContent={'space-between'}>
             <Grid container>
-              <Grid>
-                <Typography variant="h4">{eventFullData?.name}</Typography>
+              <Grid >
+                <Typography variant="h4" className="event-detail-header-title">{eventFullData?.name}</Typography>
               </Grid>
               <Grid>
                 {eventFullData?.statusId &&
@@ -375,20 +375,19 @@ const ViewEventDetail = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Typography variant="h6">{moment(eventFullData?.startTime).format('MMM D, YYYY h:mm a')}</Typography>
         </Grid>
       </Grid>
-      <Grid container direction={"column"} size={{ xs: 12, sm: 12 }} >
+      <Grid container direction={"column"} size={{ xs: 12, sm: 12 }} className="event-detail-tab-layout-container">
         <TabContext value={value}>
-        <Grid container direction={"column"} size={{ xs: 10, sm: 10 }} >
+        <Grid container direction={"column"} size={{ xs: 12, sm: 12 }} >
             <TabList className="event-detail-tab-layout" onChange={handleChange} aria-label="lab API tabs example">
-              <Tab label="Event Information" value="1" />
-              <Tab label="Event Contributors" value="2" />
-              <Tab label="Sessions" value="3" />
-              <Tab label="Location" value="4" />
-              <Tab label="Users" value="5" />
-              <Tab label="Template" value="6" />
-              <Tab label="Custom Fields" value="7" />
+              <Tab label="Event Information" className="event-detail-tab-layout-item" value="1" />
+              <Tab label="Event Contributors" className="event-detail-tab-layout-item" value="2" />
+              <Tab label="Sessions" className="event-detail-tab-layout-item" value="3" />
+              <Tab label="Location" className="event-detail-tab-layout-item" value="4" />
+              <Tab label="Users" className="event-detail-tab-layout-item" value="5" />
+              <Tab label="Template" className="event-detail-tab-layout-item" value="6" />
+              <Tab label="Custom Fields" className="event-detail-tab-layout-item" value="7" />
             </TabList>
           </Grid>
           <TabPanel value="1">

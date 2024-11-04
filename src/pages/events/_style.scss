@@ -138,9 +138,15 @@
         }
     }
     &-header{
-       padding: 2rem;
+       padding: 2rem 2rem 0 2rem;
+       margin-bottom: 0;
         font-weight: $font_semibold;
         font-size: $h4;
+        &-title{
+            font-size: $h4 !important;
+            font-weight: $font-semibold !important;
+
+        }
         &-status{
             margin-left: 0.2rem;
             background-color: $clr_red_light;
@@ -156,10 +162,17 @@
     
 
     &-tab-layout {
-        margin: 1.8rem;
+        margin-left: 1.8rem;
         color: $clr_white;
         font-weight: $font_medium !important;
-        
+
+
+        &-container{
+            padding: 0 !important;
+            .MuiTabPanel-root{
+                min-height: 40rem;
+            }
+        }
         &-item{
             padding: 2.5rem !important;
         }
@@ -181,6 +194,22 @@
         }
     }
     &-event-info-card{
+        .MuiIconButton-root{
+            padding: 0 !important;
+        }
+        &-title{
+            font-size: $h4 !important;
+            font-weight: $font_semibold !important;
+        }
+        .MuiButtonBase-root:hover{
+            background-color: $clr_white !important;
+        }
+        &-edit-btn{
+            svg{
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+        }
         &-publish-btn{
             background-color: $clr_green !important;
             color: $clr_white !important;
@@ -381,6 +410,7 @@
   &-subtitle {
     font-weight: $font_medium !important;
     font-size: $h6 !important; 
+    color: $light_grey;
   }
   &-content {
     font-weight: $font_semibold !important;

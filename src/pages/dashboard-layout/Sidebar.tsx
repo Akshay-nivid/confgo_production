@@ -70,7 +70,6 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       className="sidebar-drawer"
     >
       <div className="px-[1.666rem] flex-1">
-        <p className="text-start list-header">MENU</p>
         <List className="sidebar-list">
           {sidebarItems.map((item) => {
             const isActive = isActiveLink(item.path, item.exact);
