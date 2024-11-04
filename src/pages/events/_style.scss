@@ -157,10 +157,14 @@
 
     &-tab-layout {
         margin: 1.8rem;
-        background-color: $background;
         color: $clr_white;
+        font-weight: $font_medium !important;
+        
+        &-item{
+            padding: 2.5rem !important;
+        }
         .MuiTab-textColorPrimary {
-            color: $clr_gray_light;
+            color: $clr_text_gray;
             font-weight: $font_medium;
             text-transform: none;
             font-size: $h6 ;
@@ -169,14 +173,12 @@
 
         .Mui-selected {
             color: $clr_black !important;
-            font-weight: $font_semibold !important; 
             text-transform: none !important;   
         }
 
         .MuiTabs-indicator {
             background-color: $clr_green !important;
         }
-
     }
     &-event-info-card{
         &-publish-btn{
