@@ -88,7 +88,18 @@ const AddOrganization = React.memo(() => {
                                                 control={control}
                                                 name="organizationName"
                                                 type="text"
-                                                rules={{ required:{value:true,message:"Organization name is required"} }}
+                                                rules={{ 
+                                                    required:{value:true,message:"Organization name is required"},
+                                                    pattern: {
+                                                            value: /^(?=.*[a-zA-Z0-9])(?!\s*$).+$/,
+                                                        message: "Organization name cannot be only spaces or special characters"
+                                                    },
+                                                    maxLength: {
+                                                        value: 30,
+                                                        message: "Organization name cannot exceed 30 characters"
+                                                    }
+                                                      
+                                                 }}
                                             />
                                         </Grid>
                                         <Grid container className='w-full'>
@@ -119,7 +130,14 @@ const AddOrganization = React.memo(() => {
                                                 control={control}
                                                 name="organizationAddress"
                                                 type="text"
-                                                rules={{ required:{value:true,message:"Organization address is required"} }}
+                                                rules={{ 
+                                                    required:{value:true,message:"Organization address is required"},
+                                                    pattern: {
+                                                        value: /^(?=.*[a-zA-Z0-9])(?!\s*$).+$/,
+                                                        message: "Organization address cannot be only spaces or special characters"
+                                                    }
+                                                 }}
+                                        
                                             />
                                         </Grid>
                                     </Grid>

@@ -57,7 +57,7 @@ const SetPasswordComponent = () => {
       const response=await apiClient.put(`user/setpassword`,requestBody);
       if(response.data.status==='success'){
         setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:'Registration Successfully' })
-        navigate(routes.LoginOrg());
+        navigate(routes.loginOrg());
       }else{
         setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:'Something went wrong' })
       }
