@@ -36,6 +36,8 @@ import FormBuilder from "./components/FormBuilder/FormBuilder";
 import ViewEventDetail from "./pages/events/view/ViewEventDetail";
 import CreateEvent from "./pages/events/CreateEvent";
 import EventList from "./pages/events/EventList";
+import UserDashboardLayout from "./pages/user-dashboard-layout";
+import UserDashboard from "./pages/user-dashboard-layout/UserDashboard";
 
 /**
  * Create your router configuration
@@ -79,6 +81,15 @@ const userRoutes = [
       {
         path: routes.userEventRegistrationCompleted(),
         element: <RegistrationCompleted />,
+      },
+    ],
+  },
+  {
+    element: <UserDashboardLayout />,
+    children: [
+      {
+        path: routes.userHome(),
+        element: <UserDashboard />,
       },
     ],
   },
