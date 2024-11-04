@@ -269,3 +269,40 @@
         padding-bottom: 1rem;
     }
 }
+
+.event-information {
+  &-subtitle {
+    // Styles for event info subtitles
+    font-weight: $font_medium !important;
+    font-size: $h6 !important; // Adjusted to rem
+  }
+  &-content {
+    // Styles for event info content
+    font-weight: $font_semibold !important;
+    font-size: $h6 !important; // Adjusted to rem
+  }
+  &-edit-heading {
+    // Styles for the edit heading in the drawer
+    font-weight: $font_semibold !important;
+    font-size: $h5 !important; // Adjusted to rem
+  }
+  &-edit-btn {
+    background-color: $clr_green !important;
+    color: $clr_white !important;
+    min-width: 8rem !important;
+    text-transform: none !important;
+    font-size: $h6 !important;
+    font-weight: $font_semibold !important;
+    box-shadow: none !important;
+  }
+  &-restore-btn {
+    background-color: $clr_white !important;
+    color: $clr_green !important;
+    min-width: 8rem !important;
+    border: 1px solid $clr_green !important;
+    text-transform: none !important;
+    font-size: $h6 !important;
+    font-weight: $font_semibold !important;
+    box-shadow: none !important;
+  }
+}
