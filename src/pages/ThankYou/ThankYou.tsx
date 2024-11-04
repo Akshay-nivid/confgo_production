@@ -1,26 +1,25 @@
+
 import {Typography } from '@mui/material'
 import Grid from '@mui/material/Grid2'
-import { useNavigate } from 'react-router-dom'
+import {useNavigate } from 'react-router-dom'
 import useStore from '@/Libs/store'
-import routes from '@/router/routes'
 import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
 import { useEffect } from 'react'
 import CustomButton from '@/components/CustomButton/CustomButton'
 
-export default function thankyou() {
+export default function Thankyou() {
   const navigate = useNavigate()
   /**
    * zustand data
    */
-  const thankYouPageTittle = useStore((state: any) => state.compData.thankYouPageTittle)
+  const thankYouPage = useStore((state: any) => state.compData.thankYouPageInfo);
   /**
    * useEffect for navigate to login page after 5 seconds
    */
   useEffect(() => {
-    if (thankYouPageTittle.url === thankYouPageTittle.url) {
-    } else {
+    if (thankYouPage.redirectTo){
       setTimeout(() => {
-        navigate(routes.login());
+        navigate(thankYouPage.redirectTo);
       }, 5000);
     }
   }, [])
@@ -31,7 +30,7 @@ export default function thankyou() {
       <Grid container size={{ xs: 6, lg: 7 }} className='grid-right' justifyContent='center' >
         <Grid className='grid-right-image' size={{ xs: 6, lg: 5 }} justifyContent='center' alignItems='center' container direction="row">
           <Grid size={{ xs: 12, lg: 12, xl: 12 }} container>
-            <Typography className='grid-right-image-text' >{thankYouPageTittle?.title}</Typography>
+            <Typography className='grid-right-image-text' >{thankYouPage?.type}</Typography>
           </Grid>
           <Grid size={{ xs: 12, lg: 4 }} className='thankyou-icon'>
           </Grid >

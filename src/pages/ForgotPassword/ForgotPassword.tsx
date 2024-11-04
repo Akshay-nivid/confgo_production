@@ -50,9 +50,9 @@ const ForgotPassword = () => {
      */
     const successCB = (context: any) => {
       if (compData.type=== userType.PARTICIPANT) {
-        navigate(routes.userOtp(), { state: { email: data.email, purpose: purposeTypes.RESET_PASSWORD, token: context?.data?.token?.token, userId: context?.data?.token?.userId } });
+        navigate(routes.userOtp(),{state:{email:data.email, purpose: purposeTypes.RESET_PASSWORD, token: context?.data?.token?.token, userId: context?.data?.token?.userId } });
       } else {
-        setDataById("thankYouPageTittle", { title: "Email sent successfully", url: currentUrl })
+        setDataById("thankYouPageInfo",{type:"Submitted sucessfully"});
         navigate(routes.thankyou());
       }
     };
