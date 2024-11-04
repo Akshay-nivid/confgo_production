@@ -6,9 +6,6 @@ import {
   Typography,
 } from "@mui/material";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import BasicPlanImage from '@/assets/svg/basic-plan-icon.svg';
-import ProPlanImage from '@/assets/svg/pro-plan.svg';
-import StandardPlanImage from '@/assets/svg/standard-plan-icon.svg';
 import useStore from "@/Libs/store";
 import PlanCard from "@/components/PlanCard";
 import { useNavigate } from "react-router-dom";
@@ -17,41 +14,8 @@ import { ArrowIconSvg } from "@/assets/svg";
 import { Logger } from "@/Utils/Logger";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
-/*
- * sample plan data will be replaced after integration of api
- */
-const PLANS = {
-  basic: "Basic",
-  proffesional: "Proffesional",
-  enterprise: "Enterprise",
-};
 
-const plans = [
-  {
-    header: PLANS.basic,
-    price: "99",
-    value: PLANS.basic,
-    isDicount: false,
-    discount: "",
-    image: <BasicPlanImage />
-  },
-  {
-    header: PLANS.proffesional,
-    price: "199",
-    value: PLANS.proffesional,
-    isDicount: false,
-    discount: "",
-    image: <ProPlanImage />
-  },
-  {
-    header: PLANS.enterprise,
-    price: "399",
-    value: PLANS.enterprise,
-    isDicount: true,
-    discount: "15%",
-    image: <StandardPlanImage />
-  },
-];
+
 /*
  * compoent to render the plan
  */
@@ -100,7 +64,7 @@ const AddPlan = React.memo(() => {
   const getPlanData = async () => {
     try {
       const response = await apiClient.post(`plan/list`, {});
-      const { status, data, message } = await processAPIResponse(response, 'plan list');
+      const { status, data } = await processAPIResponse(response, 'plan list');
       if (status) {
         setPlanList(data);
         if(form1?.field_values){
@@ -120,7 +84,7 @@ const AddPlan = React.memo(() => {
    * function to change the state and store selected plan
    */
   const handleClick = () => {
-    const planDetail = plans.find((item) => item.header === currentPlan);
+    const planDetail = planList.find((item) => item.name === currentPlan);
     setDataById('register', { data: 'CREATE_ACCOUNT_PAGE', step: 2 });
     setDataById('form1', { field_values: planDetail });
   }

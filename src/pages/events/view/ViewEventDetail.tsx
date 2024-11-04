@@ -252,7 +252,7 @@ const ViewEventDetail = () => {
             <EventInfoCard eventData={eventFullData} />
           </TabPanel>
           <TabPanel value="2">
-            <SepekerCard eventData={eventData} />
+            <SepekerCard eventData={eventFullData} />
           </TabPanel>
           <TabPanel value="3">
             <Sessions eventData={eventFullData} />
