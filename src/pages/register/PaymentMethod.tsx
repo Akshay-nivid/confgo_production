@@ -1,5 +1,5 @@
 import Grid from "@mui/material/Grid2";
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
     Box,
     Typography,
@@ -7,21 +7,28 @@ import {
 import PaymentMethodImage from "@/assets/png/payment-method.png"
 import PayPalButton from "./PayPalCompoent";
 import useStore from "@/Libs/store";
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 /*
  * functional compoent used to render payment method 
  */
 const PaymentMethod = React.memo(() => {
     const { setDataById }: any = useStore();
  
-    /*
-   * useEffect used to set stepper info
-   */
-    useEffect(() => {
-        setDataById('register', { data: 'PAYMENT_METHOD_PAGE', step: 4 });
-    }, [])
+/*
+ * function to skip payment and navigate to success page 
+ */    
+const handleSkipNavigation=()=>{
+    setDataById('register', { data: 'REGISTRATION_SUCCESS_PAGE',paymentStatus:false });
+}
     return (
         <Grid>
             <Grid container spacing={5}>
+            <Grid container size={12} justifyContent={"flex-end"} >
+                <Grid alignItems={"center"} display={"flex"} className="cursor-container" onClick={handleSkipNavigation}>
+                    <Typography variant="h6">Skip</Typography>
+                    <ArrowForwardIosIcon/>
+                </Grid>
+                </Grid>
                 <Grid className="left-content-wrapper">
                     <Grid className="left-inner-content">
                         <Grid alignSelf={"center"}>
