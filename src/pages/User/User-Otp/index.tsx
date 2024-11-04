@@ -1,16 +1,17 @@
-import CustomButton from "@/components/CustomButton/CustomButton";
-import routes from "@/router/routes";
-import { validateMinLength, validateRequiredField } from "@/Utils/Validation";
-import { Typography } from "@mui/material";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid2";
-import { Controller, useForm } from "react-hook-form";
-import { useLocation, useNavigate } from "react-router-dom";
-import OtpInput from "react-otp-input";
-import { LockIcon } from "@/assets/svg";
-import { useEffect } from "react";
-import apiClient from "@/Libs/Https/API-client";
-import { Logger } from "@/Utils/Logger";
+import CustomButton from '@/components/CustomButton/CustomButton';
+import routes from '@/router/routes';
+import { validateMinLength, validateRequiredField } from '@/Utils/Validation';
+import { Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid2';
+import { Controller, useForm } from 'react-hook-form';
+import { useLocation, useNavigate } from 'react-router-dom';
+import OtpInput from 'react-otp-input';
+import { LockIcon } from '@/assets/svg';
+import { useEffect } from 'react';
+import apiClient from '@/Libs/Https/API-client';
+import useStore from '@/Libs/store';
+import { Logger } from '@/Utils/Logger';
 
 /**
  * User Otp page component
@@ -19,21 +20,29 @@ import { Logger } from "@/Utils/Logger";
 interface IFormData {
   otp: string;
 }
+/**
+ * purpose types
+ */
+export const purposeTypes = {
+  SET_PASSWORD: 'USER_REGISTRATION_OTP',
+  RESET_PASSWORD: 'RESET_PASSWORD_OTP'
+}
 const UserOtp = () => {
-  const { email, phoneNumber, token, userId } = useLocation().state || {};
 
+  const { email, token, userId, purpose, phoneNumber } = useLocation().state || {};
   const navigate = useNavigate();
-
+  const POST = useStore((state: any) => state.POST);
   /*
    * if email and phone number are not present in the state, redirect to the register page
    */
-
   useEffect(() => {
     if (!email) {
       navigate(routes.userRegister());
     }
   }, []);
-
+  /**
+   * useForm hook
+   */
   const {
     control,
     handleSubmit,
@@ -42,35 +51,73 @@ const UserOtp = () => {
     defaultValues: { otp: "" },
     reValidateMode: "onSubmit",
   });
-
   /**
    * function to handle login
    */
-  const handleLogin = async (data: IFormData) => {
-    console.log(token, userId);
-    const body = {
-      userId: userId,
-      otp: data.otp,
-      type: "REGISTRATION_OTP",
-      token: token,
-      email: email,
-    };
-    try {
-      const response = await apiClient.post("token/validateotp", body);
-      if (response.data.status === "success") {
-        navigate(routes.userSetPassword(), {
-          state: { userId: userId, email: email, phoneNumber: phoneNumber },
-        });
+  const handleVerifyOtp = async (data: IFormData) => {
+    /*
+     * set password api call
+     */
+    if (purpose === purposeTypes.SET_PASSWORD) {
+      const body = {
+        userId: userId,
+        otp: data.otp,
+        type: 'REGISTRATION_OTP',
+        token: token,
+      
+      };
+
+      /**
+       * success callback function
+       */
+      function successCB(_context: any) {
+        navigate(routes.userSetPassword(),
+          { state: { userId: userId, email: email,purpose} });
       }
-    } catch (error) {
-      Logger.error("Error in otp", error);
+
+      /**
+       * if purpose is new user registration set password
+       * function to make api call
+       */
+      POST({
+        id: 'setPassword', url: 'token/validateotp',
+        body: body
+        , successCB: successCB,
+        errorCB: (error) => Logger.error("error", error)
+      })
+    };
+    /**
+     * if purpose is forgot password
+     * reset password api call
+     */
+    if (purpose == purposeTypes.RESET_PASSWORD) {
+      
+      const body = {
+        otp: data.otp,
+        token: token,
+        type: 'RESET_PASSWORD_OTP',
+        userId: userId,
+      };
+      function successCB(_context: any) {
+        navigate(routes.userSetPassword(), { state: { email,userId,purpose } });
+      }
+      POST({
+        id: 'reset-password'
+        , url: 'token/validateotp',
+        body: body,
+        successCB: successCB,
+        errorCB: (error:any) => Logger.error("error", error)
+      })
     }
   };
-
+/**
+ * function to handle resend otp
+ * @returns 
+ */
   const handleResendOtp = async () => {
-    const response = await apiClient.post("token/otp", {
+    const response = await apiClient.post('token/otp', {
       phone: phoneNumber,
-      type: "RESET_PASSWORD_OTP",
+      type: 'RESET_PASSWORD_OTP',
     });
     return response;
   };
@@ -90,14 +137,15 @@ const UserOtp = () => {
           <Typography textAlign={"center"} className="header-title">
             Verify Your Account
           </Typography>
-          <Typography textAlign={"center"} className="header-subtitle">
-            {`Enter the OTP sent to +91 ${phoneNumber} /`}
-            <br /> {`${email} to complete the process.`}
+          <Typography textAlign={'center'} className="header-subtitle">
+            {`Enter the OTP sent ${email} `}
+            <br />
+            {`   to complete the process.`}
           </Typography>
         </Box>
         <Box className="form-container">
           <form
-            onSubmit={handleSubmit(handleLogin)}
+            onSubmit={handleSubmit(handleVerifyOtp)}
             noValidate
             className="form"
           >
@@ -154,6 +202,7 @@ const UserOtp = () => {
               size="large"
               label="Verify"
               type="submit"
+
             />
           </form>
           <Box className="navigation-text-container">

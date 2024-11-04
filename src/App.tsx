@@ -36,6 +36,8 @@ import FormBuilder from "./components/FormBuilder/FormBuilder";
 import ViewEventDetail from "./pages/events/view/ViewEventDetail";
 import CreateEvent from "./pages/events/CreateEvent";
 import EventList from "./pages/events/EventList";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
+import Thankyou from "./pages/ThankYouPage/thankyou";
 
 /**
  * Create your router configuration
@@ -88,6 +90,14 @@ const router = createBrowserRouter([
   {
     path: routes.register(),
     element: <Register />,
+  },
+  {
+    path: routes.forgotPassword(),
+    element: <ForgotPassword />,
+   },
+   {
+    path: routes.thankyou(),
+    element: <Thankyou />,
   },
   {
     path: routes.verifyEmail(),
