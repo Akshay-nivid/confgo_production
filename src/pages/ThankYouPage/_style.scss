@@ -2,7 +2,6 @@
     height: 100vh;
     .grid-left {
         width: full;
-        color: red;
         background-image: url('/src/assets/svg/thankyou-right-bg.svg') !important;
     }
     .grid-right {
@@ -22,7 +21,7 @@
             .thankyou-icon {
                 height: 10rem;
                 width: 10rem;
-                background-image: url('/src/assets/svg/success-tick.svg');
+                background-image: url('/src/assets/svg/success-icon.svg');
                 background-size: cover;
                 margin-top: 1.5625rem !important;
             }
