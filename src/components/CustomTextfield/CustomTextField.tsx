@@ -115,13 +115,9 @@ const CustomTextField = <T extends FieldValues>({
     if (props.suffixIconButton) {
       propsObj.endAdornment = (
         <InputAdornment position="end">
-          <IconButton
-            className={`custom-text-field-icon-btn`}
-            onClick={
-              type === "password"
-                ? handleTogglePassword
-                : props.handleToggleSuffixIcon
-            }
+           <IconButton
+            className="custom-text-field-icon-btn"
+            onClick={handleTogglePassword}
           ></IconButton>
         </InputAdornment>
       );
@@ -131,9 +127,12 @@ const CustomTextField = <T extends FieldValues>({
       propsObj.endAdornment = (
         <InputAdornment position="end">
           <IconButton
-            className="custom-text-field-icon-btn"
-            onClick={handleTogglePassword}
-          >
+            className={`custom-text-field-icon-btn`}
+            onClick={
+              type === "password"
+                ? handleTogglePassword
+                : props.handleToggleSuffixIcon
+            }>
             {isShowPassword ? <Visibility /> : <VisibilityOff />}
           </IconButton>
         </InputAdornment>
