@@ -14,7 +14,6 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { Typography } from "@mui/material";
 import { ISource } from "@/Libs/type";
 import { Logger } from "@/Utils/Logger";
-import useStore from '@/Libs/store';
 /**
  * Used to render events list
  * @author Vanisree 

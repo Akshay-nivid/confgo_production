@@ -178,7 +178,7 @@ const ViewEventDetail = () => {
   /**
    *function to  get Event detail
    */
-   const getEventDetails = async () => {
+  const getEventDetails = async () => {
     try {
       const response = await apiClient.get(`event/${id}`);
       const { status, data } = await processAPIResponse(response, 'eventData');
