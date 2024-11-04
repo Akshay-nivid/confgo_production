@@ -4,6 +4,7 @@ import routes from '@/router/routes';
 import {
   validateEmail,
   validateMaxLength,
+  validateMinLength,
   validatePhoneNumber,
   validateRequiredField,
 } from '@/Utils/Validation';
@@ -17,6 +18,7 @@ import apiClient from '@/Libs/Https/API-client';
 import { Logger } from '@/Utils/Logger';
 import { jwtDecode } from 'jwt-decode';
 import useStore from '@/Libs/store';
+import { purposeTypes } from '@/pages/User/User-Otp';
 
 interface IUserRegister {
   firstName: string;
@@ -55,9 +57,8 @@ interface GoogleUserData {
 const UserRegister = (props: UserProps) => {
   const { control, handleSubmit } = useForm<IUserRegister>();
   const navigate = useNavigate();
-  const setDataById = useStore((state: any) => state.setDataById);
   const POST = useStore((state: any) => state.POST);
-
+  const setDataById = useStore((state: any) => state.setDataById);
   /**
    * function to handle google login
    * @param {any} data - The data to be sent to the server
@@ -72,6 +73,9 @@ const UserRegister = (props: UserProps) => {
         email: data.email ?? '',
         ...(data.phone_number ? { phone: data.phone_number } : {})
       };
+      /**
+       * function to make api call
+       */
       const response = await apiClient.post('auth/ssoLogin', requestBody)
       if (response.data.status === 'success') {
         setDataById('participantLogin', true)
@@ -83,7 +87,6 @@ const UserRegister = (props: UserProps) => {
       return error;
     }
   }
-
   /**
    * function to handle login
    */
@@ -137,7 +140,7 @@ const UserRegister = (props: UserProps) => {
               className="textfield-container"
               display={'flex'}
               flexDirection={'column'}
-            >
+              >
               <CustomTextField
                 control={control}
                 name="firstName"
@@ -145,6 +148,7 @@ const UserRegister = (props: UserProps) => {
                 label={'First Name'}
                 rules={{
                   required: validateRequiredField({ fieldName: 'First Name' }),
+                  minLength: validateMinLength({ minLength: 3, fieldName: 'First Name' })
                 }}
               />
               <CustomTextField
@@ -166,7 +170,6 @@ const UserRegister = (props: UserProps) => {
                   pattern: validateEmail({}),
                 }}
               />
-
               <CustomTextField
                 control={control}
                 name="phone"
