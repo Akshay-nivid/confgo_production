@@ -24,6 +24,7 @@ const routes = {
   user: () => "/user",
   participantHome: () => "/participant/home",
   userLogin: () => "/user/login",
+  userHome: () => "/user/dashboard",
   userRegister: () => "/user/register",
   userOtp: () => "/user/otp",
   userSetPassword: () => "/user/setpassword",

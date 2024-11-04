@@ -37,6 +37,8 @@ import ViewEventDetail from "./pages/events/view/ViewEventDetail";
 import EventList from "./pages/events/EventList";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Thankyou from "./pages/ThankYou/ThankYou";
+import UserDashboardLayout from "./pages/user-dashboard-layout";
+import UserDashboard from "./pages/user-dashboard-layout/UserDashboard";
 
 /**
  * Create your router configuration
@@ -80,6 +82,15 @@ const userRoutes = [
       {
         path: routes.userEventRegistrationCompleted(),
         element: <RegistrationCompleted />,
+      },
+    ],
+  },
+  {
+    element: <UserDashboardLayout />,
+    children: [
+      {
+        path: routes.userHome(),
+        element: <UserDashboard />,
       },
     ],
   },
