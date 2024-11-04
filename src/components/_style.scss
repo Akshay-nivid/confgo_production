@@ -52,6 +52,7 @@
 
 .custom-text-field {
   // margin-bottom: 1rem;
+  margin-top: 0.5rem;
   caret-color: $clr_black;
   color: $clr_black;
   & .label-header {
@@ -111,6 +112,8 @@
     // background-color: $clr_white;
     &.Mui-focused {
       // color: $clr_blue;
+      margin-top: -4px;
+      margin-left: -8px;
       font-weight: $font_normal;
       // font-size: $p1;
 
@@ -703,3 +706,10 @@
     }
   }
 }
+
+.custom-input-label.MuiInputLabel-shrink {
+  transform: translate(9px, 0px) scale(0.75);
+  top: -17px;
+}
+
+

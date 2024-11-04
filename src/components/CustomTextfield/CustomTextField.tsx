@@ -16,8 +16,8 @@ import {
   PathValue,
   RegisterOptions,
 } from "react-hook-form";
-import { EventHandler, useState } from "react";
-import { clsx } from "clsx";
+import { useState } from "react";
+import clsx from "clsx";
 
 interface ICustomTextFieldProps<T extends FieldValues> {
   prefixIconButton?: React.ReactNode;
@@ -28,9 +28,8 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   handleToggleprefixIcon?: () => void;
   handleToggleSuffixIcon?: () => void;
   handleToggleSuffixSecondIcon?: () => void;
-  // isShowPassword?: boolean;
-  min?: number;
-  max?: number;
+  min?: string | number;
+  max?: string | number;
   type?: string;
   name: Path<T>;
   label?: string;
@@ -56,9 +55,10 @@ interface ICustomTextFieldProps<T extends FieldValues> {
 interface InputPropsType {
   startAdornment?: React.ReactNode;
   endAdornment?: React.ReactNode;
-  min?: number;
-  max?: number;
+  min?: string | number;
+  max?: string | number;
 }
+
 /*
  * component used to render textfield
  */
@@ -172,64 +172,75 @@ const CustomTextField = <T extends FieldValues>({
   };
 
   return (
-    <>
-      <FormControl fullWidth className="custom-text-field">
-        {showHeader && (
-          <Typography className="label-header" variant="h6">
-            {placeholder}
-            {requiredField && <span className="error-text">*</span>}
-          </Typography>
-        )}
-        {
-          <InputLabel htmlFor={name} className="custom-text-field-placeholder">
-            {placeholder}
-          </InputLabel>
-        }
-        <Controller
-          name={name}
-          defaultValue={defaultValue}
-          control={control}
-          disabled={disabled}
-          rules={rules}
-          render={({ field, fieldState: { error } }) => {
-            const passwordType = isShowPassword ? "text" : "password";
-            return (
-              <>
-                <OutlinedInput
-                  autoComplete="false"
-                  {...field}
-                  {...props}
-                  name={name}
-                  size={size}
-                  error={error?.message ? true : false}
-                  id={name}
-                  //  onChange={onChange}
-                  type={type === "password" ? passwordType : type}
-                  label={label}
-                  multiline={multiline ? true : false}
-                  rows={rows ? rows : 1}
-                  readOnly={readOnly? readOnly: false}
-                  className={clsx(
-                    error
-                      ? "custom-text-field error-input"
-                      : "custom-text-field",
-                    props.className
-                  )}
-                  placeholder={type === "date" ? "" : placeholder}
-                  onBlur={handleBlur} 
-                  {...inputProps()}
-                />
-                {error?.message && (
-                  <FormHelperText className="error-text">
-                    {error.message}
-                  </FormHelperText>
-                )}
-              </>
-            );
-          }}
-        />
-      </FormControl>
-    </>
+    <FormControl
+      fullWidth
+      className={clsx("custom-text-field", props.formControlClassName)}
+    >
+      {showHeader && (
+        <Typography className="label-header" variant="h6">
+          {placeholder}
+          {requiredField && <span className="error-text">*</span>}
+        </Typography>
+      )}
+
+      <InputLabel htmlFor={name} className="custom-input-label">
+         {placeholder}
+     </InputLabel>
+
+      <Controller
+        name={name}
+        defaultValue={defaultValue}
+        control={control}
+        rules={{
+          ...rules,
+          validate: {
+            ...rules?.validate,
+            notInPast: (value) => {
+              const selectedDate = new Date(value);
+              const today = new Date();
+              today.setHours(0, 0, 0, 0);
+              if (
+                (type === "date" || type === "datetime-local") &&
+                selectedDate < today
+              ) {
+                return "Date cannot be in the past";
+              }
+              return true;
+            },
+          },
+        }}
+        render={({ field, fieldState: { error } }) => {
+          const passwordType = isShowPassword ? "text" : "password";
+          return (
+            <>
+              <OutlinedInput
+                autoComplete="false"
+                {...field}
+                {...props}
+                name={name}
+                size={size}
+                error={!!error?.message}
+                id={name}
+                type={type === "password" ? passwordType : type}
+                label={label}
+                multiline={multiline}
+                rows={rows || 1}
+                readOnly={readOnly}
+                placeholder={type === "date" ? "" : placeholder}
+                className={clsx(error ? "error-input" : "", props.className)}
+                onBlur={handleBlur}
+                {...inputProps()}
+              />
+              {error?.message && (
+                <FormHelperText className="error-text">
+                  {error.message}
+                </FormHelperText>
+              )}
+            </>
+          );
+        }}
+      />
+    </FormControl>
   );
 };
 
