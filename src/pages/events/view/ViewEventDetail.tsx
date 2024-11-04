@@ -172,34 +172,22 @@ const ViewEventDetail = () => {
   };
   const {id } = useParams<Record<string, string | undefined>>();
   const [eventFullData,setEventFullData]=useState<Addon>();
-  const GET = useStore((state: any) => state.GET);
   useEffect(() => {
     getEventDetails();
   }, [])
   /**
    *function to  get Event detail
    */
-  const getEventDetails = async () => {
-    // try {
-    //   const response = await apiClient.get(`event/${id}`);
-    //   const { status, data } = await processAPIResponse(response, 'eventData');
-    //   if (status) {
-    //     setEventFullData(data)
-    //   }
-    // } catch (error) {
-    //   Logger.error('ViewEventDetail', error);
-    // }
-    await GET({
-      url: `event/${id}`,
-      id: id,
-      successCB: (context: any) => {
-        if (context?.success) {
-          setEventFullData(context?.data)
-       }
-      },
-      errorCB: (context: any) => {
-        Logger.error('ViewEventDetail', context.message);   }
-    });
+   const getEventDetails = async () => {
+    try {
+      const response = await apiClient.get(`event/${id}`);
+      const { status, data } = await processAPIResponse(response, 'eventData');
+      if (status) {
+        setEventFullData(data)
+      }
+    } catch (error) {
+      Logger.error('ViewEventDetail', error);
+    }
   }
 
   /**
