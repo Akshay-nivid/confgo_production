@@ -1,0 +1,196 @@
+.modal {
+  &__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    backdrop-filter: blur(4rem);
+  }
+  &-close-icon{
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+  }
+
+  &__content {
+    width: 90%;
+    max-width: 37.5rem;
+    padding: 2rem; 
+    background-color:$clr_white;
+    border-radius: 0.5rem;
+    position: relative; 
+  }
+
+  &__close-button {
+    position: absolute; 
+    top: 0.625rem; 
+    right: 0.625rem; 
+    z-index: 10; 
+    background: transparent; 
+    border: none;
+    cursor: pointer;
+  }
+
+  &__search-input {
+    margin-bottom: 1.5rem; 
+    padding: 0.5rem; 
+  }
+
+  &__image-list {
+    max-height: 28rem; 
+    overflow-y: hidden; 
+    margin-bottom: 1.5rem;
+  }
+
+  &__confirm-button {
+    margin-top: 1rem;
+  }
+
+  &__upload-button {
+    margin-top: 1rem;
+  }
+
+  &__upload-container {
+    width: 100%;
+    height: 50vh;
+    justify-content: center;
+    max-width: 40.25rem;
+    background-color:$clr_white;
+    border-radius: 0.5rem;
+    margin: 0 auto;
+    margin-top: 10rem; 
+    z-index: 1; 
+    align-content: center;
+  }
+}
+
+.file-upload {
+  border: 0.05rem solid $clr-gray-light;
+  border-radius: 0.5rem;
+  max-width: 40.25rem;
+  margin: 0 auto;
+
+  &__input {
+    display: none; 
+  }
+
+  &__select-button {
+    margin-top: 0.5rem; 
+  }
+
+  &__file-info {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem; 
+  }
+
+  &__file-name {
+    flex: 1; 
+  }
+
+  &__text-field {
+    margin-top: 1rem; 
+    padding: 0.5rem;
+  }
+
+  &__submit-button {
+    margin-top: 1rem; 
+  }
+
+  &__success-message {
+    margin-top: 1rem; 
+    color: $clr_green;
+  }
+}
+
+.image-list {
+  margin: 0;
+
+  &__item {
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  &__image {
+    width: 100%;
+    height: auto;
+    padding: 0.5rem;
+  }
+
+  &__checkbox {
+    margin-left: 0.25rem; 
+  }
+}
+
+
+.file-upload {
+  padding: 1rem; 
+  border: 0.05rem solid ;
+  border-radius: 0.5rem; 
+  max-width: 31.25rem;
+  margin: 0 auto;
+
+  &__input {
+    display: none; 
+  }
+
+  &__select-button {
+    margin-top: 0.5rem; 
+  }
+
+  &__file-info {
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+  }
+
+  &__file-name {
+    flex: 1; 
+  }
+
+  &__text-field {
+    margin-top: 1rem; 
+  }
+
+  &__submit-button {
+    margin-top: 1rem; 
+  }
+
+  &__success-message {
+    margin-top: 1rem; 
+    color: $clr_green;
+  }
+}
+
+.image-list {
+  margin: 0;
+
+  &__item {
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  &__image {
+    width: 100%;
+    height: auto;
+  }
+
+  &__checkbox {
+    margin-left: 0.25rem;
+  }
+}
+.image-list-item-bar {
+  height: 1rem; 
+}
+
+.image-list-item-bar-title {
+  font-size: 0.875rem;
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+}

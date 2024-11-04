@@ -113,6 +113,29 @@
         border-radius: 1rem;
         background-color:$clr_white;
         // height: 100vh;
+        &-link{
+            &-label{
+                input{
+                    width: 6rem;
+                    background-color: $clr_bright_gray !important;
+                }
+            }
+            &-text{
+                input{
+                    width: 18rem;
+                }
+            }
+            &-error-message{
+                color: $clr_red !important;
+            }
+        }
+        &-published-link{
+            &-text{
+                input{
+                    width: 25rem;
+                }
+            }
+        }
     }
     &-header{
        padding: 2rem;
@@ -160,12 +183,20 @@
             background-color: $clr_green !important;
             color: $clr_white !important;
             text-transform: none !important;
+            height: 4rem;
+        }
+        &-unpublish-btn{
+            background-color: $clr_medium_red !important;
+            color: $clr_white !important;
+            text-transform: none !important;
+            height: 4rem;
         }
         &-invite-participant-btn{
             background-color: $clr_white !important;
             color: $clr_green !important;
             border: 0.063rem solid $clr_green !important;
             text-transform: none !important;
+            height: 4rem;
         }
         &-event-link{
             background-color: $clr_bright_gray;
@@ -186,6 +217,80 @@
         &-speaker-designation{
             color: $clr_gray_light;
         }
+        &-speaker-add-button{
+            border: solid 0.1rem $clr_green !important;
+            border-radius: 1.68rem !important;
+            color:$clr_green !important;
+            font-weight: $font-semibold !important;
+            
+        }
+       
+        &-contributor-back-label{
+        font-size: $h6 !important;
+        font-weight: $font-semibold !important;
+        }
+        &-contributor-header{
+            font-size: $h5 !important;
+            font-weight: $font-semibold !important;
+
+        }
+        &-btn-container{
+            justify-content: center;
+            align-items: center;
+            margin: 2rem;
+
+            
+            &-photo-btn{
+                border:solid 0.05rem $clr_green !important ;
+                margin-right: 1rem !important;
+                color: $clr_green !important;
+            }
+            &-submit-btn{
+                margin-left: 1rem !important;
+                background-color: $clr_green !important;
+            }
+            &-photo-txt{
+                color: $clr_red;
+            }
+            &-selected-img{
+                width: 5rem;
+                height: 5rem;
+                
+            }
+        }
+
+        &-drawer-box{
+            min-width: 85rem;
+            padding: 2rem;
+            margin: 1rem;
+
+        }
+        &-list-row{
+            display: flex;
+            scrollbar-width: 1rem;
+            scroll-behavior: smooth;
+            overflow-wrap: anywhere;
+            overflow-x: auto;
+        &-container{
+            justify-content: center;
+            align-items: center;
+        }
+        &-img{
+            width: 16.563rem;
+            height: 16.875rem;
+            border-radius: 0.5rem;
+        }
+                &-name {
+                    font-size: $h6 !important;
+                    font-weight: $font-semibold !important;
+                }
+        
+                &-type {
+                    font-size: $p2;
+                    color: $clr-gray-light;
+        
+                }
+                }
     }
     &-sessions-card{
         &-session-list{
@@ -268,4 +373,38 @@
     &-addons-grid{
         padding-bottom: 1rem;
     }
+}
+
+.event-information {
+  &-subtitle {
+    font-weight: $font_medium !important;
+    font-size: $h6 !important; 
+  }
+  &-content {
+    font-weight: $font_semibold !important;
+    font-size: $h6 !important; 
+  }
+  &-edit-heading {
+    font-weight: $font_semibold !important;
+    font-size: $h5 !important; 
+  }
+  &-edit-btn {
+    background-color: $clr_green !important;
+    color: $clr_white ;
+    min-width: 8rem !important;
+    text-transform: none ;
+    font-size: $h6 ;
+    font-weight: $font_semibold !important;
+    box-shadow: none ;
+  }
+  &-restore-btn {
+    background-color: $clr_white ;
+    color: $clr_green !important;
+    min-width: 8rem !important;
+    border: 1px solid $clr_green !important;
+    text-transform: none ;
+    font-size: $h6 ;
+    font-weight: $font_semibold !important;
+    box-shadow: none ;
+  }
 }
