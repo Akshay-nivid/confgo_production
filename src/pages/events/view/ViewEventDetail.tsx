@@ -22,6 +22,12 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import DoneOutlineOutlinedIcon from '@mui/icons-material/DoneOutlineOutlined';
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import useStore from "@/Libs/store";
+import CustomTextField from "@/components/CustomTextfield/CustomTextField";
+import { useForm } from "react-hook-form";
+import PublishIcon from "@/assets/svg/publish.svg";
+import UnpublishIcon from "@/assets/svg/unpublish.svg";
+import CopyIcon from "@/assets/svg/copy-clipboard.svg";
+import ShareIcon from "@/assets/svg/share.svg";
 
 
 interface Status {
@@ -74,6 +80,7 @@ interface Addon {
   title: string;
   venue: Venue;
   venueId: number;
+  published: boolean;
 }
 const eventData = {
   event_name: 'Annual Cardiology Symposium',
@@ -162,19 +169,54 @@ const eventData = {
 
 const ViewEventDetail = () => {
 
-  const [value, setValue] = React.useState('1');
+  const [value, setTabValue] = React.useState('1');
   const { setDataById }: any = useStore();
+  const { setValue, control, watch} = useForm<any>();
+  const {id } = useParams<Record<string, string | undefined>>();
+  const [eventFullData,setEventFullData]=useState<Addon>();
+  const [link, setLink] = useState('');
+  const [errorMessage, setErrorMessage] = useState('')
+
+  
+
+  /**
+   * Method handles the click event for the tab
+   * @param _event : event parameter
+   * @param newValue : new value to be assigned to tab
+   */
+  const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
+    setTabValue(newValue);
+  };
   
 
 
-  const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-  };
-  const {id } = useParams<Record<string, string | undefined>>();
-  const [eventFullData,setEventFullData]=useState<Addon>();
+  /**
+   * Useeffect hook initializes the parameter and handles the get event api call
+   */
   useEffect(() => {
+    setErrorMessage('')
     getEventDetails();
   }, [])
+
+  /**
+   * Method handles the api call for generating slug
+   */
+  const handleLinkGenerationApiCall = async () => {
+    try {
+      const req = {
+        eventId: id
+      }
+      const response = await apiClient.post(`event/slug/generate`, req);
+      const { status, data } = await processAPIResponse(response, 'linkData');
+      if (status) {
+        setValue('eventLink', data)
+      }
+    } catch (error) {
+      Logger.error('ViewEventDetail', error);
+    }
+  }
+
+
   /**
    *function to  get Event detail
    */
@@ -184,6 +226,13 @@ const ViewEventDetail = () => {
       const { status, data } = await processAPIResponse(response, 'eventData');
       if (status) {
         setEventFullData(data)
+        if(data.published){
+          setValue('event', data.slugName? data.slugName: '')
+          setLink(data);
+        }
+        else{
+          handleLinkGenerationApiCall();
+        }
       }
     } catch (error) {
       Logger.error('ViewEventDetail', error);
@@ -191,20 +240,76 @@ const ViewEventDetail = () => {
   }
 
   /**
+   * Method handles the api call for updating the slug
+   */
+  const updateSlug = async () => {
+    const req = {
+      eventId: id,
+      slugName: watch('eventLink')
+    };
+    const response = await apiClient.post('event/slug', req);
+    const { status, message } = await processAPIResponse(response, 'slug-update');
+    if (!status) {
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message });
+    }
+  }
+
+  /**
    * Mehod handles the publish/unpublish of the event
    */
-  const handlePublish = async () => {
+  const handlePublish = async (published: boolean | undefined) => {
+    !published && await updateSlug()
     const req = {
-      "eventId": id,
-      "published":true
+      eventId: id,
+      published: !published
     };
-    const response = await apiClient.post('event/publish', req);
+    const url = published ? 'event/unpublish' : 'event/publish';
+    const response = await apiClient.post(url, req);
     const { status, message } = await processAPIResponse(response, 'event-status');
     if (status) {
       setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: message });
+      setErrorMessage('')
+      getEventDetails();
+      published && handleLinkGenerationApiCall();
     }
     else {
       setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message });
+    }
+  }
+
+  /**
+   * Method handles the on blur event for the event link field
+   * @param event : event parameter
+   * @returns 
+   */
+  const handleOnBlur = async (event: any) => {
+    if (event?.target?.value?.length < 5) {
+      setErrorMessage('Minimun 5 characters required.')
+      return;
+    }
+    const req = {
+      slugName: event?.target?.value
+    }
+    const response = await apiClient.post('event/slug/isAvailable', req);
+    const { status, data } = await processAPIResponse(response, 'link-availablility');
+    if (status) {
+      setErrorMessage(data === false ? 'Url already exist. Please enter a different url.' : '')
+    }
+  }
+
+  /**
+   * Method handles the click event for the copy to clipboard icon
+   */
+  const handleToggleSuffixIcon = () => {
+    const textToCopy = watch("event");
+    if (textToCopy) {
+      navigator.clipboard.writeText(textToCopy)
+        .then(() => {
+          setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: 'Text copied to clipboard' });
+        })
+        .catch((err) => {
+          Logger.error("Failed to copy text: ", err);
+        });
     }
   }
 
@@ -224,11 +329,52 @@ const ViewEventDetail = () => {
               </Grid>
             </Grid>
             <Grid container spacing={2}>
-              <Grid>
+              {/* <Grid>
                 <CustomButton className="event-detail-event-info-card-invite-participant-btn" startIcon={<ShareOutlinedIcon />} label="Invite Participant" variant="outlined" />
+              </Grid> */}
+              <Grid>
+              {eventFullData?.published? <Grid container size={{ xs: 12, sm: 10 }} direction={'column'}>
+                <Grid container direction={'row'} size={{ xs:12, sm:12 }} className="event-detail-card-published-link">
+                    <Grid className="event-detail-card-published-link-text"><CustomTextField
+                                    key='event-detail-card-published-link-event'
+                                    control={control}
+                                    name="event"
+                                    type="text"
+                                    readOnly={true}
+                                    suffixIconButton={<CopyIcon />}
+                                    handleToggleSuffixIcon={handleToggleSuffixIcon}
+                                    suffixIconSecondButton={<ShareIcon />}
+                                    value={link}
+                                /></Grid>
+                </Grid>
+            </Grid>:
+            <Grid container size={{ xs: 12, sm: 10 }} direction={'column'}>
+                <Grid container direction={'row'} size={{ xs:12, sm:12 }} className="event-detail-card-link">
+                    <Grid className="event-detail-card-link-label">
+                    <CustomTextField
+                                    key='event-detail-card-published-link-event-label'
+                                    control={control}
+                                    name="eventLabel"
+                                    type="text"
+                                    defaultValue={`event-link/`}
+                                    readOnly={true}
+                                    
+                                />
+                    </Grid>
+                    <Grid className="event-detail-card-link-text"><CustomTextField
+                                    control={control}
+                                    name="eventLink"
+                                    type="text"
+                                    onBlur={handleOnBlur}
+                                /></Grid>
+                </Grid>
+                {errorMessage && <Grid container direction={'row'} size={{ xs:12, sm:12 }} className="event-detail-card-link-error-message">
+                  <Typography>{errorMessage}</Typography>
+                </Grid>}
+            </Grid>}
               </Grid>
               <Grid>
-                <CustomButton className="event-detail-event-info-card-publish-btn" startIcon={<DoneOutlineOutlinedIcon />} label="Publish Event" onClick={handlePublish}/>
+                <CustomButton className={eventFullData?.published?"event-detail-event-info-card-unpublish-btn": "event-detail-event-info-card-publish-btn"} startIcon={eventFullData?.published?<UnpublishIcon/>:<PublishIcon />} label={eventFullData?.published? "Unpublish Event": "Publish Event"} onClick={() => handlePublish(eventFullData?.published)}/>
               </Grid>
             </Grid>
           </Grid>
