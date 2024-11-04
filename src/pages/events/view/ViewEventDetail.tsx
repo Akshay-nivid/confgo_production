@@ -329,9 +329,6 @@ const ViewEventDetail = () => {
               </Grid>
             </Grid>
             <Grid container spacing={2}>
-              {/* <Grid>
-                <CustomButton className="event-detail-event-info-card-invite-participant-btn" startIcon={<ShareOutlinedIcon />} label="Invite Participant" variant="outlined" />
-              </Grid> */}
               <Grid>
               {eventFullData?.published? <Grid container size={{ xs: 12, sm: 10 }} direction={'column'}>
                 <Grid container direction={'row'} size={{ xs:12, sm:12 }} className="event-detail-card-published-link">
