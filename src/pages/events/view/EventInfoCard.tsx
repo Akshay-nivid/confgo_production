@@ -14,16 +14,27 @@ import useStore from "@/Libs/store";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import moment from "moment";
 
+/**
+ * Information Card to view and update event details.
+ * @param eventData
+ * @returns
+ */
 const EventInfoCard = (eventData: any) => {
   const { id } = useParams();
   const setDataById = useStore((state: any) => state.setDataById);
   const { control, handleSubmit, reset } = useForm<any>();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  // Functions to open and close the drawer.
   const openDrawer = () => setIsDrawerOpen(true);
   const closeDrawer = () => setIsDrawerOpen(false);
+
+  // Store a copy of the original event data for restoring data.
   const [originalData, setOriginalData] = useState(eventData?.eventData);
 
+  /**
+   * useEffect hook to reset the form with formatted event data when `eventData` changes.
+   */
   useEffect(() => {
     if (eventData?.eventData) {
       const formattedEventData = {
@@ -38,6 +49,9 @@ const EventInfoCard = (eventData: any) => {
     }
   }, [eventData, reset]);
 
+  /**
+   * Function to restore form data to its original state.
+   */
   const restore = () => {
     if (originalData) {
       const formattedOriginalData = {
@@ -49,54 +63,48 @@ const EventInfoCard = (eventData: any) => {
     }
   };
 
+  /**
+   * Form submission handler that sends the updated event data to the API.
+   * @param data
+   */
   const onSubmit = async (data: any) => {
-    try {
-      const formattedData = {
-        ...data,
-        startTime: moment(data.startTime, "YYYY-MM-DD HH:mm:ss").format(
-          "YYYY-MM-DDTHH:mm"
-        ),
-        endTime: moment(data.endTime, "YYYY-MM-DD HH:mm:ss").format(
-          "YYYY-MM-DDTHH:mm"
-        ),
-      };
-      const response = await apiClient.post(
-        `event/update/${id}`,
-        formattedData
-      );
-      console.log("API Response", response.data);
-      const { status, message } = await processAPIResponse(
-        response,
-        "event-information-update"
-      );
-      if (status) {
-        setDataById("snackBarInfo", {
-          open: true,
-          autoHideDuration: 2000,
-          severity: "success",
-          message: message,
-        });
-        reset();
-        closeDrawer();
-      } else {
-        setDataById("snackBarInfo", {
-          open: true,
-          autoHideDuration: 2000,
-          severity: "error",
-          message: message || "Failed to update the event. Please try again.",
-        });
-      }
-    } catch (error) {
-      // Show error message using Snackbar
+    // Format the date and time fields before update request.
+    const formattedData = {
+      ...data,
+      startTime: moment(data.startTime, "YYYY-MM-DD HH:mm:ss").format(
+        "YYYY-MM-DDTHH:mm"
+      ),
+      endTime: moment(data.endTime, "YYYY-MM-DD HH:mm:ss").format(
+        "YYYY-MM-DDTHH:mm"
+      ),
+    };
+
+    const response = await apiClient.post(`event/update/${id}`, formattedData);
+    const { status, message } = await processAPIResponse(
+      response,
+      "event-information-update"
+    );
+
+    if (status) {
+      setDataById("snackBarInfo", {
+        open: true,
+        autoHideDuration: 2000,
+        severity: "success",
+        message: message,
+      });
+      reset();
+      closeDrawer();
+    } else {
       setDataById("snackBarInfo", {
         open: true,
         autoHideDuration: 2000,
         severity: "error",
-        message: "Failed to update the event. Please try again.",
+        message: message || "Failed to update the event. Please try again.",
       });
     }
   };
 
+  // Array of options for the event type dropdown.
   const eventTypeOptions = [
     { value: "online", label: "Online" },
     { value: "offline", label: "Offline" },
@@ -115,7 +123,6 @@ const EventInfoCard = (eventData: any) => {
           <Typography
             variant="h3"
             className="create-event-description"
-            style={{ marginRight: 8 }}
           >
             Event Information
           </Typography>
@@ -134,7 +141,7 @@ const EventInfoCard = (eventData: any) => {
           </Typography>
         </Grid>
         <Grid size={{ xs: 6 }}>
-          <Typography className="event-information-content" fontWeight="bold">
+          <Typography className="event-information-content">
             {eventData?.eventData?.name}
           </Typography>
         </Grid>
@@ -145,7 +152,7 @@ const EventInfoCard = (eventData: any) => {
           </Typography>
         </Grid>
         <Grid size={{ xs: 6 }}>
-          <Typography className="event-information-content" fontWeight="bold">
+          <Typography className="event-information-content">
             {eventData?.eventData?.description}
           </Typography>
         </Grid>
@@ -156,7 +163,7 @@ const EventInfoCard = (eventData: any) => {
           </Typography>
         </Grid>
         <Grid size={{ xs: 6 }}>
-          <Typography className="event-information-content" fontWeight="bold">
+          <Typography className="event-information-content">
             {eventData?.eventData?.eventClass}
           </Typography>
         </Grid>
@@ -167,7 +174,7 @@ const EventInfoCard = (eventData: any) => {
           </Typography>
         </Grid>
         <Grid size={{ xs: 6 }}>
-          <Typography className="event-information-content" fontWeight="bold">
+          <Typography className="event-information-content">
             {moment(eventData?.eventData?.startTime).format(
               "MMM D, YYYY hh:mm a"
             )}
@@ -180,7 +187,7 @@ const EventInfoCard = (eventData: any) => {
           </Typography>
         </Grid>
         <Grid size={{ xs: 6 }}>
-          <Typography className="event-information-content" fontWeight="bold">
+          <Typography className="event-information-content">
             {moment(eventData?.eventData?.endTime).format(
               "MMM D, YYYY hh:mm a"
             )}
@@ -196,7 +203,7 @@ const EventInfoCard = (eventData: any) => {
             justifyContent="space-between"
             alignItems="center"
           >
-            <Typography variant="h3" className="event-information-edit-heading">
+            <Typography className="event-information-edit-heading">
               Edit Event Information
             </Typography>
             <IconButton onClick={closeDrawer}>
