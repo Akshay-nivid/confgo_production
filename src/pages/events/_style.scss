@@ -1,643 +1,482 @@
-.create-event {
-  &-container {
-    background-color: $clr_white;
+.create-event{
+  &-container{
+      background-color: $clr_white;
   }
-  &-description {
-    font-size: $h6 !important;
-    font-weight: $font_semibold !important;
-    &-error {
-      .ql-snow {
-        border: 0.0625rem solid $clr_red !important;
+  &-description{
+      font-size: $h6 !important;
+      font-weight: $font_semibold !important;
+      &-error {
+          .ql-snow{
+              border: 1px solid $clr_red !important;
+          }
       }
-    }
   }
-  &-next-btn {
-    background-color: $clr_green !important;
-    color: $clr_white !important;
-    min-width: 10rem !important;
-    text-transform: none !important;
-    font-size: $h6 !important;
-    font-weight: $font_semibold !important;
-    box-shadow: none !important;
+  &-next-btn{
+      background-color: $clr_green !important;
+      color: $clr_white !important;
+      min-width: 10rem !important;
+      text-transform: none !important;
+      font-size: $h6 !important;
+      font-weight: $font_semibold !important;
+      box-shadow: none !important;
   }
-  &-back-btn {
-    background-color: $clr_white !important;
-    color: $clr_green !important;
-    min-width: 10rem !important;
-    border: 0.0625rem solid $clr_green !important;
-    text-transform: none !important;
-    font-size: $h6 !important;
-    font-weight: $font_semibold !important;
-    box-shadow: none !important;
+  &-back-btn{
+      background-color: $clr_white !important;
+      color: $clr_green !important;
+      min-width: 10rem !important;
+      border: 1px solid $clr_green !important;
+      text-transform: none !important;
+      font-size: $h6 !important;
+      font-weight: $font_semibold !important;
+      box-shadow: none !important;
   }
-  &-title {
-    font-weight: $font_bold !important;
-    font-size: $h3 !important;
-    padding-bottom: 4rem !important;
+  &-title{
+      font-weight: $font_bold !important;
+      font-size: $h3 !important;
+      padding-bottom: 4rem !important;
   }
 }
 
-.add-program {
-  &-container {
-    background-color: $clr_white;
-    padding-left: 1rem;
+.add-program{
+  &-container{
+      background-color: $clr_white;
+      padding-left: 1rem;
   }
-  &-next-btn {
-    background-color: $clr_green !important;
-    color: $clr_white !important;
-    min-width: 15rem !important;
+  &-next-btn{
+      background-color: $clr_green !important;
+      color: $clr_white !important;
+      min-width: 15rem !important;
   }
-  &-back-btn {
-    background-color: $clr_white !important;
-    color: $clr_green !important;
-    min-width: 15rem !important;
+  &-back-btn{
+      background-color: $clr_white !important;
+      color: $clr_green !important;
+      min-width: 15rem !important;
   }
-  &-display-item {
-    height: 4.2rem;
-    background-color: $background;
-    padding: 1rem !important;
-    margin-bottom: 1.05rem !important;
+  &-display-item{
+      height: 4.2rem;
+      background-color: $background;
+      padding: 1rem !important;
+      margin-bottom: 1.05rem !important;
   }
-  &-display-container {
-    padding: 1rem !important;
-    padding-top: 7rem !important;
-    padding-right: 3rem !important;
+  &-display-container{
+      padding: 1rem !important;
+      padding-top: 7rem !important;
+      padding-right: 3rem !important;
   }
-  &-title {
-    font-weight: $font_bold !important;
-    font-size: $h3 !important;
-    padding-top: 2rem !important;
-    padding-bottom: 2rem !important;
+  &-title{
+      font-weight: $font_bold !important;
+      font-size: $h3 !important;
+      padding-top: 2rem !important;
+      padding-bottom: 2rem !important;
   }
-  &-add-btn {
-    background-color: $clr_white !important;
-    color: $clr_green !important;
-    width: 7rem !important;
-    height: 3.2rem !important;
-    border: 0.0625rem solid $clr_green !important;
-    text-transform: none !important;
-    font-size: $p1 !important;
-    font-weight: $font_semibold !important;
-    box-shadow: none !important;
-    border-radius: 2.25rem !important;
+  &-add-btn{
+      background-color: $clr_white !important;
+      color: $clr_green !important;
+      width: 7rem !important;
+      height: 3.2rem !important;
+      border: 1px solid $clr_green !important;
+      text-transform: none !important;
+      font-size: $p1 !important;
+      font-weight: $font_semibold !important;
+      box-shadow: none !important;
+      border-radius: 2.25rem !important;
   }
-  &-form-spacing {
-    padding-top: 0.9rem;
+  &-form-spacing{
+      padding-top: 0.9rem;
   }
-  &-form-container {
-    padding-right: 1rem !important;
-    border-right: 0.0625rem solid $clr_gray_very_light;
+  &-form-container{
+      padding-right: 1rem !important;
+      border-right: 1px solid $clr_gray_very_light;
   }
-  &-add-ons-title {
-    font-weight: $font_normal !important;
-    font-size: $h6 !important;
+  &-add-ons-title{
+      font-weight: $font_normal !important;
+      font-size: $h6 !important;
   }
-  &-save-btn {
-    background-color: $clr_green !important;
-    color: $clr_white !important;
-    min-width: 7rem !important;
-    height: 3.2rem !important;
-    text-transform: none !important;
-    font-size: $p1 !important;
-    font-weight: $font_semibold !important;
-    box-shadow: none !important;
+  &-save-btn{
+      background-color: $clr_green !important;
+      color: $clr_white !important;
+      min-width: 7rem !important;
+      height: 3.2rem !important;
+      text-transform: none !important;
+      font-size: $p1 !important;
+      font-weight: $font_semibold !important;
+      box-shadow: none !important;
   }
-  &-addons-grid {
-    padding-bottom: 1rem;
+  &-addons-grid{
+      padding-bottom: 1rem;
   }
 }
 
 .event-detail {
   &-card {
-    margin: 2rem;
-    border-radius: 1rem;
-    background-color: $clr_white;
-    // height: 100vh;
-    &-link {
-      &-label {
-        input {
+      margin: 2rem;
+      border-radius: 1rem;
+      background-color:$clr_white;
+      // height: 100vh;
+      &-link{
+          &-label{
+              input{
+                  width: 6rem;
+                  background-color: $clr_bright_gray !important;
+              }
+          }
+          &-text{
+              input{
+                  width: 18rem;
+              }
+          }
+          &-error-message{
+              color: $clr_red !important;
+          }
+      }
+      &-published-link{
+          &-text{
+              input{
+                  width: 25rem;
+              }
+          }
+      }
+  }
+  &-header{
+     padding: 2rem 2rem 0 2rem;
+     margin-bottom: 0;
+      font-weight: $font_semibold;
+      font-size: $h4;
+      &-title{
+          font-size: $h4 !important;
+          font-weight: $font-semibold !important;
+
+      }
+      &-status{
+          margin-left: 0.2rem;
+          background-color: $clr_red_light;
           width: 6rem;
-          background-color: $clr_bright_gray !important;
-        }
+          height: 3rem;
+          padding: 0.5rem;
+          color: $clr_red;
+          border-radius: 0.5rem;
+          font-size: $h6;
+          font-weight: $font_normal;
       }
-      &-text {
-        input {
-          width: 18rem;
-        }
-      }
-      &-error-message {
-        color: $clr_red !important;
-      }
-    }
-    &-header{
-       padding: 2rem 2rem 0 2rem;
-       margin-bottom: 0;
-        font-weight: $font_semibold;
-        font-size: $h4;
-        &-title{
-            font-size: $h4 !important;
-            font-weight: $font-semibold !important;
-
-        }
-        &-status{
-            margin-left: 0.2rem;
-            background-color: $clr_red_light;
-            width: 6rem;
-            height: 3rem;
-            padding: 0.5rem;
-            color: $clr_red;
-            border-radius: 0.5rem;
-            font-size: $h6;
-            font-weight: $font_normal;
-        }
-      }
-    }
-    
-
-    &-tab-layout {
-        margin-left: 1.8rem;
-        color: $clr_white;
-        font-weight: $font_medium !important;
-
-
-        &-container{
-            padding: 0 !important;
-            .MuiTabPanel-root{
-                min-height: 40rem;
-            }
-        }
-        &-item{
-            padding: 2.5rem !important;
-        }
-        .MuiTab-textColorPrimary {
-            color: $clr_text_gray;
-            font-weight: $font_medium;
-            text-transform: none;
-            font-size: $h6 ;
-            border-bottom: 0.125rem solid $clr_tab_border_color;
-        }
-
-        .Mui-selected {
-            color: $clr_black !important;
-            text-transform: none !important;   
-        }
-
-        .MuiTabs-indicator {
-            background-color: $clr_green !important;
-        }
-    }
-    &-event-info-card{
-        .MuiIconButton-root{
-            padding: 0 !important;
-        }
-        &-title{
-            font-size: $h4 !important;
-            font-weight: $font_semibold !important;
-        }
-        .MuiButtonBase-root:hover{
-            background-color: $clr_white !important;
-        }
-        &-edit-btn{
-            svg{
-                width: 2.5rem;
-                height: 2.5rem;
-            }
-        }
-        &-publish-btn{
-            background-color: $clr_green !important;
-            color: $clr_white !important;
-            text-transform: none !important;
-            height: 4rem;
-        }
-        &-unpublish-btn{
-            background-color: $clr_medium_red !important;
-            color: $clr_white !important;
-            text-transform: none !important;
-            height: 4rem;
-        }
-        &-invite-participant-btn{
-            background-color: $clr_white !important;
-            color: $clr_green !important;
-            border: 0.063rem solid $clr_green !important;
-            text-transform: none !important;
-            height: 4rem;
-        }
-        &-event-link{
-            background-color: $clr_bright_gray;
-            border: 1px solid white
-        }
-    }
-
-    .Mui-selected {
-      color: $clr_black !important;
-      font-weight: $font_semibold !important;
-      text-transform: none !important;
-    }
-
-    .MuiTabs-indicator {
-      background-color: $clr_green !important;
-    }
   }
-  &-event-info-card {
-    &-publish-btn {
-      background-color: $clr_green !important;
-      color: $clr_white !important;
-      text-transform: none !important;
-      height: 4rem;
-    }
-    &-unpublish-btn {
-      background-color: $clr_medium_red !important;
-      color: $clr_white !important;
-      text-transform: none !important;
-      height: 4rem;
-    }
-    &-invite-participant-btn {
-      background-color: $clr_white !important;
-      color: $clr_green !important;
-      border: 0.063rem solid $clr_green !important;
-      text-transform: none !important;
-      height: 4rem;
-    }
-    &-event-link {
-      background-color: $clr_bright_gray;
-      border: 0.0625rem solid white;
-    }
-  }
-  &-speakers-card {
-    &-speaker-list {
-      gap: 1rem;
-      min-width: 10rem;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-    }
-    &-speaker-header {
-      font-size: 2rem !important;
-      font-weight: $font-bold !important;
-    }
-    &-speaker-designation {
-      color: $clr_gray_light;
-    }
-    &-speaker-add-button {
-      border: solid 0.1rem $clr_green !important;
-      border-radius: 1.68rem !important;
-      color: $clr_green !important;
-      font-weight: $font-semibold !important;
-    }
+  
 
-    &-contributor-back-label {
+  &-tab-layout {
+      margin-left: 1.8rem;
+      color: $clr_white;
+      font-weight: $font_medium !important;
+
+
+      &-container{
+          padding: 0 !important;
+          .MuiTabPanel-root{
+              min-height: 40rem;
+          }
+      }
+      &-item{
+          padding: 2.5rem !important;
+      }
+      .MuiTab-textColorPrimary {
+          color: $clr_text_gray;
+          font-weight: $font_medium;
+          text-transform: none;
+          font-size: $h6 ;
+          border-bottom: 0.125rem solid $clr_tab_border_color;
+      }
+
+      .Mui-selected {
+          color: $clr_black !important;
+          text-transform: none !important;   
+      }
+
+      .MuiTabs-indicator {
+          background-color: $clr_green !important;
+      }
+  }
+  &-event-info-card{
+      .MuiIconButton-root{
+          padding: 0 !important;
+      }
+      &-title{
+          font-size: $h4 !important;
+          font-weight: $font_semibold !important;
+      }
+      .MuiButtonBase-root:hover{
+          background-color: $clr_white !important;
+      }
+      &-edit-btn{
+          svg{
+              width: 2.5rem;
+              height: 2.5rem;
+          }
+      }
+      &-publish-btn{
+          background-color: $clr_green !important;
+          color: $clr_white !important;
+          text-transform: none !important;
+          height: 4rem;
+      }
+      &-unpublish-btn{
+          background-color: $clr_medium_red !important;
+          color: $clr_white !important;
+          text-transform: none !important;
+          height: 4rem;
+      }
+      &-invite-participant-btn{
+          background-color: $clr_white !important;
+          color: $clr_green !important;
+          border: 0.063rem solid $clr_green !important;
+          text-transform: none !important;
+          height: 4rem;
+      }
+      &-event-link{
+          background-color: $clr_bright_gray;
+          border: 1px solid white
+      }
+  }
+  &-speakers-card{
+      &-speaker-list{
+          gap: 1rem;
+          min-width: 10rem;
+          overflow-x: auto;
+          scroll-snap-type: x mandatory;
+      }
+      &-speaker-header{
+          font-size: 2rem !important;
+          font-weight: $font-bold !important;
+      }
+      &-speaker-designation{
+          color: $clr_gray_light;
+      }
+      &-speaker-add-button{
+          border: solid 0.1rem $clr_green !important;
+          border-radius: 1.68rem !important;
+          color:$clr_green !important;
+          font-weight: $font-semibold !important;
+          
+      }
+     
+      &-contributor-back-label{
       font-size: $h6 !important;
       font-weight: $font-semibold !important;
-    }
-    &-contributor-header {
-      font-size: $h5 !important;
-      font-weight: $font-semibold !important;
-    }
-    &-btn-container {
-      justify-content: center;
-      align-items: center;
-      margin: 2rem;
+      }
+      &-contributor-header{
+          font-size: $h5 !important;
+          font-weight: $font-semibold !important;
 
-      &-photo-btn {
-        border: solid 0.05rem $clr_green !important ;
-        margin-right: 1rem !important;
-        color: $clr_green !important;
       }
-      &-submit-btn {
-        margin-left: 1rem !important;
-        background-color: $clr_green !important;
-      }
-      &-photo-txt {
-        color: $clr_red;
-      }
-      &-selected-img {
-        width: 5rem;
-        height: 5rem;
-      }
-    }
+      &-btn-container{
+          justify-content: center;
+          align-items: center;
+          margin: 2rem;
 
-    &-drawer-box {
-      min-width: 85rem;
-      padding: 2rem;
-      margin: 1rem;
-    }
-    &-list-row {
-      display: flex;
-      scrollbar-width: 1rem;
-      scroll-behavior: smooth;
-      overflow-wrap: anywhere;
-      overflow-x: auto;
-      &-container {
-        justify-content: center;
-        align-items: center;
-      }
-      &-img {
-        width: 16.563rem;
-        height: 16.875rem;
-        border-radius: 0.5rem;
-      }
-      &-name {
-        font-size: $h6 !important;
-        font-weight: $font-semibold !important;
+          
+          &-photo-btn{
+              border:solid 0.05rem $clr_green !important ;
+              margin-right: 1rem !important;
+              color: $clr_green !important;
+          }
+          &-submit-btn{
+              margin-left: 1rem !important;
+              background-color: $clr_green !important;
+          }
+          &-photo-txt{
+              color: $clr_red;
+          }
+          &-selected-img{
+              width: 5rem;
+              height: 5rem;
+              
+          }
       }
 
-      &-type {
-        font-size: $p2;
-        color: $clr-gray-light;
+      &-drawer-box{
+          min-width: 85rem;
+          padding: 2rem;
+          margin: 1rem;
+
       }
-    }
+      &-list-row{
+          display: flex;
+          scrollbar-width: 1rem;
+          scroll-behavior: smooth;
+          overflow-wrap: anywhere;
+          overflow-x: auto;
+      &-box{
+          justify-content: "space-between";
+          &-icon{
+              cursor: pointer;
+              padding-right: 0.5rem;
+              width: 2.5rem;
+              height: 2.5rem;
+          }
+          
+  
+      }
+      &-header{
+          font-weight: $font-bold !important;
+          font-size: 2rem !important;
+          text-transform: capitalize !important;
+      }
+      &-container{
+   
+          justify-content: center;
+          align-items: center;
+      }
+      &-img{
+          width: 16.563rem;
+          height: 16.875rem;
+          border-radius: 0.5rem;
+      }
+              &-name {
+                  font-size: $h6 !important;
+                  font-weight: $font-semibold !important;
+              }
+      
+              &-type {
+                  font-size: $p2;
+                  color: $clr-gray-light;
+      
+              }
+              }
+              &-delete-modal{
+                  padding: 1rem;
+                  justify-content: center;
+                  align-items: center;
+                  background-color: $clr_white;
+                  margin-top:20rem ;
+                  margin-left: 45% !important;
+                  width: 30rem;
+                  border-radius: 0.5rem;
+                  &-btn-ok{
+                      background-color: $clr_green !important;
+                      color: $clr_white !important;
+                  }
+                  &-btn-cancel{
+                      border:solid 0.01rem  $clr_green !important;
+                      color: $clr_green !important;
+                  }
+
+              }
   }
-  &-sessions-card {
-    &-session-list {
-      gap: 1rem;
-    }
-    &-header {
-      font-weight: $font_semibold;
-      font-size: $h5 !important;
-    }
-    &-sub-header {
-      font-weight: $font_normal;
-      font-size: $h6;
-      color: $clr_gray_light;
-    }
+  &-sessions-card{
+      &-session-list{
+          gap: 1rem;
+      }
+      &-header{
+          font-weight: $font_semibold;
+          font-size: $h5 !important;
+       
+      }
+      &-sub-header{
+          font-weight: $font_normal;
+          font-size: $h6;
+          color: $clr_gray_light;
+      }
   }
   &-template-card {
-    &-header {
-      font-weight: $font-bold !important;
-      font-size: $h5 !important;
-    }
-    &-selection {
-      padding: 0.1rem;
-      cursor: pointer;
-      &:active {
-        border-radius: 0.8rem;
-        background-color: $clr_green;
+      &-header {
+          font-weight: $font-bold !important;
+          font-size: $h5 !important;
       }
-    }
+      &-selection{
+          padding: 0.1rem;
+          cursor: pointer;
+          &:active {
+              border-radius: 0.8rem;
+              background-color:$clr_green;
+          }
+      }
   }
-  &-status-box-active {
-    margin-left: 0.2rem;
-    background-color: $clr_red_light;
-    width: 6rem;
-    height: 3rem;
-    padding: 0.5rem;
-    color: $clr_red;
-    border-radius: 0.5rem;
-    font-size: $h6;
-    font-weight: $font_normal;
+  &-status-box-active{
+      margin-left: 0.2rem;
+      background-color: $clr_red_light;
+      width: 6rem;
+      height: 3rem;
+      padding: 0.5rem;
+      color: $clr_red;
+      border-radius: 0.5rem;
+      font-size: $h6;
+      font-weight: $font_normal;
   }
-}
 
-<<<<<<< HEAD
-.user-list-card {
-  padding-right: 1rem !important;
-  &-add-btn {
-    background-color: $clr_white !important;
-    color: $clr_green !important;
-    width: 7rem !important;
-    height: 3.2rem !important;
-    border: 0.063rem solid $clr_green !important;
-    text-transform: none !important;
-    font-size: $p1 !important;
-    font-weight: $font_semibold !important;
-    box-shadow: none !important;
-    border-radius: 2.25rem !important;
-  }
-  &-form-spacing {
-    padding-top: 0.9rem;
-  }
-  &-form-container {
-    padding-right: 1rem !important;
-    border-right: 1rem solid $clr_gray_very_light;
-  }
-  &-add-ons-title {
-    font-weight: $font_normal !important;
-    font-size: $h6 !important;
-  }
-  &-save-btn {
-    background-color: $clr_green !important;
-    color: $clr_white !important;
-    min-width: 7rem !important;
-    height: 3.2rem !important;
-    text-transform: none !important;
-    font-size: $p1 !important;
-    font-weight: $font_semibold !important;
-    box-shadow: none !important;
-  }
-  &-addons-grid {
-    padding-bottom: 1rem;
-  }
-=======
-            
-            &-photo-btn{
-                border:solid 0.05rem $clr_green !important ;
-                margin-right: 1rem !important;
-                color: $clr_green !important;
-            }
-            &-submit-btn{
-                margin-left: 1rem !important;
-                background-color: $clr_green !important;
-            }
-            &-photo-txt{
-                color: $clr_red;
-            }
-            &-selected-img{
-                width: 5rem;
-                height: 5rem;
-                
-            }
-        }
-
-        &-drawer-box{
-            min-width: 85rem;
-            padding: 2rem;
-            margin: 1rem;
-
-        }
-        &-list-row{
-            display: flex;
-            scrollbar-width: 1rem;
-            scroll-behavior: smooth;
-            overflow-wrap: anywhere;
-            overflow-x: auto;
-        &-box{
-            justify-content: "space-between";
-            &-icon{
-                cursor: pointer;
-                padding-right: 0.5rem;
-                width: 2.5rem;
-                height: 2.5rem;
-            }
-            
-    
-        }
-        &-header{
-            font-weight: $font-bold !important;
-            font-size: 2rem !important;
-            text-transform: capitalize !important;
-        }
-        &-container{
-     
-            justify-content: center;
-            align-items: center;
-        }
-        &-img{
-            width: 16.563rem;
-            height: 16.875rem;
-            border-radius: 0.5rem;
-        }
-                &-name {
-                    font-size: $h6 !important;
-                    font-weight: $font-semibold !important;
-                }
-        
-                &-type {
-                    font-size: $p2;
-                    color: $clr-gray-light;
-        
-                }
-                }
-                &-delete-modal{
-                    padding: 1rem;
-                    justify-content: center;
-                    align-items: center;
-                    background-color: $clr_white;
-                    margin-top:20rem ;
-                    margin-left: 45% !important;
-                    width: 30rem;
-                    border-radius: 0.5rem;
-                    &-btn-ok{
-                        background-color: $clr_green !important;
-                        color: $clr_white !important;
-                    }
-                    &-btn-cancel{
-                        border:solid 0.01rem  $clr_green !important;
-                        color: $clr_green !important;
-                    }
-
-                }
-    }
-    &-sessions-card{
-        &-session-list{
-            gap: 1rem;
-        }
-        &-header{
-            font-weight: $font_semibold;
-            font-size: $h5 !important;
-         
-        }
-        &-sub-header{
-            font-weight: $font_normal;
-            font-size: $h6;
-            color: $clr_gray_light;
-        }
-    }
-    &-template-card {
-        &-header {
-            font-weight: $font-bold !important;
-            font-size: $h5 !important;
-        }
-        &-selection{
-            padding: 0.1rem;
-            cursor: pointer;
-            &:active {
-                border-radius: 0.8rem;
-                background-color:$clr_green;
-            }
-        }
-    }
-    &-status-box-active{
-        margin-left: 0.2rem;
-        background-color: $clr_red_light;
-        width: 6rem;
-        height: 3rem;
-        padding: 0.5rem;
-        color: $clr_red;
-        border-radius: 0.5rem;
-        font-size: $h6;
-        font-weight: $font_normal;
-    }
-  
 } 
 
 .user-list-card{
-    padding-right:1rem !important;
-    &-add-btn{
-        background-color: $clr_white !important;
-        color: $clr_green !important;
-        width: 7rem !important;
-        height: 3.2rem !important;
-        border: 0.063rem solid $clr_green !important;
-        text-transform: none !important;
-        font-size: $p1 !important;
-        font-weight: $font_semibold !important;
-        box-shadow: none !important;
-        border-radius: 2.25rem !important;
-    }
-    &-form-spacing{
-        padding-top: 0.9rem;
-    }
-    &-form-container{
-        padding-right: 1rem !important;
-        border-right: 1rem solid $clr_gray_very_light;
-    }
-    &-add-ons-title{
-        font-weight: $font_normal !important;
-        font-size: $h6 !important;
-    }
-    &-save-btn{
-        background-color: $clr_green !important;
-        color: $clr_white !important;
-        min-width: 7rem !important;
-        height: 3.2rem !important;
-        text-transform: none !important;
-        font-size: $p1 !important;
-        font-weight: $font_semibold !important;
-        box-shadow: none !important;
-    }
-    &-addons-grid{
-        padding-bottom: 1rem;
-    }
->>>>>>> 3117dfdf55e6b9dd3aee6eecac63e1dee55eea52
+  padding-right:1rem !important;
+  &-add-btn{
+      background-color: $clr_white !important;
+      color: $clr_green !important;
+      width: 7rem !important;
+      height: 3.2rem !important;
+      border: 0.063rem solid $clr_green !important;
+      text-transform: none !important;
+      font-size: $p1 !important;
+      font-weight: $font_semibold !important;
+      box-shadow: none !important;
+      border-radius: 2.25rem !important;
+  }
+  &-form-spacing{
+      padding-top: 0.9rem;
+  }
+  &-form-container{
+      padding-right: 1rem !important;
+      border-right: 1rem solid $clr_gray_very_light;
+  }
+  &-add-ons-title{
+      font-weight: $font_normal !important;
+      font-size: $h6 !important;
+  }
+  &-save-btn{
+      background-color: $clr_green !important;
+      color: $clr_white !important;
+      min-width: 7rem !important;
+      height: 3.2rem !important;
+      text-transform: none !important;
+      font-size: $p1 !important;
+      font-weight: $font_semibold !important;
+      box-shadow: none !important;
+  }
+  &-addons-grid{
+      padding-bottom: 1rem;
+  }
 }
 
 .event-information {
-  &-subtitle {
-    font-weight: $font_medium !important;
-<<<<<<< HEAD
-    font-size: $h6 !important;
-=======
-    font-size: $h6 !important; 
-    color: $light_grey;
->>>>>>> 3117dfdf55e6b9dd3aee6eecac63e1dee55eea52
-  }
-  &-content {
-    font-weight: $font_semibold !important;
-    font-size: $h6 !important;
-  }
-  &-edit-heading {
-    font-weight: $font_semibold !important;
-    font-size: $h5 !important;
-  }
-  &-edit-btn {
-    background-color: $clr_green !important;
-    color: $clr_white;
-    min-width: 8rem !important;
-    text-transform: none;
-    font-size: $h6;
-    font-weight: $font_semibold !important;
-    box-shadow: none;
-  }
-  &-restore-btn {
-    background-color: $clr_white;
-    color: $clr_green !important;
-    min-width: 8rem !important;
-    border: 0.0625rem solid $clr_green !important;
-    text-transform: none;
-    font-size: $h6;
-    font-weight: $font_semibold !important;
-    box-shadow: none;
-  }
+&-subtitle {
+  font-weight: $font_medium !important;
+  font-size: $h6 !important; 
+  color: $light_grey;
 }
+&-content {
+  font-weight: $font_semibold !important;
+  font-size: $h6 !important; 
+}
+&-edit-heading {
+  font-weight: $font_semibold !important;
+  font-size: $h5 !important; 
+}
+&-edit-btn {
+  background-color: $clr_green !important;
+  color: $clr_white ;
+  min-width: 8rem !important;
+  text-transform: none ;
+  font-size: $h6 ;
+  font-weight: $font_semibold !important;
+  box-shadow: none ;
+}
+&-restore-btn {
+  background-color: $clr_white ;
+  color: $clr_green !important;
+  min-width: 8rem !important;
+  border: 1px solid $clr_green !important;
+  text-transform: none ;
+  font-size: $h6 ;
+  font-weight: $font_semibold !important;
+  box-shadow: none ;
+}
+}
+
 
 .edit-location-container {
   background: $clr_white;

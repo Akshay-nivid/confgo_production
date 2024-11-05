@@ -43,8 +43,11 @@ import UpiIcon from "./upi.svg";
 import RaziorPayIcon from "./razorpay.svg";
 import EventRegistrationSuccessIcon from "./event-registration-complete.svg";
 import QrIcon from "./qr.svg";
+import DeleteContributorIcon from "./delete-icon.svg";
+import EditContributorIcon from "./edit-icon.svg";
 import ForgotPasswordIcon from "./key-icon.svg";
-import EditButtonIcon from "./edit-icon.svg"
+import EditButtonIcon from "./Edit-location-button.svg"
+
 export {
   CalenderIcon,
   EventIcon,
@@ -91,6 +94,8 @@ export {
   RaziorPayIcon,
   EventRegistrationSuccessIcon,
   QrIcon,
+  DeleteContributorIcon,
+  EditContributorIcon,
   ForgotPasswordIcon,
   EditButtonIcon
 };
