@@ -106,7 +106,7 @@ const Coupon = () => {
         }
       };
       const response = await await apiClient.post(`coupon/list`, req);
-      const { status, data, message } = await processAPIResponse(response, 'couponList');
+      const { status, data } = processAPIResponse(response, 'couponList');
       if (status) {
         setSearchResults(data);
       }

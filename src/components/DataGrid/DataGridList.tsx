@@ -35,18 +35,14 @@ type DataGridListProps = {
  * Method used to render listing
  * @returns 
  */
-export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFooterPagination, source, dataTransformer, title, onRowClick, subNode, data }) => {
+export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFooterPagination, source, dataTransformer, onRowClick, subNode, data }) => {
     const setDataById = useStore((state: any) => state.setDataById)
     const dataInfo = useStore((state: any) => state?.compData?.[id]) ?? [];
     const prevPageRef = useRef<any>();
     const pageSize = dataInfo.pageSize || 5;
     const currentPage = dataInfo.currentPage || 1;
     const [loading, setLoading] = useState(false); // Added loading state
-    const totalItems = dataInfo?.pagination?.total || 0;
-    /*
-    * total pages
-    */
-    const totalPages = Math.ceil(totalItems / dataInfo?.source?.data?.limit);
+  
     /**
     * Useeffect hook handles the api call 
     */

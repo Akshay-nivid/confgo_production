@@ -243,7 +243,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                           type="text"
                           rules={{
                             required: true,
-                            validate: (value) =>
+                            validate: (value:any) =>
                               /embed/.test(value) || 'URL must contain "embed"',
                           }}
                         />

@@ -141,7 +141,6 @@ const ProgramCard = () => {
     return output
   }
 
-  console.log(eventDetails, 'eventDetails')
   return (
     <form className="program-card-form" onSubmit={handleSubmit(onNext)}>
       <Box className="space-y-10">
