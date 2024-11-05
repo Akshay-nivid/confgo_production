@@ -85,7 +85,6 @@
 
   .active {
     color: $clr_blue;
-
     // background-color: $clr_green_light;
     span {
       color: $clr_blue !important;
@@ -173,7 +172,7 @@
   margin: 1rem !important;
   &-title {
     font-size: $p2 !important;
-    color: $clr_orange_dark;
+    color: $clr_dark_orange;
     font-weight: $font_semibold !important;
     display: inline-block;
     .greeting-text {

@@ -30,6 +30,12 @@ const sidebarItems = [
     exact: false,
   },
   {
+    path: routes.events(),
+    icon: EventIcon,
+    label: 'Payment History',
+    exact: false,
+  },
+  {
     path: routes.coupon(),
     icon: CouponIcon,
     label: 'Coupons',
