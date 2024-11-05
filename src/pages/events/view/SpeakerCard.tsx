@@ -178,11 +178,10 @@ const SpeakerCard = (_eventData: any) => {
   ]
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    if (fileRequired&&!editContributorValue) {
+    if (selectedFile&&!editContributorValue) {
       createContributor(data)
     } else if (editContributorValue && contributorFields) {
       editContributor(data);
-
     } else {
       setFileRequired(true);
     }
