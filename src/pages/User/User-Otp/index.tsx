@@ -83,7 +83,7 @@ const UserOtp = () => {
         id: 'setPassword', url: 'token/validateotp',
         body: body
         , successCB: successCB,
-        errorCB: (error) => Logger.error("error", error)
+        errorCB: (error: any) => Logger.error("error", error)
       })
     };
     /**

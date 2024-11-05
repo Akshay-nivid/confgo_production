@@ -35,6 +35,7 @@ type FormData = {
   country: string;
   postalCode: string;
   url: string;
+  amount: string;
 };
 
 const typeArray = [
@@ -211,6 +212,14 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                       }}
                     />
                   </Grid>
+                  <Grid size={{ xs: 12, sm: 12 }} mb={1}>
+                    <CustomTextField
+                      placeholder="Price"
+                      control={control}
+                      name="amount"
+                      type="number"
+                    />
+                  </Grid>
                   {watch("type") !== "OFFLINE" && (
                     <Grid size={{ xs: 12, sm: 12 }} mb={1}>
                       <CustomTextField
@@ -243,7 +252,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                           type="text"
                           rules={{
                             required: true,
-                            validate: (value) =>
+                            validate: (value:any) =>
                               /embed/.test(value) || 'URL must contain "embed"',
                           }}
                         />

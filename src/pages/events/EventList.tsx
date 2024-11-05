@@ -14,7 +14,6 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { Typography } from "@mui/material";
 import { ISource } from "@/Libs/type";
 import { Logger } from "@/Utils/Logger";
-
 /**
  * Used to render events list
  * @author Vanisree
@@ -111,7 +110,7 @@ const EventList = () => {
   const handleSearch = async (query: string) => {
     setLoading(true);
     try {
-      let req = {
+      let req:any = {
         filters: {
           name: query,
         },
