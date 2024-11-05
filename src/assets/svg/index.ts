@@ -45,6 +45,7 @@ import EventRegistrationSuccessIcon from "./event-registration-complete.svg";
 import QrIcon from "./qr.svg";
 import DeleteContributorIcon from "./delete-icon.svg";
 import EditContributorIcon from "./edit-icon.svg";
+import ForgotPasswordIcon from "./key-icon.svg";
 export {
   CalenderIcon,
   EventIcon,
@@ -92,5 +93,6 @@ export {
   EventRegistrationSuccessIcon,
   QrIcon,
   DeleteContributorIcon,
-  EditContributorIcon
+  EditContributorIcon,
+  ForgotPasswordIcon
 };
