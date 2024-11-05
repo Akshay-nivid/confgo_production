@@ -544,6 +544,10 @@
             color: $clr_black;
             font-size: $p2 !important;
             margin-bottom: .12rem;
+            white-space: nowrap;          /* Prevents wrapping */
+            overflow: hidden;             /* Hides overflowed text */
+            text-overflow: ellipsis;     /* Shows ellipsis for truncated text */
+            max-width: 100%;  
         }
     }
 
