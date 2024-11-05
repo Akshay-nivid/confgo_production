@@ -100,20 +100,27 @@ const SpeakerCard = (_eventData: any) => {
    */
   const fetchProgramList = async () => {
     try {
-      const response = await apiClient.post('eventProgram/list', {})
-      const { status, data } = processAPIResponse(response, 'programlist')
-      if (status) {
-        const groupedByDesignation = data.reduce((acc: any, item: any) => {
-          const designation = item.designation;
-          if (!acc[designation]) {
-            acc[designation] = [];
+      await POST({
+        url: 'eventProgram/list',
+        body: {},
+        id: 'eventProgramList',
+        successCB: (context: any) => {
+          if (context?.success) {
+            const groupedByDesignation = context.data.reduce((acc: any, item: any) => {
+              const designation = item.designation;
+              if (!acc[designation]) {
+                acc[designation] = [];
+              }
+              acc[designation].push(item);
+              return acc;
+            }, {})
+            setContributorList(groupedByDesignation);
           }
-          acc[designation].push(item);
-          return acc;
-        }, {})
-        setContributorList(groupedByDesignation);
-      }
-
+        },
+        errorCB: (context: any) => {
+          Logger.error('SpeakerCard.tsx',context?.message);
+        }
+      });
     } catch (error) {
       Logger.error('SpeakerCard.tsx',error);
 
@@ -125,16 +132,23 @@ const SpeakerCard = (_eventData: any) => {
    */
   const fetchProgramTypes = async () => {
     try {
-      const response = await apiClient.post('participant/type/list');
-      const { status, data } = processAPIResponse(response, 'participantType');
-      if (status) {
-        const options = data.map((element: any) => ({
-          value: element.name,
-          label: element.name
-        }));
-        setContributorType(options);
-      }
-
+      await POST({
+        url: 'participant/type/list',
+        body: {},
+        id: 'eventTypeList',
+        successCB: (context: any) => {
+          if (context?.success) {
+            const options = context?.data.map((element: any) => ({
+              value: element.name,
+              label: element.name
+            }));
+            setContributorType(options);
+          }
+        },
+        errorCB: (context: any) => {
+          Logger.error('SpeakerCard.tsx',context?.message);
+        }
+      });
     } catch (error) {
       Logger.error('SpeakerCard.tsx', error);
     }
@@ -299,7 +313,7 @@ const SpeakerCard = (_eventData: any) => {
         <Grid className="event-detail-speakers-card-list-row" container justifyContent={"center"} alignContent={"center"}>
           {contributorList && Object.values(contributorList)?.map((item: any) => {
             return <Grid size={{ xs: 12 }} container flexDirection={"column"} direction={"column"} >
-              <Grid> <Typography variant="h5">{item[0]?.designation}</Typography></Grid>
+              <Grid> <Typography className="event-detail-speakers-card-list-row-header">{item[0]?.designation}</Typography></Grid>
               <Grid container flexDirection={"row"} direction={"row"}>
                 {item.map((item: any) => {
                   return <Grid >
