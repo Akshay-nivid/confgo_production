@@ -302,7 +302,24 @@
             scroll-behavior: smooth;
             overflow-wrap: anywhere;
             overflow-x: auto;
+        &-box{
+            justify-content: "space-between";
+            &-icon{
+                cursor: pointer;
+                padding-right: 0.5rem;
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+            
+    
+        }
+        &-header{
+            font-weight: $font-bold !important;
+            font-size: 2rem !important;
+            text-transform: capitalize !important;
+        }
         &-container{
+     
             justify-content: center;
             align-items: center;
         }
@@ -321,6 +338,25 @@
                     color: $clr-gray-light;
         
                 }
+                }
+                &-delete-modal{
+                    padding: 1rem;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: $clr_white;
+                    margin-top:20rem ;
+                    margin-left: 45% !important;
+                    width: 30rem;
+                    border-radius: 0.5rem;
+                    &-btn-ok{
+                        background-color: $clr_green !important;
+                        color: $clr_white !important;
+                    }
+                    &-btn-cancel{
+                        border:solid 0.01rem  $clr_green !important;
+                        color: $clr_green !important;
+                    }
+
                 }
     }
     &-sessions-card{

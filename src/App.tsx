@@ -35,11 +35,18 @@ import RegistrationCompleted from "./pages/User/Registration-Completed";
 import FormBuilder from "./components/FormBuilder/FormBuilder";
 import ViewEventDetail from "./pages/events/view/ViewEventDetail";
 import EventList from "./pages/events/EventList";
+<<<<<<< HEAD
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Thankyou from "./pages/ThankYou/ThankYou";
 import UserDashboardLayout from "./pages/user-dashboard-layout";
 import UserDashboard from "./pages/user-dashboard-layout/UserDashboard";
 import PaymentHistory from "./pages/user-dashboard-layout/PaymentHistory";
+=======
+import UserDashboardLayout from "./pages/user-dashboard-layout";
+import UserDashboard from "./pages/user-dashboard-layout/UserDashboard";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
+import Thankyou from "./pages/ThankYou/ThankYou";
+>>>>>>> c8f045af6dac9032fa5c60ad11692eb46e2b520a
 
 /**
  * Create your router configuration

@@ -43,6 +43,8 @@ import UpiIcon from "./upi.svg";
 import RaziorPayIcon from "./razorpay.svg";
 import EventRegistrationSuccessIcon from "./event-registration-complete.svg";
 import QrIcon from "./qr.svg";
+import DeleteContributorIcon from "./delete-icon.svg";
+import EditContributorIcon from "./edit-icon.svg";
 import ForgotPasswordIcon from "./key-icon.svg";
 import PaymentHistoryIcon from "./paymentHistory-icon.svg";
 export {
@@ -91,6 +93,12 @@ export {
   RaziorPayIcon,
   EventRegistrationSuccessIcon,
   QrIcon,
+<<<<<<< HEAD
   ForgotPasswordIcon,
   PaymentHistoryIcon
+=======
+  DeleteContributorIcon,
+  EditContributorIcon,
+  ForgotPasswordIcon
+>>>>>>> c8f045af6dac9032fa5c60ad11692eb46e2b520a
 };
