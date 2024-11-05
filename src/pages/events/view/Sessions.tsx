@@ -233,7 +233,7 @@ const Sessions = ({ eventData }) => {
                 </div>
                 <IconButton
                   size="small"
-                  className="edit-button"
+                  className="event-detail-event-info-card-edit-btn"
                   onClick={() => handleEditClick(item)}
                 >
                   <EditIcon fontSize="small" />
