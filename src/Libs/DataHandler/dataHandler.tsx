@@ -17,6 +17,9 @@ type ISourceProps = {
 export function registerComponent(props: Props) {
     const state = useStore((state: any) => state.compData?.[props?.id]);
     const POST = useStore((state: any) => state.POST);
+    const GET = useStore((state: any) => state.GET);
+    const DELETE = useStore((state: any) => state.DELETE);
+    const PUT = useStore((state: any) => state.PUT);
     const setDataById = useStore((state: any) => state.setDataById);
 
     /**
@@ -62,11 +65,15 @@ export function registerComponent(props: Props) {
                 await POST({url: source?.url, body : source?.data, id: props?.id});
                 break;
             case "PUT":
-                // apiResponse = yield putAPI(source.url, source.data, source.header);
+                await PUT({url: source?.url, body : source?.data, id: props?.id});
                 break;
             case "GET":
+                await GET({url: source?.url,id: props?.id});
+                break;
+            case "DELETE":
+                await DELETE({url: source?.url,id: props?.id});
+                break;
             default:
-                // apiResponse = yield getAPI(source.url, source.header, source);
                 break;
         }
     };
