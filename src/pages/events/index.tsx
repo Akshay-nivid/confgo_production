@@ -10,7 +10,6 @@ import AddProgram from './AddProgram';
 import ConferenceDetails from './ConferenceDetails';
 import apiClient from '@/Libs/Https/API-client';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';
-import { Alert, Snackbar } from '@mui/material';
 import { Logger } from '@/Utils/Logger';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';

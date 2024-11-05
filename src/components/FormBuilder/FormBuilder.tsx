@@ -13,7 +13,6 @@ import { useFieldArray, useForm } from "react-hook-form";
 import CustomSelect from "../CustomSelectBox/CustomSelect";
 import { useState } from "react";
 import CustomCheckbox from "../CustomCheckbox/CustomCheckbox";
-import React from "react";
 
 export interface ICreateFormField {
   title: string;
@@ -47,7 +46,6 @@ const FormBuilder = () => {
     defaultValues: {
       title: "",
       fieldType: "",
-      required: false,
       option: [{ value: "" }],
     },
   });
@@ -84,8 +82,6 @@ const FormBuilder = () => {
   }
 
   const [formFields, setFormFields] = useState<ICreateFormField[]>([]);
-
-  const isFieldRequired = watch("required");
 
   function handleSaveToLocalStorage(key: string, data: any) {
     localStorage.setItem(key, JSON.stringify(data));
@@ -270,7 +266,6 @@ const CreatedFormFieldList = ({
   const {
     control,
     handleSubmit,
-    watch,
     reset,
     formState: { dirtyFields },
   } = useForm<ICreateFormField>({
