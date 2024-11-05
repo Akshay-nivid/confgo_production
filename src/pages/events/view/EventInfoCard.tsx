@@ -13,6 +13,9 @@ import { useParams } from "react-router-dom";
 import useStore from "@/Libs/store";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import moment from "moment";
+import EditIcon from "@/assets/svg/event-edit.svg";
+import parse from 'html-react-parser';
+
 
 /**
  * Information Card to view and update event details.
@@ -114,66 +117,65 @@ const EventInfoCard = (eventData: any) => {
   return (
     <Grid container className="event-detail-event-info-card" spacing={2}>
       <Grid
-        size={{ xs: 6 }}
+        size={{ xs: 12 }}
         container
-        alignItems="center"
         justifyContent="flex-start"
       >
-        <Grid size={{ xs: 6 }}>
+        <Grid container size={{xs: 12}}>
+        <Grid>
           <Typography
             variant="h3"
-            className="create-event-description"
+            className="event-detail-event-info-card-title"
           >
             Event Information
           </Typography>
         </Grid>
-        <Grid size={{ xs: 6 }}>
-          <CustomButton
-            className="event-detail-event-info-card-publish-btn"
-            startIcon={<EditOutlined />}
-            label="Edit"
-            onClick={openDrawer}
-          />
+        <Grid>
+          <IconButton onClick={openDrawer} className="event-detail-event-info-card-edit-btn">
+            <EditIcon />
+          </IconButton>
         </Grid>
-        <Grid size={{ xs: 6 }}>
+        </Grid>
+        
+        <Grid size={{ xs: 3 }}>
           <Typography className="event-information-subtitle">
-            Event Name
+             Name
           </Typography>
         </Grid>
-        <Grid size={{ xs: 6 }}>
+        <Grid size={{ xs: 9 }}>
           <Typography className="event-information-content">
             {eventData?.eventData?.name}
           </Typography>
         </Grid>
 
-        <Grid size={{ xs: 6 }}>
+        <Grid size={{ xs: 3 }}>
           <Typography className="event-information-subtitle">
-            Event Description
+             Description
           </Typography>
         </Grid>
-        <Grid size={{ xs: 6 }}>
+        <Grid size={{ xs: 9 }}>
           <Typography className="event-information-content">
-            {eventData?.eventData?.description}
+            {eventData?.eventData?.description && parse(eventData?.eventData?.description)}
           </Typography>
         </Grid>
 
-        <Grid size={{ xs: 6 }}>
+        <Grid size={{ xs: 3 }}>
           <Typography className="event-information-subtitle">
-            Event Type
+             Type
           </Typography>
         </Grid>
-        <Grid size={{ xs: 6 }}>
+        <Grid size={{ xs: 9 }}>
           <Typography className="event-information-content">
             {eventData?.eventData?.eventClass}
           </Typography>
         </Grid>
 
-        <Grid size={{ xs: 6 }}>
+        <Grid size={{ xs: 3 }}>
           <Typography className="event-information-subtitle">
-            Event Start Date & Time
+             Start Date & Time
           </Typography>
         </Grid>
-        <Grid size={{ xs: 6 }}>
+        <Grid size={{ xs: 9 }}>
           <Typography className="event-information-content">
             {moment(eventData?.eventData?.startTime).format(
               "MMM D, YYYY hh:mm a"
@@ -181,12 +183,12 @@ const EventInfoCard = (eventData: any) => {
           </Typography>
         </Grid>
 
-        <Grid size={{ xs: 6 }}>
+        <Grid size={{ xs: 3 }}>
           <Typography className="event-information-subtitle">
-            Event End Date & Time
+             End Date & Time
           </Typography>
         </Grid>
-        <Grid size={{ xs: 6 }}>
+        <Grid size={{ xs: 9 }}>
           <Typography className="event-information-content">
             {moment(eventData?.eventData?.endTime).format(
               "MMM D, YYYY hh:mm a"
