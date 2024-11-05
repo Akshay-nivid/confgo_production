@@ -93,12 +93,8 @@ export {
   RaziorPayIcon,
   EventRegistrationSuccessIcon,
   QrIcon,
-<<<<<<< HEAD
-  ForgotPasswordIcon,
-  PaymentHistoryIcon
-=======
   DeleteContributorIcon,
   EditContributorIcon,
-  ForgotPasswordIcon
->>>>>>> c8f045af6dac9032fa5c60ad11692eb46e2b520a
+  ForgotPasswordIcon,
+  PaymentHistoryIcon
 };
