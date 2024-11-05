@@ -2,5 +2,9 @@
   "api": {
     "url": "http://192.168.29.218:4444/api/",
     "key": ""
+  },
+  "event-link": {
+    "sub-domain": "www",
+    "top-level-domain": "com"
   }
 }

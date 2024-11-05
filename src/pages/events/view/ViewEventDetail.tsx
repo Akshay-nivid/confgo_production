@@ -25,6 +25,8 @@ import PublishIcon from "@/assets/svg/publish.svg";
 import UnpublishIcon from "@/assets/svg/unpublish.svg";
 import CopyIcon from "@/assets/svg/copy-clipboard.svg";
 import ShareIcon from "@/assets/svg/share.svg";
+import config from '../../../../config.json';
+
 
 
 interface Status {
@@ -140,7 +142,8 @@ const ViewEventDetail = () => {
       if (status) {
         setEventFullData(data)
         if(data.published){
-          setValue('event', data.slugName? data.slugName: '')
+          
+          setValue('event', data.slugName? `event-link/${data.slugName}`: '')
           setLink(data);
         }
         else{
@@ -216,7 +219,9 @@ const ViewEventDetail = () => {
   const handleToggleSuffixIcon = () => {
     const textToCopy = watch("event");
     if (textToCopy) {
-      navigator.clipboard.writeText(textToCopy)
+      const subDomain = config['event-link']['sub-domain'];
+      const topLevelDomain = config['event-link']['top-level-domain'];
+      navigator.clipboard.writeText(`${subDomain}.${textToCopy}.${topLevelDomain}`)
         .then(() => {
           setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: 'Text copied to clipboard' });
         })
@@ -226,11 +231,18 @@ const ViewEventDetail = () => {
     }
   }
 
+  /**
+   * Method gets triggered when successfully submitting the edit form
+   */
+  const handleSubmitHandler = () => {
+    getEventDetails();
+  }
+
   return <Grid >
     <Grid container
       className="event-detail-card" >
       <Grid size={{ xs: 12, sm: 12 }} flexDirection={"column"} >
-        <Grid className="event-detail-header" size={{ xs: 12, sm: 6 }} >
+        <Grid className="event-detail-header" size={{ xs: 12, sm: 12 }} >
           <Grid container justifyContent={'space-between'}>
             <Grid container>
               <Grid >
@@ -243,7 +255,7 @@ const ViewEventDetail = () => {
             </Grid>
             <Grid container spacing={2}>
               <Grid>
-              {eventFullData?.published? <Grid container size={{ xs: 12, sm: 10 }} direction={'column'}>
+              {eventFullData?.published? <Grid container size={{ xs: 12, sm: 12 }} direction={'column'}>
                 <Grid container direction={'row'} size={{ xs:12, sm:12 }} className="event-detail-card-published-link">
                     <Grid className="event-detail-card-published-link-text"><CustomTextField
                                     key='event-detail-card-published-link-event'
@@ -258,7 +270,7 @@ const ViewEventDetail = () => {
                                 /></Grid>
                 </Grid>
             </Grid>:
-            <Grid container size={{ xs: 12, sm: 10 }} direction={'column'}>
+            <Grid container size={{ xs: 12, sm: 12 }} direction={'column'}>
                 <Grid container direction={'row'} size={{ xs:12, sm:12 }} className="event-detail-card-link">
                     <Grid className="event-detail-card-link-label">
                     <CustomTextField
@@ -304,7 +316,7 @@ const ViewEventDetail = () => {
             </TabList>
           </Grid>
           <TabPanel value="1">
-            <EventInfoCard eventData={eventFullData} />
+            <EventInfoCard eventData={eventFullData} onSubmitHandler={handleSubmitHandler}/>
           </TabPanel>
           <TabPanel value="2">
             <SepekerCard eventData={eventFullData} />
