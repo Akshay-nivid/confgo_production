@@ -135,6 +135,9 @@
                     width: 25rem;
                 }
             }
+            .MuiIconButton-root:hover {
+                background-color: $clr_white;
+            }
         }
     }
     &-header{
@@ -162,7 +165,6 @@
     
 
     &-tab-layout {
-        margin-left: 1.8rem;
         color: $clr_white;
         font-weight: $font_medium !important;
 
@@ -174,7 +176,10 @@
             }
         }
         &-item{
-            padding: 2.5rem !important;
+            padding: 3rem 3rem 2rem 3rem !important;
+            &:first-of-type {
+                padding: 3rem 2rem 2rem 2rem !important; 
+            }
         }
         .MuiTab-textColorPrimary {
             color: $clr_text_gray;
@@ -245,6 +250,11 @@
             font-size: 2rem !important;
             font-weight: $font-bold !important;
         }
+        &-speaker-content{
+            font-size: $p2 !important;
+            font-weight: $font_normal !important;
+            color: $light_grey;
+        }
         &-speaker-designation{
             color: $clr_gray_light;
         }
@@ -253,7 +263,8 @@
             border-radius: 1.68rem !important;
             color:$clr_green !important;
             font-weight: $font-semibold !important;
-            
+            font-size: $p1 !important;
+            text-transform: none !important;
         }
        
         &-contributor-back-label{
@@ -314,9 +325,8 @@
     
         }
         &-header{
-            font-weight: $font-bold !important;
-            font-size: 2rem !important;
-            text-transform: capitalize !important;
+            font-weight: $font-semibold !important;
+            font-size: $h5 !important;
         }
         &-container{
      
@@ -330,13 +340,13 @@
         }
                 &-name {
                     font-size: $h6 !important;
-                    font-weight: $font-semibold !important;
+                    font-weight: $font-medium !important;
                 }
         
                 &-type {
                     font-size: $p2;
-                    color: $clr-gray-light;
-        
+                    color: $clr_grayish_blue;
+                    font-weight: $font-medium !important;
                 }
                 }
                 &-delete-modal{

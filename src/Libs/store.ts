@@ -110,6 +110,60 @@ const useStore = create<StoreState>()(
                 }
                 return { status, data, message };
             },
+            GET: async ({ url,  id, successCB, errorCB }: ApiRequestOptions) => {
+                // Set loading state
+                get().setDataById(id, { context: { loading: true } });
+                // Make API call
+                const response = await apiClient.get(url);
+                const { status, data, message } = processAPIResponse(response, id);
+                if (status) {
+                    let context = { data: data, loading: false, success: true }
+                    get().setDataById(id, { context, timestamp: Date.now() });
+                    successCB?.(context);
+
+                } else {
+                    let context = { data: data, loading: false, message:message }
+                    get().setDataById(id, { message, context });
+                    errorCB?.(context)
+                }
+                return { status, data, message };
+            },
+            PUT: async ({ url, body, id, successCB, errorCB }: ApiRequestOptions) => {
+                // Set loading state
+                get().setDataById(id, { context: { loading: true } });
+                // Make API call
+                const response = await apiClient.put(url, body);
+                const { status, data, message } = processAPIResponse(response, id);
+                if (status) {
+                    let context = { data: data, loading: false, success: true }
+                    get().setDataById(id, { context, timestamp: Date.now() });
+                    successCB?.(context);
+
+                } else {
+                    let context = { data: data, loading: false, message:message }
+                    get().setDataById(id, { message, context });
+                    errorCB?.(context)
+                }
+                return { status, data, message };
+            },
+            DELETE: async ({ url,  id, successCB, errorCB }: ApiRequestOptions) => {
+                // Set loading state
+                get().setDataById(id, { context: { loading: true } });
+                // Make API call
+                const response = await apiClient.delete(url);
+                const { status, data, message } = processAPIResponse(response, id);
+                if (status) {
+                    let context = { data: data, loading: false, success: true }
+                    get().setDataById(id, { context, timestamp: Date.now() });
+                    successCB?.(context);
+
+                } else {
+                    let context = { data: data, loading: false, message:message }
+                    get().setDataById(id, { message, context });
+                    errorCB?.(context)
+                }
+                return { status, data, message };
+            },
         }),
         {
             name: "global-state-storage", // Unique name for local storage key

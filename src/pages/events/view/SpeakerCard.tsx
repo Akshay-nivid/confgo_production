@@ -15,6 +15,7 @@ import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CloseIcon from '@mui/icons-material/Close';
 import { DeleteContributorIcon, EditContributorIcon } from "@/assets/svg";
 import useStore from "@/Libs/store";
+import AddIcon from '@mui/icons-material/Add'
 
 interface CustomFile {
   id: number;
@@ -299,13 +300,19 @@ const SpeakerCard = (_eventData: any) => {
   return (
     <Grid className="event-detail-speakers-card" container spacing={2} flexDirection={'column'}>
       <Grid container size={{ xs: 12, sm: 12 }}>
-        <Grid className="event-detail-speakers-card-speaker-list" direction={'row'} display={'flex'}>
-          <Grid direction={"column"}>
-            <Grid display={"flex"} justifyContent={"space-between"}>
-              <Typography className="event-detail-speakers-card-speaker-header" >Event Contributors </Typography>
-              <CustomButton className="event-detail-speakers-card-speaker-add-button" variant="outlined" label=" + Add" onClick={handleDrawerOpen} />
+        <Grid className="event-detail-speakers-card-speaker-list" direction={'row'} display={'flex'} size={{ xs: 12, sm: 12 }}>
+          <Grid direction={"column"} size={{ xs: 12, sm: 12 }}>
+            <Grid container justifyContent={"space-between"} size={{ xs: 12, sm: 12 }}>
+              <Grid>
+                <Typography className="event-detail-speakers-card-speaker-header" >Event Contributors </Typography>
+              </Grid>
+              <Grid>
+                <CustomButton className="event-detail-speakers-card-speaker-add-button" variant="outlined" label="Add" onClick={handleDrawerOpen} startIcon={<AddIcon />} />
+              </Grid>
             </Grid>
-            <Typography variant="h6">Event Contributors allows you to easily add and manage key participants in your event, such as speakers, sponsors, guests, and other contributors. Keep track of all the important roles to ensure a smooth and successful event experience.</Typography>
+            <Grid container mt={2}></Grid>
+            <Typography variant="h6" className="event-detail-speakers-card-speaker-content" >Event Contributors allows you to easily add and manage key participants in your event, such as speakers, sponsors</Typography>
+            <Typography variant="h6" className="event-detail-speakers-card-speaker-content" >guests, and other contributors. Keep track of all the important roles to ensure a smooth and successful event experience.</Typography>
           </Grid>
         </Grid>
         {/* Contributor List */}
