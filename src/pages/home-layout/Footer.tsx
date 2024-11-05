@@ -1,7 +1,7 @@
 import { Box, Typography, Button } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { Link } from "react-router-dom";
-import AppLogo from "@/assets/AppLogo.svg?url";
+import AppLogo from "@/assets/appLogo.svg?url";
 import routes from "@/router/routes";
 
 /**
