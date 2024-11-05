@@ -3,7 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 import { Drawer,List,ListItem,ListItemText,ListItemButton } from '@mui/material';
 
-import { CalenderIcon,CouponIcon,EventIcon, DashboardIcon } from '@/assets/svg';
+import { CalenderIcon,CouponIcon,EventIcon, DashboardIcon, PaymentHistoryIcon } from '@/assets/svg';
 import routes from '@/router/routes';
 
 interface SidebarProps {
@@ -30,8 +30,8 @@ const sidebarItems = [
     exact: false,
   },
   {
-    path: routes.events(),
-    icon: EventIcon,
+    path: routes.paymentHistory(),
+    icon: PaymentHistoryIcon,
     label: 'Payment History',
     exact: false,
   },

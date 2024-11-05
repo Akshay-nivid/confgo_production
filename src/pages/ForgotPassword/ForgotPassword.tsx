@@ -31,7 +31,6 @@ const ForgotPassword = () => {
   const { handleSubmit, control } = useForm<FormData>();
   const POST = useStore((state: any) => state.POST);
   const navigate = useNavigate();
-  const currentUrl = useLocation().pathname;
   /**
  * compData for get userType
  */

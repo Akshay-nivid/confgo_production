@@ -39,6 +39,7 @@ import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Thankyou from "./pages/ThankYou/ThankYou";
 import UserDashboardLayout from "./pages/user-dashboard-layout";
 import UserDashboard from "./pages/user-dashboard-layout/UserDashboard";
+import PaymentHistory from "./pages/user-dashboard-layout/PaymentHistory";
 
 /**
  * Create your router configuration
@@ -91,6 +92,10 @@ const userRoutes = [
       {
         path: routes.userHome(),
         element: <UserDashboard />,
+      },
+      {
+        path: routes.paymentHistory(),
+        element: <PaymentHistory/>,
       },
     ],
   },
