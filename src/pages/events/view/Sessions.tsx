@@ -303,7 +303,7 @@ const Sessions = ({ eventData }) => {
                   </Typography>
                   <Typography className="event-sessions-session-card-speaker">
                     {item.type === "program"
-                      ? `Program Description: ${item.description}`
+                      ? `Description: ${item.description}`
                       : ``}
                   </Typography>
                   <Typography className="event-sessions-session-card-speaker">
