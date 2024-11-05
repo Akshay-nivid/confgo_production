@@ -34,10 +34,11 @@ import PaymentMethod from "./pages/User/Payment-Method";
 import RegistrationCompleted from "./pages/User/Registration-Completed";
 import FormBuilder from "./components/FormBuilder/FormBuilder";
 import ViewEventDetail from "./pages/events/view/ViewEventDetail";
-import CreateEvent from "./pages/events/CreateEvent";
 import EventList from "./pages/events/EventList";
 import UserDashboardLayout from "./pages/user-dashboard-layout";
 import UserDashboard from "./pages/user-dashboard-layout/UserDashboard";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
+import Thankyou from "./pages/ThankYou/ThankYou";
 
 /**
  * Create your router configuration
@@ -91,6 +92,11 @@ const userRoutes = [
         path: routes.userHome(),
         element: <UserDashboard />,
       },
+      {path:routes.userMyEvents(),
+        element:<CreateCoupon/>
+      }
+      
+
     ],
   },
 ];
@@ -99,6 +105,14 @@ const router = createBrowserRouter([
   {
     path: routes.register(),
     element: <Register />,
+  },
+  {
+    path: routes.forgotPassword(),
+    element: <ForgotPassword />,
+   },
+   {
+    path: routes.thankyou(),
+    element: <Thankyou />,
   },
   {
     path: routes.verifyEmail(),
