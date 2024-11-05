@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Typography } from "@mui/material";
+import DashboardCardItem from './DashboardCardItem';
+import { CalenderIcon } from '@/assets/svg';
 /**
  * Used to render events list
  * @author Vanisree 
@@ -37,8 +39,27 @@ const UserDashboard = () => {
       </Grid>
 
       <Grid container size={12} spacing={2}>
-        <Grid size={8}>
-          dsfdslfhdshfdsfhdsjkfhkjdsfh
+        <Grid container size={8}>
+        <Grid size={2}>
+        <DashboardCardItem  onClick={() => navigate("/coupon")} icon={CalenderIcon} title="Card 1">
+        </DashboardCardItem>
+        </Grid>
+        <Grid size={2}>
+        <DashboardCardItem  onClick={() => navigate("/coupon")} icon={CalenderIcon} title="Card 1">
+        </DashboardCardItem>
+        </Grid>
+        <Grid size={2}>
+        <DashboardCardItem  onClick={() => navigate("/coupon")} icon={CalenderIcon} title="Card 1">
+        </DashboardCardItem>
+        </Grid>
+        <Grid size={2}>
+        <DashboardCardItem  onClick={() => navigate("/coupon")} icon={CalenderIcon} title="Card 1">
+        </DashboardCardItem>
+        </Grid>
+        <Grid size={2}>
+        <DashboardCardItem  onClick={() => navigate("/coupon")} icon={CalenderIcon} title="Card 1">
+        </DashboardCardItem>
+        </Grid>
         </Grid>
         <Grid size={4}>
           ABBBBBBBB
