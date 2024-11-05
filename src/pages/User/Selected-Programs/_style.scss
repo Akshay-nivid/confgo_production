@@ -96,8 +96,8 @@
     margin-right: 0.5rem;
     .MuiFormControlLabel-root {
       .MuiFormControlLabel-label {
-        font-size: 1rem !important;
-        font-weight: 700 !important;
+        font-size: $p3 !important;
+        font-weight: $font-bold !important;
       }
     }
     svg {
@@ -105,5 +105,55 @@
       height: 1.6rem;
       fill: $clr_black;
     }
+  }
+  .add-on-list-container {
+    display: flex;
+    flex-direction: column;
+    .add-on-list-item {
+      display: flex;
+      align-items: center;
+      .add-on-list-item-label {
+        font-size: $h6;
+        font-weight: $font-semibold;
+      }
+      .add-on-list-item-checkbox {
+        padding: 0 !important;
+        margin-left: 0.8rem;
+        margin-right: 0.5rem;
+        .MuiFormControlLabel-root {
+          .MuiFormControlLabel-label {
+            font-size: $p3 !important;
+            font-weight: $font-bold !important;
+          }
+        }
+        svg {
+          width: 1.6rem;
+          height: 1.6rem;
+          fill: $clr_black;
+        }
+      }
+      .add-on-list-item-radio {
+        svg {
+          fill: $clr_black;
+        }
+      }
+      .add-on-list-item-radio-label {
+        font-size: $p1;
+        font-weight: $font-normal;
+        &.checked {
+          color: $clr_blue;
+        }
+      }
+    }
+  }
+  .select-add-on-text {
+    margin-block: 1.2rem;
+    font-size: $h6;
+    font-weight: $font-medium;
+  }
+  .program-list-container {
+    display: flex;
+    align-items: center;
+    padding-bottom: 0.5rem !important;
   }
 }
