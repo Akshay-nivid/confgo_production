@@ -104,12 +104,12 @@ const LocationCard = () => {
     <Grid className="main-location-Grid" container >
       <Grid size={12} direction={"row"} container gap={".3rem"} >
         <Grid>
-        <Typography className="location-Text">
+        <Typography className="main-location-Grid-location-Text">
           Location
         </Typography>
         </Grid>
         <Grid >
-           <EditButtonIcon className="location-button" onClick={openDrawer}/>
+           <EditButtonIcon className="main-location-Grid-location-button" onClick={openDrawer}/>
         </Grid>
        
       </Grid>
@@ -121,7 +121,7 @@ const LocationCard = () => {
             <Grid size={{ xs: 12, sm: 6, md: 3 }} key={id}>
               {mapUrl ? (
                 <iframe
-                className="show-map"
+                className="main-location-Grid-show-map"
                   src={mapUrl}
                   loading="lazy"
                   title={`Location ${name}`}
@@ -160,10 +160,10 @@ const LocationCard = () => {
               control={control}
             />
           </Grid>
-          <Grid className="edit-map-grid">
+          <Grid className="edit-location-container-edit-map-grid">
             {compData.data ? (
               <iframe
-                className="edit-map"
+                className="edit-location-container-edit-map"
                 src={compData.data}
                 loading="lazy"
               />
@@ -172,7 +172,7 @@ const LocationCard = () => {
             )}
           </Grid>
           <Grid container justifyContent={"flex-end"} size={10}>
-            <CustomButton className="edit-location-button" label={"Submit"} />
+            <CustomButton className="edit-location-container-edit-location-button" label={"Submit"} />
           </Grid>
         </Grid>
       </CustomDrawer>
