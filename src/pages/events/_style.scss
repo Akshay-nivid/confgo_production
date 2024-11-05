@@ -371,7 +371,20 @@
         &-sub-header{
             font-weight: $font_normal;
             font-size: $h6;
-            color: $clr_gray_light;
+            color: $clr_black;
+        }
+
+        &-session-add-button{
+            border: solid 0.1rem $clr_green !important;
+            border-radius: 1.68rem !important;
+            color:$clr_green !important;
+            font-weight: $font-semibold !important;
+            
+        }
+        &-session-card {
+            position: flex;
+            background-color: $background;
+            border-radius: .5px solid #CCDFF2;;
         }
     }
     &-template-card {
@@ -440,89 +453,7 @@
     &-addons-grid{
         padding-bottom: 1rem;
     }
-}.sessions-container {
-    padding: 16px;
-    max-width: 100%; /* Ensure the container takes full width */
-    margin: 0 auto;
 }
-
-.session-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 45px; /* Space between cards */
-    justify-content: flex-start; 
-    padding: 20px; /* Combined left and top padding */
-}
-
-.session-card {
-    position: flex;
-    background: #FFFFFF;
-    border: .5px solid #CCDFF2;
-    border-radius: 8px;
-    padding: 8px; /* Further reduced padding */
-    flex: 1 1 calc(30% - 6px)  !important; /* Adjusted to fit four cards in a row */
-    max-width: calc(30% - 2px) !important;
-    min-width: 180px; /* Reduced minimum width for more compact cards */
-    margin-bottom: 20px; /* Space between rows of cards */
-    box-sizing: border-box; /* Ensure padding is included in width */
-    height: 160px !important;
-}
-
-.session-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.date-header {
-    display: relative;
-    align-items: center;
-    background-color: #E0E7FF;
-    padding: 10px;
-    margin-top: 16px;
-    margin-bottom: 16px;
-    font-weight: bold;
-    font-size: 1rem;
-    width: 100%;
-}
-
-.session-time {
-    background-color: #F2FAF2;
-    color: #000000;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.85rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.session-details {
-    display: relative;
-    flex-direction: column;
-}
-
-.session-title {
-    font-weight: bold;
-    font-size: 1.4rem !important;
-    color: #000000;
-    margin-bottom: 8px !important;
-}
-
-.session-location,
-.session-speaker {
-    color: #000000;
-    font-size: 1.1rem !important;
-    margin-bottom: 2px !important;
-}
-
-.edit-button {
-    position: absolute;
-    color: #4A90E2;
-    cursor: pointer;
-}
-
-
-
 .event-information {
   &-subtitle {
     font-weight: $font_medium !important;
@@ -556,4 +487,98 @@
     font-weight: $font_semibold !important;
     box-shadow: none ;
   }
+}
+
+
+.event-sessions {
+    &-sessions-container {
+        padding: 16px;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    &-session-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 48px !important;
+        justify-content: flex-start;
+        padding: 20px;
+    }
+
+    &-session-card {
+        background: #FFFFFF;
+        border: 0.5px solid #CCDFF2;
+        border-radius: 10px;
+        padding: 8px;
+        flex: 1 1 calc(30% - 6px);
+        max-width: calc(30% - 2px);
+        min-width: 180px;
+        box-sizing: border-box;
+        height: 160px;
+
+        &-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        &-time {
+            background-color: #F2FAF2;
+            color: #000000;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: $p2 !important;
+            font-weight: $font_semibold !important;
+            margin-bottom: 10px;
+        }
+
+        &-details {
+            display: relative;
+            flex-direction: column;
+        }
+
+        &-title {
+            font-weight: $font_semibold !important;
+            font-size: $h5 !important;
+            color: #000000;
+            margin-bottom: 8px;
+        }
+
+        &-location,
+        &-speaker {
+            color: #000000;
+            font-size: $p2 !important;
+            margin-bottom: 2px;
+        }
+    }
+
+    &-date-header {
+        display: relative;
+        align-items: center;
+        background-color: #E0E7FF;
+        padding: 10px;
+        margin-top: 16px;
+        margin-bottom: 16px;
+        font-weight: $font_medium !important;
+        font-size: $h6 !important;
+        width: 100%;
+    }
+
+    &-edit-button {
+        background-color: $clr_green !important;
+        color: $clr_white !important;
+        min-width: 8rem !important;
+        border: 1px solid $clr_green !important;
+        text-transform: none ;
+        font-size: $h6 ;
+        font-weight: $font_semibold !important;
+        box-shadow: none ;
+    }
+
+    &-add-button {
+        border: solid 0.1rem $clr_green !important;
+        border-radius: 1.68rem !important;
+        color:$clr_green !important;
+        font-weight: $font-semibold !important;
+    }
 }

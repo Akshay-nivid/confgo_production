@@ -2,18 +2,18 @@ import { Typography, IconButton, Box } from "@mui/material";
 import Grid from '@mui/material/Grid2'; 
 import EditIcon from "@mui/icons-material/Edit";
 import moment from "moment";
-import AddIcon from "@/assets/svg/program-add.svg";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { useForm } from "react-hook-form";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { CloseOutlined } from "@mui/icons-material";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import apiClient from "@/Libs/Https/API-client";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
+import { ISource } from "@/Libs/type";
 /**
  * To display the session.
  */
@@ -27,6 +27,9 @@ const Sessions = ({ eventData }) => {
   const [addons, setAddons] = useState(eventData.addons || []);
   const [isAddon, setIsAddon] = useState(false);
   const [addOnOptions, setAddOnOptions] = useState<any>();
+
+
+
 
   const [selectedProgram, setSelectedProgram] = useState({
     name: "",
@@ -130,7 +133,6 @@ const Sessions = ({ eventData }) => {
         value: item.id,
       }));
       setAddOnOptions(optionsData);
-      console.log("option", optionsData);
     }
   };
 
@@ -204,25 +206,16 @@ const Sessions = ({ eventData }) => {
     }
   };
 
-  console.log("eeeerrr", eventData);
   return (
-    <Grid container spacing={3} className="sessions-container">
+    <Grid container spacing={3} className="event-sessions-sessions-container">
       <Grid
         size={{xs:12}}
         display="flex"
         justifyContent="space-between"
         alignItems="center"
       >
-        <Typography variant="h5">Sessions</Typography>
-        <CustomButton
-          startIcon={<AddIcon />}
-          label="Add"
-          variant="contained"
-          color="primary"
-          size="large"
-          className="add-program-add-btn"
-          onClick={handleAddClick}
-        />
+        <Typography className="event-detail-sessions-card-header">Event Sessions</Typography>
+        <CustomButton className="event-detail-speakers-card-speaker-add-button" variant="outlined" label=" + Add" onClick={handleAddClick} />
       </Grid>
 
       {/* Show invalid date items first */}
@@ -230,12 +223,12 @@ const Sessions = ({ eventData }) => {
       <Grid size={{xs: 12}}  key="invalid">
         
 
-        <Grid container spacing={2} className="session-list">
+        <Grid container spacing={2} className="event-sessions-session-list">
           {groupedData.invalid.map((item, index) => (
-            <Grid size={{xs:12, sm:6, md:4}} key={index} className="session-card">
+            <Grid size={{xs:12, sm:6, md:4}} key={index} className="event-sessions-session-card">
               {/* Session card contents */}
-              <div className="session-header">
-                <div className="session-time">
+              <div className="event-sessions-session-card-header">
+                <div className="event-sessions-session-card-time">
                   
                 </div>
                 <IconButton
@@ -246,18 +239,18 @@ const Sessions = ({ eventData }) => {
                   <EditIcon fontSize="small" />
                 </IconButton>
               </div>
-              <div className="session-details">
-                <Typography variant="h6" className="session-title">
+              <div className="event-sessions-session-card-details">
+                <Typography variant="h6" className="event-sessions-session-card-title">
                   {item.type === "program"
                     ? ` ${item.name}`
                     : ` ${item.addon?.name}`}
                 </Typography>
-                <Typography className="session-speaker">
+                <Typography className="event-sessions-session-card-speaker">
                   {item.type === "program"
                     ? `Program Description: ${item.description}`
                     : ``}
                 </Typography>
-                <Typography className="session-speaker">
+                <Typography className="event-sessions-session-card-speaker">
                   Price: {item.amount}
                 </Typography>
               </div>
@@ -272,22 +265,22 @@ const Sessions = ({ eventData }) => {
       .filter((date) => date !== "invalid")
       .map((date) => (
         <Grid size={{xs: 12}} key={date}>
-          <Box className="date-header" display="flex" alignItems="center">
+          <Box className="event-sessions-date-header" display="flex" alignItems="center">
             <DateRangeIcon sx={{ mr: 1 }} />
             <Typography variant="h6">
               {moment(date).format("MMMM D YYYY")}
             </Typography>
           </Box>
 
-          <Grid container spacing={2} className="session-list">
+          <Grid container spacing={2} className="event-sessions-session-list">
             {groupedData[date].map((item, index) => (
               <Grid
                 size = {{xs:12, sm:6, md:4}}
                 key={index}
-                className="session-card"
+                className="event-sessions-session-card"
               >
-                <div className="session-header">
-                  <div className="session-time">
+                <div className="event-sessions-session-card-header">
+                  <div className="event-sessions-session-card-time">
                     <Typography variant="subtitle2">
                       {moment(item.startTime).format("h:mm A")} -{" "}
                       {moment(item.endTime).format("h:mm A")}
@@ -295,7 +288,7 @@ const Sessions = ({ eventData }) => {
                   </div>
                   <IconButton
                     size="small"
-                    className="edit-button"
+                    className="event-detail-event-info-card-edit-btn"
                     onClick={() => handleEditClick(item)}
                   >
                     <EditIcon fontSize="small" />
@@ -303,17 +296,17 @@ const Sessions = ({ eventData }) => {
                 </div>
 
                 <div className="session-details">
-                  <Typography variant="h6" className="session-title">
+                  <Typography variant="h6" className="event-detail-sessions-card-header">
                     {item.type === "program"
                       ? ` ${item.name}`
                       : ` ${item.addon?.name}`}
                   </Typography>
-                  <Typography className="session-speaker">
+                  <Typography className="event-sessions-session-card-speaker">
                     {item.type === "program"
                       ? `Program Description: ${item.description}`
                       : ``}
                   </Typography>
-                  <Typography className="session-speaker">
+                  <Typography className="event-sessions-session-card-speaker">
                     Price: {item.amount}
                   </Typography>
                 </div>
@@ -414,12 +407,10 @@ const Sessions = ({ eventData }) => {
                   </Grid>
                 )}
                 <Grid size={{xs:12}}>
-                  <Grid container justifyContent="center">
+                  <Grid container justifyContent="right">
                     <CustomButton
                       label="Submit"
-                      variant="contained"
-                      color="primary"
-                      size="large"
+                      className="event-sessions-edit-button"
                       type="submit"
                     />
                   </Grid>
