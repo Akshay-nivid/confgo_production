@@ -14,6 +14,8 @@ import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import moment from "moment";
 import EditIcon from "@/assets/svg/event-edit.svg";
 import parse from 'html-react-parser';
+import ReactQuill from "react-quill";
+import React from "react";
 
 
 /**
@@ -21,10 +23,11 @@ import parse from 'html-react-parser';
  * @param eventData
  * @returns
  */
-const EventInfoCard = (eventData: any) => {
+const EventInfoCard: React.FC<any> = React.memo(
+  ({ eventData, onSubmitHandler }) => {
   const { id } = useParams();
   const setDataById = useStore((state: any) => state.setDataById);
-  const { control, handleSubmit, reset } = useForm<any>();
+  const { control, handleSubmit, reset, formState: { errors }, watch, setValue } = useForm<any>();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Functions to open and close the drawer.
@@ -32,22 +35,25 @@ const EventInfoCard = (eventData: any) => {
   const closeDrawer = () => setIsDrawerOpen(false);
 
   // Store a copy of the original event data for restoring data.
-  const [originalData, setOriginalData] = useState(eventData?.eventData);
+  const [originalData, setOriginalData] = useState(eventData);
+  const [editorContent, setEditorContent] = useState("");
 
   /**
    * useEffect hook to reset the form with formatted event data when `eventData` changes.
    */
   useEffect(() => {
-    if (eventData?.eventData) {
+    if (eventData) {
       const formattedEventData = {
-        ...eventData.eventData,
-        startTime: moment(eventData.eventData.startTime).format(
+        ...eventData,
+        startTime: moment(eventData.startTime).format(
           "YYYY-MM-DDTHH:mm"
         ),
-        endTime: moment(eventData.eventData.endTime).format("YYYY-MM-DDTHH:mm"),
+        endTime: moment(eventData.endTime).format("YYYY-MM-DDTHH:mm"),
       };
       reset(formattedEventData);
-      setOriginalData(eventData.eventData);
+      setEditorContent(eventData.description);
+      setValue("description", eventData.description);
+      setOriginalData(eventData);
     }
   }, [eventData, reset]);
 
@@ -62,6 +68,7 @@ const EventInfoCard = (eventData: any) => {
         endTime: moment(originalData.endTime).format("YYYY-MM-DDTHH:mm"),
       };
       reset(formattedOriginalData);
+      closeDrawer();
     }
   };
 
@@ -96,6 +103,7 @@ const EventInfoCard = (eventData: any) => {
       });
       reset();
       closeDrawer();
+      onSubmitHandler();
     } else {
       setDataById("snackBarInfo", {
         open: true,
@@ -106,11 +114,20 @@ const EventInfoCard = (eventData: any) => {
     }
   };
 
+   /**
+     * Method handles the on change event for description editor
+     * @param value : event value
+     */
+   const handleChange = (value: any) => {
+    setEditorContent(value);
+    setValue("description", value);
+  };
+
   // Array of options for the event type dropdown.
   const eventTypeOptions = [
-    { value: "online", label: "Online" },
-    { value: "offline", label: "Offline" },
-    { value: "hybrid", label: "Hybrid" },
+    { value: "ONLINE", label: "Online" },
+    { value: "OFFLINE", label: "Offline" },
+    { value: "HYBRID", label: "Hybrid" },
   ];
 
   return (
@@ -143,7 +160,7 @@ const EventInfoCard = (eventData: any) => {
         </Grid>
         <Grid size={{ xs: 9 }}>
           <Typography className="event-information-content">
-            {eventData?.eventData?.name}
+            {eventData?.name}
           </Typography>
         </Grid>
 
@@ -154,7 +171,7 @@ const EventInfoCard = (eventData: any) => {
         </Grid>
         <Grid size={{ xs: 9 }}>
           <Typography className="event-information-content">
-            {eventData?.eventData?.description && parse(eventData?.eventData?.description)}
+            {eventData?.description && parse(eventData?.description)}
           </Typography>
         </Grid>
 
@@ -165,7 +182,7 @@ const EventInfoCard = (eventData: any) => {
         </Grid>
         <Grid size={{ xs: 9 }}>
           <Typography className="event-information-content">
-            {eventData?.eventData?.eventClass}
+            {eventData?.eventClass}
           </Typography>
         </Grid>
 
@@ -176,7 +193,7 @@ const EventInfoCard = (eventData: any) => {
         </Grid>
         <Grid size={{ xs: 9 }}>
           <Typography className="event-information-content">
-            {moment(eventData?.eventData?.startTime).format(
+            {moment(eventData?.startTime).format(
               "MMM D, YYYY hh:mm a"
             )}
           </Typography>
@@ -189,7 +206,7 @@ const EventInfoCard = (eventData: any) => {
         </Grid>
         <Grid size={{ xs: 9 }}>
           <Typography className="event-information-content">
-            {moment(eventData?.eventData?.endTime).format(
+            {moment(eventData?.endTime).format(
               "MMM D, YYYY hh:mm a"
             )}
           </Typography>
@@ -211,7 +228,7 @@ const EventInfoCard = (eventData: any) => {
               <CloseOutlined />
             </IconButton>
           </Grid>
-          <Grid size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }} mt={2}>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={2} direction="column">
                 <Grid size={{ xs: 12 }}>
@@ -224,6 +241,7 @@ const EventInfoCard = (eventData: any) => {
                 </Grid>
                 <Grid size={{ xs: 12 }}>
                   <CustomSelect
+                    key='eventClass'
                     name="eventClass"
                     label="Event Type"
                     control={control}
@@ -231,13 +249,18 @@ const EventInfoCard = (eventData: any) => {
                   />
                 </Grid>
                 <Grid size={{ xs: 12 }}>
-                  <CustomTextField
-                    name="description"
-                    multiline
-                    rows={6}
-                    placeholder="Description"
-                    control={control}
-                  />
+                  <ReactQuill
+                      className={
+                        errors?.description ||
+                        watch("description") === "<p><br></p>"
+                          ? "create-event-description-error"
+                          : ""
+                      }
+                      value={editorContent}
+                      onChange={handleChange}
+                      theme="snow"
+                      placeholder="Type your description here..."
+                    />
                 </Grid>
                 <Grid size={{ xs: 12 }}>
                   <CustomTextField
@@ -255,7 +278,7 @@ const EventInfoCard = (eventData: any) => {
                     type="datetime-local"
                   />
                 </Grid>
-                <Grid size={{ xs: 12 }}>
+                <Grid size={{ xs: 12 }} mt={2}>
                   <Grid
                     container
                     justifyContent="flex-end"
@@ -265,7 +288,7 @@ const EventInfoCard = (eventData: any) => {
                     <Grid>
                       <CustomButton
                         className="event-information-restore-btn"
-                        label="Restore"
+                        label="Cancel"
                         variant="outlined"
                         size="large"
                         onClick={restore}
@@ -289,6 +312,6 @@ const EventInfoCard = (eventData: any) => {
       </CustomDrawer>
     </Grid>
   );
-};
+});
 
 export default EventInfoCard;

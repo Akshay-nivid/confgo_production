@@ -134,7 +134,7 @@ const Events = () => {
       startTime: event?.startTime,
       endTime: event?.endTime,
       statusId,
-      amount: 0
+      amount: event?.amount || 0
     };
 
     // Handle URL and Venue logic
