@@ -228,7 +228,7 @@ const EventInfoCard: React.FC<any> = React.memo(
               <CloseOutlined />
             </IconButton>
           </Grid>
-          <Grid size={{ xs: 12 }}>
+          <Grid size={{ xs: 12 }} mt={2}>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={2} direction="column">
                 <Grid size={{ xs: 12 }}>
@@ -278,7 +278,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                     type="datetime-local"
                   />
                 </Grid>
-                <Grid size={{ xs: 12 }}>
+                <Grid size={{ xs: 12 }} mt={2}>
                   <Grid
                     container
                     justifyContent="flex-end"
