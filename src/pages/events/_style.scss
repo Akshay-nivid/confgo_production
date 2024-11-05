@@ -135,6 +135,9 @@
                     width: 25rem;
                 }
             }
+            .MuiIconButton-root:hover {
+                background-color: $clr_white;
+            }
         }
     }
     &-header{
