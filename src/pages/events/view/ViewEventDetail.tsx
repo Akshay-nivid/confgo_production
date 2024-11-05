@@ -231,8 +231,10 @@ const ViewEventDetail = () => {
     }
   }
 
+  /**
+   * Method gets triggered when successfully submitting the edit form
+   */
   const handleSubmitHandler = () => {
-    console.log('testenter')
     getEventDetails();
   }
 
