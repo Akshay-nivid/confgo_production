@@ -1,9 +1,9 @@
-import ViewPricingBanner from '../Home-Layout/ViewPricingBanner';
+import ViewPricingBanner from '../home-layout/ViewPricingBanner';
 import ConfrenceManagementSection from './ConfrenceManagementSection';
 import FaqSection from './FaqSection';
 import FeatureSection from './FeatureSection';
 import HeroSection from './HeroSection';
-import WhychooseSection from '../Home-Layout/WhychooseSection';
+import WhychooseSection from '../home-layout/WhychooseSection';
 
 /*
  * home page component
