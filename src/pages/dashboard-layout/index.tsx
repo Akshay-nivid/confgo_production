@@ -21,7 +21,8 @@ const Layout = () => {
             <Box className="layout-container-grid-outlet-grid-outlet-wrapper">
               <Outlet />
             </Box>
-            <Box className="min-h-20 w-full bg-slate-100 flex justify-center items-center">
+            {/*    Commented for now          */}
+            {/* <Box className="min-h-20 w-full bg-slate-100 flex justify-center items-center">
               Footer
               <Button
                 onClick={() => {
@@ -31,7 +32,7 @@ const Layout = () => {
               >
                 logout
               </Button>
-            </Box>
+            </Box> */}
           </Grid>
         </Grid>
       </Box>

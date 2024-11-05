@@ -12,6 +12,7 @@ import { jwtDecode } from 'jwt-decode';
 import { Logger } from '@/Utils/Logger';
 import useStore from '@/Libs/store';
 import { registerComponent } from '@/Libs/DataHandler/dataHandler';
+import { userType } from '@/pages/ForgotPassword/ForgotPassword';
 interface IUserLogin {
   username: string;
   password: string;
@@ -39,20 +40,24 @@ interface GoogleUserData {
   picture: string;
   phone_number: string;
 }
-
-
 /**
  * User Login page component
- *
  */
 const UserLogin = (props: UserProps) => {
   ({ props } = registerComponent(props));
 
   const { control, handleSubmit } = useForm<IUserLogin>();
   const setDataById = useStore((state: any) => state.setDataById);
+  
   const POST = useStore((state: any) => state.POST);
   const navigate = useNavigate();
-
+   /**
+   * function for set userTpype
+   */
+  function handleClickForgetPassword() {
+    navigate(routes.forgotPassword())
+    setDataById('userType',{ type: userType.PARTICIPANT } )
+  }
   /**
    * function to handle login
    */
@@ -66,7 +71,7 @@ const UserLogin = (props: UserProps) => {
           sessionStorage.setItem("token", context.data?.token);
           setDataById('participantLogin', true);
           setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
-          navigate(routes.programSelection())
+          navigate(routes.home());
         }
       },
       errorCB: (context: any) => {
@@ -74,8 +79,6 @@ const UserLogin = (props: UserProps) => {
       }
     });
   };
-
-
   /**
    * function to handle google login
    * @param {any}
@@ -175,9 +178,10 @@ const UserLogin = (props: UserProps) => {
                 Sign Up now.
               </Link>
             </Typography>
-            <Link to={'/user/forgot-password'} className="forgot-password-text">
+
+            <Box onClick={handleClickForgetPassword} className="forgot-password-text">
               Forgot Password?
-            </Link>
+            </Box>
           </Box>
           <Box className="sso-header-container ">
             <Box className="sso-header-line  "></Box>
