@@ -62,9 +62,9 @@ const UserOtp = () => {
       const body = {
         userId: userId,
         otp: data.otp,
-        type: 'REGISTRATION_OTP',
+        type: "USER_REGISTRATION_OTP",
         token: token,
-      
+    
       };
 
       /**

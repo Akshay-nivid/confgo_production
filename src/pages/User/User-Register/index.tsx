@@ -98,12 +98,13 @@ const UserRegister = (props: UserProps) => {
       successCB: (context: any) => {
         console.log(context,'context')
         if (context?.success) {
-         navigate(routes.userOtp(), {
+         navigate(routes.userOtp(),{
           state: {
             email: data.email,
             phoneNumber: data.phone,
             token: context?.data?.token?.token,
             userId: context?.data?.token?.userId,
+            purpose:purposeTypes.SET_PASSWORD
           },
         });
         }
