@@ -80,7 +80,7 @@ const LocationCard = () => {
 
   const setDataById = useStore((state: any) => state.setDataById);
   const compData = useStore((state: any) => state.compData.event);
-  console.log("complhl", compData);
+ 
 
   const { control } = useForm();
   useEffect(() => {
