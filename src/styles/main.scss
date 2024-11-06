@@ -6,7 +6,6 @@
 @import "../components/style";
 @import "../pages/register/style";
 @import "../pages/dashboard-layout/layout";
-@import "../pages/login/style";
 @import "../styles/App.scss";
 @import "../styles/variables";
 @import "../pages/events/style";
@@ -24,10 +23,12 @@
 @import "../pages/User/User-Setpassword-Successful/_style.scss";
 @import "../pages/contact/style";
 @import "../pages/participant/style";
-@import "../pages/user/Program-Selection/style.scss";
+@import "../pages/User/Program-Selection/style.scss";
 @import "../pages/User/Selected-Programs/style.scss";
 @import "../pages/User/Payment-Method/style.scss";
 @import "../pages/User/Registration-Completed/style.scss";
 @import "../components/FormBuilder/syle.scss";
 
 @import "../pages/User/DynamicUserForm/style.scss";
+@import "../pages/ForgotPassword/style.scss";
+@import "../pages/ThankYou/_style.scss";

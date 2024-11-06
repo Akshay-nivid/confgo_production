@@ -7,6 +7,7 @@ import routes from "@/router/routes";
 import apiClient from "@/Libs/Https/API-client";
 import useStore from "@/Libs/store";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
+import { userType } from "../ForgotPassword/ForgotPassword";
 
 /**
  * Component used to login an org
@@ -24,6 +25,13 @@ const LoginOrg = () => {
   /**
    * function used to handle form submission
    */
+    /**
+   * function for set userType
+   */
+    const handleClickForgetPassword=()=>{
+      navigate(routes.forgotPassword())
+      setDataById('userType',{type:userType.ORGANISATION})
+      }
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     LoginOrg(data);
@@ -121,9 +129,9 @@ const LoginOrg = () => {
                   </span>
                   Now
                 </Typography>
-                <Link className="" to={routes.login()}>
-                  <div className="forgot-password-link">Forgot Password?</div>{" "}
-                </Link>
+                <Box className=""   onClick={handleClickForgetPassword}>
+                  <Grid container   size={12} className="forgot-password-link">Forgot Password?</Grid>{" "}
+                </Box> 
               </Grid>
             </Grid>
           </Grid>

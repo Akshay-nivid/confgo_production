@@ -8,7 +8,6 @@ import CalendarRoute from "@/pages/calendar";
 import Home from "./pages/home";
 import Pricing from "./pages/pricing";
 import HomeLayout from "./pages/home-layout";
-import Login from "./pages/Login/Login";
 import CreateCoupon from "./pages/coupon/CreateCoupon";
 import LoginOrg from "@/pages/LoginOrg/loginOrg";
 import SetPassword from "@/pages/SetPassword/SetPassword";
@@ -35,9 +34,10 @@ import PaymentMethod from "./pages/User/Payment-Method";
 import RegistrationCompleted from "./pages/User/Registration-Completed";
 import FormBuilder from "./components/FormBuilder/FormBuilder";
 import ViewEventDetail from "./pages/events/view/ViewEventDetail";
-import CreateEvent from "./pages/events/CreateEvent";
 import EventList from "./pages/events/EventList";
 import DynamicUserForm from "./pages/User/DynamicUserForm";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
+import Thankyou from "./pages/ThankYou/ThankYou";
 
 /**
  * Create your router configuration
@@ -56,7 +56,7 @@ const userRoutes = [
       },
       {
         path: routes.userRegister(),
-        element: <UserRegister />,
+        element: <UserRegister id="participant-userRegister" />,
       },
       {
         path: routes.userOtp(),
@@ -92,12 +92,16 @@ const userRoutes = [
 
 const router = createBrowserRouter([
   {
-    path: routes.login(),
-    element: <Login />,
-  },
-  {
     path: routes.register(),
     element: <Register />,
+  },
+  {
+    path: routes.forgotPassword(),
+    element: <ForgotPassword />,
+  },
+  {
+    path: routes.thankyou(),
+    element: <Thankyou />,
   },
   {
     path: routes.verifyEmail(),
@@ -167,7 +171,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: routes.LoginOrg(),
+    path: routes.loginOrg(),
     element: <LoginOrg />,
   },
   {

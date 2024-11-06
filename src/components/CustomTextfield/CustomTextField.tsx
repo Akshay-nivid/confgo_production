@@ -16,19 +16,20 @@ import {
   PathValue,
   RegisterOptions,
 } from "react-hook-form";
-import { EventHandler, useState } from "react";
-import { clsx } from "clsx";
+import { useState } from "react";
+import clsx from "clsx";
 
 interface ICustomTextFieldProps<T extends FieldValues> {
   prefixIconButton?: React.ReactNode;
   prefixIcon?: React.ReactNode;
   suffixIconButton?: React.ReactNode;
+  suffixIconSecondButton?: React.ReactNode;
   suffixIcon?: React.ReactNode;
   handleToggleprefixIcon?: () => void;
   handleToggleSuffixIcon?: () => void;
-  // isShowPassword?: boolean;
-  min?: number;
-  max?: number;
+  handleToggleSuffixSecondIcon?: () => void;
+  min?: string | number;
+  max?: string | number;
   type?: string;
   name: Path<T>;
   label?: string;
@@ -45,16 +46,19 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   multiline?: boolean;
   rows?: number;
   disabled?: boolean;
-  size?: "small" | "medium" | "large";
+  size?: "small" | "medium" | undefined;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  readOnly?: boolean;
+  onBlur?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 interface InputPropsType {
   startAdornment?: React.ReactNode;
   endAdornment?: React.ReactNode;
-  min?: number;
-  max?: number;
+  min?: string | number;
+  max?: string | number;
 }
+
 /*
  * component used to render textfield
  */
@@ -74,6 +78,8 @@ const CustomTextField = <T extends FieldValues>({
   multiline = false,
   disabled = false,
   rows,
+  readOnly = false,
+  onBlur,
   ...props
 }: ICustomTextFieldProps<T>) => {
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -116,6 +122,10 @@ const CustomTextField = <T extends FieldValues>({
           <IconButton onClick={props.handleToggleSuffixIcon}>
             {props.suffixIconButton}
           </IconButton>
+          {props.suffixIconSecondButton && <IconButton onClick={props.handleToggleSuffixSecondIcon}>
+            {props.suffixIconSecondButton}
+          </IconButton>
+          }
         </InputAdornment>
       );
     }
@@ -153,66 +163,243 @@ const CustomTextField = <T extends FieldValues>({
     return propsObj;
   };
 
+  /**
+   * Method handles the on blur event
+   * @param event : on blur event parameter
+   */
+  const handleBlur = (event: any) => {
+    onBlur && onBlur(event);
+  };
+
   return (
-    <>
-      <FormControl fullWidth className="custom-text-field">
-        {showHeader && (
-          <Typography className="label-header" variant="h6">
-            {placeholder}
-            {requiredField && <span className="error-text">*</span>}
-          </Typography>
-        )}
-        {
-          <InputLabel htmlFor={name} className="custom-text-field-placeholder">
-            {placeholder}
-          </InputLabel>
-        }
-        <Controller
-          name={name}
-          defaultValue={defaultValue}
-          control={control}
-          disabled={disabled}
-          rules={rules}
-          render={({ field, fieldState: { error } }) => {
-            const passwordType = isShowPassword ? "text" : "password";
-            return (
-              <>
-                <OutlinedInput
-                  autoComplete="false"
-                  {...field}
-                  {...props}
-                  name={name}
-                  size={size}
-                  error={error?.message ? true : false}
-                  id={name}
-                  multiline={multiline}
-                  rows={rows}
-                  //  onChange={onChange}
-                  type={type === "password" ? passwordType : type}
-                  label={label}
-                  multiline={multiline ? true : false}
-                  rows={rows ? rows : 1}
-                  className={clsx(
-                    error
-                      ? "custom-text-field error-input"
-                      : "custom-text-field",
-                    props.className
-                  )}
-                  placeholder={type === "date" ? "" : placeholder}
-                  {...inputProps()}
-                />
-                {error?.message && (
-                  <FormHelperText className="error-text">
-                    {error.message}
-                  </FormHelperText>
-                )}
-              </>
-            );
-          }}
-        />
-      </FormControl>
-    </>
+    <FormControl
+      fullWidth
+      className={clsx("custom-text-field", props.formControlClassName)}
+    >
+      {showHeader && (
+        <Typography className="label-header" variant="h6">
+          {placeholder}
+          {requiredField && <span className="error-text">*</span>}
+        </Typography>
+      )}
+
+      <InputLabel htmlFor={name} className="custom-input-label">
+         {placeholder}
+     </InputLabel>
+
+      <Controller
+        name={name}
+        defaultValue={defaultValue}
+        control={control}
+        rules={{
+          ...rules,
+          validate: {
+            ...rules?.validate,
+            notInPast: (value) => {
+              const selectedDate = new Date(value);
+              const today = new Date();
+              today.setHours(0, 0, 0, 0);
+              if (
+                (type === "date" || type === "datetime-local") &&
+                selectedDate < today
+              ) {
+                return "Date cannot be in the past";
+              }
+              return true;
+            },
+          },
+        }}
+        render={({ field, fieldState: { error } }) => {
+          const passwordType = isShowPassword ? "text" : "password";
+          return (
+            <>
+              <OutlinedInput
+                autoComplete="false"
+                {...field}
+                {...props}
+                name={name}
+                size={size}
+                error={!!error?.message}
+                id={name}
+                type={type === "password" ? passwordType : type}
+                label={label}
+                multiline={multiline}
+                rows={rows || 1}
+                readOnly={readOnly}
+                placeholder={type === "date" ? "" : placeholder}
+                className={clsx(error ? "error-input" : "", props.className)}
+                onBlur={handleBlur}
+                {...inputProps()}
+              />
+              {error?.message && (
+                <FormHelperText className="error-text">
+                  {error.message}
+                </FormHelperText>
+              )}
+            </>
+          );
+        }}
+      />
+    </FormControl>
   );
 };
 
 export default CustomTextField;
+
+interface ICustomInput<T extends FieldValues> {
+  name: Path<T>;
+  rows?: number;
+  type?: string;
+  label?: string;
+  className?: string;
+  disabled?: boolean;
+  readOnly?: boolean;
+  required?: boolean;
+  fullWidth?: boolean;
+  autoFocus?: boolean;
+  control: Control<T>;
+  multiline?: boolean;
+  helperText?: string;
+  placeholder?: string;
+  defaultValue?: string;
+  rules?: RegisterOptions<T>;
+  style?: React.CSSProperties;
+  shrink?: boolean | undefined;
+  endAdornment?: React.ReactNode;
+  startAdornment?: React.ReactNode;
+
+  size?: "small" | "medium" | undefined;
+  margin?: "dense" | "none" | undefined;
+  minRows?: string | number | undefined;
+  maxRows?: string | number | undefined;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  onBlur?:
+    | React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
+    | undefined;
+}
+export const CustomTextField1 = <T extends FieldValues>({
+  name,
+  label,
+  placeholder,
+  defaultValue,
+  className,
+  control,
+  multiline = false,
+  size = "medium",
+  margin = "dense",
+  autoFocus = false,
+  helperText,
+  fullWidth = true,
+  shrink,
+  disabled = false,
+  readOnly = false,
+  required = false,
+  type = "text",
+  style,
+  rules,
+  onBlur,
+  onChange,
+  rows = 1,
+  minRows,
+  maxRows,
+  startAdornment,
+  endAdornment,
+}: ICustomInput<T>) => {
+  const [isShowPassword, setIsShowPassword] = useState(false);
+
+  /*
+   * A function hide and show password text
+   */
+  const handleTogglePassword = () => {
+    setIsShowPassword((prev) => !prev);
+  };
+
+  const passwordAdorment = (
+    <InputAdornment position="end">
+      <IconButton
+        className={`custom-input-icon-btn`}
+        onClick={handleTogglePassword}
+      >
+        {isShowPassword ? <Visibility /> : <VisibilityOff />}
+      </IconButton>
+    </InputAdornment>
+  );
+
+  return (
+    <Controller
+      name={name}
+      rules={rules}
+      control={control}
+      render={({ field, fieldState: { error } }) => {
+        console.log(field, error);
+        return (
+          <FormControl
+            required={required}
+            className="custom-input-form-control"
+          >
+            <InputLabel
+              className={clsx(
+                "custom-input-label",
+                size === "small" && "label-small",
+                size === "medium" && "label-medium"
+              )}
+              htmlFor={name}
+              shrink={shrink}
+            >
+              {label}
+            </InputLabel>
+            <OutlinedInput
+              startAdornment={startAdornment}
+              endAdornment={
+                type === "password" ? passwordAdorment : endAdornment
+              }
+              {...field}
+              onChange={onChange ? onChange : field.onChange}
+              onBlur={onBlur ? onBlur : field.onBlur}
+              style={style}
+              fullWidth={fullWidth}
+              id={name}
+              rows={rows}
+              minRows={minRows}
+              maxRows={maxRows}
+              readOnly={readOnly}
+              disabled={disabled}
+              autoFocus={autoFocus}
+              type={
+                type === "password"
+                  ? isShowPassword
+                    ? "text"
+                    : "password"
+                  : type
+              }
+              size={size}
+              margin={margin}
+              error={error?.message ? true : false}
+              multiline={multiline}
+              defaultValue={defaultValue}
+              placeholder={placeholder}
+              label={label}
+              className={clsx(
+                "custom-input",
+                size === "small" && "input-small",
+                size === "medium" && "input-medium",
+                className
+              )}
+              notched={shrink}
+            />
+
+            {helperText && !error?.message ? (
+              <FormHelperText className="custom-input-helper-text">
+                {helperText}
+              </FormHelperText>
+            ) : error?.message ? (
+              <FormHelperText className="error-text">
+                {error.message}
+              </FormHelperText>
+            ) : null}
+          </FormControl>
+        );
+      }}
+    />
+  );
+};

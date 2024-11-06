@@ -52,6 +52,7 @@
 
 .custom-text-field {
   // margin-bottom: 1rem;
+  margin-top: 0.5rem;
   caret-color: $clr_black;
   color: $clr_black;
   & .label-header {
@@ -111,6 +112,8 @@
     // background-color: $clr_white;
     &.Mui-focused {
       // color: $clr_blue;
+      margin-top: -4px;
+      margin-left: -8px;
       font-weight: $font_normal;
       // font-size: $p1;
 
@@ -701,5 +704,61 @@
     .MuiAlert-message{
      font-size: $p3 !important;
     }
+  }
+}
+
+.custom-input-label.MuiInputLabel-shrink {
+  transform: translate(9px, 0px) scale(0.75);
+  top: -17px;
+}
+
+
+.custom-file-upload {
+  background-color: $clr_white !important;
+  color: $clr_black !important;
+  border: 0.083rem  solid $clr_black !important;
+  box-shadow: none !important;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.custom-input-form-control {
+  & .MuiOutlinedInput-notchedOutline {
+    border-color: $clr_gray_extra_light !important;
+    // & legend {
+    //   & span {
+    //     // padding: 0.7rem;
+    //   }
+    // }
+  }
+
+  .MuiInputLabel-root {
+    color: $input_label !important;
+  }
+  .MuiInputLabel-root.Mui-focused {
+    color: $input_label !important;
+  }
+  & .label-small {
+    top: -7px !important;
+  }
+  & .label-medium {
+    top: 0px !important;
+  }
+
+  & .MuiInputLabel-shrink {
+    top: 0px !important;
+    // font-size: 1.2rem !important;
+  }
+
+  .input-medium {
+    & .MuiOutlinedInput-input {
+      padding: 15px 14px !important;
+    }
+  }
+
+  .custom-input-helper-text {
+    font-size: 10px;
+    color: $clr_gray_dark !important;
   }
 }

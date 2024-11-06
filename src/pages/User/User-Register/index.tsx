@@ -4,6 +4,7 @@ import routes from '@/router/routes';
 import {
   validateEmail,
   validateMaxLength,
+  validateMinLength,
   validatePhoneNumber,
   validateRequiredField,
 } from '@/Utils/Validation';
@@ -17,12 +18,17 @@ import apiClient from '@/Libs/Https/API-client';
 import { Logger } from '@/Utils/Logger';
 import { jwtDecode } from 'jwt-decode';
 import useStore from '@/Libs/store';
+import { purposeTypes } from '@/pages/User/User-Otp';
 
 interface IUserRegister {
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
+}
+
+type UserProps = {
+  id: string;
 }
 
 interface GoogleUserData {
@@ -48,11 +54,11 @@ interface GoogleUserData {
  * User Register page component
  *
  */
-const UserRegister = () => {
+const UserRegister = (props: UserProps) => {
   const { control, handleSubmit } = useForm<IUserRegister>();
   const navigate = useNavigate();
-  const { setDataById }: any = useStore();
-
+  const POST = useStore((state: any) => state.POST);
+  const setDataById = useStore((state: any) => state.setDataById);
   /**
    * function to handle google login
    * @param {any} data - The data to be sent to the server
@@ -67,6 +73,9 @@ const UserRegister = () => {
         email: data.email ?? '',
         ...(data.phone_number ? { phone: data.phone_number } : {})
       };
+      /**
+       * function to make api call
+       */
       const response = await apiClient.post('auth/ssoLogin', requestBody)
       if (response.data.status === 'success') {
         setDataById('participantLogin', true)
@@ -78,30 +87,31 @@ const UserRegister = () => {
       return error;
     }
   }
-
   /**
    * function to handle login
    */
   const handleLogin = async (data: IUserRegister) => {
-    const response = await apiClient.post('user', data);
-
-    try {
-      if (response.data.status === 'success') {
-        const token = response?.data?.data?.token;
-        navigate(routes.userOtp(), {
+    await POST({
+      url: 'user',
+      body: data,
+      id: props?.id,
+      successCB: (context: any) => {
+        console.log(context,'context')
+        if (context?.success) {
+         navigate(routes.userOtp(), {
           state: {
             email: data.email,
             phoneNumber: data.phone,
-            token: token.token,
-            userId: token.userId,
+            token: context?.data?.token?.token,
+            userId: context?.data?.token?.userId,
           },
         });
-        return response;
+        }
+      },
+      errorCB: (context: any) => {
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
       }
-    } catch (error) {
-      Logger.error('Error in register', error);
-      return error;
-    }
+    });
   };
 
   return (
@@ -130,7 +140,7 @@ const UserRegister = () => {
               className="textfield-container"
               display={'flex'}
               flexDirection={'column'}
-            >
+              >
               <CustomTextField
                 control={control}
                 name="firstName"
@@ -138,6 +148,7 @@ const UserRegister = () => {
                 label={'First Name'}
                 rules={{
                   required: validateRequiredField({ fieldName: 'First Name' }),
+                  minLength: validateMinLength({ minLength: 3, fieldName: 'First Name' })
                 }}
               />
               <CustomTextField
@@ -159,7 +170,6 @@ const UserRegister = () => {
                   pattern: validateEmail({}),
                 }}
               />
-
               <CustomTextField
                 control={control}
                 name="phone"

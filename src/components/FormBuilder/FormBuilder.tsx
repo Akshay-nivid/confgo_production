@@ -14,6 +14,7 @@ import CustomSelect from "../CustomSelectBox/CustomSelect";
 import { useState } from "react";
 import CustomCheckbox from "../CustomCheckbox/CustomCheckbox";
 import React from "react";
+import useStore from "@/Libs/store";
 
 export interface ICreateFormField {
   title: string;
@@ -47,10 +48,12 @@ const FormBuilder = () => {
     defaultValues: {
       title: "",
       fieldType: "",
-      required: false,
+      required: [],
       option: [{ value: "" }],
     },
   });
+
+  const POST = useStore((state: any) => state.POST);
 
   /**
    * function to handle form field creation
@@ -87,8 +90,27 @@ const FormBuilder = () => {
 
   const isFieldRequired = watch("required");
 
-  function handleSaveToLocalStorage(key: string, data: any) {
-    localStorage.setItem(key, JSON.stringify(data));
+  function handleClickGenerateForm() {
+    const parsedData = formFields.map(
+      (field: ICreateFormField, index: number) => {
+        return {
+          name: (index += 1).toString(),
+          metadata: JSON.stringify(field),
+        };
+      }
+    );
+    const formData = {
+      eventId: 7,
+      participantTypeId: 1,
+      data: parsedData,
+    };
+    const response = POST({
+      url: "event/form",
+      body: formData,
+      id: "dynamicGeneratedForm",
+    });
+    console.log(parsedData, "parsedData");
+    console.log(response, "response");
   }
 
   const fieldType = watch("fieldType");
@@ -248,7 +270,7 @@ const FormBuilder = () => {
               label="Generate Form"
               disabled={formFields.length < 1}
               className="create-form-button"
-              onClick={() => handleSaveToLocalStorage("formFields", formFields)}
+              onClick={handleClickGenerateForm}
             />
           </Box>
         </Box>

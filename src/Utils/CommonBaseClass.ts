@@ -14,7 +14,7 @@ export function processAPIResponse(response: any, api: string) {
       status = false;
       message = resData.message;
       sessionStorage.clear();
-      window.location.href = "/login";
+      window.location.href = "/organization/login";
       return { status, message, data };
     } else if (response.status === 401 && api.includes("login")) {
       status = false;

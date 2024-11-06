@@ -84,7 +84,7 @@ const SelectedPrograms = () => {
 
                     <Box className="food-list-container">
                       <Box className="">
-                        {event?.addons.map((item, index: number) => (
+                        {event?.addons.map((item: any, index: number) => (
                           <Box key={index} className="food-list-item">
                             <CustomCheckbox
                               control={control}

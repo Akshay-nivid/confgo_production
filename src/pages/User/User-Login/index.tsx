@@ -7,11 +7,12 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid2";
 import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 import { Logger } from "@/Utils/Logger";
 import useStore from "@/Libs/store";
 import { registerComponent } from "@/Libs/DataHandler/dataHandler";
+import { userType } from "@/pages/ForgotPassword/ForgotPassword";
 interface IUserLogin {
   username: string;
   password: string;
@@ -19,7 +20,6 @@ interface IUserLogin {
 
 type UserProps = {
   id: string;
-  source?: any;
 };
 
 interface GoogleUserData {
@@ -40,18 +40,24 @@ interface GoogleUserData {
   picture: string;
   phone_number: string;
 }
-
 /**
  * User Login page component
- *
  */
 const UserLogin = (props: UserProps) => {
   ({ props } = registerComponent(props));
 
   const { control, handleSubmit } = useForm<IUserLogin>();
   const setDataById = useStore((state: any) => state.setDataById);
-  const POST = useStore((state: any) => state.POST);
 
+  const POST = useStore((state: any) => state.POST);
+  const navigate = useNavigate();
+  /**
+   * function for set userTpype
+   */
+  function handleClickForgetPassword() {
+    navigate(routes.forgotPassword());
+    setDataById("userType", { type: userType.PARTICIPANT });
+  }
   /**
    * function to handle login
    */
@@ -70,6 +76,7 @@ const UserLogin = (props: UserProps) => {
             severity: "success",
             message: "Login Successfully",
           });
+          navigate(routes.home());
         }
       },
       errorCB: (context: any) => {
@@ -82,7 +89,6 @@ const UserLogin = (props: UserProps) => {
       },
     });
   };
-
   /**
    * function to handle google login
    * @param {any}
@@ -112,6 +118,7 @@ const UserLogin = (props: UserProps) => {
             severity: "success",
             message: "Login Successfully",
           });
+          navigate(routes.programSelection());
         }
       },
       errorCB: (context: any) => {
@@ -192,9 +199,13 @@ const UserLogin = (props: UserProps) => {
                 Sign Up now.
               </Link>
             </Typography>
-            <Link to={"/user/forgot-password"} className="forgot-password-text">
+
+            <Box
+              onClick={handleClickForgetPassword}
+              className="forgot-password-text"
+            >
               Forgot Password?
-            </Link>
+            </Box>
           </Box>
           <Box className="sso-header-container ">
             <Box className="sso-header-line  "></Box>
