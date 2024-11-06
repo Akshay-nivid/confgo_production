@@ -518,7 +518,7 @@
   }
   &-button-container{
     background-color: $clr_white;
-    padding-right: 5rem;
+    padding-right: 5.5rem;
   }
   &-step-icon-box {
     display: flex;
@@ -548,10 +548,8 @@
     margin-bottom: 4rem !important;
     box-shadow: none !important;
     &-event{
-      margin-right: 0.5rem !important;
     }
     &-program{
-      margin-right: 7.5rem !important;
     }
     &-details{
       margin-right: 2rem !important;
@@ -720,5 +718,6 @@
   padding-top: 0.7rem !important;
   background-color: $clr_white;
 }
+
 
 
