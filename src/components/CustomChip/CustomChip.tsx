@@ -22,7 +22,6 @@ interface CustomChipProps<T extends FieldValues> {
   placeholder?: string;
   rules?: any;
   validateChip?: (chip: string) => string | boolean;
-  className?: string;
 }
 
 const CustomChip = <T extends FieldValues>({
@@ -32,7 +31,6 @@ const CustomChip = <T extends FieldValues>({
   placeholder = "Add a chip",
   rules,
   validateChip = () => true,
-  className,
 }: CustomChipProps<T>) => {
   const [inputValue, setInputValue] = useState("");
   const [localError, setLocalError] = useState<string | null>(null); // Local error state for chip validation
@@ -86,7 +84,7 @@ const CustomChip = <T extends FieldValues>({
   };
 
   return (
-    <FormControl fullWidth className={className} variant="outlined">
+    <FormControl fullWidth className="custom-chip" variant="outlined">
       {label && <InputLabel>{label}</InputLabel>}
       <Controller
         name={name}
@@ -126,7 +124,7 @@ const CustomChip = <T extends FieldValues>({
               {localError || error?.message}
             </FormHelperText>
 
-            <Box className="chip-box">
+            <Box className="custom-chip-box">
               {(value || []).map((chip: string) => (
                 <Chip
                   key={chip}
