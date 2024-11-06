@@ -21,7 +21,7 @@ interface CustomChipProps<T extends FieldValues> {
   label?: string;
   placeholder?: string;
   rules?: any;
-  validateChip?: (chip: string) => boolean;
+  validateChip?: (chip: string) => string | boolean;
   className?: string;
 }
 
@@ -31,12 +31,18 @@ const CustomChip = <T extends FieldValues>({
   label,
   placeholder = "Add a chip",
   rules,
-  validateChip,
+  validateChip = () => true,
   className,
 }: CustomChipProps<T>) => {
   const [inputValue, setInputValue] = useState("");
-  const [localError, setLocalError] = useState<string | null>(null);
+  const [localError, setLocalError] = useState<string | null>(null); // Local error state for chip validation
 
+  /**
+   * Handles adding a chip to the list.
+   * @param chip - value to add
+   * @param onChange - onChange handler to update the chip list in the form state
+   * @param currentChips - current list of chips
+   */
   const handleAddChip = (
     chip: string,
     onChange: (chips: string[]) => void,
@@ -45,15 +51,15 @@ const CustomChip = <T extends FieldValues>({
     if (!chip) return;
 
     // Check for duplicates before adding the chip
-    if (currentChips.includes(chip)) {
+    if (currentChips.includes(chip.trim())) {
       setLocalError("This item has already been added.");
       return;
     }
 
     // Custom error handling for chip validation
-    if (validateChip && !validateChip(chip)) {
-      const errorMessage = "Invalid item format.";
-      setLocalError(errorMessage);
+    const validationResult = validateChip(chip);
+    if (typeof validationResult === "string") {
+      setLocalError(validationResult);
       return;
     }
 
@@ -64,6 +70,12 @@ const CustomChip = <T extends FieldValues>({
     setLocalError(null);
   };
 
+  /**
+   * Handles deleting a chip from the list.
+   * @param chipToDelete - value to delete
+   * @param onChange - onChange handler to update the chip list in the form state
+   * @param currentChips - current list of chips
+   */
   const handleDeleteChip = (
     chipToDelete: string,
     onChange: (chips: string[]) => void,
@@ -87,8 +99,8 @@ const CustomChip = <T extends FieldValues>({
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  e.preventDefault();
-                  handleAddChip(inputValue, onChange, value || []);
+                  e.preventDefault(); // Prevent form submission on Enter
+                  handleAddChip(inputValue, onChange, value || []); // Add chip when Enter is pressed
                 }
               }}
               placeholder={placeholder}
@@ -106,10 +118,10 @@ const CustomChip = <T extends FieldValues>({
                 </InputAdornment>
               }
               label={label}
-              error={!!error || !!localError}
+              error={!!error || !!localError} // Display error if validation fails
             />
 
-            {/* Display error messages conditionally */}
+            {/* Display error messages if validation fails */}
             <FormHelperText error>
               {localError || error?.message}
             </FormHelperText>
@@ -119,7 +131,7 @@ const CustomChip = <T extends FieldValues>({
                 <Chip
                   key={chip}
                   label={chip}
-                  onDelete={() => handleDeleteChip(chip, onChange, value || [])}
+                  onDelete={() => handleDeleteChip(chip, onChange, value || [])} // Handle chip deletion
                 />
               ))}
             </Box>

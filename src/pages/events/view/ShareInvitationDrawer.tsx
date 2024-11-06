@@ -31,10 +31,17 @@ const ShareInvitationDrawer: React.FC<ShareInvitationDrawerProps> = ({
   const { control, reset, handleSubmit } = useForm<any>();
   const baseURL = config.api.url;
 
-  // Email validation function used for validating chips in CustomChip
-  const validateEmailChip = (chip: string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(chip);
+  /**
+   * Email validation function used for validating chips in CustomChip
+   * @param {string} chip - value
+   * @returns {string | boolean} - Returns a string error message if the chip is invalid, or `true` if valid.
+   */
+  const validateEmail = (chip: string) => {
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(chip.trim());
+    if (!isValidEmail) {
+      return "Please enter a valid email address.";
+    }
+    return true;
   };
 
   // Handles form submission
@@ -115,7 +122,7 @@ const ShareInvitationDrawer: React.FC<ShareInvitationDrawerProps> = ({
               label="E Mails"
               placeholder=""
               rules={{ required: "At least one email is required" }}
-              validateChip={validateEmailChip}
+              validateChip={validateEmail}
             />
 
             <Grid size={{ xs: 12 }}>

@@ -714,4 +714,17 @@
   padding-top: 0.7rem !important;
 }
 
+.chip-box {
+	margin-top: 0.25rem;
+display: flex !important; 
+flex-wrap: wrap !important;
+gap: 0.25rem !important;
+padding: 0.25rem !important; 
+overflow-y: auto !important;
+max-height: 12rem !important; 
+}
+
+.chip {
+max-width: 100%;
+}
 
