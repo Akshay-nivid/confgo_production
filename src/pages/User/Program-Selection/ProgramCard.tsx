@@ -1,17 +1,15 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomCheckbox from "@/components/CustomCheckbox/CustomCheckbox";
-import CustomRadio from "@/components/CustomRadio/CustomRadio";
-import { registerComponent } from "@/Libs/DataHandler/dataHandler";
 import apiClient from "@/Libs/Https/API-client";
 import useStore from "@/Libs/store";
 import routes from "@/router/routes";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
-import { validateMinLength } from "@/Utils/Validation";
 import { Box, Typography } from "@mui/material";
 import moment from "moment";
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import Grid from "@mui/material/Grid2";
 
 export interface IProgram {
   id: number;
@@ -32,180 +30,180 @@ export interface IProgram {
   eventProgramSchedules: any[];
 }
 
-type ProgramProps = {
-  id: string
-}
 export interface Status {
   id: number;
   statusName: string;
   description: string;
 }
-interface FormValues {
-  programs: [string];
-  addons: [string];
-}
-const ProgramCard = (props:ProgramProps) => {
-  let context: any;
-  ({ props, context } = registerComponent(props));
+/**
+ * component used to draw programs
+ * @returns 
+ */
+const ProgramCard = () => {
 
-  const { control, handleSubmit} = useForm<FormValues>({
-    defaultValues: {
-      programs: undefined,
-      addons: undefined,
-    },
-    mode: "onBlur",
-    reValidateMode: "onSubmit",
-  });
+  const { control, handleSubmit, setValue, reset } = useForm<any>();
 
   const navigate = useNavigate();
-  const { compData: { event }, setDataById, POST, } = useStore();
+  const setDataById = useStore((state: any) => state.setDataById);
+  const eventInfo = useStore((state: any) => state?.compData?.["eventSelected"]) ?? '';
+  const eventDetails = useStore((state: any) => state?.compData?.["eventDetails"]) ?? '';
 
-  function onNext(data: any) {
-    console.log(data);
-    const body = {
-      programIds: data.programs,
-      gender: "Tom",
-      designation: "Jacks@123",
-      addonIds: data.addons ? data.addons : [],
-      amountPaid: "100",
-      profileImageUrl: "8765433219",
-      metadata: "male",
-      eventId: event.id,
-      participantTypeId: "1",
-      registrationType: "ONLINE",
-    };
-    console.log(body, "body data");
-    navigate(routes.selectedPrograms(), {
-      state: {
-        selectedProgramsId: data.programs,
-        selectedAddonsId: data.addons,
-      },
-    });
-  }
-
-  event?.programs?.sort(
-    (a: IProgram, b: IProgram) =>
-      new Date(a.startTime).getTime() - new Date(b.startTime).getTime()
-  );
-
-  // Step 2: Group by date
-  const groupedPrograms = event?.programs?.reduce(
-    (acc: IProgram[][], program: IProgram) => {
-      const programDate = new Date(program.startTime)
-        .toISOString()
-        .split("T")[0]; // Extract the date part only
-      const lastGroup = acc[acc.length - 1];
-
-      if (lastGroup && lastGroup[0].startTime.startsWith(programDate)) {
-        lastGroup.push(program);
-      } else {
-        acc.push([program]);
-      }
-
-      return acc;
-    },
-    []
-  );
-
-  console.log(groupedPrograms, "groupedPrograms");
-
+  /**
+   * Method used to call event details Api
+   */
   useEffect(() => {
     const fetchData = async () => {
-      const response = await apiClient.get("event/7");
-      console.log(response);
-      const proccessedData = processAPIResponse(response, "event");
-      setDataById("event", response?.data?.data);
+      const response = await apiClient.get(`event/${eventInfo?.id}`);
+      const { status, data } = processAPIResponse(response, "event");
+      if (status) {
+        setDataById("eventDetails", { data, programs: sortData(data?.programs), addOns: sortData(data?.addons) });
+      }
     };
     fetchData();
   }, []);
 
-  const sortedData = event?.programs
-    ? event.programs.sort((a: IProgram, b: IProgram) => {
-        console.log(new Date(a.startTime).toISOString().split("T")[0]);
-        const data =
-          new Date(a.startTime).getTime() - new Date(b.startTime).getTime();
-        return data;
-      })
-    : [];
+  /**
+   * Used to set selected value checked
+   */
+  useEffect(() => {
+    // Reset form values based on selectedDetails
+    if (eventDetails.selectedDetails) {
+      const defaultValues: any = {};
+      Object.entries(eventDetails?.selectedDetails)?.forEach(([date, details]: any) => {
+        defaultValues[`${moment(date).format("MM/DD/YYYY")}-programs`] = details?.programs?.map((program: any) => program.id);
+        defaultValues[`${moment(date).format("MM/DD/YYYY")}-addons`] = details?.addons?.map((addon: any) => addon.addonId);
+      });
+      reset(defaultValues);
+    }
+  }, [eventDetails])
+
+  /**
+   * Method used to sort data
+   * @param data 
+   * @returns 
+   */
+  const sortData = (data: IProgram[]): any => {
+    if (!data?.length) {
+      return {};
+    }
+    return data
+      .sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime())
+      .reduce((grouped: any, program) => {
+        const date = new Date(program.startTime).toISOString().split('T')[0];
+
+        if (!grouped[date]) {
+          grouped[date] = [];
+        }
+
+        grouped[date].push(program);
+        return grouped;
+      }, {});
+  };
+
+  /**
+   * Method used to handle next button click
+   * @param data 
+   */
+  function onNext(data: any) {
+    setDataById("eventDetails", {
+      selectedDetails: handlePrograms(data)
+    });
+    navigate(routes.selectedPrograms());
+  }
+
+  /**
+   * Method to group seletced programs
+   * @param data 
+   */
+  const handlePrograms = (data: any) => {
+    const output: any = {};
+    Object.entries(data).forEach(([key, value]) => {
+      const [date, type] = key.split('-');
+
+      if (!output[date]) {
+        output[date] = { addons: [], programs: [] };
+      }
+      if (type === 'addons') {
+        output[date][type] = Array.isArray(value)
+          ? eventDetails?.data?.addons.filter((addon: any) => value.includes(addon.id))
+          : [];
+      } else if (type === 'programs') {
+        output[date][type] = Array.isArray(value)
+          ? eventDetails?.data?.programs.filter((program: any) => value.includes(program.id))
+          : [];
+      }
+    });
+    Object.keys(output).forEach(date => {
+      if (output[date].addons.length === 0 && output[date].programs.length === 0) {
+        output[date] = {}; // Set to a blank object if both are empty
+      }
+    });
+    return output
+  }
 
   return (
     <form className="program-card-form" onSubmit={handleSubmit(onNext)}>
-      <Box className=" space-y-10">
-        {sortedData.map((program: IProgram, index: number) => (
-          <Box key={index} className="program-card">
+      <Box className="space-y-10">
+        {eventDetails?.programs && Object.entries(eventDetails?.programs).map(([date, programs]: any, index) => (
+          <Box key={`${date}-${programs?.id}-program`} className="program-card">
             <Box className="program-date-container">
               <Typography className="program-date">
-                Day {index + 1}-
-                {moment(program?.startTime).format("MMM DD, YYYY")}
+                Day {index + 1} -
+                {moment(date).format("MMM DD, YYYY")}
               </Typography>
             </Box>
 
-            <Box className="select-program-text">Select Your Programme:</Box>
-
-            <Box className="program-list-container">
-              {/* Uncomment this block when CustomCheckbox is ready */}
-              <Box className="program-list-item">
-                <CustomCheckbox
-                  control={control}
-                  className="program-list-item-checkbox"
-                  id={program.name}
-                  name={`programs`}
-                  rules={{
-                    validate: (value) => {
-                      if (value?.length > 0) {
-                        return true;
-                      } else {
-                        setDataById("snackBarInfo", {
-                          open: true,
-                          autoHideDuration: 2000,
-                          severity: "error",
-                          message: "Please select a program",
-                        });
-                        return false;
-                      }
-                    },
-                  }}
-                  label={program.name}
-                  data={[
-                    {
-                      label: program.name + " - " + "$" + program.amount,
-                      value: program.id,
-                    },
-                  ]}
-                />
-              </Box>
-              {/* <Box className="program-list-item">{program.name}</Box> */}
-            </Box>
-
-            {event?.addons.length > 0 && (
-              <>
-                <Box className="select-food-text">Food Selection:</Box>
-
-                <Box className="food-list-container">
-                  <Box className="">
-                    {event?.addons.map((item:any, index:number) => (
-                      <Box key={index} className="food-list-item">
-                        <CustomCheckbox
-                          control={control}
-                          className="food-list-item-checkbox "
-                          id={item.addonId}
-                          name={`addons`}
-                          label={item.title}
-                          data={[
-                            {
-                              label: item.title + "-" + item.price,
-                              value: item.addonId,
-                            },
-                          ]}
-                        />
-                      </Box>
+            <Grid className="select-program-text">Select Your Programme:</Grid>
+            {programs?.map((program: IProgram) =>
+              <Grid container size={12} direction={'row'} className="program-list-container">
+                <Grid className="program-list-item">
+                  <CustomCheckbox
+                    control={control}
+                    className="program-list-item-checkbox"
+                    id={program?.name}
+                    name={`${moment(date).format("MM/DD/YYYY")}-programs`}
+                    setValue={setValue}
+                    options={[
+                      {
+                        label: program?.name,
+                        value: program?.id,
+                      },
+                    ]}
+                  />
+                </Grid>
+                <Grid size={6}>- {moment(program?.startTime).format("h:mm A")} - ${program?.amount}</Grid>
+              </Grid>)}
+            {eventDetails?.data?.addons?.length > 0 && (
+              <Grid container size={12} direction={'row'} className="add-on-list-container">
+                {eventDetails?.addOns && Object.entries(eventDetails?.addOns).map(([dates, addOn]: any, index: number) => (
+                  <>
+                    {addOn?.map((item: any) => (
+                      <Grid key={`${dates}-${item?.addonId}-addon`}>
+                        <Grid className="select-add-on-text">Food Selection:</Grid>
+                        <Grid key={index} className="add-on-list-item">
+                          <CustomCheckbox
+                            control={control}
+                            className="add-on-list-item-checkbox "
+                            id={item?.addonId}
+                            name={`${moment(date).format("MM/DD/YYYY")}-addons`}
+                            options={[
+                              {
+                                label: item?.name,
+                                value: item?.addonId,
+                              },
+                            ]}
+                          />
+                          <Grid size={6}>- ${item?.amount}</Grid>
+                        </Grid>
+                      </Grid>
                     ))}
-                  </Box>
-                </Box>
-              </>
+                  </>
+                ))}
+              </Grid>
             )}
           </Box>
-        ))}
+        )
+        )}
       </Box>
       <Box className="navigation-button-container">
         <CustomButton

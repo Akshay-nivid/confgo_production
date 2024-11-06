@@ -1,4 +1,4 @@
-import { FormControl, Select, MenuItem, FormHelperText } from '@mui/material';
+import { FormControl, Select, MenuItem, FormHelperText, InputLabel } from '@mui/material';
 import { Controller, Control, FieldValues, Path, RegisterOptions, PathValue } from 'react-hook-form';
 
 interface CustomSelectProps<T extends FieldValues> {
@@ -35,6 +35,7 @@ const CustomSelect = <T extends FieldValues>({
       rules={rules}
       render={({ field, fieldState: { error } }) => (
         <FormControl error={!!error} fullWidth variant={variant}>
+          <InputLabel id={`${name}-label`} className="select-input-label">{label}</InputLabel>
               <Select
               size={size}
                   {...field}

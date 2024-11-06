@@ -15,12 +15,9 @@ import { Logger } from "@/Utils/Logger";
 import apiClient from "@/Libs/Https/API-client";
 import { useParams } from "react-router-dom";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
-import moment from "moment";
 import FormBuilder from "@/components/FormBuilder/FormBuilder";
 import StatusComponent from "@/components/Status/StatusComponent";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import DoneOutlineOutlinedIcon from '@mui/icons-material/DoneOutlineOutlined';
-import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import useStore from "@/Libs/store";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { useForm } from "react-hook-form";
@@ -28,6 +25,9 @@ import PublishIcon from "@/assets/svg/publish.svg";
 import UnpublishIcon from "@/assets/svg/unpublish.svg";
 import CopyIcon from "@/assets/svg/copy-clipboard.svg";
 import ShareIcon from "@/assets/svg/share.svg";
+import config from '../../../../config.json';
+import ShareInvitationDrawer from "./ShareInvitationDrawer";
+
 
 
 interface Status {
@@ -82,90 +82,6 @@ interface Addon {
   venueId: number;
   published: boolean;
 }
-const eventData = {
-  event_name: 'Annual Cardiology Symposium',
-  time: "Aug 26, 2024 11:27 am",
-  status: "Pending",
-  type: "Online",
-  event_info: "Vestibulum tempus imperdiet sem ac porttitor. Vivamus pulvinar commodo orci, suscipit porttitor velit elementum non. Fusce nec pellentesque erat, id lobortis nunc. Donec dui leo, ultrices quis turpis nec, sollicitudin sodales tortor. Aenean dapibus magna quam, id tincidunt quam placerat consequat. Nulla eu laoreet ex. Vestibulum nec vulputate turpis, id euismod orci. Phasellus consectetur tortor est. Donec lectus ex, rhoncus ac consequat at, viverra sit amet sem. Aliquam sed vestibulum nibh. Phasellus ut lorem pharetra, placerat urna id, tincidunt quam. Praesent non ex congue, tristique risus quis, blandit purus. Sed tristique sapien ut vehicula pretium. Donec purus metus, vulputate sit amet ullamcorper vel, aliquet ac lectus.",
-  speakers: [
-    {
-      name: "Dr. John Doe",
-      designation: "Cardiologist",
-      organization: "John Doe Hospital",
-      profile_image: "https://img.freepik.com/free-photo/portrait-man-laughing_23-2148859448.jpg?size=338&ext=jpg&ga=GA1.1.1819120589.1728432000&semt=ais_hybrid"
-
-    }, {
-      name: "Dr. Jane Doe",
-      designation: "Cardiologist",
-      organization: "Jane Doe Hospital",
-      profile_image: "https://img.freepik.com/free-photo/portrait-man-laughing_23-2148859448.jpg?size=338&ext=jpg&ga=GA1.1.1819120589.1728432000&semt=ais_hybrid"
-    }, {
-      name: "Dr. John Doe",
-      designation: "Cardiologist",
-      organization: "John Doe Hospital",
-      profile_image: "https://img.freepik.com/free-photo/portrait-man-laughing_23-2148859448.jpg?size=338&ext=jpg&ga=GA1.1.1819120589.1728432000&semt=ais_hybrid"
-    },
-    {
-      name: "Dr. John Doe",
-      designation: "Cardiologist",
-      organization: "John Doe Hospital",
-      profile_image: "https://img.freepik.com/free-photo/portrait-man-laughing_23-2148859448.jpg?size=338&ext=jpg&ga=GA1.1.1819120589.1728432000&semt=ais_hybrid"
-    },
-
-  ],
-  sessions: [
-    {
-      title: "Session 1",
-      description: "This is the description of the session 1",
-      date: "Aug 26, 2024 11:27 am",
-      time: "Aug 26, 2024 11:27 am",
-      location: "Online",
-      speakers: [
-        {
-          name: "Dr. John Doe",
-
-        },
-        {
-          name: "Dr.Doe",
-        },
-        {
-          name: "Dr. John",
-        }
-      ]
-    }, {
-      title: "Session 2",
-      description: "This is the description of the session 2",
-      date: "Aug 26, 2024 11:27 am",
-      time: "Aug 26, 2024 11:27 am",
-      location: "Online",
-      speakers: [
-        {
-          name: "Dr. John Doe",
-        },
-        {
-          name: "Dr. Doe",
-        },
-        {
-          name: "Dr. John",
-        }
-      ]
-    }
-  ],
-  location: {
-    lat: '',
-    long: ""
-  },
-  users: [
-    {}, {}
-  ],
-  template: [
-    {}, {}
-  ]
-
-
-}
-
 
 const ViewEventDetail = () => {
 
@@ -177,7 +93,10 @@ const ViewEventDetail = () => {
   const [link, setLink] = useState('');
   const [errorMessage, setErrorMessage] = useState('')
 
-  
+	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+	// Functions to open and close the drawer.
+	const openDrawer = () => setIsDrawerOpen(true);
+	const closeDrawer = () => setIsDrawerOpen(false);
 
   /**
    * Method handles the click event for the tab
@@ -227,7 +146,8 @@ const ViewEventDetail = () => {
       if (status) {
         setEventFullData(data)
         if(data.published){
-          setValue('event', data.slugName? data.slugName: '')
+          
+          setValue('event', data.slugName? `event-link/${data.slugName}`: '')
           setLink(data);
         }
         else{
@@ -303,7 +223,9 @@ const ViewEventDetail = () => {
   const handleToggleSuffixIcon = () => {
     const textToCopy = watch("event");
     if (textToCopy) {
-      navigator.clipboard.writeText(textToCopy)
+      const subDomain = config['event-link']['sub-domain'];
+      const topLevelDomain = config['event-link']['top-level-domain'];
+      navigator.clipboard.writeText(`${subDomain}.${textToCopy}.${topLevelDomain}`)
         .then(() => {
           setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: 'Text copied to clipboard' });
         })
@@ -313,11 +235,18 @@ const ViewEventDetail = () => {
     }
   }
 
+  /**
+   * Method gets triggered when successfully submitting the edit form
+   */
+  const handleSubmitHandler = () => {
+    getEventDetails();
+  }
+
   return <Grid >
     <Grid container
       className="event-detail-card" >
       <Grid size={{ xs: 12, sm: 12 }} flexDirection={"column"} >
-        <Grid className="event-detail-header" size={{ xs: 12, sm: 6 }} >
+        <Grid className="event-detail-header" size={{ xs: 12, sm: 12 }} >
           <Grid container justifyContent={'space-between'}>
             <Grid container>
               <Grid >
@@ -330,7 +259,7 @@ const ViewEventDetail = () => {
             </Grid>
             <Grid container spacing={2}>
               <Grid>
-              {eventFullData?.published? <Grid container size={{ xs: 12, sm: 10 }} direction={'column'}>
+              {eventFullData?.published? <Grid container size={{ xs: 12, sm: 12 }} direction={'column'}>
                 <Grid container direction={'row'} size={{ xs:12, sm:12 }} className="event-detail-card-published-link">
                     <Grid className="event-detail-card-published-link-text"><CustomTextField
                                     key='event-detail-card-published-link-event'
@@ -341,11 +270,12 @@ const ViewEventDetail = () => {
                                     suffixIconButton={<CopyIcon />}
                                     handleToggleSuffixIcon={handleToggleSuffixIcon}
                                     suffixIconSecondButton={<ShareIcon />}
+									handleToggleSuffixSecondIcon={openDrawer}
                                     value={link}
                                 /></Grid>
                 </Grid>
             </Grid>:
-            <Grid container size={{ xs: 12, sm: 10 }} direction={'column'}>
+            <Grid container size={{ xs: 12, sm: 12 }} direction={'column'}>
                 <Grid container direction={'row'} size={{ xs:12, sm:12 }} className="event-detail-card-link">
                     <Grid className="event-detail-card-link-label">
                     <CustomTextField
@@ -391,7 +321,7 @@ const ViewEventDetail = () => {
             </TabList>
           </Grid>
           <TabPanel value="1">
-            <EventInfoCard eventData={eventFullData} />
+            <EventInfoCard eventData={eventFullData} onSubmitHandler={handleSubmitHandler}/>
           </TabPanel>
           <TabPanel value="2">
             <SepekerCard eventData={eventFullData} />
@@ -414,6 +344,12 @@ const ViewEventDetail = () => {
         </TabContext>
       </Grid>
     </Grid>
+		<ShareInvitationDrawer
+        isOpen={isDrawerOpen}
+        onClose={closeDrawer}
+        eventData={eventFullData}
+		eventURL={watch('event')}
+    />
   </Grid>
 
 }

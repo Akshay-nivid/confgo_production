@@ -1,4 +1,3 @@
-import React from "react";
 import Grid from "@mui/material/Grid2";
 import { EventRegistrationSuccessIcon, QrIcon } from "@/assets/svg";
 import { Box, Typography } from "@mui/material";

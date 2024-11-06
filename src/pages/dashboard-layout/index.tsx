@@ -2,7 +2,7 @@ import Sidebar from './Sidebar';
 import LayoutAppbar from './LayoutAppbar';
 import Grid from '@mui/material/Grid2';
 import { Outlet } from 'react-router-dom';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
 
 /**
  * component used to render layout

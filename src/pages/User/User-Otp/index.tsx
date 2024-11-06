@@ -62,9 +62,9 @@ const UserOtp = () => {
       const body = {
         userId: userId,
         otp: data.otp,
-        type: 'REGISTRATION_OTP',
+        type: "USER_REGISTRATION_OTP",
         token: token,
-      
+    
       };
 
       /**
@@ -83,7 +83,7 @@ const UserOtp = () => {
         id: 'setPassword', url: 'token/validateotp',
         body: body
         , successCB: successCB,
-        errorCB: (error) => Logger.error("error", error)
+        errorCB: (error: any) => Logger.error("error", error)
       })
     };
     /**

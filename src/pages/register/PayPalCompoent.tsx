@@ -52,11 +52,12 @@ const PayPalButton: React.FC = () => {
                 errorMessage: "No error message",
                 transactionId: paypalData?.id,
                 metadata:JSON.stringify(paypalData) ,
-                amount: paypalData?.purchase_units[0]?.amount?.value,
+                amount: paypalData?.purchase_units?.[0]?.amount?.value,
                 discountAmount: 0,
-                finalAmount: paypalData?.purchase_units[0]?.amount?.value,
+                finalAmount: paypalData?.purchase_units?.[0]?.amount?.value,
                 subscriptionId:form3?.companyData?.subscriptionId,
-                userId:form3?.companyData?.user?.id    
+                userId:form3?.companyData?.user?.id,
+                paymentId:paypalData?.purchase_units?.[0]?.custom_id,
             }
             const response = await apiClient.post('payment/subscription',requestBody)
             const { status } = processAPIResponse(response, 'paymentSubscription')
@@ -88,6 +89,7 @@ const PayPalButton: React.FC = () => {
                                         currency_code: 'USD',
                                         value: form1?.field_values?.amount,
                                     },
+                                    custom_id:'test234'
                                 }],
                                 intent: 'CAPTURE'
                             });

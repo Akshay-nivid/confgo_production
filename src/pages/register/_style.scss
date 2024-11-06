@@ -58,6 +58,18 @@
           &:focus {
             outline: none;
           }
+        } & .plan-disabled-choose-btn{
+          width: 100%;
+          background-color: lighten($clr_blue, 20%); 
+          color: $clr_gray_light; 
+          cursor: not-allowed; 
+          opacity: 0.6; 
+          text-transform: none !important;
+          svg {
+              path {
+                  fill: $clr_gray_light;
+              }
+          }
         }
         & .form-wrapper {
           width: 100%;

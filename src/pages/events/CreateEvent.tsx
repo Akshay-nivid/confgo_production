@@ -35,6 +35,8 @@ type FormData = {
   country: string;
   postalCode: string;
   url: string;
+  amount: string;
+  specialty: string;
 };
 
 const typeArray = [
@@ -93,6 +95,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
       }
     }, [data]);
 
+
     return (
       <Box className="create-event-container">
         <Grid
@@ -100,10 +103,9 @@ const CreateEvent: React.FC<EventProps> = React.memo(
           size={{ xs: 12, sm: 12 }}
           justifyContent="center"
           alignItems="center"
-          spacing={4}
+          spacing={2}
         >
-          <Grid size={{ xs: 0, sm: 3 }}></Grid>
-          <Grid size={{ xs: 12, sm: 6 }}>
+          <Grid size={{ xs: 12, sm: 12 }} container m={8}>
             <Grid>
               <Typography
                 textAlign={"center"}
@@ -111,7 +113,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                 lineHeight={2}
                 className="create-event-title"
               >
-                Create Event
+                Create New Event
               </Typography>
             </Grid>
             <Grid>
@@ -122,15 +124,17 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                   alignItems={"center"}
                   justifyContent={"center"}
                 >
-                  <Grid size={{ xs: 12, sm: 12 }} mb={1}>
-                    <Typography
-                      variant="h3"
-                      className="create-event-description"
-                    >
-                      Event Name
-                    </Typography>
+                  <Grid size={{ xs: 12, sm: 12 }}>
+                    <CustomRadio
+                      control={control}
+                      name="type"
+                      label=""
+                      options={typeArray}
+                      row={true}
+                      value={"OFFLINE"}
+                    />
                   </Grid>
-                  <Grid size={{ xs: 12, sm: 12 }} mb={1}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField
                       placeholder="Event Name"
                       control={control}
@@ -139,7 +143,16 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                       rules={{ required: true }}
                     />
                   </Grid>
-                  <Grid size={{ xs: 12, sm: 12 }} mb={1}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <CustomTextField
+                      placeholder="Specialty"
+                      control={control}
+                      name="specialty"
+                      type="text"
+                      rules={{ required: true }}
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: 12 }}>
                     <Typography
                       variant="h3"
                       className="create-event-description"
@@ -149,7 +162,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                   </Grid>
                   <Grid
                     size={{ xs: 12, sm: 12 }}
-                    mb={1}
+                    mb={0}
                     className="create-event-description"
                   >
                     <ReactQuill
@@ -171,17 +184,8 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                       rules={{ required: true }}
                     />
                   </Grid>
-                  <Grid size={{ xs: 12, sm: 12 }} mb={1}>
-                    <CustomRadio
-                      control={control}
-                      name="type"
-                      label=""
-                      options={typeArray}
-                      row={true}
-                      value={"OFFLINE"}
-                    />
-                  </Grid>
-                  <Grid size={{ xs: 12, sm: 6 }} mb={1}>
+                  
+                  <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField
                       placeholder="Start Date"
                       control={control}
@@ -196,7 +200,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                       }}
                     />
                   </Grid>
-                  <Grid size={{ xs: 12, sm: 6 }} mb={1}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField
                       placeholder="End Date"
                       control={control}
@@ -211,8 +215,16 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                       }}
                     />
                   </Grid>
+                  <Grid size={{ xs: 12, sm: 12 }}>
+                    <CustomTextField
+                      placeholder="Price"
+                      control={control}
+                      name="amount"
+                      type="number"
+                    />
+                  </Grid>
                   {watch("type") !== "OFFLINE" && (
-                    <Grid size={{ xs: 12, sm: 12 }} mb={1}>
+                    <Grid size={{ xs: 12, sm: 12 }}>
                       <CustomTextField
                         placeholder="Url"
                         control={control}
@@ -234,30 +246,30 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                         container
                         alignItems="center"
                         size={{ xs: 12, sm: 12 }}
-                        mb={1}
+                        mb={0}
                       >
                         <CustomTextField
-                          placeholder="Location URL (must be an embed URL)"
+                          placeholder="Location URL (must be a Google Maps link)"
                           control={control}
                           name="mapUrl"
                           type="text"
                           rules={{
-                            required: true,
-                            validate: (value) =>
-                              /embed/.test(value) || 'URL must contain "embed"',
+                            required: false,
+                            validate: (value: any) =>
+                              /^(https?:\/\/)?(www\.)?google\.(com|[a-z]{2})\/maps/.test(value) || "URL must be a valid Google Maps link",
                           }}
                         />
                       </Grid>
-                      <Grid size={{ xs: 12, sm: 12 }} mb={1}>
+                      <Grid size={{ xs: 12, sm: 12 }}>
                         <CustomTextField
-                          placeholder="Location"
+                          placeholder="Venue"
                           control={control}
                           name="venueName"
                           type="text"
                           rules={{ required: watch("type") === "OFFLINE" }}
                         />
                       </Grid>
-                      <Grid size={{ xs: 12, sm: 12 }} mb={1}>
+                      <Grid size={{ xs: 12, sm: 12 }}>
                         <CustomTextField
                           placeholder="Address"
                           control={control}
@@ -266,7 +278,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                           rules={{ required: watch("type") === "OFFLINE" }}
                         />
                       </Grid>
-                      <Grid size={{ xs: 12, sm: 6 }} mb={1}>
+                      <Grid size={{ xs: 12, sm: 6 }}>
                         <CustomTextField
                           placeholder="City"
                           control={control}
@@ -275,7 +287,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                           rules={{ required: watch("type") === "OFFLINE" }}
                         />
                       </Grid>
-                      <Grid size={{ xs: 12, sm: 6 }} mb={1}>
+                      <Grid size={{ xs: 12, sm: 6 }}>
                         <CustomTextField
                           placeholder="State"
                           control={control}
@@ -284,7 +296,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                           rules={{ required: watch("type") === "OFFLINE" }}
                         />
                       </Grid>
-                      <Grid size={{ xs: 12, sm: 6 }} mb={1}>
+                      <Grid size={{ xs: 12, sm: 6 }}>
                         <CustomTextField
                           placeholder="Country"
                           control={control}
@@ -293,7 +305,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                           rules={{ required: watch("type") === "OFFLINE" }}
                         />
                       </Grid>
-                      <Grid size={{ xs: 12, sm: 6 }} mb={1}>
+                      <Grid size={{ xs: 12, sm: 6 }}>
                         <CustomTextField
                           placeholder="Pin Code"
                           control={control}
@@ -314,7 +326,6 @@ const CreateEvent: React.FC<EventProps> = React.memo(
               </form>
             </Grid>
           </Grid>
-          <Grid size={{ xs: 0, sm: 3 }}></Grid>
         </Grid>
       </Box>
     );

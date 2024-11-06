@@ -22,7 +22,7 @@ const ProgramSelection = () => {
           </Typography>
         </Box>
         <Box className="programs-container space-y-12">
-          <ProgramCard id="view-event-program" />
+          <ProgramCard/>
         </Box>
       </Grid>
     </Grid>

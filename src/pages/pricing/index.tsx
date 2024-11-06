@@ -1,8 +1,7 @@
 import { PlanSection } from './PlanSection';
-import WhychooseSection from '../Home-Layout/WhychooseSection';
-import FaqSection from '../Home/FaqSection';
+import WhychooseSection from '../home-layout/WhychooseSection';
+import FaqSection from '../home/FaqSection';
 import PlanFeatureSection from './PlanFeatureSection';
-import Grid from '@mui/material/Grid2';
 import Box from '@mui/material/Box';
 
 /**
