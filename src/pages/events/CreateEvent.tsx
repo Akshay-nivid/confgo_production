@@ -35,6 +35,7 @@ type FormData = {
   country: string;
   postalCode: string;
   url: string;
+  amount: string;
 };
 
 const typeArray = [
@@ -209,6 +210,14 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                           new Date(value) >= new Date() ||
                           "End Date cannot be in the past",
                       }}
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: 12 }} mb={1}>
+                    <CustomTextField
+                      placeholder="Price"
+                      control={control}
+                      name="amount"
+                      type="number"
                     />
                   </Grid>
                   {watch("type") !== "OFFLINE" && (

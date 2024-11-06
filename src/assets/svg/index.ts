@@ -46,6 +46,8 @@ import QrIcon from "./qr.svg";
 import DeleteContributorIcon from "./delete-icon.svg";
 import EditContributorIcon from "./edit-icon.svg";
 import ForgotPasswordIcon from "./key-icon.svg";
+import EditButtonIcon from "./Edit-location-button.svg"
+
 export {
   CalenderIcon,
   EventIcon,
@@ -94,5 +96,6 @@ export {
   QrIcon,
   DeleteContributorIcon,
   EditContributorIcon,
-  ForgotPasswordIcon
+  ForgotPasswordIcon,
+  EditButtonIcon
 };

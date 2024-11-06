@@ -6,6 +6,13 @@ import { useParams } from "react-router-dom";
 import { Logger } from "@/Utils/Logger";
 import useStore from "@/Libs/store";
 
+import CustomButton from "@/components/CustomButton/CustomButton";
+import CustomTextField from "@/components/CustomTextfield/CustomTextField";
+import { CloseOutlined, SearchOutlined } from "@mui/icons-material";
+import { useForm } from "react-hook-form";
+import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
+import { IconButton, Typography } from "@mui/material";
+import {EditButtonIcon} from "@/assets/svg";
 interface Location {
   mapUrl: string;
 }
@@ -17,7 +24,7 @@ const LocationCard = () => {
   const { id } = useParams();
   const [locations, setLocations] = useState<Location[]>([]);
   const [loading, setLoading] = useState(false);
-  const setDataById = useStore((state: any) => state.setDataById);
+
   /**
    * useEffect hook to handle the API call
    */
@@ -25,24 +32,26 @@ const LocationCard = () => {
     fetchLocationList();
   }, []);
 
-  // fetch the venue details
+
+  /**
+   * fetch the venue details
+   */
   const fetchLocationList = async () => {
     setLoading(true);
     try {
       const response = await apiClient.get(`event/${id}`);
       const { status, data } = processAPIResponse(response, "locationList");
-
       if (status) {
         const locationsData = Array.isArray(data) ? data : [data];
-
+            /**
+             * Extract the URL from mapUrl, or set a default if unavailable
+             */
         setLocations(
           locationsData.map((item) => {
-            // Extract the URL from mapUrl, or set a default if unavailable
             const mapUrl = item.venue?.mapUrl || "https://maps.google.com";
             return { mapUrl };
           })
-        ); 
-        
+        );
       } else {
         // If `status` is false, display an error message
         setDataById("snackBarInfo", {
@@ -54,35 +63,119 @@ const LocationCard = () => {
       }
     } catch (error) {
       Logger.error("Error fetching locations:", error);
+    } finally {
+      setLoading(false);
     }
-    finally {
-        setLoading(false);
-      }
+  };
+  /**
+   * drawer state
+   */
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  /**
+   *   Functions to open and close the drawer.
+   */
+  const openDrawer = () => setIsDrawerOpen(true);
+  const closeDrawer = () => setIsDrawerOpen(false);
+
+  const setDataById = useStore((state: any) => state.setDataById);
+  const compData = useStore((state: any) => state.compData.event);
+ 
+
+  const { control } = useForm();
+  useEffect(() => {
+    getLocation();
+  }, []);
+ /**
+  * get current location
+  */
+  const getLocation = async () => {
+    try {
+      const response = await apiClient.get(`event/${id}`);
+      const { data } = processAPIResponse(response, "locationList");
+      const mapLocation = data.venue?.mapUrl || "https://maps.google.com";
+      setDataById("editLocation", { data: mapLocation });
+    } catch (error) {
+      Logger.error("User Set Password Error", error);
+    }
   };
 
   return (
-    <Grid container spacing={4} className="location-grid">
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
-        locations.map(({ mapUrl }) => (
-          <Grid size={{ xs: 12, sm: 6, md: 3 }} key={id}>
-            {mapUrl ? (
+    <Grid className="main-location-Grid" container >
+      <Grid size={12} direction={"row"} container gap={".3rem"} >
+        <Grid>
+        <Typography className="main-location-Grid-location-Text">
+          Location
+        </Typography>
+        </Grid>
+        <Grid >
+           <EditButtonIcon className="main-location-Grid-location-button" onClick={openDrawer}/>
+        </Grid>
+       
+      </Grid>
+      <Grid container spacing={4} className="location-grid">
+        {loading ? (
+          <div>Loading...</div>
+        ) : (
+          locations.map(({ mapUrl }) => (
+            <Grid size={{ xs: 12, sm: 6, md: 3 }} key={id}>
+              {mapUrl ? (
+                <iframe
+                className="main-location-Grid-show-map"
+                  src={mapUrl}
+                  loading="lazy"
+                  title={`Location ${name}`}
+                />
+              ) : (
+                <div>No map available</div>
+              )}
+            </Grid>
+          ))
+        )}
+      </Grid>
+      {/*edit map drawer */}
+      <CustomDrawer open={isDrawerOpen} type="right">
+        <Grid container className="edit-location-container">
+          <Grid container size={12}>
+            <IconButton onClick={closeDrawer}>
+              <CloseOutlined />
+            </IconButton>
+          </Grid>
+          <Grid
+            className="edit-location-search-container"
+            container
+            justifyContent={"center"}
+            alignContent={"center"}
+            size={10}
+            marginTop={"7.1875rem"}
+          >
+            <CustomTextField
+              className="edit-location-searchBar"
+              prefixIcon={<SearchOutlined />}
+              prefixIconButton={true}
+              handleToggleprefixIcon={() => console.log("clicked")}
+              name="Search Location"
+              label="Location"
+              placeholder="Enter location"
+              control={control}
+            />
+          </Grid>
+          <Grid className="edit-location-container-edit-map-grid">
+            {compData.data ? (
               <iframe
-                src={mapUrl}
-                allowFullScreen
+                className="edit-location-container-edit-map"
+                src={compData.data}
                 loading="lazy"
-                title={`Location ${name}`}
-                width="500rem"
-                height="400px"
-                style={{ border: 0 }}
               />
             ) : (
-              <div>No map available</div>
+              <Grid>No map available</Grid>
             )}
           </Grid>
-        ))
-      )}
+          <Grid container justifyContent={"flex-end"} size={10}>
+            <CustomButton className="edit-location-container-edit-location-button" label={"Submit"} />
+          </Grid>
+        </Grid>
+      </CustomDrawer>
     </Grid>
   );
 };
