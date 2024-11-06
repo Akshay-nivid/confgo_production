@@ -1,19 +1,20 @@
 import { Typography, IconButton, Box } from "@mui/material";
 import Grid from '@mui/material/Grid2'; 
-import EditIcon from "@mui/icons-material/Edit";
 import moment from "moment";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { useForm } from "react-hook-form";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect} from "react";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { CloseOutlined } from "@mui/icons-material";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import apiClient from "@/Libs/Https/API-client";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
-import { ISource } from "@/Libs/type";
+import EditIcon from "@/assets/svg/event-edit.svg";
+import { Logger } from "@/Utils/Logger";
+import ReactQuill from "react-quill";
 /**
  * To display the session.
  */
@@ -27,6 +28,7 @@ const Sessions = ({ eventData }) => {
   const [addons, setAddons] = useState(eventData.addons || []);
   const [isAddon, setIsAddon] = useState(false);
   const [addOnOptions, setAddOnOptions] = useState<any>();
+  const [editorContent, setEditorContent] = useState("");
 
 
 
@@ -42,7 +44,7 @@ const Sessions = ({ eventData }) => {
     amount: "",
   });
 
-  const { control, handleSubmit, setValue, watch } = useForm();
+  const { control, handleSubmit, setValue, watch, formState: { errors} } = useForm();
   const closeDrawer = () => setDrawerOpen(false);
 
   // Merge programs and addons into one list
@@ -57,7 +59,7 @@ const Sessions = ({ eventData }) => {
   ];
 
 
-
+//used to combine the programs and addon
   const groupedData = combinedItems.reduce(
     (acc, program) => {
       const date = moment(program.startTime).isValid()
@@ -79,7 +81,9 @@ const Sessions = ({ eventData }) => {
     {}
   );
   
-
+/**
+ * To open the edit layover
+ */
   const handleEditClick = (program) => {
     const isPaid =
       program.amount && parseFloat(program.amount) > 0 ? "PAID" : "FREE";
@@ -95,7 +99,9 @@ const Sessions = ({ eventData }) => {
     setIsEditing(true);
     setDrawerOpen(true);
   };
-
+/**
+ * to handle the add of the program
+ */
   const handleAddClick = () => {
     setSelectedProgram({
       name: "",
@@ -140,7 +146,7 @@ const Sessions = ({ eventData }) => {
   useEffect(() => {
     if (selectedProgram) {
       setValue("name", selectedProgram.name);
-      setValue("description", selectedProgram.description);
+      setEditorContent(selectedProgram.description);
       setValue(
         "startTime",
         moment(selectedProgram.startTime).format("YYYY-MM-DDTHH:mm")
@@ -149,7 +155,6 @@ const Sessions = ({ eventData }) => {
         "endTime",
         moment(selectedProgram.endTime).format("YYYY-MM-DDTHH:mm")
       );
-      setValue("speaker", selectedProgram.speaker);
       setValue("isPaid", selectedProgram.isPaid);
       setValue("price", selectedProgram.amount);
     }
@@ -199,12 +204,21 @@ const Sessions = ({ eventData }) => {
         } else {
           setPrograms((prevPrograms) => [...prevPrograms, response.data]);
         }
-        console.log("Creation successful:", response.data);
+        Logger.error("Creation successful:", response.data);
       }
     } catch (error) {
-      console.error("Error updating data:", error);
+      Logger.error("Error updating data:", error);
     }
   };
+
+     /**
+     * Method handles the on change event for description editor
+     * @param value : event value
+     */
+     const handleChange = (value: any) => {
+        setEditorContent(value);
+        setValue("description", value);
+      };
 
   return (
     <Grid container spacing={3} className="event-sessions-sessions-container">
@@ -214,7 +228,7 @@ const Sessions = ({ eventData }) => {
         justifyContent="space-between"
         alignItems="center"
       >
-        <Typography className="event-detail-sessions-card-header">Event Sessions</Typography>
+        <Typography variant="h3" className="event-detail-event-info-card-title">Event Sessions</Typography>
         <CustomButton className="event-detail-speakers-card-speaker-add-button" variant="outlined" label=" + Add" onClick={handleAddClick} />
       </Grid>
 
@@ -228,7 +242,7 @@ const Sessions = ({ eventData }) => {
             <Grid size={{xs:12, sm:6, md:4}} key={index} className="event-sessions-session-card">
               {/* Session card contents */}
               <div className="event-sessions-session-card-header">
-                <div className="event-sessions-session-card-time">
+                <div className="">
                   
                 </div>
                 <IconButton
@@ -236,7 +250,7 @@ const Sessions = ({ eventData }) => {
                   className="event-detail-event-info-card-edit-btn"
                   onClick={() => handleEditClick(item)}
                 >
-                  <EditIcon fontSize="small" />
+                  <EditIcon />
                 </IconButton>
               </div>
               <div className="event-sessions-session-card-details">
@@ -247,7 +261,7 @@ const Sessions = ({ eventData }) => {
                 </Typography>
                 <Typography className="event-sessions-session-card-speaker">
                   {item.type === "program"
-                    ? `Program Description: ${item.description}`
+                    ? `Description: ${item.description}`
                     : ``}
                 </Typography>
                 <Typography className="event-sessions-session-card-speaker">
@@ -336,6 +350,20 @@ const Sessions = ({ eventData }) => {
               <CloseOutlined />
             </IconButton>
           </Grid>
+          <Grid  size={{xs:12}}>
+      <CustomRadio
+        name="itemType"
+        label=""
+        options={[
+          { label: "Program", value: "program" },
+          { label: "Addon", value: "addon" }
+        ]}
+        control={control}
+        row={true}
+        value={isAddon ? "addon" : "program"}
+        onChange={(e: { target: { value: string; }; }) => setIsAddon(e.target.value === "addon")}
+      />
+    </Grid>
           <Grid size={{xs: 12}}>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={2} direction="column">
@@ -360,13 +388,18 @@ const Sessions = ({ eventData }) => {
                     </Grid>
 
                     <Grid size={{xs:12}}>
-                      <CustomTextField
-                        name="description"
-                        multiline
-                        rows={6}
-                        placeholder="Program Description"
-                        control={control}
-                      />
+                       <ReactQuill
+                      className={
+                        errors?.description ||
+                        watch("description") === "<p><br></p>"
+                          ? "create-event-description-error"
+                          : ""
+                      }
+                      value={editorContent}
+                      onChange={handleChange}
+                      theme="snow"
+                      placeholder="Type your description here..."
+                    />
                     </Grid>
                   </>
                 )}
