@@ -39,6 +39,7 @@ const AddPlan = React.memo(() => {
   const form1 = useStore((state: any) => state?.compData?.['form1']) ?? [];
   const { setDataById }: any = useStore();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
   const handleChangePlan = (event: React.ChangeEvent<HTMLInputElement>) => {
     setcurrentPlan(event.target.value);
   };
@@ -77,6 +78,9 @@ const AddPlan = React.memo(() => {
 
     } catch (error) {
       Logger.error(error)
+    }
+    finally {
+      setLoading(false); 
     }
   }
 
@@ -129,7 +133,7 @@ const AddPlan = React.memo(() => {
           </Grid>
           <Grid container mb={2} className="w-full" >
           <CustomButton
-            className="plan-choose-btn"
+            className={(loading || planList.length===0)?'plan-disabled-choose-btn':"plan-choose-btn"}
             endIcon={<ArrowIconSvg/>}
             onClick={handleClick}
             label="Choose Plan"

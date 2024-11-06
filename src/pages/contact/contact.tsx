@@ -9,9 +9,9 @@ import useStore from '@/Libs/store';
 import { CallIcon } from '@/assets/svg';
 import { LocatioIcon } from '@/assets/svg';
 import { MessageIcon } from '@/assets/svg';
-import apiClient from '@/Libs/Https/API-client';
 import { Logger } from '@/Utils/Logger';
-
+import {useNavigate } from 'react-router-dom';
+import routes from '@/router/routes';
 
 interface FormData {
     name: string;
@@ -22,12 +22,10 @@ interface FormData {
     message: string;
     validateReCAPTCHA: Boolean
 }
-
 /**
  * mapping for icons
  */
 const boxArray = [
-
     {
         id: 1,
         icon: <CallIcon className='contact-page-icon' ></CallIcon>,
@@ -45,7 +43,6 @@ const boxArray = [
         label: 'Message us',
         info: 'Support@confgo.com'
     }]
-
 /*
  * componenet used to display contact page
  * @returns 
@@ -54,24 +51,30 @@ const Contact = () => {
     const { handleSubmit, control } = useForm<FormData>();
     const [recapcha, setRecapcha] = useState(true)
     const recaptchaRef = useRef<ReCAPTCHA>(null);
-    const { setDataById }: any = useStore();
-
-    /**
-   //**
+    const POST = useStore((state: any) => state.POST);
+    const setDataById=useStore((state: any) => state.setDtaById);
+    const navigate = useNavigate();
+       /**
     * change state of recapcha
     * @param value 
     */
-    const validateReCAPTCHA = () => {
-        setRecapcha(false);
+     const [recaptchaError, setRecaptchaError] = useState<string | null>(null);
+    const validateReCAPTCHA = (value: string | null) => {
+        if (value) {
+            setRecapcha(false);
+            setRecaptchaError(null);
+        } else {
+            setRecapcha(true);
+            setRecaptchaError('Please complete the reCAPTCHA');
+        }
     };
-
+  
     /**
      * submit handler
      * @param data 
      */
     const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
-        try {
-            const request = {
+            const body = {
                 firstName: data.name,
                 lastName: data.lastName,
                 companyName: data.companyName,
@@ -80,25 +83,31 @@ const Contact = () => {
                 email: data.email,
                 message: data.message
             }
-            const response = await apiClient.post('notification/contact', request)
-            if (response.data.status === 'success') {
-                setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Form submitted successfully" })
+            /**
+             * function to make api call
+             */
+            POST({
+                url: 'notification/contact', body: body,
+                id: 'contact',
+                successCB: successCB,
+                errorCB: (error: any) => Logger.error("error", error)
+            })
+            /**
+             * success callback function
+             */
+              function successCB(_context: any) {
+                setDataById("thankYouPageInfo",{type:"Submitted sucessfully",redirectTo:routes.userLogin()});
+                navigate(routes.thankyou());
             }
-        } catch (error) {
-            Logger.error('Error submitting form:', error);
-        }
-    }
+    };
     return (
-
         <Grid container className='contact-page' size={{ lg: 12 }}   >
-
             <Grid container className='contact-container ' size={{ lg: 12, xs: 12 }} spacing={0} justifyContent='center' alignItems='center' >
                 <Grid className='contact-header-content'>
                     <Typography className='contact-header-title'>Contact Our Team</Typography>
                     <Typography className='contact-header-description'>Everything you might need and then some more in an accessible and intuitive package.</Typography>
                 </Grid>
             </Grid>
-
             <Grid container className='contact-content' size={12} spacing={2} >
                 <Grid container className='contact-content-wrapper' size={{ lg: 12, xs: 12 }} spacing={3} justifyContent='center' >
                     <Grid container size={{ lg: 4, xs: 10 }} className='contact-info' sx={{ order: { xs: 2, lg: 1 } }}>
@@ -207,11 +216,16 @@ const Contact = () => {
                                         onChange={validateReCAPTCHA}
                                         ref={recaptchaRef}
                                         sitekey="6LdXx0YqAAAAAM2CU9b3Q0F-w4AtEwvHRbyb8j4C"
-                                    /></Grid>
+                                    />
+                                    {recaptchaError && (
+                                        <Typography color="error" variant="caption">
+                                            {recaptchaError}
+                                        </Typography>
+                                    )}
+                                    </Grid>
                                 <Grid size={{ lg: 12, xs: 12 }} >
                                     <Button fullWidth type='submit' className='contact-form-submit-button' disabled={recapcha}>Submit</Button>
                                 </Grid>
-
                             </Grid>
                         </form>
                     </Grid>
