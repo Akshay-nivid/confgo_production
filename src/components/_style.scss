@@ -721,4 +721,14 @@
   background-color: $clr_white;
 }
 
+.custom-chip{
+	&-box {	
+		margin-top: 0.25rem;
+		display: flex; 
+		flex-wrap: wrap;
+		gap: 0.25rem;
+		overflow-y: auto;
+		max-height: 12rem; 
+	}
+}
 
