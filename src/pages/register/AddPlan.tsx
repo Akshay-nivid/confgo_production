@@ -65,13 +65,13 @@ const AddPlan = React.memo(() => {
   const getPlanData = async () => {
     try {
       const response = await apiClient.post(`plan/list`, {});
-      const { status, data } = await processAPIResponse(response, 'plan list');
+      const { status, data } = processAPIResponse(response, 'plan list');
       if (status) {
         setPlanList(data);
         if(form1?.field_values){
-          setcurrentPlan(form1.field_values.name)
+          setcurrentPlan(form1?.field_values?.name)
         }else{
-          setcurrentPlan(data[0].name)
+          setcurrentPlan(data?.[0]?.name)
         }
         
       }
@@ -106,7 +106,7 @@ const AddPlan = React.memo(() => {
         <Grid className="left-inner-content">
           <FormControl className="w-full">
             <Grid alignSelf={"center"}>
-              <Typography className="left-plan-text" textAlign={"center"} variant="h2" lineHeight={2} >Choose Plan</Typography>
+              <Typography className="left-plan-text" textAlign={"center"} variant="h2" lineHeight={2} >Choose Your Plan</Typography>
               <Typography className="left-description-text" textAlign={"center"} variant="h6">Everything you might need and then some more in an accessible and intuitive package.</Typography>
             </Grid>
             <RadioGroup
@@ -117,11 +117,11 @@ const AddPlan = React.memo(() => {
               {planList.map((plan) => (
                 <PlanCard
                   image={''}
-                  isActive={currentPlan === plan.name}
-                  key={plan.id}
-                  value={plan.name}
-                  header={plan.name}
-                  price={plan.amount}
+                  isActive={currentPlan === plan?.name}
+                  key={plan?.id}
+                  value={plan?.name}
+                  header={plan?.name}
+                  price={plan?.amount}
                   discount={''}
                   isDicount={false}
                 />
@@ -136,8 +136,9 @@ const AddPlan = React.memo(() => {
             className={(loading || planList.length===0)?'plan-disabled-choose-btn':"plan-choose-btn"}
             endIcon={<ArrowIconSvg/>}
             onClick={handleClick}
-            label="Choose Plan"
+            label="Choose this plan"
             size="large"
+            disabled={ loading || planList.length===0}
           />
           </Grid>
         </Grid>
