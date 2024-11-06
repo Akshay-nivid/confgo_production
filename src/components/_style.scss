@@ -109,14 +109,15 @@
   .MuiInputLabel-outlined {
     color: $clr_grey;
     font-size: $p1;
-    // background-color: $clr_white;
     &.Mui-focused {
-      // color: $clr_blue;
-      margin-top: -4px;
-      margin-left: -8px;
       font-weight: $font_normal;
-      // font-size: $p1;
 
+    }
+  }
+
+  .MuiInputLabel-root{
+    &.Mui-focused {
+      color: $clr_grey;
     }
   }
 }
@@ -707,9 +708,10 @@
   }
 }
 
-.custom-input-label.MuiInputLabel-shrink {
-  transform: translate(9px, 0px) scale(0.75);
-  top: -17px;
+.select-input-label{
+  color: $light_grey !important;
+  font-size: $p1 !important;
+  padding-top: 0.7rem !important;
 }
 
 
