@@ -1,12 +1,51 @@
-import { Typography } from "@mui/material";
+import { DataGridList } from "@/components/DataGrid/DataGridList";
+import {Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 function PaymentHistory() {
+   //hedings
+   const columns = [
+      { type: "default", field: "Event Name", headerName: "Evnet Name", width:237,Height:51},
+      {
+        type: "default",
+        field: "Date",
+        headerName: "Date",
+        width: 157,
+        Height:51,
+        dateFormat: "DD/MM/YYYY",
+      },
+      { type: "default", field: "Amount", headerName: "Amount", width: 139,Height:51 },
+      {
+        type: "default",
+        field: "Status",
+        headerName: "Status",
+        width: 129,
+        Height:51,
+        dateFormat: "DD/MM/YYYY",
+      },
+      {
+        type: "default",
+        field: "Receipt",
+        headerName: "Receipt",
+        width: 137,
+        Height:51
+      },
+      { type: "", field: "Payment Method", headerName: "Payment Method", width: 181,Height:51 },
+    ];
   return (
   <Grid container size={12} className="payment-history-container">
-     <Grid className="" justifyContent={"center"} size={12}>
-     <Typography className="heading" padding={"3rem"} bgcolor={"red"}>
-        payment History
+     <Grid className="" size={12} container>
+     <Typography className="payment-history-container-heading" >
+        payment History 
      </Typography>
+     </Grid>
+     <Grid container size={12} >
+     <DataGridList
+              //  source={source}
+              //  onRowClick={(params: any) => handleRowClick(params.id)}
+              columns={columns}
+              id="event-datagrid" 
+              hideFooterPagination={true}/>
+              
      </Grid>
   </Grid>
   )
