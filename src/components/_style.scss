@@ -109,6 +109,8 @@
   .MuiInputLabel-outlined {
     color: $clr_grey;
     font-size: $p1;
+    background-color: $clr_white;
+    padding-right: 0.5rem;
     &.Mui-focused {
       font-weight: $font_normal;
 
@@ -118,8 +120,11 @@
   .MuiInputLabel-root{
     &.Mui-focused {
       color: $clr_grey;
+      background-color: $clr_white;
     }
   }
+
+  
 }
 
 .custom-select {
@@ -513,6 +518,7 @@
   }
   &-button-container{
     background-color: $clr_white;
+    padding-right: 5rem;
   }
   &-step-icon-box {
     display: flex;
@@ -712,6 +718,7 @@
   color: $light_grey !important;
   font-size: $p1 !important;
   padding-top: 0.7rem !important;
+  background-color: $clr_white;
 }
 
 .chip-box {
