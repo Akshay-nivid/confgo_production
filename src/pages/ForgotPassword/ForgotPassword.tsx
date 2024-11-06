@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useForm } from "react-hook-form";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
 import { ForgotPasswordIcon } from "@/assets/svg";
@@ -32,8 +32,8 @@ const ForgotPassword = () => {
   const POST = useStore((state: any) => state.POST);
   const navigate = useNavigate();
   /**
- * compData for get userType
- */
+  * compData for get userType
+  */
   const  compData = useStore((state: any) => state.compData.userType);
   
   /**

@@ -47,6 +47,8 @@ import DeleteContributorIcon from "./delete-icon.svg";
 import EditContributorIcon from "./edit-icon.svg";
 import ForgotPasswordIcon from "./key-icon.svg";
 import PaymentHistoryIcon from "./paymentHistory-icon.svg";
+import EditButtonIcon from "./Edit-location-button.svg"
+
 export {
   CalenderIcon,
   EventIcon,
@@ -96,5 +98,6 @@ export {
   DeleteContributorIcon,
   EditContributorIcon,
   ForgotPasswordIcon,
-  PaymentHistoryIcon
+  PaymentHistoryIcon,
+  EditButtonIcon
 };
