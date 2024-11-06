@@ -235,7 +235,7 @@ const Events = () => {
           container
           justifyContent={'right'}
           spacing={2}
-          size={{ xs: activeStep === 2 ? 12 : 9, sm: activeStep === 2 ? 12 : 9 }}
+          size={{ xs: activeStep === 2 ? 12 : 12, sm: activeStep === 2 ? 12 : 12 }}
           sx={{
             width: '100%'
           }}
