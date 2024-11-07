@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Typography, Snackbar, Alert } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useForm } from 'react-hook-form';
 import CustomTextField from '@/components/CustomTextfield/CustomTextField';
@@ -62,7 +62,7 @@ const CreateCoupon: React.FC = () => {
       };
 
       const response = await apiClient.post('coupon', req);
-      const { status, message } = await processAPIResponse(response, "createCoupon");
+      const { status } = await processAPIResponse(response, "createCoupon");
       if (status) {
         setSnackbarMessage("Coupon Created Successfully");
         setSnackbarSeverity('success');

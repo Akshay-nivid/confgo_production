@@ -336,6 +336,7 @@ export const CustomInput = <T extends FieldValues>({
           <FormControl
             required={required}
             className="custom-input-form-control"
+            fullWidth={fullWidth}
           >
             <InputLabel
               className={clsx(
@@ -357,7 +358,6 @@ export const CustomInput = <T extends FieldValues>({
               onChange={onChange ? onChange : field.onChange}
               onBlur={onBlur ? onBlur : field.onBlur}
               style={style}
-              fullWidth={fullWidth}
               id={name}
               rows={rows}
               minRows={minRows}

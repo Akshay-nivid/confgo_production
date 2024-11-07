@@ -109,16 +109,22 @@
   .MuiInputLabel-outlined {
     color: $clr_grey;
     font-size: $p1;
-    // background-color: $clr_white;
+    background-color: $clr_white;
+    padding-right: 0.5rem;
     &.Mui-focused {
-      // color: $clr_blue;
-      margin-top: -4px;
-      margin-left: -8px;
       font-weight: $font_normal;
-      // font-size: $p1;
 
     }
   }
+
+  .MuiInputLabel-root{
+    &.Mui-focused {
+      color: $clr_grey;
+      background-color: $clr_white;
+    }
+  }
+
+  
 }
 
 .custom-select {
@@ -512,6 +518,7 @@
   }
   &-button-container{
     background-color: $clr_white;
+    padding-right: 5.5rem;
   }
   &-step-icon-box {
     display: flex;
@@ -541,10 +548,8 @@
     margin-bottom: 4rem !important;
     box-shadow: none !important;
     &-event{
-      margin-right: 0.5rem !important;
     }
     &-program{
-      margin-right: 7.5rem !important;
     }
     &-details{
       margin-right: 2rem !important;
@@ -707,9 +712,22 @@
   }
 }
 
-.custom-input-label.MuiInputLabel-shrink {
-  transform: translate(9px, 0px) scale(0.75);
-  top: -17px;
+.select-input-label{
+  color: $light_grey !important;
+  font-size: $p1 !important;
+  padding-top: 0.7rem !important;
+  background-color: $clr_white;
+}
+
+.custom-chip{
+	&-box {	
+		margin-top: 0.25rem;
+		display: flex; 
+		flex-wrap: wrap;
+		gap: 0.25rem;
+		overflow-y: auto;
+		max-height: 12rem; 
+	}
 }
 
 
@@ -724,41 +742,58 @@
 }
 
 .custom-input-form-control {
+
   & .MuiOutlinedInput-notchedOutline {
     border-color: $clr_gray_extra_light !important;
-    // & legend {
-    //   & span {
-    //     // padding: 0.7rem;
-    //   }
-    // }
   }
 
   .MuiInputLabel-root {
     color: $input_label !important;
+    padding-right: 0.5rem;
+    background-color: $clr_white;
   }
+
+
   .MuiInputLabel-root.Mui-focused {
     color: $input_label !important;
   }
+
   & .label-small {
-    top: -7px !important;
+    top: -0.76rem !important;
+    font-size: $p2 !important;  
+    &.Mui-focused {
+    font-size: $p2 !important;  
+    top: 0 !important;
+    }
   }
   & .label-medium {
-    top: 0px !important;
+    top: -0.083rem !important;
+    font-size: $p1 !important;
+    &.Mui-focused {
+      font-size: $p1 !important;  
+      top: 0 !important;
+      }
   }
 
+
   & .MuiInputLabel-shrink {
-    top: 0px !important;
-    // font-size: 1.2rem !important;
+    top: 0 !important;
   }
 
   .input-medium {
     & .MuiOutlinedInput-input {
-      padding: 15px 14px !important;
+      padding-block: 1.25rem !important;
     }
   }
 
   .custom-input-helper-text {
-    font-size: 10px;
+    font-size: .83rem !important;
     color: $clr_gray_dark !important;
+  }
+
+  input:-webkit-autofill {
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: $clr_black !important;
+    caret-color: $clr_black !important;
   }
 }

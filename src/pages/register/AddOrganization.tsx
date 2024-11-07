@@ -57,11 +57,14 @@ const AddOrganization = React.memo(() => {
                 statusId: 1
             }
             const response = await apiClient.post('company', req);
-            const { status, data } = processAPIResponse(response, 'company create')
+            const { status, data, message } = processAPIResponse(response, 'company create')
             if (status) {
                 setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Registration Successfully and Please Complete Payment for Completion" });
                 setDataById('form3', { field_values: data, companyData: data });
                 setDataById('register', { data: 'PAYMENT_METHOD_PAGE' });
+            }
+            else{
+                setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message});
             }
 
         } catch (error: any) {

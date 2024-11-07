@@ -5,18 +5,22 @@ import {
   FormControl,
   FormLabel,
 } from "@mui/material";
-import { Controller, Control, FieldValues, Path } from "react-hook-form";
+import { useEffect } from "react";
+import { Controller, Control, FieldValues, Path, UseFormSetValue } from "react-hook-form";
 
 interface ICustomCheckbox<T extends FieldValues> {
   control: Control<T>;
-  name: Path<T>;
+  name: Path<T>| any;
   label?: string;
   options: { label: string; value: string | number; checked?: boolean }[]; // Array of checkbox options
   labelPlacement?: "end" | "start" | "top" | "bottom";
   required?: boolean;
   disabled?: boolean;
+  id?:string;
   row?: boolean; // For horizontal layout of checkboxes
   defaultValue?: any;
+  className?: string;
+  setValue?: UseFormSetValue<T>;
 }
 
 const CustomCheckbox = <T extends FieldValues>({
@@ -27,8 +31,19 @@ const CustomCheckbox = <T extends FieldValues>({
   labelPlacement,
   row,
   defaultValue,
+  setValue,
   ...props
 }: ICustomCheckbox<T>) => {
+  
+  /**
+   * Method used to set default valeu
+   */
+   useEffect(() => {
+    if (defaultValue && setValue) {
+      setValue(name, defaultValue);
+    }
+  }, [defaultValue, name, setValue]);
+  
   return (
     <FormControl component="fieldset">
       {label && <FormLabel component="legend">{label}</FormLabel>}

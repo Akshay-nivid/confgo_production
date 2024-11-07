@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
-import { ServiceCard } from '../Home-Layout/ServiceCard';
+import { ServiceCard } from '../home-layout/ServiceCard';
 
 /**
  * why choose ui section component for home page
