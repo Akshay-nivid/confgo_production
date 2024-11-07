@@ -8,16 +8,12 @@ import { Box, IconButton, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
-import AddIcon from "@/assets/svg/program-add.svg";
 import EditIcon from "@/assets/svg/edit-program-icon.svg";
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
-import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import moment from "moment";
-import { getValueFromArrayBasedOnParameter } from "@/Utils/CommonBaseClass";
 
 type FormData = {
   programs: {
-    programType: string;
     name: string;
     description: string;
     startTime: string;
@@ -28,7 +24,6 @@ type FormData = {
   }[];
   savedPrograms: {
     id?: string;
-    programType: string;
     name: string;
     description: string;
     startTime: string;
@@ -50,18 +45,14 @@ const typeArray = [
   { label: "Free", value: "FREE" },
 ];
 
-const programTypeArray = [
-  { label: "Program", value: "PROGRAM" },
-  { label: "Add Ons", value: "ADD_ONS" },
-];
+
 
 const AddProgram: React.FC<ProgramProps> = React.memo(
-  ({ formSubmit, onSubmitHandler, data, onSaveHandler, addOnOptions }) => {
+  ({ formSubmit, onSubmitHandler, data, onSaveHandler }) => {
     const { handleSubmit, control, watch, setValue } = useForm<FormData>({
       defaultValues: {
         programs: [
           {
-            programType: "PROGRAM",
             name: "",
             description: "",
             startTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
@@ -77,7 +68,20 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
       control,
       name: "programs",
     });
-    const [programIndex, setProgramIndex] = useState(0);
+    const [programIndex, setProgramIndex] = useState<any>();
+    const [editMode, setEditMode] = useState(false);
+
+    /**
+     * Useeffect hook updates the programIndex value based on the savedPrograms dependency
+     */
+    useEffect(() => {
+      const savedPrograms = watch("savedPrograms");
+      if (savedPrograms && savedPrograms.length > 0) {
+        setProgramIndex(savedPrograms.length - 1);
+      } else {
+        setProgramIndex(0);
+      }
+    }, [watch("savedPrograms")]);
 
     /**
      * Useeffect hook submits the form based on the formSubmit variable
@@ -118,35 +122,46 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
      * @param data : form data
      */
     const onSave: SubmitHandler<FormData> = () => {
-      setValue("savedPrograms", watch("programs"));
-      onSaveHandler && onSaveHandler(watch("programs"));
+      // Get the current programs data from `watch("programs")`
+      const programs = watch("programs");
+      const newPrograms = [...programs];
+
+      // Handle saving logic based on `editMode`
+      if (!editMode) {
+        const newProgram = {
+          name: "",
+          description: "",
+          startTime: moment().format("YYYY-MM-DDTHH:mm"),
+          endTime: moment().format("YYYY-MM-DDTHH:mm"),
+          type: "PAID",
+          amount: "",
+          addonId: "",
+        };
+        newPrograms.push(newProgram);
+
+        // Update both `savedPrograms` and the local `programs` array
+        setValue("savedPrograms", programs);
+        append(newProgram);
+        setProgramIndex(programs?.length || 0);
+      } else {
+        // If in `editMode`, just update the program index
+        setProgramIndex(programs?.length ? programs.length - 1 : 0);
+      }
+
+      // Trigger the save handler with the current programs
+      onSaveHandler && onSaveHandler(newPrograms);
+
+      // Exit edit mode
+      setEditMode(false);
     };
 
-    /**
-     * Method handles the addition of the new program
-     */
-    const handleAddNewPrograms = () => {
-      setValue("programs", watch("savedPrograms"));
-      append({
-        programType: "PROGRAM",
-        name: "",
-        description: "",
-        startTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
-        endTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
-        type: "PAID",
-        amount: "",
-        addonId: "",
-      });
-      setProgramIndex(
-        watch("savedPrograms")?.length ? watch("savedPrograms").length : 0
-      );
-    };
 
     /**
      * Method handles the Update of the program
      * @param index : index of the program to edit
      */
     const handleEdit = (index: number) => {
+      setEditMode(true);
       setValue("programs", watch("savedPrograms"));
       setProgramIndex(index);
     };
@@ -167,7 +182,6 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
       if (index === programsCopy.length) {
         if (index === 0) {
           append({
-            programType: "PROGRAM",
             name: "",
             description: "",
             startTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
@@ -177,7 +191,6 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
             addonId: "",
           });
           saveProgram.push({
-            programType: "PROGRAM",
             name: "",
             description: "",
             startTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
@@ -187,11 +200,14 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
             addonId: "",
           });
         } else {
-          setProgramIndex(index - 1);
+          setProgramIndex(programsCopy.length);
         }
       }
       onSaveHandler && onSaveHandler(saveProgram);
     };
+
+
+
 
     return (
       <Box className="add-program-container">
@@ -223,17 +239,6 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                         Add Program
                       </Typography>
                     </Grid>
-                    <Grid>
-                      <CustomButton
-                        className="add-program-add-btn"
-                        onClick={handleAddNewPrograms}
-                        label="Add"
-                        variant="contained"
-                        color="primary"
-                        size="large"
-                        startIcon={<AddIcon />}
-                      />
-                    </Grid>
                   </Grid>
                   <Box className={"form-wrapper1"}>
                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -246,55 +251,25 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                 size={{ xs: 12, sm: 12 }}
                                 spacing={2}
                               >
-                                <Grid size={{ xs: 12, sm: 12 }}>
-                                  <CustomRadio
+
+                                <Grid size={{ xs: 12, sm: 6 }} mb={2}>
+                                  <CustomTextField
+                                    placeholder="Program Name"
                                     control={control}
-                                    name={`programs.${index}.programType`}
-                                    label=""
-                                    options={programTypeArray}
-                                    row={true}
-                                    value={"PROGRAM"}
+                                    name={`programs.${index}.name`}
+                                    type="text"
+                                    rules={{ required: true }}
                                   />
                                 </Grid>
-                                {watch(`programs.${index}.programType`) ===
-                                  "PROGRAM" && (
-                                  <>
-                                    <Grid size={{ xs: 12, sm: 6 }} mb={2}>
-                                      <CustomTextField
-                                        placeholder="Program Name"
-                                        control={control}
-                                        name={`programs.${index}.name`}
-                                        type="text"
-                                        rules={{ required: true }}
-                                      />
-                                    </Grid>
-                                    <Grid size={{ xs: 12, sm: 6 }}>
-                                      <CustomTextField
-                                        placeholder="Program Description"
-                                        control={control}
-                                        name={`programs.${index}.description`}
-                                        type="text"
-                                        rules={{ required: true }}
-                                      />
-                                    </Grid>
-                                  </>
-                                )}
-                                {watch(`programs.${index}.programType`) ===
-                                  "ADD_ONS" && (
-                                  <Grid
-                                    size={{ xs: 12, sm: 12 }}
-                                    className="add-program-addons-grid"
-                                  >
-                                    <CustomSelect
-                                      name={`programs.${index}.addonId`}
-                                      label="Add Ons Option"
-                                      options={addOnOptions}
-                                      control={control}
-                                      rules={{ required: true }}
-                                      fullWidth
-                                    />
-                                  </Grid>
-                                )}
+                                <Grid size={{ xs: 12, sm: 6 }}>
+                                  <CustomTextField
+                                    placeholder="Program Description"
+                                    control={control}
+                                    name={`programs.${index}.description`}
+                                    type="text"
+                                    rules={{ required: true }}
+                                  />
+                                </Grid>
                                 <Grid size={{ xs: 12, sm: 6 }}>
                                   <CustomTextField
                                     placeholder="Start Date & Time"
@@ -420,12 +395,12 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
               className="add-program-display-container"
               size={{ xs: 12, sm: 4 }}
               spacing={2}
+              key='add-program-display-container'
             >
               {watch("savedPrograms")?.map(
                 (field, index) =>
-                  (field.programType === "PROGRAM"
-                    ? field.name
-                    : field.addonId) && (
+                  field.name
+                  && (
                     <Grid
                       key={field.id}
                       container
@@ -433,14 +408,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                       size={{ xs: 12, sm: 12 }}
                     >
                       <Grid size={{ xs: 8, sm: 8 }}>
-                        {field.programType === "PROGRAM"
-                          ? field.name
-                          : getValueFromArrayBasedOnParameter(
-                              addOnOptions,
-                              "value",
-                              field.addonId,
-                              "label"
-                            )}
+                        {field.name}
                       </Grid>
 
                       <Grid size={{ xs: 4, sm: 4 }}>
