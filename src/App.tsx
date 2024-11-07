@@ -39,6 +39,7 @@ import UserDashboardLayout from "./pages/user-dashboard-layout";
 import UserDashboard from "./pages/user-dashboard-layout/UserDashboard";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Thankyou from "./pages/ThankYou/ThankYou";
+import MyEventScreen from "./pages/User/UserEvent";
 
 /**
  * Create your router configuration
@@ -93,7 +94,7 @@ const userRoutes = [
         element: <UserDashboard />,
       },
       {path:routes.userMyEvents(),
-        element:<CreateCoupon/>
+        element:<MyEventScreen/>
       }
       
 

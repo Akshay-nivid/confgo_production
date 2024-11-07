@@ -1,0 +1,35 @@
+.event-card{
+    border: solid 0.1rem $clr_light_sky_blue;
+    background-color: $clr_white;
+    width: 30.688rem;
+    height: 18.563rem;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    &-date-box{
+        padding: 0.2rem;
+        border-radius: 0.2rem;
+        max-width: 13.688rem;
+        background-color: $clr_orange_dark;
+        height:1.813rem ;
+    }
+    &-title{
+        font-weight: $font_semibold !important;
+        font-size: $h4 !important;
+    }
+    &-status{
+        margin-top: 1rem;
+    }
+    &-certificate{
+        margin-top: 1rem;
+        &-label{
+        color: $clr_blue;
+        cursor: pointer;
+        }
+    }
+    &-button{
+        margin-top: 1rem !important;
+        background-color: $clr_blue !important;
+        color: $clr_white !important;
+    }
+
+}
