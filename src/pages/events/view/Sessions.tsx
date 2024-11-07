@@ -10,6 +10,7 @@ import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import { Logger } from "@/Utils/Logger";
 import SessionDrawerContent from "./SessionDrawercontent";
 import SessionCard from "./sessionCard";
+import useStore from "@/Libs/store";
 interface SessionsProps {
   eventData: any;
 }
@@ -39,6 +40,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
   const addons = eventData.addons || [];
   const [editorContent, setEditorContent] = useState<string>("");
   const parentId = eventData.id;
+  const POST = useStore((state: any) => state.POST);
 
   /**
    * Function used at while adding
@@ -60,18 +62,18 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
     if (item.type === "program") {
       setSelectedProgram({
         ...item,
-        isPaid: item.amount > 0 ? "PAID" : "FREE", 
+        isPaid: item.amount > 0 ? "PAID" : "FREE",
       });
       setSelectedProgramId(id);
       setIsEditing(true);
-      setIsAddon(false); 
+      setIsAddon(false);
     } else if (item.type === "addon") {
       setSelectedProgram({
         ...item,
-        isPaid: "FREE", 
+        isPaid: "FREE",
       });
-      setIsEditing(false); 
-      setIsAddon(true); 
+      setIsEditing(false);
+      setIsAddon(true);
     }
     setDrawerOpen(true);
   };
@@ -96,7 +98,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
   }, []);
 
   /**
-   * Submiting the datas according to the conditions 
+   * Submiting the datas according to the conditions
    */
   const onSubmit = async (data: any) => {
     closeDrawer();
@@ -116,21 +118,51 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
       const addEndpoint = isAddon ? `/addon/add` : `/event/program/add`;
 
       if (isEditing && selectedProgramId) {
-        // Update program API call
-        await apiClient.post(`/event/update/${selectedProgramId}`, programData);
-        setPrograms((prevPrograms: { id: any; }[]) =>
-          prevPrograms.map((prog: { id: any; }) =>
-            prog.id === selectedProgramId ? { ...prog, ...programData } : prog
-          )
-        );
+        // Define the success callback function
+        const successCB = (response: any) => {
+          // Update the programs state with the modified program data
+          setPrograms((prevPrograms: { id: any }[]) =>
+            prevPrograms.map((prog: { id: any }) =>
+              prog.id === selectedProgramId ? { ...prog, ...programData } : prog
+            )
+          );
+        };
+
+        // Define the error callback function
+        const errorCB = (error: any) => {
+          Logger.error("Error updating program", error);
+        };
+
+        // Make the API call using the new POST function format
+        POST({
+          url: `event/update/${selectedProgramId}`,
+          body: programData,
+          id: "updateProgram",
+          successCB,
+          errorCB,
+        });
       } else {
-        const response = await apiClient.post(addEndpoint, programData);
-        // if (isAddon) {
-        //   setAddons((prevAddons) => [...prevAddons, response.data]);
-        // } else {
-        //   setPrograms((prevPrograms) => [...prevPrograms, response.data]);
-        // }
-        Logger.error("Creation successful:", response.data);
+        // Define the success callback function for adding a new program/addon
+        const successCB = (response: any) => {
+          if (isAddon) {
+            setAddons((prevAddons) => [...prevAddons, response.data]);
+          } else {
+            setPrograms((prevPrograms) => [...prevPrograms, response.data]);
+          }
+          Logger.error("Creation successful:", response.data);
+        };
+
+        // Define the error callback function for adding
+        const errorCB = (error: any) => {
+          Logger.error("Error adding program/addon", error);
+        };
+        POST({
+          url: addEndpoint,
+          body: programData,
+          id: "addProgramOrAddon",
+          successCB,
+          errorCB,
+        });
       }
     } catch (error) {
       Logger.error("Error updating data:", error);
@@ -182,20 +214,26 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
       {groupedData.invalid && (
         <Grid size={{ xs: 12 }} key="invalid">
           <Grid container spacing={2} className="event-sessions-session-list">
-            {groupedData.invalid.map((item: unknown, index: Key | null | undefined) => (
-             <SessionCard
-             key={index}
-             item={item}
-             onEditClick={handleEditClick}
-             titleField="name"
-             startTimeField="startTime"
-             endTimeField="endTime"
-             fields={[
-               { label: "Description", field: "description" },
-               { label: "Price", field: "amount", format: (value) => (value > 0 ? `$${value}` : "Free") },
-             ]}
-           />
-            ))}
+            {groupedData.invalid.map(
+              (item: unknown, index: Key | null | undefined) => (
+                <SessionCard
+                  key={index}
+                  item={item}
+                  onEditClick={handleEditClick}
+                  titleField="name"
+                  startTimeField="startTime"
+                  endTimeField="endTime"
+                  fields={[
+                    { label: "Description", field: "description" },
+                    {
+                      label: "Price",
+                      field: "amount",
+                      format: (value) => (value > 0 ? `$${value}` : "Free"),
+                    },
+                  ]}
+                />
+              )
+            )}
           </Grid>
         </Grid>
       )}
@@ -217,20 +255,34 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
             </Box>
 
             <Grid container spacing={2} className="event-sessions-session-list">
-              {groupedData[date].map((item: { addon: { name: any; }; }, index: Key | null | undefined) => (
-                 <SessionCard
-                 key={index}
-                 item={item}
-                 onEditClick={handleEditClick}
-                 titleField={item.addon  && item.addon.name ? "addon.name" : "name"}
-                 startTimeField="startTime"
-                 endTimeField="endTime"
-                 fields={[
-                    { label: "Description", field: item.addon ? "addon.description" : "description" },
-                   { label: "Price", field: "amount", format: (value) => (value > 0 ? `$${value}` : "Free") },
-                 ]}
-               />
-              ))}
+              {groupedData[date].map(
+                (
+                  item: { addon: { name: any } },
+                  index: Key | null | undefined
+                ) => (
+                  <SessionCard
+                    key={index}
+                    item={item}
+                    onEditClick={handleEditClick}
+                    titleField={
+                      item.addon && item.addon.name ? "addon.name" : "name"
+                    }
+                    startTimeField="startTime"
+                    endTimeField="endTime"
+                    fields={[
+                      {
+                        label: "Description",
+                        field: item.addon ? "addon.description" : "description",
+                      },
+                      {
+                        label: "Price",
+                        field: "amount",
+                        format: (value) => (value > 0 ? `$${value}` : "Free"),
+                      },
+                    ]}
+                  />
+                )
+              )}
             </Grid>
           </Grid>
         ))}
