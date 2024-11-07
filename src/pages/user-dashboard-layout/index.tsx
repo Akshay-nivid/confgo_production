@@ -2,14 +2,16 @@ import Sidebar from './Sidebar';
 import LayoutAppbar from './LayoutAppbar';
 import Grid from '@mui/material/Grid2';
 import { Outlet } from 'react-router-dom';
-import { Box, Button } from '@mui/material';
+import { Box } from '@mui/material';
+import React from 'react';
 
 
 /**
- * component used to render layout
- * @returns
+ * component used to render dashboard layout
+ * @author Neethu
  */
-const UserDashboardLayout = ()=> {
+const UserDashboardLayout: React.FC = React.memo(() => {
+
   return (
     <Box className="layout-container">
       <LayoutAppbar />
@@ -22,22 +24,11 @@ const UserDashboardLayout = ()=> {
             <Box className="layout-container-grid-outlet-grid-outlet-wrapper">
               <Outlet />
             </Box>
-            <Box className="min-h-20 w-full bg-slate-100 flex justify-center items-center">
-              Footer
-              <Button
-                onClick={() => {
-                  localStorage.removeItem('isLoggedIn');
-                  window.location.reload();
-                }}
-              >
-                logout
-              </Button>
-            </Box>
           </Grid>
         </Grid>
       </Box>
     </Box>
   );
-};
+});
 
 export default UserDashboardLayout;

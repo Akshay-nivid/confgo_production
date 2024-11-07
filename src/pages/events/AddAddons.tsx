@@ -47,7 +47,7 @@ const typeArray = [
 
 
 
-const AddProgram: React.FC<ProgramProps> = React.memo(
+const AddAddOns: React.FC<ProgramProps> = React.memo(
   ({ formSubmit, onSubmitHandler, data, onSaveHandler }) => {
     const { handleSubmit, control, watch, setValue } = useForm<FormData>({
       defaultValues: {
@@ -88,7 +88,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
      */
     useEffect(() => {
       if (formSubmit) {
-        onSubmitHandler && onSubmitHandler(data?.savedPrograms, "PROGRAM");
+        onSubmitHandler && onSubmitHandler(data?.savedPrograms, "ADDS");
       }
     }, [formSubmit]);
 
@@ -97,7 +97,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
      * @param data : form data
      */
     const onSubmit: SubmitHandler<FormData> = (data: any) => {
-      onSubmitHandler && onSubmitHandler(data?.savedPrograms, "PROGRAM");
+      onSubmitHandler && onSubmitHandler(data?.savedPrograms, "ADDS");
     };
 
     /**
@@ -149,7 +149,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
       }
 
       // Trigger the save handler with the current programs
-      onSaveHandler && onSaveHandler(newPrograms,'program');
+      onSaveHandler && onSaveHandler(newPrograms,'addOns');
 
       // Exit edit mode
       setEditMode(false);
@@ -203,7 +203,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
           setProgramIndex(programsCopy.length);
         }
       }
-      onSaveHandler && onSaveHandler(saveProgram,'program');
+      onSaveHandler && onSaveHandler(saveProgram,'addOns');
     };
 
 
@@ -407,17 +407,12 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                       className="add-program-display-item"
                       size={{ xs: 12, sm: 12 }}
                     >
-<<<<<<< HEAD
-                      <Grid size={{ xs: 8, sm: 8 }}>
-                        {field.name}
-=======
                       <Grid size={{ xs: 8, sm: 8 }} >
                         <Grid container size={{ xs: 12, sm: 12 }} direction={'column'}>
                         <Grid>{field.name}</Grid>
                         <Grid>{field.description}</Grid>    
                         </Grid>
                                             
->>>>>>> 7ce35a8616317c7c7da23f4e71472b15c88d1acf
                       </Grid>
 
                       <Grid size={{ xs: 4, sm: 4 }}>
@@ -439,4 +434,4 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
   }
 );
 
-export default AddProgram;
+export default AddAddOns;

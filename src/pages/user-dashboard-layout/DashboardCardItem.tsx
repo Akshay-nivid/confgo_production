@@ -1,26 +1,30 @@
 
 import { Card, CardContent, Typography, Box } from "@mui/material";
+import React from "react";
+import { FC } from "react";
 
+interface DashboardCardItemProps {
+  icon: FC<React.SVGProps<SVGSVGElement>>; // SVG component
+  title: string;
+  onClick?: () => void;
+}
 
 /**
  * Reusable card component for the dashboard
- * @param {Object} props
- * @param {ReactNode} props.icon - The icon to display at the top of the card
- * @param {string} props.title - The title of the card
- * @param {ReactNode} [props.children] - Additional content for the card
+ * @author Neethu
  */
-const DashboardCardItem = ({ icon, title}:any) => (
-  
-  <Card variant="outlined" sx={{ textAlign: "center", padding: 2 }}>
-  <CardContent>
-    <Box display="flex" justifyContent="center" mb={2}>
-      {icon}
-    </Box>
-    <Typography variant="h6" component="div">
-      {title}
-    </Typography>
-  </CardContent>
-</Card>
-);
+const DashboardCardItem: React.FC<DashboardCardItemProps> = React.memo(({ icon: Icon, title, onClick }) => (
+ 
+  <Card variant="outlined" className="dashboard-card" onClick={onClick}>
+    <CardContent>
+      <Box className="dashboard-card-icon" display="flex" justifyContent="center" mb={2}>
+        {Icon && <Icon />}
+      </Box>
+      <Typography className="dashboard-card-title" component="div">
+        {title}
+      </Typography>
+    </CardContent>
+  </Card>
+));
 
 export default DashboardCardItem;
