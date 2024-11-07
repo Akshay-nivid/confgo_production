@@ -1,7 +1,7 @@
 
 import { Card, CardContent, Typography, Box } from "@mui/material";
 import React from "react";
-import { FC, ReactNode } from "react";
+import { FC } from "react";
 
 interface DashboardCardItemProps {
   icon: FC<React.SVGProps<SVGSVGElement>>; // SVG component

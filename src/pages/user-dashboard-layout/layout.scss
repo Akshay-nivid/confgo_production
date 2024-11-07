@@ -80,7 +80,7 @@
 
     span {
       font-size: 1.25rem;
-      font-weight: 500;
+      font-weight: $font_medium;
     }
   }
 
@@ -271,8 +271,6 @@
 }
 
 .user-profile-menu {
-  transform: translateY(20px) !important;
-
   & .MuiPaper-root {
     min-width: 16.666rem !important;
     padding-inline: 1.5rem !important;
