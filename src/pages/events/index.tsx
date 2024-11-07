@@ -280,7 +280,7 @@ const Events = () => {
           </Grid>
           <Grid>
             {<CustomButton
-               className={`custom-stepper-next-button ${activeStep === 0
+              className={`custom-stepper-next-button ${activeStep === 0
                   ? 'custom-stepper-next-button-event'
                   : activeStep === 1
                     ? 'custom-stepper-next-button-program'
