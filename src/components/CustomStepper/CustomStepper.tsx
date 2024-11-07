@@ -8,7 +8,8 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import { StepIconProps } from '@mui/material/StepIcon';
 import { StepperActive, StepperCurrent, StepperDefault } from '@/assets/svg';
-import { IconButton } from '@mui/material';
+import { IconButton, StepConnector, styled } from '@mui/material';
+import Grid from "@mui/material/Grid2";
 
 interface CustomStepperProps {
   steps: { label: string; description: string }[];
@@ -45,11 +46,20 @@ const CustomStepper: React.FC<CustomStepperProps> = ({ steps, activeStep, onStep
     </Box>
     );
   }
+  /**
+   * Method defines the connector in the step
+   */
+  const GreenConnector = styled(StepConnector)(({ }) => ({
+    '& .MuiStepConnector-line': {
+      borderColor: '#2eac2b',
+      borderTopWidth: 2, // Adjust thickness here
+    },
+  }));
 
   return (
     <>
-      <Box className="custom-stepper-container">
-        <Stepper activeStep={activeStep} orientation="vertical">
+      <Grid className="custom-stepper-container" ml={8} mr={8} mt={8}>
+        <Stepper activeStep={activeStep} orientation="horizontal" connector={<GreenConnector />}>
           {steps.map((step, index) => (
             <Step key={step.label}>
               <Box className="stepBox" onClick={() => onStepChange(index)}>
@@ -62,7 +72,7 @@ const CustomStepper: React.FC<CustomStepperProps> = ({ steps, activeStep, onStep
             </Step>
           ))}
         </Stepper>
-      </Box>
+      </Grid>
     </>
   );
 };
