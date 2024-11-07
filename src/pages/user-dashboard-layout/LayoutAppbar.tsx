@@ -9,7 +9,7 @@ import Grid from '@mui/material/Grid2';
  * ui component for appbar in user dashboard
  * @author Neethu
  */
-export default function LayoutAppbar() {
+const LayoutAppbar: React.FC = React.memo(() => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   /**
@@ -80,4 +80,6 @@ export default function LayoutAppbar() {
       </Grid>
     </Grid>
   );
-}
+});
+
+export default LayoutAppbar;
