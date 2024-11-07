@@ -277,7 +277,7 @@ interface ICustomInput<T extends FieldValues> {
     | React.FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
     | undefined;
 }
-export const CustomTextField1 = <T extends FieldValues>({
+export const CustomInput = <T extends FieldValues>({
   name,
   label,
   placeholder,

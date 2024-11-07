@@ -10,7 +10,6 @@ import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import useStore from "@/Libs/store";
 import CustomDatePicker from "@/components/CustomDatePicker/CustomDatePicker";
-import CustomFileUpload from "@/components/CustomFileUpload/CustomFileUpload";
 
 interface Option {
   value: string;
@@ -39,6 +38,8 @@ interface DynamicFormProps {
 
 const DynamicFormGenerator: React.FC<DynamicFormProps> = ({}) => {
   const { control, handleSubmit } = useForm();
+
+const POST = useStore((state: any) => state.POST);
 
   const renderFormField = (field: FormField) => {
     const { id, metadata } = field;
@@ -111,32 +112,6 @@ const DynamicFormGenerator: React.FC<DynamicFormProps> = ({}) => {
           />
         );
 
-      case "file":
-        return (
-          <Box
-            className={
-              "w-full border border-gray-200 flex items-center justify-center p-8 rounded bg-gray-100/50"
-            }
-          >
-            <CustomFileUpload
-              {...commonProps}
-              multiple={true}
-              label=""
-              rules={
-                metadata.required && metadata?.required?.includes("true")
-                  ? {
-                      required: "Please select at least one file",
-                      validate: (value: any) =>
-                        value.length > 0
-                          ? true
-                          : "Please select at least one file",
-                    }
-                  : undefined
-              }
-            />
-          </Box>
-        );
-
       case "date":
         return <CustomDatePicker {...commonProps} label={metadata.title} />;
 
@@ -169,7 +144,22 @@ const DynamicFormGenerator: React.FC<DynamicFormProps> = ({}) => {
   };
 
   const handleFormSubmit = (data: any) => {
-    return data
+
+    const formData = Object.entries(data).map(([key,value]:[string,any]) => {
+      const [fieldName, id] = key.split("_");
+      return {
+        eventRegistrationFormId: id,
+        response:JSON.stringify({[fieldName]:value})
+      }
+    })
+
+    const body = {
+      eventId: '7',
+      data:formData
+    }
+
+    POST({url:'registrationRecord',body:body,id:'registrationRecord',successCB:(data:any)=>{console.log(data)},errorCB:()=>{}})
+    return formData
   };
 
   const setDataById = useStore((state) => state.setDataById);

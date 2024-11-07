@@ -13,7 +13,6 @@ import { useFieldArray, useForm } from "react-hook-form";
 import CustomSelect from "../CustomSelectBox/CustomSelect";
 import { useState } from "react";
 import CustomCheckbox from "../CustomCheckbox/CustomCheckbox";
-import React from "react";
 import useStore from "@/Libs/store";
 
 export interface ICreateFormField {
@@ -29,7 +28,7 @@ const selectOptions = [
   { label: "Email", value: "email" },
   { label: "Number", value: "number" },
   { label: "Date", value: "date" },
-  { label: "File", value: "file" },
+  // { label: "File", value: "file" },
   { label: "Checkbox", value: "checkbox" },
   { label: "Radio", value: "radio" },
   { label: "Select", value: "select" },
@@ -65,6 +64,7 @@ const FormBuilder = () => {
       option: isFieldTypePresent(data.fieldType) ? data.option : undefined,
     };
 
+    
     setFormFields((prev) => {
       const updatedFields = [...prev, newData].reverse();
       return updatedFields;
@@ -88,7 +88,6 @@ const FormBuilder = () => {
 
   const [formFields, setFormFields] = useState<ICreateFormField[]>([]);
 
-  const isFieldRequired = watch("required");
 
   function handleClickGenerateForm() {
     const parsedData = formFields.map(
@@ -292,7 +291,6 @@ const CreatedFormFieldList = ({
   const {
     control,
     handleSubmit,
-    watch,
     reset,
     formState: { dirtyFields },
   } = useForm<ICreateFormField>({
