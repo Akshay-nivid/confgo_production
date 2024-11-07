@@ -14,10 +14,12 @@ import { Logger } from '@/Utils/Logger';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import useStore from '@/Libs/store';
+import AddAddOns from './AddAddons';
 
 const steps = [
   { label: 'Create Event', description: '' },
-  { label: 'Add Program', description: '' },
+  { label: 'Program', description: '' },
+  { label: 'Add Ons', description: '' },
   { label: 'Confirm', description: '' },
 ];
 
@@ -26,6 +28,7 @@ const Events = () => {
   const [formSubmit, setFormSubmit] = useState<any>({
     event: false,
     program: false,
+    addOns: false
   });
   const [formData, setFormData] = useState<any>({});
   const [statusId, setStatusId] = useState('');
@@ -83,6 +86,8 @@ const Events = () => {
           ? 'event'
           : activeStep === 1
             ? 'program'
+            : activeStep === 2
+            ? 'addOns'
             : null;
 
       if (formKey) {
@@ -143,7 +148,7 @@ const Events = () => {
     } else {
       req['venue'] = {
         name: event?.name,
-        mapUrl: event?.mapUrl.match(/src="([^"]*)"/)?.[1],
+        mapUrl: event?.mapUrl,
         address: event?.address,
         city: event?.city,
         state: event?.state,
@@ -156,7 +161,17 @@ const Events = () => {
     }
 
     // Remove unwanted fields from programs and add-ons
-    req['programs'] = program.map(({ addonId, type, programType, amount, ...rest }: any) => { return { ...rest, statusId, amount: amount? amount: 0 } });
+    req['programs'] = program
+      .filter(({ name }: any) => name) 
+      .map(({ addonId, type, programType, amount, name, ...rest }: any) => {  
+        return {
+          ...rest,
+          statusId,
+          amount: amount ? amount : 0,
+          name  
+        };
+      });
+
     req['addon'] = addOn.map(({ description, name, type, programType, ...rest }: any) => rest);
 
     return req;
@@ -171,6 +186,7 @@ const Events = () => {
     setFormSubmit({
       event: false,
       program: false,
+      addOns: false
     })
     if (activeStep >= 0) {
       setActiveStep((prevStep) => prevStep - 1);
@@ -188,6 +204,8 @@ const Events = () => {
         ? 'event'
         : type === 'PROGRAM'
           ? 'program'
+          : type === 'ADDS'
+          ? 'addOns'
           : null;
     if (formKey && data) {
       setFormData({ ...formData, [formKey]: data });
@@ -198,21 +216,22 @@ const Events = () => {
   /**
    * Method handles the saving of the program
    * @param data : form data
+   * @param type : program | addOns
    */
-  const onSaveHandler = (data: object) => {
-    setFormData({ ...formData, ['program']: data });
+  const onSaveHandler = (data: object,type: string, ) => {
+    setFormData({ ...formData, [type]: data });
   };
 
   return (
     <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper">
-      <Grid size={{ xs: 12, sm: 2 }} className="custom-stepper-main">
+      <Grid size={{ xs: 12, sm: 12 }} className="custom-stepper-main">
         <CustomStepper
           steps={steps}
           activeStep={activeStep}
           onStepChange={handleStepChange}
         />
       </Grid>
-      <Grid container size={{ xs: 12, sm: 10 }}>
+      <Grid container size={{ xs: 12, sm: 12 }}>
         {activeStep === 0 && (
           <CreateEvent
             formSubmit={formSubmit?.event}
@@ -229,13 +248,22 @@ const Events = () => {
             addOnOptions={addOnOptions}
           />
         )}
-        {activeStep === 2 && <ConferenceDetails data={formData} addOnOptions={addOnOptions} />}
+        {activeStep === 2 && (
+          <AddAddOns
+            formSubmit={formSubmit?.addOns}
+            onSubmitHandler={onSubmitHandler}
+            onSaveHandler={onSaveHandler}
+            data={formData?.addOns}
+            addOnOptions={addOnOptions}
+          />
+        )}
+        {activeStep === 3 && <ConferenceDetails data={formData} addOnOptions={addOnOptions} />}
 
         <Grid
           container
           justifyContent={'right'}
           spacing={2}
-          size={{ xs: activeStep === 2 ? 12 : 9, sm: activeStep === 2 ? 12 : 9 }}
+          size={{ xs: activeStep === 2 ? 12 : 12, sm: activeStep === 2 ? 12 : 12 }}
           sx={{
             width: '100%'
           }}
@@ -258,38 +286,11 @@ const Events = () => {
                     ? 'custom-stepper-next-button-program'
                     : 'custom-stepper-next-button-details'
                 } ${activeStep === 1 && !(formData?.program?.[0]?.name || formData?.program?.[0]?.addonId) ? 'disabled-button' : ''}`}
-              onClick={activeStep === 2 ? handleSubmit : handleNext}
-              label={activeStep === 2 ? 'Submit' : 'Next'}
+              onClick={activeStep === 3 ? handleSubmit : handleNext}
+              label={activeStep === 3 ? 'Submit' : 'Next'}
               disabled={(activeStep === steps.length) || (activeStep === 1 && !(formData?.program?.[0]?.name || formData?.program?.[0]?.addonId))}
             />}
           </Grid>
-          {activeStep === 1 && (
-            <Grid className="custom-stepper-other-details">
-              <span>
-                &bull; The standard cost of providing food and beverages for
-                each attendee: $25 per person.
-              </span>
-              <br />
-              <span>
-                &bull; Additional charges for customized meal options, such as
-                special dietary needs or <br />
-                &nbsp; premium choices: Add $5 per person for vegan or
-                gluten-free options.
-              </span>
-              <br />
-              <span>
-                &bull; Any extra services, such as waitstaff, special
-                presentation, or additional snacks:
-                <br />
-                &nbsp; Add $200 for additional snack stations during breaks.
-              </span>
-              <br />
-              <span>
-                &bull; 50% deposit required upon booking, with the balance due
-                on the day of the event.
-              </span>
-            </Grid>
-          )}
           {activeStep === 1 && <Grid className="custom-stepper-bottom-spacing"></Grid>}
         </Grid>
         <Grid container className="custom-stepper-button-container" size={{ xs: activeStep === 2 ? 2 : 3, sm: activeStep === 2 ? 2 : 3 }}></Grid>
