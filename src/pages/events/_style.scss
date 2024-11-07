@@ -509,9 +509,6 @@
     }
 
     &-session-list {
-        display: flex;
-        flex-wrap: wrap;
-        gap: $h1 !important;
         justify-content: flex-start;
     }
 
