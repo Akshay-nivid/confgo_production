@@ -38,9 +38,10 @@
 }
 
 // sidebar
-.sidebar-drawer {
+.sidebar-dashboard {
   height: 100% !important;
-
+  background: $background !important;
+  border-right: 0.06rem solid $clr_light_border_grey;
   & .MuiPaper-root {
     width: '100%';
     position: relative;
@@ -83,16 +84,17 @@
     }
   }
 
-  .active {
+  .active-link {
     color: $clr_blue;
 
-    // background-color: $clr_green_light;
     span {
       color: $clr_blue !important;
     }
   }
 
   &-active-drawer-icon {
+    color: $clr_blue !important;
+    
     path {
       fill: $clr_blue;
     }
@@ -116,73 +118,118 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
+    font-size: 2.6rem;
+    font-weight: $font_extrabold;
     &-svg {
       width: 13rem;
       height: 3rem;
     }
   }
-}
 
-.avatar-group {
-  display: flex;
-  column-gap: 0.7rem !important;
-  margin-left: auto;
-  padding: 1rem;
-  width: max-content;
-  height: 100%;
-  justify-content: center;
+  &-notification {
+    border: 0.1rem solid $clr_light_border_grey;
+    position: relative;
+    border-radius: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    width: 5rem;
+    height: 5rem;
+
+    &-icon {
+      display: flex;
+      justify-content: center;
+      font-size: 2.6rem; // For scaling the icon size if it is an inline SVG or uses font size
+    }
+
+    &-badge {
+      position: "absolute";
+      top: 2 !important;
+      right: 2 !important;
+      background-color: $clr_blue;
+      color: $clr_white;
+      font-size: 0.75rem;
+      font-weight: $font_bold;
+    }
+  }
+
+  &-group {
+    display: flex;
   align-items: center;
+  padding: 0.5rem;
+  border-radius: 0.8rem;
+  border: 0.1rem solid $clr_light_border_grey;
   margin-right: 3.166rem;
-  &:hover {
-    cursor: pointer;
+  cursor: pointer;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &-text {
+      text-align: left;
+      line-height: 1.1rem;
+      font-size: 1.166rem !important;
+      font-weight: 600 !important;
+    }
+
+    &-img {
+      width: 5rem !important;
+      height: 5rem !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      border-top-left-radius: 0.8rem;
+      border-bottom-left-radius: 0.8rem;
+  
+      img {
+        width: 100%; 
+        height: 100%;
+        object-fit: cover; 
+        border-radius: inherit;
+      }
+    }
+
+    &-subheader-text {
+      font-size: 0.95rem !important;
+      font-weight: 600;
+      text-align: left;
+      color: $clr_gray_light;
+    }
+
+    &-arrow-down {
+      width: 1.8rem !important;
+      height: 1.8rem !important;
+      color: black;
+    }
   }
 }
 
-.avatar-header-text {
-  font-size: 1.166rem !important;
-  font-weight: 600 !important;
-}
-
-.avatar-subheader-text {
-  font-size: 0.95rem !important;
-  font-weight: 600;
-  text-align: right;
-  color: $clr_gray_light;
-}
-
-.circular-avatar {
-  width: 2.5rem;
-  height: 2.833rem;
-}
-
-.avatar-toggle-button {
-  width: 1.8rem !important;
-  height: 1.5rem !important;
-  padding: 0.5rem !important;
-}
-
-.avatar-arrow-down {
-  width: 1.8rem !important;
-  height: 1.8rem !important;
-  color: black;
-}
 
 .dashboard {
   padding: 1rem;
   margin: 1rem !important;
+  
+  &-left {
+    border-right: 0.06rem solid $clr_light_border_grey;
+  }
+
   &-title {
     font-size: $p2 !important;
     color: $clr_dark_orange;
     font-weight: $font_semibold !important;
     display: inline-block;
+
     .greeting-text {
-      margin-left: 7px; 
+      margin-left:0.5rem;
     }
+
     &-wave-icon {
       display: inline-block;
-      width: 15px; 
-      height: 15px;
+      width: $p1;
+      height: $p1;
       background-image: url('../assets/png/wave.png');
       background-size: contain;
       background-repeat: no-repeat;
@@ -190,11 +237,35 @@
     }
   }
 
+  &-tight-spacing>.MuiGrid-item {
+    padding: 0.3rem;
+  }
+
   &-subtitle {
     margin-bottom: 2rem !important;
-    display: block ;
+    display: block;
     font-size: $h4 !important;
     font-weight: $font_semibold !important;
+  }
+
+  &-card {
+    text-align: center;
+    padding: 2;
+    background: $background !important;
+    width: 14rem;
+    height: 14rem;
+
+    &-icon {
+      display: flex;
+      justify-content: center;
+      font-size: 5.3rem; // For scaling the icon size if it is an inline SVG or uses font size
+    }
+
+    &-title {
+      font-weight: $font_medium !important;
+      font-size: $p3 !important;
+      color: $clr_black ;
+    }
   }
 
 }

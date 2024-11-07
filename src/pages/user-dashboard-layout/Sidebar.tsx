@@ -1,9 +1,7 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-
 import { Drawer,List,ListItem,ListItemText,ListItemButton } from '@mui/material';
-
-import { CalenderIcon,CouponIcon,EventIcon, DashboardIcon } from '@/assets/svg';
+import { CouponDashboardIcon, PaymentDashboardIcon, CalendarEventIcon, HeartEventIcon, DashboardUserIcon } from '@/assets/svg';
 import routes from '@/router/routes';
 
 interface SidebarProps {
@@ -13,38 +11,44 @@ interface SidebarProps {
 const sidebarItems = [
   {
     path: routes.dashboard(),
-    icon: DashboardIcon,
+    icon: DashboardUserIcon,
     label: 'Dashboard',
     exact: true,
   },
   {
     path: routes.events(),
-    icon: EventIcon,
+    icon: HeartEventIcon,
     label: 'My Events',
     exact: false,
   },
   {
     path: routes.events(),
-    icon: EventIcon,
+    icon: CalendarEventIcon,
     label: 'Upcoming Events',
     exact: false,
   },
   {
+    path: routes.events(),
+    icon: PaymentDashboardIcon,
+    label: 'Payment History',
+    exact: false,
+  },
+  {
     path: routes.coupon(),
-    icon: CouponIcon,
+    icon: CouponDashboardIcon,
     label: 'Coupons',
     exact: false,
   },
   {
     path: routes.calendar(),
-    icon: CalenderIcon,
+    icon: CalendarEventIcon,
     label: 'Calendar',
     exact: false,
   },
 ];
 
 /**
- * Component used to render sidebar
+ * Component used to render user dashboard sidebar
  * @returns
  */
 const Sidebar: React.FC<SidebarProps> = ({ open }) => {
@@ -61,9 +65,9 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       variant="persistent"
       anchor="left"
       open={open}
-      className="sidebar-drawer"
+      className="sidebar-dashboard"
     >
-      <div className="px-[1.666rem] flex-1">
+      <div className="px-[1.666rem] flex-1 sidebar-dashboard">
         <List className="sidebar-list">
           {sidebarItems.map((item) => {
             const isActive = isActiveLink(item.path, item.exact);
@@ -77,7 +81,9 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
                         isActive ? 'sidebar-list-active-drawer-icon' : ''
                       }
                     />
-                    <ListItemText>{item.label}</ListItemText>
+                    <ListItemText  className={
+                        isActive ? 'active-link' : ''
+                      }>{item.label}</ListItemText>
                   </ListItemButton>
                 </ListItem>
               </NavLink>
