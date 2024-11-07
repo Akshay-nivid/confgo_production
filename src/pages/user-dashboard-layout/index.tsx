@@ -3,13 +3,15 @@ import LayoutAppbar from './LayoutAppbar';
 import Grid from '@mui/material/Grid2';
 import { Outlet } from 'react-router-dom';
 import { Box } from '@mui/material';
+import React from 'react';
 
 
 /**
  * component used to render dashboard layout
  * @author Neethu
  */
-const UserDashboardLayout = () => {
+const UserDashboardLayout: React.FC = React.memo(() => {
+
   return (
     <Box className="layout-container">
       <LayoutAppbar />
@@ -27,6 +29,6 @@ const UserDashboardLayout = () => {
       </Box>
     </Box>
   );
-};
+});
 
 export default UserDashboardLayout;

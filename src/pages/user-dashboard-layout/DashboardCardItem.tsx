@@ -1,5 +1,6 @@
 
 import { Card, CardContent, Typography, Box } from "@mui/material";
+import React from "react";
 import { FC, ReactNode } from "react";
 
 interface DashboardCardItemProps {
@@ -12,8 +13,8 @@ interface DashboardCardItemProps {
  * Reusable card component for the dashboard
  * @author Neethu
  */
-const DashboardCardItem: FC<DashboardCardItemProps> = ({ icon: Icon, title, onClick }) => (
-
+const DashboardCardItem: React.FC<DashboardCardItemProps> = React.memo(({ icon: Icon, title, onClick }) => (
+ 
   <Card variant="outlined" className="dashboard-card" onClick={onClick}>
     <CardContent>
       <Box className="dashboard-card-icon" display="flex" justifyContent="center" mb={2}>
@@ -24,6 +25,6 @@ const DashboardCardItem: FC<DashboardCardItemProps> = ({ icon: Icon, title, onCl
       </Typography>
     </CardContent>
   </Card>
-);
+));
 
 export default DashboardCardItem;

@@ -53,6 +53,7 @@ const sidebarItems = [
  */
 const Sidebar: React.FC<SidebarProps> = ({ open }) => {
   const location = useLocation();
+  //Function to check current path - Active path
   const isActiveLink = (path: string, exact: boolean) => {
     const isActive = exact
       ? location.pathname.includes(path)

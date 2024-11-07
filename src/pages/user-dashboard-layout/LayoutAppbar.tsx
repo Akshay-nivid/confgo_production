@@ -12,10 +12,16 @@ import Grid from '@mui/material/Grid2';
 export default function LayoutAppbar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
+  /**
+   * handle appbar open
+   */
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
+  /**
+   * handle appbar close
+   */
   const handleMenuClose = () => {
     setAnchorEl(null);
   };

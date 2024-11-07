@@ -2,16 +2,16 @@
 import Grid from '@mui/material/Grid2';
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
 import { Typography } from "@mui/material";
 import DashboardCardItem from './DashboardCardItem';
 import { CalendarEventIcon, DownloadEventIcon, HeartEventIcon, PaymentDashboardIcon } from '@/assets/svg';
+import React from 'react';
 
 /**
  * Used to render user dashboard 
  * @author Neethu 
  */
-const UserDashboard = () => {
+const UserDashboard: React.FC = React.memo(() => {
   const navigate = useNavigate();
 
   /**
@@ -71,6 +71,6 @@ const UserDashboard = () => {
     </Grid>
 
   )
-}
+});
 
 export default UserDashboard;
