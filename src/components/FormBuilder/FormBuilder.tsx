@@ -29,7 +29,6 @@ const selectOptions = [
   { label: "Email", value: "email" },
   { label: "Number", value: "number" },
   { label: "Date", value: "date" },
-  // { label: "File", value: "file" },
   { label: "Checkbox", value: "checkbox" },
   { label: "Radio", value: "radio" },
   { label: "Select", value: "select" },
@@ -90,6 +89,10 @@ const FormBuilder = () => {
   const [formFields, setFormFields] = useState<ICreateFormField[]>([]);
 
 
+  /**
+   * function to handle generate form  api call 
+   *  
+   */
   function handleClickGenerateForm() {
     const parsedData = formFields.map(
       (field: ICreateFormField, index: number) => {
