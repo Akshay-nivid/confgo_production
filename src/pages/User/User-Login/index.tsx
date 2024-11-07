@@ -71,7 +71,7 @@ const UserLogin = (props: UserProps) => {
           sessionStorage.setItem("token", context.data?.token);
           setDataById('participantLogin', true);
           setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
-          navigate(routes.home());
+          navigate(routes.userHome());
         }
       },
       errorCB: (context: any) => {

@@ -18,8 +18,8 @@ const sidebarItems = [
     exact: true,
   },
   {
-    path: routes.events(),
-    icon: HeartEventIcon,
+    path: routes.userMyEvents(),
+    icon: EventIcon,
     label: 'My Events',
     exact: false,
   },

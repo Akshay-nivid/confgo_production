@@ -35,6 +35,7 @@ const routes = {
   selectedPrograms: () => "/user/selected-programs",
   userPaymentMethod: () => "/user/payment",
   userEventRegistrationCompleted: () => "/user/event-registration-completed",
+  userMyEvents:()=>"/user/my-event",
   formBuilder: () => "/formbuilder",
 };
 

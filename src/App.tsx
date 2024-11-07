@@ -41,6 +41,8 @@ import UserDashboard from "./pages/user-dashboard-layout/UserDashboard";
 import PaymentHistory from "./pages/User/User-PaymentHistory/PaymentHistory";
 import Thankyou from "./pages/ThankYou/ThankYou";
 // import UpcomingEvents from "./pages/User/User-PaymentHistory/UpcomingEvents";
+import MyEventScreen from "./pages/User/UserEvent";
+
 /**
  * Create your router configuration
  */
@@ -97,6 +99,11 @@ const userRoutes = [
         path: routes.paymentHistory(),
         element: <PaymentHistory/>,
       },
+      {path:routes.userMyEvents(),
+        element:<MyEventScreen/>
+      }
+      
+
     ],
   },
 ];
