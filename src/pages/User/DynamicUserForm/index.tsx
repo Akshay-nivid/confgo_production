@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { CardContent, Button, Typography, Box } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import CustomTextField, { CustomInput } from "@/components/CustomTextfield/CustomTextField";
+import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomCheckbox from "@/components/CustomCheckbox/CustomCheckbox";
@@ -120,9 +120,7 @@ const POST = useStore((state: any) => state.POST);
           <Grid container spacing={4}>
             {metadata.option?.map((opt) => (
               <Grid size={12} key={opt.value}>
-                <CustomInput
-                  className="w-full"
-                  
+                <CustomTextField
                   control={control}
                   name={`${opt.value}_${id}`}
                   label={opt.value}
