@@ -1,0 +1,289 @@
+.bg-background {
+  background-color: $background;
+}
+
+.text-danger {
+  color: $clr_red !important;
+}
+
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+
+  &-grid-wrapper {
+    flex: 1;
+    overflow: hidden;
+  }
+
+  &-grid {
+    background-color: $background;
+    height: 100%;
+    width: 100%;
+
+    &-outlet-grid {
+      overflow: hidden;
+      height: 100%;
+      width: 100%;
+      flex-direction: column;
+      display: flex;
+
+      &-outlet-wrapper {
+        flex: 1;
+        background-color: $background;
+      }
+    }
+  }
+}
+
+// sidebar
+.sidebar-dashboard {
+  height: 100% !important;
+  background: $background !important;
+  border-right: 0.06rem solid $clr_light_border_grey;
+  & .MuiPaper-root {
+    width: '100%';
+    position: relative;
+    overflow-y: auto;
+    border: none;
+  }
+}
+
+.list-header {
+  font-size: 1rem;
+  margin-top: 1.916rem;
+  margin-bottom: 0.2rem;
+}
+
+.sidebar-list {
+  .MuiListItem-padding {
+    padding: 0;
+  }
+
+  display: flex;
+  flex-direction: column;
+  row-gap: 0.333rem;
+  overflow-y: auto;
+
+  .MuiListItemButton-root {
+    display: flex;
+    column-gap: 0.483rem;
+    padding: 0.5rem 1.666rem;
+    border-radius: 0.417rem;
+    font-size: 1.5rem;
+    color: $clr_black;
+
+    &:hover {
+      color: $clr_blue;
+    }
+
+    span {
+      font-size: 1.25rem;
+      font-weight: $font_medium;
+    }
+  }
+
+  .active-link {
+    color: $clr_blue;
+
+    span {
+      color: $clr_blue !important;
+    }
+  }
+
+  &-active-drawer-icon {
+    color: $clr_blue !important;
+    
+    path {
+      fill: $clr_blue;
+    }
+  }
+}
+
+//layout appbar
+
+.appbar {
+  border-bottom-width: 0.0416rem;
+  border-bottom-color: $clr_gray_faded;
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  background-color: $clr_white !important;
+  min-height: 6.666rem;
+
+  &-logo-container {
+    background-color: $clr_white;
+    height: 6.666rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.6rem;
+    font-weight: $font_extrabold;
+    &-svg {
+      width: 13rem;
+      height: 3rem;
+    }
+  }
+
+  &-notification {
+    border: 0.1rem solid $clr_light_border_grey;
+    position: relative;
+    border-radius: 0.8rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    width: 5rem;
+    height: 5rem;
+
+    &-icon {
+      display: flex;
+      justify-content: center;
+      font-size: 2.6rem; // For scaling the icon size if it is an inline SVG or uses font size
+    }
+
+    &-badge {
+      position: "absolute";
+      top: 2 !important;
+      right: 2 !important;
+      background-color: $clr_blue;
+      color: $clr_white;
+      font-size: 0.75rem;
+      font-weight: $font_bold;
+    }
+  }
+
+  &-group {
+    display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 0.8rem;
+  border: 0.1rem solid $clr_light_border_grey;
+  margin-right: 3.166rem;
+  cursor: pointer;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &-text {
+      text-align: left;
+      line-height: 1.1rem;
+      font-size: 1.166rem !important;
+      font-weight: 600 !important;
+    }
+
+    &-img {
+      width: 5rem !important;
+      height: 5rem !important;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      border-top-left-radius: 0.8rem;
+      border-bottom-left-radius: 0.8rem;
+  
+      img {
+        width: 100%; 
+        height: 100%;
+        object-fit: cover; 
+        border-radius: inherit;
+      }
+    }
+
+    &-subheader-text {
+      font-size: 0.95rem !important;
+      font-weight: 600;
+      text-align: left;
+      color: $clr_gray_light;
+    }
+
+    &-arrow-down {
+      width: 1.8rem !important;
+      height: 1.8rem !important;
+      color: black;
+    }
+  }
+}
+
+
+.dashboard {
+  padding: 1rem;
+  margin: 1rem !important;
+  
+  &-left {
+    border-right: 0.06rem solid $clr_light_border_grey;
+  }
+
+  &-title {
+    font-size: $p2 !important;
+    color: $clr_dark_orange;
+    font-weight: $font_semibold !important;
+    display: inline-block;
+
+    .greeting-text {
+      margin-left:0.5rem;
+    }
+
+    &-wave-icon {
+      display: inline-block;
+      width: $p1;
+      height: $p1;
+      background-image: url('../assets/svg/wave.svg');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+  }
+
+  &-tight-spacing>.MuiGrid-item {
+    padding: 0.3rem;
+  }
+
+  &-subtitle {
+    margin-bottom: 2rem !important;
+    display: block;
+    font-size: $h4 !important;
+    font-weight: $font_semibold !important;
+  }
+
+  &-card {
+    text-align: center;
+    padding: 2;
+    background: $background !important;
+    width: 14rem;
+    height: 14rem;
+
+    &-icon {
+      display: flex;
+      justify-content: center;
+      font-size: 5.3rem; // For scaling the icon size if it is an inline SVG or uses font size
+    }
+
+    &-title {
+      font-weight: $font_medium !important;
+      font-size: $p3 !important;
+      color: $clr_black ;
+    }
+  }
+
+}
+
+.user-profile-menu {
+  & .MuiPaper-root {
+    min-width: 16.666rem !important;
+    padding-inline: 1.5rem !important;
+    padding-block: 0.833rem !important;
+  }
+
+  & li {
+    padding-block: 0.5rem;
+    font-size: 1.2rem;
+  }
+
+  & .menu-item-text {
+    font-size: 1.125rem;
+    margin-left: 0.75rem;
+  }
+}
