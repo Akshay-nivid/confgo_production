@@ -14,10 +14,12 @@ import { Logger } from '@/Utils/Logger';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import useStore from '@/Libs/store';
+import AddAddOns from './AddAddons';
 
 const steps = [
   { label: 'Create Event', description: '' },
-  { label: 'Add Program', description: '' },
+  { label: 'Program', description: '' },
+  { label: 'Add Ons', description: '' },
   { label: 'Confirm', description: '' },
 ];
 
@@ -26,6 +28,7 @@ const Events = () => {
   const [formSubmit, setFormSubmit] = useState<any>({
     event: false,
     program: false,
+    addOns: false
   });
   const [formData, setFormData] = useState<any>({});
   const [statusId, setStatusId] = useState('');
@@ -83,6 +86,8 @@ const Events = () => {
           ? 'event'
           : activeStep === 1
             ? 'program'
+            : activeStep === 2
+            ? 'addOns'
             : null;
 
       if (formKey) {
@@ -181,6 +186,7 @@ const Events = () => {
     setFormSubmit({
       event: false,
       program: false,
+      addOns: false
     })
     if (activeStep >= 0) {
       setActiveStep((prevStep) => prevStep - 1);
@@ -198,6 +204,8 @@ const Events = () => {
         ? 'event'
         : type === 'PROGRAM'
           ? 'program'
+          : type === 'ADDS'
+          ? 'addOns'
           : null;
     if (formKey && data) {
       setFormData({ ...formData, [formKey]: data });
@@ -208,21 +216,22 @@ const Events = () => {
   /**
    * Method handles the saving of the program
    * @param data : form data
+   * @param type : program | addOns
    */
-  const onSaveHandler = (data: object) => {
-    setFormData({ ...formData, ['program']: data });
+  const onSaveHandler = (data: object,type: string, ) => {
+    setFormData({ ...formData, [type]: data });
   };
 
   return (
     <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper">
-      <Grid size={{ xs: 12, sm: 2 }} className="custom-stepper-main">
+      <Grid size={{ xs: 12, sm: 12 }} className="custom-stepper-main">
         <CustomStepper
           steps={steps}
           activeStep={activeStep}
           onStepChange={handleStepChange}
         />
       </Grid>
-      <Grid container size={{ xs: 12, sm: 10 }}>
+      <Grid container size={{ xs: 12, sm: 12 }}>
         {activeStep === 0 && (
           <CreateEvent
             formSubmit={formSubmit?.event}
@@ -239,7 +248,16 @@ const Events = () => {
             addOnOptions={addOnOptions}
           />
         )}
-        {activeStep === 2 && <ConferenceDetails data={formData} addOnOptions={addOnOptions} />}
+        {activeStep === 2 && (
+          <AddAddOns
+            formSubmit={formSubmit?.addOns}
+            onSubmitHandler={onSubmitHandler}
+            onSaveHandler={onSaveHandler}
+            data={formData?.addOns}
+            addOnOptions={addOnOptions}
+          />
+        )}
+        {activeStep === 3 && <ConferenceDetails data={formData} addOnOptions={addOnOptions} />}
 
         <Grid
           container
@@ -268,8 +286,8 @@ const Events = () => {
                     ? 'custom-stepper-next-button-program'
                     : 'custom-stepper-next-button-details'
                 } ${activeStep === 1 && !(formData?.program?.[0]?.name || formData?.program?.[0]?.addonId) ? 'disabled-button' : ''}`}
-              onClick={activeStep === 2 ? handleSubmit : handleNext}
-              label={activeStep === 2 ? 'Submit' : 'Next'}
+              onClick={activeStep === 3 ? handleSubmit : handleNext}
+              label={activeStep === 3 ? 'Submit' : 'Next'}
               disabled={(activeStep === steps.length) || (activeStep === 1 && !(formData?.program?.[0]?.name || formData?.program?.[0]?.addonId))}
             />}
           </Grid>
