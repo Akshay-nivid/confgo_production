@@ -14,6 +14,7 @@ import CustomSelect from "../CustomSelectBox/CustomSelect";
 import { useState } from "react";
 import CustomCheckbox from "../CustomCheckbox/CustomCheckbox";
 import useStore from "@/Libs/store";
+import { Logger } from "@/Utils/Logger";
 
 export interface ICreateFormField {
   title: string;
@@ -103,13 +104,14 @@ const FormBuilder = () => {
       participantTypeId: 1,
       data: parsedData,
     };
-    const response = POST({
+     POST({
       url: "event/form",
       body: formData,
-      id: "dynamicGeneratedForm",
+       id: "dynamicGeneratedForm",
+      successCB: (data: any) => {
+        Logger._log("dynamic GeneratedForm api call success", data);
+      }
     });
-    console.log(parsedData, "parsedData");
-    console.log(response, "response");
   }
 
   const fieldType = watch("fieldType");

@@ -10,6 +10,7 @@ import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import useStore from "@/Libs/store";
 import CustomDatePicker from "@/components/CustomDatePicker/CustomDatePicker";
+import { Logger } from "@/Utils/Logger";
 
 interface Option {
   value: string;
@@ -154,7 +155,7 @@ const POST = useStore((state: any) => state.POST);
       data:formData
     }
 
-    POST({url:'registrationRecord',body:body,id:'registrationRecord',successCB:(data:any)=>{console.log(data)},errorCB:()=>{}})
+    POST({url:'registrationRecord',body:body,id:'registrationRecord',successCB:(data:any)=>{Logger._log("data",data)},errorCB:()=>{}})
     return formData
   };
 
