@@ -504,16 +504,14 @@
     background-color: $clr_white;
   }
   &-container {
-    max-width: 33rem;
-    padding-left: 2.5rem;
-    padding-top: 4.2rem;
     pointer-events: none;
-    .MuiStepConnector-line{
-      border-color: $clr_green !important;
-      min-height: 3.5rem ;
+    .MuiStepLabel-label{
+      font-size: $p2 !important;
+      font-weight: $font_medium;
+      color: $clr_field;
     }
-    .MuiStepLabel-root{
-      padding: 0;
+    .Mui-active{
+      color: $clr_green !important;
     }
   }
   &-button-container{
