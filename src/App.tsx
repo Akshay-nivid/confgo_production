@@ -38,9 +38,9 @@ import EventList from "./pages/events/EventList";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import UserDashboardLayout from "./pages/user-dashboard-layout";
 import UserDashboard from "./pages/user-dashboard-layout/UserDashboard";
-import PaymentHistory from "./pages/user-dashboard-layout/PaymentHistory";
+import PaymentHistory from "./pages/User/User-PaymentHistory/PaymentHistory";
 import Thankyou from "./pages/ThankYou/ThankYou";
-
+// import UpcomingEvents from "./pages/User/User-PaymentHistory/UpcomingEvents";
 /**
  * Create your router configuration
  */

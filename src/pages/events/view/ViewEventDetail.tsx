@@ -26,6 +26,7 @@ import UnpublishIcon from "@/assets/svg/unpublish.svg";
 import CopyIcon from "@/assets/svg/copy-clipboard.svg";
 import ShareIcon from "@/assets/svg/share.svg";
 import config from '../../../../config.json';
+import ShareInvitationDrawer from "./ShareInvitationDrawer";
 
 
 
@@ -92,7 +93,10 @@ const ViewEventDetail = () => {
   const [link, setLink] = useState('');
   const [errorMessage, setErrorMessage] = useState('')
 
-  
+	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+	// Functions to open and close the drawer.
+	const openDrawer = () => setIsDrawerOpen(true);
+	const closeDrawer = () => setIsDrawerOpen(false);
 
   /**
    * Method handles the click event for the tab
@@ -266,6 +270,7 @@ const ViewEventDetail = () => {
                                     suffixIconButton={<CopyIcon />}
                                     handleToggleSuffixIcon={handleToggleSuffixIcon}
                                     suffixIconSecondButton={<ShareIcon />}
+									handleToggleSuffixSecondIcon={openDrawer}
                                     value={link}
                                 /></Grid>
                 </Grid>
@@ -339,6 +344,12 @@ const ViewEventDetail = () => {
         </TabContext>
       </Grid>
     </Grid>
+		<ShareInvitationDrawer
+        isOpen={isDrawerOpen}
+        onClose={closeDrawer}
+        eventData={eventFullData}
+		eventURL={watch('event')}
+    />
   </Grid>
 
 }

@@ -24,7 +24,7 @@ const sidebarItems = [
     exact: false,
   },
   {
-    path: routes.events(),
+    path: routes.upcomingEvents(),
     icon: EventIcon,
     label: 'Upcoming Events',
     exact: false,
