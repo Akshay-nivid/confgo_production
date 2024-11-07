@@ -407,17 +407,12 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                       className="add-program-display-item"
                       size={{ xs: 12, sm: 12 }}
                     >
-<<<<<<< HEAD
-                      <Grid size={{ xs: 8, sm: 8 }}>
-                        {field.name}
-=======
                       <Grid size={{ xs: 8, sm: 8 }} >
                         <Grid container size={{ xs: 12, sm: 12 }} direction={'column'}>
                         <Grid>{field.name}</Grid>
                         <Grid>{field.description}</Grid>    
                         </Grid>
                                             
->>>>>>> 7ce35a8616317c7c7da23f4e71472b15c88d1acf
                       </Grid>
 
                       <Grid size={{ xs: 4, sm: 4 }}>
