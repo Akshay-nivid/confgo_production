@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { CardContent, Button, Typography, Box } from "@mui/material";
 import Grid from "@mui/material/Grid2";
@@ -31,12 +31,8 @@ interface FormField {
   metadata: Metadata;
 }
 
-interface DynamicFormProps {
-  formFields: FormField[];
-  onSubmit: (data: any) => void;
-}
 
-const DynamicFormGenerator: React.FC<DynamicFormProps> = ({}) => {
+const DynamicUserForm = () => {
   const { control, handleSubmit } = useForm();
 
 const POST = useStore((state: any) => state.POST);
@@ -231,5 +227,5 @@ const POST = useStore((state: any) => state.POST);
   );
 };
 
-export default DynamicFormGenerator;
+export default DynamicUserForm;
 
