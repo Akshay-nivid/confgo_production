@@ -69,6 +69,7 @@ const UserLogin = (props: UserProps) => {
       successCB: (context: any) => {
         if (context?.success) {
           sessionStorage.setItem("token", context.data?.token);
+          sessionStorage.setItem("userId", context.data?.id);
           setDataById('participantLogin', true);
           setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
           navigate(routes.userHome());

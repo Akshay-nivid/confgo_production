@@ -53,7 +53,8 @@ import HeartEventIcon from "./heart-2-line.svg";
 import PaymentDashboardIcon from "./payment.svg";
 import CouponDashboardIcon from "./coupons.svg";
 import DashboardUserIcon from "./dashboard-user.svg";
-import EditButtonIcon from "./Edit-location-button.svg"
+import EditButtonIcon from "./Edit-location-button.svg";
+import NoEventSvg from "./No-events-img.svg"
 
 export {
   CalenderIcon,
@@ -111,5 +112,6 @@ export {
   PaymentDashboardIcon,
   CouponDashboardIcon,
   DashboardUserIcon,
-  EditButtonIcon
+  EditButtonIcon,
+  NoEventSvg,
 };

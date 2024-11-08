@@ -1,36 +1,118 @@
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import EventCard from "../Components/EventCard";
+import { processAPIResponse } from "@/Utils/CommonBaseClass";
+import apiClient from "@/Libs/Https/API-client";
+import {NoEventSvg} from "@/assets/svg"
+import { Logger } from "@/Utils/Logger";
+/**
+ * 
+ * @returns response interface
+ */
+interface EventResponse {
+        details: {
+            id: number;
+            registrationType: string;
+            eventId: number;
+            amountPaid: string;
+            qrCode: string | null;
+            userId: number;
+            participantTypeId: number;
+            createdBy: number;
+            createdOn: string;
+            modifiedBy: number;
+            modifiedOn: string;
+            user: {
+                id: number;
+                firstName: string;
+                lastName: string;
+                phone: string;
+                email: string;
+                phoneVerified: boolean;
+                isSsoUser: boolean;
+                ssoMetadata: string | null;
+                statusId: number | null;
+                acceptedTerms: boolean | null;
+            };
+        };
+        programs: Program[];
+}
+
+interface Program {
+    id: number;
+    eventId: number;
+    participantId: number;
+    roleName: string;
+    event: {
+        id: number;
+        parentId: number | null;
+        name: string;
+        description: string;
+        startTime: string;
+        endTime: string;
+        venueId: number;
+        eventClass: string;
+        interval: string | null;
+        companyId: number;
+        title: string | null;
+        amount: string;
+        discount: string | null;
+        statusId: number;
+        published: boolean;
+        slugName: string | null;
+        registrationDeadline: string | null;
+        venue: {
+            id: number;
+            name: string;
+            address: string;
+            city: string;
+            state: string;
+            country: string;
+            postCode: string | null;
+            totalCapacity: number | null;
+            mapUrl: string;
+        };
+        eventProgramSchedules: any[];
+    };
+}
 
 const MyEventScreen: React.FC = () => {
     const { control } = useForm();
-    const [searchResults, setSearchResults] = useState([]);
+    const [searchResults, setSearchResults] = useState<any>([]);
     const [loading, setLoading] = useState(false);
+    const [event,setEvent]=useState<Program[]>([]);
 
+    useEffect(() => {
+      participantEventDetails();
+      }, []);
     /**
-  * Function to handle search API for autocomplete
-  */
+    * Function to handle search API for autocomplete
+    */
     const handleSearch = async (query: string) => {
-        // setLoading(true);
+         setLoading(true);
         try {
             let req: any = {
                 filters: {
                     name: query,
                 },
             };
-            //   const response = await await apiClient.get(`event/list`, req);
-            //   const { status, data } = await processAPIResponse(response, "eventList");
-            //   if (status) {
-            // setSearchResults(data);
-            //   }
-            // Update the options based on API response
+             const UserId = sessionStorage.getItem("userId");
+              const response = await await apiClient.get(`participant/${(query)}`, req);
+              const { status, data } = await processAPIResponse(response, "eventList");
+              console.log(data);
+              if (status) {
+            setSearchResults(data.programs);
+            console.log(searchResults,"search");
+            
+              }
+        
         } catch (error) {
-            //   Logger.error(error, "EventList.tsx");
+             Logger.error(error, "EventList.tsx");
         } finally {
-            //   setLoading(false);
+               setLoading(false);
         }
     };
 
@@ -41,6 +123,7 @@ const MyEventScreen: React.FC = () => {
    */
     const handleAutocompleteChange = (selected: any) => {
         if (selected) {
+            console.log(selected,'777777777777')
             //   setSource({
             //     method: "GET",
             //     data: {
@@ -55,22 +138,22 @@ const MyEventScreen: React.FC = () => {
             //   });
         }
     };
-    // Sample event data
-    const events = [
-        { datetitle: '2023-12-15', title: 'Kick', location: 'Kannur' },
-        { datetitle: '2023-12-16', title: 'React Conf', location: 'San Francisco' },
-        { datetitle: '2023-12-17', title: 'Vue.js Meetup', location: 'London' },
-        { datetitle: '2023-12-18', title: 'Angular Workshop', location: 'Berlin' },
-        { datetitle: '2023-12-19', title: 'Node.js Seminar', location: 'New York' },
-        { datetitle: '2023-12-20', title: 'JavaScript Conference', location: 'Paris' },
-    ];
+    const participantEventDetails=async()=>{
+        const UserId = sessionStorage.getItem("userId");
+        const response = await apiClient.get(`participant/${Number(UserId)}`);
+        
+        const { data } = await processAPIResponse(response, 'eventData');
+        setEvent(data.programs)
+    }
     const squareButtonLabels: string[] = ["View Certificate", "Event Recap"];
     const handleButtonPress = () => {
-        console.log('button pressed here>>>>>>')
+        console.log('button pressed here>>>>>>');
     }
     const handleSquareButtonClick = (index: number) => {
         console.log('Clicked label at index:', index);
-        // You can add specific logic based on the index here.
+        /**
+         * You can add specific logic based on the index here.
+         */
         if (index === 0) {
             console.log('First label clicked');
         } else if (index === 1) {
@@ -96,26 +179,37 @@ const MyEventScreen: React.FC = () => {
                         onChange={handleAutocompleteChange}
                     />
                 </Grid>
-            </Grid>
-            <Grid container spacing={2}>
-                {events.map((event, index) => (
-                    <Grid size={{ xs: 12, sm: 4, md: 4 }} key={index}>
-                        <EventCard
-                            eventFullData={event}
-                            viewCertificate={true}
-                            viewEventRecap={true}
-                            squareButton={true}
-                            viewButton={false}
-                            datetitle={event.datetitle}
-                            title={event.title}
-                            location={event.location}
-                            buttonPress={handleButtonPress}
-                            squareButtonLabels={squareButtonLabels}
-                            onSquareButtonClick={handleSquareButtonClick}
-                        />
-                    </Grid>
-                ))}
-            </Grid>
+            </Grid>    
+{
+  event==undefined? (
+    <Grid container size={12}>
+        <Grid  className="my-event-no-event" size={12}>
+        <NoEventSvg className="my-event-no-event-image"/>
+            </Grid> 
+    </Grid>
+  ) : (
+    <Grid container spacing={2}>
+      {event.map((event: Program, index) => (
+        <Grid size={{ xs: 12, sm: 4, md: 4 }} key={index}>
+          <EventCard
+            eventFullData={event}
+            Eventstatus={true}
+            viewCertificate={true}
+            viewEventRecap={true}
+            squareButton={true}
+            viewButton={false}
+            datetitle={event.event.startTime}
+            title={event?.event?.name}
+            location={`${event?.event?.venue?.city}, ${event?.event?.venue?.country}`}
+            buttonPress={handleButtonPress}
+            squareButtonLabels={squareButtonLabels}
+            onSquareButtonClick={handleSquareButtonClick}
+          />
+        </Grid>
+      ))}
+    </Grid>
+  )
+}
         </Grid>
     );
 };

@@ -10,21 +10,21 @@ interface AppBarProps {
 const statusValues: any = [
   { id: "0", textColor: '#D6983A', cellColor: '#FFECDF' },
   { id: "5", textColor: '#0CAF60', cellColor: '#E7F7EF' },
-  { id: ["2", "3"], textColor: '#0CAF60', cellColor: '#E7F7EF' },
+  { id: ["2", "3"],  textColor: '#D32C2C', cellColor: '#FFE8EC'},
   { id: "4", textColor: '#2C3CD3', cellColor: '#E8EBFF' },
-  { id: "1", textColor: '#D32C2C', cellColor: '#FFE8EC' },
+  { id: "1", textColor: '#0CAF60', cellColor: '#E7F7EF' },
 ];
 
 const getStatusValue = (id: string) => {
   switch (id) {
     case "1":
-      return "Pending";
-    case "Active":
-      return "Ongoing";
+      return "Active";
     case "2":
-      return "Completed";
+      return "Inactive";
     case "3":
-      return "Success";
+      return "Pending";
+    case "4":
+      return "Complete";
     default:
       return "Pending";
   }

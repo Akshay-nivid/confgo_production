@@ -4,21 +4,21 @@ import Grid from "@mui/material/Grid2";
 function PaymentHistory() {
    //hedings
    const columns = [
-      { type: "default", field: "Event Name", headerName: "Evnet Name", width:237,Height:51},
+      { type: "default", field: "Event Name", headerName: "Evnet Name", width:278,Height:51},
       {
         type: "default",
         field: "Date",
         headerName: "Date",
-        width: 157,
+        width: 207,
         Height:51,
         dateFormat: "DD/MM/YYYY",
       },
-      { type: "default", field: "Amount", headerName: "Amount", width: 139,Height:51 },
+      { type: "default", field: "Amount", headerName: "Amount", width: 189,Height:51 },
       {
         type: "default",
         field: "Status",
         headerName: "Status",
-        width: 129,
+        width: 179,
         Height:51,
         dateFormat: "DD/MM/YYYY",
       },
@@ -26,7 +26,7 @@ function PaymentHistory() {
         type: "default",
         field: "Receipt",
         headerName: "Receipt",
-        width: 137,
+        width: 187,
         Height:51
       },
       { type: "", field: "Payment Method", headerName: "Payment Method", width: 181,Height:51 },
@@ -38,13 +38,14 @@ function PaymentHistory() {
         payment History 
      </Typography>
      </Grid>
-     <Grid container size={12} >
+     
+     <Grid container size={12}>
      <DataGridList
               //  source={source}
               //  onRowClick={(params: any) => handleRowClick(params.id)}
               columns={columns}
               id="event-datagrid" 
-              hideFooterPagination={true}/>
+              hideFooterPagination={false}/>
               
      </Grid>
   </Grid>

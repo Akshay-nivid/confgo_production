@@ -1,9 +1,10 @@
 import React from 'react';
 import Grid from '@mui/material/Grid2';
-import { Divider, Typography } from '@mui/material';
+import {Typography } from '@mui/material';
 import { formatDateDayMonthYear } from '@/Utils/DateFormat';
 import StatusComponent from '@/components/Status/StatusComponent';
 import CustomButton from '@/components/CustomButton/CustomButton';
+
 
 interface EventProps {
     datetitle: string;
@@ -17,25 +18,38 @@ interface EventProps {
     buttonPress?:()=>void;
     squareButtonLabels:string[]
     onSquareButtonClick?: (index: number) => void;
+    Eventstatus?:boolean;
 }
+/**
+ * 
+ */
+const toTitleCase = (str: string | undefined): string => {
+    if (!str) return '';
+    return str
+        .toLowerCase()
+        .split(' ')
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(' ');
+};
 
-
-const EventCard: React.FC<EventProps> = React.memo(({ datetitle, title, location, viewButton,buttonPress,squareButton,squareButtonLabels,onSquareButtonClick }) => {
+const EventCard: React.FC<EventProps> = React.memo(({eventFullData, datetitle, title, location, viewButton,buttonPress,squareButton,squareButtonLabels,onSquareButtonClick,Eventstatus }) => {
+    console.log("title",title);
+    
     return (
         <Grid container className="event-card" spacing={1} flexDirection={"column"}>
             <Grid container className="event-card-date-box" justifyContent={"center"}>
                 <Typography textAlign={"center"}>Date: {formatDateDayMonthYear(datetitle)}</Typography>
             </Grid>
             <Grid container>
-                <Typography className='event-card-title'>{title}</Typography>
+                <Typography className='event-card-title'>{toTitleCase(title)}</Typography>
             </Grid>
             <Grid container>
-                <Typography>Location: {location}</Typography>
+                <Typography className='event-card-location'>Location: {location}</Typography>
             </Grid>
-            
+            {Eventstatus&&
             <Grid className="event-card-status" container display={"flex"} alignContent={"center"}  >
-                <Typography>Status</Typography><StatusComponent value="1" />
-            </Grid>
+                <Typography>Status</Typography><StatusComponent value={eventFullData.event.statusId.toString()} />
+            </Grid>}
             {squareButton &&
                 <Grid className="event-card-certificate" container display={"flex"}>
                     {squareButtonLabels.length>1?<><Typography onClick={() => onSquareButtonClick && onSquareButtonClick(0)} className='event-card-certificate-label'>
