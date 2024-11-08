@@ -202,6 +202,7 @@
   .default-label {
     text-align: center;
     justify-content: center !important;
+    align-items: center !important;
     font-size: $p3 !important;
     color: $clr_black !important;
     padding-left: 3rem !important;
@@ -694,8 +695,6 @@
 
 .data-grid-status{
   width: 8rem;
-  height: 6rem;
-  margin-top: 0.5rem;
 }
 
 .snackBar{
@@ -727,5 +726,15 @@
 		max-height: 12rem; 
 	}
 }
+.statusText{
+  align-items: center !important;
+  font-weight: $font-semibold !important;
+  font-size: $h6 !important;
+  text-align: center !important;
+  border-radius: 0.5rem !important;
+  padding: 0.5rem !important;
+}
 
-
+.display-flex{
+  display: flex;
+}

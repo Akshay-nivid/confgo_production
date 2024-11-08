@@ -7,6 +7,7 @@ import {
 } from "@mui/material";
 import Grid from "@mui/material/Grid2"
 import "./_style.scss";
+import config from '../../../config.json';
 
 interface CustomFile {
   id: number;
@@ -40,6 +41,8 @@ const ImageListDisplay: React.FC<ImageListDisplayProps> = ({
     onSelectFile(file);
   };
 
+	const baseURL = config.api.url;
+
   return (
     <Grid container>
       <Grid size={{xs:12}}>
@@ -47,7 +50,7 @@ const ImageListDisplay: React.FC<ImageListDisplayProps> = ({
           {files.map((file) => (
             <ImageListItem key={file.id} onClick={() => handleFileSelect(file)} className="image-list__item">
               <img
-                src={`http://localhost:4444/api/asset/${file.id}`}
+                src={`${baseURL}asset/${file.id}`}
                 alt={file.name}
                 loading="lazy"
                 className="image-list__image"
