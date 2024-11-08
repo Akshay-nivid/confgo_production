@@ -1,5 +1,7 @@
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
+import apiClient from "@/Libs/Https/API-client";
+import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import { useParams } from "react-router-dom";
 import { Logger } from "@/Utils/Logger";
 import useStore from "@/Libs/store";
@@ -11,30 +13,60 @@ import { useForm } from "react-hook-form";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import { IconButton, Typography } from "@mui/material";
 import {EditButtonIcon} from "@/assets/svg";
-import axios from "axios";
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-// interface Location {
-//   mapUrl: string;
-// }
+interface Location {
+  mapUrl: string;
+}
+
 /**
  * used to list the location in map
  */
-interface LocationCardProps {
-  data?: string;
-}
-const LocationCard = ({ data }: LocationCardProps) => {
-  console.log(data,'mapppppppp')
-  // Define the coordinates type
-interface Coordinates {
-  lat: number;
-  lng: number;
-}
-
-// Update the state type to accept either Coordinates or null
-const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
-
+const LocationCard = () => {
   const { id } = useParams();
- 
+  const [locations, setLocations] = useState<Location[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  /**
+   * useEffect hook to handle the API call
+   */
+  useEffect(() => {
+    fetchLocationList();
+  }, []);
+
+
+  /**
+   * fetch the venue details
+   */
+  const fetchLocationList = async () => {
+    setLoading(true);
+    try {
+      const response = await apiClient.get(`event/${id}`);
+      const { status, data } = processAPIResponse(response, "locationList");
+      if (status) {
+        const locationsData = Array.isArray(data) ? data : [data];
+            /**
+             * Extract the URL from mapUrl, or set a default if unavailable
+             */
+        setLocations(
+          locationsData.map((item) => {
+            const mapUrl = item.venue?.mapUrl || "https://maps.google.com";
+            return { mapUrl };
+          })
+        );
+      } else {
+        // If `status` is false, display an error message
+        setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "failed",
+          message: "Error in fetchinglocation",
+        });
+      }
+    } catch (error) {
+      Logger.error("Error fetching locations:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
   /**
    * drawer state
    */
@@ -47,13 +79,9 @@ const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
   const closeDrawer = () => setIsDrawerOpen(false);
 
   const setDataById = useStore((state: any) => state.setDataById);
-  const compData = useStore((state: any) => state.compData.editLocation);
-  console.log("bhdhgkkk",compData);
-  
+  const compData = useStore((state: any) => state.compData.event);
  
-  const [loading, setLoading] = useState(false);
 
-const GOOGLE_API_KEY = 'YOUR_GOOGLE_API_KEY';  // Replace with your actual API key
   const { control } = useForm();
   useEffect(() => {
     getLocation();
@@ -62,37 +90,15 @@ const GOOGLE_API_KEY = 'YOUR_GOOGLE_API_KEY';  // Replace with your actual API k
   * get current location
   */
   const getLocation = async () => {
-    setLoading(true);
     try {
-      setDataById("editLocation", { data: data });
-      await fetchCoordinates(data);
+      const response = await apiClient.get(`event/${id}`);
+      const { data } = processAPIResponse(response, "locationList");
+      const mapLocation = data.venue?.mapUrl || "https://maps.google.com";
+      setDataById("editLocation", { data: mapLocation });
     } catch (error) {
       Logger.error("User Set Password Error", error);
-    } finally {
-      setLoading(false);
     }
   };
-  const fetchCoordinates = async (mapLocation?:string) => {
-    console.log('ooooooooooooooooooooooo',mapLocation)
-    try {
-      const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-        mapLocation??""
-      )}&key=${GOOGLE_API_KEY}`;
-
-      const response = await axios.get(geocodeUrl);
-      console.log("kdjwkjwkres",response);
-      
-      if (response.data.results.length > 0) {
-        const { lat, lng } = response.data.results[0].geometry.location;
-        setCoordinates({ lat, lng });
-      } else {
-        console.error("No coordinates found for the link");
-      }
-    } catch (error) {
-      console.error("Error fetching coordinates:", error);
-    }
-  };
-
 
   return (
     <Grid className="main-location-Grid" container >
@@ -108,22 +114,24 @@ const GOOGLE_API_KEY = 'YOUR_GOOGLE_API_KEY';  // Replace with your actual API k
        
       </Grid>
       <Grid container spacing={4} className="location-grid">
-      {loading ? (
+        {loading ? (
           <div>Loading...</div>
-        ) : coordinates ? (
-          <LoadScript googleMapsApiKey={GOOGLE_API_KEY}>
-            <GoogleMap
-              mapContainerStyle={{ width: '100%', height: '400px' }}
-              center={coordinates}
-              zoom={12}
-            >
-              <Marker position={coordinates}/>
-            </GoogleMap>
-          </LoadScript>
         ) : (
-          <div>No map available</div>
+          locations.map(({ mapUrl }) => (
+            <Grid size={{ xs: 12, sm: 6, md: 3 }} key={id}>
+              {mapUrl ? (
+                <iframe
+                className="main-location-Grid-show-map"
+                  src={mapUrl}
+                  loading="lazy"
+                  title={`Location ${name}`}
+                />
+              ) : (
+                <div>No map available</div>
+              )}
+            </Grid>
+          ))
         )}
-
       </Grid>
       {/*edit map drawer */}
       <CustomDrawer open={isDrawerOpen} type="right">
@@ -153,16 +161,16 @@ const GOOGLE_API_KEY = 'YOUR_GOOGLE_API_KEY';  // Replace with your actual API k
             />
           </Grid>
           <Grid className="edit-location-container-edit-map-grid">
-          {coordinates ?(
+            {compData.data ? (
               <iframe
                 className="edit-location-container-edit-map"
-                src={`https://www.google.com/maps?q=${coordinates.lat},${coordinates.lng}&z=15&output=embed`}
+                src={compData.data}
                 loading="lazy"
               />
             ) : (
-              <div>No map available</div>
+              <Grid>No map available</Grid>
             )}
-                    </Grid>
+          </Grid>
           <Grid container justifyContent={"flex-end"} size={10}>
             <CustomButton className="edit-location-container-edit-location-button" label={"Submit"} />
           </Grid>
