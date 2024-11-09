@@ -1,0 +1,16 @@
+.my-event{
+    margin: 2rem;
+    &-header{
+        font-weight: $font-bold !important;
+        font-size: $h4 !important;
+    }
+    &-no-event{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+    }
+    &-no-event-image{
+        width:32.94rem;
+        height: 50vh;
+    }
+}

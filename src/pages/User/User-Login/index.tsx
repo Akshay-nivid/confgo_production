@@ -12,7 +12,8 @@ import { jwtDecode } from 'jwt-decode';
 import { Logger } from '@/Utils/Logger';
 import useStore from '@/Libs/store';
 import { registerComponent } from '@/Libs/DataHandler/dataHandler';
-import { userType } from '@/pages/ForgotPassword/ForgotPassword';
+import { userType } from '@/Utils/CommonBaseClass';
+
 interface IUserLogin {
   username: string;
   password: string;
@@ -69,9 +70,10 @@ const UserLogin = (props: UserProps) => {
       successCB: (context: any) => {
         if (context?.success) {
           sessionStorage.setItem("token", context.data?.token);
+          sessionStorage.setItem("userId", context.data?.id);
           setDataById('participantLogin', true);
           setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
-          navigate(routes.home());
+          navigate(routes.userHome());
         }
       },
       errorCB: (context: any) => {

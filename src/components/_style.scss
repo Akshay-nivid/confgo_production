@@ -476,6 +476,14 @@
       padding-bottom: 3rem !important;
   }
 
+  &-view-all-button{
+    background-color: $clr_white !important;
+    color: $clr_green !important;
+    border: 1px solid $clr_green !important;
+    text-transform: none !important;
+    margin-top: -3rem !important;
+  }
+
 }
 .custom-autopopulate {
   /* Remove the default border or outline */

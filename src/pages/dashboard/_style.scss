@@ -1,0 +1,99 @@
+.dashboard{
+    &-welcome-card{
+        height: 16rem;
+        background-color: $clr_white;
+        padding-top: 1rem;
+        border-radius: 0.41rem !important;
+        svg{
+            width: 5rem;
+            height: 10rem;
+        }
+        &-title{
+            font-size: $h5;
+            font-weight: $font_bold;
+        }
+        &-sub-title{
+            font-size: $p2;
+            font-weight: $font_medium;
+        }
+        &-create-button{
+            background-color: $clr_green !important;
+            color: $clr_white !important;
+            height: 3.5rem;
+            box-shadow: none !important;
+            margin: 2rem 0.2rem !important;
+            text-transform: none !important;
+            font-size: $p2 !important;
+            font-weight: $font_semibold !important;
+        }
+        &-manage-button{
+            background-color: $clr_white !important;
+            color: $clr_green !important;
+            height: 3.5rem;
+            box-shadow: none !important;
+            border: 2px solid $clr_green !important;
+            margin: 2rem 0.2rem !important;
+            text-transform: none !important;
+            font-size: $p2 !important;
+            font-weight: $font_semibold !important;
+        }
+    }
+    &-upcoming-event-card{
+        padding: 3rem 1rem 1rem 2rem;
+        background: url("../assets/svg/upcoming-event-icon.svg") no-repeat center;
+        height: 16rem !important;
+        background-size: cover;
+        border-radius: 0.41rem !important;
+        &-title{
+            font-size: $h5 !important;
+            font-weight: $font_bold !important;
+            color: $clr_white !important;
+        }
+        &-date{
+            font-size: $h6 !important;
+            font-weight: $font_medium !important;
+            color: $clr_white !important;
+        }
+        &-button{
+            background-color: $clr_light_orange !important;
+            border-radius: 0.66rem !important;
+            height: 2.91rem !important;
+            width: auto !important;
+            font-size: $p2 !important;
+            font-weight: $font_medium !important;
+            color: $clr_dark_orange !important;
+            max-width: 8rem;
+            margin-top: 2rem;
+        }
+    }
+    &-item-card{
+        background-color: $clr_white !important;
+        height: 6.67rem !important;
+        border-radius: 0.6rem;
+        svg{
+            width: 2rem;
+            height: 2rem;
+        }
+    }
+    &-main-event-card{
+        background-color: $clr_white !important;
+        height: 9rem !important;
+        border-radius: 0.6rem;
+    }
+        &-event-list {
+            &-title {
+                font-size: $h5 !important;
+                font-weight: $font_bold;
+            }
+            &-sub-title {
+                font-size: $h6 !important;
+                font-weight: $font_medium;
+            }
+            &-card{
+                .custom-list{
+                    margin-left: 0 !important;
+                }
+            }
+        }
+}
+
