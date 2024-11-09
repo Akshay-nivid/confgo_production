@@ -12,7 +12,6 @@ import { jwtDecode } from 'jwt-decode';
 import { Logger } from '@/Utils/Logger';
 import useStore from '@/Libs/store';
 import { registerComponent } from '@/Libs/DataHandler/dataHandler';
-import { userType } from '@/Utils/CommonBaseClass';
 import { ApiResponse } from '@/pages/LoginOrg/loginOrg';
 
 interface IUserLogin {
@@ -63,14 +62,11 @@ const UserLogin = (props: UserProps) => {
    * function to handle login
    */
   const handleLogin = async (obj: IUserLogin) => {
-    console.log("obj",obj);
-    
     await POST({
       url: "auth/login",
       body: obj,
       id: props?.id,
       successCB: (success: ApiResponse) => {
-        console.log("log",success);
         sessionStorage.setItem("token", success.data?.token);
         sessionStorage.setItem("userId", success.data?.userRole?.id.toString());
         setDataById('participantLogin', true);
@@ -82,12 +78,12 @@ const UserLogin = (props: UserProps) => {
           navigate(routes.dashboard());
         } 
       },
-      errorCB: (context: any) => {
+      errorCB: (error: any) => {
         setDataById("snackBarInfo", {
           open: true,
           autoHideDuration: 2000,
           severity: "error",
-          message: context?.message,
+          message: error?.message,
         });
       },
     });

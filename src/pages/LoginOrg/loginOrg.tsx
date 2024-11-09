@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import routes from "@/router/routes";
 import useStore from "@/Libs/store";
-import { userType } from "@/Utils/CommonBaseClass";
+
 
 
 
@@ -89,38 +89,7 @@ const LoginOrg = () => {
           })
         }
       });
-    //   const response = await apiClient.post("auth/login", requestBody);
-    //   console.log("response",response);
-      
-    //   const { status, data, message } = await processAPIResponse(
-    //     response,
-    //     "orgLogin"
-    //   );
-    //   if (status) {
-    //     sessionStorage.setItem("token", data?.token);
-    //     apiClient.setToken(data?.token);
-    //     setDataById("snackBarInfo", {
-    //       open: true,
-    //       autoHideDuration: 2000,
-    //       severity: "success",
-    //       message: message,
-    //     });
-    //     navigate(routes.dashboard());
-    //   } else {
-    //     setDataById("snackBarInfo", {
-    //       open: true,
-    //       autoHideDuration: 2000,
-    //       severity: "error",
-    //       message: message,
-    //     });
-    //   }
-    // } catch (error: any) {
-    //   setDataById("snackBarInfo", {
-    //     open: true,
-    //     autoHideDuration: 2000,
-    //     severity: "error",
-    //     message: error.toString(),
-    //   });
+
    
   };
   return (
