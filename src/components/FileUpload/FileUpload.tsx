@@ -14,10 +14,12 @@ import CustomTextField from "../CustomTextfield/CustomTextField";
 import Grid from "@mui/material/Grid2";
 import "./_style.scss";
 import useStore from "@/Libs/store";
+
+
 interface FileUploadProps {
   maxFileSizeMB?: number;
   allowedFileTypes?: string[];
-  onUploadSuccess?: (file: CustomFile) => void; // Callback prop for successful upload
+  onUploadSuccess?: (file: CustomFile) => void; 
 }
 
 
@@ -35,6 +37,11 @@ const Input = styled("input")({
   display: "none",
 });
 
+/**
+ * 
+ * component for file upload 
+ * @returns 
+ */
 const FileUpload: React.FC<FileUploadProps> = ({
   maxFileSizeMB = 5,
   allowedFileTypes = [],
@@ -78,7 +85,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
  */
   const handleFileRemove = () => {
     setFile(null);
-    setValue("fileName", ""); // Clear the file name input
+    setValue("fileName", ""); 
     setUploadSuccess(false);
   };
 /*
@@ -111,7 +118,6 @@ const FileUpload: React.FC<FileUploadProps> = ({
       setValue("fileName", "");
       setUploadSuccess(true);
 
-      // Call the onUploadSuccess prop with uploaded file data
       if (onUploadSuccess) {
         onUploadSuccess(uploadedFileData);
       }
