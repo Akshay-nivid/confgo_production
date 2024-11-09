@@ -162,7 +162,10 @@
   }
   .MuiDataGrid-virtualScrollerRenderZone{
     overflow: scroll !important;
-    max-height: calc(var(--grid-height) - 80px) !important;
+    max-height: calc(var(--grid-height) - 5.7rem) !important;
+    .MuiDataGrid-cell{
+      outline: none !important;
+    }
   }
   cursor: pointer;
   .status-container {
@@ -237,7 +240,7 @@
   
   .MuiDataGrid-columnHeader {
     border-color: $clr_white;
-    margin-top: 2rem !important;
+    margin-top: 1rem !important;
   
   
     .MuiDataGrid-columnSeparator {
