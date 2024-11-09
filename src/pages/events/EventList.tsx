@@ -14,11 +14,17 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { Typography } from "@mui/material";
 import { ISource } from "@/Libs/type";
 import { Logger } from "@/Utils/Logger";
+import React from "react";
+
+interface EventListProps {
+  hideAction?: boolean;
+}
+
 /**
  * Used to render events list
  * @author Vanisree
  */
-const EventList = () => {
+const EventList : React.FC<EventListProps> = React.memo(({ hideAction }) => {
   const navigate = useNavigate();
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
@@ -158,7 +164,7 @@ const EventList = () => {
 
       {/* Buttons for 'Create New Event' and 'Filters' */}
       <Grid container size={{ xs: 8 }} spacing={2} justifyContent="flex-end">
-        <Grid container>
+        {!hideAction && <><Grid container>
           <CustomAutocomplete
             name="search"
             className="custom-search-text-field"
@@ -192,18 +198,27 @@ const EventList = () => {
             color="primary"
             size="large"
           />
-        </Grid>
+        </Grid></>}
       </Grid>
       <Grid size={{ xs: 12 }}>
         <DataGridList
           source={source}
           onRowClick={(params: any) => handleRowClick(params.id)}
           title="Event"
-          hideFooterPagination={false}
+          hideFooterPagination={hideAction? true: false}
           columns={columns}
           id="event-datagrid"
         />
       </Grid>
+      {hideAction && <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'center'} alignItems={'center'}>
+        <CustomButton
+          className="custom-list-view-all-button"
+          label="View All"
+          variant="outlined"
+          size="large"
+          onClick={() => navigate("/events")}
+        />
+      </Grid>}
 
       {/* Filter Modal */}
       <FilterModal
@@ -213,6 +228,6 @@ const EventList = () => {
       />
     </Grid>
   );
-};
+});
 
 export default EventList;
