@@ -469,6 +469,14 @@
       padding-bottom: 3rem !important;
   }
 
+  &-view-all-button{
+    background-color: $clr_white !important;
+    color: $clr_green !important;
+    border: 1px solid $clr_green !important;
+    text-transform: none !important;
+    margin-top: -3rem !important;
+  }
+
 }
 .custom-autopopulate {
   /* Remove the default border or outline */
@@ -733,6 +741,20 @@
   text-align: center !important;
   border-radius: 0.5rem !important;
   padding: 0.5rem !important;
+}
+
+.custom-file-upload {
+  background-color: $clr_white !important;
+  color: $clr_black !important;
+  border: 0.083rem  solid $clr_black !important;
+  box-shadow: none !important;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  .file-item{
+    border-radius: .66rem !important;
+    border: 0.33rem solid $clr_light_grey !important;
+  }
 }
 
 .display-flex{

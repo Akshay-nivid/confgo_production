@@ -18,7 +18,8 @@ import apiClient from '@/Libs/Https/API-client';
 import { Logger } from '@/Utils/Logger';
 import { jwtDecode } from 'jwt-decode';
 import useStore from '@/Libs/store';
-import { purposeTypes } from '../User-Otp';
+import { purposeTypes } from '@/Utils/CommonBaseClass';
+
 
 interface IUserRegister {
   firstName: string;

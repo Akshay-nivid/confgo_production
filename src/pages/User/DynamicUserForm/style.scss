@@ -1,0 +1,35 @@
+.dynamic-form {
+  padding: 1.2rem;
+  max-width: 50rem;
+  margin-inline: auto;
+  .dynamic-form-submit-btn {
+    background: $clr_black !important;
+    width: 70%;
+  }
+  .dynamic-form-header {
+    margin-bottom: 1rem !important;
+    font-size: $h5;
+    font-weight: $font-bold;
+  }
+  .dynamic-form-checkbox {
+    padding: 0 !important;
+    margin-left: 0.8rem;
+    margin-right: 0.5rem;
+    .MuiFormControlLabel-root {
+      .MuiFormControlLabel-label {
+        font-size: 1rem !important;
+        font-weight: $font_bold !important;
+      }
+    }
+    svg {
+      width: 1.6rem;
+      height: 1.6rem;
+      fill: $clr_black;
+    }
+  }
+  .add-on-list-item-radio {
+    svg {
+      fill: $clr_black;
+    }
+  }
+}

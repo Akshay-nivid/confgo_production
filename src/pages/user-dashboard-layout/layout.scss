@@ -32,6 +32,7 @@
       &-outlet-wrapper {
         flex: 1;
         background-color: $background;
+        overflow-y: auto;
       }
     }
   }
@@ -86,7 +87,6 @@
 
   .active-link {
     color: $clr_blue;
-
     span {
       color: $clr_blue !important;
     }

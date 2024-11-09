@@ -46,13 +46,15 @@ import QrIcon from "./qr.svg";
 import DeleteContributorIcon from "./delete-icon.svg";
 import EditContributorIcon from "./edit-icon.svg";
 import ForgotPasswordIcon from "./key-icon.svg";
+import PaymentHistoryIcon from "./paymentHistory-icon.svg";
 import CalendarEventIcon from "./calendar-event-line.svg";
 import DownloadEventIcon from "./downloadCerts.svg";
 import HeartEventIcon from "./heart-2-line.svg";
 import PaymentDashboardIcon from "./payment.svg";
 import CouponDashboardIcon from "./coupons.svg";
 import DashboardUserIcon from "./dashboard-user.svg";
-import EditButtonIcon from "./Edit-location-button.svg"
+import EditButtonIcon from "./Edit-location-button.svg";
+import NoEventSvg from "./No-events-img.svg"
 
 export {
   CalenderIcon,
@@ -103,11 +105,13 @@ export {
   DeleteContributorIcon,
   EditContributorIcon,
   ForgotPasswordIcon,
+  PaymentHistoryIcon,
   CalendarEventIcon,
   DownloadEventIcon,
   HeartEventIcon,
   PaymentDashboardIcon,
   CouponDashboardIcon,
   DashboardUserIcon,
-  EditButtonIcon
+  EditButtonIcon,
+  NoEventSvg,
 };

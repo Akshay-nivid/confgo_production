@@ -1,0 +1,56 @@
+.event-card{
+    border: solid 0.1rem $clr_light_sky_blue;
+    background-color: $clr_white;
+    width: 30.688rem;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-left:0.9375rem;
+    &-date-box{
+        font-weight:$font_semibold;
+        font-size: $h6 !important;
+        margin-top:1.1875rem;
+        padding:0.2rem;
+        border-radius: 0.5rem;
+        max-width: 13.688rem;
+        background-color: $clr_orange_dark;
+        height: 1.8125rem ;
+        color:$clr_black;;
+        text-align:center;
+    }
+    &-title{
+        margin-top:0.9375rem;
+        font-weight: $font_semibold !important;
+        font-size: $h4 !important;
+        inline-size: 1.05875rem;
+        font-family:$font;
+    
+    }
+    &-location{
+        font-family: $font;
+        font-size:$p2 !important; 
+        font-weight:$font_medium;
+        color:$clr_black;
+        text-align:padding-top;
+    }
+    &-status{
+        font-family: $font;
+        font-size:$p2 !important; 
+        font-weight: $font_medium;
+        line-height: 1.059rem;
+        margin-top: 1.25rem;
+        color:$clr_black;
+    }
+    &-certificate{
+        margin-top: 1rem;
+        &-label{
+        color: $clr_blue;
+        cursor: pointer;
+        }
+    }
+    &-button{
+        margin-top: 1rem !important;
+        background-color: $clr_blue !important;
+        color: $clr_white !important;
+    }
+
+}
