@@ -739,5 +739,9 @@
   position: absolute;
   left: 50%;
   transform: translate(-50%, 0);
+  .file-item{
+    border-radius: .66rem !important;
+    border: 0.33rem solid $clr_light_grey !important;
+  }
 }
 

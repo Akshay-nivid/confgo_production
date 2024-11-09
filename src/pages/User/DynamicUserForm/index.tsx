@@ -100,7 +100,7 @@ const DynamicUserForm = () => {
           />
         );
 
-      case "checbox":
+      case "checkbox":
         return (
           <CustomCheckbox
             {...commonProps}

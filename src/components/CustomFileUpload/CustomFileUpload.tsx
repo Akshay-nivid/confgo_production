@@ -12,6 +12,7 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete"; // Import delete icon for remove functionality
 import clsx from "clsx";
 
+
 interface ICustomFileUpload<T extends FieldValues> {
   control: Control<T>;
   name: Path<T>;
@@ -24,7 +25,9 @@ interface ICustomFileUpload<T extends FieldValues> {
   className?: string;
   rules?: any;
 }
-
+/**
+ * component to upload files
+ */
 const CustomFileUpload = <T extends FieldValues>({
   control,
   name,
@@ -41,6 +44,7 @@ const CustomFileUpload = <T extends FieldValues>({
       {label && (
         <FormLabel
           className={clsx("custom-file-upload-label mb-3", labelClassName)}
+
         >
           {label}
         </FormLabel>
@@ -90,22 +94,25 @@ const CustomFileUpload = <T extends FieldValues>({
 
               {value && (
                 <Box
-                  className="flex flex-col gap-y-5 "
-                  style={{ marginTop: "10px" }}
+                  display={"flex"}
+                  flexDirection={"column"}
+                  rowGap={1.5}
+                  mt={1.5}
                 >
                   {multiple ? (
-                    (value as File[]).map((file, idx) => (
+                    (value as File[]).map((file, index) => (
                       <Box
-                        className="px-4 rounded border border-gray-300 justify-between"
-                        key={idx}
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                        }}
+                        className="  file-item"
+                        borderRadius={2}
+                        paddingBlock={2}
+                        key={index}
+                        display={"flex"}
+                        alignItems={"center"}
+                        justifyContent={"space-between"}
                       >
-                        <p style={{ marginRight: "10px" }}>{file.name}</p>
+                        <Typography mr={1.5} className="file-name-text">{file.name}</Typography>
                         <IconButton
-                          onClick={() => handleRemoveFile(idx)}
+                          onClick={() => handleRemoveFile(index)}
                           aria-label="delete"
                         >
                           <DeleteIcon />
@@ -113,8 +120,8 @@ const CustomFileUpload = <T extends FieldValues>({
                       </Box>
                     ))
                   ) : (
-                    <Box style={{ display: "flex", alignItems: "center" }}>
-                      <Typography style={{ marginRight: "10px" }}>
+                    <Box display={"flex"} alignItems={"center"}>
+                      <Typography mr={1.5}>
                         {(value as File)?.name}
                       </Typography>
                       <IconButton
