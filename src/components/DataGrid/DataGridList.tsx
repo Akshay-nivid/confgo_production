@@ -201,7 +201,7 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
             {loading ? (
                 <CircularProgress />
             ) : dataInfo?.data && dataInfo?.data?.length > 0 ? (
-                <Grid>
+                <Grid className="w-full h-full flex flex-col">
                     <DataGrid
                         rows={dataInfo?.data?.rows || dataInfo?.data}
                         columns={renderColumn}
