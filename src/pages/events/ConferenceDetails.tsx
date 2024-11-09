@@ -79,17 +79,16 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data }
             </Grid>
 						{/* Addons without datetime */}
 						<Grid>
-							{generalAddons.length > 0 && (
+							{generalAddons?.length > 0 && (
 								<Grid container direction="column" className="general-addons-section">
 										<Grid container spacing={2}>
-												{generalAddons.map((addon: any, index: number) => (
+												{generalAddons?.map((addon: any, index: number) => (
 													<SessionCard
 															key={index}
 															item={addon}
 															titleField="name"
 															fields={[
-																	{ label: "Amount", field: "amount" },
-																	{ label: "Tier", field: "tier" },
+																	{ label: "Description", field: "description" },
 															]}
 															hasAddOns={true}
 															startTimeField=''
@@ -101,7 +100,7 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data }
 							)}
 						</Grid>
 					{/* Date grouped Programs and Addons */}
-					{Object.keys(scheduledData).map((date: string) => (
+					{Object.keys(scheduledData)?.map((date: string) => (
 						<Grid container direction="column" key={date} className="scheduled-programs-section">
 							<Grid
 								container
@@ -111,24 +110,18 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data }
 								alignItems="center"
 							>
 								<DateIcon />
-								{moment(date).format("MMMM D")}
-							</Grid>
+								{date && moment(date).format("MMMM D")}
+								</Grid>
 							<Grid container spacing={2}>
-								{scheduledData[date].map((item: any, index: number) => (
+								{scheduledData[date]?.map((item: any, index: number) => (
 									<SessionCard
 										key={index}
 										item={item}
 										titleField="name"
 										fields={
-											item.isAddon
-											? [
-													{ label: "Amount", field: "amount" },
-													{ label: "Tier", field: "tier" },
-												]
-											: [
-													{ label: "Description", field: "description" },
-													{ label: "Type", field: "type" },
-												]
+											[
+												{ label: "Description", field: "description" },
+											]
 										}
 										startTimeField="startTime"
 										endTimeField="endTime"
