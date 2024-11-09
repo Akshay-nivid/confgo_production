@@ -16,7 +16,7 @@ import apiClient from "@/Libs/Https/API-client";
  * Organization form 
  */
 const AddOrganization = React.memo(() => {
-    const { handleSubmit, control } = useForm<FormData>();
+    const { handleSubmit, control, watch } = useForm<FormData>();
     const { setDataById }: any = useStore();
     const form1 = useStore((state: any) => state?.compData?.['form1']) ?? [];
     const form2 = useStore((state: any) => state?.compData?.['form2']) ?? [];
@@ -71,6 +71,12 @@ const AddOrganization = React.memo(() => {
             setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: error.response.data.message })
         }
     }
+
+    const tempStore = ()=>{
+        const formData = watch();
+        setDataById('form3', { field_values: formData });
+    }
+
     return (
         <Grid>
             <Grid container spacing={5}  >
@@ -87,6 +93,7 @@ const AddOrganization = React.memo(() => {
                                         <Grid container className='w-full'>
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationName}
+                                                onChange={tempStore}
                                                 placeholder="Organization Name"
                                                 control={control}
                                                 name="organizationName"
@@ -108,6 +115,7 @@ const AddOrganization = React.memo(() => {
                                         <Grid container className='w-full'>
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationEmail}
+                                                onChange={tempStore}
                                                 placeholder="Organization Email"
                                                 control={control}
                                                 name="organizationEmail"
@@ -118,6 +126,7 @@ const AddOrganization = React.memo(() => {
                                         <Grid container className='w-full'>
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationPhone}
+                                                onChange={tempStore}
                                                 placeholder="Organization Phone"
                                                 name="organizationPhone"
                                                 type="number"
@@ -129,6 +138,7 @@ const AddOrganization = React.memo(() => {
                                         <Grid container className='w-full'>
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationAddress}
+                                                onChange={tempStore}
                                                 placeholder="Organization Address"
                                                 control={control}
                                                 name="organizationAddress"
