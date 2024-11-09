@@ -58,7 +58,6 @@ const UserLogin = (props: UserProps) => {
    */
   function handleClickForgetPassword() {
     navigate(routes.forgotPassword());
-    setDataById("userType", { type: userType.PARTICIPANT });
   }
   /**
    * function to handle login

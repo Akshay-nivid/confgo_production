@@ -134,11 +134,3 @@ export const purposeTypes = {
   SET_PASSWORD: 'USER_REGISTRATION_OTP',
   RESET_PASSWORD: 'RESET_PASSWORD_OTP'
 }
-
-/**
- * user type for participant and oraganisation
- */
-export const userType = {
-  PARTICIPANT: 'PARTICIPANT',
-  ORGANISATION: 'ORGANIZATION'
-}

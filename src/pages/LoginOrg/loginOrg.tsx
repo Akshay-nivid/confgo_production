@@ -5,7 +5,8 @@ import { Link, useNavigate } from "react-router-dom";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import routes from "@/router/routes";
 import useStore from "@/Libs/store";
-import { processAPIResponse, userType } from "@/Utils/CommonBaseClass";
+import { userType } from "@/Utils/CommonBaseClass";
+
 
 
 /**
@@ -49,7 +50,6 @@ const LoginOrg = () => {
    */
     const handleClickForgetPassword=()=>{
       navigate(routes.forgotPassword())
-      setDataById('userType',{type:userType.ORGANISATION})
       }
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
