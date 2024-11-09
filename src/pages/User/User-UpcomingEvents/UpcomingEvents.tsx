@@ -95,10 +95,10 @@ const UpcomingEvents: React.FC = React.memo(() => {
     };
     return (
 
-        <Grid className="my-event" container spacing={2}>
+        <Grid className="my-upComing-event" container spacing={2}>
             <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} flexDirection={"row"}>
                 <Grid size={{ xs: 6 }} >
-                    <Typography className="my-event-header">Upcoming Events</Typography>
+                    <Typography className="my-upComing-event-header">Upcoming Events</Typography>
                 </Grid>
                 <Grid size={{ xs: 6 }}>
                     <CustomAutocomplete

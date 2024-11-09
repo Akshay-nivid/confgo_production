@@ -43,6 +43,8 @@ import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Thankyou from "./pages/ThankYou/ThankYou";
 import UpcomingEvents from "./pages/User/User-UpcomingEvents/UpcomingEvents";
 import MyEventScreen from "./pages/User/UserEvent";
+import UserCoupons from "./pages/User/User-coupons/index"
+import path from "path";
 
 /**
  * Create your router configuration
@@ -104,13 +106,18 @@ const userRoutes = [
         path: routes.paymentHistory(),
         element: <PaymentHistory/>,
       },
-      {path:routes.userMyEvents(),
+      {
+        path:routes.userMyEvents(),
         element:<MyEventScreen/>
       },
-      {path:routes.upcomingEvents(),
+      {
+        path:routes.upcomingEvents(),
         element:<UpcomingEvents/>
       },
-      
+      {
+        path:routes.userCoupons(),
+        element:<UserCoupons/>
+      }
 
     ],
   },

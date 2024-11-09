@@ -9,38 +9,7 @@ import apiClient from "@/Libs/Https/API-client";
 import { NoEventSvg } from "@/assets/svg"
 import { Logger } from "@/Utils/Logger";
 import React from "react";
-/**
- * 
- * @returns response interface
- */
-interface EventResponse {
-  details: {
-    id: number;
-    registrationType: string;
-    eventId: number;
-    amountPaid: string;
-    qrCode: string | null;
-    userId: number;
-    participantTypeId: number;
-    createdBy: number;
-    createdOn: string;
-    modifiedBy: number;
-    modifiedOn: string;
-    user: {
-      id: number;
-      firstName: string;
-      lastName: string;
-      phone: string;
-      email: string;
-      phoneVerified: boolean;
-      isSsoUser: boolean;
-      ssoMetadata: string | null;
-      statusId: number | null;
-      acceptedTerms: boolean | null;
-    };
-  };
-  programs: Program[];
-}
+
 /**
  * Interface for a Program, which contains the event details
  */

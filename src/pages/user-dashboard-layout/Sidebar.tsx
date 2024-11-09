@@ -36,7 +36,7 @@ const sidebarItems = [
     exact: false,
   },
   {
-    path: routes.coupon(),
+    path: routes.userCoupons(),
     icon: CouponDashboardIcon,
     label: 'Coupons',
     exact: false,
