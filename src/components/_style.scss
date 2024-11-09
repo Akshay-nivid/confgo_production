@@ -202,6 +202,7 @@
   .default-label {
     text-align: center;
     justify-content: center !important;
+    align-items: center !important;
     font-size: $p3 !important;
     color: $clr_black !important;
     padding-left: 3rem !important;
@@ -504,16 +505,14 @@
     background-color: $clr_white;
   }
   &-container {
-    max-width: 33rem;
-    padding-left: 2.5rem;
-    padding-top: 4.2rem;
     pointer-events: none;
-    .MuiStepConnector-line{
-      border-color: $clr_green !important;
-      min-height: 3.5rem ;
+    .MuiStepLabel-label{
+      font-size: $p2 !important;
+      font-weight: $font_medium;
+      color: $clr_field;
     }
-    .MuiStepLabel-root{
-      padding: 0;
+    .Mui-active{
+      color: $clr_green !important;
     }
   }
   &-button-container{
@@ -696,8 +695,6 @@
 
 .data-grid-status{
   width: 8rem;
-  height: 6rem;
-  margin-top: 0.5rem;
 }
 
 .snackBar{
@@ -729,7 +726,14 @@
 		max-height: 12rem; 
 	}
 }
-
+.statusText{
+  align-items: center !important;
+  font-weight: $font-semibold !important;
+  font-size: $h6 !important;
+  text-align: center !important;
+  border-radius: 0.5rem !important;
+  padding: 0.5rem !important;
+}
 
 .custom-file-upload {
   background-color: $clr_white !important;
@@ -745,3 +749,6 @@
   }
 }
 
+.display-flex{
+  display: flex;
+}
