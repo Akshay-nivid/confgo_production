@@ -37,6 +37,7 @@ import ViewEventDetail from "./pages/events/view/ViewEventDetail";
 import EventList from "./pages/events/EventList";
 import UserDashboardLayout from "./pages/user-dashboard-layout";
 import UserDashboard from "./pages/user-dashboard-layout/UserDashboard";
+import DynamicUserForm from "./pages/User/DynamicUserForm";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Thankyou from "./pages/ThankYou/ThankYou";
 
@@ -83,6 +84,10 @@ const userRoutes = [
         path: routes.userEventRegistrationCompleted(),
         element: <RegistrationCompleted />,
       },
+      {
+        path: routes.dynamicUserForm(),
+        element: <DynamicUserForm />,
+      },
     ],
   },
   {
@@ -104,8 +109,8 @@ const router = createBrowserRouter([
   {
     path: routes.forgotPassword(),
     element: <ForgotPassword />,
-   },
-   {
+  },
+  {
     path: routes.thankyou(),
     element: <Thankyou />,
   },

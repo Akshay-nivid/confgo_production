@@ -13,6 +13,8 @@ import { useFieldArray, useForm } from "react-hook-form";
 import CustomSelect from "../CustomSelectBox/CustomSelect";
 import { useState } from "react";
 import CustomCheckbox from "../CustomCheckbox/CustomCheckbox";
+import useStore from "@/Libs/store";
+import { Logger } from "@/Utils/Logger";
 
 export interface ICreateFormField {
   title: string;
@@ -27,7 +29,6 @@ const selectOptions = [
   { label: "Email", value: "email" },
   { label: "Number", value: "number" },
   { label: "Date", value: "date" },
-  { label: "File", value: "file" },
   { label: "Checkbox", value: "checkbox" },
   { label: "Radio", value: "radio" },
   { label: "Select", value: "select" },
@@ -46,9 +47,12 @@ const FormBuilder = () => {
     defaultValues: {
       title: "",
       fieldType: "",
+      required: [],
       option: [{ value: "" }],
     },
   });
+
+  const POST = useStore((state: any) => state.POST);
 
   /**
    * function to handle form field creation
@@ -60,6 +64,7 @@ const FormBuilder = () => {
       option: isFieldTypePresent(data.fieldType) ? data.option : undefined,
     };
 
+    
     setFormFields((prev) => {
       const updatedFields = [...prev, newData].reverse();
       return updatedFields;
@@ -83,8 +88,33 @@ const FormBuilder = () => {
 
   const [formFields, setFormFields] = useState<ICreateFormField[]>([]);
 
-  function handleSaveToLocalStorage(key: string, data: any) {
-    localStorage.setItem(key, JSON.stringify(data));
+
+  /**
+   * function to handle generate form  api call 
+   *  
+   */
+  function handleClickGenerateForm() {
+    const parsedData = formFields.map(
+      (field: ICreateFormField, index: number) => {
+        return {
+          name: (index += 1).toString(),
+          metadata: JSON.stringify(field),
+        };
+      }
+    );
+    const formData = {
+      eventId: 7,
+      participantTypeId: 1,
+      data: parsedData,
+    };
+     POST({
+      url: "event/form",
+      body: formData,
+       id: "dynamicGeneratedForm",
+      successCB: (data: any) => {
+        Logger._log("dynamic GeneratedForm api call success", data);
+      }
+    });
   }
 
   const fieldType = watch("fieldType");
@@ -244,7 +274,7 @@ const FormBuilder = () => {
               label="Generate Form"
               disabled={formFields.length < 1}
               className="create-form-button"
-              onClick={() => handleSaveToLocalStorage("formFields", formFields)}
+              onClick={handleClickGenerateForm}
             />
           </Box>
         </Box>

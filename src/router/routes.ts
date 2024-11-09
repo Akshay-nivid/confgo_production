@@ -34,6 +34,7 @@ const routes = {
   userPaymentMethod: () => "/user/payment",
   userEventRegistrationCompleted: () => "/user/event-registration-completed",
   formBuilder: () => "/formbuilder",
+  dynamicUserForm: () => "user/form",
 };
 
 export default routes;
