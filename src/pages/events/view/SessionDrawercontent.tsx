@@ -10,9 +10,7 @@ import moment from "moment";
 
 interface SessionDrawerContentProps {
     isEditing: boolean;
-    selectedProgram: Program | null;
-    setShowPriceField: (show: boolean) => void;
-    setEditorContent: (content: string) => void;
+    selectedProgram: any;
     onSubmit: (data: FieldValues) => void;
     closeDrawer: () => void;
     isAddon: boolean; 
@@ -21,7 +19,6 @@ interface SessionDrawerContentProps {
   const SessionDrawerContent: React.FC<SessionDrawerContentProps> = ({
     isEditing,
     selectedProgram,
-    setShowPriceField,
     onSubmit,
     closeDrawer,
     isAddon, // Destructuring the isAddon prop
@@ -32,7 +29,6 @@ interface SessionDrawerContentProps {
       handleSubmit,
       watch,
       reset,
-      formState: { errors },
     } = useForm({
       defaultValues: {
         isPaid: isEditing && selectedProgram?.amount > 0 ? "PAID" : "FREE", 
@@ -82,7 +78,7 @@ interface SessionDrawerContentProps {
    */
     useEffect(() => {
         if (isPaid === "FREE") setValue("price", 0);
-      }, [isPaid, setShowPriceField, setValue]);
+      }, [isPaid, setValue]);
   
     return (
       <Box sx={{ maxWidth: 600 }}>

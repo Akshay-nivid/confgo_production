@@ -101,9 +101,9 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
             );
           } else {
             if (isAddon) {
-              addons((prevAddons) => [...prevAddons, response.data]);
+              addons((prevAddons:any) => [...prevAddons, response.data]);
             } else {
-              setPrograms((prevPrograms) => [...prevPrograms, response.data]);
+              setPrograms((prevPrograms:any) => [...prevPrograms, response.data]);
             }
           }
           Logger.info("Operation successful:", response.data);
@@ -253,7 +253,6 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
             isEditing={isEditing}
             isAddon={isAddon}
             selectedProgram={selectedProgram}
-            setShowPriceField={(show: boolean)=>{}}
             onSubmit={onSubmit}
             closeDrawer={closeDrawer}
           />

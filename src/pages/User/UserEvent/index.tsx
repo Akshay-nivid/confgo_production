@@ -58,7 +58,7 @@ const MyEventScreen: React.FC = () => {
   const [searchResults, setSearchResults] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [event, setEvent] = useState<Program[]>([]);
-  const [source, setSource] = useState<any>([]);
+  // const [source, setSource] = useState<any>([]);
 
   /**
    *  Fetch event details when the component mounts
@@ -98,18 +98,18 @@ const MyEventScreen: React.FC = () => {
  */
   const handleAutocompleteChange = (selected: any) => {
     if (selected) {
-      setSource({
-        method: "GET",
-        data: {
-          offset: 0,
-          limit: 5,
-          filters: {
-            id: selected.id,
-          },
-        },
-        url: `event/list`,
-        listName: "eventList",
-      });
+      // setSource({
+      //   method: "GET",
+      //   data: {
+      //     offset: 0,
+      //     limit: 5,
+      //     filters: {
+      //       id: selected.id,
+      //     },
+      //   },
+      //   url: `event/list`,
+      //   listName: "eventList",
+      // });
     }
   };
   /**
