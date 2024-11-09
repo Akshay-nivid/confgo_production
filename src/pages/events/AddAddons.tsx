@@ -57,6 +57,7 @@ type ProgramProps = {
   onSaveHandler: (event: any, type: string) => void;
   data: any;
   addOnOptions?: any;
+  onaddOnSubmitHandler:()=>void;
 };
 const typeArray = [
   { label: "Paid", value: "PAID" },
@@ -66,7 +67,7 @@ const typeArray = [
 
 
 const AddAddOns: React.FC<ProgramProps> = React.memo(
-  ({ formSubmit, onSubmitHandler, data, onSaveHandler }) => {
+  ({ formSubmit, onSubmitHandler, data, onSaveHandler ,onaddOnSubmitHandler}) => {
     const { handleSubmit, control, watch, setValue,resetField } = useForm<FormData>({
 
       defaultValues: {
@@ -95,6 +96,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
      * Useeffect hook updates the programIndex value based on the savedPrograms dependency
      */
     useEffect(() => {
+
       const savedPrograms = watch("savedPrograms");
       if (savedPrograms && savedPrograms.length > 0) {
         setProgramIndex(savedPrograms.length - 1);
@@ -102,7 +104,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
         setProgramIndex(0);
       }
     }, [watch("savedPrograms")]);
-
+    
     /**
      * Useeffect hook submits the form based on the formSubmit variable
      */
@@ -276,6 +278,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
 
     return (
       <Box className="add-program-container">
+        <Grid onClick={onaddOnSubmitHandler}>Hello</Grid>
         <Grid container className="">
           <Grid
             container

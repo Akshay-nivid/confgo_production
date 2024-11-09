@@ -231,6 +231,9 @@ const Events = () => {
   const onSaveHandler = (data: object,type: string, ) => {
     setFormData({ ...formData, [type]: data });
   };
+  const onaddOnSubmitHandler=()=>{
+    console.log('hiiiiii')
+  }
 
   return (
     <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper">
@@ -265,6 +268,7 @@ const Events = () => {
             onSaveHandler={onSaveHandler}
             data={formData?.addOns}
             addOnOptions={addOnOptions}
+            onaddOnSubmitHandler={onaddOnSubmitHandler}
           />
         )}
         {activeStep === 3 && <ConferenceDetails data={formData} addOnOptions={addOnOptions} />}
