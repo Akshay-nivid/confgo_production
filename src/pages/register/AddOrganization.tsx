@@ -1,5 +1,5 @@
 import Grid from "@mui/material/Grid2";
-import React from 'react';
+import React, {  } from 'react';
 import {
     Box,
     FormControl,
@@ -16,8 +16,8 @@ import apiClient from "@/Libs/Https/API-client";
  * Organization form 
  */
 const AddOrganization = React.memo(() => {
-    const { handleSubmit, control, watch } = useForm<FormData>();
-    const { setDataById }: any = useStore();
+    const { handleSubmit, control } = useForm<FormData>();
+    const { setDataById ,clearDataById}: any = useStore();
     const form1 = useStore((state: any) => state?.compData?.['form1']) ?? [];
     const form2 = useStore((state: any) => state?.compData?.['form2']) ?? [];
     const form3 = useStore((state: any) => state?.compData?.['form3']) ?? [];
@@ -26,6 +26,7 @@ const AddOrganization = React.memo(() => {
      * function to handle submission of the form and create new company
      */
     const onSubmit: SubmitHandler<FormData> = (data) => { 
+        setDataById('form3', { field_values: data });
         createAccount(data)
     };
 
@@ -72,11 +73,6 @@ const AddOrganization = React.memo(() => {
         }
     }
 
-    const tempStore = ()=>{
-        const formData = watch();
-        setDataById('form3', { field_values: formData });
-    }
-
     return (
         <Grid>
             <Grid container spacing={5}  >
@@ -93,7 +89,6 @@ const AddOrganization = React.memo(() => {
                                         <Grid container className='w-full'>
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationName}
-                                                onChange={tempStore}
                                                 placeholder="Organization Name"
                                                 control={control}
                                                 name="organizationName"
@@ -115,7 +110,6 @@ const AddOrganization = React.memo(() => {
                                         <Grid container className='w-full'>
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationEmail}
-                                                onChange={tempStore}
                                                 placeholder="Organization Email"
                                                 control={control}
                                                 name="organizationEmail"
@@ -126,7 +120,6 @@ const AddOrganization = React.memo(() => {
                                         <Grid container className='w-full'>
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationPhone}
-                                                onChange={tempStore}
                                                 placeholder="Organization Phone"
                                                 name="organizationPhone"
                                                 type="number"
@@ -138,7 +131,6 @@ const AddOrganization = React.memo(() => {
                                         <Grid container className='w-full'>
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationAddress}
-                                                onChange={tempStore}
                                                 placeholder="Organization Address"
                                                 control={control}
                                                 name="organizationAddress"

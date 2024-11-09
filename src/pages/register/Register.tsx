@@ -69,7 +69,7 @@ const Register = () => {
   return (
     <Grid container className="register-main-container">
       <Grid container justifyContent={'space-between'} direction={'column'} className="grid-left" size={{ xs: 12, sm: 6 }} >
-        {pageSwitch.data !== "REGISTRATION_SUCCESS_PAGE" && <Grid container alignItems={"center"} display={"flex"} className="back-button" onClick={handleBack} >
+        {(pageSwitch.data === "CREATE_ACCOUNT_PAGE" || pageSwitch.data == "ADD_ORGANIZATION_PAGE" )  && <Grid container alignItems={"center"} display={"flex"} className="back-button" onClick={handleBack} >
           <ArrowBackIcon />
           <Typography variant="h6">Back</Typography>
         </Grid>}
