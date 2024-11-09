@@ -39,7 +39,6 @@ const UserSetPassword = () => {
   const setDataById = useStore((state: any) => state.setDataById)
   const navigate=useNavigate();
   useEffect(()=>{
-    console.log(userId,email,'userId,email')
     getToken()
   },[])
   /**

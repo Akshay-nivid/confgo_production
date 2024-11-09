@@ -4,10 +4,32 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import routes from "@/router/routes";
-import apiClient from "@/Libs/Https/API-client";
 import useStore from "@/Libs/store";
-import { processAPIResponse, userType } from "@/Utils/CommonBaseClass";
 
+
+
+
+/**
+ * ApiResponse from
+ * url: 'auth/login'
+ */
+export interface ApiResponse {
+  status: string;
+  data: {
+    token: string;
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+    username: string;
+    lastLogin: string;
+    userRole: {
+      id: number;
+      roleName: string;
+    };
+    subscriptionStatus: string;
+  };
+}
 
 /**
  * Component used to login an org
@@ -19,15 +41,15 @@ const LoginOrg = () => {
     email: string;
     password: string;
   };
-  const { setDataById }: any = useStore();
+  const setDataById = useStore((state: any) => state.setDataById);
   const { handleSubmit, control } = useForm<FormData>();
   const navigate = useNavigate();
+  const POST = useStore((state: any) => state.POST);
   /**
    * function used to handle form submission
    */
     const handleClickForgetPassword=()=>{
       navigate(routes.forgotPassword())
-      setDataById('userType',{type:userType.ORGANISATION})
       }
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
@@ -37,42 +59,38 @@ const LoginOrg = () => {
    * function used to login an organization
    */
   const LoginOrg = async (loginFields: FormData) => {
-    try {
-      const requestBody = {
+      const body = {
         username: loginFields.email,
         password: loginFields.password,
       };
-      const response = await apiClient.post("auth/login", requestBody);
-      const { status, data, message } = await processAPIResponse(
-        response,
-        "orgLogin"
-      );
-      if (status) {
-        sessionStorage.setItem("token", data?.token);
-        apiClient.setToken(data?.token);
-        setDataById("snackBarInfo", {
-          open: true,
-          autoHideDuration: 2000,
-          severity: "success",
-          message: message,
-        });
-        navigate(routes.dashboard());
-      } else {
-        setDataById("snackBarInfo", {
-          open: true,
-          autoHideDuration: 2000,
-          severity: "error",
-          message: message,
-        });
-      }
-    } catch (error: any) {
-      setDataById("snackBarInfo", {
-        open: true,
-        autoHideDuration: 2000,
-        severity: "error",
-        message: error.toString(),
+      await POST({
+        url: 'auth/login',
+        body: body,
+        successCB: (success: ApiResponse) =>{  
+          if(success?.data?.userRole?.roleName==="COMPANY"){
+            navigate(routes.dashboard());
+          }
+          else{
+            navigate(routes.userHome());
+          }
+            setDataById("snackBarInfo", {
+              open: true,
+              autoHideDuration: 2000,
+              severity: "success",
+              message: "success",
+            });
+        },
+        errorCB: (error: any) => {
+          setDataById("snackBarInfo", {
+            open: true,
+            autoHideDuration: 2000,
+            severity: "error",
+            message: error.message,
+          })
+        }
       });
-    }
+
+   
   };
   return (
     <Box className="login-org-main-container">

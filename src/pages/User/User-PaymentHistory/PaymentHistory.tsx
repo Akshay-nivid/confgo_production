@@ -1,3 +1,4 @@
+import { NoEventSvg } from "@/assets/svg";
 import { DataGridList } from "@/components/DataGrid/DataGridList";
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
@@ -38,21 +39,31 @@ const PaymentHistory:React.FC = React.memo(()=>{
     { type: "", field: "Payment Method", headerName: "Payment Method", width: 181, Height: 51 },
   ];
   return (
-    <Grid container size={12} className="payment-history-container">
-      <Grid className="" size={12} container>
-        <Typography className="payment-history-container-heading" >
-          payment History
-        </Typography>
-      </Grid>
-
-      <Grid container size={12}>
-        <DataGridList
-          columns={columns}
-          id="event-datagrid"
-          hideFooterPagination={false} />
-
-      </Grid>
-    </Grid>
+  <Grid container size={12} className="payment-history-container">
+     <Grid className="" size={12} container>
+     <Typography className="payment-history-container-heading" >
+        payment History 
+     </Typography>
+     </Grid>
+     {
+  columns == undefined?
+  <Grid container size={12}>
+  <Grid  className="my-event-no-event" size={12}>
+  <NoEventSvg className="my-event-no-event-image"/>
+  <Typography>kjdekjekj</Typography>
+      </Grid> 
+</Grid>
+     :<Grid container size={12}>
+     <DataGridList
+              //  source={source}
+              //  onRowClick={(params: any) => handleRowClick(params.id)}
+              columns={columns}
+              id="event-datagrid" 
+              hideFooterPagination={false}/>
+              
+     </Grid>
+}
+  </Grid>
   )
 })
 
