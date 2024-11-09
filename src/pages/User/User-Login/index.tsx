@@ -21,7 +21,7 @@ interface IUserLogin {
 
 type UserProps = {
   id: string;
-};
+}
 
 interface GoogleUserData {
   iss: string;
@@ -49,22 +49,22 @@ const UserLogin = (props: UserProps) => {
 
   const { control, handleSubmit } = useForm<IUserLogin>();
   const setDataById = useStore((state: any) => state.setDataById);
-
+  
   const POST = useStore((state: any) => state.POST);
   const navigate = useNavigate();
-  /**
+   /**
    * function for set userTpype
    */
   function handleClickForgetPassword() {
-    navigate(routes.forgotPassword());
-    setDataById("userType", { type: userType.PARTICIPANT });
+    navigate(routes.forgotPassword())
+    setDataById('userType',{ type: userType.PARTICIPANT } )
   }
   /**
    * function to handle login
    */
   const handleLogin = async (obj: IUserLogin) => {
     await POST({
-      url: "auth/login",
+      url: 'auth/login',
       body: obj,
       id: props?.id,
       successCB: (context: any) => {
@@ -77,13 +77,8 @@ const UserLogin = (props: UserProps) => {
         }
       },
       errorCB: (context: any) => {
-        setDataById("snackBarInfo", {
-          open: true,
-          autoHideDuration: 2000,
-          severity: "error",
-          message: context?.message,
-        });
-      },
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
+      }
     });
   };
   /**
@@ -93,55 +88,44 @@ const UserLogin = (props: UserProps) => {
   const googleSsoLogin = async (obj: GoogleUserData) => {
     const requestBody = {
       provider: "google",
-      providerUserId: obj.sub ?? "",
-      firstName: obj.given_name ?? "",
-      lastName: obj.family_name ?? "",
-      email: obj.email ?? "",
-      ...(obj.phone_number ? { phone: obj.phone_number } : {}),
+      providerUserId: obj.sub ?? '',
+      firstName: obj.given_name ?? '',
+      lastName: obj.family_name ?? '',
+      email: obj.email ?? '',
+      ...(obj.phone_number ? { phone: obj.phone_number } : {})
     };
 
     await POST({
-      url: "auth/ssoLogin",
+      url: 'auth/ssoLogin',
       body: requestBody,
       id: props?.id,
       successCB: (context: any) => {
         if (context?.success) {
-          console.log(context?.token, "khjvjhv");
           sessionStorage.setItem("token", context.data?.token);
-          setDataById("participantLogin", true);
-          setDataById("snackBarInfo", {
-            open: true,
-            autoHideDuration: 2000,
-            severity: "success",
-            message: "Login Successfully",
-          });
-          navigate(routes.programSelection());
+          setDataById('participantLogin', true);
+          setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
+          navigate(routes.programSelection())
         }
       },
       errorCB: (context: any) => {
-        setDataById("snackBarInfo", {
-          open: true,
-          autoHideDuration: 2000,
-          severity: "error",
-          message: context?.message,
-        });
-      },
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
+      }
     });
-  };
+  }
 
   return (
     <Grid
-      justifyContent={"center"}
-      alignItems={"center"}
+      justifyContent={'center'}
+      alignItems={'center'}
       container
       className="user-login"
     >
       <Grid size={12} className="content-container">
         <Box className="header-container">
-          <Typography textAlign={"center"} className="header-title">
+          <Typography textAlign={'center'} className="header-title">
             Welcome Back
           </Typography>
-          <Typography textAlign={"center"} className="header-subtitle">
+          <Typography textAlign={'center'} className="header-subtitle">
             Access your dashboard and stay on top of <br />
             your conferences.
           </Typography>
@@ -154,16 +138,16 @@ const UserLogin = (props: UserProps) => {
           >
             <Box
               className="textfield-container"
-              display={"flex"}
-              flexDirection={"column"}
+              display={'flex'}
+              flexDirection={'column'}
             >
               <CustomTextField
                 control={control}
                 name="username"
                 placeholder="Email Address"
-                label={"Email Address"}
+                label={'Email Address'}
                 rules={{
-                  required: validateRequiredField({ fieldName: "Email" }),
+                  required: validateRequiredField({ fieldName: 'Email' }),
                   pattern: validateEmail({}),
                 }}
               />
@@ -174,7 +158,7 @@ const UserLogin = (props: UserProps) => {
                 label="Password"
                 type="password"
                 rules={{
-                  required: validateRequiredField({ fieldName: "Password" }),
+                  required: validateRequiredField({ fieldName: 'Password' }),
                 }}
               />
             </Box>
@@ -188,7 +172,7 @@ const UserLogin = (props: UserProps) => {
           </form>
           <Box className="navigation-text-container">
             <Typography className="signup-text">
-              Don’t have an account?{" "}
+              Don’t have an account?{' '}
               <Link
                 to={routes.userRegister()}
                 className="signup-text-highlight"
@@ -197,10 +181,7 @@ const UserLogin = (props: UserProps) => {
               </Link>
             </Typography>
 
-            <Box
-              onClick={handleClickForgetPassword}
-              className="forgot-password-text"
-            >
+            <Box onClick={handleClickForgetPassword} className="forgot-password-text">
               Forgot Password?
             </Box>
           </Box>
@@ -222,15 +203,15 @@ const UserLogin = (props: UserProps) => {
               if (credential) {
                 try {
                   const decodedToken: GoogleUserData = jwtDecode(credential);
-                  googleSsoLogin(decodedToken);
+                  googleSsoLogin(decodedToken)
                 } catch (error) {
-                  Logger.error("Failed to decode token", error);
+                  Logger.error('Failed to decode token', error);
                 }
               } else {
-                Logger.error("No credential received");
+                Logger.error('No credential received');
               }
             }}
-            onError={() => {}}
+            onError={() => { }}
           />
         </Box>
       </Grid>

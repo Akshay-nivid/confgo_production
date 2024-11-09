@@ -157,6 +157,13 @@
   border-radius: $p2 !important;
   border: 0rem !important;
   font-size: $p1;
+  .MuiDataGrid-main{
+    max-height: var(--grid-height, calc(100vh - 200px)) !important;
+  }
+  .MuiDataGrid-virtualScrollerRenderZone{
+    overflow: scroll !important;
+    max-height: calc(var(--grid-height) - 80px) !important;
+  }
   cursor: pointer;
   .status-container {
     display: flex;
@@ -221,7 +228,7 @@
   }
   .pagination{
     background-color: $clr_white;
-    padding: 3rem 3rem 4rem 3rem !important;
+    padding: 1rem !important;
     &-label{
       padding-right: 1rem !important;
       font-size:  $p3 !important;
@@ -755,8 +762,4 @@
     border-radius: .66rem !important;
     border: 0.33rem solid $clr_light_grey !important;
   }
-}
-
-.display-flex{
-  display: flex;
 }
