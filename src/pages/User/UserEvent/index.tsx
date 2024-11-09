@@ -10,7 +10,6 @@ import { NoEventSvg } from "@/assets/svg"
 import { Logger } from "@/Utils/Logger";
 import React from "react";
 /**
- * 
  * @returns response interface
  */
 interface EventResponse {

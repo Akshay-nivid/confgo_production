@@ -13,6 +13,7 @@ import { Logger } from '@/Utils/Logger';
 import useStore from '@/Libs/store';
 import { registerComponent } from '@/Libs/DataHandler/dataHandler';
 import { userType } from '@/Utils/CommonBaseClass';
+import { ApiResponse } from '@/pages/LoginOrg/loginOrg';
 
 interface IUserLogin {
   username: string;
@@ -63,18 +64,24 @@ const UserLogin = (props: UserProps) => {
    * function to handle login
    */
   const handleLogin = async (obj: IUserLogin) => {
+    console.log("obj",obj);
+    
     await POST({
       url: "auth/login",
       body: obj,
       id: props?.id,
-      successCB: (context: any) => {
-        if (context?.success) {
-          sessionStorage.setItem("token", context.data?.token);
-          sessionStorage.setItem("userId", context.data?.id);
-          setDataById('participantLogin', true);
-          setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
+      successCB: (success: ApiResponse) => {
+        console.log("log",success);
+        sessionStorage.setItem("token", success.data?.token);
+        sessionStorage.setItem("userId", success.data?.userRole?.id.toString());
+        setDataById('participantLogin', true);
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
+        if(success?.data?.userRole?.roleName==="USER"){
           navigate(routes.userHome());
         }
+        else{
+          navigate(routes.dashboard());
+        } 
       },
       errorCB: (context: any) => {
         setDataById("snackBarInfo", {
@@ -104,28 +111,17 @@ const UserLogin = (props: UserProps) => {
       url: "auth/ssoLogin",
       body: requestBody,
       id: props?.id,
-      successCB: (context: any) => {
-        if (context?.success) {
-          console.log(context?.token, "khjvjhv");
-          sessionStorage.setItem("token", context.data?.token);
-          setDataById("participantLogin", true);
-          setDataById("snackBarInfo", {
-            open: true,
-            autoHideDuration: 2000,
-            severity: "success",
-            message: "Login Successfully",
-          });
-          navigate(routes.programSelection());
-        }
+      successCB: (success: any) => {
+        navigate(routes.dashboard());
+          sessionStorage.setItem("token", success.data?.token);
+          sessionStorage.setItem("UserId", success.data?.id);
+          setDataById('participantLogin', true);
+          setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
+          navigate(routes.programSelection())
       },
-      errorCB: (context: any) => {
-        setDataById("snackBarInfo", {
-          open: true,
-          autoHideDuration: 2000,
-          severity: "error",
-          message: context?.message,
-        });
-      },
+      errorCB: (error: any) => {
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: error?.message });
+      }
     });
   };
 
