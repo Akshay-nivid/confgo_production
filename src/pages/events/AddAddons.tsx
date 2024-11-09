@@ -4,23 +4,33 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, Chip, IconButton, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 import EditIcon from "@/assets/svg/edit-program-icon.svg";
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import moment from "moment";
+import AddIcon from '@mui/icons-material/Add';
+import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 
 type FormData = {
-  programs: {
+  addOn: {
     name: string;
     description: string;
     startTime: string;
     endTime: string;
     type: string;
-    amount: string;
+    amount:string;
+    properties: {
+      propertyId:string,
+      propertyName: string;
+      propertyAmount: string;
+    }[];
+    propertyName:string,
+    propertyAmount:string,
     addonId: string;
+    propertyChip:string
   }[];
   savedPrograms: {
     id?: string;
@@ -29,8 +39,16 @@ type FormData = {
     startTime: string;
     endTime: string;
     type: string;
-    amount: string;
+    amount:string;
+    properties: {
+      propertyId:string,
+      propertyName: string;
+      propertyAmount: string;
+    }[];
+    propertyName:string,
+    propertyAmount:string,
     addonId: string;
+    propertyChip:string
   }[];
 };
 type ProgramProps = {
@@ -49,16 +67,19 @@ const typeArray = [
 
 const AddAddOns: React.FC<ProgramProps> = React.memo(
   ({ formSubmit, onSubmitHandler, data, onSaveHandler }) => {
-    const { handleSubmit, control, watch, setValue } = useForm<FormData>({
+    const { handleSubmit, control, watch, setValue,resetField } = useForm<FormData>({
+
       defaultValues: {
-        programs: [
+        addOn: [
           {
             name: "",
             description: "",
             startTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
             endTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
             type: "PAID",
-            amount: "",
+            properties: [
+              { propertyName: "", propertyAmount: "" },
+            ],
             addonId: "",
           },
         ],
@@ -66,11 +87,10 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
     });
     const { fields, append, remove } = useFieldArray({
       control,
-      name: "programs",
+      name: "addOn",
     });
     const [programIndex, setProgramIndex] = useState<any>();
     const [editMode, setEditMode] = useState(false);
-
     /**
      * Useeffect hook updates the programIndex value based on the savedPrograms dependency
      */
@@ -105,7 +125,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
      */
     useEffect(() => {
       if (data) {
-        setValue("programs", data);
+        setValue("addOn", data);
         setValue("savedPrograms", data);
       }
     }, [data]);
@@ -123,29 +143,35 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
      */
     const onSave: SubmitHandler<FormData> = () => {
       // Get the current programs data from `watch("programs")`
-      const programs = watch("programs");
-      const newPrograms = [...programs];
+      const addOn = watch("addOn");
+      const newPrograms = [...addOn];
 
       // Handle saving logic based on `editMode`
       if (!editMode) {
-        const newProgram = {
+        const newAddon = {
           name: "",
           description: "",
           startTime: moment().format("YYYY-MM-DDTHH:mm"),
           endTime: moment().format("YYYY-MM-DDTHH:mm"),
           type: "PAID",
-          amount: "",
+          amount:"",
+          properties: [
+            
+          ],
+          propertyName:"",
+          propertyAmount:"",
           addonId: "",
+          propertyChip:""
         };
-        newPrograms.push(newProgram);
+        newPrograms.push(newAddon);
 
         // Update both `savedPrograms` and the local `programs` array
-        setValue("savedPrograms", programs);
-        append(newProgram);
-        setProgramIndex(programs?.length || 0);
+        setValue("savedPrograms", addOn);
+        append(newAddon);
+        setProgramIndex(addOn?.length || 0);
       } else {
         // If in `editMode`, just update the program index
-        setProgramIndex(programs?.length ? programs.length - 1 : 0);
+        setProgramIndex(addOn?.length ? addOn.length - 1 : 0);
       }
 
       // Trigger the save handler with the current programs
@@ -162,7 +188,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
      */
     const handleEdit = (index: number) => {
       setEditMode(true);
-      setValue("programs", watch("savedPrograms"));
+      setValue("addOn", watch("savedPrograms"));
       setProgramIndex(index);
     };
 
@@ -171,7 +197,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
      * @param index : index of the program to delete
      */
     const handleDelete = (index: number) => {
-      setValue("programs", watch("savedPrograms"));
+      setValue("addOn", watch("savedPrograms"));
       setProgramIndex(index);
       const programsCopy = [...watch("savedPrograms")];
       programsCopy.splice(index, 1);
@@ -181,33 +207,72 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       remove(index);
       if (index === programsCopy.length) {
         if (index === 0) {
-          append({
+          const obj={
             name: "",
             description: "",
             startTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
             endTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
             type: "PAID",
-            amount: "",
             addonId: "",
-          });
-          saveProgram.push({
-            name: "",
-            description: "",
-            startTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
-            endTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
-            type: "PAID",
-            amount: "",
-            addonId: "",
-          });
+            properties: [{propertyId:"", propertyName: "", propertyAmount: "" }],
+            propertyName:"",
+            propertyAmount:"",
+            propertyChip:"",
+            amount:""
+          };
+          append(obj);
+          saveProgram.push(obj);
         } else {
           setProgramIndex(programsCopy.length);
         }
       }
       onSaveHandler && onSaveHandler(saveProgram,'addOns');
     };
-
-
-
+    /**
+     * Method handles the adding a new property
+     * @param index : form index
+     */
+    const addProperty = (index:number) => {
+      const values = watch();      
+      const propertyName = values.addOn[index].propertyName; 
+      const propertyAmount = values.addOn[index].propertyAmount;
+    
+      const newProperty = {
+        propertyId:Date.now().toString(),
+        propertyName: propertyName,
+        propertyAmount: propertyAmount,
+      };
+    
+      const updatedAddOn = [...values.addOn]; 
+    
+      updatedAddOn[index].properties = updatedAddOn[index].properties.filter(
+        prop => prop.propertyName !== ""
+      );
+      updatedAddOn[index].properties.push({ ...newProperty});
+    
+      setValue("addOn", updatedAddOn);
+      resetField(`addOn.${index}.propertyName`,{});
+      resetField(`addOn.${index}.propertyAmount`,{});
+    }
+    /**
+     * Method handles the delete a property
+     * @param index : form index
+     */
+    const deleteChip = (item: any, _index: number) => {
+      const values = watch(); 
+      const updatedAddOn = values.addOn.map((addOnItem) => {
+          const updatedProperties = addOnItem.properties.filter(
+            (property) => property.propertyId !== item.propertyId
+          );
+          const data= {
+            ...addOnItem,
+            property: updatedProperties,
+          };
+        return data;
+      });
+      setValue('addOn', updatedAddOn);
+    };
+    
 
     return (
       <Box className="add-program-container">
@@ -236,7 +301,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                         lineHeight={2}
                         className="add-program-title"
                       >
-                        Add Program
+                        Add Ons
                       </Typography>
                     </Grid>
                   </Grid>
@@ -251,31 +316,31 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                 size={{ xs: 12, sm: 12 }}
                                 spacing={2}
                               >
-
                                 <Grid size={{ xs: 12, sm: 6 }} mb={2}>
-                                  <CustomTextField
-                                    placeholder="Program Name"
+                                  {/* <CustomSelect/> */}
+                                  {/* <CustomTextField
+                                    placeholder="Add-on Name"
                                     control={control}
-                                    name={`programs.${index}.name`}
+                                    name={`addOn.${index}.name`}
+                                    type="text"
+                                    rules={{ required: true }}
+                                  /> */}
+                                </Grid>
+                                <Grid size={{ xs: 12, sm: 6 }}>
+                                  <CustomTextField
+                                    placeholder="Add-on Description"
+                                    control={control}
+                                    name={`addOn.${index}.description`}
                                     type="text"
                                     rules={{ required: true }}
                                   />
                                 </Grid>
                                 <Grid size={{ xs: 12, sm: 6 }}>
                                   <CustomTextField
-                                    placeholder="Program Description"
+                                    placeholder="Date"
                                     control={control}
-                                    name={`programs.${index}.description`}
-                                    type="text"
-                                    rules={{ required: true }}
-                                  />
-                                </Grid>
-                                <Grid size={{ xs: 12, sm: 6 }}>
-                                  <CustomTextField
-                                    placeholder="Start Date & Time"
-                                    control={control}
-                                    name={`programs.${index}.startTime`}
-                                    type="datetime-local"
+                                    name={`addOn.${index}.startTime`}
+                                    type="date"
                                     min={moment().format("YYYY-MM-DDTHH:mm")}
                                     rules={{
                                       required: true,
@@ -297,11 +362,11 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     }}
                                   />
                                 </Grid>
-                                <Grid size={{ xs: 12, sm: 6 }}>
-                                  <CustomTextField
+                                <Grid  size={{ xs: 12, sm: 6 }} display={"flex"} justifyContent={"space-between"}>
+                                  {/* <CustomTextField
                                     placeholder="End Date & Time"
                                     control={control}
-                                    name={`programs.${index}.endTime`}
+                                    name={`addOn.${index}.endTime`}
                                     type="datetime-local"
                                     min={moment().format("YYYY-MM-DDTHH:mm")}
                                     rules={{
@@ -322,46 +387,158 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                         return "Invalid date";
                                       },
                                     }}
-                                  />
+                                  /> */}
+                                  <Grid size={{xs:3}}>
+                                  <CustomTextField
+  placeholder="Start Time"
+  control={control}
+  name={`addOn.${index}.startTime`}
+  type="time"
+  min={moment().format("HH:mm")}  // Setting min time as current time (can be adjusted if needed)
+  rules={{
+    required: true,
+    validate: (value) => {
+      if (value) {
+        const currentTime = moment().format("HH:mm");
+        return (
+          value >= currentTime || "Start Time cannot be in the past"
+        );
+      }
+      return "Invalid time";
+    },
+  }}
+/>
+</Grid>
+
+<Grid size={{xs:3}}>
+<CustomTextField
+  placeholder="End Time"
+  control={control}
+  name={`addOn.${index}.endTime`}
+  type="time"
+  min={moment().format("HH:mm")}  // Setting min time as current time (can be adjusted if needed)
+  rules={{
+    required: true,
+    validate: (value) => {
+      const startTime = watch(`addOn.${index}.startTime`);  // Get the value of start time
+      if (value && startTime) {
+        // If end time is less than start time, show an error message
+        return (
+          value > startTime || "End Time must be after Start Time"
+        );
+      }
+      return "Invalid time";
+    },
+  }}
+/>
+</Grid>
                                 </Grid>
-                                <Grid size={{ xs: 12, sm: 12 }}>
-                                  <CustomRadio
-                                    control={control}
-                                    name={`programs.${index}.type`}
-                                    label=""
-                                    options={typeArray}
-                                    row={true}
-                                    value={"PAID"}
-                                  />
-                                </Grid>
-                                {watch(`programs.${index}.type`) === "PAID" && (
-                                  <Grid size={{ xs: 12, sm: 12 }}>
-                                    <CustomTextField
-                                      placeholder="Price"
+                                <Grid size={{  xs: 12, sm: 6  }} >
+                                        <CustomTextField
+                                          placeholder="Price"
+                                          control={control}
+                                          name={`addOn.${index}.amount`}
+                                          type="text"
+                                          rules={{
+                                            required: "Price is required",
+                                            pattern: {
+                                              value: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
+                                              message:
+                                                "Enter a valid price (up to 2 decimal places)",
+                                            },
+                                            validate: (value) => {
+                                              if (typeof value === "string") {
+                                                const price = parseFloat(value);
+                                                return (
+                                                  price >= 0 ||
+                                                  "Price cannot be negative"
+                                                );
+                                              }
+                                              return "Invalid price format";
+                                            },
+                                          }}
+                                        />
+                                      </Grid>
+                                <Grid container size={{ xs: 12 }} display={"flex"} justifyContent={"space-between"}>
+                                  <Grid>
+                                    <Typography
+                                      textAlign={"start"}
+                                      variant="h5"
+                                      lineHeight={2}
+                                      className="add-program-addon-property-header"
+                                    >
+                                      Add Property
+                                    </Typography>
+                                  </Grid>
+                                  <Grid>
+                                    <CustomRadio
+                                      className="add-program-radio-btn"
                                       control={control}
-                                      name={`programs.${index}.amount`}
-                                      type="text"
-                                      rules={{
-                                        required: "Price is required",
-                                        pattern: {
-                                          value: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
-                                          message:
-                                            "Enter a valid price (up to 2 decimal places)",
-                                        },
-                                        validate: (value) => {
-                                          if (typeof value === "string") {
-                                            const price = parseFloat(value);
-                                            return (
-                                              price >= 0 ||
-                                              "Price cannot be negative"
-                                            );
-                                          }
-                                          return "Invalid price format";
-                                        },
-                                      }}
+                                      name={`addOn.${index}.type`}
+                                      label=""
+                                      options={typeArray}
+                                      row={true}
+                                      value={"PAID"}
                                     />
                                   </Grid>
-                                )}
+                                </Grid>
+                                <Grid container display={"flex"} justifyContent={"space-between"} size={{xs:12,sm:12}} alignItems={"center"}>
+                                  <Grid size={{ xs: 12, sm: 6 }}>
+                                    <CustomTextField
+                                      placeholder="Property Name"
+                                      control={control}
+                                      name={`addOn.${index}.propertyName`}
+                                      type="text"
+                                      // rules={{ required: true }}
+                                    />
+                                  </Grid>
+                                  <Grid size={{ xs: 12, sm: 6 }} display={"flex"} >
+                                    {watch(`addOn.${index}.type`) === "PAID" && (
+                                      <Grid size={{ xs: 12, sm: 12 }}>
+                                        <CustomTextField
+                                          placeholder="Price"
+                                          control={control}
+                                          name={`addOn.${index}.propertyAmount`}
+                                          type="text"
+                                          rules={{
+                                            // required: "Price is required",
+                                            pattern: {
+                                              value: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
+                                              message:
+                                                "Enter a valid price (up to 2 decimal places)",
+                                            },
+                                            validate: (value) => {
+                                              if (typeof value === "string") {
+                                                const price = parseFloat(value);
+                                                return (
+                                                  price >= 0 ||
+                                                  "Price cannot be negative"
+                                                );
+                                              }
+                                              return "Invalid price format";
+                                            },
+                                          }}
+                                        />
+                                      </Grid>
+                                    )}
+                                    <Grid ml={1} mt={1}>
+                                      <IconButton
+                                        className="add-program-prop-add"
+                                        onClick={()=>addProperty(index)}
+                                      >
+                                        <AddIcon />
+                                      </IconButton>
+                                    </Grid>
+                                  </Grid>
+                                </Grid>
+                                {watch(`addOn.${index}.properties`).length!=0&&<Grid container flexDirection={"column"}>
+                                  <Typography variant="h6">Properties</Typography>
+                                  <Grid container spacing={1}>
+                                  {watch(`addOn.${index}.properties`)?.map((item,index)=>{
+                                    return  <Chip className="add-program-chip-item" onDelete={()=>deleteChip(item,index)} key={index+"chip"} label={`${item.propertyName} ${item?.propertyAmount ? "- $" + item.propertyAmount : ""}`}/> 
+                                  })}
+                                  </Grid>
+                                </Grid>}
                                 <Grid
                                   container
                                   direction={"row"}
@@ -397,6 +574,8 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
               spacing={2}
               key='add-program-display-container'
             >
+              {watch("savedPrograms")?.length>=1&&<Grid container className="add-program-display-container-box">
+               <Typography variant="h6">Saved Add-Ons</Typography>
               {watch("savedPrograms")?.map(
                 (field, index) =>
                   field.name
@@ -409,6 +588,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                     >
                       <Grid size={{ xs: 8, sm: 8 }} >
                         <Grid container size={{ xs: 12, sm: 12 }} direction={'column'}>
+                         
                         <Grid>{field.name}</Grid>
                         <Grid>{field.description}</Grid>    
                         </Grid>
@@ -426,6 +606,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                     </Grid>
                   )
               )}
+            </Grid>}
             </Grid>
           </Grid>
         </Grid>

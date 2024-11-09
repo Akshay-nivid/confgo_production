@@ -129,9 +129,18 @@ const Events = () => {
   const createFormRequest = (data: any) => {
     const event = data?.event;
     const programs = data?.program || [];
-
-    const program = programs.filter((item: any) => item.programType === 'PROGRAM');
-    const addOn = programs.filter((item: any) => item.programType === 'ADD_ONS');
+    const addOns=data?.addOns||[];
+    const program = programs.filter((item: any) => item.name!='');
+    const addOn = addOns.filter((item: any) => item.name!='');
+    const transformedData = addOn.map(({ propertyChip,type, ...item }: any) => ({
+      ...item,
+      properties: item.properties.map(({ propertyId, propertyName, propertyAmount,...rest }: any) => ({
+        name: propertyName,      
+        amount: propertyAmount,
+        ...rest   
+      }))
+     
+    }));    
 
     let req: any = {
       name: event?.name,
@@ -172,7 +181,8 @@ const Events = () => {
         };
       });
 
-    req['addon'] = addOn.map(({ description, name, type, programType, ...rest }: any) => rest);
+    // req['addon'] = addOn.map(({ description, name, type, programType, ...rest }: any) => rest);
+    req['addon']=transformedData;
 
     return req;
   };
