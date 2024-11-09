@@ -12,6 +12,7 @@ import { useEffect } from 'react';
 import apiClient from '@/Libs/Https/API-client';
 import useStore from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
+import { purposeTypes } from '@/Utils/CommonBaseClass';
 
 /**
  * User Otp page component
@@ -19,13 +20,6 @@ import { Logger } from '@/Utils/Logger';
  */
 interface IFormData {
   otp: string;
-}
-/**
- * purpose types
- */
-export const purposeTypes = {
-  SET_PASSWORD: 'USER_REGISTRATION_OTP',
-  RESET_PASSWORD: 'RESET_PASSWORD_OTP'
 }
 const UserOtp = () => {
 

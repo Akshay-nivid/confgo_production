@@ -1,0 +1,13 @@
+//payment history
+.payment-history-container{
+    margin-left: 1rem;
+   &-heading{
+    padding-top:1.875rem;
+    padding-left:1rem;
+    font-family: $font;
+    font-size: $h4 !important; 
+    font-weight: $font-bold!important;
+    line-height: 1.81rem;
+    
+   }
+  }
