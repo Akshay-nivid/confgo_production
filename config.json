@@ -1,6 +1,6 @@
 {
   "api": {
-    "url": "https://api.confgo.com/api",
+    "url": "http://192.168.29.218:4444/api/",
     "key": ""
   },
   "event-link": {
