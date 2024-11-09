@@ -6,8 +6,8 @@ import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import routes from "@/router/routes";
 import apiClient from "@/Libs/Https/API-client";
 import useStore from "@/Libs/store";
-import { processAPIResponse } from "@/Utils/CommonBaseClass";
-import { userType } from "../ForgotPassword/ForgotPassword";
+import { processAPIResponse, userType } from "@/Utils/CommonBaseClass";
+
 
 /**
  * Component used to login an org
@@ -24,9 +24,6 @@ const LoginOrg = () => {
   const navigate = useNavigate();
   /**
    * function used to handle form submission
-   */
-    /**
-   * function for set userType
    */
     const handleClickForgetPassword=()=>{
       navigate(routes.forgotPassword())

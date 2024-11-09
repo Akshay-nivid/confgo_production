@@ -1,18 +1,19 @@
-import CustomButton from "@/components/CustomButton/CustomButton";
-import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import routes from "@/router/routes";
-import { validateEmail, validateRequiredField } from "@/Utils/Validation";
-import { Typography } from "@mui/material";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid2";
-import { CredentialResponse, GoogleLogin } from "@react-oauth/google";
-import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
-import { Logger } from "@/Utils/Logger";
-import useStore from "@/Libs/store";
-import { registerComponent } from "@/Libs/DataHandler/dataHandler";
-import { userType } from "@/pages/ForgotPassword/ForgotPassword";
+import CustomButton from '@/components/CustomButton/CustomButton';
+import CustomTextField from '@/components/CustomTextfield/CustomTextField';
+import routes from '@/router/routes';
+import { validateEmail, validateRequiredField } from '@/Utils/Validation';
+import { Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid2';
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
+import { useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
+import { Logger } from '@/Utils/Logger';
+import useStore from '@/Libs/store';
+import { registerComponent } from '@/Libs/DataHandler/dataHandler';
+import { userType } from '@/Utils/CommonBaseClass';
+
 interface IUserLogin {
   username: string;
   password: string;
@@ -69,14 +70,10 @@ const UserLogin = (props: UserProps) => {
       successCB: (context: any) => {
         if (context?.success) {
           sessionStorage.setItem("token", context.data?.token);
-          setDataById("participantLogin", true);
-          setDataById("snackBarInfo", {
-            open: true,
-            autoHideDuration: 2000,
-            severity: "success",
-            message: "Login Successfully",
-          });
-          navigate(routes.home());
+          sessionStorage.setItem("userId", context.data?.id);
+          setDataById('participantLogin', true);
+          setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
+          navigate(routes.userHome());
         }
       },
       errorCB: (context: any) => {
