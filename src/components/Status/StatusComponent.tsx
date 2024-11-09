@@ -5,6 +5,7 @@ import Grid from '@mui/material/Grid2';
 
 interface AppBarProps {
   value: string;
+  className:string;
 }
 
 const statusValues: any = [
@@ -40,11 +41,11 @@ const findStatusById = (id: string) => {
  * @param param
  * @returns 
  */
-const StatusComponent: React.FC<AppBarProps> = ({ value }) => {
+const StatusComponent: React.FC<AppBarProps> = ({ value ,className}) => {
   const status = findStatusById(value);
   return (
-    <Grid className="data-grid-status">
-      <Typography sx={{alignItems:"center", backgroundColor: status?.cellColor, color: status?.textColor, fontFamily: 'inherit', fontWeight: 600, fontSize: 15,textAlign:"center",borderRadius:2, }}>{getStatusValue(value)}</Typography>
+    <Grid className={className}>
+      <Typography className="statusText" sx={{ backgroundColor: status?.cellColor, color: status?.textColor}}>{getStatusValue(value)}</Typography>
     </Grid>
   );
 };
