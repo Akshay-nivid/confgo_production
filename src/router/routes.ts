@@ -37,6 +37,7 @@ const routes = {
   userEventRegistrationCompleted: () => "/user/event-registration-completed",
   userMyEvents:()=>"/user/my-event",
   formBuilder: () => "/formbuilder",
+  dynamicUserForm: () => "user/form",
 };
 
 export default routes;

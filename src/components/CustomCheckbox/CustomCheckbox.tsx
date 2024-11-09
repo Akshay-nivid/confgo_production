@@ -12,7 +12,7 @@ interface ICustomCheckbox<T extends FieldValues> {
   control: Control<T>;
   name: Path<T>| any;
   label?: string;
-  options: { label: string; value: string | number, checked?: boolean }[]; // Array of checkbox options
+  options: { label: string; value: string | number; checked?: boolean }[]; // Array of checkbox options
   labelPlacement?: "end" | "start" | "top" | "bottom";
   required?: boolean;
   disabled?: boolean;
@@ -54,7 +54,7 @@ const CustomCheckbox = <T extends FieldValues>({
           defaultValue={defaultValue}
           render={({ field }) => (
             <>
-              {options.map((option) => (
+              {options?.map((option) => (
                 <FormControlLabel
                   key={option.value}
                   control={
