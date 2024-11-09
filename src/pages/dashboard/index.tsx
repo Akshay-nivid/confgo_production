@@ -1,5 +1,41 @@
+/**
+ * Component handles the organization dashboard
+ */
+import Grid from "@mui/material/Grid2";
+import { WelcomeCard } from "./WelcomeCard";
+import { UpcomingEventCard } from "./UpcomingEventCard";
+import { ItemCard } from "./ItemCard";
+import EventHostedIcon from '@/assets/svg/events-hosted-icon.svg';
+import UsersRegisteredIcon from '@/assets/svg/users-registered-icon.svg';
+import AttendanceIcon from '@/assets/svg/attendance-icon.svg';
+import NewRegistrationsIcon from '@/assets/svg/new-registrations-icon.svg';
+import { EventListCard } from "./EventListCard";
+
+
 const Dashboard = () => {
-  return <div className="w-full h-full flex items-center justify-center"></div>;
+  return <Grid container size={{ xs: 12, sm: 12 }} spacing={2} className="dashboard" >
+    <Grid size={{ xs: 8, sm: 8 }} container >
+      <Grid size={{ xs: 12, sm: 12 }} container>
+        <Grid size={{ xs: 6, sm: 6 }} className="dashboard-welcome-card"><WelcomeCard /></Grid>
+        <Grid size={{ xs: 6, sm: 6 }} className="dashboard-upcoming-event-card"><UpcomingEventCard /></Grid>
+      </Grid>
+      <Grid size={{ xs: 12, sm: 12 }} container>
+        <Grid size={{ xs: 3, sm: 3 }} className="dashboard-item-card"><ItemCard label="Total Events Hosted" value="04" icon={<EventHostedIcon />} /></Grid>
+        <Grid size={{ xs: 3, sm: 3 }} className="dashboard-item-card"><ItemCard label="Total Users Registered" value="2000" icon={<UsersRegisteredIcon />} /></Grid>
+        <Grid size={{ xs: 3, sm: 3 }} className="dashboard-item-card"><ItemCard label="Event Attendance" value="80%" icon={<AttendanceIcon />} /></Grid>
+        <Grid size={{ xs: 3, sm: 3 }} className="dashboard-item-card"><ItemCard label="New Registrations" value="312" icon={<NewRegistrationsIcon />} /></Grid>
+      </Grid>
+      <Grid size={{ xs: 12, sm: 12 }} container className="dashboard-main-event-card">
+      </Grid>
+    </Grid>
+
+    <Grid size={{ xs: 4, sm: 4 }}>
+      {/* <CalendarCard /> */}
+      </Grid>
+    <Grid size={{ xs: 12, sm: 12 }} container direction={'column'}>
+        <Grid className="dashboard-event-list-card"><EventListCard /></Grid>
+    </Grid>
+  </Grid>;
 };
 
 export default Dashboard;
