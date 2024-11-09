@@ -54,9 +54,16 @@
     }
     &-display-item{
         height: 4.2rem;
-        background-color: $background;
         padding: 1rem !important;
         margin-bottom: 1.05rem !important;
+        border: 1px solid $clr_gray_very_light;
+        border-radius: 0.41rem;
+        &-name{
+
+        }
+        &-description{
+            
+        }
     }
     &-display-container{
         padding: 1rem !important;
@@ -86,7 +93,6 @@
     }
     &-form-container{
         padding-right: 1rem !important;
-        border-right: 1px solid $clr_gray_very_light;
     }
     &-add-ons-title{
         font-weight: $font_normal !important;
@@ -528,4 +534,7 @@
     border-radius: 0.3125rem 0 0 0;
     background: $clr_green !important;
   }
+}
+.share-invitation-drawer{
+	max-width: 40rem !important;
 }
