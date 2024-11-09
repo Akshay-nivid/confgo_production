@@ -517,8 +517,8 @@
         border: 0.03rem solid $clr_light_blue;
         border-radius: $p3;
         padding: $p4;
-        flex: 1 1 calc(30% - 6px);
-        max-width: calc(30% - 2px);
+        flex: 1 1 calc(30% - .375rem);
+        max-width: calc(30% - .125rem);
         min-width: 11.25rem;
         box-sizing: border-box;
         height: 11rem;

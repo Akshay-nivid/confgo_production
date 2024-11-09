@@ -46,7 +46,6 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
 
 
   const closeDrawer = () => setDataById('sessions', {drawerOpen: false});
-  console.log(session,'session')
   /**
    * Function used at while editing the sessions
    */

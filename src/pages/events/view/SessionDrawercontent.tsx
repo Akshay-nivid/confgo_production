@@ -46,7 +46,9 @@ interface SessionDrawerContentProps {
   
     const isPaid = watch("isPaid");
   
-    // Prevent the drawer from opening if isAddon is true
+    /** 
+     *  Prevent the drawer from opening if isAddon is true
+    */
     useEffect(() => {
       if (isAddon) {
         closeDrawer();  // Ensure drawer is closed if isAddon is true
@@ -74,7 +76,10 @@ interface SessionDrawerContentProps {
         });
       }
     }, [isEditing, selectedProgram, reset, setValue]);
-  
+
+  /**
+   * making the field price 0 if free
+   */
     useEffect(() => {
         if (isPaid === "FREE") setValue("price", 0);
       }, [isPaid, setShowPriceField, setValue]);
