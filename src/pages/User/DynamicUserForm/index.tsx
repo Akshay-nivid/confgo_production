@@ -10,7 +10,7 @@ import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import useStore from "@/Libs/store";
 import CustomDatePicker from "@/components/CustomDatePicker/CustomDatePicker";
-import { Logger } from "@/Utils/Logger";
+
 
 interface Option {
   value: string;
@@ -35,14 +35,20 @@ interface FormField {
 
 const DynamicUserForm = () => {
   const { control, handleSubmit } = useForm();
+  const setDataById = useStore((state) => state.setDataById);
+  const dynamicFormData = useStore((state: any) => state?.compData?.["dynamicFormData"]) ?? [];
+  const POST = useStore((state: any) => state.POST);
 
-const POST = useStore((state: any) => state.POST);
-
+  /**
+   * 
+   * Method to render form field 
+   * @param field : individual field data 
+   * 
+   */
   const renderFormField = (field: FormField) => {
+    
     const { id, metadata } = field;
-
-    const isRequired =
-      metadata.required && metadata?.required?.includes("true");
+    const isRequired = metadata.required && metadata?.required?.includes("true");
 
     const commonProps = {
       control,
@@ -140,6 +146,13 @@ const POST = useStore((state: any) => state.POST);
     }
   };
 
+  /**
+   * 
+   * fucntion to handle form submition
+   * @param data :form data
+   * 
+   * 
+   */
   const handleFormSubmit = (data: any) => {
 
     const formData = Object.entries(data).map(([key,value]:[string,any]) => {
@@ -155,13 +168,14 @@ const POST = useStore((state: any) => state.POST);
       data:formData
     }
 
-    POST({url:'registrationRecord',body:body,id:'registrationRecord',successCB:(data:any)=>{Logger._log("data",data)},errorCB:()=>{}})
+    POST({ url: 'registrationRecord', body: body, id: 'registrationRecord' })
     return formData
   };
 
-  const setDataById = useStore((state) => state.setDataById);
-  const dynamicFormData =
-    useStore((state: any) => state?.compData?.["dynamicFormData"]) ?? [];
+  /**
+   * function to get custom form data from api
+   *  
+   * */ 
 
   useEffect(() => {
     const fetchDynamicFormData = async () => {
