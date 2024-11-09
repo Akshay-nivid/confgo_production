@@ -36,6 +36,7 @@
         flex: 1;
         flex-grow: 1; 
         background-color: $background;
+        overflow-y: auto;
       }
     }
   }
@@ -90,7 +91,6 @@
 
   .active-link {
     color: $clr_blue;
-
     span {
       color: $clr_blue !important;
     }

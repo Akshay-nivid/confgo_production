@@ -25,6 +25,8 @@ const routes = {
   participantHome: () => "/participant/home",
   userLogin: () => "/user/login",
   userHome: () => "/user/dashboard",
+  paymentHistory:()=>"user/payment-history",
+  upcomingEvents:()=>"user/upComingEvents",
   userRegister: () => "/user/register",
   userOtp: () => "/user/otp",
   userSetPassword: () => "/user/setpassword",
@@ -33,7 +35,10 @@ const routes = {
   selectedPrograms: () => "/user/selected-programs",
   userPaymentMethod: () => "/user/payment",
   userEventRegistrationCompleted: () => "/user/event-registration-completed",
+  userMyEvents:()=>"/user/my-event",
   formBuilder: () => "/formbuilder",
+  dynamicUserForm: () => "user/form",
+  userCoupons:()=>"user/coupons"
 };
 
 export default routes;
