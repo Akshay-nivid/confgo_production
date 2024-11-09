@@ -3,10 +3,8 @@ import Grid from "@mui/material/Grid2";
 import moment from "moment";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
-import { useState, useEffect, Key } from "react";
+import { useState, Key } from "react";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import apiClient from "@/Libs/Https/API-client";
-import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import { Logger } from "@/Utils/Logger";
 import SessionDrawerContent from "./SessionDrawercontent";
 import SessionCard from "./sessionCard";
@@ -27,33 +25,28 @@ interface Program {
  *  Componet to list the sessions
  */
 const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
-  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
-  const [showPriceField, setShowPriceField] = useState<boolean>(false);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [isAddon, setIsAddon] = useState<boolean>(false);
+    const session = useStore((state) => state?.compData?.["sessions"]) ?? {};
+      const { drawerOpen, isEditing, isAddon } = session;
   const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
-  const [addOnOptions, setAddOnOptions] = useState<
-    { label: string; value: string }[]
-  >([]);
+
   const [selectedProgramId, setSelectedProgramId] = useState(null);
   const [programs, setPrograms] = useState(eventData.programs || []);
   const addons = eventData.addons || [];
-  const [editorContent, setEditorContent] = useState<string>("");
   const parentId = eventData.id;
-  const POST = useStore((state: any) => state.POST);
+  const POST = useStore((state) => state.POST);
+  const setDataById = useStore((state) => state.setDataById);
 
   /**
    * Function used at while adding
    */
   const handleAddClick = () => {
-    setShowPriceField(false);
-    setIsEditing(false);
-    setIsAddon(false);
-    setDrawerOpen(true);
+
+    setDataById('sessions', {drawerOpen:true, isEditing:false, idAddon:false, showPriceField:false})
   };
 
-  const closeDrawer = () => setDrawerOpen(false);
 
+  const closeDrawer = () => setDataById('sessions', {drawerOpen: false});
+  console.log(session,'session')
   /**
    * Function used at while editing the sessions
    */
@@ -65,37 +58,16 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
         isPaid: item.amount > 0 ? "PAID" : "FREE",
       });
       setSelectedProgramId(id);
-      setIsEditing(true);
-      setIsAddon(false);
+      setDataById('sessions', {isEditing: true, isAddon:false})
     } else if (item.type === "addon") {
       setSelectedProgram({
         ...item,
         isPaid: "FREE",
       });
-      setIsEditing(false);
-      setIsAddon(true);
+      setDataById('sessions', {isEditing: false, isAddon: true})
     }
-    setDrawerOpen(true);
+    setDataById('sessions', {drawerOpen: true})
   };
-
-  /**
-   * To get the list of addons
-   */
-  const handleAddOnOptionsApiCall = async () => {
-    const response = await apiClient.post("addon/list", {});
-    const { status, data } = await processAPIResponse(response, "event-add-on");
-    if (status) {
-      const optionsData = data.map((item: { name: string; id: string }) => ({
-        label: item.name,
-        value: item.id,
-      }));
-      setAddOnOptions(optionsData);
-    }
-  };
-
-  useEffect(() => {
-    handleAddOnOptionsApiCall();
-  }, []);
 
   /**
    * Submiting the datas according to the conditions
@@ -115,58 +87,44 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
     };
 
     try {
-      const addEndpoint = isAddon ? `/addon/add` : `/event/program/add`;
-
-      if (isEditing && selectedProgramId) {
-        // Define the success callback function
+        const url = isEditing && selectedProgramId 
+          ? `/event/update/${selectedProgramId}`
+          : isAddon 
+            ? `/addon/add` 
+            : `/event/program/add`;
+      
         const successCB = (response: any) => {
-          // Update the programs state with the modified program data
-          setPrograms((prevPrograms: { id: any }[]) =>
-            prevPrograms.map((prog: { id: any }) =>
-              prog.id === selectedProgramId ? { ...prog, ...programData } : prog
-            )
-          );
-        };
-
-        // Define the error callback function
-        const errorCB = (error: any) => {
-          Logger.error("Error updating program", error);
-        };
-
-        // Make the API call using the new POST function format
-        POST({
-          url: `event/update/${selectedProgramId}`,
-          body: programData,
-          id: "updateProgram",
-          successCB,
-          errorCB,
-        });
-      } else {
-        // Define the success callback function for adding a new program/addon
-        const successCB = (response: any) => {
-          if (isAddon) {
-            setAddons((prevAddons) => [...prevAddons, response.data]);
+          if (isEditing && selectedProgramId) {
+            setPrograms((prevPrograms: { id: any }[]) =>
+              prevPrograms.map((prog: { id: any }) =>
+                prog.id === selectedProgramId ? { ...prog, ...programData } : prog
+              )
+            );
           } else {
-            setPrograms((prevPrograms) => [...prevPrograms, response.data]);
+            if (isAddon) {
+              addons((prevAddons) => [...prevAddons, response.data]);
+            } else {
+              setPrograms((prevPrograms) => [...prevPrograms, response.data]);
+            }
           }
-          Logger.error("Creation successful:", response.data);
+          Logger.info("Operation successful:", response.data);
         };
-
-        // Define the error callback function for adding
+      
         const errorCB = (error: any) => {
-          Logger.error("Error adding program/addon", error);
+          const action = isEditing ? "updating" : "adding";
+          Logger.error(`Error ${action} program/addon`, error);
         };
+      
         POST({
-          url: addEndpoint,
+          url,
           body: programData,
-          id: "addProgramOrAddon",
+          id: isEditing ? "updateProgram" : "addProgramOrAddon",
           successCB,
           errorCB,
         });
-      }
-    } catch (error) {
-      Logger.error("Error updating data:", error);
-    }
+      } catch (error) {
+        Logger.error("Error processing data:", error);
+      } 
   };
 
   // Combine and sort programs and addons by startTime in ascending order
@@ -205,7 +163,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
         <CustomButton
           className="event-detail-speakers-card-speaker-add-button"
           variant="outlined"
-          label=" + Add"
+          label=" + Add Program"
           onClick={handleAddClick}
         />
       </Grid>
@@ -215,12 +173,13 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
         <Grid size={{ xs: 12 }} key="invalid">
           <Grid container spacing={2} className="event-sessions-session-list">
             {groupedData.invalid.map(
-              (item: unknown, index: Key | null | undefined) => (
+              (item:  { addon: { name: any } }, index: Key | null | undefined) => (
                 <SessionCard
                   key={index}
                   item={item}
                   onEditClick={handleEditClick}
                   titleField="name"
+                  hasAddOns={item.addon ? true : false}
                   startTimeField="startTime"
                   endTimeField="endTime"
                   fields={[
@@ -228,7 +187,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
                     {
                       label: "Price",
                       field: "amount",
-                      format: (value) => (value > 0 ? `$${value}` : "Free"),
+                      format: (value) => (value > 0 ? `${value}` : "Free"),
                     },
                   ]}
                 />
@@ -263,6 +222,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
                   <SessionCard
                     key={index}
                     item={item}
+                    hasAddOns={item.addon ? true : false}
                     onEditClick={handleEditClick}
                     titleField={
                       item.addon && item.addon.name ? "addon.name" : "name"
@@ -277,7 +237,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
                       {
                         label: "Price",
                         field: "amount",
-                        format: (value) => (value > 0 ? `$${value}` : "Free"),
+                        format: (value) => (value > 0 ? `${value}` : "Free"),
                       },
                     ]}
                   />
@@ -294,11 +254,9 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
             isEditing={isEditing}
             isAddon={isAddon}
             selectedProgram={selectedProgram}
-            setShowPriceField={setShowPriceField}
-            setEditorContent={setEditorContent}
+            setShowPriceField={(show: boolean)=>{}}
             onSubmit={onSubmit}
             closeDrawer={closeDrawer}
-            addOnOptions={addOnOptions}
           />
         }
       />
