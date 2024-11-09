@@ -14,6 +14,11 @@ type ISourceProps = {
     [key: string]: any;
 }
 
+/**
+ * Component used register childrens in store
+ * @param props 
+ * @returns 
+ */
 export function registerComponent(props: Props) {
     const state = useStore((state: any) => state.compData?.[props?.id]);
     const POST = useStore((state: any) => state.POST);
