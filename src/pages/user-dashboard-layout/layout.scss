@@ -12,6 +12,9 @@
   height: 100vh;
   overflow: hidden;
 
+  &-sidebar{
+   max-width:25rem !important;
+  }
   &-grid-wrapper {
     flex: 1;
     overflow: hidden;
@@ -21,16 +24,17 @@
     background-color: $background;
     height: 100%;
     width: 100%;
-
+    display: flex;
     &-outlet-grid {
       overflow: hidden;
       height: 100%;
       width: 100%;
       flex-direction: column;
       display: flex;
-
+      flex-grow: 1; 
       &-outlet-wrapper {
         flex: 1;
+        flex-grow: 1; 
         background-color: $background;
       }
     }
@@ -127,6 +131,7 @@
   }
 
   &-notification {
+    position: relative;
     border: 0.1rem solid $clr_light_border_grey;
     position: relative;
     border-radius: 0.8rem;
@@ -134,8 +139,8 @@
     align-items: center;
     justify-content: center;
     margin-right: 1rem;
-    width: 5rem;
-    height: 5rem;
+    width: 4.6rem;
+    height: 4.6rem;
 
     &-icon {
       display: flex;
@@ -143,10 +148,10 @@
       font-size: 2.6rem; // For scaling the icon size if it is an inline SVG or uses font size
     }
 
-    &-badge {
-      position: "absolute";
-      top: 2 !important;
-      right: 2 !important;
+    &-badge .MuiBadge-badge {
+      position: absolute !important;
+      top: -2rem !important;  
+      right: -1rem !important;
       background-color: $clr_blue;
       color: $clr_white;
       font-size: 0.75rem;
@@ -155,9 +160,8 @@
   }
 
   &-group {
-    display: flex;
+  display: flex;
   align-items: center;
-  padding: 0.5rem;
   border-radius: 0.8rem;
   border: 0.1rem solid $clr_light_border_grey;
   margin-right: 3.166rem;
@@ -175,8 +179,8 @@
     }
 
     &-img {
-      width: 5rem !important;
-      height: 5rem !important;
+      width: 4.6rem !important;
+      height: 4.6rem !important;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -192,6 +196,9 @@
       }
     }
 
+    &-textgroup{
+      margin-left: 1rem;
+    }
     &-subheader-text {
       font-size: 0.95rem !important;
       font-weight: 600;
@@ -252,8 +259,8 @@
     text-align: center;
     padding: 2;
     background: $background !important;
-    width: 14rem;
-    height: 14rem;
+    width: 15rem;
+    height: 14.5rem;
 
     &-icon {
       display: flex;
