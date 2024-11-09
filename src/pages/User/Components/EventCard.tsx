@@ -1,10 +1,9 @@
 import React from 'react';
 import Grid from '@mui/material/Grid2';
 import {Typography } from '@mui/material';
-import { formatDateDayMonthYear } from '@/Utils/DateFormat';
 import StatusComponent from '@/components/Status/StatusComponent';
 import CustomButton from '@/components/CustomButton/CustomButton';
-
+import { formatDateDayMonthYear, toTitleCase } from '@/Utils/CommonBaseClass';
 
 interface EventProps {
     datetitle: string;
@@ -21,20 +20,10 @@ interface EventProps {
     Eventstatus?:boolean;
 }
 /**
- * 
+ * user Dashboard eventCard component
  */
-const toTitleCase = (str: string | undefined): string => {
-    if (!str) return '';
-    return str
-        .toLowerCase()
-        .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
-};
-
 const EventCard: React.FC<EventProps> = React.memo(({eventFullData, datetitle, title, location, viewButton,buttonPress,squareButton,squareButtonLabels,onSquareButtonClick,Eventstatus }) => {
-    console.log("title",title);
-    
+
     return (
         <Grid container className="event-card" spacing={1} flexDirection={"column"}>
             <Grid container className="event-card-date-box" justifyContent={"center"}>

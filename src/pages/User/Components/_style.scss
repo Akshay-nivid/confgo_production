@@ -2,7 +2,6 @@
     border: solid 0.1rem $clr_light_sky_blue;
     background-color: $clr_white;
     width: 30.688rem;
-    height: 18.563rem;
     border-radius: 0.5rem;
     padding: 1rem;
     margin-left:0.9375rem;
@@ -29,14 +28,14 @@
     &-location{
         font-family: $font;
         font-size:$p2 !important; 
-        font-weight: 500;
+        font-weight:$font_medium;
         color:$clr_black;
         text-align:padding-top;
     }
     &-status{
         font-family: $font;
         font-size:$p2 !important; 
-        font-weight: 500;
+        font-weight: $font_medium;
         line-height: 1.059rem;
         margin-top: 1.25rem;
         color:$clr_black;

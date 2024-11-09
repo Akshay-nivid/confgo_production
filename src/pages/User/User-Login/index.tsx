@@ -12,7 +12,8 @@ import { jwtDecode } from 'jwt-decode';
 import { Logger } from '@/Utils/Logger';
 import useStore from '@/Libs/store';
 import { registerComponent } from '@/Libs/DataHandler/dataHandler';
-import { userType } from '@/pages/ForgotPassword/ForgotPassword';
+import { userType } from '@/Utils/CommonBaseClass';
+
 interface IUserLogin {
   username: string;
   password: string;
