@@ -9,38 +9,7 @@ import apiClient from "@/Libs/Https/API-client";
 import { NoEventSvg } from "@/assets/svg"
 import { Logger } from "@/Utils/Logger";
 import React from "react";
-/**
- * 
- * @returns response interface
- */
-interface EventResponse {
-  details: {
-    id: number;
-    registrationType: string;
-    eventId: number;
-    amountPaid: string;
-    qrCode: string | null;
-    userId: number;
-    participantTypeId: number;
-    createdBy: number;
-    createdOn: string;
-    modifiedBy: number;
-    modifiedOn: string;
-    user: {
-      id: number;
-      firstName: string;
-      lastName: string;
-      phone: string;
-      email: string;
-      phoneVerified: boolean;
-      isSsoUser: boolean;
-      ssoMetadata: string | null;
-      statusId: number | null;
-      acceptedTerms: boolean | null;
-    };
-  };
-  programs: Program[];
-}
+
 /**
  * Interface for a Program, which contains the event details
  */
@@ -89,7 +58,7 @@ const MyEventScreen: React.FC = () => {
   const [searchResults, setSearchResults] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [event, setEvent] = useState<Program[]>([]);
-  const [source, setSource] = useState<any>([]);
+  // const [source, setSource] = useState<any>([]);
 
   /**
    *  Fetch event details when the component mounts
@@ -129,18 +98,18 @@ const MyEventScreen: React.FC = () => {
  */
   const handleAutocompleteChange = (selected: any) => {
     if (selected) {
-      setSource({
-        method: "GET",
-        data: {
-          offset: 0,
-          limit: 5,
-          filters: {
-            id: selected.id,
-          },
-        },
-        url: `event/list`,
-        listName: "eventList",
-      });
+      // setSource({
+      //   method: "GET",
+      //   data: {
+      //     offset: 0,
+      //     limit: 5,
+      //     filters: {
+      //       id: selected.id,
+      //     },
+      //   },
+      //   url: `event/list`,
+      //   listName: "eventList",
+      // });
     }
   };
   /**

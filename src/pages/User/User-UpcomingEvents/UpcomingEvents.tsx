@@ -15,7 +15,7 @@ const UpcomingEvents: React.FC = React.memo(() => {
     const { control } = useForm();
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [source, setSource] = useState<any>([])
+    // const [source, setSource] = useState<any>([])
     /**
     * Function to handle search API for autocomplete
     */
@@ -47,18 +47,18 @@ const UpcomingEvents: React.FC = React.memo(() => {
    */
     const handleAutocompleteChange = (selected: any) => {
         if (selected) {
-            setSource({
-                method: "GET",
-                data: {
-                    offset: 0,
-                    limit: 5,
-                    filters: {
-                        id: selected.id,
-                    },
-                },
-                url: `event/list`,
-                listName: "eventList",
-            });
+            // setSource({
+            //     method: "GET",
+            //     data: {
+            //         offset: 0,
+            //         limit: 5,
+            //         filters: {
+            //             id: selected.id,
+            //         },
+            //     },
+            //     url: `event/list`,
+            //     listName: "eventList",
+            // });
         }
     };
     /**
@@ -95,10 +95,10 @@ const UpcomingEvents: React.FC = React.memo(() => {
     };
     return (
 
-        <Grid className="my-event" container spacing={2}>
+        <Grid className="my-upComing-event" container spacing={2}>
             <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} flexDirection={"row"}>
                 <Grid size={{ xs: 6 }} >
-                    <Typography className="my-event-header">Upcoming Events</Typography>
+                    <Typography className="my-upComing-event-header">Upcoming Events</Typography>
                 </Grid>
                 <Grid size={{ xs: 6 }}>
                     <CustomAutocomplete

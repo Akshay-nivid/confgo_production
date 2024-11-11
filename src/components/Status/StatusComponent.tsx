@@ -16,10 +16,10 @@ interface AppBarProps {
 const StatusComponent: React.FC<AppBarProps> = ({ value ,className}) => {
   const statusValues: any = [
     { id: "0", textColor: '#D6983A', cellColor: '#FFECDF' },
+    { id: "1", textColor: '#0CAF60', cellColor: '#E7F7EF' },
     { id: "5", textColor: '#0CAF60', cellColor: '#E7F7EF' },
     { id: ["2", "3"],  textColor: '#D32C2C', cellColor: '#FFE8EC'},
     { id: "4", textColor: '#2C3CD3', cellColor: '#E8EBFF' },
-    { id: "1", textColor: '#0CAF60', cellColor: '#E7F7EF' },
   ];
 
 /**
@@ -33,7 +33,7 @@ const StatusComponent: React.FC<AppBarProps> = ({ value ,className}) => {
  * - "4" returns "Complete" 
    * */ 
   const getStatusValue = (id: string) => {
-    switch (id) {
+    switch (id.toString()) {
       case "1":
         return "Active";
       case "2":

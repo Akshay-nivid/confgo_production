@@ -12,7 +12,7 @@ interface CompData {
 
 type ApiRequestOptions = {
     url: string;
-    body: any;
+    body?: any;
     id: string;
     successCB?: (context: any) => void;
     errorCB?: (context: any) => void;
@@ -25,6 +25,9 @@ interface StoreState {
     setUserInfo: (data: any) => void;
     resetStore: () => void;
     POST: (params: ApiRequestOptions) => void;
+    GET: (params: ApiRequestOptions) => void;
+    PUT: (params: ApiRequestOptions) => void;
+    DELETE: (params: ApiRequestOptions) => void;
 }
 
 /**
@@ -94,72 +97,72 @@ const useStore = create<StoreState>()(
 
             POST: async ({ url, body, id, successCB, errorCB }: ApiRequestOptions) => {
                 // Set loading state
-                get().setDataById(id, { context: { loading: true } });
+                get().setDataById(id, { [url]: { loading: true } });
                 // Make API call
                 const response = await apiClient.post(url, body);
                 const { status, data, message } = processAPIResponse(response, id);
                 if (status) {
                     let context = { data: data, loading: false, success: true }
-                    get().setDataById(id, { context, timestamp: Date.now() });
+                    get().setDataById(id, { [url]: { ...context }, timestamp: Date.now() });
                     successCB?.(context);
 
                 } else {
                     let context = { data: data, loading: false, message:message }
-                    get().setDataById(id, { message, context });
+                    get().setDataById(id, { message, [url]: { ...context } });
                     errorCB?.(context)
                 }
                 return { status, data, message };
             },
             GET: async ({ url,  id, successCB, errorCB }: ApiRequestOptions) => {
                 // Set loading state
-                get().setDataById(id, { context: { loading: true } });
+                get().setDataById(id, { [url]: { loading: true } });
                 // Make API call
                 const response = await apiClient.get(url);
                 const { status, data, message } = processAPIResponse(response, id);
                 if (status) {
                     let context = { data: data, loading: false, success: true }
-                    get().setDataById(id, { context, timestamp: Date.now() });
+                    get().setDataById(id, { [url]: { ...context }, timestamp: Date.now() });
                     successCB?.(context);
 
                 } else {
                     let context = { data: data, loading: false, message:message }
-                    get().setDataById(id, { message, context });
+                    get().setDataById(id, { message, [url]: { ...context } });
                     errorCB?.(context)
                 }
                 return { status, data, message };
             },
             PUT: async ({ url, body, id, successCB, errorCB }: ApiRequestOptions) => {
                 // Set loading state
-                get().setDataById(id, { context: { loading: true } });
+                get().setDataById(id, { [url]: { loading: true } });
                 // Make API call
                 const response = await apiClient.put(url, body);
                 const { status, data, message } = processAPIResponse(response, id);
                 if (status) {
                     let context = { data: data, loading: false, success: true }
-                    get().setDataById(id, { context, timestamp: Date.now() });
+                    get().setDataById(id, { [url]: { ...context }, timestamp: Date.now() });
                     successCB?.(context);
 
                 } else {
                     let context = { data: data, loading: false, message:message }
-                    get().setDataById(id, { message, context });
+                    get().setDataById(id, { message, [url]: { ...context } });
                     errorCB?.(context)
                 }
                 return { status, data, message };
             },
             DELETE: async ({ url,  id, successCB, errorCB }: ApiRequestOptions) => {
                 // Set loading state
-                get().setDataById(id, { context: { loading: true } });
+                get().setDataById(id, { [url]: { loading: true } });
                 // Make API call
                 const response = await apiClient.delete(url);
                 const { status, data, message } = processAPIResponse(response, id);
                 if (status) {
                     let context = { data: data, loading: false, success: true }
-                    get().setDataById(id, { context, timestamp: Date.now() });
+                    get().setDataById(id, { [url]: { ...context }, timestamp: Date.now() });
                     successCB?.(context);
 
                 } else {
                     let context = { data: data, loading: false, message:message }
-                    get().setDataById(id, { message, context });
+                    get().setDataById(id, { message, [url]: { ...context } });
                     errorCB?.(context)
                 }
                 return { status, data, message };
