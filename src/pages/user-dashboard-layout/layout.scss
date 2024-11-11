@@ -74,7 +74,7 @@
   .MuiListItemButton-root {
     display: flex;
     column-gap: 0.483rem;
-    padding: 0.5rem 1.666rem;
+    padding: 0.5rem 6rem;
     border-radius: 0.417rem;
     font-size: 1.5rem;
     color: $clr_black;
@@ -174,12 +174,12 @@
     &-text {
       text-align: left;
       line-height: 1.1rem;
-      font-size: 1.166rem !important;
+      font-size: 1rem !important;
       font-weight: 600 !important;
     }
 
     &-img {
-      width: 4.6rem !important;
+      width: 4rem !important;
       height: 4.6rem !important;
       display: flex;
       justify-content: center;
@@ -197,7 +197,7 @@
     }
 
     &-textgroup{
-      margin-left: 1rem;
+      margin-left: 1.3rem;
     }
     &-subheader-text {
       font-size: 0.95rem !important;
@@ -205,11 +205,15 @@
       text-align: left;
       color: $clr_gray_light;
     }
-
+    &-arrow-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
     &-arrow-down {
-      width: 1.8rem !important;
-      height: 1.8rem !important;
-      color: black;
+      color: black; /* Apply the color directly to the SVG */
+      width: 2rem;
+      height: 2rem;
     }
   }
 }
@@ -254,14 +258,18 @@
     font-size: $h4 !important;
     font-weight: $font_semibold !important;
   }
-
+  &-subhead {
+    margin-left: 1rem !important;
+    font-size: 1rem !important;
+    font-weight: $font_semibold !important;
+  }
   &-card {
     text-align: center;
     padding: 2;
     background: $background !important;
     width: 15rem;
     height: 14.5rem;
-
+    cursor: pointer;
     &-icon {
       display: flex;
       justify-content: center;
@@ -292,5 +300,11 @@
   & .menu-item-text {
     font-size: 1.125rem;
     margin-left: 0.75rem;
+    font-weight: $font_medium;
+
+  }
+  & .menu-item-margin {
+   margin-bottom: 0.5rem;
+   margin-top: 0.6rem;
   }
 }

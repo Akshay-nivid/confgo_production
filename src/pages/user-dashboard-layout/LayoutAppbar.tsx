@@ -1,17 +1,30 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
-import { Badge, Divider, Menu, MenuItem } from '@mui/material';
+import { Avatar, Badge, Divider, Menu, MenuItem } from '@mui/material';
 import { ArrowDropDownOutlined } from '@mui/icons-material';
-import { SettingsIcon, LogoutIcon, CalendarEventIcon } from '@/assets/svg';
+import { SettingsIcon, LogoutIcon, CalendarEventIcon, DownArrowSvg } from '@/assets/svg';
 import Grid from '@mui/material/Grid2';
+import { useNavigate } from 'react-router-dom';
+import routes from '@/router/routes';
+import { toSentenceCase } from '@/Utils/CommonBaseClass';
 
+interface LayoutAppbarProps {
+  userDetails: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    username: string;
+    userRole: { roleName: string };
+  };
+}
 /**
  * ui component for appbar in user dashboard
  * @author Neethu
  */
-const LayoutAppbar: React.FC = React.memo(() => {
+const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
+  const navigate = useNavigate();
+  
   /**
    * handle appbar open
    */
@@ -25,7 +38,24 @@ const LayoutAppbar: React.FC = React.memo(() => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+  /**
+   * Logout functionality
+   */
+  const handleLogout = () => {
+    // Clear sessionStorage and localStorage
+    sessionStorage.clear();
+    localStorage.clear();
 
+    // Navigate to login
+    navigate(routes.userLogin()); 
+  };
+
+    /**
+   * Account settings
+   */
+    const handleAccountSettings = () => {
+    };
+  
   return (
     <Grid container className="appbar">
       <Grid size={2} className="appbar-logo-container">
@@ -42,23 +72,23 @@ const LayoutAppbar: React.FC = React.memo(() => {
             className='appbar-notification-badge'
           />
         </Grid>
-        <Grid container className="appbar-group" onClick={handleMenuOpen}>
+        <Grid container size={2} className="appbar-group" onClick={handleMenuOpen}>
           {/*Image */}
-          <Grid size={2} className="appbar-group-img" >
+          <Grid size={1} className="appbar-group-img" mb={0}>
             <img src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHByb2ZpbGV8ZW58MHx8MHx8fDA%3D" alt="User" />
           </Grid>
           {/* Name and Role */}
-          <Grid size={8}>
+          <Grid container size={7} className="appbar-group-textgroup">
             <Grid size={12}>
-              <Typography className="appbar-group-text">Andrew Class</Typography>
+              <Typography className="appbar-group-text">{userDetails?.firstName} {userDetails?.lastName}</Typography>
             </Grid>
             <Grid size={12}>
-              <Typography className="appbar-group-subheader-text">Admin</Typography>
+              <Typography className="appbar-group-subheader-text">{toSentenceCase(userDetails?.userRole?.roleName)}</Typography>
             </Grid>
           </Grid>
           {/* Arrow Dropdown Icon */}
-          <Grid size={2}>
-            <ArrowDropDownOutlined className="appbar-group-arrow-down" />
+          <Grid size={1} className="appbar-group-arrow-container">
+            <DownArrowSvg className="appbar-group-arrow-down" />
           </Grid>
         </Grid>
         <Menu
@@ -68,11 +98,19 @@ const LayoutAppbar: React.FC = React.memo(() => {
           className="user-profile-menu"
         >
           <MenuItem className="">
-            <SettingsIcon />
-            <span className="menu-item-text">Account Settings</span>
+          <Avatar
+              alt="user-image"
+              src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHByb2ZpbGV8ZW58MHx8MHx8fDA%3D"
+            />
+            <span className="menu-item-text">{userDetails?.firstName} {userDetails?.lastName}</span>
+           
           </MenuItem>
           <Divider />
-          <MenuItem className="">
+          <MenuItem className="menu-item-margin" onClick={handleLogout}>
+            <SettingsIcon />
+            <span className="menu-item-text">Profile</span>
+          </MenuItem>
+          <MenuItem className="" onClick={handleLogout}>
             <LogoutIcon />
             <span className="menu-item-text text-danger">Logout</span>
           </MenuItem>

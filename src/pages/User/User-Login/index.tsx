@@ -70,6 +70,7 @@ const UserLogin = (props: UserProps) => {
         sessionStorage.setItem("token", success.data?.token);
         sessionStorage.setItem("userId", success.data?.userRole?.id.toString());
         setDataById('participantLogin', true);
+        setDataById('userDetails', success.data);
         setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
         if(success?.data?.userRole?.roleName==="USER"){
           navigate(routes.userHome());
