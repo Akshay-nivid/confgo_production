@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import { Avatar, Badge, Divider, Menu, MenuItem } from '@mui/material';
-import { ArrowDropDownOutlined } from '@mui/icons-material';
 import { SettingsIcon, LogoutIcon, CalendarEventIcon, DownArrowSvg } from '@/assets/svg';
 import Grid from '@mui/material/Grid2';
 import { useNavigate } from 'react-router-dom';
@@ -53,8 +52,8 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
     /**
    * Account settings
    */
-    const handleAccountSettings = () => {
-    };
+    // const handleAccountSettings = () => {
+    // };
   
   return (
     <Grid container className="appbar">

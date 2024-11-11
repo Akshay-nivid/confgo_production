@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { CouponDashboardIcon,CalendarEventIcon, DashboardUserIcon } from '@/assets/svg';
-import { Drawer,List,ListItem,ListItemText,ListItemButton,useMediaQuery } from '@mui/material';
+import { CouponDashboardIcon, CalendarEventIcon, DashboardUserIcon } from '@/assets/svg';
+import {  Drawer, List, ListItem, ListItemText, ListItemButton, useMediaQuery } from '@mui/material';
 import { EventIcon, PaymentHistoryIcon } from '@/assets/svg';
 import routes from '@/router/routes';
 
@@ -24,12 +24,6 @@ const sidebarItems = [
     exact: false,
   },
   {
-    path: routes.upcomingEvents(),
-    icon: EventIcon,
-    label: 'Upcoming Events',
-    exact: false,
-  },
-  {
     path: routes.paymentHistory(),
     icon: PaymentHistoryIcon,
     label: 'Payment History',
@@ -47,6 +41,12 @@ const sidebarItems = [
     label: 'Calendar',
     exact: false,
   },
+  {
+    path: routes.calendar(), 
+    icon: DashboardUserIcon,
+    label: 'Settings',
+    exact: false,
+  },
 ];
 
 const Sidebar: React.FC<SidebarProps> = ({ open, onClose }) => {
@@ -61,10 +61,10 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose }) => {
 
   return (
     <Drawer
-      variant={isMobile ? 'temporary' : 'persistent'} // 'temporary' on mobile for minimizable drawer
+      variant={isMobile ? 'temporary' : 'persistent'}
       anchor="left"
       open={open}
-      onClose={onClose} // Close drawer in mobile view when clicking outside
+      onClose={onClose} 
       className="sidebar-dashboard"
       ModalProps={{
         keepMounted: true, // Keeps the drawer in the DOM on mobile to avoid reloading
@@ -76,18 +76,23 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose }) => {
             const isActive = isActiveLink(item.path, item.exact);
 
             return (
-              <NavLink to={item.path} key={item.path} onClick={isMobile ? onClose : undefined}>
-                <ListItem>
-                  <ListItemButton>
-                    <item.icon
-                      className={isActive ? 'sidebar-list-active-drawer-icon' : ''}
-                    />
-                    <ListItemText className={isActive ? 'active-link' : ''}>
-                      {item.label}
-                    </ListItemText>
-                  </ListItemButton>
-                </ListItem>
-              </NavLink>
+              <React.Fragment key={item.path}>
+                <NavLink to={item.path} onClick={isMobile ? onClose : undefined}>
+                  <ListItem>
+                    <ListItemButton>
+                      <item.icon className={isActive ? 'sidebar-list-active-drawer-icon' : ''} />
+                      <ListItemText className={isActive ? 'active-link' : ''}>
+                        {item.label}
+                      </ListItemText>
+                    </ListItemButton>
+                  </ListItem>
+                </NavLink>
+
+                {/* Add divider after Calendar item and apply margin
+                {item.label === 'Calendar' && <Divider sx={{ margin: '1rem 0' }} />}
+
+                */}
+              </React.Fragment>
             );
           })}
         </List>
