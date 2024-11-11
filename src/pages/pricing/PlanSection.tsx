@@ -2,12 +2,82 @@ import CustomButton from '@/components/CustomButton/CustomButton';
 import Grid from '@mui/material/Grid2';
 import { PlanCard } from './PlanCard';
 import Typography from '@mui/material/Typography/Typography';
+import { useEffect, useState } from 'react';
+import useStore from '@/Libs/store';
+import { useNavigate } from 'react-router-dom';
+import apiClient from '@/Libs/Https/API-client';
+import { processAPIResponse } from '@/Utils/CommonBaseClass';
+import { Logger } from '@/Utils/Logger';
 
 /**
  * Plan Section ui component
  * @returns
  */
+
+type PlanType = {
+  id: number;
+  name: string;
+  amount: string; 
+  currency: string | null;
+  validityDay: number;
+  statusId: number;
+  assetId: number | null; 
+  createdBy: string | null;
+  createdOn: string; 
+  description: string | null; 
+  modifiedBy: string | null; 
+  modifiedOn: string; 
+  planPropertyAssignments: Array<[]> |null; 
+};
 export const PlanSection = () => {
+  const [currentPlan, setcurrentPlan] = useState('');
+  const form1 = useStore((state: any) => state?.compData?.['form1']) ?? [];
+  const { setDataById }: any = useStore();
+
+  const [loading, setLoading] = useState(true);
+
+
+  const [planList,setPlanList]=useState<PlanType[]>([]);
+  /*
+   * get state data if selected plan data is there
+   */
+  useEffect(() => {
+    const fetchData = async () => {
+      await getPlanData();
+      setDataById('register', { data: 'PLAN_PAGE', step: 1 });
+  
+      if (form1?.field_values) {
+        setcurrentPlan(form1.field_values.name);
+      }else{
+       // add else condition if any
+      }
+    };
+  
+    fetchData();
+  }, []);
+
+  const getPlanData = async () => {
+    try {
+      const response = await apiClient.post(`plan/list`, {});
+      const { status, data } = processAPIResponse(response, 'plan list');
+      if (status) {
+        setPlanList(data);
+    
+        if(form1?.field_values){
+          setcurrentPlan(form1?.field_values?.name)
+        }else{
+          setcurrentPlan(data?.[0]?.name)
+        }
+        
+      }
+
+    } catch (error) {
+      Logger.error(error)
+    }
+    finally {
+      setLoading(false); 
+    }
+  }
   return (
     <Grid container className="plansection__container">
       <Grid size={1}></Grid>
@@ -39,11 +109,16 @@ export const PlanSection = () => {
           container
           className="plansection__cards"
         >
-          {new Array(3).fill('').map((_, index) => (
-            <Grid size={4} key={index} className="plansection__card">
-              <PlanCard />
+          { planList.map((row, index) => (
+            <>
+          
+              <Grid size={4} key={index} className="plansection__card">
+              <PlanCard data={row} />
             </Grid>
+            </>
+          
           ))}
+
         </Grid>
       </Grid>
       <Grid size={1}></Grid>

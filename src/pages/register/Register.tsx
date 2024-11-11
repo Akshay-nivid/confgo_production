@@ -28,10 +28,10 @@ const Register = () => {
     navigate(routes.loginOrg())
   }
   useEffect(()=>{
-    clearDataById('register');
-    clearDataById('form1');
-    clearDataById('form2');
-    clearDataById('form3');
+    // clearDataById('register');
+    // clearDataById('form1');
+    // clearDataById('form2');
+    // clearDataById('form3');
   },[])
   /*
   *function  handle all registration compoents back button
