@@ -9,6 +9,7 @@ import apiClient from "@/Libs/Https/API-client";
 import { NoEventSvg } from "@/assets/svg"
 import { Logger } from "@/Utils/Logger";
 import React from "react";
+import routes from "@/router/routes";
 
 /**
  * Interface for a Program, which contains the event details
@@ -58,8 +59,8 @@ const MyEventScreen: React.FC = () => {
   const [searchResults, setSearchResults] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [event, setEvent] = useState<Program[]>([]);
-  // const [source, setSource] = useState<any>([]);
-
+  const [source, setSource] = useState<any>([]);
+  const navigate = useNavigate();
   /**
    *  Fetch event details when the component mounts
    */
@@ -98,18 +99,18 @@ const MyEventScreen: React.FC = () => {
  */
   const handleAutocompleteChange = (selected: any) => {
     if (selected) {
-      // setSource({
-      //   method: "GET",
-      //   data: {
-      //     offset: 0,
-      //     limit: 5,
-      //     filters: {
-      //       id: selected.id,
-      //     },
-      //   },
-      //   url: `event/list`,
-      //   listName: "eventList",
-      // });
+      setSource({
+        method: "GET",
+        data: {
+          offset: 0,
+          limit: 5,
+          filters: {
+            id: selected.id,
+          },
+        },
+        url: `event/list`,
+        listName: "eventList",
+      });
     }
   };
   /**
@@ -139,9 +140,15 @@ const MyEventScreen: React.FC = () => {
      * You can add specific logic based on the index here.
      */
     if (index === 0) {
-    } else if (index === 1) {
+    } else if (index === 1) { 
+       
+         eventRecap();
     }
   };
+  const eventRecap=()=>{
+    navigate(routes.userEventRecap());
+   
+  }
   return (
 
     <Grid className="my-event" container spacing={2}>

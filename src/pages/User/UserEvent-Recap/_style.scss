@@ -1,0 +1,58 @@
+.event-recap{
+    margin: 2rem;
+    &-header{
+        font-weight: $font-bold !important;
+        font-size: $h4 !important;
+    }
+    &-no-event{
+        display:flex;
+        justify-content:center;
+        align-items:center;
+    }
+    &-no-event-image{
+        width:32.94rem;
+        height: 50vh;
+    }
+    &-first-grid{
+        &-text{
+            font-family:$font;
+            font-weight:$font_semibold !important;
+            font-size :$h5 !important;
+            line-height: 1.5125rem;   
+            text-align:center;
+            }
+            &-status{
+                display:flex;
+                justify-content:center;
+                width:6.25rem;
+                background:$clr_status_bar;
+
+            &-text{
+                color:$clr_cyan_blue;
+                font-family:$font;
+                font-size:$h6;  
+                font-weight:$font_semibold;
+                line-height: 1.5125rem; 
+            }
+            }
+            &-address{
+                color:$clr_black ;
+                font-family:$font!important;
+                font-size:$h6 !important;  
+                font-weight:$font-medium!important;
+                line-height:1.36125rem; 
+            }
+    
+    &-buttons{
+        &-firstButton{
+            width: 7.4375rem;          
+            height: 2.8125rem;       
+            padding: 0.875rem 1.25rem;                  
+            border-radius: 0.3125rem 0 0 0;   
+            color: $clr_white !important;
+            background: $clr_blue !important;   
+        }
+    }
+}
+  
+}

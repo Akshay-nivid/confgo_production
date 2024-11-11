@@ -50,7 +50,6 @@ const PaymentHistory:React.FC = React.memo(()=>{
   <Grid container size={12}>
   <Grid  className="my-event-no-event" size={12}>
   <NoEventSvg className="my-event-no-event-image"/>
-  <Typography>kjdekjekj</Typography>
       </Grid> 
 </Grid>
      :<Grid container size={12}>

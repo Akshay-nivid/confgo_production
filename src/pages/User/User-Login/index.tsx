@@ -68,7 +68,9 @@ const UserLogin = (props: UserProps) => {
       id: props?.id,
       successCB: (success: ApiResponse) => {
         sessionStorage.setItem("token", success.data?.token);
-        sessionStorage.setItem("userId", success.data?.userRole?.id.toString());
+        sessionStorage.setItem("userId",success.data?.id.toString());
+
+      
         setDataById('participantLogin', true);
         setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
         if(success?.data?.userRole?.roleName==="USER"){
