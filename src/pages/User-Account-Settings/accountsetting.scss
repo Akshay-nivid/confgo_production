@@ -1,0 +1,76 @@
+.account-title{
+    font-weight: $font_semibold !important;
+    font-size: $h5 !important;
+}
+.user-profile{
+    border-radius: 0.313rem !important;
+    height: 5.375rem !important;
+    width: 5.375rem !important;
+}
+.account-user-detail1{
+    font-weight: $font_medium !important;
+    font-size: $h6 !important;
+    line-height: 1.5rem !important;
+    color: #718096;
+}
+
+.account-user-detail2{
+    line-height: 3rem !important;
+    font-weight: $font_semibold !important;
+    font-size: $h6 !important;
+}
+
+.account-connected-grid{
+    border: 1px solid #D0D5DD;
+    border-radius: 0.313rem;
+    padding: 0.813rem 1rem ;
+}
+
+.account-profile-grid{
+    border: 1px solid #E9E9E9;
+    border-radius: 0.625rem;
+}
+
+.account-settings-main-title{
+    font-size: $h4 !important;
+    font-weight: $font_bold  !important;
+}
+.account-tabs{
+    .css-q0nj0x-MuiButtonBase-root-MuiTab-root{
+        padding: 0rem !important;
+    }
+    .css-15gx8z5-MuiButtonBase-root-MuiTab-root {
+        padding: 0rem !important;
+    }
+   
+    .Mui-selected{
+        color: #000000 !important;
+    }
+}
+.account-tab-title{
+    font-weight: $font_medium !important;
+    font-size: $h6 !important;
+    text-transform: none !important;
+
+}
+.security-text{
+    font-weight: $font_semibold !important;
+    font-size: $h6 !important;
+    margin-bottom: 0.625rem !important;
+
+}
+.security-subtext{
+    color: #718096;
+    font-size: $h6;
+    font-weight: $font_medium !important;
+    margin-bottom: 1.25rem !important;
+
+}
+.security-text-border{
+    border-bottom: 1px solid #CCDFF2
+}
+.account-submit-btn{
+    background: #3A5AFE !important;
+    border-radius: 0.313rem !important;
+
+}
