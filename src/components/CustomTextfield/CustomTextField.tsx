@@ -230,10 +230,6 @@ const CustomTextField = <T extends FieldValues>({
                 placeholder={type === "date" ? "" : placeholder}
                 className={clsx(error ? "error-input" : "", props.className)}
                 onBlur={handleBlur}
-                onChange={(e:any) => {
-                  field.onChange(e); // Updates the field value in the form state
-                  onChange && onChange(e); // Calls the custom onChange function
-                }}
                 {...inputProps()}
               />
               {error?.message && (

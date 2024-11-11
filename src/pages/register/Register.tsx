@@ -74,7 +74,7 @@ const Register = () => {
           <Typography variant="h6">Back</Typography>
         </Grid>}
         {pageSwitch.data === "PAYMENT_METHOD_PAGE" &&
-              <Grid alignItems={"center"} display={"flex"} className="cursor-container" onClick={handleSkipNavigation}>
+              <Grid alignItems={"center"} display={"flex"} className="cursor-container skip-button-payment-page" onClick={handleSkipNavigation}>
                     <Typography variant="h6">Skip</Typography>
               <ArrowForwardIcon/>
         </Grid>}
