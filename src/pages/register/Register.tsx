@@ -19,7 +19,7 @@ const Register = () => {
   const pageSwitch =
     useStore((state: any) => state?.compData?.["register"]) ?? [];
   const navigate = useNavigate();
-  const { setDataById,clearDataById }: any = useStore();
+  const setDataById = useStore((state: any) => state.setDataById)
 
   /*
   * function to handle navigate to login page
@@ -28,10 +28,10 @@ const Register = () => {
     navigate(routes.loginOrg())
   }
   useEffect(()=>{
-    clearDataById('register');
-    clearDataById('form1');
-    clearDataById('form2');
-    clearDataById('form3');
+    // clearDataById('register');
+    // clearDataById('form1');
+    // clearDataById('form2');
+    // clearDataById('form3');
   },[])
   /*
   *function  handle all registration compoents back button
