@@ -1,0 +1,28 @@
+.calendar{
+    padding: 3rem;
+    .rbc-calendar{
+        width: 100%;
+        height: 40rem;
+    }
+    &-title{
+        font-size: $h2 !important;
+        font-weight: $font_bold !important;
+    }
+    &-container{
+        background-color: $clr_white;
+        padding: 2rem !important;
+        border-radius: 1.66rem;
+    }
+    .rbc-today{
+        background-color: $clr_green_light;
+    }
+    .rbc-event{
+        background-color: $clr_green;
+    }
+    .rbc-show-more{
+        color: $clr_green;
+    }
+    .rbc-selected{
+        background-color: $clr_green !important;
+    }
+}
