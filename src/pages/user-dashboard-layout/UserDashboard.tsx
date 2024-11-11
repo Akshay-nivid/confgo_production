@@ -7,7 +7,6 @@ import DashboardCardItem from './DashboardCardItem';
 import { CalendarEventIcon, DownloadEventIcon, PaymentDashboardIcon } from '@/assets/svg';
 import React from 'react';
 import EventCard from '../User/Components/EventCard';
-import routes from '@/router/routes';
 import useStore from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 

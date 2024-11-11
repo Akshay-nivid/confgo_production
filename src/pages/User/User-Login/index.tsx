@@ -68,6 +68,7 @@ const UserLogin = (props: UserProps) => {
       body: obj,
       id: props?.id,
       successCB: (success: ApiResponse) => {
+        sessionStorage.clear();
         sessionStorage.setItem("token", success.data?.token);
         sessionStorage.setItem("userId", success.data?.userRole?.id.toString());
         setDataById('participantLogin', true);
