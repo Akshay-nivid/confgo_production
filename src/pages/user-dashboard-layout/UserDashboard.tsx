@@ -101,14 +101,14 @@ const UserDashboard: React.FC = React.memo(() => {
         <Grid container className="dashboard-tight-spacing" size={12} spacing={2}>
           
           <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-            <DashboardCardItem onClick={() => navigate(routes.userMyEvents())} icon={CalendarEventIcon} title="View All My Events" />
+            <DashboardCardItem onClick={() => navigate("/user/my-event")} icon={CalendarEventIcon} title="View All My Events" />
           </Grid>
           <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-            <DashboardCardItem onClick={() => navigate(routes.upcomingEvents())} icon={DownloadEventIcon} title="Download Tickets & Certificates" />
+            <DashboardCardItem onClick={() => navigate("/user/my-event")} icon={DownloadEventIcon} title="Download Tickets & Certificates" />
           </Grid>
 
           <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-            <DashboardCardItem onClick={() => navigate(routes.paymentHistory())} icon={PaymentDashboardIcon} title="View Payment History" />
+            <DashboardCardItem onClick={() => navigate("/user/payment-history")} icon={PaymentDashboardIcon} title="View Payment History" />
           </Grid>
           
         </Grid>
