@@ -111,9 +111,7 @@ const userRoutes = [
       {
         path:routes.upcomingEvents(),
         element:<UpcomingEvents/>
-      },
-     
-
+      }
     ],
   },
 ];
