@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";
 import { StepperBoxes } from "./StepperBox";
 import { useEffect } from "react";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 /*
  * Component used to register company for scheduling meting,metups etc
  */
@@ -19,7 +20,7 @@ const Register = () => {
   const pageSwitch =
     useStore((state: any) => state?.compData?.["register"]) ?? [];
   const navigate = useNavigate();
-  const { setDataById,clearDataById }: any = useStore();
+  const setDataById = useStore((state: any) => state.setDataById)
 
   /*
   * function to handle navigate to login page
@@ -27,11 +28,17 @@ const Register = () => {
   const handleLogin = () => {
     navigate(routes.loginOrg())
   }
+  /*
+  * function to skip payment and navigate to success page 
+  */    
+  const handleSkipNavigation=()=>{
+    setDataById('register', { data: 'REGISTRATION_SUCCESS_PAGE',paymentStatus:false });
+  }
   useEffect(()=>{
-    clearDataById('register');
-    clearDataById('form1');
-    clearDataById('form2');
-    clearDataById('form3');
+    // clearDataById('register');
+    // clearDataById('form1');
+    // clearDataById('form2');
+    // clearDataById('form3');
   },[])
   /*
   *function  handle all registration compoents back button
@@ -62,9 +69,14 @@ const Register = () => {
   return (
     <Grid container className="register-main-container">
       <Grid container justifyContent={'space-between'} direction={'column'} className="grid-left" size={{ xs: 12, sm: 6 }} >
-        {pageSwitch.data !== "REGISTRATION_SUCCESS_PAGE" && <Grid container alignItems={"center"} display={"flex"} className="back-button" onClick={handleBack} >
+        {(pageSwitch.data === "CREATE_ACCOUNT_PAGE" || pageSwitch.data == "ADD_ORGANIZATION_PAGE" )  && <Grid container alignItems={"center"} display={"flex"} className="back-button" onClick={handleBack} >
           <ArrowBackIcon />
           <Typography variant="h6">Back</Typography>
+        </Grid>}
+        {pageSwitch.data === "PAYMENT_METHOD_PAGE" &&
+              <Grid alignItems={"center"} display={"flex"} className="cursor-container skip-button-payment-page" onClick={handleSkipNavigation}>
+                    <Typography variant="h6">Skip</Typography>
+              <ArrowForwardIcon/>
         </Grid>}
         <Grid container justifyContent={'center'}>
           {pageSwitch == "" && <AddPlan />}

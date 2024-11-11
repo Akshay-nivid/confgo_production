@@ -17,7 +17,7 @@ import apiClient from "@/Libs/Https/API-client";
  */
 const AddOrganization = React.memo(() => {
     const { handleSubmit, control } = useForm<FormData>();
-    const { setDataById }: any = useStore();
+    const { setDataById}: any = useStore();
     const form1 = useStore((state: any) => state?.compData?.['form1']) ?? [];
     const form2 = useStore((state: any) => state?.compData?.['form2']) ?? [];
     const form3 = useStore((state: any) => state?.compData?.['form3']) ?? [];
@@ -26,6 +26,7 @@ const AddOrganization = React.memo(() => {
      * function to handle submission of the form and create new company
      */
     const onSubmit: SubmitHandler<FormData> = (data) => { 
+        setDataById('form3', { field_values: data });
         createAccount(data)
     };
 
@@ -71,6 +72,7 @@ const AddOrganization = React.memo(() => {
             setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: error.response.data.message })
         }
     }
+
     return (
         <Grid>
             <Grid container spacing={5}  >
