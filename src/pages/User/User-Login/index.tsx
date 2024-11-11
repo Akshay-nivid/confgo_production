@@ -13,6 +13,7 @@ import { Logger } from '@/Utils/Logger';
 import useStore from '@/Libs/store';
 import { registerComponent } from '@/Libs/DataHandler/dataHandler';
 import { ApiResponse } from '@/pages/LoginOrg/loginOrg';
+import apiClient from '@/Libs/Https/API-client';
 
 interface IUserLogin {
   username: string;
@@ -70,6 +71,8 @@ const UserLogin = (props: UserProps) => {
         sessionStorage.setItem("token", success.data?.token);
         sessionStorage.setItem("userId", success.data?.userRole?.id.toString());
         setDataById('participantLogin', true);
+        apiClient.setToken(success.data.token);
+        setDataById('userDetails', success.data);
         setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
         if(success?.data?.userRole?.roleName==="USER"){
           navigate(routes.userHome());
