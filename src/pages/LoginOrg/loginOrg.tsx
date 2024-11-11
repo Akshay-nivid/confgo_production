@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import routes from "@/router/routes";
 import useStore from "@/Libs/store";
+import apiClient from "@/Libs/Https/API-client";
 
 
 
@@ -68,6 +69,8 @@ const LoginOrg = () => {
         body: body,
         successCB: (success: ApiResponse) =>{  
           if(success?.data?.userRole?.roleName==="COMPANY"){
+            sessionStorage.setItem('token',success.data.token);
+            apiClient.setToken(success.data.token);
             navigate(routes.dashboard());
           }
           else{
