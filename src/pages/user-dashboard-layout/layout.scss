@@ -56,7 +56,7 @@
 }
 
 .list-header {
-  font-size: 1rem;
+  font-size: $p3;
   margin-top: 1.916rem;
   margin-bottom: 0.2rem;
 }
@@ -138,7 +138,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 1rem;
+    margin-right: $p3;
     width: 4.6rem;
     height: 4.6rem;
 
@@ -174,8 +174,8 @@
     &-text {
       text-align: left;
       line-height: 1.1rem;
-      font-size: 1rem !important;
-      font-weight: 600 !important;
+      font-size: $p3 !important;
+      font-weight: $font_semibold !important;
     }
 
     &-img {
@@ -201,7 +201,7 @@
     }
     &-subheader-text {
       font-size: 0.95rem !important;
-      font-weight: 600;
+      font-weight: $font_semibold;
       text-align: left;
       color: $clr_gray_light;
     }
@@ -211,7 +211,7 @@
       align-items: center;
     }
     &-arrow-down {
-      color: $clr_black; /* Apply the color directly to the SVG */
+      color: clr_black;
       width: 2rem;
       height: 2rem;
     }
@@ -220,8 +220,8 @@
 
 
 .dashboard {
-  padding: 1rem;
-  margin: 1rem !important;
+  padding: $p3;
+  margin: $p3 !important;
   
   &-left {
     border-right: 0.06rem solid $clr_light_border_grey;
@@ -259,8 +259,8 @@
     font-weight: $font_semibold !important;
   }
   &-subhead {
-    margin-left: 1rem !important;
-    font-size: 1rem !important;
+    margin-left: $p3 !important;
+    font-size: $p3 !important;
     font-weight: $font_semibold !important;
   }
   &-card {
