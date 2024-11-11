@@ -55,7 +55,7 @@ import CouponDashboardIcon from "./coupons.svg";
 import DashboardUserIcon from "./dashboard-user.svg";
 import EditButtonIcon from "./Edit-location-button.svg";
 import NoEventSvg from "./No-events-img.svg"
-
+import DownArrowSvg from './downarrow.svg'
 export {
   CalenderIcon,
   EventIcon,
@@ -114,4 +114,5 @@ export {
   DashboardUserIcon,
   EditButtonIcon,
   NoEventSvg,
+  DownArrowSvg,
 };
