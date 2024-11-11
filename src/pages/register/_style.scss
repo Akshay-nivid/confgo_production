@@ -110,6 +110,9 @@
           background: none;
       }
     }
+    & .skip-button-payment-page {
+      transform: translate(45rem, 2rem);
+    }
   }
 .checkbox-text-grey {
   color: $clr_gray_light;
@@ -139,7 +142,4 @@
 }
 .cursor-container{
   cursor: pointer;
-}
-.skip-button-payment-page {
-  transform: translate(45rem, 2rem);
 }

@@ -1,5 +1,5 @@
 import Grid from "@mui/material/Grid2";
-import React, {  } from 'react';
+import React from 'react';
 import {
     Box,
     FormControl,
@@ -17,7 +17,7 @@ import apiClient from "@/Libs/Https/API-client";
  */
 const AddOrganization = React.memo(() => {
     const { handleSubmit, control } = useForm<FormData>();
-    const { setDataById ,clearDataById}: any = useStore();
+    const { setDataById}: any = useStore();
     const form1 = useStore((state: any) => state?.compData?.['form1']) ?? [];
     const form2 = useStore((state: any) => state?.compData?.['form2']) ?? [];
     const form3 = useStore((state: any) => state?.compData?.['form3']) ?? [];
