@@ -12,7 +12,7 @@ interface CompData {
 
 type ApiRequestOptions = {
     url: string;
-    body: any;
+    body?: any;
     id: string;
     successCB?: (context: any) => void;
     errorCB?: (context: any) => void;
@@ -25,6 +25,9 @@ interface StoreState {
     setUserInfo: (data: any) => void;
     resetStore: () => void;
     POST: (params: ApiRequestOptions) => void;
+    GET: (params: ApiRequestOptions) => void;
+    PUT: (params: ApiRequestOptions) => void;
+    DELETE: (params: ApiRequestOptions) => void;
 }
 
 /**
@@ -100,12 +103,12 @@ const useStore = create<StoreState>()(
                 const { status, data, message } = processAPIResponse(response, id);
                 if (status) {
                     let context = { data: data, loading: false, success: true }
-                    get().setDataById(id, { context, timestamp: Date.now() });
+                    get().setDataById(id, { [url]: { context }, timestamp: Date.now() });
                     successCB?.(context);
 
                 } else {
                     let context = { data: data, loading: false, message:message }
-                    get().setDataById(id, { message, context });
+                    get().setDataById(id, { message, [url]: { context } });
                     errorCB?.(context)
                 }
                 return { status, data, message };
@@ -118,12 +121,12 @@ const useStore = create<StoreState>()(
                 const { status, data, message } = processAPIResponse(response, id);
                 if (status) {
                     let context = { data: data, loading: false, success: true }
-                    get().setDataById(id, { context, timestamp: Date.now() });
+                    get().setDataById(id, { [url]: { context }, timestamp: Date.now() });
                     successCB?.(context);
 
                 } else {
                     let context = { data: data, loading: false, message:message }
-                    get().setDataById(id, { message, context });
+                    get().setDataById(id, { message, [url]: { context } });
                     errorCB?.(context)
                 }
                 return { status, data, message };
@@ -136,12 +139,12 @@ const useStore = create<StoreState>()(
                 const { status, data, message } = processAPIResponse(response, id);
                 if (status) {
                     let context = { data: data, loading: false, success: true }
-                    get().setDataById(id, { context, timestamp: Date.now() });
+                    get().setDataById(id, { [url]: { context }, timestamp: Date.now() });
                     successCB?.(context);
 
                 } else {
                     let context = { data: data, loading: false, message:message }
-                    get().setDataById(id, { message, context });
+                    get().setDataById(id, { message, [url]: { context } });
                     errorCB?.(context)
                 }
                 return { status, data, message };
@@ -154,12 +157,12 @@ const useStore = create<StoreState>()(
                 const { status, data, message } = processAPIResponse(response, id);
                 if (status) {
                     let context = { data: data, loading: false, success: true }
-                    get().setDataById(id, { context, timestamp: Date.now() });
+                    get().setDataById(id, { [url]: { context }, timestamp: Date.now() });
                     successCB?.(context);
 
                 } else {
                     let context = { data: data, loading: false, message:message }
-                    get().setDataById(id, { message, context });
+                    get().setDataById(id, { message, [url]: { context } });
                     errorCB?.(context)
                 }
                 return { status, data, message };

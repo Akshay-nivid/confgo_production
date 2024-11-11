@@ -7,17 +7,11 @@ import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceR
 import { ForgotPasswordIcon } from "@/assets/svg";
 import routes from "@/router/routes";
 import { validateEmail, validateRequiredField } from "@/Utils/Validation";
-import { purposeTypes } from '../User/User-Otp'
 import useStore from "@/Libs/store";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { Logger } from "@/Utils/Logger";
-/**
- * 
- */
-export const userType = {
-  PARTICIPANT: 'PARTICIPANT',
-  ORGANISATION: 'ORGANIZATION'
-}
+import { purposeTypes} from "@/Utils/CommonBaseClass";
+
 /**
  * Form data interface
  */
@@ -31,10 +25,7 @@ const ForgotPassword = () => {
   const { handleSubmit, control } = useForm<FormData>();
   const POST = useStore((state: any) => state.POST);
   const navigate = useNavigate();
-  /**
-  * compData for get userType
-  */
-  const  compData = useStore((state: any) => state.compData.userType);
+
   
   /**
    * Function to handle submit button
@@ -47,9 +38,9 @@ const ForgotPassword = () => {
     /**
      * success callback function for participant
      */
-    const successCB = (context: any) => {
-      if (compData.type=== userType.PARTICIPANT) {
-        navigate(routes.userOtp(),{state:{email:data.email, purpose: purposeTypes.RESET_PASSWORD, token: context?.data?.token?.token, userId: context?.data?.token?.userId } });
+    const successCB = (success: any) => {
+      if (success?.data?.role?.roleName==="USER") {
+        navigate(routes.userOtp(),{state:{email:data.email, purpose: purposeTypes.RESET_PASSWORD, token: success?.data?.token?.token, userId: success?.data?.token?.userId } });
       } else {
         setDataById("thankYouPageInfo",{type:"Submitted sucessfully"});
         navigate(routes.thankyou());

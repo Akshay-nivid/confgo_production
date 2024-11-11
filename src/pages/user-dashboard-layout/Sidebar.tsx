@@ -1,7 +1,9 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { Drawer,List,ListItem,ListItemText,ListItemButton } from '@mui/material';
-import { CouponDashboardIcon, PaymentDashboardIcon, CalendarEventIcon, HeartEventIcon, DashboardUserIcon } from '@/assets/svg';
+
+import { EventIcon, PaymentHistoryIcon } from '@/assets/svg';
+import { CouponDashboardIcon, CalendarEventIcon, DashboardUserIcon } from '@/assets/svg';
 import routes from '@/router/routes';
 
 interface SidebarProps {
@@ -16,25 +18,25 @@ const sidebarItems = [
     exact: true,
   },
   {
-    path: routes.events(),
-    icon: HeartEventIcon,
+    path: routes.userMyEvents(),
+    icon: EventIcon,
     label: 'My Events',
     exact: false,
   },
   {
-    path: routes.events(),
-    icon: CalendarEventIcon,
+    path: routes.upcomingEvents(),
+    icon: EventIcon,
     label: 'Upcoming Events',
     exact: false,
   },
   {
-    path: routes.events(),
-    icon: PaymentDashboardIcon,
+    path: routes.paymentHistory(),
+    icon: PaymentHistoryIcon,
     label: 'Payment History',
     exact: false,
   },
   {
-    path: routes.coupon(),
+    path: routes.userCoupons(),
     icon: CouponDashboardIcon,
     label: 'Coupons',
     exact: false,

@@ -1,3 +1,4 @@
+import moment from 'moment';
 /**
  * Process the API response to extract status and message.
  * @param
@@ -101,3 +102,35 @@ export const getValueFromArrayBasedOnParameter = (
   if (!(data || cmp1 || cmp2 || name)) return "";
   return data?.find((item: any) => item[cmp1] == cmp2)?.[name];
 };
+/**
+ * Converts a given string to title case, where the first letter of each word is capitalized.
+ * If the input is `undefined`, it returns an empty string.
+ * @param str - The string to be converted to title case.
+ * @returns The title-cased version of the input string.
+ * 
+ */
+ export const toTitleCase = (str: string | undefined): string => {
+  if (!str) return '';
+  return str
+      .toLowerCase()
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+};
+
+/**
+ * This function takes a date string or Date object and formats it to 'MMMM D, YYYY' format.
+ * @param date - A string or Date object to be formatted.
+ * @returns A string in the format 'MMMM D, YYYY'.
+ */
+export function formatDateDayMonthYear(date: string | Date): string {
+  return moment(date).format('MMMM D, YYYY');
+}
+
+/**
+ * purpose types set password and reset password
+ */
+export const purposeTypes = {
+  SET_PASSWORD: 'USER_REGISTRATION_OTP',
+  RESET_PASSWORD: 'RESET_PASSWORD_OTP'
+}
