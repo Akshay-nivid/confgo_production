@@ -22,6 +22,8 @@ function Account() {
       <Tabs value={tabIndex} className='account-tabs' onChange={handleTabChange} TabIndicatorProps={{
          style: {
           borderBottom: '2px solid #3A5AFE',
+          width: tabIndex === 1 ? '68px' : '167px',
+          left: tabIndex === 1 ? '180px' : '0px',
         },
         }}>
         <Tab label="Personal Information" className='account-tab-title'  sx={{ color: tabIndex === 0 ? "#000000" : "#808A98" }}/>
