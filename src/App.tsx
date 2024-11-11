@@ -190,7 +190,7 @@ const router = createBrowserRouter([
           },
           {
             path: routes.calendar(),
-            element: <CalendarRoute />,
+            element: <CalendarRoute id="events-calendar" key="events-calendar"/>,
           },
         ],
       },
