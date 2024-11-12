@@ -105,9 +105,13 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
            
           </MenuItem>
           <Divider />
-          <MenuItem className="menu-item-margin" onClick={handleLogout}>
+          <MenuItem className="menu-item-margin" onClick={() => navigate(routes.accountsettings())}>
             <SettingsIcon />
             <span className="menu-item-text">Profile</span>
+          </MenuItem>
+          <MenuItem className="" onClick={() => navigate(routes.forgotPassword())}>
+          <SettingsIcon />
+            <span className="menu-item-text">Reset Password</span>
           </MenuItem>
           <MenuItem className="" onClick={handleLogout}>
             <LogoutIcon />
