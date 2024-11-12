@@ -1,3 +1,9 @@
+/**
+ * security ui component for appbar in user dashboard to reset password
+ * @Nevin 
+ * used to reset the password for the user
+ */
+
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import "./accountsetting.scss";

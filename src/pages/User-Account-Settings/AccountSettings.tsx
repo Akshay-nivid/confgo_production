@@ -1,3 +1,9 @@
+/**
+ * profile ui component for appbar in user dashboard
+ * @Nevin 
+ * used to edit and view details of user
+ */
+
 import Grid from "@mui/material/Grid2";
 import { Avatar, IconButton, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";

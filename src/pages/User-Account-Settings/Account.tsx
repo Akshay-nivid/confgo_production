@@ -27,11 +27,13 @@ function Account() {
       {tabIndex === 0 ? (
         <Grid container className="account-tab-details">
           <Grid size={12}>
-            <AccountSetting setEmail={setEmail} />
+            {/* profile edit and view for enduser */}
+            <AccountSetting setEmail={setEmail} />  
           </Grid>
         </Grid>
       ) : (
         <Box >
+          {/* profile reset password for enduser */}
          <Security email={email}/>
         </Box>
       )}
