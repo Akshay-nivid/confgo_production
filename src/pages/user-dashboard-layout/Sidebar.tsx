@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { CouponDashboardIcon, CalendarEventIcon, DashboardUserIcon } from '@/assets/svg';
-import {  Drawer, List, ListItem, ListItemText, ListItemButton, useMediaQuery } from '@mui/material';
+import {  CalendarEventIcon, DashboardUserIcon } from '@/assets/svg';
+import {  Drawer, List, ListItem, ListItemText, ListItemButton, useMediaQuery, Divider } from '@mui/material';
 import { EventIcon, PaymentHistoryIcon } from '@/assets/svg';
 import routes from '@/router/routes';
 
@@ -30,23 +30,17 @@ const sidebarItems = [
     exact: false,
   },
   {
-    path: routes.userCoupons(),
-    icon: CouponDashboardIcon,
-    label: 'Coupons',
-    exact: false,
-  },
-  {
     path: routes.calendar(),
     icon: CalendarEventIcon,
     label: 'Calendar',
     exact: false,
   },
-  {
-    path: routes.calendar(), 
-    icon: DashboardUserIcon,
-    label: 'Settings',
-    exact: false,
-  },
+  // {
+  //   path: routes.userCoupons(), 
+  //   icon: DashboardUserIcon,
+  //   label: 'Profile',
+  //   exact: false,
+  // },
 ];
 
 const Sidebar: React.FC<SidebarProps> = ({ open, onClose }) => {
@@ -88,10 +82,10 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose }) => {
                   </ListItem>
                 </NavLink>
 
-                {/* Add divider after Calendar item and apply margin
+                {/* Add divider after Calendar item and apply margin */}
                 {item.label === 'Calendar' && <Divider sx={{ margin: '1rem 0' }} />}
 
-                */}
+               
               </React.Fragment>
             );
           })}

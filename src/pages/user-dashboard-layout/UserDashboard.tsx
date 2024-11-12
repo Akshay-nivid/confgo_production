@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CircularProgress, Typography } from "@mui/material";
 import DashboardCardItem from './DashboardCardItem';
-import { CalendarEventIcon, DownloadEventIcon, NoDataSvg, PaymentDashboardIcon } from '@/assets/svg';
+import { CalendarEventIcon, DownloadEventIcon,PaymentDashboardIcon } from '@/assets/svg';
 import React from 'react';
 import EventCard from '../User/Components/EventCard';
 import useStore from '@/Libs/store';
@@ -28,52 +28,15 @@ const UserDashboard: React.FC = React.memo(() => {
   * Useeffect hook handles the api call 
   */
   useEffect(() => {
-    fetchUserOldEvents();
     fetchLatestEvents();
   }, [])
 
   /**
-    * Sample event data for testing or demonstration purposes.
-    */
-  const events = [
-    { datetitle: '2023-12-15', title: 'Conference1', location: 'Kannur' },
-  ];
-  /**
-   * fetch Old Events
-   */
-  const fetchUserOldEvents = async () => {
-    try {
-
-      await POST({
-        url: "event/list",
-        body: {
-          offset: 0,
-          sortBy: "id",
-          sortDirection: "DESC",
-          filters: {
-            "endDate": "2024-11-10"
-          },
-        },
-        id: 'userEvents',
-        errorCB: (context: any) => {
-          setDataById("snackBarInfo", {
-            open: true,
-            autoHideDuration: 2000,
-            severity: "error",
-            message: context?.message,
-          });
-        },
-      });
-    } catch (error) {
-      Logger.error("An error occurred:", error);
-    }
-  }
-  /**
-  * fetch upcoming events
+  * fetch completed events
   */
   const fetchLatestEvents = async () => {
     try {
-    //  setIsLoading(true);
+      setIsLoading(true);
       await POST({
         url: "event/list",
         body: {
@@ -81,13 +44,10 @@ const UserDashboard: React.FC = React.memo(() => {
           sortBy: "id",
           sortDirection: "DESC",
           filters: {
-            "starDate": "2024-11-10"
+            "endDate": getPreviousDay(new Date())
           },
         },
         id: 'userLatestEvents',
-        successCB: (context: any) => {
-          console.log("SUCCESS ")
-        },
         errorCB: (context: any) => {
           setDataById("snackBarInfo", {
             open: true,
@@ -100,9 +60,16 @@ const UserDashboard: React.FC = React.memo(() => {
     } catch (error) {
       Logger.error("An error occurred:", error);
     }
-    finally {
-      //setIsLoading(false);
+    finally  {
+      setIsLoading(false);
     }
+  }
+
+  // Function to get the previous day of a given date
+  function getPreviousDay(date:any) {
+    const previousDay = new Date(date);
+    previousDay.setDate(date.getDate() - 1);
+    return previousDay.toISOString().split('T')[0];
   }
   /**
    * Labels for the square buttons on each event card
@@ -124,7 +91,7 @@ const UserDashboard: React.FC = React.memo(() => {
   };
 
   return (
-    <Grid container size={12} border={3} className="dashboard" >
+    <Grid container size={12} className="dashboard" >
 
       <Grid size={{ xs: 12, md: 7 }} container className="dashboard-left" >
         <Grid size={12}>
@@ -153,17 +120,18 @@ const UserDashboard: React.FC = React.memo(() => {
         </Grid>
       </Grid>
       {/* Right Column */}
-      <Grid container size={{ xs: 12, md: 2 }} >
-        <Grid container size={{ xs: 12 }}>
+      <Grid container size={{ xs: 12, md: 3 }}  >
+        <Grid container >
 
           {/* title */}
           <Typography className="dashboard-subhead" gutterBottom>
-            Upcoming Events
+            Attended Event
           </Typography>
 
-          <Grid container spacing={2} >
+          <Grid container >
             {
-             userLatestEvents && userLatestEvents?.data && userLatestEvents.data.length > 0 ? (
+              isLoading? <CircularProgress/>:
+              userLatestEvents && userLatestEvents?.data && userLatestEvents.data.length > 0 ? (
                 <Grid size={12}>
                   <EventCard
                     eventFullData={userLatestEvents.data[0]}
@@ -171,9 +139,9 @@ const UserDashboard: React.FC = React.memo(() => {
                     viewCertificate={true}
                     viewEventRecap={true}
                     squareButton={true}
-                    viewButton={true}
-                    datetitle={userLatestEvents.data[0].datetitle}
-                    title={userLatestEvents.data[0].title}
+                    viewButton={false}
+                    datetitle={userLatestEvents.data[0].startTime}
+                    title={userLatestEvents.data[0].name}
                     location={userLatestEvents.data[0].location}
                     buttonPress={handleButtonPress}
                     squareButtonLabels={squareButtonLabels}
