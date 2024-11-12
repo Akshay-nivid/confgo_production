@@ -6,7 +6,7 @@ import Security from './Security';
 import Grid from "@mui/material/Grid2";
 
 
-function Account() {
+const Account: React.FC = React.memo(() => {
   const [tabIndex, setTabIndex] = useState(0);
   const [email, setEmail] = useState(''); 
 
@@ -39,6 +39,6 @@ function Account() {
       )}
     </Grid>
   );
-}
+});
 
 export default Account;

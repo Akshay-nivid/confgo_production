@@ -1,9 +1,9 @@
 /**
  * security ui component for appbar in user dashboard to reset password
- * @Nevin 
+ * @author Nevin
  * used to reset the password for the user
  */
-
+import React from "react";
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import "./accountsetting.scss";
@@ -23,7 +23,7 @@ interface SecurityProps {
   email: string; 
 }
 
-const Security: React.FC<SecurityProps> = ({ email }) => {
+const Security:React.FC<SecurityProps> = React.memo(({ email }) => {
   const POST = useStore((state: any) => state.POST);
 
   const navigate = useNavigate();
@@ -95,6 +95,6 @@ const Security: React.FC<SecurityProps> = ({ email }) => {
       </Grid>
     </Grid>
   );
-};
+});
 
 export default Security;

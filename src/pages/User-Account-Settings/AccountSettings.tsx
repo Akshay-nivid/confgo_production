@@ -1,9 +1,10 @@
 /**
  * profile ui component for appbar in user dashboard
- * @Nevin 
+ * @author Nevin
  * used to edit and view details of user
  */
 
+import React from "react";
 import Grid from "@mui/material/Grid2";
 import { Avatar, IconButton, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
@@ -28,7 +29,7 @@ interface AccountSettingProps {
   setEmail: (email: string) => void; 
 }
 
-const AccountSetting: React.FC<AccountSettingProps> = ({ setEmail }) => {
+const AccountSetting:React.FC<AccountSettingProps> = React.memo(({ setEmail }) => {
   const { handleSubmit, control, setValue } = useForm<Profile>();
   const [profileData, setProfileData] = useState<Profile | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -186,6 +187,6 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ setEmail }) => {
       </CustomDrawer>
     </Grid>
   );
-};
+});
 
 export default AccountSetting;
