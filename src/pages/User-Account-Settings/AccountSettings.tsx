@@ -34,7 +34,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ setEmail }) => {
     AccountProfile();
   }, []);
 
-  // Fetch profile data
+  // Fetch profile data of the user
   const AccountProfile = useCallback(async () => {
     try {
       const response = await apiClient.get(`/user`, {
@@ -51,7 +51,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ setEmail }) => {
         };
         setProfileData(AccountData);
 
-        // Prepopulate the form
+// Sets form field values
         setValue("firstName", data.firstName);
         setValue("lastName", data.lastName);
         setValue("email", data.email);
@@ -64,7 +64,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ setEmail }) => {
     }
   }, [setEmail,setValue]);
 
-  // Submit form to update profile data
+  // Submit form to update profile data from drawer
   const onSubmit = async (data: Profile) => {
     try {
       const response = await apiClient.put(`/user`, data, {
@@ -72,7 +72,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ setEmail }) => {
       });
 
       if (response.data.status === "success") {
-        // Update local state with the new data
+        // Update local state with the new data that is updated
         setProfileData((prevProfileData) => ({
           ...prevProfileData,
           ...data,

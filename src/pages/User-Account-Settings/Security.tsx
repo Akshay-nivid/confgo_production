@@ -22,13 +22,11 @@ const Security: React.FC<SecurityProps> = ({ email }) => {
 
   const navigate = useNavigate();
 
+  // Initiates the password reset process by sending the user's email to the forgotPassword
   const handlePasswordReset = async () => {
     const body = { username: email, };
-
-    const successCB = (context: any) => {
-    
-        navigate(routes.userOtp(), { state: { email, purpose: purposeTypes.RESET_PASSWORD, token: context?.data?.token?.token, userId: context?.data?.token?.userId  } });
-            
+    const successCB = (context: any) => {  
+        navigate(routes.userOtp(), { state: { email, purpose: purposeTypes.RESET_PASSWORD, token: context?.data?.token?.token, userId: context?.data?.token?.userId  } });          
     };
 
     POST({
@@ -39,7 +37,6 @@ const Security: React.FC<SecurityProps> = ({ email }) => {
     })
     
   };
-
 
   return (
     <Grid container>
