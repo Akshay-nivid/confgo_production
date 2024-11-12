@@ -144,9 +144,6 @@ const AddPlan = React.memo(() => {
         </Grid>
       </Grid>
       </Grid>
-
-   
-     
     </Grid>
   )
 });

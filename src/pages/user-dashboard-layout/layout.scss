@@ -12,6 +12,9 @@
   height: 100vh;
   overflow: hidden;
 
+  &-sidebar{
+   max-width:25rem !important;
+  }
   &-grid-wrapper {
     flex: 1;
     overflow: hidden;
@@ -21,16 +24,17 @@
     background-color: $background;
     height: 100%;
     width: 100%;
-
+    display: flex;
     &-outlet-grid {
       overflow: hidden;
       height: 100%;
       width: 100%;
       flex-direction: column;
       display: flex;
-
+      flex-grow: 1; 
       &-outlet-wrapper {
         flex: 1;
+        flex-grow: 1; 
         background-color: $background;
         overflow-y: auto;
       }
@@ -52,7 +56,7 @@
 }
 
 .list-header {
-  font-size: 1rem;
+  font-size: $p3;
   margin-top: 1.916rem;
   margin-bottom: 0.2rem;
 }
@@ -70,7 +74,7 @@
   .MuiListItemButton-root {
     display: flex;
     column-gap: 0.483rem;
-    padding: 0.5rem 1.666rem;
+    padding: 0.5rem 6rem;
     border-radius: 0.417rem;
     font-size: 1.5rem;
     color: $clr_black;
@@ -127,15 +131,16 @@
   }
 
   &-notification {
+    position: relative;
     border: 0.1rem solid $clr_light_border_grey;
     position: relative;
     border-radius: 0.8rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 1rem;
-    width: 5rem;
-    height: 5rem;
+    margin-right: $p3;
+    width: 4.6rem;
+    height: 4.6rem;
 
     &-icon {
       display: flex;
@@ -143,10 +148,10 @@
       font-size: 2.6rem; // For scaling the icon size if it is an inline SVG or uses font size
     }
 
-    &-badge {
-      position: "absolute";
-      top: 2 !important;
-      right: 2 !important;
+    &-badge .MuiBadge-badge {
+      position: absolute !important;
+      top: -2rem !important;  
+      right: -1rem !important;
       background-color: $clr_blue;
       color: $clr_white;
       font-size: 0.75rem;
@@ -155,9 +160,8 @@
   }
 
   &-group {
-    display: flex;
+  display: flex;
   align-items: center;
-  padding: 0.5rem;
   border-radius: 0.8rem;
   border: 0.1rem solid $clr_light_border_grey;
   margin-right: 3.166rem;
@@ -170,13 +174,13 @@
     &-text {
       text-align: left;
       line-height: 1.1rem;
-      font-size: 1.166rem !important;
-      font-weight: 600 !important;
+      font-size: $p3 !important;
+      font-weight: $font_semibold !important;
     }
 
     &-img {
-      width: 5rem !important;
-      height: 5rem !important;
+      width: 4rem !important;
+      height: 4.6rem !important;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -192,25 +196,32 @@
       }
     }
 
+    &-textgroup{
+      margin-left: 1.3rem;
+    }
     &-subheader-text {
       font-size: 0.95rem !important;
-      font-weight: 600;
+      font-weight: $font_semibold;
       text-align: left;
       color: $clr_gray_light;
     }
-
+    &-arrow-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
     &-arrow-down {
-      width: 1.8rem !important;
-      height: 1.8rem !important;
-      color: black;
+      color: clr_black;
+      width: 2rem;
+      height: 2rem;
     }
   }
 }
 
 
 .dashboard {
-  padding: 1rem;
-  margin: 1rem !important;
+  padding: $p3;
+  margin: $p3 !important;
   
   &-left {
     border-right: 0.06rem solid $clr_light_border_grey;
@@ -247,14 +258,18 @@
     font-size: $h4 !important;
     font-weight: $font_semibold !important;
   }
-
+  &-subhead {
+    margin-left: $p3 !important;
+    font-size: $p3 !important;
+    font-weight: $font_semibold !important;
+  }
   &-card {
     text-align: center;
     padding: 2;
     background: $background !important;
-    width: 14rem;
-    height: 14rem;
-
+    width: 15rem;
+    height: 14.5rem;
+    cursor: pointer;
     &-icon {
       display: flex;
       justify-content: center;
@@ -285,5 +300,11 @@
   & .menu-item-text {
     font-size: 1.125rem;
     margin-left: 0.75rem;
+    font-weight: $font_medium;
+
+  }
+  & .menu-item-margin {
+   margin-bottom: 0.5rem;
+   margin-top: 0.6rem;
   }
 }

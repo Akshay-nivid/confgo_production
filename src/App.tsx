@@ -43,6 +43,7 @@ import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Thankyou from "./pages/ThankYou/ThankYou";
 import UpcomingEvents from "./pages/User/User-UpcomingEvents/UpcomingEvents";
 import MyEventScreen from "./pages/User/UserEvent";
+import Account from "./pages/User-Account-Settings/Account";
 
 /**
  * Create your router configuration
@@ -111,7 +112,11 @@ const userRoutes = [
       {
         path:routes.upcomingEvents(),
         element:<UpcomingEvents/>
-      }
+      },
+      {
+        path: routes.accountsettings(),
+        element: <Account />,
+      },
     ],
   },
 ];
@@ -190,7 +195,7 @@ const router = createBrowserRouter([
           },
           {
             path: routes.calendar(),
-            element: <CalendarRoute />,
+            element: <CalendarRoute id="events-calendar" key="events-calendar"/>,
           },
         ],
       },
