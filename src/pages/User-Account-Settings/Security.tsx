@@ -42,19 +42,15 @@ const Security: React.FC<SecurityProps> = ({ email }) => {
 
 
   return (
-    <Grid container p={1}>
+    <Grid container>
       <Grid size={12}>
-        <Typography className="account-title" marginBottom={2}>Security</Typography>
+        <Typography className="security-title account-title">Security</Typography>
       </Grid>
 
       <Grid
         container
         size={10}
-        alignItems="center"
-        justifyContent="space-between"
-        marginTop={1}
-         className="security-text-border"
-
+        className="security-text-border"
       >
         <Grid>
           <Typography className="security-text">
@@ -65,7 +61,7 @@ const Security: React.FC<SecurityProps> = ({ email }) => {
           </Typography>
         </Grid>
         <Grid display="flex" alignItems="center">
-          <Typography mr={1} className="security-text">
+          <Typography className="security-text">
             {email}
           </Typography>
           
@@ -75,9 +71,6 @@ const Security: React.FC<SecurityProps> = ({ email }) => {
       <Grid
         container
         size={10}
-        alignItems="center"
-        justifyContent="space-between"
-        marginTop={1}
          className="security-text-border"
       >
         <Grid>
@@ -91,9 +84,8 @@ const Security: React.FC<SecurityProps> = ({ email }) => {
         <Grid display="flex" alignItems="center">
           <CustomButton
             className="security-password-reset-btn"
-            label="Reset"
+            label="Reset Password"
             variant="contained"
-            size="large"
             onClick={handlePasswordReset}
           />
         </Grid>

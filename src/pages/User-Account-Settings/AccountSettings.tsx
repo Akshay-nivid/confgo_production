@@ -1,4 +1,3 @@
-
 import Grid from "@mui/material/Grid2";
 import { Avatar, IconButton, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
@@ -86,15 +85,15 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ setEmail }) => {
   };
 
   return (
-    <Grid container p={1}>
-      <Grid size={8} className="account-profile-grid" p={2}>
-        <Grid size={12} display="flex" alignItems="center">
+    <Grid container>
+      <Grid size={8} className="account-profile-grid">
+        <Grid size={12} className="account-title-grid">
           <Typography className="account-title">Personal Information</Typography>
           <IconButton onClick={openDrawer} className="event-detail-event-info-card-edit-btn">
             <EditIcon />
           </IconButton>
         </Grid>
-        <Grid display="flex" mt={2}>
+        <Grid className="account-profile-image connected">
           <Avatar
           className="user-profile"
             src={profileData?.avatarUrl}
@@ -102,7 +101,7 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ setEmail }) => {
             variant="square"
           />
         </Grid>
-        <Grid container spacing={2} marginTop={2}>
+        <Grid container className="account-detail-grid connected">
           <Grid size={{ xs: 12, sm: 6 }}>
             <Typography className="account-user-detail1">
               First Name
@@ -141,44 +140,38 @@ const AccountSetting: React.FC<AccountSettingProps> = ({ setEmail }) => {
         </Grid>
       </Grid>
 
-      <Grid size={8} p={2} marginTop={2} className="account-profile-grid">
+      <Grid size={8} className="account-profile-grid connected">
       <Typography className="account-title">Connected accounts</Typography>
-      <Grid mt={2} display="flex" alignItems="center">
-          <Grid
-            className="account-connected-grid"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            sx={{ width: 100, height: 50, mr: 2 }}
-          >
+      <Grid display="flex" alignItems="center" className="connected">
+          <Grid className="account-connected-grid">
             <img
               src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png"
               alt="Google"
-              style={{ width: 60, height: 32 }}
+              className="account-connected-img"
             />
           </Grid>
         </Grid>
       </Grid>
 
       <CustomDrawer open={isDrawerOpen} type="right">
-        <Grid container spacing={2} padding={2}>
-          <Grid size={12} container justifyContent="space-between" alignItems="center">
+        <Grid container className="account-drawer">
+          <Grid size={12} container className="account-drawer-text">
             <Typography className="account-title">Personal Information</Typography>
             <IconButton onClick={closeDrawer}>
               <CloseOutlined />
             </IconButton>
           </Grid>
-          <Grid size={12} mt={2}>
+          <Grid size={12} className="connected">
             <form onSubmit={handleSubmit(onSubmit)}>
-              <Grid container spacing={2} direction="column">
+              <Grid container direction="column">
                 <Grid size={12}>
-                  <CustomTextField name="firstName" placeholder="First Name" control={control} requiredField />
+                  <CustomTextField name="firstName" placeholder="First Name" control={control} requiredField className="account-drawer-textfield" />
                 </Grid>
                 <Grid size={12}>
-                  <CustomTextField name="lastName" placeholder="Last Name" control={control} requiredField />
+                  <CustomTextField name="lastName" placeholder="Last Name" control={control} requiredField className="account-drawer-textfield"/>
                 </Grid>
-                <Grid size={12} mt={2} container justifyContent="flex-end" alignItems="center">
-                  <CustomButton label="Change" variant="contained" size="large" type="submit" className="account-submit-btn"/>
+                <Grid size={12} container className="account-drawer-btn">
+                  <CustomButton label="Change" variant="contained" type="submit" className="account-submit-btn"/>
                 </Grid>
               </Grid>
             </form>

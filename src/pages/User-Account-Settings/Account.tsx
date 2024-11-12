@@ -15,32 +15,26 @@ function Account() {
   };
 
   return (
-    <Box sx={{ p: 4 }}>
-      <Typography variant="h5"  className='account-settings-main-title' gutterBottom>
+    <Grid className="account-grid">
+      <Typography className='account-settings-main-title' gutterBottom>
         Account Settings
       </Typography>
-      <Tabs value={tabIndex} className='account-tabs' onChange={handleTabChange} TabIndicatorProps={{
-         style: {
-          borderBottom: '2px solid #3A5AFE',
-          width: tabIndex === 1 ? '68px' : '167px',
-          left: tabIndex === 1 ? '180px' : '0px',
-        },
-        }}>
-        <Tab label="Personal Information" className='account-tab-title'  sx={{ color: tabIndex === 0 ? "#000000" : "#808A98" }}/>
-        <Tab label="Security" className="account-tab-title"  sx={{ color: tabIndex === 1 ? "#000000" : "#808A98" }}/>
+      <Tabs value={tabIndex} className='account-tabs' onChange={handleTabChange} >
+        <Tab label="Personal Information" className='account-tab-title account-tabs'/>
+        <Tab label="Security" className="account-tab-title account-tabs"/>
       </Tabs>
       {tabIndex === 0 ? (
-        <Grid container spacing={2} sx={{ mt:1 }}>
+        <Grid container className="account-tab-details">
           <Grid size={12}>
             <AccountSetting setEmail={setEmail} />
           </Grid>
         </Grid>
       ) : (
-        <Box sx={{ mt: 2 }}>
+        <Box >
          <Security email={email}/>
         </Box>
       )}
-    </Box>
+    </Grid>
   );
 }
 

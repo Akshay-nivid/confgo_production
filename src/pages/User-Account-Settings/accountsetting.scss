@@ -2,6 +2,21 @@
     font-weight: $font_semibold !important;
     font-size: $h5 !important;
 }
+.account-grid{
+    padding: 2rem;  
+}
+.security-title{
+    margin-bottom: 2rem !important;
+    margin-top: 2rem !important;
+}
+.account-title-grid{
+    display: flex;
+    align-items: center;
+}
+.account-profile-image{
+    display: flex;
+}
+
 .user-profile{
     border-radius: 0.313rem !important;
     height: 5.375rem !important;
@@ -12,6 +27,7 @@
     font-size: $h6 !important;
     line-height: 1.5rem !important;
     color: #718096;
+    margin-top: 2rem !important;
 }
 
 .account-user-detail2{
@@ -21,16 +37,46 @@
 }
 
 .account-connected-grid{
+    display:flex;
+    justify-content: center;
+    align-items: center;
     border: 1px solid #D0D5DD;
     border-radius: 0.313rem;
     padding: 0.813rem 1rem ;
+    width: 6.25rem !important;
+    height: 3.125rem !important;
 }
 
 .account-profile-grid{
     border: 1px solid #E9E9E9;
     border-radius: 0.625rem;
+    padding: 1rem;
 }
+.account-tab-details{
+    margin-top: 1rem;
+}
+.connected{
+    margin-top: 1rem;
+}
+.account-drawer{
+    padding: 1rem;
+}
+.account-drawer-text{
+    justify-content: space-between;
+    align-items: center;
+}
+.account-drawer-textfield{
+    margin-bottom: 2rem !important;
+}
+.account-connected-img{
+    width: 3.75rem;
+    height: 2rem;
+}
+.account-drawer-btn{
+    justify-content: flex-end;
+    align-items: center;
 
+}
 .account-settings-main-title{
     font-size: $h4 !important;
     font-weight: $font_bold  !important;
@@ -42,7 +88,10 @@
     .css-15gx8z5-MuiButtonBase-root-MuiTab-root {
         padding: 0rem !important;
     }
-   
+    .MuiTabs-indicator {
+        border-bottom: 2px solid #3A5AFE !important;
+      }
+  
     .Mui-selected{
         color: #000000 !important;
     }
@@ -67,10 +116,18 @@
 
 }
 .security-text-border{
-    border-bottom: 1px solid #CCDFF2
+    border-bottom: 1px solid #CCDFF2;
+    align-items: center;
+    justify-content: space-between !important;
+    margin-top: 1rem;
+    
+}
+.security-password-reset-btn{
+    padding: 0.8rem 3rem !important;
+
 }
 .account-submit-btn{
     background: #3A5AFE !important;
     border-radius: 0.313rem !important;
-
+    padding: 0.5rem 1.5rem !important;
 }
