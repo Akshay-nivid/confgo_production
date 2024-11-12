@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid2';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import { toSentenceCase } from '@/Utils/CommonBaseClass';
+import useStore from '@/Libs/store';
 
 interface LayoutAppbarProps {
   userDetails: {
@@ -23,7 +24,7 @@ interface LayoutAppbarProps {
 const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
-  
+  const { clearDataById }: any = useStore();
   /**
    * handle appbar open
    */
@@ -44,7 +45,7 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
     // Clear sessionStorage and localStorage
     sessionStorage.clear();
     localStorage.clear();
-
+    clearDataById("userDetails");
     // Navigate to login
     navigate(routes.userLogin()); 
   };
@@ -56,12 +57,12 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
     // };
   
   return (
-    <Grid container className="appbar">
+    <Grid container size={12} className="appbar">
       <Grid size={2} className="appbar-logo-container">
         LOGO
       </Grid>
       <Grid container size={10} justifyContent="flex-end" >
-        <Grid container className="appbar-notification">
+        <Grid container className="appbar-notification" onClick={()=>{navigate(routes.calendar())}}>
           {/* Calendar Icon */}
           <CalendarEventIcon className='appbar-notification-icon' />
           {/* Notification Badge */}
