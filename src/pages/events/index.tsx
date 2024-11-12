@@ -65,7 +65,8 @@ const Events = () => {
     const { status, data } = await processAPIResponse(response, 'event-add-on');
     if (status) {
       const optionsData = data?.map((item: any) => ({ label: item.name, value: item.id }))
-      setAddOnOptions(optionsData);
+      const updatedOptionsData=[...optionsData,{label:'Create new Add-on name',value:'other'}];
+      setAddOnOptions(updatedOptionsData);
     }
   }
 
@@ -131,17 +132,30 @@ const Events = () => {
     const programs = data?.program || [];
     const addOns=data?.addOns||[];
     const program = programs.filter((item: any) => item.name!='');
-    const addOn = addOns.filter((item: any) => item.name!='');
-    const transformedData = addOn.map(({ propertyChip,type, ...item }: any) => ({
-      ...item,
-      properties: item.properties.map(({ propertyId, propertyName, propertyAmount,...rest }: any) => ({
-        name: propertyName,      
-        amount: propertyAmount,
-        ...rest   
-      }))
-     
-    }));    
-
+    const addOn = addOns.filter((item: any) => item.addonId!='');
+    const transformedData = addOn.map(({ description,repeat, name, addonType, noOfDays, dateRequired, propertyChip, type, startTime, endTime, date, properties, ...item }: any) => {
+      // Create the combined datetime field
+      const combinedStartDateTime = startTime && date
+        ? `${date}T${startTime}:00`
+        : undefined;  
+        const combinedEndDateTime = endTime && dateRequired
+        ? `${date}T${endTime}:00` 
+        : undefined; 
+    
+      return {
+        ...item,
+        ...(combinedStartDateTime && { startTime: combinedStartDateTime }),
+        ...(combinedEndDateTime&&{endTime:combinedEndDateTime}),
+        ...(properties.length !== 0 && {
+          properties: properties?.map(({ propertyId, propertyName, propertyAmount, ...rest }: any) => ({
+            name: propertyName,
+            amount: propertyAmount??0,
+            ...rest
+          })),
+        }),
+        addonId: item.addonId
+      };
+    });
     let req: any = {
       name: event?.name,
       description: event?.description,
@@ -231,8 +245,11 @@ const Events = () => {
   const onSaveHandler = (data: object,type: string, ) => {
     setFormData({ ...formData, [type]: data });
   };
+   /**
+   * Method handles calls Add on get api when new Addon created
+   */
   const onaddOnSubmitHandler=()=>{
-    console.log('hiiiiii')
+    handleAddOnOptionsApiCall()
   }
 
   return (
@@ -259,6 +276,7 @@ const Events = () => {
             onSaveHandler={onSaveHandler}
             data={formData?.program}
             addOnOptions={addOnOptions}
+            eventData={formData?.event}
           />
         )}
         {activeStep === 2 && (
@@ -269,6 +287,9 @@ const Events = () => {
             data={formData?.addOns}
             addOnOptions={addOnOptions}
             onaddOnSubmitHandler={onaddOnSubmitHandler}
+            eventData={formData?.event}
+            
+             
           />
         )}
         {activeStep === 3 && <ConferenceDetails data={formData} addOnOptions={addOnOptions} />}

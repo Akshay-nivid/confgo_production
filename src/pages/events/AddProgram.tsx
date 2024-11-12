@@ -39,6 +39,7 @@ type ProgramProps = {
   onSaveHandler: (event: any, type: string) => void;
   data: any;
   addOnOptions?: any;
+  eventData?:any
 };
 const typeArray = [
   { label: "Paid", value: "PAID" },
@@ -48,7 +49,7 @@ const typeArray = [
 
 
 const AddProgram: React.FC<ProgramProps> = React.memo(
-  ({ formSubmit, onSubmitHandler, data, onSaveHandler }) => {
+  ({ formSubmit, onSubmitHandler, data, onSaveHandler ,eventData}) => {
     const { handleSubmit, control, watch, setValue } = useForm<FormData>({
       defaultValues: {
         programs: [
@@ -277,6 +278,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                     name={`programs.${index}.startTime`}
                                     type="datetime-local"
                                     min={moment().format("YYYY-MM-DDTHH:mm")}
+                                    maxDate={eventData?.endTime}
                                     rules={{
                                       required: true,
                                       validate: (value) => {
@@ -309,7 +311,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                       validate: (value) => {
                                         if (
                                           typeof value === "string" &&
-                                          value
+                                          value 
                                         ) {
                                           const selectedDate = new Date(value);
                                           const now = new Date();

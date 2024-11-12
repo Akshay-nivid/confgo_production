@@ -7,17 +7,21 @@ import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { Box, Chip, IconButton, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import React, { useEffect, useState } from "react";
-import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
+import { useForm, SubmitHandler, useFieldArray} from "react-hook-form";
 import EditIcon from "@/assets/svg/edit-program-icon.svg";
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import moment from "moment";
 import AddIcon from '@mui/icons-material/Add';
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
+import CustomCheckbox from "@/components/CustomCheckbox/CustomCheckbox";
+import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
+import CreateAddon from "./CreateAddon";
 
 type FormData = {
   addOn: {
     name: string;
     description: string;
+    date:string,
     startTime: string;
     endTime: string;
     type: string;
@@ -31,11 +35,16 @@ type FormData = {
     propertyAmount:string,
     addonId: string;
     propertyChip:string
+    dateRequired: string[];
+    addonType:string;
+    repeat:string[];
+    noOfDays:string;
   }[];
   savedPrograms: {
     id?: string;
     name: string;
     description: string;
+    date:string;
     startTime: string;
     endTime: string;
     type: string;
@@ -48,7 +57,11 @@ type FormData = {
     propertyName:string,
     propertyAmount:string,
     addonId: string;
-    propertyChip:string
+    propertyChip:string;
+    dateRequired: string[];
+    addonType:string;
+    repeat:string[],
+    noOfDays:string
   }[];
 };
 type ProgramProps = {
@@ -58,6 +71,7 @@ type ProgramProps = {
   data: any;
   addOnOptions?: any;
   onaddOnSubmitHandler:()=>void;
+  eventData?:any
 };
 const typeArray = [
   { label: "Paid", value: "PAID" },
@@ -67,7 +81,7 @@ const typeArray = [
 
 
 const AddAddOns: React.FC<ProgramProps> = React.memo(
-  ({ formSubmit, onSubmitHandler, data, onSaveHandler ,onaddOnSubmitHandler}) => {
+  ({ formSubmit, onSubmitHandler, data, onSaveHandler ,onaddOnSubmitHandler,addOnOptions,eventData}) => {
     const { handleSubmit, control, watch, setValue,resetField } = useForm<FormData>({
 
       defaultValues: {
@@ -78,20 +92,25 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
             startTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
             endTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
             type: "PAID",
+            date:moment(new Date()).format("YYYY-MM-DDTHH:mm"),
             properties: [
-              { propertyName: "", propertyAmount: "" },
             ],
             addonId: "",
+            dateRequired:[],
+            addonType:"PAID",
+            noOfDays:""
           },
         ],
       },
     });
+
     const { fields, append, remove } = useFieldArray({
       control,
       name: "addOn",
     });
     const [programIndex, setProgramIndex] = useState<any>();
     const [editMode, setEditMode] = useState(false);
+    const [addOnView,setAddonView]=useState(false);
     /**
      * Useeffect hook updates the programIndex value based on the savedPrograms dependency
      */
@@ -146,31 +165,51 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
     const onSave: SubmitHandler<FormData> = () => {
       // Get the current programs data from `watch("programs")`
       const addOn = watch("addOn");
-      const newPrograms = [...addOn];
-
+      const lastItem = addOn[addOn.length - 1];
+      let newPrograms = [...addOn];
       // Handle saving logic based on `editMode`
       if (!editMode) {
         const newAddon = {
           name: "",
           description: "",
+          date: moment().format("YYYY-MM-DDTHH:mm"),
           startTime: moment().format("YYYY-MM-DDTHH:mm"),
           endTime: moment().format("YYYY-MM-DDTHH:mm"),
           type: "PAID",
-          amount:"",
-          properties: [
-            
-          ],
-          propertyName:"",
-          propertyAmount:"",
+          amount: "",
+          properties: [],
+          propertyName: "",
+          propertyAmount: "",
           addonId: "",
-          propertyChip:""
+          propertyChip: "",
+          dateRequired: [],
+          addonType: "PAID",
+          repeat: [],
+          noOfDays: ""
         };
-        newPrograms.push(newAddon);
-
+        //When Repeat is true
+        if (lastItem.noOfDays !== '') {
+          // Loop over the remaining days and increment the date for each
+          for (let i = 1; i < parseInt(lastItem?.noOfDays); i++) {
+            // Create a new addon by copying lastItem
+            const newAddon = { ...lastItem };
+            const currentDate = new Date(newAddon.date);
+            currentDate.setDate(currentDate.getDate() + i);  
+            newAddon.date = currentDate.toISOString().split('T')[0];
+            //update newPrograms Array
+            newPrograms.push(newAddon);
+          }
+          setValue("savedPrograms", addOn); 
+          newPrograms.push(newAddon);
+          append(newAddon); 
+          setProgramIndex(addOn?.length || 0);
+        } else {
+          newPrograms.push(newAddon);
         // Update both `savedPrograms` and the local `programs` array
-        setValue("savedPrograms", addOn);
-        append(newAddon);
-        setProgramIndex(addOn?.length || 0);
+          setValue("savedPrograms", addOn);
+          append(newAddon);
+          setProgramIndex(addOn?.length || 0);
+        }
       } else {
         // If in `editMode`, just update the program index
         setProgramIndex(addOn?.length ? addOn.length - 1 : 0);
@@ -212,6 +251,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
           const obj={
             name: "",
             description: "",
+            date:moment().format("YYYY-MM-DD"),
             startTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
             endTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
             type: "PAID",
@@ -220,7 +260,12 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
             propertyName:"",
             propertyAmount:"",
             propertyChip:"",
-            amount:""
+            amount:"",
+            dateRequired:[],
+            addonType:"PAID",
+            repeat:[],
+            noOfDays:""
+            
           };
           append(obj);
           saveProgram.push(obj);
@@ -274,11 +319,14 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       });
       setValue('addOn', updatedAddOn);
     };
-    
-
+    /**
+     * Method to close the Drawer
+     */
+    const handleDrawerClose=()=>{
+      setAddonView(false)
+    }
     return (
       <Box className="add-program-container">
-        <Grid onClick={onaddOnSubmitHandler}>Hello</Grid>
         <Grid container className="">
           <Grid
             container
@@ -309,7 +357,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                     </Grid>
                   </Grid>
                   <Box className={"form-wrapper1"}>
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <form id="addOnform" onSubmit={handleSubmit(onSubmit)}>
                       {fields.map((field, index) => {
                         if (index === programIndex) {
                           return (
@@ -317,17 +365,20 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                               <Grid
                                 container
                                 size={{ xs: 12, sm: 12 }}
+                                alignItems={"center"}
                                 spacing={2}
                               >
-                                <Grid size={{ xs: 12, sm: 6 }} mb={2}>
-                                  {/* <CustomSelect/> */}
-                                  {/* <CustomTextField
-                                    placeholder="Add-on Name"
+                                <Grid size={{ xs: 12, sm: 6 }}>
+                                  <CustomSelect
+                                    optionClick={(value) => {
+                                      if (value === 'other') {
+                                        setAddonView(true)
+                                      }
+                                    }}
                                     control={control}
-                                    name={`addOn.${index}.name`}
-                                    type="text"
-                                    rules={{ required: true }}
-                                  /> */}
+                                    label="Add-on Name"
+                                    name={`addOn.${index}.addonId`}
+                                    options={addOnOptions} />
                                 </Grid>
                                 <Grid size={{ xs: 12, sm: 6 }}>
                                   <CustomTextField
@@ -338,105 +389,103 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     rules={{ required: true }}
                                   />
                                 </Grid>
-                                <Grid size={{ xs: 12, sm: 6 }}>
+                                <Grid size={{xs:12,sm:12}}>
+                                  <CustomCheckbox 
+                                  options={[{label:'Specific Date not Required', value: 'YES' }]}
+                                   control={control}
+                                  name={`addOn.${index}.dateRequired`}
+                                  />
+                                </Grid>
+                                 {
+                                  <>{watch(`addOn.${index}.dateRequired`)?.length===0 && <>
+                                <Grid size={{ xs: 12, sm: 4 }}>
                                   <CustomTextField
                                     placeholder="Date"
                                     control={control}
-                                    name={`addOn.${index}.startTime`}
+                                    name={`addOn.${index}.date`}
+                                    defaultValue={moment(new Date()).format("YYYY-MM-DD")}
                                     type="date"
-                                    min={moment().format("YYYY-MM-DDTHH:mm")}
+                                    min={moment().format("YYYY-MM-DD")}
+                                    minDate={eventData?.startTime}
+                                    maxDate={eventData?.endTime}
                                     rules={{
-                                      required: true,
-                                      validate: (value) => {
-                                        if (
-                                          typeof value === "string" &&
-                                          value
-                                        ) {
-                                          const selectedDate = new Date(value);
-                                          const now = new Date();
-                                          now.setHours(0, 0, 0, 0);
-                                          return (
-                                            selectedDate >= now ||
-                                            "Start Date cannot be in the past"
-                                          );
-                                        }
-                                        return "Invalid date";
-                                      },
+                                      validate: () =>
+                                        new Date() >= new Date() ||
+                                        "Start Date cannot be in the past",
                                     }}
                                   />
                                 </Grid>
-                                <Grid  size={{ xs: 12, sm: 6 }} display={"flex"} justifyContent={"space-between"}>
-                                  {/* <CustomTextField
-                                    placeholder="End Date & Time"
-                                    control={control}
-                                    name={`addOn.${index}.endTime`}
-                                    type="datetime-local"
-                                    min={moment().format("YYYY-MM-DDTHH:mm")}
-                                    rules={{
-                                      required: true,
-                                      validate: (value) => {
-                                        if (
-                                          typeof value === "string" &&
-                                          value
-                                        ) {
-                                          const selectedDate = new Date(value);
-                                          const now = new Date();
-                                          now.setHours(0, 0, 0, 0);
-                                          return (
-                                            selectedDate >= now ||
-                                            "End Date cannot be in the past"
-                                          );
-                                        }
-                                        return "Invalid date";
-                                      },
-                                    }}
-                                  /> */}
-                                  <Grid size={{xs:3}}>
-                                  <CustomTextField
-  placeholder="Start Time"
-  control={control}
-  name={`addOn.${index}.startTime`}
-  type="time"
-  min={moment().format("HH:mm")}  // Setting min time as current time (can be adjusted if needed)
-  rules={{
-    required: true,
-    validate: (value) => {
-      if (value) {
-        const currentTime = moment().format("HH:mm");
-        return (
-          value >= currentTime || "Start Time cannot be in the past"
-        );
-      }
-      return "Invalid time";
-    },
-  }}
-/>
-</Grid>
-
-<Grid size={{xs:3}}>
-<CustomTextField
-  placeholder="End Time"
-  control={control}
-  name={`addOn.${index}.endTime`}
-  type="time"
-  min={moment().format("HH:mm")}  // Setting min time as current time (can be adjusted if needed)
-  rules={{
-    required: true,
-    validate: (value) => {
-      const startTime = watch(`addOn.${index}.startTime`);  // Get the value of start time
-      if (value && startTime) {
-        // If end time is less than start time, show an error message
-        return (
-          value > startTime || "End Time must be after Start Time"
-        );
-      }
-      return "Invalid time";
-    },
-  }}
-/>
-</Grid>
+                                <Grid size={{ xs: 4 }}>
+                                    <CustomTextField
+                                      placeholder="Start Time"
+                                      control={control}
+                                      name={`addOn.${index}.startTime`}
+                                      defaultValue={ moment(new Date()).format("HH:mm")}
+                                      type="time"
+                                      min={moment().format("HH:mm")}  // Setting min time as current time (can be adjusted if needed)
+                                      rules={{
+                                        required: true,
+                                        validate: (value) => {
+                                          if (value) {
+                                            const currentTime = moment().format("HH:mm");
+                                            return (
+                                              value >= currentTime || "Start Time cannot be in the past"
+                                            );
+                                          }
+                                          return "Invalid time";
+                                        },
+                                      }}
+                                    />
+                                  </Grid>
+                                    <Grid size={{ xs: 4 }}>
+                                      <CustomTextField
+                                        placeholder="End Time"
+                                        control={control}
+                                        name={`addOn.${index}.endTime`}
+                                        type="time"
+                                        min={moment().format("HH:mm")}  // Setting min time as current time (can be adjusted if needed)
+                                        rules={{
+                                          required: true,
+                                          validate: (value) => {
+                                            const startTime = watch(`addOn.${index}.startTime`);  // Get the value of start time
+                                            if (value && startTime) {
+                                              // If end time is less than start time, show an error message
+                                              return (
+                                                value > startTime || "End Time must be after Start Time"
+                                              );
+                                            }
+                                            return "Invalid time";
+                                          },
+                                        }}
+                                      />
+                                    </Grid>
+                      
+                                  </>
+                                } </>}
+                                <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
+                                  <Grid size={{ xs: 12, sm: 6 }}>
+                                    <CustomRadio
+                                      className="add-program-radio-btn"
+                                      control={control}
+                                      name={`addOn.${index}.addonType`}
+                                      label=""
+                                      options={typeArray}
+                                      row={true}
+                                      value={"PAID"}
+                                    />
+                                  </Grid>
+                                  <Grid size={{ xs: 12, sm: 6 }}>
+                                    <CustomCheckbox
+                                      // defaultValue={"NO"}
+                                      // setValue={setValue}
+                                      options={[{ label: 'Repeat', value: 'YES' }]}
+                                      control={control}
+                                      name={`addOn.${index}.repeat`}
+                                    />
+                                  </Grid>
                                 </Grid>
-                                <Grid size={{  xs: 12, sm: 6  }} >
+                                <Grid  size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
+                                {watch(`addOn.${index}.addonType`) === "PAID" &&                                 <Grid size={{  xs: 12, sm: 6  }} >
                                         <CustomTextField
                                           placeholder="Price"
                                           control={control}
@@ -461,7 +510,22 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                             },
                                           }}
                                         />
+                                      </Grid> }
+                                      {watch(`addOn.${index}.repeat`)?.length>0 &&
+                                      <Grid size={{xs:12,sm:6}}>
+                                      <CustomTextField
+                                      placeholder="Number of days"
+                                      control={control}
+                                      name={`addOn.${index}.noOfDays`}
+                                      type="text"
+                                      rules={{ required: true }}
+                                    />
                                       </Grid>
+                                      }
+                                      
+                                      {}
+                                </Grid>
+
                                 <Grid container size={{ xs: 12 }} display={"flex"} justifyContent={"space-between"}>
                                   <Grid>
                                     <Typography
@@ -534,7 +598,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     </Grid>
                                   </Grid>
                                 </Grid>
-                                {watch(`addOn.${index}.properties`).length!=0&&<Grid container flexDirection={"column"}>
+                                {watch(`addOn.${index}.properties`)?.length!=0&&<Grid container flexDirection={"column"}>
                                   <Typography variant="h6">Properties</Typography>
                                   <Grid container spacing={1}>
                                   {watch(`addOn.${index}.properties`)?.map((item,index)=>{
@@ -581,8 +645,9 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                <Typography variant="h6">Saved Add-Ons</Typography>
               {watch("savedPrograms")?.map(
                 (field, index) =>
-                  field.name
-                  && (
+                  field.addonId&&
+           
+                 (
                     <Grid
                       key={field.id}
                       container
@@ -592,7 +657,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                       <Grid size={{ xs: 8, sm: 8 }} >
                         <Grid container size={{ xs: 12, sm: 12 }} direction={'column'}>
                          
-                        <Grid>{field.name}</Grid>
+                        <Grid>{field.addonId}</Grid>
                         <Grid>{field.description}</Grid>    
                         </Grid>
                                             
@@ -613,6 +678,14 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
             </Grid>
           </Grid>
         </Grid>
+
+        <CustomDrawer
+        children={<CreateAddon submitHandler={onaddOnSubmitHandler} closeDrawer={handleDrawerClose} />}
+        open={addOnView}
+        type="right"
+        onClose={()=>handleDrawerClose}
+
+        />
       </Box>
     );
   }

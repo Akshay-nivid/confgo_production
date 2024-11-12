@@ -667,3 +667,21 @@
 .share-invitation-drawer{
 	max-width: 40rem !important;
 }
+.add-on-create{
+    width: 50rem;
+    margin: 2rem;
+    background-color: $clr_white;
+    &-header{
+        font-weight: $font-bold !important;
+        font-size: $h5 !important;
+    }
+    &-form-wrap{
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+    &-btn{
+        background-color: $clr_green !important;
+        
+    }
+
+}

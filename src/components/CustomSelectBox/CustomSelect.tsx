@@ -14,6 +14,7 @@ interface CustomSelectProps<T extends FieldValues> {
     variant?: 'outlined' | 'filled' | 'standard';
     size?:"small" | "medium" | undefined;
     disabled?:boolean;
+    optionClick?: (index: number | string) => void;
 }
 
 const CustomSelect = <T extends FieldValues>({
@@ -25,8 +26,16 @@ const CustomSelect = <T extends FieldValues>({
   defaultValue ,
   variant = 'outlined',
   rules,
-  disabled=false
+  disabled=false,
+  optionClick
 }: CustomSelectProps<T>) => {
+    const handleOnclick = (fieldValue: string | number) => {
+        if (optionClick) {
+            optionClick(fieldValue)
+        }
+        return fieldValue; 
+    }
+
   return (
     <Controller
       name={name}
@@ -41,7 +50,7 @@ const CustomSelect = <T extends FieldValues>({
                   {...field}
                   className='custom-text-field'
             value={field.value}
-            onChange={field.onChange}
+            onChange={(event) => field.onChange(handleOnclick(event.target.value))}
             labelId={`${name}-label`}
             placeholder={label}
             displayEmpty
