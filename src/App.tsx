@@ -43,6 +43,7 @@ import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Thankyou from "./pages/ThankYou/ThankYou";
 import UpcomingEvents from "./pages/User/User-UpcomingEvents/UpcomingEvents";
 import MyEventScreen from "./pages/User/UserEvent";
+import Account from "./pages/User-Account-Settings/Account";
 import UserEventRecap from "./pages/User/UserEvent-Recap"
 /**
  * Create your router configuration
@@ -113,9 +114,13 @@ const userRoutes = [
         element:<UpcomingEvents/>
       },
       {
-        path:routes.userEventRecap(),
-        element:<UserEventRecap/>
-      }
+         path:routes.userEventRecap(),
+          element:<UserEventRecap/>
+       },
+      {
+        path: routes.accountsettings(),
+        element: <Account />,
+      },
     ],
   },
 ];

@@ -37,7 +37,7 @@ const EventCard: React.FC<EventProps> = React.memo(({eventFullData, datetitle, t
             </Grid>
             {Eventstatus&&
             <Grid className="event-card-status" container display={"flex"} alignContent={"center"}  >
-                <Typography>Status</Typography><StatusComponent value={eventFullData.event.statusId.toString()} />
+                <Typography>Status</Typography><StatusComponent value={eventFullData.statusId.toString()} />
             </Grid>}
             {squareButton &&
                 <Grid className="event-card-certificate" container display={"flex"}>

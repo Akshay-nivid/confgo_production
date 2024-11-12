@@ -6,6 +6,7 @@
     padding: 1rem;
     margin-left:0.9375rem;
     height:19.5625rem !important;
+    // min-height:18.5625rem !important;
     &-date-box{
         font-weight:$font_semibold;
         font-size: $h6 !important;
@@ -21,7 +22,7 @@
     &-title{
         margin-top:0.9375rem;
         font-weight: $font_semibold !important;
-        font-size: $h4 !important;
+        font-size: $h5 !important;
         inline-size: 1.05875rem;
         font-family:$font;
     

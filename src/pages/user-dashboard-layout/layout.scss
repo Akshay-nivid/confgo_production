@@ -221,7 +221,7 @@
 
 .dashboard {
   padding: $p3;
-  margin: $p3 !important;
+  margin-top: $p3 !important;
   
   &-left {
     border-right: 0.06rem solid $clr_light_border_grey;
@@ -306,5 +306,34 @@
   & .menu-item-margin {
    margin-bottom: 0.5rem;
    margin-top: 0.6rem;
+  }
+}
+.no-record {
+  display: flex;
+  &-container {
+      background-color: $background;
+      margin: 1rem;
+      border-radius: 0.9rem;
+      justify-content: center !important;
+  }
+  &-image{
+    margin-top: 5rem !important;
+   // font-size: 20rem;
+  }
+  &-title{
+    display: flex;
+    font-weight: $font_semibold !important;
+    font-size: $p3 !important;
+    justify-content: center !important;
+    margin-top: 3rem !important;
+    color:$clr_black !important;
+  }
+  &-subtitle{
+    font-weight: $font_normal !important;
+    font-size: $p1 !important;
+    justify-content: center !important;
+    align-items: center;
+    margin-bottom: 10rem !important;
+    color:$clr_gray_extra_dark !important;
   }
 }
