@@ -23,7 +23,7 @@ const UserDashboard: React.FC = React.memo(() => {
   // Retrieve userDetails from the store
   const userDetails = useStore((state) => state?.compData?.["userDetails"]) ?? {};
   const userLatestEvents = useStore((state: any) => state?.compData?.["userLatestEvents"]?.['event/list']) ?? [];
-  console.log("userLatestEvents ", userLatestEvents);
+
   /**
   * Useeffect hook handles the api call 
   */

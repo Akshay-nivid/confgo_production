@@ -122,7 +122,6 @@ const MyEventScreen: React.FC = () => {
         },
         id: 'userLatestEvents',
         successCB: (context: any) => {
-          console.log("contec ",context)
           setEvent(context.data);
         },
         errorCB: (context: any) => {
