@@ -1,21 +1,26 @@
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
 import { Button, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import EventCard from "../Components/EventCard";
 import { Logger } from "@/Utils/Logger";
 import apiClient from "@/Libs/Https/API-client";
-import { processAPIResponse } from "@/Utils/CommonBaseClass";
+import { formatDateDayMonthYear, formatTimeRange, processAPIResponse } from "@/Utils/CommonBaseClass";
 import React from "react";
-import CustomButton from "@/components/CustomButton/CustomButton";
+import useStore from "@/Libs/store";
+import StatusComponent from "@/components/Status/StatusComponent";
+
+
+
+
 /**
  * UpcomingEvent component renders a list of upcoming events and includes a search bar 
  */
-const UpcomingEvents: React.FC = React.memo(() => {
+const EventRecap: React.FC = React.memo(() => {
     const { control } = useForm();
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
+    const setDataById = useStore((state: any) => state.setDataById);
     // const [source, setSource] = useState<any>([])
     /**
     * Function to handle search API for autocomplete
@@ -40,6 +45,11 @@ const UpcomingEvents: React.FC = React.memo(() => {
             setLoading(false);
         }
     };
+    useEffect(() => {
+
+        console.log("useEffect");
+        EventDetails(); // pass `id` to the async function
+    }, []); //
 
     /**
    * Function to handle search API for autocomplete
@@ -63,17 +73,22 @@ const UpcomingEvents: React.FC = React.memo(() => {
         }
     };
     /**
-     *  * Sample event data for testing or demonstration purposes.
+     * get evenet details
      */
-    const events = [
-        { datetitle: '2023-12-15', title: 'Kick', location: 'Kannur' },
-        { datetitle: '2023-12-16', title: 'React Conf', location: 'San Francisco' },
-        { datetitle: '2023-12-17', title: 'Vue.js Meetup', location: 'London' },
-        { datetitle: '2023-12-18', title: 'Angular Workshop', location: 'Berlin' },
-        { datetitle: '2023-12-19', title: 'Node.js Seminar', location: 'New York' },
-        { datetitle: '2023-12-20', title: 'JavaScript Conference', location: 'Paris' },
-    ];
-  
+    const eventId = useStore((state: any) => state.compData.EventId);
+    const EventDetails = async () => {
+        const id = eventId.id
+        const response = await apiClient.get(`event/${id}`);
+        const data = processAPIResponse(response, "eventList");
+        console.log("storeddd",data);
+        
+        setDataById("EventDetailsResponse",{data:data?.data});
+    };
+    const data = useStore((state: any) => state.compData.EventDetailsResponse);
+    console.log("store",data.data);
+    console.log("store",data.data.programs);
+
+
     return (
 
         <Grid className="event-recap" container spacing={2}>
@@ -94,26 +109,69 @@ const UpcomingEvents: React.FC = React.memo(() => {
                     />
                 </Grid>
             </Grid>
-            <Grid container spacing={2}>
-               <Grid className="event-recap-first-grid">
-           <Typography className="event-recap-first-grid-text">
-           Green Energy Summit
-           </Typography>
-               </Grid>
-               <Grid className="event-recap-first-grid-status" justifyContent={"centre"} alignItems={"center"}>
-               <Typography className="event-recap-first-grid-status-text">register</Typography>
-               </Grid>
-               <Grid size={12}>
-                <Typography className="event-recap-first-grid-address" >
-                    March 5, 2024 | 9:00 AM - 5:00 PM | Grand City Convention Center</Typography>
-               </Grid>
-               <Grid size={12} className="event-recap-first-grid-buttons">
-               <Button className="event-recap-first-grid-buttons-firstButton">
-                  View Ticket
-               </Button>
-               </Grid>
+            <Grid container>
+                <Grid container  size={12}>
+                    <Grid>
+                        <Typography className="event-recap-first-grid-text">
+                          {data?.data?.name}
+                        </Typography>
+                    </Grid>
+                    <Grid  >
+                        <Typography className="event-recap-first-grid-status-text">
+                        <StatusComponent className="event-recap-first-grid-status"  value={data?.data?.statusId.toString()} />
+                        </Typography>
+                    </Grid>
+                    <Grid size={12}>
+                        <Typography className="event-recap-first-grid-address" >
+                        {formatDateDayMonthYear(data.data.startTime)}|{formatTimeRange(data.data.startTime,data.data.endTime)}|{data.data.venue.city+","+data.data.venue.address}</Typography>
+                    </Grid>
+                    <Grid size={12} className="event-recap-first-grid-buttons">
+            
+                        <Button className="event-recap-first-grid-buttons-firstButton">
+                            View Ticket
+                        </Button>
+                        <Button className="event-recap-first-grid-buttons-secondButton">
+                            cansel Event
+                        </Button>
+                    </Grid>
+                </Grid>
             </Grid>
+            <Grid className="event-recap-second-grid" container size={12}>
+                <Grid size={12}>
+                    <Typography className="event-recap-second-grid-text">
+                        Registered Programmes
+                    </Typography>
+                </Grid>
+{data?.data?.programs.map((item:any) => (
+                <Grid size={4} container flexDirection={"row"} className="event-recap-second-grid-content">
+                
+                    <Grid size={6} className="event-recap-second-grid-content-time" >
+                        <Typography className="event-recap-second-grid-content-time-text">{formatTimeRange(item.startTime,item.endTime)}</Typography>
+                    </Grid>
+                    <Grid className="event-recap-second-grid-content-status" size={6}>
+                        <Typography className="event-recap-second-grid-content-status-text">
+                        <StatusComponent  value={item?.statusId.toString()} />
+                        </Typography>
+                    </Grid>
+                    <Grid className="event-recap-second-grid-content-title" size={12} >
+                        <Typography className="event-recap-second-grid-content-title-text">{item.name}</Typography>
+                    </Grid>
+                    <Grid className="event-recap-second-grid-content-location" size={12} >
+                        <Typography className="event-recap-second-grid-content-location-text">{data.data.venue.city+","+data.data.venue.country}</Typography>
+                    </Grid>
+
+                    <Grid className="event-recap-second-grid-content-speaker" size={12} >
+                        <Typography className="event-recap-second-grid-content-speaker-text">mexico</Typography>
+                    </Grid>
+ 
+                </Grid>
+))}
+
+            </Grid>
+
         </Grid>
     );
 });
-export default UpcomingEvents;
+export default EventRecap;
+
+

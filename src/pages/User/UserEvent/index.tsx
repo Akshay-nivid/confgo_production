@@ -9,48 +9,42 @@ import apiClient from "@/Libs/Https/API-client";
 import { NoEventSvg } from "@/assets/svg"
 import { Logger } from "@/Utils/Logger";
 import React from "react";
-import routes from "@/router/routes";
-
+import useStore from '@/Libs/store';
 /**
  * Interface for a Program, which contains the event details
  */
 interface Program {
   id: number;
-  eventId: number;
-  participantId: number;
-  roleName: string;
-  event: {
+  parentId: number | null;
+  name: string;
+  description: string;
+  startTime: string;
+  endTime: string;
+  venueId: number;
+  eventClass: string;
+  interval: string | null;
+  companyId: number;
+  title: string | null;
+  amount: string;
+  discount: string | null;
+  statusId: number;
+  published: boolean;
+  slugName: string | null;
+  registrationDeadline: string | null;
+  venue: {
     id: number;
-    parentId: number | null;
     name: string;
-    description: string;
-    startTime: string;
-    endTime: string;
-    venueId: number;
-    eventClass: string;
-    interval: string | null;
-    companyId: number;
-    title: string | null;
-    amount: string;
-    discount: string | null;
-    statusId: number;
-    published: boolean;
-    slugName: string | null;
-    registrationDeadline: string | null;
-    venue: {
-      id: number;
-      name: string;
-      address: string;
-      city: string;
-      state: string;
-      country: string;
-      postCode: string | null;
-      totalCapacity: number | null;
-      mapUrl: string;
-    };
-    eventProgramSchedules: any[];
+    address: string;
+    city: string;
+    state: string;
+    country: string;
+    postCode: string | null;
+    totalCapacity: number | null;
+    mapUrl: string | null;
   };
+  eventAddons: any[]; // Change this field based on actual data structure
 }
+
 /**
  * component for show the events
  */
@@ -59,8 +53,8 @@ const MyEventScreen: React.FC = () => {
   const [searchResults, setSearchResults] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [event, setEvent] = useState<Program[]>([]);
-  const [source, setSource] = useState<any>([]);
-  const navigate = useNavigate();
+  const POST = useStore((state: any) => state.POST);
+  const setDataById = useStore((state: any) => state.setDataById);
   /**
    *  Fetch event details when the component mounts
    */
@@ -99,28 +93,49 @@ const MyEventScreen: React.FC = () => {
  */
   const handleAutocompleteChange = (selected: any) => {
     if (selected) {
-      setSource({
-        method: "GET",
-        data: {
-          offset: 0,
-          limit: 5,
-          filters: {
-            id: selected.id,
-          },
-        },
-        url: `event/list`,
-        listName: "eventList",
-      });
+      // setSource({
+      //   method: "GET",
+      //   data: {
+      //     offset: 0,
+      //     limit: 5,
+      //     filters: {
+      //       id: selected.id,
+      //     },
+      //   },
+      //   url: `event/list`,
+      //   listName: "eventList",
+      // });
     }
   };
   /**
    * Fetch participant event details
    */
   const participantEventDetails = async () => {
-    const UserId = sessionStorage.getItem("userId");
-    const response = await apiClient.get(`participant/${Number(UserId)}`);
-    const { data } = await processAPIResponse(response, 'eventData');
-    setEvent(data.programs)
+    try {
+      await POST({
+        url: "event/list",
+        body: {
+          offset: 0,
+          sortBy: "id",
+          sortDirection: "DESC",
+          filters: {},
+        },
+        id: 'userLatestEvents',
+        successCB: (context: any) => {
+          setEvent(context.data);
+        },
+        errorCB: (context: any) => {
+          setDataById("snackBarInfo", {
+            open: true,
+            autoHideDuration: 2000,
+            severity: "error",
+            message: context?.message,
+          });
+        },
+      });
+    } catch (error) {
+      Logger.error("An error occurred:", error);
+    }
   }
   /**
     * Labels for the square buttons on each event card
@@ -140,15 +155,9 @@ const MyEventScreen: React.FC = () => {
      * You can add specific logic based on the index here.
      */
     if (index === 0) {
-    } else if (index === 1) { 
-       
-         eventRecap();
+    } else if (index === 1) {
     }
   };
-  const eventRecap=()=>{
-    navigate(routes.userEventRecap());
-   
-  }
   return (
 
     <Grid className="my-event" container spacing={2}>
@@ -187,9 +196,9 @@ const MyEventScreen: React.FC = () => {
                   viewEventRecap={true}
                   squareButton={true}
                   viewButton={false}
-                  datetitle={event.event.startTime}
-                  title={event?.event?.name}
-                  location={`${event?.event?.venue?.city}, ${event?.event?.venue?.country}`}
+                  datetitle={event.startTime}
+                  title={event?.name}
+                  location={`${event?.venue?.city}, ${event?.venue?.country}`}
                   buttonPress={handleButtonPress}
                   squareButtonLabels={squareButtonLabels}
                   onSquareButtonClick={handleSquareButtonClick}

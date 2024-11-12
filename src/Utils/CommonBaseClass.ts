@@ -134,3 +134,16 @@ export const purposeTypes = {
   SET_PASSWORD: 'USER_REGISTRATION_OTP',
   RESET_PASSWORD: 'RESET_PASSWORD_OTP'
 }
+
+/**
+ * This function takes a date string or Date object and formats it to 'h:mm A - h:mm A' format (e.g., 9:00 AM - 5:00 PM).
+ * @param startDate - A string or Date object representing the start time.
+ * @param endDate - A string or Date object representing the end time.
+ * @returns A string in the format 'h:mm A - h:mm A'.
+ */
+export function formatTimeRange(startDate: string | Date, endDate: string | Date): string {
+  const startTime = moment(startDate).format('h:mm A');
+  const endTime = moment(endDate).format('h:mm A');
+  return `${startTime} - ${endTime}`;
+}
+
