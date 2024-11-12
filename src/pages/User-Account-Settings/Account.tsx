@@ -1,18 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Typography, Tabs, Tab, Box } from '@mui/material';
 import { useState } from 'react';
 import AccountSetting from "./AccountSettings"
 import Security from './Security';
 import Grid from "@mui/material/Grid2";
+import useStore from "@/Libs/store";
 
 
 const Account: React.FC = React.memo(() => {
   const [tabIndex, setTabIndex] = useState(0);
   const [email, setEmail] = useState(''); 
+  const { compData, setDataById } = useStore();
+  const storeTabIndex = compData.account?.tabIndex;
 
-// Handles the tab change event by updating the active tab index btw account-settings and security
-  const handleTabChange = (event: React.SyntheticEvent, newIndex: number) => {
+  useEffect(() => {
+    if (storeTabIndex !== undefined) {
+      setTabIndex(storeTabIndex); 
+      setDataById("account", { tabIndex: undefined }); 
+    }
+  }, [storeTabIndex, setDataById]);
+
+/**
+ * Handles the tab change event by updating the active tab index btw account-settings and security 
+ */
+  const handleTabChange = (_: React.SyntheticEvent, newIndex: number) => {
     setTabIndex(newIndex);
+    setDataById("account", { tabIndex: newIndex }); 
   };
 
   return (

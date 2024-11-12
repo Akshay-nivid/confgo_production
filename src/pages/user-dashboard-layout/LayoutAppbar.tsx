@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid2';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import { toSentenceCase } from '@/Utils/CommonBaseClass';
+import useStore from '@/Libs/store';
 
 interface LayoutAppbarProps {
   userDetails: {
@@ -22,6 +23,8 @@ interface LayoutAppbarProps {
  */
 const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const setDataById = useStore((state) => state?.setDataById);
+
   const navigate = useNavigate();
   
   /**
@@ -49,6 +52,20 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
     navigate(routes.userLogin()); 
   };
 
+/**
+ * handle to profile page by passing itabndex as 0 
+ */
+  const handleProfileClick = () => {
+    setDataById('account', { tabIndex: 0 }); 
+    navigate(routes.accountsettings())
+  };
+
+  /**
+   * handle to security page by passing tabindex as 1
+   */
+  const handleResetPassword = () => {
+    useStore.getState().setDataById("account", { tabIndex: 1 }); 
+  };
     /**
    * Account settings
    */
@@ -105,11 +122,11 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
            
           </MenuItem>
           <Divider />
-          <MenuItem className="menu-item-margin" onClick={() => navigate(routes.accountsettings())}>
+          <MenuItem className="menu-item-margin" onClick={handleProfileClick}>
             <SettingsIcon />
             <span className="menu-item-text">Profile</span>
           </MenuItem>
-          <MenuItem className="" onClick={() => navigate(routes.forgotPassword())}>
+          <MenuItem className="" onClick={handleResetPassword}>
           <SettingsIcon />
             <span className="menu-item-text">Reset Password</span>
           </MenuItem>
