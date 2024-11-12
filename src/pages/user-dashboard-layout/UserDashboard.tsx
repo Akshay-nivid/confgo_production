@@ -135,14 +135,14 @@ const UserDashboard: React.FC = React.memo(() => {
                 <Grid size={12}>
                   <EventCard
                     eventFullData={userLatestEvents.data[0]}
-                    Eventstatus={false}
+                    Eventstatus={true}
                     viewCertificate={true}
                     viewEventRecap={true}
                     squareButton={true}
                     viewButton={false}
                     datetitle={userLatestEvents.data[0].startTime}
                     title={userLatestEvents.data[0].name}
-                    location={userLatestEvents.data[0].location}
+                    location={userLatestEvents.data[0].venue.city}
                     buttonPress={handleButtonPress}
                     squareButtonLabels={squareButtonLabels}
                     onSquareButtonClick={handleSquareButtonClick}
