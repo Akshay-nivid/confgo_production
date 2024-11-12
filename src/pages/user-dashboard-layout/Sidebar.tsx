@@ -30,7 +30,7 @@ const sidebarItems = [
     exact: false,
   },
   {
-    path: routes.calendar(),
+    path: routes.userCalendar(),
     icon: CalendarEventIcon,
     label: 'Calendar',
     exact: false,

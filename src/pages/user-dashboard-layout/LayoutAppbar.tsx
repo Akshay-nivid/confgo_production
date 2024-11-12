@@ -62,7 +62,7 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
         LOGO
       </Grid>
       <Grid container size={10} justifyContent="flex-end" >
-        <Grid container className="appbar-notification" onClick={()=>{navigate(routes.calendar())}}>
+        <Grid container className="appbar-notification" onClick={()=>{navigate(routes.userCalendar())}}>
           {/* Calendar Icon */}
           <CalendarEventIcon className='appbar-notification-icon' />
           {/* Notification Badge */}
