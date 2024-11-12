@@ -40,7 +40,7 @@
     display:flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid #D0D5DD;
+    border: 0.083rem solid #D0D5DD;
     border-radius: 0.313rem;
     padding: 0.813rem 1rem ;
     width: 6.25rem !important;
@@ -48,7 +48,7 @@
 }
 
 .account-profile-grid{
-    border: 1px solid #E9E9E9;
+    border: 0.083rem solid #E9E9E9;
     border-radius: 0.625rem;
     padding: 1rem;
 }
@@ -89,7 +89,7 @@
         padding: 0rem !important;
     }
     .MuiTabs-indicator {
-        border-bottom: 2px solid #3A5AFE !important;
+        border-bottom: 0.167rem solid #3A5AFE !important;
       }
   
     .Mui-selected{
@@ -116,7 +116,7 @@
 
 }
 .security-text-border{
-    border-bottom: 1px solid #CCDFF2;
+    border-bottom: 0.083rem solid #CCDFF2;
     align-items: center;
     justify-content: space-between !important;
     margin-top: 1rem;
