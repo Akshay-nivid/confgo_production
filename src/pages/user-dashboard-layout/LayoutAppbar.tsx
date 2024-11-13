@@ -24,7 +24,6 @@ interface LayoutAppbarProps {
 const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const setDataById = useStore((state) => state?.setDataById);
-
   const navigate = useNavigate();
   
   /**
@@ -53,10 +52,11 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
   };
 
 /**
- * handle to profile page by passing itabndex as 0 
+ * handle to profile page by passing tabindex as 0 
  */
   const handleProfileClick = () => {
-    setDataById('account', { tabIndex: 0 }); 
+    setAnchorEl(null);
+    setDataById('settings', { tabIndex: 0 }); 
     navigate(routes.accountsettings())
   };
 
@@ -64,7 +64,9 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
    * handle to security page by passing tabindex as 1
    */
   const handleResetPassword = () => {
-    useStore.getState().setDataById("account", { tabIndex: 1 }); 
+    setAnchorEl(null);
+    useStore.getState().setDataById("settings", { tabIndex: 1 });  
+    navigate(routes.accountsettings())
   };
     /**
    * Account settings
