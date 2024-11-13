@@ -29,6 +29,11 @@ const CustomSelect = <T extends FieldValues>({
   disabled=false,
   optionClick
 }: CustomSelectProps<T>) => {
+
+    /**
+     * Method handles on select clicks
+     * @param fieldValue : field value select
+     */
     const handleOnclick = (fieldValue: string | number) => {
         if (optionClick) {
             optionClick(fieldValue)
