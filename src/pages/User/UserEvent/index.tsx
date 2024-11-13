@@ -66,7 +66,6 @@ const MyEventScreen: React.FC = () => {
   /**
    * model for view certificate
    */
-  // const eventId = useStore((state: any) => state.compData.EventId);
   const [open, setOpen] = React.useState(false);
   const handleClose = () => setOpen(false);
   const closeDrawer = () => setOpen(false);

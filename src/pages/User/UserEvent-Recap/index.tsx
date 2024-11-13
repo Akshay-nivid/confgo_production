@@ -11,9 +11,6 @@ import useStore from "@/Libs/store";
 import StatusComponent from "@/components/Status/StatusComponent";
 import { useLocation } from "react-router-dom";
 
-
-
-
 /**
  * UpcomingEvent component renders a list of upcoming events and includes a search bar 
  */
@@ -26,7 +23,6 @@ const EventRecap: React.FC = React.memo(() => {
      const [source, setSource] = useState<any>([])
     const GET = useStore((state: any) => state.GET);
     const [eventLoading, setEventLoading] = useState(true);
-   // const data = useStore((state: any) => state.compData.EventDetailsResponse)?? [];
     const eventData = useStore((state: any) => state?.compData?.["EventDetailsResponse"]?.[`event/${eventId}`]) ?? [];
 
     /**
@@ -102,8 +98,6 @@ const EventRecap: React.FC = React.memo(() => {
             setEventLoading(false);
         }
     };
-
-
     return (
         <>
             {eventLoading ? (
@@ -162,24 +156,22 @@ const EventRecap: React.FC = React.memo(() => {
                         </Grid>
                         {eventData?.data?.programs.map((item: any) => (
                             <Grid size={4} container flexDirection={"row"} className="event-recap-second-grid-content">
-
                                 <Grid size={6} className="event-recap-second-grid-content-time" >
                                     <Typography className="event-recap-second-grid-content-time-text">{formatTimeRange(item.startTime, item.endTime)}</Typography>
                                 </Grid>
                                 <Grid className="event-recap-second-grid-content-status" size={6}>
                                     <Typography className="event-recap-second-grid-content-status-text">
-                                        <StatusComponent value={item?.statusId.toString()} />
+                                        <StatusComponent className="event-recap-first-grid-status"   value={item?.statusId.toString()} />
                                     </Typography>
                                 </Grid>
                                 <Grid className="event-recap-second-grid-content-title" size={12} >
                                     <Typography className="event-recap-second-grid-content-title-text">{item.name}</Typography>
                                 </Grid>
                                 <Grid className="event-recap-second-grid-content-location" size={12} >
-                                    <Typography className="event-recap-second-grid-content-location-text">{eventData.data.venue.city + "," + eventData.data.venue.country}</Typography>
+                                    <Typography className="event-recap-second-grid-content-location-text">Location:{eventData.data.venue.city + "," + eventData.data.venue.country}</Typography>
                                 </Grid>
-
                                 <Grid className="event-recap-second-grid-content-speaker" size={12} >
-                                    <Typography className="event-recap-second-grid-content-speaker-text">mexico</Typography>
+                                    <Typography className="event-recap-second-grid-content-speaker-text">Speaker:swayer</Typography>
                                 </Grid>
 
                             </Grid>
