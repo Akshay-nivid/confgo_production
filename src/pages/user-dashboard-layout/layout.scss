@@ -54,7 +54,9 @@
     border: none;
   }
 }
-
+.sidebar-divider {
+  margin: 1rem !important;
+}
 .list-header {
   font-size: $p3;
   margin-top: 1.916rem;
@@ -131,6 +133,7 @@
   }
 
   &-notification {
+    cursor: pointer;
     position: relative;
     border: 0.1rem solid $clr_light_border_grey;
     position: relative;
