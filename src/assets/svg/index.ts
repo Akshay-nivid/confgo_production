@@ -56,6 +56,7 @@ import DashboardUserIcon from "./dashboard-user.svg";
 import EditButtonIcon from "./Edit-location-button.svg";
 import NoEventSvg from "./No-events-img.svg"
 import DownArrowSvg from './downarrow.svg'
+import ResetPassword from './Reset-Password.svg'
 export {
   CalenderIcon,
   EventIcon,
@@ -115,4 +116,5 @@ export {
   EditButtonIcon,
   NoEventSvg,
   DownArrowSvg,
+  ResetPassword,
 };
