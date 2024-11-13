@@ -95,5 +95,78 @@
                 }
             }
         }
+    &-calendar-card{
+        background-color: $clr_white;
+        border-radius: 0.66rem;
+        height: 32rem;
+        margin-top: 1rem;
+        &-header{
+            font-size: $p2 !important;
+            font-weight: $font_bold !important;
+        }
+        &-icon{
+            svg{
+                width: 2.5rem;
+                height: 2.5rem;
+            }
+        }
+        &-title{
+            font-size: $h6 !important;
+            font-weight: $font_bold !important;
+            padding-left: 1.8rem;
+            &-container{
+                margin: 1rem;
+            }
+        }
+        &-sub-title{
+            font-size: $p2 !important;
+            font-weight: $font_semibold !important;
+            padding-left: 1.8rem;
+        }
+        &-day{
+            padding-left: 1.7rem;
+            padding-top: 1rem;
+            font-size: $p2 !important;
+            font-weight: $font_bold !important;
+        }
+        &-text-item {
+            height: 3.6rem;
+            position: relative;
+            &:not(:last-child) {
+                border-bottom: 1px solid $clr_medium_grey;
+              }
+            
+        }
+        &-text-item {
+            height: 3.6rem;
+            &:not(:last-child) {
+                border-bottom: 1px solid $clr_medium_grey;
+              }
+            
+        }
+        &-event-item {
+            height: 3.6rem;
+            &:not(:last-child) {
+                border-bottom: 1px solid $clr_medium_grey;
+              }
+            
+        }
+        &-event {
+            background-color: $clr_green_light;
+            width: 25rem;
+            border: 2px solid $clr_green_slight_light;
+            border-radius: 0.66rem;
+          
+            @for $i from 0 through 6 {
+                &-#{$i} {
+                  height: if($i > 6, #{3.6rem * 6}, #{3.6rem * ($i + 1)});
+                }
+              }
+              &-title{
+                font-size: $p3 !important;
+                font-weight: $font_bold !important;
+              }
+          }
+    }
 }
 
