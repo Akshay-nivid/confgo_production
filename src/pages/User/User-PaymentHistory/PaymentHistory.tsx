@@ -26,7 +26,7 @@ const PaymentHistory:React.FC = React.memo(()=>{
       type: "status",
       field: "status",
       headerName: "Status",
-      width: 159,
+      width: 179,
       Height: 51,
       dateFormat: "DD/MM/YYYY",
     },
@@ -37,7 +37,7 @@ const PaymentHistory:React.FC = React.memo(()=>{
       width: 167,
       Height: 51
     },
-    { type: "", field: "PaymentMethod", headerName: "Payment Method", width: 181, Height: 51 },
+    { type: "", field: "PaymentMethod", headerName: "Payment Method", width: 178, Height: 51 },
   ];
 
 
@@ -125,12 +125,12 @@ const PaymentHistory:React.FC = React.memo(()=>{
         amount: item?.amount,
         status : item?.event?.statusId,
         createdOn: item?.createdOn,
-
+        Receipt:item.paymentMethodId,
+        PaymentMethod:item.paymentMethodId
+     
       };
     });
   };
-
-
   useEffect(() => {
     payments();
   }, []);

@@ -41,10 +41,10 @@ import PaymentHistory from "./pages/User/User-PaymentHistory/PaymentHistory";
 import DynamicUserForm from "./pages/User/DynamicUserForm";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Thankyou from "./pages/ThankYou/ThankYou";
-import UpcomingEvents from "./pages/User/User-UpcomingEvents/UpcomingEvents";
 import MyEventScreen from "./pages/User/UserEvent";
 import Account from "./pages/User-Account-Settings/Account";
-import UserEventRecap from "./pages/User/UserEvent-Recap"
+import UserEventRecap from "./pages/User/UserEvent-Recap";
+
 /**
  * Create your router configuration
  */
@@ -110,13 +110,9 @@ const userRoutes = [
         element:<MyEventScreen/>
       },
       {
-        path:routes.upcomingEvents(),
-        element:<UpcomingEvents/>
-      },
-      {
          path:routes.userEventRecap(),
           element:<UserEventRecap/>
-       },
+      },
       {
         path: routes.accountsettings(),
         element: <Account />,

@@ -81,10 +81,11 @@ const EventRecap: React.FC = React.memo(() => {
         const response = await apiClient.get(`event/${id}`);
         const data = processAPIResponse(response, "eventList");
         console.log("storeddd",data);
-        
         setDataById("EventDetailsResponse",{data:data?.data});
     };
     const data = useStore((state: any) => state.compData.EventDetailsResponse);
+    console.log("id",data);
+    
     console.log("store",data.data);
     console.log("store",data.data.programs);
 
