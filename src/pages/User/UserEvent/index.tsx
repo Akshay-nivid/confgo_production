@@ -62,7 +62,6 @@ const MyEventScreen: React.FC = () => {
   const setDataById = useStore((state: any) => state.setDataById);
   const [source, setSource] = useState<any>([]);
   const navigate = useNavigate();
-  // const eventId = useStore((state:any) => state?.compData);
   /**
    * model for view certificate
    */
@@ -179,9 +178,7 @@ const MyEventScreen: React.FC = () => {
    * component for show the events details
    */
   const eventRecap=(eventId: number)=>{
-    
     navigate(routes.userEventRecap(),{state:{eventId:eventId}});
-   
   }
   return (
     <Grid className="my-event" container spacing={2}>
