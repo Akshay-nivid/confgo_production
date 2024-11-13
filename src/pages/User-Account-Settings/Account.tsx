@@ -11,7 +11,7 @@ const Account: React.FC = React.memo(() => {
   const [email, setEmail] = useState(''); 
 
 // Handles the tab change event by updating the active tab index btw account-settings and security
-  const handleTabChange = (event: React.SyntheticEvent, newIndex: number) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newIndex: number) => {
     setTabIndex(newIndex);
   };
 
