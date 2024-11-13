@@ -20,11 +20,10 @@ const EventRecap: React.FC = React.memo(() => {
     const [loading, setLoading] = useState(false);
     const setDataById = useStore((state: any) => state.setDataById);
     const {eventId} = useLocation().state || {};
-     const [source, setSource] = useState<any>([])
     const GET = useStore((state: any) => state.GET);
     const [eventLoading, setEventLoading] = useState(true);
     const eventData = useStore((state: any) => state?.compData?.["EventDetailsResponse"]?.[`event/${eventId}`]) ?? [];
-
+    const POST = useStore((state: any) => state.POST);
     /**
     * Function to handle search API for autocomplete
     */
@@ -36,7 +35,7 @@ const EventRecap: React.FC = React.memo(() => {
                     name: query,
                 },
             };
-            const response = await await apiClient.get(`event/list`, req);
+            const response = await await apiClient.post(`event/list`, req);
             const { status, data } = await processAPIResponse(response, "eventList");
             if (status) {
                 setSearchResults(data);
@@ -57,20 +56,30 @@ const EventRecap: React.FC = React.memo(() => {
    *  New handler for when an event is selected from autocomplete
    * @param selected
    */
-    const handleAutocompleteChange = (selected: any) => {
+    const handleAutocompleteChange = async (selected: any) => {
         if (selected) {
-            setSource({
-                method: "GET",
-                data: {
-                    offset: 0,
-                    limit: 5,
-                    filters: {
-                        id: selected.id,
-                    },
-                },
-                url: `event/list`,
-                listName: "eventList",
-            });
+            try {
+                await POST({
+                  url: "event/list",
+                  body: {
+                    filters: {id: selected.id},
+                  },
+                  id: 'userLatestEvents',
+                  successCB: (success: any) => {    
+                    setDataById("searchResult",{data:success.data})
+                  },
+                  errorCB: (context: any) => {
+                    setDataById("snackBarInfo", {
+                      open: true,
+                      autoHideDuration: 2000,
+                      severity: "error",
+                      message: context?.message,
+                    });
+                  },
+                });
+              } catch (error) {
+                Logger.error("An error occurred:", error);
+              }
         }
     };
     /**

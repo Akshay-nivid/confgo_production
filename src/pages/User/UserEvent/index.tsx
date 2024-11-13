@@ -60,7 +60,6 @@ const MyEventScreen: React.FC = () => {
   const [event, setEvent] = useState<Program[]>([]);
   const POST = useStore((state: any) => state.POST);
   const setDataById = useStore((state: any) => state.setDataById);
-  const [source, setSource] = useState<any>([]);
   const navigate = useNavigate();
   /**
    * model for view certificate
@@ -86,13 +85,11 @@ const MyEventScreen: React.FC = () => {
           name: query,
         },
       };
-      const response = await await apiClient.get(`event/list`, req);
+      const response = await await apiClient.post(`event/list`, req);
       const { status, data } = await processAPIResponse(response, "eventList");
       if (status) {
-        setSearchResults(data.programs);
-
+        setSearchResults(data);
       }
-
     } catch (error) {
       Logger.error(error, "EventList.tsx");
     } finally {
@@ -105,20 +102,33 @@ const MyEventScreen: React.FC = () => {
  *  New handler for when an event is selected from autocomplete
  * @param selected
  */
-  const handleAutocompleteChange = (selected: any) => {
+  const handleAutocompleteChange = async (selected: any) => {
     if (selected) {
-      setSource({
-        method: "GET",
-        data: {
-          offset: 0,
-          limit: 5,
-          filters: {
-            id: selected.id,
+      try {
+        await POST({
+          url: "event/list",
+          body: {
+            offset: 0,
+            sortBy: "id",
+            sortDirection: "DESC",
+            filters: {id: selected.id},
           },
-        },
-        url: `event/list`,
-        listName: "eventList",
-      });
+          id: 'userLatestEvents',
+          successCB: (success: any) => {
+            setEvent(success.data);
+          },
+          errorCB: (context: any) => {
+            setDataById("snackBarInfo", {
+              open: true,
+              autoHideDuration: 2000,
+              severity: "error",
+              message: context?.message,
+            });
+          },
+        });
+      } catch (error) {
+        Logger.error("An error occurred:", error);
+      }
     }
   };
   /**
@@ -135,8 +145,8 @@ const MyEventScreen: React.FC = () => {
           filters: {},
         },
         id: 'userLatestEvents',
-        successCB: (context: any) => {
-          setEvent(context.data);
+        successCB: (success: any) => {
+          setEvent(success.data);
         },
         errorCB: (context: any) => {
           setDataById("snackBarInfo", {
