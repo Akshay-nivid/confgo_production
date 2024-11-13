@@ -1,5 +1,5 @@
 /**
- * Component displays the upcoming event card in the dashboard
+ * Component displays the pending event card in the dashboard
  */
 import CustomButton from "@/components/CustomButton/CustomButton";
 import StatusComponent from "@/components/Status/StatusComponent";

@@ -1,5 +1,5 @@
 /**
- * Component displays the welcome card in the dashboard
+ * Component displays the warning banner in the top bar
  */
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { Alert, Typography } from "@mui/material";
