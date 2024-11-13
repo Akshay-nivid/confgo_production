@@ -1,12 +1,12 @@
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
-import {IconButton, Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import EventCard from "../Components/EventCard";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import apiClient from "@/Libs/Https/API-client";
-import { NoEventSvg } from "@/assets/svg"
+import { NoEvent } from "@/assets/svg"
 import { Logger } from "@/Utils/Logger";
 import React from "react";
 import useStore from '@/Libs/store';
@@ -64,7 +64,8 @@ const MyEventScreen: React.FC = () => {
   /**
    * model for view certificate
    */
-  const [open, setOpen] =React.useState(false);
+  const eventId = useStore((state: any) => state.compData.EventId);
+  const [open, setOpen] = React.useState(false);
   const handleClose = () => setOpen(false);
   const closeDrawer = () => setOpen(false);
   /**
@@ -163,22 +164,32 @@ const MyEventScreen: React.FC = () => {
     * @param index  Function to handle the event selection from the autocomplete input.
     * It updates the API request configuration based on the selected event.
     */
-  const handleSquareButtonClick = (index: number) => {
+  const handleSquareButtonClick = async (index: number) => {
     /**
      * You can add specific logic based on the index here.
      */
     if (index === 0) {
       setOpen(true);
-    } else if (index === 1) { 
-         eventRecap();
+    } else if (index === 1) {
+      try {
+        console.log("idd");
+        await eventRecap(eventId);
+      }
+      catch (e) {
+        console.log(e, "error");
+
+      }
     }
   };
   /**
    * component for show the events details
    */
-  const eventRecap=()=>{
-    navigate(routes.userEventRecap());
-   
+  const eventRecap = (eventId:any) => {
+    //  const eventId = useStore((state: any) => state.compData.EventId);
+    console.log("eventId.id",eventId.id);
+    const Eventid = eventId.id;
+    navigate(routes.userEventRecap(), { state: { Eventid:Eventid } });
+
   }
   return (
     <Grid className="my-event" container spacing={2}>
@@ -201,11 +212,17 @@ const MyEventScreen: React.FC = () => {
       </Grid>
       {
         event == undefined ? (
-          <Grid container size={12}>
-            <Grid justifyContent={"center"} alignContent={"center"} display={"flex"} size={12}>
-              <NoEventSvg className="my-event-no-event-image" />
-            </Grid>
+          <Grid container size={12} justifyContent={"center"}>
+          <Grid  container justifyContent={"center"}  className="no-event" >
+          <Grid>
+          <NoEvent className="no-event-svg"/>
           </Grid>
+          <Grid size={12} flexDirection={"column"}>
+            <Typography className="no-event-svg-text">No Events Found</Typography>
+            <Typography className="no-event-svg-text-description">You haven’t registered for any events yet. Explore upcoming events and secure your spot today!</Typography>
+          </Grid>
+              </Grid> 
+        </Grid>
         ) : (
           <Grid container size={12} spacing={2}>
             {event.map((event: Program, index) => (
@@ -229,35 +246,35 @@ const MyEventScreen: React.FC = () => {
           </Grid>
         )
       }
-       {/* Modal for viewing certificates */}
-       <CustomModel
+      {/* Modal for viewing certificates */}
+      <CustomModel
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-         <Grid container className="outer-grid" size={8}>
-      <Grid  size={8} className="view-certificate-grid-content">
-        <Grid container size={12}>
-        <Grid container size={12}>
-            <IconButton onClick={closeDrawer}>
-              <CloseOutlined />
-            </IconButton>
+        <Grid container className="outer-grid" size={8}>
+          <Grid size={8} className="view-certificate-grid-content">
+            <Grid container size={12}>
+              <Grid container size={12}>
+                <IconButton onClick={closeDrawer}>
+                  <CloseOutlined />
+                </IconButton>
+              </Grid>
+              <Grid size={10} alignItems={"center"} container justifyContent={"center"}>
+                <Typography variant="h1" component="h2">
+                  Text in a model
+                </Typography>
+              </Grid>
+              <Grid size={2} container alignItems={"center"} justifyContent={"flex-end"}>
+                <Grid>
+                  <CustomButton label="Download" />
+                </Grid>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid size={10} alignItems={"center"} container justifyContent={"center"}> 
-            <Typography variant="h1" component="h2">
-          Text in a model
-        </Typography>
         </Grid>
-        <Grid size={2}  container alignItems={"center"}  justifyContent={"flex-end"}>
-          <Grid>
-             <CustomButton label="Download" />
-          </Grid>
-        </Grid> 
-        </Grid>
-      </Grid>
-    </Grid>
-</CustomModel>
+      </CustomModel>
     </Grid>
   );
 };

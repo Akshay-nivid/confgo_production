@@ -21,7 +21,9 @@ const EventRecap: React.FC = React.memo(() => {
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const setDataById = useStore((state: any) => state.setDataById);
-    // const [source, setSource] = useState<any>([])
+    const { state } = useLocation();
+    const eventId = state?.Eventid;
+     const [source, setSource] = useState<any>([])
     /**
     * Function to handle search API for autocomplete
     */
@@ -46,8 +48,6 @@ const EventRecap: React.FC = React.memo(() => {
         }
     };
     useEffect(() => {
-
-        console.log("useEffect");
         EventDetails(); // pass `id` to the async function
     }, []); //
 
@@ -58,40 +58,30 @@ const EventRecap: React.FC = React.memo(() => {
    */
     const handleAutocompleteChange = (selected: any) => {
         if (selected) {
-            // setSource({
-            //     method: "GET",
-            //     data: {
-            //         offset: 0,
-            //         limit: 5,
-            //         filters: {
-            //             id: selected.id,
-            //         },
-            //     },
-            //     url: `event/list`,
-            //     listName: "eventList",
-            // });
+            setSource({
+                method: "GET",
+                data: {
+                    offset: 0,
+                    limit: 5,
+                    filters: {
+                        id: selected.id,
+                    },
+                },
+                url: `event/list`,
+                listName: "eventList",
+            });
         }
     };
     /**
      * get evenet details
      */
-    const eventId = useStore((state: any) => state.compData.EventId);
     const EventDetails = async () => {
-        const id = eventId.id
-        const response = await apiClient.get(`event/${id}`);
+        const response = await apiClient.get(`event/${eventId}`);
         const data = processAPIResponse(response, "eventList");
-        console.log("storeddd",data);
         setDataById("EventDetailsResponse",{data:data?.data});
     };
     const data = useStore((state: any) => state.compData.EventDetailsResponse);
-    console.log("id",data);
-    
-    console.log("store",data.data);
-    console.log("store",data.data.programs);
-
-
     return (
-
         <Grid className="event-recap" container spacing={2}>
             <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} flexDirection={"row"}>
                 <Grid size={{ xs: 6 }} >
@@ -119,7 +109,7 @@ const EventRecap: React.FC = React.memo(() => {
                     </Grid>
                     <Grid  >
                         <Typography className="event-recap-first-grid-status-text">
-                        <StatusComponent className="event-recap-first-grid-status"  value={data?.data?.statusId.toString()} />
+                        {/* <StatusComponent className="event-recap-first-grid-status"  value={data?.data.statusId.toString()} /> */}
                         </Typography>
                     </Grid>
                     <Grid size={12}>

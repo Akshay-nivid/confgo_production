@@ -54,7 +54,8 @@ import PaymentDashboardIcon from "./payment.svg";
 import CouponDashboardIcon from "./coupons.svg";
 import DashboardUserIcon from "./dashboard-user.svg";
 import EditButtonIcon from "./Edit-location-button.svg";
-import NoEventSvg from "./No-events-img.svg";
+import NoEvent from "./NoEvents.svg";
+import NoPayment from "./noPayment.svg"
 import DownArrowSvg from './downarrow.svg';
 import NoDataSvg from './nodata.svg';
 
@@ -115,7 +116,8 @@ export {
   CouponDashboardIcon,
   DashboardUserIcon,
   EditButtonIcon,
-  NoEventSvg,
+  NoEvent,
   DownArrowSvg,
-  NoDataSvg
+  NoDataSvg,
+  NoPayment
 };
