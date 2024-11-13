@@ -27,8 +27,10 @@ const Security:React.FC<SecurityProps> = React.memo(({ email }) => {
   const POST = useStore((state: any) => state.POST);
 
   const navigate = useNavigate();
-
-  // Initiates the password reset process by sending the user's email to the forgotPassword
+/**
+ *  Initiates the password reset process by sending the user's email to the forgotPassword
+ * @param email
+*/
   const handlePasswordReset = async () => {
     const body = { username: email, };
     const successCB = (context: any) => {  
