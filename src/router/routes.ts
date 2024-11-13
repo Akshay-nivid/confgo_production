@@ -40,7 +40,8 @@ const routes = {
   formBuilder: () => "/formbuilder",
   dynamicUserForm: () => "user/form",
   userCoupons:()=>"user/coupons",
-  accountsettings: ( ) => `/user/account-settings`,
+  userEventRecap:()=>"/event-recap",
+  accountsettings: () => `/user/account-settings`,
 };
 
 export default routes;

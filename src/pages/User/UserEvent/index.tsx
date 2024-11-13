@@ -1,5 +1,5 @@
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
-import { Typography } from "@mui/material";
+import {IconButton, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -10,6 +10,11 @@ import { NoEventSvg } from "@/assets/svg"
 import { Logger } from "@/Utils/Logger";
 import React from "react";
 import useStore from '@/Libs/store';
+import routes from "@/router/routes";
+import { useNavigate } from "react-router-dom";
+import CustomModel from "@/components/CustomModel/CustomModel";
+import CustomButton from "@/components/CustomButton/CustomButton";
+import { CloseOutlined } from "@mui/icons-material";
 /**
  * Interface for a Program, which contains the event details
  */
@@ -55,12 +60,20 @@ const MyEventScreen: React.FC = () => {
   const [event, setEvent] = useState<Program[]>([]);
   const POST = useStore((state: any) => state.POST);
   const setDataById = useStore((state: any) => state.setDataById);
+  const [source, setSource] = useState<any>([]);
+  /**
+   * model for view certificate
+   */
+  const [open, setOpen] =React.useState(false);
+  const handleClose = () => setOpen(false);
+  const closeDrawer = () => setOpen(false);
   /**
    *  Fetch event details when the component mounts
    */
   useEffect(() => {
     participantEventDetails();
   }, []);
+  const navigate = useNavigate();
   /**
   * Function to handle search API for autocomplete
   */
@@ -93,18 +106,18 @@ const MyEventScreen: React.FC = () => {
  */
   const handleAutocompleteChange = (selected: any) => {
     if (selected) {
-      // setSource({
-      //   method: "GET",
-      //   data: {
-      //     offset: 0,
-      //     limit: 5,
-      //     filters: {
-      //       id: selected.id,
-      //     },
-      //   },
-      //   url: `event/list`,
-      //   listName: "eventList",
-      // });
+      setSource({
+        method: "GET",
+        data: {
+          offset: 0,
+          limit: 5,
+          filters: {
+            id: selected.id,
+          },
+        },
+        url: `event/list`,
+        listName: "eventList",
+      });
     }
   };
   /**
@@ -155,11 +168,19 @@ const MyEventScreen: React.FC = () => {
      * You can add specific logic based on the index here.
      */
     if (index === 0) {
-    } else if (index === 1) {
+      setOpen(true);
+    } else if (index === 1) { 
+         eventRecap();
     }
   };
+  /**
+   * component for show the events details
+   */
+  const eventRecap=()=>{
+    navigate(routes.userEventRecap());
+   
+  }
   return (
-
     <Grid className="my-event" container spacing={2}>
       <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} flexDirection={"row"}>
         <Grid size={{ xs: 6 }} >
@@ -208,6 +229,35 @@ const MyEventScreen: React.FC = () => {
           </Grid>
         )
       }
+       {/* Modal for viewing certificates */}
+       <CustomModel
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+         <Grid container className="outer-grid" size={8}>
+      <Grid  size={8} className="view-certificate-grid-content">
+        <Grid container size={12}>
+        <Grid container size={12}>
+            <IconButton onClick={closeDrawer}>
+              <CloseOutlined />
+            </IconButton>
+          </Grid>
+          <Grid size={10} alignItems={"center"} container justifyContent={"center"}> 
+            <Typography variant="h1" component="h2">
+          Text in a model
+        </Typography>
+        </Grid>
+        <Grid size={2}  container alignItems={"center"}  justifyContent={"flex-end"}>
+          <Grid>
+             <CustomButton label="Download" />
+          </Grid>
+        </Grid> 
+        </Grid>
+      </Grid>
+    </Grid>
+</CustomModel>
     </Grid>
   );
 };

@@ -70,7 +70,9 @@ const UserLogin = (props: UserProps) => {
       successCB: (success: ApiResponse) => {
         sessionStorage.clear();
         sessionStorage.setItem("token", success.data?.token);
-        sessionStorage.setItem("userId", success.data?.userRole?.id.toString());
+        sessionStorage.setItem("userId",success.data?.id.toString());
+
+      
         setDataById('participantLogin', true);
         apiClient.setToken(success.data.token);
         setDataById('userDetails', success.data);
