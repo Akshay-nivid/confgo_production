@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import { Avatar, Badge, Divider, Menu, MenuItem } from '@mui/material';
-import { SettingsIcon, LogoutIcon, CalendarEventIcon, DownArrowSvg } from '@/assets/svg';
+import { SettingsIcon, LogoutIcon, CalendarEventIcon, DownArrowSvg, ResetPassword } from '@/assets/svg';
 import Grid from '@mui/material/Grid2';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
@@ -23,6 +23,7 @@ interface LayoutAppbarProps {
  */
 const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const setDataById = useStore((state) => state?.setDataById);
   const navigate = useNavigate();
   const { clearDataById }: any = useStore();
   /**
@@ -50,6 +51,23 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
     navigate(routes.userLogin()); 
   };
 
+/**
+ * handle to profile page by passing tabindex as 0 
+ */
+  const handleProfileClick = () => {
+    setAnchorEl(null);
+    setDataById('settings', { tabIndex: 0 }); 
+    navigate(routes.accountsettings())
+  };
+
+  /**
+   * handle to security page by passing tabindex as 1
+   */
+  const handleResetPassword = () => {
+    setAnchorEl(null);
+    useStore.getState().setDataById("settings", { tabIndex: 1 });  
+    navigate(routes.accountsettings())
+  };
     /**
    * Account settings
    */
@@ -106,12 +124,12 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
            
           </MenuItem>
           <Divider />
-          <MenuItem className="menu-item-margin" onClick={() => navigate(routes.accountsettings())}>
+          <MenuItem className="menu-item-margin" onClick={handleProfileClick}>
             <SettingsIcon />
             <span className="menu-item-text">Profile</span>
           </MenuItem>
-          <MenuItem className="" onClick={() => navigate(routes.forgotPassword())}>
-          <SettingsIcon />
+          <MenuItem className="" onClick={handleResetPassword}>
+          <ResetPassword />
             <span className="menu-item-text">Change Password</span>
           </MenuItem>
           <MenuItem className="" onClick={handleLogout}>

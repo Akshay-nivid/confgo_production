@@ -57,8 +57,8 @@ import EditButtonIcon from "./Edit-location-button.svg";
 import NoEvent from "./NoEvents.svg";
 import NoPayment from "./noPayment.svg"
 import DownArrowSvg from './downarrow.svg';
+import ResetPassword from './Reset-Password.svg';
 import NoDataSvg from './nodata.svg';
-
 export {
   CalenderIcon,
   EventIcon,
@@ -119,5 +119,6 @@ export {
   NoEvent,
   DownArrowSvg,
   NoDataSvg,
-  NoPayment
+  NoPayment,
+  ResetPassword,
 };

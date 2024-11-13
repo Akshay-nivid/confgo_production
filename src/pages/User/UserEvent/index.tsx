@@ -61,10 +61,12 @@ const MyEventScreen: React.FC = () => {
   const POST = useStore((state: any) => state.POST);
   const setDataById = useStore((state: any) => state.setDataById);
   const [source, setSource] = useState<any>([]);
+  const navigate = useNavigate();
+  // const eventId = useStore((state:any) => state?.compData);
   /**
    * model for view certificate
    */
-  const eventId = useStore((state: any) => state.compData.EventId);
+  // const eventId = useStore((state: any) => state.compData.EventId);
   const [open, setOpen] = React.useState(false);
   const handleClose = () => setOpen(false);
   const closeDrawer = () => setOpen(false);
@@ -74,7 +76,7 @@ const MyEventScreen: React.FC = () => {
   useEffect(() => {
     participantEventDetails();
   }, []);
-  const navigate = useNavigate();
+
   /**
   * Function to handle search API for autocomplete
   */
@@ -164,32 +166,23 @@ const MyEventScreen: React.FC = () => {
     * @param index  Function to handle the event selection from the autocomplete input.
     * It updates the API request configuration based on the selected event.
     */
-  const handleSquareButtonClick = async (index: number) => {
+  const handleSquareButtonClick = (index: number, eventId: number) => {
     /**
      * You can add specific logic based on the index here.
      */
     if (index === 0) {
       setOpen(true);
-    } else if (index === 1) {
-      try {
-        console.log("idd");
-        await eventRecap(eventId);
-      }
-      catch (e) {
-        console.log(e, "error");
-
-      }
+    } else if (index === 1) { 
+         eventRecap(eventId);
     }
   };
   /**
    * component for show the events details
    */
-  const eventRecap = (eventId:any) => {
-    //  const eventId = useStore((state: any) => state.compData.EventId);
-    console.log("eventId.id",eventId.id);
-    const Eventid = eventId.id;
-    navigate(routes.userEventRecap(), { state: { Eventid:Eventid } });
-
+  const eventRecap=(eventId: number)=>{
+    
+    navigate(routes.userEventRecap(),{state:{eventId:eventId}});
+   
   }
   return (
     <Grid className="my-event" container spacing={2}>
@@ -239,7 +232,7 @@ const MyEventScreen: React.FC = () => {
                   location={`${event?.venue?.city}, ${event?.venue?.country}`}
                   buttonPress={handleButtonPress}
                   squareButtonLabels={squareButtonLabels}
-                  onSquareButtonClick={handleSquareButtonClick}
+                  onSquareButtonClick={(btnIndex: number) => handleSquareButtonClick(btnIndex, event.id)}
                 />
               </Grid>
             ))}
