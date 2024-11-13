@@ -71,6 +71,8 @@ const LoginOrg = () => {
           if(success?.data?.userRole?.roleName==="COMPANY"){
             sessionStorage.clear();
             sessionStorage.setItem('token',success.data.token);
+            sessionStorage.setItem('companyUserName',`${success.data.firstName} ${success.data.lastName || ''}` );
+            sessionStorage.setItem('subscriptionStatus',success.data.subscriptionStatus);
             apiClient.setToken(success.data.token);
             navigate(routes.dashboard());
           }

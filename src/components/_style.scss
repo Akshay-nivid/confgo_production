@@ -766,3 +766,27 @@
     border: 0.33rem solid $clr_light_grey !important;
   }
 }
+
+.payment-alert-banner{
+  .MuiPaper-root{
+    width: 100%;
+    border: 1px solid $clr_reddish_yellow;
+    border-radius: 0.83rem;
+  }
+  &-title{
+    font-size: $h5 !important;
+    font-weight: $font_bold !important;
+  }
+  &-sub-title{
+    font-size: $p2 !important;
+    font-weight: $font_medium !important;
+  }
+  &-btn{
+    background-color: $clr_green !important;
+    color: $clr_white !important;
+    text-transform: none !important;
+    height: 3.5rem;
+    font-size: $p2 !important;
+    font-weight: $font_medium !important;
+  }
+}
