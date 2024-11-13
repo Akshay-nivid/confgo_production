@@ -26,7 +26,7 @@
     font-weight: $font_medium !important;
     font-size: $h6 !important;
     line-height: 1.5rem !important;
-    color: #718096;
+    color: $light_grey;
     margin-top: 2rem !important;
 }
 
@@ -40,7 +40,7 @@
     display:flex;
     justify-content: center;
     align-items: center;
-    border: 0.083rem solid #D0D5DD;
+    border: 0.083rem solid $clr_gray_extra_light;
     border-radius: 0.313rem;
     padding: 0.813rem 1rem ;
     width: 6.25rem !important;
@@ -48,7 +48,7 @@
 }
 
 .account-profile-grid{
-    border: 0.083rem solid #E9E9E9;
+    border: 0.083rem solid $clr_gray_very_light;
     border-radius: 0.625rem;
     padding: 1rem;
 }
@@ -89,7 +89,7 @@
         padding: 0rem !important;
     }
     .MuiTabs-indicator {
-        border-bottom: 0.167rem solid #3A5AFE !important;
+        border-bottom: 0.167rem solid $clr_blue !important;
       }
   
     .Mui-selected{
@@ -109,14 +109,14 @@
 
 }
 .security-subtext{
-    color: #718096;
+    color: $light_grey;
     font-size: $h6;
     font-weight: $font_medium !important;
     margin-bottom: 1.25rem !important;
 
 }
 .security-text-border{
-    border-bottom: 0.083rem solid #CCDFF2;
+    border-bottom: 0.083rem solid $clr_light_border_grey;
     align-items: center;
     justify-content: space-between !important;
     margin-top: 1rem;
@@ -127,7 +127,7 @@
 
 }
 .account-submit-btn{
-    background: #3A5AFE !important;
+    background: $clr_blue !important;
     border-radius: 0.313rem !important;
     padding: 0.5rem 1.5rem !important;
 }
