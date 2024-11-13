@@ -61,6 +61,8 @@ const MyEventScreen: React.FC = () => {
   const POST = useStore((state: any) => state.POST);
   const setDataById = useStore((state: any) => state.setDataById);
   const [source, setSource] = useState<any>([]);
+  const navigate = useNavigate();
+  const eventId = useStore((state:any) => state?.compData);
   /**
    * model for view certificate
    */
@@ -73,7 +75,7 @@ const MyEventScreen: React.FC = () => {
   useEffect(() => {
     participantEventDetails();
   }, []);
-  const navigate = useNavigate();
+
   /**
   * Function to handle search API for autocomplete
   */
@@ -163,21 +165,22 @@ const MyEventScreen: React.FC = () => {
     * @param index  Function to handle the event selection from the autocomplete input.
     * It updates the API request configuration based on the selected event.
     */
-  const handleSquareButtonClick = (index: number) => {
+  const handleSquareButtonClick = (index: number, eventId: number) => {
     /**
      * You can add specific logic based on the index here.
      */
     if (index === 0) {
       setOpen(true);
     } else if (index === 1) { 
-         eventRecap();
+         eventRecap(eventId);
     }
   };
   /**
    * component for show the events details
    */
-  const eventRecap=()=>{
-    navigate(routes.userEventRecap());
+  const eventRecap=(eventId: number)=>{
+    
+    navigate(routes.userEventRecap(),{state:{eventId:eventId}});
    
   }
   return (
@@ -222,7 +225,7 @@ const MyEventScreen: React.FC = () => {
                   location={`${event?.venue?.city}, ${event?.venue?.country}`}
                   buttonPress={handleButtonPress}
                   squareButtonLabels={squareButtonLabels}
-                  onSquareButtonClick={handleSquareButtonClick}
+                  onSquareButtonClick={(btnIndex: number) => handleSquareButtonClick(btnIndex, event.id)}
                 />
               </Grid>
             ))}

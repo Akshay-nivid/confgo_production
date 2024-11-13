@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import { Avatar, Badge, Divider, Menu, MenuItem } from '@mui/material';
-import { SettingsIcon, LogoutIcon, CalendarEventIcon, DownArrowSvg } from '@/assets/svg';
+import { SettingsIcon, LogoutIcon, CalendarEventIcon, DownArrowSvg, ResetPassword } from '@/assets/svg';
 import Grid from '@mui/material/Grid2';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
@@ -129,7 +129,7 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
             <span className="menu-item-text">Profile</span>
           </MenuItem>
           <MenuItem className="" onClick={handleResetPassword}>
-          <SettingsIcon />
+          <ResetPassword />
             <span className="menu-item-text">Change Password</span>
           </MenuItem>
           <MenuItem className="" onClick={handleLogout}>
