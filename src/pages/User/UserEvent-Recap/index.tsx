@@ -49,8 +49,8 @@ const EventRecap: React.FC = React.memo(() => {
         }
     };
     useEffect(() => {
-        EventDetails(); // pass `id` to the async function
-    }, []); //
+        EventDetails(); 
+    }, []); 
 
     /**
    * Function to handle search API for autocomplete
