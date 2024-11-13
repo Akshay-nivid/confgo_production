@@ -34,8 +34,8 @@ const CalendarPage: React.FC<calendarProps> = ({ id }) => {
    */
   useEffect(() => {
     const dateObj = {
-      startDate: moment().startOf('month').format('YYYY-MM-DD'),
-      endDate: moment().endOf('month').format('YYYY-MM-DD')
+      startTime: moment().startOf('month').format('YYYY-MM-DD'),
+      endTime: moment().endOf('month').format('YYYY-MM-DD')
     };
     fetchData(dateObj);
   }, []); 
@@ -43,7 +43,7 @@ const CalendarPage: React.FC<calendarProps> = ({ id }) => {
   /**
    * Method handles the api call for getting event list data
    */
-  const fetchData = async (filters: { startDate: string, endDate: string }) => {
+  const fetchData = async (filters: { startTime: string, endTime: string }) => {
     try {
       await POST({
         url: "event/list",
@@ -99,7 +99,7 @@ const CalendarPage: React.FC<calendarProps> = ({ id }) => {
    * Method handles the navigate event in the calendar
    * @param event : event parameter
    */
-  const handleNavigate = (dateObj: { startDate: '', endDate: '' }) => {
+  const handleNavigate = (dateObj: { startTime: '', endTime: '' }) => {
     fetchData(dateObj);
   };
 
