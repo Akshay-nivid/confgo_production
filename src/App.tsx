@@ -117,6 +117,10 @@ const userRoutes = [
         path: routes.accountsettings(),
         element: <Account />,
       },
+      {
+        path: routes.userCalendar(),
+        element: <CalendarRoute id="events-calendar" key="events-calendar"/>,
+      },
     ],
   },
 ];
