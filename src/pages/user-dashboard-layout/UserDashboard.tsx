@@ -11,6 +11,7 @@ import useStore from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import NoDataCard from './NoDataCard';
 import routes from '@/router/routes';
+import { CalendarCard, CalendarCardData } from '../dashboard/CalendarCard';
 import moment from 'moment';
 
 /**
@@ -25,6 +26,7 @@ const UserDashboard: React.FC = React.memo(() => {
   // Retrieve userDetails from the store
   const userDetails = useStore((state) => state?.compData?.["userDetails"]) ?? {};
   const userLatestEvents = useStore((state: any) => state?.compData?.["userLatestEvents"]?.['event/list']) ?? [];
+  const [upcomingData, setUpcomingData] = useState<CalendarCardData | null>(null);
 
   /**
   * Useeffect hook handles the api call 
@@ -45,12 +47,18 @@ const UserDashboard: React.FC = React.memo(() => {
         body: {
           offset: 0,
           sortBy: "id",
-          sortDirection: "DESC",
+          sortDirection: "ASC",
           filters: {
-            "startTime": getNextDay(new Date())
+            "startTime": new Date()
           },
         },
         id: 'userLatestEvents',
+        successCB:(context:any)=>{
+          if (context?.success) {
+            if(context?.data)
+            setUpcomingData({"id":context?.data[0].id,"name":context?.data[0].name,"startTime":context?.data[0].startTime,"endTime":context?.data[0].endTime})
+          }
+        },
         errorCB: (context: any) => {
           setDataById("snackBarInfo", {
             open: true,
@@ -107,12 +115,6 @@ const UserDashboard: React.FC = React.memo(() => {
     return moment(date).subtract(1, 'days').format('YYYY-MM-DD');
   }
   /**
-   * Function to get the next day of a given date
-   */ 
-  function getNextDay(date: any) {
-    return moment(date).add(1, 'days').format('YYYY-MM-DD');
-  }
-  /**
    * Labels for the square buttons on each event card
    */
   const squareButtonLabels: string[] = ["View Certificate", "Event Recap"];
@@ -121,17 +123,17 @@ const UserDashboard: React.FC = React.memo(() => {
    * @param index  Function to handle the event selection from the autocomplete input.
    * It updates the API request configuration based on the selected event.
    */
-  const handleSquareButtonClick = (index: number,eventId: number) => {
+  const handleSquareButtonClick = (index: number, eventId: number) => {
     if (index === 0) {
     } else if (index === 1) {
-      navigate(routes.userEventRecap(),{state:{eventId:eventId}});
+      navigate(routes.userEventRecap(), { state: { eventId: eventId } });
     }
   };
 
   return (
     <Grid container size={12} className="dashboard" >
-
-      <Grid size={{ xs: 12, md: 7 }} container className="dashboard-left" >
+      {/* left */}
+      <Grid size={{ xs: 12, md: 7 }}  className="dashboard-left" >
         <Grid size={12}>
           <Typography className="dashboard-title" gutterBottom>
             <span className="dashboard-title-wave-icon"></span>
@@ -158,9 +160,12 @@ const UserDashboard: React.FC = React.memo(() => {
         </Grid>
       </Grid>
       {/* Right Column */}
-      <Grid container size={{ xs: 12, md: 3 }}  >
+      <Grid  size={{ xs: 12, md: 4 }}  className="dashboard-right" >
         <Grid container >
-
+          <Grid><Typography className="dashboard-subhead">Weekly Calendar</Typography></Grid>
+          <Grid className="dashboard-calendar-card"> <CalendarCard data={upcomingData} /> </Grid>
+        </Grid>
+        <Grid className="dashboard-right-events">
           {/* title */}
           <Typography className="dashboard-subhead" gutterBottom>
             Attended Event
@@ -184,7 +189,7 @@ const UserDashboard: React.FC = React.memo(() => {
                       // buttonPress={handleButtonPress}
                       squareButtonLabels={squareButtonLabels}
                       onSquareButtonClick={(btnIndex: number) => handleSquareButtonClick(btnIndex, userLatestEvents.data[0].id)}
-             
+
                     />
                   </Grid>
                 ) : (
@@ -198,9 +203,6 @@ const UserDashboard: React.FC = React.memo(() => {
 
         </Grid>
       </Grid>
-
-
-
     </Grid>
 
   )

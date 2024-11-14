@@ -225,8 +225,9 @@
 .dashboard {
   padding: $p3;
   margin-top: $p3 !important;
-  
+  flex-grow: 1;
   &-left {
+    flex-grow: 1;
     border-right: 0.06rem solid $clr_light_border_grey;
   }
 
@@ -255,6 +256,12 @@
     padding: 0.3rem;
   }
 
+  &-right{
+    margin: $p3 !important;
+  }
+  &-right-events{
+    margin-top: 2rem !important;
+  }
   &-subtitle {
     margin-bottom: 2rem !important;
     display: block;
@@ -262,9 +269,8 @@
     font-weight: $font_semibold !important;
   }
   &-subhead {
-    margin-left: $p3 !important;
-    font-size: $p3 !important;
-    font-weight: $font_semibold !important;
+    font-size: $p2 !important;
+    font-weight: $font_bold !important;
   }
   &-card {
     text-align: center;
@@ -321,7 +327,7 @@
   }
   &-image{
     margin-top: 5rem !important;
-   // font-size: 20rem;
+    font-size: 20rem;
   }
   &-title{
     display: flex;
