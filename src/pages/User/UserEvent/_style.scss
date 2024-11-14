@@ -24,9 +24,34 @@
   .view-certificate-grid-content {
     width: 50rem;
     height: 50rem;
-    background-color: #f0f0f0; /* Light gray background */
+    background-color:$clr_bg_light_gray; 
     display: flex;
     flex-direction: column;
     align-items: center;
   }
-  
+  .no-event{
+    width: 29.69rem;   
+   margin-top: 12.63rem;  
+    &-svg{
+        width: 7.78rem;  
+        height: 8.43rem;
+    &-text{
+        padding-top:3rem;
+        text-align:center;
+        font-family:$font ;
+        font-weight:$font_bold ;
+        font-size:$h5 ;
+        line-height: 1.64rem;
+     &-description{
+        padding-top:.4rem;
+        text-align:center;
+        line-height: 1.275rem;
+        font-family:$font ;
+        font-weight:$font_normal;
+        font-size:$p2;
+        color:$clr_gray_dark_text;
+     }
+    }
+    
+    }
+   }

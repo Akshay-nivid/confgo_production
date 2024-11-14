@@ -108,8 +108,9 @@ const UserDashboard: React.FC = React.memo(() => {
       setIsLoading(false);
     }
   }
-
-  // Function to get the previous day of a given date
+  /**
+   * Function to get the previous day of a given date
+   */
   function getPreviousDay(date: any) {
     return moment(date).subtract(1, 'days').format('YYYY-MM-DD');
   }

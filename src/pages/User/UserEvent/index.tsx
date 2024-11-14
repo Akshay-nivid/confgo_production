@@ -1,12 +1,12 @@
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
-import {IconButton, Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import EventCard from "../Components/EventCard";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import apiClient from "@/Libs/Https/API-client";
-import { NoEventSvg } from "@/assets/svg"
+import { NoEvent } from "@/assets/svg"
 import { Logger } from "@/Utils/Logger";
 import React from "react";
 import useStore from '@/Libs/store';
@@ -47,7 +47,7 @@ interface Program {
     totalCapacity: number | null;
     mapUrl: string | null;
   };
-  eventAddons: any[]; // Change this field based on actual data structure
+  eventAddons: any[]; 
 }
 
 /**
@@ -60,13 +60,11 @@ const MyEventScreen: React.FC = () => {
   const [event, setEvent] = useState<Program[]>([]);
   const POST = useStore((state: any) => state.POST);
   const setDataById = useStore((state: any) => state.setDataById);
-  const [source, setSource] = useState<any>([]);
   const navigate = useNavigate();
-  const eventId = useStore((state:any) => state?.compData);
   /**
    * model for view certificate
    */
-  const [open, setOpen] =React.useState(false);
+  const [open, setOpen] = React.useState(false);
   const handleClose = () => setOpen(false);
   const closeDrawer = () => setOpen(false);
   /**
@@ -87,13 +85,11 @@ const MyEventScreen: React.FC = () => {
           name: query,
         },
       };
-      const response = await await apiClient.get(`event/list`, req);
+      const response = await await apiClient.post(`event/list`, req);
       const { status, data } = await processAPIResponse(response, "eventList");
       if (status) {
-        setSearchResults(data.programs);
-
+        setSearchResults(data);
       }
-
     } catch (error) {
       Logger.error(error, "EventList.tsx");
     } finally {
@@ -106,20 +102,33 @@ const MyEventScreen: React.FC = () => {
  *  New handler for when an event is selected from autocomplete
  * @param selected
  */
-  const handleAutocompleteChange = (selected: any) => {
+  const handleAutocompleteChange = async (selected: any) => {
     if (selected) {
-      setSource({
-        method: "GET",
-        data: {
-          offset: 0,
-          limit: 5,
-          filters: {
-            id: selected.id,
+      try {
+        await POST({
+          url: "event/list",
+          body: {
+            offset: 0,
+            sortBy: "id",
+            sortDirection: "DESC",
+            filters: {id: selected.id},
           },
-        },
-        url: `event/list`,
-        listName: "eventList",
-      });
+          id: 'userLatestEvents',
+          successCB: (success: any) => {
+            setEvent(success.data);
+          },
+          errorCB: (context: any) => {
+            setDataById("snackBarInfo", {
+              open: true,
+              autoHideDuration: 2000,
+              severity: "error",
+              message: context?.message,
+            });
+          },
+        });
+      } catch (error) {
+        Logger.error("An error occurred:", error);
+      }
     }
   };
   /**
@@ -136,8 +145,8 @@ const MyEventScreen: React.FC = () => {
           filters: {},
         },
         id: 'userLatestEvents',
-        successCB: (context: any) => {
-          setEvent(context.data);
+        successCB: (success: any) => {
+          setEvent(success.data);
         },
         errorCB: (context: any) => {
           setDataById("snackBarInfo", {
@@ -179,9 +188,7 @@ const MyEventScreen: React.FC = () => {
    * component for show the events details
    */
   const eventRecap=(eventId: number)=>{
-    
     navigate(routes.userEventRecap(),{state:{eventId:eventId}});
-   
   }
   return (
     <Grid className="my-event" container spacing={2}>
@@ -204,11 +211,17 @@ const MyEventScreen: React.FC = () => {
       </Grid>
       {
         event == undefined ? (
-          <Grid container size={12}>
-            <Grid justifyContent={"center"} alignContent={"center"} display={"flex"} size={12}>
-              <NoEventSvg className="my-event-no-event-image" />
-            </Grid>
+          <Grid container size={12} justifyContent={"center"}>
+          <Grid  container justifyContent={"center"}  className="no-event" >
+          <Grid>
+          <NoEvent className="no-event-svg"/>
           </Grid>
+          <Grid size={12} flexDirection={"column"}>
+            <Typography className="no-event-svg-text">No Events Found</Typography>
+            <Typography className="no-event-svg-text-description">You haven’t registered for any events yet. Explore upcoming events and secure your spot today!</Typography>
+          </Grid>
+              </Grid> 
+        </Grid>
         ) : (
           <Grid container size={12} spacing={2}>
             {event.map((event: Program, index) => (
@@ -232,35 +245,35 @@ const MyEventScreen: React.FC = () => {
           </Grid>
         )
       }
-       {/* Modal for viewing certificates */}
-       <CustomModel
+      {/* Modal for viewing certificates */}
+      <CustomModel
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-         <Grid container className="outer-grid" size={8}>
-      <Grid  size={8} className="view-certificate-grid-content">
-        <Grid container size={12}>
-        <Grid container size={12}>
-            <IconButton onClick={closeDrawer}>
-              <CloseOutlined />
-            </IconButton>
+        <Grid container className="outer-grid" size={8}>
+          <Grid size={8} className="view-certificate-grid-content">
+            <Grid container size={12}>
+              <Grid container size={12}>
+                <IconButton onClick={closeDrawer}>
+                  <CloseOutlined />
+                </IconButton>
+              </Grid>
+              <Grid size={10} alignItems={"center"} container justifyContent={"center"}>
+                <Typography variant="h1" component="h2">
+                  Text in a model
+                </Typography>
+              </Grid>
+              <Grid size={2} container alignItems={"center"} justifyContent={"flex-end"}>
+                <Grid>
+                  <CustomButton label="Download" />
+                </Grid>
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid size={10} alignItems={"center"} container justifyContent={"center"}> 
-            <Typography variant="h1" component="h2">
-          Text in a model
-        </Typography>
         </Grid>
-        <Grid size={2}  container alignItems={"center"}  justifyContent={"flex-end"}>
-          <Grid>
-             <CustomButton label="Download" />
-          </Grid>
-        </Grid> 
-        </Grid>
-      </Grid>
-    </Grid>
-</CustomModel>
+      </CustomModel>
     </Grid>
   );
 };

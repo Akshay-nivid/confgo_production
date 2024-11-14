@@ -5,14 +5,11 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Logger } from "@/Utils/Logger";
 import apiClient from "@/Libs/Https/API-client";
-import { formatDateDayMonthYear, formatTimeRange, processAPIResponse } from "@/Utils/CommonBaseClass";
+import {formatDateTimeRange, processAPIResponse } from "@/Utils/CommonBaseClass";
 import React from "react";
 import useStore from "@/Libs/store";
 import StatusComponent from "@/components/Status/StatusComponent";
 import { useLocation } from "react-router-dom";
-
-
-
 
 /**
  * UpcomingEvent component renders a list of upcoming events and includes a search bar 
@@ -23,12 +20,10 @@ const EventRecap: React.FC = React.memo(() => {
     const [loading, setLoading] = useState(false);
     const setDataById = useStore((state: any) => state.setDataById);
     const {eventId} = useLocation().state || {};
-    // const [source, setSource] = useState<any>([])
     const GET = useStore((state: any) => state.GET);
     const [eventLoading, setEventLoading] = useState(true);
-   // const data = useStore((state: any) => state.compData.EventDetailsResponse)?? [];
     const eventData = useStore((state: any) => state?.compData?.["EventDetailsResponse"]?.[`event/${eventId}`]) ?? [];
-
+    const POST = useStore((state: any) => state.POST);
     /**
     * Function to handle search API for autocomplete
     */
@@ -40,7 +35,7 @@ const EventRecap: React.FC = React.memo(() => {
                     name: query,
                 },
             };
-            const response = await await apiClient.get(`event/list`, req);
+            const response = await await apiClient.post(`event/list`, req);
             const { status, data } = await processAPIResponse(response, "eventList");
             if (status) {
                 setSearchResults(data);
@@ -53,28 +48,38 @@ const EventRecap: React.FC = React.memo(() => {
         }
     };
     useEffect(() => {
-        EventDetails(); // pass `id` to the async function
-    }, []); //
+        EventDetails(); 
+    }, []); 
 
     /**
    * Function to handle search API for autocomplete
    *  New handler for when an event is selected from autocomplete
    * @param selected
    */
-    const handleAutocompleteChange = (selected: any) => {
+    const handleAutocompleteChange = async (selected: any) => {
         if (selected) {
-            // setSource({
-            //     method: "GET",
-            //     data: {
-            //         offset: 0,
-            //         limit: 5,
-            //         filters: {
-            //             id: selected.id,
-            //         },
-            //     },
-            //     url: `event/list`,
-            //     listName: "eventList",
-            // });
+            try {
+                await POST({
+                  url: "event/list",
+                  body: {
+                    filters: {id: selected.id},
+                  },
+                  id: 'userLatestEvents',
+                  successCB: (success: any) => {    
+                    setDataById("EventDetailsResponse",{data:success.data})
+                  },
+                  errorCB: (context: any) => {
+                    setDataById("snackBarInfo", {
+                      open: true,
+                      autoHideDuration: 2000,
+                      severity: "error",
+                      message: context?.message,
+                    });
+                  },
+                });
+              } catch (error) {
+                Logger.error("An error occurred:", error);
+              }
         }
     };
     /**
@@ -102,8 +107,6 @@ const EventRecap: React.FC = React.memo(() => {
             setEventLoading(false);
         }
     };
-
-
     return (
         <>
             {eventLoading ? (
@@ -141,7 +144,15 @@ const EventRecap: React.FC = React.memo(() => {
                             </Grid>
                             <Grid size={12}>
                                 <Typography className="event-recap-first-grid-address" >
-                                    {formatDateDayMonthYear(eventData?.data?.startTime)}|{formatTimeRange(eventData?.data?.startTime, eventData?.data?.endTime)}|{eventData?.data?.venue.city + "," + eventData?.data?.venue.address}</Typography>
+                                {formatDateTimeRange({date:eventData?.data.startTime,format:"MMMM D, YYYY"})}
+                               <span className="mx-2">|</span>
+                               {formatDateTimeRange({date:eventData?.data.startTime,format:'h:mm A'})}-{formatDateTimeRange({date:eventData?.data.endTime,format:'h:mm A'})}
+                               <span className="mx-2">
+                                |
+                               </span>
+                               {eventData?.data?.venue.city + ", " + eventData?.data?.venue.address}
+                              
+                                </Typography>
                             </Grid>
                             <Grid size={12} className="event-recap-first-grid-buttons">
 
@@ -160,30 +171,29 @@ const EventRecap: React.FC = React.memo(() => {
                                 Registered Programmes
                             </Typography>
                         </Grid>
-                        {eventData?.data?.programs.map((item: any) => (
+                        {eventData?.data?.programs.map((item: any) => {
+                            return(
                             <Grid size={4} container flexDirection={"row"} className="event-recap-second-grid-content">
-
                                 <Grid size={6} className="event-recap-second-grid-content-time" >
-                                    <Typography className="event-recap-second-grid-content-time-text">{formatTimeRange(item.startTime, item.endTime)}</Typography>
+                                    <Typography className="event-recap-second-grid-content-time-text">{formatDateTimeRange({date:item.startTime,format:'h:mm A'})},{formatDateTimeRange({date:item.endTime,format:"h:mm A"})}</Typography>
                                 </Grid>
                                 <Grid className="event-recap-second-grid-content-status" size={6}>
                                     <Typography className="event-recap-second-grid-content-status-text">
-                                        <StatusComponent value={item?.statusId.toString()} />
+                                        <StatusComponent className="event-recap-first-grid-status"   value={item?.statusId.toString()} />
                                     </Typography>
                                 </Grid>
                                 <Grid className="event-recap-second-grid-content-title" size={12} >
                                     <Typography className="event-recap-second-grid-content-title-text">{item.name}</Typography>
                                 </Grid>
                                 <Grid className="event-recap-second-grid-content-location" size={12} >
-                                    <Typography className="event-recap-second-grid-content-location-text">{eventData.data.venue.city + "," + eventData.data.venue.country}</Typography>
+                                    <Typography className="event-recap-second-grid-content-location-text">Location:{eventData.data.venue.city + "," + eventData.data.venue.country}</Typography>
                                 </Grid>
-
                                 <Grid className="event-recap-second-grid-content-speaker" size={12} >
-                                    <Typography className="event-recap-second-grid-content-speaker-text">mexico</Typography>
+                                    <Typography className="event-recap-second-grid-content-speaker-text">Speaker:swayer</Typography>
                                 </Grid>
 
                             </Grid>
-                        ))}
+                        )})}
 
                     </Grid>
 

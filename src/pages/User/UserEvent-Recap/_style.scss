@@ -50,7 +50,7 @@
             }
         }
         &-address {
-            margin-top: 21.97px !important;
+            margin-top:1.3731rem!important;
             color: $clr_black;
             font-family: $font !important;
             font-size: $h6 !important;
@@ -74,7 +74,7 @@
                 height: 2.8125rem;
                 color: $clr_white !important;
                 border-radius: 0.3125rem;
-                background: #d32c2c !important;
+                background:$clr_red_danger !important;
             }
         }
     }
@@ -117,9 +117,14 @@
             &-status {
                 text-align:centre;
                 .statusText{
-                    background: $clr_green_light !important;
+                    display:flex;   
+                    justify-content: center;
+                    align-items: center;
+                    width: 9.25rem !important;
+                    height: 2.5rem !important;
+                    background: $clr_status_bar !important;
                 }
-                margin-left: 7rem;
+                margin-left: 5rem;
                 width: 6.25rem !important;
                 height: 1.9956rem !important;
                 border-radius: 0.49875rem;
@@ -152,7 +157,7 @@
             }
             &-speaker {
                 margin-left: 0.5rem !important;
-                &-speaker {
+                &-text {
                     font-family: $font;
                     font-size: $p2 !important;
                     font-weight: $font-medium !important;
