@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid2';
 
 
 interface AppBarProps {
-  value: string;
+  value: string | undefined;
   className?:string;
 }
 
@@ -54,10 +54,10 @@ const StatusComponent: React.FC<AppBarProps> = ({ value ,className}) => {
   const findStatusById = (id: string) => {
     return statusValues.find((status: any) => status.id.indexOf(id) !== -1);
   };
-  const status = findStatusById(value);
+  const status = findStatusById(value ?? '');
   return (
     <Grid className={className}>
-      <Typography className="statusText" sx={{ backgroundColor: status?.cellColor, color: status?.textColor}}>{getStatusValue(value)}</Typography>
+      <Typography className="statusText" sx={{ backgroundColor: status?.cellColor, color: status?.textColor}}>{getStatusValue(value ?? '')}</Typography>
     </Grid>
   );
 };

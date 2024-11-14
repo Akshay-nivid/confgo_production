@@ -7,7 +7,6 @@ import { UpcomingEventCard } from "./UpcomingEventCard";
 import { ItemCard } from "./ItemCard";
 import EventHostedIcon from '@/assets/svg/events-hosted-icon.svg';
 import UsersRegisteredIcon from '@/assets/svg/users-registered-icon.svg';
-import AttendanceIcon from '@/assets/svg/attendance-icon.svg';
 import NewRegistrationsIcon from '@/assets/svg/new-registrations-icon.svg';
 import { EventListCard } from "./EventListCard";
 import { CalendarCard } from "./CalendarCard";
@@ -17,18 +16,21 @@ import useStore from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
 import moment from "moment";
 import { CalendarCardData } from "./CalendarCard";
+import { PendingEventCard } from "./PendingEventCard";
 
 const Dashboard = () => {
 
   const POST = useStore((state: any) => state.POST);
   const [upcomingData, setUpcomingData] = useState<CalendarCardData | null>(null);
+  const [pendingData, setPendingData] = useState<any>(null);
 
 
   /**
-   * Useeffect hook handles the api call for fetching upcoming event list
+   * Useeffect hook handles the api call for fetching upcoming event list and pending event list
    */
   useEffect(() => {
     fetchUpcomingEventList();
+    fetchPendingEventList();
   }, [])
 
   /**
@@ -42,7 +44,6 @@ const Dashboard = () => {
           filters: {
             published: 1,
             startTime: moment(new Date()).format('YYYY-MM-DD'),
-            endTime: moment(new Date()).endOf('year').format('YYYY-MM-DD')
           },
           sortDirection: "asc",
           sortBy: "startTime",
@@ -65,25 +66,57 @@ const Dashboard = () => {
     }
   }
 
+  /**
+  * Method fetch the pending event list
+  */
+  const fetchPendingEventList = async () => {
+    try {
+      await POST({
+        url: 'event/list',
+        body: {
+          filters: {
+            published: 0,
+            startTime: moment(new Date()).format('YYYY-MM-DD'),
+            statusId: 3
+          },
+          sortDirection: "asc",
+          sortBy: "startTime",
+          limit: 1,
+          offset: 0
+        },
+        id: 'upcomingEventList',
+        successCB: (context: any) => {
+          if (context?.success) {
+            setPendingData(context?.data?.[0])
+          }
+        },
+        errorCB: (context: any) => {
+          Logger.error('Dashboard', context?.message);
+        }
+      });
+    } catch (error) {
+      Logger.error('Dashboard', error);
+
+    }
+  }
+
   return <Grid container size={{ xs: 12, sm: 12 }} spacing={2} className="dashboard" >
-    <Grid size={{ xs: 8, sm: 8 }} container >
+    <Grid size={{ xs: 12, sm: 8 }} container >
       <Grid size={{ xs: 12, sm: 12 }} container>
-        <Grid size={{ xs: 6, sm: 6 }} className="dashboard-welcome-card"><WelcomeCard /></Grid>
-        <Grid size={{ xs: 6, sm: 6 }} className="dashboard-upcoming-event-card"><UpcomingEventCard /></Grid>
+        <Grid size={{ xs: 12, sm: 6 }} className="dashboard-welcome-card"><WelcomeCard /></Grid>
+        {upcomingData && <Grid size={{ xs: 12, sm: 6 }} className="dashboard-upcoming-event-card"><UpcomingEventCard data={upcomingData}/></Grid>}
       </Grid>
       <Grid size={{ xs: 12, sm: 12 }} container>
-        <Grid size={{ xs: 3, sm: 3 }} className="dashboard-item-card"><ItemCard label="Total Events Hosted" value="04" icon={<EventHostedIcon />} /></Grid>
-        <Grid size={{ xs: 3, sm: 3 }} className="dashboard-item-card"><ItemCard label="Total Users Registered" value="2000" icon={<UsersRegisteredIcon />} /></Grid>
-        <Grid size={{ xs: 3, sm: 3 }} className="dashboard-item-card"><ItemCard label="Event Attendance" value="80%" icon={<AttendanceIcon />} /></Grid>
-        <Grid size={{ xs: 3, sm: 3 }} className="dashboard-item-card"><ItemCard label="New Registrations" value="312" icon={<NewRegistrationsIcon />} /></Grid>
+        <Grid size={{ xs: 12, sm: 4 }} className="dashboard-item-card"><ItemCard label="Total Events Hosted" value="04" icon={<EventHostedIcon />} /></Grid>
+        <Grid size={{ xs: 12, sm: 4 }} className="dashboard-item-card"><ItemCard label="Total Users Registered" value="2000" icon={<UsersRegisteredIcon />} /></Grid>
+        <Grid size={{ xs: 12, sm: 4 }} className="dashboard-item-card"><ItemCard label="New Registrations" value="312" icon={<NewRegistrationsIcon />} /></Grid>
       </Grid>
-      <Grid size={{ xs: 12, sm: 12 }} container className="dashboard-main-event-card">
-      </Grid>
+      {pendingData && <Grid size={{ xs: 12, sm: 12 }} container className="dashboard-pending-event-card"><PendingEventCard data={pendingData}/></Grid>}
     </Grid>
 
-    <Grid size={{ xs: 4, sm: 4 }} >
+    <Grid size={{ xs: 12, sm: 4 }} >
       <Grid><Typography className="dashboard-calendar-card-header">Weekly Calendar</Typography></Grid>
-      <Grid className="dashboard-calendar-card"> <CalendarCard data={upcomingData} /> </Grid>
+      {upcomingData && <Grid className="dashboard-calendar-card"> <CalendarCard data={upcomingData}/> </Grid>}
     </Grid>
     <Grid size={{ xs: 12, sm: 12 }} container direction={'column'}>
       <Grid className="dashboard-event-list-card"><EventListCard /></Grid>

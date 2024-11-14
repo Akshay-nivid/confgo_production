@@ -64,6 +64,7 @@
             color: $clr_dark_orange !important;
             max-width: 8rem;
             margin-top: 2rem;
+            cursor: pointer;
         }
     }
     &-item-card{
@@ -71,14 +72,40 @@
         height: 6.67rem !important;
         border-radius: 0.6rem;
         svg{
-            width: 2rem;
-            height: 2rem;
+            width: 3rem;
+            height: 3rem;
+        }
+        &-title{
+            font-size: $p2 !important;
+            font-weight: $font_bold !important;
+        }
+        &-sub-title{
+            font-size: $p3 !important;
+            font-weight: $font_medium !important;
+            color: $clr_gray_dark_text !important;
         }
     }
-    &-main-event-card{
+    &-pending-event-card{
         background-color: $clr_white !important;
         height: 9rem !important;
         border-radius: 0.6rem;
+        padding: 2rem;
+        &-title{
+            font-size: $h5 !important;
+            font-weight: $font_bold !important;
+        }
+        &-sub-title{
+            font-size: $h6 !important;
+            font-weight: $font_medium !important;
+        }
+        &-btn{
+            background-color: $clr_green !important;
+            color: $clr_white !important;
+            text-transform: none !important;
+            height: 3.5rem;
+            font-size: $p2 !important;
+            font-weight: $font_medium !important;
+        }
     }
         &-event-list {
             &-title {
@@ -98,6 +125,7 @@
     &-calendar-card{
         background-color: $clr_white;
         border-radius: 0.66rem;
+        width: 29.5rem;
         height: 32rem;
         margin-top: 1rem;
         &-header{
@@ -148,8 +176,8 @@
             height: 3.6rem;
             &:not(:last-child) {
                 border-bottom: 1px solid $clr_medium_grey;
-              }
-            
+            }
+            cursor: pointer;
         }
         &-event {
             background-color: $clr_green_light;
