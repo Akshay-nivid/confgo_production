@@ -25,11 +25,7 @@ interface Profile {
   avatarUrl: string;
 }
 
-interface AccountSettingProps {
-  setEmail: (email: string) => void; 
-}
-
-const AccountSetting:React.FC<AccountSettingProps> = React.memo(({ setEmail }) => {
+const AccountSetting:React.FC = React.memo(() => {
   const { handleSubmit, control, setValue } = useForm<Profile>();
   const [profileData, setProfileData] = useState<Profile | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -66,14 +62,12 @@ const AccountSetting:React.FC<AccountSettingProps> = React.memo(({ setEmail }) =
         setValue("firstName", data.firstName);
         setValue("lastName", data.lastName);
         setValue("email", data.email);
-        setValue("phone", data.phone);
-
-        setEmail(data.email); 
+        setValue("phone", data.phone); 
       }
     } catch (error) {
       console.error("Error fetching participant data:", error);
     }
-  }, [setEmail,setValue]);
+  }, []);
 
 /**
  * Submit form to update profile data from drawer
