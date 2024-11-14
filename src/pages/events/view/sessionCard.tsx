@@ -85,8 +85,6 @@ const SessionCard: React.FC<SessionCardProps> = ({
         <Typography variant="h6" className="event-detail-sessions-card-header">
           {item[titleField] || selectedLabel||""}
         </Typography>
-        <Grid></Grid>
-     {/* <Grid>   {optionsData?.find((option: any) => option?.value === item?.addonId) || 'Unknown'} */}
         {/* Dynamically render fields based on configuration */}
         {fields.map(
           (field, index) =>
