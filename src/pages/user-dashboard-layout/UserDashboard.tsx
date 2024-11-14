@@ -11,6 +11,7 @@ import useStore from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import NoDataCard from './NoDataCard';
 import routes from '@/router/routes';
+import moment from 'moment';
 
 /**
  * Used to render user dashboard 
@@ -99,18 +100,17 @@ const UserDashboard: React.FC = React.memo(() => {
       setIsLoading(false);
     }
   }
-
-  // Function to get the previous day of a given date
+  /**
+   * Function to get the previous day of a given date
+   */
   function getPreviousDay(date: any) {
-    const previousDay = new Date(date);
-    previousDay.setDate(date.getDate() - 1);
-    return previousDay.toISOString().split('T')[0];
+    return moment(date).subtract(1, 'days').format('YYYY-MM-DD');
   }
-  // Function to get the next day of a given date
+  /**
+   * Function to get the next day of a given date
+   */ 
   function getNextDay(date: any) {
-    const previousDay = new Date(date);
-    previousDay.setDate(date.getDate() + 1);
-    return previousDay.toISOString().split('T')[0];
+    return moment(date).add(1, 'days').format('YYYY-MM-DD');
   }
   /**
    * Labels for the square buttons on each event card

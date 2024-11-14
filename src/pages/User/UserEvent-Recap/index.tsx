@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Logger } from "@/Utils/Logger";
 import apiClient from "@/Libs/Https/API-client";
-import { formatDateDayMonthYear, formatTimeRange, processAPIResponse } from "@/Utils/CommonBaseClass";
+import {formatDateTimeRange, processAPIResponse } from "@/Utils/CommonBaseClass";
 import React from "react";
 import useStore from "@/Libs/store";
 import StatusComponent from "@/components/Status/StatusComponent";
@@ -66,7 +66,7 @@ const EventRecap: React.FC = React.memo(() => {
                   },
                   id: 'userLatestEvents',
                   successCB: (success: any) => {    
-                    setDataById("searchResult",{data:success.data})
+                    setDataById("EventDetailsResponse",{data:success.data})
                   },
                   errorCB: (context: any) => {
                     setDataById("snackBarInfo", {
@@ -144,7 +144,15 @@ const EventRecap: React.FC = React.memo(() => {
                             </Grid>
                             <Grid size={12}>
                                 <Typography className="event-recap-first-grid-address" >
-                                    {formatDateDayMonthYear(eventData?.data?.startTime)}|{formatTimeRange(eventData?.data?.startTime, eventData?.data?.endTime)}|{eventData?.data?.venue.city + "," + eventData?.data?.venue.address}</Typography>
+                                {formatDateTimeRange({date:eventData?.data.startTime,format:"MMMM D, YYYY"})}
+                               <span className="mx-2">|</span>
+                               {formatDateTimeRange({date:eventData?.data.startTime,format:'h:mm A'})}-{formatDateTimeRange({date:eventData?.data.endTime,format:'h:mm A'})}
+                               <span className="mx-2">
+                                |
+                               </span>
+                               {eventData?.data?.venue.city + ", " + eventData?.data?.venue.address}
+                              
+                                </Typography>
                             </Grid>
                             <Grid size={12} className="event-recap-first-grid-buttons">
 
@@ -163,10 +171,11 @@ const EventRecap: React.FC = React.memo(() => {
                                 Registered Programmes
                             </Typography>
                         </Grid>
-                        {eventData?.data?.programs.map((item: any) => (
+                        {eventData?.data?.programs.map((item: any) => {
+                            return(
                             <Grid size={4} container flexDirection={"row"} className="event-recap-second-grid-content">
                                 <Grid size={6} className="event-recap-second-grid-content-time" >
-                                    <Typography className="event-recap-second-grid-content-time-text">{formatTimeRange(item.startTime, item.endTime)}</Typography>
+                                    <Typography className="event-recap-second-grid-content-time-text">{formatDateTimeRange({date:item.startTime,format:'h:mm A'})},{formatDateTimeRange({date:item.endTime,format:"h:mm A"})}</Typography>
                                 </Grid>
                                 <Grid className="event-recap-second-grid-content-status" size={6}>
                                     <Typography className="event-recap-second-grid-content-status-text">
@@ -184,7 +193,7 @@ const EventRecap: React.FC = React.memo(() => {
                                 </Grid>
 
                             </Grid>
-                        ))}
+                        )})}
 
                     </Grid>
 

@@ -47,7 +47,7 @@ interface Program {
     totalCapacity: number | null;
     mapUrl: string | null;
   };
-  eventAddons: any[]; // Change this field based on actual data structure
+  eventAddons: any[]; 
 }
 
 /**
