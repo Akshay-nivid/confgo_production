@@ -11,7 +11,7 @@ import useStore from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import NoDataCard from './NoDataCard';
 import routes from '@/router/routes';
-import { CalendarCard, CalendarCardData } from '../dashboard/CalendarCard';
+import { CalendarCard } from '../dashboard/CalendarCard';
 import moment from 'moment';
 
 /**
@@ -23,11 +23,11 @@ const UserDashboard: React.FC = React.memo(() => {
   const [isLoading, setIsLoading] = useState(false);
   const setDataById = useStore((state: any) => state.setDataById);
   const POST = useStore((state: any) => state.POST);
-  // Retrieve userDetails from the store
+  /**
+   * Retrieve userDetails from the store
+   */ 
   const userDetails = useStore((state) => state?.compData?.["userDetails"]) ?? {};
   const userLatestEvents = useStore((state: any) => state?.compData?.["userLatestEvents"]?.['event/list']) ?? [];
-  const [upcomingData, setUpcomingData] = useState<CalendarCardData | null>(null);
-
   /**
   * Useeffect hook handles the api call 
   */
@@ -53,12 +53,6 @@ const UserDashboard: React.FC = React.memo(() => {
           },
         },
         id: 'userLatestEvents',
-        successCB:(context:any)=>{
-          if (context?.success) {
-            if(context?.data)
-            setUpcomingData({"id":context?.data[0].id,"name":context?.data[0].name,"startTime":context?.data[0].startTime,"endTime":context?.data[0].endTime})
-          }
-        },
         errorCB: (context: any) => {
           setDataById("snackBarInfo", {
             open: true,
@@ -163,7 +157,7 @@ const UserDashboard: React.FC = React.memo(() => {
       <Grid  size={{ xs: 12, md: 4 }}  className="dashboard-right" >
         <Grid container >
           <Grid><Typography className="dashboard-subhead">Weekly Calendar</Typography></Grid>
-          <Grid className="dashboard-calendar-card"> <CalendarCard data={upcomingData} /> </Grid>
+          <Grid className="dashboard-calendar-card"> <CalendarCard data={userLatestEvents} /> </Grid>
         </Grid>
         <Grid className="dashboard-right-events">
           {/* title */}

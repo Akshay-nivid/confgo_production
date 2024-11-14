@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Logger } from "@/Utils/Logger";
 import apiClient from "@/Libs/Https/API-client";
-import {formatDateTimeRange, processAPIResponse } from "@/Utils/CommonBaseClass";
+import {formatDateTimeRange, processAPIResponse, toTitleCase } from "@/Utils/CommonBaseClass";
 import React from "react";
 import useStore from "@/Libs/store";
 import StatusComponent from "@/components/Status/StatusComponent";
@@ -47,6 +47,9 @@ const EventRecap: React.FC = React.memo(() => {
             setLoading(false);
         }
     };
+    /**
+     * Fetch event details when the component mounts
+     */
     useEffect(() => {
         EventDetails(); 
     }, []); 
@@ -65,9 +68,6 @@ const EventRecap: React.FC = React.memo(() => {
                     filters: {id: selected.id},
                   },
                   id: 'userLatestEvents',
-                  successCB: (success: any) => {    
-                    setDataById("EventDetailsResponse",{data:success.data})
-                  },
                   errorCB: (context: any) => {
                     setDataById("snackBarInfo", {
                       open: true,
@@ -134,7 +134,7 @@ const EventRecap: React.FC = React.memo(() => {
                         <Grid container size={12}>
                             <Grid>
                                 <Typography className="event-recap-first-grid-text">
-                                    {eventData?.data?.name}
+                                    {eventData?.data?.name?toTitleCase(eventData?.data?.name):""}
                                 </Typography>
                             </Grid>
                             <Grid  >
@@ -183,7 +183,7 @@ const EventRecap: React.FC = React.memo(() => {
                                     </Typography>
                                 </Grid>
                                 <Grid className="event-recap-second-grid-content-title" size={12} >
-                                    <Typography className="event-recap-second-grid-content-title-text">{item.name}</Typography>
+                                    <Typography className="event-recap-second-grid-content-title-text">{item.name?toTitleCase(item.name):""}</Typography>
                                 </Grid>
                                 <Grid className="event-recap-second-grid-content-location" size={12} >
                                     <Typography className="event-recap-second-grid-content-location-text">Location:{eventData.data.venue.city + "," + eventData.data.venue.country}</Typography>

@@ -239,7 +239,7 @@ const MyEventScreen: React.FC = () => {
           </Grid>
         )
       }
-      {/* Modal for viewing certificates */}
+      {/* Modal for viewing certificates  and need to add pdf after getting APi*/}
       <CustomModel
         open={open}
         onClose={handleClose}
