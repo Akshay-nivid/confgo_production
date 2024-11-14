@@ -122,6 +122,23 @@
             color: $clr_green !important;
         }
     }
+    &-switch-btn {
+        .Mui-checked {
+            color: $clr_green !important;
+        }
+    
+        .MuiFormControlLabel-label {
+            font-size: $p2 !important;
+        }
+    }
+    &-check-btn{
+        .Mui-checked{
+            color: $clr_green !important; 
+        }
+        .MuiFormControlLabel-label{
+            font-size: $p2 !important;
+        }
+    }
         &-prop-add{
             border: solid 0.1rem $clr_green !important;
     background-color: $clr_white !important ;

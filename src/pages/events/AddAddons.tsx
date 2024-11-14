@@ -16,6 +16,8 @@ import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import CustomCheckbox from "@/components/CustomCheckbox/CustomCheckbox";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CreateAddon from "./CreateAddon";
+import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
+import { validateRequiredField } from "@/Utils/Validation";
 
 type FormData = {
   addOn: {
@@ -89,10 +91,10 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
           {
             name: "",
             description: "",
-            startTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
-            endTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
+            startTime:  moment().format("HH:mm"),
+            endTime:  moment().format("HH:mm"),
             type: "PAID",
-            date:moment(new Date()).format("YYYY-MM-DDTHH:mm"),
+            date:moment(eventData?.startTime).format("YYYY-MM-DD"),
             properties: [
             ],
             addonId: "",
@@ -172,9 +174,9 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
         const newAddon = {
           name: "",
           description: "",
-          date: moment().format("YYYY-MM-DDTHH:mm"),
-          startTime: moment().format("YYYY-MM-DDTHH:mm"),
-          endTime: moment().format("YYYY-MM-DDTHH:mm"),
+          date: moment(eventData?.startTime).format("YYYY-MM-DD"),
+          startTime: moment().format("HH:mm"),
+          endTime: moment().format("HH:mm"),
           type: "PAID",
           amount: "",
           properties: [],
@@ -251,9 +253,9 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
           const obj={
             name: "",
             description: "",
-            date:moment().format("YYYY-MM-DD"),
-            startTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
-            endTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
+            date:moment(eventData?.startTime).format("YYYY-MM-DD"),
+            startTime: moment(new Date()).format("HH:mm"),
+            endTime: moment(new Date()).format("HH:mm"),
             type: "PAID",
             addonId: "",
             properties: [{propertyId:"", propertyName: "", propertyAmount: "" }],
@@ -370,6 +372,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                               >
                                 <Grid size={{ xs: 12, sm: 6 }}>
                                   <CustomSelect
+                                  rules={{required:validateRequiredField({})}}
                                     optionClick={(value) => {
                                       if (value === 'other') {
                                         setAddonView(true)
@@ -379,6 +382,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     label="Add-on Name"
                                     name={`addOn.${index}.addonId`}
                                     options={addOnOptions} />
+                                    
                                 </Grid>
                                 <Grid size={{ xs: 12, sm: 6 }}>
                                   <CustomTextField
@@ -386,24 +390,26 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     control={control}
                                     name={`addOn.${index}.description`}
                                     type="text"
-                                    rules={{ required: true }}
+                                    rules={{required:validateRequiredField({})}}
                                   />
                                 </Grid>
                                 <Grid size={{xs:12,sm:12}}>
-                                  <CustomCheckbox 
-                                  options={[{label:'Specific Date not Required', value: 'YES' }]}
-                                   control={control}
+                                  <CustomSwitch
+                                  className="add-program-switch-btn"
+                                  buttonColor="success"
+                                  label="Date & Time"
                                   name={`addOn.${index}.dateRequired`}
+                                  control={control}
                                   />
                                 </Grid>
                                  {
-                                  <>{watch(`addOn.${index}.dateRequired`)?.length===0 && <>
+                                  <>{watch(`addOn.${index}.dateRequired`)&& <>
                                 <Grid size={{ xs: 12, sm: 4 }}>
                                   <CustomTextField
                                     placeholder="Date"
                                     control={control}
                                     name={`addOn.${index}.date`}
-                                    defaultValue={moment(new Date()).format("YYYY-MM-DD")}
+                                    defaultValue={moment(eventData?.startTime).format("YYYY-MM-DD")}
                                     type="date"
                                     min={moment().format("YYYY-MM-DD")}
                                     minDate={eventData?.startTime}
@@ -422,7 +428,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                       name={`addOn.${index}.startTime`}
                                       defaultValue={ moment(new Date()).format("HH:mm")}
                                       type="time"
-                                      min={moment().format("HH:mm")}  // Setting min time as current time (can be adjusted if needed)
+                                      min={moment().format("HH:mm")} 
                                       rules={{
                                         required: true,
                                         validate: (value) => {
@@ -443,7 +449,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                         control={control}
                                         name={`addOn.${index}.endTime`}
                                         type="time"
-                                        min={moment().format("HH:mm")}  // Setting min time as current time (can be adjusted if needed)
+                                        min={moment().format("HH:mm")}  
                                         rules={{
                                           required: true,
                                           validate: (value) => {
@@ -476,8 +482,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                   </Grid>
                                   <Grid size={{ xs: 12, sm: 6 }}>
                                     <CustomCheckbox
-                                      // defaultValue={"NO"}
-                                      // setValue={setValue}
+                                    className="add-program-check-btn"
                                       options={[{ label: 'Repeat', value: 'YES' }]}
                                       control={control}
                                       name={`addOn.${index}.repeat`}
@@ -568,7 +573,6 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                           name={`addOn.${index}.propertyAmount`}
                                           type="text"
                                           rules={{
-                                            // required: "Price is required",
                                             pattern: {
                                               value: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
                                               message:
@@ -656,8 +660,9 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                     >
                       <Grid size={{ xs: 8, sm: 8 }} >
                         <Grid container size={{ xs: 12, sm: 12 }} direction={'column'}>
-                         
-                        <Grid>{field.addonId}</Grid>
+                          <Grid>
+                            {addOnOptions?.find((option: any) => option?.value === field?.addonId)?.label || 'Unknown'}
+                          </Grid>
                         <Grid>{field.description}</Grid>    
                         </Grid>
                                             

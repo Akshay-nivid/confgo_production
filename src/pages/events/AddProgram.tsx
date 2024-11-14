@@ -16,21 +16,23 @@ type FormData = {
   programs: {
     name: string;
     description: string;
+    startDate:string;
+    endDate:string;
     startTime: string;
-    endTime: string;
+    endTime:string;
     type: string;
     amount: string;
-    addonId: string;
   }[];
   savedPrograms: {
     id?: string;
     name: string;
     description: string;
+    startDate:string;
+    endDate:string;
     startTime: string;
-    endTime: string;
+    endTime:string;
     type: string;
     amount: string;
-    addonId: string;
   }[];
 };
 type ProgramProps = {
@@ -56,11 +58,12 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
           {
             name: "",
             description: "",
-            startTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
-            endTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
+            startDate:moment(eventData?.startTime).format("YYYY-MM-DD"),
+            endDate:moment(eventData?.startTime).format("YYYY-MM-DD"),
+            startTime: moment(new Date()).format("HH:mm"),
+            endTime:moment(new Date()).format("HH:mm"),
             type: "PAID",
-            amount: "",
-            addonId: "",
+            amount: ""
           },
         ],
       },
@@ -132,8 +135,10 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
         const newProgram = {
           name: "",
           description: "",
-          startTime: moment().format("YYYY-MM-DDTHH:mm"),
-          endTime: moment().format("YYYY-MM-DDTHH:mm"),
+          startDate:moment().format("YYYY-MM-DD"),
+          endDate:moment().format("YYYY-MM-DD"),
+          startTime: moment().format("HH:mm"),
+          endTime:moment().format("HH:mm"),
           type: "PAID",
           amount: "",
           addonId: "",
@@ -185,20 +190,22 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
           append({
             name: "",
             description: "",
-            startTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
-            endTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
+            startDate:moment().format("YYYY-MM-DD"),
+            endDate:moment().format("YYYY-MM-DD"),
+            startTime: moment(new Date()).format("HH:mm"),
+            endTime:moment(new Date()).format("HH:mm"),
             type: "PAID",
-            amount: "",
-            addonId: "",
+            amount: ""
           });
           saveProgram.push({
             name: "",
             description: "",
-            startTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
-            endTime: moment(new Date()).format("YYYY-MM-DDTHH:mm"),
+            startDate:moment().format("YYYY-MM-DD"),
+            endDate:moment().format("YYYY-MM-DD"),
+            startTime: moment(new Date()).format("HH:mm"),
+            endTime:moment(new Date()).format("HH:mm"),
             type: "PAID",
-            amount: "",
-            addonId: "",
+            amount: ""
           });
         } else {
           setProgramIndex(programsCopy.length);
@@ -206,7 +213,6 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
       }
       onSaveHandler && onSaveHandler(saveProgram,'program');
     };
-
 
 
 
@@ -271,8 +277,116 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                     rules={{ required: true }}
                                   />
                                 </Grid>
-                                <Grid size={{ xs: 12, sm: 6 }}>
+                                <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
+                                  <Grid size={{xs:12,sm:6}}>
                                   <CustomTextField
+                                    placeholder="Start Date"
+                                    control={control}
+                                    name={`programs.${index}.startDate`}
+                                    type="date"
+                                    defaultValue={moment(eventData?.startTime).format("YYYY-MM-DD")}
+                                    min={moment().format("YYYY-MM-DD")}
+                                    maxDate={eventData?.endTime}
+                                    rules={{
+                                      required: true,
+                                      validate: (value) => {
+                                        if (
+                                          typeof value === "string" &&
+                                          value
+                                        ) {
+                                          const selectedDate = new Date(value);
+                                          const now = new Date(eventData?.startTime);
+                                          now.setHours(0, 0, 0, 0);
+                                          return (
+                                            selectedDate >= now ||
+                                            "Start Date cannot be in the past"
+                                          );
+                                        }
+                                        return "Invalid date";
+                                      },
+                                    }}
+                                  />
+                                  </Grid>
+                                  <Grid size={{xs:12,sm:6}}>
+                                   <CustomTextField
+                                    placeholder="Start Time"
+                                    control={control}
+                                    name={`programs.${index}.startTime`}
+                                    type="time"
+                                    defaultValue={moment().format("HH:mm")}
+                                    rules={{
+                                      required: true,
+                                    }}
+                                  />
+                                  </Grid>
+                                  {/* <Grid size={{xs:12,sm:4}}>
+                                    <CustomTextField
+                                    placeholder="End Time"
+                                    control={control}
+                                    name={`programs.${index}.startDateEndTime`}
+                                    type="time"
+                                    defaultValue={moment().format("HH:mm")}
+                                    rules={{
+                                      required: true,
+                                    }}
+                                  />
+                                  </Grid> */}
+                                </Grid>
+                                <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
+                                  <Grid size={{xs:12,sm:6}}>
+                                  <CustomTextField
+                                    placeholder="End Date"
+                                    control={control}
+                                    name={`programs.${index}.endDate`}
+                                    type="date"
+                                    defaultValue={moment(eventData?.startTime).format("YYYY-MM-DD")}
+                                    min={moment().format("YYYY-MM-DD")}
+                                    maxDate={eventData?.endTime}
+                                    rules={{
+                                      required: true,
+                                      validate: (value) => {
+                                        if (
+                                          typeof value === "string" &&
+                                          value
+                                        ) {
+                                          const selectedDate = new Date(value);
+                                          const now = new Date();
+                                          now.setHours(0, 0, 0, 0);
+                                          return (
+                                            selectedDate >= now ||
+                                            "Start Date cannot be in the past"
+                                          );
+                                        }
+                                        return "Invalid date";
+                                      },
+                                    }}
+                                  />
+                                  </Grid>
+                                  {/* <Grid size={{xs:12,sm:4}}>
+                                   <CustomTextField
+                                    placeholder="Start Time"
+                                    control={control}
+                                    name={`programs.${index}.startDateStartTime`}
+                                    type="time"
+                                    defaultValue={moment().format("HH:mm")}
+                                    rules={{
+                                      required: true,
+                                    }}
+                                  />
+                                  </Grid> */}
+                                  <Grid size={{xs:12,sm:6}}>
+                                    <CustomTextField
+                                    placeholder="End Time"
+                                    control={control}
+                                    name={`programs.${index}.endTime`}
+                                    type="time"
+                                    defaultValue={moment().format("HH:mm")}
+                                    rules={{
+                                      required: true,
+                                    }}
+                                  />
+                                  </Grid>
+                                  {/* <CustomTextField
                                     placeholder="Start Date & Time"
                                     control={control}
                                     name={`programs.${index}.startTime`}
@@ -297,10 +411,10 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                         return "Invalid date";
                                       },
                                     }}
-                                  />
+                                  /> */}
                                 </Grid>
                                 <Grid size={{ xs: 12, sm: 6 }}>
-                                  <CustomTextField
+                                  {/* <CustomTextField
                                     placeholder="End Date & Time"
                                     control={control}
                                     name={`programs.${index}.endTime`}
@@ -324,7 +438,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                         return "Invalid date";
                                       },
                                     }}
-                                  />
+                                  /> */}
                                 </Grid>
                                 <Grid size={{ xs: 12, sm: 12 }}>
                                   <CustomRadio
