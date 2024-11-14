@@ -21,25 +21,25 @@ const sidebarItems = [
     path: routes.userMyEvents(),
     icon: EventIcon,
     label: 'My Events',
-    exact: false,
+    exact: true,
   },
   {
     path: routes.paymentHistory(),
     icon: PaymentHistoryIcon,
     label: 'Payment History',
-    exact: false,
+    exact: true,
   },
   {
     path: routes.userCalendar(),
     icon: CalendarEventIcon,
     label: 'Calendar',
-    exact: false,
+    exact: true,
   },
   {
     path: routes.accountsettings(), 
     icon: SettingsIcon,
     label: 'Settings',
-    exact: false,
+    exact: true,
   },
 ];
 /**

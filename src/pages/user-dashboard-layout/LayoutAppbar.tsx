@@ -80,7 +80,7 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
         LOGO
       </Grid>
       <Grid container size={10} justifyContent="flex-end" >
-        <Grid container className="appbar-notification" onClick={()=>{navigate(routes.userCalendar())}}>
+        <Grid  className="appbar-notification" onClick={()=>{navigate(routes.userCalendar())}}>
           {/* Calendar Icon */}
           <CalendarEventIcon className='appbar-notification-icon' />
           {/* Notification Badge */}
@@ -90,13 +90,13 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
             className='appbar-notification-badge'
           />
         </Grid>
-        <Grid container size={2} className="appbar-group" onClick={handleMenuOpen}>
+        <Grid  size={2} className="appbar-group" onClick={handleMenuOpen}>
           {/*Image */}
           <Grid size={1} className="appbar-group-img" mb={0}>
             <img src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHByb2ZpbGV8ZW58MHx8MHx8fDA%3D" alt="User" />
           </Grid>
           {/* Name and Role */}
-          <Grid container size={7} className="appbar-group-textgroup">
+          <Grid  size={7} className="appbar-group-textgroup">
             <Grid size={12}>
               <Typography className="appbar-group-text">{userDetails?.firstName} {userDetails?.lastName}</Typography>
             </Grid>

@@ -57,7 +57,7 @@ const MyEventScreen: React.FC = () => {
   const { control } = useForm();
   const [searchResults, setSearchResults] = useState<any>([]);
   const [loading, setLoading] = useState(false);
-  const [event, setEvent] = useState<Program[]>([]);
+  const events = useStore((state: any) => state?.compData?.["userEvents"]?.['event/list']) ?? [] as Program[];
   const POST = useStore((state: any) => state.POST);
   const setDataById = useStore((state: any) => state.setDataById);
   const navigate = useNavigate();
@@ -113,10 +113,7 @@ const MyEventScreen: React.FC = () => {
             sortDirection: "DESC",
             filters: {id: selected.id},
           },
-          id: 'userLatestEvents',
-          successCB: (success: any) => {
-            setEvent(success.data);
-          },
+          id: 'userEvents',
           errorCB: (context: any) => {
             setDataById("snackBarInfo", {
               open: true,
@@ -144,10 +141,7 @@ const MyEventScreen: React.FC = () => {
           sortDirection: "DESC",
           filters: {},
         },
-        id: 'userLatestEvents',
-        successCB: (success: any) => {
-          setEvent(success.data);
-        },
+        id: 'userEvents',
         errorCB: (context: any) => {
           setDataById("snackBarInfo", {
             open: true,
@@ -210,7 +204,7 @@ const MyEventScreen: React.FC = () => {
         </Grid>
       </Grid>
       {
-        event == undefined ? (
+        events == undefined ? (
           <Grid container size={12} justifyContent={"center"}>
           <Grid  container justifyContent={"center"}  className="no-event" >
           <Grid>
@@ -224,7 +218,7 @@ const MyEventScreen: React.FC = () => {
         </Grid>
         ) : (
           <Grid container size={12} spacing={2}>
-            {event.map((event: Program, index) => (
+            {events.data && events.data.map((event: Program, index:number) => (
               <Grid size={{ xs: 12, sm: 4, md: 4 }} key={index}>
                 <EventCard
                   eventFullData={event}

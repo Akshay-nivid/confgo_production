@@ -160,8 +160,8 @@ const UserDashboard: React.FC = React.memo(() => {
         </Grid>
       </Grid>
       {/* Right Column */}
-      <Grid  size={{ xs: 12, md: 3 }} direction="column" className="dashboard-right" >
-        <Grid >
+      <Grid  size={{ xs: 12, md: 4 }}  className="dashboard-right" >
+        <Grid container >
           <Grid><Typography className="dashboard-subhead">Weekly Calendar</Typography></Grid>
           <Grid className="dashboard-calendar-card"> <CalendarCard data={upcomingData} /> </Grid>
         </Grid>
