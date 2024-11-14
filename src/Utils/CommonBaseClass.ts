@@ -134,5 +134,8 @@ interface IDateTimeRangeParams {
   format: 'MMMM D, YYYY' | 'DD/MM/YYYY' | 'h:mm A' | string;  
 }
 export function formatDateTimeRange({date,format}:IDateTimeRangeParams){
-return  moment(date).format(format)
+  if (!date) {
+    return ''; 
+  }
+return  moment.utc(date).local().format(format);
 }
