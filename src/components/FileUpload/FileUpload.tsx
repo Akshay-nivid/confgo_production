@@ -1,208 +1,266 @@
-import React, { useState } from "react";
-import {
-  Box,
-  Typography,
-  IconButton,
-  Tooltip,
-} from "@mui/material";
-import { CloudUpload, Delete, CheckCircle } from "@mui/icons-material";
-import { styled } from "@mui/material/styles";
 import apiClient from "@/Libs/Https/API-client";
-import { useForm } from "react-hook-form";
-import CustomButton from "../CustomButton/CustomButton";
-import CustomTextField from "../CustomTextfield/CustomTextField";
-import Grid from "@mui/material/Grid2";
-import "./_style.scss";
 import useStore from "@/Libs/store";
+import { Typography, IconButton } from "@mui/material";
+import Grid from "@mui/material/Grid2";
+import React, { useCallback, useState } from "react";
+import { useDropzone, FileRejection, Accept } from "react-dropzone";
+import DeleteIcon from "@mui/icons-material/Close";
+import CustomButton from "../CustomButton/CustomButton";
 
+interface Resolution {
+ width: number | null;
+ height: number | null;
+}
 
 interface FileUploadProps {
-  maxFileSizeMB?: number;
-  allowedFileTypes?: string[];
-  onUploadSuccess?: (file: CustomFile) => void; 
+ allowDrop?: boolean;
+ acceptedFiles?: string[];
+ canSelectMultiple?: boolean;
+ maxSize?: number;
+ resolution?: Resolution;
+ onSubmit?: (response: any) => void;
+ trimClientSide?: boolean;
+ width?: string | number;
+ height?: string | number;
 }
-
-
-
-interface CustomFile {
-  id: number;
-  name: string;
-  mimeType: string;
-  sourcePath: string;
-  size: number;
-  createdOn: string;
-}
-
-const Input = styled("input")({
-  display: "none",
-});
 
 /**
- * 
- * component for file upload 
- * @returns 
+ * FileUpload component allows users to upload files with the ability to resize images before uploading.
+ * It supports drag-and-drop functionality, file previews, and rejection messages.
+ * @param {FileUploadProps} props
  */
 const FileUpload: React.FC<FileUploadProps> = ({
-  maxFileSizeMB = 5,
-  allowedFileTypes = [],
-  onUploadSuccess, // Destructure new prop
+ allowDrop = true,
+ acceptedFiles = ["image/jpeg", "image/png"],
+ canSelectMultiple = false,
+ maxSize = 1 * 1024 * 1024,
+ resolution = { width: null, height: null },
+ onSubmit,
+ trimClientSide = true,
+ width = "30rem",
+ height = "30rem",
 }) => {
-  const [file, setFile] = useState<File | null>(null);
-  const [uploadSuccess, setUploadSuccess] = useState(false);
-  const setDataById = useStore((state: any) => state.setDataById);
-  const { control, handleSubmit: handleFormSubmit, setValue } = useForm({
-    defaultValues: {
-      fileName: "",
-    },
+ const [previewUrls, setPreviewUrls] = useState<string[]>([]);
+ const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+ const [rejectionMessages, setRejectionMessages] = useState<string[]>([]); // State to store rejection messages
+ const setDataById = useStore((state: any) => state.setDataById);
+
+ /**
+  * Trims the image to the specified resolution.
+  * @param file - The image file to be trimmed.
+  * @returns  The resized image file or null if there was an error.
+  */
+ const trimImageResolution = (file: File): Promise<File | null> => {
+  return new Promise((resolve, reject) => {
+   const img = new Image();
+   img.src = URL.createObjectURL(file);
+
+   img.onload = () => {
+    const canvas = document.createElement("canvas");
+    const targetWidth = resolution.width || img.width;
+    const targetHeight = resolution.height || img.height;
+
+    canvas.width = targetWidth;
+    canvas.height = targetHeight;
+
+    const ctx = canvas.getContext("2d");
+    if (ctx) {
+     ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+     canvas.toBlob((blob) => {
+      if (blob) {
+       resolve(new File([blob], file.name, { type: file.type }));
+      } else {
+       reject(new Error("Error creating resized image"));
+      }
+     }, file.type);
+    } else {
+     reject(new Error("Canvas context error"));
+    }
+   };
+
+   img.onerror = () => reject(new Error("Unable to load image"));
   });
-/*
- * function to handle the file upload 
- */
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const uploadedFiles = event.target.files;
-    if (!uploadedFiles) return;
+ };
 
-    const selectedFile = uploadedFiles[0];
-    const isFileTypeValid =
-      allowedFileTypes.length === 0 || allowedFileTypes.includes(selectedFile.type);
-    const isFileSizeValid = selectedFile.size <= maxFileSizeMB * 1024 * 1024;
+ /**
+  * Handles file drop event and processes the dropped files.
+  * @param  acceptedFiles - The files that were accepted.
+  * @param  fileRejections - The files that were rejected.
+  */
+ const onDrop = useCallback(
+  async (acceptedFiles: File[], fileRejections: FileRejection[]) => {
+   if (!allowDrop) return;
 
-    if (!isFileTypeValid) {
-      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: `Invalid file type. Only ${allowedFileTypes.join(", ")} are allowed.` });
-      return;
-    }
+   const validFiles: File[] = [];
+   const trimmedStatus: boolean[] = [];
+   const rejectionMsgs: string[] = []; // Array to store rejection messages
 
-    if (!isFileSizeValid) {
-      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: `File size exceeds the maximum allowed size of ${maxFileSizeMB} MB.`});
-      return;
-    }
-
-    setFile(selectedFile);
-    setUploadSuccess(false);
-  };
-/*
- * function to remove file from the state
- */
-  const handleFileRemove = () => {
-    setFile(null);
-    setValue("fileName", ""); 
-    setUploadSuccess(false);
-  };
-/*
- * function to handle submit button 
- */
-  const handleSubmit = async (data: { fileName: string }) => {
-    if (!file) {
-      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: `No file selected. Please upload a file.`}); 
-      return;
-    }
-
-    if (!data.fileName.trim()) {
-      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "Please enter a name for the image."}); 
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("name", data.fileName);
-
-    try {
-      const response = await apiClient.post("/asset", formData);
-
-      if (response.status !== 201) {
-        throw new Error("Upload failed");
+   // Process accepted files, resizing if necessary
+   await Promise.all(
+    acceptedFiles.map(async (file) => {
+     if (trimClientSide && resolution.width && resolution.height) {
+      try {
+       const trimmedFile = await trimImageResolution(file);
+       if (trimmedFile) {
+        validFiles.push(trimmedFile);
+        trimmedStatus.push(true);
+       }
+      } catch {
+       trimmedStatus.push(false);
       }
+     } else {
+      validFiles.push(file);
+      trimmedStatus.push(false);
+     }
+    })
+   );
 
-      const uploadedFileData = response.data.response.data as CustomFile;
-      setFile(null);
-      setValue("fileName", "");
-      setUploadSuccess(true);
+   // Process rejected files and store rejection messages
+   fileRejections.forEach(({ file, errors }) => {
+    const errorMessages = errors.map((e) => {
+     // Check if error is related to file size
+     if (e.code === "file-too-large") {
+      // Convert the maxSize to MB for the message
+      const maxSizeInMB = (maxSize / (1024 * 1024)).toFixed(2); // Convert to MB with 2 decimal points
+      return `File "${file.name}" exceeds the maximum size of ${maxSizeInMB} MB`;
+     }
+     return e.message;
+    });
+    rejectionMsgs.push(errorMessages.join(", "));
+   });
 
-      if (onUploadSuccess) {
-        onUploadSuccess(uploadedFileData);
-      }
-    } catch (error) {
-      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "Upload failed. Please try again."}); 
-    }
-  };
+   setPreviewUrls(validFiles.map((file) => URL.createObjectURL(file)));
+   setSelectedFiles(validFiles);
+   setRejectionMessages(rejectionMsgs); // Set rejection messages
+  },
+  [allowDrop, resolution, trimClientSide]
+ );
 
-  return (
-    <Box className="file-upload">
-      <Typography variant="h6" gutterBottom>
-        Upload your File
-      </Typography>
+ const accept: Accept =
+  acceptedFiles.length > 0
+   ? Object.fromEntries(acceptedFiles.map((type) => [type, []]))
+   : {};
 
-      <Grid container spacing={2}>
-        <Grid size={{xs:12}}>
-          <label htmlFor="file-upload-button">
-            <Input
-              id="file-upload-button"
-              type="file"
-              onChange={handleFileUpload}
-              accept={allowedFileTypes.length > 0 ? allowedFileTypes.join(",") : undefined}
-              className="file-upload__input"
-            />
-            <CustomButton
-              label="Select File"
-              startIcon={<CloudUpload />}
-              variant="contained"
-              color="primary"
-              onClick={() => document.getElementById("file-upload-button")?.click()}
-              className="file-upload__select-button"
-            />
-          </label>
-        </Grid>
+ const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  onDrop,
+  accept,
+  multiple: canSelectMultiple,
+  maxSize,
+ });
 
-        {file && (
-          <Grid size={{xs:12}} className="file-upload__file-info">
-            <Typography variant="body2" className="file-upload__file-name">
-              {file.name} ({(file.size / (1024 * 1024)).toFixed(2)} MB)
-            </Typography>
-            <Tooltip title="Remove File">
-              <IconButton
-                aria-label="delete"
-                color="secondary"
-                onClick={handleFileRemove}
-              >
-                <Delete />
-              </IconButton>
-            </Tooltip>
-          </Grid>
-        )}
+ /**
+  * Handles the form submission to upload the selected files.
+  */
+ const handleSubmit = async () => {
+  const formData = new FormData();
+  selectedFiles.forEach((file) => formData.append("file", file));
 
-        <Grid size={{xs:12}}>
-          <CustomTextField
-            name="fileName"
-            label="Enter a name for the file"
-            placeholder="Enter a name for the file"
-            control={control}
-            rules={{ required: "File name is required" }}
-            multiline={false}
-            className="file-upload__text-field"
-          />
-        </Grid>
+  try {
+   const response = await apiClient.post("/asset", formData);
 
-        <Grid size={{xs:12}}>
-          <CustomButton
-            label="Submit"
-            variant="contained"
-            color="secondary"
-            onClick={handleFormSubmit(handleSubmit)}
-            className="file-upload__submit-button"
-          />
+   if (response.status === 201) {
+    setSelectedFiles([]);
+    setPreviewUrls([]);
+    setDataById("snackBarInfo", {
+     open: true,
+     autoHideDuration: 2000,
+     severity: "success",
+     message: "File uploaded successfully!",
+    });
+    onSubmit && onSubmit(response.data.response.data);
+   } else {
+    throw new Error("Upload failed");
+   }
+  } catch (error) {
+   setDataById("snackBarInfo", {
+    open: true,
+    autoHideDuration: 2000,
+    severity: "error",
+    message: "Upload failed. Please try again.",
+   });
+  }
+ };
 
-          {uploadSuccess && (
-            <Box mt={2} display="flex" alignItems="center" className="file-upload__success-message">
-              <CheckCircle />
-              <Typography variant="body2" ml={1}>
-                File uploaded successfully!
-              </Typography>
-            </Box>
-          )}
-        </Grid>
+ /**
+  * Removes a file from the selected files list.
+  * @param index - The index of the file to be removed.
+  */
+ const handleRemoveFile = (index: number) => {
+  setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
+  setPreviewUrls((prev) => prev.filter((_, i) => i !== index));
+ };
+
+ return (
+  <Grid
+   className="file-upload"
+   container
+   style={{ width, height }}
+   justifyContent={"flex-end"}
+  >
+   <Grid {...getRootProps()} className="file-upload-dropzone" size={{ xs: 12 }}>
+    <input {...getInputProps()} />
+    {selectedFiles.length === 0 && (
+     <Grid>
+      {isDragActive ? (
+       <Typography>Drop the files here...</Typography>
+      ) : (
+       <Typography>Drag & drop files here, or click to select files</Typography>
+      )}
+     </Grid>
+    )}
+
+    {/* File previews with remove button and upload progress */}
+    <Grid className="file-upload-preview" justifyContent={"center"}>
+     {previewUrls.map((url, index) => (
+      <Grid key={index} className="file-upload-preview-item">
+       <img src={url} alt={`preview ${index}`} />
+       {/* Display the file name */}
+
+       <IconButton
+        onClick={(event) => {
+         event.stopPropagation(); // Prevent file manager from opening
+         handleRemoveFile(index); // Your existing function to remove the file
+        }}
+       >
+        <DeleteIcon />
+       </IconButton>
+       <Typography
+        className="file-upload-preview-item-name"
+        variant="body2"
+        align="center"
+        title={selectedFiles[index]?.name}
+       >
+        {selectedFiles[index]?.name}
+       </Typography>
       </Grid>
-    </Box>
-  );
+     ))}
+    </Grid>
+    {/* Display rejection messages */}
+    {rejectionMessages.length > 0 && (
+     <Grid>
+      {rejectionMessages.map((message, index) => (
+       <Typography key={index} className="file-upload-rejection-messages">
+        {message}
+       </Typography>
+      ))}
+     </Grid>
+    )}
+   </Grid>
+
+   {/* Show submit button only if files are selected */}
+   {selectedFiles.length > 0 && (
+    <Grid>
+     <CustomButton
+      variant="contained"
+      color="primary"
+      onClick={handleSubmit}
+      label="Upload"
+      className="file-upload-button"
+     />
+    </Grid>
+   )}
+  </Grid>
+ );
 };
 
 export default FileUpload;

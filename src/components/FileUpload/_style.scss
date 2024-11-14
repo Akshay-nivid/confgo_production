@@ -1,196 +1,226 @@
 .modal {
-  &__container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    backdrop-filter: blur(4rem);
-  }
-  &-close-icon{
-    cursor: pointer;
-    margin-bottom: 0.5rem;
-  }
+ &-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  backdrop-filter: blur(4rem);
+ }
+ &-close-icon {
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+ }
 
-  &__content {
-    width: 90%;
-    max-width: 37.5rem;
-    padding: 2rem; 
-    background-color:$clr_white;
-    border-radius: 0.5rem;
-    position: relative; 
-  }
-
-  &__close-button {
-    position: absolute; 
-    top: 0.625rem; 
-    right: 0.625rem; 
-    z-index: 10; 
-    background: transparent; 
-    border: none;
-    cursor: pointer;
-  }
-
-  &__search-input {
-    margin-bottom: 1.5rem; 
-    padding: 0.5rem; 
-  }
-
-  &__image-list {
-    max-height: 28rem; 
-    overflow-y: hidden; 
-    margin-bottom: 1.5rem;
-  }
-
-  &__confirm-button {
-    margin-top: 1rem;
-  }
-
-  &__upload-button {
-    margin-top: 1rem;
-  }
-
-  &__upload-container {
-    width: 100%;
-    height: 50vh;
-    justify-content: center;
-    max-width: 40.25rem;
-    background-color:$clr_white;
-    border-radius: 0.5rem;
-    margin: 0 auto;
-    margin-top: 10rem; 
-    z-index: 1; 
-    align-content: center;
-  }
-}
-
-.file-upload {
-  border: 0.05rem solid $clr-gray-light;
+ &-content {
+  width: 90%;
+  max-width: 37.5rem;
+  padding: 2rem;
+  background-color: $clr_white;
   border-radius: 0.5rem;
+  position: relative;
+ }
+
+ &-close-button {
+  position: absolute;
+  top: 0.625rem;
+  right: 0.625rem;
+  z-index: 10;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+ }
+
+ &-search-input {
+  margin-bottom: 1.5rem;
+  padding: 0.5rem;
+ }
+
+ &-image-list {
+  max-height: 28rem;
+  overflow-y: hidden;
+  margin-bottom: 1.5rem;
+ }
+
+ &-confirm-button {
+  margin-top: 1rem;
+ }
+
+ &-upload-button {
+  background-color: $clr_green !important;
+  color: $clr_white !important;
+  margin-top: 1rem;
+ }
+
+ &-upload-container {
+  display: flex;
+  max-height: 60rem;
+  max-width: 60rem;
+  justify-content: center;
   max-width: 40.25rem;
+  background-color: $clr_white;
+  border-radius: 0.5rem;
   margin: 0 auto;
-
-  &__input {
-    display: none; 
-  }
-
-  &__select-button {
-    margin-top: 0.5rem; 
-  }
-
-  &__file-info {
-    display: flex;
-    align-items: center;
-    margin-top: 0.5rem; 
-  }
-
-  &__file-name {
-    flex: 1; 
-  }
-
-  &__text-field {
-    margin-top: 1rem; 
-    padding: 0.5rem;
-  }
-
-  &__submit-button {
-    margin-top: 1rem; 
-  }
-
-  &__success-message {
-    margin-top: 1rem; 
-    color: $clr_green;
-  }
+  margin-top: 10rem;
+  z-index: 1;
+  align-content: center;
+ }
 }
 
 .image-list {
-  margin: 0;
+ margin: 0;
 
-  &__item {
-    cursor: pointer;
+ &-item {
+  cursor: pointer;
 
-    &:hover {
-      opacity: 0.8;
-    }
+  &:hover {
+   opacity: 0.8;
   }
+ }
 
-  &__image {
-    width: 100%;
-    height: auto;
-    padding: 0.5rem;
-  }
+ &-image {
+  width: 100%;
+  height: auto;
+  padding: 0.5rem;
+ }
 
-  &__checkbox {
-    margin-left: 0.25rem; 
-  }
-}
-
-
-.file-upload {
-  padding: 1rem; 
-  border: 0.05rem solid ;
-  border-radius: 0.5rem; 
-  max-width: 31.25rem;
-  margin: 0 auto;
-
-  &__input {
-    display: none; 
-  }
-
-  &__select-button {
-    margin-top: 0.5rem; 
-  }
-
-  &__file-info {
-    display: flex;
-    align-items: center;
-    margin-top: 0.5rem;
-  }
-
-  &__file-name {
-    flex: 1; 
-  }
-
-  &__text-field {
-    margin-top: 1rem; 
-  }
-
-  &__submit-button {
-    margin-top: 1rem; 
-  }
-
-  &__success-message {
-    margin-top: 1rem; 
-    color: $clr_green;
-  }
+ &-checkbox {
+  margin-left: 0.25rem;
+ }
 }
 
 .image-list {
-  margin: 0;
+ margin: 0;
 
-  &__item {
-    cursor: pointer;
+ &-item {
+  cursor: pointer;
 
-    &:hover {
-      opacity: 0.8;
-    }
+  &:hover {
+   opacity: 0.8;
   }
+ }
 
-  &__image {
-    width: 100%;
-    height: auto;
-  }
+ &-image {
+  width: 100%;
+  height: auto;
+ }
 
-  &__checkbox {
-    margin-left: 0.25rem;
-  }
+ &-checkbox {
+  margin-left: 0.25rem;
+ }
 }
 .image-list-item-bar {
-  height: 1rem; 
+ height: 1rem;
 }
 
 .image-list-item-bar-title {
-  font-size: 0.875rem;
-  white-space: nowrap; 
-  overflow: hidden; 
-  text-overflow: ellipsis; 
+ font-size: 0.875rem;
+ white-space: nowrap;
+ overflow: hidden;
+ text-overflow: ellipsis;
+}
+
+.file-upload {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ width: 100%;
+ padding: 1rem;
+
+ &-dropzone {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed $clr_gray_very_light;
+  border-radius: 0.5rem;
+  padding: 4rem 2rem;
+  width: 100%;
+  background-color: $background;
+  transition: border-color 0.3s ease;
+
+  &:hover {
+   border-color: $input_label;
+  }
+
+  // Display text for drag & drop or click
+  & .MuiTypography-root {
+   font-size: 1.2rem;
+   color: $input_label;
+   text-align: center;
+  }
+
+  &.Mui-focused {
+   background-color: $bg_light;
+  }
+
+  &.dropzone-active {
+   background-color: $clr_levender_blue;
+  }
+ }
+
+ &-rejection-messages {
+  margin-top: 1rem;
+  width: 100%;
+  color: $clr_red !important;
+
+  .MuiTypography-root {
+   font-size: 1rem;
+   margin-bottom: 0.5rem;
+  }
+ }
+
+ &-preview {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 2rem;
+  width: 100%;
+
+  &-item {
+   position: relative;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   margin: 1rem;
+   border: 1px solid $clr_bright_gray;
+   border-radius: 0.5rem;
+   width: 7rem;
+   padding: 0.5rem; /* Add padding for spacing */
+   background-color: $background;
+
+   .img {
+    object-fit: cover;
+    border-radius: 0.25rem;
+   }
+
+   &-name {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: $input_label;
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+   }
+
+   .MuiIconButton-root {
+    position: absolute;
+    top: 0.1rem;
+    right: 0.1rem;
+    color: $clr_red;
+    background-color: $clr_white_80_percent;
+    &:hover {
+     background-color: $clr_white_90_percent;
+    }
+   }
+  }
+ }
+ &-button {
+  margin: none;
+  background-color: $clr_green !important;
+  color: $clr_white !important;
+  min-width: 10rem !important;
+ }
 }
