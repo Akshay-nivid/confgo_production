@@ -1,14 +1,18 @@
 
 import Grid from '@mui/material/Grid2';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Typography } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 import DashboardCardItem from './DashboardCardItem';
 import { CalendarEventIcon, DownloadEventIcon, PaymentDashboardIcon } from '@/assets/svg';
 import React from 'react';
 import EventCard from '../User/Components/EventCard';
 import useStore from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
+import NoDataCard from './NoDataCard';
+import routes from '@/router/routes';
+import { CalendarCard } from '../dashboard/CalendarCard';
+import moment from 'moment';
 
 /**
  * Used to render user dashboard 
@@ -16,39 +20,39 @@ import { Logger } from '@/Utils/Logger';
  */
 const UserDashboard: React.FC = React.memo(() => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const setDataById = useStore((state: any) => state.setDataById);
   const POST = useStore((state: any) => state.POST);
-  // Retrieve userDetails from the store
+  /**
+   * Retrieve userDetails from the store
+   */ 
   const userDetails = useStore((state) => state?.compData?.["userDetails"]) ?? {};
-  //const userEvents = useStore((state) => state?.compData?.["userEvents"]) ?? {};
+  const userLatestEvents = useStore((state: any) => state?.compData?.["userLatestEvents"]?.['event/list']) ?? [];
   /**
   * Useeffect hook handles the api call 
   */
   useEffect(() => {
-    fetchUserEvents();
+    fetchUpcomingEvents();
+    fetchLatestEvents();
   }, [])
 
   /**
-    *  * Sample event data for testing or demonstration purposes.
-    */
-  const events = [
-    { datetitle: '2023-12-15', title: 'Conference1', location: 'Kannur' },
-  ];
-  /**
-   * 
-   */
-  const fetchUserEvents=async ()=>{
+    * fetch upcoming events
+  */
+  const fetchUpcomingEvents = async () => {
     try {
-   
+      setIsLoading(true);
       await POST({
         url: "event/list",
         body: {
           offset: 0,
           sortBy: "id",
-          sortDirection: "DESC",
-          filters: {},
+          sortDirection: "ASC",
+          filters: {
+            "startTime": new Date()
+          },
         },
-        id: 'userEvents',
+        id: 'userLatestEvents',
         errorCB: (context: any) => {
           setDataById("snackBarInfo", {
             open: true,
@@ -61,30 +65,69 @@ const UserDashboard: React.FC = React.memo(() => {
     } catch (error) {
       Logger.error("An error occurred:", error);
     }
+    finally {
+      setIsLoading(false);
+    }
+  }
+  /**
+  * fetch completed events /last attended events
+  */
+  const fetchLatestEvents = async () => {
+    try {
+      setIsLoading(true);
+      await POST({
+        url: "event/list",
+        body: {
+          offset: 0,
+          sortBy: "id",
+          sortDirection: "DESC",
+          filters: {
+            "endTime": getPreviousDay(new Date())
+          },
+        },
+        id: 'userLatestEvents',
+        errorCB: (context: any) => {
+          setDataById("snackBarInfo", {
+            open: true,
+            autoHideDuration: 2000,
+            severity: "error",
+            message: context?.message,
+          });
+        },
+      });
+    } catch (error) {
+      Logger.error("An error occurred:", error);
+    }
+    finally {
+      setIsLoading(false);
+    }
+  }
+  /**
+   * Function to get the previous day of a given date
+   */
+  function getPreviousDay(date: any) {
+    return moment(date).subtract(1, 'days').format('YYYY-MM-DD');
   }
   /**
    * Labels for the square buttons on each event card
    */
   const squareButtonLabels: string[] = ["View Certificate", "Event Recap"];
-  /**
-   * Function to handle button presses on the event cards.
-   */
-  const handleButtonPress = () => {
-  }
+
   /**
    * @param index  Function to handle the event selection from the autocomplete input.
    * It updates the API request configuration based on the selected event.
    */
-  const handleSquareButtonClick = (index: number) => {
+  const handleSquareButtonClick = (index: number, eventId: number) => {
     if (index === 0) {
     } else if (index === 1) {
+      navigate(routes.userEventRecap(), { state: { eventId: eventId } });
     }
   };
 
   return (
     <Grid container size={12} className="dashboard" >
-
-      <Grid size={{ xs: 12, md: 7 }} container className="dashboard-left" >
+      {/* left */}
+      <Grid size={{ xs: 12, md: 7 }}  className="dashboard-left" >
         <Grid size={12}>
           <Typography className="dashboard-title" gutterBottom>
             <span className="dashboard-title-wave-icon"></span>
@@ -98,54 +141,62 @@ const UserDashboard: React.FC = React.memo(() => {
         </Grid>
 
         <Grid container className="dashboard-tight-spacing" size={12} spacing={2}>
-          
           <Grid size={{ xs: 12, sm: 6, md: 4 }}>
             <DashboardCardItem onClick={() => navigate("/user/my-event")} icon={CalendarEventIcon} title="View All My Events" />
           </Grid>
           <Grid size={{ xs: 12, sm: 6, md: 4 }}>
             <DashboardCardItem onClick={() => navigate("/user/my-event")} icon={DownloadEventIcon} title="Download Tickets & Certificates" />
           </Grid>
-
           <Grid size={{ xs: 12, sm: 6, md: 4 }}>
             <DashboardCardItem onClick={() => navigate("/user/payment-history")} icon={PaymentDashboardIcon} title="View Payment History" />
           </Grid>
-          
+
         </Grid>
       </Grid>
       {/* Right Column */}
-      <Grid container size={{ xs: 12, md: 2 }} >
-        <Grid container size={{ xs: 12 }}>
-        
-         {/* title */}
-         <Typography className="dashboard-subhead" gutterBottom>
-            Upcoming Events
+      <Grid  size={{ xs: 12, md: 4 }}  className="dashboard-right" >
+        <Grid container >
+          <Grid><Typography className="dashboard-subhead">Weekly Calendar</Typography></Grid>
+          <Grid className="dashboard-calendar-card"> <CalendarCard data={userLatestEvents} /> </Grid>
+        </Grid>
+        <Grid className="dashboard-right-events">
+          {/* title */}
+          <Typography className="dashboard-subhead" gutterBottom>
+            Attended Event
           </Typography>
-          <Grid container spacing={2}>
-          
-            {events.map((event, index) => (
-              <Grid size={{ xs: 12, sm: 4, md: 4 }} key={index}>
-                <EventCard
-                  eventFullData={event}
-                  Eventstatus={false}
-                  viewCertificate={true}
-                  viewEventRecap={true}
-                  squareButton={false}
-                  viewButton={true}
-                  datetitle={event.datetitle}
-                  title={event.title}
-                  location={event.location}
-                  buttonPress={handleButtonPress}
-                  squareButtonLabels={squareButtonLabels}
-                  onSquareButtonClick={handleSquareButtonClick}
-                />
-              </Grid>
-            ))}
+
+          <Grid container >
+            {
+              isLoading ? <CircularProgress /> :
+                userLatestEvents && userLatestEvents?.data && userLatestEvents.data.length > 0 ? (
+                  <Grid size={12}>
+                    <EventCard
+                      eventFullData={userLatestEvents.data[0]}
+                      Eventstatus={true}
+                      viewCertificate={true}
+                      viewEventRecap={true}
+                      squareButton={true}
+                      viewButton={false}
+                      datetitle={userLatestEvents.data[0].startTime}
+                      title={userLatestEvents.data[0].name}
+                      location={userLatestEvents.data[0].venue.city}
+                      // buttonPress={handleButtonPress}
+                      squareButtonLabels={squareButtonLabels}
+                      onSquareButtonClick={(btnIndex: number) => handleSquareButtonClick(btnIndex, userLatestEvents.data[0].id)}
+
+                    />
+                  </Grid>
+                ) : (
+
+                  <NoDataCard />
+
+                )}
+
           </Grid>
+
+
         </Grid>
       </Grid>
-
-
-
     </Grid>
 
   )

@@ -58,6 +58,9 @@ import NoEventSvg from "./No-events-img.svg"
 import DownArrowSvg from './downarrow.svg'
 import ResetPassword from './Reset-Password.svg'
 import CalenderNoData from'./calender-no.svg';
+import NoEvent from "./NoEvents.svg";
+import NoPayment from "./noPayment.svg"
+import NoDataSvg from './nodata.svg';
 export {
   CalenderIcon,
   EventIcon,
@@ -115,8 +118,10 @@ export {
   CouponDashboardIcon,
   DashboardUserIcon,
   EditButtonIcon,
-  NoEventSvg,
+  NoEvent,
   DownArrowSvg,
+  NoDataSvg,
+  NoPayment,
   ResetPassword,
   CalenderNoData
 };

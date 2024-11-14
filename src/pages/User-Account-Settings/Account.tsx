@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Typography, Tabs, Tab, Box } from '@mui/material';
 import AccountSetting from "./AccountSettings"
 import Security from './Security';
@@ -7,7 +7,6 @@ import useStore from "@/Libs/store";
 
 
 const Account: React.FC = React.memo(() => {
-  const [email, setEmail] = useState('');
   const setDataById = useStore((state: any) => state.setDataById);
   const tabInfo = useStore((state: any) => state?.compData?.["settings"])
 /**
@@ -30,13 +29,13 @@ const handleTabChange = (_: React.SyntheticEvent, newIndex: number) => {
         <Grid container className="account-tab-details">
           <Grid size={12}>
             {/* profile edit and view for enduser */}
-            <AccountSetting setEmail={setEmail} />  
+            <AccountSetting />  
           </Grid>
         </Grid>
       ) : (
         <Box >
           {/* profile reset password for enduser */}
-         <Security email={email}/>
+         <Security/>
         </Box>
       )}
     </Grid>
