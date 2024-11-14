@@ -17,10 +17,9 @@ type ConferenceDetailsProps = {
     addOnOptions?: any;
 }
 
-const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data }) => {
-
+const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,addOnOptions }) => {
     const startDate = moment(data?.event?.startDate).format("MMMM D, YYYY");
-    const endDate = moment(data?.event?.endDate).format("MMMM D, YYYY");
+    const endDate = moment(data?.event?.endTime).format("MMMM D, YYYY");
     /**
      * Method checks the start and end date matches or not
      * @param start 
@@ -34,24 +33,42 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data }
 		/**
 		* Group programs and addons by date,and general addons without dates
 		*/
-		const combinedData = data?.program?.concat(data?.addons || []).reduce((acc: any, item: any) => {
+		const combinedData = data?.program?.concat(data?.addOns || []).reduce((acc:any, item:any) => {
 			const isAddon = !!item.addonId;
-			const date = item.startTime ? moment(item.startTime).format("YYYY-MM-DD") : 'general';
-			if (item) {
-					if (!acc[date]){
-						acc[date] = [];
-					}
-					acc[date].push({ ...item, isAddon });
+			let date = '';
+			
+			if (item.startDate) {
+				date = moment(item.startDate, ['YYYY-MM-DD', 'DD/MM/YYYY']).format("YYYY-MM-DD");
+			}
+			else if (item.date) {
+				date = moment(item.date).format("YYYY-MM-DD");
+			}
+			// Skip invalid items: 
+			if (!date || (isAddon && !item.addonId) || (!item.name && !item.addonId)) {
+				return acc;  // Do not add to accumulator if invalid
+			}
+			// Separate addOns with `dateRequired: false`
+			if (isAddon && item.dateRequired === false) {
+				// Create 'withoutDateRequired' array if it doesn't exist
+				if (!acc.general) {
+					acc.general = [];
+				}
+				acc.general.push({ ...item, isAddon });
+			} else {
+				// Initialize the group for this date if it doesn't exist
+				if (!acc[date]) {
+					acc[date] = [];
+				}
+				// Add the item to the group for this date
+				acc[date].push({ ...item, isAddon });
 			}
 			return acc;
-		}, {});
+		}, {});		
 
 		/**
 		 * Separate general addons without dates from combinedData
 		 */
 		const { general: generalAddons = [], ...scheduledData } = combinedData;
-
-
     return <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'center'} alignItems={'center'} className="custom-stepper-conference-details" padding={3}>
         <Grid size={{ xs: 12, sm: 12 }} justifyContent={'start'} ml={3}>
             <Typography variant="h3" className="custom-stepper-conference-details-content-title">Review And Submit</Typography>
@@ -65,7 +82,7 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data }
             </Grid>}
             <Grid container size={{ xs: 12, sm: 12 }} spacing={2}>
                 <Grid className="custom-stepper-conference-details-content-date-icon"><DateIcon /></Grid>
-                <Grid>{checkDateCondition(data?.event?.startDate, data?.event?.endDate) ? startDate : `${startDate} - ${endDate}`}</Grid>
+                <Grid>{checkDateCondition(data?.event?.startDate, data?.event?.endTime) ? startDate : `${startDate} - ${endDate}`}</Grid>
             </Grid>
             {data?.event?.type !== 'ONLINE' && data?.event?.location && <Grid container size={{ xs: 12, sm: 12 }} spacing={2}>
                 <Grid className="custom-stepper-conference-details-content-date-icon"><LocationIcon /></Grid>
@@ -84,6 +101,7 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data }
 										<Grid container spacing={2}>
 												{generalAddons?.map((addon: any, index: number) => (
 													<SessionCard
+													optionsData={addOnOptions}
 															key={index}
 															item={addon}
 															titleField="name"
@@ -126,6 +144,7 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data }
 										startTimeField="startTime"
 										endTimeField="endTime"
 										hasAddOns={item.isAddon}
+										optionsData={addOnOptions}
 									/>
 								))}
 							</Grid>

@@ -20,6 +20,7 @@ import {
     disabled?: boolean;
     row?: boolean; // For horizontal layout of radio buttons
     value?: PathValue<T, Path<T>>; // The default value passed as a prop
+    className?:string;
   }
   
   /*
@@ -33,6 +34,7 @@ import {
     labelPlacement,
     row,
     value,
+    className,
     ...props
   }: ICustomRadio<T>) => {
     return (
@@ -44,6 +46,7 @@ import {
           defaultValue={value}
           render={({ field }) => (
             <RadioGroup
+            className={className}
               row={row} // For horizontal alignment of radios
               {...field}
             >

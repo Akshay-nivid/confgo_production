@@ -10,7 +10,6 @@ interface FieldConfig {
   field: string;
   format?: (value: any) => string;
 }
-
 interface SessionCardProps {
   item: any;
   onEditClick?: (item: any) => void;
@@ -18,7 +17,13 @@ interface SessionCardProps {
   fields: FieldConfig[];
   startTimeField: string;
   endTimeField: string;
-  hasAddOns?: boolean; // New prop to check if add-ons exist
+  hasAddOns?: boolean;
+  optionsData?:[];
+}
+
+interface addOnOptions{
+  label:string;
+  value:number|string
 }
 
 /**
@@ -31,8 +36,16 @@ const SessionCard: React.FC<SessionCardProps> = ({
   fields,
   startTimeField,
   endTimeField,
-  hasAddOns = false, // Default to false if not provided
+  hasAddOns = false,
+ optionsData,
 }) => {
+  /**
+  * render the selected addon property label from it's value using useMemo
+  */
+  const selectedLabel = React.useMemo(() => {
+    const option:any = optionsData?.find((option:addOnOptions) => option?.value === item?.addonId);
+    return option ? option?.label : 'Unknown';
+  }, [item?.addonId, optionsData]); 
   return (
     <Grid
       size={{
@@ -51,8 +64,8 @@ const SessionCard: React.FC<SessionCardProps> = ({
               {hasAddOns && (
                 <AddIcon fontSize="small"  />
               )}
-              <span>{moment(item[startTimeField]).format("h:mm A")} - </span>
-              <span>{moment(item[endTimeField]).format("h:mm A")}</span>
+              {item[startTimeField]&&item[endTimeField]?<><span>{moment(item[startTimeField], 'HH:mm').format('hh:mmA')}</span>
+              <span>{moment(item[endTimeField], 'HH:mm').format('hh:mmA')}</span></>:<span>General Addon</span>}
             </Box>
           </Typography>
         </div>
@@ -70,9 +83,8 @@ const SessionCard: React.FC<SessionCardProps> = ({
       <div className="session-details">
         {/* Render title */}
         <Typography variant="h6" className="event-detail-sessions-card-header">
-          {item[titleField] || "Untitled"}
+          {item[titleField] || selectedLabel||""}
         </Typography>
-
         {/* Dynamically render fields based on configuration */}
         {fields.map(
           (field, index) =>
