@@ -176,7 +176,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
      open: true,
      autoHideDuration: 2000,
      severity: "error",
-     message: "Upload failed. Please try again.",
+     message: error.message,
     });
     Logger.error("Upload error", error);
    },
