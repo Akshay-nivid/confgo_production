@@ -640,6 +640,27 @@
     }
 }
 .main-location-Grid{
+    &-address{
+        display:flex;
+        flex-direction:row;
+        height:1.5rem;
+        margin-top:1.501rem;
+        align-items:center;
+        &-title{
+        height:1.5rem;
+        width:20rem;
+        font-family: $font;
+        font-size:$h6 ;
+        font-weight:$font_medium;
+        line-height:1.5rem !important;  
+        color:$light_grey;
+        &-description{
+        color:$clr_black;
+        font-size:$h6 !important;
+        font-weight:$font_semibold !important;
+        }
+    }
+    }
     &-location-Text{
         font-family: $font;
         font-size: 1.5rem !important; 
@@ -654,6 +675,30 @@
         width: 38.375rem;
         height: 11.1875rem;
         border-radius: 0.375rem 0 0 0;
+      }
+      .nearby-location-grid{
+        .address{
+            display:flex;
+        flex-direction:row;
+        height:4.875rem;
+        margin-top:1.501rem !important;
+        align-items:center;
+        }
+        margin-top:1.8rem;
+        align-items:center;
+        .title{
+            font-family: $font;
+            font-size: $h4; 
+            font-weight: 600;
+            line-height: 2.25rem; 
+            letter-spacing: 0.01871rem; 
+            text-align: left;  
+        }
+        .nearby-location-description{
+            margin-top:3rem ;
+
+            }
+            
       }
 }
 
