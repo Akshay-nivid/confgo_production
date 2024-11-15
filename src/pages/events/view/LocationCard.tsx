@@ -1,6 +1,5 @@
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 import { Logger } from "@/Utils/Logger";
 import useStore from "@/Libs/store";
 
@@ -11,8 +10,9 @@ import { useForm } from "react-hook-form";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import { IconButton, Typography } from "@mui/material";
 import {EditButtonIcon} from "@/assets/svg";
-import axios from "axios";
+//import axios from "axios";
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import apiClient from "@/Libs/Https/API-client";
 interface LocationCardProps {
   data?: string;
 }
@@ -20,7 +20,7 @@ interface LocationCardProps {
  * used to list the location in map
  */
 const LocationCard = ({ data }: LocationCardProps) => {
-  console.log(data,'mapppppppp')
+
   /**
    * Define the coordinates type
     */ 
@@ -53,6 +53,9 @@ const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
 
 const GOOGLE_API_KEY = 'YOUR_GOOGLE_API_KEY';  // Replace with your actual API key
   const { control } = useForm();
+  /**
+   * fetch the data of current location
+   */
   useEffect(() => {
     getLocation();
   }, []);
@@ -80,18 +83,17 @@ const GOOGLE_API_KEY = 'YOUR_GOOGLE_API_KEY';  // Replace with your actual API k
       const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
         mapLocation??""
       )}&key=${GOOGLE_API_KEY}`;
-
-      const response = await axios.get(geocodeUrl);
-      console.log("kdjwkjwkres",response);
-      
+       
+      //Use axios here
+       const response = await apiClient.get(geocodeUrl);
       if (response.data.results.length > 0) {
         const { lat, lng } = response.data.results[0].geometry.location;
         setCoordinates({ lat, lng });
       } else {
-        console.error("No coordinates found for the link");
+        Logger.error("No coordinates found for the link");
       }
     } catch (error) {
-      console.error("Error fetching coordinates:", error);
+      Logger.error('API Error:', error);
     }
   };
 
