@@ -9,6 +9,9 @@ interface ResponseData {
     loading: boolean;
     success: boolean;
 }
+/**
+* functional compoent for verification of email for password reset
+*/
 const ChangeVerification = () => {
     const { token, id } = useParams<Record<string, string | undefined>>();
     const { setDataById }: any = useStore();
@@ -30,6 +33,7 @@ const ChangeVerification = () => {
         await POST({
             url: `token/validatetoken`,
             body: body,
+            id:'passwordVerifyEmail',
             successCB: (_success: ResponseData) => {
                 setDataById('userDataRegister', { data: { userId: decodedId, token: token, tokenType: "RESET_PASSWORD_OTP" } });
                 navigate('/setpassword');
