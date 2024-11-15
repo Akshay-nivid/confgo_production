@@ -59,19 +59,20 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
     try {
       const requestBody = {
         userId: userDetails.data.userId,
-        token: userDetails.data.token
+        token: userDetails.data.token,
+        type:userDetails?.data?.tokenType??'USER_REGISTRATION'
       }
       const response = await apiClient.post(`user/details`, requestBody)
       if (response.data.status === 'success') {
         setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:'Registration Successfully' })
-        setDataById('userDataRegister', { data:{userId:userDetails.data.userId,token:userDetails.data.token,email:response.data.data.email,phone:response.data.data.phone} });
+        setDataById('userDataRegister', { data:{userId:userDetails.data.userId,token:userDetails.data.token,email:response.data.data.email,phone:response.data.data.phone,tokenType:userDetails?.data?.tokenType} });
         getOtp(response.data.data.phone);
         setUserData(response.data.data)
       }else{
         setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:'Something went wrong' })
       }
     } catch (error:any) {
-      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:error.response.data.message })
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:'failed' })
       Logger.error(error,'OtpFormComponent.tsx')
     }
   }
@@ -83,7 +84,7 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
     try {
       const requestBody = {
         phone: userData?.phone ?? phone,
-        type: 'REGISTRATION_OTP'
+        type:userDetails?.data?.tokenType??'REGISTRATION_OTP'
       }
       const response = await apiClient.post(`token/otp`, requestBody)
       if (response.data.status === 'success') {
@@ -91,7 +92,6 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
         setOtpData(
           {otp:response.data.data.otp,token:response.data.data.token,type:response.data.data.type}
         )
-     
       }
     } catch (error:any) {
       setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:error.response.data.message })

@@ -61,6 +61,7 @@ import CalenderNoData from'./calender-no.svg';
 import NoEvent from "./NoEvents.svg";
 import NoPayment from "./noPayment.svg"
 import NoDataSvg from './nodata.svg';
+import DashBoardEmpty from './dashboard-empty.svg';
 export {
   CalenderIcon,
   EventIcon,
@@ -123,5 +124,6 @@ export {
   NoDataSvg,
   NoPayment,
   ResetPassword,
-  CalenderNoData
+  CalenderNoData,
+  DashBoardEmpty
 };
