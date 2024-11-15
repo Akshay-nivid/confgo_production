@@ -57,7 +57,7 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
   const handleProfileClick = () => {
     setAnchorEl(null);
     setDataById('settings', { tabIndex: 0 }); 
-    navigate(routes.accountsettings())
+    navigate(routes.accountsettings(),{ state: { email: userDetails?.email } })
   };
 
   /**
@@ -65,8 +65,9 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
    */
   const handleResetPassword = () => {
     setAnchorEl(null);
-    useStore.getState().setDataById("settings", { tabIndex: 1 });  
-    navigate(routes.accountsettings())
+    useStore.getState().setDataById("settings", { tabIndex: 1, email: userDetails?.email });  
+    
+    navigate(routes.accountsettings(), { state: { email: userDetails?.email } })
   };
     /**
    * Account settings

@@ -8,7 +8,7 @@ import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import "./accountsetting.scss";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useLocation } from "react-router-dom";
 import routes from "@/router/routes";
 import useStore from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
@@ -19,14 +19,12 @@ export const userType = {
   ORGANISATION: 'ORGANIZATION'
 }
 
-interface SecurityProps {
-  email: string; 
-}
-
-const Security:React.FC<SecurityProps> = React.memo(({ email }) => {
+const Security:React.FC = React.memo(() => {
   const POST = useStore((state: any) => state.POST);
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const email = location.state?.email;
 /**
  *  Initiates the password reset process by sending the user's email to the forgotPassword
  * @param email
