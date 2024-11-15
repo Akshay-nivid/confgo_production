@@ -54,11 +54,14 @@ import PaymentDashboardIcon from "./payment.svg";
 import CouponDashboardIcon from "./coupons.svg";
 import DashboardUserIcon from "./dashboard-user.svg";
 import EditButtonIcon from "./Edit-location-button.svg";
+import NoEventSvg from "./No-events-img.svg"
+import DownArrowSvg from './downarrow.svg'
+import ResetPassword from './Reset-Password.svg'
+import CalenderNoData from'./calender-no.svg';
 import NoEvent from "./NoEvents.svg";
 import NoPayment from "./noPayment.svg"
-import DownArrowSvg from './downarrow.svg';
-import ResetPassword from './Reset-Password.svg';
 import NoDataSvg from './nodata.svg';
+import DashBoardEmpty from './dashboard-empty.svg';
 export {
   CalenderIcon,
   EventIcon,
@@ -121,4 +124,6 @@ export {
   NoDataSvg,
   NoPayment,
   ResetPassword,
+  CalenderNoData,
+  DashBoardEmpty
 };

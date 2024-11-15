@@ -103,9 +103,14 @@ const SpeakerCard = (_eventData: any) => {
    */
   const fetchProgramList = async () => {
     try {
+      const requestBody={
+        filters:{
+          eventId:_eventData?.eventData?.id
+        }
+      }
       await POST({
         url: 'eventProgram/list',
-        body: {},
+        body: requestBody,
         id: 'eventProgramList',
         successCB: (context: any) => {
           if (context?.success) {

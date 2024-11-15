@@ -44,6 +44,7 @@ import Thankyou from "./pages/ThankYou/ThankYou";
 import MyEventScreen from "./pages/User/UserEvent";
 import Account from "./pages/User-Account-Settings/Account";
 import UserEventRecap from "./pages/User/UserEvent-Recap";
+import ChangeVerification from "./pages/SetPassword/ChangePasswordVerification";
 
 /**
  * Create your router configuration
@@ -141,6 +142,10 @@ const router = createBrowserRouter([
   {
     path: routes.verifyEmail(),
     element: <VerifyMailPage />,
+  },
+  {
+    path:routes.verfiyForgotEmail(),
+    element:<ChangeVerification/>
   },
   {
     element: <HomeLayout />,
