@@ -132,7 +132,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 2px dashed $clr_gray_very_light;
+  border: 0.25rem dashed $clr_gray_very_light;
   border-radius: 0.5rem;
   padding: 4rem 2rem;
   width: 100%;
@@ -183,7 +183,7 @@
    flex-direction: column;
    align-items: center;
    margin: 1rem;
-   border: 1px solid $clr_bright_gray;
+   border: 0.15rem solid $clr_bright_gray;
    border-radius: 0.5rem;
    width: 7rem;
    padding: 0.5rem; /* Add padding for spacing */

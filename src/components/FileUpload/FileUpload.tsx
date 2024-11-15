@@ -1,4 +1,3 @@
-import apiClient from "@/Libs/Https/API-client";
 import useStore from "@/Libs/store";
 import { Typography, IconButton } from "@mui/material";
 import Grid from "@mui/material/Grid2";
@@ -6,6 +5,7 @@ import React, { useCallback, useState } from "react";
 import { useDropzone, FileRejection, Accept } from "react-dropzone";
 import DeleteIcon from "@mui/icons-material/Close";
 import CustomButton from "../CustomButton/CustomButton";
+import { Logger } from "@/Utils/Logger";
 
 interface Resolution {
  width: number | null;
@@ -44,6 +44,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
  const [rejectionMessages, setRejectionMessages] = useState<string[]>([]); // State to store rejection messages
  const setDataById = useStore((state: any) => state.setDataById);
+ const POST = useStore((state: any) => state.POST);
 
  /**
   * Trims the image to the specified resolution.
@@ -155,10 +156,11 @@ const FileUpload: React.FC<FileUploadProps> = ({
   const formData = new FormData();
   selectedFiles.forEach((file) => formData.append("file", file));
 
-  try {
-   const response = await apiClient.post("/asset", formData);
-
-   if (response.status === 201) {
+  await POST({
+   url: "/asset",
+   body: formData,
+   id: "assetUpload",
+   successCB: (response: any) => {
     setSelectedFiles([]);
     setPreviewUrls([]);
     setDataById("snackBarInfo", {
@@ -167,18 +169,18 @@ const FileUpload: React.FC<FileUploadProps> = ({
      severity: "success",
      message: "File uploaded successfully!",
     });
-    onSubmit && onSubmit(response.data.response.data);
-   } else {
-    throw new Error("Upload failed");
-   }
-  } catch (error) {
-   setDataById("snackBarInfo", {
-    open: true,
-    autoHideDuration: 2000,
-    severity: "error",
-    message: "Upload failed. Please try again.",
-   });
-  }
+    onSubmit && onSubmit(response?.data);
+   },
+   errorCB: (error: any) => {
+    setDataById("snackBarInfo", {
+     open: true,
+     autoHideDuration: 2000,
+     severity: "error",
+     message: "Upload failed. Please try again.",
+    });
+    Logger.error("Upload error", error);
+   },
+  });
  };
 
  /**
