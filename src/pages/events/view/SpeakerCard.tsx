@@ -16,6 +16,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { DeleteContributorIcon, EditContributorIcon } from "@/assets/svg";
 import useStore from "@/Libs/store";
 import AddIcon from '@mui/icons-material/Add'
+import config from '../../../../config.json';
 
 interface CustomFile {
   id: number;
@@ -65,6 +66,7 @@ const SpeakerCard = (_eventData: any) => {
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const [selectedFile, setSelectedFile] = useState<CustomFile | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
+	const baseUrl=config.api.url;
   /**
    *function to handle close the modal
    */
@@ -332,7 +334,7 @@ const SpeakerCard = (_eventData: any) => {
                       <Grid>
                         <img
                           className="event-detail-speakers-card-list-row-img"
-                          src={`https://img.freepik.com/free-photo/handsome-confident-smiling-man-with-hands-crossed-chest_176420-18743.jpg`}
+                          src={`${baseUrl}asset/${item?.assetId}`}
                           alt={item.name}
                         />
                         <Typography className="event-detail-speakers-card-list-row-name">{item.name}</Typography>
@@ -366,7 +368,7 @@ const SpeakerCard = (_eventData: any) => {
                 <Grid container spacing={4}  >
                   <Grid container size={{ xs: 12 }} >
                     <CustomSelect name="contributorType"
-                      label="Add Ons Option"
+                      label="Contributor Type"
                       options={contributorType ?? selectOptions}
                       control={control}
                       rules={{ required: true }}
@@ -416,7 +418,7 @@ const SpeakerCard = (_eventData: any) => {
                     alignItems={"center"}
                   >
                     <img
-                      src={selectedFile.sourcePath}
+                      src={`${baseUrl}asset/${selectedFile.id}`}
                       alt={selectedFile.name}
                       className="event-detail-speakers-card-btn-container-selected-img"
                     />
