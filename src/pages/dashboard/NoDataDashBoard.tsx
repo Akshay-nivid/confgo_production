@@ -5,6 +5,9 @@ import Grid from "@mui/material/Grid2";
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";
+/**
+ * Component handles the organization dashboard when no data available
+ */
 const NoDataDashBoard = () => {
     const navigate = useNavigate();
     const companyUserName = sessionStorage.getItem("companyUserName");
@@ -29,9 +32,9 @@ const NoDataDashBoard = () => {
                 <CustomButton
                     className="dashboard-empty-btn"
                     startIcon={<AddIcon />}
-                    label="Create New Event" 
-                    onClick={()=>navigate(routes.createEvent())}
-                    />
+                    label="Create New Event"
+                    onClick={() => navigate(routes.createEvent())}
+                />
             </Grid>
 
         </Grid>
