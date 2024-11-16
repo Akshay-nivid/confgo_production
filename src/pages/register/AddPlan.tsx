@@ -107,7 +107,7 @@ const AddPlan = React.memo(() => {
         <Grid className="left-inner-content">
           <FormControl className="w-full">
             <Grid alignSelf={"center"}>
-              <Typography className="left-plan-text" textAlign={"center"} variant="h2" lineHeight={2} >Choose Your Plan</Typography>
+              <Typography className="left-plan-text" textAlign={"center"} variant="h3" lineHeight={2} >Choose Your Plan</Typography>
               <Typography className="left-description-text" textAlign={"center"} variant="h6">Everything you might need and then some more in an accessible and intuitive package.</Typography>
             </Grid>
             <RadioGroup
