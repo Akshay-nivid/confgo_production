@@ -50,6 +50,8 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   readOnly?: boolean;
   onBlur?: React.ChangeEventHandler<HTMLInputElement>;
+  minDate?:string;
+  maxDate?:string;
 }
 
 interface InputPropsType {
@@ -147,6 +149,14 @@ const CustomTextField = <T extends FieldValues>({
         </InputAdornment>
       );
     }
+    if(type==="date"){
+      if(props.minDate){
+        propsObj.min = props.minDate; 
+      }
+      if(props.maxDate){
+        propsObj.max=props.maxDate
+      }
+    }
 
     if (props.suffixIcon) {
       propsObj.endAdornment = (
@@ -230,6 +240,7 @@ const CustomTextField = <T extends FieldValues>({
                 placeholder={type === "date" ? "" : placeholder}
                 className={clsx(error ? "error-input" : "", props.className)}
                 onBlur={handleBlur}
+                inputProps={inputProps()}
                 {...inputProps()}
               />
               {error?.message && (

@@ -21,12 +21,14 @@ const routes = {
   loginOrg: () => "/organization/login",
   SetPassword: () => "/setpassword",
   verifyEmail: () => `/verify-email/:token/:id`,
+  verfiyForgotEmail:()=>`/change-password/:token/:id`,
   user: () => "/user",
   participantHome: () => "/participant/home",
   userLogin: () => "/user/login",
   userHome: () => "/user/dashboard",
   paymentHistory:()=>"user/payment-history",
   upcomingEvents:()=>"user/upComingEvents",
+  userCalendar:()=>"user/calendar",
   userRegister: () => "/user/register",
   userOtp: () => "/user/otp",
   userSetPassword: () => "/user/setpassword",
@@ -39,7 +41,8 @@ const routes = {
   formBuilder: () => "/formbuilder",
   dynamicUserForm: () => "user/form",
   userCoupons:()=>"user/coupons",
-  accountsettings: ( ) => `/user/account-settings`,
+  userEventRecap:()=>"/event-recap",
+  accountsettings: () => `/user/account-settings`,
 };
 
 export default routes;

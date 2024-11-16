@@ -51,7 +51,7 @@ const SetPasswordComponent = () => {
         password:password,
         userId: userDetails.data.userId,
         token: userDetails.data.token,
-        type:"USER_REGISTRATION",
+        type:userDetails?.data?.tokenType??"USER_REGISTRATION",
         email:userDetails.data.email,
       }
       const response=await apiClient.put(`user/setpassword`,requestBody);

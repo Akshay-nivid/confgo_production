@@ -1,4 +1,4 @@
-//payment history
+
 .payment-history-container{
     margin-left: 1rem;
    &-heading{
@@ -8,6 +8,31 @@
     font-size: $h4 !important; 
     font-weight: $font-bold!important;
     line-height: 1.81rem;
+   }
+   .no-event{
+    width: 29.69rem;   
+   margin-top: 12.63rem;  
+    &-svg{
+        width: 7.78rem;  
+        height: 8.43rem;
+    &-text{
+        padding-top:3rem;
+        text-align:center;
+        font-family:$font ;
+        font-weight:$font_bold ;
+        font-size:$h5 ;
+        line-height: 1.64rem;
+     &-description{
+        padding-top:.4rem;
+        text-align:center;
+        line-height: 1.275rem;
+        font-family:$font ;
+        font-weight:$font_normal;
+        font-size:$p2;
+        color:$clr_gray_dark_text;
+     }
+    }
     
+    }
    }
   }
