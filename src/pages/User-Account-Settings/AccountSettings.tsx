@@ -97,6 +97,9 @@ const AccountSetting:React.FC = React.memo(() => {
           ...prevProfileData,
           ...data,
         }));
+        /**
+         * header section user deatils update
+         */
         setDataById('userDetails', {
           ...userDetails,
           firstName: response.data?.data?.firstName,
