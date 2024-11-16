@@ -30,9 +30,19 @@
         font-weight:$font_normal;
         font-size:$p2;
         color:$clr_gray_dark_text;
+      }
+     
      }
-    }
     
-    }
+     }
    }
+   .downlod-receipt{
+    background-color:$clr_white !important;
+    color:$clr_blue;
+    box-shadow:none;
+    &:hover {
+        box-shadow: none;
+    }
+ }
   }
+  

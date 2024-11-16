@@ -141,6 +141,18 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
                     renderCell: (params: { value: any }) => <div>{moment(params.value).format(item?.dateFormat ? item?.dateFormat : 'DD/MM/YYYY')}</div>
                 }
             }
+            else if (item.type === 'custom') {
+                return {
+                    ...item,
+                    cellClassName: 'default-label',
+                    renderCell: (params: any) => {
+                        const customElement = params.value;
+                        if (React.isValidElement(customElement)) {
+                            return customElement;
+                        }
+                    },
+                };
+            }
             return item;
 
         });

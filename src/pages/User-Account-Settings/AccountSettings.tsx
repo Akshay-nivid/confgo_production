@@ -16,6 +16,9 @@ import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { CloseOutlined } from "@mui/icons-material";
 import apiClient from "@/Libs/Https/API-client"; 
+import useStore from "@/Libs/store";
+import { Logger } from "@/Utils/Logger";
+
 
 interface Profile {
   firstName: string;
@@ -32,7 +35,8 @@ const AccountSetting:React.FC = React.memo(() => {
 
   const openDrawer = () => setIsDrawerOpen(true);
   const closeDrawer = () => setIsDrawerOpen(false);
-
+  const setDataById = useStore((state: any) => state.setDataById)
+  const userDetails = useStore((state) => state?.compData?.["userDetails"]) ?? {};
   useEffect(() => {
     AccountProfile();
   }, []);
@@ -55,7 +59,9 @@ const AccountSetting:React.FC = React.memo(() => {
           avatarUrl: data.avatarUrl || "",
         };
         setProfileData(AccountData);
-
+     
+       
+  
         /***
          * Sets form field values
          */
@@ -65,7 +71,7 @@ const AccountSetting:React.FC = React.memo(() => {
         setValue("phone", data.phone); 
       }
     } catch (error) {
-      console.error("Error fetching participant data:", error);
+      Logger.error("Error fetching participant data:", error);
     }
   }, []);
 
@@ -75,10 +81,13 @@ const AccountSetting:React.FC = React.memo(() => {
  */
   const onSubmit = async (data: Profile) => {
     try {
+      
+      
       const response = await apiClient.put(`/user`, data, {
-    
+     
       });
-
+     
+      
       if (response.data.status === "success") {
         
      /**
@@ -88,10 +97,15 @@ const AccountSetting:React.FC = React.memo(() => {
           ...prevProfileData,
           ...data,
         }));
+        setDataById('userDetails', {
+          ...userDetails,
+          firstName: response.data?.data?.firstName,
+          lastName: response.data?.data?.lastName,
+        });
         closeDrawer();
       }
     } catch (error) {
-      console.error("Error updating profile data:", error);
+      Logger.error("Error updating profile data:", error);
     }
   };
 
