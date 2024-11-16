@@ -68,7 +68,7 @@ const EventList : React.FC<EventListProps> = React.memo(({ hideAction }) => {
       headerName: "Conference Name",
       width: 200,
     },
-    { type: "default", field: "type", headerName: "Type", width: 150 },
+    { type: "default", field: "eventClass", headerName: "Type", width: 150 },
     {
       type: "dateField",
       field: "createdOn",
