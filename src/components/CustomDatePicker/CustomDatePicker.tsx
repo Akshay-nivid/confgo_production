@@ -15,6 +15,7 @@ interface ICustomDatePickerProps<T extends FieldValues> {
   disabled?:boolean;
   className?: string;
   formControlClassName?: string;
+  min?:any;
 }
 /**
  * Component used to render date picker for start and end date
@@ -29,6 +30,7 @@ const CustomDatePicker = <T extends FieldValues>({
   showHeader = false,
   requiredField = false,
   defaultValue,
+  min,
   ...props
 }: ICustomDatePickerProps<T>) => {
   return (
@@ -57,6 +59,9 @@ const CustomDatePicker = <T extends FieldValues>({
                 fullWidth
                 InputLabelProps={{
                   shrink: true, // Ensures label doesn't overlap with the value
+                }}
+                inputProps={{
+                  min: min, // Add min attribute for the input
                 }}
                 className={clsx(
                   error ? "custom-date-picker error-input" : "custom-date-picker",
