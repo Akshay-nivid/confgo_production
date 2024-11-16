@@ -37,9 +37,9 @@
      }
    }
    .download-receipt{
-    background-color:$clr_white !important;
+    background-color:none !important;
     color:$clr_blue;
-    box-shadow:none;
+    box-shadow:none ;
     &:hover {
         box-shadow: none;
     }
