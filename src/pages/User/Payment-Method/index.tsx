@@ -9,12 +9,12 @@ import {
 import Grid from "@mui/material/Grid2";
 import {
   ArrowLeftIcon,
-  DebitCardIcon,
-  GpayIcon,
-  PhonePayIcon,
-  RaziorPayIcon,
-  StripeIcon,
-  UpiIcon,
+  // DebitCardIcon,
+  // GpayIcon,
+  // PhonePayIcon,
+  // RaziorPayIcon,
+  // StripeIcon,
+  // UpiIcon,
 } from "@/assets/svg";
 import { useState } from "react";
 import { ArrowDropDown } from "@mui/icons-material";
@@ -30,7 +30,6 @@ const PaymentMethod = () => {
   const [expanded, setExpanded] = useState<string | false>("");
   const paymentDetails = useStore((state: any) => state?.compData?.["addToCart"])
 
-  console.log(paymentDetails,'paymentDetails')
 
   const handleChange =
     (panel: string) => (_: React.SyntheticEvent, isExpanded: boolean) => {
