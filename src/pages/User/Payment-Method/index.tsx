@@ -18,8 +18,20 @@ import {
 } from "@/assets/svg";
 import { useState } from "react";
 import { ArrowDropDown } from "@mui/icons-material";
+import useStore from "@/Libs/store";
+import PayPalParticipantButton from "./PaypalPartcipantComponent";
+
+/**
+ * This component renders the payment method page, which displays the programs and their corresponding costs, the food and its corresponding cost, and the total cost of the programs and food. It also displays the different payment methods available to the user.
+ * @returns {JSX.Element} The payment method page component.
+ */
+
 const PaymentMethod = () => {
   const [expanded, setExpanded] = useState<string | false>("");
+  const paymentDetails = useStore((state: any) => state?.compData?.["addToCart"])
+
+  console.log(paymentDetails,'paymentDetails')
+
   const handleChange =
     (panel: string) => (_: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
@@ -36,7 +48,7 @@ const PaymentMethod = () => {
           <Box className="payment-bill-details">
             <Box className="payment-bill-item">
               <Typography className="info-text">Programs Total</Typography>
-              <Typography className="info-text">$720</Typography>
+              <Typography className="info-text">{paymentDetails.cart.data.finalPrice }</Typography>
             </Box>
             <Box className="payment-bill-item">
               <Typography className="info-text">Food Total</Typography>
@@ -59,7 +71,7 @@ const PaymentMethod = () => {
             <Typography className="grand-total-info-text">
               Grand Total
             </Typography>
-            <Typography className="grand-total-info-text">$100</Typography>
+            <Typography className="grand-total-info-text">{paymentDetails.cart.data.finalPrice }</Typography>
           </Box>
         </Box>
       </Grid>
@@ -71,7 +83,25 @@ const PaymentMethod = () => {
           Choose Payment Method
         </Typography>
         <Box className="payment-method-list">
-          <Accordion
+        <Accordion
+            expanded={expanded === "panel1"}
+            defaultExpanded={true}
+            onChange={handleChange("panel1")}
+            className="payment-method-list-item"
+          >
+            <AccordionSummary
+              className="item-accordio-summary"
+              expandIcon={<ArrowDropDown />}
+              aria-controls="panel1bh-content"
+              id="panel1bh-header"
+            >
+              <Typography>Paypal</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <PayPalParticipantButton />
+            </AccordionDetails>
+          </Accordion>
+          {/* <Accordion
             expanded={expanded === "panel1"}
             onChange={handleChange("panel1")}
             className="payment-method-list-item"
@@ -91,9 +121,10 @@ const PaymentMethod = () => {
                 feugiat. Aliquam eget maximus est, id dignissim quam.
               </Typography>
             </AccordionDetails>
-          </Accordion>
+          </Accordion> */}
+          
           {/* 2 */}
-          <Accordion
+          {/* <Accordion
             expanded={expanded === "panel2"}
             onChange={handleChange("panel2")}
             className="payment-method-list-item"
@@ -113,9 +144,9 @@ const PaymentMethod = () => {
                 feugiat. Aliquam eget maximus est, id dignissim quam.
               </Typography>
             </AccordionDetails>
-          </Accordion>
+          </Accordion> */}
           {/* 3 */}
-          <Accordion
+          {/* <Accordion
             expanded={expanded === "panel3"}
             onChange={handleChange("panel3")}
             className="payment-method-list-item"
@@ -135,9 +166,9 @@ const PaymentMethod = () => {
                 feugiat. Aliquam eget maximus est, id dignissim quam.
               </Typography>
             </AccordionDetails>
-          </Accordion>
+          </Accordion> */}
           {/* 4 */}
-          <Accordion
+          {/* <Accordion
             expanded={expanded === "panel4"}
             onChange={handleChange("panel4")}
             className="payment-method-list-item"
@@ -157,9 +188,9 @@ const PaymentMethod = () => {
                 feugiat. Aliquam eget maximus est, id dignissim quam.
               </Typography>
             </AccordionDetails>
-          </Accordion>
+          </Accordion> */}
           {/* 5 */}
-          <Accordion
+          {/* <Accordion
             expanded={expanded === "panel5"}
             onChange={handleChange("panel5")}
             className="payment-method-list-item"
@@ -179,9 +210,9 @@ const PaymentMethod = () => {
                 feugiat. Aliquam eget maximus est, id dignissim quam.
               </Typography>
             </AccordionDetails>
-          </Accordion>
+          </Accordion> */}
           {/* 6 */}
-          <Accordion
+          {/* <Accordion
             expanded={expanded === "panel6"}
             onChange={handleChange("panel6")}
             className="payment-method-list-item"
@@ -201,9 +232,9 @@ const PaymentMethod = () => {
                 feugiat. Aliquam eget maximus est, id dignissim quam.
               </Typography>
             </AccordionDetails>
-          </Accordion>
+          </Accordion> */}
           {/* 7 */}
-          <Accordion
+          {/* <Accordion
             expanded={expanded === "panel7"}
             onChange={handleChange("panel7")}
             className="payment-method-list-item"
@@ -222,7 +253,7 @@ const PaymentMethod = () => {
                 feugiat. Aliquam eget maximus est, id dignissim quam.
               </Typography>
             </AccordionDetails>
-          </Accordion>
+          </Accordion> */}
         </Box>
       </Grid>
       <Grid className="payment-method-buttons-container" size={12}>

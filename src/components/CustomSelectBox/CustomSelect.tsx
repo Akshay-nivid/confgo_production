@@ -1,4 +1,5 @@
 import { FormControl, Select, MenuItem, FormHelperText, InputLabel } from '@mui/material';
+import clsx from 'clsx';
 import { Controller, Control, FieldValues, Path, RegisterOptions, PathValue } from 'react-hook-form';
 
 interface CustomSelectProps<T extends FieldValues> {
@@ -10,6 +11,7 @@ interface CustomSelectProps<T extends FieldValues> {
   error?: boolean;
   helperText?: string;
   fullWidth?: boolean;
+  className?: string;
   rules?: RegisterOptions<T>; 
     variant?: 'outlined' | 'filled' | 'standard';
     size?:"small" | "medium" | undefined;
@@ -25,11 +27,13 @@ const CustomSelect = <T extends FieldValues>({
   defaultValue ,
   variant = 'outlined',
   rules,
-  disabled=false
+  disabled = false,
+  className
 }: CustomSelectProps<T>) => {
   return (
     <Controller
       name={name}
+      
       control={control}
       defaultValue={defaultValue}
       rules={rules}
@@ -39,7 +43,7 @@ const CustomSelect = <T extends FieldValues>({
               <Select
               size={size}
                   {...field}
-                  className='custom-text-field'
+                  className={clsx('custom-text-field',className)}
             value={field.value}
             onChange={field.onChange}
             labelId={`${name}-label`}
