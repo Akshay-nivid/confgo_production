@@ -4,6 +4,8 @@ import FaqSection from './FaqSection';
 import FeatureSection from './FeatureSection';
 import HeroSection from './HeroSection';
 import WhychooseSection from '../home-layout/WhychooseSection';
+import useStore from '@/Libs/store';
+import { useEffect } from 'react';
 
 /*
  * home page component
@@ -11,6 +13,15 @@ import WhychooseSection from '../home-layout/WhychooseSection';
  */
 
 const HomePage = () => {
+
+  const setDataById = useStore((state: any) => state.setDataById)
+  /**
+   * useEffect used to set page when return from this page
+   */
+  useEffect(() => {
+    setDataById('register', { data: 'PLAN_PAGE', step: 1 });
+  }, []);
+  
   return (
     <>
       <HeroSection />

@@ -37,7 +37,8 @@ type PlanType = {
 const AddPlan = React.memo(() => {
   const [currentPlan, setcurrentPlan] = useState('');
   const form1 = useStore((state: any) => state?.compData?.['form1']) ?? [];
-  const { setDataById }: any = useStore();
+  const setDataById = useStore((state: any) => state.setDataById)
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const handleChangePlan = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -10,7 +10,6 @@ import PayPalButton from "./PayPalCompoent";
  * functional compoent used to render payment method 
  */
 const PaymentMethod = React.memo(() => {
- 
 
     return (
         <Grid>
@@ -25,7 +24,6 @@ const PaymentMethod = React.memo(() => {
                         </Grid>
                         <Box className={"form-wrapper"}>
                             <img src={PaymentMethodImage}></img>
-                            {/* renders paypal button */}
                             <PayPalButton />
                         </Box>
                     </Grid>
