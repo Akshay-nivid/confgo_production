@@ -109,7 +109,7 @@ const CreateAccount = React.memo(() => {
                                     <CustomButton
                                     type="submit"
                                         className="plan-choose-btn"
-                                        label="Next"
+                                        label="Proceed to Company Details"
                                         variant="contained"
                                         color="primary"
                                         size="large"
