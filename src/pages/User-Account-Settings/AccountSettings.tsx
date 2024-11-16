@@ -118,7 +118,7 @@ const AccountSetting:React.FC = React.memo(() => {
               First Name
             </Typography>
             <Typography variant="body1" className="account-user-detail2">
-              {profileData?.firstName || "N/A"}
+              {profileData?.firstName || ""}
             </Typography>
           </Grid>
 

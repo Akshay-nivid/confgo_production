@@ -12,7 +12,7 @@ const PaymentHistory:React.FC = React.memo(()=>{
    *  * `columns` defines the structure of each column in the DataGridList component.
    */
   const columns = [
-    { type: "dateField", field: "name", headerName: "Evnet Name", width: 258 },
+    { type: "dateField", field: "name", headerName: "Event Name", width: 258 },
     {
       type: "dateField",
       field: "Date",
@@ -86,7 +86,7 @@ const PaymentHistory:React.FC = React.memo(()=>{
   <Grid container size={12} className="payment-history-container">
      <Grid className="" size={12} container>
      <Typography className="payment-history-container-heading" >
-        payment History 
+        Payment History 
      </Typography>
      </Grid>
      {
