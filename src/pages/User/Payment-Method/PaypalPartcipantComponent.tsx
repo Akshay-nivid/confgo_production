@@ -5,15 +5,17 @@ import useStore from '@/Libs/store';
 import apiClient from '@/Libs/Https/API-client';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';
 import { Logger } from '@/Utils/Logger';
-
+import { setDataById } from '@/Libs/store';
 /*
  * Component used to handle PayPal button 
  */
-const PayPalButton: React.FC = () => {
-    const form1 = useStore((state: any) => state?.compData?.['form1']) ?? [];
-    const form3 = useStore((state: any) => state?.compData?.['form3']) ?? [];
-    const setDataById = useStore((state: any) => state.setDataById)
+const PayPalParticipantButton: React.FC = () => {
     
+    const paymentDetails = useStore((state: any) => state?.compData?.["addToCart"])
+    
+    const eventId = useStore((state: any) => state?.compData?.["eventSelected"]?.id) ?? null;
+
+
     const initialOptions = {
         clientId: "AQ9K1hDjjXSmmQz1aBt3FDjLTkrl8DRJvnUC6H6_eXAw-wzz6eC2eoYmSOEJcdN0prPUX1hsSm8bfGtK", 
         currency: "USD",
@@ -48,19 +50,15 @@ const PayPalButton: React.FC = () => {
     const paymentSubscription = async (paypalData: any) => {
         try {
             const requestBody = {
-                paymentMethodId: 1,
-                state: paypalData?.status,
-                errorMessage: "No error message",
-                transactionId: paypalData?.id,
-                metadata:JSON.stringify(paypalData) ,
-                amount: paypalData?.purchase_units?.[0]?.amount?.value,
-                discountAmount: 0,
-                finalAmount: paypalData?.purchase_units?.[0]?.amount?.value,
-                subscriptionId:form3?.companyData?.subscriptionId,
-                userId:form3?.companyData?.user?.id,
-                paymentId:paypalData?.purchase_units?.[0]?.custom_id,
+                "paymentMethodId": 1,
+                "state":  paypalData?.status,
+                "errorMessage": "No error",
+                "transactionId": paypalData?.id,
+                "metadata":JSON.stringify(paypalData) ,
+                "amount":  paypalData?.purchase_units?.[0]?.amount?.value,
+                "eventId": eventId
             }
-            const response = await apiClient.post('payment/subscription',requestBody)
+            const response = await apiClient.post('payment',requestBody)
             const { status } = processAPIResponse(response, 'paymentSubscription')
             if (status) {
                 setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Registration Successfully and please check your email for further instructions" });
@@ -77,6 +75,9 @@ const PayPalButton: React.FC = () => {
         }
     };
 
+    if (!paymentDetails.cart.data.finalPrice) {
+        return
+    }
     return (
         <Grid>
             <PayPalScriptProvider options={initialOptions}>
@@ -88,7 +89,7 @@ const PayPalButton: React.FC = () => {
                                 purchase_units: [{
                                     amount: {
                                         currency_code: 'USD',
-                                        value: form1?.field_values?.amount,
+                                        value: '10',
                                     },
                                     custom_id:'test234'
                                 }],
@@ -104,4 +105,4 @@ const PayPalButton: React.FC = () => {
     );
 };
 
-export default PayPalButton;
+export default PayPalParticipantButton;

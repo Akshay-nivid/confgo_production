@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { Logger } from "@/Utils/Logger";
 import { CustomCalendar } from "@/components/CustomCalendar/CustomCalendar";
 import moment from "moment";
+import routes from "@/router/routes";
 
 interface calendarProps {
   id: string;
@@ -90,7 +91,7 @@ const CalendarPage: React.FC<calendarProps> = ({ id }) => {
    * @param event : event parameter
    */
   const handleSelectEvent = (event: any) => {
-    navigate(`/events/detail/${event.id}`)
+    navigate(routes.userEventRecap(),{state:{eventId:event.id}})
   };
 
   

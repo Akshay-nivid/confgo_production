@@ -97,7 +97,13 @@
             width: 1.6rem;
             height: 1.6rem;
             fill: $clr_black;
+
+            
           }
+          
+        }
+        .MuiFormControlLabel-root.Mui-disabled svg {
+          fill: $clr_gray_faded !important;
         }
         .add-on-list-item-radio {
           svg {
@@ -108,12 +114,36 @@
           font-size: $p1;
           font-weight: $font-normal;
           &.checked {
-            color: $clr_blue;
+            color: $clr_black !important;
           }
         }
       }
     }
+    .add-on-property {
+      padding: 0 !important;
+      margin-block: 1rem;
+      margin-left: 0.8rem;
+      margin-right: 0.5rem;
+      .MuiFormControlLabel-root {
+        .MuiFormControlLabel-label {
+          font-size: $p3 !important;
+          font-weight: $font-bold !important;
+        }
+      }
+      svg {
+        width: 1.6rem;
+        height: 1.6rem;
+        fill: $clr_black;
+
+        
+      }
+      
+    }
+    .MuiFormControlLabel-root.Mui-disabled svg {
+      fill: $clr_gray_faded !important;
+    }
   }
+ 
   .navigation-button-container {
     width: 100%;
     display: flex;
@@ -129,6 +159,11 @@
     .next-button {
       background-color: $clr_black;
       min-width: 20%;
+      &:disabled{
+      background-color: $clr_gray_faded;
+
+      }
     }
+    
   }
 }
