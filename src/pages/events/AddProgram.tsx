@@ -142,8 +142,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
           startTime: moment().format("HH:mm"),
           endTime:moment().format("HH:mm"),
           type: "PAID",
-          amount: "",
-          addonId: "",
+          amount: ""
         };
         newPrograms.push(newProgram);
 
