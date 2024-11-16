@@ -55,26 +55,41 @@ const CreateAccount = React.memo(() => {
                                             <CustomTextField
                                                 defaultValue={form2?.field_values?.fullName}
                                                 placeholder="Full Name"
+                                                label="Full Name *"
                                                 control={control}
                                                 name="fullName"
                                                 type="text"
-                                                rules={{ required:{value:true,message:"Name is required"} }}
+                                                rules={{ 
+                                                    required:{value:true,message:"Name is required"},
+                                                    pattern: {
+                                                        value: /^(?!\s*$)(?!\s+$).+/,
+                                                    message: "Name cannot be only spaces"
+                                                },
+                                                 }}
                                             />
                                         </Grid>
                                         <Grid container className='w-full'>
                                             <CustomTextField
                                                 defaultValue={form2?.field_values?.lastName}
                                                 placeholder="Last Name"
+                                                label="Last Name *"
                                                 control={control}
                                                 name="lastName"
                                                 type="text"
-                                                rules={{ required:{value:true,message:"Last Name is required"} }}
+                                                rules={{ 
+                                                    required:{value:true,message:"Last Name is required"},
+                                                    pattern: {
+                                                        value: /^(?!\s*$)(?!\s+$).+/,
+                                                    message: "Last name cannot be only spaces"
+                                                },
+                                                 }}
                                             />
                                         </Grid>
                                         <Grid container className='w-full'>
                                             <CustomTextField
                                                 defaultValue={form2?.field_values?.email}
                                                 placeholder="Email"
+                                                label="Email *"
                                                 name="email"
                                                 type="email"
                                                 control={control}
@@ -85,6 +100,7 @@ const CreateAccount = React.memo(() => {
                                             <CustomTextField
                                                 defaultValue={form2?.field_values?.phoneNumber}
                                                 placeholder="Phone Number"
+                                                label="Phone Number *"
                                                 control={control}
                                                 name="phoneNumber"
                                                 type="number"

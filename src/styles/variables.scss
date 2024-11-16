@@ -5,9 +5,9 @@ $bg_light: #f0f9ff;
 $bg_plans: #eaf5ff;
 $border_list: #f8f9ff;
 $light_grey: #718096;
-$clr_offwhite:#F1F1F1;
+$clr_offwhite: #f1f1f1;
 $medium_grey: #f2f2f2;
-
+$input_label: #707070;
 $clr_black: #000000;
 $bg_input_background: #fafafa;
 $clr_red: #e71515;
@@ -15,6 +15,7 @@ $clr_red_light: #ffe8ec;
 $clr_orange: hsl(28, 91%, 54%);
 $clr_green: #2eac2b;
 $clr_green_light: #f2faf2;
+$clr_green_slight_light: #29CC39;
 $clr_gray_extra_dark: #787878;
 $clr_honeydew: #eaf6e9;
 $clr_purple_light: #f0f2ff;
@@ -22,27 +23,46 @@ $clr_yellow_light: #fcfeeb;
 $clr_gray_dark: #807f7f;
 $clr_requirement_text: #979797;
 $clr_teal: #0b4b54;
-$clr_tab_border_color:#CFD4DA;
-$clr_light_black: #0000000D;
+$clr_tab_border_color: #cfd4da;
+$clr_light_black: #0000000d;
 $clr_gray_dark_text: #404040;
-$clr_yellow_green: #E9F549;
+$clr_yellow_green: #e9f549;
 $clr_grey: #718096;
 $clr_gray_medium: #b3b3b3;
 $clr_gray_light: #c8cbd9;
 $clr_gray_extra_light: #d0d5dd;
 $clr_gray_faded: #dcdcdc;
-$clr_gray_very_light: #E9E9E9;
+$clr_gray_very_light: #e9e9e9;
 $clr_disabled: #ccc;
-$clr_sub_header:#636363;
+$clr_sub_header: #636363;
 $border_list: #f8f9ff;
-$clr_status_bar: #E8EBFF;
-$clr_green_medium: #E7F7EF;
-$clr_field:#424242;
-$clr_light_grey:#F6F6F6;
-$clr_light_orange:#FFECDF;
-$clr_dark_orange:#F39200;
-$clr_light_green:#E7F7EF;
-$clr_dark_green:#0CAF60;
+$clr_status_bar: #e8ebff;
+$clr_green_medium: #e7f7ef;
+$clr_field: #424242;
+$clr_light_grey: #f6f6f6;
+$clr_light_orange: #ffecdf;
+$clr_dark_orange: #f39200;
+$clr_light_green: #e7f7ef;
+$clr_dark_green: #0caf60;
+$clr_blue: #3a5afe;
+$clr_greenish_blue: #6233EF;
+$clr_light_blue: #E0EAFF;
+$clr_blue_violet: #9715F4;
+$clr_bright_gray: #EAEAEA;
+$clr_medium_red: #E20909;
+$clr_orange_dark : #FFA14E;
+$clr_text_gray: #808A98;
+$clr_cyan_blue: #2C3CD3;
+$clr_light_border_grey:#CCDFF2;
+$clr_grayish_blue: #606776;
+$clr_light_sky_blue:#CCDFF2;
+$clr_levender_blue: #E0E7FF;
+$clr_medium_grey: #EEEFF2;
+$clr_reddish_yellow: #FAC592;
+$clr_white_80_percent:#FFFFFFCC;
+$clr_white_90_percent:#FFFFFFE6;
+$clr_red_danger : #d32c2c;
+$clr_bg_light_gray :#f0f0f0;
 
 //Font weight
 $font_normal: 400;
@@ -59,9 +79,8 @@ $h3: 2.167rem; //26px
 $h4: 2rem; //24 px
 $h5: 1.666rem; // 20px
 $h6: 1.333rem; //16px
-$p1: 1.25rem;
-$p2: 1.167rem;
+$p1: 1.25rem; // 15px
+$p2: 1.167rem; // 14px
 $p3: 1rem; //12px
-
-
-$font: 'Inter', sans-serif;
+$p4: .5rem; //8px
+$font: "Inter", sans-serif;

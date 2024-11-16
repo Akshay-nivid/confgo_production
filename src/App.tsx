@@ -1,54 +1,69 @@
-import '@/styles/main.scss';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import routes from '@/router/routes';
-import AuthenticatedRoute from './router/AuthenticatedRoute';
-import Dashboard from '@/pages/dashboard';
-import Events from '@/pages/events';
-import CalendarRoute from '@/pages/calendar';
-import Home from '@/pages/Home';
-import Pricing from '@/pages/Pricing';
-import HomeLayout from '@/pages/Home-Layout';
-import Login from './pages/Login/Login';
-import CreateCoupon from './pages/coupon/CreateCoupon';
-import LoginOrg from '@/pages/LoginOrg/loginOrg';
-import SetPassword from '@/pages/SetPassword/SetPassword';
-import VerifyMailPage from './pages/register/VerifyMailPage';
-import { SnackBarView } from './components/SnackBarView';
-import Layout from './pages/dashboard-layout';
-import Coupon from './pages/coupon';
-import useStore from './Libs/store';
-import CouponView from './pages/coupon/CouponView';
-import Contact from './pages/contact/contact';
+import "@/styles/main.scss";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import routes from "@/router/routes";
+import AuthenticatedRoute from "./router/AuthenticatedRoute";
+import Dashboard from "@/pages/dashboard";
+import Events from "@/pages/events";
+import CalendarRoute from "@/pages/calendar";
+import Home from "./pages/home";
+import Pricing from "./pages/pricing";
+import HomeLayout from "./pages/home-layout";
+import CreateCoupon from "./pages/coupon/CreateCoupon";
+import LoginOrg from "@/pages/LoginOrg/loginOrg";
+import SetPassword from "@/pages/SetPassword/SetPassword";
+import VerifyMailPage from "./pages/register/VerifyMailPage";
+import { SnackBarView } from "./components/SnackBarView";
+import Layout from "./pages/dashboard-layout";
+import Coupon from "./pages/coupon";
+import useStore from "./Libs/store";
+import CouponView from "./pages/coupon/CouponView";
+import Contact from "./pages/contact/contact";
+import "@/styles/main.scss";
 
-
-
-
-
-
-import UserLayout from './pages/User/User-Layout';
-import UserLogin from './pages/User/User-Login';
-import UserRegister from './pages/User/User-Register';
-import UserOtp from './pages/User/User-Otp';
-import UserSetPassword from './pages/User/User-Setpassword';
-import UserSetpasswordSuccessful from './pages/User/User-Setpassword-Successful';
-import Register from './pages/register/Register';
-import ParticipantHome from './pages/participant/Participant-Home';
-
+import UserLayout from "./pages/User/User-Layout";
+import UserLogin from "./pages/User/User-Login";
+import UserRegister from "./pages/User/User-Register";
+import UserOtp from "./pages/User/User-Otp";
+import UserSetPassword from "./pages/User/User-Setpassword";
+import UserSetpasswordSuccessful from "./pages/User/User-Setpassword-Successful";
+import Register from "./pages/register/Register";
+import ParticipantHome from "./pages/participant/Participant-Home";
+import ProgramSelection from "./pages/User/Program-Selection";
+import SelectedPrograms from "./pages/User/Selected-Programs";
+import PaymentMethod from "./pages/User/Payment-Method";
+import RegistrationCompleted from "./pages/User/Registration-Completed";
+import FormBuilder from "./components/FormBuilder/FormBuilder";
+import ViewEventDetail from "./pages/events/view/ViewEventDetail";
+import EventList from "./pages/events/EventList";
+import UserDashboardLayout from "./pages/user-dashboard-layout";
+import UserDashboard from "./pages/user-dashboard-layout/UserDashboard";
+import PaymentHistory from "./pages/User/User-PaymentHistory/PaymentHistory";
+import DynamicUserForm from "./pages/User/DynamicUserForm";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
+import Thankyou from "./pages/ThankYou/ThankYou";
+import MyEventScreen from "./pages/User/UserEvent";
+import Account from "./pages/User-Account-Settings/Account";
+import UserEventRecap from "./pages/User/UserEvent-Recap";
+import ChangeVerification from "./pages/SetPassword/ChangePasswordVerification";
 
 /**
  * Create your router configuration
- */ 
+ */
 const userRoutes = [
   {
     element: <UserLayout />,
     children: [
       {
+        path: routes.programSelection(),
+        element: <ProgramSelection />,
+      },
+      {
         path: routes.userLogin(),
-        element: <UserLogin />,
+        element: <UserLogin id="participant-userLogin" />,
       },
       {
         path: routes.userRegister(),
-        element: <UserRegister />,
+        element: <UserRegister id="participant-userRegister" />,
       },
       {
         path: routes.userOtp(),
@@ -62,25 +77,75 @@ const userRoutes = [
         path: routes.userSetPasswordSuccessful(),
         element: <UserSetpasswordSuccessful />,
       },
-     
+      {
+        path: routes.selectedPrograms(),
+        element: <SelectedPrograms />,
+      },
+      {
+        path: routes.userPaymentMethod(),
+        element: <PaymentMethod />,
+      },
+      {
+        path: routes.userEventRegistrationCompleted(),
+        element: <RegistrationCompleted />,
+      },
+      {
+        path: routes.dynamicUserForm(),
+        element: <DynamicUserForm />,
+      },
+    ],
+  },
+  {
+    element: <UserDashboardLayout />,
+    children: [
+      {
+        path: routes.userHome(),
+        element: <UserDashboard />,
+      },
+      {
+        path: routes.paymentHistory(),
+        element: <PaymentHistory/>,
+      },
+      {
+        path:routes.userMyEvents(),
+        element:<MyEventScreen/>
+      },
+      {
+         path:routes.userEventRecap(),
+          element:<UserEventRecap/>
+      },
+      {
+        path: routes.accountsettings(),
+        element: <Account />,
+      },
+      {
+        path: routes.userCalendar(),
+        element: <CalendarRoute id="events-calendar" key="events-calendar"/>,
+      },
     ],
   },
 ];
 
-
-
 const router = createBrowserRouter([
-  {
-    path: routes.login(),
-    element: <Login />,
-  }, 
   {
     path: routes.register(),
     element: <Register />,
   },
   {
+    path: routes.forgotPassword(),
+    element: <ForgotPassword />,
+  },
+  {
+    path: routes.thankyou(),
+    element: <Thankyou />,
+  },
+  {
     path: routes.verifyEmail(),
     element: <VerifyMailPage />,
+  },
+  {
+    path:routes.verfiyForgotEmail(),
+    element:<ChangeVerification/>
   },
   {
     element: <HomeLayout />,
@@ -96,12 +161,16 @@ const router = createBrowserRouter([
       {
         path: routes.contact(),
         element: <Contact />,
-      }, 
+      },
     ],
   },
   {
     element: <AuthenticatedRoute />,
     children: [
+      {
+        path: routes.formBuilder(),
+        element: <FormBuilder />,
+      },
       {
         element: <Layout />,
         children: [
@@ -110,8 +179,16 @@ const router = createBrowserRouter([
             element: <Dashboard />,
           },
           {
-            path: routes.events(),
+            path: routes.createEvent(),
             element: <Events />,
+          },
+          {
+            path: routes.events(),
+            element: <EventList />,
+          },
+          {
+            path: routes.viewEvent(":id"),
+            element: <ViewEventDetail />,
           },
           {
             path: routes.coupon(),
@@ -119,7 +196,7 @@ const router = createBrowserRouter([
           },
           {
             path: routes.createCoupon(),
-            element: <CreateCoupon/>,
+            element: <CreateCoupon />,
           },
           {
             path: routes.CouponView(":id"), // Add dynamic id parameter here
@@ -127,14 +204,14 @@ const router = createBrowserRouter([
           },
           {
             path: routes.calendar(),
-            element: <CalendarRoute />,
+            element: <CalendarRoute id="events-calendar" key="events-calendar"/>,
           },
         ],
       },
     ],
   },
   {
-    path: routes.LoginOrg(),
+    path: routes.loginOrg(),
     element: <LoginOrg />,
   },
   {
@@ -149,15 +226,17 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const snackBarInfo = useStore((state: any) => state.compData?.["snackBarInfo"]);
+  const snackBarInfo = useStore(
+    (state: any) => state.compData?.["snackBarInfo"]
+  );
 
   return (
     <>
-      {snackBarInfo && (
+      {snackBarInfo?.open && (
         <SnackBarView
           open={snackBarInfo.open}
           autoHideDuration={snackBarInfo.autoHideDuration}
-          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
           severity={snackBarInfo.severity}
           text={snackBarInfo.message}
         />

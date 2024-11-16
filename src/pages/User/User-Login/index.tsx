@@ -7,84 +7,123 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-import apiClient from '@/Libs/Https/API-client';
 import { Logger } from '@/Utils/Logger';
 import useStore from '@/Libs/store';
+import { registerComponent } from '@/Libs/DataHandler/dataHandler';
+import { ApiResponse } from '@/pages/LoginOrg/loginOrg';
+import apiClient from '@/Libs/Https/API-client';
+
 interface IUserLogin {
   username: string;
   password: string;
 }
 
-interface GoogleUserData {
-  iss: string; 
-  azp: string;
-  aud: string; 
-  sub: string;
-  hd: string; 
-  email: string;
-  email_verified: boolean; 
-  exp: number;
-  family_name: string; 
-  given_name: string; 
-  iat: number; 
-  jti: string; 
-  name: string; 
-  nbf: number; 
-  picture: string; 
-  phone_number:string;
+type UserProps = {
+  id: string;
 }
 
-
+interface GoogleUserData {
+  iss: string;
+  azp: string;
+  aud: string;
+  sub: string;
+  hd: string;
+  email: string;
+  email_verified: boolean;
+  exp: number;
+  family_name: string;
+  given_name: string;
+  iat: number;
+  jti: string;
+  name: string;
+  nbf: number;
+  picture: string;
+  phone_number: string;
+}
 /**
  * User Login page component
- *
  */
-const UserLogin = () => {
+const UserLogin = (props: UserProps) => {
+  ({ props } = registerComponent(props));
+
   const { control, handleSubmit } = useForm<IUserLogin>();
-  const { setDataById }: any = useStore();
+  const setDataById = useStore((state: any) => state.setDataById);
+  
+  const POST = useStore((state: any) => state.POST);
+  const navigate = useNavigate();
+   /**
+   * function for set userTpype
+   */
+  function handleClickForgetPassword() {
+    navigate(routes.forgotPassword());
+  }
   /**
    * function to handle login
    */
-  const handleLogin = async (data: IUserLogin) => {
-    try {
-      const response = await apiClient.post('auth/login', data);
-      if(response.data.status === 'success'){
-        sessionStorage.setItem("token", response.data.data.token);
-        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
-      }
-      return response;
-    } catch (error: any) {
-      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: error.response.data.message });
-      Logger.error('Error in login', error);
-      return error;
-    }
-  };
+  const handleLogin = async (obj: IUserLogin) => {
+    await POST({
+      url: 'auth/login',
+      body: obj,
+      id: props?.id,
+      successCB: (success: ApiResponse) => {
+        sessionStorage.clear();
+        sessionStorage.setItem("token", success.data?.token);
+        sessionStorage.setItem("userId",success.data?.id.toString());
 
+      
+        setDataById('participantLogin', true);
+        apiClient.setToken(success.data.token);
+        setDataById('userDetails', success.data);
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
+        if(success?.data?.userRole?.roleName==="USER"){
+          navigate(routes.userHome());
+        }
+        else{
+          navigate(routes.dashboard());
+        } 
+      },
+      errorCB: (error: any) => {
+        setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "error",
+          message: error?.message,
+        });
+      },
+    });
+  };
   /**
    * function to handle google login
-   * @param {any} data - The data to be sent to the server
+   * @param {any}
    */
-  const googleLogin = async (data:GoogleUserData) => {
-    try {
-      const requestBody = {
-        provider: "google",
-        providerUserId: data.sub ?? '',
-        firstName: data.given_name ?? '',
-        lastName: data.family_name ?? '',
-        email: data.email ?? '',
-        ...(data.phone_number ? { phone: data.phone_number } : {}) 
-      };
-      const response = await apiClient.post('auth/ssoLogin', requestBody)
-      if (response.data.status === 'success') {
-        sessionStorage.setItem("token", response.data.data.token);
-        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
+  const googleSsoLogin = async (obj: GoogleUserData) => {
+    const requestBody = {
+      provider: "google",
+      providerUserId: obj.sub ?? '',
+      firstName: obj.given_name ?? '',
+      lastName: obj.family_name ?? '',
+      email: obj.email ?? '',
+      ...(obj.phone_number ? { phone: obj.phone_number } : {})
+    };
+
+    await POST({
+      url: 'auth/ssoLogin',
+      body: requestBody,
+      id: props?.id,
+      successCB: (context: any) => {
+        if (context?.success) {
+          sessionStorage.setItem("token", context.data?.token);
+          setDataById('participantLogin', true);
+          setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
+          navigate(routes.programSelection())
+        }
+      },
+      errorCB: (context: any) => {
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
       }
-    } catch (error: unknown) {
-      Logger.error('Error in google login', error);
-      return error;
-    }
+    });
   }
 
   return (
@@ -154,9 +193,10 @@ const UserLogin = () => {
                 Sign Up now.
               </Link>
             </Typography>
-            <Link to={'/user/forgot-password'} className="forgot-password-text">
+
+            <Box onClick={handleClickForgetPassword} className="forgot-password-text">
               Forgot Password?
-            </Link>
+            </Box>
           </Box>
           <Box className="sso-header-container ">
             <Box className="sso-header-line  "></Box>
@@ -172,16 +212,11 @@ const UserLogin = () => {
             shape="square"
             useOneTap
             onSuccess={(credentialResponse: CredentialResponse) => {
-              interface GoogleUser {
-                email: string;
-                name: string;
-                picture: string;
-              }
               const credential = credentialResponse.credential;
               if (credential) {
                 try {
-                  const decodedToken: GoogleUser = jwtDecode(credential);
-                  Logger.info('Decoded Google User', decodedToken);
+                  const decodedToken: GoogleUserData = jwtDecode(credential);
+                  googleSsoLogin(decodedToken)
                 } catch (error) {
                   Logger.error('Failed to decode token', error);
                 }
@@ -189,7 +224,7 @@ const UserLogin = () => {
                 Logger.error('No credential received');
               }
             }}
-            onError={() => {}}
+            onError={() => { }}
           />
         </Box>
       </Grid>

@@ -4,47 +4,60 @@ import Grid from '@mui/material/Grid2';
 
 
 interface AppBarProps {
-  value: string;
+  value: string | undefined;
+  className?:string;
 }
-
-const statusValues: any = [
-  { id: "0", textColor: '#D6983A', cellColor: '#FFECDF' },
-  { id: "1", textColor: '#2C3DC3', cellColor: '#E8EBFF' },
-  { id: ["2", "3"], textColor: '#0CAF60', cellColor: '#E7F7EF' },
-  { id: ["4"], textColor: '##2C3CD3', cellColor: '#E8EBFF' },
-  { id: ["7"], textColor: '#D32C2C', cellColor: '#FFE8EC' },
-];
-
-const getStatusValue = (id: string) => {
-  switch (id) {
-    case "0":
-      return "Pending";
-    case "1":
-      return "Ongoing";
-    case "2":
-      return "Completed";
-    case "3":
-      return "Success";
-    default:
-      return "Pending";
-  }
-};
-
-const findStatusById = (id: string) => {
-  return statusValues.find((status: any) => status.id.indexOf(id) !== -1);
-};
-
 
 /**
  * Component used to render status
  * @param param
  * @returns 
  */
-const StatusComponent: React.FC<AppBarProps> = ({ value }) => {
-  const status = findStatusById(value);
+const StatusComponent: React.FC<AppBarProps> = ({ value ,className}) => {
+  const statusValues: any = [
+    { id: "0", textColor: '#D6983A', cellColor: '#FFECDF' },
+    { id: "1", textColor: '#0CAF60', cellColor: '#E7F7EF' },
+    { id: "5", textColor: '#0CAF60', cellColor: '#E7F7EF' },
+    { id: ["2", "3"],  textColor: '#D32C2C', cellColor: '#FFE8EC'},
+    { id: "4", textColor: '#2C3CD3', cellColor: '#E8EBFF' },
+  ];
+
+/**
+ * Retrieves the status value based on a given ID.
+ * 
+ * @param id - A string representing the status ID.
+ * @returns A string representing the corresponding status value:
+ * - "1" returns "Active"
+ * - "2" returns "Inactive"
+ * - "3" returns "Pending"
+ * - "4" returns "Complete" 
+   * */ 
+  const getStatusValue = (id: string) => {
+    switch (id.toString()) {
+      case "1":
+        return "Active";
+      case "2":
+        return "Inactive";
+      case "3":
+        return "Pending";
+      case "4":
+        return "Complete";
+      default:
+        return "Pending";
+    }
+  };
+  /**
+   * @param id  * Finds a status object from the `statusValues` array by matching a given ID.
+   * @returns The first status object from `statusValues` where the `id` contains the specified ID.
+   *           Returns `undefined` if no matching status is found.
+    */
+  const findStatusById = (id: string) => {
+    return statusValues.find((status: any) => status.id.indexOf(id) !== -1);
+  };
+  const status = findStatusById(value ?? '');
   return (
-    <Grid >
-      <Typography sx={{ backgroundColor: status?.cellColor, color: status?.textColor, fontFamily: 'inherit', fontWeight: 600, fontSize: 14 }}>{getStatusValue(value)}</Typography>
+    <Grid className={className}>
+      <Typography className="statusText" sx={{ backgroundColor: status?.cellColor, color: status?.textColor}}>{getStatusValue(value ?? '')}</Typography>
     </Grid>
   );
 };

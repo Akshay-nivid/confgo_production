@@ -8,26 +8,30 @@ import useStore from '@/Libs/store';
  * Plan Card component
  * @returns
  */
-export const PlanCard = () => {
-  const setDataById = useStore((state: any) => state?.setDataById);
+type PlanCardProps = {
+  data: any;
+};
+export const PlanCard: React.FC<PlanCardProps> = ({ data }) => {
+
+  const setDataById = useStore((state) => state?.setDataById);
   const navigate = useNavigate();
+
   return (
     <Box className=" plancard__container">
       <Box className="plancard__content">
         <Box display={'flex'} className="plancard__header">
           <BasicPlanSvg className=" plancard__icon" />
-
           <Box className="plancard__title-container">
             <Typography className="plancard__title text-p1">
-              Basic Plan
+              {data?.name}
             </Typography>
             <Typography className="plancard__subtitle text-p2">
-              Perfect for Small Events
+              {data.description}
             </Typography>
           </Box>
         </Box>
         <Typography className="plancard__price text-h3">
-          $12,99 <span className="plancard__price-period text-p2">/$12,99</span>
+          ${data.amount} <span className="plancard__price-period text-p2">/${data.amount}</span>
         </Typography>
         <Box className=" plancard__features">
           {Array.from({ length: 5 }).map((_, index) => (
@@ -40,7 +44,8 @@ export const PlanCard = () => {
         </Box>
         <Button
           onClick={() => {
-            setDataById('register', { data: 'two' });
+            setDataById('register', { data: 'CREATE_ACCOUNT_PAGE', step: 2 });
+            setDataById('form1', { field_values: { ...data } });
             navigate(routes.register());
           }}
           fullWidth

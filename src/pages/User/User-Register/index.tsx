@@ -4,17 +4,22 @@ import routes from '@/router/routes';
 import {
   validateEmail,
   validateMaxLength,
+  validateMinLength,
   validatePhoneNumber,
   validateRequiredField,
 } from '@/Utils/Validation';
 import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
-import { GoogleLogin } from '@react-oauth/google';
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import apiClient from '@/Libs/Https/API-client';
 import { Logger } from '@/Utils/Logger';
+import { jwtDecode } from 'jwt-decode';
+import useStore from '@/Libs/store';
+import { purposeTypes } from '@/Utils/CommonBaseClass';
+
 
 interface IUserRegister {
   firstName: string;
@@ -23,36 +28,92 @@ interface IUserRegister {
   phone: string;
 }
 
+type UserProps = {
+  id: string;
+}
+
+interface GoogleUserData {
+  iss: string;
+  azp: string;
+  aud: string;
+  sub: string;
+  hd: string;
+  email: string;
+  email_verified: boolean;
+  exp: number;
+  family_name: string;
+  given_name: string;
+  iat: number;
+  jti: string;
+  name: string;
+  nbf: number;
+  picture: string;
+  phone_number: string;
+}
+
 /**
  * User Register page component
  *
  */
-const UserRegister = () => {
+const UserRegister = (props: UserProps) => {
   const { control, handleSubmit } = useForm<IUserRegister>();
   const navigate = useNavigate();
+  const POST = useStore((state: any) => state.POST);
+  const setDataById = useStore((state: any) => state.setDataById);
+  /**
+   * function to handle google login
+   * @param {any} data - The data to be sent to the server
+   */
+  const googleSsoLogin = async (data: GoogleUserData) => {
+    try {
+      const requestBody = {
+        provider: "google",
+        providerUserId: data.sub ?? '',
+        firstName: data.given_name ?? '',
+        lastName: data.family_name ?? '',
+        email: data.email ?? '',
+        ...(data.phone_number ? { phone: data.phone_number } : {})
+      };
+      /**
+       * function to make api call
+       */
+      const response = await apiClient.post('auth/ssoLogin', requestBody)
+      if (response.data.status === 'success') {
+        setDataById('participantLogin', true)
+        sessionStorage.setItem("token", response.data.data.token);
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
+      }
+    } catch (error: unknown) {
+      Logger.error('Error in google login', error);
+      return error;
+    }
+  }
   /**
    * function to handle login
    */
   const handleLogin = async (data: IUserRegister) => {
-    const response = await apiClient.post('user', data);
-  
-    try {
-      if (response.data.status === 'success') {
-        const token = response?.data?.data?.token;
-        navigate(routes.userOtp(), {
+    await POST({
+      url: 'user',
+      body: data,
+      id: props?.id,
+      successCB: (context: any) => {
+        console.log(context,'context')
+        if (context?.success) {
+         navigate(routes.userOtp(),{
           state: {
             email: data.email,
             phoneNumber: data.phone,
-            token: token.token,
-            userId: token.userId, 
+            token: context?.data?.token?.token,
+            userId: context?.data?.token?.userId,
+            purpose:purposeTypes.SET_PASSWORD
           },
         });
-        return response;
-      } 
-    } catch (error) {
-      Logger.error('Error in register', error);
-      return error;
-    }
+        }
+      },
+      errorCB: (context: any) => {
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
+      }
+    });
   };
 
   return (
@@ -81,7 +142,7 @@ const UserRegister = () => {
               className="textfield-container"
               display={'flex'}
               flexDirection={'column'}
-            >
+              >
               <CustomTextField
                 control={control}
                 name="firstName"
@@ -89,6 +150,7 @@ const UserRegister = () => {
                 label={'First Name'}
                 rules={{
                   required: validateRequiredField({ fieldName: 'First Name' }),
+                  minLength: validateMinLength({ minLength: 3, fieldName: 'First Name' })
                 }}
               />
               <CustomTextField
@@ -110,7 +172,6 @@ const UserRegister = () => {
                   pattern: validateEmail({}),
                 }}
               />
-
               <CustomTextField
                 control={control}
                 name="phone"
@@ -158,8 +219,20 @@ const UserRegister = () => {
             size="large"
             shape="square"
             useOneTap
-            onSuccess={() => {}}
-            onError={() => {}}
+            onSuccess={(credentialResponse: CredentialResponse) => {
+              const credential = credentialResponse.credential;
+              if (credential) {
+                try {
+                  const decodedToken: GoogleUserData = jwtDecode(credential);
+                  googleSsoLogin(decodedToken)
+                } catch (error) {
+                  Logger.error('Failed to decode token', error);
+                }
+              } else {
+                Logger.error('No credential received');
+              }
+            }}
+            onError={() => { }}
           />
         </Box>
       </Grid>

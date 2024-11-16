@@ -1,6 +1,10 @@
 {
-    "api":{
-        "url":"http://192.168.68.106:4444/api/",
-        "key":""
-    }
+  "api": {
+    "url": "https://api.confgo.com/api/",
+    "key": ""
+  },
+  "event-link": {
+    "sub-domain": "www",
+    "top-level-domain": "com"
+  }
 }

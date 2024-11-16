@@ -6,75 +6,89 @@ import {
   Typography,
 } from "@mui/material";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import BasicPlanImage from '@/assets/svg/basic-plan-icon.svg';
-import ProPlanImage from '@/assets/svg/pro-plan.svg';
-import StandardPlanImage from '@/assets/svg/standard-plan-icon.svg';
 import useStore from "@/Libs/store";
 import PlanCard from "@/components/PlanCard";
 import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";
 import { ArrowIconSvg } from "@/assets/svg";
-/*
- * sample plan data will be replaced after integration of api
- */
-const PLANS = {
-  basic: "Basic",
-  proffesional: "Proffesional",
-  enterprise: "Enterprise",
-};
+import { Logger } from "@/Utils/Logger";
+import apiClient from "@/Libs/Https/API-client";
+import { processAPIResponse } from "@/Utils/CommonBaseClass";
 
-const plans = [
-  {
-    header: PLANS.basic,
-    price: "99",
-    value: PLANS.basic,
-    isDicount: false,
-    discount: "",
-    image: <BasicPlanImage />
-  },
-  {
-    header: PLANS.proffesional,
-    price: "199",
-    value: PLANS.proffesional,
-    isDicount: false,
-    discount: "",
-    image: <ProPlanImage />
-  },
-  {
-    header: PLANS.enterprise,
-    price: "399",
-    value: PLANS.enterprise,
-    isDicount: true,
-    discount: "15%",
-    image: <StandardPlanImage />
-  },
-];
+
 /*
  * compoent to render the plan
  */
+type PlanType = {
+  id: number;
+  name: string;
+  amount: string; 
+  currency: string | null;
+  validityDay: number;
+  statusId: number;
+  assetId: number | null; 
+  createdBy: string | null;
+  createdOn: string; 
+  description: string | null; 
+  modifiedBy: string | null; 
+  modifiedOn: string; 
+  planPropertyAssignments: any[]; 
+};
 const AddPlan = React.memo(() => {
-  const [currentPlan, setcurrentPlan] = useState(PLANS.basic);
+  const [currentPlan, setcurrentPlan] = useState('');
   const form1 = useStore((state: any) => state?.compData?.['form1']) ?? [];
   const { setDataById }: any = useStore();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
   const handleChangePlan = (event: React.ChangeEvent<HTMLInputElement>) => {
     setcurrentPlan(event.target.value);
   };
+  const [planList,setPlanList]=useState<PlanType[]>([]);
   /*
    * get state data if selected plan data is there
    */
   useEffect(() => {
-    setDataById('register', { data: 'PLAN_PAGE', step: 1 });
-    if (form1?.field_values) {
-      setcurrentPlan(form1?.field_values?.header)
+    const fetchData = async () => {
+      await getPlanData();
+      setDataById('register', { data: 'PLAN_PAGE', step: 1 });
+  
+      if (form1?.field_values) {
+        setcurrentPlan(form1.field_values.name);
+      }else{
+
+      }
+    };
+  
+    fetchData();
+  }, []);
+
+  const getPlanData = async () => {
+    try {
+      const response = await apiClient.post(`plan/list`, {});
+      const { status, data } = processAPIResponse(response, 'plan list');
+      if (status) {
+        setPlanList(data);
+        if(form1?.field_values){
+          setcurrentPlan(form1?.field_values?.name)
+        }else{
+          setcurrentPlan(data?.[0]?.name)
+        }
+        
+      }
+
+    } catch (error) {
+      Logger.error(error)
     }
-  }, [])
+    finally {
+      setLoading(false); 
+    }
+  }
 
   /*
    * function to change the state and store selected plan
    */
   const handleClick = () => {
-    const planDetail = plans.find((item) => item.header === currentPlan);
+    const planDetail = planList.find((item) => item.name === currentPlan);
     setDataById('register', { data: 'CREATE_ACCOUNT_PAGE', step: 2 });
     setDataById('form1', { field_values: planDetail });
   }
@@ -92,7 +106,7 @@ const AddPlan = React.memo(() => {
         <Grid className="left-inner-content">
           <FormControl className="w-full">
             <Grid alignSelf={"center"}>
-              <Typography className="left-plan-text" textAlign={"center"} variant="h2" lineHeight={2} >Choose Plan</Typography>
+              <Typography className="left-plan-text" textAlign={"center"} variant="h2" lineHeight={2} >Choose Your Plan</Typography>
               <Typography className="left-description-text" textAlign={"center"} variant="h6">Everything you might need and then some more in an accessible and intuitive package.</Typography>
             </Grid>
             <RadioGroup
@@ -100,16 +114,16 @@ const AddPlan = React.memo(() => {
               value={currentPlan}
               onChange={handleChangePlan}
             >
-              {plans.map((plan) => (
+              {planList.map((plan) => (
                 <PlanCard
-                  image={plan.image}
-                  isActive={currentPlan === plan.value}
-                  key={plan.value}
-                  value={plan.value}
-                  header={plan.header}
-                  price={plan.price}
-                  discount={plan.discount}
-                  isDicount={plan.isDicount}
+                  image={''}
+                  isActive={currentPlan === plan?.name}
+                  key={plan?.id}
+                  value={plan?.name}
+                  header={plan?.name}
+                  price={plan?.amount}
+                  discount={''}
+                  isDicount={false}
                 />
               ))}
             </RadioGroup>
@@ -119,19 +133,17 @@ const AddPlan = React.memo(() => {
           </Grid>
           <Grid container mb={2} className="w-full" >
           <CustomButton
-            className="plan-choose-btn"
+            className={(loading || planList.length===0)?'plan-disabled-choose-btn':"plan-choose-btn"}
             endIcon={<ArrowIconSvg/>}
             onClick={handleClick}
-            label="Choose Plan"
+            label="Choose this plan"
             size="large"
+            disabled={ loading || planList.length===0}
           />
           </Grid>
         </Grid>
       </Grid>
       </Grid>
-
-   
-     
     </Grid>
   )
 });

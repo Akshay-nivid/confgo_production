@@ -5,9 +5,9 @@ import CouponIcon from "./coupon.svg";
 import AppLogo from "./logo.svg";
 import SettingsIcon from "./settings.svg";
 import LogoutIcon from "./logout.svg";
-import StepperActive from "./stepper-active.svg"
-import StepperCurrent from "./Stepper-current.svg"
-import StepperDefault from "./stepper-default.svg"
+import StepperActive from "./stepper-active.svg";
+import StepperCurrent from "./Stepper-current.svg";
+import StepperDefault from "./stepper-default.svg";
 import GridEndOneImg from "./grid-end-one.svg";
 import GridEndTwoImg from "./grid-end-two.svg";
 import ExportPlanImg from "./export-plan.svg";
@@ -26,7 +26,7 @@ import SecureTransaction from "./secure-transaction.svg";
 import FlexiblePaymentOptions from "./flexible-payment.svg";
 import EndlessEvent from "./endless-event.svg";
 import ScalableMember from "./scalable-member.svg";
-import StreamlinedRegistration from './streamlined-registartion.svg'
+import StreamlinedRegistration from "./streamlined-registartion.svg";
 import RealTimeTracking from "./realtime-tracking.svg";
 import SuccessTickImage from "./success-tick-icon.svg";
 import CouponIconColored from "./coupon-icon.svg";
@@ -34,7 +34,33 @@ import SetPasswordSuccessfulIcon from "./set-password-successful-icon.svg";
 import LocatioIcon from "./location-icon.svg";
 import MessageIcon from "./message-icon.svg";
 import CallIcon from "./call-icon.svg";
-
+import ArrowLeftIcon from "./arrow-left.svg";
+import GpayIcon from "./gpay.svg";
+import PhonePayIcon from "./phonepay.svg";
+import StripeIcon from "./stripe.svg";
+import DebitCardIcon from "./debit.svg";
+import UpiIcon from "./upi.svg";
+import RaziorPayIcon from "./razorpay.svg";
+import EventRegistrationSuccessIcon from "./event-registration-complete.svg";
+import QrIcon from "./qr.svg";
+import DeleteContributorIcon from "./delete-icon.svg";
+import EditContributorIcon from "./edit-icon.svg";
+import ForgotPasswordIcon from "./key-icon.svg";
+import PaymentHistoryIcon from "./paymentHistory-icon.svg";
+import CalendarEventIcon from "./calendar-event-line.svg";
+import DownloadEventIcon from "./downloadCerts.svg";
+import HeartEventIcon from "./heart-2-line.svg";
+import PaymentDashboardIcon from "./payment.svg";
+import CouponDashboardIcon from "./coupons.svg";
+import DashboardUserIcon from "./dashboard-user.svg";
+import EditButtonIcon from "./Edit-location-button.svg";
+import DownArrowSvg from './downarrow.svg'
+import ResetPassword from './Reset-Password.svg'
+import CalenderNoData from'./calender-no.svg';
+import NoEvent from "./NoEvents.svg";
+import NoPayment from "./noPayment.svg"
+import NoDataSvg from './nodata.svg';
+import DashBoardEmpty from './dashboard-empty.svg';
 export {
   CalenderIcon,
   EventIcon,
@@ -71,5 +97,32 @@ export {
   SetPasswordSuccessfulIcon,
   LocatioIcon,
   MessageIcon,
-  CallIcon, 
+  CallIcon,
+  ArrowLeftIcon,
+  GpayIcon,
+  PhonePayIcon,
+  StripeIcon,
+  DebitCardIcon,
+  UpiIcon,
+  RaziorPayIcon,
+  EventRegistrationSuccessIcon,
+  QrIcon,
+  DeleteContributorIcon,
+  EditContributorIcon,
+  ForgotPasswordIcon,
+  PaymentHistoryIcon,
+  CalendarEventIcon,
+  DownloadEventIcon,
+  HeartEventIcon,
+  PaymentDashboardIcon,
+  CouponDashboardIcon,
+  DashboardUserIcon,
+  EditButtonIcon,
+  NoEvent,
+  DownArrowSvg,
+  NoDataSvg,
+  NoPayment,
+  ResetPassword,
+  CalenderNoData,
+  DashBoardEmpty
 };

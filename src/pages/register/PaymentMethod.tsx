@@ -1,27 +1,22 @@
 import Grid from "@mui/material/Grid2";
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
     Box,
     Typography,
 } from "@mui/material";
 import PaymentMethodImage from "@/assets/png/payment-method.png"
 import PayPalButton from "./PayPalCompoent";
-import useStore from "@/Libs/store";
 /*
  * functional compoent used to render payment method 
  */
 const PaymentMethod = React.memo(() => {
-    const { setDataById }: any = useStore();
  
-    /*
-   * useEffect used to set stepper info
-   */
-    useEffect(() => {
-        setDataById('register', { data: 'PAYMENT_METHOD_PAGE', step: 4 });
-    }, [])
+
     return (
         <Grid>
             <Grid container spacing={5}>
+            <Grid container size={12} justifyContent={"flex-end"} >
+                </Grid>
                 <Grid className="left-content-wrapper">
                     <Grid className="left-inner-content">
                         <Grid alignSelf={"center"}>

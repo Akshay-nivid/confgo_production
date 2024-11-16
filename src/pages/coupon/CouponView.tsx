@@ -42,7 +42,7 @@ const CouponView: React.FC = () => {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const navigate = useNavigate();
-  const { control, handleSubmit, reset, getValues } = useForm();
+  const { control, reset, getValues } = useForm();
   /** 
    * useEffect hook to handle the API call 
    */
@@ -58,7 +58,7 @@ const CouponView: React.FC = () => {
       setLoading(true);
       const response = await apiClient.get(`/coupon/${id}`); // Adjust the endpoint as needed
 
-      const { status, data, message } = await processAPIResponse(response, "Viewcoupon");
+      const { status, data } = await processAPIResponse(response, "Viewcoupon");
       if (status) {
         setCoupon(data);
         reset(data);
@@ -91,7 +91,7 @@ const CouponView: React.FC = () => {
 
       if (Object.keys(updatedFields).length > 0) {
         const response = await apiClient.put(`/coupon/${id}`, updatedFields); // Only send updated fields
-        const { status, data } = await processAPIResponse(response, "Viewcoupon");
+        const { status } = await processAPIResponse(response, "Viewcoupon");
         if (status) {
           setSnackbarOpen(true);
           setSnackbarMessage("Coupon Updated Successfully");
@@ -211,7 +211,7 @@ const CouponView: React.FC = () => {
                         placeholder='Start Date'
                         name='startDate'
                         control={control}
-                        defaultValue={coupon?.startDate ? new Date(coupon.startDate) : null} // Convert to Date object
+                        defaultValue={coupon?.startDate ? moment(coupon.startDate).format('YYYY-MM-DD') : null}
                         rules={{ required: 'Start Date is required' }}
                         label='Start Date'
                         requiredField

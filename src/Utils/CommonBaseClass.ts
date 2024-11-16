@@ -1,58 +1,53 @@
-
-
+import moment from 'moment';
 /**
- * Process the API response to extract status and message. 
- * @param 
+ * Process the API response to extract status and message.
+ * @param
  * @returns An object containing status and message extracted from the response.
  */
-export function processAPIResponse(response: any,api:string ) {
-  let status = false
-  let message: any = "Success"
+export function processAPIResponse(response: any, api: string) {
+  let status = false;
+  let message: any = "Success";
   let data: any;
+  const resData = response?.response?.data || response?.data?.data;
+
   try {
     if (response.status === 401 && !api.includes("login")) {
-      status = false
-      message = response.data.message   
+      status = false;
+      message = resData.message;
       sessionStorage.clear();
-      window.location.href = '/login'; 
-      return { status, message, data }
-    }
-    else if(response.status === 401 && api.includes("login")){
-      status = false
-      message = response.data.message;
-      return { status, message, data }
-    }
-    else if (response.status == 400) {
+      window.location.href = "/organization/login";
+      return { status, message, data };
+    } else if (response.status === 401 && api.includes("login")) {
       status = false;
-      if (Array.isArray(response.data.message)) {
-        message = response.data.message[0].msg;
-      } else {
-        message = response.data.message;
-      }
-    }
-    else if (response.status == 403) {
+      message = resData.message;
+      return { status, message, data };
+    } else if (
+      response.status === 400 ||
+      response.status == 403 ||
+      response.status == 500
+    ) {
       status = false;
-      if (Array.isArray(response.data.message)) {
-        message = response.data.message[0].msg;
+      if (Array.isArray(resData.message)) {
+        message = resData.message[0].msg;
+        data = resData;
       } else {
-        message = response.data.message;
+        message = resData.message;
+        data = resData;
       }
-    }
-    else if (response.status == 200) {
+    } else if (response.status == 200 || response.status == 201) {
       status = true;
-      message = message;
-      if (!Array.isArray(response.data)) {
-        data = response?.data?.data;
+      message = response.data?.message ? response.data?.message : message;
+      if (!Array.isArray(resData)) {
+        data = resData?.data || resData;
+      } else {
+        data = resData;
       }
-      else {
-        data = response?.data;
-      }
+    } else {
+      status = false;
+      message = resData.message;
     }
-
-  } catch (e) {
-
-  }
-  return { status, message, data }
+  } catch (e) {}
+  return { status, message, data };
 }
 
 /**
@@ -66,13 +61,16 @@ export function processAPIResponse(response: any,api:string ) {
  *                   the form's state to be updated accordingly. This function
  *                   expects a key of type keyof T and a value of type T[keyof T].
  */
-export const setFormValues = <T extends object>(data: Partial<T>, setValue: (key: keyof T, value: T[keyof T]) => void) => {
+export const setFormValues = <T extends object>(
+  data: Partial<T>,
+  setValue: (key: keyof T, value: T[keyof T]) => void
+) => {
   for (const key in data) {
     if (key in data) {
       const value = data[key as keyof T];
-      
-      if (value !== undefined) { 
-        setValue(key as keyof T, value); 
+
+      if (value !== undefined) {
+        setValue(key as keyof T, value);
       }
     }
   }
@@ -83,7 +81,7 @@ export const setFormValues = <T extends object>(data: Partial<T>, setValue: (key
  * @returns : converted string
  */
 export const toSentenceCase = (input: string) => {
-  if(!input) return '';
+  if (!input) return "";
   return input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
 };
 
@@ -91,11 +89,53 @@ export const toSentenceCase = (input: string) => {
  * Method returns the value to be taken from the data array based on a comparison parameter
  * @param data : data array
  * @param cmp1 : parameter to be compared in the data
- * @param cmp2 : value to be compared 
+ * @param cmp2 : value to be compared
  * @param name : returned parameter
- * @returns 
+ * @returns
  */
-export const getValueFromArrayBasedOnParameter = (data: any, cmp1: any, cmp2: any, name: any) => {
-  if(!(data || cmp1 || cmp2 || name)) return '';
-  return data?.find((item: any) => item[cmp1] == cmp2)?.[name]
+export const getValueFromArrayBasedOnParameter = (
+  data: any,
+  cmp1: any,
+  cmp2: any,
+  name: any
+) => {
+  if (!(data || cmp1 || cmp2 || name)) return "";
+  return data?.find((item: any) => item[cmp1] == cmp2)?.[name];
+};
+/**
+ * Converts a given string to title case, where the first letter of each word is capitalized.
+ * If the input is `undefined`, it returns an empty string.
+ * @param str - The string to be converted to title case.
+ * @returns The title-cased version of the input string.
+ * 
+ */
+ export const toTitleCase = (str: string | undefined): string => {
+  if (!str) return '';
+  return str
+      .toLowerCase()
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+};
+
+/**
+ * purpose types set password and reset password
+ */
+export const purposeTypes = {
+  SET_PASSWORD: 'USER_REGISTRATION_OTP',
+  RESET_PASSWORD: 'RESET_PASSWORD_OTP'
+}
+
+/**
+ *  Interface defining the parameters for formatting a date.
+ */
+interface IDateTimeRangeParams {
+  date: Date | string;
+  format: 'MMMM D, YYYY' | 'DD/MM/YYYY' | 'h:mm A' | string;  
+}
+export function formatDateTimeRange({date,format}:IDateTimeRangeParams){
+  if (!date) {
+    return ''; 
+  }
+return  moment.utc(date).local().format(format);
 }

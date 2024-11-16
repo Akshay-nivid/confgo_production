@@ -8,12 +8,20 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { SuccessTickImage } from "@/assets/svg";
 import routes from "@/router/routes";
 import { useNavigate } from "react-router-dom";
+import useStore from "@/Libs/store";
 /*
  * functional compoent to render Registration success page
  */
 const RegistrationSuccess = React.memo(() => {
+  const pageSwitch =
+  useStore((state: any) => state?.compData?.["register"]) ?? [];
+  const { clearDataById }: any = useStore();
   const navigate=useNavigate();
   const handleHome=()=>{
+    clearDataById('register');
+    clearDataById('form1');
+    clearDataById('form2');
+    clearDataById('form3');
     navigate(routes.home());
   }
   return (
@@ -22,7 +30,11 @@ const RegistrationSuccess = React.memo(() => {
             <Grid container justifyContent={'center'} className="success-icon">
               <SuccessTickImage />
               <Grid alignSelf={"center"}>
-                <Typography  className="left-plan-text"textAlign={"center"} variant="h4" lineHeight={2} >Login and Payment Successful</Typography>
+            {pageSwitch?.paymentStatus === false ? <>
+              <Typography className="left-plan-text" textAlign={"center"} variant="h4" lineHeight={2} >Registration Successful</Typography>
+              <Typography className="left-plan-text" textAlign={"center"} variant="h4" lineHeight={2} >Payment Pending</Typography>
+            </> : <Typography className="left-plan-text" textAlign={"center"} variant="h4" lineHeight={2} >Registration and Payment Successful</Typography>
+            }
                 <Typography className="left-description-text" textAlign={"center"} variant="h6">Check your email to set your password and access your dashboard.</Typography>
               </Grid>
             </Grid>

@@ -10,20 +10,24 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import useStore from "@/Libs/store";
 import { emailRules, phoneRules } from "@/Utils/Validation";
+import { processAPIResponse } from "@/Utils/CommonBaseClass";
+import apiClient from "@/Libs/Https/API-client";
 /*
  * Organization form 
  */
 const AddOrganization = React.memo(() => {
     const { handleSubmit, control } = useForm<FormData>();
-    const { setDataById }: any = useStore();
+    const { setDataById}: any = useStore();
+    const form1 = useStore((state: any) => state?.compData?.['form1']) ?? [];
+    const form2 = useStore((state: any) => state?.compData?.['form2']) ?? [];
     const form3 = useStore((state: any) => state?.compData?.['form3']) ?? [];
 
     /*
-     * function to handle submission of the form
+     * function to handle submission of the form and create new company
      */
     const onSubmit: SubmitHandler<FormData> = (data) => { 
-        setDataById('register', { data: 'PAYMENT_METHOD_PAGE' });
         setDataById('form3', { field_values: data });
+        createAccount(data)
     };
 
     /*
@@ -35,6 +39,39 @@ const AddOrganization = React.memo(() => {
         organizationPhone: number;
         organizationAddress: number;
     };
+    /*
+     * Function to create a new Account for company
+     *
+     */
+    const createAccount = async (organiztionData: FormData) => {
+        try {
+            const req = {
+                firstName: form2.field_values.fullName,
+                lastName: form2.field_values.lastName,
+                email: form2.field_values.email,
+                phone: form2.field_values.phoneNumber,
+                companyPhone: organiztionData.organizationPhone,
+                companyEmail: organiztionData.organizationEmail,
+                companyName: organiztionData.organizationName,
+                companyAddress: organiztionData.organizationAddress,
+                planId: form1.field_values.id,
+                statusId: 1
+            }
+            const response = await apiClient.post('company', req);
+            const { status, data, message } = processAPIResponse(response, 'company create')
+            if (status) {
+                setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Registration Successfully and Please Complete Payment for Completion" });
+                setDataById('form3', { field_values: data, companyData: data });
+                setDataById('register', { data: 'PAYMENT_METHOD_PAGE' });
+            }
+            else{
+                setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message});
+            }
+
+        } catch (error: any) {
+            setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: error.response.data.message })
+        }
+    }
 
     return (
         <Grid>
@@ -53,16 +90,29 @@ const AddOrganization = React.memo(() => {
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationName}
                                                 placeholder="Organization Name"
+                                                label="Organization Name *"
                                                 control={control}
                                                 name="organizationName"
                                                 type="text"
-                                                rules={{ required:{value:true,message:"Organization name is required"} }}
+                                                rules={{ 
+                                                    required:{value:true,message:"Organization name is required"},
+                                                    pattern: {
+                                                            value: /^(?=.*[a-zA-Z0-9])(?!\s*$).+$/,
+                                                        message: "Organization name cannot be only spaces or special characters"
+                                                    },
+                                                    maxLength: {
+                                                        value: 30,
+                                                        message: "Organization name cannot exceed 30 characters"
+                                                    }
+                                                      
+                                                 }}
                                             />
                                         </Grid>
                                         <Grid container className='w-full'>
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationEmail}
                                                 placeholder="Organization Email"
+                                                label="Organization Email *"
                                                 control={control}
                                                 name="organizationEmail"
                                                 type="text"
@@ -73,6 +123,7 @@ const AddOrganization = React.memo(() => {
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationPhone}
                                                 placeholder="Organization Phone"
+                                                label="Organization Phone *"
                                                 name="organizationPhone"
                                                 type="number"
                                                 control={control}
@@ -84,10 +135,18 @@ const AddOrganization = React.memo(() => {
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationAddress}
                                                 placeholder="Organization Address"
+                                                label="Organization Address *"
                                                 control={control}
                                                 name="organizationAddress"
                                                 type="text"
-                                                rules={{ required:{value:true,message:"Organization address is required"} }}
+                                                rules={{ 
+                                                    required:{value:true,message:"Organization address is required"},
+                                                    pattern: {
+                                                        value: /^(?=.*[a-zA-Z0-9])(?!\s*$).+$/,
+                                                        message: "Organization address cannot be only spaces or special characters"
+                                                    }
+                                                 }}
+                                        
                                             />
                                         </Grid>
                                     </Grid>

@@ -1,0 +1,82 @@
+{
+  "status": "success",
+  "message": "success",
+  "data": {
+    "id": 7,
+    "name": "Health Club",
+    "description": "Blood Test Camp",
+    "startTime": "2024-10-25T00:00:00.000Z",
+    "endTime": "2024-10-30T00:00:00.000Z",
+    "venueId": 3,
+    "eventClass": "normal",
+    "interval": " not required ",
+    "companyId": 4,
+    "title": "Blood Test",
+    "amount": "50000.00",
+    "discount": 0,
+    "statusId": 1,
+    "venue": {
+      "id": 3,
+      "name": "Science Hall",
+      "address": "Left block",
+      "city": "Bangalore",
+      "state": "Karnataka",
+      "country": "INDIA",
+      "postCode": null,
+      "totalCapacity": 100,
+      "mapUrl": null
+    },
+    "status": {
+      "id": 1,
+      "statusName": "ACTIVE",
+      "description": "ACTIVE"
+    },
+    "programs": [
+      {
+        "id": 8,
+        "parentId": 7,
+        "name": "Dengue test",
+        "description": "testing blood",
+        "startTime": "2024-10-25T00:00:00.000Z",
+        "endTime": "2024-10-30T00:00:00.000Z",
+        "venueId": 3,
+        "eventClass": "normal",
+        "interval": " not required ",
+        "companyId": 4,
+        "title": "Dengue Testing",
+        "amount": "30.00",
+        "discount": null,
+        "statusId": 1,
+        "status": {
+          "id": 1,
+          "statusName": "ACTIVE",
+          "description": "ACTIVE"
+        },
+        "eventProgramSchedules": []
+      },
+      {
+        "id": 9,
+        "parentId": 7,
+        "name": "Maleria test",
+        "description": "testing blood",
+        "startTime": "2024-10-25T00:00:00.000Z",
+        "endTime": "2024-10-30T00:00:00.000Z",
+        "venueId": 3,
+        "eventClass": "normal",
+        "interval": " not required ",
+        "companyId": 4,
+        "title": "Maleria Testing",
+        "amount": "30.00",
+        "discount": null,
+        "statusId": 1,
+        "status": {
+          "id": 1,
+          "statusName": "ACTIVE",
+          "description": "ACTIVE"
+        },
+        "eventProgramSchedules": []
+      }
+    ],
+    "addons": []
+  }
+}

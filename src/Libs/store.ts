@@ -1,5 +1,7 @@
 import { create } from "zustand";
-import { persist } from 'zustand/middleware'
+import { createJSONStorage, persist } from 'zustand/middleware'
+import apiClient from "./Https/API-client";
+import { processAPIResponse } from "@/Utils/CommonBaseClass";
 
 /**
 * Define types for the state
@@ -8,6 +10,13 @@ interface CompData {
     [key: string]: any; // You can specify more precise types based on your use case
 }
 
+type ApiRequestOptions = {
+    url: string;
+    body?: any;
+    id: string;
+    successCB?: (context: any) => void;
+    errorCB?: (context: any) => void;
+};
 interface StoreState {
     compData: CompData;
     userInfo: any; // Specify the type based on your user info structure
@@ -15,11 +24,35 @@ interface StoreState {
     clearDataById: (id: string) => void;
     setUserInfo: (data: any) => void;
     resetStore: () => void;
+    POST: (params: ApiRequestOptions) => void;
+    GET: (params: ApiRequestOptions) => void;
+    PUT: (params: ApiRequestOptions) => void;
+    DELETE: (params: ApiRequestOptions) => void;
 }
+
+/**
+ * Custom storage object that filters out snackBarInfo
+ */
+const customStorage = {
+    getItem: (name: string) => {
+        const str = localStorage.getItem(name);
+        if (!str) return null;
+        const state = JSON.parse(str);
+        return JSON.stringify(state);
+    },
+    setItem: (name: string, value: string) => {
+        const state = JSON.parse(value);
+        if (state?.state && state?.state?.compData) {
+            delete state?.state?.compData?.snackBarInfo;
+        }
+        localStorage.setItem(name, JSON.stringify(state));
+    },
+    removeItem: (name: string) => localStorage.removeItem(name),
+};
 
 const useStore = create<StoreState>()(
     persist(
-        (set) => ({
+        (set, get) => ({
             compData: {},
             userInfo: {},
             /**
@@ -60,11 +93,84 @@ const useStore = create<StoreState>()(
             */
             resetStore: () => set(() => ({
                 compData: {}
-            }))
+            })),
 
+            POST: async ({ url, body, id, successCB, errorCB }: ApiRequestOptions) => {
+                // Set loading state
+                get().setDataById(id, { [url]: { loading: true } });
+                // Make API call
+                const response = await apiClient.post(url, body);
+                const { status, data, message } = processAPIResponse(response, id);
+                if (status) {
+                    let context = { data: data, loading: false, success: true }
+                    get().setDataById(id, { [url]: { ...context }, timestamp: Date.now() });
+                    successCB?.(context);
+
+                } else {
+                    let context = { data: data, loading: false, message:message }
+                    get().setDataById(id, { message, [url]: { ...context } });
+                    errorCB?.(context)
+                }
+                return { status, data, message };
+            },
+            GET: async ({ url,  id, successCB, errorCB }: ApiRequestOptions) => {
+                // Set loading state
+                get().setDataById(id, { [url]: { loading: true } });
+                // Make API call
+                const response = await apiClient.get(url);
+                const { status, data, message } = processAPIResponse(response, id);
+                if (status) {
+                    let context = { data: data, loading: false, success: true }
+                    get().setDataById(id, { [url]: { ...context }, timestamp: Date.now() });
+                    successCB?.(context);
+
+                } else {
+                    let context = { data: data, loading: false, message:message }
+                    get().setDataById(id, { message, [url]: { ...context } });
+                    errorCB?.(context)
+                }
+                return { status, data, message };
+            },
+            PUT: async ({ url, body, id, successCB, errorCB }: ApiRequestOptions) => {
+                // Set loading state
+                get().setDataById(id, { [url]: { loading: true } });
+                // Make API call
+                const response = await apiClient.put(url, body);
+                const { status, data, message } = processAPIResponse(response, id);
+                if (status) {
+                    let context = { data: data, loading: false, success: true }
+                    get().setDataById(id, { [url]: { ...context }, timestamp: Date.now() });
+                    successCB?.(context);
+
+                } else {
+                    let context = { data: data, loading: false, message:message }
+                    get().setDataById(id, { message, [url]: { ...context } });
+                    errorCB?.(context)
+                }
+                return { status, data, message };
+            },
+            DELETE: async ({ url,  id, successCB, errorCB }: ApiRequestOptions) => {
+                // Set loading state
+                get().setDataById(id, { [url]: { loading: true } });
+                // Make API call
+                const response = await apiClient.delete(url);
+                const { status, data, message } = processAPIResponse(response, id);
+                if (status) {
+                    let context = { data: data, loading: false, success: true }
+                    get().setDataById(id, { [url]: { ...context }, timestamp: Date.now() });
+                    successCB?.(context);
+
+                } else {
+                    let context = { data: data, loading: false, message:message }
+                    get().setDataById(id, { message, [url]: { ...context } });
+                    errorCB?.(context)
+                }
+                return { status, data, message };
+            },
         }),
         {
             name: "global-state-storage", // Unique name for local storage key
+            storage: createJSONStorage(() => customStorage),
         }
     ),
 );

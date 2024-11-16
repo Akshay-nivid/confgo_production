@@ -1,10 +1,9 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import config from '../../../config.json';
 
 class ApiClient {
   private static instance: ApiClient;
   private axiosInstance: AxiosInstance;
-
 
   private constructor() {
     // Set your base API URL
@@ -25,9 +24,9 @@ class ApiClient {
       },
       (error) => {
         if (error.response.status && (error.response.status === 401 || error.response.status === 403)) {
-          window.location.href = "/logout"
+          window.location.href = "/"
         }
-        return Promise.reject(error);
+        return Promise.resolve(error);
       }
     );
   }
@@ -68,23 +67,23 @@ class ApiClient {
   
 
   // Method for making GET requests
-  get(url: string, config?: any) {
+  get<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
     return this.axiosInstance.get(url, config);
   }
 
   // Method for making POST requests
-  post(url: string, data?: any, config?: any) {
+  post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
     return this.axiosInstance.post(url, data, config);
     // return this.axiosInstance.post(url, data, { ...config, headers });
   }
 
   // Method for making PUT requests
-  put(url: string, data?: any, config?: any) {
+  put<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
     return this.axiosInstance.put(url, data, config);
   }
 
   // Method for making DELETE requests
-  delete(url: string, config?: any) {
+  delete<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
     return this.axiosInstance.delete(url, config);
   }
 }

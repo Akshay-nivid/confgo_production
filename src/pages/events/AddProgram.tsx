@@ -1,364 +1,553 @@
 /**
  * AddProgram component handles the program addition for event
  */
-import CustomButton from '@/components/CustomButton/CustomButton';
-import CustomRadio from '@/components/CustomRadio/CustomRadio';
-import CustomTextField from '@/components/CustomTextfield/CustomTextField';
-import { Box, IconButton, Typography } from '@mui/material';
-import Grid from '@mui/material/Grid2';
-import React, { useEffect, useState } from 'react';
-import { useForm, SubmitHandler, useFieldArray } from 'react-hook-form';
-import AddIcon from '@/assets/svg/program-add.svg';
-import EditIcon from '@/assets/svg/edit-program-icon.svg';
-import DeleteIcon from '@/assets/svg/delete-program-icon.svg';
-import CustomSelect from '@/components/CustomSelectBox/CustomSelect';
-import moment from 'moment';
-import { getValueFromArrayBasedOnParameter } from '@/Utils/CommonBaseClass';
-
+import CustomButton from "@/components/CustomButton/CustomButton";
+import CustomRadio from "@/components/CustomRadio/CustomRadio";
+import CustomTextField from "@/components/CustomTextfield/CustomTextField";
+import { Box, IconButton, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid2";
+import React, { useEffect, useState } from "react";
+import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
+import EditIcon from "@/assets/svg/edit-program-icon.svg";
+import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
+import moment from "moment";
 
 type FormData = {
-    programs: {
-        programType: string;
-        name: string;
-        description: string;
-        startTime: string;
-        endTime: string;
-        type: string;
-        amount: string;
-        addonId: string;
-
-    }[];
-    savedPrograms: {
-        id?: string;
-        programType: string;
-        name: string;
-        description: string;
-        startTime: string;
-        endTime: string;
-        type: string;
-        amount: string;
-        addonId: string;
-    }[];
+  programs: {
+    name: string;
+    description: string;
+    startDate:string;
+    endDate:string;
+    startTime: string;
+    endTime:string;
+    type: string;
+    amount: string;
+  }[];
+  savedPrograms: {
+    id?: string;
+    name: string;
+    description: string;
+    startDate:string;
+    endDate:string;
+    startTime: string;
+    endTime:string;
+    type: string;
+    amount: string;
+  }[];
 };
 type ProgramProps = {
-    formSubmit: boolean;
-    onSubmitHandler: (event: any, type: string) => void;
-    onSaveHandler: (event: any) => void;
-    data: any;
-    addOnOptions?: any
-}
+  formSubmit: boolean;
+  onSubmitHandler: (event: any, type: string) => void;
+  onSaveHandler: (event: any, type: string) => void;
+  data: any;
+  addOnOptions?: any;
+  eventData?:any
+};
 const typeArray = [
-    { label: 'Paid', value: 'PAID' },
-    { label: 'Free', value: 'FREE' }
-];
-
-const programTypeArray = [
-    { label: 'Program', value: 'PROGRAM' },
-    { label: 'Add Ons', value: 'ADD_ONS' }
+  { label: "Paid", value: "PAID" },
+  { label: "Free", value: "FREE" },
 ];
 
 
 
-const AddProgram: React.FC<ProgramProps> = React.memo(({ formSubmit, onSubmitHandler, data, onSaveHandler, addOnOptions }) => {
+const AddProgram: React.FC<ProgramProps> = React.memo(
+  ({ formSubmit, onSubmitHandler, data, onSaveHandler ,eventData}) => {
     const { handleSubmit, control, watch, setValue } = useForm<FormData>({
-        defaultValues: {
-            programs: [
-                {
-                    programType: 'PROGRAM',
-                    name: '',
-                    description: '',
-                    startTime: moment(new Date()).format('YYYY-MM-DDTHH:mm'),
-                    endTime: moment(new Date()).format('YYYY-MM-DDTHH:mm'),
-                    type: 'PAID',
-                    amount: '',
-                    addonId: '',
-                },
-            ],
-        },
+      defaultValues: {
+        programs: [
+          {
+            name: "",
+            description: "",
+            startDate:moment(eventData?.startTime).format("YYYY-MM-DD"),
+            endDate:moment(eventData?.startTime).format("YYYY-MM-DD"),
+            startTime: moment(new Date()).format("HH:mm"),
+            endTime:moment(new Date()).format("HH:mm"),
+            type: "PAID",
+            amount: ""
+          },
+        ],
+      },
     });
     const { fields, append, remove } = useFieldArray({
-        control,
-        name: 'programs',
+      control,
+      name: "programs",
     });
-    const [programIndex, setProgramIndex] = useState(0);
+    const [programIndex, setProgramIndex] = useState<any>();
+    const [editMode, setEditMode] = useState(false);
 
-
+    /**
+     * Useeffect hook updates the programIndex value based on the savedPrograms dependency
+     */
+    useEffect(() => {
+      const savedPrograms = watch("savedPrograms");
+      if (savedPrograms && savedPrograms.length > 0) {
+        setProgramIndex(savedPrograms.length - 1);
+      } else {
+        setProgramIndex(0);
+      }
+    }, [watch("savedPrograms")]);
 
     /**
      * Useeffect hook submits the form based on the formSubmit variable
      */
     useEffect(() => {
-        if (formSubmit) {
-            onSubmitHandler && onSubmitHandler(data?.savedPrograms, 'PROGRAM')
-        }
-    }, [formSubmit])
+      if (formSubmit) {
+        onSubmitHandler && onSubmitHandler(data?.savedPrograms, "PROGRAM");
+      }
+    }, [formSubmit]);
 
     /**
      * Method handles the form submission
      * @param data : form data
      */
     const onSubmit: SubmitHandler<FormData> = (data: any) => {
-        onSubmitHandler && onSubmitHandler(data?.savedPrograms, 'PROGRAM')
+      onSubmitHandler && onSubmitHandler(data?.savedPrograms, "PROGRAM");
     };
 
     /**
      * Useeffect hook set the field based on the data
      */
     useEffect(() => {
-        if (data) {
-            setValue('programs', data);
-            setValue('savedPrograms', data);
-        }
-    }, [data])
+      if (data) {
+        setValue("programs", data);
+        setValue("savedPrograms", data);
+      }
+    }, [data]);
 
     /**
      * Method handles the saving of the programs
      */
     const handleSaveNewPrograms = () => {
-        handleSubmit(onSave)();
-    }
+      handleSubmit(onSave)();
+    };
 
     /**
      * Method handles the form submission
      * @param data : form data
      */
     const onSave: SubmitHandler<FormData> = () => {
-        setValue('savedPrograms', watch('programs'))
-        onSaveHandler && onSaveHandler(watch('programs'))
+      // Get the current programs data from `watch("programs")`
+      const programs = watch("programs");
+      const newPrograms = [...programs];
+
+      // Handle saving logic based on `editMode`
+      if (!editMode) {
+        const newProgram = {
+          name: "",
+          description: "",
+          startDate:moment().format("YYYY-MM-DD"),
+          endDate:moment().format("YYYY-MM-DD"),
+          startTime: moment().format("HH:mm"),
+          endTime:moment().format("HH:mm"),
+          type: "PAID",
+          amount: "",
+          addonId: "",
+        };
+        newPrograms.push(newProgram);
+
+        // Update both `savedPrograms` and the local `programs` array
+        setValue("savedPrograms", programs);
+        append(newProgram);
+        setProgramIndex(programs?.length || 0);
+      } else {
+        // If in `editMode`, just update the program index
+        setProgramIndex(programs?.length ? programs.length - 1 : 0);
+      }
+
+      // Trigger the save handler with the current programs
+      onSaveHandler && onSaveHandler(newPrograms,'program');
+
+      // Exit edit mode
+      setEditMode(false);
     };
 
-    /**
-     * Method handles the addition of the new program
-     */
-    const handleAddNewPrograms = () => {
-        setValue('programs', watch('savedPrograms'))
-        append({
-            programType: 'PROGRAM',
-            name: '',
-            description: '',
-            startTime: moment(new Date()).format('YYYY-MM-DDTHH:mm'),
-            endTime: moment(new Date()).format('YYYY-MM-DDTHH:mm'),
-            type: 'PAID',
-            amount: '',
-            addonId: '',
-        })
-        setProgramIndex(watch('savedPrograms')?.length ? watch('savedPrograms').length : 0)
-    }
 
     /**
      * Method handles the Update of the program
      * @param index : index of the program to edit
      */
     const handleEdit = (index: number) => {
-        setValue('programs', watch('savedPrograms'))
-        setProgramIndex(index);
-    }
+      setEditMode(true);
+      setValue("programs", watch("savedPrograms"));
+      setProgramIndex(index);
+    };
 
     /**
      * Method handles the deletion of the program
      * @param index : index of the program to delete
      */
     const handleDelete = (index: number) => {
-        setValue('programs', watch('savedPrograms'))
-        setProgramIndex(index);
-        const programsCopy = [...watch('savedPrograms')]
-        programsCopy.splice(index, 1);
-        setValue('savedPrograms', programsCopy)
-        const saveProgram = programsCopy
+      setValue("programs", watch("savedPrograms"));
+      setProgramIndex(index);
+      const programsCopy = [...watch("savedPrograms")];
+      programsCopy.splice(index, 1);
+      setValue("savedPrograms", programsCopy);
+      const saveProgram = programsCopy;
 
-        remove(index)
-        if ((index === programsCopy.length)) {
-            if (index === 0) {
-                append({
-                    programType: 'PROGRAM',
-                    name: '',
-                    description: '',
-                    startTime: moment(new Date()).format('YYYY-MM-DDTHH:mm'),
-                    endTime: moment(new Date()).format('YYYY-MM-DDTHH:mm'),
-                    type: 'PAID',
-                    amount: '',
-                    addonId: ''
-                })
-                saveProgram.push({
-                    programType: 'PROGRAM',
-                    name: '',
-                    description: '',
-                    startTime: moment(new Date()).format('YYYY-MM-DDTHH:mm'),
-                    endTime: moment(new Date()).format('YYYY-MM-DDTHH:mm'),
-                    type: 'PAID',
-                    amount: '',
-                    addonId: ''
-                })
-            }
-            else {
-                setProgramIndex(index - 1)
-            }
-
+      remove(index);
+      if (index === programsCopy.length) {
+        if (index === 0) {
+          append({
+            name: "",
+            description: "",
+            startDate:moment().format("YYYY-MM-DD"),
+            endDate:moment().format("YYYY-MM-DD"),
+            startTime: moment(new Date()).format("HH:mm"),
+            endTime:moment(new Date()).format("HH:mm"),
+            type: "PAID",
+            amount: ""
+          });
+          saveProgram.push({
+            name: "",
+            description: "",
+            startDate:moment().format("YYYY-MM-DD"),
+            endDate:moment().format("YYYY-MM-DD"),
+            startTime: moment(new Date()).format("HH:mm"),
+            endTime:moment(new Date()).format("HH:mm"),
+            type: "PAID",
+            amount: ""
+          });
+        } else {
+          setProgramIndex(programsCopy.length);
         }
-        onSaveHandler && onSaveHandler(saveProgram)
+      }
+      onSaveHandler && onSaveHandler(saveProgram,'program');
+    };
 
-    }
 
 
-
-    return <Box className="add-program-container">
+    return (
+      <Box className="add-program-container">
         <Grid container className="">
-            <Grid container size={{ xs: 12, sm: 12 }} direction={'row'} className="">
-                <Grid size={{ xs: 12, sm: 8 }} className="add-program-form-container">
-                    <Box className="add-program-form-spacing">
-                        <Box className="">
+          <Grid
+            container
+            size={{ xs: 12, sm: 12 }}
+            direction={"row"}
+            className=""
+          >
+            <Grid
+              size={{ xs: 12, sm: 8 }}
+              className="add-program-form-container"
+            >
+              <Box className="add-program-form-spacing">
+                <Box className="">
+                  <Grid
+                    container
+                    justifyContent={"space-between"}
+                    alignItems={"center"}
+                  >
+                    <Grid>
+                      <Typography
+                        textAlign={"start"}
+                        variant="h3"
+                        lineHeight={2}
+                        className="add-program-title"
+                      >
+                        Add Program
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                  <Box className={"form-wrapper1"}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                      {fields.map((field, index) => {
+                        if (index === programIndex) {
+                          return (
+                            <Box key={field.id} mb={2}>
+                              <Grid
+                                container
+                                size={{ xs: 12, sm: 12 }}
+                                spacing={2}
+                              >
 
-                            <Grid container justifyContent={'space-between'} alignItems={'center'}>
-                                <Grid>
-                                    <Typography textAlign={"start"} variant="h3" lineHeight={2} className="add-program-title" >Add Program</Typography>
+                                <Grid size={{ xs: 12, sm: 6 }} mb={2}>
+                                  <CustomTextField
+                                    placeholder="Program Name"
+                                    control={control}
+                                    name={`programs.${index}.name`}
+                                    type="text"
+                                    rules={{ required: true }}
+                                  />
                                 </Grid>
-                                <Grid>
-                                    <CustomButton
-                                        className="add-program-add-btn"
-                                        onClick={handleAddNewPrograms}
-                                        label="Add"
-                                        variant="contained"
-                                        color="primary"
-                                        size="large"
-                                        startIcon={<AddIcon />}
-                                    />
+                                <Grid size={{ xs: 12, sm: 6 }}>
+                                  <CustomTextField
+                                    placeholder="Program Description"
+                                    control={control}
+                                    name={`programs.${index}.description`}
+                                    type="text"
+                                    rules={{ required: true }}
+                                  />
                                 </Grid>
-                            </Grid>
-                            <Box className={"form-wrapper1"}>
-                                <form onSubmit={handleSubmit(onSubmit)}>
-                                    {fields.map((field, index) => {
-
-                                        if (index === programIndex) {
-                                            return <Box key={field.id} mb={2}>
-                                                <Grid container size={{ xs: 12, sm: 12 }} spacing={2}>
-                                                    <Grid size={{ xs: 12, sm: 12 }} >
-                                                        <CustomRadio
-                                                            control={control}
-                                                            name={`programs.${index}.programType`}
-                                                            label=""
-                                                            options={programTypeArray}
-                                                            row={true}
-                                                            value={'PROGRAM'}
-                                                        />
-                                                    </Grid>
-                                                    {watch(`programs.${index}.programType`) === 'PROGRAM' && <><Grid size={{ xs: 12, sm: 6 }} >
-                                                        <CustomTextField
-                                                            placeholder="Program Name"
-                                                            control={control}
-                                                            name={`programs.${index}.name`}
-                                                            type="text"
-                                                            rules={{ required: true }}
-                                                        />
-                                                    </Grid>
-                                                        <Grid size={{ xs: 12, sm: 6 }} >
-                                                            <CustomTextField
-                                                                placeholder="Program Description"
-                                                                control={control}
-                                                                name={`programs.${index}.description`}
-                                                                type="text"
-                                                                rules={{ required: true }}
-                                                            />
-                                                        </Grid></>}
-                                                    {watch(`programs.${index}.programType`) === 'ADD_ONS' && <Grid size={{ xs: 12, sm: 12 }} className="add-program-addons-grid">
-                                                        <CustomSelect
-                                                            name={`programs.${index}.addonId`}
-                                                            label="Add Ons Option"
-                                                            options={addOnOptions}
-                                                            control={control}
-                                                            rules={{ required: true }}
-                                                            fullWidth
-
-                                                        />
-                                                    </Grid>}
-                                                    <Grid size={{ xs: 12, sm: 6 }} >
-                                                        <CustomTextField
-                                                            placeholder="Start Date & Time"
-                                                            control={control}
-                                                            name={`programs.${index}.startTime`}
-                                                            type="datetime-local"
-                                                            rules={{ required: true }}
-                                                        />
-                                                    </Grid>
-                                                    <Grid size={{ xs: 12, sm: 6 }} >
-                                                        <CustomTextField
-                                                            placeholder="End Date & Time"
-                                                            control={control}
-                                                            name={`programs.${index}.endTime`}
-                                                            type="datetime-local"
-                                                            rules={{ required: true }}
-                                                        />
-                                                    </Grid>
-                                                    <Grid size={{ xs: 12, sm: 12 }} >
-                                                        <CustomRadio
-                                                            control={control}
-                                                            name={`programs.${index}.type`}
-                                                            label=""
-                                                            options={typeArray}
-                                                            row={true}
-                                                            value={'PAID'}
-                                                        />
-                                                    </Grid>
-                                                    {watch(`programs.${index}.type`) === 'PAID' && <Grid size={{ xs: 12, sm: 12 }} >
-                                                        <CustomTextField
-                                                            placeholder="Price"
-                                                            control={control}
-                                                            name={`programs.${index}.amount`}
-                                                            type="text"
-                                                            rules={{ required: true }}
-                                                        />
-                                                    </Grid>}
-                                                    <Grid container direction={'row'}
-                                                        justifyContent="right"
-                                                        alignItems="center"
-                                                        size={{ xs: 12, sm: 12 }}
-                                                    >
-                                                        <Grid>
-                                                            <CustomButton
-                                                                className="add-program-save-btn"
-                                                                onClick={handleSaveNewPrograms}
-                                                                label="Save"
-                                                                variant="contained"
-                                                                size="large"
-                                                            />
-                                                        </Grid>
-                                                    </Grid>
-                                                </Grid>
-                                            </Box>
+                                <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
+                                  <Grid size={{xs:12,sm:6}}>
+                                  <CustomTextField
+                                    placeholder="Start Date"
+                                    control={control}
+                                    name={`programs.${index}.startDate`}
+                                    type="date"
+                                    defaultValue={moment(eventData?.startTime).format("YYYY-MM-DD")}
+                                    min={moment().format("YYYY-MM-DD")}
+                                    maxDate={eventData?.endTime}
+                                    rules={{
+                                      required: true,
+                                      validate: (value) => {
+                                        if (
+                                          typeof value === "string" &&
+                                          value
+                                        ) {
+                                          const selectedDate = new Date(value);
+                                          const now = new Date(eventData?.startTime);
+                                          now.setHours(0, 0, 0, 0);
+                                          return (
+                                            selectedDate >= now ||
+                                            "Start Date cannot be in the past"
+                                          );
                                         }
-                                    })}
-
-                                </form>
+                                        return "Invalid date";
+                                      },
+                                    }}
+                                  />
+                                  </Grid>
+                                  <Grid size={{xs:12,sm:6}}>
+                                   <CustomTextField
+                                    placeholder="Start Time"
+                                    control={control}
+                                    name={`programs.${index}.startTime`}
+                                    type="time"
+                                    defaultValue={moment().format("HH:mm")}
+                                    rules={{
+                                      required: true,
+                                    }}
+                                  />
+                                  </Grid>
+                                  {/* <Grid size={{xs:12,sm:4}}>
+                                    <CustomTextField
+                                    placeholder="End Time"
+                                    control={control}
+                                    name={`programs.${index}.startDateEndTime`}
+                                    type="time"
+                                    defaultValue={moment().format("HH:mm")}
+                                    rules={{
+                                      required: true,
+                                    }}
+                                  />
+                                  </Grid> */}
+                                </Grid>
+                                <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
+                                  <Grid size={{xs:12,sm:6}}>
+                                  <CustomTextField
+                                    placeholder="End Date"
+                                    control={control}
+                                    name={`programs.${index}.endDate`}
+                                    type="date"
+                                    defaultValue={moment(eventData?.startTime).format("YYYY-MM-DD")}
+                                    min={moment().format("YYYY-MM-DD")}
+                                    maxDate={eventData?.endTime}
+                                    rules={{
+                                      required: true,
+                                      validate: (value) => {
+                                        if (
+                                          typeof value === "string" &&
+                                          value
+                                        ) {
+                                          const selectedDate = new Date(value);
+                                          const now = new Date();
+                                          now.setHours(0, 0, 0, 0);
+                                          return (
+                                            selectedDate >= now ||
+                                            "Start Date cannot be in the past"
+                                          );
+                                        }
+                                        return "Invalid date";
+                                      },
+                                    }}
+                                  />
+                                  </Grid>
+                                  {/* <Grid size={{xs:12,sm:4}}>
+                                   <CustomTextField
+                                    placeholder="Start Time"
+                                    control={control}
+                                    name={`programs.${index}.startDateStartTime`}
+                                    type="time"
+                                    defaultValue={moment().format("HH:mm")}
+                                    rules={{
+                                      required: true,
+                                    }}
+                                  />
+                                  </Grid> */}
+                                  <Grid size={{xs:12,sm:6}}>
+                                    <CustomTextField
+                                    placeholder="End Time"
+                                    control={control}
+                                    name={`programs.${index}.endTime`}
+                                    type="time"
+                                    defaultValue={moment().format("HH:mm")}
+                                    rules={{
+                                      required: true,
+                                    }}
+                                  />
+                                  </Grid>
+                                  {/* <CustomTextField
+                                    placeholder="Start Date & Time"
+                                    control={control}
+                                    name={`programs.${index}.startTime`}
+                                    type="datetime-local"
+                                    min={moment().format("YYYY-MM-DDTHH:mm")}
+                                    maxDate={eventData?.endTime}
+                                    rules={{
+                                      required: true,
+                                      validate: (value) => {
+                                        if (
+                                          typeof value === "string" &&
+                                          value
+                                        ) {
+                                          const selectedDate = new Date(value);
+                                          const now = new Date();
+                                          now.setHours(0, 0, 0, 0);
+                                          return (
+                                            selectedDate >= now ||
+                                            "Start Date cannot be in the past"
+                                          );
+                                        }
+                                        return "Invalid date";
+                                      },
+                                    }}
+                                  /> */}
+                                </Grid>
+                                <Grid size={{ xs: 12, sm: 6 }}>
+                                  {/* <CustomTextField
+                                    placeholder="End Date & Time"
+                                    control={control}
+                                    name={`programs.${index}.endTime`}
+                                    type="datetime-local"
+                                    min={moment().format("YYYY-MM-DDTHH:mm")}
+                                    rules={{
+                                      required: true,
+                                      validate: (value) => {
+                                        if (
+                                          typeof value === "string" &&
+                                          value 
+                                        ) {
+                                          const selectedDate = new Date(value);
+                                          const now = new Date();
+                                          now.setHours(0, 0, 0, 0);
+                                          return (
+                                            selectedDate >= now ||
+                                            "End Date cannot be in the past"
+                                          );
+                                        }
+                                        return "Invalid date";
+                                      },
+                                    }}
+                                  /> */}
+                                </Grid>
+                                <Grid size={{ xs: 12, sm: 12 }}>
+                                  <CustomRadio
+                                    control={control}
+                                    name={`programs.${index}.type`}
+                                    label=""
+                                    options={typeArray}
+                                    row={true}
+                                    value={"PAID"}
+                                  />
+                                </Grid>
+                                {watch(`programs.${index}.type`) === "PAID" && (
+                                  <Grid size={{ xs: 12, sm: 12 }}>
+                                    <CustomTextField
+                                      placeholder="Price"
+                                      control={control}
+                                      name={`programs.${index}.amount`}
+                                      type="text"
+                                      rules={{
+                                        required: "Price is required",
+                                        pattern: {
+                                        value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
+                                          message:
+                                            "Enter a valid price (up to 2 decimal places & Zero not accepted)price up to 1Crore",
+                                        },
+                                        validate: (value) => {
+                                          if (typeof value === "string") {
+                                            const price = parseFloat(value);
+                                            return (
+                                              price >= 0 ||
+                                              "Price cannot be negative"
+                                            );
+                                          }
+                                          return "Invalid price format";
+                                        },
+                                      }}
+                                    />
+                                  </Grid>
+                                )}
+                                <Grid
+                                  container
+                                  direction={"row"}
+                                  justifyContent="right"
+                                  alignItems="center"
+                                  size={{ xs: 12, sm: 12 }}
+                                >
+                                  <Grid>
+                                    <CustomButton
+                                      className="add-program-save-btn"
+                                      onClick={handleSaveNewPrograms}
+                                      label="Save"
+                                      variant="contained"
+                                      size="large"
+                                    />
+                                  </Grid>
+                                </Grid>
+                              </Grid>
                             </Box>
-                        </Box>
-                    </Box>
-                </Grid>
-                <Grid container direction={'column'} className='add-program-display-container' size={{ xs: 12, sm: 4 }} spacing={2}>
-
-                    {watch('savedPrograms')?.map((field, index) => (
-                        (field.programType === 'PROGRAM' ? field.name : field.addonId) && (
-
-                            <Grid key={field.id} container className='add-program-display-item' size={{ xs: 12, sm: 12 }}>
-                                <Grid size={{ xs: 8, sm: 8 }}>
-                                    {field.programType === 'PROGRAM' ? field.name : getValueFromArrayBasedOnParameter(addOnOptions, 'value', field.addonId, 'label')}
-                                </Grid>
-
-                                <Grid size={{ xs: 4, sm: 4 }}>
-                                    <IconButton onClick={() => handleEdit(index)}>
-                                        <EditIcon />
-                                    </IconButton>
-                                    <IconButton onClick={() => handleDelete(index)}>
-                                        <DeleteIcon />
-                                    </IconButton>
-                                </Grid>
-
-                            </Grid>
-                        )
-                    ))}
-
-                </Grid>
+                          );
+                        }
+                      })}
+                    </form>
+                  </Box>
+                </Box>
+              </Box>
             </Grid>
+            <Grid
+              container
+              direction={"column"}
+              className="add-program-display-container"
+              size={{ xs: 12, sm: 4 }}
+              spacing={2}
+              key='add-program-display-container'
+            >
+              {watch("savedPrograms")?.map(
+                (field, index) =>
+                  field.name
+                  && (
+                    <Grid
+                      key={field.id}
+                      container
+                      className="add-program-display-item"
+                      size={{ xs: 12, sm: 12 }}
+                    >
+                      <Grid size={{ xs: 8, sm: 8 }} >
+                        <Grid container size={{ xs: 12, sm: 12 }} direction={'column'}>
+                        <Grid>{field.name}</Grid>
+                        <Grid>{field.description}</Grid>    
+                        </Grid>
+                                            
+                      </Grid>
+
+                      <Grid size={{ xs: 4, sm: 4 }}>
+                        <IconButton onClick={() => handleEdit(index)}>
+                          <EditIcon />
+                        </IconButton>
+                        <IconButton onClick={() => handleDelete(index)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </Grid>
+                    </Grid>
+                  )
+              )}
+            </Grid>
+          </Grid>
         </Grid>
-    </Box>
-});
+      </Box>
+    );
+  }
+);
 
 export default AddProgram;
