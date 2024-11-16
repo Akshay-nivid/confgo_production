@@ -11,7 +11,7 @@ export default function ParticipantHome() {
     "interval":" not required ",
     "startTime":"2024-10-25",
     "endTime":"2024-10-30",
-    "id":'7',
+    "id":'28',
     "venue": {
         "name":"Science Hall",
         "address":"Left block",
