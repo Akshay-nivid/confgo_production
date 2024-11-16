@@ -142,8 +142,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
           startTime: moment().format("HH:mm"),
           endTime:moment().format("HH:mm"),
           type: "PAID",
-          amount: "",
-          addonId: "",
+          amount: ""
         };
         newPrograms.push(newProgram);
 
@@ -528,7 +527,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                     >
                       <Grid size={{ xs: 8, sm: 9 }} >
                         <Grid container size={{ xs: 12 }} direction={'column'}>
-                        <Grid size={{ xs: 12 }}><Typography className="text-p2 font-700">{field.name}</Typography> </Grid>
+                        <Grid size={{ xs: 12 }}><Typography className="text-p2 font-700 truncate-text" title={field.name}>{field.name}</Typography> </Grid>
                         <Grid size={{ xs: 12}}><Typography className="truncate-text" title={field.description} >{field.description}</Typography></Grid>    
                         </Grid>
                                             
