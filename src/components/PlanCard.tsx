@@ -1,3 +1,4 @@
+import { toCamelCase } from "@/Utils/CommonBaseClass";
 import { FormControlLabel, Radio, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 
@@ -41,7 +42,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
           >
             <Grid>{image}</Grid>
             <Grid flexDirection={"column"} marginLeft={2}>
-              <Typography className="plan-card-header">{header}</Typography>
+              <Typography className="plan-card-header">{toCamelCase(header)}</Typography>
               <Typography className="plan-card-price">
                 ${price}/monthly
               </Typography>

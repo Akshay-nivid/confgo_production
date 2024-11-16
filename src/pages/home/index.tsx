@@ -1,6 +1,5 @@
 import ViewPricingBanner from '../home-layout/ViewPricingBanner';
 import ConfrenceManagementSection from './ConfrenceManagementSection';
-import FaqSection from './FaqSection';
 import FeatureSection from './FeatureSection';
 import HeroSection from './HeroSection';
 import WhychooseSection from '../home-layout/WhychooseSection';
@@ -27,7 +26,7 @@ const HomePage = () => {
       <HeroSection />
       <ConfrenceManagementSection />
       <FeatureSection />
-      <FaqSection />
+      {/* <FaqSection /> */}
       <WhychooseSection />
       <ViewPricingBanner />
     </>

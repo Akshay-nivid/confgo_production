@@ -62,6 +62,11 @@ import NoPayment from "./noPayment.svg"
 import NoDataSvg from './nodata.svg';
 import DashBoardEmpty from './dashboard-empty.svg';
 import EventsSvg from './events.svg';
+import ClockIcon from './clock-icon.svg';
+import SecuityIcon from './security-icon.svg';
+import ProgressBarIcon from './progress-bar-icon.svg';
+import IntegrationIcon from './integration-icon.svg';
+
 export {
   CalenderIcon,
   EventIcon,
@@ -126,5 +131,9 @@ export {
   ResetPassword,
   CalenderNoData,
   DashBoardEmpty,
+  ClockIcon,
+  SecuityIcon,
+  ProgressBarIcon,
+  IntegrationIcon,
   EventsSvg
 };

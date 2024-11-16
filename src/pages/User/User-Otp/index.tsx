@@ -9,23 +9,27 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import OtpInput from 'react-otp-input';
 import { LockIcon } from '@/assets/svg';
 import { useEffect } from 'react';
-import apiClient from '@/Libs/Https/API-client';
 import useStore from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import { purposeTypes } from '@/Utils/CommonBaseClass';
-
+interface IFormData {
+  otp: string;
+}
 /**
  * User Otp page component
  *
  */
-interface IFormData {
-  otp: string;
-}
+
 const UserOtp = () => {
 
   const { email, token, userId, purpose, phoneNumber } = useLocation().state || {};
+
+
+  const eventData = useStore((state: any) => state?.compData?.["userDetails"]?.[`user/details`]) ?? [];
+  
   const navigate = useNavigate();
   const POST = useStore((state: any) => state.POST);
+  
   /*
    * if email and phone number are not present in the state, redirect to the register page
    */
@@ -109,9 +113,28 @@ const UserOtp = () => {
  * @returns 
  */
   const handleResendOtp = async () => {
-    const response = await apiClient.post('token/otp', {
-      phone: phoneNumber,
+  const body={
+    token:token,
+    userId:userId,
+    type: 'RESET_PASSWORD_OTP',
+    phoneNumber:phoneNumber
+  }
+   await POST({
+      id: 'userDetails',
+      url: 'user/details',
+      body:body,
+      errorCB: (error: any) => Logger.error("error", error)
+    });
+   
+   const resendOtpBody={
+      phone: eventData?.data?.phone,
       type: 'RESET_PASSWORD_OTP',
+    }
+    const response=await POST({
+      id: 'resendOtp',
+      url: 'token/otp',
+      body:resendOtpBody,
+      errorCB: (error: any) => Logger.error("error", error)
     });
     return response;
   };

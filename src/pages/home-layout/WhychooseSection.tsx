@@ -1,12 +1,27 @@
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
-import { ServiceCard } from '../home-layout/ServiceCard';
+import { ClockIcon, IntegrationIcon, ProgressBarIcon, SecuityIcon } from '@/assets/svg';
+import { ServiceCard } from './ServiceCard';
+
+interface InfoItem {
+  Icon: React.ComponentType<React.SVGProps<SVGSVGElement>>; // Ensures Icon is a valid component
+  title: string;
+  description: string;
+}
 
 /**
  * why choose ui section component for home page
  *
  */
 const WhychooseSection = () => {
+
+  const info: InfoItem[] = [
+    {Icon: ClockIcon, title:'24/7 Support*', description:`Need help anytime? Our support team is available 24/7 to answer your queries and offer timely solutions.`},
+    {Icon: ProgressBarIcon, title:'Comprehensive Management Tools', description:`Our platform delivers all-in-one solutions for managing attendees, payments, members, speakers, and videos.`},
+    {Icon: SecuityIcon, title:'Secure and Affordable', description:`Summit Pro secures your data with encryption and offers affordable pricing for all organizations.`},
+    {Icon: IntegrationIcon, title:'Seamless Integration', description:`Summit Pro unites offline and online meetings, ensuring seamless transitions between physical and virtual events.`}
+
+  ]
   return (
     <Grid container className="whychoose-section">
       <Grid size={1} className="whychoose-section__spacer"></Grid>
@@ -27,13 +42,11 @@ const WhychooseSection = () => {
           </Typography>
         </Grid>
         <Grid size={12} container columnSpacing={5}>
-          {Array(4)
-            .fill(null)
-            .map(() => (
-              <Grid size={3}>
-                <ServiceCard />
-              </Grid>
-            ))}
+        {info.map((item) => (
+            <Grid size={3} key={item.title}>
+              <ServiceCard data={item} />
+            </Grid>
+          ))}
         </Grid>
       </Grid>
       <Grid size={1} className="whychoose-section__spacer"></Grid>
