@@ -140,6 +140,11 @@ export function formatDateTimeRange({date,format}:IDateTimeRangeParams){
 return  moment.utc(date).local().format(format);
 }
 
+/**
+ * Method used to convert text to camelcase
+ * @param sentenceCase 
+ * @returns 
+ */
 export const toCamelCase = (sentenceCase: any) => {
   let out = "";
   let str: any

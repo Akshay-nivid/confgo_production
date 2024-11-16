@@ -3,6 +3,7 @@ import routes from '@/router/routes';
 import { Box, Typography, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import useStore from '@/Libs/store';
+import { toCamelCase } from '@/Utils/CommonBaseClass';
 
 /**
  * Plan Card component
@@ -23,7 +24,7 @@ export const PlanCard: React.FC<PlanCardProps> = ({ data }) => {
           <BasicPlanSvg className=" plancard__icon" />
           <Box className="plancard__title-container">
             <Typography className="plancard__title text-p1">
-              {data?.name}
+              {toCamelCase(data?.name) }
             </Typography>
             <Typography className="plancard__subtitle text-p2">
               {data.description}
