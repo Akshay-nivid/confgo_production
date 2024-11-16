@@ -14,6 +14,8 @@ const UserDashboardLayout: React.FC = React.memo(() => {
 
   // Retrieve userDetails from the store
   const userDetails = useStore((state) => state?.compData?.["userDetails"]) ?? {};
+ 
+  
   //use effect
   useEffect(() => {
   }, [userDetails]);

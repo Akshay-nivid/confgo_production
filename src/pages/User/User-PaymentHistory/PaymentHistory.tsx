@@ -1,4 +1,5 @@
 import { NoPayment } from "@/assets/svg";
+import CustomButton from "@/components/CustomButton/CustomButton";
 import { DataGridList } from "@/components/DataGrid/DataGridList";
 import { ISource } from "@/Libs/type";
 import { Typography } from "@mui/material";
@@ -31,7 +32,7 @@ const PaymentHistory:React.FC = React.memo(()=>{
       dateFormat: "DD/MM/YYYY",
     },
     {
-      type: "default",
+      type: "custom",
       field: "Receipt",
       headerName: "Receipt",
       width: 167,
@@ -54,7 +55,7 @@ const PaymentHistory:React.FC = React.memo(()=>{
         amount: item?.amount,
         status : item?.event?.statusId,
         createdOn: item?.createdOn,
-        Receipt:item.paymentMethodId,
+        Receipt:<CustomButton label={"[Download]"} className="downlod-receipt"/>,
         PaymentMethod:item.paymentMethodId
      
       };
