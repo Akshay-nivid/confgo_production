@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
-import { Avatar, Badge, Divider, Menu, MenuItem } from '@mui/material';
-import { SettingsIcon, LogoutIcon, CalendarEventIcon, DownArrowSvg, ResetPassword } from '@/assets/svg';
+import { Avatar, Divider, Menu, MenuItem } from '@mui/material';
+import { SettingsIcon, LogoutIcon,  DownArrowSvg, ResetPassword } from '@/assets/svg';
 import Grid from '@mui/material/Grid2';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
@@ -81,16 +81,7 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
         LOGO
       </Grid>
       <Grid container size={10} justifyContent="flex-end" >
-        <Grid  className="appbar-notification" onClick={()=>{navigate(routes.userCalendar())}}>
-          {/* Calendar Icon */}
-          <CalendarEventIcon className='appbar-notification-icon' />
-          {/* Notification Badge */}
-          <Badge
-            badgeContent={4}
-            color="primary"
-            className='appbar-notification-badge'
-          />
-        </Grid>
+        
         <Grid  size={2} className="appbar-group" onClick={handleMenuOpen}>
           {/*Image */}
           <Grid size={1} className="appbar-group-img" mb={0}>

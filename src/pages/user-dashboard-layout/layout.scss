@@ -1,5 +1,5 @@
 .bg-background {
-  background-color: $background;
+  background-color: $clr_white;
 }
 
 .text-danger {
@@ -12,30 +12,33 @@
   height: 100vh;
   overflow: hidden;
 
-  &-sidebar{
-   max-width:25rem !important;
+  &-sidebar {
+    max-width: 25rem !important;
   }
+
   &-grid-wrapper {
     flex: 1;
     overflow: hidden;
   }
 
   &-grid {
-    background-color: $background;
+    background-color: $clr_white;
     height: 100%;
     width: 100%;
     display: flex;
+
     &-outlet-grid {
       overflow: hidden;
       height: 100%;
       width: 100%;
       flex-direction: column;
       display: flex;
-      flex-grow: 1; 
+      flex-grow: 1;
+
       &-outlet-wrapper {
         flex: 1;
-        flex-grow: 1; 
-        background-color: $background;
+        flex-grow: 1;
+        background-color: $clr_white;
         overflow-y: auto;
       }
     }
@@ -45,8 +48,9 @@
 // sidebar
 .sidebar-dashboard {
   height: 100% !important;
-  background: $background !important;
+  background: $clr_white !important;
   border-right: 0.06rem solid $clr_light_border_grey;
+
   & .MuiPaper-root {
     width: '100%';
     position: relative;
@@ -54,9 +58,11 @@
     border: none;
   }
 }
+
 .sidebar-divider {
   margin: 1rem !important;
 }
+
 .list-header {
   font-size: $p3;
   margin-top: 1.916rem;
@@ -93,6 +99,7 @@
 
   .active-link {
     color: $clr_blue;
+
     span {
       color: $clr_blue !important;
     }
@@ -100,7 +107,7 @@
 
   &-active-drawer-icon {
     color: $clr_blue !important;
-    
+
     path {
       fill: $clr_blue;
     }
@@ -110,6 +117,7 @@
 //layout appbar
 
 .appbar {
+  box-shadow: 0px 10px 60px 0px #0000000D !important;
   border-bottom-width: 0.0416rem;
   border-bottom-color: $clr_gray_faded;
   display: flex;
@@ -126,49 +134,21 @@
     justify-content: center;
     font-size: 2.6rem;
     font-weight: $font_extrabold;
+
     &-svg {
       width: 13rem;
       height: 3rem;
     }
   }
 
-  &-notification {
-    cursor: pointer;
-    position: relative;
-    border: 0.1rem solid $clr_light_border_grey;
-    position: relative;
-    border-radius: 0.8rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: $p3;
-    width: 4.6rem;
-    height: 4.6rem;
-
-    &-icon {
-      display: flex;
-      justify-content: center;
-      font-size: 2.6rem; // For scaling the icon size if it is an inline SVG or uses font size
-    }
-
-    &-badge .MuiBadge-badge {
-      position: absolute !important;
-      top: -2rem !important;  
-      right: -1rem !important;
-      background-color: $clr_blue;
-      color: $clr_white;
-      font-size: 0.75rem;
-      font-weight: $font_bold;
-    }
-  }
 
   &-group {
-  display: flex;
-  align-items: center;
-  border-radius: 0.8rem;
-  border: 0.1rem solid $clr_light_border_grey;
-  margin-right: 3.166rem;
-  cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-radius: 0.8rem;
+    border: 0.1rem solid $clr_light_border_grey;
+    margin-right: 3.166rem;
+    cursor: pointer;
 
     &:hover {
       cursor: pointer;
@@ -190,29 +170,32 @@
       overflow: hidden;
       border-top-left-radius: 0.8rem;
       border-bottom-left-radius: 0.8rem;
-  
+
       img {
-        width: 100%; 
+        width: 100%;
         height: 100%;
-        object-fit: cover; 
+        object-fit: cover;
         border-radius: inherit;
       }
     }
 
-    &-textgroup{
+    &-textgroup {
       margin-left: 1.3rem;
     }
+
     &-subheader-text {
       font-size: 0.95rem !important;
       font-weight: $font_semibold;
       text-align: left;
       color: $clr_gray_light;
     }
+
     &-arrow-container {
       display: flex;
       justify-content: center;
       align-items: center;
     }
+
     &-arrow-down {
       color: clr_black;
       width: 2rem;
@@ -221,74 +204,166 @@
   }
 }
 
-
 .dashboard {
-  padding: $p3;
-  margin-top: $p3 !important;
-  flex-grow: 1;
+  padding: $h2;
+  // margin-top: $p3 !important;
+
   &-left {
-    flex-grow: 1;
+    align-items: center;
+    padding-right: $h2;
     border-right: 0.06rem solid $clr_light_border_grey;
-  }
 
-  &-title {
-    font-size: $p2 !important;
-    color: $clr_dark_orange;
-    font-weight: $font_semibold !important;
-    display: inline-block;
-
-    .greeting-text {
-      margin-left:0.5rem;
-    }
-
-    &-wave-icon {
-      display: inline-block;
-      width: $p1;
-      height: $p1;
-      background-image: url('../assets/svg/wave.svg');
-      background-size: contain;
+    &-profile {
+      color: $clr_white;
+      height: 16rem;
+      border-radius: 0.8rem;
+      align-content: center !important;
+      background: url('/src/assets/png/user-background.png');
       background-repeat: no-repeat;
-      background-position: center;
+      margin-bottom: $p3 !important;
+      padding-left: $p2 !important;
+
+      &-greeting-text {
+        font-size: $p5 !important;
+      }
+
+      &-title {
+        font-weight: $font_semibold !important;
+        display: inline-block;
+        line-height: $p2;
+
+        &-wave-icon {
+          display: inline-block;
+          width: $p1;
+          height: $p1;
+          background-image: url('../assets/svg/wave.svg');
+          background-size: contain;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+      }
+
+      &-subtitle {
+        margin-bottom: 2rem !important;
+        display: block;
+        font-size: $h4 !important;
+        font-weight: $font_semibold !important;
+      }
+      &-accounttitle {
+        margin-top: 2rem !important;
+        display: block;
+        font-size: $h6 !important;
+        font-weight: $font_semibold !important;
+      }
+      &-button{
+        background: $clr_white !important;
+        color: $clr_blue !important;
+        text-transform: none !important;
+        font-size: 1rem !important;
+        font-family: Inter;
+        font-weight: $font_medium;
+        line-height: 1.4rem;
+
+      }
+      &-card{
+       
+        justify-content: center;
+        height: 16rem;
+        border-radius: 0.8rem;
+        border: 0.02rem solid $clr_light_border_grey;
+        &-container{
+          
+          padding-right: $h2;
+          padding-left: $h2;
+        }
+        &-block{
+          font-size: $h6 !important;
+          display: flex !important;
+          align-items: center;
+          gap: 1rem;
+          &-title{
+            font-size: $h6 !important;
+            color: $clr_grey;
+            font-weight: $font_medium;
+            margin-top: 0.5rem;
+          }
+          &-content{
+            font-size: $h6 !important;
+            font-weight: $font_semibold;
+            margin-top: 0.7rem;
+          }
+          &-date{
+            padding-right: 0.1rem;
+            border-right: 0.05rem solid $clr_grey;
+            padding-bottom: 0.5rem;
+          }
+        }
+        &-recent{
+          cursor: pointer;
+          gap: 1.3rem;
+          align-items: center;
+          display: flex;
+          font-weight: $font_semibold;
+          font-size: $p2;
+          background-color: transparent; 
+          &-dividers {
+             display: block; 
+            background-color: red !important;
+            height: 2rem;
+            margin: 1rem 0 !important; 
+          }
+        }
+      }
     }
+
+  
   }
+
 
   &-tight-spacing>.MuiGrid-item {
     padding: 0.3rem;
   }
 
-  &-right{
+  &-right {
     margin: $p3 !important;
   }
-  &-right-events{
+
+  &-right-events {
     margin-top: 2rem !important;
   }
-  &-subtitle {
-    margin-bottom: 2rem !important;
-    display: block;
-    font-size: $h4 !important;
-    font-weight: $font_semibold !important;
-  }
+
   &-subhead {
     font-size: $p2 !important;
     font-weight: $font_bold !important;
   }
+
   &-card {
     text-align: center;
-    padding: 2;
-    background: $background !important;
+    background: $clr_white !important;
     width: 15rem;
     height: 14.5rem;
-    cursor: pointer;
-    &-icon {
-      display: flex;
-      justify-content: center;
-      font-size: 5.3rem; // For scaling the icon size if it is an inline SVG or uses font size
+    
+    .MuiCardContent-root {
+      padding: 0rem;
     }
 
+    &-icon {
+      padding-top: 1rem;
+      display: flex;
+      justify-content: left;
+      font-size: 4rem; // For scaling the icon size if it is an inline SVG or uses font size
+    }
     &-title {
       font-weight: $font_medium !important;
-      font-size: $p3 !important;
+      font-size: $p2 !important;
       color: $clr_black ;
+    }
+    &-count {
+      padding-left: 1rem;
+      font-weight: $font_semibold !important;
+      font-size: $h4 !important;
+      color: $clr_black ;
+      text-align: left;
     }
   }
 
@@ -312,38 +387,44 @@
     font-weight: $font_medium;
 
   }
+
   & .menu-item-margin {
-   margin-bottom: 0.5rem;
-   margin-top: 0.6rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.6rem;
   }
 }
+
 .no-record {
   display: flex;
+
   &-container {
-      background-color: $background;
-      margin: 1rem;
-      border-radius: 0.9rem;
-      justify-content: center !important;
+    background-color: $clr_white;
+    margin: 1rem;
+    border-radius: 0.9rem;
+    justify-content: center !important;
   }
-  &-image{
+
+  &-image {
     margin-top: 5rem !important;
-    width:20rem !important;
-    height:20rem !important;
+    width: 20rem !important;
+    height: 20rem !important;
   }
-  &-title{
+
+  &-title {
     display: flex;
     font-weight: $font_semibold !important;
     font-size: $p3 !important;
     justify-content: center !important;
     margin-top: 3rem !important;
-    color:$clr_black !important;
+    color: $clr_black !important;
   }
-  &-subtitle{
+
+  &-subtitle {
     font-weight: $font_normal !important;
     font-size: $p1 !important;
     justify-content: center !important;
     align-items: center;
     margin-bottom: 10rem !important;
-    color:$clr_gray_extra_dark !important;
+    color: $clr_gray_extra_dark !important;
   }
 }
