@@ -14,7 +14,6 @@ const PayPalParticipantButton: React.FC = () => {
     const paymentDetails = useStore((state: any) => state?.compData?.["addToCart"])
     
     const eventId = useStore((state: any) => state?.compData?.["eventSelected"]?.id) ?? null;
-    console.log(paymentDetails,'sskjskjskj')
 
 
     const initialOptions = {
