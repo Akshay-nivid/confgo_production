@@ -52,7 +52,6 @@ const SetPasswordComponent = () => {
    * @param password 
    */
   const createPassword = async (password: string) => {
-    console.log(userDetails,'userDetails getting here>>>>>>>')
     try {
       const body = {
         password:password,
