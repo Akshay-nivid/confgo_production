@@ -4,7 +4,7 @@ export interface ISource {
     data: {
       offset: number;
       limit: number;
-      filters: any;
+      filters?: any;
     };
     url: string; // API endpoint, e.g., 'coupon/list'
     listName: string; // Name of the list

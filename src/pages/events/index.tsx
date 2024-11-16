@@ -22,6 +22,41 @@ const steps = [
   { label: 'Add Ons', description: '' },
   { label: 'Confirm', description: '' },
 ];
+interface Program {
+  name: string;
+  description: string;
+  startDate: string;  
+  endDate: string;    
+  startTime: string;  
+  endTime: string;   
+  type: 'PAID' | 'FREE'|''; 
+  amount: number; 
+  addOnId:number;   
+}
+interface Property {
+  propertyId: string;
+  propertyName: string; 
+  propertyAmount: string; 
+}
+
+interface Addons {
+  name: string;              
+  description: string;    
+  startTime: string;          
+  endTime: string;           
+  type: 'PAID' | 'FREE'|'';      
+  date: string;               
+  properties: Property[];    
+  addonId: number|string;           
+  dateRequired: string[];   
+  addonType: 'PAID' | 'FREE'|'';
+  noOfDays: string;          
+  repeat: ('YES' | 'NO'|'')[];   
+  amount: string;   
+  propertyName:string;
+  propertyAmount:string;
+  propertyChip:string
+}
 
 const Events = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -65,7 +100,8 @@ const Events = () => {
     const { status, data } = await processAPIResponse(response, 'event-add-on');
     if (status) {
       const optionsData = data?.map((item: any) => ({ label: item.name, value: item.id }))
-      setAddOnOptions(optionsData);
+      const updatedOptionsData=[...optionsData,{label:'Create new Add-on name',value:'other'}];
+      setAddOnOptions(updatedOptionsData);
     }
   }
 
@@ -129,10 +165,51 @@ const Events = () => {
   const createFormRequest = (data: any) => {
     const event = data?.event;
     const programs = data?.program || [];
+    const addOns=data?.addOns||[];
+    const program = programs.filter((item: Program) => item.name!='');
+    const addOn = addOns.filter((item: Addons) => item.addonId!='');
+    console.log(JSON.stringify(addOn),'type')
+    //tranform program fields
+    const transformProgram = program.map(({type,addOnId, startDate, startTime, endDate, endTime,amount, ...item }: Program) => {
+      // Combine startDate and startTime
+      const startDateTime = `${startDate}T${startTime}`;
+      
+      // Combine endDate and endTime
+      const endDateTime = `${endDate}T${endTime}`;
+      return {
+        ...item,               
+        startTime:startDateTime,         
+        endTime:endDateTime,
+        statusId:1,
+        amount:amount?amount:"0"
 
-    const program = programs.filter((item: any) => item.programType === 'PROGRAM');
-    const addOn = programs.filter((item: any) => item.programType === 'ADD_ONS');
-
+      };
+    });
+    //tranform addOnData
+    const transformedAddOnData = addOn.map(({ propertyName,propertyAmount,description,repeat, name, addonType, noOfDays, dateRequired, propertyChip, type, startTime, endTime, date, properties,amount, ...item }: Addons) => {
+      // Create the combined datetime field
+      let combinedStartDateTime;
+      let combinedEndDateTime;
+      if (dateRequired?.length == 0) {
+        // Combine date and time for start and end if applicable
+        combinedStartDateTime = startTime && date ? `${date} ${startTime}:00` : undefined;
+        combinedEndDateTime = endTime && dateRequired ? `${date} ${endTime}:00` : undefined;
+      }
+      return {
+        ...item,
+        amount:amount?amount:"0",
+        ...(combinedStartDateTime && { startTime: combinedStartDateTime }),
+        ...(combinedEndDateTime&&{endTime:combinedEndDateTime}),
+        ...(properties.length !== 0 && {
+          properties: properties?.map(({ propertyId, propertyName, propertyAmount, ...rest }: any) => ({
+            name: propertyName,
+            amount: propertyAmount??"0",
+            ...rest
+          })),
+        }),
+        addonId: item.addonId
+      };
+    });
     let req: any = {
       name: event?.name,
       description: event?.description,
@@ -159,20 +236,8 @@ const Events = () => {
         req['url'] = event?.url;
       }
     }
-
-    // Remove unwanted fields from programs and add-ons
-    req['programs'] = program
-      .filter(({ name }: any) => name) 
-      .map(({ addonId, type, programType, amount, name, ...rest }: any) => {  
-        return {
-          ...rest,
-          statusId,
-          amount: amount ? amount : 0,
-          name  
-        };
-      });
-
-    req['addon'] = addOn.map(({ description, name, type, programType, ...rest }: any) => rest);
+    req['programs']=transformProgram;
+    req['addon']=transformedAddOnData;
 
     return req;
   };
@@ -221,6 +286,12 @@ const Events = () => {
   const onSaveHandler = (data: object,type: string, ) => {
     setFormData({ ...formData, [type]: data });
   };
+   /**
+   * Method handles calls Add on get api when new Addon created
+   */
+  const onaddOnSubmitHandler=()=>{
+    handleAddOnOptionsApiCall()
+  }
 
   return (
     <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper">
@@ -246,6 +317,7 @@ const Events = () => {
             onSaveHandler={onSaveHandler}
             data={formData?.program}
             addOnOptions={addOnOptions}
+            eventData={formData?.event}
           />
         )}
         {activeStep === 2 && (
@@ -255,6 +327,10 @@ const Events = () => {
             onSaveHandler={onSaveHandler}
             data={formData?.addOns}
             addOnOptions={addOnOptions}
+            onaddOnSubmitHandler={onaddOnSubmitHandler}
+            eventData={formData?.event}
+            
+             
           />
         )}
         {activeStep === 3 && <ConferenceDetails data={formData} addOnOptions={addOnOptions} />}

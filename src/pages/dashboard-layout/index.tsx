@@ -3,12 +3,17 @@ import LayoutAppbar from './LayoutAppbar';
 import Grid from '@mui/material/Grid2';
 import { Outlet } from 'react-router-dom';
 import { Box } from '@mui/material';
+import { PaymentAlertBanner } from './PaymentAlertBanner';
 
 /**
  * component used to render layout
  * @returns
  */
 const Layout = () => {
+
+  const subscriptionStatus = sessionStorage.getItem("subscriptionStatus");
+  console.log('subscriptionStatus',subscriptionStatus)
+
   return (
     <Box className="layout-container">
       <LayoutAppbar />
@@ -18,6 +23,7 @@ const Layout = () => {
             <Sidebar open={true} />
           </Grid>
           <Grid size={10} className="layout-container-grid-outlet-grid">
+            {subscriptionStatus !== 'ACTIVE' && <Grid><PaymentAlertBanner /></Grid>}
             <Box className="layout-container-grid-outlet-grid-outlet-wrapper">
               <Outlet />
             </Box>

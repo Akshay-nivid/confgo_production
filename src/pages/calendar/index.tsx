@@ -1,5 +1,5 @@
 /**
- * Component handles the rendering of the calendar component
+ * Component handles the usage of calendar component for the events
  */
 import Grid from "@mui/material/Grid2";
 import { Typography } from "@mui/material";
@@ -8,10 +8,12 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Logger } from "@/Utils/Logger";
 import { CustomCalendar } from "@/components/CustomCalendar/CustomCalendar";
+import moment from "moment";
 
 interface calendarProps {
   id: string;
 }
+
 
 const CalendarPage: React.FC<calendarProps> = ({ id }) => {
 
@@ -20,7 +22,6 @@ const CalendarPage: React.FC<calendarProps> = ({ id }) => {
   const dataInfo = useStore((state: any) => state?.compData?.[id]?.['event/list']) ?? [];
   const POST = useStore((state: any) => state.POST);
   const navigate = useNavigate();
-
   /**
    * Useeffect hook clears the state data while unmounting
    */
@@ -32,33 +33,41 @@ const CalendarPage: React.FC<calendarProps> = ({ id }) => {
    * Useeffect hook fetches the state data through api call
    */
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await POST({
-          url: "event/list",
-          body: {
-            offset: 0,
-            sortBy: "id",
-            sortDirection: "DESC",
-            filters: {},
-          },
-          id: id,
-          errorCB: (context: any) => {
-            setDataById("snackBarInfo", {
-              open: true,
-              autoHideDuration: 2000,
-              severity: "error",
-              message: context?.message,
-            });
-          },
-        });
-      } catch (error) {
-        Logger.error("An error occurred:", error);
-      }
+    const dateObj = {
+      startTime: moment().startOf('month').format('YYYY-MM-DD'),
+      endTime: moment().endOf('month').format('YYYY-MM-DD')
     };
+    fetchData(dateObj);
+  }, []); 
 
-    fetchData();
-  }, []); // Include dependencies if necessary
+  /**
+   * Method handles the api call for getting event list data
+   */
+  const fetchData = async (filters: { startTime: string, endTime: string }) => {
+    try {
+      await POST({
+        url: "event/list",
+        body: {
+          offset: 0,
+          sortBy: "id",
+          sortDirection: "DESC",
+          limit: 1000,
+          filters
+        },
+        id: id,
+        errorCB: (context: any) => {
+          setDataById("snackBarInfo", {
+            open: true,
+            autoHideDuration: 2000,
+            severity: "error",
+            message: context?.message,
+          });
+        },
+      });
+    } catch (error) {
+      Logger.error("An error occurred:", error);
+    }
+  };
 
 
   /**
@@ -84,7 +93,15 @@ const CalendarPage: React.FC<calendarProps> = ({ id }) => {
     navigate(`/events/detail/${event.id}`)
   };
 
+  
 
+  /**
+   * Method handles the navigate event in the calendar
+   * @param event : event parameter
+   */
+  const handleNavigate = (dateObj: { startTime: '', endTime: '' }) => {
+    fetchData(dateObj);
+  };
 
 
   return (
@@ -93,7 +110,7 @@ const CalendarPage: React.FC<calendarProps> = ({ id }) => {
         <Typography className="calendar-title">Calendar</Typography>
       </Grid>
       <Grid size={{ xs: 12, sm: 12 }} className="calendar-container">
-        <CustomCalendar id="events-custom-calendar" events={dataInfo?.data && transformEventData(dataInfo?.data)} onSelectEvent={handleSelectEvent} />
+        <CustomCalendar id="events-custom-calendar" events={dataInfo?.data && transformEventData(dataInfo?.data)} onSelectEvent={handleSelectEvent} onNavigate={handleNavigate} defaultDate={new Date()}/>
       </Grid>
     </Grid>)
 };
