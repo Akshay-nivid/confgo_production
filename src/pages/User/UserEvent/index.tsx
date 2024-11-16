@@ -187,7 +187,7 @@ const MyEventScreen: React.FC = () => {
   return (
     <Grid className="my-event" container spacing={2}>
       <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} flexDirection={"row"}>
-        <Grid size={{ xs: 6 }} >
+        <Grid size={{ xs: 6 }} alignContent={"center"} container>
           <Typography className="my-event-header">My Events</Typography>
         </Grid>
         <Grid size={{ xs: 6 }}>
