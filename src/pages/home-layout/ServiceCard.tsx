@@ -1,16 +1,9 @@
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import { FC } from "react";
 
 /**
  * service card ui component for home page
- *
  */
-type DataType = {
-  Icon: FC<React.SVGProps<SVGSVGElement>>; // SVG component
-  title: string,
-  description: string
-}
 export const ServiceCard: React.FC<any> = ({ data }) => {
   const { Icon, title, description } = data;
   return (

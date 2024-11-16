@@ -9,7 +9,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import OtpInput from 'react-otp-input';
 import { LockIcon } from '@/assets/svg';
 import { useEffect } from 'react';
-import apiClient from '@/Libs/Https/API-client';
 import useStore from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import { purposeTypes } from '@/Utils/CommonBaseClass';
