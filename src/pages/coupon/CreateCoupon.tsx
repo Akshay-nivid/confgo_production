@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useForm } from 'react-hook-form';
@@ -11,6 +11,7 @@ import routes from '@/router/routes';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';
 import CustomDatePicker from '@/components/CustomDatePicker/CustomDatePicker';
 import CustomSnackbar from '@/components/CustomSnackbar/CustomSnackbar';
+import moment from 'moment';
 
 interface CouponFormData {
   name: string;
@@ -30,7 +31,7 @@ interface CouponFormData {
  * @author Neethu
  */
 const CreateCoupon: React.FC = () => {
-  const { control, handleSubmit, reset } = useForm<CouponFormData>({
+  const { control, handleSubmit, reset,watch } = useForm<CouponFormData>({
     defaultValues: {
       code: '',
       name: '',
@@ -92,6 +93,20 @@ const CreateCoupon: React.FC = () => {
     { value: 'flat', label: 'Flat Rate' },
   ];
 
+  const startDate = watch('startDate');
+  
+  const [minEndDate, setMinEndDate] = useState(moment().format("YYYY-MM-DD"));
+
+  /**
+   * Update minEndDate whenever startDate changes
+   **/ 
+  useEffect(() => {
+    if (startDate) {
+      setMinEndDate(moment(startDate).format("YYYY-MM-DD"));
+    }
+  }, [startDate]);
+
+
   return (
     <Box className="create-coupon-container">
       <CustomSnackbar
@@ -125,17 +140,7 @@ const CreateCoupon: React.FC = () => {
                     name='code'
                     placeholder='Coupon Code'
                     control={control}
-                    rules={{ 
-                      required:{value:true,message:"Coupon Code is required"},
-                      maxLength: {
-                          value: 8,
-                          message: "Coupon Code cannot exceed 8 characters"
-                      },
-                      minLength:  {
-                        value: 6,
-                        message: "Coupon Code must contain at least 6 characters"
-                    },
-                   }}
+                    rules={{ required: 'Coupon Code is required & code must be atleast 6 character long' }}
                     requiredField
                   />
                 </Grid>
@@ -164,7 +169,9 @@ const CreateCoupon: React.FC = () => {
                     placeholder='Start Date'
                     name='startDate'
                     control={control}
-                    rules={{ required: 'Start Date is required' }}
+                    rules={{ required: 'Start Date is required ' }}
+                    min={moment().format("YYYY-MM-DD")}
+                    defaultValue={moment().format("YYYY-MM-DD")}
                     label='Start Date'
                     requiredField
                   />
@@ -175,6 +182,8 @@ const CreateCoupon: React.FC = () => {
                     placeholder='Expiry Date'
                     name='endDate'
                     control={control}
+                    min={minEndDate}
+                    defaultValue={minEndDate}
                     rules={{ required: 'Expiry Date is required' }}
                     label='End Date'
                     requiredField

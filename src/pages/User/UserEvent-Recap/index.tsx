@@ -11,6 +11,7 @@ import useStore from "@/Libs/store";
 import StatusComponent from "@/components/Status/StatusComponent";
 import { useLocation } from "react-router-dom";
 
+
 /**
  * UpcomingEvent component renders a list of upcoming events and includes a search bar 
  */
@@ -159,8 +160,9 @@ const EventRecap: React.FC = React.memo(() => {
                                 <Button className="event-recap-first-grid-buttons-firstButton">
                                     View Ticket
                                 </Button>
+                                {/* button hiidden */}
                                 <Button className="event-recap-first-grid-buttons-secondButton">
-                                    cansel Event
+                                    Cancel Event
                                 </Button>
                             </Grid>
                         </Grid>

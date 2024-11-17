@@ -1,4 +1,5 @@
 import useStore from "@/Libs/store";
+import routes from "@/router/routes";
 import { CircularProgress, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect } from "react";
@@ -45,6 +46,7 @@ const ChangeVerification = () => {
                 });
             },
             errorCB: (error: any) => {
+                navigate(routes.loginOrg())
                 setDataById("snackBarInfo", {
                     open: true,
                     autoHideDuration: 2000,

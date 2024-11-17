@@ -158,3 +158,20 @@ export function formatUTCDateTime(dateString: string) {
   return formattedDate;
 }
 
+/**
+ * Method used to convert text to camelcase
+ * @param sentenceCase 
+ * @returns 
+ */
+export const toCamelCase = (sentenceCase: any) => {
+  let out = "";
+  let str: any
+  if (sentenceCase) {
+    str = sentenceCase.replace(/_/gi, ' ');
+    str.split(" ").forEach(function (el: any) {
+      var add = el.toLowerCase();
+      out += (' ' + add[0].toUpperCase() + add.slice(1));
+    });
+  }
+  return out;
+}

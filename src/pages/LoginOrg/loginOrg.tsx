@@ -6,6 +6,7 @@ import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import routes from "@/router/routes";
 import useStore from "@/Libs/store";
 import apiClient from "@/Libs/Https/API-client";
+import { useEffect } from "react";
 
 
 
@@ -43,9 +44,19 @@ const LoginOrg = () => {
     password: string;
   };
   const setDataById = useStore((state: any) => state.setDataById);
+  const details = useStore((state: any) => state?.compData?.['orgDetails']) ?? [];
   const { handleSubmit, control } = useForm<FormData>();
   const navigate = useNavigate();
   const POST = useStore((state: any) => state.POST);
+  
+  /**
+   * useEffect to check login status of organization
+   */
+  useEffect(()=>{
+    if(!!details?.loggedIn){
+      navigate(routes.dashboard());
+    }
+  },[])
   /**
    * function used to handle form submission
    */
@@ -70,6 +81,7 @@ const LoginOrg = () => {
         successCB: (success: ApiResponse) =>{  
           if(success?.data?.userRole?.roleName==="COMPANY"){
             sessionStorage.clear();
+            setDataById('orgDetails', { loggedIn: true });
             sessionStorage.setItem('token',success.data.token);
             sessionStorage.setItem('companyUserName',`${success.data.firstName} ${success.data.lastName || ''}` );
             sessionStorage.setItem('subscriptionStatus',success.data.subscriptionStatus);
