@@ -160,6 +160,12 @@
   .MuiDataGrid-main{
     max-height: var(--grid-height, calc(100vh - 200px)) !important;
   }
+  .MuiDataGrid-row {
+    background-color: white;
+  }
+  .MuiDataGrid-row:hover {
+    background-color: $clr_gray_medium;
+  }
   .MuiDataGrid-virtualScrollerRenderZone{
     overflow: scroll !important;
     max-height: calc(var(--grid-height) - 5.7rem) !important;
@@ -258,7 +264,7 @@
   }
   .MuiDataGrid-cell {
     border-color: $clr_white;
-    background-color: $clr_white;
+    background-color: transparent;
     font-weight: $font_normal;
     font-size:$p1 !important;
     justify-content: center !important;

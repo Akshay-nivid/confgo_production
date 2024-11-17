@@ -125,7 +125,17 @@ const CreateCoupon: React.FC = () => {
                     name='code'
                     placeholder='Coupon Code'
                     control={control}
-                    rules={{ required: 'Coupon Code is required' }}
+                    rules={{ 
+                      required:{value:true,message:"Coupon Code is required"},
+                      maxLength: {
+                          value: 8,
+                          message: "Coupon Code cannot exceed 8 characters"
+                      },
+                      minLength:  {
+                        value: 6,
+                        message: "Coupon Code must contain at least 6 characters"
+                    },
+                   }}
                     requiredField
                   />
                 </Grid>

@@ -526,7 +526,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                       <Grid size={{ xs: 8, sm: 8 }} >
                         <Grid container size={{ xs: 12, sm: 12 }} direction={'column'}>
                         <Grid>{field.name}</Grid>
-                        <Grid>{field.description}</Grid>    
+                        <Grid className="added-program-description">{field.description}</Grid>    
                         </Grid>
                                             
                       </Grid>
