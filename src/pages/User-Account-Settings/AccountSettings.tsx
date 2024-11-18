@@ -11,7 +11,6 @@ import { useForm } from "react-hook-form";
 import "./accountsetting.scss";
 import { useCallback, useEffect, useState } from "react";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import EditIcon from "@/assets/svg/event-edit.svg";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { CloseOutlined } from "@mui/icons-material";
