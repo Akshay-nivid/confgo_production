@@ -19,7 +19,7 @@ const EventContributorsSection: React.FC<EventContributorsSectionProps> = React.
     return <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}`} spacing={1} direction={'column'} justifyContent={'center'} alignItems={'center'}>
         <Grid className={`${classPrefix}-title`}>Meet Our Esteemed Event Contributors</Grid>
         {/* <Grid className={`${classPrefix}-sub-title`}>Gain insights from leading experts in anaesthesiology as they share groundbreaking practices, innovations and advancements</Grid> */}
-        <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-item-group-container`}>
+        <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-item-group-container`} justifyContent={'center'} alignItems={'center'}>
             {data?.map((item: any) => {
                 return <Grid size={{ xs: 12, sm: 6 }} container direction={'row'} className={`${classPrefix}-item-container`} spacing={2}>
                     <Grid size={{ xs: 12, sm: 12 }} container direction={'row'}>

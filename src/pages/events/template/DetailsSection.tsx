@@ -57,9 +57,9 @@ const DetailsSection: React.FC<DetailsSectionProps> = React.memo(({ data, temp }
                 <Grid size={{ xs: 12, sm: 12 }} container className={`${classPrefix}-item`} spacing={1}>
                     {
                         itemArray?.map((item: any) => {
-                            return <Grid container size={{ xs: 12, sm: 3 }} direction={'column'}><Grid>{item.icon}</Grid>
+                            return <Grid container size={{ xs: 12, sm: 3 }} direction={'column'} justifyContent={temp === 'temp2'? 'center': 'flex-start'} alignItems={temp === 'temp2'? 'center': 'flex-start'}><Grid>{item.icon}</Grid>
                                 <Grid><Typography className={`${classPrefix}-label`}>{item.label}</Typography></Grid>
-                                <Grid><Typography className={`${classPrefix}-value`}>{item.value}</Typography></Grid>
+                                <Grid><Typography className={`${classPrefix}-value`} textAlign={temp === 'temp2'? 'center': 'left'}>{item.value}</Typography></Grid>
                             </Grid>
                         })
                     }
