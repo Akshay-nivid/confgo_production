@@ -59,6 +59,8 @@ import NoPayment from "./noPayment.svg"
 import DownArrowSvg from './downarrow.svg';
 import ResetPassword from './Reset-Password.svg';
 import NoDataSvg from './nodata.svg';
+import Google from './google.svg';
+import EditIconRound from './EditIconRound.svg'
 export {
   CalenderIcon,
   EventIcon,
@@ -121,4 +123,6 @@ export {
   NoDataSvg,
   NoPayment,
   ResetPassword,
+  Google,
+  EditIconRound
 };
