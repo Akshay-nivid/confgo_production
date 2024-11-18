@@ -67,6 +67,8 @@ import ClockIcon from './clock-icon.svg';
 import SecuityIcon from './security-icon.svg';
 import ProgressBarIcon from './progress-bar-icon.svg';
 import IntegrationIcon from './integration-icon.svg';
+import UserEditRoundIcon from './user-edit-round-icon.svg';
+import GoogleIcon from './google-icon.svg';
 
 export {
   CalenderIcon,
@@ -137,5 +139,7 @@ export {
   ClockIcon,
   SecuityIcon,
   ProgressBarIcon,
-  IntegrationIcon
+  IntegrationIcon,
+  UserEditRoundIcon,
+  GoogleIcon
 };

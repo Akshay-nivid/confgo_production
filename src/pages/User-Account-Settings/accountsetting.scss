@@ -2,6 +2,9 @@
     font-weight: $font_semibold !important;
     font-size: $h5 !important;
 }
+.account-grid{ 
+    background-color: $clr_white;
+}
 .account-padding{
     padding: 1.5rem;  
 }
@@ -88,13 +91,16 @@
 .account-drawer-btn{
     justify-content: flex-end;
     align-items: center;
+    
 
 }
 .account-settings-main-title{
+    padding: 1rem;
     font-size: $h4 !important;
     font-weight: $font_bold  !important;
 }
 .account-tabs{
+    align-items: flex-start !important;
     .css-q0nj0x-MuiButtonBase-root-MuiTab-root{
         padding: 0rem !important;
     }
@@ -105,11 +111,35 @@
         padding: 0rem !important;
     }
     .MuiTabs-indicator {
+        margin-left: 1rem !important;
+        margin-right: 1rem !important;
+        border-bottom: 0.167rem solid $clr_blue !important;
         border-bottom: 0.125rem solid $clr_blue !important;
       }
       .css-1wxkzlj-MuiTabs-flexContainer{
         border-bottom: 0.125rem solid $clr_tab_border_color
       }
+
+      &-container{
+        justify-content: flex-start;
+        border-bottom: 0.1rem solid $clr_tab_border_color;
+        padding: 0 !important;
+        .MuiTabPanel-root{
+            min-height: 40rem;
+        }
+    }
+    &-item{
+        padding: 3rem 3rem 2rem 3rem !important;
+        &:first-of-type {
+            padding: 3rem 2rem 2rem 2rem !important; 
+        }
+    }
+      .MuiTab-textColorPrimary {
+        color: $clr_text_gray;
+        font-weight: $font_medium;
+        text-transform: none;
+        font-size: $h6 ;
+    }
   
     .Mui-selected{
         color: $clr_black !important;
@@ -121,6 +151,8 @@
     text-transform: none !important;
 
 }
+.security-container{
+    padding: 1rem;  
 .account-google{
     width: 5.706rem;
     height: 1.875rem;
@@ -135,8 +167,8 @@
     margin-right: 0.8rem !important;
 }
 .security-subtext{
-    color: $light_grey;
-    font-size: $h6;
+    color: $light_grey !important;
+    font-size: $p1 !important;
     font-weight: $font_medium !important;
     margin-bottom: 1.25rem !important;
 
@@ -148,15 +180,19 @@
     
 }
 .security-password-reset-btn{
+    box-shadow: none !important;
     padding: 0.8rem 3rem !important;
     background: $clr_blue !important;
 
 }
 .account-submit-btn{
+    width: 9.5rem !important;
     background: $clr_blue !important;
     border-radius: 0.313rem !important;
+    padding: 0.5rem 1.5rem !important;
+    box-shadow: none !important;
 }
 .security-bottom-border{
     padding-bottom: 0.625rem;
     border-bottom: 0.083rem solid $clr_light_border_grey;
-}
+}}

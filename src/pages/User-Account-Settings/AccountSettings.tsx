@@ -20,12 +20,14 @@ import useStore from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
 
 
+
 interface Profile {
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
   avatarUrl: string;
+  isSsoUser:boolean;
 }
 
 const AccountSetting:React.FC = React.memo(() => {
@@ -57,6 +59,8 @@ const AccountSetting:React.FC = React.memo(() => {
           phone: data.phone,
           email: data.email,
           avatarUrl: data.avatarUrl || "",
+          isSsoUser:data?.isSsoUser
+
         };
         setProfileData(AccountData);
      
@@ -129,7 +133,7 @@ const AccountSetting:React.FC = React.memo(() => {
             variant="square"
           />
         </Grid>
-        <Grid container className="account-detail-grid connected">
+        <Grid container className="account-detail-grid connected" size={12}>
           <Grid size={{ xs: 12, sm: 6 }}>
             <Typography className="account-user-detail1">
               First Name
@@ -168,14 +172,14 @@ const AccountSetting:React.FC = React.memo(() => {
         </Grid>
       </Grid>
 
-      <Grid size={8} className="account-profile-grid connected connected-grid account-margin connected-margin">
+      {profileData?.isSsoUser&&<Grid size={8} className="account-profile-grid connected connected-grid account-margin connected-margin">
       <Typography className="account-title">Connected accounts</Typography>
       <Grid display="flex" alignItems="center" className="connected">
           <Grid className="account-connected-grid">
            <Google className="account-google"/>
           </Grid>
         </Grid>
-      </Grid>
+      </Grid>}
 
       <CustomDrawer open={isDrawerOpen} type="right">
         <Grid container className="account-drawer">
@@ -195,7 +199,7 @@ const AccountSetting:React.FC = React.memo(() => {
                   <CustomTextField name="lastName" placeholder="Last Name" control={control} requiredField className="account-drawer-textfield"/>
                 </Grid>
                 <Grid size={12} container className="account-drawer-btn">
-                  <CustomButton label="Change" type="submit" size="large" className="account-submit-btn" />
+                  <CustomButton label="Change" type="submit" className="account-submit-btn" />
                 </Grid>
               </Grid>
             </form>
