@@ -8,7 +8,7 @@ import DefaultTemplate from './DefaultTemplate';
 
 
 type TemplateContainerProps = {
-    id: string
+    id?: string
 }
 
 const TemplateContainer: React.FC<TemplateContainerProps> = React.memo(({  }) => {

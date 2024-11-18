@@ -12,7 +12,7 @@ import moment from "moment";
 import routes from "@/router/routes";
 
 interface calendarProps {
-  id: string;
+  id?: string;
 }
 
 
