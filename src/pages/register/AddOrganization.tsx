@@ -90,6 +90,7 @@ const AddOrganization = React.memo(() => {
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationName}
                                                 placeholder="Organization Name"
+                                                label="Organization Name *"
                                                 control={control}
                                                 name="organizationName"
                                                 type="text"
@@ -111,6 +112,7 @@ const AddOrganization = React.memo(() => {
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationEmail}
                                                 placeholder="Organization Email"
+                                                label="Organization Email *"
                                                 control={control}
                                                 name="organizationEmail"
                                                 type="text"
@@ -121,6 +123,7 @@ const AddOrganization = React.memo(() => {
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationPhone}
                                                 placeholder="Organization Phone"
+                                                label="Organization Phone *"
                                                 name="organizationPhone"
                                                 type="number"
                                                 control={control}
@@ -132,6 +135,7 @@ const AddOrganization = React.memo(() => {
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationAddress}
                                                 placeholder="Organization Address"
+                                                label="Organization Address *"
                                                 control={control}
                                                 name="organizationAddress"
                                                 type="text"
