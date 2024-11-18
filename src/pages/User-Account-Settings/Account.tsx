@@ -18,13 +18,15 @@ const handleTabChange = (_: React.SyntheticEvent, newIndex: number) => {
 
   return (
     <Grid className="account-grid">
-      <Typography className='account-settings-main-title' gutterBottom>
+      <Typography className='account-settings-main-title account-padding' gutterBottom>
         Account Settings
       </Typography>
+      <Grid container direction={"column"} size={{ xs: 12, sm: 12 }} >
       <Tabs value={tabInfo?.tabIndex} className='account-tabs' onChange={handleTabChange} >
         <Tab label="Personal Information" className='account-tab-title account-tabs'/>
         <Tab label="Security" className="account-tab-title account-tabs"/>
       </Tabs>
+      </Grid>
       {tabInfo?.tabIndex === 0 ? (
         <Grid container className="account-tab-details">
           <Grid size={12}>

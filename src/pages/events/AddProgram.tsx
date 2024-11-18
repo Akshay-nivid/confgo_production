@@ -142,8 +142,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
           startTime: moment().format("HH:mm"),
           endTime:moment().format("HH:mm"),
           type: "PAID",
-          amount: "",
-          addonId: "",
+          amount: ""
         };
         newPrograms.push(newProgram);
 
@@ -462,9 +461,9 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                       rules={{
                                         required: "Price is required",
                                         pattern: {
-                                          value: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
+                                        value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
                                           message:
-                                            "Enter a valid price (up to 2 decimal places)",
+                                            "Enter a valid price (up to 2 decimal places & Zero not accepted)price up to 1Crore",
                                         },
                                         validate: (value) => {
                                           if (typeof value === "string") {
@@ -528,7 +527,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                     >
                       <Grid size={{ xs: 8, sm: 9 }} >
                         <Grid container size={{ xs: 12 }} direction={'column'}>
-                        <Grid size={{ xs: 12 }}><Typography className="text-p2 font-700">{field.name}</Typography> </Grid>
+                        <Grid size={{ xs: 12 }}><Typography className="text-p2 font-700 truncate-text" title={field.name}>{field.name}</Typography> </Grid>
                         <Grid size={{ xs: 12}}><Typography className="truncate-text" title={field.description} >{field.description}</Typography></Grid>    
                         </Grid>
                                             

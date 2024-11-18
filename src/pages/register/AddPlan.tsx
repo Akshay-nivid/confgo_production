@@ -137,7 +137,7 @@ const AddPlan = React.memo(() => {
             className={(loading || planList.length===0)?'plan-disabled-choose-btn':"plan-choose-btn"}
             endIcon={<ArrowIconSvg/>}
             onClick={handleClick}
-            label="Choose this plan"
+            label="Choose Plan and Proceed"
             size="large"
             disabled={ loading || planList.length===0}
           />

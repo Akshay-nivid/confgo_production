@@ -45,6 +45,7 @@ import MyEventScreen from "./pages/User/UserEvent";
 import Account from "./pages/User-Account-Settings/Account";
 import UserEventRecap from "./pages/User/UserEvent-Recap";
 import ChangeVerification from "./pages/SetPassword/ChangePasswordVerification";
+import TemplateContainer from "./pages/events/template/TemplateContainer";
 
 /**
  * Create your router configuration
@@ -219,6 +220,10 @@ const router = createBrowserRouter([
     element: <LoginOrg />,
   },
 
+  {
+    path: routes.template(),
+    element: <TemplateContainer  id="template-container"/>,
+  },
   {
     path: routes.SetPassword(),
     element: <SetPassword />,

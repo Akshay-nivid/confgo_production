@@ -2,8 +2,14 @@
     font-weight: $font_semibold !important;
     font-size: $h5 !important;
 }
-.account-grid{
-    padding: 2rem;  
+.account-padding{
+    padding: 1.5rem;  
+}
+.account-margin{
+    margin-left: 1.5rem !important;
+}
+.account-profile-grid{
+    margin-top: 1rem !important;;
 }
 .security-title{
     margin-bottom: 2rem !important;
@@ -19,8 +25,8 @@
 
 .user-profile{
     border-radius: 0.313rem !important;
-    height: 5.375rem !important;
-    width: 5.375rem !important;
+    height: 7.167rem !important;
+    width: 7.167rem !important;
 }
 .account-user-detail1{
     font-weight: $font_medium !important;
@@ -28,6 +34,9 @@
     line-height: 1.5rem !important;
     color: $light_grey;
     margin-top: 2rem !important;
+}
+.account-main-grid{
+    margin-bottom: 2rem;
 }
 
 .account-user-detail2{
@@ -42,24 +51,28 @@
     align-items: center;
     border: 0.083rem solid $clr_gray_extra_light;
     border-radius: 0.313rem;
-    padding: 0.813rem 1rem ;
-    width: 6.25rem !important;
-    height: 3.125rem !important;
+    padding: 0.813rem 1rem !important;
+    width: 7.706rem !important;
+    height: 3.5rem !important;
 }
 
 .account-profile-grid{
+    width: 49.438rem;
     border: 0.083rem solid $clr_gray_very_light;
     border-radius: 0.625rem;
-    padding: 1rem;
+    padding: 1.5rem;
 }
 .account-tab-details{
     margin-top: 1rem;
+}
+.connected-margin{
+    margin-top: 3rem !important;
 }
 .connected{
     margin-top: 1rem;
 }
 .account-drawer{
-    padding: 1rem;
+    padding: 3rem;
 }
 .account-drawer-text{
     justify-content: space-between;
@@ -85,15 +98,21 @@
     .css-q0nj0x-MuiButtonBase-root-MuiTab-root{
         padding: 0rem !important;
     }
+    .css-1usuzwp-MuiButtonBase-root-MuiTab-root{
+        margin-left: 0.4rem !important;
+    }
     .css-15gx8z5-MuiButtonBase-root-MuiTab-root {
         padding: 0rem !important;
     }
     .MuiTabs-indicator {
-        border-bottom: 0.167rem solid $clr_blue !important;
+        border-bottom: 0.125rem solid $clr_blue !important;
+      }
+      .css-1wxkzlj-MuiTabs-flexContainer{
+        border-bottom: 0.125rem solid $clr_tab_border_color
       }
   
     .Mui-selected{
-        color: #000000 !important;
+        color: $clr_black !important;
     }
 }
 .account-tab-title{
@@ -102,11 +121,18 @@
     text-transform: none !important;
 
 }
+.account-google{
+    width: 5.706rem;
+    height: 1.875rem;
+}
 .security-text{
     font-weight: $font_semibold !important;
     font-size: $h6 !important;
     margin-bottom: 0.625rem !important;
 
+}
+.accountsettings-margin{
+    margin-right: 0.8rem !important;
 }
 .security-subtext{
     color: $light_grey;
@@ -116,7 +142,6 @@
 
 }
 .security-text-border{
-    border-bottom: 0.083rem solid $clr_light_border_grey;
     align-items: center;
     justify-content: space-between !important;
     margin-top: 1rem;
@@ -124,10 +149,14 @@
 }
 .security-password-reset-btn{
     padding: 0.8rem 3rem !important;
+    background: $clr_blue !important;
 
 }
 .account-submit-btn{
     background: $clr_blue !important;
     border-radius: 0.313rem !important;
-    padding: 0.5rem 1.5rem !important;
+}
+.security-bottom-border{
+    padding-bottom: 0.625rem;
+    border-bottom: 0.083rem solid $clr_light_border_grey;
 }
