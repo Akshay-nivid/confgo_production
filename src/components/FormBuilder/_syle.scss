@@ -123,6 +123,11 @@
       font-size: $h6 !important;
     }
   }
+  .field-accordion-wrapper {
+  max-height: 80vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+  }
   
   .field-accordion-card {
     .accordion-header-container {

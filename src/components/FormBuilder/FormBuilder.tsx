@@ -156,7 +156,7 @@ const FormBuilder = () => {
             </Typography>
           </Box>
         ) : (
-          <Box className="fields-data-container">
+          <Box className="fields-data-container field-accordion-wrapper">
             <CreatedFormFieldList
               formFields={formFields}
               handleFormFieldDataChange={handleFormFieldDataChange}
