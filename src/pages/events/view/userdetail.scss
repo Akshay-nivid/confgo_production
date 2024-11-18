@@ -1,0 +1,75 @@
+.user-detail-card {
+    margin: 2rem;
+    border-radius: 1rem;
+    background-color: $clr_white;
+    padding: 2rem;
+
+    .user-detail-grid{
+        margin-bottom: 2rem;
+        
+    }
+    .userdetail-title-name{
+        font-size: $h4;
+        font-weight: $font_semibold;
+        margin-right: 1rem;
+        margin-bottom: 2.5rem;
+    }
+    .userdetail-title-personal{
+        margin-bottom: 2rem;
+    }
+    .userdetail{
+        width: 100%; 
+        padding-bottom: 1.6rem;
+        border-bottom: 0.083rem solid $clr_light_border_grey;
+    }
+    .userdetail-event-card{
+        border-radius: 0.625rem;
+        border: 0.042rem solid $clr_light_border_grey;
+        padding:1rem ;
+    }
+    .userdetail-time-status{
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .user-status {
+        .statusText{
+            padding: 0.665rem 1.081rem !important;
+            border-radius: 0.665rem;
+            font-weight: $font_semibold;
+        }
+    }
+
+    .userdetail-time{
+        padding: 0.665rem 0.625rem!important;
+        border-radius: 0.313rem !important;
+        background-color:  $clr_green_light !important;
+        text-align: center !important;
+        font-size: $p2;
+        font-weight: $font_medium;
+    }
+   
+    .userdetail-text{
+        font-size: $h5;
+        font-weight: $font_semibold;
+        color:$clr_cyan_blue;
+    } 
+    .userdetail-data{
+        font-size: $h5;
+        font-weight: $font_semibold;
+        margin-bottom: 1.4rem;
+    }
+  
+    .userdetail-name{
+        line-height: 1.9375rem;
+        font-size: $h4;
+        font-weight: $font_semibold;
+        margin-top: 1rem;
+    }
+    .userdetail-card-data{
+        line-height: 2.5rem;
+        font-size: $p2;
+        font-weight: $font_medium;
+    }
+    
+}
