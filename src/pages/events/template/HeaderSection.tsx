@@ -20,9 +20,12 @@ const HeaderSection: React.FC<HeaderSectionProps> = React.memo(({ data, temp }) 
     return <Grid container size={{ xs: 12, sm: 12 }} className={classPrefix}>
         <TopMenuSection temp={temp} data={data} />
         <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} direction={'row'}>
-            <Grid container className={`${classPrefix}-title-container`} size={{ xs: 12, sm: 6 }} alignItems={'center'}><TitleSection temp={temp} data={data} /></Grid>
+            {temp === 'temp1' && <><Grid container className={`${classPrefix}-title-container`} size={{ xs: 12, sm: 6 }} alignItems={'center'}><TitleSection temp={temp} data={data} /></Grid>
             <Grid className={`${classPrefix}-photo-container`} size={{ xs: 12, sm: 6 }}><img src={PhotoIcon} alt="Template 1 Photo" /></Grid>
+            <Grid size={{ xs: 12, sm: 12 }}><DetailsSection temp={temp} data={data} /></Grid></>}
+            {temp === 'temp2' && <><Grid container className={`${classPrefix}-title-container`} size={{ xs: 12, sm: 12 }} alignItems={'center'} justifyContent={'center'}><TitleSection temp={temp} data={data} /></Grid>
             <Grid size={{ xs: 12, sm: 12 }}><DetailsSection temp={temp} data={data} /></Grid>
+            </>}
         </Grid>
     </Grid>
 });
