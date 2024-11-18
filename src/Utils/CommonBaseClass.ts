@@ -140,6 +140,24 @@ export function formatDateTimeRange({date,format}:IDateTimeRangeParams){
 return  moment.utc(date).local().format(format);
 }
 
+export function formatUTCDateTime(dateString: string) {
+  if (!dateString) {
+    return '';
+  }
+  const date = new Date(dateString);
+
+  // Extract date and time components
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are 0-based
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const hours = String(date.getUTCHours()).padStart(2, "0");
+  const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+
+  // Format to desired output
+  const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;
+  return formattedDate;
+}
+
 /**
  * Method used to convert text to camelcase
  * @param sentenceCase 
