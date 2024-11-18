@@ -64,7 +64,6 @@ const FormBuilder = () => {
       option: isFieldTypePresent(data.fieldType) ? data.option : undefined,
     };
 
-    
     setFormFields((prev) => {
       const updatedFields = [...prev, newData].reverse();
       return updatedFields;
@@ -88,10 +87,9 @@ const FormBuilder = () => {
 
   const [formFields, setFormFields] = useState<ICreateFormField[]>([]);
 
-
   /**
-   * function to handle generate form  api call 
-   *  
+   * function to handle generate form  api call
+   *
    */
   function handleClickGenerateForm() {
     const parsedData = formFields.map(
@@ -107,13 +105,13 @@ const FormBuilder = () => {
       participantTypeId: 1,
       data: parsedData,
     };
-     POST({
+    POST({
       url: "event/form",
       body: formData,
-       id: "dynamicGeneratedForm",
+      id: "dynamicGeneratedForm",
       successCB: (data: any) => {
         Logger._log("dynamic GeneratedForm api call success", data);
-      }
+      },
     });
   }
 
@@ -156,7 +154,7 @@ const FormBuilder = () => {
             </Typography>
           </Box>
         ) : (
-          <Box className="fields-data-container field-accordion-wrapper">
+          <Box className="fields-data-container">
             <CreatedFormFieldList
               formFields={formFields}
               handleFormFieldDataChange={handleFormFieldDataChange}

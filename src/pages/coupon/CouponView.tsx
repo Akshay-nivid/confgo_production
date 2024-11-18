@@ -242,11 +242,7 @@ const CouponView: React.FC = () => {
                         placeholder="Start Date"
                         name="startDate"
                         control={control}
-                        defaultValue={
-                          coupon?.startDate
-                            ? moment(coupon.startDate).format("YYYY-MM-DD")
-                            : null
-                        }
+                        defaultValue={coupon?.startDate}
                         rules={{ required: "Start Date is required" }}
                         label="Start Date"
                         requiredField
@@ -257,11 +253,7 @@ const CouponView: React.FC = () => {
                       <CustomDatePicker
                         placeholder="Expiry Date"
                         name="endDate"
-                        defaultValue={
-                          coupon?.endDate
-                            ? moment(coupon.endDate).format("YYYY-MM-DD")
-                            : null
-                        }
+                        defaultValue={coupon?.endDate}
                         control={control}
                         rules={{ required: "Expiry Date is required" }}
                         label="End Date"
