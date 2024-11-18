@@ -1,20 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Typography, Snackbar, Alert, CircularProgress } from '@mui/material';
-import Grid from '@mui/material/Grid2';
-import { useNavigate, useParams } from 'react-router-dom';
-import apiClient from '@/Libs/Https/API-client';
-import { processAPIResponse } from '@/Utils/CommonBaseClass';
-import CustomTextField from '@/components/CustomTextfield/CustomTextField';
-import { useForm } from 'react-hook-form';
-import CustomDatePicker from '@/components/CustomDatePicker/CustomDatePicker';
-import CustomSelect from '@/components/CustomSelectBox/CustomSelect';
-import moment from 'moment';
-import CustomButton from '@/components/CustomButton/CustomButton';
-import EditIcon from '@mui/icons-material/Edit';
-import SaveIcon from '@mui/icons-material/Save';
-import CustomSnackbar from '@/components/CustomSnackbar/CustomSnackbar';
-import routes from '@/router/routes';
-
+import React, { useEffect, useState } from "react";
+import {
+  Box,
+  Typography,
+  Snackbar,
+  Alert,
+  CircularProgress,
+} from "@mui/material";
+import Grid from "@mui/material/Grid2";
+import { useNavigate, useParams } from "react-router-dom";
+import apiClient from "@/Libs/Https/API-client";
+import { processAPIResponse } from "@/Utils/CommonBaseClass";
+import CustomTextField from "@/components/CustomTextfield/CustomTextField";
+import { useForm } from "react-hook-form";
+import CustomDatePicker from "@/components/CustomDatePicker/CustomDatePicker";
+import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
+import moment from "moment";
+import CustomButton from "@/components/CustomButton/CustomButton";
+import EditIcon from "@mui/icons-material/Edit";
+import SaveIcon from "@mui/icons-material/Save";
+import CustomSnackbar from "@/components/CustomSnackbar/CustomSnackbar";
+import routes from "@/router/routes";
 
 /**
  * Coupon Details Page
@@ -39,12 +44,14 @@ const CouponView: React.FC = () => {
     minPurchaseValue: number;
   }
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">(
+    "success"
+  );
   const navigate = useNavigate();
   const { control, reset, getValues } = useForm();
-  /** 
-   * useEffect hook to handle the API call 
+  /**
+   * useEffect hook to handle the API call
    */
   useEffect(() => {
     fetchCoupon();
@@ -57,21 +64,23 @@ const CouponView: React.FC = () => {
     try {
       setLoading(true);
       const response = await apiClient.get(`/coupon/${id}`); // Adjust the endpoint as needed
-
       const { status, data } = await processAPIResponse(response, "Viewcoupon");
       if (status) {
         setCoupon(data);
-        reset(data);
+        reset({
+          ...data,
+          startDate: moment(data.startDate).format("YYYY-MM-DD"),
+          endDate: moment(data.endDate).format("YYYY-MM-DD"),
+        });
       }
     } catch (err) {
-      setError('Failed to fetch coupon details.'); // Handle error appropriately
+      setError("Failed to fetch coupon details."); // Handle error appropriately
     } finally {
       setLoading(false);
     }
   };
 
-
-  /** 
+  /**
    * save edited coupon
    */
   const updateCouponDetails = async () => {
@@ -95,16 +104,15 @@ const CouponView: React.FC = () => {
         if (status) {
           setSnackbarOpen(true);
           setSnackbarMessage("Coupon Updated Successfully");
-          setSnackbarSeverity('success');
+          setSnackbarSeverity("success");
 
           setTimeout(() => {
             navigate(routes.coupon()); // Redirect to the coupon list
           }, 1500);
-
         }
-      } 
+      }
     } catch (err) {
-      setError('Failed to update coupon details.');
+      setError("Failed to update coupon details.");
     } finally {
       setLoading(false);
     }
@@ -118,8 +126,8 @@ const CouponView: React.FC = () => {
     setError(null);
   };
   const discountTypeOptions = [
-    { value: 'percentage', label: 'Percentage' },
-    { value: 'flat', label: 'Flat Rate' },
+    { value: "percentage", label: "Percentage" },
+    { value: "flat", label: "Flat Rate" },
   ];
   return (
     <>
@@ -133,39 +141,62 @@ const CouponView: React.FC = () => {
         {loading ? (
           <CircularProgress />
         ) : error ? (
-          <Snackbar open={!!error} autoHideDuration={6000} onClose={handleCloseSnackbar}>
-            <Alert onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%' }}>
+          <Snackbar
+            open={!!error}
+            autoHideDuration={6000}
+            onClose={handleCloseSnackbar}
+          >
+            <Alert
+              onClose={handleCloseSnackbar}
+              severity="error"
+              sx={{ width: "100%" }}
+            >
               {error}
             </Alert>
           </Snackbar>
         ) : (
-
-          <Grid container size={{ xs: 12, sm: 12 }} justifyContent='center' alignItems='center' spacing={4}>
+          <Grid
+            container
+            size={{ xs: 12, sm: 12 }}
+            justifyContent="center"
+            alignItems="center"
+            spacing={4}
+          >
             <Grid size={{ xs: 12, sm: 6 }} className="create-coupon-grid">
               <Grid size={{ xs: 12, sm: 12 }}>
                 <CustomButton
                   className="custom-list-edit-btn"
-                  label='Edit'
-                  variant='contained'
-                  size='large'
-                  type='submit'
+                  label="Edit"
+                  variant="contained"
+                  size="large"
+                  type="submit"
                   startIcon={<EditIcon />}
                   onClick={() => {
                     setEditable(true);
-                  }} />
+                  }}
+                />
               </Grid>
               <Grid size={{ xs: 12, sm: 12 }}>
-                <Typography textAlign={'center'} lineHeight={2} className='create-coupon-title'>
+                <Typography
+                  textAlign={"center"}
+                  lineHeight={2}
+                  className="create-coupon-title"
+                >
                   Coupon
                 </Typography>
               </Grid>
               <Grid size={{ xs: 12, sm: 12 }} className="create-coupon-form">
                 <form>
-                  <Grid container spacing={2} alignItems={'center'} justifyContent={'center'}>
+                  <Grid
+                    container
+                    spacing={2}
+                    alignItems={"center"}
+                    justifyContent={"center"}
+                  >
                     <Grid size={{ xs: 12, sm: 6 }}>
                       <CustomTextField
-                        name='name'
-                        placeholder='Coupon Name'
+                        name="name"
+                        placeholder="Coupon Name"
                         control={control}
                         defaultValue={coupon?.name}
                         requiredField
@@ -174,19 +205,19 @@ const CouponView: React.FC = () => {
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6 }}>
                       <CustomTextField
-                        name='code'
-                        placeholder='Coupon Code'
+                        name="code"
+                        placeholder="Coupon Code"
                         control={control}
                         defaultValue={coupon?.code}
-                        rules={{ required: 'Coupon Code is required' }}
+                        rules={{ required: "Coupon Code is required" }}
                         requiredField
                         disabled={!editable}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6 }}>
                       <CustomSelect
-                        name='discountType'
-                        label='Discount Type'
+                        name="discountType"
+                        label="Discount Type"
                         defaultValue={coupon?.discountType}
                         control={control}
                         options={discountTypeOptions}
@@ -196,11 +227,11 @@ const CouponView: React.FC = () => {
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6 }}>
                       <CustomTextField
-                        name='discountValue'
-                        placeholder='Discount Value'
+                        name="discountValue"
+                        placeholder="Discount Value"
                         control={control}
-                        rules={{ required: 'Discount Value is required' }}
-                        type='number'
+                        rules={{ required: "Discount Value is required" }}
+                        type="number"
                         defaultValue={coupon?.discountValue}
                         requiredField
                         disabled={!editable}
@@ -208,34 +239,34 @@ const CouponView: React.FC = () => {
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6 }}>
                       <CustomDatePicker
-                        placeholder='Start Date'
-                        name='startDate'
+                        placeholder="Start Date"
+                        name="startDate"
                         control={control}
-                        defaultValue={coupon?.startDate ? moment(coupon.startDate).format('YYYY-MM-DD') : null}
-                        rules={{ required: 'Start Date is required' }}
-                        label='Start Date'
+                        defaultValue={coupon?.startDate}
+                        rules={{ required: "Start Date is required" }}
+                        label="Start Date"
                         requiredField
                         disabled={!editable}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6 }}>
                       <CustomDatePicker
-                        placeholder='Expiry Date'
-                        name='endDate'
-                        defaultValue={coupon?.endDate ? moment(coupon.endDate).format('YYYY-MM-DD') : null}
+                        placeholder="Expiry Date"
+                        name="endDate"
+                        defaultValue={coupon?.endDate}
                         control={control}
-                        rules={{ required: 'Expiry Date is required' }}
-                        label='End Date'
+                        rules={{ required: "Expiry Date is required" }}
+                        label="End Date"
                         requiredField
                         disabled={!editable}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6 }}>
                       <CustomTextField
-                        name='maxUses'
-                        placeholder='Maximum Usage'
+                        name="maxUses"
+                        placeholder="Maximum Usage"
                         control={control}
-                        type='number'
+                        type="number"
                         defaultValue={coupon?.maxUses}
                         requiredField
                         disabled={!editable}
@@ -243,21 +274,21 @@ const CouponView: React.FC = () => {
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6 }}>
                       <CustomTextField
-                        name='maxDiscountValue'
-                        placeholder='Maximum Discount Amount'
+                        name="maxDiscountValue"
+                        placeholder="Maximum Discount Amount"
                         control={control}
                         defaultValue={coupon?.maxDiscountValue}
-                        type='number'
+                        type="number"
                         requiredField
                         disabled={!editable}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, sm: 12 }}>
                       <CustomTextField
-                        name='minPurchaseValue'
-                        placeholder='Minimum Purchase Amount'
+                        name="minPurchaseValue"
+                        placeholder="Minimum Purchase Amount"
                         control={control}
-                        type='number'
+                        type="number"
                         requiredField
                         disabled={!editable}
                         defaultValue={coupon?.minPurchaseValue}
@@ -265,11 +296,11 @@ const CouponView: React.FC = () => {
                     </Grid>
                     <Grid size={{ xs: 12, sm: 12 }}>
                       <CustomTextField
-                        name='description'
+                        name="description"
                         multiline={true}
                         rows={4}
                         defaultValue={coupon?.description}
-                        placeholder='Description'
+                        placeholder="Description"
                         control={control}
                         disabled={!editable}
                       />
@@ -279,24 +310,26 @@ const CouponView: React.FC = () => {
                     <Grid size={{ xs: 12, sm: 12 }}>
                       <CustomButton
                         className="custom-list-save-btn"
-                        label='Save'
-                        variant='contained'
-                        size='large'
-                        type='submit'
+                        label="Save"
+                        variant="contained"
+                        size="large"
+                        type="submit"
                         startIcon={<SaveIcon />}
                         onClick={() => {
-
                           updateCouponDetails();
                           setEditable(false);
-                        }} />
-                    </Grid>) : ''}
+                        }}
+                      />
+                    </Grid>
+                  ) : (
+                    ""
+                  )}
                 </form>
               </Grid>
             </Grid>
           </Grid>
         )}
       </Box>
-
     </>
   );
 };
