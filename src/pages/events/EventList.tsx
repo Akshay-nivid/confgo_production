@@ -24,7 +24,7 @@ interface EventListProps {
  * Used to render events list
  * @author Vanisree
  */
-const EventList : React.FC<EventListProps> = React.memo(({ hideAction }) => {
+const EventList: React.FC<EventListProps> = React.memo(({ hideAction }) => {
   const navigate = useNavigate();
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
@@ -65,7 +65,7 @@ const EventList : React.FC<EventListProps> = React.memo(({ hideAction }) => {
     {
       type: "default",
       field: "name",
-      headerName: "Conference Name",
+      headerName: "Event Name",
       width: 200,
     },
     { type: "default", field: "eventClass", headerName: "Type", width: 150 },
@@ -116,7 +116,7 @@ const EventList : React.FC<EventListProps> = React.memo(({ hideAction }) => {
   const handleSearch = async (query: string) => {
     setLoading(true);
     try {
-      let req:any = {
+      let req: any = {
         filters: {
           name: query,
         },
@@ -164,61 +164,72 @@ const EventList : React.FC<EventListProps> = React.memo(({ hideAction }) => {
 
       {/* Buttons for 'Create New Event' and 'Filters' */}
       <Grid container size={{ xs: 8 }} spacing={2} justifyContent="flex-end">
-        {!hideAction && <><Grid container>
-          <CustomAutocomplete
-            name="search"
-            className="custom-search-text-field"
-            control={control}
-            options={searchResults} // Dynamic options based on API results
-            getOptionLabel={(option: any) => option.name || ""} // Adjust based on your data structure
-            onSearch={handleSearch} // Call the search function
-            loading={loading}
-            onChange={handleAutocompleteChange}
-          />
-        </Grid>
-        <Grid container spacing={2}>
-          <CustomButton
-            className="custom-list-next-btn"
-            label="Create New Event"
-            variant="contained"
-            size="large"
-            type="submit"
-            startIcon={<AddIcon />}
-            onClick={() => {
-              navigate(routes.createEvent());
-            }}
-            // disabled={loading}
-          />
-          <CustomButton
-            className="custom-list-filter-btn"
-            onClick={() => setIsFilterModalOpen(true)}
-            label="Filters"
-            startIcon={<TuneRoundedIcon />}
-            variant="contained"
-            color="primary"
-            size="large"
-          />
-        </Grid></>}
+        {!hideAction && (
+          <>
+            <Grid container>
+              <CustomAutocomplete
+                name="search"
+                className="custom-search-text-field"
+                control={control}
+                options={searchResults} // Dynamic options based on API results
+                getOptionLabel={(option: any) => option.name || ""} // Adjust based on your data structure
+                onSearch={handleSearch} // Call the search function
+                loading={loading}
+                onChange={handleAutocompleteChange}
+              />
+            </Grid>
+            <Grid container spacing={2}>
+              <CustomButton
+                className="custom-list-next-btn"
+                label="Create New Event"
+                variant="contained"
+                size="large"
+                type="submit"
+                startIcon={<AddIcon />}
+                onClick={() => {
+                  navigate(routes.createEvent());
+                }}
+                // disabled={loading}
+              />
+              <CustomButton
+                className="custom-list-filter-btn"
+                onClick={() => setIsFilterModalOpen(true)}
+                label="Filters"
+                startIcon={<TuneRoundedIcon />}
+                variant="contained"
+                color="primary"
+                size="large"
+              />
+            </Grid>
+          </>
+        )}
       </Grid>
       <Grid size={{ xs: 12 }}>
         <DataGridList
           source={source}
           onRowClick={(params: any) => handleRowClick(params.id)}
           title="Event"
-          hideFooterPagination={hideAction? true: false}
+          hideFooterPagination={hideAction ? true : false}
           columns={columns}
           id="event-datagrid"
         />
       </Grid>
-      {hideAction && <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'center'} alignItems={'center'}>
-        <CustomButton
-          className="custom-list-view-all-button"
-          label="View All"
-          variant="outlined"
-          size="large"
-          onClick={() => navigate("/events")}
-        />
-      </Grid>}
+      {hideAction && (
+        <Grid
+          container
+          size={{ xs: 12, sm: 12 }}
+          justifyContent={"center"}
+          alignItems={"center"}
+        >
+          <CustomButton
+            className="custom-list-view-all-button"
+            label="View All"
+            variant="outlined"
+            size="large"
+            onClick={() => navigate("/events")}
+          />
+        </Grid>
+      )}
 
       {/* Filter Modal */}
       <FilterModal
