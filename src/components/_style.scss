@@ -161,7 +161,7 @@
     max-height: var(--grid-height, calc(100vh - 200px)) !important;
   }
   .MuiDataGrid-row {
-    background-color: white;
+    background-color: $clr_white;
   }
   .MuiDataGrid-row:hover {
     background-color: $clr_gray_medium;
