@@ -11,13 +11,13 @@ import { useForm } from "react-hook-form";
 import "./accountsetting.scss";
 import { useCallback, useEffect, useState } from "react";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import EditIcon from "@/assets/svg/event-edit.svg";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { CloseOutlined } from "@mui/icons-material";
 import apiClient from "@/Libs/Https/API-client"; 
 import useStore from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
+import { GoogleIcon, UserEditRoundIcon } from "@/assets/svg";
 
 
 interface Profile {
@@ -26,6 +26,7 @@ interface Profile {
   email: string;
   phone: string;
   avatarUrl: string;
+  isSsoUser:boolean;
 }
 
 const AccountSetting:React.FC = React.memo(() => {
@@ -51,12 +52,15 @@ const AccountSetting:React.FC = React.memo(() => {
       });
       if (response.data.status === "success") {
         const data = response.data.data;
+        console.log(data,'8888888333333333')
         const AccountData = {
           firstName: data.firstName,
           lastName: data.lastName,
           phone: data.phone,
           email: data.email,
           avatarUrl: data.avatarUrl || "",
+          isSsoUser:data?.isSsoUser
+
         };
         setProfileData(AccountData);
      
@@ -114,11 +118,11 @@ const AccountSetting:React.FC = React.memo(() => {
 
   return (
     <Grid container>
-      <Grid size={8} className="account-profile-grid">
+      <Grid container size={8} className="account-profile-grid">
         <Grid size={12} className="account-title-grid">
           <Typography className="account-title">Personal Information</Typography>
           <IconButton onClick={openDrawer} className="event-detail-event-info-card-edit-btn">
-            <EditIcon />
+            <UserEditRoundIcon/>
           </IconButton>
         </Grid>
         <Grid className="account-profile-image connected">
@@ -129,7 +133,7 @@ const AccountSetting:React.FC = React.memo(() => {
             variant="square"
           />
         </Grid>
-        <Grid container className="account-detail-grid connected">
+        <Grid container className="account-detail-grid connected" size={12}>
           <Grid size={{ xs: 12, sm: 6 }}>
             <Typography className="account-user-detail1">
               First Name
@@ -168,18 +172,14 @@ const AccountSetting:React.FC = React.memo(() => {
         </Grid>
       </Grid>
 
-      <Grid size={8} className="account-profile-grid connected">
+     {profileData?.isSsoUser&&<Grid size={8} className="account-profile-grid connected">
       <Typography className="account-title">Connected accounts</Typography>
       <Grid display="flex" alignItems="center" className="connected">
           <Grid className="account-connected-grid">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png"
-              alt="Google"
-              className="account-connected-img"
-            />
+            <GoogleIcon width={400} height={300}/>
           </Grid>
         </Grid>
-      </Grid>
+      </Grid>} 
 
       <CustomDrawer open={isDrawerOpen} type="right">
         <Grid container className="account-drawer">

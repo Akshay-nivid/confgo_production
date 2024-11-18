@@ -45,7 +45,7 @@ const Security:React.FC = React.memo(() => {
   };
 
   return (
-    <Grid container>
+    <Grid container className="security-container">
       <Grid size={12}>
         <Typography className="security-title account-title">Security</Typography>
       </Grid>

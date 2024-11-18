@@ -13,7 +13,7 @@
   overflow: hidden;
 
   &-sidebar{
-   max-width:25rem !important;
+   max-width:30rem !important;
   }
   &-grid-wrapper {
     flex: 1;
@@ -26,6 +26,7 @@
     width: 100%;
     display: flex;
     &-outlet-grid {
+      background-color: $clr_white !important;
       overflow: hidden;
       height: 100%;
       width: 100%;
@@ -86,6 +87,7 @@
     }
 
     span {
+      margin-left: 0.5rem;
       font-size: 1.25rem;
       font-weight: $font_medium;
     }
@@ -214,6 +216,7 @@
       align-items: center;
     }
     &-arrow-down {
+      padding-right: 0.5rem;
       color: clr_black;
       width: 2rem;
       height: 2rem;
