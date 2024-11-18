@@ -60,6 +60,8 @@ import CalenderNoData from'./calender-no.svg';
 import NoEvent from "./NoEvents.svg";
 import NoPayment from "./noPayment.svg"
 import NoDataSvg from './nodata.svg';
+import Google from './google.svg';
+import EditIconRound from './EditIconRound.svg'
 import DashBoardEmpty from './dashboard-empty.svg';
 import ClockIcon from './clock-icon.svg';
 import SecuityIcon from './security-icon.svg';
@@ -130,6 +132,8 @@ export {
   NoDataSvg,
   NoPayment,
   ResetPassword,
+  Google,
+  EditIconRound,
   CalenderNoData,
   DashBoardEmpty,
   ClockIcon,

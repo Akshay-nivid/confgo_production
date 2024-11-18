@@ -15,9 +15,10 @@ import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { CloseOutlined } from "@mui/icons-material";
 import apiClient from "@/Libs/Https/API-client"; 
+import { EditIconRound, Google } from "@/assets/svg";
 import useStore from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
-import { GoogleIcon, UserEditRoundIcon } from "@/assets/svg";
+
 
 
 interface Profile {
@@ -52,7 +53,6 @@ const AccountSetting:React.FC = React.memo(() => {
       });
       if (response.data.status === "success") {
         const data = response.data.data;
-        console.log(data,'8888888333333333')
         const AccountData = {
           firstName: data.firstName,
           lastName: data.lastName,
@@ -117,12 +117,12 @@ const AccountSetting:React.FC = React.memo(() => {
   };
 
   return (
-    <Grid container>
-      <Grid container size={8} className="account-profile-grid">
-        <Grid size={12} className="account-title-grid">
-          <Typography className="account-title">Personal Information</Typography>
+    <Grid container className="account-main-grid">
+      <Grid size={8} className="account-profile-grid account-margin">
+        <Grid size={12} className="account-title-grid ">
+          <Typography className="account-title accountsettings-margin">Personal Information</Typography>
           <IconButton onClick={openDrawer} className="event-detail-event-info-card-edit-btn">
-            <UserEditRoundIcon/>
+          <EditIconRound/>
           </IconButton>
         </Grid>
         <Grid className="account-profile-image connected">
@@ -172,19 +172,19 @@ const AccountSetting:React.FC = React.memo(() => {
         </Grid>
       </Grid>
 
-     {profileData?.isSsoUser&&<Grid size={8} className="account-profile-grid connected">
+      {profileData?.isSsoUser&&<Grid size={8} className="account-profile-grid connected connected-grid account-margin connected-margin">
       <Typography className="account-title">Connected accounts</Typography>
       <Grid display="flex" alignItems="center" className="connected">
           <Grid className="account-connected-grid">
-            <GoogleIcon width={400} height={300}/>
+           <Google className="account-google"/>
           </Grid>
         </Grid>
-      </Grid>} 
+      </Grid>}
 
       <CustomDrawer open={isDrawerOpen} type="right">
         <Grid container className="account-drawer">
           <Grid size={12} container className="account-drawer-text">
-            <Typography className="account-title">Personal Information</Typography>
+            <Typography className="account-title account-drawer-textfield">Personal Information</Typography>
             <IconButton onClick={closeDrawer}>
               <CloseOutlined />
             </IconButton>
@@ -199,7 +199,7 @@ const AccountSetting:React.FC = React.memo(() => {
                   <CustomTextField name="lastName" placeholder="Last Name" control={control} requiredField className="account-drawer-textfield"/>
                 </Grid>
                 <Grid size={12} container className="account-drawer-btn">
-                  <CustomButton label="Change" variant="contained" type="submit" className="account-submit-btn"/>
+                  <CustomButton label="Change" type="submit" className="account-submit-btn" />
                 </Grid>
               </Grid>
             </form>

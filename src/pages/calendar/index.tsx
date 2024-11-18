@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid2";
 import { Typography } from "@mui/material";
 import useStore from "@/Libs/store";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Logger } from "@/Utils/Logger";
 import { CustomCalendar } from "@/components/CustomCalendar/CustomCalendar";
 import moment from "moment";
@@ -23,6 +23,8 @@ const CalendarPage: React.FC<calendarProps> = ({ id }) => {
   const dataInfo = useStore((state: any) => state?.compData?.[id]?.['event/list']) ?? [];
   const POST = useStore((state: any) => state.POST);
   const navigate = useNavigate();
+  const location = useLocation();
+  const containsUserCalendar = location.pathname.indexOf('user/calendar') !== -1;
   /**
    * Useeffect hook clears the state data while unmounting
    */
@@ -91,7 +93,7 @@ const CalendarPage: React.FC<calendarProps> = ({ id }) => {
    * @param event : event parameter
    */
   const handleSelectEvent = (event: any) => {
-    navigate(routes.userEventRecap(),{state:{eventId:event.id}})
+     containsUserCalendar? navigate(routes.userEventRecap(),{state:{eventId:event.id}}): navigate(`/events/detail/${event.id}`);
   };
 
   
