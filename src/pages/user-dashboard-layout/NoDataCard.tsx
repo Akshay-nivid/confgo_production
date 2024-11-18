@@ -2,7 +2,7 @@
 import React from "react";
 import Grid from '@mui/material/Grid2';
 import { Typography } from "@mui/material";
-import { NoDataSvg } from "@/assets/svg";
+import  noimg  from "./../../assets/png/Group.png";
 
 /**
  * Reusable no events card
@@ -18,17 +18,19 @@ const NoDataCard: React.FC = React.memo(() => (
     className="no-record-container"
     size={{ xs: 12 }}
   >
-    <Grid >
-    <NoDataSvg className="no-record-image" />
-    </Grid>
-    <Grid >
-      <Typography className="no-record-title">
-        No Events Found
-      </Typography>
-      <Typography className="no-record-subtitle" >
-        It looks like you haven’t created any data yet.
-      </Typography>
-    </Grid>
+                <Grid size={8}>
+                    <Grid size={12}>
+                        <Typography className="dashboard-left-profile-accounttitle" variant="body1">No Attended Events</Typography>
+                    </Grid>
+                    <Grid size={12}>
+                        <Typography >
+                            It looks like you haven’t registered for any upcoming events. Don’t miss out on exciting opportunities!
+                        </Typography>
+                    </Grid>
+                </Grid>
+                <Grid size={4}>
+                <img src={noimg} className="no-record-image"  alt="No records found" />
+                </Grid>
   </Grid>
 
 ));

@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid2';
 import { Box, Typography } from "@mui/material";
 import StatusComponent from "@/components/Status/StatusComponent";
 import moment from 'moment';
+import NoDataCard from "./NoDataCard";
 
 interface DashboardEventCardProps {
     event: {
@@ -44,16 +45,7 @@ interface DashboardEventCardProps {
 const DashboardEventCards: React.FC<DashboardEventCardProps> = React.memo(({ event }) => {
     if (!event) {
         return (
-            <Box>
-                <Grid size={12}>
-                    <Typography className="dashboard-left-profile-accounttitle" variant="body1">No Attended Events</Typography>
-                </Grid>
-                <Grid size={12}>
-                    <Typography >
-                        It looks like you haven’t registered for any upcoming events. Don’t miss out on exciting opportunities!
-                    </Typography>
-                </Grid>
-            </Box>
+         <NoDataCard/>
         );
     }
     return (
@@ -66,14 +58,14 @@ const DashboardEventCards: React.FC<DashboardEventCardProps> = React.memo(({ eve
             <Grid size={12} mt={2} className="dashboard-left-profile-card-block" >
                 Status  <StatusComponent className="status-componenet" value={event?.statusId.toString()} />
             </Grid>
-            <Grid size={12} mt={2}  className="dashboard-left-profile-card-block">
+            <Grid size={12} mt={2} className="dashboard-left-profile-card-block">
 
                 <Grid size={8} className="dashboard-left-profile-card-block-date">
                     <Typography className="dashboard-left-profile-card-block-title">
                         Date
                     </Typography>
                     <Typography className="dashboard-left-profile-card-block-content">
-                        {moment(event.startTime).format('MMMM D, YYYY')} - {moment(event.endTime).format('MMMM D, YYYY')} 
+                        {moment(event.startTime).format('MMMM D, YYYY')} - {moment(event.endTime).format('MMMM D, YYYY')}
                     </Typography>
                 </Grid>
                 <Grid size={4}>

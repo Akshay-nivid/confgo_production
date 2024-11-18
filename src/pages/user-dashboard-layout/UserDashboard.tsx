@@ -12,8 +12,14 @@ import { CalendarCard } from '../dashboard/CalendarCard';
 import moment from 'moment';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import DashboardEventCards from './DashboardEventCard';
+import NoCalenderData from './NoCalenderData';
 
-
+export interface CalendarCardData {
+  id: string;
+  startTime: string | null;
+  endTime: string | null;
+  name: string;
+}
 
 /**
  * Used to render user dashboard 
@@ -22,7 +28,7 @@ import DashboardEventCards from './DashboardEventCard';
 const UserDashboard: React.FC = React.memo(() => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [calenderData, setCalenderData] = useState(false);
+  const [calendarData, setCalendarData] = useState<CalendarCardData | null>(null);
   const [isCountLoading, setIsCountLoading] = useState(false);
   const setDataById = useStore((state: any) => state.setDataById);
   const POST = useStore((state: any) => state.POST);
@@ -39,13 +45,13 @@ const UserDashboard: React.FC = React.memo(() => {
   */
   useEffect(() => {
     fetchUpcomingEvents();
-    fetchLatestEvents();
+    fetchPastEvents();
     getDashboardCount();
   }, [])
 
-  
+
   /**
-    * fetch upcoming events
+  * fetch upcoming events
   */
   const getDashboardCount = async () => {
     try {
@@ -69,51 +75,56 @@ const UserDashboard: React.FC = React.memo(() => {
       setIsCountLoading(false);
     }
   }
-    /**
-    * fetch upcoming events
-    */
-    const fetchUpcomingEvents = async () => {
-      try {
-        setIsLoading(true);
-        await POST({
-          url: "event/list",
-          body: {
-            limit: 1,
-            offset: 0,
-            sortBy: "id",
-            sortDirection: "ASC",
-            filters: {
-              "startTime": new Date()
-            },
+  /**
+  * fetch upcoming events
+  */
+  const fetchUpcomingEvents = async () => {
+    try {
+      setIsLoading(true);
+      await POST({
+        url: "event/list",
+        body: {
+          limit: 1,
+          offset: 0,
+          sortBy: "id",
+          sortDirection: "ASC",
+          filters: {
+            "startTime": new Date()
           },
-          id: 'userLatestEvents',
-          successCB: (context: any) => {
-            if(context?.success){
-              if (context?.data) {
-                setCalenderData({"id":context?.data[0]})
-              }
+        },
+        id: 'userLatestEvents',
+        successCB: (context: any) => {
+          if (context?.success) {
+            if (context?.data) {
+              setDataById ('userLatestEvents',
+                { "id":context?.data[0]?.id,
+                "startTime": context?.data[0]?.startTime,
+                "endTime":context?.data[0]?.endTime,
+                "name": context?.data[0]?.name}
+              );
             }
-          },
-          errorCB: (context: any) => {
-            setDataById("snackBarInfo", {
-              open: true,
-              autoHideDuration: 2000,
-              severity: "error",
-              message: context?.message,
-            });
-          },
-        });
-      } catch (error) {
-        Logger.error("An error occurred:", error);
-      }
-      finally {
-        setIsLoading(false);
-      }
+          }
+        },
+        errorCB: (context: any) => {
+          setDataById("snackBarInfo", {
+            open: true,
+            autoHideDuration: 2000,
+            severity: "error",
+            message: context?.message,
+          });
+        },
+      });
+    } catch (error) {
+      Logger.error("An error occurred:", error);
     }
+    finally {
+      setIsLoading(false);
+    }
+  }
   /**
   * fetch completed events /last attended events
   */
-  const fetchLatestEvents = async () => {
+  const fetchPastEvents = async () => {
     try {
       setIsLoading(true);
       await POST({
@@ -180,25 +191,27 @@ const UserDashboard: React.FC = React.memo(() => {
               Account Overview
             </Typography>
           </Grid>
-          {isCountLoading? <CircularProgress/>:
-           <>
-          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-            <DashboardCardItem onClick={() => navigate("/user/my-event")} count={eventAndUserCount?.data.totalEventCount??0} icon={EventsSvg} title="Total Events Registered" />
-          </Grid>
-          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-            <DashboardCardItem onClick={() => navigate("/user/my-event")} count={eventAndUserCount?.data.pastEventCount??0}  icon={DownloadEventIcon} title="Sessions Participated" />
-          </Grid>
-          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-            <DashboardCardItem onClick={() => navigate("/user/payment-history")} count={eventAndUserCount?.data.currentEventCount??0}  icon={PaymentDashboardIcon} title="Pending Payments" />
-          </Grid>
-          </> }
+          {isCountLoading ? <CircularProgress /> :
+            <>
+              <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+                <DashboardCardItem onClick={() => navigate("/user/my-event")} count={eventAndUserCount?.data?.totalEventCount ?? 0} icon={EventsSvg} title="Total Events Registered" />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+                <DashboardCardItem onClick={() => navigate("/user/my-event")} count={eventAndUserCount?.data?.pastEventCount ?? 0} icon={DownloadEventIcon} title="Sessions Participated" />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+                <DashboardCardItem onClick={() => navigate("/user/payment-history")} count={eventAndUserCount?.data?.currentEventCount ?? 0} icon={PaymentDashboardIcon} title="Pending Payments" />
+              </Grid>
+            </>}
         </Grid>
         <Grid size={12}>
           <Typography className="dashboard-left-profile-accounttitle" gutterBottom>
             Attended Event
           </Typography>
           <Grid size={{ xs: 12 }} className="dashboard-left-profile-card">
+          {isLoading ? <CircularProgress /> :
             <DashboardEventCards event={userCompletedEvents?.data && userCompletedEvents?.data[0]} />
+          }
           </Grid>
         </Grid>
 
@@ -207,10 +220,11 @@ const UserDashboard: React.FC = React.memo(() => {
       {/* Right Column */}
       <Grid size={{ xs: 12, md: 4 }} className="dashboard-right" >
         <Grid container >
-          <Grid><Typography className="dashboard-subhead">Upcoming Events</Typography></Grid>
-          <Grid className="dashboard-calendar-card">
+          <Grid>
             {isLoading ? <CircularProgress /> :
+            userLatestEvents && userLatestEvents.length>0?
               <CalendarCard data={userLatestEvents} />
+              :<NoCalenderData/>
             }
           </Grid>
         </Grid>
@@ -223,17 +237,17 @@ const UserDashboard: React.FC = React.memo(() => {
           <Grid container >
 
             <Grid size={12} mt={1} className="dashboard-left-profile-card-recent" onClick={() => navigate('/user/payment-history')}>
-            <CalendarEventIcon fontSize={20}/> View Payment History
+              <CalendarEventIcon fontSize={20} /> View Payment History
             </Grid>
-            <Divider  className='dashboard-left-profile-card-recent-dividers'/>
+            <Divider className='dashboard-left-profile-card-recent-dividers' />
             <Grid size={12} mt={1} className="dashboard-left-profile-card-recent" onClick={() => navigate('/user/my-event')}>
-             <HeartEventIcon fontSize={20}/> View All My Events
+              <HeartEventIcon fontSize={20} /> View All My Events
             </Grid>
-            <Divider className='dashboard-left-profile-card-recent-dividers'/>
+            <Divider className='dashboard-left-profile-card-recent-dividers' />
             <Grid size={12} mt={1} className="dashboard-left-profile-card-recent" onClick={() => navigate('/user/my-event')} >
-            <PaymentHistoryIcon fontSize={20}/> Download Tickets & Certificates
+              <PaymentHistoryIcon fontSize={20} /> Download Tickets & Certificates
             </Grid>
-            <Divider className='dashboard-left-profile-card-recent-dividers'/>
+            <Divider className='dashboard-left-profile-card-recent-dividers' />
           </Grid>
 
 
