@@ -55,7 +55,7 @@ const PaymentHistory:React.FC = React.memo(()=>{
         amount: item?.amount,
         status : item?.event?.statusId,
         createdOn: item?.createdOn,
-        Receipt:<CustomButton label={"[Download]"} className="downlod-receipt"/>,
+        Receipt:<CustomButton label={"[Download]"} className="download-receipt"/>,
         PaymentMethod:item.paymentMethodId
      
       };

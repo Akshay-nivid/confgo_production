@@ -227,6 +227,35 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    &-view-pricing-button{
+      border-radius: 4.3rem !important;
+      background-color: $clr_white !important;
+      width: 13rem;
+      height: 4.9rem;
+      color: $clr_black !important;
+      font-weight: $font_semibold !important;
+      font-size: $p1 !important;
+      line-height: 1.3rem !important;
+      text-transform: none !important;
+    }
+    &-contact-button{
+      border-radius: 4.3rem !important;
+      background-color: $clr_blue !important;
+      border: 0.2rem solid $clr_white !important;
+      width: 14.8rem;
+      height: 4.9rem;
+      color: $clr_white !important;
+      font-weight: $font_semibold !important;
+      font-size: $p1 !important;
+      line-height: 1.3rem !important;
+      text-transform: none !important;
+      svg{
+        path{
+          fill: $clr_white;
+
+        }
+      }
+    }
   }
   .banner-content {
     .banner-title {

@@ -461,9 +461,9 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                       rules={{
                                         required: "Price is required",
                                         pattern: {
-                                          value: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
+                                        value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
                                           message:
-                                            "Enter a valid price (up to 2 decimal places)",
+                                            "Enter a valid price (up to 2 decimal places & Zero not accepted)price up to 1Crore",
                                         },
                                         validate: (value) => {
                                           if (typeof value === "string") {
