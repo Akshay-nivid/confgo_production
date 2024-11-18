@@ -72,7 +72,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction }) => {
     {
       type: "dateField",
       field: "createdOn",
-      headerName: "Date & Time",
+      headerName: "Date",
       width: 250,
       dateFormat: "DD/MM/YYYY",
     },
