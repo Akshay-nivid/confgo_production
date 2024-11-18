@@ -37,7 +37,8 @@ type PlanType = {
 const AddPlan = React.memo(() => {
   const [currentPlan, setcurrentPlan] = useState('');
   const form1 = useStore((state: any) => state?.compData?.['form1']) ?? [];
-  const { setDataById }: any = useStore();
+  const setDataById = useStore((state: any) => state.setDataById)
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const handleChangePlan = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,7 +107,7 @@ const AddPlan = React.memo(() => {
         <Grid className="left-inner-content">
           <FormControl className="w-full">
             <Grid alignSelf={"center"}>
-              <Typography className="left-plan-text" textAlign={"center"} variant="h2" lineHeight={2} >Choose Your Plan</Typography>
+              <Typography className="left-plan-text" textAlign={"center"} variant="h3" lineHeight={2} >Choose Your Plan</Typography>
               <Typography className="left-description-text" textAlign={"center"} variant="h6">Everything you might need and then some more in an accessible and intuitive package.</Typography>
             </Grid>
             <RadioGroup
@@ -136,7 +137,7 @@ const AddPlan = React.memo(() => {
             className={(loading || planList.length===0)?'plan-disabled-choose-btn':"plan-choose-btn"}
             endIcon={<ArrowIconSvg/>}
             onClick={handleClick}
-            label="Choose this plan"
+            label="Choose Plan and Proceed"
             size="large"
             disabled={ loading || planList.length===0}
           />

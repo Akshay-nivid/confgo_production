@@ -1,5 +1,5 @@
 import Grid from "@mui/material/Grid2";
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Divider,
   Typography,
@@ -17,11 +17,20 @@ const RegistrationSuccess = React.memo(() => {
   useStore((state: any) => state?.compData?.["register"]) ?? [];
   const { clearDataById }: any = useStore();
   const navigate=useNavigate();
-  const handleHome=()=>{
-    clearDataById('register');
+
+  /**
+   * useEffect used to cllear date form form when naviagte to thankyou page
+   */
+  useEffect(()=>{
     clearDataById('form1');
     clearDataById('form2');
     clearDataById('form3');
+  },[])
+  /**
+   * method used to handle home button click
+   */
+  const handleHome=()=>{
+    clearDataById('register');
     navigate(routes.home());
   }
   return (

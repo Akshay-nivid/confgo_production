@@ -26,6 +26,7 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
   const userDetails = useStore((state: any) => state?.compData?.['userDataRegister']) ?? [];
   const [userData, setUserData] = useState<any>(null);
   const [otpData,setOtpData]=useState<otpDataFields>();
+  const POST = useStore((state: any) => state.POST);
   type FormData = {
     otp: string;
   };
@@ -59,19 +60,20 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
     try {
       const requestBody = {
         userId: userDetails.data.userId,
-        token: userDetails.data.token
+        token: userDetails.data.token,
+        type:userDetails?.data?.tokenType??'USER_REGISTRATION'
       }
       const response = await apiClient.post(`user/details`, requestBody)
       if (response.data.status === 'success') {
         setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:'Registration Successfully' })
-        setDataById('userDataRegister', { data:{userId:userDetails.data.userId,token:userDetails.data.token,email:response.data.data.email,phone:response.data.data.phone} });
+        setDataById('userDataRegister', { data:{userId:userDetails.data.userId,token:userDetails.data.token,email:response.data.data.email,phone:response.data.data.phone,tokenType:userDetails?.data?.tokenType} });
         getOtp(response.data.data.phone);
         setUserData(response.data.data)
       }else{
         setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:'Something went wrong' })
       }
     } catch (error:any) {
-      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:error.response.data.message })
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:'failed' })
       Logger.error(error,'OtpFormComponent.tsx')
     }
   }
@@ -79,11 +81,12 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
    * function used to get otp
    * @param phone 
    */
+
   const getOtp = async (phone: string) => {
     try {
       const requestBody = {
         phone: userData?.phone ?? phone,
-        type: 'REGISTRATION_OTP'
+        type:userDetails?.data?.tokenType??'REGISTRATION_OTP'
       }
       const response = await apiClient.post(`token/otp`, requestBody)
       if (response.data.status === 'success') {
@@ -91,7 +94,8 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
         setOtpData(
           {otp:response.data.data.otp,token:response.data.data.token,type:response.data.data.type}
         )
-     
+      }else{
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:response.data.message })
       }
     } catch (error:any) {
       setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:error.response.data.message })
@@ -103,25 +107,40 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
    * function used to verify otp
    * @param otp 
    */
-  const verifyOtp = async (otp: string) => {
-    try {
-      const requestBody = {
-        userId: userDetails.data.userId,
-        token: otpData?.token,
-        otp: otp,
-        type:otpData?.type,
+    const verifyOtp = async (otp: string) => {
+      try {
+        const body = {
+          userId: userDetails.data.userId,
+          token: otpData?.token,
+          otp: otp,
+          type: otpData?.type,
+        };
+        await POST({
+          url: `token/validateotp`,
+          body: body,
+          id: 'otpVerify',
+          successCB: (_success: any) => {
+            onOtpVerify(true);
+            setDataById("snackBarInfo", {
+              open: true,
+              autoHideDuration: 2000,
+              severity: "success",
+              message: "Otp verified successfully",
+            });
+          },
+          errorCB: (error: any) => {
+            setDataById("snackBarInfo", {
+              open: true,
+              autoHideDuration: 2000,
+              severity: "error",
+              message: error.message,
+            })
+          }
+        });
+      } catch (error) {
+        Logger.error('OtpFormCompoent.tsx', error)
       }
-      const response = await apiClient.post(`token/validateotp`, requestBody)
-      if (response.data.status === 'success') {
-        onOtpVerify(true);
-        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:"Otp verified successfully" })
-      }
-    } catch (error:any) {
-      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:error.response.data.message })
-      Logger.error(error,'OtpFormComponent.tsx')
     }
-  }
-
   return (
     <Grid size={12} container className="otpcomponent__content-wrapper">
       <Grid size={12} className="otpcomponent__header-wrapper">

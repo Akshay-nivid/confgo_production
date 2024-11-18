@@ -195,7 +195,7 @@ const CustomTextField = <T extends FieldValues>({
       )}
 
       <InputLabel htmlFor={name} className="custom-input-label">
-         {placeholder}
+         {label? label:placeholder}
      </InputLabel>
 
       <Controller

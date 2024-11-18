@@ -80,39 +80,41 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
      */
     useEffect(() => {
       const savedPrograms = watch("savedPrograms");
-      if (savedPrograms && savedPrograms.length > 0) {
-        setProgramIndex(savedPrograms.length - 1);
-      } else {
-        setProgramIndex(0);
-      }
-    }, [watch("savedPrograms")]);
+      setProgramIndex(savedPrograms?.length ? savedPrograms.length - 1 : 0);
+  }, [watch]);
+  
 
     /**
      * Useeffect hook submits the form based on the formSubmit variable
      */
     useEffect(() => {
-      if (formSubmit) {
-        onSubmitHandler && onSubmitHandler(data?.savedPrograms, "PROGRAM");
+      if (!formSubmit) return; // Short-circuit if formSubmit is false
+      if (onSubmitHandler) {
+          onSubmitHandler(data?.savedPrograms, "PROGRAM");
       }
-    }, [formSubmit]);
+  }, [formSubmit, onSubmitHandler, data?.savedPrograms]);
+  
 
     /**
      * Method handles the form submission
      * @param data : form data
      */
-    const onSubmit: SubmitHandler<FormData> = (data: any) => {
-      onSubmitHandler && onSubmitHandler(data?.savedPrograms, "PROGRAM");
-    };
+    const onSubmit: SubmitHandler<FormData> = (data) => {
+      if (onSubmitHandler) {
+          onSubmitHandler(data.savedPrograms, "PROGRAM");
+      }
+  };
+  
 
     /**
      * Useeffect hook set the field based on the data
      */
     useEffect(() => {
-      if (data) {
-        setValue("programs", data);
-        setValue("savedPrograms", data);
-      }
-    }, [data]);
+      if (!data) return; // Early exit if data is undefined or null
+      setValue("programs", data);
+      setValue("savedPrograms", data);
+  }, [data, setValue]);
+  
 
     /**
      * Method handles the saving of the programs
@@ -140,8 +142,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
           startTime: moment().format("HH:mm"),
           endTime:moment().format("HH:mm"),
           type: "PAID",
-          amount: "",
-          addonId: "",
+          amount: ""
         };
         newPrograms.push(newProgram);
 
@@ -460,9 +461,9 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                       rules={{
                                         required: "Price is required",
                                         pattern: {
-                                          value: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
+                                        value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
                                           message:
-                                            "Enter a valid price (up to 2 decimal places)",
+                                            "Enter a valid price (up to 2 decimal places & Zero not accepted)price up to 1Crore",
                                         },
                                         validate: (value) => {
                                           if (typeof value === "string") {
@@ -520,18 +521,19 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                     <Grid
                       key={field.id}
                       container
+                      alignItems="center"
                       className="add-program-display-item"
-                      size={{ xs: 12, sm: 12 }}
+                      size={{ xs: 12 }}
                     >
-                      <Grid size={{ xs: 8, sm: 8 }} >
-                        <Grid container size={{ xs: 12, sm: 12 }} direction={'column'}>
-                        <Grid>{field.name}</Grid>
-                        <Grid>{field.description}</Grid>    
+                      <Grid size={{ xs: 8, sm: 9 }} >
+                        <Grid container size={{ xs: 12 }} direction={'column'}>
+                        <Grid size={{ xs: 12 }}><Typography className="text-p2 font-700 truncate-text" title={field.name}>{field.name}</Typography> </Grid>
+                        <Grid size={{ xs: 12}}><Typography className="truncate-text" title={field.description} >{field.description}</Typography></Grid>    
                         </Grid>
                                             
                       </Grid>
 
-                      <Grid size={{ xs: 4, sm: 4 }}>
+                      <Grid size={{ xs: 4, sm: 3 }}>
                         <IconButton onClick={() => handleEdit(index)}>
                           <EditIcon />
                         </IconButton>

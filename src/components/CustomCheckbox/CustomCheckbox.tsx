@@ -21,6 +21,7 @@ interface ICustomCheckbox<T extends FieldValues> {
   defaultValue?: any;
   className?: string;
   setValue?: UseFormSetValue<T>;
+  onChange?: () => void;
 }
 
 const CustomCheckbox = <T extends FieldValues>({
@@ -32,6 +33,7 @@ const CustomCheckbox = <T extends FieldValues>({
   row,
   defaultValue,
   setValue,
+  onChange,
   ...props
 }: ICustomCheckbox<T>) => {
   
@@ -78,8 +80,11 @@ const CustomCheckbox = <T extends FieldValues>({
                         }
 
                         field.onChange(newValue); // Update the array in the form
+                        if (onChange) {
+                          onChange();
+                        }
                       }}
-                      color="primary"
+                      color="primary" 
                       {...props}
                     />
                   }

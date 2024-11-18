@@ -48,12 +48,12 @@ const ImageListDisplay: React.FC<ImageListDisplayProps> = ({
       <Grid size={{xs:12}}>
         <ImageList cols={imagesPerRow} gap={20} rowHeight={70} className="image-list">
           {files.map((file) => (
-            <ImageListItem key={file.id} onClick={() => handleFileSelect(file)} className="image-list__item">
+            <ImageListItem key={file.id} onClick={() => handleFileSelect(file)} className="image-list-item">
               <img
                 src={`${baseURL}asset/${file.id}`}
                 alt={file.name}
                 loading="lazy"
-                className="image-list__image"
+                className="image-list-image"
               />
               <ImageListItemBar
                 title={file.name}
@@ -62,7 +62,7 @@ const ImageListDisplay: React.FC<ImageListDisplayProps> = ({
                     <Checkbox
                       checked={selectedFiles.some((selected) => selected.id === file.id)}
                       onChange={() => handleFileSelect(file)}
-                      className="image-list__checkbox"
+                      className="image-list-checkbox"
                     />
                   ) : null
                 }

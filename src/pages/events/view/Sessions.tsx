@@ -35,12 +35,10 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
   const parentId = eventData.id;
   const POST = useStore((state) => state.POST);
   const setDataById = useStore((state) => state.setDataById);
-
   /**
    * Function used at while adding
    */
   const handleAddClick = () => {
-
     setDataById('sessions', {drawerOpen:true, isEditing:false, idAddon:false, showPriceField:false})
   };
 
@@ -255,6 +253,8 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
             selectedProgram={selectedProgram}
             onSubmit={onSubmit}
             closeDrawer={closeDrawer}
+            eventStartTime={eventData.startTime}
+            eventEndTime={eventData.endTime}
           />
         }
       />
