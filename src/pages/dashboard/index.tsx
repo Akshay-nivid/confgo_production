@@ -75,11 +75,6 @@ const Dashboard = () => {
             sortDirection: "DESC",
           },
           id: 'fullEventList',
-          successCB: (context: any) => {
-            if (context?.success) {
-              setUpcomingData(context?.data?.[0])
-            }
-          },
           errorCB: (context: any) => {
             Logger.error('Dashboard', context?.message);
           }

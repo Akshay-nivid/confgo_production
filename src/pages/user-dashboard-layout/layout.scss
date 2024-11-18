@@ -13,7 +13,7 @@
   overflow: hidden;
 
   &-sidebar{
-   max-width:30rem !important;
+   max-width:25rem !important;
   }
   &-grid-wrapper {
     flex: 1;
@@ -76,7 +76,7 @@
   .MuiListItemButton-root {
     display: flex;
     column-gap: 0.483rem;
-    padding: 0.5rem 6rem;
+    padding: 1rem 3.2rem;
     border-radius: 0.417rem;
     font-size: 1.5rem;
     color: $clr_black;
