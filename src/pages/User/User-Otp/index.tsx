@@ -9,7 +9,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import OtpInput from 'react-otp-input';
 import { LockIcon } from '@/assets/svg';
 import { useEffect } from 'react';
-import apiClient from '@/Libs/Https/API-client';
 import useStore from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import { purposeTypes } from '@/Utils/CommonBaseClass';
@@ -24,10 +23,10 @@ interface IFormData {
 const UserOtp = () => {
 
   const { email, token, userId, purpose, phoneNumber } = useLocation().state || {};
-
+  console.log("loginOTP>>>>>>>>>>",email,phoneNumber,purpose);
+  
 
   const eventData = useStore((state: any) => state?.compData?.["userDetails"]?.[`user/details`]) ?? [];
-  
   const navigate = useNavigate();
   const POST = useStore((state: any) => state.POST);
   
@@ -63,9 +62,7 @@ const UserOtp = () => {
         otp: data.otp,
         type: "USER_REGISTRATION_OTP",
         token: token,
-    
       };
-
       /**
        * success callback function
        */
@@ -90,7 +87,6 @@ const UserOtp = () => {
      * reset password api call
      */
     if (purpose == purposeTypes.RESET_PASSWORD) {
-      
       const body = {
         otp: data.otp,
         token: token,
@@ -126,7 +122,7 @@ const UserOtp = () => {
       body:body,
       errorCB: (error: any) => Logger.error("error", error)
     });
-   
+
    const resendOtpBody={
       phone: eventData?.data?.phone,
       type: 'RESET_PASSWORD_OTP',

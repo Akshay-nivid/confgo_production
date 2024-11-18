@@ -50,7 +50,7 @@ const LoginOrg = () => {
    * function used to handle form submission
    */
     const handleClickForgetPassword=()=>{
-      navigate(routes.forgotPassword())
+      navigate(routes.organisationForgotPassword())
       }
 
   const onSubmit: SubmitHandler<FormData> = (data) => {

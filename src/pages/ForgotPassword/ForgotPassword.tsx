@@ -7,6 +7,7 @@ import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceR
 import { ForgotPasswordIcon } from "@/assets/svg";
 import routes from "@/router/routes";
 import { validateEmail, validateRequiredField } from "@/Utils/Validation";
+import { useLocation} from 'react-router-dom';
 import useStore from "@/Libs/store";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { Logger } from "@/Utils/Logger";
@@ -25,8 +26,18 @@ const ForgotPassword = () => {
   const { handleSubmit, control } = useForm<FormData>();
   const POST = useStore((state: any) => state.POST);
   const navigate = useNavigate();
-
-  
+  const location=useLocation()
+  /**
+   *  function for get previousPath
+   */
+const  previousPath=()=>{
+  if(location.pathname === '/user/forgot-password'){
+    navigate(routes.userLogin())
+  }
+  else{
+    navigate(routes.loginOrg())
+  }
+}
   /**
    * Function to handle submit button
    * checking email is valid or not
@@ -88,7 +99,7 @@ const ForgotPassword = () => {
               }
             />
             <CustomButton variant="contained" className="button-reset-password" onClick={handleSubmit(handleResetPassword)} label="Reset Password" />
-            <CustomButton variant="text" className="button-back-to-login" startIcon={<KeyboardBackspaceRoundedIcon />} label="Back to Login" />
+            <CustomButton variant="text" className="button-back-to-login" startIcon={<KeyboardBackspaceRoundedIcon />} label="Back to Login" onClick={previousPath} />
           </Grid>
           <Grid>
           </Grid>
