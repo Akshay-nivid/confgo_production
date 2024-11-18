@@ -49,14 +49,7 @@ const LoginOrg = () => {
   const navigate = useNavigate();
   const POST = useStore((state: any) => state.POST);
 
-  /**
-   * useEffect to check login status of organization
-   */
-  useEffect(() => {
-    if (!!details?.loggedIn) {
-      // navigate(routes.dashboard());
-    }
-  }, [])
+
   /**
    * function used to handle form submission
    */
@@ -105,20 +98,21 @@ const LoginOrg = () => {
 
     // Store common session information
     sessionStorage.setItem('isUserLoggedIn', 'true');
-    sessionStorage.setItem('userLoggedInType', 'COMPANY');
+    sessionStorage.setItem('userLoggedInType', userRole?.roleName);
     sessionStorage.setItem('token', token);
+    // Set organization-specific details in global state
+    setDataById('orgDetails', { loggedIn: true });
+
+    // Set the authentication token for API client
+    apiClient.setToken(token);
+
+
 
     // Check if the user is of type "COMPANY"
     if (userRole?.roleName === "COMPANY") {
       // Store specific session details for company users
       sessionStorage.setItem('companyUserName', `${firstName} ${lastName || ''}`);
       sessionStorage.setItem('subscriptionStatus', subscriptionStatus);
-
-      // Set organization-specific details in global state
-      setDataById('orgDetails', { loggedIn: true });
-
-      // Set the authentication token for API client
-      apiClient.setToken(token);
 
       // Redirect to the company dashboard
       navigate(routes.dashboard());

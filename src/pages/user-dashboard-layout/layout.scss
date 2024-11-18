@@ -12,8 +12,8 @@
   height: 100vh;
   overflow: hidden;
 
-  &-sidebar {
-    max-width: 25rem !important;
+  &-sidebar{
+   max-width:30rem !important;
   }
 
   &-grid-wrapper {
@@ -92,6 +92,7 @@
     }
 
     span {
+      margin-left: 0.5rem;
       font-size: 1.25rem;
       font-weight: $font_medium;
     }
@@ -197,6 +198,7 @@
     }
 
     &-arrow-down {
+      padding-right: 0.5rem;
       color: clr_black;
       width: 2rem;
       height: 2rem;
