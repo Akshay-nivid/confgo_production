@@ -1,11 +1,12 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
-import { Avatar, Badge, Divider, Menu, MenuItem } from '@mui/material';
-import { SettingsIcon, LogoutIcon, CalendarEventIcon, DownArrowSvg } from '@/assets/svg';
+import { Avatar, Divider, Menu, MenuItem } from '@mui/material';
+import { SettingsIcon, LogoutIcon,  DownArrowSvg, ResetPassword } from '@/assets/svg';
 import Grid from '@mui/material/Grid2';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import { toSentenceCase } from '@/Utils/CommonBaseClass';
+import useStore, { resetStore, setDataById } from '@/Libs/store';
 
 interface LayoutAppbarProps {
   userDetails: {
@@ -23,7 +24,6 @@ interface LayoutAppbarProps {
 const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
-  
   /**
    * handle appbar open
    */
@@ -44,11 +44,29 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
     // Clear sessionStorage and localStorage
     sessionStorage.clear();
     localStorage.clear();
-
+    resetStore();
     // Navigate to login
     navigate(routes.userLogin()); 
   };
 
+/**
+ * handle to profile page by passing tabindex as 0 
+ */
+  const handleProfileClick = () => {
+    setAnchorEl(null);
+    setDataById('settings', { tabIndex: 0 }); 
+    navigate(routes.accountsettings(),{ state: { email: userDetails?.email } })
+  };
+
+  /**
+   * handle to security page by passing tabindex as 1
+   */
+  const handleResetPassword = () => {
+    setAnchorEl(null);
+    useStore.getState().setDataById("settings", { tabIndex: 1, email: userDetails?.email });  
+    
+    navigate(routes.accountsettings(), { state: { email: userDetails?.email } })
+  };
     /**
    * Account settings
    */
@@ -56,28 +74,19 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
     // };
   
   return (
-    <Grid container className="appbar">
+    <Grid container size={12} className="appbar">
       <Grid size={2} className="appbar-logo-container">
         LOGO
       </Grid>
       <Grid container size={10} justifyContent="flex-end" >
-        <Grid container className="appbar-notification">
-          {/* Calendar Icon */}
-          <CalendarEventIcon className='appbar-notification-icon' />
-          {/* Notification Badge */}
-          <Badge
-            badgeContent={4}
-            color="primary"
-            className='appbar-notification-badge'
-          />
-        </Grid>
-        <Grid container size={2} className="appbar-group" onClick={handleMenuOpen}>
+        
+        <Grid  size={2} className="appbar-group" onClick={handleMenuOpen}>
           {/*Image */}
           <Grid size={1} className="appbar-group-img" mb={0}>
             <img src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHByb2ZpbGV8ZW58MHx8MHx8fDA%3D" alt="User" />
           </Grid>
           {/* Name and Role */}
-          <Grid container size={7} className="appbar-group-textgroup">
+          <Grid  size={7} className="appbar-group-textgroup">
             <Grid size={12}>
               <Typography className="appbar-group-text">{userDetails?.firstName} {userDetails?.lastName}</Typography>
             </Grid>
@@ -105,13 +114,13 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
            
           </MenuItem>
           <Divider />
-          <MenuItem className="menu-item-margin" onClick={() => navigate(routes.accountsettings())}>
+          <MenuItem className="menu-item-margin" onClick={handleProfileClick}>
             <SettingsIcon />
             <span className="menu-item-text">Profile</span>
           </MenuItem>
-          <MenuItem className="" onClick={() => navigate(routes.forgotPassword())}>
-          <SettingsIcon />
-            <span className="menu-item-text">Reset Password</span>
+          <MenuItem className="" onClick={handleResetPassword}>
+          <ResetPassword />
+            <span className="menu-item-text">Change Password</span>
           </MenuItem>
           <MenuItem className="" onClick={handleLogout}>
             <LogoutIcon />

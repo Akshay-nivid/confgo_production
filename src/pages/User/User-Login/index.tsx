@@ -57,7 +57,7 @@ const UserLogin = (props: UserProps) => {
    * function for set userTpype
    */
   function handleClickForgetPassword() {
-    navigate(routes.forgotPassword());
+    navigate(routes.userForgotPassword());
   }
   /**
    * function to handle login
@@ -70,7 +70,9 @@ const UserLogin = (props: UserProps) => {
       successCB: (success: ApiResponse) => {
         sessionStorage.clear();
         sessionStorage.setItem("token", success.data?.token);
-        sessionStorage.setItem("userId", success.data?.userRole?.id.toString());
+        sessionStorage.setItem("userId",success.data?.id.toString());
+
+      
         setDataById('participantLogin', true);
         apiClient.setToken(success.data.token);
         setDataById('userDetails', success.data);
@@ -115,7 +117,7 @@ const UserLogin = (props: UserProps) => {
           sessionStorage.setItem("token", context.data?.token);
           setDataById('participantLogin', true);
           setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
-          navigate(routes.programSelection())
+          navigate(routes.participantHome());
         }
       },
       errorCB: (context: any) => {

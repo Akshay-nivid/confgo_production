@@ -1,8 +1,8 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { CouponDashboardIcon, CalendarEventIcon, DashboardUserIcon } from '@/assets/svg';
-import {  Drawer, List, ListItem, ListItemText, ListItemButton, useMediaQuery } from '@mui/material';
-import { EventIcon, PaymentHistoryIcon } from '@/assets/svg';
+import {  CalendarEventIcon, DashboardUserIcon, HeartEventIcon, SettingsIcon } from '@/assets/svg';
+import {  Drawer, List, ListItem, ListItemText, ListItemButton, useMediaQuery, Divider } from '@mui/material';
+import { PaymentHistoryIcon } from '@/assets/svg';
 import routes from '@/router/routes';
 
 interface SidebarProps {
@@ -19,36 +19,33 @@ const sidebarItems = [
   },
   {
     path: routes.userMyEvents(),
-    icon: EventIcon,
+    icon: HeartEventIcon,
     label: 'My Events',
-    exact: false,
+    exact: true,
   },
   {
     path: routes.paymentHistory(),
     icon: PaymentHistoryIcon,
     label: 'Payment History',
-    exact: false,
+    exact: true,
   },
   {
-    path: routes.userCoupons(),
-    icon: CouponDashboardIcon,
-    label: 'Coupons',
-    exact: false,
-  },
-  {
-    path: routes.calendar(),
+    path: routes.userCalendar(),
     icon: CalendarEventIcon,
     label: 'Calendar',
-    exact: false,
+    exact: true,
   },
   {
-    path: routes.calendar(), 
-    icon: DashboardUserIcon,
+    path: routes.accountsettings(), 
+    icon: SettingsIcon,
     label: 'Settings',
-    exact: false,
+    exact: true,
   },
 ];
-
+/**
+ * User dashboard sidebar
+ * @author Neethu
+ */
 const Sidebar: React.FC<SidebarProps> = ({ open, onClose }) => {
   const location = useLocation();
   const isMobile = useMediaQuery('(max-width:600px)'); // Adjust breakpoint as needed
@@ -88,10 +85,10 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose }) => {
                   </ListItem>
                 </NavLink>
 
-                {/* Add divider after Calendar item and apply margin
-                {item.label === 'Calendar' && <Divider sx={{ margin: '1rem 0' }} />}
+                {/* Add divider after Calendar item and apply margin */}
+                {item.label === 'Calendar' && <Divider className='sidebar-divider'/>}
 
-                */}
+               
               </React.Fragment>
             );
           })}

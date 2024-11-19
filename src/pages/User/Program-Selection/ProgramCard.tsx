@@ -1,15 +1,15 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomCheckbox from "@/components/CustomCheckbox/CustomCheckbox";
-import apiClient from "@/Libs/Https/API-client";
-import useStore from "@/Libs/store";
+import useStore, { POST, GET, clearDataById,PUT } from "@/Libs/store";
 import routes from "@/router/routes";
-import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import { Box, Typography } from "@mui/material";
 import moment from "moment";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
+import { formatDate, handleGroupData, isAnyProgramSelectedForDate, processFormData } from "./programsHandlers";
+
 
 export interface IProgram {
   id: number;
@@ -34,134 +34,224 @@ export interface Status {
   id: number;
   statusName: string;
   description: string;
+
 }
+
 /**
- * component used to draw programs
+ * component used to draw programs 
  * @returns 
  */
 const ProgramCard = () => {
 
-  const { control, handleSubmit, setValue, reset } = useForm<any>();
+  const defaultFormData = useStore((state: any) => state?.compData?.["defaultProgramData"]?.formData) || undefined;
 
   const navigate = useNavigate();
+
   const setDataById = useStore((state: any) => state.setDataById);
-  const eventInfo = useStore((state: any) => state?.compData?.["eventSelected"]) ?? '';
-  const eventDetails = useStore((state: any) => state?.compData?.["eventDetails"]) ?? '';
+
+  const eventData = useStore((state: any) => state?.compData?.["eventData"]) ?? undefined;
+
+  const eventId = useStore((state: any) => state?.compData?.["eventSelected"]?.id) ?? null;
+
+  const addToCartResponseData = useStore((state: any) => state?.compData?.["addToCart"]) ?? null;
+
+  const { control, handleSubmit, setValue, watch,getValues } = useForm<any>({ defaultValues: defaultFormData ? defaultFormData : {}});
 
   /**
-   * Method used to call event details Api
-   */
+    * Method used to call event details Api
+    */
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await apiClient.get(`event/${eventInfo?.id}`);
-      const { status, data } = processAPIResponse(response, "event");
-      if (status) {
-        setDataById("eventDetails", { data, programs: sortData(data?.programs), addOns: sortData(data?.addons) });
+    const fetchEventDetails = async () => {
+
+      if (!eventId) {
+        navigate(routes.participantHome());
       }
+
+      GET({
+        url: `event/${eventId}`,
+        id: 'eventData',
+  
+        successCB: (response: any) => {
+
+          const formatedData = handleGroupData({
+            addons: response?.data?.addons,
+            programs: response?.data?.programs
+          })
+
+          setDataById("eventData", { programs: formatedData });
+
+        },
+
+        errorCB: () => { }
+
+      });
     };
-    fetchData();
+
+    fetchEventDetails();
+
   }, []);
 
-  /**
-   * Used to set selected value checked
-   */
-  useEffect(() => {
-    // Reset form values based on selectedDetails
-    if (eventDetails.selectedDetails) {
-      const defaultValues: any = {};
-      Object.entries(eventDetails?.selectedDetails)?.forEach(([date, details]: any) => {
-        defaultValues[`${moment(date).format("MM/DD/YYYY")}-programs`] = details?.programs?.map((program: any) => program.id);
-        defaultValues[`${moment(date).format("MM/DD/YYYY")}-addons`] = details?.addons?.map((addon: any) => addon.addonId);
-      });
-      reset(defaultValues);
-    }
-  }, [eventDetails])
 
-  /**
-   * Method used to sort data
-   * @param data 
-   * @returns 
-   */
-  const sortData = (data: IProgram[]): any => {
-    if (!data?.length) {
-      return {};
-    }
-    return data
-      .sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime())
-      .reduce((grouped: any, program) => {
-        const date = new Date(program.startTime).toISOString().split('T')[0];
+/**
+ * method to handle submission of form, triggers add selected properties to cart api 
+ * @param formData 
+ * @returns 
+ */
+  function handleClickNextButton(formData: any) {
+   
+   setDataById('defaultProgramData', { formData: formData }) // storing form data for setting default values in next screen 
 
-        if (!grouped[date]) {
-          grouped[date] = [];
+   const body = processFormData(formData, eventId) // processing form data to match cart api body format
+
+   const selectedPrograms = body.programIds || null;
+    
+    if (selectedPrograms.length === 0 || selectedPrograms === undefined || !selectedPrograms) {
+
+      setDataById("snackBarInfo", {
+        open: true,
+        autoHideDuration: 2000,
+        severity: "error",
+        message: 'Please select at least one program and addon property',
+      })
+
+      return
+    }
+
+    const cartId = addToCartResponseData?.cart?.data?.id;
+
+    if (!cartId) {
+      POST({
+        url: 'cart',
+        body: body,
+        id: 'addToCart',
+  
+        successCB: (data: any) => {
+  
+          const cartID = cartId ? cartId : data?.data?.id
+  
+          GET({
+            url: `cart/${cartID}`,
+            id: 'getCart',
+            successCB: (response: any) => {
+  
+              const formatedData = handleGroupData({
+                addons: response?.data?.addons,
+                programs: response?.data?.programs,
+                calculateTotal: true
+              })
+
+              setDataById("formatedCartData", { formatedData: formatedData }) // storing data after formatting for mapping in ui
+   
+              navigate(routes.selectedPrograms());
+  
+            },
+            errorCB: (error: any) => {
+  
+              setDataById("snackBarInfo", {
+                open: true,
+                autoHideDuration: 2000,
+                severity: "error",
+                message: error?.message || 'something went wrong',
+              })
+  
+            }
+          })
+  
+        },
+        errorCB: (error: any) => {
+  
+          setDataById("snackBarInfo", {
+            open: true,
+            autoHideDuration: 2000,
+            severity: "error",
+            message: error?.message,
+          });
+  
         }
+      })
+    }
+    else {
+      PUT({
+        url: `cart/${cartId}`,
+        body: body,
+        id: 'addToCart',
+  
+        successCB: (data: any) => {
 
-        grouped[date].push(program);
-        return grouped;
-      }, {});
-  };
-
-  /**
-   * Method used to handle next button click
-   * @param data 
-   */
-  function onNext(data: any) {
-    setDataById("eventDetails", {
-      selectedDetails: handlePrograms(data)
-    });
-    navigate(routes.selectedPrograms());
+          const cartID = cartId ? cartId : data?.data?.id
+  
+          GET({
+            url: `cart/${cartID}`,
+            id: 'getCart',
+            successCB: (response: any) => {
+  
+              const formatedData = handleGroupData({
+                addons: response?.data?.addons,
+                programs: response?.data?.programs,
+                calculateTotal: true
+              })
+  
+              setDataById("formatedCartData", { formatedData: formatedData })
+   
+              navigate(routes.selectedPrograms());
+  
+            },
+            errorCB: (error: any) => {
+              setDataById("snackBarInfo", {
+                open: true,
+                autoHideDuration: 2000,
+                severity: "error",
+                message: error?.message || 'something went wrong',
+              })
+  
+            }
+          })
+  
+        },
+        errorCB: (error: any) => {
+  
+          setDataById("snackBarInfo", {
+            open: true,
+            autoHideDuration: 2000,
+            severity: "error",
+            message: error?.message,
+          });
+  
+        }
+      })
+    }
   }
 
-  /**
-   * Method to group seletced programs
-   * @param data 
-   */
-  const handlePrograms = (data: any) => {
-    const output: any = {};
-    Object.entries(data).forEach(([key, value]) => {
-      const [date, type] = key.split('-');
 
-      if (!output[date]) {
-        output[date] = { addons: [], programs: [] };
-      }
-      if (type === 'addons') {
-        output[date][type] = Array.isArray(value)
-          ? eventDetails?.data?.addons.filter((addon: any) => value.includes(addon.id))
-          : [];
-      } else if (type === 'programs') {
-        output[date][type] = Array.isArray(value)
-          ? eventDetails?.data?.programs.filter((program: any) => value.includes(program.id))
-          : [];
-      }
-    });
-    Object.keys(output).forEach(date => {
-      if (output[date].addons.length === 0 && output[date].programs.length === 0) {
-        output[date] = {}; // Set to a blank object if both are empty
-      }
-    });
-    return output
+  function onToggleAddonCheckBox(key:string) {
+    const [date,_,id] = key.split("-")
+    getValues(key)
+
+    setValue(`${date}-addonProp-${id}`,undefined)
+
   }
 
   return (
-    <form className="program-card-form" onSubmit={handleSubmit(onNext)}>
+
+    <form className="program-card-form" onSubmit={handleSubmit(handleClickNextButton)}>
       <Box className="space-y-10">
-        {eventDetails?.programs && Object.entries(eventDetails?.programs).map(([date, programs]: any, index) => (
-          <Box key={`${date}-${programs?.id}-program`} className="program-card">
+        {eventData?.programs && Object.entries(eventData.programs).map(([date, programs]: any, index) => (
+          <Box key={`${date}-program`} className="program-card">
             <Box className="program-date-container">
               <Typography className="program-date">
-                Day {index + 1} -
-                {moment(date).format("MMM DD, YYYY")}
+                Day {index + 1} - {moment(date).format("MMM DD, YYYY")}
               </Typography>
             </Box>
 
-            <Grid className="select-program-text">Select Your Programme:</Grid>
-            {programs?.map((program: IProgram) =>
-              <Grid container size={12} direction={'row'} className="program-list-container">
+            <Grid className="select-program-text">Program:</Grid>
+            {programs?.programs?.map((program: IProgram) => (
+              <Grid container key={program.id} direction="row" className="program-list-container">
                 <Grid className="program-list-item">
                   <CustomCheckbox
                     control={control}
                     className="program-list-item-checkbox"
                     id={program?.name}
-                    name={`${moment(date).format("MM/DD/YYYY")}-programs`}
+                    name={`${formatDate(date)}-programs`}
                     setValue={setValue}
                     options={[
                       {
@@ -171,39 +261,68 @@ const ProgramCard = () => {
                     ]}
                   />
                 </Grid>
-                <Grid size={6}>- {moment(program?.startTime).format("h:mm A")} - ${program?.amount}</Grid>
-              </Grid>)}
-            {eventDetails?.data?.addons?.length > 0 && (
-              <Grid container size={12} direction={'row'} className="add-on-list-container">
-                {eventDetails?.addOns && Object.entries(eventDetails?.addOns).map(([dates, addOn]: any, index: number) => (
-                  <>
-                    {addOn?.map((item: any) => (
-                      <Grid key={`${dates}-${item?.addonId}-addon`}>
-                        <Grid className="select-add-on-text">Food Selection:</Grid>
-                        <Grid key={index} className="add-on-list-item">
+                <Grid >- {moment(program?.startTime).format("h:mm A")} - ${program?.amount}</Grid>
+              </Grid>
+            ))}
+
+            <Grid container direction="row" className="add-on-list-container">
+              <Grid>
+                {programs.addons.length > 0 && <Grid className="select-add-on-text">Addon:</Grid>}
+                <Box className="space-y-4">
+                  {programs.addons?.map((addon: any, index: number) => {
+                    const currentAddon = `${formatDate(date)}-addon-${addon?.id}`
+                    const isDisabled = !isAnyProgramSelectedForDate(date,watch);
+                    return (
+                      <Box key={`addon-${addon.addonId}-${index}`}>
+                        <Grid display="flex" className="add-on-list-item">
                           <CustomCheckbox
+                            disabled={isDisabled}
                             control={control}
-                            className="add-on-list-item-checkbox "
-                            id={item?.addonId}
-                            name={`${moment(date).format("MM/DD/YYYY")}-addons`}
+                            className="add-on-list-item-checkbox"
+                            onChange={()=>onToggleAddonCheckBox(`${formatDate(date)}-addon-${addon?.id}`)}
+                            id={addon?.addonId}
+                            name={`${formatDate(date)}-addon-${addon?.id}`}
                             options={[
                               {
-                                label: item?.name,
-                                value: item?.addonId,
+                                label: addon?.addon?.name,
+                                value: addon?.id,
                               },
                             ]}
                           />
-                          <Grid size={6}>- ${item?.amount}</Grid>
+                          <Grid className="flex gap-x-4">
+                            <Grid>- ${addon?.amount}</Grid>
+                            <Grid>- {moment(addon?.startTime).format("h:mm A")}</Grid>
+                          </Grid>
+
+
+
                         </Grid>
-                      </Grid>
-                    ))}
-                  </>
-                ))}
+                        {addon?.eventAddonProperties?.length > 0 && (
+                          <Grid >
+
+                            {addon.eventAddonProperties.map((property: any) => (
+                              < CustomCheckbox
+                                className="add-on-property "
+                                key={`${property?.id}-${property?.name}-${addon?.addonId}`}
+                                disabled={watch(currentAddon) === undefined || watch(currentAddon).length === 0}
+                                row={true}
+                                control={control}
+                                required={false}
+                                name={`${formatDate(date)}-addonProp-${addon?.id}`}
+                                options={[
+                                  { label: property?.name, value: property?.id },
+                                ]}
+                              />))}
+                          </Grid>
+                        )}
+                      </Box>
+                    )
+                  })}
+                </Box>
               </Grid>
-            )}
+            </Grid>
           </Box>
-        )
-        )}
+        ))}
       </Box>
       <Box className="navigation-button-container">
         <CustomButton
@@ -212,10 +331,25 @@ const ProgramCard = () => {
           label="Back"
           type="submit"
         />
-        <CustomButton className="next-button" label="Next" type="submit" />
+        <CustomButton className={"next-button"} label="Next" type="submit" />
+        <CustomButton
+              className="next-btn"
+              label="Next"
+              variant="contained"
+              onClick={() => {
+                clearDataById("defaultProgramData")
+                clearDataById("addToCart")
+                clearDataById("addToCart")
+              }}
+            />
       </Box>
     </form>
   );
 };
 
+
 export default ProgramCard;
+
+
+
+

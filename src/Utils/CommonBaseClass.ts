@@ -119,18 +119,59 @@ export const getValueFromArrayBasedOnParameter = (
 };
 
 /**
- * This function takes a date string or Date object and formats it to 'MMMM D, YYYY' format.
- * @param date - A string or Date object to be formatted.
- * @returns A string in the format 'MMMM D, YYYY'.
- */
-export function formatDateDayMonthYear(date: string | Date): string {
-  return moment(date).format('MMMM D, YYYY');
-}
-
-/**
  * purpose types set password and reset password
  */
 export const purposeTypes = {
   SET_PASSWORD: 'USER_REGISTRATION_OTP',
   RESET_PASSWORD: 'RESET_PASSWORD_OTP'
+}
+
+/**
+ *  Interface defining the parameters for formatting a date.
+ */
+interface IDateTimeRangeParams {
+  date: Date | string;
+  format: 'MMMM D, YYYY' | 'DD/MM/YYYY' | 'h:mm A' | string;  
+}
+export function formatDateTimeRange({date,format}:IDateTimeRangeParams){
+  if (!date) {
+    return ''; 
+  }
+return  moment.utc(date).local().format(format);
+}
+
+export function formatUTCDateTime(dateString: string) {
+  if (!dateString) {
+    return '';
+  }
+  const date = new Date(dateString);
+
+  // Extract date and time components
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are 0-based
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const hours = String(date.getUTCHours()).padStart(2, "0");
+  const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+
+  // Format to desired output
+  const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;
+  return formattedDate;
+}
+
+/**
+ * Method used to convert text to camelcase
+ * @param sentenceCase 
+ * @returns 
+ */
+export const toCamelCase = (sentenceCase: any) => {
+  let out = "";
+  let str: any
+  if (sentenceCase) {
+    str = sentenceCase.replace(/_/gi, ' ');
+    str.split(" ").forEach(function (el: any) {
+      var add = el.toLowerCase();
+      out += (' ' + add[0].toUpperCase() + add.slice(1));
+    });
+  }
+  return out;
 }

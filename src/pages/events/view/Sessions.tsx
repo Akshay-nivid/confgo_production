@@ -11,6 +11,7 @@ import SessionCard from "./sessionCard";
 import useStore from "@/Libs/store";
 interface SessionsProps {
   eventData: any;
+  onSubmitHandler: () => void;
 }
 
 interface Program {
@@ -24,7 +25,7 @@ interface Program {
 /**
  *  Componet to list the sessions
  */
-const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
+const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => { 
     const session = useStore((state) => state?.compData?.["sessions"]) ?? {};
       const { drawerOpen, isEditing, isAddon } = session;
   const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
@@ -34,15 +35,18 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
   const addons = eventData.addons || [];
   const parentId = eventData.id;
   const POST = useStore((state) => state.POST);
+  const PUT = useStore((state) => state.PUT);
   const setDataById = useStore((state) => state.setDataById);
-
   /**
    * Function used at while adding
    */
   const handleAddClick = () => {
-
-    setDataById('sessions', {drawerOpen:true, isEditing:false, idAddon:false, showPriceField:false})
+    setDataById('sessions', {drawerOpen:true, isEditing:false, isAddon:false, showPriceField:false})
   };
+
+  const handleAddOnClick = () => {
+    setDataById('sessions', {drawerOpen:true, isEditing:false, isAddon:true, showPriceField:false})
+};
 
 
   const closeDrawer = () => setDataById('sessions', {drawerOpen: false});
@@ -61,9 +65,10 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
     } else if (item.type === "addon") {
       setSelectedProgram({
         ...item,
-        isPaid: "FREE",
+        isPaid: item.amount > 0 ? "PAID" : "FREE",				
       });
-      setDataById('sessions', {isEditing: false, isAddon: true})
+      setSelectedProgramId(id);
+      setDataById('sessions', {isEditing: true, isAddon: true})
     }
     setDataById('sessions', {drawerOpen: true})
   };
@@ -76,7 +81,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
     if (data.isPaid === "FREE") {
       data.amount = parseInt("0");
     } else {
-      data.amount = data.price || 0;
+      data.amount = data.price || data.amount || 0;
     }
     const programData = {
       ...data,
@@ -86,13 +91,16 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
     };
 
     try {
-        const url = isEditing && selectedProgramId 
-          ? `/event/update/${selectedProgramId}`
-          : isAddon 
-            ? `/addon/add` 
-            : `/event/program/add`;
+      const url = isEditing
+      ? isAddon && selectedProgramId
+        ? `/event/addon/${selectedProgramId}`   // Add-on update URL
+        : `/event/update/${selectedProgramId}`  // Program update URL
+      : isAddon
+        ? `/event/addon/add`                    // Add-on create URL
+        : `/event/program/add`;                 // Program create URL        
       
         const successCB = (response: any) => {
+          onSubmitHandler();
           if (isEditing && selectedProgramId) {
             setPrograms((prevPrograms: { id: any }[]) =>
               prevPrograms.map((prog: { id: any }) =>
@@ -106,21 +114,43 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
               setPrograms((prevPrograms:any) => [...prevPrograms, response.data]);
             }
           }
+          setDataById("snackBarInfo", {
+            open: true,
+            autoHideDuration: 2000,
+            severity: "success",
+            message: "Success",
+          });
           Logger.info("Operation successful:", response.data);
         };
       
         const errorCB = (error: any) => {
           const action = isEditing ? "updating" : "adding";
+          setDataById("snackBarInfo", {
+            open: true,
+            autoHideDuration: 2000,
+            severity: "error",
+            message: error.message,
+          });
           Logger.error(`Error ${action} program/addon`, error);
         };
       
-        POST({
-          url,
-          body: programData,
-          id: isEditing ? "updateProgram" : "addProgramOrAddon",
-          successCB,
-          errorCB,
-        });
+        if (isEditing && isAddon) {
+        	PUT({
+            url,
+            body: programData,
+            id: "updateAddon",
+            successCB,
+            errorCB,
+        	});
+        	} else {
+        	  POST({
+        	    url,
+        	    body: programData,
+        	    id: isEditing ? "updateProgram" : "addProgramOrAddon",
+        	    successCB,
+        	    errorCB,
+        	  });
+        	}
       } catch (error) {
         Logger.error("Error processing data:", error);
       } 
@@ -134,7 +164,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
 
   // Group sorted items by date
   const groupedData = combinedItems.reduce((acc, program) => {
-    const date = moment(program.startTime).isValid()
+    const date = moment(program.endTime).isValid()
       ? moment(program.startTime).format("YYYY-MM-DD")
       : "Invalid Date";
 
@@ -159,13 +189,21 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
         <Typography variant="h3" className="event-detail-event-info-card-title">
           Event Sessions
         </Typography>
-        <CustomButton
-          className="event-detail-speakers-card-speaker-add-button"
-          variant="outlined"
-          label=" + Add Program"
-          onClick={handleAddClick}
-        />
-      </Grid>
+				<Grid>
+					<CustomButton
+							className="event-detail-speakers-card-speaker-add-button"
+							variant="outlined"
+							label=" + Add Add-ons"
+							onClick={handleAddOnClick}
+					/>
+					<CustomButton
+							className="event-sessions-sessions-container-add-program-button"
+							variant="outlined"
+							label=" + Add Program"
+							onClick={handleAddClick}
+					/>
+			</Grid>
+    </Grid>	
 
       {/* Show invalid date items first */}
       {groupedData.invalid && (
@@ -177,7 +215,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
                   key={index}
                   item={item}
                   onEditClick={handleEditClick}
-                  titleField="name"
+                  titleField={item.addon && item.addon.name ? "addon.name" : "name"}
                   hasAddOns={item.addon ? true : false}
                   startTimeField="startTime"
                   endTimeField="endTime"
@@ -213,35 +251,35 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
             </Box>
 
             <Grid container spacing={2} className="event-sessions-session-list">
-              {groupedData[date].map(
-                (
-                  item: { addon: { name: any } },
-                  index: Key | null | undefined
-                ) => (
-                  <SessionCard
-                    key={index}
-                    item={item}
-                    hasAddOns={item.addon ? true : false}
-                    onEditClick={handleEditClick}
-                    titleField={
-                      item.addon && item.addon.name ? "addon.name" : "name"
-                    }
-                    startTimeField="startTime"
-                    endTimeField="endTime"
-                    fields={[
-                      {
-                        label: "Description",
-                        field: item.addon ? "addon.description" : "description",
-                      },
-                      {
-                        label: "Price",
-                        field: "amount",
-                        format: (value) => (value > 0 ? `${value}` : "Free"),
-                      },
-                    ]}
-                  />
-                )
-              )}
+						{groupedData[date].map(
+  (item: { addon: { name: any } }, index: Key | null | undefined) => {
+    return (
+      <SessionCard
+        key={index}
+        item={item}
+        hasAddOns={item.addon ? true : false}
+        onEditClick={handleEditClick}
+        titleField={
+          item.addon && item.addon.name ? "addon.name" : "name"
+        }
+        startTimeField="startTime"
+        endTimeField="endTime"
+        fields={[
+          {
+            label: "Description",
+            field: item.addon ? "addon.description" : "description",
+          },
+          {
+            label: "Price",
+            field: "amount",
+            format: (value) => (value > 0 ? `${value}` : "Free"),
+          },
+        ]}
+      />
+    );
+  }
+)}
+
             </Grid>
           </Grid>
         ))}
@@ -255,6 +293,8 @@ const Sessions: React.FC<SessionsProps> = ({ eventData }) => {
             selectedProgram={selectedProgram}
             onSubmit={onSubmit}
             closeDrawer={closeDrawer}
+            eventStartTime={eventData.startTime}
+            eventEndTime={eventData.endTime}
           />
         }
       />

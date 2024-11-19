@@ -9,21 +9,24 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import OtpInput from 'react-otp-input';
 import { LockIcon } from '@/assets/svg';
 import { useEffect } from 'react';
-import apiClient from '@/Libs/Https/API-client';
 import useStore from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import { purposeTypes } from '@/Utils/CommonBaseClass';
 
+interface IFormData {
+  otp: string;
+}
 /**
  * User Otp page component
  *
  */
-interface IFormData {
-  otp: string;
-}
+
 const UserOtp = () => {
 
   const { email, token, userId, purpose, phoneNumber } = useLocation().state || {};
+  const setDataById = useStore((state: any) => state.setDataById);
+  const eventData = useStore((state: any) => state?.compData?.["userDetails"]?.[`user/details`]) ?? [];
+  const ResendOtpToken=  useStore((state: any) => state?.compData.resendOtp?.token);
   const navigate = useNavigate();
   const POST = useStore((state: any) => state.POST);
   /*
@@ -52,15 +55,14 @@ const UserOtp = () => {
     /*
      * set password api call
      */
-    if (purpose === purposeTypes.SET_PASSWORD) {
-      const body = {
+   
+    if (purpose === purposeTypes.SET_PASSWORD){
+      const body = { 
+        token:ResendOtpToken,
         userId: userId,
-        otp: data.otp,
+        otp: data?.otp,
         type: "USER_REGISTRATION_OTP",
-        token: token,
-    
       };
-
       /**
        * success callback function
        */
@@ -68,7 +70,6 @@ const UserOtp = () => {
         navigate(routes.userSetPassword(),
           { state: { userId: userId, email: email,purpose} });
       }
-
       /**
        * if purpose is new user registration set password
        * function to make api call
@@ -77,7 +78,7 @@ const UserOtp = () => {
         id: 'setPassword', url: 'token/validateotp',
         body: body
         , successCB: successCB,
-        errorCB: (error: any) => Logger.error("error", error)
+        errorCB: (error: any) => Logger.error("error in validate otp", error)
       })
     };
     /**
@@ -85,35 +86,79 @@ const UserOtp = () => {
      * reset password api call
      */
     if (purpose == purposeTypes.RESET_PASSWORD) {
-      
-      const body = {
-        otp: data.otp,
-        token: token,
+       const body = {
+        otp: data.otp,  
+        token: ResendOtpToken,
         type: 'RESET_PASSWORD_OTP',
         userId: userId,
       };
       function successCB(_context: any) {
-        navigate(routes.userSetPassword(), { state: { email,userId,purpose } });
+        navigate(routes.userSetPassword(),{state:{email,userId,purpose }});
       }
       POST({
         id: 'reset-password'
-        , url: 'token/validateotp',
+        ,url: 'token/validateotp',
         body: body,
         successCB: successCB,
         errorCB: (error:any) => Logger.error("error", error)
       })
     }
   };
+
 /**
  * function to handle resend otp
  * @returns 
  */
   const handleResendOtp = async () => {
-    const response = await apiClient.post('token/otp', {
-      phone: phoneNumber,
-      type: 'RESET_PASSWORD_OTP',
+  if(purpose===purposeTypes.SET_PASSWORD){
+   const setOtp={
+       phone:phoneNumber,
+       type:"USER_REGISTRATION_OTP"
+    }
+    POST({
+      id: 'resendOtp',
+      url: 'token/otp',
+      body:setOtp,
+      successCB:successCB,
+      errorCB: (error: any) => Logger.error("error", error)
     });
-    return response;
+    function successCB(success:any){
+      setDataById("resendOtp",{token: success?.data?.token});
+    }
+  }
+  if(purpose===purposeTypes.RESET_PASSWORD){
+    const body={
+      token:token,
+      userId:userId,
+      type: 'RESET_PASSWORD_OTP',
+    }
+     await POST({
+        id: 'userDetails',
+        url: 'user/details',
+        body:body,
+        successCB:successCB,
+        errorCB: (error: any) => Logger.error("error", error)
+      });
+      function  successCB (_context: any) {
+        const  resendOtp={
+        type: 'RESET_PASSWORD_OTP',
+        phone: eventData?.data?.phone,
+      }
+        POST({
+        id: 'resendOtpToken',
+        url: 'token/otp',
+        body:resendOtp,
+        successCB:successCB,
+        errorCB: (error: any) => Logger.error("error", error)
+      });
+      function successCB(success: any) {
+         setDataById("resendOtp",{token: success?.data?.token});
+         setDataById('snackBarInfo',
+           { open: true, autoHideDuration: 2000, severity: 'success',
+             message: "Resend Otp successfully" });
+      }
+      }
+      }
   };
 
   return (

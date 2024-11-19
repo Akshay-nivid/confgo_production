@@ -11,11 +11,15 @@ import { useForm } from "react-hook-form";
 import "./accountsetting.scss";
 import { useCallback, useEffect, useState } from "react";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import EditIcon from "@/assets/svg/event-edit.svg";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { CloseOutlined } from "@mui/icons-material";
 import apiClient from "@/Libs/Https/API-client"; 
+import { EditIconRound, Google } from "@/assets/svg";
+import useStore from "@/Libs/store";
+import { Logger } from "@/Utils/Logger";
+
+
 
 interface Profile {
   firstName: string;
@@ -23,25 +27,25 @@ interface Profile {
   email: string;
   phone: string;
   avatarUrl: string;
+  isSsoUser:boolean;
 }
 
-interface AccountSettingProps {
-  setEmail: (email: string) => void; 
-}
-
-const AccountSetting:React.FC<AccountSettingProps> = React.memo(({ setEmail }) => {
+const AccountSetting:React.FC = React.memo(() => {
   const { handleSubmit, control, setValue } = useForm<Profile>();
   const [profileData, setProfileData] = useState<Profile | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const openDrawer = () => setIsDrawerOpen(true);
   const closeDrawer = () => setIsDrawerOpen(false);
-
+  const setDataById = useStore((state: any) => state.setDataById)
+  const userDetails = useStore((state) => state?.compData?.["userDetails"]) ?? {};
   useEffect(() => {
     AccountProfile();
   }, []);
 
-  // Fetch profile data of the user
+/**
+ * Fetch profile data of the user
+ */
   const AccountProfile = useCallback(async () => {
     try {
       const response = await apiClient.get(`/user`, {
@@ -55,49 +59,70 @@ const AccountSetting:React.FC<AccountSettingProps> = React.memo(({ setEmail }) =
           phone: data.phone,
           email: data.email,
           avatarUrl: data.avatarUrl || "",
+          isSsoUser:data?.isSsoUser
+
         };
         setProfileData(AccountData);
-
-// Sets form field values
+     
+       
+  
+        /***
+         * Sets form field values
+         */
         setValue("firstName", data.firstName);
         setValue("lastName", data.lastName);
         setValue("email", data.email);
-        setValue("phone", data.phone);
-
-        setEmail(data.email); 
+        setValue("phone", data.phone); 
       }
     } catch (error) {
-      console.error("Error fetching participant data:", error);
+      Logger.error("Error fetching participant data:", error);
     }
-  }, [setEmail,setValue]);
+  }, []);
 
-  // Submit form to update profile data from drawer
+/**
+ * Submit form to update profile data from drawer
+ * @param data
+ */
   const onSubmit = async (data: Profile) => {
     try {
+      
+      
       const response = await apiClient.put(`/user`, data, {
-    
+     
       });
-
+     
+      
       if (response.data.status === "success") {
-        // Update local state with the new data that is updated
+        
+     /**
+      * Update local state with the new data that is updated
+      */
         setProfileData((prevProfileData) => ({
           ...prevProfileData,
           ...data,
         }));
+        /**
+         * header section user deatils update
+         */
+        setDataById('userDetails', {
+          ...userDetails,
+          firstName: response.data?.data?.firstName,
+          lastName: response.data?.data?.lastName,
+        });
         closeDrawer();
       }
     } catch (error) {
-      console.error("Error updating profile data:", error);
+      Logger.error("Error updating profile data:", error);
     }
   };
 
   return (
-    <Grid container>
-      <Grid size={8} className="account-profile-grid">
-        <Grid size={12} className="account-title-grid">
-          <Typography className="account-title">Personal Information</Typography>
+    <Grid container className="account-main-grid">
+      <Grid size={8} className="account-profile-grid account-margin">
+        <Grid size={12} className="account-title-grid ">
+          <Typography className="account-title accountsettings-margin">Personal Information</Typography>
           <IconButton onClick={openDrawer} className="event-detail-event-info-card-edit-btn">
-            <EditIcon />
+          <EditIconRound/>
           </IconButton>
         </Grid>
         <Grid className="account-profile-image connected">
@@ -108,13 +133,13 @@ const AccountSetting:React.FC<AccountSettingProps> = React.memo(({ setEmail }) =
             variant="square"
           />
         </Grid>
-        <Grid container className="account-detail-grid connected">
+        <Grid container className="account-detail-grid connected" size={12}>
           <Grid size={{ xs: 12, sm: 6 }}>
             <Typography className="account-user-detail1">
               First Name
             </Typography>
             <Typography variant="body1" className="account-user-detail2">
-              {profileData?.firstName || "N/A"}
+              {profileData?.firstName || ""}
             </Typography>
           </Grid>
 
@@ -147,23 +172,19 @@ const AccountSetting:React.FC<AccountSettingProps> = React.memo(({ setEmail }) =
         </Grid>
       </Grid>
 
-      <Grid size={8} className="account-profile-grid connected">
+      {profileData?.isSsoUser&&<Grid size={8} className="account-profile-grid connected connected-grid account-margin connected-margin">
       <Typography className="account-title">Connected accounts</Typography>
       <Grid display="flex" alignItems="center" className="connected">
           <Grid className="account-connected-grid">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png"
-              alt="Google"
-              className="account-connected-img"
-            />
+           <Google className="account-google"/>
           </Grid>
         </Grid>
-      </Grid>
+      </Grid>}
 
       <CustomDrawer open={isDrawerOpen} type="right">
         <Grid container className="account-drawer">
           <Grid size={12} container className="account-drawer-text">
-            <Typography className="account-title">Personal Information</Typography>
+            <Typography className="account-title account-drawer-textfield">Personal Information</Typography>
             <IconButton onClick={closeDrawer}>
               <CloseOutlined />
             </IconButton>
@@ -178,7 +199,7 @@ const AccountSetting:React.FC<AccountSettingProps> = React.memo(({ setEmail }) =
                   <CustomTextField name="lastName" placeholder="Last Name" control={control} requiredField className="account-drawer-textfield"/>
                 </Grid>
                 <Grid size={12} container className="account-drawer-btn">
-                  <CustomButton label="Change" variant="contained" type="submit" className="account-submit-btn"/>
+                  <CustomButton label="Change" type="submit" className="account-submit-btn" />
                 </Grid>
               </Grid>
             </form>

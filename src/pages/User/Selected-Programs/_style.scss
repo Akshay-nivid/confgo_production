@@ -60,6 +60,18 @@
       }
     }
   }
+  .coupon-banner-container{
+    .coupon-code{
+      font-size: $h6 !important;
+      font-weight: $font-semibold !important;
+       span{
+        font-size: $p2 !important;
+        font-weight: $font-normal !important;
+      }
+    }
+
+  }
+  
   .grand-total-container {
     display: flex;
     justify-content: space-between;
@@ -73,6 +85,7 @@
       padding-block: 1rem;
     }
   }
+  
   .navigation-btn-group-container {
     width: 100%;
     display: flex;
@@ -156,4 +169,5 @@
     align-items: center;
     padding-bottom: 0.5rem !important;
   }
+  
 }

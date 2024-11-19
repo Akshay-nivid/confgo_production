@@ -147,8 +147,8 @@ const FileListModal: React.FC<FileListModalProps> = ({
 
 	return (
     <Modal open={open} onClose={handleClose} aria-labelledby="modal-title" className="modal">
-      <Box className="modal__container">
-        <Box className="modal__content">
+      <Box className="modal-container">
+        <Box className="modal-content">
         <Grid className="modal-close-icon" container justifyContent={"flex-end"} onClick={handleClose}>
           <CloseIcon/>
         </Grid>
@@ -160,7 +160,7 @@ const FileListModal: React.FC<FileListModalProps> = ({
             value={searchTerm}
             onInputChange={handleSearchChange}
             renderInput={(params) => (
-              <TextField {...params} label="Search by name" variant="outlined" fullWidth className="modal__search-input" />
+              <TextField {...params} label="Search by name" variant="outlined" fullWidth className="modal-search-input" />
             )}
           />
           {loading ? (
@@ -168,7 +168,7 @@ const FileListModal: React.FC<FileListModalProps> = ({
               <CircularProgress />
             </Box>
           ) : (
-            <Box className="modal__image-list">
+            <Box className="modal-image-list">
               <ImageListDisplay
                 files={files}
                 selectedFiles={selectedFiles}
@@ -179,18 +179,18 @@ const FileListModal: React.FC<FileListModalProps> = ({
             </Box>
           )}
           {multipleSelect && (
-            <Button variant="contained" color="primary" fullWidth className="modal__confirm-button" onClick={handleConfirmSelection}>
+            <Button variant="contained" color="primary" fullWidth className="modal-confirm-button" onClick={handleConfirmSelection}>
               Confirm Selection
             </Button>
           )}
 
-          <Button variant="outlined" color="secondary" fullWidth className="modal__upload-button" onClick={() => setUploadModalOpen(true)}>
+          <Button variant="outlined" color="secondary" fullWidth className="modal-upload-button" onClick={() => setUploadModalOpen(true)}>
             Upload New File
           </Button>
           {/* FileUpload Modal */}
           <Modal open={uploadModalOpen} onClose={() => setUploadModalOpen(false)}>
-            <Box className="modal__upload-container">
-              <FileUpload onUploadSuccess={handleUploadSuccess} />
+            <Box className="modal-upload-container">
+              <FileUpload acceptedFiles={["image/jpeg", "image/png",]} resolution={{ width: 200, height: 200 }} onSubmit={handleUploadSuccess}/>
             </Box>
           </Modal>
         </Box>

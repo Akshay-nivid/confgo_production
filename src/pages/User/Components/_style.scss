@@ -1,17 +1,15 @@
 .event-card{
     border: solid 0.1rem $clr_light_sky_blue;
     background-color: $clr_white;
-    width: 30.688rem;
     border-radius: 0.5rem;
     padding: 1rem;
-    margin-left:0.9375rem;
-    height:18.5625rem !important;
+    height:20rem !important;
     &-date-box{
         font-weight:$font_semibold;
         font-size: $h6 !important;
-        margin-top:1.1875rem;
+        margin-top:0.4rem;
         padding:0.2rem;
-        border-radius: 0.5rem;
+        border-radius: 0.3rem !important;
         max-width: 13.688rem;
         background-color: $clr_orange_dark;
         height: 1.8125rem ;
@@ -21,8 +19,7 @@
     &-title{
         margin-top:0.9375rem;
         font-weight: $font_semibold !important;
-        font-size: $h4 !important;
-        inline-size: 1.05875rem;
+        font-size: $h5 !important;
         font-family:$font;
     
     }
@@ -36,10 +33,18 @@
     &-status{
         font-family: $font;
         font-size:$p2 !important; 
-        font-weight: $font_medium;
+        font-weight: $font_normal !important;
         line-height: 1.059rem;
         margin-top: 1.25rem;
         color:$clr_black;
+        .content{
+           display:flex;
+           align-items:center;  
+        }
+    .status-componenet{
+        width: 8.25rem; 
+        border-radius: 0.49875rem 0rem 0rem 0rem;
+    }
     }
     &-certificate{
         margin-top: 1rem;

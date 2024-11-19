@@ -5,13 +5,14 @@ import Grid from "@mui/material/Grid2";
 import { Typography } from "@mui/material";
 import useStore from "@/Libs/store";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Logger } from "@/Utils/Logger";
 import { CustomCalendar } from "@/components/CustomCalendar/CustomCalendar";
 import moment from "moment";
+import routes from "@/router/routes";
 
 interface calendarProps {
-  id: string;
+  id?: string;
 }
 
 
@@ -19,9 +20,11 @@ const CalendarPage: React.FC<calendarProps> = ({ id }) => {
 
   const setDataById = useStore((state: any) => state.setDataById);
   const clearDataById = useStore((state: any) => state?.clearDataById)
-  const dataInfo = useStore((state: any) => state?.compData?.[id]?.['event/list']) ?? [];
+  const dataInfo = useStore((state: any) => id ? state?.compData?.[id]?.['event/list'] ?? [] : []);
   const POST = useStore((state: any) => state.POST);
   const navigate = useNavigate();
+  const location = useLocation();
+  const containsUserCalendar = location.pathname.indexOf('user/calendar') !== -1;
   /**
    * Useeffect hook clears the state data while unmounting
    */
@@ -34,8 +37,8 @@ const CalendarPage: React.FC<calendarProps> = ({ id }) => {
    */
   useEffect(() => {
     const dateObj = {
-      startDate: moment().startOf('month').format('YYYY-MM-DD'),
-      endDate: moment().endOf('month').format('YYYY-MM-DD')
+      startTime: moment().startOf('month').format('YYYY-MM-DD'),
+      endTime: moment().endOf('month').format('YYYY-MM-DD')
     };
     fetchData(dateObj);
   }, []); 
@@ -43,7 +46,7 @@ const CalendarPage: React.FC<calendarProps> = ({ id }) => {
   /**
    * Method handles the api call for getting event list data
    */
-  const fetchData = async (filters: { startDate: string, endDate: string }) => {
+  const fetchData = async (filters: { startTime: string, endTime: string }) => {
     try {
       await POST({
         url: "event/list",
@@ -90,7 +93,7 @@ const CalendarPage: React.FC<calendarProps> = ({ id }) => {
    * @param event : event parameter
    */
   const handleSelectEvent = (event: any) => {
-    navigate(`/events/detail/${event.id}`)
+     containsUserCalendar? navigate(routes.userEventRecap(),{state:{eventId:event.id}}): navigate(`/events/detail/${event.id}`);
   };
 
   
@@ -99,7 +102,7 @@ const CalendarPage: React.FC<calendarProps> = ({ id }) => {
    * Method handles the navigate event in the calendar
    * @param event : event parameter
    */
-  const handleNavigate = (dateObj: { startDate: '', endDate: '' }) => {
+  const handleNavigate = (dateObj: { startTime: '', endTime: '' }) => {
     fetchData(dateObj);
   };
 

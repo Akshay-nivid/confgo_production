@@ -2,8 +2,17 @@
     font-weight: $font_semibold !important;
     font-size: $h5 !important;
 }
-.account-grid{
-    padding: 2rem;  
+.account-grid{ 
+    background-color: $clr_white;
+}
+.account-padding{
+    padding: 1.5rem;  
+}
+.account-margin{
+    margin-left: 1.5rem !important;
+}
+.account-profile-grid{
+    margin-top: 1rem !important;;
 }
 .security-title{
     margin-bottom: 2rem !important;
@@ -19,15 +28,18 @@
 
 .user-profile{
     border-radius: 0.313rem !important;
-    height: 5.375rem !important;
-    width: 5.375rem !important;
+    height: 7.167rem !important;
+    width: 7.167rem !important;
 }
 .account-user-detail1{
     font-weight: $font_medium !important;
     font-size: $h6 !important;
     line-height: 1.5rem !important;
-    color: #718096;
+    color: $light_grey;
     margin-top: 2rem !important;
+}
+.account-main-grid{
+    margin-bottom: 2rem;
 }
 
 .account-user-detail2{
@@ -40,26 +52,30 @@
     display:flex;
     justify-content: center;
     align-items: center;
-    border: 0.083rem solid #D0D5DD;
+    border: 0.083rem solid $clr_gray_extra_light;
     border-radius: 0.313rem;
-    padding: 0.813rem 1rem ;
-    width: 6.25rem !important;
-    height: 3.125rem !important;
+    padding: 0.813rem 1rem !important;
+    width: 7.706rem !important;
+    height: 3.5rem !important;
 }
 
 .account-profile-grid{
-    border: 0.083rem solid #E9E9E9;
+    width: 49.438rem;
+    border: 0.083rem solid $clr_gray_very_light;
     border-radius: 0.625rem;
-    padding: 1rem;
+    padding: 1.5rem;
 }
 .account-tab-details{
     margin-top: 1rem;
+}
+.connected-margin{
+    margin-top: 3rem !important;
 }
 .connected{
     margin-top: 1rem;
 }
 .account-drawer{
-    padding: 1rem;
+    padding: 3rem;
 }
 .account-drawer-text{
     justify-content: space-between;
@@ -75,25 +91,58 @@
 .account-drawer-btn{
     justify-content: flex-end;
     align-items: center;
+    
 
 }
 .account-settings-main-title{
+    padding: 1rem;
     font-size: $h4 !important;
     font-weight: $font_bold  !important;
 }
 .account-tabs{
+    align-items: flex-start !important;
     .css-q0nj0x-MuiButtonBase-root-MuiTab-root{
         padding: 0rem !important;
+    }
+    .css-1usuzwp-MuiButtonBase-root-MuiTab-root{
+        margin-left: 0.4rem !important;
     }
     .css-15gx8z5-MuiButtonBase-root-MuiTab-root {
         padding: 0rem !important;
     }
     .MuiTabs-indicator {
-        border-bottom: 0.167rem solid #3A5AFE !important;
+        margin-left: 1rem !important;
+        margin-right: 1rem !important;
+        border-bottom: 0.167rem solid $clr_blue !important;
+        border-bottom: 0.125rem solid $clr_blue !important;
       }
+      .css-1wxkzlj-MuiTabs-flexContainer{
+        border-bottom: 0.125rem solid $clr_tab_border_color
+      }
+
+      &-container{
+        justify-content: flex-start;
+        border-bottom: 0.1rem solid $clr_tab_border_color;
+        padding: 0 !important;
+        .MuiTabPanel-root{
+            min-height: 40rem;
+        }
+    }
+    &-item{
+        padding: 3rem 3rem 2rem 3rem !important;
+        &:first-of-type {
+            padding: 3rem 2rem 2rem 2rem !important; 
+        }
+    }
+      .MuiTab-textColorPrimary {
+        color: $clr_text_gray;
+        font-weight: $font_medium;
+        text-transform: none;
+        font-size: $h6 ;
+    }
   
     .Mui-selected{
-        color: #000000 !important;
+        color: $clr_black !important;
     }
 }
 .account-tab-title{
@@ -102,32 +151,48 @@
     text-transform: none !important;
 
 }
+.security-container{
+    padding: 1rem;  
+.account-google{
+    width: 5.706rem;
+    height: 1.875rem;
+}
 .security-text{
     font-weight: $font_semibold !important;
     font-size: $h6 !important;
     margin-bottom: 0.625rem !important;
 
 }
+.accountsettings-margin{
+    margin-right: 0.8rem !important;
+}
 .security-subtext{
-    color: #718096;
-    font-size: $h6;
+    color: $light_grey !important;
+    font-size: $p1 !important;
     font-weight: $font_medium !important;
     margin-bottom: 1.25rem !important;
 
 }
 .security-text-border{
-    border-bottom: 0.083rem solid #CCDFF2;
     align-items: center;
     justify-content: space-between !important;
     margin-top: 1rem;
     
 }
 .security-password-reset-btn{
+    box-shadow: none !important;
     padding: 0.8rem 3rem !important;
+    background: $clr_blue !important;
 
 }
 .account-submit-btn{
-    background: #3A5AFE !important;
+    width: 9.5rem !important;
+    background: $clr_blue !important;
     border-radius: 0.313rem !important;
     padding: 0.5rem 1.5rem !important;
+    box-shadow: none !important;
 }
+.security-bottom-border{
+    padding-bottom: 0.625rem;
+    border-bottom: 0.083rem solid $clr_light_border_grey;
+}}

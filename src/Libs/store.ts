@@ -25,9 +25,9 @@ interface StoreState {
     setUserInfo: (data: any) => void;
     resetStore: () => void;
     POST: (params: ApiRequestOptions) => void;
-    GET: (params: ApiRequestOptions) => void;
-    PUT: (params: ApiRequestOptions) => void;
-    DELETE: (params: ApiRequestOptions) => void;
+    GET: (params: ApiRequestOptions) => Promise<{ status: boolean; data: any; message: string }>;
+    PUT: (params: ApiRequestOptions) => Promise<{ status: boolean; data: any; message: string }>;
+    DELETE: (params: ApiRequestOptions) => Promise<{ status: boolean; data: any; message: string }>;
 }
 
 /**
@@ -175,4 +175,5 @@ const useStore = create<StoreState>()(
     ),
 );
 
+export const { POST, GET, PUT, DELETE, setDataById, clearDataById, resetStore } = useStore.getState();
 export default useStore;

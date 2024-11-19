@@ -93,10 +93,10 @@
   align-items: center;
   flex-direction: column;
   width: 100%;
-  &__icon {
-    height: 5.2rem;
-    width: 5.2rem;
-    margin-bottom: 3.5rem;
+  &_icon {
+    width: 8rem;
+    height: 8rem;
+    padding: 1rem
   }
 
   &__title {
@@ -114,6 +114,7 @@
 
   .footer-content {
     width: 100%;
+    border-bottom: 0.1rem dotted $clr_gray_medium;
   }
 
   .footer-title {
@@ -128,10 +129,15 @@
     font-size: $h6;
     margin-bottom: 3.33rem;
   }
+  .footer-button{
+    background-color: $clr_blue;
+    text-transform: none;
+    margin-bottom: 3rem;
+  }
 
   .footer-links-section {
     width: 100%;
-    margin-top: 8rem;
+    margin-top: 3rem;
   }
 
   .footer-links-content {
@@ -199,7 +205,6 @@
     background: url("/src/assets/png/plan-banner-image.png") no-repeat center;
     background-size: cover;
     justify-content: center;
-    margin-top: 9.16rem;
     margin-bottom: 4.833rem;
     border-radius: 1.667rem;
     padding-block: 5.5rem;
@@ -222,6 +227,35 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    &-view-pricing-button{
+      border-radius: 4.3rem !important;
+      background-color: $clr_white !important;
+      width: 13rem;
+      height: 4.9rem;
+      color: $clr_black !important;
+      font-weight: $font_semibold !important;
+      font-size: $p1 !important;
+      line-height: 1.3rem !important;
+      text-transform: none !important;
+    }
+    &-contact-button{
+      border-radius: 4.3rem !important;
+      background-color: $clr_blue !important;
+      border: 0.2rem solid $clr_white !important;
+      width: 14.8rem;
+      height: 4.9rem;
+      color: $clr_white !important;
+      font-weight: $font_semibold !important;
+      font-size: $p1 !important;
+      line-height: 1.3rem !important;
+      text-transform: none !important;
+      svg{
+        path{
+          fill: $clr_white;
+
+        }
+      }
+    }
   }
   .banner-content {
     .banner-title {
@@ -249,7 +283,7 @@
   padding-bottom: 6.83rem;
   &__content {
     .whychoose-section__header {
-      margin-bottom: 6rem;
+      margin-bottom: 4rem;
       &-description {
         color: $clr_grey;
       }
