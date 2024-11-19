@@ -115,7 +115,7 @@ const FormFieldList = ({ participantType }: { participantType: string; }) => {
             ) : <>
                 {formFieldsArray?.[participantType] && formFieldsArray?.[participantType].map((field: any) => {
                     return (
-                        <Box key={field.id} className="field-accordion-card">
+                        <Box key={field.uuid} className="field-accordion-card">
                             <Accordion className="field-accordion" expanded={expanded === field.uuid}>
                                 <AccordionSummary
                                     expandIcon={<></>}

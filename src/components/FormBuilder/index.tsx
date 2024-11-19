@@ -11,6 +11,7 @@ import useStore, { clearDataById, POST, setDataById } from '@/Libs/store';
 import React, { useEffect } from 'react';
 import CustomButton from '../CustomButton/CustomButton';
 import { Logger } from '@/Utils/Logger';
+import { useLocation } from 'react-router-dom';
 
 
 
@@ -20,6 +21,8 @@ import { Logger } from '@/Utils/Logger';
  */
 const FormBuilder = () => {
 
+
+  const eventId = useLocation()?.pathname.split("/")[3];
 
   const { control, watch } = useForm({
     defaultValues: {
@@ -59,6 +62,7 @@ const FormBuilder = () => {
   /******  cdad3207-32e0-479e-b1bb-390ea70b6317  *******/
   const handleClickGenerateForm = (participantType: string) => {
 
+
     const GENERIC = "generic";
 
     const isGeneric = participantType === GENERIC;
@@ -93,7 +97,7 @@ const FormBuilder = () => {
       );
 
       formData = {
-        eventId: 7,
+        eventId: parseInt(eventId),
         formData: [
           {
             data: parsedData
@@ -137,7 +141,7 @@ const FormBuilder = () => {
 
     }
 
-    const body = isGeneric ? formData : { eventId: 7, formData: formData }
+    const body = isGeneric ? formData : { eventId: parseInt(eventId), formData: formData }
 
 
     if (formData && formData.length === 0) {
