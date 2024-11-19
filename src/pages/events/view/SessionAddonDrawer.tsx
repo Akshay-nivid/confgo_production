@@ -75,8 +75,8 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
   /**
    * Fetches and sets new add-on options created for the dropdown from the API.
    */
-  const onaddOnSubmitHandler = () => {
-    handleAddOnOptionsApiCall();
+  const onaddOnSubmitHandler =async () => {
+    await handleAddOnOptionsApiCall();
   };
 
   const isPaid = watch("isPaid");
