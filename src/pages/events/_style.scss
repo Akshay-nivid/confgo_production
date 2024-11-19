@@ -72,6 +72,7 @@
 				border: 0.0625rem solid $clr_gray_very_light;
 				border-radius: 0.625rem;
 				max-height: 30rem;
+                overflow-y: auto;
     }
 		&-display-items{        
 			overflow-y : auto;

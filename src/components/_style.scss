@@ -658,6 +658,18 @@
           }
         }
     }
+    &-parse{
+      ul {
+        list-style-type: disc !important;
+        padding-left: 1.25rem !important; 
+      }
+      
+      ol {
+        list-style-type: decimal !important; 
+        padding-left: 1.25rem !important; 
+      }
+    }
+
 }
 
 

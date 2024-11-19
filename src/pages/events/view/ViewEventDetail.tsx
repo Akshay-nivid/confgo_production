@@ -15,7 +15,7 @@ import { Logger } from "@/Utils/Logger";
 import apiClient from "@/Libs/Https/API-client";
 import { useParams } from "react-router-dom";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
-import FormBuilder from "@/components/FormBuilder/FormBuilder";
+import FormBuilder from "@/components/FormBuilder";
 import StatusComponent from "@/components/Status/StatusComponent";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import useStore from "@/Libs/store";
@@ -247,7 +247,7 @@ const ViewEventDetail = () => {
       className="event-detail-card" >
       <Grid size={{ xs: 12, sm: 12 }} flexDirection={"column"} >
         <Grid className="event-detail-header" size={{ xs: 12, sm: 12 }} >
-          <Grid container justifyContent={'space-between'}>
+          <Grid container justifyContent={'space-between'} alignItems={"center"}>
             <Grid container>
               <Grid >
                 <Typography variant="h4" className="event-detail-header-title">{eventFullData?.name}</Typography>

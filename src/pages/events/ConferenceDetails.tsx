@@ -88,9 +88,7 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
                 <Grid className="custom-stepper-conference-details-content-date-icon"><LocationIcon /></Grid>
                 <Grid>{data?.event?.location}</Grid>
             </Grid>}
-            <Grid>
-                {parse(data?.event?.description)}
-            </Grid>
+			<Grid className='custom-stepper-parse'>{parse(data?.event?.description)}</Grid>
             <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper-conference-details-content-header-container" alignItems={'center'}>
                 <Typography variant="h3" lineHeight={2} className="custom-stepper-conference-details-content-sub-title">Scheduled Programmes</Typography>
             </Grid>

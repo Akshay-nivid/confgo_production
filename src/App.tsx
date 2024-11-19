@@ -123,7 +123,7 @@ const userRoutes = [
       },
       {
         path: routes.userCalendar(),
-        element: <CalendarRoute  />,
+        element: <CalendarRoute  id="user-calendar"/>,
       },
     ],
   },
@@ -210,7 +210,7 @@ const router = createBrowserRouter([
       },
       {
         path: routes.calendar(),
-        element: <CalendarRoute  />,
+        element: <CalendarRoute  id="company-calendar"/>,
       },
       {
         path: routes.userdetail(":id"),
@@ -234,7 +234,12 @@ const router = createBrowserRouter([
       </PublicRoute>
     ),
   },
-
+  {
+    path: routes.eventExternalLink(":slug"),
+    element: (
+        <TemplateContainer/>
+    ),
+  },
   {
     path: routes.SetPassword(),
     element: <SetPassword  />,

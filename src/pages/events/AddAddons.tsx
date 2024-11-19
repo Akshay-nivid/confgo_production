@@ -84,7 +84,7 @@ const typeArray = [
 
 const AddAddOns: React.FC<ProgramProps> = React.memo(
   ({ formSubmit, onSubmitHandler, data, onSaveHandler ,onaddOnSubmitHandler,addOnOptions,eventData}) => {
-    const { handleSubmit, control, watch, setValue,resetField } = useForm<FormData>({
+    const { handleSubmit, control, watch, setValue,resetField} = useForm<FormData>({
 
       defaultValues: {
         addOn: [
@@ -285,40 +285,43 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       const values = watch();      
       const propertyName = values.addOn[index].propertyName; 
       const propertyAmount = values.addOn[index].propertyAmount;
-    
-      const newProperty = {
-        propertyId:Date.now().toString(),
-        propertyName: propertyName,
-        propertyAmount: propertyAmount,
-      };
-    
-      const updatedAddOn = [...values.addOn]; 
-    
-      updatedAddOn[index].properties = updatedAddOn[index].properties.filter(
-        prop => prop.propertyName !== ""
-      );
-      updatedAddOn[index].properties.push({ ...newProperty});
-    
-      setValue("addOn", updatedAddOn);
-      resetField(`addOn.${index}.propertyName`,{});
-      resetField(`addOn.${index}.propertyAmount`,{});
+      if(propertyName){
+        const newProperty = {
+          propertyId:Date.now().toString(),
+          propertyName: propertyName,
+          propertyAmount: propertyAmount,
+        };
+        const updatedAddOn = [...values.addOn]; 
+        updatedAddOn[index].properties = updatedAddOn[index].properties.filter(
+          prop => prop.propertyName !== ""
+        );
+        updatedAddOn[index].properties.push({ ...newProperty});
+        setValue("addOn", updatedAddOn);
+        resetField(`addOn.${index}.propertyName`,{});
+        resetField(`addOn.${index}.propertyAmount`,{});
+      }else{
+        return
+      }
     }
     /**
      * Method handles the delete a property
      * @param index : form index
      */
     const deleteChip = (item: any, _index: number) => {
-      const values = watch(); 
+      const values = watch();     
+      // Update the addOn array by filtering out the specific property
       const updatedAddOn = values.addOn.map((addOnItem) => {
-          const updatedProperties = addOnItem.properties.filter(
-            (property) => property.propertyId !== item.propertyId
-          );
-          const data= {
-            ...addOnItem,
-            property: updatedProperties,
-          };
-        return data;
+        const updatedProperties = addOnItem.properties.filter(
+          (property) => property.propertyId !== item.propertyId
+        );
+    
+        // Return the updated object with correct key (`properties`)
+        return {
+          ...addOnItem,
+          properties: updatedProperties, // make sure the key is `properties`, not `property`
+        };
       });
+      // Use setValue to update the form state
       setValue('addOn', updatedAddOn);
     };
     /**
@@ -326,6 +329,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
      */
     const handleDrawerClose=()=>{
       setAddonView(false)
+      resetField(`addOn.${0}.addonId`,{});
     }
     return (
       <Box className="add-program-container">
@@ -516,17 +520,18 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                           }}
                                         />
                                       </Grid> }
-                                      {watch(`addOn.${index}.repeat`)?.length>0 &&
-                                      <Grid size={{xs:12,sm:6}}>
+                                  {watch(`addOn.${index}.repeat`)?.length > 0 &&
+                                    <Grid size={{ xs: 12, sm: 6 }}>
                                       <CustomTextField
-                                      placeholder="Number of days"
-                                      control={control}
-                                      name={`addOn.${index}.noOfDays`}
-                                      type="text"
-                                      rules={{ required: true }}
-                                    />
-                                      </Grid>
-                                      }
+                                        placeholder="Number of days"
+                                        control={control}
+                                        name={`addOn.${index}.noOfDays`}
+                                        type="number"
+                                        readOnly={editMode ? true : false}
+                                        rules={{ required: true }}
+                                      />
+                                    </Grid>
+                                  }
                                       
                                       {}
                                 </Grid>
