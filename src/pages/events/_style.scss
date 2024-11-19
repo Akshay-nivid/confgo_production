@@ -57,25 +57,27 @@
         height: 4.5rem;
         padding: 1rem 0.1rem 1rem 1rem !important;
         margin-bottom: 1.05rem !important;
-        border: 1px solid $clr_gray_very_light;
-        border-radius: 0.41rem;
-        &-name{
-
-        }
-        &-description{
-            
-        }
+				border: 1px solid $clr_gray_very_light !important;
+        border-radius: 0.41rem !important;
     }
+		&-display-title{
+			font-weight: $font_medium !important;
+			font-size: $h5 !important;
+			color : $clr_black;
+		}
     &-display-container{
         padding: 1rem !important;
-        padding-top: 7rem !important;
-        padding-right: 3rem !important;
-        &-box{
-            padding: 1rem;
-            border: solid 0.08rem $clr-gray_faded;
-            border-radius:0.5rem ;
-        }
+				padding-right: 1rem !important;
+				margin-top: 6rem;
+				border: 0.0625rem solid $clr_gray_very_light;
+				border-radius: 0.625rem;
+				max-height: 30rem;
     }
+		&-display-items{        
+			overflow-y : auto;
+			scrollbar-width: none;
+			max-height : calc(30rem - 7rem) ;
+		}
     &-title{
         font-weight: $font_bold !important;
         font-size: $h3 !important;
@@ -98,6 +100,7 @@
         padding-top: 0.9rem;
     }
     &-form-container{
+				// margin-left: 4rem;
         padding-right: 1rem !important;
     }
     &-add-ons-title{
@@ -564,6 +567,15 @@
         padding: $h6;
         max-width: 100%;
         margin: 0 auto;
+				&-add-program-button{
+					background-color: $clr_green !important;
+					border-radius: 1.68rem !important;
+        	color: $clr_white !important;
+					margin-left: 0.5rem !important;
+					font-weight: $font-semibold !important;
+					font-size: $p1 !important;
+					text-transform: none !important;
+			}
     }
 
     &-session-list {

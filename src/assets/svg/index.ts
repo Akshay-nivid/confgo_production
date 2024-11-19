@@ -63,6 +63,7 @@ import NoDataSvg from './nodata.svg';
 import Google from './google.svg';
 import EditIconRound from './EditIconRound.svg'
 import DashBoardEmpty from './dashboard-empty.svg';
+import EventsSvg from './events.svg';
 import ClockIcon from './clock-icon.svg';
 import SecuityIcon from './security-icon.svg';
 import ProgressBarIcon from './progress-bar-icon.svg';
@@ -140,6 +141,7 @@ export {
   SecuityIcon,
   ProgressBarIcon,
   IntegrationIcon,
+  EventsSvg,
   UserEditRoundIcon,
   GoogleIcon
 };
