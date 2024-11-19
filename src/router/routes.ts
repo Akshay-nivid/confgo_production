@@ -1,4 +1,4 @@
-import config from "../../config.json";
+
 
 const routes = {
   home: () => "/",
