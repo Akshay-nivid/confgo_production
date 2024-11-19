@@ -1,12 +1,12 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
-import { Avatar, Badge, Divider, Menu, MenuItem } from '@mui/material';
-import { SettingsIcon, LogoutIcon, CalendarEventIcon, DownArrowSvg, ResetPassword } from '@/assets/svg';
+import { Avatar, Divider, Menu, MenuItem } from '@mui/material';
+import { SettingsIcon, LogoutIcon,  DownArrowSvg, ResetPassword } from '@/assets/svg';
 import Grid from '@mui/material/Grid2';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import { toSentenceCase } from '@/Utils/CommonBaseClass';
-import useStore from '@/Libs/store';
+import useStore, { resetStore, setDataById } from '@/Libs/store';
 
 interface LayoutAppbarProps {
   userDetails: {
@@ -23,9 +23,7 @@ interface LayoutAppbarProps {
  */
 const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const setDataById = useStore((state) => state?.setDataById);
   const navigate = useNavigate();
-  const { clearDataById }: any = useStore();
   /**
    * handle appbar open
    */
@@ -46,7 +44,7 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
     // Clear sessionStorage and localStorage
     sessionStorage.clear();
     localStorage.clear();
-    clearDataById("userDetails");
+    resetStore();
     // Navigate to login
     navigate(routes.userLogin()); 
   };
@@ -81,16 +79,7 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
         LOGO
       </Grid>
       <Grid container size={10} justifyContent="flex-end" >
-        <Grid  className="appbar-notification" onClick={()=>{navigate(routes.userCalendar())}}>
-          {/* Calendar Icon */}
-          <CalendarEventIcon className='appbar-notification-icon' />
-          {/* Notification Badge */}
-          <Badge
-            badgeContent={4}
-            color="primary"
-            className='appbar-notification-badge'
-          />
-        </Grid>
+        
         <Grid  size={2} className="appbar-group" onClick={handleMenuOpen}>
           {/*Image */}
           <Grid size={1} className="appbar-group-img" mb={0}>

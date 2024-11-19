@@ -10,7 +10,9 @@ import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import { DataGridList } from "@/components/DataGrid/DataGridList";
 import FilterModal from "@/components/CustomFilter/FilterModal";
 import { Logger } from "@/Utils/Logger";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import routes from "@/router/routes";
+
 
 /**
  * Component to display a list of registered event participants with search and filter functionality.
@@ -18,6 +20,7 @@ import { useParams } from "react-router-dom";
 const UserListCard = () => {
   // Retrieve the event ID from route parameters
   const { id } = useParams();
+  const navigate = useNavigate();
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [filters, setFilters] = useState({ eventId: id });
@@ -111,6 +114,9 @@ const UserListCard = () => {
     }
   };
 
+const handleRowClick=(id:string |number)=>{
+  navigate(routes.userdetail(id))
+}
   /**
    * Searches participants based on the query entered by the user.
    * @param query - The search query entered by the user
@@ -209,6 +215,7 @@ const UserListCard = () => {
           hideFooterPagination={false}
           columns={columns}
           id="participant-list-datagrid"
+          onRowClick={(params:any) => handleRowClick(params.id)}
         />
       </Grid>
 
