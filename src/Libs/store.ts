@@ -175,5 +175,5 @@ const useStore = create<StoreState>()(
     ),
 );
 
-export const { POST, GET, PUT, DELETE, setDataById,clearDataById } = useStore.getState();
+export const { POST, GET, PUT, DELETE, setDataById, clearDataById, resetStore } = useStore.getState();
 export default useStore;

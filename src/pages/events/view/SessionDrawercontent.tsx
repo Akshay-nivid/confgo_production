@@ -7,6 +7,7 @@ import Grid from "@mui/material/Grid2";
 import { useForm, FieldValues } from "react-hook-form";
 import { useEffect } from "react";
 import moment from "moment";
+import SessionAddonDrawer from "./SessionAddonDrawer";
 
 interface SessionDrawerContentProps {
     isEditing: boolean;
@@ -46,14 +47,6 @@ interface SessionDrawerContentProps {
     
     const isPaid = watch("isPaid");
   
-    /** 
-     *  Prevent the drawer from opening if isAddon is true
-    */
-    useEffect(() => {
-      if (isAddon) {
-        closeDrawer();  // Ensure drawer is closed if isAddon is true
-      }
-    }, [isAddon, closeDrawer]);
   /**
    * Used to set value into the field if its edit and reset if it's add
    */
@@ -84,6 +77,9 @@ interface SessionDrawerContentProps {
         if (isPaid === "FREE") setValue("price", 0);
       }, [isPaid, setValue]);
   
+		if(isAddon){
+				return <SessionAddonDrawer closeDrawer={closeDrawer} isEditing={isEditing} selectedAddOn={selectedProgram} onSubmit={onSubmit}/>
+		}  
     return (
       <Box sx={{ maxWidth: 600 }}>
         <Grid container spacing={2} padding={2}>

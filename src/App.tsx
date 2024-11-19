@@ -30,7 +30,6 @@ import ProgramSelection from "@/pages/User/Program-Selection";
 import SelectedPrograms from "@/pages/User/Selected-Programs";
 import PaymentMethod from "@/pages/User/Payment-Method";
 import RegistrationCompleted from "@/pages/User/Registration-Completed";
-import FormBuilder from "@/components/FormBuilder/FormBuilder";
 import ViewEventDetail from "@/pages/events/view/ViewEventDetail";
 import EventList from "@/pages/events/EventList";
 import UserDashboardLayout from "@/pages/user-dashboard-layout";
@@ -47,6 +46,7 @@ import TemplateContainer from "@/pages/events/template/TemplateContainer";
 
 import { PrivateRouteCompany, PrivateRouteUser } from "./router/PrivateRoute";
 import PublicRoute from "./router/PublicRoute";
+import UserDetail from "./pages/events/view/UserDetail";
 
 const userRoutes = [
   {
@@ -58,7 +58,7 @@ const userRoutes = [
       },
       {
         path: routes.userLogin(),
-        element: <UserLogin  />,
+        element: <UserLogin  id="user-login"/>,
       },
       {
         path: routes.userRegister(),
@@ -136,7 +136,11 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
-    path: routes.forgotPassword(),
+    path: routes.userForgotPassword(),
+    element: <ForgotPassword />,
+  },
+  {
+    path: routes.organisationForgotPassword(),
     element: <ForgotPassword />,
   },
   {
@@ -208,7 +212,19 @@ const router = createBrowserRouter([
         path: routes.calendar(),
         element: <CalendarRoute  />,
       },
+      {
+        path: routes.userdetail(":id"),
+        element: <UserDetail />,
+      },
     ],
+  },
+  {
+    path: routes.template(":id", ":entityId"),
+    element: (
+      <PrivateRouteCompany>
+        <TemplateContainer />
+      </PrivateRouteCompany>
+    ),
   },
   {
     path: routes.loginOrg(),
@@ -218,10 +234,7 @@ const router = createBrowserRouter([
       </PublicRoute>
     ),
   },
-  {
-    path: routes.template(),
-    element: <TemplateContainer  />,
-  },
+
   {
     path: routes.SetPassword(),
     element: <SetPassword  />,
