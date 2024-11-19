@@ -13,6 +13,7 @@ import moment from 'moment';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import DashboardEventCards from './DashboardEventCard';
 import NoCalenderData from './NoCalenderData';
+import NoDataCard from './NoDataCard';
 
 export interface CalendarCardData {
   id: string;
@@ -208,7 +209,9 @@ const UserDashboard: React.FC = React.memo(() => {
           </Typography>
           <Grid size={{ xs: 12 }} className="dashboard-left-profile-card">
           {isLoading ? <CircularProgress /> :
+          userCompletedEvents?.data?
             <DashboardEventCards event={userCompletedEvents?.data && userCompletedEvents?.data[0]} />
+            :  <NoDataCard/>
           }
           </Grid>
         </Grid>

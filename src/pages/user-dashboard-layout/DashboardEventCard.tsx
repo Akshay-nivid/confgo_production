@@ -43,16 +43,11 @@ interface DashboardEventCardProps {
  * @author Neethu
  */
 const DashboardEventCards: React.FC<DashboardEventCardProps> = React.memo(({ event }) => {
-    if (!event) {
-        return (
-         <NoDataCard/>
-        );
-    }
     return (
         <Grid className="dashboard-left-profile-card-container">
             <Grid size={12}>
                 <Typography className="dashboard-left-profile-accounttitle">
-                    {event.name}
+                    {event?.name}
                 </Typography>
             </Grid>
             <Grid size={12} mt={2} className="dashboard-left-profile-card-block" >
@@ -65,7 +60,7 @@ const DashboardEventCards: React.FC<DashboardEventCardProps> = React.memo(({ eve
                         Date
                     </Typography>
                     <Typography className="dashboard-left-profile-card-block-content">
-                        {moment(event.startTime).format('MMMM D, YYYY')} - {moment(event.endTime).format('MMMM D, YYYY')}
+                        {moment(event?.startTime).format('MMMM D, YYYY')} - {moment(event?.endTime).format('MMMM D, YYYY')}
                     </Typography>
                 </Grid>
                 <Grid size={4}>
@@ -73,7 +68,7 @@ const DashboardEventCards: React.FC<DashboardEventCardProps> = React.memo(({ eve
                         Location
                     </Typography>
                     <Typography className="dashboard-left-profile-card-block-content">
-                        {event.venue.address},  {event.venue.city}
+                        {event?.venue.address},  {event?.venue.city}
                     </Typography>
                 </Grid>
             </Grid>
