@@ -66,14 +66,16 @@ export const validateEmail = ({ message }: { message?: string }) => {
 export const validateRequiredField = ({
   message,
   fieldName,
+  showMessage = true,
 }: {
   message?: string;
-  fieldName?: string;
-}) => {
+    fieldName?: string;
+  showMessage?: boolean;
+  }) => {
+  
   return {
     value: true,
-    message:
-      message || fieldName ? `${fieldName} is required` : 'Field is required',
+    message: !showMessage ? "" : (message || fieldName ? `${fieldName} is required` : 'Field is required'),
   };
 };
 
