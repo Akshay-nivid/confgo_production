@@ -7,12 +7,10 @@ import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceR
 import { ForgotPasswordIcon } from "@/assets/svg";
 import routes from "@/router/routes";
 import { validateEmail, validateRequiredField } from "@/Utils/Validation";
-import { useLocation} from 'react-router-dom';
 import useStore from "@/Libs/store";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { Logger } from "@/Utils/Logger";
 import { purposeTypes} from "@/Utils/CommonBaseClass";
-
 /**
  * Form data interface
  */
@@ -26,17 +24,12 @@ const ForgotPassword = () => {
   const { handleSubmit, control } = useForm<FormData>();
   const POST = useStore((state: any) => state.POST);
   const navigate = useNavigate();
-  const location=useLocation()
+
   /**
-   *  function for get previousPath
+   *   A functional  that provides a "Bach to login" button
    */
 const  previousPath=()=>{
-  if(location.pathname === '/user/forgot-password'){
-    navigate(routes.userLogin())
-  }
-  else{
-    navigate(routes.loginOrg())
-  }
+  navigate(-1)
 }
   /**
    * Function to handle submit button
@@ -51,7 +44,8 @@ const  previousPath=()=>{
      */
     const successCB = (success: any) => {
       if (success?.data?.role?.roleName==="USER") {
-        navigate(routes.userOtp(),{state:{email:data.email, purpose: purposeTypes.RESET_PASSWORD, token: success?.data?.token?.token, userId: success?.data?.token?.userId } });
+      navigate(routes.userOtp(),{state:{email:data.email, purpose: purposeTypes.RESET_PASSWORD, token: success?.data?.token?.token, userId: success?.data?.token?.userId } });
+      setDataById("resendOtp",{token: success?.data?.token?.token});
       } else {
         setDataById("thankYouPageInfo",{type:"Submitted sucessfully"});
         navigate(routes.thankyou());

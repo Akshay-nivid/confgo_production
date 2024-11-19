@@ -50,7 +50,6 @@ interface GoogleUserData {
   picture: string;
   phone_number: string;
 }
-
 /**
  * User Register page component
  *
@@ -97,7 +96,6 @@ const UserRegister = (props: UserProps) => {
       body: data,
       id: props?.id,
       successCB: (context: any) => {
-        console.log(context,'context')
         if (context?.success) {
          navigate(routes.userOtp(),{
           state: {
@@ -108,6 +106,7 @@ const UserRegister = (props: UserProps) => {
             purpose:purposeTypes.SET_PASSWORD
           },
         });
+        setDataById("resendOtp",{ token: context?.data?.token?.token});
         }
       },
       errorCB: (context: any) => {
