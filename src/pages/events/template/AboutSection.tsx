@@ -8,7 +8,7 @@ import parse from 'html-react-parser';
 
 type AboutSectionProps = {
     data?: any;
-    temp: string;
+    temp: string | undefined;
 }
 
 const AboutSection: React.FC<AboutSectionProps> = React.memo(({ data, temp }) => {

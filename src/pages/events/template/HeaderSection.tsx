@@ -10,7 +10,7 @@ import DetailsSection from './DetailsSection';
 
 type HeaderSectionProps = {
     data?: any;
-    temp: string;
+    temp: string | undefined;
 }
 
 const HeaderSection: React.FC<HeaderSectionProps> = React.memo(({ data, temp }) => {

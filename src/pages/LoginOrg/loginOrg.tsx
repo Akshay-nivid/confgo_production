@@ -8,8 +8,6 @@ import useStore from "@/Libs/store";
 import apiClient from "@/Libs/Https/API-client";
 
 
-
-
 /**
  * ApiResponse from
  * url: 'auth/login'
@@ -43,7 +41,6 @@ const LoginOrg = () => {
     password: string;
   };
   const setDataById = useStore((state: any) => state.setDataById);
-  const details = useStore((state: any) => state?.compData?.['orgDetails']) ?? [];
   const { handleSubmit, control } = useForm<FormData>();
   const navigate = useNavigate();
   const POST = useStore((state: any) => state.POST);
@@ -52,9 +49,9 @@ const LoginOrg = () => {
   /**
    * function used to handle form submission
    */
-  const handleClickForgetPassword = () => {
-    navigate(routes.forgotPassword())
-  }
+    const handleClickForgetPassword=()=>{
+      navigate(routes.organisationForgotPassword())
+      }
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     LoginOrg(data);

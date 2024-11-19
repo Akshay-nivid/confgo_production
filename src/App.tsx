@@ -58,7 +58,7 @@ const userRoutes = [
       },
       {
         path: routes.userLogin(),
-        element: <UserLogin  />,
+        element: <UserLogin  id="user-login"/>,
       },
       {
         path: routes.userRegister(),
@@ -136,7 +136,11 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
-    path: routes.forgotPassword(),
+    path: routes.userForgotPassword(),
+    element: <ForgotPassword />,
+  },
+  {
+    path: routes.organisationForgotPassword(),
     element: <ForgotPassword />,
   },
   {
@@ -215,6 +219,14 @@ const router = createBrowserRouter([
     ],
   },
   {
+    path: routes.template(":id", ":entityId"),
+    element: (
+      <PrivateRouteCompany>
+        <TemplateContainer />
+      </PrivateRouteCompany>
+    ),
+  },
+  {
     path: routes.loginOrg(),
     element: (
       <PublicRoute>
@@ -222,10 +234,7 @@ const router = createBrowserRouter([
       </PublicRoute>
     ),
   },
-  {
-    path: routes.template(),
-    element: <TemplateContainer  />,
-  },
+
   {
     path: routes.SetPassword(),
     element: <SetPassword  />,
