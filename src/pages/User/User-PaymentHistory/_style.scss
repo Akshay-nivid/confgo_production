@@ -31,13 +31,11 @@
         font-size:$p2;
         color:$clr_gray_dark_text;
       }
-     
      }
-    
      }
    }
-   .download-receipt{
-    background-color:none !important;
+   .download-Receipt{
+    background-color:none!important;
     color:$clr_blue;
     box-shadow:none ;
     &:hover {
