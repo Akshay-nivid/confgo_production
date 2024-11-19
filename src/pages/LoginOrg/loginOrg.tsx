@@ -43,7 +43,6 @@ const LoginOrg = () => {
     password: string;
   };
   const setDataById = useStore((state: any) => state.setDataById);
-  const details = useStore((state: any) => state?.compData?.['orgDetails']) ?? [];
   const { handleSubmit, control } = useForm<FormData>();
   const navigate = useNavigate();
   const POST = useStore((state: any) => state.POST);
