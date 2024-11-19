@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid2';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import { toSentenceCase } from '@/Utils/CommonBaseClass';
-import useStore from '@/Libs/store';
+import useStore, { resetStore, setDataById } from '@/Libs/store';
 
 interface LayoutAppbarProps {
   userDetails: {
@@ -23,9 +23,7 @@ interface LayoutAppbarProps {
  */
 const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const setDataById = useStore((state) => state?.setDataById);
   const navigate = useNavigate();
-  const { clearDataById }: any = useStore();
   /**
    * handle appbar open
    */
@@ -46,7 +44,7 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
     // Clear sessionStorage and localStorage
     sessionStorage.clear();
     localStorage.clear();
-    clearDataById("userDetails");
+    resetStore();
     // Navigate to login
     navigate(routes.userLogin()); 
   };
