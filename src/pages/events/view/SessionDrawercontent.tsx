@@ -14,11 +14,15 @@ interface SessionDrawerContentProps {
     onSubmit: (data: FieldValues) => void;
     closeDrawer: () => void;
     isAddon: boolean; 
+    eventEndTime:any;
+    eventStartTime:any;
   }
   
   const SessionDrawerContent: React.FC<SessionDrawerContentProps> = ({
     isEditing,
     selectedProgram,
+    eventEndTime,
+    eventStartTime,
     onSubmit,
     closeDrawer,
     isAddon, // Destructuring the isAddon prop
@@ -32,14 +36,14 @@ interface SessionDrawerContentProps {
     } = useForm({
       defaultValues: {
         isPaid: isEditing && selectedProgram?.amount > 0 ? "PAID" : "FREE", 
-        startTime: selectedProgram ? selectedProgram.startTime : "",
-        endTime: selectedProgram ? selectedProgram.endTime : "",
+        startTime: selectedProgram ? selectedProgram.startTime : (eventStartTime ? eventStartTime:""),
+        endTime: selectedProgram ? selectedProgram.endTime : (eventEndTime ? eventEndTime:""),
         name: selectedProgram ? selectedProgram.name : "",
         description: selectedProgram ? selectedProgram.description : "",
         price: selectedProgram ? selectedProgram.amount : "",
       },
     });
-  
+    
     const isPaid = watch("isPaid");
   
     /** 
@@ -64,8 +68,8 @@ interface SessionDrawerContentProps {
       } else {
         reset({
           isPaid: "FREE",
-          startTime: "",
-          endTime: "",
+          startTime: moment(eventStartTime).format("YYYY-MM-DDTHH:mm"),
+          endTime: moment(eventEndTime).format("YYYY-MM-DDTHH:mm"),
           name: "",
           description: "",
           price: "",
@@ -117,6 +121,9 @@ interface SessionDrawerContentProps {
               label="Start Time"
               placeholder="Start Time"
               control={control}
+              defaultValue={moment(eventStartTime).format("YYYY-MM-DDTHH:mm")} 
+              min={moment(eventStartTime).format("YYYY-MM-DDTHH:mm")} 
+              max={moment(eventEndTime).format("YYYY-MM-DDTHH:mm")}
               type="datetime-local"
               requiredField={true}
             />
@@ -128,6 +135,9 @@ interface SessionDrawerContentProps {
               label="End Time"
               placeholder="End Time"
               control={control}
+              defaultValue={moment(eventStartTime).format("YYYY-MM-DDTHH:mm")} 
+              min={moment(eventStartTime).format("YYYY-MM-DDTHH:mm")} 
+              max={moment(eventEndTime).format("YYYY-MM-DDTHH:mm")}
               type="datetime-local"
             />
           </Grid>

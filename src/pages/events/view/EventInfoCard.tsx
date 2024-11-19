@@ -10,7 +10,7 @@ import { CloseOutlined } from "@mui/icons-material";
 import apiClient from "@/Libs/Https/API-client";
 import { useParams } from "react-router-dom";
 import useStore from "@/Libs/store";
-import { processAPIResponse } from "@/Utils/CommonBaseClass";
+import { formatUTCDateTime, processAPIResponse } from "@/Utils/CommonBaseClass";
 import moment from "moment";
 import EditIcon from "@/assets/svg/event-edit.svg";
 import parse from 'html-react-parser';
@@ -80,12 +80,8 @@ const EventInfoCard: React.FC<any> = React.memo(
     // Format the date and time fields before update request.
     const formattedData = {
       ...data,
-      startTime: moment(data.startTime, "YYYY-MM-DD HH:mm:ss").format(
-        "YYYY-MM-DDTHH:mm"
-      ),
-      endTime: moment(data.endTime, "YYYY-MM-DD HH:mm:ss").format(
-        "YYYY-MM-DDTHH:mm"
-      ),
+      startTime: formatUTCDateTime(data.startTime),
+      endTime: formatUTCDateTime(data.endTime),
     };
 
     const response = await apiClient.post(`event/update/${id}`, formattedData);

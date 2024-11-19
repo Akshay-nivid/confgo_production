@@ -10,7 +10,7 @@ import moment from "moment";
 import useStore, { GET, POST, PUT } from "@/Libs/store";
 import routes from "@/router/routes";
 import { handleGroupData } from "../Program-Selection/programsHandlers";
-import { processFormData,formatDate } from "../Program-Selection/programsHandlers";
+import { processFormData, formatDate } from "../Program-Selection/programsHandlers";
 import { EventRegistrationSuccessIcon } from "@/assets/svg";
 
 /**
@@ -28,8 +28,8 @@ const SelectedPrograms = () => {
   const eventId = useStore((state: any) => state?.compData?.["eventSelected"]?.id) ?? null;
   const addToCartResponseData = useStore((state: any) => state?.compData?.["addToCart"]) ?? null;
 
-  const { control, setValue, getValues } = useForm({
-    
+  const { control, setValue, getValues, reset } = useForm({
+
     defaultValues: {
       ...selectedFormValues,
       coupon: undefined,
@@ -37,10 +37,10 @@ const SelectedPrograms = () => {
 
   });
 
-/**
- * method to handle apply coupon api
- * @returns 
- */
+  /**
+   * method to handle apply coupon api
+   * @returns 
+   */
   function handleClickApplyCoupon() {
 
     const couponCode = getValues("coupon")
@@ -86,20 +86,15 @@ const SelectedPrograms = () => {
     navigate(routes.userPaymentMethod())
   }
 
-  function onCheckboxToggle(key:string) {
-
+  function onCheckboxToggle(key: string) {
     const formData = getValues()
-
-
     if (key.includes("addon")) {
-      const [date,_,id] = key.split("-")
+      const [date, _, id] = key.split("-")
       formData[`${date}-addonProp-${id}`] = undefined
-     }
+    }
+    setDataById('defaultProgramData', { formData: formData })
 
-    
-    setDataById('defaultProgramData', { formData:formData }) // storing form datato set default value
-
-    const body = processFormData(formData,eventId) 
+    const body = processFormData(formData, eventId)
 
     if (body.programIds.length === 0) {
 
@@ -132,8 +127,11 @@ const SelectedPrograms = () => {
             })
 
             setDataById("formatedCartData", { formatedData: formatedData })
- 
-            navigate(routes.selectedPrograms());
+
+            setTimeout(() => {
+              reset(formData) // storing form datato set default value
+            }, 1)
+            // navigate(routes.selectedPrograms());
 
           },
           errorCB: (error: any) => {
@@ -161,7 +159,7 @@ const SelectedPrograms = () => {
     })
   }
 
-  
+
   return (
     <Grid container className="selected-programs-main">
       <Grid size={12} container className="selected-program-wrapper">
@@ -188,107 +186,108 @@ const SelectedPrograms = () => {
               <>
                 {Object.keys(data).length !== 0 &&
                   <Grid
-                  
-                  width={"100%"}
-                  key={date}
-                  className="selected-program-card-wrapper"
-                >
-                  <Grid key={date} className="selected-program-card-content">
-                    <Typography className="sub-header">
-                      Day {index + 1} -
-                      {moment(date).format("MMM DD, YYYY")}
-                    </Typography>
-                    <Typography className="sub-header">
-                      Programs Selected:
-                    </Typography>
-                    {data?.programs?.length > 0 && data?.programs?.map((item: any) => {
-                      return (
-                        <Grid key={item?.id} container direction={'row'} className="program-list-container">
-                          <Grid>
-                            <CustomCheckbox
-                              onChange={()=>onCheckboxToggle(`${formatDate(date)}-programs`)}
-                              control={control}
-                              className="program-list-item-checkbox"
-                              id="program"
-                              name={`${formatDate(date)}-programs`}
-                              setValue={setValue}
-                              options={[
-                                { label: item?.name, value: item?.id },
-                              ]}
-                            />
+
+                    width={"100%"}
+                    key={date}
+                    className="selected-program-card-wrapper"
+                  >
+                    <Grid key={date} className="selected-program-card-content">
+                      <Typography className="sub-header">
+                        Day {index + 1} -
+                        {moment(date).format("MMM DD, YYYY")}
+                      </Typography>
+                      <Typography className="sub-header">
+                        Programs Selected:
+                      </Typography>
+                      {data?.programs?.length > 0 && data?.programs?.map((item: any) => {
+                        return (
+                          <Grid key={item?.id} container direction={'row'} className="program-list-container">
+                            <Grid>
+                              <CustomCheckbox
+                                onChange={() => onCheckboxToggle(`${formatDate(date)}-programs`)}
+                                control={control}
+                                className="program-list-item-checkbox"
+                                id="program"
+                                name={`${formatDate(date)}-programs`}
+                                setValue={setValue}
+                                options={[
+                                  { label: item?.name, value: item?.id },
+                                ]}
+                              />
+                            </Grid>
+                            <Grid size={6} alignItems={'center'} display={'flex'}>- {moment(date).format("h:mm A")} - ${item?.amount}</Grid>
                           </Grid>
-                          <Grid size={6} alignItems={'center'} display={'flex'}>- {moment(date).format("h:mm A")} - ${item?.amount}</Grid>
-                        </Grid>
-                      )
-                    })}
-                    {data?.addons?.length > 0 && (
-                      <Grid container size={12} direction={'row'} className="add-on-list-container">
+                        )
+                      })}
+                      {data?.addons?.length > 0 && (
+                        <Grid container size={12} direction={'row'} className="add-on-list-container">
                           {data.addons && data?.addons?.map((addon: any, index: number) => {
-                          return (
-                            <Grid key={addon?.eventAddon?.id}>
-                              {index === 0 && <Grid className="select-add-on-text">Addon:</Grid>}
-                              <Grid key={addon?.eventAddon?.id} className="add-on-list-item">
-                                
-                                <CustomCheckbox
-                                  onChange={()=>onCheckboxToggle(`${formatDate(date)}-addon-${addon?.id}`)}
-                                  control={control}
-                                  className="add-on-list-item-checkbox "
-                                  id={addon?.addonId}
-                                  name={`${formatDate(date)}-addon-${addon?.id}`}
-                                  label={addon?.title}
-                                  setValue={setValue}
-                                  options={[
-                                    {
-                                      label: addon?.addon?.name,
-                                      value: addon?.id,
-                                    },
-                                  ]}
-                                />
-                                
-                                <Grid size={6}>- ${addon?.amount}</Grid>
-                              </Grid>
-                              {addon?.eventAddonProperties?.length > 0 && (
+                            return (
+                              <Grid key={addon?.eventAddon?.id}>
+                                {index === 0 && <Grid className="select-add-on-text">Addon:</Grid>}
+                                <Grid key={addon?.eventAddon?.id} className="add-on-list-item">
+
+                                  <CustomCheckbox
+                                    onChange={() => onCheckboxToggle(`${formatDate(date)}-addon-${addon?.id}`)}
+                                    control={control}
+                                    className="add-on-list-item-checkbox "
+                                    id={addon?.addonId}
+                                    name={`${formatDate(date)}-addon-${addon?.id}`}
+                                    label={addon?.title}
+                                    setValue={setValue}
+                                    options={[
+                                      {
+                                        label: addon?.addon?.name,
+                                        value: addon?.id,
+                                      },
+                                    ]}
+                                  />
+
+                                  <Grid size={6}>- ${addon?.amount}</Grid>
+                                </Grid>
+                                {addon?.eventAddonProperties?.length > 0 && (
                                   <Grid >
 
-                                  {addon?.eventAddonProperties.map((property: any) =>  {
-                                      return property !== null &&(
-                                      < CustomCheckbox
-                                        // disabled={watch(currentAddon) === undefined || watch(currentAddon).length === 0}
-                                        row={true}
-                                        control={control}
-                                        required={false}
-                                        name={`${formatDate(date)}-addonProp-${addon?.id}`}
-                                        options={[
-                                          { label: property?.name, value: property?.id },
-                                        ]}
-                                      />)})}
+                                    {addon?.eventAddonProperties.map((property: any) => {
+                                      return property !== null && (
+                                        < CustomCheckbox
+                                          // disabled={watch(currentAddon) === undefined || watch(currentAddon).length === 0}
+                                          row={true}
+                                          control={control}
+                                          required={false}
+                                          name={`${formatDate(date)}-addonProp-${addon?.id}`}
+                                          options={[
+                                            { label: property?.name, value: property?.id },
+                                          ]}
+                                        />)
+                                    })}
                                   </Grid>
                                 )}
-                            </Grid>
-                          )
-                        })}
-                      </Grid>
-                    )}
-                  </Grid>
-                  <Grid className="divider "></Grid>
-                  <Grid
-                    display={"flex"}
-                    justifyContent={"space-between"}
-                    alignItems={"center"}
-                    className="subtotal-container"
-                  >
-                    <Typography className="total-text">
-                      Subtotal for Day {index + 1}
-                    </Typography>
-                    <Typography className="total-text">
-                      $ {selectedPrograms[date].total}
-                    </Typography>
-                  </Grid>
-                </Grid>}
+                              </Grid>
+                            )
+                          })}
+                        </Grid>
+                      )}
+                    </Grid>
+                    <Grid className="divider "></Grid>
+                    <Grid
+                      display={"flex"}
+                      justifyContent={"space-between"}
+                      alignItems={"center"}
+                      className="subtotal-container"
+                    >
+                      <Typography className="total-text">
+                        Subtotal for Day {index + 1}
+                      </Typography>
+                      <Typography className="total-text">
+                        $ {selectedPrograms[date].total}
+                      </Typography>
+                    </Grid>
+                  </Grid>}
               </>
             ))
           }
-          {!couponData?.data?.coupon?.code ?<Grid className="coupon-container">
+          {!couponData?.data?.coupon?.code ? <Grid className="coupon-container">
             <Typography className="coupon-header-text">
               Apply Coupons
             </Typography>
@@ -311,20 +310,20 @@ const SelectedPrograms = () => {
                 />
               </Grid>
             </Grid>
-          </Grid>:
-          <Grid  display={'flex'} justifyContent={'space-between'} size={12} className="coupon-banner-container border border-green-600  rounded-lg p-5 bg-green-50/20 ">
-            <Grid display={'flex'} columnGap={2} alignItems={'center'}>
-              
-              <EventRegistrationSuccessIcon fontSize={'40px'} />
-              <Box>
-                <Typography className="coupon-code">{couponData?.data?.coupon?.code.toUpperCase()} <span className="ml-1">applied</span></Typography>
-                <Typography></Typography>
-              </Box>
-            </Grid>
+          </Grid> :
+            <Grid display={'flex'} justifyContent={'space-between'} size={12} className="coupon-banner-container border border-green-600  rounded-lg p-5 bg-green-50/20 ">
+              <Grid display={'flex'} columnGap={2} alignItems={'center'}>
+
+                <EventRegistrationSuccessIcon fontSize={'40px'} />
+                <Box>
+                  <Typography className="coupon-code">{couponData?.data?.coupon?.code.toUpperCase()} <span className="ml-1">applied</span></Typography>
+                  <Typography></Typography>
+                </Box>
+              </Grid>
               <CustomButton onClick={() => {
-                setDataById('couponData',{context:null})
-            }} className="error-text" variant="text" label="Remove"/>
-          </Grid>}
+                setDataById('couponData', { context: null })
+              }} className="error-text" variant="text" label="Remove" />
+            </Grid>}
           <Grid className="grand-total-container">
             <Typography className="total-text">Grand Total</Typography>
             <Typography className="total-text">${couponData?.data?.total || cart?.data?.cart?.finalPrice}</Typography>
@@ -343,7 +342,7 @@ const SelectedPrograms = () => {
               variant="contained"
               onClick={handleClickNextButton}
             />
-            
+
           </Grid>
         </Grid>
       </Grid>

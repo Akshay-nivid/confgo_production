@@ -45,15 +45,15 @@ const Security:React.FC = React.memo(() => {
   };
 
   return (
-    <Grid container>
+    <Grid container className="security-container">
       <Grid size={12}>
-        <Typography className="security-title account-title">Security</Typography>
+        <Typography className="security-title account-title account-margin">Security</Typography>
       </Grid>
-
+<Grid size={12} className="security-bottom-border">
       <Grid
         container
         size={10}
-        className="security-text-border"
+        className="security-text-border account-margin"
       >
         <Grid>
           <Typography className="security-text">
@@ -70,11 +70,12 @@ const Security:React.FC = React.memo(() => {
           
         </Grid>
       </Grid>
-
+      </Grid>
+  <Grid size={12} className="security-bottom-border">
       <Grid
         container
         size={10}
-         className="security-text-border"
+         className="security-text-border account-margin"
       >
         <Grid>
           <Typography className="security-text">
@@ -92,6 +93,7 @@ const Security:React.FC = React.memo(() => {
             onClick={handlePasswordReset}
           />
         </Grid>
+      </Grid>
       </Grid>
     </Grid>
   );

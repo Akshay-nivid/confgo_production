@@ -5,13 +5,18 @@ import { ArrowDropDown } from '@mui/icons-material';
 import { SettingsIcon, LogoutIcon } from '@/assets/svg';
 import  AppLogo  from '@/assets/svg/app-logo.svg';
 import Grid from '@mui/material/Grid2';
+import useStore from '@/Libs/store';
+import routes from '@/router/routes';
+import { useNavigate } from 'react-router-dom';
 
 /**
- * ui component for appbar in dashboard
+ * component for appbar in dashboard
  * @returns
  */
 export default function LayoutAppbar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const clearDataById = useStore((state: any) => state.clearDataById);
+  const navigate = useNavigate();
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -21,6 +26,17 @@ export default function LayoutAppbar() {
     setAnchorEl(null);
   };
 
+   /**
+   * Logout functionality
+   */
+   const handleLogout = () => {
+    // Clear sessionStorage and localStorage
+    sessionStorage.clear();
+    localStorage.clear();
+    clearDataById("orgDetails");
+    navigate(routes.home()); 
+  };
+  
   return (
     <Grid container className="appbar">
       <Grid size={2} className="appbar-logo-container">
@@ -51,7 +67,7 @@ export default function LayoutAppbar() {
             <span className="menu-item-text">Settings</span>
           </MenuItem>
           <Divider />
-          <MenuItem className="">
+          <MenuItem className="" onClick={handleLogout}>
             <LogoutIcon />
             <span className="menu-item-text text-danger">Logout</span>
           </MenuItem>

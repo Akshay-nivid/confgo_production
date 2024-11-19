@@ -60,7 +60,16 @@ import CalenderNoData from'./calender-no.svg';
 import NoEvent from "./NoEvents.svg";
 import NoPayment from "./noPayment.svg"
 import NoDataSvg from './nodata.svg';
+import Google from './google.svg';
+import EditIconRound from './EditIconRound.svg'
 import DashBoardEmpty from './dashboard-empty.svg';
+import ClockIcon from './clock-icon.svg';
+import SecuityIcon from './security-icon.svg';
+import ProgressBarIcon from './progress-bar-icon.svg';
+import IntegrationIcon from './integration-icon.svg';
+import UserEditRoundIcon from './user-edit-round-icon.svg';
+import GoogleIcon from './google-icon.svg';
+
 export {
   CalenderIcon,
   EventIcon,
@@ -123,6 +132,14 @@ export {
   NoDataSvg,
   NoPayment,
   ResetPassword,
+  Google,
+  EditIconRound,
   CalenderNoData,
-  DashBoardEmpty
+  DashBoardEmpty,
+  ClockIcon,
+  SecuityIcon,
+  ProgressBarIcon,
+  IntegrationIcon,
+  UserEditRoundIcon,
+  GoogleIcon
 };

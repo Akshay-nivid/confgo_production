@@ -6,10 +6,10 @@ import CheckIcon from '@mui/icons-material/Check';
 import clsx from 'clsx';
 import { validateConfirmPassword, validateMinLength, validatePassword, validateRequiredField } from '@/Utils/Validation';
 import { REGEX } from '@/Utils/Validation';
-import apiClient from '@/Libs/Https/API-client';
 import useStore from '@/Libs/store';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
+import { Logger } from '@/Utils/Logger';
 /**
  * Component use to set password
  * @returns
@@ -17,6 +17,7 @@ import routes from '@/router/routes';
 
 const SetPasswordComponent = () => {
   const setDataById = useStore((state: any) => state.setDataById)
+  const PUT = useStore((state: any) => state.PUT);
   const navigate=useNavigate();
   type FormData = {
     confirmPassword: string;
@@ -39,34 +40,48 @@ const SetPasswordComponent = () => {
    * function used to handle form submission
    */
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    createPassword(data.password);
+    if(data.password===data.confirmPassword){
+      createPassword(data.password);
+    }else{
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 1000, severity: 'error', message:'both password should be same' })
+    }
+    
   };
   /**
    * function used to create password
    * @param password 
    */
-  const createPassword=async(password:string)=>{
-    try{
-      const requestBody={
+  const createPassword = async (password: string) => {
+    try {
+      const body = {
         password:password,
-        userId: userDetails.data.userId,
-        token: userDetails.data.token,
+        userId: userDetails?.data?.userId,
+        token: userDetails?.data?.token,
         type:userDetails?.data?.tokenType??"USER_REGISTRATION",
-        email:userDetails.data.email,
-      }
-      const response=await apiClient.put(`user/setpassword`,requestBody);
-      if(response.data.status==='success'){
-        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:'Registration Successfully' })
+        email:userDetails?.data?.email,
+      };
+      await PUT({
+        url: `user/setpassword`,
+        body: body,
+        id: 'userSetPassword',
+        successCB: (_success: any) => {
+          setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:'Registration Successfully' })
         navigate(routes.loginOrg());
-      }else{
-        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:'Something went wrong' })
-      }
-    }
-    catch(error:any){
-      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:error.response.data.message})
+        },
+        errorCB: (error: any) => {
+          setDataById("snackBarInfo", {
+            open: true,
+            autoHideDuration: 2000,
+            severity: "error",
+            message: error.message,
+          })
+          navigate(routes.loginOrg());
+        }
+      });
+    } catch (error) {
+      Logger.error('OtpFormCompoent.tsx', error)
     }
   }
-
   return (
     <Grid container size={12} className="setpassword">
       <Grid size={12} className="setpassword__header-wrapper">

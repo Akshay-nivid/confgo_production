@@ -1,4 +1,5 @@
 import { NoPayment } from "@/assets/svg";
+import CustomButton from "@/components/CustomButton/CustomButton";
 import { DataGridList } from "@/components/DataGrid/DataGridList";
 import { ISource } from "@/Libs/type";
 import { Typography } from "@mui/material";
@@ -12,7 +13,7 @@ const PaymentHistory:React.FC = React.memo(()=>{
    *  * `columns` defines the structure of each column in the DataGridList component.
    */
   const columns = [
-    { type: "dateField", field: "name", headerName: "Evnet Name", width: 258 },
+    { type: "dateField", field: "name", headerName: "Event Name", width: 258 },
     {
       type: "dateField",
       field: "Date",
@@ -31,7 +32,7 @@ const PaymentHistory:React.FC = React.memo(()=>{
       dateFormat: "DD/MM/YYYY",
     },
     {
-      type: "default",
+      type: "custom",
       field: "Receipt",
       headerName: "Receipt",
       width: 167,
@@ -54,7 +55,7 @@ const PaymentHistory:React.FC = React.memo(()=>{
         amount: item?.amount,
         status : item?.event?.statusId,
         createdOn: item?.createdOn,
-        Receipt:item.paymentMethodId,
+        Receipt:<CustomButton label={"[Download]"} className="download-receipt"/>,
         PaymentMethod:item.paymentMethodId
      
       };
@@ -86,7 +87,7 @@ const PaymentHistory:React.FC = React.memo(()=>{
   <Grid container size={12} className="payment-history-container">
      <Grid className="" size={12} container>
      <Typography className="payment-history-container-heading" >
-        payment History 
+        Payment History 
      </Typography>
      </Grid>
      {

@@ -6,6 +6,7 @@ import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import routes from "@/router/routes";
 import useStore from "@/Libs/store";
 import apiClient from "@/Libs/Https/API-client";
+import { useEffect } from "react";
 
 
 
@@ -43,61 +44,110 @@ const LoginOrg = () => {
     password: string;
   };
   const setDataById = useStore((state: any) => state.setDataById);
+  const details = useStore((state: any) => state?.compData?.['orgDetails']) ?? [];
   const { handleSubmit, control } = useForm<FormData>();
   const navigate = useNavigate();
   const POST = useStore((state: any) => state.POST);
+
+
   /**
    * function used to handle form submission
    */
-    const handleClickForgetPassword=()=>{
-      navigate(routes.forgotPassword())
-      }
+  const handleClickForgetPassword = () => {
+    navigate(routes.forgotPassword())
+  }
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     LoginOrg(data);
   };
+
   /**
-   * function used to login an organization
-   */
+ * Handles the login functionality for the organization.
+ * @param loginFields - Form data containing the username (email) and password.
+ */
   const LoginOrg = async (loginFields: FormData) => {
-      const body = {
-        username: loginFields.email,
-        password: loginFields.password,
-      };
-      await POST({
+    const { email: username, password } = loginFields;
+
+    // Prepare the request body
+    const body = { username, password };
+
+    try {
+      // Send the login request
+      const response = await POST({
         url: 'auth/login',
-        body: body,
-        successCB: (success: ApiResponse) =>{  
-          if(success?.data?.userRole?.roleName==="COMPANY"){
-            sessionStorage.clear();
-            sessionStorage.setItem('token',success.data.token);
-            sessionStorage.setItem('companyUserName',`${success.data.firstName} ${success.data.lastName || ''}` );
-            sessionStorage.setItem('subscriptionStatus',success.data.subscriptionStatus);
-            apiClient.setToken(success.data.token);
-            navigate(routes.dashboard());
-          }
-          else{
-            navigate(routes.userHome());
-          }
-            setDataById("snackBarInfo", {
-              open: true,
-              autoHideDuration: 2000,
-              severity: "success",
-              message: "success",
-            });
-        },
-        errorCB: (error: any) => {
-          setDataById("snackBarInfo", {
-            open: true,
-            autoHideDuration: 2000,
-            severity: "error",
-            message: error.message,
-          })
-        }
+        body,
       });
 
-   
+      // Handle success response
+      handleLoginSuccess(response?.data);
+    } catch (error: any) {
+      // Handle error response
+      handleLoginError(error);
+    }
   };
+
+  /**
+   * Processes the successful login response.
+   * @param data - The response data from the API.
+   */
+  const handleLoginSuccess = (data: ApiResponse['data']) => {
+    const { userRole, token, firstName, lastName, subscriptionStatus } = data;
+
+    // Clear previous session data
+    sessionStorage.clear();
+
+    // Store common session information
+    sessionStorage.setItem('isUserLoggedIn', 'true');
+    sessionStorage.setItem('userLoggedInType', userRole?.roleName);
+    sessionStorage.setItem('token', token);
+    // Set organization-specific details in global state
+    setDataById('orgDetails', { loggedIn: true });
+
+    // Set the authentication token for API client
+    apiClient.setToken(token);
+
+
+
+    // Check if the user is of type "COMPANY"
+    if (userRole?.roleName === "COMPANY") {
+      // Store specific session details for company users
+      sessionStorage.setItem('companyUserName', `${firstName} ${lastName || ''}`);
+      sessionStorage.setItem('subscriptionStatus', subscriptionStatus);
+
+      // Redirect to the company dashboard
+      navigate(routes.dashboard());
+    } else {
+      // Redirect non-company users to the user home page
+      navigate(routes.userHome());
+    }
+
+    // Show success notification
+    setDataById("snackBarInfo", {
+      open: true,
+      autoHideDuration: 2000,
+      severity: "success",
+      message: "Login successful",
+    });
+  };
+
+  /**
+   * Processes the login error and displays an appropriate notification.
+   * @param error - The error object returned from the API.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleLoginError = (error: any) => {
+    // Extract the error message or use a fallback message
+    const errorMessage = error?.message || "An error occurred during login";
+
+    // Display error notification
+    setDataById("snackBarInfo", {
+      open: true,
+      autoHideDuration: 2000,
+      severity: "error",
+      message: errorMessage,
+    });
+  };
+
   return (
     <Box className="login-org-main-container">
       <Grid container className="grid-layout">
@@ -150,9 +200,9 @@ const LoginOrg = () => {
                   </span>
                   Now
                 </Typography>
-                <Box className=""   onClick={handleClickForgetPassword}>
-                  <Grid container   size={12} className="forgot-password-link">Forgot Password?</Grid>{" "}
-                </Box> 
+                <Box className="" onClick={handleClickForgetPassword}>
+                  <Grid container size={12} className="forgot-password-link">Forgot Password?</Grid>{" "}
+                </Box>
               </Grid>
             </Grid>
           </Grid>

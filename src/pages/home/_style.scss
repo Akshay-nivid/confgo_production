@@ -134,6 +134,16 @@
       line-height: 2.167rem;
       color: $clr_grey;
     }
+    .get-started-btn{
+      border: 0.2rem solid $clr_black;
+      border-radius: 4.2rem;
+      height: 4.8rem;
+      width: 16.58rem;
+      color: $clr_black;
+      font-weight: $font_semibold;
+      font-size: 1.167rem;
+      text-transform: none;
+    }
   }
   .confrence-management-content-wrapper {
     background-color: $clr_honeydew;
@@ -183,7 +193,7 @@
 }
 
 .feature-section-main {
-  padding-bottom: 4rem;
+  padding-bottom: 1rem;
   .feature-section-main__header {
     margin-bottom: 8rem;
     &-description {
@@ -217,7 +227,7 @@
   }
 }
 .feature-card {
-  margin-bottom: 8.333rem;
+  margin-bottom: 6rem;
   flex-direction: row;
 
   &.reversed {

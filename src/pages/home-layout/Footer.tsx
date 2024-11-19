@@ -24,7 +24,7 @@ const Footer = () => {
                 consultation.
               </Typography>
               <Button variant="contained" className="footer-button">
-                Send a message
+                Send A Message
               </Button>
             </Grid>
           </Grid>

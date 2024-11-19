@@ -12,7 +12,8 @@ import { Logger } from '@/Utils/Logger';
 const PayPalButton: React.FC = () => {
     const form1 = useStore((state: any) => state?.compData?.['form1']) ?? [];
     const form3 = useStore((state: any) => state?.compData?.['form3']) ?? [];
-    const { setDataById }: any = useStore();
+    const setDataById = useStore((state: any) => state.setDataById)
+    
     const initialOptions = {
         clientId: "AQ9K1hDjjXSmmQz1aBt3FDjLTkrl8DRJvnUC6H6_eXAw-wzz6eC2eoYmSOEJcdN0prPUX1hsSm8bfGtK", 
         currency: "USD",

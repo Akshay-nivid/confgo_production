@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import CustomRadio from "../CustomRadio/CustomRadio";
 import FormEditor from "./FormEditor";
 import FormFieldList from "./FormFieldList";
-import useStore, { POST } from '@/Libs/store';
+import useStore, { POST, setDataById } from '@/Libs/store';
 import { useEffect } from 'react';
 import CustomButton from '../CustomButton/CustomButton';
 import { Logger } from '@/Utils/Logger';
@@ -33,7 +33,7 @@ const FormBuilder = () => {
 
   const category = watch("category");
 
-  
+
   /**
    * Fetches the participant type list
    */
@@ -59,13 +59,31 @@ const FormBuilder = () => {
   /******  cdad3207-32e0-479e-b1bb-390ea70b6317  *******/
   const handleClickGenerateForm = (participantType: string) => {
 
+    const GENERIC = "generic";
+
+    const isGeneric = participantType === GENERIC;
+
+
+
+
+    if (isGeneric && formFieldsArray[GENERIC].length === 0) {
+      setDataById("snackBarInfo", {
+        open: true,
+        autoHideDuration: 2000,
+        severity: "error",
+        message: "Please add at least one field",
+      });
+      return
+    }
+
+
     let parsedData;
     let formData;
-    if (participantType === "generic") {
+    if (isGeneric) {
 
-      if (formFieldsArray["generic"].length === 0) return;
+      if (formFieldsArray[GENERIC].length === 0) return;
 
-      parsedData = formFieldsArray["generic"].map(
+      parsedData = formFieldsArray[GENERIC].map(
         (field: any) => {
           return {
             name: field.uuid,
@@ -86,10 +104,10 @@ const FormBuilder = () => {
     }
 
 
-    if (participantType !== "generic") {
+    if (!isGeneric) {
       formData = Object.entries(formFieldsArray)
 
-        .filter(([key]) => key !== "generic")
+        .filter(([key]) => key !== GENERIC)
 
         .reduce<{ participantTypeId: number; data: { name: String; metadata: string; }[] }[]>((acc, [key, value]) => {
 
@@ -119,14 +137,44 @@ const FormBuilder = () => {
 
     }
 
-    const body = participantType === "generic" ? formData : { eventId: 7, formData: formData }
+    const body = isGeneric ? formData : { eventId: 7, formData: formData }
+
+
+    if (formData && formData.length === 0) {
+      setDataById("snackBarInfo", {
+        open: true,
+        autoHideDuration: 2000,
+        severity: "error",
+        message: "Please add at least one field",
+      });
+      return
+    }
 
     POST({
       url: "event/form",
       body: body,
       id: "dynamicGeneratedForm",
       successCB: (data: any) => {
-        Logger.info(data)
+
+        if (!isGeneric) {
+
+          setDataById('formFieldsArray', { ...formFieldsArray, generic: [] });
+
+        } else {
+
+          const updatedFormFields = Object.entries(formFieldsArray).filter(([key]) => key !== "generic");
+          setDataById('formFieldsArray', { ...updatedFormFields });
+
+        }
+
+
+        setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "success",
+          message: "Form generated successfully!",
+        });
+
       }
     });
   }
