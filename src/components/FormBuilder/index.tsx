@@ -11,7 +11,6 @@ import useStore, { clearDataById, POST, setDataById } from '@/Libs/store';
 import React, { useEffect } from 'react';
 import CustomButton from '../CustomButton/CustomButton';
 import { Logger } from '@/Utils/Logger';
-import { clear } from 'console';
 
 
 
