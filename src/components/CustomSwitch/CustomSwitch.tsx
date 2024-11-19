@@ -11,6 +11,7 @@ interface ICustomSwitch<T extends FieldValues> {
   value?: PathValue<T, Path<T>>;
   className?: string;
   onChange?: (checked: boolean) => void; 
+  size?: "small" | "medium"
   buttonColor?:"primary"|"success"|"error"|"info"|"warning"|"secondary"
 }
 
@@ -26,12 +27,14 @@ const CustomSwitch = <T extends FieldValues>({
   className,
   onChange,
   buttonColor,
+  size = 'medium',
   ...props
 }: ICustomSwitch<T>) => {
   return (
     <FormControl component="fieldset" className={className}>
       <Controller
         control={control}
+        
         name={name}
         defaultValue={value}
         render={({ field }) => (
@@ -41,6 +44,7 @@ const CustomSwitch = <T extends FieldValues>({
             control={
               <Switch
                 {...field}
+                size={size}
                 checked={field.value}
                 onChange={(e) => {
                   field.onChange(e); 
