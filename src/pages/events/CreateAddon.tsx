@@ -44,13 +44,14 @@ const CreateAddon: React.FC<createAddonProps> = React.memo(({ closeDrawer, submi
                 url: 'addon',
                 body: requestBody,
                 successCB: (_success: ApiResponse) => {
-                    submitHandler
+                    submitHandler();
                     setDataById("snackBarInfo", {
                         open: true,
                         autoHideDuration: 2000,
                         severity: "success",
-                        message: "Success",
+                        message: "New Addon Created",
                     });
+										closeDrawer();
                 },
                 errorCB: (error: any) => {
                     setDataById("snackBarInfo", {
