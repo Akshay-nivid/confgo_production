@@ -225,10 +225,12 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
             size={{ xs: 12, sm: 12 }}
             direction={"row"}
             className=""
+            gap={1}
           >
             <Grid
-              size={{ xs: 12, sm: 8 }}
+              size={{ xs: 12, sm: 7 }}
               className="add-program-form-container"
+              ml={6}
             >
               <Box className="add-program-form-spacing">
                 <Box className="">
@@ -506,6 +508,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                 </Box>
               </Box>
             </Grid>
+            {watch("savedPrograms")?.length > 0 &&
             <Grid
               container
               direction={"column"}
@@ -513,6 +516,17 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
               size={{ xs: 12, sm: 4 }}
               spacing={2}
               key='add-program-display-container'
+            >
+            <Grid>
+              <Typography textAlign={"start"} className="add-program-display-title">
+                Saved Programmes
+              </Typography>
+            </Grid>
+            <Grid
+              size={{ xs: 12 }}
+              className="add-program-display-items"
+              alignItems="flex-start"
+              justifyContent="flex-start"
             >
               {watch("savedPrograms")?.map(
                 (field, index) =>
@@ -544,7 +558,8 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                     </Grid>
                   )
               )}
-            </Grid>
+							</Grid>
+            </Grid>}
           </Grid>
         </Grid>
       </Box>
