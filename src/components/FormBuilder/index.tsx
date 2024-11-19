@@ -156,14 +156,20 @@ const FormBuilder = () => {
       id: "dynamicGeneratedForm",
       successCB: (data: any) => {
 
+        Logger.info(data)
+
         if (!isGeneric) {
-
           setDataById('formFieldsArray', { ...formFieldsArray, generic: [] });
-
         } else {
 
-          const updatedFormFields = Object.entries(formFieldsArray).filter(([key]) => key !== "generic");
-          setDataById('formFieldsArray', { ...updatedFormFields });
+          const updatedFormFieldsArray = Object.entries(formFieldsArray)
+            .filter(([key]) => key !== GENERIC)
+            .reduce<{ [key: string]: any[] }>((acc, [key]) => {
+              acc[key] = [];
+              return acc;
+            }, {});
+
+          setDataById('formFieldsArray', { ...updatedFormFieldsArray, generic: [...formFieldsArray.generic] });
 
         }
 
