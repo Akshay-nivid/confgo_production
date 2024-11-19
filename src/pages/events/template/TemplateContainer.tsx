@@ -8,7 +8,7 @@ import DefaultTemplate from './DefaultTemplate';
 
 
 type TemplateContainerProps = {
-    id: string
+    id?: string
 }
 
 const TemplateContainer: React.FC<TemplateContainerProps> = React.memo(({  }) => {
@@ -78,7 +78,7 @@ const TemplateContainer: React.FC<TemplateContainerProps> = React.memo(({  }) =>
 
     return <Grid container size={{ xs: 12, sm: 12 }} className="event-template" spacing={1}>
        <Grid container size={{ xs: 12, sm: 12 }} spacing={1}>
-            <DefaultTemplate temp={"temp1"}/>
+            <DefaultTemplate temp={"temp2"}/>
        </Grid>
 
        {/* <Grid container size={{ xs: 12, sm: 6 }}>
