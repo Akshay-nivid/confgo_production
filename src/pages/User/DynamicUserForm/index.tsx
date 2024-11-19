@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { CardContent, Button, Typography, Box } from "@mui/material";
+import { CardContent, Button, Typography, Box, Chip } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
@@ -8,9 +8,9 @@ import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomCheckbox from "@/components/CustomCheckbox/CustomCheckbox";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
-import useStore from "@/Libs/store";
+import useStore, { clearDataById, POST } from "@/Libs/store";
 import CustomDatePicker from "@/components/CustomDatePicker/CustomDatePicker";
-
+import FileUpload from "@/components/FileUpload/FileUpload";
 
 interface Option {
   value: string;
@@ -33,26 +33,167 @@ interface FormField {
 }
 
 
+/**
+ * DynamicUserForm is a React component that renders a dynamic form based on the form
+ * fields provided in the API response. It uses the react-hook-form library to handle
+ * form submissions and provide form validation. The form fields can be of different
+ * types such as text, number, email, file, select, radio, checkbox, date, and address.
+ * The component also provides a file upload feature and a delete feature for the
+ * uploaded files.
+ * @return {JSX.Element} A JSX element representing the dynamic form
+ */
 const DynamicUserForm = () => {
   const { control, handleSubmit } = useForm();
   const setDataById = useStore((state) => state.setDataById);
   const dynamicFormData = useStore((state: any) => state?.compData?.["dynamicFormData"]) ?? [];
-  const POST = useStore((state: any) => state.POST);
+  const uploadedFiles = useStore((state: any) => state?.compData?.["uploadedFiles"]) ?? [];
+
+
+
 
   /**
+   * function to get custom form data from api
+   *  
+   * */
+
+  useEffect(() => {
+/**
+ * Fetches dynamic form data from the API and processes the response.
+ * On success, it parses the response data, converts metadata to JSON,
+ * and stores it in the state under "dynamicFormData".
+ * On failure, it updates the state with an error message to display in a snackbar.
+ */
+    const fetchDynamicFormData = async () => {
+      const response = await apiClient.get("event/form/7");
+      const { status, data, message } = processAPIResponse(
+        response,
+        "eventForm"
+      );
+
+      if (status) {
+        const parsedData = data?.map((item: any) => {
+          return {
+            ...item,
+            metadata: JSON.parse(item.metadata),
+          };
+        });
+
+        setDataById("dynamicFormData", { data: parsedData });
+      } else {
+        setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "error",
+          message: message || "Something went wrong",
+        });
+      }
+    };
+    fetchDynamicFormData();
+  }, []);
+  
+  /**
    * 
-   * Method to render form field 
-   * @param field : individual field data 
+   * fucntion to handle form submition
+   * @param data :form data
+   * 
    * 
    */
-  const renderFormField = (field: FormField) => {
+  const handleFormSubmit = (data: any) => {
+
     
+    
+
+    const formData = Object.entries(data).map(([key, value]: [string, any]) => {
+
+      if (value === undefined) return
+
+      const [fieldName, id, fieldType] = key.split("_");
+
+      return {
+
+        eventRegistrationFormId: id,
+        response: JSON.stringify({ [fieldName]: value, fieldType: fieldType })
+
+      }
+    })
+
+    const uploadedFileData = Object.entries(uploadedFiles).map(([key, value]: [string, any]) => {
+
+      if(value.length === 0) return
+
+
+      const [fieldName, id, fieldType] = key.split("_");
+
+      return {
+
+        eventRegistrationFormId: id,
+        response: JSON.stringify({ [fieldName]: value, fieldType: fieldType })
+
+      }
+    })
+
+    if ((formData.length === 0 || formData[0] === undefined) && uploadedFileData.length === 0) {
+      return;
+    }
+
+    const body = {
+      eventId: '7',
+      data: [...formData, ...uploadedFileData]
+    }
+
+    POST({
+      url: 'registrationRecord', body: body, id: 'registrationRecord', successCB: () => {
+
+        clearDataById('uploadedFiles')
+
+      }
+    })
+    return formData
+  };
+
+
+/**
+ * Handles a file upload event. Adds the uploaded file to the uploadedFiles store, which is keyed by the id of the form element.
+ * @param file - The file that was uploaded.
+ * @param id - The id of the form element.
+ */
+  function handleFileUpload(file: any, id: string) {
+
+    setDataById("uploadedFiles", { [id]: uploadedFiles[id] ? [...uploadedFiles[id], file] : [file] })
+
+  }
+
+/**
+ * Deletes a file from the uploadedFiles store based on the itemId and parentId.
+ * @param {string} itemId - The id of the file to be deleted.
+ * @param {string} parentId - The id of the form element.
+ */
+  function handleDeleteFile(itemId: string, parentId: string) {
+
+
+
+    const updatedFiles = uploadedFiles[parentId].filter((item: any) => item.id !== itemId)
+
+    setDataById("uploadedFiles", { [parentId]: updatedFiles })
+  }
+
+  /*************  ✨ Codeium Command ⭐  *************/
+  /**
+   * This function renders a form field based on the field type provided in the
+   * metadata of the form field.
+   * 
+   * @param field - The form field object that contains information about the field
+   * @returns A JSX element representing a form field
+   */
+  /******  11367f65-6c3a-4832-9966-d5309f61c3c0  *******/
+  const renderFormField = (field: FormField) => {
+
     const { id, metadata } = field;
-    const isRequired = metadata.required && metadata?.required?.includes("true");
+    const isRequired = metadata.required;
 
     const commonProps = {
       control,
-      name: metadata.title + "_" + id.toString(),
+      name: metadata.title + "_" + id.toString() + "_" + metadata.fieldType,
       label: metadata.title.charAt(0).toUpperCase() + metadata.title.slice(1),
       placeholder:
         metadata.title.charAt(0).toUpperCase() + metadata.title.slice(1),
@@ -63,13 +204,29 @@ const DynamicUserForm = () => {
 
     switch (metadata.fieldType) {
       case "text":
-        return <CustomTextField {...commonProps} type="text" size="medium" />;
+        return <CustomTextField  {...commonProps} type="text" size="medium" />;
 
       case "number":
         return <CustomTextField {...commonProps} type="number" size="medium" />;
 
       case "email":
         return <CustomTextField {...commonProps} type="email" size="medium" />;
+
+      case "file":
+        return <Grid className="file-upload-wrapper" size={12} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
+          <FileUpload resolution={{ width: 150, height: 150 }} onSubmit={(data) => handleFileUpload(data, commonProps.name)} className="dynamic-file-upload" height={"max-content"} />
+          <Box paddingInline={3} display={"flex"} columnGap={1} rowGap={1} flexWrap={"wrap"}>
+            {
+              (uploadedFiles[commonProps.name] && uploadedFiles[commonProps.name].length > 0) && uploadedFiles[commonProps.name].map((item: any) => {
+                return (
+                  <Chip onDelete={() => {
+                    handleDeleteFile(item.id, commonProps.name)
+                  }} label={item.name} />
+                )
+              })
+            }
+          </Box>
+        </Grid>;
 
       case "select":
         return (
@@ -146,65 +303,7 @@ const DynamicUserForm = () => {
     }
   };
 
-  /**
-   * 
-   * fucntion to handle form submition
-   * @param data :form data
-   * 
-   * 
-   */
-  const handleFormSubmit = (data: any) => {
 
-    const formData = Object.entries(data).map(([key,value]:[string,any]) => {
-      const [fieldName, id] = key.split("_");
-      return {
-        eventRegistrationFormId: id,
-        response:JSON.stringify({[fieldName]:value})
-      }
-    })
-
-    const body = {
-      eventId: '7',
-      data:formData
-    }
-
-    POST({ url: 'registrationRecord', body: body, id: 'registrationRecord' })
-    return formData
-  };
-
-  /**
-   * function to get custom form data from api
-   *  
-   * */ 
-
-  useEffect(() => {
-    const fetchDynamicFormData = async () => {
-      const response = await apiClient.get("event/form/7");
-      const { status, data, message } = processAPIResponse(
-        response,
-        "eventForm"
-      );
-
-      if (status) {
-        const parsedData = data?.map((item: any) => {
-          return {
-            ...item,
-            metadata: JSON.parse(item.metadata),
-          };
-        });
-
-        setDataById("dynamicFormData", { data: parsedData });
-      } else {
-        setDataById("snackBarInfo", {
-          open: true,
-          autoHideDuration: 2000,
-          severity: "error",
-          message: message || "Something went wrong",
-        });
-      }
-    };
-    fetchDynamicFormData();
-  }, []);
 
   return (
     <Box className="dynamic-form">
@@ -212,10 +311,10 @@ const DynamicUserForm = () => {
         <Typography textAlign={"center"} className="dynamic-form-header">
           Event Registration Form
         </Typography>
-        <form onSubmit={handleSubmit(handleFormSubmit)}>
+        <form noValidate onSubmit={handleSubmit(handleFormSubmit)}>
           <Grid container spacing={4}>
             {dynamicFormData?.data?.map((field: FormField) => (
-              <Grid size={12} key={field.id}>
+              <Grid container size={12} key={field.id}>
                 {renderFormField(field)}
               </Grid>
             ))}
@@ -243,4 +342,9 @@ const DynamicUserForm = () => {
 };
 
 export default DynamicUserForm;
+
+
+
+
+
 

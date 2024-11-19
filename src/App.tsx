@@ -32,7 +32,7 @@ import ProgramSelection from "./pages/User/Program-Selection";
 import SelectedPrograms from "./pages/User/Selected-Programs";
 import PaymentMethod from "./pages/User/Payment-Method";
 import RegistrationCompleted from "./pages/User/Registration-Completed";
-import FormBuilder from "./components/FormBuilder/FormBuilder";
+import FormBuilder from "./components/FormBuilder";
 import ViewEventDetail from "./pages/events/view/ViewEventDetail";
 import EventList from "./pages/events/EventList";
 import UserDashboardLayout from "./pages/user-dashboard-layout";

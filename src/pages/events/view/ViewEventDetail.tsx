@@ -15,7 +15,7 @@ import { Logger } from "@/Utils/Logger";
 import apiClient from "@/Libs/Https/API-client";
 import { useParams } from "react-router-dom";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
-import FormBuilder from "@/components/FormBuilder/FormBuilder";
+import FormBuilder from "@/components/FormBuilder";
 import StatusComponent from "@/components/Status/StatusComponent";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import useStore from "@/Libs/store";
