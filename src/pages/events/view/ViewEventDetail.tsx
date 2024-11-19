@@ -247,7 +247,7 @@ const ViewEventDetail = () => {
       className="event-detail-card" >
       <Grid size={{ xs: 12, sm: 12 }} flexDirection={"column"} >
         <Grid className="event-detail-header" size={{ xs: 12, sm: 12 }} >
-          <Grid container justifyContent={'space-between'}>
+          <Grid container justifyContent={'space-between'} alignItems={"center"}>
             <Grid container>
               <Grid >
                 <Typography variant="h4" className="event-detail-header-title">{eventFullData?.name}</Typography>

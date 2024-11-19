@@ -18,13 +18,16 @@ export const userType = {
   PARTICIPANT: 'PARTICIPANT',
   ORGANISATION: 'ORGANIZATION'
 }
+interface SecurityProps {
+  passEmail: string; 
+}
 
-const Security:React.FC = React.memo(() => {
+const Security:React.FC<SecurityProps> = React.memo(({ passEmail }) => {
   const POST = useStore((state: any) => state.POST);
 
   const navigate = useNavigate();
   const location = useLocation();
-  const email = location.state?.email;
+  const email = location.state?.email ? location.state?.email :passEmail
 /**
  *  Initiates the password reset process by sending the user's email to the forgotPassword
  * @param email
