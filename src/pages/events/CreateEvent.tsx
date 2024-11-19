@@ -52,6 +52,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
       control,
       setValue,
       watch,
+      setError,
       formState: { errors },
     } = useForm<FormData>();
 
@@ -80,6 +81,15 @@ const CreateEvent: React.FC<EventProps> = React.memo(
      * @param data
      */
     const onSubmit: SubmitHandler<FormData> = (data: any) => {
+      const startDate = new Date(data.startTime);
+      const endDate = new Date(data.endTime);
+      if (startDate > endDate) {
+        setError(`startTime`, {
+          type: 'manual',
+          message: 'Start date cannot be greater than end date',
+        });
+        return
+      }
       onSubmitHandler && onSubmitHandler(data, "EVENT");
     };
 
@@ -96,6 +106,15 @@ const CreateEvent: React.FC<EventProps> = React.memo(
     }, [data]);
 
 
+    /**
+     *  Configuration for the editor toolbar
+     */
+    const modules = {
+      toolbar: [
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }], 
+        ['bold', 'italic', 'underline'],
+      ]
+    };
     return (
       <Box className="create-event-container">
         <Grid
@@ -176,6 +195,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                       onChange={handleChange}
                       theme="snow"
                       placeholder="Type your description here..."
+                      modules={modules}
                     />
                     <CustomTextField
                       control={control}
