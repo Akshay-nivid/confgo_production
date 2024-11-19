@@ -11,6 +11,20 @@ import EditIcon from "@/assets/svg/edit-program-icon.svg";
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import CustomSwitch from "../CustomSwitch/CustomSwitch";
 import DoneIcon from '@mui/icons-material/Done';
+/**
+ * FormFieldList component renders a list of form fields for a specific 
+ * participant type. It allows for editing, deleting, and updating form 
+ * fields. The component uses an accordion to display each field's 
+ * details, which can be expanded or collapsed. It integrates with a 
+ * store to manage the state of form fields and uses react-hook-form for 
+ * form handling.
+ *
+ * @param {Object} props - Component props
+ * @param {string} props.participantType - The type of participant for 
+ * which the form fields are rendered. This determines which set of form 
+ * fields from the store are displayed and managed.
+ */
+
 const FormFieldList = ({ participantType }: { participantType: string; }) => {
 
     const [expanded, setExpanded] = useState<string | false>("");

@@ -177,7 +177,6 @@ const DynamicUserForm = () => {
     setDataById("uploadedFiles", { [parentId]: updatedFiles })
   }
 
-  /*************  ✨ Codeium Command ⭐  *************/
   /**
    * This function renders a form field based on the field type provided in the
    * metadata of the form field.
@@ -185,7 +184,6 @@ const DynamicUserForm = () => {
    * @param field - The form field object that contains information about the field
    * @returns A JSX element representing a form field
    */
-  /******  11367f65-6c3a-4832-9966-d5309f61c3c0  *******/
   const renderFormField = (field: FormField) => {
 
     const { id, metadata } = field;

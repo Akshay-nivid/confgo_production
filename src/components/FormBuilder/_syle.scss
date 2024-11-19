@@ -62,7 +62,7 @@
         row-gap: 2rem;
         .field-accordion-card{
           .MuiPaper-root{
-            box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
+            box-shadow: $clr_light_black  0 0 0 0.083rem;
             border-radius: .25rem;
             padding-block: .2rem;
             &::before{
@@ -152,12 +152,7 @@
             display: flex;
             flex-direction: column;
             gap: 1.66rem;
-            .title-field{
-              background-color: red !important;
-              // margin-top: .5rem !important;
-
-             
-            }
+           
           .add-icon-button-wrapper{
             background-color: $clr_white !important;
             border: 0.1rem solid $clr_green !important;
@@ -209,7 +204,7 @@
   
   .form-accordion{
      .MuiPaper-root{
-      box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px !important;
+      box-shadow: $clr_black 0rem 0.5rem 2rem 0rem, $clr_black 0 0 0 .083rem !important;
       border-radius: .25rem;
       padding-block: .2rem;
       &::before{
