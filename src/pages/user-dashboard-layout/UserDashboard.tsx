@@ -28,7 +28,6 @@ export interface CalendarCardData {
 const UserDashboard: React.FC = React.memo(() => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [calendarData, setCalendarData] = useState<CalendarCardData | null>(null);
   const [isCountLoading, setIsCountLoading] = useState(false);
   const setDataById = useStore((state: any) => state.setDataById);
   const POST = useStore((state: any) => state.POST);
@@ -39,7 +38,7 @@ const UserDashboard: React.FC = React.memo(() => {
   const userDetails = useStore((state) => state?.compData?.["userDetails"]) ?? {};
   const eventAndUserCount = useStore((state: any) => state?.compData?.["eventAndUserCount"]?.['dashboard/eventAndUserCount']) ?? [];
   const userCompletedEvents = useStore((state: any) => state?.compData?.["userCompletedEvents"]?.['event/list']) ?? [];
-  const userLatestEvents = useStore((state: any) => state?.compData?.["userLatestEvents"]?.['event/list']) ?? [];
+  const userEvents = useStore((state: any) => state?.compData?.["userLatestEvents"]) ?? [];
   /**
   * Useeffect hook handles the api call 
   */
@@ -93,16 +92,15 @@ const UserDashboard: React.FC = React.memo(() => {
           },
         },
         id: 'userLatestEvents',
-        successCB: (context: any) => {
-          if (context?.success) {
-            if (context?.data) {
-              setDataById ('userLatestEvents',
-                { "id":context?.data[0]?.id,
-                "startTime": context?.data[0]?.startTime,
-                "endTime":context?.data[0]?.endTime,
-                "name": context?.data[0]?.name}
-              );
-            }
+        successCB: (context:any) => {
+          if (context?.success && context?.data.length > 0) {
+            const event = context.data[0];
+            setDataById("userEvents", {
+              id: event.id,
+              startTime: event.startTime,
+              endTime: event.endTime,
+              name: event.name,
+            });
           }
         },
         errorCB: (context: any) => {
@@ -222,8 +220,8 @@ const UserDashboard: React.FC = React.memo(() => {
         <Grid container >
           <Grid>
             {isLoading ? <CircularProgress /> :
-            userLatestEvents && userLatestEvents.length>0?
-              <CalendarCard data={userLatestEvents} />
+            userEvents?
+              <CalendarCard data={userEvents} />
               :<NoCalenderData/>
             }
           </Grid>
