@@ -247,7 +247,10 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
                     />
                 </Grid>
             ) : (
-                <NoRecords />
+                <Grid container>
+                     <NoRecords />
+                </Grid>
+               
             )}
         </Grid>
     );

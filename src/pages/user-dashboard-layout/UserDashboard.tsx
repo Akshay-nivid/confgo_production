@@ -220,14 +220,13 @@ const UserDashboard: React.FC = React.memo(() => {
 
       {/* Right Column */}
       <Grid size={{ xs: 12, md: 4 }} className="dashboard-right" >
-        <Grid container >
-          <Grid>
+        <Grid container>
             {isLoading ? <CircularProgress /> :
             userEvents?
               <CalendarCard data={userEvents} />
               :<NoCalenderData/>
             }
-          </Grid>
+         
         </Grid>
         <Grid className="dashboard-right-events">
           {/* title */}

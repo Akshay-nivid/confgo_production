@@ -683,6 +683,8 @@
 }
 
 .no-record {
+  justify-content: center !important;
+  display: flex;
   &-container {
       width: '100%';
       background-color: $clr_white;
