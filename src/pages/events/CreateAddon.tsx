@@ -44,7 +44,8 @@ const CreateAddon: React.FC<createAddonProps> = React.memo(({ closeDrawer, submi
                 url: 'addon',
                 body: requestBody,
                 successCB: (_success: ApiResponse) => {
-                    submitHandler
+                    submitHandler();
+                    closeDrawer();
                     setDataById("snackBarInfo", {
                         open: true,
                         autoHideDuration: 2000,
