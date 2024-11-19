@@ -75,7 +75,7 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
   
   return (
     <Grid container size={12} className="appbar">
-      <Grid size={2} className="appbar-logo-container">
+      <Grid size={2} className="appbar-logo-container" justifyContent={'flex-start'}>
         LOGO
       </Grid>
       <Grid container size={10} justifyContent="flex-end" >
