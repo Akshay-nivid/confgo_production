@@ -136,7 +136,11 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
-    path: routes.forgotPassword(),
+    path: routes.userForgotPassword(),
+    element: <ForgotPassword />,
+  },
+  {
+    path: routes.organisationForgotPassword(),
     element: <ForgotPassword />,
   },
   {
@@ -230,6 +234,7 @@ const router = createBrowserRouter([
       </PublicRoute>
     ),
   },
+
   {
     path: routes.SetPassword(),
     element: <SetPassword  />,

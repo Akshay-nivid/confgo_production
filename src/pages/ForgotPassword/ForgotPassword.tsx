@@ -11,7 +11,6 @@ import useStore from "@/Libs/store";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { Logger } from "@/Utils/Logger";
 import { purposeTypes} from "@/Utils/CommonBaseClass";
-
 /**
  * Form data interface
  */
@@ -26,7 +25,12 @@ const ForgotPassword = () => {
   const POST = useStore((state: any) => state.POST);
   const navigate = useNavigate();
 
-  
+  /**
+   *   A functional  that provides a "Bach to login" button
+   */
+const  previousPath=()=>{
+  navigate(-1)
+}
   /**
    * Function to handle submit button
    * checking email is valid or not
@@ -40,7 +44,8 @@ const ForgotPassword = () => {
      */
     const successCB = (success: any) => {
       if (success?.data?.role?.roleName==="USER") {
-        navigate(routes.userOtp(),{state:{email:data.email, purpose: purposeTypes.RESET_PASSWORD, token: success?.data?.token?.token, userId: success?.data?.token?.userId } });
+      navigate(routes.userOtp(),{state:{email:data.email, purpose: purposeTypes.RESET_PASSWORD, token: success?.data?.token?.token, userId: success?.data?.token?.userId } });
+      setDataById("resendOtp",{token: success?.data?.token?.token});
       } else {
         setDataById("thankYouPageInfo",{type:"Submitted sucessfully"});
         navigate(routes.thankyou());
@@ -88,7 +93,7 @@ const ForgotPassword = () => {
               }
             />
             <CustomButton variant="contained" className="button-reset-password" onClick={handleSubmit(handleResetPassword)} label="Reset Password" />
-            <CustomButton variant="text" className="button-back-to-login" startIcon={<KeyboardBackspaceRoundedIcon />} label="Back to Login" />
+            <CustomButton variant="text" className="button-back-to-login" startIcon={<KeyboardBackspaceRoundedIcon />} label="Back to Login" onClick={previousPath} />
           </Grid>
           <Grid>
           </Grid>
