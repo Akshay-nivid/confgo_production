@@ -30,6 +30,10 @@ const TemplateCard = (data: any) => {
     }
 
     const handleItem = (_data: any) => {
+        const url = `/event-link/test`;
+        window.open(url, '_blank');
+        //const externalUrl = `https://${config['event-link']['sub-domain']}.${'test'}.${config['event-link']['top-level-domain']}`;
+        //window.location.href = externalUrl;
     }
 
 

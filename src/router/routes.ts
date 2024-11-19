@@ -1,3 +1,5 @@
+
+
 const routes = {
   home: () => "/",
   dashboard: () => "/dashboard",
@@ -45,6 +47,7 @@ const routes = {
   userEventRecap:()=>"/event-recap",
   accountsettings: () => `/user/account-settings`,
   userdetail: (id:string | number ) => `/userdetail/${id}`,
+  eventExternalLink: (slug: string) => `/event-link/${slug}`
 };
 
 export default routes;
