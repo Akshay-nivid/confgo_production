@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 type TopMenuSectionProps = {
     data?: any;
-    temp: string;
+    temp: string | undefined;
 }
 
 const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ temp }) => {

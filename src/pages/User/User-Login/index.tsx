@@ -21,7 +21,7 @@ interface IUserLogin {
 }
 
 type UserProps = {
-  id?: string;
+  id: string;
 }
 
 interface GoogleUserData {
@@ -71,8 +71,8 @@ const UserLogin = (props: UserProps) => {
         sessionStorage.clear();
         sessionStorage.setItem("token", success.data?.token);
         sessionStorage.setItem("userId",success.data?.id.toString());
-
-      
+        sessionStorage.setItem('userLoggedInType', success?.data?.userRole?.roleName);
+        sessionStorage.setItem('isUserLoggedIn', 'true');
         setDataById('participantLogin', true);
         apiClient.setToken(success.data.token);
         setDataById('userDetails', success.data);
