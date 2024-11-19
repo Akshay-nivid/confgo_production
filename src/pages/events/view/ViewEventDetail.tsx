@@ -27,6 +27,7 @@ import CopyIcon from "@/assets/svg/copy-clipboard.svg";
 import ShareIcon from "@/assets/svg/share.svg";
 import config from '../../../../config.json';
 import ShareInvitationDrawer from "./ShareInvitationDrawer";
+import PriceTierList from "./PriceTierList";
 
 
 
@@ -318,6 +319,7 @@ const ViewEventDetail = () => {
               <Tab label="Users" className="event-detail-tab-layout-item" value="5" />
               <Tab label="Template" className="event-detail-tab-layout-item" value="6" />
               <Tab label="Custom Fields" className="event-detail-tab-layout-item" value="7" />
+              <Tab label='Settings' className="event-detail-tab-layout-item" value="8"/>
             </TabList>
           </Grid>
           <TabPanel value="1">
@@ -340,6 +342,9 @@ const ViewEventDetail = () => {
           </TabPanel>
           <TabPanel value="7">
             <FormBuilder />
+          </TabPanel>
+          <TabPanel value="8">
+            <PriceTierList />
           </TabPanel>
         </TabContext>
       </Grid>

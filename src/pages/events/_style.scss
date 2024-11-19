@@ -641,3 +641,95 @@
 .share-invitation-drawer{
 	max-width: 40rem !important;
 }
+
+.pricing-table{
+    &-table-container-root{
+        border-radius: 1rem;
+        overflow: hidden;
+        border: .0625rem;
+        margin-top: 2rem;
+        border-color: $clr_gray_very_light;
+    }
+    &-table{
+        width: 100% !important;
+        border-collapse: collapse !important;
+        .MuiTableCell-root {
+            padding: 0.75rem;
+            text-align: center;
+            font-size: 0.95rem;
+            color: $clr_dark_brown;
+            border: .0625rem solid $clr_light_white; // Adds border to each cell for clear column separation
+          }
+    }
+    &-table-header{
+        background-color: $clr_white;
+        color: $clr_slate_gray_blue !important;
+        text-align: center !important;
+        font-weight: 500 !important;
+        font-size: $h6 !important;
+        //width: 187px !important;
+        
+    }
+
+    &-table-input-text{
+        input {
+            font-size: $h6;
+            padding: 0.25rem 0;
+            font-weight: 600;
+            text-align: center;
+          }
+      
+          .MuiOutlinedInput-notchedOutline {
+            border: none; // Removes the border from the input field
+          }
+      
+          .MuiInputBase-root {
+            &:hover .MuiOutlinedInput-notchedOutline {
+              border: none;
+            }
+            &.Mui-focused .MuiOutlinedInput-notchedOutline {
+              border: none;
+            }
+          }
+        
+    }
+
+   
+}
+
+.registration-fee-list{
+    &-sub-heading{
+        font-weight: 600 !important;
+        font-size: $h5 !important;
+    }
+
+    &-sub-title{
+        font-weight: 600 !important;
+        font-size: $h5 !important; 
+    }
+
+    &-chip{
+        border: .0625rem !important;
+        border-radius: $h1 !important;
+        gap: $p3 !important;
+        padding-left: $h6 !important;
+        padding-right: $h6 !important;
+        background-color: $clr_green_light !important;
+        border: solid .0625rem $clr_green  !important;
+        color:$clr_black;
+        font-size: $h6 !important;
+        font-weight: 500 !important;
+
+    }
+    &-circle-add-icon{
+        border-radius: $h4 !important;
+        height: $h1 !important;
+        width: $h1 !important;
+    }
+    &-custom-drawer-header{
+        border-bottom: .5px solid $clr_gray_light;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+}
