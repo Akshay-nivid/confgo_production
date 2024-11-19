@@ -1,8 +1,8 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import {  CalendarEventIcon, DashboardUserIcon, SettingsIcon } from '@/assets/svg';
+import {  CalendarEventIcon, DashboardUserIcon, HeartEventIcon, SettingsIcon } from '@/assets/svg';
 import {  Drawer, List, ListItem, ListItemText, ListItemButton, useMediaQuery, Divider } from '@mui/material';
-import { EventIcon, PaymentHistoryIcon } from '@/assets/svg';
+import { PaymentHistoryIcon } from '@/assets/svg';
 import routes from '@/router/routes';
 
 interface SidebarProps {
@@ -19,7 +19,7 @@ const sidebarItems = [
   },
   {
     path: routes.userMyEvents(),
-    icon: EventIcon,
+    icon: HeartEventIcon,
     label: 'My Events',
     exact: true,
   },
