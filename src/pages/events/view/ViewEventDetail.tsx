@@ -336,7 +336,7 @@ const ViewEventDetail = () => {
             <UserListCard />
           </TabPanel>
           <TabPanel value="6">
-            <TemplateCard />
+            <TemplateCard eventData={eventFullData}/>
           </TabPanel>
           <TabPanel value="7">
             <FormBuilder />

@@ -207,8 +207,16 @@ const router = createBrowserRouter([
       {
         path: routes.calendar(),
         element: <CalendarRoute  />,
-      },
+      }
     ],
+  },
+  {
+    path: routes.template(":id", ":entityId"),
+    element: (
+      <PrivateRouteCompany>
+        <TemplateContainer />
+      </PrivateRouteCompany>
+    ),
   },
   {
     path: routes.loginOrg(),
@@ -217,10 +225,6 @@ const router = createBrowserRouter([
         <LoginOrg />
       </PublicRoute>
     ),
-  },
-  {
-    path: routes.template(),
-    element: <TemplateContainer  />,
   },
   {
     path: routes.SetPassword(),

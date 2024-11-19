@@ -450,10 +450,23 @@
         }
         &-selection{
             padding: 0.1rem;
-            cursor: pointer;
-            &:active {
-                border-radius: 0.8rem;
-                background-color:$clr_green;
+            &-container{
+                background-color: $clr_teal;
+                width: 28rem;
+                height: 25rem;
+                padding: 1rem;
+                border-radius: 0.7rem;
+                svg{
+                    width: 3.3rem;
+                    height: 3.3rem;
+                }
+            }
+            &-preview-container{
+                padding: 1rem;
+                img{
+                    height: 16rem;
+                    cursor: pointer;
+                }
             }
         }
     }
