@@ -1,47 +1,103 @@
 .form-builder {
     width: 100%;
-    height: 100vh;
+    // height: 100vh;
     overflow: hidden;
+    
+    .choose-category-section{
+      width: 100%;
+      padding-left: 1.2rem;
+      padding-right: 1.2rem;
+      margin-bottom: 1rem;
+      padding-top: 0.125rem;
+      padding-bottom: 0.125rem;
+      display: flex;
+      flex-direction: column;
+      row-gap: .8rem;
+
+      .category-radio{
+        .MuiSvgIcon-root{
+          color: $clr_green !important;
+          font-size: 1.8rem;
+        }
+      }
+    }
+   
     .grid-left {
       padding: 1rem;
-      background-color: $border_list;
-      min-height: 100%;
-      height: 100%;
+      background-color: $clr_gray_10_percent;
+      // min-height: 100%;
+      // height: 100%;
       overflow: auto;
       scrollbar-width: none;
+      
       .no-fields-placehold-container {
         width: 100%;
-        min-height: 100%;
+        // min-height: 0%;
         .no-fields-placeholder {
           font-size: $h6;
           color: $clr_grey;
           font-weight: $font-semibold;
+
         }
+        
       }
-  
+      .add-icon-button-wrapper{
+        background-color: $clr_green !important;
+        height: 4rem !important;
+        width: 4rem;
+      //  margin-top: .6rem !important;
+        .add-icon{
+          fill: $clr_white !important;
+          width: 2.3rem !important;
+          height: 2.3rem !important;
+        }
+        }
+
+
       .fields-data-container {
         width: 100%;
-        max-width: 40rem;
         margin-inline: auto;
         display: flex;
         flex-direction: column;
         row-gap: 2rem;
+        .field-accordion-card{
+          .MuiPaper-root{
+            box-shadow: $clr_light_black  0 0 0 0.083rem;
+            border-radius: .25rem;
+            padding-block: .2rem;
+            &::before{
+              content: none !important;
+            }
+          }
+          .field-accordion{
+            width: 100%;
+          border-radius: .7rem;
+
+          }
+          .field-accordion-header{
+            width: 100% !important;
+          }
+        }
         .textfield-container {
           margin-bottom: 2rem !important;
           .text-select-wrapper {
             margin-bottom: 1rem;
           }
+          
         }
+        
         .button-group {
           display: flex;
           column-gap: 1rem;
+           margin-left: auto;
+           margin-bottom: auto;
           .edit-button {
-            background-color: $clr-gray_faded;
-            color: $clr_black;
+            // background-color: $clr-gray_faded;
+            // color: $clr_black;
           }
   
           .delete-button {
-            background-color: $clr_black;
+            // background-color: $clr_black;
           }
         }
   
@@ -54,6 +110,11 @@
           font-size: $p2;
           color: $clr_gray_dark_text;
           font-weight: $font_medium;
+          background-color: $clr_gray_20_percent;
+          margin-left: .5rem;
+          padding-inline: .5rem;
+          padding-block: .15rem;
+          border-radius: .5rem;
         }
         .save-button {
           background-color: $clr_black;
@@ -62,13 +123,16 @@
     }
     .grid-right {
       min-height: 100%;
+      
       .content-container {
         width: 100%;
-        max-width: 31.67rem;
-        padding-inline: 1rem;
+        max-width: 50rem;
+        padding-left: 3rem;
         overflow: auto !important;
-        height: 44rem !important;
+        // height: 44rem !important;
         margin-inline: auto;
+
+        
         .header-container {
           margin-bottom: 3.5rem;
           .header-title {
@@ -84,10 +148,23 @@
           margin-bottom: 1.5rem;
           margin-inline: auto;
           .textfield-container {
-            margin-bottom: 3.33rem;
+            margin-bottom: 2rem;
             display: flex;
             flex-direction: column;
             gap: 1.66rem;
+           
+          .add-icon-button-wrapper{
+            background-color: $clr_white !important;
+            border: 0.1rem solid $clr_green !important;
+            height: 4rem !important;
+            width: 4rem;
+          //  margin-top: .6rem !important;
+            .add-icon{
+              fill: $clr_green !important;
+              width: 2.3rem !important;
+              height: 2.3rem !important;
+            }
+            }
           }
   
           .create-form-field-button {
@@ -101,9 +178,9 @@
         padding-top: 1.5rem;
       }
       .create-form-button {
-        background-color: $clr_white;
-        border: 0.08rem solid $clr_black;
-        color: $clr_black;
+        background-color: $clr_green;
+        // border: 0.08rem solid $clr_black;
+        color: $clr_white;
         width: 100%;
         max-width: 41.67rem;
         margin-bottom: 2rem;
@@ -122,20 +199,26 @@
     &-sub-title{
       font-size: $h6 !important;
     }
+    
   }
   
-  .field-accordion-card {
-    .accordion-header-container {
-      width: 100%;
-    }
-    .form-container {
-      border-top: 0.0625rem solid $clr-gray-light;
-      padding-top: 3rem;
-      .save-button-containier {
-        width: 70%;
-        margin-inline: auto;
+  .form-accordion{
+     .MuiPaper-root{
+      box-shadow: $clr_gray_20_percent 0rem 0.5rem 2rem 0rem, $clr_gray_20_percent 0 0 0 .1rem !important;
+      border-radius: .25rem;
+      padding-block: .2rem;
+      &::before{
+        content: none !important;
       }
     }
   }
-   
-  
+
+
+  // ----------
+  .title-type-button-container{
+    display: flex !important;
+    column-gap: 1rem !important;
+  }
+  .save-form-btn{
+    background-color: $clr_green !important;
+  }

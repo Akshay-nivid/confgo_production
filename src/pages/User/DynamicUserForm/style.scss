@@ -32,4 +32,21 @@
       fill: $clr_black;
     }
   }
+
+  .file-upload-wrapper{
+  background-color: $clr_gray_20_percent !important;
+  width: 100% !important;
+  border-radius: .5rem;
+  padding-block:1rem ;
+  }
+
+  .dynamic-file-upload{
+    row-gap: 1rem !important;
+    .file-upload-button{
+      background-color: $clr_white !important;
+      border: 0.08rem solid $clr_black !important;
+    color: $clr_black !important;
+    }
+  }
 }
+

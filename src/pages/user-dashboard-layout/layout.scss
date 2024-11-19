@@ -61,6 +61,7 @@
 
 .sidebar-divider {
   margin: 1rem !important;
+
 }
 
 .list-header {
@@ -140,6 +141,7 @@
       width: 13rem;
       height: 3rem;
     }
+   
   }
 
 
@@ -154,7 +156,12 @@
     &:hover {
       cursor: pointer;
     }
-
+    &-avatar{
+      background-color:$soft-cyan!important; 
+      color: $clr_white; 
+      font-size: $h4; 
+      font-weight:$font-bold; 
+     }
     &-text {
       text-align: left;
       line-height: 1.1rem;
@@ -307,11 +314,10 @@
           display: flex;
           font-weight: $font_semibold;
           font-size: $p2;
+          height:4.5rem;
           background-color: transparent; 
           &-dividers {
-            display: block; 
-            height: 2rem;
-            margin: 1rem 0 !important; 
+          border-top:0.0625rem solid $clr_gray_very_light;
           }
         }
       }
