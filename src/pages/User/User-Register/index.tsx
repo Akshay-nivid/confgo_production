@@ -29,7 +29,7 @@ interface IUserRegister {
 }
 
 type UserProps = {
-  id: string;
+  id?: string;
 }
 
 interface GoogleUserData {
