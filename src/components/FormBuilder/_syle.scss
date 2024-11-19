@@ -204,7 +204,7 @@
   
   .form-accordion{
      .MuiPaper-root{
-      box-shadow: $clr_black 0rem 0.5rem 2rem 0rem, $clr_black 0 0 0 .083rem !important;
+      box-shadow: $clr_gray_20_percent 0rem 0.5rem 2rem 0rem, $clr_gray_20_percent 0 0 0 .1rem !important;
       border-radius: .25rem;
       padding-block: .2rem;
       &::before{
