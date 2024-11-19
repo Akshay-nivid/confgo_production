@@ -12,7 +12,7 @@ import Grid from "@mui/material/Grid2";
 import StatusComponent from "@/components/Status/StatusComponent";
 import "./userdetail.scss";
 import React from "react";
-
+import {formatDateTimeRange } from "@/Utils/CommonBaseClass";
 interface User {
   id: string;
   firstName: string;
@@ -31,21 +31,6 @@ interface Program {
   status: string;
   speaker: string;
 }
-/**
- * convert the time 
- */
-const formatTime = (timeString: string) => {
-  const date = new Date(timeString);
-  let hours = date.getHours();
-  const minutes = date.getMinutes();
-
-  const ampm = hours >= 12 ? 'PM' : 'AM';
-  hours = hours % 12;
-  hours = hours ? hours : 12;
-  const minutesFormatted = minutes < 10 ? `0${minutes}` : minutes;
-
-  return `${hours}:${minutesFormatted} ${ampm}`;
-};
 
 const UserDetail : React.FC = React.memo(() => {
   const { id } = useParams();
@@ -56,6 +41,9 @@ const UserDetail : React.FC = React.memo(() => {
     eventParticipantList();
   }, [id]);
 
+  /**
+   * Fetches the participant details and associated program/event data for a specific user
+   */
   const eventParticipantList = useCallback(async () => {
     try {
       const response = await apiClient.get(`/participant/${id}`);
@@ -143,7 +131,7 @@ const UserDetail : React.FC = React.memo(() => {
             <Grid className="userdetail-event-card">
               <Grid container direction="row" className="userdetail-time-status">
                 <Typography className="userdetail-time" variant="subtitle2">
-                  {formatTime(program.startTime)} - {formatTime(program.endTime)}
+                {formatDateTimeRange({date:program.startTime,format:'h:mm A'})},{formatDateTimeRange({date:program.endTime,format:"h:mm A"})}
                 </Typography>
                 {program.status && (
                   <StatusComponent className="user-status" value={program.status} />
