@@ -427,15 +427,15 @@
 
   &-container {
     background-color: $clr_white;
-    margin: 1rem;
+    margin-left: 0.2rem;
     border-radius: 0.9rem;
-    justify-content: center !important;
+    //justify-content: center !important;
   }
 
   &-image {
-    margin-top: 5rem !important;
-    width: 20rem !important;
-    height: 20rem !important;
+    margin-top: 1rem !important;
+    width: 9rem !important;
+    height: 10rem !important;
   }
 
   &-title {
