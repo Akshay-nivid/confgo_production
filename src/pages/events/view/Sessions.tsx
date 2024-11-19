@@ -253,9 +253,6 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
             <Grid container spacing={2} className="event-sessions-session-list">
 						{groupedData[date].map(
   (item: { addon: { name: any } }, index: Key | null | undefined) => {
-    // Log the item before rendering the SessionCard
-    console.log("Rendering SessionCard for item:", item);
-
     return (
       <SessionCard
         key={index}
