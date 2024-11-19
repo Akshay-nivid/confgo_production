@@ -20,7 +20,8 @@ import {
     disabled?: boolean;
     row?: boolean; // For horizontal layout of radio buttons
     value?: PathValue<T, Path<T>>; // The default value passed as a prop
-    className?:string;
+    className?: string;
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   }
   
   /*
@@ -35,6 +36,7 @@ import {
     row,
     value,
     className,
+    onChange,
     ...props
   }: ICustomRadio<T>) => {
     return (
@@ -49,6 +51,12 @@ import {
             className={className}
               row={row} // For horizontal alignment of radios
               {...field}
+              onChange={(e) => {
+                field.onChange(e);
+                if (onChange) {
+                  onChange(e);
+                }
+              }}
             >
               {options.map((option) => (
                 <FormControlLabel

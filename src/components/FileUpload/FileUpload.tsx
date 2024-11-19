@@ -6,6 +6,7 @@ import { useDropzone, FileRejection, Accept } from "react-dropzone";
 import DeleteIcon from "@mui/icons-material/Close";
 import CustomButton from "../CustomButton/CustomButton";
 import { Logger } from "@/Utils/Logger";
+import clsx from "clsx";
 
 interface Resolution {
  width: number | null;
@@ -21,7 +22,8 @@ interface FileUploadProps {
  onSubmit?: (response: any) => void;
  trimClientSide?: boolean;
  width?: string | number;
- height?: string | number;
+  height?: string | number;
+  className?: string;
 }
 
 /**
@@ -38,7 +40,8 @@ const FileUpload: React.FC<FileUploadProps> = ({
  onSubmit,
  trimClientSide = true,
  width = "30rem",
- height = "30rem",
+  height = "30rem",
+ className
 }) => {
  const [previewUrls, setPreviewUrls] = useState<string[]>([]);
  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -194,7 +197,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
  return (
   <Grid
-   className="file-upload"
+   className={clsx("file-upload", className)}
    container
    style={{ width, height }}
    justifyContent={"flex-end"}
