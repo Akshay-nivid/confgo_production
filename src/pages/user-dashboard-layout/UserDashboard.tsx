@@ -96,7 +96,7 @@ const UserDashboard: React.FC = React.memo(() => {
         successCB: (context:any) => {
           if (context?.success && context?.data.length > 0) {
             const event = context.data[0];
-            setDataById("userEvents", {
+            setDataById("userLatestEvents", {
               id: event.id,
               startTime: event.startTime,
               endTime: event.endTime,
