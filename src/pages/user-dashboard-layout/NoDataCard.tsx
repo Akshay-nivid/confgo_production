@@ -12,13 +12,10 @@ const NoDataCard: React.FC = React.memo(() => (
 
   <Grid
     container
-    direction="column"
-    justifyContent="center"
-    alignItems="center"
-    className="no-record-container"
-    size={{ xs: 12 }}
+    className="no-records-container"
+    size={12}
   >
-                <Grid size={8}>
+                <Grid container size={7}>
                     <Grid size={12}>
                         <Typography className="dashboard-left-profile-accounttitle" variant="body1">No Attended Events</Typography>
                     </Grid>
@@ -28,8 +25,8 @@ const NoDataCard: React.FC = React.memo(() => (
                         </Typography>
                     </Grid>
                 </Grid>
-                <Grid size={4}>
-                <img src={noimg} className="no-record-image"  alt="No records found" />
+                <Grid size={2} >
+                <img src={noimg}  className="no-records-image"  alt="No records found" />
                 </Grid>
   </Grid>
 

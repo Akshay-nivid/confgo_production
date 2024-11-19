@@ -1,6 +1,6 @@
 import React from "react";
 import Grid from '@mui/material/Grid2';
-import { Box, Typography } from "@mui/material";
+import {  Typography } from "@mui/material";
 import StatusComponent from "@/components/Status/StatusComponent";
 import moment from 'moment';
 import NoDataCard from "./NoDataCard";

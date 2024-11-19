@@ -4,7 +4,10 @@ import Grid from '@mui/material/Grid2';
 import React from "react";
 import { useNavigate } from 'react-router-dom';
 
-
+/**
+ * No calendar data 
+ * @author Neethu
+ */
 const NoCalenderData: React.FC = React.memo(() => {
   const navigate = useNavigate();
 
