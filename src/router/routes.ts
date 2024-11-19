@@ -1,13 +1,16 @@
+
+
 const routes = {
   home: () => "/",
   dashboard: () => "/dashboard",
   register: () => "/register",
   events: () => "/events",
   createEvent: () => "/events/create",
-  forgotPassword: () => "/forgot-password",
+  userForgotPassword: () => "/user/forgot-password",
+  organisationForgotPassword: () => "/organisation/forgot-password",
   thankyou: () => "/thankyou",
   viewEvent: (id: string | number) => `/events/detail/${id}`,
-  template: () => "/template",
+  template: (id: string | number, entityId: string | number) => `/event/detail/${entityId}/template/${id}/preview`,
   coupon: () => "/coupon",
   createCoupon: () => "/coupon/create",
   CouponView: (id: string | number) => `/coupon/${id}`,
@@ -44,6 +47,7 @@ const routes = {
   userEventRecap:()=>"/event-recap",
   accountsettings: () => `/user/account-settings`,
   userdetail: (id:string | number ) => `/userdetail/${id}`,
+  eventExternalLink: (slug: string) => `/event-link/${slug}`
 };
 
 export default routes;

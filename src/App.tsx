@@ -30,7 +30,6 @@ import ProgramSelection from "@/pages/User/Program-Selection";
 import SelectedPrograms from "@/pages/User/Selected-Programs";
 import PaymentMethod from "@/pages/User/Payment-Method";
 import RegistrationCompleted from "@/pages/User/Registration-Completed";
-import FormBuilder from "@/components/FormBuilder/FormBuilder";
 import ViewEventDetail from "@/pages/events/view/ViewEventDetail";
 import EventList from "@/pages/events/EventList";
 import UserDashboardLayout from "@/pages/user-dashboard-layout";
@@ -59,7 +58,7 @@ const userRoutes = [
       },
       {
         path: routes.userLogin(),
-        element: <UserLogin  />,
+        element: <UserLogin  id="user-login"/>,
       },
       {
         path: routes.userRegister(),
@@ -124,7 +123,7 @@ const userRoutes = [
       },
       {
         path: routes.userCalendar(),
-        element: <CalendarRoute  />,
+        element: <CalendarRoute  id="user-calendar"/>,
       },
     ],
   },
@@ -137,7 +136,11 @@ const router = createBrowserRouter([
     element: <Register />,
   },
   {
-    path: routes.forgotPassword(),
+    path: routes.userForgotPassword(),
+    element: <ForgotPassword />,
+  },
+  {
+    path: routes.organisationForgotPassword(),
     element: <ForgotPassword />,
   },
   {
@@ -207,13 +210,21 @@ const router = createBrowserRouter([
       },
       {
         path: routes.calendar(),
-        element: <CalendarRoute  />,
+        element: <CalendarRoute  id="company-calendar"/>,
       },
       {
         path: routes.userdetail(":id"),
         element: <UserDetail />,
       },
     ],
+  },
+  {
+    path: routes.template(":id", ":entityId"),
+    element: (
+      <PrivateRouteCompany>
+        <TemplateContainer />
+      </PrivateRouteCompany>
+    ),
   },
   {
     path: routes.loginOrg(),
@@ -224,8 +235,10 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: routes.template(),
-    element: <TemplateContainer  />,
+    path: routes.eventExternalLink(":slug"),
+    element: (
+        <TemplateContainer/>
+    ),
   },
   {
     path: routes.SetPassword(),

@@ -75,16 +75,24 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
   
   return (
     <Grid container size={12} className="appbar">
-      <Grid size={2} className="appbar-logo-container">
+      <Grid size={2} className="appbar-logo-container" justifyContent={'flex-start'}>
         LOGO
       </Grid>
       <Grid container size={10} justifyContent="flex-end" >
         
         <Grid  size={2} className="appbar-group" onClick={handleMenuOpen}>
           {/*Image */}
-          <Grid size={1} className="appbar-group-img" mb={0}>
-            <img src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHByb2ZpbGV8ZW58MHx8MHx8fDA%3D" alt="User" />
-          </Grid>
+          <Grid  size={1} className="appbar-group-img" mb={0}>
+          {userDetails?.firstName && userDetails?.lastName ? (
+          <Avatar className="appbar-group-avatar" >
+        {`${userDetails.firstName[0]}${userDetails.lastName[0]}`.toUpperCase()}
+      </Avatar>
+    ) : (
+      <Avatar>
+        U
+      </Avatar>
+    )}
+  </Grid>
           {/* Name and Role */}
           <Grid  size={7} className="appbar-group-textgroup">
             <Grid size={12}>

@@ -29,8 +29,11 @@ interface Profile {
   avatarUrl: string;
   isSsoUser:boolean;
 }
+interface AccountSettingProps {
+  setEmail: (email: string) => void; 
+ }
 
-const AccountSetting:React.FC = React.memo(() => {
+ const AccountSetting:React.FC<AccountSettingProps> = React.memo(({ setEmail }) => {
   const { handleSubmit, control, setValue } = useForm<Profile>();
   const [profileData, setProfileData] = useState<Profile | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -73,11 +76,12 @@ const AccountSetting:React.FC = React.memo(() => {
         setValue("lastName", data.lastName);
         setValue("email", data.email);
         setValue("phone", data.phone); 
+        setEmail(data.email);
       }
     } catch (error) {
       Logger.error("Error fetching participant data:", error);
     }
-  }, []);
+  }, [setEmail,setValue]);
 
 /**
  * Submit form to update profile data from drawer

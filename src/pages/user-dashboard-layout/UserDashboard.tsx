@@ -2,7 +2,7 @@
 import Grid from '@mui/material/Grid2';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CircularProgress, Divider, Typography } from "@mui/material";
+import { Box, CircularProgress, Divider, Typography } from "@mui/material";
 import DashboardCardItem from './DashboardCardItem';
 import { CalendarEventIcon, DownloadEventIcon, EventsSvg, HeartEventIcon, PaymentDashboardIcon, PaymentHistoryIcon } from '@/assets/svg';
 import React from 'react';
@@ -96,7 +96,7 @@ const UserDashboard: React.FC = React.memo(() => {
         successCB: (context:any) => {
           if (context?.success && context?.data.length > 0) {
             const event = context.data[0];
-            setDataById("userEvents", {
+            setDataById("userLatestEvents", {
               id: event.id,
               startTime: event.startTime,
               endTime: event.endTime,
@@ -236,7 +236,7 @@ const UserDashboard: React.FC = React.memo(() => {
           </Typography>
 
           <Grid container >
-
+           <Box>
             <Grid size={12} mt={1} className="dashboard-left-profile-card-recent" onClick={() => navigate('/user/payment-history')}>
               <CalendarEventIcon fontSize={20} /> View Payment History
             </Grid>
@@ -248,8 +248,9 @@ const UserDashboard: React.FC = React.memo(() => {
             <Grid size={12} mt={1} className="dashboard-left-profile-card-recent" onClick={() => navigate('/user/my-event')} >
               <PaymentHistoryIcon fontSize={20} /> Download Tickets & Certificates
             </Grid>
-            <Divider className='dashboard-left-profile-card-recent-dividers' />
-          </Grid>
+            </Box>
+          
+            </Grid>
 
 
         </Grid>

@@ -3,7 +3,6 @@ import Grid from '@mui/material/Grid2';
 import {  Typography } from "@mui/material";
 import StatusComponent from "@/components/Status/StatusComponent";
 import moment from 'moment';
-import NoDataCard from "./NoDataCard";
 
 interface DashboardEventCardProps {
     event: {

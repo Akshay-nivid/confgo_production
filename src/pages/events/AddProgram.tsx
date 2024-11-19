@@ -52,7 +52,7 @@ const typeArray = [
 
 const AddProgram: React.FC<ProgramProps> = React.memo(
   ({ formSubmit, onSubmitHandler, data, onSaveHandler ,eventData}) => {
-    const { handleSubmit, control, watch, setValue } = useForm<FormData>({
+    const { handleSubmit, control, watch, setValue,setError } = useForm<FormData>({
       defaultValues: {
         programs: [
           {
@@ -128,10 +128,19 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
      * @param data : form data
      */
     const onSave: SubmitHandler<FormData> = () => {
-      // Get the current programs data from `watch("programs")`
       const programs = watch("programs");
+      const lastItem = programs[programs.length - 1];
+      const lastIndex = programs.length - 1;
+      const startDate = new Date(lastItem.startDate);
+      const endDate = new Date(lastItem.endDate);
+      if (startDate > endDate) {
+        setError(`programs.${lastIndex}.startDate`, {
+          type: 'manual',
+          message: 'Start date cannot be greater than end date',
+        });
+        return
+      }
       const newPrograms = [...programs];
-
       // Handle saving logic based on `editMode`
       if (!editMode) {
         const newProgram = {

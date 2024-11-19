@@ -12,7 +12,7 @@ import moment from "moment";
 import routes from "@/router/routes";
 
 interface calendarProps {
-  id?: string;
+  id: string;
 }
 
 
@@ -20,10 +20,10 @@ const CalendarPage: React.FC<calendarProps> = ({ id }) => {
 
   const setDataById = useStore((state: any) => state.setDataById);
   const clearDataById = useStore((state: any) => state?.clearDataById)
-  const dataInfo = useStore((state: any) => state?.compData?.[id]?.['event/list']) ?? [];
+  const dataInfo = useStore((state: any) => state?.compData?.[id]?.['event/list']);
   const POST = useStore((state: any) => state.POST);
   const navigate = useNavigate();
-  const location = useLocation();
+  const location = useLocation(); 
   const containsUserCalendar = location.pathname.indexOf('user/calendar') !== -1;
   /**
    * Useeffect hook clears the state data while unmounting
