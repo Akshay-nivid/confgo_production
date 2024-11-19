@@ -20,7 +20,7 @@ const CalendarPage: React.FC<calendarProps> = ({ id }) => {
 
   const setDataById = useStore((state: any) => state.setDataById);
   const clearDataById = useStore((state: any) => state?.clearDataById)
-  const dataInfo = useStore((state: any) => state?.compData?.[id]?.['event/list']) ?? [];
+  const dataInfo = useStore((state: any) => id ? state?.compData?.[id]?.['event/list'] ?? [] : []);
   const POST = useStore((state: any) => state.POST);
   const navigate = useNavigate();
   const location = useLocation();
