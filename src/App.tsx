@@ -46,6 +46,7 @@ import TemplateContainer from "@/pages/events/template/TemplateContainer";
 
 import { PrivateRouteCompany, PrivateRouteUser } from "./router/PrivateRoute";
 import PublicRoute from "./router/PublicRoute";
+import UserDetail from "./pages/events/view/UserDetail";
 
 const userRoutes = [
   {
@@ -206,6 +207,10 @@ const router = createBrowserRouter([
       {
         path: routes.calendar(),
         element: <CalendarRoute  />,
+      },
+      {
+        path: routes.userdetail(":id"),
+        element: <UserDetail />,
       },
     ],
   },

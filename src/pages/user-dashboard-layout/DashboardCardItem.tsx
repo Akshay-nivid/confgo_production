@@ -7,13 +7,14 @@ interface DashboardCardItemProps {
   icon: FC<React.SVGProps<SVGSVGElement>>; // SVG component
   title: string;
   onClick?: () => void;
+  count:number;
 }
 
 /**
  * Reusable card component for the dashboard
  * @author Neethu
  */
-const DashboardCardItem: React.FC<DashboardCardItemProps> = React.memo(({ icon: Icon, title, onClick }) => (
+const DashboardCardItem: React.FC<DashboardCardItemProps> = React.memo(({ icon: Icon, title, onClick,count }) => (
  
   <Card variant="outlined" className="dashboard-card" onClick={onClick}>
     <CardContent>
@@ -22,6 +23,9 @@ const DashboardCardItem: React.FC<DashboardCardItemProps> = React.memo(({ icon: 
       </Box>
       <Typography className="dashboard-card-title" component="div">
         {title}
+      </Typography>
+      <Typography className="dashboard-card-count" component="div">
+        {count}
       </Typography>
     </CardContent>
   </Card>

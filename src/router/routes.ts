@@ -43,6 +43,7 @@ const routes = {
   userCoupons:()=>"user/coupons",
   userEventRecap:()=>"/event-recap",
   accountsettings: () => `/user/account-settings`,
+  userdetail: (id:string | number ) => `/userdetail/${id}`,
 };
 
 export default routes;
