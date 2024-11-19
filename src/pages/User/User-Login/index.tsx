@@ -57,7 +57,7 @@ const UserLogin = (props: UserProps) => {
    * function for set userTpype
    */
   function handleClickForgetPassword() {
-    navigate(routes.forgotPassword());
+    navigate(routes.userForgotPassword());
   }
   /**
    * function to handle login
