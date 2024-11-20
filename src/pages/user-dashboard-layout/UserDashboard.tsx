@@ -2,7 +2,7 @@
 import Grid from '@mui/material/Grid2';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CircularProgress, Divider, Typography } from "@mui/material";
+import { Box, CircularProgress, Divider, Typography } from "@mui/material";
 import DashboardCardItem from './DashboardCardItem';
 import { CalendarEventIcon, DownloadEventIcon, EventsSvg, HeartEventIcon, PaymentDashboardIcon, PaymentHistoryIcon } from '@/assets/svg';
 import React from 'react';
@@ -159,7 +159,6 @@ const UserDashboard: React.FC = React.memo(() => {
   function getPreviousDay(date: any) {
     return moment(date).subtract(1, 'days').format('YYYY-MM-DD');
   }
-
   return (
     <Grid container size={12} className="dashboard" >
       {/* left */}
@@ -220,14 +219,13 @@ const UserDashboard: React.FC = React.memo(() => {
 
       {/* Right Column */}
       <Grid size={{ xs: 12, md: 4 }} className="dashboard-right" >
-        <Grid container >
-          <Grid>
+        <Grid container>
             {isLoading ? <CircularProgress /> :
-            userEvents?
+            userEvents && Array.isArray(userEvents['event/list']?.data) && userEvents['event/list']?.data.length > 0 ? 
               <CalendarCard data={userEvents} />
               :<NoCalenderData/>
             }
-          </Grid>
+         
         </Grid>
         <Grid className="dashboard-right-events">
           {/* title */}
@@ -235,8 +233,8 @@ const UserDashboard: React.FC = React.memo(() => {
             Recent Activities
           </Typography>
 
-          <Grid container >
-
+          <Grid  >
+           <Box>
             <Grid size={12} mt={1} className="dashboard-left-profile-card-recent" onClick={() => navigate('/user/payment-history')}>
               <CalendarEventIcon fontSize={20} /> View Payment History
             </Grid>
@@ -248,8 +246,9 @@ const UserDashboard: React.FC = React.memo(() => {
             <Grid size={12} mt={1} className="dashboard-left-profile-card-recent" onClick={() => navigate('/user/my-event')} >
               <PaymentHistoryIcon fontSize={20} /> Download Tickets & Certificates
             </Grid>
-            <Divider className='dashboard-left-profile-card-recent-dividers' />
-          </Grid>
+            </Box>
+          
+            </Grid>
 
 
         </Grid>

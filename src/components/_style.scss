@@ -658,6 +658,18 @@
           }
         }
     }
+    &-parse{
+      ul {
+        list-style-type: disc !important;
+        padding-left: 1.25rem !important; 
+      }
+      
+      ol {
+        list-style-type: decimal !important; 
+        padding-left: 1.25rem !important; 
+      }
+    }
+
 }
 
 
@@ -683,12 +695,12 @@
 }
 
 .no-record {
+  display: flex;
   &-container {
       width: '100%';
       background-color: $clr_white;
       margin: 1rem;
       border-radius: 0.9rem;
-      justify-content: center !important;
   }
   &-image{
     margin-top: 10rem !important;

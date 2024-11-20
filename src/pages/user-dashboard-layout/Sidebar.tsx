@@ -40,6 +40,7 @@ const sidebarItems = [
     icon: SettingsIcon,
     label: 'Settings',
     exact: true,
+    state: { tabIndex: 0 }, 
   },
 ];
 /**
@@ -74,7 +75,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose }) => {
 
             return (
               <React.Fragment key={item.path}>
-                <NavLink to={item.path} onClick={isMobile ? onClose : undefined}>
+                <NavLink to={item.path} state={item.state} onClick={isMobile ? onClose : undefined }>  
                   <ListItem>
                     <ListItemButton>
                       <item.icon className={isActive ? 'sidebar-list-active-drawer-icon' : ''} />

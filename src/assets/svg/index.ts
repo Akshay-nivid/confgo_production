@@ -61,7 +61,7 @@ import NoEvent from "./NoEvents.svg";
 import NoPayment from "./noPayment.svg"
 import NoDataSvg from './nodata.svg';
 import Google from './google.svg';
-import EditIconRound from './EditIconRound.svg'
+import EditIconRound from './editIconRound.svg'
 import DashBoardEmpty from './dashboard-empty.svg';
 import EventsSvg from './events.svg';
 import ClockIcon from './clock-icon.svg';
