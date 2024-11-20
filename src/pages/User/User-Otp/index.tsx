@@ -8,7 +8,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import OtpInput from 'react-otp-input';
 import { LockIcon } from '@/assets/svg';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import useStore from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import { purposeTypes } from '@/Utils/CommonBaseClass';
@@ -20,7 +20,6 @@ interface IFormData {
  * User Otp page component
  *
  */
-
 const UserOtp = () => {
 
   const { email, token, userId, purpose, phoneNumber } = useLocation().state || {};
@@ -29,6 +28,8 @@ const UserOtp = () => {
   const ResendOtpToken=  useStore((state: any) => state?.compData.resendOtp?.token);
   const navigate = useNavigate();
   const POST = useStore((state: any) => state.POST);
+  const [isResendDisabled, setIsResendDisabled] = useState(true); 
+  const [timer, setTimer] = useState(20);
   /*
    * if email and phone number are not present in the state, redirect to the register page
    */
@@ -37,6 +38,26 @@ const UserOtp = () => {
       navigate(routes.userRegister());
     }
   }, []);
+  /**
+   * function for set resend otp timer
+   */
+  useEffect(() => {
+    if (isResendDisabled) {
+      const interval = setInterval(() => {
+        setTimer((prev) => {
+          if (prev <= 1) {
+            clearInterval(interval);
+            setIsResendDisabled(false); 
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [isResendDisabled]);
+
   /**
    * useForm hook
    */
@@ -118,6 +139,14 @@ const UserOtp = () => {
  * @returns 
  */
   const handleResendOtp = async () => {
+    /**
+     * Disable the resend button
+     */
+    setIsResendDisabled(true); 
+    /**
+     * Restart the timer for 30 seconds
+     */
+    setTimer(20); 
   if(purpose===purposeTypes.SET_PASSWORD){
    const setOtp={
        phone:phoneNumber,
@@ -253,12 +282,14 @@ const UserOtp = () => {
             />
           </form>
           <Box className="navigation-text-container">
-            <Typography className="resend-text">
-              Didn't receive the OTP?{" "}
-              <span onClick={handleResendOtp} className="resend-text-highlight">
-                Resend OTP.
-              </span>
-            </Typography>
+          <Typography className="resend-text">
+                Didn't receive the OTP?{" "}
+                 <span
+                       onClick={!isResendDisabled ? handleResendOtp : undefined}
+                       className={isResendDisabled ? "plan-disabled-choose-btn" : "resend-text-highlight"} >
+                       {isResendDisabled ? `Resend OTP (${timer}s)` : "Resend OTP"}
+                      </span>
+                  </Typography>
           </Box>
         </Box>
       </Grid>
