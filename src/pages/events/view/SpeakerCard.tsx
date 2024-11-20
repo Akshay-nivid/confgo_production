@@ -92,12 +92,12 @@ const SpeakerCard = (_eventData: any) => {
     clearDataById("contributorFields");
   };
 
-	/**
-	 * Handler for submitting the fetch new Types.This function is invoked after a new contributor type is created.
-	 */
-	const onTypeCreateSubmitHandler = async () => {
-		await fetchProgramTypes();
-	};
+  /**
+   * Handler for submitting the fetch new Types.This function is invoked after a new contributor type is created.
+   */
+  const onTypeCreateSubmitHandler = async () => {
+    await fetchProgramTypes();
+  };
   /**
    *useEffect to call Api when screen renders
    */
@@ -347,12 +347,12 @@ const SpeakerCard = (_eventData: any) => {
     setDataById("contributorFields", item);
     setDeleteModal(true);
   };
-	/**
-	 * function to close the new type creation drawer
-	 */
-	const handleDrawerClose = () => {
-		setNewTypeView(false);
-	};
+  /**
+   * function to close the new type creation drawer
+   */
+  const handleDrawerClose = () => {
+    setNewTypeView(false);
+  };
   return (
     <Grid
       className="event-detail-speakers-card"
