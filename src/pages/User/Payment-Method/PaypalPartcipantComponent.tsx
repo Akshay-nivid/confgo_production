@@ -99,7 +99,7 @@ const PayPalParticipantButton: React.FC = () => {
                                 purchase_units: [{
                                     amount: {
                                         currency_code: 'USD',
-                                        value: paymentDetails.cart.data.finalPrice,
+                                        value: paymentDetails?.cart?.data?.finalPrice,
                                     },
                                     custom_id: 'test234'
                                 }],

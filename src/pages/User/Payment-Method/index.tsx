@@ -30,7 +30,7 @@ const PaymentMethod = () => {
   const [expanded, setExpanded] = useState<string | false>("panel1");
   const paymentDetails = useStore((state: any) => state?.compData?.["addToCart"])
 
-  console.log('paymentDetails',paymentDetails)
+
 
   const handleChange =
     (panel: string) => (_: React.SyntheticEvent, isExpanded: boolean) => {
