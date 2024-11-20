@@ -357,7 +357,7 @@
         }
 
         &-drawer-box{
-            min-width: 85rem;
+            max-width: 40rem;
             padding: 2rem;
             margin: 1rem;
 
@@ -803,7 +803,7 @@
 	max-width: 40rem !important;
 }
 .add-on-create{
-    width: 50rem;
+    max-width: 40rem;
     margin: 2rem;
     background-color: $clr_white;
     &-header{
