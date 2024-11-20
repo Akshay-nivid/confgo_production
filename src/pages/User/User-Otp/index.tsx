@@ -29,8 +29,8 @@ const UserOtp = () => {
   const ResendOtpToken=  useStore((state: any) => state?.compData.resendOtp?.token);
   const navigate = useNavigate();
   const POST = useStore((state: any) => state.POST);
-  const [isResendDisabled, setIsResendDisabled] = useState(false); 
-
+  const [isResendDisabled, setIsResendDisabled] = useState(true);
+  
   /*
    * if email and phone number are not present in the state, redirect to the register page
    */
@@ -120,6 +120,7 @@ const UserOtp = () => {
  * @returns 
  */
   const handleResendOtp = async () => {
+    setIsResendDisabled(true);
   if(purpose===purposeTypes.SET_PASSWORD){
    const setOtp={
        phone:phoneNumber,
@@ -254,17 +255,18 @@ const UserOtp = () => {
 
             />
           </form>
-          <Box className="navigation-text-container">
-            <Typography className="resend-text">
-              Didn't receive the OTP?{" "}
+          <Box className="navigation-text-container" flexDirection={"column"}>
+          <Typography className="resend-text">
+              Didn't receive the OTP?{" "} 
+              <Typography onClick={handleResendOtp} className={isResendDisabled ? "resend-otp-disabled" : "resend-otp"} >Resend Otp</Typography>
               <CustomTimer
-                onResend={handleResendOtp}
-                className="resend-otp"
-                initialTime={20}
+                initialTime={3}
                 isResendDisabled={isResendDisabled}
                 setIsResendDisabled={setIsResendDisabled}
-                buttonLabel="Resend Otp"  
-              />
+                className="resend-timer"
+              />{!isResendDisabled && (
+               <Typography className=""></Typography>  
+              )}
             </Typography>
           </Box>
         </Box>
