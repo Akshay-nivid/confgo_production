@@ -14,6 +14,7 @@ interface PricingTier {
   tierName: string;
   percentage?: number;
   endDate: string;
+  startDate: string;
 }
 
 interface Attendee {
@@ -105,6 +106,7 @@ const PriceTierList: React.FC = () => {
       tierName: tier.name,
       percentage: tier.percentage,
       endDate: tier.endDate,
+      startDate: tier.startDate,
     }));
 
     // Map attendees with their corresponding pricing tiers
@@ -177,7 +179,7 @@ const PriceTierList: React.FC = () => {
       <CustomDrawer
         open={drawerOpen}
         type="right"
-        children={<PricingTierConfigure closeDrawer={closeDrawer} />}
+        children={<PricingTierConfigure closeDrawer={closeDrawer} hasPricingTiers={pricingTiers.length > 0 && attendees.length > 0} />}
       />
     </Grid>
   );

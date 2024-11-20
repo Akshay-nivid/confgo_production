@@ -22,21 +22,24 @@ interface Attendee {
 
 interface pricingTierConfigureProps {
   closeDrawer: () => void;
+  hasPricingTiers: boolean;
+
 }
 
 interface PricingTier {
   id: number;
   tierName: string;
   percentage?: number;
-  startDate?: string;
+  startDate: string;
   endDate: string;
 }
 
 interface FormValues {
   attendeeName: string;
-  attendeeDescription:string;
-  tierName:string;
-  tierEndDate:string;
+  attendeeDescription: string;
+  tierName: string;
+  tierEndDate: string;
+  tierStartDate: string;
   attendeeTypes: Attendee[];
   pricingTiers: PricingTier[];
   attendees: {
@@ -45,18 +48,22 @@ interface FormValues {
 }
 
 /**
- * Component used to configure the table
- * @param param0 
- * @returns 
+ * Component used to configure the table-
+ * @param param0
+ * @returns
  */
-const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({ closeDrawer }) => {
+const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
+  closeDrawer,
+  hasPricingTiers,
+}) => {
   const { control, handleSubmit, setValue, getValues, trigger } =
     useForm<FormValues>({
       defaultValues: {
-        attendeeName: '',
-        attendeeDescription: '',
-        tierName:'',
-        tierEndDate:'',
+        attendeeName: "",
+        attendeeDescription: "",
+        tierName: "",
+        tierEndDate: "",
+        tierStartDate:"",
         attendeeTypes: [],
         pricingTiers: [],
         attendees: [
@@ -74,6 +81,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({ closeDrawer
   const DELETE = useStore((state: any) => state.DELETE);
   const [pricingData, setPricingData] = useState<any[]>([]);
   const setDataById = useStore((state: any) => state.setDataById);
+  const PUT = useStore((state: any) => state.PUT);
 
   // const {
   //   //fields: attendeeFieldsData,
@@ -133,9 +141,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({ closeDrawer
     const isValid = await trigger(["attendeeName"]);
     if (isValid) {
       const attendeeName = getValues("attendeeName");
-      const attendeeDescription = getValues(
-        "attendeeDescription"
-      );
+      const attendeeDescription = getValues("attendeeDescription");
       // Check if attendeeName is empty or not
       if (attendeeName.trim() === "") {
         console.warn("Attendee name is required!");
@@ -195,27 +201,34 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({ closeDrawer
     }
   };
 
-  
   /**
    * Function to add the pricing tier name and date
    */
   const handleAddPricingTier = async () => {
-    const isValid = await trigger([
-      "tierName",
-      "tierEndDate",
-    ]);
+    const isValid = await trigger(["tierName", "tierEndDate","tierStartDate"]);
     if (isValid) {
       const tierName = getValues("tierName");
       const endDate = getValues("tierEndDate");
+      const startDate= getValues("tierStartDate");
+
+          // Check if the tierName already exists in the current pricing tiers
+    const isDuplicate = pricingFields.some((tier) => tier.tierName === tierName);
+
+    if (isDuplicate) {
+      console.warn("A tier with this name already exists.");
+      return;
+    }
 
       appendPricing({
         id: Number(Date.now().toString()),
         tierName,
         endDate,
+        startDate,
       });
 
       setValue("tierName", "");
       setValue("tierEndDate", "");
+      setValue("tierStartDate","");
     } else {
       console.warn("Validation failed for Tier Name or End Date.");
     }
@@ -242,6 +255,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({ closeDrawer
                   tierName: item.name,
                   percentage: item.percentage || 0, // Use default percentage
                   endDate: item.endDate,
+                  startDate: item.startDate,
                 };
               });
               setValue("pricingTiers", groupedByDesignation);
@@ -288,6 +302,8 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({ closeDrawer
    */
   function onSubmit() {
     const { attendeeTypes, attendees, pricingTiers } = getValues();
+    console.log("pricingtiers", pricingTiers);
+
 
     const payload = {
       eventId: id, // Pass the eventId directly
@@ -299,35 +315,60 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({ closeDrawer
               attendees[index]?.pricingTiers[tier.tierName]?.percentage || ""; // Fetch percentage for the tier and attendee type
             return {
               name: tier.tierName,
-              percentage: percentage, 
-              participantTypeId: attendee.id, 
-              endDate: tier.endDate || "", 
+              percentage: parseFloat(percentage),
+              participantTypeId: attendee.id,
+              endDate: tier.endDate || "",
+              startDate:tier.startDate || "",
             };
           })
         ),
     };
-
     // Post the prepared payload
-    POST({
-      url: "/event/priceTier",
-      body: payload,
-      successCB: () => {
-        setDataById("snackBarInfo", {
-          open: true,
-          autoHideDuration: 2000,
-          severity: "success",
-          message: "Table created",
-        });
-      },
-      errorCB: () => {
-        setDataById("snackBarInfo", {
-          open: true,
-          autoHideDuration: 2000,
-          severity: "error",
-          message: "Fill the percentage in the table",
-        });
-      },
-    });
+    if (!hasPricingTiers) {
+      // If there are no pricing tiers, use POST
+      POST({
+        url: `/event/priceTier`,
+        body: payload,
+        successCB: () => {
+          setDataById("snackBarInfo", {
+            open: true,
+            autoHideDuration: 2000,
+            severity: "success",
+            message: "Table created",
+          });
+        },
+        errorCB: () => {
+          setDataById("snackBarInfo", {
+            open: true,
+            autoHideDuration: 2000,
+            severity: "error",
+            message: "Failed to create the table.",
+          });
+        },
+      });
+    } else {
+      // If pricing tiers exist, use PUT
+     PUT({
+        url: `/event/priceTier/update/${id}`,
+        body: payload,
+        successCB: () => {
+          setDataById("snackBarInfo", {
+            open: true,
+            autoHideDuration: 2000,
+            severity: "success",
+            message: "Table updated",
+          });
+        },
+        errorCB: () => {
+          setDataById("snackBarInfo", {
+            open: true,
+            autoHideDuration: 2000,
+            severity: "error",
+            message: "Fill the percentage in the table",
+          });
+        },
+      });
+    }
   }
 
   return (
@@ -337,11 +378,9 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({ closeDrawer
         justifyContent={"space-between"}
         alignItems="center"
         size={{ xs: 12 }}
-        style={{ borderBottom: `.4px solid #C8CBD9` }}
       >
         <Typography
-          style={{ padding: "16px" }}
-          className="registration-fee-list-sub-heading"
+          className="registration-fee-list-heading"
         >
           Registration Fee Structure
         </Typography>
@@ -413,6 +452,16 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({ closeDrawer
 
           <Grid size={{ xs: 5 }}>
             <CustomDatePicker
+              placeholder="Start Date"
+              name="tierStartDate"
+              control={control}
+              rules={{ required: "Start Date is required" }}
+              label="Start Date"
+              requiredField
+            />
+          </Grid>
+          <Grid size={{ xs: 5 }}>
+            <CustomDatePicker
               placeholder="End Date"
               name="tierEndDate"
               control={control}
@@ -428,22 +477,19 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({ closeDrawer
           </Grid>
 
           <Grid size={{ xs: 12 }}>
-          <Box display="flex" flexWrap="wrap" gap={1}>
-  {pricingFields.map((field, index) => {
-    console.log("Field Object:", field); // Console log the entire field object
-
-    return field.tierName.trim() ? (
-      <Chip
-        className="registration-fee-list-chip"
-        key={field.id}
-        label={`${field.tierName}`}
-        onDelete={() => removePricing(index)}
-        deleteIcon={<DeleteIcon />}
-      />
-    ) : null;
-  })}
-</Box>
-
+            <Box display="flex" flexWrap="wrap" gap={1}>
+              {pricingFields.map((field, index) => {
+                return field.tierName.trim() ? (
+                  <Chip
+                    className="registration-fee-list-chip"
+                    key={field.id}
+                    label={`${field.tierName}`}
+                    onDelete={() => removePricing(index)}
+                    deleteIcon={<DeleteIcon />}
+                  />
+                ) : null;
+              })}
+            </Box>
           </Grid>
         </Grid>
         <Grid container padding={3} paddingBottom={0} paddingTop={1}>

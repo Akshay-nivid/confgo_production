@@ -799,7 +799,6 @@
         text-align: center !important;
         font-weight: 500 !important;
         font-size: $h6 !important;
-        //width: 187px !important;
         
     }
 
@@ -830,9 +829,18 @@
 }
 
 .registration-fee-list{
-    &-sub-heading{
+    &-heading{
         font-weight: 600 !important;
         font-size: $h5 !important;
+        padding: $h6 !important;
+    }
+    &-sub-heading{
+        font-weight: 600 !important;
+        font-size: $p5 !important;
+    }
+
+    &-grid-style{
+        border-bottom: .025rem solid ;
     }
 
     &-sub-title{
@@ -859,7 +867,7 @@
         width: $h1 !important;
     }
     &-custom-drawer-header{
-        border-bottom: .5px solid $clr_gray_light;
+        border-bottom: .0312rem solid $clr_gray_light;
         justify-content: space-between;
         align-items: center;
     }

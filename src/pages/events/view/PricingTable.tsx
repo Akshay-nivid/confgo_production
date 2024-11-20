@@ -17,6 +17,7 @@ interface PricingTier {
   tierName: string;
   percentage?: number;
   endDate: string;
+  startDate: string;
 }
 
 interface Attendee {
@@ -79,7 +80,7 @@ const PricingTable: React.FC<PricingTableProps> = ({
                 <TableCell className="pricing-table-table-header" key={tier.id}>
                   {tier.tierName} <br />
                   <small className="pricing-table-table-header">
-                    (Available up to -{" "}
+                    ({moment(tier.startDate).format("DD MM YYYY")}-{" "}
                     {moment(tier.endDate).format("DD MM YYYY")})
                   </small>
                 </TableCell>
