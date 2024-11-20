@@ -100,7 +100,15 @@ const UserOtp = () => {
         ,url: 'token/validateotp',
         body: body,
         successCB: successCB,
-        errorCB: (error:any) => Logger.error("error", error)
+        errorCB: (error:any) => {
+          Logger.error("error", error)
+          setDataById("snackBarInfo", {
+            open: true,
+            autoHideDuration: 2000,
+            severity: "error",
+            message: error?.message,
+          });
+        }
       })
     }
   };
