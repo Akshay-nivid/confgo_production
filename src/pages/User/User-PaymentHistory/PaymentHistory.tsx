@@ -13,7 +13,6 @@ import { ISource } from "@/Libs/type";
  */
 const PaymentHistory: React.FC = React.memo(() => {
   const [isLoading, setIsLoading] = useState(false);
-  const POST = useStore((state: any) => state.POST);
   const [source, setSource] = useState<ISource | undefined>(undefined);
   const paymentList = useStore((state: any) => state?.compData?.['paymentList']?.['payment/list']) ?? [];
   /**
@@ -107,7 +106,6 @@ const PaymentHistory: React.FC = React.memo(() => {
           <DataGridList
             dataTransformer={transformData}
             source={source}
-            onRowClick={(params: any) => { }}
             title="Payment History"
             id="payment-datagrid"
             columns={columns}
