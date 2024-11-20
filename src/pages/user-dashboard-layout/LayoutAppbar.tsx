@@ -74,17 +74,17 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
     // };
   
   return (
-    <Grid container size={12} className="appbar">
-      <Grid size={2} className="appbar-logo-container" justifyContent={'flex-start'}>
+    <Grid container size={12} className="appbars">
+      <Grid size={2} className="appbars-logo-container" justifyContent={'flex-start'}>
         LOGO
       </Grid>
       <Grid container size={10} justifyContent="flex-end" >
         
-        <Grid  size={2} className="appbar-group" onClick={handleMenuOpen}>
+        <Grid  size={2} className="appbars-group" onClick={handleMenuOpen}>
           {/*Image */}
-          <Grid  size={1} className="appbar-group-img" mb={0}>
+          <Grid  size={1} className="appbars-group-img" mb={0}>
           {userDetails?.firstName && userDetails?.lastName ? (
-          <Avatar className="appbar-group-avatar" >
+          <Avatar className="appbars-group-avatar" >
         {`${userDetails.firstName[0]}${userDetails.lastName[0]}`.toUpperCase()}
       </Avatar>
     ) : (
@@ -94,17 +94,17 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
     )}
   </Grid>
           {/* Name and Role */}
-          <Grid  size={7} className="appbar-group-textgroup">
+          <Grid  size={7} className="appbars-group-textgroup">
             <Grid size={12}>
-              <Typography className="appbar-group-text">{userDetails?.firstName} {userDetails?.lastName}</Typography>
+              <Typography className="appbars-group-text">{userDetails?.firstName} {userDetails?.lastName}</Typography>
             </Grid>
             <Grid size={12}>
-              <Typography className="appbar-group-subheader-text">{toSentenceCase(userDetails?.userRole?.roleName)}</Typography>
+              <Typography className="appbars-group-subheader-text">{toSentenceCase(userDetails?.userRole?.roleName)}</Typography>
             </Grid>
           </Grid>
           {/* Arrow Dropdown Icon */}
-          <Grid size={1} className="appbar-group-arrow-container">
-            <DownArrowSvg className="appbar-group-arrow-down" />
+          <Grid size={1} className="appbars-group-arrow-container">
+            <DownArrowSvg className="appbars-group-arrow-down" />
           </Grid>
         </Grid>
         <Menu
