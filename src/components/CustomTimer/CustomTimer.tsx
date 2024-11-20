@@ -2,12 +2,12 @@ import { Button } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 
 interface ResendOtpTimerProps {
-  onResend: () => void;  // Callback function to handle OTP resend
-  initialTime: number;   // Initial countdown time (in seconds)
-  isResendDisabled: boolean;  // Flag to control whether the resend button is disabled
-  setIsResendDisabled: React.Dispatch<React.SetStateAction<boolean>>;  // Function to toggle resend button state
-  buttonLabel: string;  // Customizable button label text
-  className?: string;   // Optional className for styling
+  onResend: () => void;  
+  initialTime: number;  
+  isResendDisabled: boolean;  
+  setIsResendDisabled: React.Dispatch<React.SetStateAction<boolean>>; 
+  buttonLabel: string;
+  className?: string;  
 }
 
 const ResendOtpTimer: React.FC<ResendOtpTimerProps> = ({
@@ -16,7 +16,7 @@ const ResendOtpTimer: React.FC<ResendOtpTimerProps> = ({
   isResendDisabled,
   setIsResendDisabled,
   buttonLabel,
-  className = '',  // Default to an empty string if no className is provided
+  className = '', 
 }) => {
   const [timer, setTimer] = useState(initialTime);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
