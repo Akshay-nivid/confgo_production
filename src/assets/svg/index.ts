@@ -70,6 +70,8 @@ import ProgressBarIcon from './progress-bar-icon.svg';
 import IntegrationIcon from './integration-icon.svg';
 import UserEditRoundIcon from './user-edit-round-icon.svg';
 import GoogleIcon from './google-icon.svg';
+import WarningIcon from './warning-icon.svg';
+import PublishTickIcon from './publish-tick.svg';
 
 export {
   CalenderIcon,
@@ -143,5 +145,7 @@ export {
   IntegrationIcon,
   EventsSvg,
   UserEditRoundIcon,
-  GoogleIcon
+  GoogleIcon,
+  WarningIcon,
+  PublishTickIcon
 };

@@ -28,6 +28,8 @@ import ShareIcon from "@/assets/svg/share.svg";
 import config from '../../../../config.json';
 import ShareInvitationDrawer from "./ShareInvitationDrawer";
 import PriceTierList from "./PriceTierList";
+import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
+import { PublishTickIcon, WarningIcon } from "@/assets/svg";
 
 
 
@@ -93,6 +95,7 @@ const ViewEventDetail = () => {
   const [eventFullData,setEventFullData]=useState<Addon>();
   const [link, setLink] = useState('');
   const [errorMessage, setErrorMessage] = useState('')
+  const [openModal,setOpenModal]=useState(false);
 
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	// Functions to open and close the drawer.
@@ -174,7 +177,12 @@ const ViewEventDetail = () => {
       setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message });
     }
   }
-
+  /**
+   * Mehod handles the publish/unpublish using the modal
+   */
+  const handlePublishUnPublish = () => {
+    setOpenModal(!openModal);
+  }
   /**
    * Mehod handles the publish/unpublish of the event
    */
@@ -192,6 +200,7 @@ const ViewEventDetail = () => {
       setErrorMessage('')
       getEventDetails();
       published && handleLinkGenerationApiCall();
+      setOpenModal(false);
     }
     else {
       setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message });
@@ -242,7 +251,7 @@ const ViewEventDetail = () => {
   const handleSubmitHandler = () => {
     getEventDetails();
   }
-
+console.log(eventFullData?.published,'999999334343')
   return <Grid >
     <Grid container
       className="event-detail-card" >
@@ -302,7 +311,7 @@ const ViewEventDetail = () => {
             </Grid>}
               </Grid>
               <Grid>
-                <CustomButton className={eventFullData?.published?"event-detail-event-info-card-unpublish-btn": "event-detail-event-info-card-publish-btn"} startIcon={eventFullData?.published?<UnpublishIcon/>:<PublishIcon />} label={eventFullData?.published? "Unpublish Event": "Publish Event"} onClick={() => handlePublish(eventFullData?.published)}/>
+                <CustomButton className={eventFullData?.published?"event-detail-event-info-card-unpublish-btn": "event-detail-event-info-card-publish-btn"} startIcon={eventFullData?.published?<UnpublishIcon/>:<PublishIcon />} label={eventFullData?.published? "Unpublish Event": "Publish Event"} onClick={() =>{ handlePublishUnPublish()}}/>
               </Grid>
             </Grid>
           </Grid>
@@ -355,6 +364,33 @@ const ViewEventDetail = () => {
         eventData={eventFullData}
 		eventURL={watch('event')}
     />
+    {eventFullData?.published ? <CustomActionModal
+      icon={<WarningIcon className="event-detail-publish-modal-icon" />}
+      open={openModal}
+      onClose={() => setOpenModal(false)}
+      cancelLabel="Cancel"
+      cancelAction={() => console.log('cancel')}
+      header="Unpublish Event?"
+      subHeader="Are you sure you want to unpublish this event? It will no longer be visible to attendees."
+      submitAction={() => handlePublish(eventFullData?.published)}
+      submitLabel="Unpublish"
+      modalClassName="event-detail-publish-modal"
+      cancelBtnClassName="event-detail-publish-modal-cancel-btn"
+      submitBtnClassName="event-detail-publish-modal-ok-btn-red"
+    /> : <CustomActionModal
+      open={openModal}
+      icon={<PublishTickIcon className="event-detail-publish-modal-icon"/>}
+      onClose={() => setOpenModal(false)}
+      cancelLabel="Cancel"
+      cancelAction={() => console.log('cancel')}
+      header="Ready to Publish?"
+      subHeader="Are you sure you want to publish this event? Once published, it will be visible to attendees."
+      submitAction={() => handlePublish(eventFullData?.published)}
+      submitLabel="Publish"
+      modalClassName="event-detail-publish-modal"
+      cancelBtnClassName="event-detail-publish-modal-cancel-btn"
+      submitBtnClassName="event-detail-publish-modal-ok-btn-green"
+    />}
   </Grid>
 
 }
