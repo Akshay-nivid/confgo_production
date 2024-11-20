@@ -18,10 +18,10 @@ const DashboardCardItem: React.FC<DashboardCardItemProps> = React.memo(({ icon: 
  
   <Card variant="outlined" className="dashboard-card" onClick={onClick}>
     <CardContent>
-      <Box className="dashboard-card-icon" display="flex" justifyContent="center" mb={2}>
+      <Box className="dashboard-card-icon" display="flex" justifyContent="left" mb={2}>
         {Icon && <Icon />}
       </Box>
-      <Typography className="dashboard-card-title" component="div">
+      <Typography className="dashboard-card-title" component="div"  mb={1}>
         {title}
       </Typography>
       <Typography className="dashboard-card-count" component="div">
