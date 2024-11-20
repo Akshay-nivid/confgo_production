@@ -251,7 +251,6 @@ const ViewEventDetail = () => {
   const handleSubmitHandler = () => {
     getEventDetails();
   }
-console.log(eventFullData?.published,'999999334343')
   return <Grid >
     <Grid container
       className="event-detail-card" >

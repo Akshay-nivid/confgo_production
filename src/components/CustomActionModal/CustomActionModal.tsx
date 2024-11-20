@@ -19,7 +19,9 @@ interface CustomActionModalProps {
     modalClassName?: string;
 
 }
-
+/**
+ * compoent for custom modal 
+ */
 const CustomActionModal: React.FC<CustomActionModalProps> = ({
     icon,
     header,
@@ -36,7 +38,6 @@ const CustomActionModal: React.FC<CustomActionModalProps> = ({
 }) => {
     return (
         <Dialog open={open} onClose={onClose}>
-
             <Grid container spacing={1} direction="column" alignItems="center" className={modalClassName}>
                 <Grid size={12} container justifyContent={"flex-end"} alignContent={"flex-end"}>
                     <IconButton onClick={onClose}>
