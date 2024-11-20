@@ -29,6 +29,9 @@ const UserOtp = () => {
   const ResendOtpToken=  useStore((state: any) => state?.compData.resendOtp?.token);
   const navigate = useNavigate();
   const POST = useStore((state: any) => state.POST);
+  /**
+   * State to manage the disable/enable status of the "Resend OTP" button.
+   */
   const [isResendDisabled, setIsResendDisabled] = useState(true);
   
   /*
@@ -259,6 +262,7 @@ const UserOtp = () => {
           <Typography className="resend-text">
               Didn't receive the OTP?
               <Typography onClick={handleResendOtp} className={isResendDisabled ? "resend-otp-disabled" : "resend-otp"} >Resend Otp</Typography>
+              {/* Custom component for set Timer */}
               <CustomTimer
                 initialTime={15}
                 isResendDisabled={isResendDisabled}
