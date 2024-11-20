@@ -1,4 +1,4 @@
-import { NoPayment } from "@/assets/svg";
+
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { DataGridList } from "@/components/DataGrid/DataGridList";
 import { Typography } from "@mui/material";
@@ -6,14 +6,16 @@ import Grid from "@mui/material/Grid2";
 import { CircularProgress } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import { Logger } from "@/Utils/Logger";
-import useStore, { setDataById } from "@/Libs/store";
+import useStore from "@/Libs/store";
+import { ISource } from "@/Libs/type";
 /**
  * `PaymentHistory` component displays a data grid with payment history information.
  */
-const PaymentHistory:React.FC = React.memo(()=>{
+const PaymentHistory: React.FC = React.memo(() => {
   const [isLoading, setIsLoading] = useState(false);
-  const POST =useStore( (state: any) => state.POST);
-  const paymentList=useStore((state:any)=>state?.compData?.['paymentList']?.['payment/list'])??[];
+  const POST = useStore((state: any) => state.POST);
+  const [source, setSource] = useState<ISource | undefined>(undefined);
+  const paymentList = useStore((state: any) => state?.compData?.['paymentList']?.['payment/list']) ?? [];
   /**
    *  * `columns` defines the structure of each column in the DataGridList component.
    */
@@ -26,7 +28,7 @@ const PaymentHistory:React.FC = React.memo(()=>{
       width: 190,
       dateFormat: "DD/MM/YYYY",
     },
-    { type: "default", field: "amount", headerName: "Amount", width: 150},
+    { type: "default", field: "amount", headerName: "Amount", width: 150 },
     {
       type: "status",
       field: "status",
@@ -38,7 +40,7 @@ const PaymentHistory:React.FC = React.memo(()=>{
       field: "Receipt",
       headerName: "Receipt",
       width: 167,
- 
+
     },
     { type: "default", field: "PaymentMethod", headerName: "Payment Method", width: 208 },
   ];
@@ -52,14 +54,14 @@ const PaymentHistory:React.FC = React.memo(()=>{
     return data.map((item: any) => {
       return {
         ...item,
-        name:item?.event?.name,
-        Date:item.createdOn,
+        name: item?.event?.name,
+        Date: item.createdOn,
         amount: item?.amount,
-        status : item?.event?.statusId,
+        status: item?.event?.statusId,
         createdOn: item?.createdOn,
-        Receipt:<CustomButton label={"[Download]"} className="download-Receipt"/>,
-        PaymentMethod:item.paymentMethodId
-     
+        Receipt: <CustomButton label={"[Download]"} className="download-Receipt" />,
+        PaymentMethod: item.paymentMethodId
+
       };
     });
   };
@@ -67,71 +69,53 @@ const PaymentHistory:React.FC = React.memo(()=>{
     payments();
   }, []);
   /**
-   * 
+   * Source - payment list 
    */
- // const [source, setSource] = useState<ISource | undefined>(undefined);
-  const payments=useCallback(()=>{
-    try{
-    setIsLoading(true);
-      const req = {
+  const payments = useCallback(async () => {
+    try {
+      setIsLoading(true);
+       const req = {
         offset: 0,
         limit: 5,
         sortBy: "id",
         sortDirection: "DESC",
       };
-      POST({
-        url: `payment/list`, body: req,
-        id: 'paymentList',
-        successCB: successCB,
-        errorCB: (error: any) => Logger.error("error", error)
-      })
-      function successCB(_response:any){
-        setDataById('snackBarInfo',
-          { open: true, autoHideDuration: 2000, severity: 'success',
-            message: "Payment Listed Successfully"});
-      }
-    }catch(e){
-    Logger.error("An error occurred:",e)
-    }finally{
+        setSource({
+          method: "POST",
+          data: req,
+          url: `payment/list`,
+          listName: "paymentList-list-id",
+        });
+    } catch (e) {
+      Logger.error("An error occurred:", e)
+    } finally {
       setIsLoading(false)
     }
-    }, []);
+  }, []);
+  console.log("payment  >. ", paymentList?.data)
   return (
-  <Grid container size={12} className="payment-history-container">
-     <Grid className="" size={12} container>
-     <Typography className="payment-history-container-heading" >
-        Payment History 
-     </Typography>
-     </Grid>
-     {isLoading ? (
+    <Grid container size={12} justifyContent="center" className="payment-history-container">
+      <Grid className="" size={12} container>
+        <Typography className="payment-history-container-heading" >
+          Payment History
+        </Typography>
+      </Grid>
+      {isLoading ? (
         <CircularProgress />
-      ) : paymentList == undefined ? (  
-        <Grid container size={12} justifyContent={"center"}>
-          <Grid container justifyContent={"center"} className="no-event">
-            <Grid>
-              <NoPayment className="no-event-svg" />
-            </Grid>
-            <Grid size={12} flexDirection={"column"}>
-              <Typography className="no-event-svg-text">No Events Found</Typography>
-              <Typography className="no-event-svg-text-description">
-                You haven’t registered for any events yet. Explore upcoming events and secure your spot today!
-              </Typography>
-            </Grid>
-          </Grid>
-        </Grid>
       ) : (
-        <Grid container size={12} className="paymentlist">
+        <Grid container size={12} justifyContent="center" className="paymentlist">
           <DataGridList
             dataTransformer={transformData}
-            source={paymentList}
-            //onRowClick={(params: any) => handleRowClick(params.id)}
+            source={source}
+            onRowClick={(params: any) => { }}
+            title="Payment History"
+            id="payment-datagrid"
             columns={columns}
-            id="event-datagrid"
             hideFooterPagination={false}
           />
         </Grid>
       )}
-  </Grid>
+    </Grid>
   )
 })
 
