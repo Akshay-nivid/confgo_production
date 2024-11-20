@@ -34,14 +34,25 @@
      text-align: center;
      margin-bottom: 3.33rem;
      .resend-text {
+      margin-top:1.6rem;
        font-size: $p2;
        margin-bottom: 1.66rem;
        color: $clr_gray_dark_text;
        font-weight: $font-medium;
-       .resend-text-highlight {
+       .resend-otp{ 
          color: $clr_black;
-         font-weight: $font-bold;
+         font-size: $p2;
+         font-weight: $font-bold !important;
        }
+       .resend-otp-disabled{
+        cursor: none; 
+        opacity: 0.6; 
+        color: $clr_black;
+        font-size: $p2;
+        font-weight: $font-bold !important;
+
+       }
+
      }
    }
    .sso-container {
