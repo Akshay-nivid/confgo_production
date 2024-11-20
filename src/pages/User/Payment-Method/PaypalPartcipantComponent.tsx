@@ -66,7 +66,7 @@ const PayPalParticipantButton: React.FC = () => {
             }
 
             POST({
-                url: 'payment', body: requestBody, id: "paymentSubscriptionDetails", successCB: (context: any) => {
+                url: 'payment', body: requestBody, id: "paymentSubscriptionDetails", successCB: (_context: any) => {
                     setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Registration Successfully and please check your email for further instructions" });
                     navigate(routes.userHome());
                 }, errorCB: (errResponse: any) => {

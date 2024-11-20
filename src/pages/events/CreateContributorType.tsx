@@ -33,7 +33,7 @@ const CreateContributorType: React.FC<createAddonProps> = React.memo(
       data && handleCreateContributorType(data);
     };
 
-		/**
+    /**
      * Handles the creation of a new contributor type.
      * @param formData.
      */

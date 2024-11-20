@@ -95,9 +95,9 @@ const SpeakerCard = (_eventData: any) => {
 	/**
 	 * Handler for submitting the fetch new Types.This function is invoked after a new contributor type is created.
 	 */
-	const onTypeCreateSubmitHandler =async () => {
-    await fetchProgramTypes();
-  };
+	const onTypeCreateSubmitHandler = async () => {
+		await fetchProgramTypes();
+	};
   /**
    *useEffect to call Api when screen renders
    */
@@ -160,7 +160,7 @@ const SpeakerCard = (_eventData: any) => {
               value: element.name,
               label: element.name,
             }));
-						const updatedOptionsData = [...options, { label: "Other", value: "other" }];
+            const updatedOptionsData = [...options, { label: "Other", value: "other" }];
             setContributorType(updatedOptionsData);
           }
         },
@@ -351,8 +351,8 @@ const SpeakerCard = (_eventData: any) => {
 	 * function to close the new type creation drawer
 	 */
 	const handleDrawerClose = () => {
-    setNewTypeView(false);
-  };
+		setNewTypeView(false);
+	};
   return (
     <Grid
       className="event-detail-speakers-card"
@@ -494,11 +494,11 @@ const SpeakerCard = (_eventData: any) => {
                         name="contributorType"
                         label="Contributor Type"
                         options={contributorType ?? selectOptions}
-												optionClick={(value) => {
-													if (value === "other") {
-														setNewTypeView(true);
-													}
-												}}
+                        optionClick={(value) => {
+                          if (value === "other") {
+                            setNewTypeView(true);
+                          }
+                        }}
                         control={control}
                         rules={{ required: true }}
                         defaultValue={contributorFields?.designation}
@@ -640,12 +640,12 @@ const SpeakerCard = (_eventData: any) => {
           </Grid>
         </Grid>
       </Modal>
-			<CustomDrawer
-          children={<CreateContributorType submitHandler={onTypeCreateSubmitHandler} closeDrawer={handleDrawerClose} />}
-          open={newTypeView}
-          type="right"
-          onClose={() => handleDrawerClose}
-        />
+      <CustomDrawer
+        children={<CreateContributorType submitHandler={onTypeCreateSubmitHandler} closeDrawer={handleDrawerClose} />}
+        open={newTypeView}
+        type="right"
+        onClose={() => handleDrawerClose}
+      />
     </Grid>
   );
 };
