@@ -208,9 +208,10 @@ const UserDashboard: React.FC = React.memo(() => {
           </Typography>
           <Grid size={{ xs: 12 }} className="dashboard-left-profile-card">
           {isLoading ? <CircularProgress /> :
-          userCompletedEvents?.data?
+           userCompletedEvents && Array.isArray(userCompletedEvents?.data) && userCompletedEvents?.data.length ?
             <DashboardEventCards event={userCompletedEvents?.data && userCompletedEvents?.data[0]} />
-            :  <NoDataCard/>
+            :  
+            <NoDataCard/>
           }
           </Grid>
         </Grid>
@@ -219,7 +220,7 @@ const UserDashboard: React.FC = React.memo(() => {
 
       {/* Right Column */}
       <Grid size={{ xs: 12, md: 4 }} className="dashboard-right" >
-        <Grid container>
+        <Grid container className="dashboard-right-calendar" >
             {isLoading ? <CircularProgress /> :
             userEvents && Array.isArray(userEvents['event/list']?.data) && userEvents['event/list']?.data.length > 0 ? 
               <CalendarCard data={userEvents} />
