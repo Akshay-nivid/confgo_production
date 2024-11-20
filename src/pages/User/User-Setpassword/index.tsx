@@ -53,6 +53,12 @@ const UserSetPassword = () => {
       }
       return response;
     }catch(error){
+        setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "error",
+          message: "",
+        });
       Logger.error('User Set Password Error',error)
     }
  
