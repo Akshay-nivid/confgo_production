@@ -263,7 +263,7 @@ const UserOtp = () => {
                 initialTime={15}
                 isResendDisabled={isResendDisabled}
                 setIsResendDisabled={setIsResendDisabled}
-                className="resend-timer"
+                className="resend-otp"
               />{!isResendDisabled && (
                <Typography className=""></Typography>  
               )}
