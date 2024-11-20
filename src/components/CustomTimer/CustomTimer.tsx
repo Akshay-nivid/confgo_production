@@ -6,7 +6,9 @@ interface ResendOtpTimerProps {
     setIsResendDisabled: React.Dispatch<React.SetStateAction<boolean>>;
     className?: string;
 }
-
+/**
+ * Custom Timer component used for countdown functionality
+ */
 const CustomTimer: React.FC<ResendOtpTimerProps> = ({
     initialTime,
     isResendDisabled,
@@ -19,16 +21,9 @@ const CustomTimer: React.FC<ResendOtpTimerProps> = ({
      */
     useEffect(() => {
         if (!isResendDisabled) return;
-
-        /**
-         *  // Initialize the timer to the initial time when the component is mounted
-         */
         setTimer(initialTime);
         const interval = setInterval(() => {
             setTimer((prev) => {
-                /**.
-                 * Set up an interval to decrease the timer every second
-                 */
                 if (prev <= 1) {
                     clearInterval(interval);
                     setIsResendDisabled(false);

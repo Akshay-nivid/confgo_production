@@ -19,7 +19,6 @@ interface IFormData {
 }
 /**
  * User Otp page component
- *
  */
 const UserOtp = () => {
 
@@ -262,7 +261,6 @@ const UserOtp = () => {
           <Typography className="resend-text">
               Didn't receive the OTP?
               <Typography onClick={handleResendOtp} className={isResendDisabled ? "resend-otp-disabled" : "resend-otp"} >Resend Otp</Typography>
-              {/* Custom component for set Timer */}
               <CustomTimer
                 initialTime={15}
                 isResendDisabled={isResendDisabled}
