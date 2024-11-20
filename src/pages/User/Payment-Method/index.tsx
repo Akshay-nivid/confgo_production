@@ -27,9 +27,10 @@ import PayPalParticipantButton from "./PaypalPartcipantComponent";
  */
 
 const PaymentMethod = () => {
-  const [expanded, setExpanded] = useState<string | false>("");
+  const [expanded, setExpanded] = useState<string | false>("panel1");
   const paymentDetails = useStore((state: any) => state?.compData?.["addToCart"])
 
+  console.log('paymentDetails',paymentDetails)
 
   const handleChange =
     (panel: string) => (_: React.SyntheticEvent, isExpanded: boolean) => {
@@ -49,13 +50,13 @@ const PaymentMethod = () => {
               <Typography className="info-text">Programs Total</Typography>
               <Typography className="info-text">{paymentDetails.cart.data.finalPrice }</Typography>
             </Box>
-            <Box className="payment-bill-item">
+            {/* <Box className="payment-bill-item">
               <Typography className="info-text">Food Total</Typography>
               <Typography className="info-text">$100</Typography>
-            </Box>
+            </Box> */}
           </Box>
-          <Box className="divider"></Box>
-          <Box className="payment-bill-details">
+          {/* <Box className="divider"></Box> */}
+          {/* <Box className="payment-bill-details">
             <Box className="payment-bill-item">
               <Typography className="info-text">Subtotal</Typography>
               <Typography className="info-text">$720</Typography>
@@ -64,7 +65,7 @@ const PaymentMethod = () => {
               <Typography className="info-text">Coupon Code Applied</Typography>
               <Typography className="info-text">$100</Typography>
             </Box>
-          </Box>
+          </Box> */}
           <Box className="divider"></Box>
           <Box className="payment-grand-total-container">
             <Typography className="grand-total-info-text">
@@ -256,7 +257,7 @@ const PaymentMethod = () => {
         </Box>
       </Grid>
       <Grid className="payment-method-buttons-container" size={12}>
-        <CustomButton label="Pay $300" className="pay-button" />
+        {/* <CustomButton label={`pay $${paymentDetails.car}`} className="pay-button" /> */}
         <CustomButton
           startIcon={<ArrowLeftIcon />}
           label="Back"
