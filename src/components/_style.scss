@@ -695,14 +695,12 @@
 }
 
 .no-record {
-  justify-content: center !important;
   display: flex;
   &-container {
       width: '100%';
       background-color: $clr_white;
       margin: 1rem;
       border-radius: 0.9rem;
-      justify-content: center !important;
   }
   &-image{
     margin-top: 10rem !important;
