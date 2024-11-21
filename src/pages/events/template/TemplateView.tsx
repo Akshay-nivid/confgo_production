@@ -15,7 +15,7 @@ import TicketingSection from './TicketingSection';
 type TemplateViewProps = {
   temp: number | undefined;
   eventId: string | undefined;
-  slug: string | undefined; 
+  slug: string | undefined;
 }
 
 const TemplateView: React.FC<TemplateViewProps> = React.memo(({ temp, eventId, slug }) => {
@@ -29,13 +29,13 @@ const TemplateView: React.FC<TemplateViewProps> = React.memo(({ temp, eventId, s
   * Useeffect hook handles the api call for fetching event details
   */
   useEffect(() => {
-    if(eventId){
+    if (eventId) {
       fetchEventDetails();
     }
-    else if(slug){
+    else if (slug) {
       fetchEventDetailsFromSlug()
     }
-    
+
   }, [])
 
   useEffect(() => () => {
@@ -61,31 +61,31 @@ const TemplateView: React.FC<TemplateViewProps> = React.memo(({ temp, eventId, s
     }
   }
 
-    /**
+  /**
 * Method fetch the event details from slug
 */
-const fetchEventDetailsFromSlug = async () => {
-  try {
-    await GET({
-      url: `event/slug/${slug}`,
-      id: 'slugEventDetails',
-      errorCB: (context: any) => {
-        Logger.error('TemplateView.tsx', context?.message);
-      }
-    });
-  } catch (error) {
-    Logger.error('TemplateView.tsx', error);
+  const fetchEventDetailsFromSlug = async () => {
+    try {
+      await GET({
+        url: `event/slug/${slug}`,
+        id: 'slugEventDetails',
+        errorCB: (context: any) => {
+          Logger.error('TemplateView.tsx', context?.message);
+        }
+      });
+    } catch (error) {
+      Logger.error('TemplateView.tsx', error);
 
+    }
   }
-}
-
+  const updatedTemp = slug ? slugInfo?.data?.templateId ? slugInfo.data.templateId : temp : temp;
   return <Grid container size={{ xs: 12, sm: 12 }} className="event-template">
-    {(dataInfo?.data || slugInfo?.data) && <><HeaderSection temp={temp} data={dataInfo?.data || slugInfo?.data} />
-      <AboutSection temp={temp} data={dataInfo?.data || slugInfo?.data} />
-      <EventContributorsSection temp={temp} data={dataInfo?.data?.eventProgramSchedules || slugInfo?.data?.eventProgramSchedules} />
-      <ProgramSection temp={temp} data={dataInfo?.data || slugInfo?.data} />
-      <TicketingSection temp={temp} data={dataInfo?.data || slugInfo?.data} />
-      <FooterSection temp={temp} data={dataInfo?.data || slugInfo?.data} /></>}
+    {(dataInfo?.data || slugInfo?.data) && <><HeaderSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} />
+      <AboutSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} />
+      <EventContributorsSection temp={updatedTemp} data={dataInfo?.data?.eventProgramSchedules || slugInfo?.data?.eventProgramSchedules} />
+      <ProgramSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} />
+      <TicketingSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} />
+      <FooterSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} /></>}
   </Grid>
 });
 

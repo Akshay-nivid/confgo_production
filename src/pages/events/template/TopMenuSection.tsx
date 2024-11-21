@@ -30,7 +30,7 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ temp }) => {
             <Grid container spacing={2}>
                 <Grid className={`${classPrefix}-login-button`}><Link to={'/user/login'}> Login </Link></Grid>
                 <Grid className={`${classPrefix}-button-border`}></Grid>
-                <Grid className={`${classPrefix}-book-button`}><CustomButton label='Book Now' onClick={() => navigate('/participant/home')}/></Grid>
+                <Grid className={`${classPrefix}-book-button`}><CustomButton label='Signup' onClick={() => navigate('/user/register')}/></Grid>
             </Grid>
         </Grid>
     </Grid>
