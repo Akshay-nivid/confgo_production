@@ -95,7 +95,7 @@ const Dashboard = () => {
         body: {
           filters: {
             published: 1,
-            startTime: moment(new Date()).format('YYYY-MM-DD'),
+            startTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
           },
           sortDirection: "asc",
           sortBy: "startTime",

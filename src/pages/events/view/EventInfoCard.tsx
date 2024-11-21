@@ -125,6 +125,21 @@ const EventInfoCard: React.FC<any> = React.memo(
     { value: "OFFLINE", label: "Offline" },
     { value: "HYBRID", label: "Hybrid" },
   ];
+  /**
+   * method to handle event info edit
+   */
+  const eventEdit=()=>{
+    if(eventData?.published){
+      setDataById("snackBarInfo", {
+        open: true,
+        autoHideDuration: 2000,
+        severity: "error",
+        message: "Event is Already Published !",
+      });
+    }else{
+      openDrawer()
+    }
+  }
 
   return (
     <Grid container className="event-detail-event-info-card" spacing={2}>
@@ -143,7 +158,7 @@ const EventInfoCard: React.FC<any> = React.memo(
           </Typography>
         </Grid>
         <Grid>
-          <IconButton onClick={openDrawer} className="event-detail-event-info-card-edit-btn">
+          <IconButton onClick={eventEdit} className="event-detail-event-info-card-edit-btn">
             <EditIcon />
           </IconButton>
         </Grid>
@@ -184,26 +199,26 @@ const EventInfoCard: React.FC<any> = React.memo(
 
         <Grid size={{ xs: 3 }}>
           <Typography className="event-information-subtitle">
-             Start Date & Time
+             Start Date
           </Typography>
         </Grid>
         <Grid size={{ xs: 9 }}>
           <Typography className="event-information-content">
             {moment(eventData?.startTime).format(
-              "MMM D, YYYY hh:mm a"
+              "MMM D, YYYY"
             )}
           </Typography>
         </Grid>
 
         <Grid size={{ xs: 3 }}>
           <Typography className="event-information-subtitle">
-             End Date & Time
+             End Date
           </Typography>
         </Grid>
         <Grid size={{ xs: 9 }}>
           <Typography className="event-information-content">
             {moment(eventData?.endTime).format(
-              "MMM D, YYYY hh:mm a"
+              "MMM D, YYYY"
             )}
           </Typography>
         </Grid>
