@@ -28,6 +28,8 @@ import ShareIcon from "@/assets/svg/share.svg";
 import config from '../../../../config.json';
 import ShareInvitationDrawer from "./ShareInvitationDrawer";
 import PriceTierList from "./PriceTierList";
+import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
+import { PublishTickIcon, WarningIcon } from "@/assets/svg";
 
 
 
@@ -94,6 +96,7 @@ const ViewEventDetail = () => {
   const [eventFullData,setEventFullData]=useState<Addon>();
   const [link, setLink] = useState('');
   const [errorMessage, setErrorMessage] = useState('')
+  const [openModal,setOpenModal]=useState(false);
 
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	// Functions to open and close the drawer.
@@ -175,7 +178,12 @@ const ViewEventDetail = () => {
       setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message });
     }
   }
-
+  /**
+   * Mehod handles the publish/unpublish using the modal
+   */
+  const handlePublishUnPublish = () => {
+    setOpenModal(!openModal);
+  }
   /**
    * Mehod handles the publish/unpublish of the event
    */
@@ -193,6 +201,7 @@ const ViewEventDetail = () => {
       setErrorMessage('')
       getEventDetails();
       published && handleLinkGenerationApiCall();
+      setOpenModal(false);
     }
     else {
       setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message });
@@ -251,7 +260,6 @@ const ViewEventDetail = () => {
   const handleSubmitHandler = () => {
     getEventDetails();
   }
-
   return <Grid >
     <Grid container
       className="event-detail-card" >
@@ -312,7 +320,7 @@ const ViewEventDetail = () => {
             </Grid>}
               </Grid>
               <Grid>
-                <CustomButton className={eventFullData?.published?"event-detail-event-info-card-unpublish-btn": "event-detail-event-info-card-publish-btn"} startIcon={eventFullData?.published?<UnpublishIcon/>:<PublishIcon />} label={eventFullData?.published? "Unpublish Event": "Publish Event"} onClick={() => handlePublish(eventFullData?.published)}/>
+                <CustomButton className={eventFullData?.published?"event-detail-event-info-card-unpublish-btn": "event-detail-event-info-card-publish-btn"} startIcon={eventFullData?.published?<UnpublishIcon/>:<PublishIcon />} label={eventFullData?.published? "Unpublish Event": "Publish Event"} onClick={() =>{ handlePublishUnPublish()}}/>
               </Grid>
             </Grid>
           </Grid>
@@ -365,6 +373,29 @@ const ViewEventDetail = () => {
         eventData={eventFullData}
 		eventURL={watch('event')}
     />
+    {eventFullData?.published ? <CustomActionModal
+      icon={<WarningIcon className="unpublish-modal-icon" />}
+      open={openModal}
+      onClose={() => setOpenModal(false)}
+      cancelLabel="Cancel"
+      cancelAction={() => setOpenModal(false)}
+      header="Unpublish Event?"
+      subHeader="Are you sure you want to unpublish this event? It will no longer be visible to attendees."
+      submitAction={() => handlePublish(eventFullData?.published)}
+      submitLabel="Unpublish"
+      modalClassName="unpublish-modal"
+    /> : <CustomActionModal
+      open={openModal}
+      icon={<PublishTickIcon className="publish-modal-icon"/>}
+      onClose={() => setOpenModal(false)}
+      cancelLabel="Cancel"
+      cancelAction={() => setOpenModal(false)}
+      header="Ready to Publish?"
+      subHeader="Are you sure you want to publish this event? Once published, it will be visible to attendees."
+      submitAction={() => handlePublish(eventFullData?.published)}
+      submitLabel="Publish"
+      modalClassName="publish-modal"
+    />}
   </Grid>
 
 }
