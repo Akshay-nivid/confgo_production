@@ -267,7 +267,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
         fields={[
           {
             label: "Description",
-            field: item.addon ? "addon.description" : "description",
+            field: "description",
           },
           {
             label: "Price",

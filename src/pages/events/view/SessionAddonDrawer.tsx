@@ -60,7 +60,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
       isPaid: isEditing && selectedAddOn?.amount > 0 ? "PAID" : "FREE",
       startTime: selectedAddOn ? selectedAddOn.startTime : "",
       endTime: selectedAddOn ? selectedAddOn.endTime : "",
-      description: selectedAddOn ? selectedAddOn?.addon?.description : "",
+      description: selectedAddOn ? selectedAddOn?.description : "",
       amount: selectedAddOn ? selectedAddOn.amount : "",
     },
   });
@@ -116,9 +116,8 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
    */
   useEffect(() => {
     if (isEditing && selectedAddOn) {
-      // setValue("name", selectedAddOn?.addon?.name);
       setSelectedAddOnId(selectedAddOn?.addon?.id);
-      setValue("description", selectedAddOn?.addon?.description);
+      setValue("description", selectedAddOn?.description);
       setValue("addonDate", moment(selectedAddOn?.startTime).format("YYYY-MM-DD"));
       setValue("startTime", moment(selectedAddOn?.startTime).format("HH:mm"));
       setValue("endTime", moment(selectedAddOn?.endTime).format("HH:mm"));
