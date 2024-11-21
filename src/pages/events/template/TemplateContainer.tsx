@@ -7,17 +7,18 @@ import TemplateView from './TemplateView';
 import { useParams } from 'react-router-dom';
 
 type TemplateContainerProps = {
-    id?: string;
+    id?: number;
 }
 
 const TemplateContainer: React.FC<TemplateContainerProps> = React.memo(({ }) => {
 
-    const { id, entityId } = useParams();
+    const { id, entityId, slug } = useParams();
+
 
 
     return <Grid container size={{ xs: 12, sm: 12 }} className="event-template" spacing={1}>
         <Grid container size={{ xs: 12, sm: 12 }} spacing={1}>
-            <TemplateView temp={id} eventId={entityId} />
+            <TemplateView temp={typeof id === 'number' ? id : Number(id) || 1} eventId={entityId} slug={slug}/>
         </Grid>
     </Grid>
 });

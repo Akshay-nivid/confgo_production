@@ -8,7 +8,7 @@ import config from '../../../../config.json';
 
 type EventContributorsSectionProps = {
     data?: any;
-    temp: string | undefined;
+    temp: number | undefined;
 }
 
 const EventContributorsSection: React.FC<EventContributorsSectionProps> = React.memo(({ data, temp }) => {

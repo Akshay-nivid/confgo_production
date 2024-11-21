@@ -1,7 +1,7 @@
 .event-template{
     background-color: $clr_white;
     &-top-menu{
-        &-temp1{
+        &-1{
                 &-container{
                     background-color: $clr_charcoal_cyan;
                     padding: 1rem;
@@ -40,7 +40,7 @@
                 }   
             }
         }
-        &-temp2{
+        &-2{
             height: 5rem;
             &-container{
                 //background-color: $clr_charcoal_cyan;
@@ -84,7 +84,7 @@
     }
     &-header{
 
-        &-temp1{
+        &-1{
             background: url("../assets/png/template1-header.png") no-repeat center;
             background-size: cover;
             background-repeat: no-repeat;
@@ -97,7 +97,7 @@
             }
         }
 
-        &-temp2{
+        &-2{
             background: url("../assets/png/template2-header.png") no-repeat center;
             background-size: cover;
             background-repeat: no-repeat;
@@ -111,7 +111,7 @@
         
     }
     &-title{
-        &-temp1{
+        &-1{
             padding: 1rem 1rem 1rem 5rem;
             &-title1,&-title2{
                 font-size: $h2 !important;
@@ -130,7 +130,7 @@
                 margin-top: 1rem !important;
             }
         }
-        &-temp2{
+        &-2{
             padding: 10rem 1rem 1rem 5rem;
             &-title1,&-title2{
                 font-size: $h2 !important;
@@ -151,7 +151,7 @@
         }
     }
     &-details{
-        &-temp1{
+        &-1{
             background-color: $clr_white;
             &-container{
                 padding: 0 6rem 0 6rem;
@@ -178,7 +178,7 @@
             }
         }
 
-        &-temp2{
+        &-2{
             //background-color: $clr_white;
             margin-top: 18rem;
             &-container{
@@ -208,7 +208,7 @@
 
 
     &-about{
-        &-temp1{
+        &-1{
             padding: 3rem 6rem 3rem 6rem;
             &-title{
                 font-size: $h2;
@@ -223,7 +223,7 @@
                 font-weight: $font_medium;
             }
         }
-        &-temp2{
+        &-2{
             padding: 3rem 6rem 3rem 6rem;
             &-title{
                 font-size: $h2;
@@ -269,7 +269,7 @@
         // }
     }
     &-event-contributors{
-        &-temp1{
+        &-1{
             background-color: $clr_charcoal_cyan;
             padding: 2rem;
 
@@ -306,7 +306,7 @@
                 }
             }
         }
-        &-temp2{
+        &-2{
             background-color: $clr_dark_charcoal_gray;
             padding: 2rem;
 
@@ -347,7 +347,7 @@
 
 
     &-program{
-        &-temp1{
+        &-1{
             padding: 3rem 6rem 3rem 6rem;
             &-title{
                 font-size: $h2;
@@ -398,7 +398,7 @@
                 }
             }
         }
-        &-temp2{
+        &-2{
             padding: 3rem 6rem 3rem 6rem;
             &-title{
                 font-size: $h2;
@@ -451,8 +451,20 @@
         }
     }
 
+    &-ticketing{
+        &-1{
+            &-title{
+                font-size: $h2;
+                font-weight: $font_semibold;
+            }
+        }
+        &-2{
+
+        }
+    }
+
     &-footer{
-        &-temp1{
+        &-1{
             background-color: $clr_medium_black;
             height: 18rem;
             color: $clr_white;
@@ -472,7 +484,7 @@
 
         }
 
-        &-temp2{
+        &-2{
             background-color: $clr_medium_black;
             height: 18rem;
             color: $clr_white;
