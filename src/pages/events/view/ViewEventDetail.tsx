@@ -368,7 +368,7 @@ const ViewEventDetail = () => {
       open={openModal}
       onClose={() => setOpenModal(false)}
       cancelLabel="Cancel"
-      cancelAction={() => console.log('cancel')}
+      cancelAction={() => setOpenModal(false)}
       header="Unpublish Event?"
       subHeader="Are you sure you want to unpublish this event? It will no longer be visible to attendees."
       submitAction={() => handlePublish(eventFullData?.published)}
@@ -381,7 +381,7 @@ const ViewEventDetail = () => {
       icon={<PublishTickIcon className="event-detail-publish-modal-icon"/>}
       onClose={() => setOpenModal(false)}
       cancelLabel="Cancel"
-      cancelAction={() => console.log('cancel')}
+      cancelAction={() => setOpenModal(false)}
       header="Ready to Publish?"
       subHeader="Are you sure you want to publish this event? Once published, it will be visible to attendees."
       submitAction={() => handlePublish(eventFullData?.published)}

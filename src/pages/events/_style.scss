@@ -485,51 +485,26 @@
         font-size: $h6;
         font-weight: $font_normal;
     }
-        &-publish-modal {
-            margin-bottom: 1rem;
-            width: 26.25rem;
-            padding: 1rem;
-    
-            &-icon {
+        &-publish-modal {   
+            &-icon{
                 width: 3rem !important;
                 height: 3rem !important;
-            }
-    
-            &-header {
-                font-weight: $font_bold !important;
-                font-size: $h5 !important;
-            }
-    
-            &-sub-header {
-                font-weight: $font_medium !important;
-                font-size: $p3 !important;
-                text-align: center !important;
-            }
-    
+            } 
             &-cancel-btn {
                 background-color: $clr_light_grey !important;
                 color: $clr_gray_dark_text !important;
-                width: 8.75rem;
-                text-transform: none !important;
-    
-    
             }
     
             &-ok-btn-red {
                 background-color: $clr_medium_red !important;
                 color: $clr_white !important;
                 margin-left: 1rem !important;
-                width: 8.75rem;
-                text-transform: none !important;
-    
             }
     
             &-ok-btn-green {
                 background-color: $clr_green !important;
                 color: $clr_white !important;
                 margin-left: 1rem !important;
-                width: 8.75rem;
-                text-transform: none !important;
             }
         }
 } 

@@ -3,11 +3,12 @@ import Grid from "@mui/material/Grid2";
 import { Dialog, DialogActions, IconButton, Typography } from "@mui/material";
 import CustomButton from '../CustomButton/CustomButton';
 import CloseIcon from '@mui/icons-material/Close';
+import clsx from 'clsx';
 
 interface CustomActionModalProps {
     icon?: React.ReactNode;
-    header: string;
-    subHeader: string;
+    header?: string;
+    subHeader?: string;
     submitBtnClassName?: string;
     cancelBtnClassName?: string;
     submitAction: () => void;
@@ -17,6 +18,8 @@ interface CustomActionModalProps {
     cancelLabel: string;
     submitLabel: string;
     modalClassName?: string;
+    headerClassName?:string;
+    subHeaderClassName?:string;
 
 }
 /**
@@ -34,11 +37,13 @@ const CustomActionModal: React.FC<CustomActionModalProps> = ({
     submitLabel,
     open,
     onClose,
-    modalClassName
+    modalClassName,
+    headerClassName,
+    subHeaderClassName
 }) => {
     return (
         <Dialog open={open} onClose={onClose}>
-            <Grid container spacing={1} direction="column" alignItems="center" className={modalClassName}>
+            <Grid container spacing={1} direction="column" alignItems="center" className={clsx("action-modal",modalClassName)}>
                 <Grid size={12} container justifyContent={"flex-end"} alignContent={"flex-end"}>
                     <IconButton onClick={onClose}>
                         <CloseIcon />
@@ -50,22 +55,22 @@ const CustomActionModal: React.FC<CustomActionModalProps> = ({
                 </Grid>
                 {/* Header Section */}
                 <Grid justifyContent={"center"} alignContent={"center"}>
-                    <Typography className='event-detail-publish-modal-header' >{header}</Typography>
+                    <Typography className={clsx('action-modal-header',headerClassName)} >{header}</Typography>
                 </Grid >
                 {/* Subheader Section */}
                 <Grid container justifyContent={"center"} alignContent={"center"}>
-                    <Typography className='event-detail-publish-modal-sub-header'>{subHeader}</Typography>
+                    <Typography className={clsx('action-modal-sub-header',subHeaderClassName)}>{subHeader}</Typography>
                 </Grid>
                 {/* Button Section */}
                 <DialogActions>
                     <CustomButton
                         label={cancelLabel}
-                        className={cancelBtnClassName}
+                        className={clsx("action-modal-btn",cancelBtnClassName)}
                         onClick={cancelAction}
                     />
                     <CustomButton
                         label={submitLabel}
-                        className={submitBtnClassName}
+                        className={clsx('action-modal-btn',submitBtnClassName)}
                         onClick={submitAction}
                     />
                 </DialogActions>
