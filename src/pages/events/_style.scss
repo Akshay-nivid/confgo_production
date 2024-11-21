@@ -72,6 +72,7 @@
 				border: 0.0625rem solid $clr_gray_very_light;
 				border-radius: 0.625rem;
 				max-height: 30rem;
+                overflow-y: auto;
     }
 		&-display-items{        
 			overflow-y : auto;
@@ -356,7 +357,7 @@
         }
 
         &-drawer-box{
-            min-width: 85rem;
+            max-width: 40rem;
             padding: 2rem;
             margin: 1rem;
 
@@ -822,7 +823,7 @@
 	max-width: 40rem !important;
 }
 .add-on-create{
-    width: 50rem;
+    max-width: 40rem;
     margin: 2rem;
     background-color: $clr_white;
     &-header{
@@ -836,6 +837,106 @@
     &-btn{
         background-color: $clr_green !important;
         
+    }
+
+}
+
+.pricing-table{
+    &-table-container-root{
+        border-radius: 1rem;
+        overflow: hidden;
+        border: .0625rem;
+        margin-top: 2rem;
+        border-color: $clr_gray_very_light;
+    }
+    &-table{
+        width: 100% !important;
+        border-collapse: collapse !important;
+        .MuiTableCell-root {
+            padding: 0.75rem;
+            text-align: center;
+            font-size: 0.95rem;
+            color: $clr_dark_brown;
+            border: .0625rem solid $clr_light_white; // Adds border to each cell for clear column separation
+          }
+    }
+    &-table-header{
+        background-color: $clr_white;
+        color: $clr_slate_gray_blue !important;
+        text-align: center !important;
+        font-weight: 500 !important;
+        font-size: $h6 !important;
+        
+    }
+
+    &-table-input-text{
+        input {
+            font-size: $h6;
+            padding: 0.25rem 0;
+            font-weight: 600;
+            text-align: center;
+          }
+      
+          .MuiOutlinedInput-notchedOutline {
+            border: none; // Removes the border from the input field
+          }
+      
+          .MuiInputBase-root {
+            &:hover .MuiOutlinedInput-notchedOutline {
+              border: none;
+            }
+            &.Mui-focused .MuiOutlinedInput-notchedOutline {
+              border: none;
+            }
+          }
+        
+    }
+
+   
+}
+
+.registration-fee-list{
+    &-heading{
+        font-weight: 600 !important;
+        font-size: $h5 !important;
+        padding: $h6 !important;
+    }
+    &-sub-heading{
+        font-weight: 600 !important;
+        font-size: $p5 !important;
+    }
+
+    &-grid-style{
+        border-bottom: .025rem solid ;
+    }
+
+    &-sub-title{
+        font-weight: 600 !important;
+        font-size: $h5 !important; 
+    }
+
+    &-chip{
+        border: .0625rem !important;
+        border-radius: $h1 !important;
+        gap: $p3 !important;
+        padding-left: $h6 !important;
+        padding-right: $h6 !important;
+        background-color: $clr_green_light !important;
+        border: solid .0625rem $clr_green  !important;
+        color:$clr_black;
+        font-size: $h6 !important;
+        font-weight: 500 !important;
+
+    }
+    &-circle-add-icon{
+        border-radius: $h4 !important;
+        height: $h1 !important;
+        width: $h1 !important;
+    }
+    &-custom-drawer-header{
+        border-bottom: .0312rem solid $clr_gray_light;
+        justify-content: space-between;
+        align-items: center;
     }
 
 }

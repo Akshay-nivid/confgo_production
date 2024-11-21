@@ -83,6 +83,11 @@ const SelectedPrograms = () => {
    */
 
   function handleClickNextButton() {
+    const token = sessionStorage.getItem("token")
+    if (!token) {
+      navigate(routes.userLogin())
+      setDataById('previousRoute', routes.selectedPrograms())
+    }
     navigate(routes.userPaymentMethod())
   }
 

@@ -159,7 +159,6 @@ const UserDashboard: React.FC = React.memo(() => {
   function getPreviousDay(date: any) {
     return moment(date).subtract(1, 'days').format('YYYY-MM-DD');
   }
-
   return (
     <Grid container size={12} className="dashboard" >
       {/* left */}
@@ -209,9 +208,10 @@ const UserDashboard: React.FC = React.memo(() => {
           </Typography>
           <Grid size={{ xs: 12 }} className="dashboard-left-profile-card">
           {isLoading ? <CircularProgress /> :
-          userCompletedEvents?.data?
+           userCompletedEvents && Array.isArray(userCompletedEvents?.data) && userCompletedEvents?.data.length ?
             <DashboardEventCards event={userCompletedEvents?.data && userCompletedEvents?.data[0]} />
-            :  <NoDataCard/>
+            :  
+            <NoDataCard/>
           }
           </Grid>
         </Grid>
@@ -220,14 +220,13 @@ const UserDashboard: React.FC = React.memo(() => {
 
       {/* Right Column */}
       <Grid size={{ xs: 12, md: 4 }} className="dashboard-right" >
-        <Grid container >
-          <Grid>
+        <Grid container className="dashboard-right-calendar" >
             {isLoading ? <CircularProgress /> :
-            userEvents?
+            userEvents && Array.isArray(userEvents['event/list']?.data) && userEvents['event/list']?.data.length > 0 ? 
               <CalendarCard data={userEvents} />
               :<NoCalenderData/>
             }
-          </Grid>
+         
         </Grid>
         <Grid className="dashboard-right-events">
           {/* title */}
@@ -235,7 +234,7 @@ const UserDashboard: React.FC = React.memo(() => {
             Recent Activities
           </Typography>
 
-          <Grid container >
+          <Grid  >
            <Box>
             <Grid size={12} mt={1} className="dashboard-left-profile-card-recent" onClick={() => navigate('/user/payment-history')}>
               <CalendarEventIcon fontSize={20} /> View Payment History

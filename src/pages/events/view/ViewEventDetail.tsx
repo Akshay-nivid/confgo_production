@@ -27,6 +27,7 @@ import CopyIcon from "@/assets/svg/copy-clipboard.svg";
 import ShareIcon from "@/assets/svg/share.svg";
 import config from '../../../../config.json';
 import ShareInvitationDrawer from "./ShareInvitationDrawer";
+import PriceTierList from "./PriceTierList";
 
 
 
@@ -247,7 +248,7 @@ const ViewEventDetail = () => {
       className="event-detail-card" >
       <Grid size={{ xs: 12, sm: 12 }} flexDirection={"column"} >
         <Grid className="event-detail-header" size={{ xs: 12, sm: 12 }} >
-          <Grid container justifyContent={'space-between'}>
+          <Grid container justifyContent={'space-between'} alignItems={"center"}>
             <Grid container>
               <Grid >
                 <Typography variant="h4" className="event-detail-header-title">{eventFullData?.name}</Typography>
@@ -318,6 +319,7 @@ const ViewEventDetail = () => {
               <Tab label="Users" className="event-detail-tab-layout-item" value="5" />
               <Tab label="Template" className="event-detail-tab-layout-item" value="6" />
               <Tab label="Custom Fields" className="event-detail-tab-layout-item" value="7" />
+              <Tab label='Settings' className="event-detail-tab-layout-item" value="8"/>
             </TabList>
           </Grid>
           <TabPanel value="1">
@@ -340,6 +342,9 @@ const ViewEventDetail = () => {
           </TabPanel>
           <TabPanel value="7">
             <FormBuilder />
+          </TabPanel>
+          <TabPanel value="8">
+            <PriceTierList />
           </TabPanel>
         </TabContext>
       </Grid>
