@@ -54,12 +54,20 @@ const DashboardEventCards: React.FC<DashboardEventCardProps> = React.memo(({ eve
             </Grid>
             <Grid size={12} mt={2} className="dashboard-left-profile-card-block">
 
-                <Grid size={8} className="dashboard-left-profile-card-block-date">
+                <Grid size={4} className="dashboard-left-profile-card-block-date">
                     <Typography className="dashboard-left-profile-card-block-title">
-                        Date
+                        Start Date
                     </Typography>
                     <Typography className="dashboard-left-profile-card-block-content">
-                        {moment(event?.startTime).format('MMMM D, YYYY')} - {moment(event?.endTime).format('MMMM D, YYYY')}
+                        {moment(event?.startTime).format('MMMM D, YYYY HH:MM')}
+                    </Typography>
+                </Grid>
+                <Grid size={4} className="dashboard-left-profile-card-block-date">
+                    <Typography className="dashboard-left-profile-card-block-title">
+                        End Date
+                    </Typography>
+                    <Typography className="dashboard-left-profile-card-block-content">
+                        {moment(event?.endTime).format('MMMM D, YYYY HH:MM')}
                     </Typography>
                 </Grid>
                 <Grid size={4}>
