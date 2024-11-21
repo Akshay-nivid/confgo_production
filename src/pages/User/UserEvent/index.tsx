@@ -190,7 +190,7 @@ const MyEventScreen: React.FC = () => {
         <Grid size={{ xs: 6 }} alignContent={"center"} container>
           <Typography className="my-event-header">My Events</Typography>
         </Grid>
-        <Grid size={{ xs: 6 }}>
+        <Grid size={{ xs: 5 }} className="autocomplete-border">
           <CustomAutocomplete
             name="search"
             className="custom-search-text-field"
@@ -199,12 +199,13 @@ const MyEventScreen: React.FC = () => {
             getOptionLabel={(option: any) => option.name || ""}
             onSearch={handleSearch}
             loading={loading}
+            placeholder="Search"
             onChange={handleAutocompleteChange}
           />
         </Grid>
       </Grid>
       {
-        events == undefined ? (
+        events?.data?.length === 0  ? (
           <Grid container size={12} justifyContent={"center"}>
           <Grid  container justifyContent={"center"}  className="no-event" >
           <Grid>
@@ -219,7 +220,7 @@ const MyEventScreen: React.FC = () => {
         ) : (
           <Grid container size={12} spacing={2}>
             {events.data && events.data.map((event: Program, index:number) => (
-              <Grid size={{ xs: 12, sm: 4, md: 4 }} key={index}>
+              <Grid size={{ xs: 12, sm: 3, md: 4 }} key={index}>
                 <EventCard
                   eventFullData={event}
                   Eventstatus={true}
