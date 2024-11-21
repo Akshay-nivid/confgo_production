@@ -258,7 +258,7 @@
         font-weight: $font_semibold !important;
       }
       &-accounttitle {
-        margin-top: 2rem !important;
+        margin-top: 1rem !important;
         display: block;
         font-size: $h6 !important;
         font-weight: $font_semibold !important;
@@ -275,7 +275,7 @@
       &-card{
        
         justify-content: center;
-        height: 15rem;
+        height: 15.5rem;
         border-radius: 0.8rem;
         border: 0.02rem solid $clr_light_border_grey;
         &-container{
@@ -349,7 +349,7 @@
   }
 
   &-card {
-    text-align: center;
+    text-align: left;
     background: $clr_white !important;
     width: 15rem;
     height: 13.3rem;
