@@ -216,7 +216,8 @@ const Events = () => {
       startTime: event?.startTime,
       endTime: event?.endTime,
       statusId,
-      amount: event?.amount || 0
+      amount: event?.amount || 0,
+      eventClass: event?.type
     };
 
     // Handle URL and Venue logic
