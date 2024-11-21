@@ -152,7 +152,7 @@ interface AccountSettingProps {
               Last Name
             </Typography>
             <Typography variant="body1" className="account-user-detail2">
-              {profileData?.lastName || "N/A"}
+              {profileData?.lastName || ""}
             </Typography>
           </Grid>
 
@@ -161,7 +161,7 @@ interface AccountSettingProps {
               Email
             </Typography>
             <Typography variant="body1" className="account-user-detail2">
-              {profileData?.email || "N/A"}
+              {profileData?.email || ""}
             </Typography>
           </Grid>
 
@@ -170,7 +170,7 @@ interface AccountSettingProps {
               Phone Number
             </Typography>
             <Typography variant="body1" className="account-user-detail2">
-              {profileData?.phone || "N/A"}
+              {profileData?.phone || ""}
             </Typography>
           </Grid>
         </Grid>

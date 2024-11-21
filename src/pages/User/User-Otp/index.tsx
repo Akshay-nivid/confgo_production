@@ -14,6 +14,7 @@ import { Logger } from '@/Utils/Logger';
 import { purposeTypes } from '@/Utils/CommonBaseClass';
 import CustomTimer from '@/components/CustomTimer/CustomTimer';
 
+
 interface IFormData {
   otp: string;
 }
@@ -32,7 +33,28 @@ const UserOtp = () => {
    * State to manage the disable/enable status of the "Resend OTP" button.
    */
   const [isResendDisabled, setIsResendDisabled] = useState(true);
-  
+  /**
+   * function to fetch user Details 
+   */
+  useEffect(() => {
+    fun();
+  }, []);
+  /**
+   * get user Details
+   */
+  const fun=async()=>{
+    const body={
+      token:token,
+      userId:userId,
+      type: 'RESET_PASSWORD_OTP',
+    }
+     await POST({
+        id: 'userDetails',
+        url: 'user/details',
+        body:body,
+        errorCB: (error: any) => Logger.error("error", error)      
+      });
+  }
   /*
    * if email and phone number are not present in the state, redirect to the register page
    */
@@ -82,7 +104,7 @@ const UserOtp = () => {
         id: 'setPassword', url: 'token/validateotp',
         body: body
         , successCB: successCB,
-        errorCB: (error: any) => Logger.error("error in validate otp", error)
+        errorCB: (error: any) => Logger.error("Error in validate otp", error)
       })
     };
     /**
@@ -133,42 +155,36 @@ const UserOtp = () => {
       url: 'token/otp',
       body:setOtp,
       successCB:successCB,
-      errorCB: (error: any) => Logger.error("error", error)
+      errorCB: (error: any) =>{Logger.error("error", error);
+        setDataById('snackBarInfo',
+          { open: true, autoHideDuration: 2000, severity: 'success',
+            message: "Something went wrong. Try again."})}
     });
     function successCB(success:any){
       setDataById("resendOtp",{token: success?.data?.token});
     }
   }
   if(purpose===purposeTypes.RESET_PASSWORD){
-    const body={
-      token:token,
-      userId:userId,
-      type: 'RESET_PASSWORD_OTP',
-    }
-     await POST({
-        id: 'userDetails',
-        url: 'user/details',
-        body:body,
-        successCB:successCB,
-        errorCB: (error: any) => Logger.error("error", error)
-      });
-      function  successCB (_context: any) {
+       if(eventData){
         const  resendOtp={
         type: 'RESET_PASSWORD_OTP',
         phone: eventData?.data?.phone,
-      }
+        }
         POST({
         id: 'resendOtpToken',
         url: 'token/otp',
         body:resendOtp,
         successCB:successCB,
-        errorCB: (error: any) => Logger.error("error", error)
+        errorCB: (error: any) =>{Logger.error("error", error);
+        setDataById('snackBarInfo',
+          { open: true, autoHideDuration: 2000, severity: 'success',
+            message: "Something went wrong. Try again."})}
       });
       function successCB(success: any) {
          setDataById("resendOtp",{token: success?.data?.token});
          setDataById('snackBarInfo',
            { open: true, autoHideDuration: 2000, severity: 'success',
-             message: "Resend Otp successfully" });
+             message: "Resend OTP. Sent successfully." });
       }
       }
       }
@@ -190,7 +206,7 @@ const UserOtp = () => {
             Verify Your Account
           </Typography>
           <Typography textAlign={'center'} className="header-subtitle">
-            {`Enter the OTP sent ${email} `}
+            {`Enter the OTP sent ${eventData?.data?.phone}`}
             <br />
             {`   to complete the process.`}
           </Typography>
