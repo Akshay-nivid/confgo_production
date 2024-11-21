@@ -9,7 +9,7 @@ import ClockIcon from '@/assets/svg/template1-clock.svg';
 
 type ProgramSectionProps = {
     data?: any;
-    temp: string | undefined;
+    temp: number | undefined;
 }
 
 const ProgramSection: React.FC<ProgramSectionProps> = React.memo(({ data, temp }) => {

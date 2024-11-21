@@ -338,7 +338,7 @@ const ViewEventDetail = () => {
             <UserListCard />
           </TabPanel>
           <TabPanel value="6">
-            <TemplateCard eventData={eventFullData}/>
+            <TemplateCard eventData={eventFullData} onSubmitHandler={handleSubmitHandler}/>
           </TabPanel>
           <TabPanel value="7">
             <FormBuilder />

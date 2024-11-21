@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 
 type FooterSectionProps = {
     data?: any;
-    temp: string | undefined;
+    temp: number | undefined;
 }
 
 const FooterSection: React.FC<FooterSectionProps> = React.memo(({ temp }) => {
