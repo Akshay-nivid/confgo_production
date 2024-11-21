@@ -364,7 +364,7 @@ const ViewEventDetail = () => {
 		eventURL={watch('event')}
     />
     {eventFullData?.published ? <CustomActionModal
-      icon={<WarningIcon className="event-detail-publish-modal-icon" />}
+      icon={<WarningIcon className="event-detail-unpublish-modal-icon" />}
       open={openModal}
       onClose={() => setOpenModal(false)}
       cancelLabel="Cancel"
