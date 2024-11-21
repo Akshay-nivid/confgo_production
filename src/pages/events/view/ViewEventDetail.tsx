@@ -23,7 +23,7 @@ import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { useForm } from "react-hook-form";
 import PublishIcon from "@/assets/svg/publish.svg";
 import UnpublishIcon from "@/assets/svg/unpublish.svg";
-import CopyIcon from "@/assets/svg/copy-clipboard.svg";
+import CopyIcon from "@/assets/svg/external-link.svg";
 import ShareIcon from "@/assets/svg/share.svg";
 import config from '../../../../config.json';
 import ShareInvitationDrawer from "./ShareInvitationDrawer";
@@ -84,6 +84,7 @@ interface Addon {
   venue: Venue;
   venueId: number;
   published: boolean;
+  slugName: string;
 }
 
 const ViewEventDetail = () => {
@@ -228,9 +229,9 @@ const ViewEventDetail = () => {
   }
 
   /**
-   * Method handles the click event for the copy to clipboard icon
+   * Method handles the copy to clipboard functionality
    */
-  const handleToggleSuffixIcon = () => {
+  const handleEventCopy = () => {
     const textToCopy = watch("event");
     if (textToCopy) {
       const subDomain = config['event-link']['sub-domain'];
@@ -243,6 +244,14 @@ const ViewEventDetail = () => {
           Logger.error("Failed to copy text: ", err);
         });
     }
+  }
+
+  /**
+   * Method handles the click event for the copy to clipboard icon
+   */
+  const handleToggleSuffixIcon = () => {
+    const url = `/event-link/${eventFullData?.slugName}`;
+    window.open(url, '_blank');
   }
 
   /**
@@ -279,8 +288,9 @@ const ViewEventDetail = () => {
                                     suffixIconButton={<CopyIcon />}
                                     handleToggleSuffixIcon={handleToggleSuffixIcon}
                                     suffixIconSecondButton={<ShareIcon />}
-									handleToggleSuffixSecondIcon={openDrawer}
+									                  handleToggleSuffixSecondIcon={openDrawer}
                                     value={link}
+                                    onClick={handleEventCopy}
                                 /></Grid>
                 </Grid>
             </Grid>:
