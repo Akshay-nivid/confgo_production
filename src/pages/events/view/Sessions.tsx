@@ -41,11 +41,31 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
    * Function used at while adding
    */
   const handleAddClick = () => {
-    setDataById('sessions', {drawerOpen:true, isEditing:false, isAddon:false, showPriceField:false})
+    if (eventData?.published) {
+      setDataById("snackBarInfo", {
+        open: true,
+        autoHideDuration: 2000,
+        severity: "error",
+        message: "Event is Already Published !",
+      });
+    } else {
+      setDataById('sessions', { drawerOpen: true, isEditing: false, isAddon: false, showPriceField: false })
+    }
   };
-
+ /**
+   * method to add new addOn
+   */
   const handleAddOnClick = () => {
-    setDataById('sessions', {drawerOpen:true, isEditing:false, isAddon:true, showPriceField:false})
+    if(eventData?.published ){
+      setDataById("snackBarInfo", {
+        open: true,
+        autoHideDuration: 2000,
+        severity: "error",
+        message: "Event is Already Published !",
+      });
+    }else{
+      setDataById('sessions', {drawerOpen:true, isEditing:false, isAddon:true, showPriceField:false})
+    }
 };
 
 
@@ -54,6 +74,15 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
    * Function used at while editing the sessions
    */
   const handleEditClick = (item: any) => {
+    if (eventData?.published) {
+      setDataById("snackBarInfo", {
+        open: true,
+        autoHideDuration: 2000,
+        severity: "error",
+        message: "Event is Already Published !",
+      });
+    }
+    else {
     const id = item.id;
     if (item.type === "program") {
       setSelectedProgram({
@@ -71,6 +100,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
       setDataById('sessions', {isEditing: true, isAddon: true})
     }
     setDataById('sessions', {drawerOpen: true})
+  }
   };
 
   /**

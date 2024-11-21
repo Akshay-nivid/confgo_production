@@ -86,10 +86,19 @@ const SpeakerCard = (_eventData: any) => {
    *function to handle open Drawer Create
    */
   const handleDrawerOpen = () => {
+    if(_eventData?.eventData?.published){
+      setDataById("snackBarInfo", {
+        open: true,
+        autoHideDuration: 2000,
+        severity: "error",
+        message: "Event is Already Published !",
+      });
+    }else{
     reset();
     setAddContributeView(true);
     setEditConrtributorValue(null);
     clearDataById("contributorFields");
+    }
   };
 
   /**
@@ -334,18 +343,36 @@ const SpeakerCard = (_eventData: any) => {
    * @param item
    */
   const handleContributorEdit = (item: EventParticipant) => {
+    if(_eventData?.eventData?.published){
+      setDataById("snackBarInfo", {
+        open: true,
+        autoHideDuration: 2000,
+        severity: "error",
+        message: "Event is Already Published !",
+      });
+    }else{
     reset();
     setDataById("contributorFields", item);
     setEditConrtributorValue(item);
     handleScreenViewChange();
+    }
   };
   /**
    * function handles delete contributor form fields
    * @param item
    */
   const handleDeleteModal = (item: EventParticipant) => {
+    if(_eventData?.eventData?.published){
+      setDataById("snackBarInfo", {
+        open: true,
+        autoHideDuration: 2000,
+        severity: "error",
+        message: "Event is Already Published !",
+      });
+    }else{
     setDataById("contributorFields", item);
     setDeleteModal(true);
+    }
   };
   /**
    * function to close the new type creation drawer
