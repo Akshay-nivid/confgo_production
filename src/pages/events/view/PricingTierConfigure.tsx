@@ -301,16 +301,16 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
    * Submition of the values
    */
   function onSubmit() {
-    const { attendeeTypes, attendees, pricingTiers } = getValues();
+    const { attendeeTypes, attendees, pricingTiers }:any = getValues();
     console.log("pricingtiers", pricingTiers);
 
 
     const payload = {
       eventId: id, // Pass the eventId directly
       priceTiers: pricingTiers
-        .filter((tier) => tier.tierName?.trim()) // Skip tiers with empty or null names
-        .flatMap((tier) =>
-          attendeeTypes.map((attendee, index) => {
+        .filter((tier:any) => tier.tierName?.trim()) // Skip tiers with empty or null names
+        .flatMap((tier:any) =>
+          attendeeTypes.map((attendee:any, index:any) => {
             const percentage =
               attendees[index]?.pricingTiers[tier.tierName]?.percentage || ""; // Fetch percentage for the tier and attendee type
             return {
@@ -336,6 +336,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
             severity: "success",
             message: "Table created",
           });
+          closeDrawer();
         },
         errorCB: () => {
           setDataById("snackBarInfo", {
@@ -358,6 +359,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
             severity: "success",
             message: "Table updated",
           });
+          closeDrawer()
         },
         errorCB: () => {
           setDataById("snackBarInfo", {
