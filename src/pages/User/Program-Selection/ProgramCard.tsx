@@ -61,6 +61,7 @@ const ProgramCard = () => {
     * Method used to call event details Api
     */
   useEffect(() => {
+
     const fetchEventDetails = async () => {
 
       if (!eventId) {
@@ -329,19 +330,18 @@ const ProgramCard = () => {
           variant="outlined"
           className="back-button"
           label="Back"
-          type="submit"
+          onClick={() => navigate(-1)}
         />
         <CustomButton className={"next-button"} label="Next" type="submit" />
-        <CustomButton
+        {/* <CustomButton
               className="next-btn"
               label="Next"
               variant="contained"
               onClick={() => {
                 clearDataById("defaultProgramData")
                 clearDataById("addToCart")
-                clearDataById("addToCart")
               }}
-            />
+            /> */}
       </Box>
     </form>
   );

@@ -88,7 +88,18 @@ const SelectedPrograms = () => {
       navigate(routes.userLogin())
       setDataById('previousRoute', routes.selectedPrograms())
     }
-    navigate(routes.userPaymentMethod())
+
+    GET({
+      url: `event/form/${eventId}`, id: "dynamicFormData", successCB: (dynamicFormResponseData: any) => {
+        console.log(dynamicFormResponseData)
+        if (dynamicFormResponseData.data.length === 0) {
+        navigate(routes.userPaymentMethod())
+        return
+      } else {
+       navigate(routes.dynamicUserForm())
+        return
+      }
+    }})
   }
 
   function onCheckboxToggle(key: string) {
@@ -331,7 +342,7 @@ const SelectedPrograms = () => {
             </Grid>}
           <Grid className="grand-total-container">
             <Typography className="total-text">Grand Total</Typography>
-            <Typography className="total-text">${couponData?.data?.total || cart?.data?.cart?.finalPrice}</Typography>
+            <Typography className="total-text">${couponData?.data?.total || addToCartResponseData?.cart?.data?.finalPrice}</Typography>
           </Grid>
 
           <Grid className="navigation-btn-group-container">

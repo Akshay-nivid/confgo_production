@@ -175,3 +175,18 @@ export const toCamelCase = (sentenceCase: any) => {
   }
   return out;
 }
+
+
+
+
+
+/**
+ * Clears the localStorage and sessionStorage, then invokes the success callback function.
+ * 
+ * @param successCB - A callback function that will be executed after clearing storage.
+ */
+export function handleLogout({onLogoutSuccess}:{onLogoutSuccess:Function}) {
+  localStorage.clear();
+  sessionStorage.clear();
+  onLogoutSuccess();
+}
