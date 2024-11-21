@@ -373,9 +373,7 @@ const ViewEventDetail = () => {
       subHeader="Are you sure you want to unpublish this event? It will no longer be visible to attendees."
       submitAction={() => handlePublish(eventFullData?.published)}
       submitLabel="Unpublish"
-      modalClassName="event-detail-publish-modal"
-      cancelBtnClassName="event-detail-publish-modal-cancel-btn"
-      submitBtnClassName="event-detail-publish-modal-ok-btn-red"
+      modalClassName="event-detail-unpublish-modal"
     /> : <CustomActionModal
       open={openModal}
       icon={<PublishTickIcon className="event-detail-publish-modal-icon"/>}
@@ -387,8 +385,6 @@ const ViewEventDetail = () => {
       submitAction={() => handlePublish(eventFullData?.published)}
       submitLabel="Publish"
       modalClassName="event-detail-publish-modal"
-      cancelBtnClassName="event-detail-publish-modal-cancel-btn"
-      submitBtnClassName="event-detail-publish-modal-ok-btn-green"
     />}
   </Grid>
 

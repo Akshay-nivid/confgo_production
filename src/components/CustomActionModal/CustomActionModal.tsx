@@ -9,8 +9,6 @@ interface CustomActionModalProps {
     icon?: React.ReactNode;
     header?: string;
     subHeader?: string;
-    submitBtnClassName?: string;
-    cancelBtnClassName?: string;
     submitAction: () => void;
     cancelAction: () => void;
     open: boolean; // Whether the modal is open
@@ -18,8 +16,6 @@ interface CustomActionModalProps {
     cancelLabel: string;
     submitLabel: string;
     modalClassName?: string;
-    headerClassName?:string;
-    subHeaderClassName?:string;
 
 }
 /**
@@ -29,8 +25,6 @@ const CustomActionModal: React.FC<CustomActionModalProps> = ({
     icon,
     header,
     subHeader,
-    submitBtnClassName,
-    cancelBtnClassName,
     submitAction,
     cancelAction,
     cancelLabel,
@@ -38,8 +32,6 @@ const CustomActionModal: React.FC<CustomActionModalProps> = ({
     open,
     onClose,
     modalClassName,
-    headerClassName,
-    subHeaderClassName
 }) => {
     return (
         <Dialog open={open} onClose={onClose}>
@@ -55,22 +47,22 @@ const CustomActionModal: React.FC<CustomActionModalProps> = ({
                 </Grid>
                 {/* Header Section */}
                 <Grid justifyContent={"center"} alignContent={"center"}>
-                    <Typography className={clsx('action-modal-header',headerClassName)} >{header}</Typography>
+                    <Typography className={clsx('action-modal-header')} >{header}</Typography>
                 </Grid >
                 {/* Subheader Section */}
                 <Grid container justifyContent={"center"} alignContent={"center"}>
-                    <Typography className={clsx('action-modal-sub-header',subHeaderClassName)}>{subHeader}</Typography>
+                    <Typography className={clsx('action-modal-sub-header')}>{subHeader}</Typography>
                 </Grid>
                 {/* Button Section */}
                 <DialogActions>
                     <CustomButton
                         label={cancelLabel}
-                        className={clsx("action-modal-btn",cancelBtnClassName)}
+                        className={clsx("action-modal-btn-cancel")}
                         onClick={cancelAction}
                     />
                     <CustomButton
                         label={submitLabel}
-                        className={clsx('action-modal-btn',submitBtnClassName)}
+                        className={clsx('action-modal-btn-ok')}
                         onClick={submitAction}
                     />
                 </DialogActions>

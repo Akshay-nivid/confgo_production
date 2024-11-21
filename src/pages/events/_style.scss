@@ -485,28 +485,39 @@
         font-size: $h6;
         font-weight: $font_normal;
     }
+        &-unpublish-modal {   
+            &-icon{
+                width: 3rem !important;
+                height: 3rem !important;
+            }     
+             .action-modal-btn-cancel {
+                background-color: $clr_light_grey !important;
+                color: $clr_gray_dark_text !important;
+                margin-left: 1rem !important;
+            }
+            .action-modal-btn-ok {
+                background-color: $clr_medium_red !important;
+                color: $clr_white !important;
+                margin-left: 1rem !important;
+            }
+        }
         &-publish-modal {   
             &-icon{
                 width: 3rem !important;
                 height: 3rem !important;
             } 
-            &-cancel-btn {
+             .action-modal-btn-cancel {
                 background-color: $clr_light_grey !important;
                 color: $clr_gray_dark_text !important;
-            }
-    
-            &-ok-btn-red {
-                background-color: $clr_medium_red !important;
-                color: $clr_white !important;
                 margin-left: 1rem !important;
             }
-    
-            &-ok-btn-green {
+            .action-modal-btn-ok {
                 background-color: $clr_green !important;
                 color: $clr_white !important;
                 margin-left: 1rem !important;
             }
         }
+
 } 
 
 .user-list-card{

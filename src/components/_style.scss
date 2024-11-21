@@ -829,11 +829,15 @@
       font-size: $p3 !important;
       text-align: center !important;
   }
-  
-  &-btn{
+
+  &-btn-cancel{
       margin-left: 1rem !important;
       width: 8.75rem;
       text-transform: none !important;
-
+  }
+  &-btn-ok{
+    margin-left: 1rem !important;
+    width: 8.75rem;
+    text-transform: none !important;
   }
 }
