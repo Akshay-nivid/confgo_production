@@ -123,6 +123,7 @@ const FormEditor: React.FC<IFormEditor> = ({ participantType, participantData, h
                             <Grid size={5}>
                                 {/* <Box className="title-type-button-container"> */}
                                 <CustomTextField
+                                    
                                     control={control}
                                     className="title-field"
                                     name="title"

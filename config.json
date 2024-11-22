@@ -4,7 +4,7 @@
     "key": ""
   },
   "event-link": {
-    "sub-domain": "www",
+    "sub-domain": "http://localhost:5173/",
     "top-level-domain": "com"
   }
 }

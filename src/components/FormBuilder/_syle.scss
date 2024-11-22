@@ -83,7 +83,7 @@
           .text-select-wrapper {
             margin-bottom: 1rem;
           }
-          
+         
         }
         
         .button-group {
@@ -123,7 +123,9 @@
     }
     .grid-right {
       min-height: 100%;
-      
+      .title-field{
+        margin-top: .5rem !important;
+       }
       .content-container {
         width: 100%;
         max-width: 50rem;

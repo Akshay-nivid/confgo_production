@@ -1,5 +1,5 @@
 .payment-history-container {
-    margin-left: 1rem;
+    padding: 0.9rem;
    &-heading{
     padding-top:1.875rem;
     padding-left:1rem;
@@ -80,5 +80,10 @@
         }
     }
 }
+}
+.paymentlist{
+    margin-top: 1.2rem;
+    border-radius: 0.8rem !important;
+    border: 0.1rem solid $clr_medium_grey;
 }
 }

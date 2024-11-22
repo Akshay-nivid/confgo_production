@@ -52,6 +52,7 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   onBlur?: React.ChangeEventHandler<HTMLInputElement>;
   minDate?:string;
   maxDate?:string;
+  onClick?: React.ChangeEventHandler<HTMLInputElement>;
 }
 
 interface InputPropsType {
@@ -82,6 +83,7 @@ const CustomTextField = <T extends FieldValues>({
   rows,
   readOnly = false,
   onBlur,
+  onClick,
   ...props
 }: ICustomTextFieldProps<T>) => {
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -182,6 +184,16 @@ const CustomTextField = <T extends FieldValues>({
     onBlur && onBlur(event);
   };
 
+  /**
+   * Method handles the on click event
+   * @param event : on click event parameter
+   */
+  const handleOnClick = (event: any) => {
+    onClick && onClick(event);
+  };
+
+  
+
   return (
     <FormControl
       fullWidth
@@ -240,6 +252,7 @@ const CustomTextField = <T extends FieldValues>({
                 placeholder={type === "date" ? "" : placeholder}
                 className={clsx(error ? "error-input" : "", props.className)}
                 onBlur={handleBlur}
+                onClick={handleOnClick}
                 inputProps={inputProps()}
                 {...inputProps()}
               />

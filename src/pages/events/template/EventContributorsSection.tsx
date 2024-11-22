@@ -8,15 +8,18 @@ import config from '../../../../config.json';
 
 type EventContributorsSectionProps = {
     data?: any;
-    temp: string | undefined;
+    temp: number | undefined;
+    ref?: any;
 }
 
-const EventContributorsSection: React.FC<EventContributorsSectionProps> = React.memo(({ data, temp }) => {
+const EventContributorsSection = React.memo(
+    React.forwardRef<HTMLDivElement, EventContributorsSectionProps>(({ data, temp }, ref) => {
+    
 
     const classPrefix = `event-template-event-contributors-${temp}`;
     const baseUrl = config.api.url;
 
-    return <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}`} spacing={1} direction={'column'} justifyContent={'center'} alignItems={'center'}>
+    return <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}`} spacing={1} direction={'column'} justifyContent={'center'} alignItems={'center'} ref={ref}>
         <Grid className={`${classPrefix}-title`}>Meet Our Esteemed Event Contributors</Grid>
         {/* <Grid className={`${classPrefix}-sub-title`}>Gain insights from leading experts in anaesthesiology as they share groundbreaking practices, innovations and advancements</Grid> */}
         <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-item-group-container`} justifyContent={'center'} alignItems={'center'}>
@@ -39,7 +42,7 @@ const EventContributorsSection: React.FC<EventContributorsSectionProps> = React.
             })}
         </Grid>
     </Grid>
-});
+}));
 
 export default EventContributorsSection;
 

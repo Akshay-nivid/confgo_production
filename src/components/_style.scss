@@ -392,6 +392,7 @@
   font-size: $h6 !important;
   border-radius: 0.5rem !important;
   padding-left: 0rem !important;
+  border:0.00009rem solid $clr_gray_very_light !important;
   &-icon{
     color: $clr_gray_medium !important;
     font-size: 10rem !important;
@@ -806,5 +807,40 @@
     height: 3.5rem;
     font-size: $p2 !important;
     font-weight: $font_medium !important;
+  }
+  
+}
+.action-modal{
+  margin-bottom: 1rem;
+  width: 26.25rem;
+  padding: 1rem;
+
+  &-icon {
+      width: 3rem !important;
+      height: 3rem !important;
+  }
+
+  &-header {
+      font-weight: $font_bold !important;
+      font-size: $h5 !important;
+  }
+
+  &-sub-header {
+      font-weight: $font_medium !important;
+      font-size: $p3 !important;
+      text-align: center !important;
+  }
+
+  &-btn-cancel{
+      margin-left: 1rem !important;
+      width: 8.75rem;
+      text-transform: none !important;
+      box-shadow: none !important;
+  }
+  &-btn-ok{
+    margin-left: 1rem !important;
+    width: 8.75rem;
+    text-transform: none !important;
+    box-shadow: none !important;
   }
 }

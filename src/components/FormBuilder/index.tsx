@@ -45,6 +45,11 @@ const FormBuilder = () => {
     POST({
       url: "participant/type/list",
       id: "participantTypeList",
+      body: {
+        filters: {
+          eventId: eventId
+        }
+      }
     })
 
 
@@ -54,12 +59,10 @@ const FormBuilder = () => {
 
 
 
-  /*************  ✨ Codeium Command ⭐  *************/
   /**
    * Handles the generation of the form based on the participant type
    * @param participantType - generic | doctor | engineer | student
    */
-  /******  cdad3207-32e0-479e-b1bb-390ea70b6317  *******/
   const handleClickGenerateForm = (participantType: string) => {
 
 

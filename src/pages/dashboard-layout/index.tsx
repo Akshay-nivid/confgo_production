@@ -24,7 +24,7 @@ const Layout = () => {
           </Grid>
           <Grid size={10} className="layout-container-grid-outlet-grid">
             {subscriptionStatus !== 'ACTIVE' && <Grid><PaymentAlertBanner /></Grid>}
-            <Box className="layout-container-grid-outlet-grid-outlet-wrapper">
+            <Box className="layout-container-grid-outlet-grid-outlet-adminwrapper">
               <Outlet />
             </Box>
             {/*    Commented for now          */}

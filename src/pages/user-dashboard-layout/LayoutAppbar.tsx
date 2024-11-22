@@ -107,7 +107,6 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
             <DownArrowSvg className="appbars-group-arrow-down" />
           </Grid>
         </Grid>
-        <Grid>dd</Grid>
         <Menu
           open={Boolean(anchorEl)}
           anchorEl={anchorEl}
@@ -115,7 +114,6 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
           className="user-profile-menu"
         >
           <MenuItem className="" >
-         
           <Grid  size={12} className="appbar-group-image" mb={0}>
           {userDetails?.firstName && userDetails?.lastName ? (
           <Avatar className="appbar-group-avatar" >

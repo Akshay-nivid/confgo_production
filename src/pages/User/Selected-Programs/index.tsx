@@ -20,7 +20,6 @@ const SelectedPrograms = () => {
 
 
   const navigate = useNavigate();
-  const cart = useStore((state: any) => state?.compData?.["getCart"]) ?? null;
   const selectedPrograms = useStore((state: any) => state?.compData?.["formatedCartData"]?.["formatedData"]) ?? null;
   const setDataById = useStore((state: any) => state.setDataById);
   const selectedFormValues = useStore(state => state?.compData?.["defaultProgramData"].formData)
@@ -85,12 +84,31 @@ const SelectedPrograms = () => {
   function handleClickNextButton() {
     const token = sessionStorage.getItem("token")
     if (!token) {
+
       navigate(routes.userLogin())
       setDataById('previousRoute', routes.selectedPrograms())
+
     }
-    navigate(routes.userPaymentMethod())
+
+    GET({
+      url: `event/form/${eventId}`, id: "dynamicFormData", successCB: (dynamicFormResponseData: any) => {
+        if (dynamicFormResponseData.data.length === 0) {
+        navigate(routes.userPaymentMethod())
+        return
+      } else {
+       navigate(routes.dynamicUserForm())
+        return
+      }
+    }})
   }
 
+  /**
+   * method to handle checkbox toggle, updates the form data and makes a call to edit cart api
+   * if no program is selected, it navigates to program selection page
+   * if program is selected, it makes a call to get cart api after updating the cart
+   * and then navigates to user payment method page
+   * @param key 
+   */
   function onCheckboxToggle(key: string) {
     const formData = getValues()
     if (key.includes("addon")) {
@@ -258,6 +276,7 @@ const SelectedPrograms = () => {
                                         < CustomCheckbox
                                           // disabled={watch(currentAddon) === undefined || watch(currentAddon).length === 0}
                                           row={true}
+                                          onChange={() => onCheckboxToggle(`${formatDate(date)}-addonProp-${addon?.id}`)}
                                           control={control}
                                           required={false}
                                           name={`${formatDate(date)}-addonProp-${addon?.id}`}
@@ -331,7 +350,7 @@ const SelectedPrograms = () => {
             </Grid>}
           <Grid className="grand-total-container">
             <Typography className="total-text">Grand Total</Typography>
-            <Typography className="total-text">${couponData?.data?.total || cart?.data?.cart?.finalPrice}</Typography>
+            <Typography className="total-text">${couponData?.data?.total || addToCartResponseData?.cart?.data?.finalPrice}</Typography>
           </Grid>
 
           <Grid className="navigation-btn-group-container">
