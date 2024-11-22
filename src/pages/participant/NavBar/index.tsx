@@ -4,6 +4,7 @@ import routes from '@/router/routes';
 import { useMemo } from 'react';
 import { Divider } from '@/assets/svg';
 import { Button } from '@mui/material';
+import { handleLogout } from '@/Utils/CommonBaseClass';
 
 /**
  * Component used to draw nav bar
@@ -12,12 +13,14 @@ const Navbar = () => {
     const location = useLocation(); // Get the current path
     const navigate = useNavigate();
 
+    const isUserLoggedIn = sessionStorage.getItem('token');
+
     const navLinks = useMemo(() => {
         return {
             "Home": routes.participantHome(),
             "Programs": routes.participantHome(),
             "About": routes.participantHome(),
-            "Login": routes.userLogin()
+            // "Login": routes.userLogin()
         };
     }, [location]);
 
@@ -31,12 +34,25 @@ const Navbar = () => {
                             <Link to={path} className="participant_nav-link">{key}</Link>
                         </Grid>
                     ))}
+                    {!isUserLoggedIn ?
+                    <>
                     <Grid>
                         <Divider className="participant_nav-divider" />
                     </Grid>
                     <Grid>
                         <Button className='participant_nav-signButton' onClick={() => navigate(routes.userRegister())}>Sign In</Button>
-                    </Grid>
+                        </Grid>
+                        </> :
+                        <>
+                        <Grid>
+                            <Divider className="participant_nav-divider" />
+                        </Grid>
+                        <Grid>
+                            <Button className='participant_nav-signButton' onClick={() => handleLogout({onLogoutSuccess: () => navigate(routes.userLogin())})}>Logout</Button>
+                            </Grid>
+                            </>
+                        }
+                        
                 </Grid>
             </Grid>
             <Grid size={1}></Grid>
