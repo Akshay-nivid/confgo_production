@@ -78,7 +78,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
     /**
      * Useeffect hook updates the programIndex value based on the savedPrograms dependency
      */
-    useEffect(() => {
+    useEffect(() => { 
       const savedPrograms = watch("savedPrograms");
       setProgramIndex(savedPrograms?.length ? savedPrograms.length - 1 : 0);
   }, [watch]);
@@ -92,7 +92,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
       if (onSubmitHandler) {
           onSubmitHandler(data?.savedPrograms, "PROGRAM");
       }
-  }, [formSubmit, onSubmitHandler, data?.savedPrograms]);
+  }, [formSubmit]);
   
 
     /**
