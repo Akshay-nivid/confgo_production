@@ -1,4 +1,4 @@
-import { CircularProgress, Typography } from "@mui/material";
+import {CircularProgress, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -10,7 +10,7 @@ import { validateEmail, validateRequiredField } from "@/Utils/Validation";
 import useStore from "@/Libs/store";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { Logger } from "@/Utils/Logger";
-import { purposeTypes} from "@/Utils/CommonBaseClass";
+import { purposeTypes } from "@/Utils/CommonBaseClass";
 import { useState } from "react";
 /**
  * Form data interface
@@ -47,13 +47,13 @@ const  previousPath=()=>{
     setLoading(true); // Start loader
     const successCB = (success: any) => {
       if (success?.data?.role?.roleName==="USER") {
-      navigate(routes.userOtp(),{state:{email:data.email, purpose: purposeTypes.RESET_PASSWORD, token: success?.data?.token?.token, userId: success?.data?.token?.userId } });
+      navigate(routes.userOtp(),{state:{email:data.email,purpose:purposeTypes.RESET_PASSWORD,token: success?.data?.token?.token, userId: success?.data?.token?.userId } });
       setDataById("resendOtp",{token: success?.data?.token?.token});
       } else {
         setDataById("thankYouPageInfo",{type:"Email sent to you. Please check."});
         navigate(routes.thankyou());
       }
-      setLoading(false); // Stop loader
+      setLoading(false); 
     };
     /**
      * function to make /user/forgotPassword api call
@@ -123,8 +123,8 @@ const  previousPath=()=>{
       </Grid>
     </Grid>
   )}
-  </>
-);
-};
+   </>
+ );
+ };
 
 export default ForgotPassword;
