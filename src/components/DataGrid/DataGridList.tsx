@@ -247,7 +247,7 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
                     />
                 </Grid>
             ) : (
-                <Grid container>
+                <Grid container size={12} justifyContent={"center"} alignContent={"center"}>
                      <NoRecords />
                 </Grid>
                
