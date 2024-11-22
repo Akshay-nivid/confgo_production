@@ -78,7 +78,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose }) => {
                 <NavLink to={item.path} state={item.state} onClick={isMobile ? onClose : undefined }>  
                   <ListItem>
                     <ListItemButton>
-                      <item.icon className={isActive ? 'sidebar-list-active-drawer-icon' : ''} />
+                      <item.icon className={isActive ? 'sidebar-list-active-drawer-icon' : 'sidebar-list-inactive-drawer-icon'} />
                       <ListItemText className={isActive ? 'active-link' : ''}>
                         {item.label}
                       </ListItemText>
