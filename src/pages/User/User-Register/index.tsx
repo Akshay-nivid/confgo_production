@@ -103,7 +103,7 @@ const UserRegister = (props: UserProps) => {
             phoneNumber: data.phone,
             token: context?.data?.token?.token,
             userId: context?.data?.token?.userId,
-            purpose:purposeTypes.SET_PASSWORD
+            purpose:purposeTypes?.SET_PASSWORD
           },
         });
         setDataById("resendOtp",{ token: context?.data?.token?.token});
