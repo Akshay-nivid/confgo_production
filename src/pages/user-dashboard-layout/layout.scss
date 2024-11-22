@@ -118,7 +118,7 @@
 
 //layout appbar
 
-.appbar {
+.appbars {
   box-shadow: 0rem 0.6rem 3.8rem 0rem $clr_black !important;
   border-bottom-width: 0.0416rem;
   border-bottom-color: $clr_gray_faded;
@@ -133,7 +133,7 @@
     height: 6.666rem;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center !important;
     font-size: 2.6rem;
     font-weight: $font_extrabold;
 
@@ -214,10 +214,8 @@
 }
 
 .dashboard {
-  padding: $h2;
-  // margin-top: $p3 !important;
-
   &-left {
+    padding: $h2;
     align-items: center;
     padding-right: $h2;
     border-right: 0.06rem solid $clr_light_border_grey;
@@ -260,7 +258,7 @@
         font-weight: $font_semibold !important;
       }
       &-accounttitle {
-        margin-top: 2rem !important;
+        margin-top: 1rem !important;
         display: block;
         font-size: $h6 !important;
         font-weight: $font_semibold !important;
@@ -272,12 +270,12 @@
         font-size: 1rem !important;
         font-weight: $font_medium;
         line-height: 1.4rem;
-
+        box-shadow: none !important;
       }
       &-card{
        
         justify-content: center;
-        height: 16rem;
+        height: 15.5rem;
         border-radius: 0.8rem;
         border: 0.02rem solid $clr_light_border_grey;
         &-container{
@@ -332,9 +330,15 @@
   }
 
   &-right { 
+    padding: $h2;
     margin-left: $p3 !important;
+    &-calendar{
+      border-radius: 0.8rem;
+      box-shadow: 0rem 0.06rem 1.3rem 0rem $clr_shadow !important;
+    }
   }
 
+ 
   &-right-events {
     margin-top: 2rem !important;
   }
@@ -345,10 +349,10 @@
   }
 
   &-card {
-    text-align: center;
+    text-align: left;
     background: $clr_white !important;
     width: 15rem;
-    height: 14.5rem;
+    height: 13.3rem;
     
     .MuiCardContent-root {
       padding: 0rem;
@@ -356,14 +360,17 @@
 
     &-icon {
       padding-top: 1rem;
+      padding-left: 1rem;
       display: flex;
       justify-content: left;
-      font-size: 4rem; // For scaling the icon size if it is an inline SVG or uses font size
+      font-size: 4rem; 
     }
     &-title {
       font-weight: $font_medium !important;
       font-size: $p2 !important;
       color: $clr_black ;
+      padding-left: 1rem;
+      justify-content: left !important;
     }
     &-count {
       padding-left: 1rem;

@@ -35,7 +35,7 @@ const PriceTierList: React.FC = () => {
   const { control } = useForm(); // Use useForm to manage form state
   const [pricingTiers, setPricingTiers] = useState<PricingTier[]>([]);
   const [attendees, setAttendees] = useState<Attendee[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [_loading, setLoading] = useState(true);
   const { id } = useParams<{ id: string }>();
   const POST = useStore((state: any) => state.POST);
 

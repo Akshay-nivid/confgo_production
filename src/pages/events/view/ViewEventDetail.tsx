@@ -23,11 +23,13 @@ import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { useForm } from "react-hook-form";
 import PublishIcon from "@/assets/svg/publish.svg";
 import UnpublishIcon from "@/assets/svg/unpublish.svg";
-import CopyIcon from "@/assets/svg/copy-clipboard.svg";
+import CopyIcon from "@/assets/svg/external-link.svg";
 import ShareIcon from "@/assets/svg/share.svg";
 import config from '../../../../config.json';
 import ShareInvitationDrawer from "./ShareInvitationDrawer";
 import PriceTierList from "./PriceTierList";
+import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
+import { PublishTickIcon, WarningIcon } from "@/assets/svg";
 
 
 
@@ -82,6 +84,7 @@ interface Addon {
   venue: Venue;
   venueId: number;
   published: boolean;
+  slugName: string;
 }
 
 const ViewEventDetail = () => {
@@ -93,6 +96,7 @@ const ViewEventDetail = () => {
   const [eventFullData,setEventFullData]=useState<Addon>();
   const [link, setLink] = useState('');
   const [errorMessage, setErrorMessage] = useState('')
+  const [openModal,setOpenModal]=useState(false);
 
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	// Functions to open and close the drawer.
@@ -174,7 +178,12 @@ const ViewEventDetail = () => {
       setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message });
     }
   }
-
+  /**
+   * Mehod handles the publish/unpublish using the modal
+   */
+  const handlePublishUnPublish = () => {
+    setOpenModal(!openModal);
+  }
   /**
    * Mehod handles the publish/unpublish of the event
    */
@@ -192,6 +201,7 @@ const ViewEventDetail = () => {
       setErrorMessage('')
       getEventDetails();
       published && handleLinkGenerationApiCall();
+      setOpenModal(false);
     }
     else {
       setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message });
@@ -219,9 +229,9 @@ const ViewEventDetail = () => {
   }
 
   /**
-   * Method handles the click event for the copy to clipboard icon
+   * Method handles the copy to clipboard functionality
    */
-  const handleToggleSuffixIcon = () => {
+  const handleEventCopy = () => {
     const textToCopy = watch("event");
     if (textToCopy) {
       const subDomain = config['event-link']['sub-domain'];
@@ -237,12 +247,19 @@ const ViewEventDetail = () => {
   }
 
   /**
+   * Method handles the click event for the copy to clipboard icon
+   */
+  const handleToggleSuffixIcon = () => {
+    const url = `/event-link/${eventFullData?.slugName}`;
+    window.open(url, '_blank');
+  }
+
+  /**
    * Method gets triggered when successfully submitting the edit form
    */
   const handleSubmitHandler = () => {
     getEventDetails();
   }
-
   return <Grid >
     <Grid container
       className="event-detail-card" >
@@ -271,8 +288,9 @@ const ViewEventDetail = () => {
                                     suffixIconButton={<CopyIcon />}
                                     handleToggleSuffixIcon={handleToggleSuffixIcon}
                                     suffixIconSecondButton={<ShareIcon />}
-									handleToggleSuffixSecondIcon={openDrawer}
+									                  handleToggleSuffixSecondIcon={openDrawer}
                                     value={link}
+                                    onClick={handleEventCopy}
                                 /></Grid>
                 </Grid>
             </Grid>:
@@ -302,7 +320,7 @@ const ViewEventDetail = () => {
             </Grid>}
               </Grid>
               <Grid>
-                <CustomButton className={eventFullData?.published?"event-detail-event-info-card-unpublish-btn": "event-detail-event-info-card-publish-btn"} startIcon={eventFullData?.published?<UnpublishIcon/>:<PublishIcon />} label={eventFullData?.published? "Unpublish Event": "Publish Event"} onClick={() => handlePublish(eventFullData?.published)}/>
+                <CustomButton className={eventFullData?.published?"event-detail-event-info-card-unpublish-btn": "event-detail-event-info-card-publish-btn"} startIcon={eventFullData?.published?<UnpublishIcon/>:<PublishIcon />} label={eventFullData?.published? "Unpublish Event": "Publish Event"} onClick={() =>{ handlePublishUnPublish()}}/>
               </Grid>
             </Grid>
           </Grid>
@@ -338,7 +356,7 @@ const ViewEventDetail = () => {
             <UserListCard />
           </TabPanel>
           <TabPanel value="6">
-            <TemplateCard eventData={eventFullData}/>
+            <TemplateCard eventData={eventFullData} onSubmitHandler={handleSubmitHandler}/>
           </TabPanel>
           <TabPanel value="7">
             <FormBuilder />
@@ -355,6 +373,29 @@ const ViewEventDetail = () => {
         eventData={eventFullData}
 		eventURL={watch('event')}
     />
+    {eventFullData?.published ? <CustomActionModal
+      icon={<WarningIcon className="unpublish-modal-icon" />}
+      open={openModal}
+      onClose={() => setOpenModal(false)}
+      cancelLabel="Cancel"
+      cancelAction={() => setOpenModal(false)}
+      header="Unpublish Event?"
+      subHeader="Are you sure you want to unpublish this event? It will no longer be visible to attendees."
+      submitAction={() => handlePublish(eventFullData?.published)}
+      submitLabel="Unpublish"
+      modalClassName="unpublish-modal"
+    /> : <CustomActionModal
+      open={openModal}
+      icon={<PublishTickIcon className="publish-modal-icon"/>}
+      onClose={() => setOpenModal(false)}
+      cancelLabel="Cancel"
+      cancelAction={() => setOpenModal(false)}
+      header="Ready to Publish?"
+      subHeader="Are you sure you want to publish this event? Once published, it will be visible to attendees."
+      submitAction={() => handlePublish(eventFullData?.published)}
+      submitLabel="Publish"
+      modalClassName="publish-modal"
+    />}
   </Grid>
 
 }

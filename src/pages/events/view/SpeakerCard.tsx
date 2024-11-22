@@ -17,6 +17,7 @@ import { DeleteContributorIcon, EditContributorIcon } from "@/assets/svg";
 import useStore from "@/Libs/store";
 import AddIcon from "@mui/icons-material/Add";
 import config from "../../../../config.json";
+import CreateContributorType from "../CreateContributorType";
 
 interface CustomFile {
   id: number;
@@ -68,6 +69,7 @@ const SpeakerCard = (_eventData: any) => {
   const [selectedFile, setSelectedFile] = useState<CustomFile | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const baseUrl = config.api.url;
+	const [newTypeView, setNewTypeView] = useState(false);
   /**
    *function to handle close the modal
    */
@@ -84,12 +86,27 @@ const SpeakerCard = (_eventData: any) => {
    *function to handle open Drawer Create
    */
   const handleDrawerOpen = () => {
+    if(_eventData?.eventData?.published){
+      setDataById("snackBarInfo", {
+        open: true,
+        autoHideDuration: 2000,
+        severity: "error",
+        message: "Event is Already Published !",
+      });
+    }else{
     reset();
     setAddContributeView(true);
     setEditConrtributorValue(null);
     clearDataById("contributorFields");
+    }
   };
 
+  /**
+   * Handler for submitting the fetch new Types.This function is invoked after a new contributor type is created.
+   */
+  const onTypeCreateSubmitHandler = async () => {
+    await fetchProgramTypes();
+  };
   /**
    *useEffect to call Api when screen renders
    */
@@ -152,7 +169,8 @@ const SpeakerCard = (_eventData: any) => {
               value: element.name,
               label: element.name,
             }));
-            setContributorType(options);
+            const updatedOptionsData = [...options, { label: "Other", value: "other" }];
+            setContributorType(updatedOptionsData);
           }
         },
         errorCB: (context: any) => {
@@ -206,7 +224,7 @@ const SpeakerCard = (_eventData: any) => {
         name: formData.contributorName,
         assetId: selectedFile?.id ?? "",
         designation: formData.contributorType,
-        programType: formData.contributorDescription,
+        description: formData.contributorDescription,
         statusId: "1",
       };
       await POST({
@@ -286,14 +304,13 @@ const SpeakerCard = (_eventData: any) => {
    * @param formData
    */
   const editContributor = async (formData: FormData) => {
-    console.log("****", contributorFields);
     try {
       const requestBody = {
         eventId: id,
         name: formData.contributorName,
         assetId: selectedFile?.id ?? contributorFields?.assetId,
         designation: formData.contributorType,
-        programType: formData.contributorDescription,
+        description: formData.contributorDescription,
         statusId: "1",
       };
       const response = await apiClient.put(
@@ -326,20 +343,43 @@ const SpeakerCard = (_eventData: any) => {
    * @param item
    */
   const handleContributorEdit = (item: EventParticipant) => {
+    if(_eventData?.eventData?.published){
+      setDataById("snackBarInfo", {
+        open: true,
+        autoHideDuration: 2000,
+        severity: "error",
+        message: "Event is Already Published !",
+      });
+    }else{
     reset();
     setDataById("contributorFields", item);
     setEditConrtributorValue(item);
     handleScreenViewChange();
+    }
   };
   /**
    * function handles delete contributor form fields
    * @param item
    */
   const handleDeleteModal = (item: EventParticipant) => {
+    if(_eventData?.eventData?.published){
+      setDataById("snackBarInfo", {
+        open: true,
+        autoHideDuration: 2000,
+        severity: "error",
+        message: "Event is Already Published !",
+      });
+    }else{
     setDataById("contributorFields", item);
     setDeleteModal(true);
+    }
   };
-
+  /**
+   * function to close the new type creation drawer
+   */
+  const handleDrawerClose = () => {
+    setNewTypeView(false);
+  };
   return (
     <Grid
       className="event-detail-speakers-card"
@@ -415,13 +455,13 @@ const SpeakerCard = (_eventData: any) => {
                     </Typography>
                   </Grid>
                   <Grid container flexDirection={"row"} direction={"row"}>
-                    {item.map((item: any) => {
+                    {item?.map((item: any) => {
                       return (
                         <Grid>
                           <Grid
                             container
                             className="event-detail-speakers-card-list-row-container"
-                            key={item.id}
+                            key={item?.id}
                             alignItems={"flex-start"}
                             spacing={0.5}
                           >
@@ -429,13 +469,10 @@ const SpeakerCard = (_eventData: any) => {
                               <img
                                 className="event-detail-speakers-card-list-row-img"
                                 src={`${baseUrl}asset/${item?.assetId}`}
-                                alt={item.name}
+                                alt={item?.name}
                               />
                               <Typography className="event-detail-speakers-card-list-row-name">
-                                {item.name}
-                              </Typography>
-                              <Typography className="event-detail-speakers-card-list-row-type">
-                                {item.designation}
+                                {item?.name}
                               </Typography>
                               <Grid
                                 display={"flex"}
@@ -466,7 +503,7 @@ const SpeakerCard = (_eventData: any) => {
           open={addContributeView}
           children={
             <Grid className="event-detail-speakers-card-drawer-box">
-              <Grid container justifyContent={"space-between"}>
+              <Grid container justifyContent={"space-between"} mb={1}>
                 <Typography className="event-detail-speakers-card-contributor-header">
                   {editContributorValue != null
                     ? "Edit Event Contributor"
@@ -484,6 +521,11 @@ const SpeakerCard = (_eventData: any) => {
                         name="contributorType"
                         label="Contributor Type"
                         options={contributorType ?? selectOptions}
+                        optionClick={(value) => {
+                          if (value === "other") {
+                            setNewTypeView(true);
+                          }
+                        }}
                         control={control}
                         rules={{ required: true }}
                         defaultValue={contributorFields?.designation}
@@ -504,7 +546,7 @@ const SpeakerCard = (_eventData: any) => {
                       </Grid>
                       <Grid container size={{ xs: 12 }}>
                         <CustomTextField
-                          defaultValue={contributorFields?.programType ?? ""}
+                          defaultValue={contributorFields?.description ?? ""}
                           rules={{ required: true }}
                           rows={4}
                           multiline={true}
@@ -625,6 +667,12 @@ const SpeakerCard = (_eventData: any) => {
           </Grid>
         </Grid>
       </Modal>
+      <CustomDrawer
+        children={<CreateContributorType submitHandler={onTypeCreateSubmitHandler} closeDrawer={handleDrawerClose} />}
+        open={newTypeView}
+        type="right"
+        onClose={() => handleDrawerClose}
+      />
     </Grid>
   );
 };

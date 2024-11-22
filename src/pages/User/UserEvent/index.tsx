@@ -205,7 +205,7 @@ const MyEventScreen: React.FC = () => {
         </Grid>
       </Grid>
       {
-        events == undefined ? (
+        events?.data?.length === 0  ? (
           <Grid container size={12} justifyContent={"center"}>
           <Grid  container justifyContent={"center"}  className="no-event" >
           <Grid>

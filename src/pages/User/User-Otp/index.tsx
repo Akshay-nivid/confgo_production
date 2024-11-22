@@ -8,19 +8,18 @@ import { Controller, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import OtpInput from 'react-otp-input';
 import { LockIcon } from '@/assets/svg';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import useStore from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import { purposeTypes } from '@/Utils/CommonBaseClass';
+import CustomTimer from '@/components/CustomTimer/CustomTimer';
 
 interface IFormData {
   otp: string;
 }
 /**
  * User Otp page component
- *
  */
-
 const UserOtp = () => {
 
   const { email, token, userId, purpose, phoneNumber } = useLocation().state || {};
@@ -29,6 +28,11 @@ const UserOtp = () => {
   const ResendOtpToken=  useStore((state: any) => state?.compData.resendOtp?.token);
   const navigate = useNavigate();
   const POST = useStore((state: any) => state.POST);
+  /**
+   * State to manage the disable/enable status of the "Resend OTP" button.
+   */
+  const [isResendDisabled, setIsResendDisabled] = useState(true);
+  
   /*
    * if email and phone number are not present in the state, redirect to the register page
    */
@@ -100,7 +104,15 @@ const UserOtp = () => {
         ,url: 'token/validateotp',
         body: body,
         successCB: successCB,
-        errorCB: (error:any) => Logger.error("error", error)
+        errorCB: (error:any) => {
+          Logger.error("error", error)
+          setDataById("snackBarInfo", {
+            open: true,
+            autoHideDuration: 2000,
+            severity: "error",
+            message: error?.message,
+          });
+        }
       })
     }
   };
@@ -110,6 +122,7 @@ const UserOtp = () => {
  * @returns 
  */
   const handleResendOtp = async () => {
+    setIsResendDisabled(true);
   if(purpose===purposeTypes.SET_PASSWORD){
    const setOtp={
        phone:phoneNumber,
@@ -244,12 +257,18 @@ const UserOtp = () => {
 
             />
           </form>
-          <Box className="navigation-text-container">
-            <Typography className="resend-text">
-              Didn't receive the OTP?{" "}
-              <span onClick={handleResendOtp} className="resend-text-highlight">
-                Resend OTP.
-              </span>
+          <Box className="navigation-text-container" flexDirection={"column"}>
+          <Typography className="resend-text">
+              Didn't receive the OTP?
+              <Typography onClick={handleResendOtp} className={isResendDisabled ? "resend-otp-disabled" : "resend-otp"} >Resend Otp</Typography>
+              <CustomTimer
+                initialTime={15}
+                isResendDisabled={isResendDisabled}
+                setIsResendDisabled={setIsResendDisabled}
+                className="resend-otp"
+              />{!isResendDisabled && (
+               <Typography className=""></Typography>  
+              )}
             </Typography>
           </Box>
         </Box>
