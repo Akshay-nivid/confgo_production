@@ -65,8 +65,8 @@ export default function EventInfo({ slugName }: { slugName: string }) {
   // let { name, description, id }: Event = data;
   const navigate = useNavigate();
   const setDataById = useStore((state: any) => state.setDataById);
-  const slugNameFromStore = useStore((state: any) => state.compData?.slugName);
-  const event: Event = useStore((state: any) => state?.compData?.['eventSlugInfo']?.[`event/slug/${slugNameFromStore?.slugName}`]?.data) || {};
+  // const slugNameFromStore = useStore((state: any) => state.compData?.slugName);
+  const event: Event = useStore((state: any) => state?.compData?.['eventSlugInfo']?.[`event/slug/${slugName}`]?.data) || {};
   const participantList = useStore((state: any) => state?.compData?.['participantTypeOptions']?.options) ?? [];
 
   const { control, getValues } = useForm({
@@ -77,9 +77,13 @@ export default function EventInfo({ slugName }: { slugName: string }) {
 
 
 
+  
   /**
-   * Method used to handle participate button
+   * Handles the participate button click. If the participant type is not selected,
+   * show a snackbar error message. Otherwise, store the selected event id in the store
+   * and navigate to the program selection page.
    */
+
   const handleParticipate = () => {
 
 
