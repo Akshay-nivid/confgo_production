@@ -2,7 +2,7 @@
  * Component handles the default template
  */
 import Grid from '@mui/material/Grid2';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import AboutSection from './AboutSection';
 import ProgramSection from './ProgramSection';
 import HeaderSection from './HeaderSection';
@@ -23,7 +23,20 @@ const TemplateView: React.FC<TemplateViewProps> = React.memo(({ temp, eventId, s
   const GET = useStore((state: any) => state.GET);
   const dataInfo = useStore((state: any) => state?.compData?.['templateEventDetails']?.[`event/${eventId}`]) ?? [];
   const slugInfo = useStore((state: any) => state?.compData?.['slugEventDetails']?.[`event/slug/${slug}`]) ?? [];
-  const clearDataById = useStore((state: any) => state?.clearDataById)
+  const clearDataById = useStore((state: any) => state?.clearDataById);
+  const aboutRef = useRef(null);
+  const contributorsRef = useRef(null);
+  const programRef = useRef(null);
+
+  /**
+   * Method handles the scroll functionality based on click event
+   * @param ref : event reference
+   */
+  const handleScrollTo = (ref: any) => {
+    if (ref?.current) {
+      ref.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   /**
   * Useeffect hook handles the api call for fetching event details
@@ -80,11 +93,11 @@ const TemplateView: React.FC<TemplateViewProps> = React.memo(({ temp, eventId, s
   }
   const updatedTemp = slug ? slugInfo?.data?.templateId ? slugInfo.data.templateId : temp : temp;
   return <Grid container size={{ xs: 12, sm: 12 }} className="event-template">
-    {(dataInfo?.data || slugInfo?.data) && <><HeaderSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} />
-      <AboutSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} />
-      <EventContributorsSection temp={updatedTemp} data={dataInfo?.data?.eventProgramSchedules || slugInfo?.data?.eventProgramSchedules} />
-      <ProgramSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} />
-      <TicketingSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} />
+    {(dataInfo?.data || slugInfo?.data) && <><HeaderSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} onScrollToProgram={() => handleScrollTo(programRef)} onScrollToAbout={() => handleScrollTo(aboutRef)} onScrollToContributors={() => handleScrollTo(contributorsRef)}/>
+      <AboutSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} ref={aboutRef}/>
+      <EventContributorsSection temp={updatedTemp} data={dataInfo?.data?.eventProgramSchedules || slugInfo?.data?.eventProgramSchedules} ref={contributorsRef}/>
+      <ProgramSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} ref={programRef}/>
+      {(dataInfo?.data?.eventPriceTiers?.length > 0 || slugInfo?.data?.eventPriceTiers?.length > 0) && <TicketingSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} />}
       <FooterSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} /></>}
   </Grid>
 });
