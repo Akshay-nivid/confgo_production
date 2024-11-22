@@ -185,10 +185,13 @@ export const toCamelCase = (sentenceCase: any) => {
  * 
  * @param successCB - A callback function that will be executed after clearing storage.
  */
-export function handleLogout({onLogoutSuccess}:{onLogoutSuccess:Function}) {
+export function handleLogout({ onLogoutSuccess }: { onLogoutSuccess: Function }) {
   localStorage.clear();
   sessionStorage.clear();
   onLogoutSuccess();
+}
+
+
 /**
  * Method fetches the user token
  * @returns : user token
