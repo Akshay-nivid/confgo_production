@@ -49,7 +49,7 @@ const DashboardEventCards: React.FC<DashboardEventCardProps> = React.memo(({ eve
                     {event?.name}
                 </Typography>
             </Grid>
-            <Grid size={12} mt={2} className="dashboard-left-profile-card-block" >
+            <Grid size={12} mt={2} className="dashboard-left-profile-card-status" >
                 Status  <StatusComponent className="status-componenet" value={event?.statusId.toString()} />
             </Grid>
             <Grid size={12} mt={2} className="dashboard-left-profile-card-block">
