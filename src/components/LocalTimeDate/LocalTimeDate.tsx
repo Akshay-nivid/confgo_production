@@ -47,8 +47,8 @@ const LocalTimeDate: React.FC<LocalTimeDateProps> = ({
     try {
 
       if (debug) {
-        console.log('Input UTC DateTime:', utcDateTime);
-        console.log('Input Type:', typeof utcDateTime);
+        Logger.info('Input UTC DateTime:', utcDateTime);
+        Logger.info('Input Type:', typeof utcDateTime);
       }
 
       // Normalize input to ensure proper parsing

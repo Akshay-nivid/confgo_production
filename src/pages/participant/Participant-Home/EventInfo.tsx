@@ -65,7 +65,8 @@ export default function EventInfo({ slugName }: { slugName: string }) {
   // let { name, description, id }: Event = data;
   const navigate = useNavigate();
   const setDataById = useStore((state: any) => state.setDataById);
-  const event: Event = useStore((state: any) => state?.compData?.['eventSlugInfo']?.[`event/slug/${slugName}`]?.data?.event) || {};
+  const slugNameFromStore = useStore((state: any) => state.compData?.slugName);
+  const event: Event = useStore((state: any) => state?.compData?.['eventSlugInfo']?.[`event/slug/${slugNameFromStore?.slugName}`]?.data) || {};
   const participantList = useStore((state: any) => state?.compData?.['participantTypeOptions']?.options) ?? [];
 
   const { control, getValues } = useForm({
@@ -75,7 +76,6 @@ export default function EventInfo({ slugName }: { slugName: string }) {
   })
 
 
-  console.log(event, 'event')
 
   /**
    * Method used to handle participate button

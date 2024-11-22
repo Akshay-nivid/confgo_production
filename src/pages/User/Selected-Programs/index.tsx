@@ -92,7 +92,6 @@ const SelectedPrograms = () => {
 
     GET({
       url: `event/form/${eventId}`, id: "dynamicFormData", successCB: (dynamicFormResponseData: any) => {
-        console.log(dynamicFormResponseData)
         if (dynamicFormResponseData.data.length === 0) {
         navigate(routes.userPaymentMethod())
         return

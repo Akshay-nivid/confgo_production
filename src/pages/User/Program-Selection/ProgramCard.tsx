@@ -224,6 +224,13 @@ const ProgramCard = () => {
   }
 
 
+/**
+ * When user toggles an addon checkbox, this function is called.
+ * It takes the key of the checkbox as an argument. The key is in the format of "date-ADDON-addonId"
+ * It first splits the key into date, ADDON, and addonId. Then it sets the value of the corresponding checkbox in the form to undefined.
+ * This is used to remove the addon from the cart when the user unchecks the checkbox.
+ * @param key - the key of the checkbox in the format of "date-ADDON-addonId"
+ */
   function onToggleAddonCheckBox(key:string) {
     const [date,_,id] = key.split("-")
     getValues(key)
