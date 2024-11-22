@@ -82,7 +82,8 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
   const [pricingData, setPricingData] = useState<any[]>([]);
   const setDataById = useStore((state: any) => state.setDataById);
   const PUT = useStore((state: any) => state.PUT);
-
+  const [priceTierResponse,setPriceTierResponse]= useState<any>([]);
+  const [attendeeTypeResponse,setAttendeeTypeResponse] = useState<any>([]);
   // const {
   //   //fields: attendeeFieldsData,
   //   append: appendAttendee,
@@ -112,6 +113,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
         id: "attendeeTypeList",
         successCB: (context: any) => {
           if (context?.success) {
+            setAttendeeTypeResponse(context.data);
             const groupedByDesignation = context.data.map((item: any) => {
               return {
                 id: item.id, // Keep id as is, assuming backend returns correct format
@@ -249,6 +251,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
           id: "priceTierList",
           successCB: (context: any) => {
             if (context?.success) {
+              setPriceTierResponse(context.data);
               const groupedByDesignation = context.data.map((item: any) => {
                 return {
                   id: item.id,
@@ -296,6 +299,34 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
   const handlePricingDataSubmit = (pricingData: any) => {
     setPricingData(pricingData);
   };
+
+
+  function mapData(priceTiersData: any[], attendeeData: any[]) {
+    // Map pricing tiers
+    const mappedPricingTiers = priceTiersData.map((tier) => ({
+      id: tier.participantTypeId,
+      tierName: tier.name,
+      percentage: tier.percentage,
+      endDate: tier.endDate,
+      startDate: tier.startDate,
+    }));
+    // Map attendees with their corresponding pricing tiers
+    const mappedAttendees = attendeeData.map((attendee) => ({
+      id: attendee.id,
+      attendeeName: attendee.name,
+      attendeeDescription: attendee.description,
+      pricingTiers: mappedPricingTiers.filter(
+        (tier) => tier.id === attendee.id // Only include pricing tiers that match this attendee's ID
+      ),
+    }));
+    return { pricingTiers: mappedPricingTiers, attendees: mappedAttendees };
+  }
+  
+  const processedData = mapData(
+    priceTierResponse,
+    attendeeTypeResponse
+  );
+
 
   /**
    * Submition of the values
@@ -503,7 +534,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
           {nonEmptyAttendees.length > 0 && (
             <PricingTable
               pricingTiers={nonEmptyPricingTiers}
-              attendees={attendeeFieldsData}
+              attendees={processedData.attendees}
               control={control}
               payLoad={pricingData}
               onSubmitData={handlePricingDataSubmit}

@@ -17,7 +17,7 @@ export default function LayoutAppbar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const clearDataById = useStore((state: any) => state.clearDataById);
   const navigate = useNavigate();
-
+  const companyUserName = sessionStorage.getItem("companyUserName");
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -45,14 +45,19 @@ export default function LayoutAppbar() {
       <Grid size={10}>
         <div className="avatar-group" onClick={handleMenuOpen}>
           <div className="flex flex-col">
-            <Typography className="avatar-header-text">Richard Wood</Typography>
+            <Typography className="avatar-header-text">{companyUserName}</Typography>
             <Typography className="avatar-subheader-text">Admin</Typography>
           </div>
           <div className="flex items-center gap-x-[2px]">
-            <Avatar
-              alt="user-image"
-              src="https://images.unsplash.com/photo-1534308143481-c55f00be8bd7?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fHByb2ZpbGV8ZW58MHx8MHx8fDA%3D"
-            />
+            {companyUserName ? (
+            <Avatar className="appbars-group-avatar" >
+              {`${companyUserName[0]}${companyUserName[1]}`.toUpperCase()}
+              </Avatar>
+            ):(
+              <Avatar className="appbars-group-avatar">
+                U
+              </Avatar>
+            )}
             <ArrowDropDown className="avatar-arrow-down" />
           </div>
         </div>
