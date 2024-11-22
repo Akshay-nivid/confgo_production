@@ -175,3 +175,10 @@ export const toCamelCase = (sentenceCase: any) => {
   }
   return out;
 }
+/**
+ * Method fetches the user token
+ * @returns : user token
+ */
+export const getUserToken = () => {
+  return sessionStorage.getItem("userToken");
+}

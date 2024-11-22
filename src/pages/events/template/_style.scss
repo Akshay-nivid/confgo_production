@@ -25,6 +25,13 @@
                     font-weight: $font_semibold;
                     padding-top: 0.6rem;
                 }
+                &-logout-button{
+                    color: $clr_white;
+                    font-size: $h6;
+                    font-weight: $font_semibold;
+                    padding-top: 0.6rem;
+                    padding-right: 1rem;
+                }
                 &-button-border{
                     border-right: 1px solid $clr_white;
                     margin: 0.5rem 0 0.5rem 0;
@@ -55,15 +62,19 @@
                 padding-left: 2rem;
             }
             &-sub-item{
-                //color: $clr_white;
                 font-size: $p2;
                 font-weight: $font_medium;
             }
             &-login-button{
-                //color: $clr_white;
                 font-size: $h6;
                 font-weight: $font_semibold;
                 padding-top: 0.6rem;
+            }
+            &-logout-button{
+                font-size: $h6;
+                font-weight: $font_semibold;
+                padding-top: 0.6rem;
+                padding-right: 1rem;
             }
             &-button-border{
                 border-right: 1px solid $clr_black;
