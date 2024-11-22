@@ -189,4 +189,10 @@ export function handleLogout({onLogoutSuccess}:{onLogoutSuccess:Function}) {
   localStorage.clear();
   sessionStorage.clear();
   onLogoutSuccess();
+/**
+ * Method fetches the user token
+ * @returns : user token
+ */
+export const getUserToken = () => {
+  return sessionStorage.getItem("userToken");
 }

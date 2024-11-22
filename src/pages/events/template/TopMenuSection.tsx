@@ -1,6 +1,7 @@
 /**
  * Component displays the top menu section of the template
  */
+import { getUserToken } from '@/Utils/CommonBaseClass';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import Grid from '@mui/material/Grid2';
 import React from 'react';
@@ -29,9 +30,10 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ temp, onScro
                 <Grid className={`${classPrefix}-sub-item`}><Link to={'#'}> Location </Link></Grid>
             </Grid>
             <Grid container spacing={2}>
-                <Grid className={`${classPrefix}-login-button`}><Link to={'/user/login'}> Login </Link></Grid>
-                <Grid className={`${classPrefix}-button-border`}></Grid>
-                <Grid className={`${classPrefix}-book-button`}><CustomButton label='Signup' onClick={() => navigate('/user/register')}/></Grid>
+                {getUserToken() && <Grid className={`${classPrefix}-logout-button`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToContributors(e) }}> Logout </Link></Grid>}
+                {!getUserToken() && <><Grid className={`${classPrefix}-login-button`}><Link to={'/user/login'}> Login </Link></Grid>
+                    <Grid className={`${classPrefix}-button-border`}></Grid>
+                    <Grid className={`${classPrefix}-book-button`}><CustomButton label='Signup' onClick={() => navigate('/user/register')} /></Grid></>}
             </Grid>
         </Grid>
     </Grid>

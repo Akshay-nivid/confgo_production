@@ -70,6 +70,7 @@ const UserLogin = (props: UserProps) => {
       successCB: (success: ApiResponse) => {
         sessionStorage.clear();
         sessionStorage.setItem("token", success.data?.token);
+        sessionStorage.setItem("userToken", success.data?.token);
         sessionStorage.setItem("userId",success.data?.id.toString());
         sessionStorage.setItem('userLoggedInType', success?.data?.userRole?.roleName);
         sessionStorage.setItem('isUserLoggedIn', 'true');
