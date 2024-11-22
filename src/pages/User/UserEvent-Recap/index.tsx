@@ -127,6 +127,7 @@ const EventRecap: React.FC = React.memo(() => {
                                 getOptionLabel={(option: any) => option.name || ""}
                                 onSearch={handleSearch}
                                 loading={loading}
+                                placeholder="Search"
                                 onChange={handleAutocompleteChange}
                             />
                         </Grid>

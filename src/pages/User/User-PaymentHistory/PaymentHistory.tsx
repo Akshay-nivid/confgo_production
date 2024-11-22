@@ -102,7 +102,7 @@ const PaymentHistory: React.FC = React.memo(() => {
       {isLoading ? (
         <CircularProgress />
       ) : (
-        <Grid container size={12} justifyContent="center" className="paymentlist">
+        <Grid  size={12} justifyContent="center" className="paymentlist">
           <DataGridList
             dataTransformer={transformData}
             source={source}

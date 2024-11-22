@@ -235,8 +235,7 @@ const ViewEventDetail = () => {
     const textToCopy = watch("event");
     if (textToCopy) {
       const subDomain = config['event-link']['sub-domain'];
-      const topLevelDomain = config['event-link']['top-level-domain'];
-      navigator.clipboard.writeText(`${subDomain}.${textToCopy}.${topLevelDomain}`)
+      navigator.clipboard.writeText(`${subDomain}${textToCopy}`)
         .then(() => {
           setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: 'Text copied to clipboard' });
         })
