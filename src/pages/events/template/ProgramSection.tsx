@@ -10,9 +10,12 @@ import ClockIcon from '@/assets/svg/template1-clock.svg';
 type ProgramSectionProps = {
     data?: any;
     temp: number | undefined;
+    ref?: any;
 }
 
-const ProgramSection: React.FC<ProgramSectionProps> = React.memo(({ data, temp }) => {
+const ProgramSection = React.memo(
+    React.forwardRef<HTMLDivElement, ProgramSectionProps>(({ data, temp }, ref) => {
+     
 
     const classPrefix = `event-template-program-${temp}`;
 
@@ -42,7 +45,7 @@ const ProgramSection: React.FC<ProgramSectionProps> = React.memo(({ data, temp }
 
     const groupedPrograms = groupProgramsByDate(data?.programs);
 
-    return <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}`} spacing={1} direction={'column'} justifyContent={'center'} alignItems={'center'}>
+    return <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}`} spacing={1} direction={'column'} justifyContent={'center'} alignItems={'center'} ref={ref}>
         <Grid className={`${classPrefix}-title`}>Event Program Schedule</Grid>
 
         {Object.entries(groupedPrograms).map(([date, programs]: any, index: number) => (
@@ -75,7 +78,7 @@ const ProgramSection: React.FC<ProgramSectionProps> = React.memo(({ data, temp }
         ))}
 
     </Grid>
-});
+}));
 
 export default ProgramSection;
 

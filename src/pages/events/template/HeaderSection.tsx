@@ -11,14 +11,17 @@ import DetailsSection from './DetailsSection';
 type HeaderSectionProps = {
     data?: any;
     temp: number | undefined;
+    onScrollToProgram?: any;
+    onScrollToAbout?: any;
+    onScrollToContributors?: any;
 }
 
-const HeaderSection: React.FC<HeaderSectionProps> = React.memo(({ data, temp }) => {
+const HeaderSection: React.FC<HeaderSectionProps> = React.memo(({ data, temp, onScrollToProgram, onScrollToAbout, onScrollToContributors }) => {
 
     const classPrefix = `event-template-header-${temp}`;
 
     return <Grid container size={{ xs: 12, sm: 12 }} className={classPrefix}>
-        <TopMenuSection temp={temp} data={data} />
+        <TopMenuSection temp={temp} data={data} onScrollToProgram={onScrollToProgram} onScrollToAbout={onScrollToAbout} onScrollToContributors={onScrollToContributors}/>
         <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} direction={'row'}>
             {temp == 1 && <><Grid container className={`${classPrefix}-title-container`} size={{ xs: 12, sm: 6 }} alignItems={'center'}><TitleSection temp={temp} data={data} /></Grid>
             <Grid className={`${classPrefix}-photo-container`} size={{ xs: 12, sm: 6 }}><img src={PhotoIcon} alt="Template 1 Photo" /></Grid>
