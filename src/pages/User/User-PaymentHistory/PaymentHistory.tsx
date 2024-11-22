@@ -91,7 +91,6 @@ const PaymentHistory: React.FC = React.memo(() => {
       setIsLoading(false)
     }
   }, []);
-  console.log("payment  >. ", paymentList?.data)
   return (
     <Grid container size={12} justifyContent="center" className="payment-history-container">
       <Grid className="" size={12} container>
