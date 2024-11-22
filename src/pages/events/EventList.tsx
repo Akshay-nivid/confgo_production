@@ -72,15 +72,16 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction }) => {
     {
       type: "dateField",
       field: "createdOn",
-      headerName: "Date",
-      width: 250,
+      headerName: "Created Date",
+      width: 200,
       dateFormat: "DD/MM/YYYY",
     },
     {
-      type: "default",
-      field: "description",
-      headerName: "Host/Organizer",
+      type: "dateField",
+      field: "startTime",
+      headerName: "Start Date",
       width: 200,
+      dateFormat: "DD/MM/YYYY",
     },
     { type: "status", field: "statusId", headerName: "Status", width: 150 },
   ];

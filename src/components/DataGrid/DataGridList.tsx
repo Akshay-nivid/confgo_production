@@ -209,7 +209,7 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
         );
     }
     return (
-        <Grid container className="custom-data-grid-grid">
+        <Grid container className="custom-data-grid-grid" justifyContent={'center'}>
             {loading ? (
                 <CircularProgress />
             ) : dataInfo?.data && dataInfo?.data?.length > 0 ? (

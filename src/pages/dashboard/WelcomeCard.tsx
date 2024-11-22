@@ -19,12 +19,12 @@ export const WelcomeCard = () => {
                 <Grid size={{ xs: 12, sm: 12 }} className="dashboard-welcome-card-title">{`Welcome, ${companyUserName || ''}!`}</Grid>
                 <Grid size={{ xs: 12, sm: 12 }} className="dashboard-welcome-card-sub-title">Ready to manage your events? Let's get started.</Grid>
                 <Grid size={{ xs: 12, sm: 12 }} container>
-                    <Grid><CustomButton
+                    <Grid size={6}><CustomButton
                         className="dashboard-welcome-card-create-button"
                         label="Create New Event"
                         onClick={() => navigate('/events/create')}
                     /></Grid>
-                    <Grid><CustomButton
+                    <Grid size={6}><CustomButton
                         className="dashboard-welcome-card-manage-button"
                         label="Manage Events"
                         onClick={() => navigate('/events')}

@@ -34,7 +34,7 @@ const handleTabChange = (_: React.SyntheticEvent, newIndex: number) => {
       <Typography className='account-settings-main-title account-padding' gutterBottom>
         Account Settings
       </Typography>
-      <Grid container direction={"column"} size={{ xs: 12, sm: 12 }} >
+      <Grid container direction={"column"} size={{ xs: 12, sm: 12 }}  className='account-tabs-container'>
       <Tabs value={tabInfo?.tabIndex} className='account-tabs' onChange={handleTabChange} >
         <Tab label="Personal Information" className='account-tab-title account-tabs'/>
         <Tab label="Security" className="account-tab-title account-tabs"/>
