@@ -185,9 +185,9 @@ const MyEventScreen: React.FC = () => {
     navigate(routes.userEventRecap(),{state:{eventId:eventId}});
   }
   return (
-    <Grid className="my-event" container spacing={2}>
-      <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} flexDirection={"row"}>
-        <Grid size={{ xs: 6 }} alignContent={"center"} container>
+    <Grid className="my-event" container spacing={1}>
+      <Grid container  size={{ xs: 12, sm: 11 }} justifyContent={'space-between'} flexDirection={"row"}>
+        <Grid size={{ xs: 5 }} alignContent={"center"} container>
           <Typography className="my-event-header">My Events</Typography>
         </Grid>
         <Grid size={{ xs: 5 }} className="autocomplete-border">
@@ -218,7 +218,7 @@ const MyEventScreen: React.FC = () => {
               </Grid> 
         </Grid>
         ) : (
-          <Grid container size={12} spacing={2}>
+          <Grid container size={11} spacing={1}>
             {events.data && events.data.map((event: Program, index:number) => (
               <Grid size={{ xs: 12, sm: 3, md: 4 }} key={index}>
                 <EventCard
