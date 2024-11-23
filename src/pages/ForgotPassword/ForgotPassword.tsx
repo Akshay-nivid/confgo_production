@@ -57,20 +57,6 @@ const  previousPath=()=>{
       }
       setLoading(false); 
     };
-    const errorCB = (error: any) => {
-      console.log(error?.data?.message);
-      const errorMessage =
-        error?.data?.message ||
-        "An unexpected error occurred. Please try again.";
-      setDataById("snackBarInfo", {
-        open: true,
-        autoHideDuration: 3000,
-        severity: "error",
-        message: errorMessage,
-      });
-      setLoading(false);
-      Logger.error("error", error);
-    };
 
     /**
      * function to make /user/forgotPassword api call
