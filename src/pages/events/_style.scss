@@ -235,6 +235,7 @@
             padding: 0 !important;
             .MuiTabPanel-root{
                 min-height: 40rem;
+                max-width: 100%;
             }
         }
         &-item{
