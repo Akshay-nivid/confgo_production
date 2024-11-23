@@ -198,6 +198,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                       modules={modules}
                     />
                     <CustomTextField
+                    className="eventDescriptionField"
                       control={control}
                       name="description"
                       type="hidden"
