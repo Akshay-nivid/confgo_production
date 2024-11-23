@@ -31,9 +31,9 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
   const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
 
   const [selectedProgramId, setSelectedProgramId] = useState(null);
-  const [programs, setPrograms] = useState(eventData.programs || []);
-  const addons = eventData.addons || [];
-  const parentId = eventData.id;
+  const [programs, setPrograms] = useState(eventData?.programs || []);
+  const addons = eventData?.addons || [];
+  const parentId = eventData?.id;
   const POST = useStore((state) => state.POST);
   const PUT = useStore((state) => state.PUT);
   const setDataById = useStore((state) => state.setDataById);
@@ -323,8 +323,8 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
             selectedProgram={selectedProgram}
             onSubmit={onSubmit}
             closeDrawer={closeDrawer}
-            eventStartTime={eventData.startTime}
-            eventEndTime={eventData.endTime}
+            eventStartTime={eventData?.startTime}
+            eventEndTime={eventData?.endTime}
           />
         }
       />
