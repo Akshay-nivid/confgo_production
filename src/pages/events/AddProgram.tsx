@@ -149,8 +149,8 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
         const newProgram = {
           name: "",
           description: "",
-          startDate:moment().format("YYYY-MM-DD"),
-          endDate:moment().format("YYYY-MM-DD"),
+          startDate:moment(eventData?.startTime).format("YYYY-MM-DD"),
+          endDate:moment(eventData?.startTime).format("YYYY-MM-DD"),
           startTime: moment().format("HH:mm"),
           endTime:moment().format("HH:mm"),
           type: "PAID",
