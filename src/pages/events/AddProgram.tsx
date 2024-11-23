@@ -297,7 +297,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                     name={`programs.${index}.startDate`}
                                     type="date"
                                     defaultValue={moment(eventData?.startTime).format("YYYY-MM-DD")}
-                                    min={moment().format("YYYY-MM-DD")}
+                                    min={moment(eventData?.startTime).format("YYYY-MM-DD")}
                                     maxDate={eventData?.endTime}
                                     rules={{
                                       required: true,

@@ -136,7 +136,7 @@
         }
     }
     &-check-btn{
-        .Mui-checked{
+        .MuiButtonBase.Mui-checked{
             color: $clr_green !important; 
         }
         .MuiFormControlLabel-label{
@@ -157,6 +157,12 @@
                 width: 1.5rem !important;
                 color: $clr_red !important;
 
+            }
+        }
+        &-warning-msg{
+            color: $clr_gray_dark !important;
+            :hover{
+                color: $clr_red !important;
             }
         }
     }
