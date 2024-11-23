@@ -51,7 +51,7 @@ const CouponView: React.FC = () => {
     "success"
   );
   const navigate = useNavigate();
-  const { control, reset, getValues } = useForm();
+  const { control, reset, getValues,watch } = useForm();
   /**
    * useEffect hook to handle the API call
    */
@@ -59,6 +59,7 @@ const CouponView: React.FC = () => {
     fetchCoupon();
   }, [id, reset]);
 
+  const watchDistype=watch('discountType');
   /**
    * Fetch Coupon Details
    */
@@ -258,7 +259,7 @@ const CouponView: React.FC = () => {
                     <Grid size={{ xs: 12, sm: 6 }}>
                       <CustomTextField
                         name="discountValue"
-                        placeholder="Discount Value"
+                        placeholder={watchDistype==="percentage"?"Discount Percent":"Discount Value"}
                         control={control}
                         rules={{ required: "Discount Value is required" }}
                         type="number"
@@ -273,6 +274,7 @@ const CouponView: React.FC = () => {
                         name="startDate"
                         control={control}
                         defaultValue={coupon?.startDate}
+                        min={moment().format("YYYY-MM-DD")}
                         rules={{ required: "Start Date is required" }}
                         label="Start Date"
                         requiredField
@@ -285,6 +287,7 @@ const CouponView: React.FC = () => {
                         name="endDate"
                         defaultValue={coupon?.endDate}
                         control={control}
+                        min={moment().format("YYYY-MM-DD")}
                         rules={{ required: "Expiry Date is required" }}
                         label="End Date"
                         requiredField

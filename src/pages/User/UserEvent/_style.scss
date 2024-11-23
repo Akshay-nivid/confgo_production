@@ -31,15 +31,14 @@
   }
   .no-event{
     width: 29.69rem;   
-   margin-top: 12.63rem;  
+    margin-top: 10rem;  
     &-svg{
-        width: 7.78rem;  
-        height: 8.43rem;
+        font-size: 10rem;
     &-text{
         padding-top:3rem;
         text-align:center;
         font-family:$font ;
-        font-weight:$font_bold ;
+        font-weight:$font_bold !important;
         font-size:$h5 ;
         line-height: 1.64rem;
      &-description{
@@ -58,4 +57,5 @@
    .autocomplete-border{
     border-radius: 0.4rem ;
     border: 0.1rem solid $clr_light_sky_blue;
+    margin-right: 1rem;
    }

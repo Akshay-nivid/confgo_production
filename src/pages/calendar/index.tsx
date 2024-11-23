@@ -112,7 +112,7 @@ const CalendarPage: React.FC<calendarProps> = ({ id }) => {
       <Grid size={{ xs: 12, sm: 12 }}>
         <Typography className="calendar-title">Calendar</Typography>
       </Grid>
-      <Grid size={{ xs: 12, sm: 12 }} className="calendar-container">
+      <Grid size={{ xs: 12, sm: 12 }} className={containsUserCalendar?"calendar-usercontainer":"calendar-container"}>
         <CustomCalendar id="events-custom-calendar" events={dataInfo?.data && transformEventData(dataInfo?.data)} onSelectEvent={handleSelectEvent} onNavigate={handleNavigate} defaultDate={new Date()}/>
       </Grid>
     </Grid>)

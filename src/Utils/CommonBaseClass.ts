@@ -199,3 +199,30 @@ export function handleLogout({ onLogoutSuccess }: { onLogoutSuccess: Function })
 export const getUserToken = () => {
   return sessionStorage.getItem("userToken");
 }
+
+/**
+ * Converts a timestamp to a time string formatted as "HH:mm" (24-hour format).
+ * @param timestamp 
+ * @returns 
+ */
+export function getTimeFromTimestamp(timestamp:any) {
+  const date = new Date(timestamp);
+  return `${date.getUTCHours().toString().padStart(2, '0')}:${date.getUTCMinutes().toString().padStart(2, '0')}`;
+}
+
+/**
+ * Formats a timestamp into a string with the format "YYYY-MM-DDTHH:mm"
+ * @param timestamp 
+ * @returns 
+ */
+export function formatTimestamp(timestamp:any) {
+  const date = new Date(timestamp);
+  
+  const year = date.getUTCFullYear();
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // Month is 0-based
+  const day = date.getUTCDate().toString().padStart(2, '0');
+  const hours = date.getUTCHours().toString().padStart(2, '0');
+  const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
+}

@@ -37,7 +37,7 @@ const EventCard: React.FC<EventProps> = React.memo(({eventFullData, datetitle, t
             {Eventstatus&&
             <Grid className="event-card-status" container size={12}  >
                 <Grid container size={12} className="content">
-                <Typography className="title">Status</Typography>
+                <Typography className="event-card-location">Status</Typography>
                 <StatusComponent value={eventFullData.statusId.toString()} className="status-componenet"/>
                 </Grid>
             </Grid>}
@@ -46,6 +46,7 @@ const EventCard: React.FC<EventProps> = React.memo(({eventFullData, datetitle, t
                     {squareButtonLabels.length>1?<><Typography onClick={() => onSquareButtonClick && onSquareButtonClick(0)} className='event-card-certificate-label'>
                         [{squareButtonLabels[0]}]
                     </Typography>
+                    <Typography className='event-card-certificate-label-bar'>|</Typography>
                     <Typography className='event-card-certificate-label' onClick={() => onSquareButtonClick && onSquareButtonClick(1)}>[{squareButtonLabels[1]}]</Typography>
                     </>:<Typography className='event-card-certificate-label' onClick={() => onSquareButtonClick && onSquareButtonClick(0)}>
                         [{squareButtonLabels[0]}]

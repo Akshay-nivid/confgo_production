@@ -5,6 +5,7 @@
     &-description{
         font-size: $h6 !important;
         font-weight: $font_semibold !important;
+        max-width: 91.5rem;
         &-error {
             .ql-snow{
                 border: 1px solid $clr_red !important;
@@ -136,7 +137,7 @@
         }
     }
     &-check-btn{
-        .Mui-checked{
+        .MuiButtonBase.Mui-checked{
             color: $clr_green !important; 
         }
         .MuiFormControlLabel-label{
@@ -157,6 +158,12 @@
                 width: 1.5rem !important;
                 color: $clr_red !important;
 
+            }
+        }
+        &-warning-msg{
+            color: $clr_gray_dark !important;
+            :hover{
+                color: $clr_red !important;
             }
         }
     }
@@ -228,12 +235,13 @@
             padding: 0 !important;
             .MuiTabPanel-root{
                 min-height: 40rem;
+                max-width: 100%;
             }
         }
         &-item{
-            padding: 3rem 3rem 2rem 3rem !important;
+            padding: 0.5rem 0.98rem 0.5rem 1.8rem !important;
             &:first-of-type {
-                padding: 3rem 2rem 2rem 2rem !important; 
+                padding: 2rem 1rem 2rem 2rem !important; 
             }
         }
         .MuiTab-textColorPrimary {
