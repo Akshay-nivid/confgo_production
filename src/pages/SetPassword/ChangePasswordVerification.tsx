@@ -29,14 +29,14 @@ const ChangeVerification = () => {
         const body = {
             userId: decodedId,
             token: token,
-            type: "USER_REGISTRATION",
+            type: "FORGOT_PASSWORD_OTP",
         };
         await POST({
             url: `token/validatetoken`,
             body: body,
             id:'passwordVerifyEmail',
             successCB: (_success: ResponseData) => {
-                setDataById('userDataRegister', { data: { userId: decodedId, token: token, tokenType: "RESET_PASSWORD_OTP" } });
+                setDataById('userDataRegister', { data: { userId: decodedId, token: token, tokenType: "FORGOT_PASSWORD_OTP" } });
                 navigate('/setpassword');
                 setDataById("snackBarInfo", {
                     open: true,
