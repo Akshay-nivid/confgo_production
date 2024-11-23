@@ -89,7 +89,7 @@ const UserDashboard: React.FC = React.memo(() => {
           sortBy: "id",
           sortDirection: "ASC",
           filters: {
-            "startTime": new Date()
+            "startTime": new Date().toISOString().replace("T", " ").split(".")[0]
           },
         },
         id: 'userLatestEvents',
@@ -162,9 +162,9 @@ const UserDashboard: React.FC = React.memo(() => {
   return (
     <Grid container size={12} className="dashboard" spacing={1}  >
       {/* left */}
-      <Grid container size={{ xs: 12, md: 7 }}className="dashboard-left" >
+      <Grid container size={{ xs: 12, md: 7 }} className="dashboard-left" >
         <Grid size={12} className="dashboard-left-profile">
-          <Grid size={12}>
+          <Grid size={12} className="dashboard-left-profile-textgroup">
             <Typography className="dashboard-left-profile-title" gutterBottom>
               <span className="dashboard-left-profile-greeting-text">Hey {userDetails?.firstName}!</span>
               <span className="dashboard-left-profile-title-wave-icon"></span>
@@ -175,7 +175,7 @@ const UserDashboard: React.FC = React.memo(() => {
               Your hub for all events and registrations.
             </Typography>
           </Grid>
-          <Grid size={12}>
+          <Grid size={12} className="dashboard-left-profile-buttongroup">
             <CustomButton
               className="dashboard-left-profile-button"
               label="View Events"
