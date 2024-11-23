@@ -200,12 +200,21 @@ export const getUserToken = () => {
   return sessionStorage.getItem("userToken");
 }
 
-
+/**
+ * Converts a timestamp to a time string formatted as "HH:mm" (24-hour format).
+ * @param timestamp 
+ * @returns 
+ */
 export function getTimeFromTimestamp(timestamp:any) {
   const date = new Date(timestamp);
   return `${date.getUTCHours().toString().padStart(2, '0')}:${date.getUTCMinutes().toString().padStart(2, '0')}`;
 }
 
+/**
+ * Formats a timestamp into a string with the format "YYYY-MM-DDTHH:mm"
+ * @param timestamp 
+ * @returns 
+ */
 export function formatTimestamp(timestamp:any) {
   const date = new Date(timestamp);
   
