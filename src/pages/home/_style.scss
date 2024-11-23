@@ -5,7 +5,7 @@
   color: $clr_black;
   background-size: cover;
   .hero-section-content {
-    padding-top: 7.25rem;
+    padding-top: 3.25rem;
     .hero-section-container {
       display: flex;
       flex-direction: column;
@@ -99,7 +99,6 @@
   .confrence-management-content-wrapper {
     background-color: $clr_honeydew;
     border-radius: 1.667rem;
-    margin-bottom: 2.5rem;
   }
   .export-plan-image {
     height: 100%;
@@ -118,11 +117,16 @@
 }
 
 .conference-management-grid-main {
+    margin-bottom: 2.5rem;
   .grid-left {
     background-color: $clr_purple_light;
   }
   .grid-right {
     background-color: $clr_yellow_light;
+  }
+  .tracking-title{
+    line-height: 3rem;
+    margin-bottom: 1rem;
   }
   .grid-left,
   .grid-right {
@@ -136,8 +140,8 @@
       justify-content: center;
       align-items: end;
       .attendance-tracking-image {
-        height: 100%;
-        width: 100%;
+        height: 30rem;
+        width: 45rem;
       }
     }
   }
