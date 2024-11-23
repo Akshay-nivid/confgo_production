@@ -34,7 +34,7 @@ const NoDataCard: React.FC = React.memo(() => {
         />
       </Grid>
       </Grid>
-      <Grid size={2} >
+      <Grid size={4} >
         <img src={noimg} className="no-records-image" alt="No records found" />
       </Grid>
       </Grid>

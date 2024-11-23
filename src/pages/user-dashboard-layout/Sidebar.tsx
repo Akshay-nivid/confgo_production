@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import {  CalendarEventIcon, DashboardUserIcon, HeartEventIcon, SettingsIcon } from '@/assets/svg';
+import {  CalendarEventIcon, DashboardUserIcon, HeartEventIcon, SettingsIcon, transactionHistoryIcon } from '@/assets/svg';
 import {  Drawer, List, ListItem, ListItemText, ListItemButton, useMediaQuery, Divider } from '@mui/material';
 import { PaymentHistoryIcon } from '@/assets/svg';
 import routes from '@/router/routes';
@@ -25,7 +25,7 @@ const sidebarItems = [
   },
   {
     path: routes.paymentHistory(),
-    icon: PaymentHistoryIcon,
+    icon: transactionHistoryIcon,
     label: 'Payment History',
     exact: true,
   },
@@ -63,22 +63,21 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose }) => {
       anchor="left"
       open={open}
       onClose={onClose} 
-      className="sidebar-dashboard"
+      className="user-sidebar-dashboard"
       ModalProps={{
         keepMounted: true, // Keeps the drawer in the DOM on mobile to avoid reloading
       }}
     >
-      <div className="sidebar-dashboard">
-        <List className="sidebar-list">
+      <div className="user-sidebar-dashboard">
+        <List className="user-sidebar-list">
           {sidebarItems.map((item) => {
             const isActive = isActiveLink(item.path, item.exact);
-
             return (
               <React.Fragment key={item.path}>
                 <NavLink to={item.path} state={item.state} onClick={isMobile ? onClose : undefined }>  
                   <ListItem>
                     <ListItemButton>
-                      <item.icon className={isActive ? 'sidebar-list-active-drawer-icon' : 'sidebar-list-inactive-drawer-icon'} />
+                      <item.icon className={isActive ? 'active-drawer-icon' : 'inactive-drawer-icon'} />
                       <ListItemText className={isActive ? 'active-link' : ''}>
                         {item.label}
                       </ListItemText>
