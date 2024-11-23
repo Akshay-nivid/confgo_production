@@ -25,12 +25,11 @@ const VerifyMailPage = () => {
             const requestBody = {
                 userId: decodedId,
                 token: token,
-                type: "USER_REGISTRATION",
-
+                type: "COMPANY_REGISTRATION",
             }
             const response = await apiClient.post(`token/validatetoken`, requestBody)
             if (response.data.status === 'success') {
-                setDataById('userDataRegister', { data:{userId:decodedId,token:token} });
+                setDataById('userDataRegister', { data:{userId:decodedId,token:token, tokenType: "COMPANY_REGISTRATION"} });
                 navigate('/setpassword');
             } else {
                 setDataById("snackBarInfo", {
