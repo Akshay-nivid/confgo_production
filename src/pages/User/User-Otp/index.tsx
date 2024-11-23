@@ -335,7 +335,11 @@ const UserOtp = () => {
           <Box className="navigation-text-container" flexDirection={"column"}>
           <Typography className="resend-text">
               Didn't receive the OTP?
-              <Typography onClick={handleResendOtp} className={isResendDisabled ? "resend-otp-disabled" : "resend-otp"} >Resend Otp</Typography>
+              {!isResendDisabled && (
+                <Typography onClick={handleResendOtp} className="resend-otp">
+                Resend Otp
+                </Typography>
+                 )}
               <CustomTimer
                 initialTime={15}
                 isResendDisabled={isResendDisabled}
