@@ -103,8 +103,9 @@ const CreateAccount = React.memo(() => {
                                                 label="Phone Number *"
                                                 control={control}
                                                 name="phoneNumber"
-                                                type="number"
+                                                type="text"
                                                 rules={phoneRules}
+                                                className="phone"
                                             />
                                         </Grid>
                                     </Grid>

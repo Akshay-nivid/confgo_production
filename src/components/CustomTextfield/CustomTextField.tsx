@@ -253,8 +253,16 @@ const CustomTextField = <T extends FieldValues>({
                 className={clsx(error ? "error-input" : "", props.className)}
                 onBlur={handleBlur}
                 onClick={handleOnClick}
-                inputProps={inputProps()}
-                {...inputProps()}
+                onChange={(e) => {
+                  const numericValue = (props.className === "phone")? e.target.value.replace(/[^0-9]/g, ""):e.target.value;
+                  field.onChange(numericValue); 
+                }}
+                inputProps={{
+                  ...inputProps(),
+                  inputMode: props.className === "phone" ? "numeric" : undefined,
+                  maxLength: props.className === "phone" ? 10 : undefined, 
+                }}
+                
               />
               {error?.message && (
                 <FormHelperText className="error-text">
