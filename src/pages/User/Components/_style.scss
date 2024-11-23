@@ -12,7 +12,7 @@
         border-radius: 0.3rem !important;
         max-width: 13.688rem;
         background-color: $clr_orange_dark;
-        height: 1.8125rem ;
+        height: 2rem !important;
         color:$clr_black;;
         text-align:center;
     }
@@ -49,8 +49,16 @@
     &-certificate{
         margin-top: 1rem;
         &-label{
+        font-weight: $font_medium !important;
+        font-size: $p2 !important;
         color: $clr_blue;
         cursor: pointer;
+        &-bar{
+          font-weight: $font_medium !important;
+          font-size: $p2 !important;
+          color: $clr_black;
+          cursor: pointer;
+          }
         }
     }
     &-button{

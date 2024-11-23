@@ -78,8 +78,7 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
       <Grid size={2} className="appbars-logo-container" justifyContent={'flex-start'}>
         LOGO
       </Grid>
-      <Grid container size={10} justifyContent="flex-end" >
-        
+      <Grid container size={9}  justifyContent="flex-end" >
         <Grid  size={2} className="appbars-group" onClick={handleMenuOpen}>
           {/*Image */}
           <Grid  size={1} className="appbars-group-img" mb={0}>
@@ -103,7 +102,7 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
             </Grid>
           </Grid>
           {/* Arrow Dropdown Icon */}
-          <Grid size={1} className="appbars-group-arrow-container">
+          <Grid size={2} className="appbars-group-arrow-container">
             <DownArrowSvg className="appbars-group-arrow-down" />
           </Grid>
         </Grid>

@@ -11,6 +11,8 @@ import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 import EditIcon from "@/assets/svg/edit-program-icon.svg";
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import moment from "moment";
+import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
+import { WarningIcon } from "@/assets/svg";
 
 type FormData = {
   programs: {
@@ -74,6 +76,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
     });
     const [programIndex, setProgramIndex] = useState<any>();
     const [editMode, setEditMode] = useState(false);
+    const [openModal,setOpenModal]=useState(false);
 
     /**
      * Useeffect hook updates the programIndex value based on the savedPrograms dependency
@@ -81,8 +84,8 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
     useEffect(() => { 
       const savedPrograms = watch("savedPrograms");
       setProgramIndex(savedPrograms?.length ? savedPrograms.length - 1 : 0);
-  }, [watch]);
-  
+  }, [watch("savedPrograms")]);
+   
 
     /**
      * Useeffect hook submits the form based on the formSubmit variable
@@ -104,7 +107,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
           onSubmitHandler(data.savedPrograms, "PROGRAM");
       }
   };
-  
+   
 
     /**
      * Useeffect hook set the field based on the data
@@ -113,7 +116,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
       if (!data) return; // Early exit if data is undefined or null
       setValue("programs", data);
       setValue("savedPrograms", data);
-  }, [data, setValue]);
+  }, [data]);
   
 
     /**
@@ -182,11 +185,20 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
       setProgramIndex(index);
     };
 
+/**
+     * opens the custom action model to show warning
+     */
+    const handleDeleteConfirmbox =(index: number) =>{
+      setOpenModal(true)
+      setProgramIndex(index);
+    }
+    
     /**
      * Method handles the deletion of the program
      * @param index : index of the program to delete
      */
     const handleDelete = (index: number) => {
+      setOpenModal(false)
       setValue("programs", watch("savedPrograms"));
       setProgramIndex(index);
       const programsCopy = [...watch("savedPrograms")];
@@ -297,7 +309,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                     name={`programs.${index}.startDate`}
                                     type="date"
                                     defaultValue={moment(eventData?.startTime).format("YYYY-MM-DD")}
-                                    min={moment().format("YYYY-MM-DD")}
+                                    min={moment(eventData?.startTime).format("YYYY-MM-DD")}
                                     maxDate={eventData?.endTime}
                                     rules={{
                                       required: true,
@@ -560,10 +572,22 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                         <IconButton onClick={() => handleEdit(index)}>
                           <EditIcon />
                         </IconButton>
-                        <IconButton onClick={() => handleDelete(index)}>
+                        <IconButton onClick={() => handleDeleteConfirmbox(index)}>
                           <DeleteIcon />
                         </IconButton>
                       </Grid>
+                      <CustomActionModal
+                        open={openModal}
+                        icon={<WarningIcon className="unpublish-modal-icon" />}
+                        onClose={() => setOpenModal(false)}
+                        cancelLabel="Cancel"
+                        cancelAction={() => setOpenModal(false)}
+                        header="Delete Program?"
+                        subHeader="Are you sure you want to delete this program? This action cannot be undone"
+                        submitAction={() => handleDelete(index)}
+                        submitLabel="Delete"
+                        modalClassName="publish-modal"
+                      />
                     </Grid>
                   )
               )}

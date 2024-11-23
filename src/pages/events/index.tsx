@@ -238,7 +238,7 @@ const Events = () => {
       }
     }
     req['programs']=transformProgram;
-    req['addon']=transformedAddOnData;
+    req['addons']=transformedAddOnData;
 
     return req;
   };

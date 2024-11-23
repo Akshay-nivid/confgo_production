@@ -170,6 +170,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction }) => {
             <Grid container>
               <CustomAutocomplete
                 name="search"
+                placeholder="Search Programs"
                 className="custom-search-text-field"
                 control={control}
                 placeholder="Search Events Name"

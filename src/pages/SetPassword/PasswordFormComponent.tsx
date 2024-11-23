@@ -57,7 +57,7 @@ const SetPasswordComponent = () => {
         password:password,
         userId: userDetails?.data?.userId,
         token: userDetails?.data?.token,
-        type:userDetails?.data?.tokenType??"USER_REGISTRATION",
+        type:userDetails?.data?.tokenType==="RESET_PASSWORD_OTP"?"FORGOT_PASSWORD_OTP":userDetails?.data?.tokenType,
         email:userDetails?.data?.email,
       };
       await PUT({
@@ -103,9 +103,6 @@ const SetPasswordComponent = () => {
           className="setpassword__form"
         >
           <Box className="setpassword__input-container">
-            <Typography className="setpassword__input-label text-p2 font-500">
-              Password
-            </Typography>
             <CustomTextField
               control={control}
               name="password"
@@ -120,9 +117,6 @@ const SetPasswordComponent = () => {
             />
           </Box>
           <Box className="setpassword__input-container">
-            <Typography className="setpassword__input-label text-p2 font-500">
-              Confirm Password
-            </Typography>
             <CustomTextField
               name="confirmPassword"
               type="password"
