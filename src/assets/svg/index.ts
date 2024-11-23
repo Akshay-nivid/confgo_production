@@ -49,7 +49,7 @@ import ForgotPasswordIcon from "./key-icon.svg";
 import PaymentHistoryIcon from "./paymentHistory-icon.svg";
 import CalendarEventIcon from "./calendar-event-line.svg";
 import DownloadEventIcon from "./downloadCerts.svg";
-import HeartEventIcon from "./heart-2-line.svg";
+import HeartEventIcon from "./heart.svg";
 import PaymentDashboardIcon from "./payment.svg";
 import CouponDashboardIcon from "./coupons.svg";
 import DashboardUserIcon from "./dashboard-user.svg";
@@ -72,7 +72,7 @@ import UserEditRoundIcon from './user-edit-round-icon.svg';
 import GoogleIcon from './google-icon.svg';
 import WarningIcon from './warning-icon.svg';
 import PublishTickIcon from './publish-tick.svg';
-
+import transactionHistoryIcon from './payment-history.svg';
 export {
   CalenderIcon,
   EventIcon,
@@ -147,5 +147,6 @@ export {
   UserEditRoundIcon,
   GoogleIcon,
   WarningIcon,
-  PublishTickIcon
+  PublishTickIcon,
+  transactionHistoryIcon
 };
