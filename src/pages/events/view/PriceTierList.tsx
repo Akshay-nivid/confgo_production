@@ -8,6 +8,7 @@ import useStore from "@/Libs/store";
 import PricingTable from "./PricingTable";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
+import { Logger } from "@/Utils/Logger";
 
 interface PricingTier {
   id: number;
@@ -70,14 +71,14 @@ const PriceTierList: React.FC = () => {
         setPricingTiers(processedData.pricingTiers);
         setAttendees(processedData.attendees);
       } else {
-        console.error(
+        Logger.error(
           "API responses unsuccessful",
           priceTierResponse,
           attendeeTypeResponse
         );
       }
     } catch (error) {
-      console.error("Error fetching data:", error);
+      Logger.error("Error fetching data:", error);
     } finally {
       setLoading(false);
     }

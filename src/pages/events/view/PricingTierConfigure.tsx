@@ -12,6 +12,7 @@ import { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { Logger } from "@/Utils/Logger";
 import useStore from "@/Libs/store";
+import moment from "moment";
 // import { watch } from "fs";
 
 interface Attendee {
@@ -234,26 +235,31 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
       id: "priceTierList",
       successCB: ({ success, data }: any) => {
         if (success) {
-          const groupedByDesignation = data.map((item: any) => {
-            return {
-              id: item.id,
-              tierName: item.name,
-              percentage: item.percentage || 0,
-              participantTypeId: item?.participantTypeId,
-              endDate: item.endDate,
-              startDate: item.startDate,
-            };
+          const formatItem = (item: any) => ({
+            id: item.id,
+            tierName: item.name,
+            percentage: item.percentage || 0,
+            participantTypeId: item.participantTypeId,
+            endDate: item.endDate,
+            startDate: item.startDate,
           });
 
-          setDataById('pricingTierDetails', { priceTierResponse: data });
-          setValue("pricingTiers", groupedByDesignation);
+          const uniquePricingTiers: any = Array.from(
+            new Map(data.map((item: any) => [item.name, formatItem(item)])).values()
+          );
+
+          const groupedByDesignation = data.map(formatItem);
+
+          setValue("pricingTiers", uniquePricingTiers);
+          setDataById("pricingTierDetails", { priceTierResponse: data });
+
           const attendeeTypes = getValues("attendeeTypes") || [];
+
           const updatedAttendees = attendeeTypes.map((attendee) => ({
             ...attendee,
             pricingTiers: groupedByDesignation
               .filter((tier: any) => tier.participantTypeId === attendee.id)
               .reduce((acc: any, tier: any) => {
-                // Add tier.tierName as the key and set the percentage as the value
                 acc[tier.tierName] = { percentage: tier.percentage };
                 return acc;
               }, {})
@@ -420,11 +426,16 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
       });
     }
   }
-
-  const uniquePricingFields = pricingFields.filter(
-    (item, index, self): any =>
-      self.findIndex((field: any) => field.tierName === item.tierName) === index
-  );
+  /**
+   * Set Pricing tier
+   */
+  const uniquePricingFields = useMemo(() => {
+    return pricingFields.filter(
+      (item, index, self): any =>
+        self.findIndex((field: any) => field.tierName === item.tierName) === index
+    );
+  }, [pricingFields])
+  
   return (
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
       <Grid
@@ -509,6 +520,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
               placeholder="Start Date"
               name="tierStartDate"
               control={control}
+              min={moment().format("YYYY-MM-DD")}
               rules={{ required: "Start Date is required" }}
               label="Start Date"
               requiredField
@@ -519,6 +531,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
               placeholder="End Date"
               name="tierEndDate"
               control={control}
+              min={moment().format("YYYY-MM-DD")}
               rules={{ required: "End Date is required" }}
               label="End Date"
               requiredField
