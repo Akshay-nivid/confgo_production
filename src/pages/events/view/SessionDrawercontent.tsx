@@ -8,6 +8,8 @@ import { useForm, FieldValues } from "react-hook-form";
 import { useEffect } from "react";
 import moment from "moment";
 import SessionAddonDrawer from "./SessionAddonDrawer";
+import { formatTimestamp } from "@/Utils/CommonBaseClass";
+
 
 interface SessionDrawerContentProps {
     isEditing: boolean;
@@ -54,8 +56,8 @@ interface SessionDrawerContentProps {
       if (isEditing && selectedProgram) {
         setValue("name", selectedProgram.name);
         setValue("description", selectedProgram.description);
-        setValue("startTime", moment(selectedProgram.startTime).format("YYYY-MM-DDTHH:mm"));
-        setValue("endTime", moment(selectedProgram.endTime).format("YYYY-MM-DDTHH:mm"));
+        setValue("startTime",formatTimestamp(selectedProgram.startTime));
+        setValue("endTime", formatTimestamp(selectedProgram.endTime));
         setValue("isPaid", selectedProgram.amount > 0 ? "PAID" : "FREE");
         setValue("price", selectedProgram.amount);
       } else {
