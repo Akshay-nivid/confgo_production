@@ -202,6 +202,7 @@ const CouponView: React.FC = () => {
                         defaultValue={coupon?.name}
                         requiredField
                         disabled={!editable}
+                        readOnly={!editable}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6 }}>
@@ -213,6 +214,7 @@ const CouponView: React.FC = () => {
                         rules={{ required: "Coupon Code is required" }}
                         requiredField
                         disabled={!editable}
+                        readOnly={!editable}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6 }}>
@@ -236,6 +238,7 @@ const CouponView: React.FC = () => {
                         defaultValue={coupon?.discountValue}
                         requiredField
                         disabled={!editable}
+                        readOnly={!editable}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6 }}>
@@ -273,6 +276,7 @@ const CouponView: React.FC = () => {
                         defaultValue={coupon?.maxUses}
                         requiredField
                         disabled={!editable}
+                        readOnly={!editable}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, sm: 6 }}>
@@ -284,6 +288,7 @@ const CouponView: React.FC = () => {
                         type="number"
                         requiredField
                         disabled={!editable}
+                        readOnly={!editable}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, sm: 12 }}>
@@ -295,6 +300,7 @@ const CouponView: React.FC = () => {
                         requiredField
                         disabled={!editable}
                         defaultValue={coupon?.minPurchaseValue}
+                        readOnly={!editable}
                       />
                     </Grid>
                     <Grid size={{ xs: 12, sm: 12 }}>
@@ -306,6 +312,7 @@ const CouponView: React.FC = () => {
                         placeholder="Description"
                         control={control}
                         disabled={!editable}
+                        readOnly={!editable}
                       />
                     </Grid>
                   </Grid>

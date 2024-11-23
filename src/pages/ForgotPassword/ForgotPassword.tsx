@@ -50,11 +50,14 @@ const  previousPath=()=>{
       navigate(routes.userOtp(),{state:{email:data.email,purpose:purposeTypes.RESET_PASSWORD,token: success?.data?.token?.token, userId: success?.data?.token?.userId } });
       setDataById("resendOtp",{token: success?.data?.token?.token});
       } else {
-        setDataById("thankYouPageInfo",{type:"Email sent to you. Please check."});
+        setDataById("thankYouPageInfo", {
+          type: "Email sent to you. Please check.",
+        });
         navigate(routes.thankyou());
       }
       setLoading(false); 
     };
+
     /**
      * function to make /user/forgotPassword api call
      */
