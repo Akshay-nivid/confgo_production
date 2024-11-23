@@ -9,7 +9,7 @@ import {
   Paper,
   TextField,
 } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 import moment from "moment";
 
 interface PricingTier {
@@ -33,6 +33,9 @@ interface PricingTableProps {
   attendees?: Attendee[];
   control?: any;
   payLoad?: any;
+  getValues?:any
+  setValue?:any;
+  watch?:any
   isListView?: boolean;
   onSubmitData?: (data: any) => void; // Function to handle form submission
 }
@@ -44,25 +47,10 @@ const PricingTable: React.FC<PricingTableProps> = ({
   isListView = false,
 }) => {
 
-  const { getValues, setValue } = useForm();
-
   // Group pricing tiers by unique tier name to avoid duplicate columns
   const uniqueTiers = Array.from(
     new Map(pricingTiers.map((tier) => [tier.tierName, tier])).values()
   );
-
-  // Inside PricingTable
-  const handlePercentageChange = (
-    index: number,
-    tierName: string,
-    newPercentage: number
-  ) => {
-    const attendees = getValues("attendees");
-    attendees[index].pricingTiers = attendees[index].pricingTiers.map((tier: any) =>
-      tier.tierName === tierName ? { ...tier, percentage: newPercentage } : tier
-    );
-    setValue("attendees", attendees);
-  };
 
   return (
     <TableContainer
@@ -129,14 +117,7 @@ const PricingTable: React.FC<PricingTableProps> = ({
                             readOnly: isListView,
                           }}
                           onChange={(e) => {
-                            const newPercentage =
-                              parseFloat(e.target.value) || 0;
-                            field.onChange(e); // Let React Hook Form handle the value
-                            handlePercentageChange(
-                              attendeeIndex,
-                              tier.tierName,
-                              newPercentage
-                            );
+                            field.onChange(e);
                           }}
                         />
                       )}

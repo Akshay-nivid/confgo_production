@@ -8,7 +8,7 @@ import CustomDatePicker from "@/components/CustomDatePicker/CustomDatePicker";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { CloseOutlined } from "@mui/icons-material";
 import PricingTable from "./PricingTable";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { Logger } from "@/Utils/Logger";
 import useStore from "@/Libs/store";
@@ -56,42 +56,31 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
   closeDrawer,
   hasPricingTiers,
 }) => {
-  const { control, handleSubmit, setValue, getValues, trigger } =
+  const { control, handleSubmit, setValue, getValues, trigger, watch } =
     useForm<FormValues>({
       defaultValues: {
         attendeeName: "",
         attendeeDescription: "",
         tierName: "",
         tierEndDate: "",
-        tierStartDate:"",
+        tierStartDate: "",
         attendeeTypes: [],
         pricingTiers: [],
         attendees: [
           {
-            pricingTiers: [{ tierName: "", percentage: 0 }],
+            pricingTiers: [],
           },
         ],
       },
     });
 
-  const { id } = useParams<{ id: string }>(); // Retrieve the ID from URL parameters
-
-  const [attendeeFieldsData, setAttendeeFieldsData] = useState<Attendee[]>([]);
+  const { id } = useParams<{ id: string }>();
   const POST = useStore((state: any) => state.POST);
   const DELETE = useStore((state: any) => state.DELETE);
-  const [pricingData, setPricingData] = useState<any[]>([]);
   const setDataById = useStore((state: any) => state.setDataById);
+  const dataInfo = useStore((state: any) => state?.compData?.['pricingTierDetails']) ?? [];
   const PUT = useStore((state: any) => state.PUT);
-  const [priceTierResponse,setPriceTierResponse]= useState<any>([]);
-  const [attendeeTypeResponse,setAttendeeTypeResponse] = useState<any>([]);
-  // const {
-  //   //fields: attendeeFieldsData,
-  //   append: appendAttendee,
-  //   remove: removeAttendee,
-  // } = useFieldArray({
-  //   control,
-  //   name: "attendeeTypes",
-  // });
+  const clearDataById = useStore((state:any) => state?.clearDataById)
 
   const {
     fields: pricingFields,
@@ -102,37 +91,40 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
     name: "pricingTiers",
   });
 
+
+  /**
+   * To get the all the Attendee types matching with the eventid
+   */
+  useEffect(() => {
+    fetchAttendeeTypeList();
+    fetchPricingTierList();
+  }, []);
+
   /**
    * Used to fetch the already having attendee type name
    */
   const fetchAttendeeTypeList = async () => {
-    try {
-      POST({
-        url: "/participant/type/list",
-        body: { filters: { eventId: id } },
-        id: "attendeeTypeList",
-        successCB: (context: any) => {
-          if (context?.success) {
-            setAttendeeTypeResponse(context.data);
-            const groupedByDesignation = context.data.map((item: any) => {
-              return {
-                id: item.id, // Keep id as is, assuming backend returns correct format
-                attendeeName: item.name,
-                attendeeDescription: item.description || "",
-              };
-            });
-
-            setAttendeeFieldsData(groupedByDesignation);
-            setValue("attendeeTypes", groupedByDesignation);
-          }
-        },
-        errorCB: (context: any) => {
-          Logger.error("RegistrationFee.tsx", context?.message);
-        },
-      });
-    } catch (error) {
-      Logger.error("RegistrationFee.tsx", error);
-    }
+    POST({
+      url: "/participant/type/list",
+      body: { filters: { eventId: id } },
+      id: "attendeeTypeList",
+      successCB: (context: any) => {
+        if (context?.success) {
+          const groupedByDesignation = context?.data?.map((item: any) => {
+            return {
+              id: item.id, // Keep id as is, assuming backend returns correct format
+              attendeeName: item.name,
+              attendeeDescription: item.description || "",
+            };
+          });
+          setDataById('pricingTierDetails', { attendeeTypeResponse: context.data, attendeeFieldsData: groupedByDesignation })
+          setValue("attendeeTypes", groupedByDesignation);
+        }
+      },
+      errorCB: (context: any) => {
+        Logger.error("RegistrationFee.tsx", context?.message);
+      },
+    });
   };
 
   /**
@@ -146,7 +138,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
       const attendeeDescription = getValues("attendeeDescription");
       // Check if attendeeName is empty or not
       if (attendeeName.trim() === "") {
-        console.warn("Attendee name is required!");
+        Logger.warn("Attendee name is required!");
         return; // Prevent appending if name is empty
       }
 
@@ -157,7 +149,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
       };
 
       if (attendeeDescription?.trim()) {
-        body.description = attendeeDescription; // Add description only if it's not empty
+        body.description = attendeeDescription;
       }
       POST({
         url: "/participant/type",
@@ -174,7 +166,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
         },
       });
     } else {
-      console.warn("Validation failed for Attendee Name.");
+      Logger.warn("Validation failed for Attendee Name.");
     }
   };
 
@@ -183,7 +175,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
    * @param index
    */
   const handleDeleteAttendeeType = async (index: any) => {
-    const attendeeField = attendeeFieldsData[index];
+    const attendeeField = dataInfo?.attendeeFieldsData[index];
     const attendeeTypeId = attendeeField.id;
     try {
       // Make the API call to delete the Attendee Type
@@ -191,15 +183,14 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
         url: `/participant/type/${attendeeTypeId}`,
         method: "DELETE",
         successCB: async () => {
-          // Re-fetch the attendee type list to update the UI
           await fetchAttendeeTypeList();
         },
         errorCB: (error: any) => {
-          console.error("Failed to delete attendee type:", error);
+          Logger.error("Failed to delete attendee type:", error);
         },
       });
     } catch (error) {
-      console.error("API call error on delete:", error);
+      Logger.error("API call error on delete:", error);
     }
   };
 
@@ -207,20 +198,17 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
    * Function to add the pricing tier name and date
    */
   const handleAddPricingTier = async () => {
-    const isValid = await trigger(["tierName", "tierEndDate","tierStartDate"]);
+    const isValid = await trigger(["tierName", "tierEndDate", "tierStartDate"]);
     if (isValid) {
       const tierName = getValues("tierName");
       const endDate = getValues("tierEndDate");
-      const startDate= getValues("tierStartDate");
-
-          // Check if the tierName already exists in the current pricing tiers
-    const isDuplicate = pricingFields.some((tier) => tier.tierName === tierName);
-
-    if (isDuplicate) {
-      console.warn("A tier with this name already exists.");
-      return;
-    }
-
+      const startDate = getValues("tierStartDate");
+      // Check if the tierName already exists in the current pricing tiers
+      const isDuplicate = pricingFields.some((tier) => tier.tierName === tierName);
+      if (isDuplicate) {
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "A tier with this name already exists." })
+        return;
+      }
       appendPricing({
         id: Number(Date.now().toString()),
         tierName,
@@ -230,66 +218,63 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
 
       setValue("tierName", "");
       setValue("tierEndDate", "");
-      setValue("tierStartDate","");
+      setValue("tierStartDate", "");
     } else {
-      console.warn("Validation failed for Tier Name or End Date.");
+      Logger.warn("Validation failed for Tier Name or End Date.");
     }
   };
 
   /**
-   * To get the all the Attendee types matching with the eventid
-   */
-  useEffect(() => {
-    /**
-     * Function to fetch the all pricing tier matching with the event id
-     */
-    const fetchPricingTierList = async () => {
-      try {
-        POST({
-          url: "event/priceTier/list",
-          body: { filters: { eventId: id } },
-          id: "priceTierList",
-          successCB: (context: any) => {
-            if (context?.success) {
-              setPriceTierResponse(context.data);
-              const groupedByDesignation = context.data.map((item: any) => {
-                return {
-                  id: item.id,
-                  tierName: item.name,
-                  percentage: item.percentage || 0, // Use default percentage
-                  endDate: item.endDate,
-                  startDate: item.startDate,
-                };
-              });
-              setValue("pricingTiers", groupedByDesignation);
+  * Function to fetch the all pricing tier matching with the event id
+  */
+  const fetchPricingTierList = async () => {
+    POST({
+      url: "event/priceTier/list",
+      body: { filters: { eventId: id } },
+      id: "priceTierList",
+      successCB: ({ success, data }: any) => {
+        if (success) {
+          const groupedByDesignation = data.map((item: any) => {
+            return {
+              id: item.id,
+              tierName: item.name,
+              percentage: item.percentage || 0,
+              participantTypeId: item?.participantTypeId,
+              endDate: item.endDate,
+              startDate: item.startDate,
+            };
+          });
 
-              // Set default percentage for each attendee's pricing tiers
-              const attendees = getValues("attendeeTypes") || [];
-              const updatedAttendees = attendees.map((attendee) => ({
-                ...attendee,
-                pricingTiers: groupedByDesignation.map((tier: any) => ({
-                  tierName: tier.tierName,
-                  percentage: tier.percentage || 0,
-                })),
-              }));
-              setValue("attendees", updatedAttendees);
-            }
-          },
-          errorCB: (context: any) => {
-            Logger.error("PricintTierConfig.tsx", context?.message);
-          },
+          setDataById('pricingTierDetails', { priceTierResponse: data });
+          setValue("pricingTiers", groupedByDesignation);
+          const attendeeTypes = getValues("attendeeTypes") || [];
+          const updatedAttendees = attendeeTypes.map((attendee) => ({
+            ...attendee,
+            pricingTiers: groupedByDesignation
+              .filter((tier: any) => tier.participantTypeId === attendee.id)
+              .reduce((acc: any, tier: any) => {
+                // Add tier.tierName as the key and set the percentage as the value
+                acc[tier.tierName] = { percentage: tier.percentage };
+                return acc;
+              }, {})
+          }));
+          setValue("attendees", updatedAttendees);
+        }
+      },
+      errorCB: (context: any) => {
+        setDataById('snackBarInfo', {
+          open: true,
+          autoHideDuration: 2000,
+          severity: 'error',
+          message: context?.message,
         });
-      } catch (error) {
-        Logger.error("PricingTierConfig.tsx", error);
-      }
-    };
-
-    fetchAttendeeTypeList();
-    fetchPricingTierList();
-  }, []);
+      },
+    });
+  };
+  
 
   // Filter out empty attendee types and pricing tiers
-  const nonEmptyAttendees = attendeeFieldsData.filter((field) =>
+  const nonEmptyAttendees = dataInfo?.attendeeFieldsData?.filter((field: any) =>
     field.attendeeName.trim()
   );
   const nonEmptyPricingTiers = pricingFields.filter((field) =>
@@ -297,10 +282,15 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
   );
 
   const handlePricingDataSubmit = (pricingData: any) => {
-    setPricingData(pricingData);
+    setDataById('pricingTierDetails', { pricingData })
   };
 
-
+  /**
+   * Method used to map price and tier
+   * @param priceTiersData 
+   * @param attendeeData 
+   * @returns 
+   */
   function mapData(priceTiersData: any[], attendeeData: any[]) {
     // Map pricing tiers
     const mappedPricingTiers = priceTiersData.map((tier) => ({
@@ -321,39 +311,65 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
     }));
     return { pricingTiers: mappedPricingTiers, attendees: mappedAttendees };
   }
-  
-  const processedData = mapData(
-    priceTierResponse,
-    attendeeTypeResponse
-  );
 
+  const processedData = useMemo(() => {
+    return dataInfo?.priceTierResponse && dataInfo?.attendeeTypeResponse && mapData(dataInfo?.priceTierResponse, dataInfo?.attendeeTypeResponse);
+  }, [dataInfo?.priceTierResponse, dataInfo?.attendeeTypeResponse])
 
   /**
    * Submition of the values
    */
   function onSubmit() {
-    const { attendeeTypes, attendees, pricingTiers }:any = getValues();
-    console.log("pricingtiers", pricingTiers);
+    const { attendeeTypes, attendees, pricingTiers }: any = getValues();
+    let payload: any
+    if (!hasPricingTiers) {
+      payload = {
+        eventId: id, // Pass the eventId directly
+        priceTiers: pricingTiers
+          .filter((tier: any) => tier.tierName?.trim()) // Skip tiers with empty or null names
+          .flatMap((tier: any) =>
+            attendeeTypes.map((attendee: any, index: any) => {
+              const percentage =
+                attendees[index]?.pricingTiers[tier.tierName]?.percentage || ""; // Fetch percentage for the tier and attendee type
+              return {
+                name: tier.tierName,
+                percentage: parseFloat(percentage),
+                participantTypeId: attendee.id,
+                endDate: tier.endDate || "",
+                startDate: tier.startDate || "",
+              };
+            })
+          ),
+      };
+    }
+    else {
+      const uniquePricingTiers = pricingTiers.filter((value: any, index: number, self: any) =>
+        index === self.findIndex((t: any) => (
+          t.tierName === value.tierName
+        ))
+      );
+      const transformedData = attendees.flatMap((item: any) =>
+        uniquePricingTiers?.flatMap((tier: any) =>
+          Object.entries(item.pricingTiers).map(([tierName, pricingTier]: [string, any]) => {
+            if (tierName === tier?.tierName) {
+              return {
+                name: tier?.tierName,
+                percentage: parseInt(pricingTier?.percentage, 10),
+                participantTypeId: item.id,
+                startDate: tier.startDate || "",
+                endDate: tier.endDate || ""
+              };
+            }
+            return null;
+          }).filter(Boolean)
+        )
+      );
+      payload = {
+        eventId: id,
+        priceTiers: transformedData
+      };
+    }
 
-
-    const payload = {
-      eventId: id, // Pass the eventId directly
-      priceTiers: pricingTiers
-        .filter((tier:any) => tier.tierName?.trim()) // Skip tiers with empty or null names
-        .flatMap((tier:any) =>
-          attendeeTypes.map((attendee:any, index:any) => {
-            const percentage =
-              attendees[index]?.pricingTiers[tier.tierName]?.percentage || ""; // Fetch percentage for the tier and attendee type
-            return {
-              name: tier.tierName,
-              percentage: parseFloat(percentage),
-              participantTypeId: attendee.id,
-              endDate: tier.endDate || "",
-              startDate:tier.startDate || "",
-            };
-          })
-        ),
-    };
     // Post the prepared payload
     if (!hasPricingTiers) {
       // If there are no pricing tiers, use POST
@@ -368,6 +384,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
             message: "Table created",
           });
           closeDrawer();
+          clearDataById('pricingTierDetails')
         },
         errorCB: () => {
           setDataById("snackBarInfo", {
@@ -380,7 +397,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
       });
     } else {
       // If pricing tiers exist, use PUT
-     PUT({
+      PUT({
         url: `/event/priceTier/update/${id}`,
         body: payload,
         successCB: () => {
@@ -404,6 +421,10 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
     }
   }
 
+  const uniquePricingFields = pricingFields.filter(
+    (item, index, self): any =>
+      self.findIndex((field: any) => field.tierName === item.tierName) === index
+  );
   return (
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
       <Grid
@@ -453,7 +474,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
           </Grid>
           <Grid size={{ xs: 12 }}>
             <Box display="flex" flexWrap="wrap" gap={1}>
-              {attendeeFieldsData.map((field, index) => {
+              {dataInfo?.attendeeFieldsData?.map((field: any, index: number) => {
                 return field.attendeeName.trim() ? (
                   <Chip
                     className="registration-fee-list-chip"
@@ -508,10 +529,9 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
               <AddCircleIcon className="registration-fee-list-circle-add-icon" />
             </IconButton>
           </Grid>
-
           <Grid size={{ xs: 12 }}>
             <Box display="flex" flexWrap="wrap" gap={1}>
-              {pricingFields.map((field, index) => {
+              {uniquePricingFields.map((field, index) => {
                 return field.tierName.trim() ? (
                   <Chip
                     className="registration-fee-list-chip"
@@ -531,12 +551,15 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
               Registration Fee Structure
             </Typography>
           </Grid>
-          {nonEmptyAttendees.length > 0 && (
+          {nonEmptyAttendees?.length > 0 && dataInfo && processedData && (
             <PricingTable
               pricingTiers={nonEmptyPricingTiers}
-              attendees={processedData.attendees}
+              attendees={processedData?.attendees}
               control={control}
-              payLoad={pricingData}
+              getValues={getValues}
+              setValue={setValue}
+              watch={watch}
+              payLoad={dataInfo?.pricingData}
               onSubmitData={handlePricingDataSubmit}
             />
           )}

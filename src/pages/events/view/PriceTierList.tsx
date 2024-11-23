@@ -2,7 +2,7 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import PricingTierConfigure from "./PricingTierConfigure";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import useStore from "@/Libs/store";
 import PricingTable from "./PricingTable";
@@ -127,6 +127,19 @@ const PriceTierList: React.FC = () => {
     return { pricingTiers: mappedPricingTiers, attendees: mappedAttendees };
   }
 
+  /**
+   * Method used to show list
+   */
+  const pricingList = useMemo(() => {
+    return <PricingTable
+      control={control}
+      pricingTiers={pricingTiers}
+      attendees={attendees}
+      isListView={true}
+    />
+  }, 
+  [JSON.stringify(attendees), control, JSON.stringify(pricingTiers)])
+
   return (
     <Grid container spacing={3} className="event-sessions-sessions-container">
       <Grid
@@ -171,12 +184,7 @@ const PriceTierList: React.FC = () => {
               <Typography className="registration-fee-list-sub-heading">
                 Registration Fee Structure
               </Typography>
-              <PricingTable
-                control={control}
-                pricingTiers={pricingTiers}
-                attendees={attendees}
-                isListView={true} 
-              />
+             {pricingList}
             </Grid>
           </Grid>
         )}
