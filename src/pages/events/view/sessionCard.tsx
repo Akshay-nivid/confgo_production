@@ -88,7 +88,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
         {/* Dynamically render fields based on configuration */}
         {fields.map(
           (field, index) =>
-            item[field.field] && (
+            (item[field.field] !== undefined && item[field.field] !== null) && (
               <Typography
                 key={index}
                 className="event-sessions-session-card-speaker"
