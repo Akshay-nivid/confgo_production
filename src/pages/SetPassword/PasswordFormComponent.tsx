@@ -103,9 +103,6 @@ const SetPasswordComponent = () => {
           className="setpassword__form"
         >
           <Box className="setpassword__input-container">
-            <Typography className="setpassword__input-label text-p2 font-500">
-              Password
-            </Typography>
             <CustomTextField
               control={control}
               name="password"
@@ -120,9 +117,6 @@ const SetPasswordComponent = () => {
             />
           </Box>
           <Box className="setpassword__input-container">
-            <Typography className="setpassword__input-label text-p2 font-500">
-              Confirm Password
-            </Typography>
             <CustomTextField
               name="confirmPassword"
               type="password"
