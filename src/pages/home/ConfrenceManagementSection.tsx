@@ -1,4 +1,4 @@
-import { AttentionTracking, ExportPlanImg } from "@/assets/svg";
+import { AttentionTracking, Brand, ExportPlanImg } from "@/assets/svg";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box/Box";
@@ -71,7 +71,7 @@ const ConfrenceManagementSection = () => {
               Get a fully functional website to engage attendees and promote your event. It includes schedules, speaker profiles, registration, payments, and real-time updates. Customizable to reflect your brand and deliver a seamless user experience.
               </Typography>
               <Box className="tracking-image-container">
-                <AttentionTracking className=" attendance-tracking-image" />
+                <Brand className=" attendance-tracking-image" />
               </Box>
             </Grid>
           </Grid>
