@@ -82,7 +82,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
       const savedPrograms = watch("savedPrograms");
       setProgramIndex(savedPrograms?.length ? savedPrograms.length - 1 : 0);
   }, [watch]);
-  
+   
 
     /**
      * Useeffect hook submits the form based on the formSubmit variable
@@ -113,7 +113,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
       if (!data) return; // Early exit if data is undefined or null
       setValue("programs", data);
       setValue("savedPrograms", data);
-  }, [data, setValue]);
+  }, [data]);
   
 
     /**
