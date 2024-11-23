@@ -20,12 +20,8 @@ const Navbar = () => {
   }, [location.pathname]);
 
   const theme = useMemo(() => {
-    
-    const themeMapper: any = {
-      '/': { bgcolor: 'nav-theme-black-background', color: 'nav-theme-white' }
-    };
     const defaultTheme: any = { bgcolor: 'nav-theme-white-background', color: 'nav-theme-black' };
-    return themeMapper[location.pathname] || defaultTheme
+    return defaultTheme
   }, [location.pathname])
 
   return (
@@ -35,7 +31,7 @@ const Navbar = () => {
         <Box className="nav-inner">
           <Grid container>
             <Grid className="nav-logo-container">
-              {location.pathname === '/' ? <AppLogoWhite className={`nav-logo-container-icon ${theme.color}`} /> : <AppThemeLogo className={`nav-logo-container-icon`} />}
+               <AppThemeLogo className={`nav-logo-container-icon`} />
             </Grid>
             <Grid className="nav-links-container">
               <Box className={`nav-links ${theme.color}`}>
