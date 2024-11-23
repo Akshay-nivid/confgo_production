@@ -2,7 +2,6 @@ import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import {  CalendarEventIcon, DashboardUserIcon, HeartEventIcon, SettingsIcon, transactionHistoryIcon } from '@/assets/svg';
 import {  Drawer, List, ListItem, ListItemText, ListItemButton, useMediaQuery, Divider } from '@mui/material';
-import { PaymentHistoryIcon } from '@/assets/svg';
 import routes from '@/router/routes';
 
 interface SidebarProps {
