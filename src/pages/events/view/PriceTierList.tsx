@@ -44,52 +44,58 @@ const PriceTierList: React.FC = () => {
     setDataById("priceTier", { drawerOpen: true });
   };
 
+  // The fetch function
+  const fetchPricingTiers = async () => {
+    try {
+      setLoading(true);
+
+      const priceTierResponse = await POST({
+        url: "event/priceTier/list",
+        body: { filters: { eventId: id } },
+        id: "priceTier",
+      });
+
+      const attendeeTypeResponse = await POST({
+        url: "participant/type/list",
+        body: { filters: { eventId: id } },
+        id: "attendeeType",
+      });
+
+      if (priceTierResponse.status && attendeeTypeResponse.status) {
+        const processedData = mapData(
+          priceTierResponse.data,
+          attendeeTypeResponse.data
+        );
+
+        setPricingTiers(processedData.pricingTiers);
+        setAttendees(processedData.attendees);
+      } else {
+        console.error(
+          "API responses unsuccessful",
+          priceTierResponse,
+          attendeeTypeResponse
+        );
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   /**
    * Function to close the drawer
    * @returns
    */
-  const closeDrawer = () => setDataById("priceTier", { drawerOpen: false });
+  const closeDrawer = () => {
+    setDataById("priceTier", { drawerOpen: false });
+    fetchPricingTiers(); 
+  }
 
   /**
    * Used to fetch the data from the apis
    */
   useEffect(() => {
-    const fetchPricingTiers = async () => {
-      try {
-        const priceTierResponse = await POST({
-          url: "event/priceTier/list",
-          body: { filters: { eventId: id } },
-          id: "priceTier",
-        });
-
-        const attendeeTypeResponse = await POST({
-          url: "participant/type/list",
-          body: { filters: { eventId: id } },
-          id: "attendeeType",
-        });
-
-        if (priceTierResponse.status && attendeeTypeResponse.status) {
-          const processedData = mapData(
-            priceTierResponse.data,
-            attendeeTypeResponse.data
-          );
-
-          setPricingTiers(processedData.pricingTiers);
-          setAttendees(processedData.attendees);
-        } else {
-          console.error(
-            "API responses unsuccessful",
-            priceTierResponse,
-            attendeeTypeResponse
-          );
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchPricingTiers();
   }, [id]);
 
