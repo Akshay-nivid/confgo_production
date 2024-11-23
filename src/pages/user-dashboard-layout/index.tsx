@@ -31,10 +31,10 @@ const UserDashboardLayout: React.FC = React.memo(() => {
       <LayoutAppbar userDetails={userDetails}/>
       <Box className="user-layout-container-grid-wrapper">
         <Grid container size={12} className="user-layout-container-grid">
-          <Grid size={2} className="user-layout-container-sidebar">
+          <Grid  className="user-layout-container-grid-sidebar-grid" >
             <Sidebar open={isSidebarOpen} onClose={handleSidebarClose}/>
           </Grid>
-          <Grid  size={10} className="user-layout-container-grid-outlet-grid">
+          <Grid   className="user-layout-container-grid-outlet-grid">
             <Box className="user-layout-container-grid-outlet-grid-outlet-wrapper">
               <Outlet />
             </Box>
