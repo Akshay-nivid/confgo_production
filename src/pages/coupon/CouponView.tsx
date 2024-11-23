@@ -20,6 +20,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import CustomSnackbar from "@/components/CustomSnackbar/CustomSnackbar";
 import routes from "@/router/routes";
+import useStore from '@/Libs/store'
 
 /**
  * Coupon Details Page
@@ -31,6 +32,7 @@ const CouponView: React.FC = () => {
   const [loading, setLoading] = useState(true); // State for loading
   const [error, setError] = useState<string | null>(null); // State for error message
   const [editable, setEditable] = useState<boolean | null>(false); // State for error message
+  const setDataById = useStore((state: any) => state.setDataById);
   interface Coupon {
     name: string;
     description: string;
@@ -84,6 +86,32 @@ const CouponView: React.FC = () => {
    * save edited coupon
    */
   const updateCouponDetails = async () => {
+
+    /**
+     * Validate that the start date is not a past date.
+     * Ensures the 'startDate' is greater than or equal to the current date.
+     */
+    const startDate = new Date(getValues('startDate'))
+    const endDate=new Date(getValues('endDate'))
+    const currentDate = new Date()
+    startDate.setHours(0, 0, 0, 0);
+    currentDate.setHours(0, 0, 0, 0); 
+    if(startDate < currentDate){
+      setDataById('snackBarInfo',
+        { open: true, autoHideDuration: 3000, severity: 'error',
+        message: "Start Date must be greater than the current date."})
+          return;
+    }
+    if (endDate < startDate) {
+      setDataById('snackBarInfo', {
+        open: true,
+        autoHideDuration: 3000, 
+        severity: 'error',
+        message: "End Date must be greater than or equal to the Start Date.", // Error message
+      });
+      return;
+    }
+    
     try {
       setLoading(true);
       if (!coupon) {
@@ -111,8 +139,10 @@ const CouponView: React.FC = () => {
           }, 1500);
         }
       }
+     
     } catch (err) {
       setError("Failed to update coupon details.");
+     
     } finally {
       setLoading(false);
     }
