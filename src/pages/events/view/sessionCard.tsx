@@ -2,8 +2,8 @@ import React from "react";
 import { Typography, IconButton, Box } from "@mui/material";
 import EditIcon from "@/assets/svg/event-edit.svg";
 import AddIcon from "../../../assets/svg/event-addon-icon.svg"; // Importing the icon to display next to the start time
-import moment from "moment";
 import Grid from "@mui/material/Grid2";
+import { getTimeFromTimestamp } from "@/Utils/CommonBaseClass";
 
 interface FieldConfig {
   label: string;
@@ -64,8 +64,8 @@ const SessionCard: React.FC<SessionCardProps> = ({
               {hasAddOns && (
                 <AddIcon fontSize="small"  />
               )}
-              {item[startTimeField]&&item[endTimeField]?<><span>{moment(item[startTimeField], 'HH:mm').format('hh:mmA')}</span>
-              <span>{moment(item[endTimeField], 'HH:mm').format('hh:mmA')}</span></>:<span>General Addon</span>}
+              {item[startTimeField]&&item[endTimeField]?<><span>{getTimeFromTimestamp(item[startTimeField])}</span>
+              <span>{getTimeFromTimestamp(item[endTimeField])}</span></>:<span>General Addon</span>}
             </Box>
           </Typography>
         </div>
