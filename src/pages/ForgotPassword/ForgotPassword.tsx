@@ -50,11 +50,28 @@ const  previousPath=()=>{
       navigate(routes.userOtp(),{state:{email:data.email,purpose:purposeTypes.RESET_PASSWORD,token: success?.data?.token?.token, userId: success?.data?.token?.userId } });
       setDataById("resendOtp",{token: success?.data?.token?.token});
       } else {
-        setDataById("thankYouPageInfo",{type:"Email sent to you. Please check."});
+        setDataById("thankYouPageInfo", {
+          type: "Email sent to you. Please check.",
+        });
         navigate(routes.thankyou());
       }
       setLoading(false); 
     };
+    const errorCB = (error: any) => {
+      console.log(error?.data?.message);
+      const errorMessage =
+        error?.data?.message ||
+        "An unexpected error occurred. Please try again.";
+      setDataById("snackBarInfo", {
+        open: true,
+        autoHideDuration: 3000,
+        severity: "error",
+        message: errorMessage,
+      });
+      setLoading(false);
+      Logger.error("error", error);
+    };
+
     /**
      * function to make /user/forgotPassword api call
      */
@@ -62,9 +79,9 @@ const  previousPath=()=>{
       url: 'user/forgotPassword', body: body,
       id: 'forgotPassword',
       successCB: successCB,
-      errorCB: (error: any) => Logger.error("error", error)
-    })
-  };
+      errorCB: errorCB
+  });
+}
   return (
     <>
     {loading ? (
