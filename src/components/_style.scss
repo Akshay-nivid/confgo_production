@@ -12,10 +12,6 @@
   color: $clr_black !important;
 }
 
-.custom-stepper-parse{
-  overflow-wrap: break-word !important;
-}
-
 .plan-card {
   max-width: 36rem;
   max-height: 6.833rem;
@@ -665,6 +661,7 @@
     }
     &-parse{
       max-width: 100% !important;
+      overflow-wrap: break-word !important;
       ul {
         list-style-type: disc !important;
         padding-left: 1.25rem !important; 
