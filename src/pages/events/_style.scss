@@ -5,6 +5,7 @@
     &-description{
         font-size: $h6 !important;
         font-weight: $font_semibold !important;
+        max-width: 91.5rem;
         &-error {
             .ql-snow{
                 border: 1px solid $clr_red !important;
@@ -234,6 +235,7 @@
             padding: 0 !important;
             .MuiTabPanel-root{
                 min-height: 40rem;
+                max-width: 100%;
             }
         }
         &-item{

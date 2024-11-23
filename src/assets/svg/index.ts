@@ -72,6 +72,7 @@ import WarningIcon from './warning-icon.svg';
 import PublishTickIcon from './publish-tick.svg';
 import transactionHistoryIcon from './payment-history.svg';
 import HomeEvent from './home-event.svg';
+import Brand from './brands.svg';
 
 export {
   CalenderIcon,
@@ -147,5 +148,6 @@ export {
   WarningIcon,
   PublishTickIcon,
   transactionHistoryIcon,
-  HomeEvent
+  HomeEvent,
+  Brand
 };
