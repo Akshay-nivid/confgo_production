@@ -4,7 +4,7 @@ import CustomTextField from '@/components/CustomTextfield/CustomTextField';
 import Grid from '@mui/material/Grid2';
 import CheckIcon from '@mui/icons-material/Check';
 import clsx from 'clsx';
-import { validateConfirmPassword, validateMinLength, validatePassword, validateRequiredField } from '@/Utils/Validation';
+import { validateMinLength, validatePassword, validateRequiredField } from '@/Utils/Validation';
 import { REGEX } from '@/Utils/Validation';
 import useStore from '@/Libs/store';
 import { useNavigate } from 'react-router-dom';
@@ -26,12 +26,13 @@ const SetPasswordComponent = () => {
   /**
    * function react hook form
    */
-  const { handleSubmit,control,watch } = useForm<FormData>({
+  const { handleSubmit,control,watch , trigger} = useForm<FormData>({
     defaultValues: {
       password: '',
       confirmPassword: '',
     },
   });
+
 
   const password = watch('password');
 
@@ -109,7 +110,11 @@ const SetPasswordComponent = () => {
               rules={{
                 required: validateRequiredField({fieldName:'Password'}),
                 minLength: validateMinLength({fieldName:'Password',minLength:8}),
-                pattern:validatePassword({})
+                pattern:validatePassword({}),
+                validate: () => {
+                  trigger('confirmPassword');
+                  return true;
+              },
               }}
               type="password"
               placeholder="Password"
@@ -124,8 +129,15 @@ const SetPasswordComponent = () => {
               control={control}
               rules={{
                 required: validateRequiredField({fieldName:'Confirm Password'}),
-                validate:(value)=> validateConfirmPassword({password,confirmPassword:value})
+                validate: (value: any) => {
+                  if (value === watch("password")) {
+                      return true;
+                  } else {
+                      return "The passwords do not match";
+                  }
+              }
               }}
+              
               className="setpassword__input"
             />
           </Box>
