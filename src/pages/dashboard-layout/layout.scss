@@ -34,7 +34,7 @@
 }
 
 // sidebar
-.sidebar-drawer {
+.sidebar-drawer-admin {
   height: 100% !important;
 
   & .MuiPaper-root {
@@ -51,7 +51,7 @@
   margin-bottom: 0.2rem;
 }
 
-.sidebar-list {
+.sidebar-list-admin {
   .MuiListItem-padding {
     padding: 0;
   }
@@ -81,9 +81,10 @@
       color: $clr_green;
     }
   }
-  &-active-drawer-icon {
+  &-active-drawer-icon-admin {
+    color: $clr_green !important;
     path {
-      fill: $clr_green;
+      fill: $clr_green !important;
     }
   }
 }
