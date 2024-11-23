@@ -42,7 +42,7 @@ type FormData = {
     repeat:string[];
     noOfDays:string;
   }[];
-  savedPrograms: {
+  savedAddOns: {
     id?: string;
     name: string;
     description: string;
@@ -114,24 +114,24 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
     const [editMode, setEditMode] = useState(false);
     const [addOnView,setAddonView]=useState(false);
     /**
-     * Useeffect hook updates the programIndex value based on the savedPrograms dependency
+     * Useeffect hook updates the programIndex value based on the savedAddOns dependency
      */
     useEffect(() => {
 
-      const savedPrograms = watch("savedPrograms");
-      if (savedPrograms && savedPrograms.length > 0) {
-        setProgramIndex(savedPrograms.length - 1);
+      const savedAddOns = watch("savedAddOns");
+      if (savedAddOns && savedAddOns.length > 0) {
+        setProgramIndex(savedAddOns.length - 1);
       } else {
         setProgramIndex(0);
       }
-    }, [watch("savedPrograms")]);
+    }, [watch("savedAddOns")]);
     
     /**
      * Useeffect hook submits the form based on the formSubmit variable
      */
     useEffect(() => {
       if (formSubmit) {
-        onSubmitHandler && onSubmitHandler(data?.savedPrograms, "ADDS");
+        onSubmitHandler && onSubmitHandler(data?.savedAddOns, "ADDS");
       }
     }, [formSubmit]);
 
@@ -140,7 +140,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
      * @param data : form data
      */
     const onSubmit: SubmitHandler<FormData> = (data: any) => {
-      onSubmitHandler && onSubmitHandler(data?.savedPrograms, "ADDS");
+      onSubmitHandler && onSubmitHandler(data?.savedAddOns, "ADDS");
     };
 
     /**
@@ -149,7 +149,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
     useEffect(() => {
       if (data) {
         setValue("addOn", data);
-        setValue("savedPrograms", data);
+        setValue("savedAddOns", data);
       }
     }, [data]);
 
@@ -201,14 +201,14 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
             //update newPrograms Array
             newPrograms.push(newAddon);
           }
-          setValue("savedPrograms", addOn); 
+          setValue("savedAddOns", addOn); 
           newPrograms.push(newAddon);
           append(newAddon); 
           setProgramIndex(addOn?.length || 0);
         } else {
           newPrograms.push(newAddon);
-        // Update both `savedPrograms` and the local `programs` array
-          setValue("savedPrograms", addOn);
+        // Update both `savedAddOns` and the local `programs` array
+          setValue("savedAddOns", addOn);
           append(newAddon);
           setProgramIndex(addOn?.length || 0);
         }
@@ -231,7 +231,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
      */
     const handleEdit = (index: number) => {
       setEditMode(true);
-      setValue("addOn", watch("savedPrograms"));
+      setValue("addOn", watch("savedAddOns"));
       setProgramIndex(index);
     };
 
@@ -240,11 +240,11 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
      * @param index : index of the program to delete
      */
     const handleDelete = (index: number) => {
-      setValue("addOn", watch("savedPrograms"));
+      setValue("addOn", watch("savedAddOns"));
       setProgramIndex(index);
-      const programsCopy = [...watch("savedPrograms")];
+      const programsCopy = [...watch("savedAddOns")];
       programsCopy.splice(index, 1);
-      setValue("savedPrograms", programsCopy);
+      setValue("savedAddOns", programsCopy);
       const saveProgram = programsCopy;
 
       remove(index);
@@ -650,9 +650,9 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
               spacing={2}
               key='add-program-display-container'
             >
-              {watch("savedPrograms")?.length>=1&&<Grid container className="add-program-display-container-box">
+              {watch("savedAddOns")?.length>=1&&<Grid container className="add-program-display-container-box">
                <Typography variant="h6">Saved Add-Ons</Typography>
-              {watch("savedPrograms")?.map(
+              {watch("savedAddOns")?.map(
                 (field, index) =>
                   field.addonId&&
            

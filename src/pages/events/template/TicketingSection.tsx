@@ -12,294 +12,18 @@ type TicketingSectionProps = {
     temp: number | undefined;
 }
 
-const eventData = {
-    "id": 6,
-    "name": "Health Club",
-    "description": "Blood Test Camp",
-    "startTime": "2024-10-25T00:00:00.000Z",
-    "endTime": "2024-11-30T00:00:00.000Z",
-    "venueId": 4,
-    "eventClass": "ONLINE",
-    "interval": " not required ",
-    "companyId": 12,
-    "title": "Blood Test",
-    "amount": "100.00",
-    "discount": 0,
-    "statusId": 1,
-    "slugName": "https://www.health.com",
-    "published": true,
-    "venue": {
-        "id": 4,
-        "name": "Science Hall",
-        "address": "Left block",
-        "city": "Bangalore",
-        "state": "Karnataka",
-        "country": "INDIA",
-        "postCode": null,
-        "totalCapacity": 100,
-        "mapUrl": null
-    },
-    "status": {
-        "id": 1,
-        "statusName": "ACTIVE",
-        "description": "ACTIVE"
-    },
-    "templateId": 0,
-    "eventPriceTiers": [
-        {
-            "id": 1,
-            "name": "firstRegistration",
-            "description": "Price tier for who registering early.",
-            "participantTypeId": 9,
-            "eventId": 6,
-            "percentage": "25",
-            "startDate": "2024-11-12T00:00:00.000Z",
-            "endDate": "2024-12-12T00:00:00.000Z",
-            "participantType": {
-                "id": 9,
-                "name": "Doctors",
-                "eventId": 6,
-                "description": null
-            }
-        },
-        {
-            "id": 5,
-            "name": "secondRegistration",
-            "description": "Price tier for who registering after one month.",
-            "participantTypeId": 9,
-            "eventId": 6,
-            "percentage": "10",
-            "startDate": "2024-12-13T00:00:00.000Z",
-            "endDate": "2025-01-13T00:00:00.000Z",
-            "participantType": {
-                "id": 9,
-                "name": "Doctors",
-                "eventId": 6,
-                "description": null
-            }
-        },
-        {
-            "id": 6,
-            "name": "thirdRegistration",
-            "description": "Price tier for who registering after two month.",
-            "participantTypeId": 9,
-            "eventId": 6,
-            "percentage": "15",
-            "startDate": "2025-01-14T00:00:00.000Z",
-            "endDate": "2025-02-14T00:00:00.000Z",
-            "participantType": {
-                "id": 9,
-                "name": "Doctors",
-                "eventId": 6,
-                "description": null
-            }
-        },
-        {
-            "id": 7,
-            "name": "fourthRegistration",
-            "description": "Price tier for who registering after two month.",
-            "participantTypeId": 10,
-            "eventId": 6,
-            "percentage": "15",
-            "startDate": "2025-01-14T00:00:00.000Z",
-            "endDate": "2025-02-14T00:00:00.000Z",
-            "participantType": {
-                "id": 10,
-                "name": "Student",
-                "eventId": 6,
-                "description": null
-            }
-        },
-        {
-            "id": 8,
-            "name": "firstRegistration",
-            "description": "Price tier for who registering early.",
-            "participantTypeId": 10,
-            "eventId": 6,
-            "percentage": "25",
-            "startDate": "2024-11-12T00:00:00.000Z",
-            "endDate": "2024-12-12T00:00:00.000Z",
-            "participantType": {
-                "id": 10,
-                "name": "Student",
-                "eventId": 6,
-                "description": null
-            }
-        },
-        {
-            "id": 9,
-            "name": "fourthRegistration",
-            "description": "Price tier for who registering after two month.",
-            "participantTypeId": 8,
-            "eventId": 6,
-            "percentage": "5",
-            "startDate": "2025-01-14T00:00:00.000Z",
-            "endDate": "2025-02-14T00:00:00.000Z",
-            "participantType": {
-                "id": 8,
-                "name": "Employee",
-                "eventId": 6,
-                "description": null
-            }
-        },
-        {
-            "id": 10,
-            "name": "firstRegistration",
-            "description": "Price tier for who registering early.",
-            "participantTypeId": 8,
-            "eventId": 6,
-            "percentage": "10",
-            "startDate": "2024-11-12T00:00:00.000Z",
-            "endDate": "2024-12-12T00:00:00.000Z",
-            "participantType": {
-                "id": 8,
-                "name": "Employee",
-                "eventId": 6,
-                "description": null
-            }
-        },
-    ],
-    "eventProgramSchedules": [
-        {
-            "id": 2,
-            "eventId": 6,
-            "programType": "Online",
-            "name": "james",
-            "phone": "9876543211",
-            "email": "mailto:nihal@gmail.com",
-            "bio": "nil",
-            "assetId": 1,
-            "description": "nil",
-            "startTime": "12:00:00",
-            "endTime": "07:00:00",
-            "topic": "nothing",
-            "language": "english",
-            "mediaUrl": "https://bbc.com",
-            "designation": "HR",
-            "statusId": 2
-        }
-    ],
-    "programs": [
-        {
-            "id": 7,
-            "parentId": 6,
-            "name": "sdv",
-            "description": "d",
-            "startTime": "2024-11-25T00:00:00.000Z",
-            "endTime": "2024-11-25T00:00:00.000Z",
-            "venueId": 4,
-            "eventClass": "ONLINE",
-            "interval": " not required ",
-            "companyId": 12,
-            "title": "Dengue Testing",
-            "amount": "25.00",
-            "discount": null,
-            "statusId": 1,
-            "registrationDeadline": null,
-            "slugName": null,
-            "published": false,
-            "url": null,
-            "speciality": null,
-            "templateId": null,
-            "status": {
-                "id": 1,
-                "statusName": "ACTIVE",
-                "description": "ACTIVE"
-            }
-        },
-        {
-            "id": 8,
-            "parentId": 6,
-            "name": "Maleria test",
-            "description": "testing blood",
-            "startTime": "2024-10-25T00:00:00.000Z",
-            "endTime": "2024-10-30T00:00:00.000Z",
-            "venueId": 4,
-            "eventClass": "ONLINE",
-            "interval": " not required ",
-            "companyId": 12,
-            "title": "Maleria Testing",
-            "amount": "25.00",
-            "discount": null,
-            "statusId": 1,
-            "registrationDeadline": null,
-            "slugName": null,
-            "published": false,
-            "url": null,
-            "speciality": null,
-            "templateId": null,
-            "status": {
-                "id": 1,
-                "statusName": "ACTIVE",
-                "description": "ACTIVE"
-            }
-        }
-    ],
-    "addons": [
-        {
-            "id": 9,
-            "eventId": 6,
-            "addonId": 4,
-            "companyId": 9,
-            "amount": "100.00",
-            "tier": "not rquired",
-            "startTime": "2024-10-25T00:00:00.000Z",
-            "endTime": "2024-10-30T00:00:00.000Z",
-            "description": null,
-            "statusId": null,
-            "addon": {
-                "id": 4,
-                "name": "dinner",
-                "description": "Night food",
-                "companyId": 12,
-                "owner": "richards",
-                "enabled": 1,
-                "assetId": null
-            },
-            "eventAddonProperties": [
-                {
-                    "id": 9,
-                    "name": "veg",
-                    "amount": "200.00",
-                    "eventAddonId": 9,
-                    "description": null,
-                    "enabled": 1,
-                    "assetId": null
-                },
-                {
-                    "id": 13,
-                    "name": "veg",
-                    "amount": "200.00",
-                    "eventAddonId": 9,
-                    "description": null,
-                    "enabled": 1,
-                    "assetId": null
-                },
-                {
-                    "id": 14,
-                    "name": "non veg",
-                    "amount": "250.00",
-                    "eventAddonId": 9,
-                    "description": null,
-                    "enabled": 1,
-                    "assetId": null
-                }
-            ]
-        }
-    ]
-}
-
-const TicketingSection: React.FC<TicketingSectionProps> = React.memo(({ temp }) => {
+const TicketingSection: React.FC<TicketingSectionProps> = React.memo(({ data, temp }) => {
 
     const classPrefix = `event-template-ticketing-${temp}`;
 
 
+
     /**
      * Method calculates the total amount
-     * @param data : event data
+     * @param amountData : event data
      * @returns 
      */
-    const calculateTotalAmount = (data: any) => {
+    const calculateTotalAmount = (amountData: any) => {
         let totalAmount = 0;
 
         function traverse(node: any) {
@@ -319,7 +43,7 @@ const TicketingSection: React.FC<TicketingSectionProps> = React.memo(({ temp }) 
         }
 
         // Start traversal from the root
-        traverse(data);
+        traverse(amountData);
 
         return totalAmount;
     }
@@ -376,8 +100,8 @@ const TicketingSection: React.FC<TicketingSectionProps> = React.memo(({ temp }) 
         return `${start} - ${end}`;
     }
 
-    const totalAmount = calculateTotalAmount(eventData);
-    const amountCalculatedData = calculateAmounts(groupByParticipantTypeId(eventData?.eventPriceTiers), totalAmount);
+    const totalAmount = calculateTotalAmount(data);
+    const amountCalculatedData = calculateAmounts(groupByParticipantTypeId(data?.eventPriceTiers), totalAmount);
 
     return <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}`} justifyContent={'center'} alignItems={'center'} spacing={2} direction={'column'}>
         <Grid><Typography className={`${classPrefix}-title`}>Registration & Ticketing</Typography></Grid>

@@ -20,6 +20,7 @@ import { useState } from "react";
 import { ArrowDropDown } from "@mui/icons-material";
 import useStore from "@/Libs/store";
 import PayPalParticipantButton from "./PaypalPartcipantComponent";
+import { useNavigate } from "react-router-dom";
 
 /**
  * This component renders the payment method page, which displays the programs and their corresponding costs, the food and its corresponding cost, and the total cost of the programs and food. It also displays the different payment methods available to the user.
@@ -36,6 +37,8 @@ const PaymentMethod = () => {
     (panel: string) => (_: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
+  
+  const navigate = useNavigate()
   return (
     <Grid container className="payment-method">
       <Grid size={12}>
@@ -263,6 +266,7 @@ const PaymentMethod = () => {
           label="Back"
           variant="text"
           className="back-button"
+          onClick={() =>navigate(-1)}
         />
       </Grid>
     </Grid>

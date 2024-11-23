@@ -6,7 +6,6 @@ import Grid from "@mui/material/Grid2";
 import { CircularProgress } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import { Logger } from "@/Utils/Logger";
-import useStore from "@/Libs/store";
 import { ISource } from "@/Libs/type";
 /**
  * `PaymentHistory` component displays a data grid with payment history information.
@@ -14,7 +13,7 @@ import { ISource } from "@/Libs/type";
 const PaymentHistory: React.FC = React.memo(() => {
   const [isLoading, setIsLoading] = useState(false);
   const [source, setSource] = useState<ISource | undefined>(undefined);
-  const paymentList = useStore((state: any) => state?.compData?.['paymentList']?.['payment/list']) ?? [];
+
   /**
    *  * `columns` defines the structure of each column in the DataGridList component.
    */
@@ -91,7 +90,6 @@ const PaymentHistory: React.FC = React.memo(() => {
       setIsLoading(false)
     }
   }, []);
-  console.log("payment  >. ", paymentList?.data)
   return (
     <Grid container size={12} justifyContent="center" className="payment-history-container">
       <Grid className="" size={12} container>
@@ -102,7 +100,7 @@ const PaymentHistory: React.FC = React.memo(() => {
       {isLoading ? (
         <CircularProgress />
       ) : (
-        <Grid container size={12} justifyContent="center" className="paymentlist">
+        <Grid  size={12} justifyContent="center" className="paymentlist">
           <DataGridList
             dataTransformer={transformData}
             source={source}

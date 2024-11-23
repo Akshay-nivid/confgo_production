@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { CardContent, Button, Typography, Box, Chip } from "@mui/material";
 import Grid from "@mui/material/Grid2";
@@ -6,11 +5,11 @@ import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomCheckbox from "@/components/CustomCheckbox/CustomCheckbox";
-import apiClient from "@/Libs/Https/API-client";
-import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import useStore, { clearDataById, POST } from "@/Libs/store";
 import CustomDatePicker from "@/components/CustomDatePicker/CustomDatePicker";
 import FileUpload from "@/components/FileUpload/FileUpload";
+import { useNavigate } from "react-router-dom";
+import routes from "@/router/routes";
 
 interface Option {
   value: string;
@@ -47,7 +46,7 @@ const DynamicUserForm = () => {
   const setDataById = useStore((state) => state.setDataById);
   const dynamicFormData = useStore((state: any) => state?.compData?.["dynamicFormData"]) ?? [];
   const uploadedFiles = useStore((state: any) => state?.compData?.["uploadedFiles"]) ?? [];
-
+  const navigate = useNavigate();
 
 
 
@@ -56,40 +55,40 @@ const DynamicUserForm = () => {
    *  
    * */
 
-  useEffect(() => {
-/**
- * Fetches dynamic form data from the API and processes the response.
- * On success, it parses the response data, converts metadata to JSON,
- * and stores it in the state under "dynamicFormData".
- * On failure, it updates the state with an error message to display in a snackbar.
- */
-    const fetchDynamicFormData = async () => {
-      const response = await apiClient.get("event/form/7");
-      const { status, data, message } = processAPIResponse(
-        response,
-        "eventForm"
-      );
+//   useEffect(() => {
+// /**
+//  * Fetches dynamic form data from the API and processes the response.
+//  * On success, it parses the response data, converts metadata to JSON,
+//  * and stores it in the state under "dynamicFormData".
+//  * On failure, it updates the state with an error message to display in a snackbar.
+//  */
+//     const fetchDynamicFormData = async () => {
+//       const response = await apiClient.get("event/form/7");
+//       const { status, data, message } = processAPIResponse(
+//         response,
+//         "eventForm"
+//       );
 
-      if (status) {
-        const parsedData = data?.map((item: any) => {
-          return {
-            ...item,
-            metadata: JSON.parse(item.metadata),
-          };
-        });
+//       if (status) {
+//         const parsedData = data?.map((item: any) => {
+//           return {
+//             ...item,
+//             metadata: JSON.parse(item.metadata),
+//           };
+//         });
 
-        setDataById("dynamicFormData", { data: parsedData });
-      } else {
-        setDataById("snackBarInfo", {
-          open: true,
-          autoHideDuration: 2000,
-          severity: "error",
-          message: message || "Something went wrong",
-        });
-      }
-    };
-    fetchDynamicFormData();
-  }, []);
+//         setDataById("dynamicFormData", { data: parsedData });
+//       } else {
+//         setDataById("snackBarInfo", {
+//           open: true,
+//           autoHideDuration: 2000,
+//           severity: "error",
+//           message: message || "Something went wrong",
+//         });
+//       }
+//     };
+//     fetchDynamicFormData();
+//   }, []);
   
   /**
    * 
@@ -108,6 +107,7 @@ const DynamicUserForm = () => {
       if (value === undefined) return
 
       const [fieldName, id, fieldType] = key.split("_");
+
 
       return {
 
@@ -142,9 +142,11 @@ const DynamicUserForm = () => {
     }
 
     POST({
-      url: 'registrationRecord', body: body, id: 'registrationRecord', successCB: () => {
+      url: 'registrationRecord', body: body, id: 'registrationRecord',
+      successCB: () => {
 
         clearDataById('uploadedFiles')
+        navigate(routes.userPaymentMethod())
 
       }
     })
