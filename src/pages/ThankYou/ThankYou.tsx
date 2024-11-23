@@ -35,7 +35,7 @@ export default function Thankyou() {
           <Grid size={{ xs: 12, lg: 4 }} className='thankyou-icon'>
           </Grid >
           <Grid size={{ xs: 6, lg: 9 }} className='thankyou-button' >
-            <CustomButton variant="text" onClick={() => navigate("/")} className="button-back-to-home" startIcon={<KeyboardBackspaceRoundedIcon />} label="Back to Login" />
+            <CustomButton variant="text" onClick={() => navigate("/user/login")} className="button-back-to-home" startIcon={<KeyboardBackspaceRoundedIcon />} label="Back to Login" />
           </Grid>
         </Grid>
       </Grid>

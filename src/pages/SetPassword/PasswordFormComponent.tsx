@@ -57,7 +57,7 @@ const SetPasswordComponent = () => {
         password:password,
         userId: userDetails?.data?.userId,
         token: userDetails?.data?.token,
-        type:userDetails?.data?.tokenType??"USER_REGISTRATION",
+        type:userDetails?.data?.tokenType==="RESET_PASSWORD_OTP"?"FORGOT_PASSWORD_OTP":userDetails?.data?.tokenType,
         email:userDetails?.data?.email,
       };
       await PUT({

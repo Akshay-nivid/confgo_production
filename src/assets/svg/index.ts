@@ -8,8 +8,6 @@ import LogoutIcon from "./logout.svg";
 import StepperActive from "./stepper-active.svg";
 import StepperCurrent from "./Stepper-current.svg";
 import StepperDefault from "./stepper-default.svg";
-import GridEndOneImg from "./grid-end-one.svg";
-import GridEndTwoImg from "./grid-end-two.svg";
 import ExportPlanImg from "./export-plan.svg";
 import AttentionTracking from "./attention-tracking.svg";
 import SeamlessIntegration from "./seamless-integration.svg";
@@ -49,7 +47,7 @@ import ForgotPasswordIcon from "./key-icon.svg";
 import PaymentHistoryIcon from "./paymentHistory-icon.svg";
 import CalendarEventIcon from "./calendar-event-line.svg";
 import DownloadEventIcon from "./downloadCerts.svg";
-import HeartEventIcon from "./heart-2-line.svg";
+import HeartEventIcon from "./heart.svg";
 import PaymentDashboardIcon from "./payment.svg";
 import CouponDashboardIcon from "./coupons.svg";
 import DashboardUserIcon from "./dashboard-user.svg";
@@ -72,6 +70,8 @@ import UserEditRoundIcon from './user-edit-round-icon.svg';
 import GoogleIcon from './google-icon.svg';
 import WarningIcon from './warning-icon.svg';
 import PublishTickIcon from './publish-tick.svg';
+import transactionHistoryIcon from './payment-history.svg';
+import HomeEvent from './home-event.svg';
 
 export {
   CalenderIcon,
@@ -84,8 +84,6 @@ export {
   StepperActive,
   StepperCurrent,
   StepperDefault,
-  GridEndOneImg,
-  GridEndTwoImg,
   SeamlessIntegration,
   ExportPlanImg,
   AttentionTracking,
@@ -147,5 +145,7 @@ export {
   UserEditRoundIcon,
   GoogleIcon,
   WarningIcon,
-  PublishTickIcon
+  PublishTickIcon,
+  transactionHistoryIcon,
+  HomeEvent
 };
