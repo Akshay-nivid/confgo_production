@@ -46,6 +46,7 @@ const EventCard: React.FC<EventProps> = React.memo(({eventFullData, datetitle, t
                     {squareButtonLabels.length>1?<><Typography onClick={() => onSquareButtonClick && onSquareButtonClick(0)} className='event-card-certificate-label'>
                         [{squareButtonLabels[0]}]
                     </Typography>
+                    <Typography className='event-card-certificate-label-bar'>|</Typography>
                     <Typography className='event-card-certificate-label' onClick={() => onSquareButtonClick && onSquareButtonClick(1)}>[{squareButtonLabels[1]}]</Typography>
                     </>:<Typography className='event-card-certificate-label' onClick={() => onSquareButtonClick && onSquareButtonClick(0)}>
                         [{squareButtonLabels[0]}]

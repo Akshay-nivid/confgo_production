@@ -67,10 +67,10 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       variant="persistent"
       anchor="left"
       open={open}
-      className="sidebar-drawer"
+      className="sidebar-drawer-admin"
     >
       <div className="px-[1.666rem] flex-1">
-        <List className="sidebar-list">
+        <List className="sidebar-list-admin">
           {sidebarItems.map((item) => {
             const isActive = isActiveLink(item.path, item.exact);
 
@@ -80,7 +80,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
                   <ListItemButton>
                     <item.icon
                       className={
-                        isActive ? 'sidebar-list-active-drawer-icon' : ''
+                        isActive ? 'sidebar-list-admin-active-drawer-icon-admin' : ''
                       }
                     />
                     <ListItemText>{item.label}</ListItemText>

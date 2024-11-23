@@ -62,7 +62,16 @@ const  previousPath=()=>{
       url: 'user/forgotPassword', body: body,
       id: 'forgotPassword',
       successCB: successCB,
-      errorCB: (error: any) => Logger.error("error", error)
+      errorCB: (error: any) => {
+        setLoading(false); 
+        Logger.error("error", error);
+        setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "error",
+          message: error?.message??"Invalid Email Address",
+        });
+      }
     })
   };
   return (

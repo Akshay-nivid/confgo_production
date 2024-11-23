@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { Link, useLocation } from 'react-router-dom';
 import routes from '@/router/routes';
-import { AppLogoWhite, AppThemeLogo, Divider } from '@/assets/svg';
+import { AppThemeLogo, Divider } from '@/assets/svg';
 import { useMemo } from 'react';
 
 /**
