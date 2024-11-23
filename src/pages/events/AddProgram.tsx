@@ -81,7 +81,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
     useEffect(() => { 
       const savedPrograms = watch("savedPrograms");
       setProgramIndex(savedPrograms?.length ? savedPrograms.length - 1 : 0);
-  }, [watch]);
+  }, [watch("savedPrograms")]);
    
 
     /**
@@ -104,7 +104,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
           onSubmitHandler(data.savedPrograms, "PROGRAM");
       }
   };
-  
+   
 
     /**
      * Useeffect hook set the field based on the data
