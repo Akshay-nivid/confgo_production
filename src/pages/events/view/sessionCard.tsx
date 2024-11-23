@@ -3,7 +3,7 @@ import { Typography, IconButton, Box } from "@mui/material";
 import EditIcon from "@/assets/svg/event-edit.svg";
 import AddIcon from "../../../assets/svg/event-addon-icon.svg"; // Importing the icon to display next to the start time
 import Grid from "@mui/material/Grid2";
-import LocalTimeDate from "@/components/LocalTimeDate/LocalTimeDate";
+import { getTimeFromTimestamp } from "@/Utils/CommonBaseClass";
 
 interface FieldConfig {
   label: string;
@@ -64,8 +64,8 @@ const SessionCard: React.FC<SessionCardProps> = ({
               {hasAddOns && (
                 <AddIcon fontSize="small"  />
               )}
-              {item[startTimeField]&&item[endTimeField]?<><span><LocalTimeDate utcDateTime={item[startTimeField]} format='HH:mm'/></span>
-              <span><LocalTimeDate utcDateTime={item[endTimeField]} format='HH:mm'/></span></>:<span>General Addon</span>}
+              {item[startTimeField]&&item[endTimeField]?<><span>{getTimeFromTimestamp(item[startTimeField])}</span>
+              <span>{getTimeFromTimestamp(item[endTimeField])}</span></>:<span>General Addon</span>}
             </Box>
           </Typography>
         </div>
@@ -88,7 +88,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
         {/* Dynamically render fields based on configuration */}
         {fields.map(
           (field, index) =>
-            (item[field.field] !== undefined && item[field.field] !== null) && (
+            item[field.field] && (
               <Typography
                 key={index}
                 className="event-sessions-session-card-speaker"
