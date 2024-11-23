@@ -1,5 +1,5 @@
 import Grid from "@mui/material/Grid2";
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Box,
     FormControl,
@@ -21,6 +21,7 @@ const AddOrganization = React.memo(() => {
     const form1 = useStore((state: any) => state?.compData?.['form1']) ?? [];
     const form2 = useStore((state: any) => state?.compData?.['form2']) ?? [];
     const form3 = useStore((state: any) => state?.compData?.['form3']) ?? [];
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
     /*
      * function to handle submission of the form and create new company
@@ -28,6 +29,8 @@ const AddOrganization = React.memo(() => {
     const onSubmit: SubmitHandler<FormData> = (data) => { 
         setDataById('form3', { field_values: data });
         createAccount(data)
+        setIsButtonDisabled(true); 
+
     };
 
     /*
@@ -63,9 +66,12 @@ const AddOrganization = React.memo(() => {
                 setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Registration Successfully and Please Complete Payment for Completion" });
                 setDataById('form3', { companyData: data });
                 setDataById('register', { data: 'PAYMENT_METHOD_PAGE' });
+                setIsButtonDisabled(true); 
             }
             else{
                 setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message});
+                setIsButtonDisabled(false); // Disable the button
+
             }
 
         } catch (error: any) {
@@ -159,6 +165,7 @@ const AddOrganization = React.memo(() => {
                                         variant="contained"
                                         color="primary"
                                         size="large"
+                                        disabled={isButtonDisabled}
                                     />
                                 </Grid>
                             </form>
