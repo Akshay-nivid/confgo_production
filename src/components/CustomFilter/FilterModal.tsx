@@ -1,6 +1,8 @@
-import { Dialog, DialogActions, DialogContent, DialogTitle, Button, Grid, TextField, Typography} from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, Typography, IconButton } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 import { Controller, useForm } from 'react-hook-form';
 import React from 'react';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface FilterDialogProps {
   open: boolean;
@@ -12,12 +14,21 @@ interface FilterDialogProps {
  * @author Neethu
  */
 const FilterDialog: React.FC<FilterDialogProps> = ({ open, onClose, onApplyFilters }) => {
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, reset, setValue } = useForm();
 
   //On apply button click
   const onSubmit = (data: any) => {
     onApplyFilters(data);
     onClose(); // Close the dialog after applying filters
+  };
+
+  /**
+   * fuction to reset the filter fields
+   */
+  const handleReset = () => {
+    reset();
+    setValue("startDate", "");
+    setValue("endDate", "");
   };
 
   return (
@@ -32,13 +43,17 @@ const FilterDialog: React.FC<FilterDialogProps> = ({ open, onClose, onApplyFilte
       hideBackdrop
     >
       <DialogTitle >
-        <Typography variant="h6">Filters</Typography>
+        <Grid container justifyContent={'space-between'}>
+          <Typography variant="h6">Filters</Typography>
+          <IconButton onClick={onClose}>
+            <CloseIcon />
+          </IconButton></Grid>
       </DialogTitle>
 
       <DialogContent >
         <Grid container spacing={2} className='custom-list-filters'>
           {/* Start Date Field */}
-          <Grid item xs={6}  >
+          <Grid size={{ xs: 6 }}  >
             <Controller
               name="startDate"
               control={control}
@@ -57,7 +72,7 @@ const FilterDialog: React.FC<FilterDialogProps> = ({ open, onClose, onApplyFilte
           </Grid>
 
           {/* End Date Field */}
-          <Grid item xs={6}>
+          <Grid size={{ xs: 6 }}  >
             <Controller
               name="endDate"
               control={control}
@@ -81,10 +96,18 @@ const FilterDialog: React.FC<FilterDialogProps> = ({ open, onClose, onApplyFilte
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={onClose} className="custom-list-filter-btn">
-          Cancel
-        </Button>
-        <Button onClick={handleSubmit(onSubmit)}   className="custom-list-next-btn" variant="contained">
+        <Grid size={{ xs: 4 }}>
+          <Button
+            type="button"
+            variant="contained"
+            color="primary"
+            className="custom-list-filter-btn"
+            onClick={handleReset}
+          >
+            RESET
+          </Button>
+        </Grid>
+        <Button onClick={handleSubmit(onSubmit)} className="custom-list-next-btn" variant="contained">
           Apply Filters
         </Button>
       </DialogActions>
