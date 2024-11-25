@@ -43,7 +43,9 @@ interface AccountSettingProps {
     setEmail: (email: string) => void; 
    }
 
-/**to view and edit personal information for admin users */
+/**
+ * to view and edit personal information for admin users 
+ */
 const PersonalAndOrganisationDetails:React.FC<AccountSettingProps> = React.memo(({ setEmail }) => {
   const { handleSubmit, control, setValue } = useForm<Profile>();
   const [profileData, setProfileData] = useState<Profile | null>(null);
@@ -99,11 +101,16 @@ const PersonalAndOrganisationDetails:React.FC<AccountSettingProps> = React.memo(
     }
   }, [setEmail,setValue]);
 
+/** 
+* opens the modal for image upload
+*/
 const openmodal = () =>{
   setUploadModalOpen(true)
 }
 
-/** image upload function */
+/** 
+ * image upload function 
+ */
 const handleImageUpload = (uploadedFile: CustomFile) => {
   setProfileData((prevProfileData) => {
     if (!prevProfileData) {
@@ -117,7 +124,9 @@ const handleImageUpload = (uploadedFile: CustomFile) => {
   setUploadModalOpen(false);
 };
 
-/** image delete function */
+/** 
+ * image delete function 
+ */
 const handleDeleteAvatar = () => {
   setProfileData((prevProfileData) => {
     if (!prevProfileData) {

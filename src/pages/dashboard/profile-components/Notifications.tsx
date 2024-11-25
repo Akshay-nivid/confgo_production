@@ -1,7 +1,7 @@
 /**
  * profile ui component for appbar in user dashboard
  * @author Nevin
- * used to edit and view details of user
+ * used to get update notification settings
  */
 
 import React from "react";

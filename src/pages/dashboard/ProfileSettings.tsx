@@ -12,9 +12,9 @@ const ProfileSettings: React.FC = React.memo(() => {
   const setDataById = useStore((state: any) => state.setDataById);
   const tabInfo = useStore((state: any) => state?.compData?.["settings"]);
 
-  /**
-   * Handles the tab change event by updating the active tab index
-   */
+/**
+* Handles the tab change event by updating the active tab index
+*/
   const handleTabChange = (_: React.SyntheticEvent, newIndex: number) => {
     setDataById("settings", { tabIndex: newIndex });
   };

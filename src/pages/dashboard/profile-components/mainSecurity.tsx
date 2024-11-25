@@ -31,7 +31,7 @@ const MainSecurity:React.FC<SecurityProps> = React.memo(({ passEmail }) => {
 /**
  *  Initiates the password reset process by sending the user's email to the forgotPassword
  * @param email
-*/
+ */
   const handlePasswordReset = async () => {
     const body = { username: email, };
     const successCB = (context: any) => {  
