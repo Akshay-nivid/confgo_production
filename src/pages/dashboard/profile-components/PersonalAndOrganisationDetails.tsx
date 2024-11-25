@@ -148,13 +148,14 @@ const handleDeleteAvatar = () => {
  * @param data
  */
 const onSubmit = async (data: Profile) => {
-  try {
+  try { 
     const payload = {
       ...data,
       assetId: profileData?.assetId,
-    };
+    }; 
     const response = await apiClient.put(`/user`, payload);
-    if (response.data.status === "success") {
+    const { status } = processAPIResponse(response, "personalInformation");  
+    if (status) {
       setProfileData((prevProfileData) => ({
         ...prevProfileData,
         ...payload,
