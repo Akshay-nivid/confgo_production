@@ -301,7 +301,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                     rules={{ required: true }}
                                   />
                                 </Grid>
-                                <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
+                                <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"} container spacing={2}>
                                   <Grid size={{xs:12,sm:6}}>
                                   <CustomTextField
                                     placeholder="Start Date"
@@ -312,22 +312,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                     min={moment(eventData?.startTime).format("YYYY-MM-DD")}
                                     maxDate={eventData?.endTime}
                                     rules={{
-                                      required: true,
-                                      validate: (value) => {
-                                        if (
-                                          typeof value === "string" &&
-                                          value
-                                        ) {
-                                          const selectedDate = new Date(value);
-                                          const now = new Date(eventData?.startTime);
-                                          now.setHours(0, 0, 0, 0);
-                                          return (
-                                            selectedDate >= now ||
-                                            "Start Date cannot be in the past"
-                                          );
-                                        }
-                                        return "Invalid date";
-                                      },
+                                      required: true
                                     }}
                                   />
                                   </Grid>
@@ -356,7 +341,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                   />
                                   </Grid> */}
                                 </Grid>
-                                <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
+                                <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"} container spacing={2}>
                                   <Grid size={{xs:12,sm:6}}>
                                   <CustomTextField
                                     placeholder="End Date"
@@ -367,22 +352,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                     min={moment().format("YYYY-MM-DD")}
                                     maxDate={eventData?.endTime}
                                     rules={{
-                                      required: true,
-                                      validate: (value) => {
-                                        if (
-                                          typeof value === "string" &&
-                                          value
-                                        ) {
-                                          const selectedDate = new Date(value);
-                                          const now = new Date();
-                                          now.setHours(0, 0, 0, 0);
-                                          return (
-                                            selectedDate >= now ||
-                                            "Start Date cannot be in the past"
-                                          );
-                                        }
-                                        return "Invalid date";
-                                      },
+                                      required: true
                                     }}
                                   />
                                   </Grid>
