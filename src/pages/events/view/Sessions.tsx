@@ -104,6 +104,62 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
   };
 
   /**
+   * Function to delete a program or addon
+   * @param item 
+   */
+  const handleDeleteClick = (item: any) => {
+    if (eventData?.published) {
+      return setDataById("snackBarInfo", {
+        open: true,
+        autoHideDuration: 2000,
+        severity: "error",
+        message: "Event is Already Published!",
+      });
+    }
+    try {
+      const { id, type } = item;
+      if (type === "program" && programs.length < 2) {
+        return setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "error",
+          message: "Cannot delete! At least one program should be present.",
+        });
+      }
+      const successCB = (response: any) => {
+        setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "success",
+          message: response?.message,
+        });
+        Logger.info("Deleting program/addon successful:", response?.data);
+      };
+
+      const errorCB = (error: any) => {
+        setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "error",
+          message: error?.message,
+        });
+        Logger.error(`Error deleting program/addon`, error);
+      };
+
+      const url = type === "program" ? `program/delete/${id}` : `addon/delete/${id}`;
+
+      PUT({
+        url,
+        body: {},
+        id: type === "program" ? "deleteProgram" : "deleteAddon",
+        successCB,
+        errorCB,
+      });
+    } catch (error) {
+      Logger.error("Error Deleting program/addon:", error);
+    }
+  };
+  /**
    * Submiting the datas according to the conditions
    */
   const onSubmit = async (data: any) => {
@@ -245,6 +301,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
                   key={index}
                   item={item}
                   onEditClick={handleEditClick}
+                  onDeleteClick={handleDeleteClick}
                   titleField={item.addon && item.addon.name ? "addon.name" : "name"}
                   hasAddOns={item.addon ? true : false}
                   startTimeField="startTime"
@@ -289,6 +346,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
         item={item}
         hasAddOns={item.addon ? true : false}
         onEditClick={handleEditClick}
+        onDeleteClick={handleDeleteClick}
         titleField={
           item.addon && item.addon.name ? "addon.name" : "name"
         }
