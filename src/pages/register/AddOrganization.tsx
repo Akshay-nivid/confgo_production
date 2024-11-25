@@ -131,9 +131,11 @@ const AddOrganization = React.memo(() => {
                                                 placeholder="Organization Phone"
                                                 label="Organization Phone *"
                                                 name="organizationPhone"
-                                                type="number"
+                                                type="text"
                                                 control={control}
                                                 rules={phoneRules}
+                                                isNumeric={true}
+                                                max={10}
                                             />
 
                                         </Grid>
