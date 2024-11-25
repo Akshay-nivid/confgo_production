@@ -174,10 +174,6 @@ const CustomTextField = <T extends FieldValues>({
     if (props.max) {
       propsObj.max = props.max;
     }
-
-    if (props.isNumeric) {
-      propsObj.max = 10;
-    }
     return propsObj;
   };
 

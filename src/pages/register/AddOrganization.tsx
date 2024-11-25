@@ -135,6 +135,7 @@ const AddOrganization = React.memo(() => {
                                                 control={control}
                                                 rules={phoneRules}
                                                 isNumeric={true}
+                                                max={10}
                                             />
 
                                         </Grid>
