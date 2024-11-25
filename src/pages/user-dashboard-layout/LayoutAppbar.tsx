@@ -88,7 +88,6 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
       </Avatar>
     ) : (
       <Avatar>
-        U
       </Avatar>
     )}
   </Grid>
@@ -121,7 +120,6 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
 
     ) : (
       <Avatar>
-        U
       </Avatar>
     )}
           </Grid>
