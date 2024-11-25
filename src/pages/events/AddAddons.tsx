@@ -429,8 +429,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     defaultValue={moment(eventData?.startDate).format("YYYY-MM-DD")}
                                     type="date"
                                     min={moment(eventData.startDate).format("YYYY-MM-DD")}
-                                    minDate={eventData?.startDate}
-                                    maxDate={eventData?.endDate}
+                                    max={moment(eventData.endDate).format("YYYY-MM-DD")}
                                   />
                                 </Grid>
                                 <Grid size={{ xs: 4 }}>
