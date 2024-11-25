@@ -237,12 +237,11 @@ const CustomTextField = <T extends FieldValues>({
                 className={clsx(error ? "error-input" : "", props.className)}
                 onBlur={handleBlur}
                 onClick={handleOnClick}
+                inputProps={inputProps()}
+                {...inputProps()}
                 onChange={(e) => {
                   const numericValue = (props.isNumeric)? e.target.value.replace(/[^0-9]/g, ""):e.target.value;
                   field.onChange(numericValue); 
-                }}
-                inputProps={{
-                  ...inputProps(),
                 }}
                 
               />
