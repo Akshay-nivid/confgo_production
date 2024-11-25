@@ -19,6 +19,7 @@ import useStore from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
 import config from "../../../../config.json";
 import FileUpload from "@/components/FileUpload/FileUpload";
+import { processAPIResponse } from "@/Utils/CommonBaseClass";
 
 interface CustomFile {
   id: number;
@@ -66,11 +67,10 @@ const PersonalAndOrganisationDetails:React.FC<AccountSettingProps> = React.memo(
  */
   const AccountProfile = useCallback(async () => {
     try {
-      const response = await apiClient.get(`/company`, {
-
-      });
-      if (response.data.status === "success") {
-        const data = response.data.data;
+      // Fetch company and user data
+      const response = await apiClient.get(`/company`);
+      const { status, data } = processAPIResponse(response, "personalInformation");
+      if (status) {
         const AccountData = {
           companyName:data.companyName,
           companyPhone:data.phone,
