@@ -3,7 +3,6 @@ import { Typography, IconButton, Box } from "@mui/material";
 import EditIcon from "@/assets/svg/event-edit.svg";
 import AddIcon from "../../../assets/svg/event-addon-icon.svg"; // Importing the icon to display next to the start time
 import Grid from "@mui/material/Grid2";
-import { getTimeFromTimestamp } from "@/Utils/CommonBaseClass";
 import { DeleteContributorIcon} from "@/assets/svg";
 
 interface FieldConfig {
