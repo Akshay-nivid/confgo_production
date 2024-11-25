@@ -665,6 +665,8 @@
         }
     }
     &-parse{
+      max-width: 100% !important;
+      overflow-wrap: break-word !important;
       ul {
         list-style-type: disc !important;
         padding-left: 1.25rem !important; 

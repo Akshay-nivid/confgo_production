@@ -94,6 +94,7 @@ const SpeakerCard = (_eventData: any) => {
         message: "Event is Already Published !",
       });
     }else{
+    setSelectedFile(null)
     reset();
     setAddContributeView(true);
     setEditConrtributorValue(null);
@@ -354,6 +355,14 @@ const SpeakerCard = (_eventData: any) => {
     reset();
     setDataById("contributorFields", item);
     setEditConrtributorValue(item);
+
+    if (item?.assetId) {
+      setSelectedFile({
+          id: item.assetId,
+          name:item?.name,
+          sourcePath: item.mediaUrl || "",
+      });
+  }
     handleScreenViewChange();
     }
   };

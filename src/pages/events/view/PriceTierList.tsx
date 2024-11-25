@@ -2,12 +2,13 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import PricingTierConfigure from "./PricingTierConfigure";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import useStore from "@/Libs/store";
 import PricingTable from "./PricingTable";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";
+import { Logger } from "@/Utils/Logger";
 
 interface PricingTier {
   id: number;
@@ -44,52 +45,58 @@ const PriceTierList: React.FC = () => {
     setDataById("priceTier", { drawerOpen: true });
   };
 
+  // The fetch function
+  const fetchPricingTiers = async () => {
+    try {
+      setLoading(true);
+
+      const priceTierResponse = await POST({
+        url: "event/priceTier/list",
+        body: { filters: { eventId: id } },
+        id: "priceTier",
+      });
+
+      const attendeeTypeResponse = await POST({
+        url: "participant/type/list",
+        body: { filters: { eventId: id } },
+        id: "attendeeType",
+      });
+
+      if (priceTierResponse.status && attendeeTypeResponse.status) {
+        const processedData = mapData(
+          priceTierResponse.data,
+          attendeeTypeResponse.data
+        );
+
+        setPricingTiers(processedData.pricingTiers);
+        setAttendees(processedData.attendees);
+      } else {
+        Logger.error(
+          "API responses unsuccessful",
+          priceTierResponse,
+          attendeeTypeResponse
+        );
+      }
+    } catch (error) {
+      Logger.error("Error fetching data:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   /**
    * Function to close the drawer
    * @returns
    */
-  const closeDrawer = () => setDataById("priceTier", { drawerOpen: false });
+  const closeDrawer = () => {
+    setDataById("priceTier", { drawerOpen: false });
+    fetchPricingTiers(); 
+  }
 
   /**
    * Used to fetch the data from the apis
    */
   useEffect(() => {
-    const fetchPricingTiers = async () => {
-      try {
-        const priceTierResponse = await POST({
-          url: "event/priceTier/list",
-          body: { filters: { eventId: id } },
-          id: "priceTier",
-        });
-
-        const attendeeTypeResponse = await POST({
-          url: "participant/type/list",
-          body: { filters: { eventId: id } },
-          id: "attendeeType",
-        });
-
-        if (priceTierResponse.status && attendeeTypeResponse.status) {
-          const processedData = mapData(
-            priceTierResponse.data,
-            attendeeTypeResponse.data
-          );
-
-          setPricingTiers(processedData.pricingTiers);
-          setAttendees(processedData.attendees);
-        } else {
-          console.error(
-            "API responses unsuccessful",
-            priceTierResponse,
-            attendeeTypeResponse
-          );
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchPricingTiers();
   }, [id]);
 
@@ -120,6 +127,19 @@ const PriceTierList: React.FC = () => {
     }));
     return { pricingTiers: mappedPricingTiers, attendees: mappedAttendees };
   }
+
+  /**
+   * Method used to show list
+   */
+  const pricingList = useMemo(() => {
+    return <PricingTable
+      control={control}
+      pricingTiers={pricingTiers}
+      attendees={attendees}
+      isListView={true}
+    />
+  }, 
+  [JSON.stringify(attendees), control, JSON.stringify(pricingTiers)])
 
   return (
     <Grid container spacing={3} className="event-sessions-sessions-container">
@@ -165,12 +185,7 @@ const PriceTierList: React.FC = () => {
               <Typography className="registration-fee-list-sub-heading">
                 Registration Fee Structure
               </Typography>
-              <PricingTable
-                control={control}
-                pricingTiers={pricingTiers}
-                attendees={attendees}
-                isListView={true} 
-              />
+             {pricingList}
             </Grid>
           </Grid>
         )}

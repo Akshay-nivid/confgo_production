@@ -33,7 +33,6 @@
             align-items: center;
             width: 9.25rem !important;
             height: 2.5rem !important;
-            background: $clr_status_bar !important;
         }
             
             width: 6.25rem !important;
@@ -95,6 +94,8 @@
             border-radius: 0.625rem;
             border: 0.5rem;
             margin-left: 0.5rem;
+            padding-left: 0.5rem;
+            padding-bottom: 1rem;
             border: 0.03125rem solid $clr_light_border_grey ;
             &-time {
                 display:flex;   
@@ -123,7 +124,6 @@
                     align-items: center;
                     width: 9.25rem !important;
                     height: 2.5rem !important;
-                    background: $clr_status_bar !important;
                 }
                 margin-left: 5rem;
                 width: 6.25rem !important;
