@@ -222,6 +222,16 @@ const EventInfoCard: React.FC<any> = React.memo(
             )}
           </Typography>
         </Grid>
+        <Grid size={{ xs: 3 }}>
+          <Typography className="event-information-subtitle">
+             Price
+          </Typography>
+        </Grid>
+        <Grid size={{ xs: 9 }}>
+          <Typography className="event-information-content">
+            {eventData?.amount}
+          </Typography>
+        </Grid>
       </Grid>
       {/* Drawer Component */}
       <CustomDrawer open={isDrawerOpen} type="right">
@@ -287,6 +297,13 @@ const EventInfoCard: React.FC<any> = React.memo(
                     control={control}
                     name={"endTime"}
                     type="datetime-local"
+                  />
+                </Grid>
+                <Grid size={{ xs: 12 }}>
+                  <CustomTextField
+                    name="amount"
+                    placeholder="Price"
+                    control={control}
                   />
                 </Grid>
                 <Grid size={{ xs: 12 }} mt={2}>
