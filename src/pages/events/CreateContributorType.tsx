@@ -42,6 +42,7 @@ const CreateContributorType: React.FC<createAddonProps> = React.memo(
         const requestBody = {
           name: formData?.name,
           eventId: id,
+          isContributor: 1,
         };
         await POST({
           url: "/participant/type",
