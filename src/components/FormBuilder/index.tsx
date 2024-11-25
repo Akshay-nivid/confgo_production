@@ -196,28 +196,6 @@ const FormBuilder = () => {
   }
 
 
-
-  //   function handleClearDataOnRadioToggle(e: React.ChangeEvent<HTMLInputElement>) {
-
-  //   const participantType = e.target.value;
-
-  //     if (participantType !== "generic") { 
-
-  //     const updatedFormFieldsArray = { ...formFieldsArray, generic: [] };
-  //     clearDataById('formFieldsArray');
-  //     setDataById('formFieldsArray', updatedFormFieldsArray);
-  //       return
-  //     }
-
-  //     if (participantType === "generic") {
-
-  //       const updatedFormFieldsArray = { ...formFieldsArray["generic"] };
-
-  //       clearDataById('formFieldsArray');
-  //       setDataById('formFieldsArray', updatedFormFieldsArray);
-  //      }
-  // }
-
   return (
     <Grid justifyContent={"center"} container className="form-builder layout">
       <HeaderSection />

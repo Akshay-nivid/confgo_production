@@ -48,49 +48,7 @@ const DynamicUserForm = () => {
   const dynamicFormData = useStore((state: any) => state?.compData?.["dynamicFormData"]) ?? [];
   const uploadedFiles = useStore((state: any) => state?.compData?.["uploadedFiles"]) ?? [];
   const navigate = useNavigate();
-
-
-
-  /**
-   * function to get custom form data from api
-   *  
-   * */
-
-//   useEffect(() => {
-// /**
-//  * Fetches dynamic form data from the API and processes the response.
-//  * On success, it parses the response data, converts metadata to JSON,
-//  * and stores it in the state under "dynamicFormData".
-//  * On failure, it updates the state with an error message to display in a snackbar.
-//  */
-//     const fetchDynamicFormData = async () => {
-//       const response = await apiClient.get("event/form/7");
-//       const { status, data, message } = processAPIResponse(
-//         response,
-//         "eventForm"
-//       );
-
-//       if (status) {
-//         const parsedData = data?.map((item: any) => {
-//           return {
-//             ...item,
-//             metadata: JSON.parse(item.metadata),
-//           };
-//         });
-
-//         setDataById("dynamicFormData", { data: parsedData });
-//       } else {
-//         setDataById("snackBarInfo", {
-//           open: true,
-//           autoHideDuration: 2000,
-//           severity: "error",
-//           message: message || "Something went wrong",
-//         });
-//       }
-//     };
-//     fetchDynamicFormData();
-//   }, []);
-  
+ 
   /**
    * 
    * fucntion to handle form submition
@@ -158,6 +116,7 @@ const DynamicUserForm = () => {
   };
 
 
+  
 /**
  * Handles a file upload event. Adds the uploaded file to the uploadedFiles store, which is keyed by the id of the form element.
  * @param file - The file that was uploaded.
