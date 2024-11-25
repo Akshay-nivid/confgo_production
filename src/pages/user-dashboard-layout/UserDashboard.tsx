@@ -91,7 +91,7 @@ const UserDashboard: React.FC = React.memo(() => {
           sortBy: "id",
           sortDirection: "ASC",
           filters: {
-            "startTime": new Date()
+            "startTime": new Date().toISOString().replace("T", " ").split(".")[0]
           },
         },
         id: 'userLatestEvents',
@@ -164,11 +164,11 @@ const UserDashboard: React.FC = React.memo(() => {
     return moment(date).subtract(1, 'days').format('YYYY-MM-DD');
   }
   return (
-    <Grid container size={12} className="dashboard" >
+    <Grid container size={12} className="dashboard" spacing={1}  >
       {/* left */}
-      <Grid size={{ xs: 12, md: 7 }} className="dashboard-left" >
+      <Grid container size={{ xs: 12, md: 7 }} className="dashboard-left" >
         <Grid size={12} className="dashboard-left-profile">
-          <Grid size={12}>
+          <Grid size={12} className="dashboard-left-profile-textgroup">
             <Typography className="dashboard-left-profile-title" gutterBottom>
               <span className="dashboard-left-profile-greeting-text">Hey {userDetails?.firstName}!</span>
               <span className="dashboard-left-profile-title-wave-icon"></span>
@@ -179,7 +179,7 @@ const UserDashboard: React.FC = React.memo(() => {
               Your hub for all events and registrations.
             </Typography>
           </Grid>
-          <Grid size={12}>
+          <Grid size={12} className="dashboard-left-profile-buttongroup">
             <CustomButton
               className="dashboard-left-profile-button"
               label="View Events"
@@ -194,7 +194,7 @@ const UserDashboard: React.FC = React.memo(() => {
             </Typography>
           </Grid>
           {isCountLoading ? <CircularProgress /> :
-            <>
+            <Grid container size={{ xs: 12}}>
               <Grid size={{ xs: 12, sm: 6, md: 4 }}>
                 <DashboardCardItem onClick={() => navigate("/user/my-event")} count={eventAndUserCount?.data?.totalEventCount ?? 0} icon={EventsSvg} title="Total Events Registered" />
               </Grid>
@@ -204,7 +204,7 @@ const UserDashboard: React.FC = React.memo(() => {
               <Grid size={{ xs: 12, sm: 6, md: 4 }}>
                 <DashboardCardItem onClick={() => navigate("/user/payment-history")} count={eventAndUserCount?.data?.currentEventCount ?? 0} icon={PaymentDashboardIcon} title="Pending Payments" />
               </Grid>
-            </>}
+            </Grid>}
         </Grid>
         <Grid size={12}>
           <Typography className="dashboard-left-profile-accounttitle" gutterBottom>
@@ -219,11 +219,10 @@ const UserDashboard: React.FC = React.memo(() => {
           }
           </Grid>
         </Grid>
-
       </Grid>
 
       {/* Right Column */}
-      <Grid size={{ xs: 12, md: 4 }} className="dashboard-right" >
+      <Grid size={{ xs: 12, md: 4 }} className="dashboard-right" justifyContent="flex-end">
         <Grid container className="dashboard-right-calendar" >
             {isLoading ? <CircularProgress /> :
             userEvents && Array.isArray(userEvents['event/list']?.data) && userEvents['event/list']?.data.length > 0 ? 

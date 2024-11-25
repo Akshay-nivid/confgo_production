@@ -214,24 +214,7 @@ const CustomTextField = <T extends FieldValues>({
         name={name}
         defaultValue={defaultValue}
         control={control}
-        rules={{
-          ...rules,
-          validate: {
-            ...rules?.validate,
-            notInPast: (value) => {
-              const selectedDate = new Date(value);
-              const today = new Date();
-              today.setHours(0, 0, 0, 0);
-              if (
-                (type === "date" || type === "datetime-local") &&
-                selectedDate < today
-              ) {
-                return "Date cannot be in the past";
-              }
-              return true;
-            },
-          },
-        }}
+        rules={rules}
         render={({ field, fieldState: { error } }) => {
           const passwordType = isShowPassword ? "text" : "password";
           return (

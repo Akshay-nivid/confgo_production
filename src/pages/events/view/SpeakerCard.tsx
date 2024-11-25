@@ -94,6 +94,7 @@ const SpeakerCard = (_eventData: any) => {
         message: "Event is Already Published !",
       });
     }else{
+    setSelectedFile(null)
     reset();
     setAddContributeView(true);
     setEditConrtributorValue(null);
@@ -161,11 +162,15 @@ const SpeakerCard = (_eventData: any) => {
     try {
       await POST({
         url: "participant/type/list",
-        body: {},
-        id: "eventTypeList",
+        body: {
+          filters: {
+            isContributor: 1,
+          }
+        },
+        id: "contributorTypeList",
         successCB: (context: any) => {
           if (context?.success) {
-            const options = context?.data.map((element: any) => ({
+            const options = context?.data?.map((element: any) => ({
               value: element.name,
               label: element.name,
             }));
@@ -354,6 +359,14 @@ const SpeakerCard = (_eventData: any) => {
     reset();
     setDataById("contributorFields", item);
     setEditConrtributorValue(item);
+
+    if (item?.assetId) {
+      setSelectedFile({
+          id: item.assetId,
+          name:item?.name,
+          sourcePath: item.mediaUrl || "",
+      });
+  }
     handleScreenViewChange();
     }
   };

@@ -221,7 +221,7 @@ const Events = () => {
     };
 
     // Handle URL and Venue logic
-    if (event?.programType === 'ONLINE') {
+    if ( event?.type === 'ONLINE') {
       req['url'] = event?.url;
     } else {
       req['venue'] = {
@@ -233,12 +233,12 @@ const Events = () => {
         country: event?.country,
         postalCode: event?.postalCode,
       };
-      if (event?.programType !== 'OFFLINE') {
+      if ( event?.type !== 'OFFLINE') {
         req['url'] = event?.url;
       }
     }
     req['programs']=transformProgram;
-    req['addon']=transformedAddOnData;
+    req['addons']=transformedAddOnData;
 
     return req;
   };

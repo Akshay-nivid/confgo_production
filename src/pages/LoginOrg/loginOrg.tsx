@@ -109,21 +109,26 @@ const LoginOrg = () => {
       // Store specific session details for company users
       sessionStorage.setItem('companyUserName', `${firstName} ${lastName || ''}`);
       sessionStorage.setItem('subscriptionStatus', subscriptionStatus);
-
-      // Redirect to the company dashboard
-      navigate(routes.dashboard());
-    } else {
-      // Redirect non-company users to the user home page
-      navigate(routes.userHome());
-    }
-
-    // Show success notification
+          // Show success notification
     setDataById("snackBarInfo", {
       open: true,
       autoHideDuration: 2000,
       severity: "success",
       message: "Login successful",
     });
+      // Redirect to the company dashboard
+      navigate(routes.dashboard());
+    } else if(userRole?.roleName === "USER"){
+      //Redirect to user login
+      navigate(routes.userLogin());
+    } else {
+    setDataById("snackBarInfo", {
+      open: true,
+      autoHideDuration: 2000,
+      severity: "error",
+      message: "Invalid username or password",
+    });
+    }
   };
 
   /**

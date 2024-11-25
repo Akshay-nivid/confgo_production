@@ -4,7 +4,7 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import { Box, Chip, IconButton, Typography } from "@mui/material";
+import { Box, Chip, IconButton, Tooltip, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler, useFieldArray} from "react-hook-form";
@@ -18,6 +18,7 @@ import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CreateAddon from "./CreateAddon";
 import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
 import { validateRequiredField } from "@/Utils/Validation";
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 type FormData = {
   addOn: {
@@ -42,7 +43,7 @@ type FormData = {
     repeat:string[];
     noOfDays:string;
   }[];
-  savedPrograms: {
+  savedAddOns: {
     id?: string;
     name: string;
     description: string;
@@ -84,7 +85,7 @@ const typeArray = [
 
 const AddAddOns: React.FC<ProgramProps> = React.memo(
   ({ formSubmit, onSubmitHandler, data, onSaveHandler ,onaddOnSubmitHandler,addOnOptions,eventData}) => {
-    const { handleSubmit, control, watch, setValue,resetField} = useForm<FormData>({
+    const { handleSubmit, control, watch, setValue,resetField,setError} = useForm<FormData>({
 
       defaultValues: {
         addOn: [
@@ -114,24 +115,23 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
     const [editMode, setEditMode] = useState(false);
     const [addOnView,setAddonView]=useState(false);
     /**
-     * Useeffect hook updates the programIndex value based on the savedPrograms dependency
+     * Useeffect hook updates the programIndex value based on the savedAddOns dependency
      */
     useEffect(() => {
 
-      const savedPrograms = watch("savedPrograms");
-      if (savedPrograms && savedPrograms.length > 0) {
-        setProgramIndex(savedPrograms.length - 1);
+      const savedAddOns = watch("savedAddOns");
+      if (savedAddOns && savedAddOns.length > 0) {
+        setProgramIndex(savedAddOns.length - 1);
       } else {
         setProgramIndex(0);
       }
-    }, [watch("savedPrograms")]);
-    
+    }, [watch("savedAddOns")]);
     /**
      * Useeffect hook submits the form based on the formSubmit variable
      */
     useEffect(() => {
       if (formSubmit) {
-        onSubmitHandler && onSubmitHandler(data?.savedPrograms, "ADDS");
+        onSubmitHandler && onSubmitHandler(data?.savedAddOns, "ADDS");
       }
     }, [formSubmit]);
 
@@ -140,7 +140,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
      * @param data : form data
      */
     const onSubmit: SubmitHandler<FormData> = (data: any) => {
-      onSubmitHandler && onSubmitHandler(data?.savedPrograms, "ADDS");
+      onSubmitHandler && onSubmitHandler(data?.savedAddOns, "ADDS");
     };
 
     /**
@@ -149,7 +149,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
     useEffect(() => {
       if (data) {
         setValue("addOn", data);
-        setValue("savedPrograms", data);
+        setValue("savedAddOns", data);
       }
     }, [data]);
 
@@ -168,6 +168,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       // Get the current programs data from `watch("programs")`
       const addOn = watch("addOn");
       const lastItem = addOn[addOn.length - 1];
+      const lastIndex = addOn.length - 1;
       let newPrograms = [...addOn];
       // Handle saving logic based on `editMode`
       if (!editMode) {
@@ -189,6 +190,18 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
           repeat: [],
           noOfDays: ""
         };
+     
+        const startDate = moment(eventData.startTime).startOf('day');
+        const endDate = moment(eventData.endTime).startOf('day');
+        const differenceInDays = endDate.diff(startDate, 'days');
+        if (parseInt(lastItem?.noOfDays) > differenceInDays) {
+          setError(`addOn.${lastIndex}.noOfDays`, {
+            type: 'manual',
+            message: `Maximum ${differenceInDays} can be repeated!`,
+          });
+          return;
+        }
+
         //When Repeat is true
         if (lastItem.noOfDays !== '') {
           // Loop over the remaining days and increment the date for each
@@ -201,14 +214,14 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
             //update newPrograms Array
             newPrograms.push(newAddon);
           }
-          setValue("savedPrograms", addOn); 
+          setValue("savedAddOns", addOn); 
           newPrograms.push(newAddon);
           append(newAddon); 
           setProgramIndex(addOn?.length || 0);
         } else {
           newPrograms.push(newAddon);
-        // Update both `savedPrograms` and the local `programs` array
-          setValue("savedPrograms", addOn);
+        // Update both `savedAddOns` and the local `programs` array
+          setValue("savedAddOns", addOn);
           append(newAddon);
           setProgramIndex(addOn?.length || 0);
         }
@@ -231,7 +244,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
      */
     const handleEdit = (index: number) => {
       setEditMode(true);
-      setValue("addOn", watch("savedPrograms"));
+      setValue("addOn", watch("savedAddOns"));
       setProgramIndex(index);
     };
 
@@ -240,11 +253,11 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
      * @param index : index of the program to delete
      */
     const handleDelete = (index: number) => {
-      setValue("addOn", watch("savedPrograms"));
+      setValue("addOn", watch("savedAddOns"));
       setProgramIndex(index);
-      const programsCopy = [...watch("savedPrograms")];
+      const programsCopy = [...watch("savedAddOns")];
       programsCopy.splice(index, 1);
-      setValue("savedPrograms", programsCopy);
+      setValue("savedAddOns", programsCopy);
       const saveProgram = programsCopy;
 
       remove(index);
@@ -415,7 +428,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     name={`addOn.${index}.date`}
                                     defaultValue={moment(eventData?.startTime).format("YYYY-MM-DD")}
                                     type="date"
-                                    min={moment().format("YYYY-MM-DD")}
+                                    min={moment(eventData.startTime).format("YYYY-MM-DD")}
                                     minDate={eventData?.startTime}
                                     maxDate={eventData?.endTime}
                                     rules={{
@@ -485,12 +498,20 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     />
                                   </Grid>
                                   <Grid size={{ xs: 12, sm: 6 }}>
+                                    <Grid container display={"flex"} alignItems={"center"}>
                                     <CustomCheckbox
                                     className="add-program-check-btn"
                                       options={[{ label: 'Repeat', value: 'YES' }]}
                                       control={control}
                                       name={`addOn.${index}.repeat`}
                                     />
+                                      <Tooltip title="No of Days once Saved can't be edited" arrow>
+                                        <IconButton className="add-program-warning-msg"
+                                        >
+                                          <ErrorOutlineIcon />
+                                        </IconButton>
+                                      </Tooltip>
+                                  </Grid>
                                   </Grid>
                                 </Grid>
                                 <Grid  size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
@@ -642,7 +663,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                 </Box>
               </Box>
             </Grid>
-            <Grid
+            {watch("savedAddOns")?.length>=1&&<Grid
               container
               direction={"column"}
               className="add-program-display-container"
@@ -650,9 +671,9 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
               spacing={2}
               key='add-program-display-container'
             >
-              {watch("savedPrograms")?.length>=1&&<Grid container className="add-program-display-container-box">
+             <Grid container className="add-program-display-container-box">
                <Typography variant="h6">Saved Add-Ons</Typography>
-              {watch("savedPrograms")?.map(
+              {watch("savedAddOns")?.map(
                 (field, index) =>
                   field.addonId&&
            
@@ -684,8 +705,8 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                     </Grid>
                   )
               )}
-            </Grid>}
             </Grid>
+            </Grid>}
           </Grid>
         </Grid>
 

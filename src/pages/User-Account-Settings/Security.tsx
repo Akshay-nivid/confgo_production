@@ -10,7 +10,7 @@ import "./accountsetting.scss";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { useNavigate,useLocation } from "react-router-dom";
 import routes from "@/router/routes";
-import useStore from "@/Libs/store";
+import useStore, { setDataById } from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
 import { purposeTypes } from "@/Utils/CommonBaseClass";
 
@@ -34,9 +34,10 @@ const Security:React.FC<SecurityProps> = React.memo(({ passEmail }) => {
 */
   const handlePasswordReset = async () => {
     const body = { username: email, };
-    const successCB = (context: any) => {  
-        navigate(routes.userOtp(), { state: { email, purpose: purposeTypes.RESET_PASSWORD, token: context?.data?.token?.token, userId: context?.data?.token?.userId  } });          
-    };
+    const successCB = (success: any) => {  
+        navigate(routes.userOtp(), { state: { email, purpose: purposeTypes.RESET_PASSWORD, token: success?.data?.token?.token, userId: success?.data?.token?.userId  } });          
+        setDataById("resendOtp",{token: success?.data?.token?.token}); 
+      };
 
     POST({
       url: 'user/forgotPassword', body: body,

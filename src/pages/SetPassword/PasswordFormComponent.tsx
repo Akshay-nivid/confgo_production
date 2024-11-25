@@ -4,7 +4,7 @@ import CustomTextField from '@/components/CustomTextfield/CustomTextField';
 import Grid from '@mui/material/Grid2';
 import CheckIcon from '@mui/icons-material/Check';
 import clsx from 'clsx';
-import { validateConfirmPassword, validateMinLength, validatePassword, validateRequiredField } from '@/Utils/Validation';
+import { validateMinLength, validatePassword, validateRequiredField } from '@/Utils/Validation';
 import { REGEX } from '@/Utils/Validation';
 import useStore from '@/Libs/store';
 import { useNavigate } from 'react-router-dom';
@@ -26,12 +26,13 @@ const SetPasswordComponent = () => {
   /**
    * function react hook form
    */
-  const { handleSubmit,control,watch } = useForm<FormData>({
+  const { handleSubmit,control,watch , trigger} = useForm<FormData>({
     defaultValues: {
       password: '',
       confirmPassword: '',
     },
   });
+
 
   const password = watch('password');
 
@@ -57,7 +58,7 @@ const SetPasswordComponent = () => {
         password:password,
         userId: userDetails?.data?.userId,
         token: userDetails?.data?.token,
-        type:userDetails?.data?.tokenType??"USER_REGISTRATION",
+        type:userDetails?.data?.tokenType==="RESET_PASSWORD_OTP"?"FORGOT_PASSWORD_OTP":userDetails?.data?.tokenType,
         email:userDetails?.data?.email,
       };
       await PUT({
@@ -103,16 +104,17 @@ const SetPasswordComponent = () => {
           className="setpassword__form"
         >
           <Box className="setpassword__input-container">
-            <Typography className="setpassword__input-label text-p2 font-500">
-              Password
-            </Typography>
             <CustomTextField
               control={control}
               name="password"
               rules={{
                 required: validateRequiredField({fieldName:'Password'}),
                 minLength: validateMinLength({fieldName:'Password',minLength:8}),
-                pattern:validatePassword({})
+                pattern:validatePassword({}),
+                validate: () => {
+                  trigger('confirmPassword');
+                  return true;
+              },
               }}
               type="password"
               placeholder="Password"
@@ -120,9 +122,6 @@ const SetPasswordComponent = () => {
             />
           </Box>
           <Box className="setpassword__input-container">
-            <Typography className="setpassword__input-label text-p2 font-500">
-              Confirm Password
-            </Typography>
             <CustomTextField
               name="confirmPassword"
               type="password"
@@ -130,8 +129,15 @@ const SetPasswordComponent = () => {
               control={control}
               rules={{
                 required: validateRequiredField({fieldName:'Confirm Password'}),
-                validate:(value)=> validateConfirmPassword({password,confirmPassword:value})
+                validate: (value: any) => {
+                  if (value === watch("password")) {
+                      return true;
+                  } else {
+                      return "The passwords do not match";
+                  }
+              }
               }}
+              
               className="setpassword__input"
             />
           </Box>

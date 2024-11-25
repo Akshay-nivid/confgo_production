@@ -27,15 +27,15 @@ const UserDashboardLayout: React.FC = React.memo(() => {
     setIsSidebarOpen(false);
   };
   return (
-    <Box className="layout-container">
+    <Box className="user-layout-container">
       <LayoutAppbar userDetails={userDetails}/>
-      <Box className="layout-container-grid-wrapper">
-        <Grid container size={12} className="layout-container-grid">
-          <Grid size={2} className="layout-container-sidebar">
+      <Box className="user-layout-container-grid-wrapper">
+        <Grid container size={12} className="user-layout-container-grid">
+          <Grid  className="user-layout-container-grid-sidebar-grid" >
             <Sidebar open={isSidebarOpen} onClose={handleSidebarClose}/>
           </Grid>
-          <Grid  size={10} className="layout-container-grid-outlet-grid">
-            <Box className="layout-container-grid-outlet-grid-outlet-wrapper">
+          <Grid   className="user-layout-container-grid-outlet-grid">
+            <Box className="user-layout-container-grid-outlet-grid-outlet-wrapper">
               <Outlet />
             </Box>
           </Grid>

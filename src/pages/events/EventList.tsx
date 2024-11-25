@@ -122,7 +122,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction }) => {
           name: query,
         },
       };
-      const response = await await apiClient.get(`event/list`, req);
+      const response = await await apiClient.post(`event/list`, req);
       const { status, data } = await processAPIResponse(response, "eventList");
       if (status) {
         setSearchResults(data);
@@ -172,6 +172,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction }) => {
                 name="search"
                 className="custom-search-text-field"
                 control={control}
+                placeholder="Search Events Name"
                 options={searchResults} // Dynamic options based on API results
                 getOptionLabel={(option: any) => option.name || ""} // Adjust based on your data structure
                 onSearch={handleSearch} // Call the search function

@@ -10,7 +10,7 @@ import UsersRegisteredIcon from '@/assets/svg/users-registered-icon.svg';
 import NewRegistrationsIcon from '@/assets/svg/new-registrations-icon.svg';
 import { EventListCard } from "./EventListCard";
 import { CalendarCard } from "./CalendarCard";
-import { Typography } from "@mui/material";
+import { Typography,CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import useStore from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
@@ -31,6 +31,7 @@ const Dashboard = () => {
   const [pendingData, setPendingData] = useState<any>(null);
   const navigate = useNavigate();
   const fullEventList = useStore((state: any) => state?.compData?.["fullEventList"]?.['event/list']) ?? [];
+  const pendingEventList = useStore((state: any) => state?.compData?.["pendingEventList"]?.['event/list']) ?? [];
   const eventCountData=useStore((state:any)=>state?.compData?.["dashBoardEventCount"]?.['dashboard/eventAndUserCount'])??[];
   /**
    * Useeffect hook handles the api call for fetching upcoming event list and pending event list
@@ -153,7 +154,9 @@ const Dashboard = () => {
   }
 
 
-  return(<>{fullEventList?.data?.length==0?<NoDataDashBoard/>:  <Grid container size={{ xs: 12, sm: 12 }} spacing={2} className="dashboard" >
+  return(pendingEventList?.success ?
+  <>
+  { fullEventList?.data?.length==0?<NoDataDashBoard/>:<Grid container size={{ xs: 12, sm: 12 }} spacing={2} className="dashboard" >
     <Grid size={{ xs: 12, sm: 8 }} container >
       <Grid size={{ xs: 12, sm: 12 }} container>
         <Grid size={{ xs: 12, sm:upcomingData? 6:12 }} className="dashboard-welcome-card"><WelcomeCard /></Grid>
@@ -192,6 +195,6 @@ const Dashboard = () => {
       <Grid className="dashboard-event-list-card"><EventListCard /></Grid>
     </Grid>
   </Grid>}
-  </>)};
+  </>:<CircularProgress /> )};
 
 export default Dashboard;
