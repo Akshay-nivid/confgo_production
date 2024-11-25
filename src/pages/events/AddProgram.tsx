@@ -308,9 +308,9 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                     control={control}
                                     name={`programs.${index}.startDate`}
                                     type="date"
-                                    defaultValue={moment(eventData?.startDate).format("YYYY-MM-DD")}
-                                    min={moment(eventData?.startDate).format("YYYY-MM-DD")}
-                                    max={moment(eventData?.endDate).format("YYYY-MM-DD")}
+                                    defaultValue={moment(eventData?.startTime).format("YYYY-MM-DD")}
+                                    min={moment(eventData?.startTime).format("YYYY-MM-DD")}
+                                    max={moment(eventData?.endTime).format("YYYY-MM-DD")}
                                     rules={{
                                       required: true
                                     }}
@@ -348,9 +348,9 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                     control={control}
                                     name={`programs.${index}.endDate`}
                                     type="date"
-                                    defaultValue={moment(eventData?.startDate).format("YYYY-MM-DD")}
-                                    min={moment(eventData?.startDate).format("YYYY-MM-DD")}
-                                    max={moment(eventData?.endDate).format("YYYY-MM-DD")}
+                                    defaultValue={moment(eventData?.startTime).format("YYYY-MM-DD")}
+                                    min={moment(eventData?.startTime).format("YYYY-MM-DD")}
+                                    max={moment(eventData?.endTime).format("YYYY-MM-DD")}
                                     rules={{
                                       required: true
                                     }}
