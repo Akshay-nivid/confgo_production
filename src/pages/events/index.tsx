@@ -178,8 +178,8 @@ const Events = () => {
       const endDateTime = `${endDate}T${endTime}`;
       return {
         ...item,               
-        startDate:startDateTime,         
-        endDate:endDateTime,
+        startTime:startDateTime,         
+        endTime:endDateTime,
         statusId:1,
         amount:amount?amount:"0"
 
@@ -198,8 +198,8 @@ const Events = () => {
       return {
         ...item,
         amount:amount?amount:"0",
-        ...(combinedStartDateTime && { startDate: combinedStartDateTime }),
-        ...(combinedEndDateTime&&{ endDate:combinedEndDateTime}),
+        ...(combinedStartDateTime && { startTime: combinedStartDateTime }),
+        ...(combinedEndDateTime&&{ endTime:combinedEndDateTime}),
         ...(properties.length !== 0 && {
           properties: properties?.map(({ propertyId, propertyName, propertyAmount, ...rest }: any) => ({
             name: propertyName,
@@ -213,8 +213,8 @@ const Events = () => {
     let req: any = {
       name: event?.name,
       description: event?.description,
-      startDate: event?.startDate,
-      endDate: event?.endDate,
+      startTime: event?.startTime,
+      endTime: event?.endTime,
       statusId,
       amount: event?.amount || 0,
       eventClass: event?.type
