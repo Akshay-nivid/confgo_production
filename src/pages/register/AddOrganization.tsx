@@ -134,7 +134,7 @@ const AddOrganization = React.memo(() => {
                                                 type="text"
                                                 control={control}
                                                 rules={phoneRules}
-                                                className="phone"
+                                                isNumeric={true}
                                             />
 
                                         </Grid>

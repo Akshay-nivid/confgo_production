@@ -53,6 +53,7 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   minDate?:string;
   maxDate?:string;
   onClick?: React.ChangeEventHandler<HTMLInputElement>;
+  isNumeric?:boolean;
 }
 
 interface InputPropsType {
@@ -237,13 +238,13 @@ const CustomTextField = <T extends FieldValues>({
                 onBlur={handleBlur}
                 onClick={handleOnClick}
                 onChange={(e) => {
-                  const numericValue = (props.className === "phone")? e.target.value.replace(/[^0-9]/g, ""):e.target.value;
+                  const numericValue = (props.isNumeric)? e.target.value.replace(/[^0-9]/g, ""):e.target.value;
                   field.onChange(numericValue); 
                 }}
                 inputProps={{
                   ...inputProps(),
-                  inputMode: props.className === "phone" ? "numeric" : undefined,
-                  maxLength: props.className === "phone" ? 10 : undefined, 
+                  inputMode: props.isNumeric ? "numeric" : undefined,
+                  maxLength: props.isNumeric ? 10 : undefined, 
                 }}
                 
               />

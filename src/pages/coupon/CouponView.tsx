@@ -332,14 +332,6 @@ const CouponView: React.FC = () => {
                   </Grid>
                   {editable ? (
                     <Grid size={{ xs: 12, sm: 12 }}>
-                      
-                      <CustomButton
-                        className="custom-list-save-btn custom-list-restore-btn"
-                        label="Cancel"
-                        variant="outlined"
-                        size="large"
-                        onClick={restore}
-                      />
                       <CustomButton
                         className="custom-list-save-btn"
                         label="Save"
@@ -351,6 +343,13 @@ const CouponView: React.FC = () => {
                           updateCouponDetails();
                           setEditable(false);
                         }}
+                      />
+                       <CustomButton
+                        className="custom-list-save-btn custom-list-restore-btn"
+                        label="Cancel"
+                        variant="outlined"
+                        size="large"
+                        onClick={restore}
                       />
                     </Grid>
                     

@@ -105,7 +105,7 @@ const CreateAccount = React.memo(() => {
                                                 name="phoneNumber"
                                                 type="text"
                                                 rules={phoneRules}
-                                                className="phone"
+                                                isNumeric={true}
                                             />
                                         </Grid>
                                     </Grid>
