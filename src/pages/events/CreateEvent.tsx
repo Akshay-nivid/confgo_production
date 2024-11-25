@@ -23,8 +23,8 @@ type EventProps = {
 type FormData = {
   type: string;
   name: string;
-  startTime: Date;
-  endTime: Date;
+  startDate: Date;
+  endDate: Date;
   speakers: string;
   description: string;
   venueName: string;
@@ -49,7 +49,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
   ({ formSubmit, onSubmitHandler, data }) => {
     const {
       handleSubmit,
-      control,
+      control, 
       setValue,
       watch,
       setError,
@@ -81,10 +81,10 @@ const CreateEvent: React.FC<EventProps> = React.memo(
      * @param data
      */
     const onSubmit: SubmitHandler<FormData> = (data: any) => {
-      const startDate = new Date(data.startTime);
-      const endDate = new Date(data.endTime);
+      const startDate = new Date(data.startDate);
+      const endDate = new Date(data.endDate);
       if (startDate > endDate) {
-        setError(`startTime`, {
+        setError(`startDate`, {
           type: 'manual',
           message: 'Start date cannot be greater than end date',
         });
@@ -209,30 +209,20 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                     <CustomTextField
                       placeholder="Start Date"
                       control={control}
-                      name="startTime"
+                      name="startDate"
                       type="date"
                       defaultValue={moment(new Date()).format("YYYY-MM-DD")}
-                      min={moment().format("YYYY-MM-DD")}
-                      rules={{
-                        validate: (value) =>
-                          new Date(value) >= new Date() ||
-                          "Start Date cannot be in the past",
-                      }}
+                      min={moment(new Date()).format("YYYY-MM-DD")}
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField
                       placeholder="End Date"
                       control={control}
-                      name="endTime"
+                      name="endDate"
                       type="date"
                       defaultValue={moment(new Date()).format("YYYY-MM-DD")}
-                      min={moment().format("YYYY-MM-DD")}
-                      rules={{
-                        validate: (value) =>
-                          new Date(value) >= new Date() ||
-                          "End Date cannot be in the past",
-                      }}
+                      min={moment(new Date()).format("YYYY-MM-DD")}
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 12 }}>

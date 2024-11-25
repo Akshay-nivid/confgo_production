@@ -15,6 +15,10 @@ type FooterSectionProps = {
     temp: number | undefined;
 }
 
+
+/**
+ * Component displays the footer section of the template
+ */
 const FooterSection: React.FC<FooterSectionProps> = React.memo(({ temp }) => {
 
     const classPrefix = `event-template-footer-${temp}`;

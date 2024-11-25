@@ -15,6 +15,10 @@ type DetailsSectionProps = {
     temp: number;
 }
 
+
+/**
+ * Component displays the details section of the template
+ */
 const DetailsSection: React.FC<DetailsSectionProps> = React.memo(({ data, temp }) => {
 
     const classPrefix = `event-template-details-${temp}`;

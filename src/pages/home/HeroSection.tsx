@@ -1,7 +1,9 @@
 import { PlayIconSvg, HomeEvent } from "@/assets/svg";
 import CustomButton from "@/components/CustomButton/CustomButton";
+import routes from "@/router/routes";
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import { useNavigate } from "react-router-dom";
 
 /**
  * HeroSection component => first section of the home page
@@ -9,6 +11,8 @@ import Grid from "@mui/material/Grid2";
  */
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
   return (
     <Grid container justifyContent={'center'} alignItems={'center'} className="hero-section-main">
       <Grid size={12} className="hero-section-content">
@@ -32,6 +36,7 @@ const HeroSection = () => {
               variant="contained"
               label="Get Started"
               className="get-started-button"
+              onClick={() => navigate(routes.loginOrg())}
             />
             <CustomButton
               startIcon={<PlayIconSvg />}

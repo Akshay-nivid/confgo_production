@@ -1,14 +1,18 @@
-import { AttentionTracking, Brand, ExportPlanImg } from "@/assets/svg";
+import { ArrowIconSvg, AttentionTracking, Brand, ExportPlanImg } from "@/assets/svg";
 import CustomButton from "@/components/CustomButton/CustomButton";
+import routes from "@/router/routes";
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box/Box";
 import Grid from "@mui/material/Grid2";
+import { useNavigate } from "react-router-dom";
 
 /**
  * confrence management section ui component for home page
  *
  */
 const ConfrenceManagementSection = () => {
+  const navigate = useNavigate();
+
   return (
     <Box className="confrence-management-section-main">
       <Grid container>
@@ -101,6 +105,8 @@ const ConfrenceManagementSection = () => {
                 label="Get Started"
                 variant="outlined"
                 className="get-started-btn"
+                onClick={() => navigate(routes.loginOrg())}
+                endIcon={<ArrowIconSvg/>}
               ></CustomButton>
             </Grid>
             <Grid size={6} className="export-plan-grid-right">
