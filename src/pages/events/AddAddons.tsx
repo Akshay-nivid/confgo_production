@@ -431,11 +431,6 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     min={moment(eventData.startTime).format("YYYY-MM-DD")}
                                     minDate={eventData?.startTime}
                                     maxDate={eventData?.endTime}
-                                    rules={{
-                                      validate: () =>
-                                        new Date() >= new Date() ||
-                                        "Start Date cannot be in the past",
-                                    }}
                                   />
                                 </Grid>
                                 <Grid size={{ xs: 4 }}>
@@ -445,18 +440,9 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                       name={`addOn.${index}.startTime`}
                                       defaultValue={ moment(new Date()).format("HH:mm")}
                                       type="time"
-                                      min={moment().format("HH:mm")} 
+                                      min={moment(new Date()).format("HH:mm")} 
                                       rules={{
-                                        required: true,
-                                        validate: (value) => {
-                                          if (value) {
-                                            const currentTime = moment().format("HH:mm");
-                                            return (
-                                              value >= currentTime || "Start Time cannot be in the past"
-                                            );
-                                          }
-                                          return "Invalid time";
-                                        },
+                                        required: true
                                       }}
                                     />
                                   </Grid>
@@ -466,19 +452,9 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                         control={control}
                                         name={`addOn.${index}.endTime`}
                                         type="time"
-                                        min={moment().format("HH:mm")}  
+                                        min={moment(new Date()).format("HH:mm")}  
                                         rules={{
-                                          required: true,
-                                          validate: (value) => {
-                                            const startTime = watch(`addOn.${index}.startTime`);  // Get the value of start time
-                                            if (value && startTime) {
-                                              // If end time is less than start time, show an error message
-                                              return (
-                                                value > startTime || "End Time must be after Start Time"
-                                              );
-                                            }
-                                            return "Invalid time";
-                                          },
+                                          required: true
                                         }}
                                       />
                                     </Grid>
