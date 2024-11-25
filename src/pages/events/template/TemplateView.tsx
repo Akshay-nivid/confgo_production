@@ -20,6 +20,9 @@ type TemplateViewProps = {
   slug: string | undefined;
 }
 
+/**
+ * TemplateView component handles the default template
+ */
 const TemplateView: React.FC<TemplateViewProps> = React.memo(({ temp, eventId, slug }) => {
 
   const GET = useStore((state: any) => state.GET);

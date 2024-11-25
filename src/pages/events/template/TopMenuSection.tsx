@@ -18,7 +18,9 @@ type TopMenuSectionProps = {
 }
 
 
-
+/**
+ * Component displays the top menu section of the template
+ */
 const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ temp, onScrollToProgram, onScrollToAbout, onScrollToContributors }) => {
 
     const classPrefix = `event-template-top-menu-${temp}`;
@@ -26,12 +28,21 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ temp, onScro
     const location = useLocation()
 
     
+    /**
+     * Function navigates to the login page and stores the previous route in the store
+     */
     const  loginFn= () => {
         setDataById("previousRoute", { url: location });
 
         navigate(routes.userLogin());
     }
 
+
+    /**
+     * Function handles the logout functionality
+     * Calls the handleLogout from CommonBaseClass with a callback
+     * The callback resets the store and navigates to the login page
+     */
     function logoutFn() {
         handleLogout({
             onLogoutSuccess: () => {

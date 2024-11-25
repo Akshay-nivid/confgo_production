@@ -44,7 +44,6 @@ interface FormField {
 const DynamicUserForm = () => {
   const { control, handleSubmit } = useForm();
   const setDataById = useStore((state) => state.setDataById);
-  const eventId = useStore((state: any) => state?.compData?.["eventSelected"]?.id) ?? null;
 
   const dynamicFormData = useStore((state: any) => state?.compData?.["dynamicFormData"]) ?? [];
   const uploadedFiles = useStore((state: any) => state?.compData?.["uploadedFiles"]) ?? [];
@@ -143,15 +142,18 @@ const DynamicUserForm = () => {
       data: [...formData, ...uploadedFileData]
     }
 
+    
     POST({
-      url: 'registrationRecord', body: body, id: 'registrationRecord',
+
+      url: 'registrationRecord',
+      body: body,
+      id: 'registrationRecord',
       successCB: () => {
-
-        clearDataById('uploadedFiles')
-        navigate(routes.userPaymentMethod())
-
+          clearDataById('uploadedFiles')
+          navigate(routes.userPaymentMethod())
       }
     })
+    
     return formData
   };
 

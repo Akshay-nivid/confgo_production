@@ -13,6 +13,9 @@ type TitleSectionProps = {
     temp: number;
 }
 
+/**
+ * Displays the title section
+ */
 const TitleSection: React.FC<TitleSectionProps> = React.memo(({ data, temp }) => {
 
     const classPrefix = `event-template-title-${temp}`;

@@ -16,6 +16,9 @@ type HeaderSectionProps = {
     onScrollToContributors?: any;
 }
 
+/**
+ * Component displays the header section of the template
+ */
 const HeaderSection: React.FC<HeaderSectionProps> = React.memo(({ data, temp, onScrollToProgram, onScrollToAbout, onScrollToContributors }) => {
 
     const classPrefix = `event-template-header-${temp}`;

@@ -12,6 +12,9 @@ type AboutSectionProps = {
     ref?: any;
 }
 
+/**
+ * Component displays the about section of the template
+ */
 const AboutSection = React.memo(
     React.forwardRef<HTMLDivElement, AboutSectionProps>(({ data, temp }, ref) => {
     
