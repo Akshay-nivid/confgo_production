@@ -47,23 +47,33 @@ import TemplateContainer from "@/pages/events/template/TemplateContainer";
 import { PrivateRouteCompany, PrivateRouteUser } from "./router/PrivateRoute";
 import PublicRoute from "./router/PublicRoute";
 import UserDetail from "./pages/events/view/UserDetail";
+import GoogleAuthProvider from "./pages/User/GoogleAuthProvider";
 
 const userRoutes = [
   {
+    element: <GoogleAuthProvider />,
+    children:[
+      {
+        path: routes.userLogin(),
+        element: <UserLogin id="user-login" />,
+      },
+      {
+        path: routes.userRegister(),
+        element: <UserRegister/>,
+      },
+    ]
+  },
+  {
+   
+    
     element: <UserLayout />,
     children: [
       {
         path: routes.programSelection(),
         element: <ProgramSelection />,
       },
-      {
-        path: routes.userLogin(),
-        element: <UserLogin  id="user-login"/>,
-      },
-      {
-        path: routes.userRegister(),
-        element: <UserRegister/>,
-      },
+      
+      
       {
         path: routes.userOtp(),
         element: <UserOtp />,

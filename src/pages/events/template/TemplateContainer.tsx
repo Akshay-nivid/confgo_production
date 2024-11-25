@@ -10,6 +10,9 @@ type TemplateContainerProps = {
     id?: number;
 }
 
+/**
+ * Component handles the template creation
+ */
 const TemplateContainer: React.FC<TemplateContainerProps> = React.memo(({ }) => {
 
     const { id, entityId, slug } = useParams();

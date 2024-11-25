@@ -151,7 +151,7 @@ export const processFormData = (formData: any, id: any)=> {
     const addonGroup: any = {}
   
     Object.entries(formData).forEach(([key, value]: [string, any]) => {
-        
+      
       if (key.includes('program') && value !== undefined) {
   
         if (value.length > 0) {

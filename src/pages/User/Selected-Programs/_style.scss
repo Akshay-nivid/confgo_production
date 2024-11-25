@@ -169,5 +169,19 @@
     align-items: center;
     padding-bottom: 0.5rem !important;
   }
-  
+  .add-on-prop-checkbox {
+    padding-left: .8rem !important;
+    margin-top: .4rem;
+    .MuiFormControlLabel-root {
+      .MuiFormControlLabel-label {
+        font-size: $p3 !important;
+        font-weight: $font-bold !important;
+      }
+    }
+    svg {
+      width: 1.6rem;
+      height: 1.6rem;
+      fill: $clr_black !important;
+    }
+  }
 }

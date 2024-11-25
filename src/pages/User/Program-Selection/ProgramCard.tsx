@@ -57,6 +57,10 @@ const ProgramCard = () => {
 
   const { control, handleSubmit, setValue, watch,getValues } = useForm<any>({ defaultValues: defaultFormData ? defaultFormData : {}});
 
+  const addToCartLoading = useStore((state:any)=>state?.compData?.addToCartLoading?.loading)
+ 
+
+
   /**
     * Method used to call event details Api
     */
@@ -73,14 +77,12 @@ const ProgramCard = () => {
         id: 'eventData',
   
         successCB: (response: any) => {
-
           const formatedData = handleGroupData({
             addons: response?.data?.addons,
             programs: response?.data?.programs
           })
 
           setDataById("eventData", { programs: formatedData });
-
         },
 
         errorCB: () => { }
@@ -100,6 +102,7 @@ const ProgramCard = () => {
  */
   function handleClickNextButton(formData: any) {
    
+
    setDataById('defaultProgramData', { formData: formData }) // storing form data for setting default values in next screen 
 
    const body = processFormData(formData, eventId) // processing form data to match cart api body format
@@ -121,12 +124,14 @@ const ProgramCard = () => {
     const cartId = addToCartResponseData?.cart?.data?.id;
 
     if (!cartId) {
+      setDataById('addToCartLoading',{loading:true})
       POST({
         url: 'cart',
         body: body,
         id: 'addToCart',
   
         successCB: (data: any) => {
+          setDataById('addToCartLoading',{loading:false})
   
           const cartID = cartId ? cartId : data?.data?.id
   
@@ -160,6 +165,7 @@ const ProgramCard = () => {
   
         },
         errorCB: (error: any) => {
+          setDataById('addToCartLoading',{loading:false})
   
           setDataById("snackBarInfo", {
             open: true,
@@ -172,12 +178,15 @@ const ProgramCard = () => {
       })
     }
     else {
+      setDataById('addToCartLoading',{loading:true})
+
       PUT({
         url: `cart/${cartId}`,
         body: body,
         id: 'addToCart',
   
         successCB: (data: any) => {
+          setDataById('addToCartLoading',{loading:false})
 
           const cartID = cartId ? cartId : data?.data?.id
   
@@ -185,6 +194,7 @@ const ProgramCard = () => {
             url: `cart/${cartID}`,
             id: 'getCart',
             successCB: (response: any) => {
+              setDataById('addToCartLoading',{loading:false})
   
               const formatedData = handleGroupData({
                 addons: response?.data?.addons,
@@ -198,6 +208,7 @@ const ProgramCard = () => {
   
             },
             errorCB: (error: any) => {
+
               setDataById("snackBarInfo", {
                 open: true,
                 autoHideDuration: 2000,
@@ -210,6 +221,7 @@ const ProgramCard = () => {
   
         },
         errorCB: (error: any) => {
+          setDataById('addToCartLoading',{loading:false})
   
           setDataById("snackBarInfo", {
             open: true,
@@ -339,16 +351,8 @@ const ProgramCard = () => {
           label="Back"
           onClick={() => navigate(-1)}
         />
-        <CustomButton className={"next-button"} label="Next" type="submit" />
-        {/* <CustomButton
-              className="next-btn"
-              label="Next"
-              variant="contained"
-              onClick={() => {
-                clearDataById("defaultProgramData")
-                clearDataById("addToCart")
-              }}
-            /> */}
+          <CustomButton isLoading={addToCartLoading} className={"next-button"} label="Next" type="submit" />
+
       </Box>
     </form>
   );

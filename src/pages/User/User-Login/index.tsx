@@ -50,7 +50,8 @@ const UserLogin = (props: UserProps) => {
 
   const { control, handleSubmit } = useForm<IUserLogin>();
   const setDataById = useStore((state: any) => state.setDataById);
-  
+  const previousRoute = useStore((state: any) => state.compData?.previousRoute?.url || '');
+
   const POST = useStore((state: any) => state.POST);
   const navigate = useNavigate();
    /**
@@ -78,12 +79,19 @@ const UserLogin = (props: UserProps) => {
         apiClient.setToken(success.data.token);
         setDataById('userDetails', success.data);
         setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
-        if(success?.data?.userRole?.roleName==="USER"){
-          navigate(routes.userHome());
+        if (success?.data?.userRole?.roleName === "USER") {
+          
+          if (previousRoute) {
+            navigate(previousRoute.pathname);
+          } else {
+            navigate(routes.userHome());
+          }
+
         }
-        else{
+        else {
           navigate(routes.dashboard());
         } 
+        
       },
       errorCB: (error: any) => {
         setDataById("snackBarInfo", {
@@ -115,10 +123,21 @@ const UserLogin = (props: UserProps) => {
       id: props?.id,
       successCB: (context: any) => {
         if (context?.success) {
+
           sessionStorage.setItem("token", context.data?.token);
+          sessionStorage.setItem("userToken", context.data?.token);
           setDataById('participantLogin', true);
+          apiClient.setToken(context.data.token);
+
+          sessionStorage.setItem('userLoggedInType', context?.data?.userRole?.roleName);
+          sessionStorage.setItem('isUserLoggedIn', 'true');
           setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
-          navigate(routes.participantHome());
+          if (previousRoute) {
+            navigate(previousRoute?.pathname);
+            return
+          }
+          navigate(routes.userHome());
+
         }
       },
       errorCB: (context: any) => {
@@ -128,6 +147,7 @@ const UserLogin = (props: UserProps) => {
   }
 
   return (
+
     <Grid
       justifyContent={'center'}
       alignItems={'center'}
