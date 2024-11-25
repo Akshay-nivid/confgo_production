@@ -162,11 +162,15 @@ const SpeakerCard = (_eventData: any) => {
     try {
       await POST({
         url: "participant/type/list",
-        body: {},
-        id: "eventTypeList",
+        body: {
+          filters: {
+            isContributor: 1,
+          }
+        },
+        id: "contributorTypeList",
         successCB: (context: any) => {
           if (context?.success) {
-            const options = context?.data.map((element: any) => ({
+            const options = context?.data?.map((element: any) => ({
               value: element.name,
               label: element.name,
             }));

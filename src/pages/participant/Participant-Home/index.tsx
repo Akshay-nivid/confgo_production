@@ -3,6 +3,7 @@ import Navbar from '../NavBar'
 import EventInfo from './EventInfo'
 import { useEffect } from 'react'
 import  { GET, POST, setDataById } from '@/Libs/store'
+import { Logger } from '@/Utils/Logger'
 
 
 
@@ -59,7 +60,7 @@ export default function ParticipantHome() {
       },
       
       errorCB: (error: any) => {
-        console.log(error)
+        Logger.error("error", error);
       }
    })
  })

@@ -13,6 +13,9 @@ type ProgramSectionProps = {
     ref?: any;
 }
 
+/**
+ * Component displays the program section of the template
+ */
 const ProgramSection = React.memo(
     React.forwardRef<HTMLDivElement, ProgramSectionProps>(({ data, temp }, ref) => {
      

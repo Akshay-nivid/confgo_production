@@ -12,6 +12,10 @@ type EventContributorsSectionProps = {
     ref?: any;
 }
 
+
+/**
+ * Method displays the event contributors section
+ */
 const EventContributorsSection = React.memo(
     React.forwardRef<HTMLDivElement, EventContributorsSectionProps>(({ data, temp }, ref) => {
     

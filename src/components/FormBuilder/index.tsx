@@ -7,8 +7,8 @@ import { useForm } from "react-hook-form";
 import CustomRadio from "../CustomRadio/CustomRadio";
 import FormEditor from "./FormEditor";
 import FormFieldList from "./FormFieldList";
-import useStore, { clearDataById, POST, setDataById } from '@/Libs/store';
-import React, { useEffect } from 'react';
+import useStore, { POST, setDataById } from '@/Libs/store';
+import  { useEffect } from 'react';
 import CustomButton from '../CustomButton/CustomButton';
 import { Logger } from '@/Utils/Logger';
 import { useLocation } from 'react-router-dom';
@@ -165,6 +165,25 @@ const FormBuilder = () => {
 
         Logger.info(data)
 
+
+        if (isGeneric) {
+          const { generic, ...specificFormFieldsArray } = formFieldsArray
+
+
+          const updatedSpecificFormFieldsArray = Object.keys(specificFormFieldsArray).reduce((acc: any, key: string) => {
+
+            acc[key] = [];
+            return acc;
+          }, {});
+
+
+          setDataById('formFieldsArray', { ...formFieldsArray, ...updatedSpecificFormFieldsArray });
+        } else {
+
+          setDataById('formFieldsArray', { ...formFieldsArray, generic:[] });
+          
+        }
+
         setDataById("snackBarInfo", {
           open: true,
           autoHideDuration: 2000,
@@ -177,27 +196,6 @@ const FormBuilder = () => {
   }
 
 
-  function handleClearDataOnRadioToggle(e: React.ChangeEvent<HTMLInputElement>) {
-  
-  const participantType = e.target.value;
-  
-    if (participantType !== "generic") { 
-    
-    const updatedFormFieldsArray = { ...formFieldsArray, generic: [] };
-    clearDataById('formFieldsArray');
-    setDataById('formFieldsArray', updatedFormFieldsArray);
-      return
-    }
-    
-    if (participantType === "generic") {
-
-      const updatedFormFieldsArray = { ...formFieldsArray["generic"] };
-
-      clearDataById('formFieldsArray');
-      setDataById('formFieldsArray', updatedFormFieldsArray);
-     }
-}
-
   return (
     <Grid justifyContent={"center"} container className="form-builder layout">
       <HeaderSection />
@@ -206,7 +204,7 @@ const FormBuilder = () => {
           Choose Category
         </Typography>
         <Box className="choose-category-radio-container ">
-          <CustomRadio onChange={(e)=>handleClearDataOnRadioToggle(e)} className="category-radio" row={true} control={control} name="category" options={[{ label: "Generic", value: "generic" }, { label: "Specific audience category", value: "specific" }]} />
+          <CustomRadio className="category-radio" row={true} control={control} name="category" options={[{ label: "Generic", value: "generic" }, { label: "Specific audience category", value: "specific" }]} />
         </Box>
       </Box>
       {
@@ -238,7 +236,7 @@ const FormBuilder = () => {
             {
               participantTypeList && participantTypeList.map((user: any, idx: number) => {
                 return (
-                  <Accordion defaultExpanded={idx === 0 ? true : false} key={user} className="">
+                  <Accordion defaultExpanded={idx === 0 ? true : false} key={idx} className="">
                     <AccordionSummary expandIcon={<ExpandMoreIcon />} className="font-bold text-xl tracking-wider">{user?.name.toUpperCase()}</AccordionSummary>
                     <AccordionDetails className="shadow-none">
                       <Grid size={12} container className="form-builder-title-container">
