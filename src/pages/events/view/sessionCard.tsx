@@ -54,6 +54,22 @@ const SessionCard: React.FC<SessionCardProps> = ({
   };
 
   /**
+   * Check the formate of the satetime and according to it convert to hh:mm format
+   * @param time 
+   * @returns 
+   */
+  function formatTime(time: string): string {
+    if (time.includes('T')) {
+      // Handle ISO 8601 format (e.g., 2024-11-26T06:27:00.000Z)
+      const date = new Date(time);
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    } else {
+      // Assume it's already in hh:mm format
+      return time;
+    }
+  }
+
+  /**
   * render the selected addon property label from it's value using useMemo
   */
   const selectedLabel = React.useMemo(() => {
@@ -81,8 +97,8 @@ const SessionCard: React.FC<SessionCardProps> = ({
               {hasAddOns && (
                 <AddIcon fontSize="small"  />
               )}
-              {item[startTimeField]&&item[endTimeField]?<><span>{getTimeFromTimestamp(item[startTimeField])}</span>
-              <span>{getTimeFromTimestamp(item[endTimeField])}</span></>:<span>General Addon</span>}
+              {item[startTimeField]&&item[endTimeField]?<><span>{formatTime(item[startTimeField])}</span>
+              <span>{formatTime(item[endTimeField])}</span></>:<span>General Addon</span>}
             </Box>
           </Typography>
         </div>
