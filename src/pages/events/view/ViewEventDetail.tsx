@@ -389,7 +389,7 @@ const ViewEventDetail = () => {
       onClose={() => setOpenModal(false)}
       cancelLabel="Cancel"
       cancelAction={() => setOpenModal(false)}
-      header="Ready to Publish?"
+      header="Ready to Publish"
       subHeader="Are you sure you want to publish this event? Once published, it will be visible to attendees."
       submitAction={() => handlePublish(eventFullData?.published)}
       submitLabel="Publish"

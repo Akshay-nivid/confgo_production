@@ -95,7 +95,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
             startTime:  moment().format("HH:mm"),
             endTime:  moment().format("HH:mm"),
             type: "PAID",
-            date:moment(eventData?.startTime).format("YYYY-MM-DD"),
+            date:moment(eventData?.startDate).format("YYYY-MM-DD"),
             properties: [
             ],
             addonId: "",
@@ -175,7 +175,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
         const newAddon = {
           name: "",
           description: "",
-          date: moment(eventData?.startTime).format("YYYY-MM-DD"),
+          date: moment(eventData?.startDate).format("YYYY-MM-DD"),
           startTime: moment().format("HH:mm"),
           endTime: moment().format("HH:mm"),
           type: "PAID",
@@ -191,8 +191,8 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
           noOfDays: ""
         };
      
-        const startDate = moment(eventData.startTime).startOf('day');
-        const endDate = moment(eventData.endTime).startOf('day');
+        const startDate = moment(eventData.startDate).startOf('day');
+        const endDate = moment(eventData.endDate).startOf('day');
         const differenceInDays = endDate.diff(startDate, 'days');
         if (parseInt(lastItem?.noOfDays) > differenceInDays) {
           setError(`addOn.${lastIndex}.noOfDays`, {
@@ -266,7 +266,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
           const obj={
             name: "",
             description: "",
-            date:moment(eventData?.startTime).format("YYYY-MM-DD"),
+            date:moment(eventData?.startDate).format("YYYY-MM-DD"),
             startTime: moment(new Date()).format("HH:mm"),
             endTime: moment(new Date()).format("HH:mm"),
             type: "PAID",
@@ -426,11 +426,11 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     placeholder="Date"
                                     control={control}
                                     name={`addOn.${index}.date`}
-                                    defaultValue={moment(eventData?.startTime).format("YYYY-MM-DD")}
+                                    defaultValue={moment(eventData?.startDate).format("YYYY-MM-DD")}
                                     type="date"
-                                    min={moment(eventData.startTime).format("YYYY-MM-DD")}
-                                    minDate={eventData?.startTime}
-                                    maxDate={eventData?.endTime}
+                                    min={moment(eventData.startDate).format("YYYY-MM-DD")}
+                                    minDate={eventData?.startDate}
+                                    maxDate={eventData?.endDate}
                                   />
                                 </Grid>
                                 <Grid size={{ xs: 4 }}>
@@ -503,17 +503,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                               value: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
                                               message:
                                                 "Enter a valid price (up to 2 decimal places)",
-                                            },
-                                            validate: (value) => {
-                                              if (typeof value === "string") {
-                                                const price = parseFloat(value);
-                                                return (
-                                                  price >= 0 ||
-                                                  "Price cannot be negative"
-                                                );
-                                              }
-                                              return "Invalid price format";
-                                            },
+                                            }
                                           }}
                                         />
                                       </Grid> }
@@ -579,17 +569,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                               value: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
                                               message:
                                                 "Enter a valid price (up to 2 decimal places)",
-                                            },
-                                            validate: (value) => {
-                                              if (typeof value === "string") {
-                                                const price = parseFloat(value);
-                                                return (
-                                                  price >= 0 ||
-                                                  "Price cannot be negative"
-                                                );
-                                              }
-                                              return "Invalid price format";
-                                            },
+                                            }
                                           }}
                                         />
                                       </Grid>
