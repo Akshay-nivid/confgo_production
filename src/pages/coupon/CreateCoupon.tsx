@@ -75,7 +75,7 @@ const CreateCoupon: React.FC = () => {
         throw new Error(message|| 'Unexpected error occurred');
       }
     } catch (error: any) {
-      const errorMessage = error.respons?.data?.message || error.message || 'An error occurred while creating the coupon.';
+      const errorMessage = error.response?.data?.message || error.message || 'An error occurred while creating the coupon.';
       setSnackbarMessage(errorMessage);
       setSnackbarSeverity('error');
     } finally {

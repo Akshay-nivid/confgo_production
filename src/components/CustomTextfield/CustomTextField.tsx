@@ -174,6 +174,10 @@ const CustomTextField = <T extends FieldValues>({
     if (props.max) {
       propsObj.max = props.max;
     }
+
+    if (props.isNumeric) {
+      propsObj.max = 10;
+    }
     return propsObj;
   };
 
@@ -243,8 +247,6 @@ const CustomTextField = <T extends FieldValues>({
                 }}
                 inputProps={{
                   ...inputProps(),
-                  inputMode: props.isNumeric ? "numeric" : undefined,
-                  maxLength: props.isNumeric ? 10 : undefined, 
                 }}
                 
               />
