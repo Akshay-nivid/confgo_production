@@ -7,10 +7,12 @@ import AboutSection from './AboutSection';
 import ProgramSection from './ProgramSection';
 import HeaderSection from './HeaderSection';
 import EventContributorsSection from './EventContributorsSection';
-import useStore from '@/Libs/store';
+import useStore, { setDataById } from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import FooterSection from './FooterSection';
 import TicketingSection from './TicketingSection';
+import { useNavigate } from 'react-router-dom';
+import routes from '@/router/routes';
 
 type TemplateViewProps = {
   temp: number | undefined;
@@ -27,7 +29,7 @@ const TemplateView: React.FC<TemplateViewProps> = React.memo(({ temp, eventId, s
   const aboutRef = useRef(null);
   const contributorsRef = useRef(null);
   const programRef = useRef(null);
-
+const navigate = useNavigate();
   /**
    * Method handles the scroll functionality based on click event
    * @param ref : event reference
@@ -77,13 +79,20 @@ const TemplateView: React.FC<TemplateViewProps> = React.memo(({ temp, eventId, s
   /**
 * Method fetch the event details from slug
 */
-  const fetchEventDetailsFromSlug = async () => {
+  const fetchEventDetailsFromSlug =  () => {
     try {
-      await GET({
+       GET({
         url: `event/slug/${slug}`,
         id: 'slugEventDetails',
+        successCB: (context: any) => {
+          setDataById('eventSelected', { id: context?.data?.id });
+          setDataById('slugName', { slugName: slug });
+          setDataById('templateId', { id: context?.data?.templateId });
+          
+        },
         errorCB: (context: any) => {
           Logger.error('TemplateView.tsx', context?.message);
+          navigate(routes.userLogin());
         }
       });
     } catch (error) {

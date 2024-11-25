@@ -59,7 +59,6 @@ export default function ParticipantHome() {
       },
       
       errorCB: (error: any) => {
-        console.log(error)
       }
    })
  })

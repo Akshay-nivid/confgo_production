@@ -44,6 +44,8 @@ interface FormField {
 const DynamicUserForm = () => {
   const { control, handleSubmit } = useForm();
   const setDataById = useStore((state) => state.setDataById);
+  const eventId = useStore((state: any) => state?.compData?.["eventSelected"]?.id) ?? null;
+
   const dynamicFormData = useStore((state: any) => state?.compData?.["dynamicFormData"]) ?? [];
   const uploadedFiles = useStore((state: any) => state?.compData?.["uploadedFiles"]) ?? [];
   const navigate = useNavigate();
@@ -203,6 +205,7 @@ const DynamicUserForm = () => {
     };
 
     switch (metadata.fieldType) {
+      
       case "text":
         return <CustomTextField  {...commonProps} type="text" size="medium" />;
 

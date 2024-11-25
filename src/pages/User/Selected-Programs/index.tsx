@@ -5,7 +5,7 @@ import { Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useForm } from "react-hook-form";
 import { CouponIcon } from "@/assets/svg";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
 import useStore, { GET, POST, PUT } from "@/Libs/store";
 import routes from "@/router/routes";
@@ -20,13 +20,21 @@ const SelectedPrograms = () => {
 
 
   const navigate = useNavigate();
+
   const selectedPrograms = useStore((state: any) => state?.compData?.["formatedCartData"]?.["formatedData"]) ?? null;
+
   const setDataById = useStore((state: any) => state.setDataById);
+
   const selectedFormValues = useStore(state => state?.compData?.["defaultProgramData"].formData)
+
   const couponData = useStore((state: any) => state?.compData?.["couponData"]?.context) ?? null
+
   const eventId = useStore((state: any) => state?.compData?.["eventSelected"]?.id) ?? null;
+
   const addToCartResponseData = useStore((state: any) => state?.compData?.["addToCart"]) ?? null;
 
+  const location = useLocation()
+  
   const { control, setValue, getValues, reset } = useForm({
 
     defaultValues: {
@@ -86,7 +94,7 @@ const SelectedPrograms = () => {
     if (!token) {
 
       navigate(routes.userLogin())
-      setDataById('previousRoute', routes.selectedPrograms())
+      setDataById('previousRoute', { url: location })
 
     }
 
@@ -95,7 +103,16 @@ const SelectedPrograms = () => {
         if (dynamicFormResponseData.data.length === 0) {
         navigate(routes.userPaymentMethod())
         return
-      } else {
+        } else {
+          const parsedData = dynamicFormResponseData.data?.map((item: any) => {
+            return {
+              ...item,
+              metadata: JSON.parse(item.metadata),
+            };
+          });
+  
+          setDataById("dynamicFormData", { data: parsedData });
+
        navigate(routes.dynamicUserForm())
         return
       }
@@ -269,11 +286,12 @@ const SelectedPrograms = () => {
                                   <Grid size={6}>- ${addon?.amount}</Grid>
                                 </Grid>
                                 {addon?.eventAddonProperties?.length > 0 && (
-                                  <Grid >
+                                  <Grid  className="add-on-prop-checkbox ">
 
                                     {addon?.eventAddonProperties.map((property: any) => {
                                       return property !== null && (
                                         < CustomCheckbox
+                                          className="add-on-prop-checkbox "
                                           // disabled={watch(currentAddon) === undefined || watch(currentAddon).length === 0}
                                           row={true}
                                           onChange={() => onCheckboxToggle(`${formatDate(date)}-addonProp-${addon?.id}`)}

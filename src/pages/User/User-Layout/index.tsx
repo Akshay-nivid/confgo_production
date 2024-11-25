@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import NavBar from '@/pages/participant/NavBar';
+import TopMenuSection from '@/pages/events/template/TopMenuSection';
+import useStore from '@/Libs/store';
 
 
 /**
@@ -9,17 +9,19 @@ import NavBar from '@/pages/participant/NavBar';
  * @returns 
  */
 const UserLayout = () => {
+
+  const templateId = useStore((state: any) => state.compData?.["templateId"])
+  
   return (
-    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <Box  className="user-layout">
-        <NavBar/>
+        {/* <NavBar /> */}
+        <TopMenuSection temp={templateId?.id} />
         <Box className="user-layout-content">
           <Box className="user-layout-card">
             <Outlet />
           </Box>
         </Box>
       </Box>
-    </GoogleOAuthProvider>
   );
 };
 

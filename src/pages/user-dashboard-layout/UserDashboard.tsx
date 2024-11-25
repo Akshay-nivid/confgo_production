@@ -40,6 +40,8 @@ const UserDashboard: React.FC = React.memo(() => {
   const eventAndUserCount = useStore((state: any) => state?.compData?.["eventAndUserCount"]?.['dashboard/eventAndUserCount']) ?? [];
   const userCompletedEvents = useStore((state: any) => state?.compData?.["userCompletedEvents"]?.['event/list']) ?? [];
   const userEvents = useStore((state: any) => state?.compData?.["userLatestEvents"]) ?? [];
+ 
+ 
   /**
   * Useeffect hook handles the api call 
   */
@@ -53,10 +55,10 @@ const UserDashboard: React.FC = React.memo(() => {
   /**
   * fetch upcoming events
   */
-  const getDashboardCount = async () => {
+  const getDashboardCount =  () => {
     try {
       setIsCountLoading(true);
-      await GET({
+       GET({
         url: "dashboard/eventAndUserCount",
         id: 'eventAndUserCount',
         errorCB: (context: any) => {
@@ -114,7 +116,8 @@ const UserDashboard: React.FC = React.memo(() => {
         },
       });
     } catch (error) {
-      Logger.error("An error occurred:", error);
+      Logger.error("An error occurred event/list/filter:", error);
+
     }
     finally {
       setIsLoading(false);
@@ -123,10 +126,10 @@ const UserDashboard: React.FC = React.memo(() => {
   /**
   * fetch completed events /last attended events
   */
-  const fetchPastEvents = async () => {
+  const fetchPastEvents =  () => {
     try {
       setIsLoading(true);
-      await POST({
+       POST({
         url: "event/list",
         body: {
           offset: 0,
@@ -147,7 +150,8 @@ const UserDashboard: React.FC = React.memo(() => {
         },
       });
     } catch (error) {
-      Logger.error("An error occurred:", error);
+      Logger.error("An error occurred on event/list:", error);
+
     }
     finally {
       setIsLoading(false);
