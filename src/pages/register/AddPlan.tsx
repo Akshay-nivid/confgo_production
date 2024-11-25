@@ -85,19 +85,29 @@ const AddPlan = React.memo(() => {
     }
   }
 
+  const mode = useStore((state) => state?.compData?.planMode?.mode);
   /*
    * function to change the state and store selected plan
    */
   const handleClick = () => {
     const planDetail = planList.find((item) => item.name === currentPlan);
-    setDataById('register', { data: 'CREATE_ACCOUNT_PAGE', step: 2 });
-    setDataById('form1', { field_values: planDetail });
+    if (mode === 'register') {
+      setDataById('register', { data: 'CREATE_ACCOUNT_PAGE', step: 2 });
+      setDataById('form1', { field_values: planDetail });
+    }else{
+    setDataById('planDetails', { field_values: { ...planDetail } });
+    navigate(routes.upgradePlanPayment());
+    }
   }
   /*
  * function to handle view plan details
  */
   const handleViewPlanDetails=()=>{
-    navigate(routes.pricing());
+    if (mode === 'register') {
+    navigate(routes.pricing());}
+    else{
+      navigate(routes.planUpgradePricing())
+    }
   }
 
   return (

@@ -17,6 +17,21 @@ export const PlanCard: React.FC<PlanCardProps> = ({ data }) => {
   const setDataById = useStore((state) => state?.setDataById);
   const navigate = useNavigate();
 
+  const mode = useStore((state) => state?.compData?.planMode?.mode);
+
+  /**
+   * It updates the global state based on the mode and navigates to the appropriate route.
+   */
+  const handleButtonClick = () => {
+    if (mode === 'register') {
+      setDataById('register', { data: 'CREATE_ACCOUNT_PAGE', step: 2 });
+      setDataById('form1', { field_values: { ...data } });
+      navigate(routes.register());
+    }else{
+      setDataById('planDetails', { field_values: { ...data } });
+      navigate(routes.upgradePlanPayment());
+    }
+  };
   return (
     <Box className=" plancard__container">
       <Box className="plancard__content">
@@ -44,11 +59,7 @@ export const PlanCard: React.FC<PlanCardProps> = ({ data }) => {
           ))}
         </Box>
         <Button
-          onClick={() => {
-            setDataById('register', { data: 'CREATE_ACCOUNT_PAGE', step: 2 });
-            setDataById('form1', { field_values: { ...data } });
-            navigate(routes.register());
-          }}
+          onClick={handleButtonClick}
           fullWidth
           variant="contained"
           className="plancard__button"

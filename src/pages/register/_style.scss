@@ -143,3 +143,60 @@
 .cursor-container{
   cursor: pointer;
 }
+.left-content-wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  & .view-all-plans{
+    padding-bottom: 3rem;
+    padding-top: 1.5rem;
+  }
+  & .plan-choose-btn {
+    font-size: $h6;
+    background-color: $clr_blue;
+    width: 100%;
+    text-transform: none !important;
+    svg{
+      path{
+        fill: $clr_white;
+      }
+    }
+    &:focus {
+      outline: none;
+    }
+  } & .plan-disabled-choose-btn{
+    font-size: $h6;
+    width: 100%;
+    background-color: $clr_blue; 
+    color: $clr_gray_light; 
+    cursor: none; 
+    opacity: 0.6; 
+    text-transform: none !important;
+    svg {
+        path {
+            fill: $clr_gray_light;
+        }
+    }
+  }
+  & .form-wrapper {
+    width: 100%;
+    margin-inline: auto;
+    & .form {
+      display: flex;
+      flex-direction: column;
+      row-gap: 2.083rem;
+    }
+  }
+  .success-container {
+    .divider-box {
+       background-color: $clr_gray_light;
+       height: 0.05rem;
+       width: 100%;
+     }
+     .subheader-text{
+      font-weight: $font_semibold;
+     }
+   }
+
+}

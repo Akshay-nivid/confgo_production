@@ -35,6 +35,7 @@ const Register = () => {
     setDataById('register', { data: 'REGISTRATION_SUCCESS_PAGE',paymentStatus:false });
   }
   useEffect(()=>{
+    setDataById("planMode", { mode: "register" });
     // clearDataById('register');
     // clearDataById('form1');
     // clearDataById('form2');
