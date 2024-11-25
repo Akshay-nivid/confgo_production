@@ -64,8 +64,9 @@ interface SessionDrawerContentProps {
       } else {
         reset({
           isPaid: "FREE",
-          startTime: moment(eventStartTime).format("YYYY-MM-DDTHH:mm"),
-          endTime: moment(eventEndTime).format("YYYY-MM-DDTHH:mm"),
+          startTime: moment(eventStartTime).format("HH:mm"),
+          endTime: moment(eventStartTime).format("HH:mm"),
+          startDate:moment(eventStartTime).format("YYYY-MM-DD"),
           name: "",
           description: "",
           price: "",
