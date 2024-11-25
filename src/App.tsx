@@ -48,6 +48,7 @@ import { PrivateRouteCompany, PrivateRouteUser } from "./router/PrivateRoute";
 import PublicRoute from "./router/PublicRoute";
 import UserDetail from "./pages/events/view/UserDetail";
 import GoogleAuthProvider from "./pages/User/GoogleAuthProvider";
+import ProfileSettings from "./pages/dashboard/ProfileSettings";
 
 const userRoutes = [
   {
@@ -225,6 +226,9 @@ const router = createBrowserRouter([
       {
         path: routes.userdetail(":id"),
         element: <UserDetail />,
+      },
+      {  path: routes.organizationUserProfile(),
+        element: <ProfileSettings />,
       },
     ],
   },

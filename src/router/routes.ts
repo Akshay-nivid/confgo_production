@@ -47,7 +47,9 @@ const routes = {
   userEventRecap:()=>"/event-recap",
   accountsettings: () => `/user/account-settings`,
   userdetail: (id:string | number ) => `/userdetail/${id}`,
-  eventExternalLink: (slug: string) => `/event-link/${slug}`
+  eventExternalLink: (slug: string) => `/event-link/${slug}`,
+  organizationUserProfile: () => `/account-settings`,
+
 };
 
 export default routes;
