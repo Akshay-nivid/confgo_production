@@ -39,8 +39,8 @@ interface SessionDrawerContentProps {
     } = useForm({
       defaultValues: {
         isPaid: isEditing && selectedProgram?.amount > 0 ? "PAID" : "FREE", 
-        startTime: selectedProgram ? selectedProgram.startTime : (eventStartTime ? eventStartTime:""),
-        endTime: selectedProgram ? selectedProgram.endTime : (eventEndTime ? eventEndTime:""),
+        startDate: selectedProgram ? selectedProgram.startTime : (eventStartTime ? eventStartTime:""),
+        endDate: selectedProgram ? selectedProgram.endTime : (eventEndTime ? eventEndTime:""),
         name: selectedProgram ? selectedProgram.name : "",
         description: selectedProgram ? selectedProgram.description : "",
         price: selectedProgram ? selectedProgram.amount : "",
@@ -56,15 +56,15 @@ interface SessionDrawerContentProps {
       if (isEditing && selectedProgram) {
         setValue("name", selectedProgram.name);
         setValue("description", selectedProgram.description);
-        setValue("startTime",formatTimestamp(selectedProgram.startTime));
-        setValue("endTime", formatTimestamp(selectedProgram.endTime));
+        setValue("startDate",formatTimestamp(selectedProgram.startTime));
+        setValue("endDate", formatTimestamp(selectedProgram.endTime));
         setValue("isPaid", selectedProgram.amount > 0 ? "PAID" : "FREE");
         setValue("price", selectedProgram.amount);
       } else {
         reset({
           isPaid: "FREE",
-          startTime: moment(eventStartTime).format("YYYY-MM-DDTHH:mm"),
-          endTime: moment(eventEndTime).format("YYYY-MM-DDTHH:mm"),
+          startDate: moment(eventStartTime).format("YYYY-MM-DDTHH:mm"),
+          endDate: moment(eventStartTime).format("YYYY-MM-DDTHH:mm"),
           name: "",
           description: "",
           price: "",
@@ -115,7 +115,7 @@ interface SessionDrawerContentProps {
   
           <Grid size={{xs:12}}>
             <CustomTextField
-              name="startTime"
+              name="startDate"
               label="Start Time"
               placeholder="Start Time"
               control={control}
@@ -129,7 +129,7 @@ interface SessionDrawerContentProps {
   
           <Grid size={{xs:12}}>
             <CustomTextField
-              name="endTime"
+              name="endDate"
               label="End Time"
               placeholder="End Time"
               control={control}
