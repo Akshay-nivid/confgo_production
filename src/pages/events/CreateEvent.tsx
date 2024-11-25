@@ -23,8 +23,8 @@ type EventProps = {
 type FormData = {
   type: string;
   name: string;
-  startDate: Date;
-  endDate: Date;
+  startTime: Date;
+  endTime: Date;
   speakers: string;
   description: string;
   venueName: string;
@@ -81,10 +81,10 @@ const CreateEvent: React.FC<EventProps> = React.memo(
      * @param data
      */
     const onSubmit: SubmitHandler<FormData> = (data: any) => {
-      const startDate = new Date(data.startDate);
-      const endDate = new Date(data.endDate);
-      if (startDate > endDate) {
-        setError(`startDate`, {
+      const startTime = new Date(data.startTime);
+      const endTime = new Date(data.endTime);
+      if (startTime > endTime) {
+        setError(`startTime`, {
           type: 'manual',
           message: 'Start date cannot be greater than end date',
         });
@@ -209,7 +209,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                     <CustomTextField
                       placeholder="Start Date"
                       control={control}
-                      name="startDate"
+                      name="startTime"
                       type="date"
                       defaultValue={moment(new Date()).format("YYYY-MM-DD")}
                       min={moment(new Date()).format("YYYY-MM-DD")}
@@ -219,7 +219,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                     <CustomTextField
                       placeholder="End Date"
                       control={control}
-                      name="endDate"
+                      name="endTime"
                       type="date"
                       defaultValue={moment(new Date()).format("YYYY-MM-DD")}
                       min={moment(new Date()).format("YYYY-MM-DD")}
