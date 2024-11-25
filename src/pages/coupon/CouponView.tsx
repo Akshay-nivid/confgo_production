@@ -118,6 +118,20 @@ const CouponView: React.FC = () => {
     }
   };
 
+  /**
+   * Function to restore form data to its original state.
+   */
+  const restore = () => {
+    if (coupon) {
+      const formattedOriginalData = {
+        ...coupon,
+        startTime: moment(coupon.startDate).format("YYYY-MM-DDTHH:mm"),
+        endTime: moment(coupon.endDate).format("YYYY-MM-DDTHH:mm"),
+      };
+      reset(formattedOriginalData);
+    }
+  };
+
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
@@ -308,6 +322,14 @@ const CouponView: React.FC = () => {
                   </Grid>
                   {editable ? (
                     <Grid size={{ xs: 12, sm: 12 }}>
+                      
+                      <CustomButton
+                        className="custom-list-save-btn custom-list-restore-btn"
+                        label="Cancel"
+                        variant="outlined"
+                        size="large"
+                        onClick={restore}
+                      />
                       <CustomButton
                         className="custom-list-save-btn"
                         label="Save"
@@ -321,6 +343,7 @@ const CouponView: React.FC = () => {
                         }}
                       />
                     </Grid>
+                    
                   ) : (
                     ""
                   )}
