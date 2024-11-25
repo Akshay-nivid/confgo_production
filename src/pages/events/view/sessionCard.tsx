@@ -4,6 +4,7 @@ import EditIcon from "@/assets/svg/event-edit.svg";
 import AddIcon from "../../../assets/svg/event-addon-icon.svg"; // Importing the icon to display next to the start time
 import Grid from "@mui/material/Grid2";
 import { DeleteContributorIcon} from "@/assets/svg";
+import moment from "moment";
 
 interface FieldConfig {
   label: string;
@@ -61,10 +62,9 @@ const SessionCard: React.FC<SessionCardProps> = ({
     if (time.includes('T')) {
       // Handle ISO 8601 format (e.g., 2024-11-26T06:27:00.000Z)
       const date = new Date(time);
-      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' , hour12: true,timeZone:'UTC'});
     } else {
-      // Assume it's already in hh:mm format
-      return time;
+      return moment(time, "HH:mm").format("h:mm A");
     }
   }
 
