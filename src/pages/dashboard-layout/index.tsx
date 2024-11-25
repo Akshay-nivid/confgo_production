@@ -1,7 +1,7 @@
 import Sidebar from './Sidebar';
 import LayoutAppbar from './LayoutAppbar';
 import Grid from '@mui/material/Grid2';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { PaymentAlertBanner } from './PaymentAlertBanner';
 import useStore, { POST } from "@/Libs/store";
@@ -12,8 +12,12 @@ import { useEffect } from "react";
  * @returns
  */
 const Layout = () => {
+  const location = useLocation();
 
   const dataInfo = useStore((state: any) => state?.compData?.["paymentBanner"]?.['subscription/verify']?.data) ?? [];
+
+  const showAlertBanner = dataInfo?.subscriptionStatus == false &&
+  !/^\/planUpgrade(\/.*)?$/.test(location.pathname);
 
   useEffect(() => {
     POST({
@@ -32,7 +36,7 @@ const Layout = () => {
             <Sidebar open={true} />
           </Grid>
           <Grid size={10} className="layout-container-grid-outlet-grid">
-            {dataInfo?.subscriptionStatus === false && <Grid><PaymentAlertBanner /></Grid>}
+            {showAlertBanner && <Grid><PaymentAlertBanner /></Grid>}
             <Box className="layout-container-grid-outlet-grid-outlet-adminwrapper">
               <Outlet />
             </Box>
