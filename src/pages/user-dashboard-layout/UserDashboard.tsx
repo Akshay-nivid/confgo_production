@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, CircularProgress, Divider, Typography } from "@mui/material";
 import DashboardCardItem from './DashboardCardItem';
-import {  DownloadCertsIcon, DownloadEventIcon, EventsSvg, HeartEventIcon, PaymentDashboardIcon, PaymentHistoryIcon, TransactionHistoryIcon } from '@/assets/svg';
+import {  DownloadCertsIcon, DownloadEventIcon, EventsSvg, HeartEventIcon, PaymentDashboardIcon,  TransactionHistoryIcon } from '@/assets/svg';
 import React from 'react';
 import useStore from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
@@ -29,6 +29,7 @@ export interface CalendarCardData {
 const UserDashboard: React.FC = React.memo(() => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [isCalendarLoading, setIsCalendarLoading] = useState(false);
   const [isCountLoading, setIsCountLoading] = useState(false);
   const setDataById = useStore((state: any) => state.setDataById);
   const POST = useStore((state: any) => state.POST);
@@ -82,7 +83,7 @@ const UserDashboard: React.FC = React.memo(() => {
   */
   const fetchUpcomingEvents = async () => {
     try {
-      setIsLoading(true);
+      setIsCalendarLoading(true);
       await POST({
         url: "event/list",
         body: {
@@ -120,7 +121,7 @@ const UserDashboard: React.FC = React.memo(() => {
 
     }
     finally {
-      setIsLoading(false);
+      setIsCalendarLoading(false);
     }
   }
   /**
@@ -224,7 +225,7 @@ const UserDashboard: React.FC = React.memo(() => {
       {/* Right Column */}
       <Grid size={{ xs: 12, md: 4 }} className="dashboard-right" justifyContent="flex-end">
         <Grid container className="dashboard-right-calendar" >
-            {isLoading ? <CircularProgress /> :
+            {isCalendarLoading ? <CircularProgress /> :
             userEvents && Array.isArray(userEvents['event/list']?.data) && userEvents['event/list']?.data.length > 0 ? 
               <CalendarCard data={userEvents} />
               :<NoCalenderData/>

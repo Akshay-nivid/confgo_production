@@ -10,6 +10,7 @@ import StatusComponent from '../Status/StatusComponent';
 import { NoRecords } from '../NoRecords/NoRecords';
 import { ISource } from '@/Libs/type';
 import moment from 'moment';
+import vector from "../../assets/png/Vector.png";
 
 type DefColumn = {
     type?: string;
@@ -29,20 +30,22 @@ type DataGridListProps = {
     title?: string
     onRowClick?: (params: any) => void;
     subNode?: string;
+    noRecordIcon?:any;
+    noRecordSubtitle?:string;
 };
 
 /**
  * Method used to render listing
  * @returns 
  */
-export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFooterPagination, source, dataTransformer, onRowClick, subNode, data }) => {
+export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFooterPagination, source, dataTransformer, onRowClick, subNode, data,noRecordIcon,noRecordSubtitle }) => {
     const setDataById = useStore((state: any) => state.setDataById)
     const dataInfo = useStore((state: any) => state?.compData?.[id]) ?? [];
     const prevPageRef = useRef<any>();
     const pageSize = dataInfo.source?.data?.limit || 5;
     const currentPage = dataInfo.currentPage || 1;
     const [loading, setLoading] = useState(false); // Added loading state
-
+    const noRecordImg = noRecordIcon || vector;
     /**
      * Method used to find screen height and set datagrid height
      */
@@ -248,7 +251,8 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
                 </Grid>
             ) : (
                 <Grid container size={12} justifyContent={"center"} alignContent={"center"}>
-                     <NoRecords />
+                     <NoRecords imageSrc={noRecordImg} noRecordSubtitle={noRecordSubtitle}/>
+                     
                 </Grid>
                
             )}

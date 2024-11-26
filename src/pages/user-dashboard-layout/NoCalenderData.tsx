@@ -14,11 +14,11 @@ const NoCalenderData: React.FC = React.memo(() => {
   return (
     <Grid size={{ xs: 12 }} className="dashboard-nocalendar" >
       <Typography className="dashboard-nocalendar-title">
-        Your Dashboard is Ready and Waiting <br/> to Display<br/> Upcoming Events <br/>and Details
+        Your Dashboard is <br/> Ready and Waiting <br/> to Display<br/> Upcoming Events <br/>and Details
       </Typography>
       <Grid size={12} >
         <Typography className="dashboard-nocalendar-subtitle">
-        Check back soon for the latest updates right here
+        Check back soon for the latest<br/> updates right here
         </Typography>
       </Grid>
       <Grid size={12}>
