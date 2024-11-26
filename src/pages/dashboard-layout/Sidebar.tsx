@@ -58,7 +58,6 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
     const isActive = exact
       ? path === location.pathname
       : location.pathname.startsWith(path);
-    console.log(`${path} isActive: ${isActive}`);
     return isActive;
   };
 
