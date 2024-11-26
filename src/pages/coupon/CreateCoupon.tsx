@@ -63,7 +63,7 @@ const CreateCoupon: React.FC = () => {
       };
 
       const response = await apiClient.post('coupon', req);
-      const { status } = await processAPIResponse(response, "createCoupon");
+      const { status,message } = await processAPIResponse(response, "createCoupon");
       if (status) {
         setSnackbarMessage("Coupon Created Successfully");
         setSnackbarSeverity('success');
@@ -72,7 +72,7 @@ const CreateCoupon: React.FC = () => {
           navigate(routes.coupon()); // Redirect to the coupon list
         }, 1500);
       } else {
-        throw new Error(response.data.message || 'Unexpected error occurred');
+        throw new Error(message|| 'Unexpected error occurred');
       }
     } catch (error: any) {
       const errorMessage = error.response?.data?.message || error.message || 'An error occurred while creating the coupon.';
@@ -131,8 +131,7 @@ const CreateCoupon: React.FC = () => {
                     name='name'
                     placeholder='Coupon Name'
                     control={control}
-                    rules={{ required: 'Coupon Name is required' }}
-                    requiredField
+                    rules={{required:{value:true,message:""}}}
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
@@ -140,8 +139,7 @@ const CreateCoupon: React.FC = () => {
                     name='code'
                     placeholder='Coupon Code'
                     control={control}
-                    rules={{ required: 'Coupon Code is required & code must be atleast 6 character long' }}
-                    requiredField
+                    rules={{required:{value:true,message:""}}}
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
@@ -159,7 +157,9 @@ const CreateCoupon: React.FC = () => {
                     name='discountValue'
                     placeholder='Discount Value'
                     control={control}
-                    rules={{ required: 'Discount Value is required' }}
+                    rules={{required:{value:true,message:""},
+                            pattern:{value:/^\d+$/,message: "Discount Value must be a positive number."}}
+                    }
                     type='number'
                     requiredField
                   />
@@ -169,7 +169,7 @@ const CreateCoupon: React.FC = () => {
                     placeholder='Start Date'
                     name='startDate'
                     control={control}
-                    rules={{ required: 'Start Date is required ' }}
+                    rules={{required:{value:true,message:""}}}
                     min={moment().format("YYYY-MM-DD")}
                     defaultValue={moment().format("YYYY-MM-DD")}
                     label='Start Date'
@@ -184,7 +184,7 @@ const CreateCoupon: React.FC = () => {
                     control={control}
                     min={minEndDate}
                     defaultValue={minEndDate}
-                    rules={{ required: 'Expiry Date is required' }}
+                    rules={{required:{value:true,message:""}}}
                     label='End Date'
                     requiredField
                   />
@@ -195,7 +195,8 @@ const CreateCoupon: React.FC = () => {
                     placeholder='Maximum Usage'
                     control={control}
                     type='number'
-                    requiredField
+                    rules={{required:{value:true,message:""}}
+                          }
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
@@ -204,7 +205,8 @@ const CreateCoupon: React.FC = () => {
                     placeholder='Maximum Discount Amount'
                     control={control}
                     type='number'
-                    requiredField
+                    rules={{required:{value:true,message:""}}
+                          }
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 12 }}>
@@ -213,7 +215,8 @@ const CreateCoupon: React.FC = () => {
                     placeholder='Minimum Purchase Amount'
                     control={control}
                     type='number'
-                    requiredField
+                    rules={{required:{value:true,message:""}}
+                          }
                   />
                 </Grid>
 

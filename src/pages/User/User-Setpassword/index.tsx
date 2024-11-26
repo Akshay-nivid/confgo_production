@@ -34,7 +34,6 @@ const UserSetPassword = () => {
   const { control, handleSubmit, watch } = useForm<ISetPasswordForm>();
   const location = useLocation();
   const {userId,email} = location.state;
-  console.log(userId,email,'userId,email')
   const [token,setToken] = useState<string>('');
   const setDataById = useStore((state: any) => state.setDataById)
   const navigate=useNavigate();
@@ -48,7 +47,6 @@ const UserSetPassword = () => {
     try{
       const response = await apiClient.post('token', {userId,email,type:'USER_REGISTRATION'})
       if(response.data.status === 'success'){
-        console.log(response.data.data.token,'response.data.token')
         setToken(response.data.data.token)
       }
       return response;
@@ -89,7 +87,13 @@ const UserSetPassword = () => {
     }
   }
   const handleLogin = async (data:ISetPasswordForm) => {
-    createPassword(data.password);
+    
+    if(data.password===data.confirmPassword){
+      createPassword(data.password);
+    }else{
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 1000, severity: 'error', message:'Passwords do not match' })
+    }
+   
   }
 
   const password = watch('password');
@@ -117,7 +121,7 @@ const UserSetPassword = () => {
         <Box className="form-container">
           <form
             onSubmit={handleSubmit(handleLogin)}
-            noValidate
+          
             className="form"
           >
             <Box
@@ -148,10 +152,7 @@ const UserSetPassword = () => {
                     fieldName: 'Confirm Password',
                   }),
                   validate: (value) =>
-                    validateConfirmPassword({
-                      password: password,
-                      confirmPassword: value,
-                    }),
+                   validateConfirmPassword({password: password,confirmPassword: value}),
                 }}
               />
             </Box>

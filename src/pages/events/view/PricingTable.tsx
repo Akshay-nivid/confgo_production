@@ -68,8 +68,8 @@ const PricingTable: React.FC<PricingTableProps> = ({
                 <TableCell className="pricing-table-table-header" key={tier.id}>
                   {tier.tierName} <br />
                   <small className="pricing-table-table-header">
-                    ({moment(tier.startDate).format("DD MM YYYY")}-{" "}
-                    {moment(tier.endDate).format("DD MM YYYY")})
+                    ({moment(tier.startDate).format("DD/MM/YYYY")}-{" "}
+                    {moment(tier.endDate).format("DD/MM/YYYY")})
                   </small>
                 </TableCell>
               );

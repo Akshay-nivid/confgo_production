@@ -38,14 +38,8 @@ const Navbar = () => {
               <Link className={getLinkClassName(routes.home())} to={routes.home()}>
         Home
       </Link>
-      <Link className={getLinkClassName(routes.feature())} to={routes.feature()}>
-        Features
-      </Link>
       <Link className={getLinkClassName(routes.pricing())} to={routes.pricing()}>
         Pricing
-      </Link>
-      <Link className={getLinkClassName(routes.demo())} to={routes.demo()}>
-        Demo
       </Link>
       <Link className={getLinkClassName(routes.contact())} to={routes.contact()}>
         Contact us

@@ -429,8 +429,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     defaultValue={moment(eventData?.startTime).format("YYYY-MM-DD")}
                                     type="date"
                                     min={moment(eventData.startTime).format("YYYY-MM-DD")}
-                                    minDate={eventData?.startTime}
-                                    maxDate={eventData?.endTime}
+                                    max={moment(eventData.endTime).format("YYYY-MM-DD")}
                                   />
                                 </Grid>
                                 <Grid size={{ xs: 4 }}>
@@ -503,17 +502,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                               value: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
                                               message:
                                                 "Enter a valid price (up to 2 decimal places)",
-                                            },
-                                            validate: (value) => {
-                                              if (typeof value === "string") {
-                                                const price = parseFloat(value);
-                                                return (
-                                                  price >= 0 ||
-                                                  "Price cannot be negative"
-                                                );
-                                              }
-                                              return "Invalid price format";
-                                            },
+                                            }
                                           }}
                                         />
                                       </Grid> }
@@ -579,17 +568,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                               value: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
                                               message:
                                                 "Enter a valid price (up to 2 decimal places)",
-                                            },
-                                            validate: (value) => {
-                                              if (typeof value === "string") {
-                                                const price = parseFloat(value);
-                                                return (
-                                                  price >= 0 ||
-                                                  "Price cannot be negative"
-                                                );
-                                              }
-                                              return "Invalid price format";
-                                            },
+                                            }
                                           }}
                                         />
                                       </Grid>

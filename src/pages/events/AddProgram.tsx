@@ -310,7 +310,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                     type="date"
                                     defaultValue={moment(eventData?.startTime).format("YYYY-MM-DD")}
                                     min={moment(eventData?.startTime).format("YYYY-MM-DD")}
-                                    maxDate={eventData?.endTime}
+                                    max={moment(eventData?.endTime).format("YYYY-MM-DD")}
                                     rules={{
                                       required: true
                                     }}
@@ -349,8 +349,8 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                     name={`programs.${index}.endDate`}
                                     type="date"
                                     defaultValue={moment(eventData?.startTime).format("YYYY-MM-DD")}
-                                    min={moment().format("YYYY-MM-DD")}
-                                    maxDate={eventData?.endTime}
+                                    min={moment(eventData?.startTime).format("YYYY-MM-DD")}
+                                    max={moment(eventData?.endTime).format("YYYY-MM-DD")}
                                     rules={{
                                       required: true
                                     }}
@@ -457,17 +457,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                         value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
                                           message:
                                             "Enter a valid price (up to 2 decimal places & Zero not accepted)price up to 1Crore",
-                                        },
-                                        validate: (value) => {
-                                          if (typeof value === "string") {
-                                            const price = parseFloat(value);
-                                            return (
-                                              price >= 0 ||
-                                              "Price cannot be negative"
-                                            );
-                                          }
-                                          return "Invalid price format";
-                                        },
+                                        }
                                       }}
                                     />
                                   </Grid>

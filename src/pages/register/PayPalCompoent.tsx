@@ -12,6 +12,11 @@ import { Logger } from '@/Utils/Logger';
 const PayPalButton: React.FC = () => {
     const form1 = useStore((state: any) => state?.compData?.['form1']) ?? [];
     const form3 = useStore((state: any) => state?.compData?.['form3']) ?? [];
+
+    //data for plan upgrade
+    const planDetails = useStore((state: any) => state?.compData?.['planDetails']) ?? {};
+    const subscriptionDetails = useStore((state: any) => state?.compData?.['subscriptionDetails']) ?? {};
+
     const setDataById = useStore((state: any) => state.setDataById)
     
     const initialOptions = {
@@ -21,6 +26,8 @@ const PayPalButton: React.FC = () => {
     };
 
     const paypalButtonRef = useRef<HTMLDivElement>(null);
+
+    const isRegister = Boolean(!planDetails && !subscriptionDetails);
 
     /*
      * Function used to approve the payment functionality
@@ -56,15 +63,21 @@ const PayPalButton: React.FC = () => {
                 amount: paypalData?.purchase_units?.[0]?.amount?.value,
                 discountAmount: 0,
                 finalAmount: paypalData?.purchase_units?.[0]?.amount?.value,
-                subscriptionId:form3?.companyData?.subscriptionId,
-                userId:form3?.companyData?.user?.id,
+                subscriptionId: isRegister
+                  ? form3?.companyData?.subscriptionId
+                  : subscriptionDetails?.field_values?.id,
+                userId: isRegister
+                  ? form3?.companyData?.user?.id
+                  : subscriptionDetails?.field_values?.userId,
                 paymentId:paypalData?.purchase_units?.[0]?.custom_id,
             }
             const response = await apiClient.post('payment/subscription',requestBody)
             const { status } = processAPIResponse(response, 'paymentSubscription')
             if (status) {
-                setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Registration Successfully and please check your email for further instructions" });
-                setDataById('register', { data: 'REGISTRATION_SUCCESS_PAGE' });
+              setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: isRegister
+                ?"Registration successful! Check your email for further instructions."
+                :"Plan upgraded successfully!" , });
+              setDataById('register', { data: 'REGISTRATION_SUCCESS_PAGE' });
             }
         } catch (error) {
             Logger.error('PayPalCompoent.tsx', error);
@@ -87,8 +100,10 @@ const PayPalButton: React.FC = () => {
                             return actions.order.create({
                                 purchase_units: [{
                                     amount: {
-                                        currency_code: 'USD',
-                                        value: form1?.field_values?.amount,
+                                      currency_code: 'USD',
+                                      value: isRegister
+                                        ? form1?.field_values?.amount
+                                        : planDetails?.field_values?.amount,
                                     },
                                     custom_id:'test234'
                                 }],

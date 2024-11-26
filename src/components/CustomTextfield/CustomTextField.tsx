@@ -53,6 +53,7 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   minDate?:string;
   maxDate?:string;
   onClick?: React.ChangeEventHandler<HTMLInputElement>;
+  isNumeric?:boolean;
 }
 
 interface InputPropsType {
@@ -238,6 +239,11 @@ const CustomTextField = <T extends FieldValues>({
                 onClick={handleOnClick}
                 inputProps={inputProps()}
                 {...inputProps()}
+                onChange={(e) => {
+                  const numericValue = (props.isNumeric)? e.target.value.replace(/[^0-9]/g, ""):e.target.value;
+                  field.onChange(numericValue); 
+                }}
+                
               />
               {error?.message && (
                 <FormHelperText className="error-text">

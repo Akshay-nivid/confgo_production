@@ -81,9 +81,9 @@ const CreateEvent: React.FC<EventProps> = React.memo(
      * @param data
      */
     const onSubmit: SubmitHandler<FormData> = (data: any) => {
-      const startDate = new Date(data.startTime);
-      const endDate = new Date(data.endTime);
-      if (startDate > endDate) {
+      const startTime = new Date(data.startTime);
+      const endTime = new Date(data.endTime);
+      if (startTime > endTime) {
         setError(`startTime`, {
           type: 'manual',
           message: 'Start date cannot be greater than end date',
@@ -261,12 +261,13 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                         <CustomTextField
                           placeholder="Location URL (must be a Google Maps link)"
                           control={control}
-                          name="mapUrl"
+                          name="mapUrl" 
                           type="text"
                           rules={{
                             required: false,
                             validate: (value: any) =>
-                              /^(https?:\/\/)?(www\.)?google\.(com|[a-z]{2})\/maps/.test(value) || "URL must be a valid Google Maps link",
+                              /^(https?:\/\/)?(www\.)?(google\.(com|[a-z]{2})\/maps|maps\.app\.goo\.gl)/.test(value) ||
+                              "URL must be a valid Google Maps link",
                           }}
                         />
                       </Grid>
