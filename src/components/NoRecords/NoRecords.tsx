@@ -1,6 +1,6 @@
 import { Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import vector from "../../assets/png/Vector.png";
+
 interface NoRecordsProps {
     imageSrc?: string;
     noRecordSubtitle?:string;

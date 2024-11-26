@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, CircularProgress, Divider, Typography } from "@mui/material";
 import DashboardCardItem from './DashboardCardItem';
-import {  DownloadCertsIcon, DownloadEventIcon, EventsSvg, HeartEventIcon, PaymentDashboardIcon, PaymentHistoryIcon, TransactionHistoryIcon } from '@/assets/svg';
+import {  DownloadCertsIcon, DownloadEventIcon, EventsSvg, HeartEventIcon, PaymentDashboardIcon,  TransactionHistoryIcon } from '@/assets/svg';
 import React from 'react';
 import useStore from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
