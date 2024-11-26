@@ -128,7 +128,7 @@ const UserLogin = (props: UserProps) => {
           sessionStorage.setItem("userToken", context.data?.token);
           setDataById('participantLogin', true);
           apiClient.setToken(context.data.token);
-
+          setDataById('userDetails', context.data);
           sessionStorage.setItem('userLoggedInType', context?.data?.userRole?.roleName);
           sessionStorage.setItem('isUserLoggedIn', 'true');
           setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
