@@ -1,13 +1,16 @@
 import { Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import vector from "../../assets/png/Vector.png";
-
+interface NoRecordsProps {
+    imageSrc?: string;
+    noRecordSubtitle?:string;
+}
 /**
  * No Record Found 
  * @author Neethu
  */
-export const NoRecords: React.FC = () => {
-
+export const NoRecords: React.FC<NoRecordsProps> = ({imageSrc,noRecordSubtitle}) => {
+    
     return (
         <Grid
             container
@@ -18,14 +21,14 @@ export const NoRecords: React.FC = () => {
             size={{ xs: 12 }}
         >
             <Grid >
-                <img src={vector} className="no-record-image"  alt="No records found" />
+                <img src={imageSrc} className="no-record-image"  alt="No records found" />
             </Grid>
-            <Grid >
+            <Grid size={6} container direction="column" alignItems="center" alignContent="center">
                 <Typography  className="no-record-title">
                     No Records Available
                 </Typography>
                 <Typography  className="no-record-subtitle" >
-                    It looks like you haven’t created any data yet.
+                   {noRecordSubtitle?noRecordSubtitle:'It looks like you haven’t created any data yet.'}
                 </Typography>
             </Grid>
         </Grid>

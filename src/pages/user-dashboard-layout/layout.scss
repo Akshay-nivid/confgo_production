@@ -182,7 +182,7 @@
 
   &-right{
     width: 80% !important;
-    padding-right: 7rem !important;
+    padding-right: 6.7rem !important;
   }
   &-group {
     display: flex;
@@ -407,8 +407,7 @@
     z-index: 100;
     padding-top: $h2;
     padding-bottom: $h2;
-    margin-left: $p3 !important;
-
+    margin-left: $h3 !important;
     &-calendar {
       position: relative;
       border-radius: 0.8rem;
