@@ -24,7 +24,6 @@ import { processAPIResponse } from "@/Utils/CommonBaseClass";
 interface CustomFile {
   id: number;
   name: string;
-  sourcePath: any;
 }
 
 interface Profile {
