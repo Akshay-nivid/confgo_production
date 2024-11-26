@@ -1,20 +1,21 @@
 .event-card{
     border: solid 0.1rem $clr_light_sky_blue;
-    background-color: $clr_white;
     border-radius: 0.5rem;
     padding: 1rem;
-    height:20rem !important;
+    height:19rem !important;
     &-date-box{
         font-weight:$font_semibold;
-        font-size: $h6 !important;
         margin-top:0.4rem;
         padding:0.2rem;
         border-radius: 0.3rem !important;
-        max-width: 13.688rem;
+        max-width: 16rem;
         background-color: $clr_orange_dark;
         height: 2rem !important;
         color:$clr_black;;
         text-align:center;
+    }
+    &-date-title{
+        font-size: $p6 !important;
     }
     &-title{
         margin-top:0.9375rem;
@@ -35,7 +36,7 @@
         font-size:$p2 !important; 
         font-weight: $font_normal !important;
         line-height: 1.059rem;
-        margin-top: 1.25rem;
+        margin-top: 0.9rem;
         color:$clr_black;
         .content{
            display:flex;
