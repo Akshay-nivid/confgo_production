@@ -49,7 +49,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
   ({ formSubmit, onSubmitHandler, data }) => {
     const {
       handleSubmit,
-      control,
+      control, 
       setValue,
       watch,
       setError,
@@ -81,9 +81,9 @@ const CreateEvent: React.FC<EventProps> = React.memo(
      * @param data
      */
     const onSubmit: SubmitHandler<FormData> = (data: any) => {
-      const startDate = new Date(data.startTime);
-      const endDate = new Date(data.endTime);
-      if (startDate > endDate) {
+      const startTime = new Date(data.startTime);
+      const endTime = new Date(data.endTime);
+      if (startTime > endTime) {
         setError(`startTime`, {
           type: 'manual',
           message: 'Start date cannot be greater than end date',
@@ -212,12 +212,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                       name="startTime"
                       type="date"
                       defaultValue={moment(new Date()).format("YYYY-MM-DD")}
-                      min={moment().format("YYYY-MM-DD")}
-                      rules={{
-                        validate: (value) =>
-                          new Date(value) >= new Date() ||
-                          "Start Date cannot be in the past",
-                      }}
+                      min={moment(new Date()).format("YYYY-MM-DD")}
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 6 }}>
@@ -227,12 +222,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                       name="endTime"
                       type="date"
                       defaultValue={moment(new Date()).format("YYYY-MM-DD")}
-                      min={moment().format("YYYY-MM-DD")}
-                      rules={{
-                        validate: (value) =>
-                          new Date(value) >= new Date() ||
-                          "End Date cannot be in the past",
-                      }}
+                      min={moment(new Date()).format("YYYY-MM-DD")}
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 12 }}>
@@ -271,12 +261,13 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                         <CustomTextField
                           placeholder="Location URL (must be a Google Maps link)"
                           control={control}
-                          name="mapUrl"
+                          name="mapUrl" 
                           type="text"
                           rules={{
                             required: false,
                             validate: (value: any) =>
-                              /^(https?:\/\/)?(www\.)?google\.(com|[a-z]{2})\/maps/.test(value) || "URL must be a valid Google Maps link",
+                              /^(https?:\/\/)?(www\.)?(google\.(com|[a-z]{2})\/maps|maps\.app\.goo\.gl)/.test(value) ||
+                              "URL must be a valid Google Maps link",
                           }}
                         />
                       </Grid>

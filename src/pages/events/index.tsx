@@ -199,7 +199,7 @@ const Events = () => {
         ...item,
         amount:amount?amount:"0",
         ...(combinedStartDateTime && { startTime: combinedStartDateTime }),
-        ...(combinedEndDateTime&&{endTime:combinedEndDateTime}),
+        ...(combinedEndDateTime&&{ endTime:combinedEndDateTime}),
         ...(properties.length !== 0 && {
           properties: properties?.map(({ propertyId, propertyName, propertyAmount, ...rest }: any) => ({
             name: propertyName,

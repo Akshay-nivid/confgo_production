@@ -19,6 +19,7 @@ const HomePage = () => {
    */
   useEffect(() => {
     setDataById('register', { data: 'PLAN_PAGE', step: 1 });
+    setDataById("planMode", { mode: "register" });
   }, []);
   
   return (

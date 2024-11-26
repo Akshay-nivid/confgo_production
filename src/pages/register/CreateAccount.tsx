@@ -103,8 +103,10 @@ const CreateAccount = React.memo(() => {
                                                 label="Phone Number *"
                                                 control={control}
                                                 name="phoneNumber"
-                                                type="number"
+                                                type="text"
                                                 rules={phoneRules}
+                                                isNumeric={true}
+                                                max={10}
                                             />
                                         </Grid>
                                     </Grid>

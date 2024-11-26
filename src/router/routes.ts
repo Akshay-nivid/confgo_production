@@ -47,7 +47,11 @@ const routes = {
   userEventRecap:()=>"/event-recap",
   accountsettings: () => `/user/account-settings`,
   userdetail: (id:string | number ) => `/userdetail/${id}`,
-  eventExternalLink: (slug: string) => `/event-link/${slug}`
+  eventExternalLink: (slug: string) => `/event-link/${slug}`,
+  organizationUserProfile: () => `/account-settings`,
+  planUpgrade: () => "/planUpgrade",
+  upgradePlanPayment: ()=> "/planUpgrade/payment",
+  planUpgradePricing: () => "/planUpgrade/pricing",
 };
 
 export default routes;
