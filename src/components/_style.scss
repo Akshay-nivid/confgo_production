@@ -735,15 +735,15 @@
   &-title{
     display: flex;
     font-weight: $font_semibold !important;
-    font-size: $p3 !important;
+    font-size: $p5 !important;
     justify-content: center !important;
     margin-top: 3rem !important;
     color:$clr_black !important;
   }
   &-subtitle{
     font-weight: $font_normal !important;
-    font-size: $p1 !important;
-    justify-content: center !important;
+    font-size: $p2 !important;
+    text-align: center; 
     margin-bottom: 10rem !important;
     color:$clr_gray_extra_dark !important;
   }

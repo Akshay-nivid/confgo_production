@@ -7,6 +7,7 @@ import { CircularProgress } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import { Logger } from "@/Utils/Logger";
 import { ISource } from "@/Libs/type";
+import MoneyIcon from "../../../assets/png/money.png";
 /**
  * `PaymentHistory` component displays a data grid with payment history information.
  */
@@ -102,6 +103,8 @@ const PaymentHistory: React.FC = React.memo(() => {
       ) : (
         <Grid  size={12} justifyContent="center" className="paymentlist">
           <DataGridList
+            noRecordIcon={MoneyIcon}
+            noRecordSubtitle="It looks like you haven’t made any payments. Once you start registering for events, your payment history will appear here."
             dataTransformer={transformData}
             source={source}
             title="Payment History"

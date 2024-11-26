@@ -44,9 +44,11 @@ const LayoutAppbar: React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =
     // Clear sessionStorage and localStorage
     sessionStorage.clear();
     localStorage.clear();
-    resetStore();
+    setTimeout(() => {
+      resetStore();
+    }, 500);
     // Navigate to login
-    navigate(routes.userLogin());
+    window.location.href=routes.userLogin();
   };
 
   /**
