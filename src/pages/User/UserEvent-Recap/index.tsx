@@ -113,8 +113,8 @@ const EventRecap: React.FC = React.memo(() => {
             {eventLoading ? (
                 <CircularProgress />
             ) : (
-                <Grid className="event-recap" container spacing={2}>
-                    <Grid container size={{ xs: 12, sm: 11 }} justifyContent={'space-between'} flexDirection={"row"}>
+                <Grid  className="event-recap" container spacing={1}>
+                    <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} flexDirection={"row"}>
                         <Grid size={{ xs: 6 }} >
                             <Typography className="event-recap-header">My Events</Typography>
                         </Grid>

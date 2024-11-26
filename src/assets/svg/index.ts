@@ -70,10 +70,12 @@ import UserEditRoundIcon from './user-edit-round-icon.svg';
 import GoogleIcon from './google-icon.svg';
 import WarningIcon from './warning-icon.svg';
 import PublishTickIcon from './publish-tick.svg';
-import transactionHistoryIcon from './payment-history.svg';
+import TransactionHistoryIcon from './payment-history.svg';
 import HomeEvent from './home-event.svg';
 import Brand from './brands.svg';
-
+import CalendarNoEvent from './calender-empty.svg';
+import UserSettingIcon from './user-settings.svg';
+import DownloadCertsIcon from './Download-cert.svg';
 export {
   CalenderIcon,
   EventIcon,
@@ -147,7 +149,10 @@ export {
   GoogleIcon,
   WarningIcon,
   PublishTickIcon,
-  transactionHistoryIcon,
+  TransactionHistoryIcon,
   HomeEvent,
-  Brand
+  Brand,
+  CalendarNoEvent,
+  UserSettingIcon,
+  DownloadCertsIcon
 };

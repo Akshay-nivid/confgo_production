@@ -1,5 +1,7 @@
 .my-event{
-    margin: 2rem;
+    margin-top: 2rem;
+    margin-left: 2rem;
+    margin-right: 7rem !important;
     &-header{
         font-weight: $font-bold !important;
         font-size: $h5 !important;
@@ -56,6 +58,5 @@
    }
    .autocomplete-border{
     border-radius: 0.4rem ;
-    border: 0.1rem solid $clr_light_sky_blue;
-    margin-right: 1rem;
+    
    }
