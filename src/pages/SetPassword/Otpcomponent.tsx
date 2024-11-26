@@ -50,7 +50,7 @@ const OtpComponent: React.FC<OtpComponentProps> = ({ onOtpVerify }) => {
   };
 
   return (
-    <Grid className="left-content-wrapper">
+    <Grid className="signup-content-wrapper">
       <Grid className="left-header-wrapper">
         <Grid justifyContent={'center'} display={'flex'}>
           <LockIcon />

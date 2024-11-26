@@ -10,7 +10,7 @@ import useStore from "@/Libs/store";
 import PlanCard from "@/components/PlanCard";
 import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";
-import { ArrowIconSvg } from "@/assets/svg";
+import { ArrowIconSvg, BasicPlainIcon, ProPlanIcon, StandardPlanIcon } from "@/assets/svg";
 import { Logger } from "@/Utils/Logger";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
@@ -110,8 +110,14 @@ const AddPlan = React.memo(() => {
     }
   }
 
+  const planMapper: Record<string, React.ReactNode> = {
+    "BASIC_PLAN": <BasicPlainIcon />,
+    "STANDARD_PLAN": <StandardPlanIcon />,
+    "PROP_LAN": <ProPlanIcon />
+  }
+
   return (
-    <Grid className="left-content-wrapper">
+    <Grid className="signup-content-wrapper">
       <Grid className="left-inner-content">
         <FormControl className="w-full">
           <Grid alignSelf={"center"}>
@@ -119,13 +125,13 @@ const AddPlan = React.memo(() => {
             <Typography className="left-description-text" textAlign={"center"} variant="h6">Everything you might need and then some more in an accessible and intuitive package.</Typography>
           </Grid>
           <RadioGroup
-            className="space-y-[1rem] radio-signup"
+            className="space-y-[1rem]"
             value={currentPlan}
             onChange={handleChangePlan}
           >
-            {planList.map((plan) => (
-              <PlanCard
-                image={''}
+            {planList.map((plan) => {
+              return <PlanCard
+                image={planMapper[plan?.name]}
                 isActive={currentPlan === plan?.name}
                 key={plan?.id}
                 value={plan?.name}
@@ -134,7 +140,7 @@ const AddPlan = React.memo(() => {
                 discount={''}
                 isDicount={false}
               />
-            ))}
+})}
           </RadioGroup>
         </FormControl>
         <Grid container className="view-all-plans" alignSelf={"flex-end"} onClick={handleViewPlanDetails}>

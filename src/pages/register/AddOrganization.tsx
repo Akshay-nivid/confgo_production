@@ -82,7 +82,7 @@ const AddOrganization = React.memo(() => {
     return (
         <Grid>
             <Grid container spacing={5}  >
-                <Grid className="left-content-wrapper">
+                <Grid className="signup-content-wrapper">
                     <Grid className="left-inner-content">
                         <Grid alignSelf={"center"}>
                             <Typography className="left-plan-text" textAlign={"center"} variant="h3" >Add Organization Details</Typography>

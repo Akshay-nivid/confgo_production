@@ -73,6 +73,9 @@ import PublishTickIcon from './publish-tick.svg';
 import transactionHistoryIcon from './payment-history.svg';
 import HomeEvent from './home-event.svg';
 import Brand from './brands.svg';
+import BasicPlainIcon from './basic-plan-icon.svg';
+import StandardPlanIcon from './standard-plan-icon.svg';
+import ProPlanIcon from './pro-plan-icon.svg';
 
 export {
   CalenderIcon,
@@ -149,5 +152,8 @@ export {
   PublishTickIcon,
   transactionHistoryIcon,
   HomeEvent,
-  Brand
+  Brand,
+  BasicPlainIcon,
+  StandardPlanIcon,
+  ProPlanIcon
 };

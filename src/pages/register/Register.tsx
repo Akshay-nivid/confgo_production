@@ -88,10 +88,10 @@ const Register = () => {
           {pageSwitch.data === "REGISTRATION_SUCCESS_PAGE" && <RegistrationSuccess />}
         </Grid>
         {pageSwitch.data !== "REGISTRATION_SUCCESS_PAGE" && <Grid container direction={'column'} className="register-stepper" spacing={3}>
-          <Grid container spacing={1} justifyContent={"center"} display={"flex"}>
-            <Typography variant="h6">Already have an account?</Typography>
+          <Grid container spacing={1} justifyContent={"center"} display={"flex"} className="register-stepper-text">
+            <Typography>Already have an account?</Typography>
             <Grid onClick={handleLogin}>
-              <Typography variant="h6" className="login-label cursor-container" alignContent="flex-end"> Log In</Typography>
+              <Typography className="login-label cursor-container" alignContent="flex-end"> Log In</Typography>
             </Grid>
           </Grid>
           <Grid container justifyContent={"center"}>
