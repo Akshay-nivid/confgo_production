@@ -16,11 +16,10 @@
   max-width: 36rem;
   max-height: 6.833rem;
   background-color: $clr_white;
-  border: 0.083rem solid $clr_gray_light;
+  border: 0.083rem solid $clr_requirement_text;
   margin-top: 2.5rem;
   overflow: hidden;
   border-radius: 0.4rem;
-  color: $clr_gray_faded;
   & .MuiFormControlLabel-root {
     margin: 0 !important;
     padding-block: 1.5rem;

@@ -12,6 +12,7 @@
       background-repeat: no-repeat;
       border-radius: 1.666rem;
       & .left-content-wrapper {
+        margin-top: -1.5rem;
         height: 100%;
         width: 100%;
         display: flex;
@@ -37,11 +38,22 @@
             font-weight: $font_normal;
           }
           & .left-plan-text{
+            font-size: $h2;
             font-weight: $font_bold;
           }
           & .view-all-plans{
             padding-bottom: 3rem;
             padding-top: 1.5rem;
+          }
+          .radio-signup{
+            span{
+              path{
+                fill:$clr-bright-blue
+              }
+              .MuiSvgIcon-root:last-child{
+               padding: 0.15rem;
+              }
+            }
           }
         }
         & .plan-choose-btn {
