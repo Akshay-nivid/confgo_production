@@ -327,6 +327,15 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
    */
   function onSubmit() {
     const { attendeeTypes, attendees, pricingTiers }: any = getValues();
+    if (attendeeTypes.length == 0 || pricingTiers.length === 0) {
+      setDataById("snackBarInfo", {
+        open: true,
+        autoHideDuration: 2000,
+        severity: "error",
+        message: "Please provide both attendee types and pricing tiers.",
+      });
+      return;
+    }
     let payload: any
     if (!hasPricingTiers) {
       payload = {
@@ -375,7 +384,6 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
         priceTiers: transformedData
       };
     }
-
     // Post the prepared payload
     if (!hasPricingTiers) {
       // If there are no pricing tiers, use POST
@@ -455,7 +463,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
         </IconButton>
       </Grid>
       <Box sx={{ maxWidth: 600 }}>
-        <Grid container spacing={2} padding={3}>
+        <Grid container spacing={2} sx={{ px: 3, pt: 2 }}>
           <Grid size={{ xs: 12 }}>
             <Typography className="registration-fee-list-sub-heading">
               Configure Attendee Type

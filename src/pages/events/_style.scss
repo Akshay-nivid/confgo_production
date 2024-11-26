@@ -871,7 +871,7 @@
         background-color: $clr_white;
         color: $clr_slate_gray_blue !important;
         text-align: center !important;
-        font-weight: 500 !important;
+        font-weight: $font_medium !important;
         font-size: $h6 !important;
         
     }
@@ -880,7 +880,7 @@
         input {
             font-size: $h6;
             padding: 0.25rem 0;
-            font-weight: 600;
+            font-weight: $font-semibold;
             text-align: center;
           }
       
@@ -904,13 +904,13 @@
 
 .registration-fee-list{
     &-heading{
-        font-weight: 600 !important;
+        font-weight: $font_semibold !important;
         font-size: $h5 !important;
-        padding: $h6 !important;
+        padding: 1.333rem !important;
     }
     &-sub-heading{
-        font-weight: 600 !important;
-        font-size: $p5 !important;
+        font-weight: $font_normal !important;
+        font-size: $h6 !important;
     }
 
     &-grid-style{
@@ -918,7 +918,7 @@
     }
 
     &-sub-title{
-        font-weight: 600 !important;
+        font-weight: $font-semibold !important;
         font-size: $h5 !important; 
     }
 
@@ -926,19 +926,19 @@
         border: .0625rem !important;
         border-radius: $h1 !important;
         gap: $p3 !important;
-        padding-left: $h6 !important;
-        padding-right: $h6 !important;
+        padding-left: 1.333rem !important;
+        padding-right: 1.333rem !important;
         background-color: $clr_green_light !important;
         border: solid .0625rem $clr_green  !important;
         color:$clr_black;
         font-size: $h6 !important;
-        font-weight: 500 !important;
+        font-weight: $font_medium !important;
 
     }
     &-circle-add-icon{
-        border-radius: $h4 !important;
-        height: $h1 !important;
-        width: $h1 !important;
+        border-radius: 2rem !important;
+        height: 3.333rem !important;
+        width: 3.333rem !important;
     }
     &-custom-drawer-header{
         border-bottom: .0312rem solid $clr_gray_light;
