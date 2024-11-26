@@ -119,7 +119,6 @@ interface AccountSettingProps {
       Logger.error("Error updating profile data:", error);
     }
   };
-
   return (
     <Grid container className="account-main-grid">
       <Grid size={8} className="account-profile-grid account-margin">
@@ -202,8 +201,8 @@ interface AccountSettingProps {
                 <Grid size={12}>
                   <CustomTextField name="lastName" placeholder="Last Name" control={control} requiredField className="account-drawer-textfield"/>
                 </Grid>
-                <Grid size={12} container className="account-drawer-btn">
-                  <CustomButton label="Change" type="submit" className="account-submit-btn" />
+                <Grid size={12} container justifyContent={"flex-end"}>
+                  <CustomButton label="Change" type="submit" className="account-submit-btn" variant="contained"/>
                 </Grid>
               </Grid>
             </form>
