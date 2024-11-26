@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import {  CalendarEventIcon, DashboardUserIcon, HeartEventIcon, SettingsIcon, transactionHistoryIcon } from '@/assets/svg';
+import {  CalendarEventIcon, DashboardUserIcon, HeartEventIcon, TransactionHistoryIcon, UserSettingIcon } from '@/assets/svg';
 import {  Drawer, List, ListItem, ListItemText, ListItemButton, useMediaQuery, Divider } from '@mui/material';
 import routes from '@/router/routes';
 
@@ -24,7 +24,7 @@ const sidebarItems = [
   },
   {
     path: routes.paymentHistory(),
-    icon: transactionHistoryIcon,
+    icon: TransactionHistoryIcon,
     label: 'Payment History',
     exact: true,
   },
@@ -36,7 +36,7 @@ const sidebarItems = [
   },
   {
     path: routes.accountsettings(), 
-    icon: SettingsIcon,
+    icon: UserSettingIcon,
     label: 'Settings',
     exact: true,
     state: { tabIndex: 0 }, 

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, CircularProgress, Divider, Typography } from "@mui/material";
 import DashboardCardItem from './DashboardCardItem';
-import { CalendarEventIcon, DownloadEventIcon, EventsSvg, HeartEventIcon, PaymentDashboardIcon, PaymentHistoryIcon } from '@/assets/svg';
+import {  DownloadCertsIcon, DownloadEventIcon, EventsSvg, HeartEventIcon, PaymentDashboardIcon, PaymentHistoryIcon, TransactionHistoryIcon } from '@/assets/svg';
 import React from 'react';
 import useStore from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
@@ -240,15 +240,15 @@ const UserDashboard: React.FC = React.memo(() => {
           <Grid  >
            <Box>
             <Grid size={12} mt={1} className="dashboard-left-profile-card-recent" onClick={() => navigate('/user/payment-history')}>
-              <CalendarEventIcon fontSize={20} /> View Payment History
+              <TransactionHistoryIcon fontSize={24} />   View Payment History
             </Grid>
             <Divider className='dashboard-left-profile-card-recent-dividers' />
             <Grid size={12} mt={1} className="dashboard-left-profile-card-recent" onClick={() => navigate('/user/my-event')}>
-              <HeartEventIcon fontSize={20} /> View All My Events
+              <HeartEventIcon fontSize={24} /> View All My Events
             </Grid>
             <Divider className='dashboard-left-profile-card-recent-dividers' />
             <Grid size={12} mt={1} className="dashboard-left-profile-card-recent" onClick={() => navigate('/user/my-event')} >
-              <PaymentHistoryIcon fontSize={20} /> Download Tickets & Certificates
+              <DownloadCertsIcon fontSize={24} /> Download Tickets & Certificates
             </Grid>
             </Box>
           

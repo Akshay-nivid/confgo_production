@@ -1,5 +1,7 @@
 .event-recap {
-    margin: 2rem;
+    margin-top: 2rem;
+    margin-left: 2rem;
+    margin-right: 7rem;
     &-header {
         font-weight: $font-bold !important;
         font-size: $h4 !important;
@@ -58,14 +60,16 @@
         }
 
         &-buttons {
-            margin-top: 2.129375rem;
+            margin-top: 2rem;
             &-firstButton {
-                width: 7.4375rem;
-                height: 2.8125rem;
+                width: 10rem;
+                height: 3.6rem;
                 padding: 0.875rem 1.25rem;
                 border-radius: 0.3125rem;
                 color: $clr_white !important;
                 background: $clr_blue !important;
+                text-transform: none !important;
+                font-size: $p2 !important;
             }
             &-secondButton {
                 display:none !important;
@@ -79,7 +83,7 @@
         }
     }
     &-second-grid {
-        margin-top: 3.375rem;
+        margin-top: 1.2rem;
 
         &-text {
             font-family: Inter;
@@ -142,8 +146,8 @@
             }
             &-title {
                 &-text {
-                    font-size: $h4 !important;
-                    font-weight: $font-bold !important;
+                    font-size: $h5 !important;
+                    font-weight: $font_semibold !important;
                     margin-left: 0.5rem !important;
                 }
             }

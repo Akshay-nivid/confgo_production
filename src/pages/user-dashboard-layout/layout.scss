@@ -84,10 +84,9 @@
 
       &:hover {
         color: $clr_blue;
-        fill: $clr_blue ;
         background-color: transparent !important;
         svg path{
-          fill: $clr_blue !important ;
+          stroke: $clr_blue !important ;
         }
       }
 
@@ -100,7 +99,7 @@
 
     .active {
       color: $clr_blue !important;
-      fill: $clr_blue !important;
+      stroke: $clr_blue !important;
       background-color: transparent !important;
 
       span {
@@ -121,7 +120,7 @@
       color: $clr_blue !important;
 
       path {
-        fill: $clr_blue;
+        stroke: $clr_blue !important;
       }
 
       &:hover {
@@ -133,10 +132,6 @@
     .inactive-drawer-icon {
       font-size: 2rem;
       color: $clr_black !important;
-
-      path {
-        fill: $clr_black !important;
-      }
 
      
     }
@@ -174,10 +169,10 @@
     height: 6.666rem;
     display: flex;
     align-items: center;
-    justify-content: center !important;
+    padding-left: 6.5rem;
     font-size: 2.6rem;
     font-weight: $font_extrabold;
-
+    width: 20% !important;
     &-svg {
       width: 13rem;
       height: 3rem;
@@ -185,7 +180,10 @@
 
   }
 
-
+  &-right{
+    width: 80% !important;
+    padding-right: 7rem !important;
+  }
   &-group {
     display: flex;
     align-items: center;
@@ -193,12 +191,13 @@
     border: 0.1rem solid $clr_light_border_grey;
     margin-right: 1rem;
     cursor: pointer;
-
+   
     &:hover {
       cursor: pointer;
     }
 
     &-avatar {
+      margin-left: 0.3rem;
       background-color: $soft-cyan !important;
       color: $clr_white;
       font-size: $h4;
@@ -266,7 +265,6 @@
 
     &-profile {
       color: $clr_white;
-     // height: 15.5rem;
       border-radius: 0.8rem;
       align-content: center !important;
       background: url('/src/assets/png/user-background.png');
@@ -407,7 +405,8 @@
   &-right {
     position: relative;
     z-index: 100;
-    padding: $h2;
+    padding-top: $h2;
+    padding-bottom: $h2;
     margin-left: $p3 !important;
 
     &-calendar {
@@ -530,7 +529,7 @@
 
   &-image {
     margin-top: 1rem !important;
-    width: 15rem !important;
+    font-size: 13rem !important;
 
   }
 

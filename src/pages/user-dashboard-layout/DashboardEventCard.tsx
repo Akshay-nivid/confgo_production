@@ -1,6 +1,6 @@
 import React from "react";
 import Grid from '@mui/material/Grid2';
-import {  Typography } from "@mui/material";
+import { Tooltip, Typography } from "@mui/material";
 import StatusComponent from "@/components/Status/StatusComponent";
 import moment from 'moment';
 
@@ -74,9 +74,17 @@ const DashboardEventCards: React.FC<DashboardEventCardProps> = React.memo(({ eve
                     <Typography className="dashboard-left-profile-card-block-title">
                         Location
                     </Typography>
-                    <Typography className="dashboard-left-profile-card-block-content">
-                        {event?.venue.address},  {event?.venue.city}
-                    </Typography>
+                    <Tooltip
+                        title={`${event?.venue.address}, ${event?.venue.city}`}
+                        arrow
+                        placement="top"
+                    >
+                        <Typography className="dashboard-left-profile-card-block-content">
+                            {`${event?.venue.address}, ${event?.venue.city}`.length > 35
+                                ? `${`${event?.venue.address}, ${event?.venue.city}`.substring(0, 35)}...`
+                                : `${event?.venue.address}, ${event?.venue.city}`}
+                        </Typography>
+                    </Tooltip>
                 </Grid>
             </Grid>
         </Grid>

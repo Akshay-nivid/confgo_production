@@ -186,11 +186,11 @@ const MyEventScreen: React.FC = () => {
   }
   return (
     <Grid className="my-event" container spacing={1}>
-      <Grid container  size={{ xs: 12, sm: 11 }} justifyContent={'space-between'} flexDirection={"row"}>
+      <Grid container  size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} flexDirection={"row"}>
         <Grid size={{ xs: 5 }} alignContent={"center"} container>
           <Typography className="my-event-header">My Events</Typography>
         </Grid>
-        <Grid size={{ xs: 5 }} className="autocomplete-border">
+        <Grid size={{ xs: 5}} className="autocomplete-border">
           <CustomAutocomplete
             name="search"
             className="custom-search-text-field"
@@ -218,7 +218,7 @@ const MyEventScreen: React.FC = () => {
               </Grid> 
         </Grid>
         ) : (
-          <Grid container size={11} spacing={1}>
+          <Grid container size={11}   spacing={1}>
             {events.data && events.data.map((event: Program, index:number) => (
               <Grid size={{ xs: 12, sm: 3, md: 4 }} key={index}>
                 <EventCard
