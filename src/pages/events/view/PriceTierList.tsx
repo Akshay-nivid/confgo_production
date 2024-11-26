@@ -139,7 +139,7 @@ const PriceTierList: React.FC = () => {
       isListView={true}
     />
   }, 
-  [JSON.stringify(attendees), control, JSON.stringify(pricingTiers)])
+  [JSON.stringify(attendees), JSON.stringify(pricingTiers)])
 
   return (
     <Grid container spacing={3} className="event-sessions-sessions-container">
