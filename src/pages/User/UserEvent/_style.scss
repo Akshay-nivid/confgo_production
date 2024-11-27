@@ -37,14 +37,15 @@
     &-svg{
         font-size: 10rem;
     &-text{
-        padding-top:3rem;
+        padding-top:2.7rem;
         text-align:center;
-        font-family:$font ;
+        font-family:$font;
         font-weight:$font_bold !important;
-        font-size:$h5 ;
-        line-height: 1.64rem;
+        font-size:$p5;
+        line-height: 2.185rem;
+        text-underline-position:from-font;
+        text-decoration-skip-ink: none;
      &-description{
-        padding-top:.4rem;
         text-align:center;
         line-height: 1.275rem;
         font-family:$font ;

@@ -169,6 +169,21 @@ const UserSetPassword = () => {
                 className="setpassword__requirement"
               >
                 <CheckIcon
+                  className={clsx('setpassword__check-icon ', {
+                    'active': REGEX.PASSWORD_REGEX_UPP.test(password),
+                  })}
+                />
+                <Typography className="setpassword__requirement-text text-p2 font-400">
+                Must contain one Upper case letter
+                </Typography>
+              </Box>
+              <Box
+                display={'flex'}
+                gap={1}
+                alignItems={'center'}
+                className="setpassword__requirement"
+              >
+                <CheckIcon
                   className={clsx('setpassword__check-icon', {
                     'active': password?.length >= 8,
                   })}
