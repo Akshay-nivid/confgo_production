@@ -16,7 +16,18 @@ import EditIcon from "@/assets/svg/event-edit.svg";
 import parse from 'html-react-parser';
 import ReactQuill from "react-quill";
 import React from "react";
+import config from "../../../../config.json";
+import FileListModal from "@/components/FileUpload/FileListModal";
+import DeleteIcon from "@mui/icons-material/Cancel";
 
+
+const baseUrl = config.api.url;
+
+interface CustomFile {
+  id: number;
+  name: string;
+  sourcePath: string;
+}
 
 /**
  * Information Card to view and update event details.
@@ -37,6 +48,9 @@ const EventInfoCard: React.FC<any> = React.memo(
   // Store a copy of the original event data for restoring data.
   const [originalData, setOriginalData] = useState(eventData);
   const [editorContent, setEditorContent] = useState("");
+  const [selectedFile, setSelectedFile] = useState<any>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const companyId = sessionStorage.getItem('companyId');
 
   /**
    * useEffect hook to reset the form with formatted event data when `eventData` changes.
@@ -84,7 +98,7 @@ const EventInfoCard: React.FC<any> = React.memo(
       endTime: formatUTCDateTime(data.endTime),
     };
 
-    const response = await apiClient.post(`event/update/${id}`, formattedData);
+    const response = await apiClient.put(`event/update/${id}`, formattedData);
     const { status, message } = await processAPIResponse(
       response,
       "event-information-update"
@@ -140,6 +154,20 @@ const EventInfoCard: React.FC<any> = React.memo(
       openDrawer()
     }
   }
+
+    /**
+   *function to handle clean file state
+   */
+   const handleFileDelete = () => {
+    setSelectedFile(null);
+  };
+
+  useEffect(() => {
+      setSelectedFile({
+          id: 11,
+          name: 'Business'
+      });
+  },[])
 
   return (
     <Grid container className="event-detail-event-info-card" spacing={2}>
@@ -232,6 +260,35 @@ const EventInfoCard: React.FC<any> = React.memo(
             {eventData?.amount}
           </Typography>
         </Grid>
+        <Grid size={{ xs: 3 }}>
+          <Typography className="event-information-subtitle">
+             Logo
+          </Typography>
+        </Grid>
+        <Grid size={{ xs: 9 }}>
+        <Grid container flexDirection={"row"} direction={"row"}>
+                        <Grid>
+                          <Grid
+                            container
+                            className="event-information-logo-container"
+                            key={'event-information-logo-id'}
+                            alignItems={"flex-start"}
+                            spacing={0.5}
+                          >
+                            <Grid>
+                              <img
+                                className="event-information-logo-img"
+                                src={`${baseUrl}asset/${11}`}
+                                alt={'Business'}
+                              />
+                              {/* <Typography className="event-information-logo-name">
+                                {'Business'}
+                              </Typography> */}
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                  </Grid>
+        </Grid>
       </Grid>
       {/* Drawer Component */}
       <CustomDrawer open={isDrawerOpen} type="right">
@@ -306,6 +363,70 @@ const EventInfoCard: React.FC<any> = React.memo(
                     control={control}
                   />
                 </Grid>
+                <Grid size={{ xs: 12, sm: 12 }} direction={'row'} container>
+                        <Grid
+                          className="create-event-btn-container"
+                          container
+                          justifyContent={"flex-start"}
+                          size={{ xs: 12, sm: 12 }}
+                          direction={'row'}
+                        >
+                          <CustomButton
+                            className="create-event-btn-container-select-btn"
+                            label="Select Logo"
+                            variant="outlined"
+                            onClick={() => setModalOpen(true)}
+                          />
+                          <Grid>
+                            {modalOpen && (
+                              <FileListModal
+                                open={modalOpen}
+                                handleClose={() => setModalOpen(false)}
+                                onSelectFile={(files: CustomFile[]) => {
+                                  // Automatically select the newly uploaded file if it exists
+                                  if (files && files.length > 0) {
+                                    setSelectedFile(files[0]); // Set only the first selected file
+                                  }
+                                  setModalOpen(false);
+                                }}
+                                companyId={companyId}
+                                multipleSelect={false}
+                                imagesPerRow={4}
+                              />
+                            )}
+                          </Grid>
+                        </Grid>
+                        {selectedFile && (
+                          <Grid justifyContent={"center"} alignItems={"center"}>
+                            <Grid container direction={'row'} alignItems={'flex-start'} className="create-event-btn-container-image-container">
+                              <Grid>
+                                <img
+                                  src={`${baseUrl}asset/${selectedFile.id}`}
+                                  alt={selectedFile.name}
+                                  className="create-event-btn-container-selected-img"
+                                />
+                              </Grid>
+                              <Grid className="create-event-btn-container-delete-btn" container>
+                                <IconButton
+                                  aria-label="delete"
+                                  size="small"
+                                  onClick={handleFileDelete}
+                                >
+                                  <DeleteIcon fontSize="small" />
+                                </IconButton>
+                              </Grid>
+                            </Grid>
+                            <Grid container direction={'row'} justifyContent={'flex-start'}>
+                              <Grid>
+                                <Typography variant="body2" textAlign={'center'}>
+                                  {selectedFile.name}
+                                </Typography>
+                              </Grid>
+
+                            </Grid>
+                          </Grid>
+                        )}
+                      </Grid>
                 <Grid size={{ xs: 12 }} mt={2}>
                   <Grid
                     container
