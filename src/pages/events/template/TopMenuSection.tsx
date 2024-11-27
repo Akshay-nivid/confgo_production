@@ -8,6 +8,8 @@ import routes from '@/router/routes';
 import Grid from '@mui/material/Grid2';
 import React, { useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import config from "../../../../config.json";
+
 
 type TopMenuSectionProps = {
     data?: any;
@@ -21,11 +23,13 @@ type TopMenuSectionProps = {
 /**
  * Component displays the top menu section of the template
  */
-const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ temp, onScrollToProgram, onScrollToAbout, onScrollToContributors }) => {
+const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, onScrollToProgram, onScrollToAbout, onScrollToContributors }) => {
 
     const classPrefix = `event-template-top-menu-${temp}`;
     const navigate = useNavigate();
-    const location = useLocation()
+    const location = useLocation();
+    const baseUrl = config.api.url;
+
 
     
     /**
@@ -60,7 +64,11 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ temp, onScro
     return (
         <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}`}>
             <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} alignItems={'center'} className={`${classPrefix}-container`}>
-                <Grid className={`${classPrefix}-logo`}>LOGO</Grid>
+                <Grid className={`${classPrefix}-logo`}><img
+                                className={`${classPrefix}-logo-img`}
+                                src={`${baseUrl}asset/${data?.assetId? data?.assetId: 14}`}
+                                alt={'Business'}
+                              /></Grid>
                 <Grid container spacing={2}>
                     <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToAbout(e) }}> About </Link></Grid>
                     <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToContributors(e) }}> Contributors </Link></Grid>
