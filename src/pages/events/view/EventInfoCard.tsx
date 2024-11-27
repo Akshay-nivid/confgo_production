@@ -163,7 +163,10 @@ const EventInfoCard: React.FC<any> = React.memo(
    const handleFileDelete = () => {
     setSelectedFile(null);
   };
-
+  
+  /**
+   *useEffect set assestId
+   */
   useEffect(() => {
     if(eventData?.assetId){
       setSelectedFile({

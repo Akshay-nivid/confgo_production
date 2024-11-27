@@ -99,7 +99,6 @@ const CreateEvent: React.FC<EventProps> = React.memo(
      * @param data
      */
     const onSubmit: SubmitHandler<FormData> = (data: any) => {
-      console.log(data,'jjjjjj')
       const startTime = new Date(data.startTime);
       const endTime = new Date(data.endTime);
       setValue('assetId',selectedFile[0]?.id)
@@ -143,7 +142,9 @@ const CreateEvent: React.FC<EventProps> = React.memo(
   const handleFileDelete = () => {
     setSelectedFile(null);
   };
-
+  /**
+   *useEffect set assestId
+   */
   useEffect(() => {
     if(watch('assetId')){
       setSelectedFile({
@@ -152,7 +153,6 @@ const CreateEvent: React.FC<EventProps> = React.memo(
     });
     }
 },[])
-console.log(watch('assetId'),'assetId is checking here>>>>>>')
 
     return (
       <Box className="create-event-container">
