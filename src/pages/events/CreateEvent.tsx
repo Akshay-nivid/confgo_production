@@ -2,15 +2,21 @@
  * CreateEvent handles the event creation first screen
  */
 import { setFormValues } from "@/Utils/CommonBaseClass";
+import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import { Box, Typography } from "@mui/material";
+import FileListModal from "@/components/FileUpload/FileListModal";
+import { Box, IconButton, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import config from "../../../config.json";
+import DeleteIcon from "@mui/icons-material/Cancel";
+
+
 type EventProps = {
   formSubmit: boolean;
   onSubmitHandler: (
@@ -39,6 +45,12 @@ type FormData = {
   specialty: string;
 };
 
+interface CustomFile {
+  id: number;
+  name: string;
+  sourcePath: string;
+}
+
 const typeArray = [
   { label: "Offline", value: "OFFLINE" },
   { label: "Online", value: "ONLINE" },
@@ -57,6 +69,12 @@ const CreateEvent: React.FC<EventProps> = React.memo(
     } = useForm<FormData>();
 
     const [editorContent, setEditorContent] = useState("");
+    const [selectedFile, setSelectedFile] = useState<any>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const companyId = sessionStorage.getItem('companyId');
+  const baseUrl = config.api.url;
+
+
 
     /**
      * Method handles the on change event for description editor
@@ -115,6 +133,15 @@ const CreateEvent: React.FC<EventProps> = React.memo(
         ['bold', 'italic', 'underline'],
       ]
     };
+
+
+     /**
+   *function to handle clean file state
+   */
+  const handleFileDelete = () => {
+    setSelectedFile(null);
+  };
+
     return (
       <Box className="create-event-container">
         <Grid
@@ -204,7 +231,6 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                       rules={{ required: true }}
                     />
                   </Grid>
-                  
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField
                       placeholder="Start Date"
@@ -273,15 +299,6 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                       </Grid>
                       <Grid size={{ xs: 12, sm: 12 }}>
                         <CustomTextField
-                          placeholder="Venue"
-                          control={control}
-                          name="venueName"
-                          type="text"
-                          rules={{ required: watch("type") === "OFFLINE" }}
-                        />
-                      </Grid>
-                      <Grid size={{ xs: 12, sm: 12 }}>
-                        <CustomTextField
                           placeholder="Address"
                           control={control}
                           name="address"
@@ -313,6 +330,8 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                           control={control}
                           name="country"
                           type="text"
+                          readOnly={true}
+                          defaultValue={'India'}
                           rules={{ required: watch("type") === "OFFLINE" }}
                         />
                       </Grid>
@@ -331,6 +350,71 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                           }}
                         />
                       </Grid>
+                      <Grid size={{ xs: 12, sm: 12 }} direction={'row'} container>
+                        <Grid
+                          className="create-event-btn-container"
+                          container
+                          justifyContent={"flex-start"}
+                          size={{ xs: 12, sm: 12 }}
+                          direction={'row'}
+                        >
+                          <CustomButton
+                            className="create-event-btn-container-select-btn"
+                            label="Select Logo"
+                            variant="outlined"
+                            onClick={() => setModalOpen(true)}
+                          />
+                          <Grid>
+                            {modalOpen && (
+                              <FileListModal
+                                open={modalOpen}
+                                handleClose={() => setModalOpen(false)}
+                                onSelectFile={(files: CustomFile[]) => {
+                                  // Automatically select the newly uploaded file if it exists
+                                  if (files && files.length > 0) {
+                                    setSelectedFile(files[0]); // Set only the first selected file
+                                  }
+                                  setModalOpen(false);
+                                }}
+                                companyId={companyId}
+                                multipleSelect={false}
+                                imagesPerRow={4}
+                              />
+                            )}
+                          </Grid>
+                        </Grid>
+                        {selectedFile && (
+                          <Grid justifyContent={"center"} alignItems={"center"}>
+                            <Grid container direction={'row'} alignItems={'flex-start'} className="create-event-btn-container-image-container">
+                              <Grid>
+                                <img
+                                  src={`${baseUrl}asset/${selectedFile.id}`}
+                                  alt={selectedFile.name}
+                                  className="create-event-btn-container-selected-img"
+                                />
+                              </Grid>
+                              <Grid className="create-event-btn-container-delete-btn" container>
+                                <IconButton
+                                  aria-label="delete"
+                                  size="small"
+                                  onClick={handleFileDelete}
+                                >
+                                  <DeleteIcon fontSize="small" />
+                                </IconButton>
+                              </Grid>
+                            </Grid>
+                            <Grid container direction={'row'} justifyContent={'flex-start'}>
+                              <Grid>
+                                <Typography variant="body2" textAlign={'center'}>
+                                  {selectedFile.name}
+                                </Typography>
+                              </Grid>
+
+                            </Grid>
+                          </Grid>
+                        )}
+                      </Grid>
+                  
                     </>
                   )}
                 </Grid>

@@ -27,7 +27,12 @@ const PayPalButton: React.FC = () => {
 
     const paypalButtonRef = useRef<HTMLDivElement>(null);
 
-    const isRegister = Boolean(!planDetails && !subscriptionDetails);
+    const isPlanDetailsEmpty = Object.keys(planDetails).length === 0;
+    const isSubscriptionDetailsEmpty = Object.keys(subscriptionDetails).length === 0;
+
+    const isRegister = isPlanDetailsEmpty && isSubscriptionDetailsEmpty;
+
+
 
     /*
      * Function used to approve the payment functionality
@@ -89,7 +94,7 @@ const PayPalButton: React.FC = () => {
             paypalButtonRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     };
-
+ 
     return (
         <Grid>
             <PayPalScriptProvider options={initialOptions}>
