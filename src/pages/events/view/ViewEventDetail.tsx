@@ -63,6 +63,9 @@ interface Venue {
   address: string;
   city: string;
   state: string;
+  mapUrl:string;
+  postCode:string;
+  country:string
 }
 
 interface Addon {
@@ -349,7 +352,7 @@ const ViewEventDetail = () => {
             <Sessions eventData={eventFullData} onSubmitHandler={handleSubmitHandler}/>
           </TabPanel>
           <TabPanel value="4">
-            <LocationCard  />
+            <LocationCard data={eventFullData?.venue}/>
           </TabPanel>
           <TabPanel value="5">
             <UserListCard />
