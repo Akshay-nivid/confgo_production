@@ -163,7 +163,7 @@ const EventInfoCard: React.FC<any> = React.memo(
    const handleFileDelete = () => {
     setSelectedFile(null);
   };
-  
+
   /**
    *useEffect set assestId
    */
@@ -176,7 +176,15 @@ const EventInfoCard: React.FC<any> = React.memo(
     }
 
   },[])
-
+    /**
+     *  Configuration for the editor toolbar
+     */
+    const modules = {
+      toolbar: [
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }], 
+        ['bold', 'italic', 'underline'],
+      ]
+    };
   return (
     <Grid container className="event-detail-event-info-card" spacing={2}>
       <Grid
@@ -382,6 +390,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                 </Grid>
                 <Grid size={{ xs: 12 }}>
                   <ReactQuill
+                      modules={modules}
                       className={
                         errors?.description ||
                         watch("description") === "<p><br></p>"
