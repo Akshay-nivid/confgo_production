@@ -104,8 +104,7 @@
     font-size: $p2;
     background-color: $clr_blue;
     width: 100%;
-    height: 5rem;
-    border-radius: 0.83rem;
+    border-radius: 0.41rem;
     text-transform: none !important;
     svg{
       path{
@@ -115,7 +114,8 @@
     &:focus {
       outline: none;
     }
-  } & .plan-disabled-choose-btn{
+  } 
+  & .plan-disabled-choose-btn{
     font-size: $h6;
     width: 100%;
     background-color: $clr_blue; 
@@ -128,6 +128,10 @@
             fill: $clr_gray_light;
         }
     }
+  }
+  .signup-plan-btn{
+    height: 5rem;
+    border-radius: 0.83rem !important;
   }
   & .form-wrapper {
     width: 100%;
