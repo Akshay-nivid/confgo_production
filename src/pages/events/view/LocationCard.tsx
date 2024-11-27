@@ -13,7 +13,7 @@ import {Typography} from "@mui/material"
  import axios from "axios";
 import { GoogleMap, LoadScript,Marker } from '@react-google-maps/api';
 //const { AdvancedMarkerElement } = await google.maps.importLibrary("marker") as any;
-import config from "../../../../config.json";
+// import config from "../../../../config.json";
 import apiClient from "@/Libs/Https/API-client";
  interface Venue {
   id: number;
