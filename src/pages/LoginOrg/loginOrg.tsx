@@ -28,6 +28,7 @@ export interface ApiResponse {
     };
     subscriptionStatus: string;
     acceptedTerms:number;
+    companyId: any;
   };
 }
 
@@ -87,8 +88,8 @@ const LoginOrg = () => {
    * Processes the successful login response.
    * @param data - The response data from the API.
    */
-  const handleLoginSuccess = (data: ApiResponse['data']) => {
-    const { userRole, token, firstName, lastName, subscriptionStatus,id,acceptedTerms } = data;
+  const handleLoginSuccess = async (data: ApiResponse['data']) => {
+    const { userRole, token, firstName, lastName, subscriptionStatus,id, acceptedTerms,companyId } = data;
 
     // Clear previous session data
     sessionStorage.clear();
@@ -112,6 +113,7 @@ const LoginOrg = () => {
       sessionStorage.setItem('subscriptionStatus', subscriptionStatus);
       sessionStorage.setItem('userId',id?.toString());
       sessionStorage.setItem('acceptedTerms',acceptedTerms.toString());
+      sessionStorage.setItem('companyId', companyId? companyId: 10);
           // Show success notification
     setDataById("snackBarInfo", {
       open: true,
