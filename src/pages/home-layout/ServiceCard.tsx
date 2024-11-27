@@ -12,7 +12,7 @@ export const ServiceCard: React.FC<any> = ({ data }) => {
       <Box>
         <Typography
           textAlign={"center"}
-          className="service-card__title text-h5 font-700"
+          className="service-card__title text-h5 font-600"
         >
           {title}
         </Typography>

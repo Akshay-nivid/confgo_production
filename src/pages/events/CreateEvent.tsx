@@ -302,15 +302,15 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                         mb={0}
                       >
                         <CustomTextField
-                          placeholder="Location URL (must be a Google Maps link)"
+                          placeholder="Location URL (must be a Google Maps link with latitude and longitude)"
                           control={control}
                           name="mapUrl" 
-                          type="text"
+                          type="text" 
                           rules={{
                             required: false,
                             validate: (value: any) =>
-                              /^(https?:\/\/)?(www\.)?(google\.(com|[a-z]{2})\/maps|maps\.app\.goo\.gl)/.test(value) ||
-                              "URL must be a valid Google Maps link",
+                              /^(https?:\/\/)?(www\.)?(google\.(com|[a-z]{2})\/maps(\/.*)?\/@([+-]?\d{1,2}\.\d+),([+-]?\d{1,3}\.\d+))|maps\.app\.goo\.gl\/\S+$/.test(value) ||
+                              "URL must be a valid Google Maps link with latitude and longitude",
                           }}
                         />
                       </Grid>

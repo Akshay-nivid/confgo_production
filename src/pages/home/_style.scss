@@ -10,6 +10,7 @@
       display: flex;
       flex-direction: column;
       .get-started-button {
+        box-shadow: none;
         border-radius: 4.2rem;
         height: 4.8rem !important;
         width: 13.4rem !important;
@@ -55,9 +56,9 @@
 }
 
 .confrence-management-section-main {
-  padding-block: 6.83rem;
+  padding-block: 4.83rem;
   .confrence-management-section-header-content {
-    margin-bottom: 5rem;
+    margin-bottom: 4rem;
     .conference-management-title {
       font-size: $h2;
       font-weight: $font_bold;
@@ -67,7 +68,7 @@
 
     .conference-management-description {
       font-size: $p2;
-      color: $clr_grey;
+      color: $clr_sub_header;
     }
   }
   .confrence-management-effortless-content {
@@ -83,7 +84,7 @@
     .planning-description {
       margin-bottom: 2rem;
       line-height: 2.167rem;
-      color: $clr_grey;
+      color: $clr_sub_header;
     }
     .get-started-btn{
       border: 0.2rem solid $clr_black;
@@ -99,6 +100,7 @@
   .confrence-management-content-wrapper {
     background-color: $clr_honeydew;
     border-radius: 1.667rem;
+    margin-bottom: 2.5rem;
   }
   .export-plan-image {
     height: 100%;
@@ -117,7 +119,6 @@
 }
 
 .conference-management-grid-main {
-    margin-bottom: 2.5rem;
   .grid-left {
     background-color: $clr_purple_light;
   }
@@ -125,8 +126,12 @@
     background-color: $clr_yellow_light;
   }
   .tracking-title{
+    font-weight: $font_semibold;
     line-height: 3rem;
     margin-bottom: 1rem;
+  }
+  .tracking-description{
+    color: $clr_sub_header;
   }
   .grid-left,
   .grid-right {
@@ -150,10 +155,10 @@
 .feature-section-main {
   padding-bottom: 1rem;
   .feature-section-main__header {
-    margin-bottom: 8rem;
+    margin-bottom: 5rem;
     &-description {
       margin-bottom: 3rem;
-      color: $clr_gray_dark;
+      color: $clr_sub_header;
     }
     &-button-container {
       width: 100%;
@@ -184,7 +189,6 @@
 .feature-card {
   margin-bottom: 6rem;
   flex-direction: row;
-
   &.reversed {
     flex-direction: row-reverse;
   }
@@ -239,12 +243,13 @@
   }
 
   &__title {
+    font-weight: $font_semibold !important;
     font-size: $h2 !important;
-    font-weight: 600;
   }
 
   &__description {
     font-size: $p2 !important;
+    color: $clr_sub_header;
   }
 
   &__features {
@@ -275,7 +280,8 @@
   }
 
   &__feature-description {
-    font-size: $p2;
+    font-size: $p2 !important;
+    color: $clr_sub_header;
   }
 
   &__button {
