@@ -6,7 +6,7 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import FileListModal from "@/components/FileUpload/FileListModal";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
@@ -14,7 +14,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import config from "../../../config.json";
-import DeleteIcon from "@mui/icons-material/Cancel";
 
 
 type EventProps = {
@@ -43,6 +42,7 @@ type FormData = {
   url: string;
   amount: string;
   specialty: string;
+  assetId:number;
 };
 
 interface CustomFile {
@@ -101,6 +101,9 @@ const CreateEvent: React.FC<EventProps> = React.memo(
     const onSubmit: SubmitHandler<FormData> = (data: any) => {
       const startTime = new Date(data.startTime);
       const endTime = new Date(data.endTime);
+      if(selectedFile){
+        setValue('assetId',selectedFile[0]?.id)
+      }
       if (startTime > endTime) {
         setError(`startTime`, {
           type: 'manual',
@@ -141,6 +144,17 @@ const CreateEvent: React.FC<EventProps> = React.memo(
   const handleFileDelete = () => {
     setSelectedFile(null);
   };
+  /**
+   *useEffect set assestId
+   */
+  useEffect(() => {
+    if(watch('assetId')){
+      setSelectedFile({
+        id: watch('assetId'),
+        name: 'Business'
+    });
+    }
+},[])
 
     return (
       <Box className="create-event-container">
@@ -350,7 +364,36 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                           }}
                         />
                       </Grid>
-                      <Grid size={{ xs: 12, sm: 12 }} direction={'row'} container>
+
+                    </>
+                  )}
+                            <Grid size={{ xs: 12, sm: 12 }} direction={'row'} container flexDirection={"row"} spacing={2}>
+                            <Grid container direction={'row'} alignItems={'center'} justifyContent={"center"} alignContent={"center"}>
+                            {selectedFile && (
+                              <Grid className="create-event-btn-container-img-box" >
+                                <img
+                                  src={`${baseUrl}asset/${selectedFile.id}`}
+                                  alt={selectedFile.name}
+                                />
+                              </Grid>
+                            )}
+                              <CustomButton
+                            className="create-event-btn-container-select-btn"
+                            label="Choose Logo"
+                            variant="outlined"
+                            onClick={() => setModalOpen(true)}
+                          />
+                              {selectedFile && ( <Grid container spacing={1}>
+
+                                <CustomButton
+                                className="create-event-btn-container-delete-btn"
+                                label="Delete"
+                                variant="outlined"
+                                onClick={handleFileDelete}
+                                />
+                              </Grid>
+                              )}
+                            </Grid>                   
                         <Grid
                           className="create-event-btn-container"
                           container
@@ -358,12 +401,6 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                           size={{ xs: 12, sm: 12 }}
                           direction={'row'}
                         >
-                          <CustomButton
-                            className="create-event-btn-container-select-btn"
-                            label="Select Logo"
-                            variant="outlined"
-                            onClick={() => setModalOpen(true)}
-                          />
                           <Grid>
                             {modalOpen && (
                               <FileListModal
@@ -373,6 +410,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                                   // Automatically select the newly uploaded file if it exists
                                   if (files && files.length > 0) {
                                     setSelectedFile(files[0]); // Set only the first selected file
+                                    setValue('assetId',files[0]?.id);
                                   }
                                   setModalOpen(false);
                                 }}
@@ -383,40 +421,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                             )}
                           </Grid>
                         </Grid>
-                        {selectedFile && (
-                          <Grid justifyContent={"center"} alignItems={"center"}>
-                            <Grid container direction={'row'} alignItems={'flex-start'} className="create-event-btn-container-image-container">
-                              <Grid>
-                                <img
-                                  src={`${baseUrl}asset/${selectedFile.id}`}
-                                  alt={selectedFile.name}
-                                  className="create-event-btn-container-selected-img"
-                                />
-                              </Grid>
-                              <Grid className="create-event-btn-container-delete-btn" container>
-                                <IconButton
-                                  aria-label="delete"
-                                  size="small"
-                                  onClick={handleFileDelete}
-                                >
-                                  <DeleteIcon fontSize="small" />
-                                </IconButton>
-                              </Grid>
-                            </Grid>
-                            <Grid container direction={'row'} justifyContent={'flex-start'}>
-                              <Grid>
-                                <Typography variant="body2" textAlign={'center'}>
-                                  {selectedFile.name}
-                                </Typography>
-                              </Grid>
-
-                            </Grid>
-                          </Grid>
-                        )}
                       </Grid>
-                  
-                    </>
-                  )}
                 </Grid>
               </form>
             </Grid>
