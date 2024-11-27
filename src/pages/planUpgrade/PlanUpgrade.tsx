@@ -3,6 +3,9 @@ import Grid from '@mui/material/Grid2';
 import PaymentMethod from "../register/PaymentMethod";
 import { useEffect } from "react";
 import { Logger } from "@/Utils/Logger";
+import { CircularProgress } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import routes from "@/router/routes";
 
 
 /**
@@ -13,6 +16,8 @@ const PlanUpgrade = () => {
   const planDetails = useStore((state: any) => state?.compData?.['planDetails']) ?? [];
   const POST = useStore((state: any) => state.POST);
   const setDataById = useStore((state: any) => state.setDataById);
+  const subscriptionDetails = useStore((state: any) => state?.compData?.['subscriptionDetails']) ?? null;
+  const navigate = useNavigate();
 
   /**
    * Initiates the subscription creation process.
@@ -26,29 +31,39 @@ const PlanUpgrade = () => {
    * Sets the response data in the global state..
    */
   const createSubscription = async () => {
+    try {
+      const successCallback = (context: any) => {
+        setDataById('subscriptionDetails', { field_values: context.data });
+      };
 
-    const successCallback = (context: any) => {
-      setDataById('subscriptionDetails', { field_values: context.data });
-    };
+      const errorCallback = (error: any) => {
+        setDataById('snackBarInfo', {
+          open: true,
+          autoHideDuration: 2000,
+          severity: 'error',
+          message: 'Something went wrong. Please try again.',
+        });
+        Logger.error("Error creating subscription:", error.message);
+        navigate(routes.dashboard());
+      };
 
-    const errorCallback = (context: any) => {
-      Logger.error("Error creating subscription:", context.message);
-    };
-
-    await POST({
-      url: "/subscription",
-      body: {
-        planId: planDetails?.field_values?.id,
-      },
-      id: "subscriptionCreate",
-      successCB: successCallback,
-      errorCB: errorCallback,
-    });
+      await POST({
+        url: "/subscription",
+        body: {
+          planId: planDetails?.field_values?.id,
+        },
+        id: "subscriptionCreate",
+        successCB: successCallback,
+        errorCB: errorCallback,
+      });
+    } catch (error) {
+      Logger.error("Error creating subscription:", error);
+    }
   }
-    return (
-        <Grid container justifyContent={'center'}>
-          <PaymentMethod />
-        </Grid>
-    );
+  return (
+    <Grid container justifyContent={'center'}>
+      {subscriptionDetails ? (<PaymentMethod />) : (<Grid><CircularProgress /></Grid>)}
+    </Grid>
+  );
   }
 export default PlanUpgrade;

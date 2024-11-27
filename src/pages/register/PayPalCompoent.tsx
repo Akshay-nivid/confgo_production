@@ -1,10 +1,12 @@
 import React, { useRef } from 'react';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import Grid from '@mui/material/Grid2';
-import useStore from '@/Libs/store';
+import useStore, { POST } from '@/Libs/store';
 import apiClient from '@/Libs/Https/API-client';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';
 import { Logger } from '@/Utils/Logger';
+import routes from '@/router/routes';
+import { useNavigate } from 'react-router-dom';
 
 /*
  * Component used to handle PayPal button 
@@ -18,6 +20,8 @@ const PayPalButton: React.FC = () => {
     const subscriptionDetails = useStore((state: any) => state?.compData?.['subscriptionDetails']) ?? {};
 
     const setDataById = useStore((state: any) => state.setDataById)
+
+    const navigate = useNavigate();
     
     const initialOptions = {
         clientId: "AQ9K1hDjjXSmmQz1aBt3FDjLTkrl8DRJvnUC6H6_eXAw-wzz6eC2eoYmSOEJcdN0prPUX1hsSm8bfGtK", 
@@ -82,7 +86,9 @@ const PayPalButton: React.FC = () => {
               setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: isRegister
                 ?"Registration successful! Check your email for further instructions."
                 :"Plan upgraded successfully!" , });
-              setDataById('register', { data: 'REGISTRATION_SUCCESS_PAGE' });
+              isRegister
+                ? setDataById('register', { data: 'REGISTRATION_SUCCESS_PAGE' })
+                : (POST({ url: 'subscription/verify', body: {}, id: 'paymentBanner' }), navigate(routes.dashboard()));
             }
         } catch (error) {
             Logger.error('PayPalCompoent.tsx', error);
