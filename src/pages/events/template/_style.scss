@@ -475,6 +475,7 @@
                 border-radius: 1.83rem;
                 box-shadow: 0 0.08rem 1rem 0 $clr_dark_charcoal;
                 position: relative;
+                min-width: 50rem !important;
             }
             &-item-title{
                 padding: 0.5rem 1rem 0.5rem 1rem;
@@ -533,6 +534,7 @@
                 border-radius: 1.83rem;
                 box-shadow: 0 0.08rem 1rem 0 $clr_dark_charcoal;
                 position: relative;
+                min-width: 50rem !important;
             }
             &-item-title{
                 padding: 0.5rem 1rem 0.5rem 1rem;
