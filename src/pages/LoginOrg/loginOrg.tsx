@@ -6,6 +6,7 @@ import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import routes from "@/router/routes";
 import useStore from "@/Libs/store";
 import apiClient from "@/Libs/Https/API-client";
+import { SignUpFlowIcon } from "@/assets/svg";
 
 
 /**
@@ -154,7 +155,7 @@ const LoginOrg = () => {
   return (
     <Box className="login-org-main-container">
       <Grid container className="grid-layout">
-        <Grid size={{ xs: 12, sm: 6 }} className="grid-left">
+        <Grid size={{ xs: 12, sm: 7 }} className="grid-left">
           <Grid className="left-content-wrapper">
             <Grid className="left-inner-content">
               <Grid className="left-header-wrapper">
@@ -210,19 +211,8 @@ const LoginOrg = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid size={{ xs: 12, sm: 6 }} className="grid-right">
-          <Box className="right-image-container">
-            <Typography className="image-content-text">
-              <Typography className="paragraph">
-                {" "}
-                Unlock the Future of Conference{" "}
-              </Typography>
-              <Typography className="paragraph">
-                {" "}
-                Management – Join Us Today!{" "}
-              </Typography>
-            </Typography>
-          </Box>
+        <Grid container size={{ xs: 12, md: 5 }} className="grid-right">
+          <SignUpFlowIcon />
         </Grid>
       </Grid>
     </Box>

@@ -66,28 +66,9 @@
   }
 
   .grid-right {
-    background-image: url("/src/assets/png/login-bg.png");
-    background-repeat: no-repeat;
-    background-size: 100% 100% !important;
-    min-height: 100vh;
-
-    .image-title {
-      padding-left: 3.125rem;
-      padding-top: 3.1875rem;
-      font-family: $font;
-      font-size: $h3;
-      font-weight: $font_semibold;
-      line-height: 1.9375rem;
-      color: $clr_white;
-    }
-
-    .image-title2 {
-      padding-left: 3.125rem;
-      font-family: $font;
-      font-size: $h3;
-      font-weight: $font_semibold;
-      line-height: 1.9375rem;
-      color: $clr_white;
+    svg{
+      width: 100%;
+      height: auto;
     }
   }
 }
