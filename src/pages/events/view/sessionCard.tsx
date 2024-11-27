@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Typography, IconButton, Box } from "@mui/material";
 import EditIcon from "@/assets/svg/event-edit.svg";
 import AddIcon from "../../../assets/svg/event-addon-icon.svg"; // Importing the icon to display next to the start time
 import Grid from "@mui/material/Grid2";
-import { DeleteContributorIcon} from "@/assets/svg";
+import { DeleteContributorIcon, WarningIcon} from "@/assets/svg";
 import moment from "moment";
+import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
 
 interface FieldConfig {
   label: string;
@@ -43,6 +44,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
   onDeleteClick,
 }) => {
 
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   /**
    * function to access nested properties in an object.
    * @param obj - Object to search.
@@ -115,7 +117,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
             <IconButton
               size="small"
               className="event-detail-event-info-card-edit-btn"
-              onClick={() => onDeleteClick(item)}
+              onClick={() => setDeleteModalOpen(true)}
             >
               <DeleteContributorIcon fontSize="small" />
             </IconButton>
@@ -144,6 +146,21 @@ const SessionCard: React.FC<SessionCardProps> = ({
             )
         )}
       </div>
+      {/* Delete Confirmation Modal */}
+      <CustomActionModal
+        icon={<WarningIcon className="unpublish-modal-icon"/>}
+        header="Delete Session"
+        subHeader="Are you sure you want to delete this session? This action cannot be undone."
+        cancelLabel="Cancel"
+        submitLabel="Delete"
+        open={isDeleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        cancelAction={() => setDeleteModalOpen(false)}
+        submitAction={() => {
+          setDeleteModalOpen(false);
+          onDeleteClick?.(item);
+        }}
+        />
     </Grid>
   );
 };

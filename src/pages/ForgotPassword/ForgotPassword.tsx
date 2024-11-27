@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
-import { ForgotPasswordIcon } from "@/assets/svg";
+import { ForgotPasswordIcon, SignUpFlowIcon } from "@/assets/svg";
 import routes from "@/router/routes";
 import { validateEmail, validateRequiredField } from "@/Utils/Validation";
 import useStore from "@/Libs/store";
@@ -87,7 +87,7 @@ const  previousPath=()=>{
       </Grid>
     ) : (
     <Grid className="forgotpassword__container" container>
-      <Grid container className="grid-left" size={{ xs: 12, lg: 6 }} bgcolor="#FFFFFF" justifyContent="center" >
+      <Grid container className="grid-left" size={{ xs: 12, lg: 7 }} bgcolor="#FFFFFF" justifyContent="center" >
         <Grid className="grid-left-image" size={{ xs: 12, sm: 6 }} justifyContent={"center"}>
           <Grid
             container
@@ -123,15 +123,8 @@ const  previousPath=()=>{
           </Grid>
         </Grid>
       </Grid>
-      <Grid size={{ xs: 12, lg: 6 }} className="grid-right" container>
-        <Grid size={{ xs: 12, lg: 6 }} className="grid-right-image">
-          <Typography className="image-title" >
-            Forget Your Password?
-          </Typography>
-          <Typography className="image-title2">
-            Don't worry, we'll help you reset it!
-          </Typography>
-        </Grid>
+      <Grid container size={{ xs: 12, md: 5 }} className="grid-right">
+          <SignUpFlowIcon />
       </Grid>
     </Grid>
   )}

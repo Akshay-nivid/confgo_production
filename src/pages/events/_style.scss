@@ -12,6 +12,27 @@
             }
         }
     }
+    &-btn-container{
+        &-select-btn{
+            border-color: $clr_green !important;
+            color: $clr_green !important;
+            text-transform: none !important;
+            margin-bottom: 0.5rem !important;
+        }
+        &-selected-img{
+            width: 5rem;
+        }
+        &-delete-btn{
+            svg{
+                color: $clr_red;
+            }
+        }
+        &-image-container{
+            border: 1px solid $clr_bright_gray;
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+    }
     &-next-btn{
         background-color: $clr_green !important;
         color: $clr_white !important;
@@ -601,6 +622,9 @@
     }
 }
 .event-information {
+    &-logo-img{
+        width: 5rem;
+    }
   &-subtitle {
     font-weight: $font_medium !important;
     font-size: $h6 !important; 
