@@ -79,6 +79,7 @@ import ProPlanIcon from './pro-plan-icon.svg';
 import CalendarNoEvent from './calender-empty.svg';
 import UserSettingIcon from './user-settings.svg';
 import DownloadCertsIcon from './Download-cert.svg';
+import SignUpFlowIcon from './signup-flow-icon.svg';
 
 export {
   CalenderIcon,
@@ -161,5 +162,6 @@ export {
   ProPlanIcon,
   CalendarNoEvent,
   UserSettingIcon,
-  DownloadCertsIcon
+  DownloadCertsIcon,
+  SignUpFlowIcon
 };
