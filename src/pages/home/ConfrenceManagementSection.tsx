@@ -38,6 +38,42 @@ const ConfrenceManagementSection = () => {
             </Typography>
           </Grid>
           <Grid
+            container
+            size={12}
+            className="confrence-management-content-wrapper"
+          >
+            <Grid size={6} className="confrence-management-effortless-content">
+              <Typography className="planning-title text-h2">
+                Effortless Planning & <br /> Execution
+              </Typography>
+              <Typography className="planning-description text-p1">
+                Track every detail from a centralized dashboard that puts all
+                your event management tools in one place. Manage attendee
+                registraImport Costtions, coordinate event logistics, and
+                streamline communications with just a few clicks. Monitor
+                real-time data, including attendance, session participation, and
+                feedback, giving you valuable insights to make quick, informed
+                decisions. Effortlessly schedule sessions, assign tasks to your
+                team, and oversee all operations with clear, organized views.
+                With powerful reporting features and customizable dashboards,
+                you’ll always have a pulse on your event’s progress, ensuring
+                nothing falls through the cracks.
+              </Typography>
+              <CustomButton
+                label="Get Started"
+                variant="outlined"
+                className="get-started-btn"
+                onClick={() => navigate(routes.loginOrg())}
+                endIcon={<ArrowIconSvg/>}
+              ></CustomButton>
+            </Grid>
+            <Grid size={6} className="export-plan-grid-right">
+              <Box className="export-plan-image-wrapper">
+                <ExportPlanImg className="export-plan-image" />
+              </Box>
+            </Grid>
+          </Grid>
+          <Grid
             columnSpacing={2}
             container
             size={12}
@@ -76,42 +112,6 @@ const ConfrenceManagementSection = () => {
               </Typography>
               <Box className="tracking-image-container">
                 <Brand className=" attendance-tracking-image" />
-              </Box>
-            </Grid>
-          </Grid>
-          <Grid
-            container
-            size={12}
-            className="confrence-management-content-wrapper"
-          >
-            <Grid size={6} className="confrence-management-effortless-content">
-              <Typography className="planning-title text-h2">
-                Effortless Planning & <br /> Execution
-              </Typography>
-              <Typography className="planning-description text-p1">
-                Track every detail from a centralized dashboard that puts all
-                your event management tools in one place. Manage attendee
-                registraImport Costtions, coordinate event logistics, and
-                streamline communications with just a few clicks. Monitor
-                real-time data, including attendance, session participation, and
-                feedback, giving you valuable insights to make quick, informed
-                decisions. Effortlessly schedule sessions, assign tasks to your
-                team, and oversee all operations with clear, organized views.
-                With powerful reporting features and customizable dashboards,
-                you’ll always have a pulse on your event’s progress, ensuring
-                nothing falls through the cracks.
-              </Typography>
-              <CustomButton
-                label="Get Started"
-                variant="outlined"
-                className="get-started-btn"
-                onClick={() => navigate(routes.loginOrg())}
-                endIcon={<ArrowIconSvg/>}
-              ></CustomButton>
-            </Grid>
-            <Grid size={6} className="export-plan-grid-right">
-              <Box className="export-plan-image-wrapper">
-                <ExportPlanImg className="export-plan-image" />
               </Box>
             </Grid>
           </Grid>

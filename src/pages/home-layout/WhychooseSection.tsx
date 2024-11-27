@@ -28,7 +28,7 @@ const WhychooseSection = () => {
       <Grid container size={10} className="whychoose-section__content">
         <Grid size={12} className="whychoose-section__header">
           <Typography
-            className="whychoose-section__header-title text-h5 font-700"
+            className="whychoose-section__header-title text-h2 font-700"
             textAlign={'center'}
           >
             Why Choose Confgo?
