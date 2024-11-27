@@ -200,3 +200,7 @@
    }
 
 }
+.circularProgress {
+  color: $clr_white;
+  z-index: 1301; /* theme.zIndex.drawer + 1 is typically 1300 */
+}
