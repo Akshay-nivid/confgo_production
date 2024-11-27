@@ -34,26 +34,40 @@
   &-links-container {
     flex: 0 0 83.33%;
     max-width: 83.33%;
+    height: 3.9rem;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    column-gap: 2.75rem;
   }
   .nav-link.active {
     color: $clr_blue;
   }
-
+  .nav-link:hover{
+      color: $clr_blue !important;
+  }
+  
   &-links {
+    text-align: center !important;
     display: flex;
-    column-gap: 2.5rem;
+    align-items: center;
+    column-gap: 2rem;
   }
 
   &-link {
     text-decoration: none;
   }
 
+  &-signUp{
+    width: 10.41rem;
+    height: 3.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4.5rem;
+    border: 0.17rem solid $clr_black !important;
+  }
+
   &-divider {
-    width: 2rem;
     height: 2rem;
     margin-top: -0.2rem;
   }
@@ -104,7 +118,7 @@
   }
 
   &__description {
-    color: $clr_grey;
+    color: $clr_sub_header;
   }
 }
 
@@ -114,7 +128,7 @@
 
   .footer-content {
     width: 100%;
-    border-bottom: 0.1rem dotted $clr_gray_medium;
+    border-bottom: 0.1rem solid $clr_gray_medium;
   }
 
   .footer-title {
@@ -126,12 +140,13 @@
   }
 
   .footer-subtitle {
-    color: $clr_white;
+    color: $clr_light_gray;
     font-size: $h6;
     margin-bottom: 3.33rem;
   }
   .footer-button{
     background-color: $clr_blue;
+    color: $clr_light_gray;
     text-transform: none;
     margin-bottom: 3rem;
   }
@@ -169,8 +184,10 @@
   }
 
   .footer-contact-label {
-    color: $clr_white;
-    font-size: $p2;
+    color: $clr_light_gray;
+    font-size: $p3;
+    padding-bottom: 0.5rem;
+    font-weight: $font_medium;
   }
 
   .footer-contact-value {
@@ -185,19 +202,21 @@
   }
 
   .footer-logo {
-    height: max-content;
-    width: max-content;
-    margin-bottom: 3.91rem;
+   width: 11.8rem;
+   height: 10.8rem;
+   path:last-child{
+      fill: $clr_white;
+    }
   }
 
   .footer-description {
-    color: $clr_white;
+    color: $clr_light_gray;
     text-align: end;
     margin-bottom: 0.66rem;
   }
 
   .footer-copyright {
-    color: $clr_white;
+    color: $clr_light_gray;
   }
 }
 
@@ -286,7 +305,7 @@
     .whychoose-section__header {
       margin-bottom: 4rem;
       &-description {
-        color: $clr_grey;
+        color: $clr_sub_header;
       }
     }
   }
