@@ -57,7 +57,7 @@ const LocationCard = ({ data }: LocationCardProps) => {
   /**
    *GOOGLE_API_KEY
    */
-  const GOOGLE_API_KEY = config.google_api_key; 
+  const GOOGLE_API_KEY = ''; 
   
   /**
    * Function to open and close the drawer
