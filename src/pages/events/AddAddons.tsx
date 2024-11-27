@@ -313,6 +313,10 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
         resetField(`addOn.${index}.propertyName`,{});
         resetField(`addOn.${index}.propertyAmount`,{});
       }else{
+        setError(`addOn.${index}.propertyName`, {
+          type: 'manual',
+          message:`This feild is required`,
+        });
         return
       }
     }
@@ -552,7 +556,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                       control={control}
                                       name={`addOn.${index}.propertyName`}
                                       type="text"
-                                      // rules={{ required: true }}
+                                      //rules={{ required: true }} 
                                     />
                                   </Grid>
                                   <Grid size={{ xs: 12, sm: 6 }} display={"flex"} >
