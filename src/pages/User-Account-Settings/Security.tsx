@@ -27,7 +27,8 @@ const Security:React.FC<SecurityProps> = React.memo(({ passEmail }) => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const email = location.state?.email ? location.state?.email :passEmail
+  const email = location.state?.email ? location.state?.email :passEmail;
+  const isSsoUser = sessionStorage.getItem("ssoUser") === 'true';
 /**
  *  Initiates the password reset process by sending the user's email to the forgotPassword
  * @param email
@@ -75,30 +76,30 @@ const Security:React.FC<SecurityProps> = React.memo(({ passEmail }) => {
         </Grid>
       </Grid>
       </Grid>
-  <Grid size={12} className="security-bottom-border">
-      <Grid
-        container
-        size={10}
-         className="security-text-border account-margin"
-      >
-        <Grid>
-          <Typography className="security-text">
-            Password
-          </Typography>
-          <Typography  className="security-subtext">
-            Set a unique password to protect your account
-          </Typography>
+      {!isSsoUser && <Grid size={12} className="security-bottom-border">
+        <Grid
+          container
+          size={10}
+          className="security-text-border account-margin"
+        >
+          <Grid>
+            <Typography className="security-text">
+              Password
+            </Typography>
+            <Typography className="security-subtext">
+              Set a unique password to protect your account
+            </Typography>
+          </Grid>
+          <Grid display="flex" alignItems="center">
+            <CustomButton
+              className="security-password-reset-btn"
+              label="Reset Password"
+              variant="contained"
+              onClick={handlePasswordReset}
+            />
+          </Grid>
         </Grid>
-        <Grid display="flex" alignItems="center">
-          <CustomButton
-            className="security-password-reset-btn"
-            label="Reset Password"
-            variant="contained"
-            onClick={handlePasswordReset}
-          />
-        </Grid>
-      </Grid>
-      </Grid>
+      </Grid>}
     </Grid>
   );
 });
