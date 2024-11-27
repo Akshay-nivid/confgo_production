@@ -1,30 +1,39 @@
 .error-text {
   color: $clr_red !important;
   font-size: 0.833rem !important;
-  margin-top: .5rem !important;
   margin-left: 0 !important;
-  margin-bottom: 0.4rem !important;
+  margin-bottom: -0.4rem !important;
 }
 
 .plan-card-active {
-  background-color: $bg_light !important;
-  border: 0.188rem solid $clr_blue !important;
+  border: 0.25rem solid $clr_blue !important;
   color: $clr_black !important;
+  &-radio-button{
+    span {
+      .MuiSvgIcon-root {
+        path {
+          fill: $clr-bright-blue;
+        }
+  
+        &:last-child {
+          padding: 0.15rem;
+        }
+      }
+    }
+  }
 }
 
 .plan-card {
-  max-width: 36rem;
-  max-height: 6.833rem;
+  max-width: 39.6rem;
+  max-height: 7.833rem;
   background-color: $clr_white;
-  border: 0.083rem solid $clr_gray_light;
+  border: 0.083rem solid $clr_requirement_text;
   margin-top: 2.5rem;
   overflow: hidden;
-  border-radius: 0.4rem;
-  color: $clr_gray_faded;
+  border-radius: 0.83rem;
   & .MuiFormControlLabel-root {
     margin: 0 !important;
-    padding-block: 1.5rem;
-    padding-inline: 1.5rem !important;
+    padding: 1.5rem;
     width: 100% !important;
 
     & .MuiFormControlLabel-label {
@@ -33,9 +42,12 @@
   }
   &-header {
     font-size: $h5 !important;
+    font-weight: $font_semibold !important;
   }
   &-price {
-    font-size: $h6;
+    font-size: $h6 !important;
+    color: $clr_sub_header !important;
+    font-weight: $font_medium !important;
   }
   &-discount-percent {
     background-color: $clr_blue;
@@ -45,6 +57,12 @@
     font-size: $h6;
     border-radius: 0.417rem;
     color: $clr_white;
+  }
+  &-icon{
+    svg{
+      width: 4rem;
+      height: 4rem;
+    }
   }
 }
 
@@ -716,15 +734,15 @@
   &-title{
     display: flex;
     font-weight: $font_semibold !important;
-    font-size: $p3 !important;
+    font-size: $p5 !important;
     justify-content: center !important;
     margin-top: 3rem !important;
     color:$clr_black !important;
   }
   &-subtitle{
     font-weight: $font_normal !important;
-    font-size: $p1 !important;
-    justify-content: center !important;
+    font-size: $p2 !important;
+    text-align: center; 
     margin-bottom: 10rem !important;
     color:$clr_gray_extra_dark !important;
   }

@@ -12,6 +12,7 @@ import routes from "@/router/routes";
 import { StepperBoxes } from "./StepperBox";
 import { useEffect } from "react";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { SignUpFlowIcon } from "@/assets/svg";
 /*
  * Component used to register company for scheduling meting,metups etc
  */
@@ -69,7 +70,7 @@ const Register = () => {
   };
   return (
     <Grid container className="register-main-container">
-      <Grid container justifyContent={'space-between'} direction={'column'} className="grid-left" size={{ xs: 12, sm: 6 }} >
+      <Grid container justifyContent={'space-between'} direction={'column'} className="grid-left" size={{ xs: 12, sm: 7 }} >
         {(pageSwitch.data === "CREATE_ACCOUNT_PAGE" || pageSwitch.data == "ADD_ORGANIZATION_PAGE" || pageSwitch.data === "PLAN_PAGE" )  && <Grid container alignItems={"center"} display={"flex"} className="back-button" onClick={handleBack} >
           <ArrowBackIcon />
           <Typography variant="h6">Back</Typography>
@@ -88,10 +89,10 @@ const Register = () => {
           {pageSwitch.data === "REGISTRATION_SUCCESS_PAGE" && <RegistrationSuccess />}
         </Grid>
         {pageSwitch.data !== "REGISTRATION_SUCCESS_PAGE" && <Grid container direction={'column'} className="register-stepper" spacing={3}>
-          <Grid container spacing={1} justifyContent={"center"} display={"flex"}>
-            <Typography variant="h6">Already have an account?</Typography>
+          <Grid container spacing={1} justifyContent={"center"} display={"flex"} className="register-stepper-text">
+            <Typography>Already have an account?</Typography>
             <Grid onClick={handleLogin}>
-              <Typography variant="h6" className="login-label cursor-container" alignContent="flex-end"> Log In</Typography>
+              <Typography className="login-label cursor-container" alignContent="flex-end"> Log In</Typography>
             </Grid>
           </Grid>
           <Grid container justifyContent={"center"}>
@@ -99,7 +100,9 @@ const Register = () => {
           </Grid>
         </Grid>}
       </Grid>
-      <Grid container size={{ xs: 12, md: 6 }} className="grid-right"></Grid>
+      <Grid container size={{ xs: 12, md: 5 }} className="grid-right">
+        <SignUpFlowIcon/>
+      </Grid>
     </Grid>
   );
 };

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import { Avatar, Divider, Menu, MenuItem } from '@mui/material';
-import { SettingsIcon, LogoutIcon,  DownArrowSvg, ResetPassword } from '@/assets/svg';
+import { SettingsIcon, LogoutIcon, DownArrowSvg, ResetPassword } from '@/assets/svg';
 import Grid from '@mui/material/Grid2';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
@@ -21,7 +21,7 @@ interface LayoutAppbarProps {
  * ui component for appbar in user dashboard
  * @author Neethu
  */
-const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) => {
+const LayoutAppbar: React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
   /**
@@ -44,18 +44,20 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
     // Clear sessionStorage and localStorage
     sessionStorage.clear();
     localStorage.clear();
-    resetStore();
+    setTimeout(() => {
+      resetStore();
+    }, 500);
     // Navigate to login
-    navigate(routes.userLogin()); 
+    window.location.href=routes.userLogin();
   };
 
-/**
- * handle to profile page by passing tabindex as 0 
- */
+  /**
+   * handle to profile page by passing tabindex as 0 
+   */
   const handleProfileClick = () => {
     setAnchorEl(null);
-    setDataById('settings', { tabIndex: 0 }); 
-    navigate(routes.accountsettings(),{ state: { email: userDetails?.email } })
+    setDataById('settings', { tabIndex: 0 });
+    navigate(routes.accountsettings(), { state: { email: userDetails?.email } })
   };
 
   /**
@@ -63,36 +65,36 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
    */
   const handleResetPassword = () => {
     setAnchorEl(null);
-    useStore.getState().setDataById("settings", { tabIndex: 1, email: userDetails?.email });  
-    
+    useStore.getState().setDataById("settings", { tabIndex: 1, email: userDetails?.email });
+
     navigate(routes.accountsettings(), { state: { email: userDetails?.email } })
   };
-    /**
-   * Account settings
-   */
-    // const handleAccountSettings = () => {
-    // };
-  
+  /**
+ * Account settings
+ */
+  // const handleAccountSettings = () => {
+  // };
+
   return (
     <Grid container size={12} className="appbars">
-      <Grid size={2} className="appbars-logo-container" justifyContent={'flex-start'}>
+      <Grid className="appbars-logo-container">
         LOGO
       </Grid>
-      <Grid container size={9}  justifyContent="flex-end" >
-        <Grid  size={2} className="appbars-group" onClick={handleMenuOpen}>
+      <Grid  className="appbars-right" container justifyContent="flex-end" >
+        <Grid size={2} className="appbars-group" onClick={handleMenuOpen}>
           {/*Image */}
-          <Grid  size={1} className="appbars-group-img" mb={0}>
-          {userDetails?.firstName && userDetails?.lastName ? (
-          <Avatar className="appbars-group-avatar" >
-        {`${userDetails.firstName[0]}${userDetails.lastName[0]}`.toUpperCase()}
-      </Avatar>
-    ) : (
-      <Avatar>
-      </Avatar>
-    )}
-  </Grid>
+          <Grid size={1} className="appbars-group-img" mb={0}>
+            {userDetails?.firstName && userDetails?.lastName ? (
+              <Avatar className="appbars-group-avatar" >
+                {`${userDetails.firstName[0]}${userDetails.lastName[0]}`.toUpperCase()}
+              </Avatar>
+            ) : (
+              <Avatar>
+              </Avatar>
+            )}
+          </Grid>
           {/* Name and Role */}
-          <Grid  size={7} className="appbars-group-textgroup">
+          <Grid size={7} className="appbars-group-textgroup">
             <Grid size={12}>
               <Typography className="appbars-group-text">{userDetails?.firstName} {userDetails?.lastName}</Typography>
             </Grid>
@@ -112,23 +114,23 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
           className="user-profile-menu"
         >
           <MenuItem className="" >
-          <Grid  size={12} className="appbar-group-image" mb={0}>
-          {userDetails?.firstName && userDetails?.lastName ? (
-          <Avatar className="appbar-group-avatar" >
-        {`${userDetails.firstName[0]}${userDetails.lastName[0]}`.toUpperCase()}
-      </Avatar>
+            <Grid size={12} className="appbar-group-image" mb={0}>
+              {userDetails?.firstName && userDetails?.lastName ? (
+                <Avatar className="appbar-group-avatar" >
+                  {`${userDetails.firstName[0]}${userDetails.lastName[0]}`.toUpperCase()}
+                </Avatar>
 
-    ) : (
-      <Avatar>
-      </Avatar>
-    )}
-          </Grid>
+              ) : (
+                <Avatar>
+                </Avatar>
+              )}
+            </Grid>
 
             <span className="menu-item-text">{userDetails?.firstName} {userDetails?.lastName}
               <br />
-            <span>{userDetails?.email}</span>
+              <span>{userDetails?.email}</span>
             </span>
-            
+
           </MenuItem>
           <Divider />
           <MenuItem className="menu-item-margin" onClick={handleProfileClick}>
@@ -136,7 +138,7 @@ const LayoutAppbar:React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =>
             <span className="menu-item-text">Profile</span>
           </MenuItem>
           <MenuItem className="" onClick={handleResetPassword}>
-          <ResetPassword />
+            <ResetPassword />
             <span className="menu-item-text">Change Password</span>
           </MenuItem>
           <MenuItem className="" onClick={handleLogout}>

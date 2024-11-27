@@ -22,7 +22,7 @@ import CreateContributorType from "../CreateContributorType";
 interface CustomFile {
   id: number;
   name: string;
-  sourcePath: string;
+
 }
 interface ContributorType {
   value: number | string;
@@ -364,7 +364,7 @@ const SpeakerCard = (_eventData: any) => {
       setSelectedFile({
           id: item.assetId,
           name:item?.name,
-          sourcePath: item.mediaUrl || "",
+
       });
   }
     handleScreenViewChange();

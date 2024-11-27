@@ -22,23 +22,9 @@
         }
       }
       .grid-right {
-        .right-image-container {
-          height: 100%;
+        svg{
           width: 100%;
-          display: flex;
-          background: url('../assets/png/login-bg.png');
-          background-repeat: no-repeat;
-          border-radius: unset;
-          background-size: 100% 100%;
-          min-height: 70vh;
-          .image-content-text {
-            margin-left: 4.875rem;
-            margin-top: 4.125rem;
-            color: $clr_white;
-            .paragraph {
-              font-size: $h5 !important;
-            }
-          }
+          height: auto;
         }
       }
     }
