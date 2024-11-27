@@ -27,6 +27,7 @@ export interface ApiResponse {
       roleName: string;
     };
     subscriptionStatus: string;
+    acceptedTerms:number;
   };
 }
 
@@ -87,7 +88,7 @@ const LoginOrg = () => {
    * @param data - The response data from the API.
    */
   const handleLoginSuccess = (data: ApiResponse['data']) => {
-    const { userRole, token, firstName, lastName, subscriptionStatus } = data;
+    const { userRole, token, firstName, lastName, subscriptionStatus,id,acceptedTerms } = data;
 
     // Clear previous session data
     sessionStorage.clear();
@@ -109,6 +110,8 @@ const LoginOrg = () => {
       // Store specific session details for company users
       sessionStorage.setItem('companyUserName', `${firstName} ${lastName || ''}`);
       sessionStorage.setItem('subscriptionStatus', subscriptionStatus);
+      sessionStorage.setItem('userId',id?.toString());
+      sessionStorage.setItem('acceptedTerms',acceptedTerms.toString());
           // Show success notification
     setDataById("snackBarInfo", {
       open: true,

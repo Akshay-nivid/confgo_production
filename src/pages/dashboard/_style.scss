@@ -256,4 +256,37 @@
    }
     
 }
+.terms-modal{
+    .MuiDialog-paper{
+
+        padding: 2rem !important;
+    }
+    &-form{
+        width: 100%;
+    }
+    &-header{
+        font-weight: $font-semibold !important;
+        font-size: $h5 !important;
+    }
+    &-subHeader{
+        font-weight: $font-semibold !important;
+        font-size: $h6 !important;
+    }
+    &-param{
+        font-weight: $font_normal !important;
+        font-size: $p2 !important;
+        color: $clr_gray_dark_text !important;
+    }
+    .MuiCheckbox-root.Mui-checked{
+        color: $clr_green !important;
+    }
+        .MuiFormControlLabel-label {
+            font-size: $p2 !important;
+            font-weight: $font_medium !important;
+        }
+       &-accept-btn{
+        box-shadow: none !important;
+        background-color: $clr_green !important;
+       } 
+}
 
