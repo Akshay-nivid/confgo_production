@@ -436,6 +436,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                 </Grid>
                                 <Grid size={{ xs: 12, sm: 12 }}>
                                   <CustomRadio
+                                    className="add-program-radio-btn"
                                     control={control}
                                     name={`programs.${index}.type`}
                                     label=""

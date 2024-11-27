@@ -186,6 +186,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                 >
                   <Grid size={{ xs: 12, sm: 12 }}>
                     <CustomRadio
+                      className="add-program-radio-btn"
                       control={control}
                       name="type"
                       label=""
@@ -196,6 +197,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                   </Grid>
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField
+                      className="add-program-text-Field"
                       placeholder="Event Name"
                       control={control}
                       name="name"
@@ -238,12 +240,13 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                       placeholder="Type your description here..."
                       modules={modules}
                     />
-                    <CustomTextField
+                    {/* <CustomTextField
                       control={control}
                       name="description"
                       type="hidden"
                       rules={{ required: true }}
                     />
+                    /> */}
                   </Grid>
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField
