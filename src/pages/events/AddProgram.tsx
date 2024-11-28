@@ -24,6 +24,7 @@ type FormData = {
     endTime:string;
     type: string;
     amount: string;
+    // totalSeat:string; //for future development changes
   }[];
   savedPrograms: {
     id?: string;
@@ -35,6 +36,7 @@ type FormData = {
     endTime:string;
     type: string;
     amount: string;
+    // totalSeat:string;
   }[];
 };
 type ProgramProps = {
@@ -65,7 +67,8 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
             startTime: moment(new Date()).format("HH:mm"),
             endTime:moment(new Date()).format("HH:mm"),
             type: "PAID",
-            amount: ""
+            amount: "",
+            // totalSeat:""
           },
         ],
       },
@@ -154,7 +157,8 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
           startTime: moment().format("HH:mm"),
           endTime:moment().format("HH:mm"),
           type: "PAID",
-          amount: ""
+          amount: "",
+          // totalSeat:"",
         };
         newPrograms.push(newProgram);
 
@@ -217,7 +221,8 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
             startTime: moment(new Date()).format("HH:mm"),
             endTime:moment(new Date()).format("HH:mm"),
             type: "PAID",
-            amount: ""
+            amount: "",
+            // totalSeat:"",
           });
           saveProgram.push({
             name: "",
@@ -227,7 +232,8 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
             startTime: moment(new Date()).format("HH:mm"),
             endTime:moment(new Date()).format("HH:mm"),
             type: "PAID",
-            amount: ""
+            amount: "",
+            // totalSeat:"",
           });
         } else {
           setProgramIndex(programsCopy.length);
@@ -446,7 +452,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                   />
                                 </Grid>
                                 {watch(`programs.${index}.type`) === "PAID" && (
-                                  <Grid size={{ xs: 12, sm: 12 }}>
+                                  <Grid size={{ xs: 12, sm: 6 }}>
                                     <CustomTextField
                                       placeholder="Price"
                                       control={control}
@@ -463,6 +469,14 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                     />
                                   </Grid>
                                 )}
+                                {/* <Grid size={{ xs: 12, sm: 6 }}>
+                                    <CustomTextField
+                                      placeholder="Total seat"
+                                      control={control}
+                                      name={`programs.${index}.totalSeat`}
+                                      type="number"
+                                    />
+                                  </Grid> */}
                                 <Grid
                                   container
                                   direction={"row"}
@@ -519,6 +533,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                       container
                       alignItems="center"
                       className="add-program-display-item"
+                      alignContent={"center"}
                       size={{ xs: 12 }}
                     >
                       <Grid size={{ xs: 8, sm: 9 }} >

@@ -94,7 +94,7 @@
         height: 4.5rem;
         padding: 1rem 0.1rem 1rem 1rem !important;
         margin-bottom: 1.05rem !important;
-				border: 1px solid $clr_gray_very_light !important;
+				border: 0.092rem solid $clr_gray_very_light !important;
         border-radius: 0.41rem !important;
     }
 		&-display-title{
@@ -104,9 +104,10 @@
 		}
     &-display-container{
         padding: 1rem !important;
+       
 				padding-right: 1rem !important;
 				margin-top: 6rem;
-				border: 0.0625rem solid $clr_gray_very_light;
+				border: 0.092rem solid $clr_gray_very_light;
 				border-radius: 0.625rem;
 				max-height: 30rem;
                 overflow-y: auto;
@@ -117,6 +118,7 @@
 			max-height : calc(30rem - 7rem) ;
 		}
     &-title{
+        text-align: center !important;
         font-weight: $font_bold !important;
         font-size: $h3 !important;
         padding-top: 2rem !important;
@@ -173,12 +175,11 @@
         }
     }
     &-check-btn{
-        .MuiButtonBase.Mui-checked{
-            color: $clr_green !important; 
-        }
-        .MuiFormControlLabel-label{
-            font-size: $p2 !important;
-        }
+        svg {
+            width: 1.6rem;
+            height: 1.6rem;
+            fill: $clr_green ;
+          }
     }
         &-prop-add{
             border: solid 0.1rem $clr_green !important;
@@ -699,7 +700,7 @@
         background: $clr_white;
         border: 0.03rem solid $clr_light_blue;
         border-radius: $p3;
-        padding: $p4;
+        padding: 1rem ;
         flex: 1 1 calc(30% - .375rem);
         max-width: calc(30% - .125rem);
         min-width: 11.25rem;
