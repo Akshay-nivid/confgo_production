@@ -6,23 +6,48 @@
 
 .plansection {
   &__container {
-    margin-top: 8rem;
+    margin-top: 2rem;
     margin-bottom: 4.41rem;
   }
 
 
   &__title {
+    font-weight: $font_bold !important;
     text-align: center !important;
-    margin-bottom: 0.833rem !important;
   }
 
   &__subtitle {
     text-align: center !important;
     margin-bottom: 4rem !important;
+    color: $clr_sub_header !important;
   }
 
-  &__buttons {
-    margin-bottom: 5rem !important;
+  &__button {
+    &-container{
+      margin-bottom: 5rem !important;
+    }
+    &-group{
+      background-color: $clr_background_gray !important;
+      border-radius: 0.83rem !important;
+      box-shadow:none !important;
+      button{
+        width: 15.41rem;
+        height: 3.5rem;
+        border: none;
+        margin: 0.5rem;
+        border-color: $clr_background_gray !important;
+        font-size: $h6;
+        font-weight: $font_medium;
+        color: $clr_sub_header;
+        box-shadow:none !important;
+        text-transform: none;
+      }
+     .MuiButton-contained{
+        border-radius: 0.6rem;
+        background-color: $clr_white;
+        color: $clr_black !important;
+      }
+    }
   }
 
 
@@ -50,13 +75,33 @@
   }
 
   &__icon {
-    width: 4.91rem;
-    height: 4.91rem;
+    svg{
+      width: 4.91rem;
+      height: 4.91rem;
+    }
   }
 
+  &__title{
+    font-size: $h4 !important;
+    font-weight: $font_semibold !important;
+  }
 
-  &__price {
-    margin-bottom: 3.83rem;
+  &__subtitle{
+    color: $clr_sub_header !important;
+    font-size: $p5 !important;
+    font-weight: $font_medium !important;
+  }
+
+  &__price_conatiner{
+    margin-bottom: 3rem !important;
+    .price {
+      font-size: $h1 !important;
+      font-weight: $font_bold !important;
+    }
+    .period{
+      font-size: $h6 !important;;
+      color: $clr_text_grey !important;
+    }
   }
 
 
@@ -65,6 +110,12 @@
     flex-direction: column;
     row-gap: 1.85rem;
     margin-bottom: 5.16rem;
+    .text{
+      font-size: $h6 !important;
+      color: $clr_text_grey !important;
+      line-height: 1.4rem !important;
+
+    }
   }
 
 }
