@@ -34,7 +34,7 @@ import {
     return (
       <Accordion
         expanded={expanded}
-        onChange={(e, isExpanded) => handleChange(isExpanded)}
+        onChange={(_, isExpanded) => handleChange(isExpanded)}
         disableGutters
         className="accordion">
         <AccordionSummary
