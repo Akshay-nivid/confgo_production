@@ -14,13 +14,29 @@
     }
     &-btn-container{
         &-select-btn{
+            border: none !important;
             border-color: $clr_green !important;
-            color: $clr_green !important;
+            background-color: $clr_light_grey !important;
+            color: $clr_black !important;
             text-transform: none !important;
-            margin-bottom: 0.5rem !important;
+            border-radius: 3.438rem !important;
+            font-weight: $font-semibold !important;
         }
-        &-selected-img{
-            width: 5rem;
+        &-delete-btn{
+            border-color: $clr_gray_medium !important;
+            background-color: $clr_light_grey !important;
+            color: $clr_black !important;
+            text-transform: none !important;
+            border-radius: 3.438rem !important;
+            font-weight: $font-semibold !important;
+        }
+        &-img-box{
+            background-color: $clr_gray_very_light !important;
+            width: 5.125rem;
+            height: 5.125rem;
+            border: solid 0.1rem $clr_gray_very_light;
+            border-radius: 0.4rem;
+            padding: 0.2rem;
         }
         &-delete-btn{
             svg{

@@ -98,6 +98,7 @@ const LoginOrg = () => {
     sessionStorage.setItem('isUserLoggedIn', 'true');
     sessionStorage.setItem('userLoggedInType', userRole?.roleName);
     sessionStorage.setItem('token', token);
+    sessionStorage.setItem('ssoUser', 'false');
     // Set organization-specific details in global state
     setDataById('orgDetails', { loggedIn: true });
 
