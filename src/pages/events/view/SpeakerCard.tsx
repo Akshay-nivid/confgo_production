@@ -176,6 +176,11 @@ const SpeakerCard = (_eventData: any) => {
             }));
             const updatedOptionsData = [...options, { label: "Other", value: "other" }];
             setContributorType(updatedOptionsData);
+
+             // Reset the form field after updating options
+          reset({
+            contributorType: "" // Resets contributorType to an empty value
+          });
           }
         },
         errorCB: (context: any) => {
