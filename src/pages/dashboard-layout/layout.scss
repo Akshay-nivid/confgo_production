@@ -41,7 +41,9 @@
     width: '100%';
     position: relative;
     overflow-y: auto;
-    border: none;
+    border-top: none;
+    border-bottom-width: 0.0416rem;
+    border-bottom-color: $clr_gray_faded;
   }
 }
 
@@ -72,11 +74,13 @@
     span {
       font-size: 1.25rem;
       font-weight: 500;
+      color: $clr_gray_medium;
     }
   }
   .active {
     color: $clr_green;
     background-color: $clr_green_light;
+    border-radius: 0.417rem;
     span {
       color: $clr_green;
     }
@@ -97,7 +101,7 @@
   display: flex;
   overflow: hidden;
   align-items: center;
-  background-color: $background !important;
+  background-color: $clr_white !important;
   min-height: 6.666rem;
   &-logo-container {
     background-color: $clr_white;
