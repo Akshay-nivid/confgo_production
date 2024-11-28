@@ -106,7 +106,6 @@ export const PlanSection = () => {
           ))}
         </Grid>
       </Grid>
-      <Grid size={1}></Grid>
     </Grid>
   );
 };
