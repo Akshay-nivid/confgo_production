@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid2";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
-import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
+import TuneRoundedIcon from "../../../src/assets/svg/filter.svg";
 import FilterModal from "@/components/CustomFilter/FilterModal";
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
 import { useForm } from "react-hook-form";
@@ -62,16 +62,19 @@ const Coupon = () => {
   }, []);
 
   const columns = [
-    { type: "default", field: "id", headerName: "ID", width: 200 },
+    { type: "default", field: "id", headerName: "ID", width: 130 },
     { type: "default", field: "name", headerName: "Coupon Name", width: 200 },
     { type: "default", field: "discountType", headerName: "Type", width: 250 },
     {
       type: "dateField",
       field: "endDate",
       headerName: "Expiry Date",
-      width: 250,
+      width: 200,
       dateFormat: "DD/MM/YYYY",
     },
+    {
+      type:"default", field:"code", headerName: "Coupon Code", width:200
+    }
   ];
   /**
    * Apply filter
@@ -169,7 +172,7 @@ const Coupon = () => {
         </Grid>
         <Grid container spacing={2}>
           <CustomButton
-            className="custom-list-next-btn"
+            className="create-coupon-create-btn"
             label="Create New Coupon"
             variant="contained"
             size="large"
@@ -181,7 +184,7 @@ const Coupon = () => {
             // disabled={loading}
           />
           <CustomButton
-            className="custom-list-filter-btn"
+            className="create-coupon-filter-btn"
             onClick={() => setIsFilterModalOpen(true)}
             label="Filters"
             startIcon={<TuneRoundedIcon />}
