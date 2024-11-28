@@ -38,7 +38,7 @@ const EventContributorsSection = React.memo(
                         </Grid>
                         <Grid container size={{ xs: 12, sm: 9 }} direction={'column'}>
                             <Grid className={`${classPrefix}-item-name`}>{item.name}</Grid>
-                            <Grid className={`${classPrefix}-item-designation`}>{item.programType}</Grid>
+                            <Grid className={`${classPrefix}-item-designation`}>{item.designation}</Grid>
                             <Grid className={`${classPrefix}-item-topic`}>{item.topic}</Grid>
                         </Grid>
                     </Grid>

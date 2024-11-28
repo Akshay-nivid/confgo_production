@@ -75,6 +75,7 @@ const UserLogin = (props: UserProps) => {
         sessionStorage.setItem("userId",success.data?.id.toString());
         sessionStorage.setItem('userLoggedInType', success?.data?.userRole?.roleName);
         sessionStorage.setItem('isUserLoggedIn', 'true');
+        sessionStorage.setItem('ssoUser', 'false');
         setDataById('participantLogin', true);
         apiClient.setToken(success.data.token);
         setDataById('userDetails', success.data);
@@ -131,6 +132,7 @@ const UserLogin = (props: UserProps) => {
           setDataById('userDetails', context.data);
           sessionStorage.setItem('userLoggedInType', context?.data?.userRole?.roleName);
           sessionStorage.setItem('isUserLoggedIn', 'true');
+          sessionStorage.setItem('ssoUser', 'true');
           setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
           if (previousRoute) {
             navigate(previousRoute?.pathname);

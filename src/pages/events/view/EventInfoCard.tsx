@@ -98,7 +98,7 @@ const EventInfoCard: React.FC<any> = React.memo(
         Object.entries(data).filter(([key]) => !excludeKeys.includes(key))),
       startTime: formatUTCDateTime(data.startTime),
       endTime: formatUTCDateTime(data.endTime),
-      assetId:selectedFile.id
+      assetId:selectedFile?.id
     };
     const response = await apiClient.put(`event/update/${id}`, formattedData);
     const { status, message } = await processAPIResponse(
