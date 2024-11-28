@@ -391,6 +391,7 @@ const SpeakerCard = (_eventData: any) => {
    * function to close the new type creation drawer
    */
   const handleDrawerClose = () => {
+    setAddContributeView(true);
     setNewTypeView(false);
   };
   return (
@@ -537,6 +538,7 @@ const SpeakerCard = (_eventData: any) => {
                         optionClick={(value) => {
                           if (value === "other") {
                             setNewTypeView(true);
+                            setAddContributeView(false);
                           }
                         }}
                         control={control}
