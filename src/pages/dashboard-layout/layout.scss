@@ -173,5 +173,12 @@
   & .menu-item-text {
     font-size: 1.125rem;
     margin-left: 0.75rem;
-}
+   &-email{
+
+    color:$clr_gray_dark_text !important; 
+    font-size:$p3 !important;
+    font-weight:$font_bold !important; 
+
+   }
+  }
 }

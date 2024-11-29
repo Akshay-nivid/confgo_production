@@ -116,7 +116,7 @@ const LayoutAppbar: React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =
           <MenuItem className="" >
             <Grid size={12} className="appbar-group-image" mb={0}>
               {userDetails?.firstName && userDetails?.lastName ? (
-                <Avatar className="appbars-group-avatar" >
+                <Avatar className="appbar-group-avatar" >
                   {`${userDetails.firstName[0]}${userDetails.lastName[0]}`.toUpperCase()}
                 </Avatar>
               ) : (
@@ -126,7 +126,7 @@ const LayoutAppbar: React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =
             </Grid>
             <span className="menu-item-text">{userDetails?.firstName} {userDetails?.lastName}
               <br />
-              <span style={{color: "#404040", fontSize: "1rem", fontWeight: "33.33rem"}}>
+              <span className="menu-item-text-email">
                   {userDetails?.email}
               </span>
             </span>
