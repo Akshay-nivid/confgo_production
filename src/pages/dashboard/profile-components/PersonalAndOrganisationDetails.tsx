@@ -174,7 +174,7 @@ const onLogoSubmit = async (newdata: Company) => {
       companyPhone: newdata.companyPhone || LogoprofileData?.companyPhone || "",
       companyAddress: newdata.companyAddress || LogoprofileData?.companyAddress || "", 
       companyEmail: newdata.companyEmail || LogoprofileData?.companyEmail || "",
-      assetId: drawerLogoImage
+      assetId: drawerLogoImage || LogoprofileData?.assetId
     };
 
     // Send the payload to the server for updating the company details
