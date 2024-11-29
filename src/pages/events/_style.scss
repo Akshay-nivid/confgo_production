@@ -6,6 +6,9 @@
         font-size: $h6 !important;
         font-weight: $font_semibold !important;
         max-width: 91.5rem;
+        .ql-container{
+            min-height: 15rem;
+        }
         &-error {
             .ql-snow{
                 border: 1px solid $clr_red !important;
@@ -487,7 +490,10 @@
         &-header{
             font-weight: $font_semibold;
             font-size: $h5 !important;
-         
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            word-break: break-word;
         }
         &-sub-header{
             font-weight: $font_normal;

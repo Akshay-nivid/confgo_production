@@ -32,6 +32,7 @@ const TemplateView: React.FC<TemplateViewProps> = React.memo(({ temp, eventId, s
   const aboutRef = useRef(null);
   const contributorsRef = useRef(null);
   const programRef = useRef(null);
+  const tierRef = useRef(null);
 const navigate = useNavigate();
   /**
    * Method handles the scroll functionality based on click event
@@ -105,11 +106,11 @@ const navigate = useNavigate();
   }
   const updatedTemp = slug ? slugInfo?.data?.templateId ? slugInfo.data.templateId : temp : temp;
   return <Grid container size={{ xs: 12, sm: 12 }} className="event-template">
-    {(dataInfo?.data || slugInfo?.data) && <><HeaderSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} onScrollToProgram={() => handleScrollTo(programRef)} onScrollToAbout={() => handleScrollTo(aboutRef)} onScrollToContributors={() => handleScrollTo(contributorsRef)}/>
+    {(dataInfo?.data || slugInfo?.data) && <><HeaderSection onScrollToTier={()=>handleScrollTo(tierRef)} temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} onScrollToProgram={() => handleScrollTo(programRef)} onScrollToAbout={() => handleScrollTo(aboutRef)} onScrollToContributors={() => handleScrollTo(contributorsRef)}/>
       <AboutSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} ref={aboutRef}/>
       <EventContributorsSection temp={updatedTemp} data={dataInfo?.data?.eventProgramSchedules || slugInfo?.data?.eventProgramSchedules} ref={contributorsRef}/>
       <ProgramSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} ref={programRef}/>
-      {(dataInfo?.data?.eventPriceTiers?.length > 0 || slugInfo?.data?.eventPriceTiers?.length > 0) && <TicketingSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} />}
+      {(dataInfo?.data?.eventPriceTiers?.length > 0 || slugInfo?.data?.eventPriceTiers?.length > 0) && <TicketingSection ref={tierRef} temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} />}
       <FooterSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} /></>}
   </Grid>
 });

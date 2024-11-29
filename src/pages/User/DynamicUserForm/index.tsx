@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { CardContent, Button, Typography, Box, Chip } from "@mui/material";
+import { CardContent, Typography, Box, Chip, Backdrop, CircularProgress } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
@@ -10,6 +10,9 @@ import CustomDatePicker from "@/components/CustomDatePicker/CustomDatePicker";
 import FileUpload from "@/components/FileUpload/FileUpload";
 import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";
+import CustomButton from "@/components/CustomButton/CustomButton";
+import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
+import { useState } from "react";
 
 interface Option {
   value: string;
@@ -42,13 +45,42 @@ interface FormField {
  * @return {JSX.Element} A JSX element representing the dynamic form
  */
 const DynamicUserForm = () => {
+
   const { control, handleSubmit } = useForm();
+
   const setDataById = useStore((state) => state.setDataById);
 
   const dynamicFormData = useStore((state: any) => state?.compData?.["dynamicFormData"]) ?? [];
+
   const uploadedFiles = useStore((state: any) => state?.compData?.["uploadedFiles"]) ?? [];
+
   const navigate = useNavigate();
- 
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const formSubmissionLoading = useStore((state: any) => state?.compData?.["registrationRecord"]?.registrationRecord?.loading) ?? false
+
+  const eventId = useStore((state: any) => state?.compData?.["eventSelected"]?.id) ?? null;
+
+  const dynamicFormLoading = useStore((state: any) => state?.compData?.["dynamicFormData"]?.[`event/form/${eventId}`]?.loading) ?? false
+
+
+  /**
+   * Closes the modal
+   */
+  function handleCloseModal() {
+    setIsModalOpen(false);
+  }
+
+
+
+  /**
+   * Navigates to the user payment method page
+   */
+  function handleSkipForm() {
+    navigate(routes.userPaymentMethod())
+  }
+
   /**
    * 
    * fucntion to handle form submition
@@ -58,12 +90,15 @@ const DynamicUserForm = () => {
    */
   const handleFormSubmit = (data: any) => {
 
-    
-    
+
+    if (formSubmissionLoading) return
 
     const formData = Object.entries(data).map(([key, value]: [string, any]) => {
 
-      if (value === undefined) return
+      if (value === undefined || value === null || value === "") {
+        return null
+
+      }
 
       const [fieldName, id, fieldType] = key.split("_");
 
@@ -78,7 +113,7 @@ const DynamicUserForm = () => {
 
     const uploadedFileData = Object.entries(uploadedFiles).map(([key, value]: [string, any]) => {
 
-      if(value.length === 0) return
+      if (value.length === 0) return
 
 
       const [fieldName, id, fieldType] = key.split("_");
@@ -91,48 +126,68 @@ const DynamicUserForm = () => {
       }
     })
 
+
     if ((formData.length === 0 || formData[0] === undefined) && uploadedFileData.length === 0) {
+      setIsModalOpen(true)
+      return;
+    }
+
+    const filteredFormData = formData.filter(item => item !== null)
+
+    if (filteredFormData.length === 0 && uploadedFileData.length === 0) {
+      setIsModalOpen(true)
       return;
     }
 
     const body = {
       eventId: '7',
-      data: [...formData, ...uploadedFileData]
+      data: [...filteredFormData, ...uploadedFileData]
     }
 
-    
+
+
+
     POST({
 
       url: 'registrationRecord',
       body: body,
       id: 'registrationRecord',
       successCB: () => {
-          clearDataById('uploadedFiles')
-          navigate(routes.userPaymentMethod())
+        clearDataById('uploadedFiles')
+        navigate(routes.userPaymentMethod())
+      },
+      errorCB: (error: any) => {
+
+        setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "error",
+          message: error?.message,
+
+        })
       }
     })
-    
     return formData
   };
 
 
-  
-/**
- * Handles a file upload event. Adds the uploaded file to the uploadedFiles store, which is keyed by the id of the form element.
- * @param file - The file that was uploaded.
- * @param id - The id of the form element.
- */
+
+  /**
+   * Handles a file upload event. Adds the uploaded file to the uploadedFiles store, which is keyed by the id of the form element.
+   * @param file - The file that was uploaded.
+   * @param id - The id of the form element.
+   */
   function handleFileUpload(file: any, id: string) {
 
     setDataById("uploadedFiles", { [id]: uploadedFiles[id] ? [...uploadedFiles[id], file] : [file] })
 
   }
 
-/**
- * Deletes a file from the uploadedFiles store based on the itemId and parentId.
- * @param {string} itemId - The id of the file to be deleted.
- * @param {string} parentId - The id of the form element.
- */
+  /**
+   * Deletes a file from the uploadedFiles store based on the itemId and parentId.
+   * @param {string} itemId - The id of the file to be deleted.
+   * @param {string} parentId - The id of the form element.
+   */
   function handleDeleteFile(itemId: string, parentId: string) {
 
 
@@ -166,7 +221,7 @@ const DynamicUserForm = () => {
     };
 
     switch (metadata.fieldType) {
-      
+
       case "text":
         return <CustomTextField  {...commonProps} type="text" size="medium" />;
 
@@ -177,21 +232,26 @@ const DynamicUserForm = () => {
         return <CustomTextField {...commonProps} type="email" size="medium" />;
 
       case "file":
-        return <Grid className="file-upload-wrapper" size={12} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
-          <FileUpload resolution={{ width: 150, height: 150 }} onSubmit={(data) => handleFileUpload(data, commonProps.name)} className="dynamic-file-upload" height={"max-content"} />
-          <Box paddingInline={3} display={"flex"} columnGap={1} rowGap={1} flexWrap={"wrap"}>
-            {
-              (uploadedFiles[commonProps.name] && uploadedFiles[commonProps.name].length > 0) && uploadedFiles[commonProps.name].map((item: any) => {
-                return (
-                  <Chip onDelete={() => {
-                    handleDeleteFile(item.id, commonProps.name)
-                  }} label={item.name} />
-                )
-              })
-            }
-          </Box>
-        </Grid>;
+        return (
+          <>
+            <Grid className="file-upload-wrapper" size={12} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
+              <FileUpload resolution={{ width: 150, height: 150 }} onSubmit={(data) => handleFileUpload(data, commonProps.name)} className="dynamic-file-upload" height={"max-content"} />
+              <Box paddingInline={3} display={"flex"} columnGap={1} rowGap={1} flexWrap={"wrap"}>
 
+
+                {
+                  (uploadedFiles[commonProps.name] && uploadedFiles[commonProps.name].length > 0) && uploadedFiles[commonProps.name].map((item: any) => {
+                    return (
+                      <Chip onDelete={() => {
+                        handleDeleteFile(item.id, commonProps.name)
+                      }} label={item.name} />
+                    )
+                  })
+                }
+              </Box>
+            </Grid >
+          </>
+        )
       case "select":
         return (
           <CustomSelect
@@ -234,7 +294,7 @@ const DynamicUserForm = () => {
             }
             row
           />
-        );
+        )
 
       case "date":
         return <CustomDatePicker {...commonProps} label={metadata.title} />;
@@ -269,10 +329,19 @@ const DynamicUserForm = () => {
 
 
 
+
+  if (dynamicFormLoading) {
+    return (
+      <Backdrop open={true}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    )
+  }
+
   return (
     <Box className="dynamic-form">
       <CardContent>
-        <Typography textAlign={"center"} className="dynamic-form-header">
+        <Typography textAlign={"center"} paddingBottom={2} className="dynamic-form-header">
           Event Registration Form
         </Typography>
         <form noValidate onSubmit={handleSubmit(handleFormSubmit)}>
@@ -288,19 +357,21 @@ const DynamicUserForm = () => {
               justifyContent={"center"}
               alignItems={"center"}
             >
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                className="dynamic-form-submit-btn"
-                size="large"
-              >
-                Submit
-              </Button>
+              <Box className="navigation-button-container">
+                <CustomButton
+                  color="primary"
+                  variant="outlined"
+                  className="back-button"
+                  label="Back"
+                  onClick={() => navigate(-1)}
+                />
+                <CustomButton isLoading={formSubmissionLoading} className={"next-button"} label="Next" type="submit" />
+              </Box>
             </Grid>
           </Grid>
         </form>
       </CardContent>
+      <CustomActionModal submitLabel="Skip" cancelLabel="Cancel" modalClassName="dynamic-form-modal" cancelAction={handleCloseModal} onClose={handleCloseModal} open={isModalOpen} submitAction={handleSkipForm} header="Are you sure you want to skip this form?" subHeader="This form is not mandotory you can skip the form if you want to" />
     </Box>
   );
 };

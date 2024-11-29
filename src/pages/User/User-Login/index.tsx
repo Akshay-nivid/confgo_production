@@ -50,7 +50,7 @@ const UserLogin = (props: UserProps) => {
 
   const { control, handleSubmit } = useForm<IUserLogin>();
   const setDataById = useStore((state: any) => state.setDataById);
-  const previousRoute = useStore((state: any) => state.compData?.previousRoute?.url || '');
+  const previousRoute = useStore((state: any) => state.compData?.previousRoute?.url) ?? '';
 
   const POST = useStore((state: any) => state.POST);
   const navigate = useNavigate();

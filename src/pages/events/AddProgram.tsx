@@ -289,7 +289,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                 spacing={2}
                               >
 
-                                <Grid size={{ xs: 12, sm: 6 }} mb={2}>
+                                <Grid size={{ xs: 12, sm: 12 }}>
                                   <CustomTextField
                                     placeholder="Program Name"
                                     control={control}
@@ -298,13 +298,15 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                     rules={{ required: true }}
                                   />
                                 </Grid>
-                                <Grid size={{ xs: 12, sm: 6 }}>
+                                <Grid size={{ xs: 12, sm: 12 }}>
                                   <CustomTextField
                                     placeholder="Program Description"
                                     control={control}
                                     name={`programs.${index}.description`}
                                     type="text"
                                     rules={{ required: true }}
+                                    multiline={true}
+                                    rows={10}
                                   />
                                 </Grid>
                                 <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"} container spacing={2}>

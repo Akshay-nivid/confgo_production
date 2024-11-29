@@ -195,7 +195,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                       value={"OFFLINE"}
                     />
                   </Grid>
-                  <Grid size={{ xs: 12, sm: 6 }}>
+                  <Grid size={{ xs: 12, sm: 12 }}>
                     <CustomTextField
                       className="add-program-text-Field"
                       placeholder="Event Name"
@@ -205,15 +205,17 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                       rules={{ required: true }}
                     />
                   </Grid>
-                  <Grid size={{ xs: 12, sm: 6 }}>
+                  {/* <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField
                       placeholder="Specialty"
                       control={control}
                       name="specialty"
                       type="text"
                       rules={{ required: true }}
+                      info={true}
+                      infoContent={'test message'}
                     />
-                  </Grid>
+                  </Grid> */}
                   <Grid size={{ xs: 12, sm: 12 }}>
                     <Typography
                       variant="h3"
