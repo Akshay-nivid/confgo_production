@@ -295,7 +295,7 @@ const EventInfoCard: React.FC<any> = React.memo(
       </Grid>
       {/* Drawer Component */}
       <CustomDrawer open={isDrawerOpen} type="right">
-        <Grid container spacing={2} padding={2}>
+        <Grid container spacing={2} padding={2} className="event-information-custom-drawer">
           <Grid
             size={{ xs: 12 }}
             container

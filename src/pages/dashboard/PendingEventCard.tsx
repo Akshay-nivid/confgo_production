@@ -30,7 +30,7 @@ export const PendingEventCard: React.FC<PendingEventCardProps> = ({ data }) => {
                     <Grid><Typography className="dashboard-pending-event-card-title">{data?.name}</Typography></Grid>
                     <Grid className="dashboard-pending-event-card-sub-title">{moment(data?.startTime).format('MMMM D, YYYY')}</Grid>
                 </Grid>
-                <Grid container justifyContent={'center'} alignItems={'center'} ml={2}><StatusComponent value={data?.statusId?.toString()} /></Grid>
+                <Grid justifyContent={'center'} alignItems={'center'} ml={2}><StatusComponent value={data?.statusId?.toString()} /></Grid>
             </Grid>
             <Grid container justifyContent={'center'} alignItems={'center'}>
                 <Grid><CustomButton className="dashboard-pending-event-card-btn" label={"Publish Now"} onClick={() => navigate(`/events/detail/${data?.id}`)}/></Grid>
