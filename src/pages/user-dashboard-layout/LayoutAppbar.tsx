@@ -114,16 +114,16 @@ const LayoutAppbar: React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =
           className="user-profile-menu"
           >
           <MenuItem className="" >
-            <Grid size={12} className="appbar-group-image" mb={0}>
-              {userDetails?.firstName && userDetails?.lastName ? (
-                <Avatar className="appbar-group-avatar" >
-                  {`${userDetails.firstName[0]}${userDetails.lastName[0]}`.toUpperCase()}
-                </Avatar>
-              ) : (
-                <Avatar>
-                </Avatar>
-              )}
-            </Grid>
+          <Grid size={1} className="appbars-group-img" mb={0}>
+            {userDetails?.firstName && userDetails?.lastName ? (
+              <Avatar className="appbars-group-avatar" >
+                {`${userDetails.firstName[0]}${userDetails.lastName[0]}`.toUpperCase()}
+              </Avatar>
+            ) : (
+              <Avatar>
+              </Avatar>
+            )}
+          </Grid>
             <span className="menu-item-text">{userDetails?.firstName} {userDetails?.lastName}
               <br />
               <span className="menu-item-text-email">

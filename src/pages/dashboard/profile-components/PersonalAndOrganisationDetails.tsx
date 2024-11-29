@@ -239,16 +239,18 @@ return (
           <EditIcon />
         </IconButton>
       </Grid>
-       <Grid size={1} className="main-account-profile-image connected" mb={0}>
-            {profileData?.firstName && profileData?.lastName? (
-              <Avatar  className="main-user-profile">
-                {`${profileData?.firstName[0]}${profileData?.lastName[0]}`.toUpperCase()}
-              </Avatar>
-            ) : (
-              <Avatar>
-              </Avatar>
-            )}
-          </Grid>
+      <Grid className="main-account-profile-image connected">
+        <Avatar
+          className="main-user-profile"
+          src={
+            profileData?.assetId
+              ? `${baseUrl}/asset/${profileData?.assetId}`
+              : ""
+          }
+          alt="User Profile"
+          variant="circular"
+        />
+      </Grid>
       <Grid
         container
         className="main-account-detail-grid connected"
