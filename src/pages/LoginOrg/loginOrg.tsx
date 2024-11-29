@@ -29,6 +29,7 @@ export interface ApiResponse {
     };
     subscriptionStatus: string;
     companyId: any;
+    phone: string;
   };
 }
 
