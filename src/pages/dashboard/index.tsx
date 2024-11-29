@@ -22,9 +22,9 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import routes from "@/router/routes";
 import { useNavigate } from "react-router-dom";
 import NoDataDashBoard from "./NoDataDashBoard";
+import TermsAndConditon from "./TermsAndCondition";
 
 const Dashboard = () => {
-
   const POST = useStore((state: any) => state.POST);
   const GET = useStore((state: any) => state.GET);
   const [upcomingData, setUpcomingData] = useState<CalendarCardData | null>(null);
@@ -33,6 +33,10 @@ const Dashboard = () => {
   const fullEventList = useStore((state: any) => state?.compData?.["fullEventList"]?.['event/list']) ?? [];
   const pendingEventList = useStore((state: any) => state?.compData?.["pendingEventList"]?.['event/list']) ?? [];
   const eventCountData=useStore((state:any)=>state?.compData?.["dashBoardEventCount"]?.['dashboard/eventAndUserCount'])??[];
+  const [open, setOpen] = useState<boolean>(false);
+  const handleOpen = () => setOpen(true);//true 
+  const handleClose = () => setOpen(false);
+  const acceptedTerms=sessionStorage.getItem('acceptedTerms')
   /**
    * Useeffect hook handles the api call for fetching upcoming event list and pending event list
    */
@@ -41,6 +45,9 @@ const Dashboard = () => {
     fetchFullEventList();
     fetchUpcomingEventList();
     fetchPendingEventList();
+    if(acceptedTerms=='0'){
+      handleOpen();
+    }
   }, [])
 
   /**
@@ -156,6 +163,7 @@ const Dashboard = () => {
 
   return(pendingEventList?.success ?
   <>
+  <TermsAndConditon open={open} onClose={handleClose}/>
   { fullEventList?.data?.length==0?<NoDataDashBoard/>:<Grid container size={{ xs: 12, sm: 12 }} spacing={2} className="dashboard" >
     <Grid size={{ xs: 12, sm: 8 }} container p={2}>
       <Grid size={{ xs: 12, sm: 12 }} container >
@@ -195,6 +203,7 @@ const Dashboard = () => {
       <Grid className="dashboard-event-list-card"><EventListCard /></Grid>
     </Grid>
   </Grid>}
-  </>:<CircularProgress /> )};
+  </>:
+  <Grid container justifyContent={'center'}><CircularProgress /> </Grid>)};
 
 export default Dashboard;
