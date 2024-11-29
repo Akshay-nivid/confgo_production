@@ -43,7 +43,7 @@ const ConfrenceManagementSection = () => {
             size={12}
             className="confrence-management-content-wrapper"
           >
-            <Grid size={{xs:12, sm:6}} className="confrence-management-effortless-content">
+            <Grid size={{ xs: 12, sm: 6 }} className="confrence-management-effortless-content">
               <Typography className="planning-title">
                 Effortless Planning & {!isMobileScreen && <br />} Execution
               </Typography>
@@ -65,10 +65,10 @@ const ConfrenceManagementSection = () => {
                 variant="outlined"
                 className="get-started-btn"
                 onClick={() => navigate(routes.loginOrg())}
-                endIcon={<ArrowIconSvg/>}
+                endIcon={<ArrowIconSvg />}
               ></CustomButton>
             </Grid>
-           {!isMobileScreen && <Grid size={6} className="export-plan-grid-right">
+            {!isMobileScreen && <Grid size={6} className="export-plan-grid-right">
               <Box className="export-plan-image-wrapper">
                 <ExportPlanImg className="export-plan-image" />
               </Box>
@@ -81,39 +81,39 @@ const ConfrenceManagementSection = () => {
             className="conference-management-grid-main"
           >
             <Grid
-              size={6}
+              size={{ xs: 12, sm: 6 }}
               className={"grid-left"}
               display={"flex"}
               flexDirection={"column"}
             >
-              <Typography className="tracking-title text-h2">
+              <Typography className="tracking-title">
                 Seamless Attendance Tracking on Android and iOS
               </Typography>
-              <Typography className="tracking-description text-p1">
+              <Typography className="tracking-description">
                 Simplify your event management with our built-in scanner app.
                 Track attendee participation effortlessly by scanning QR codes
                 for quick and accurate attendance registration—keeping you
                 organized and on schedule.
               </Typography>
-              <Box className="tracking-image-container">
+              {!isMobileScreen && <Box className="tracking-image-container">
                 <AttentionTracking className=" attendance-tracking-image" />
-              </Box>
+              </Box>}
             </Grid>
             <Grid
-              size={6}
+              size={{ xs: 12, sm: 6 }}
               className={"grid-right"}
               display={"flex"}
               flexDirection={"column"}
             >
-              <Typography className="tracking-title text-h2">
-              Your Conference, Your Brand
+              <Typography className="tracking-title">
+                Your Conference, Your Brand
               </Typography>
-              <Typography className="tracking-description text-p1">
-              Get a fully functional website to engage attendees and promote your event. It includes schedules, speaker profiles, registration, payments, and real-time updates. Customizable to reflect your brand and deliver a seamless user experience.
+              <Typography className="tracking-description">
+                Get a fully functional website to engage attendees and promote your event. It includes schedules, speaker profiles, registration, payments, and real-time updates. Customizable to reflect your brand and deliver a seamless user experience.
               </Typography>
-              <Box className="tracking-image-container">
+              {!isMobileScreen && <Box className="tracking-image-container">
                 <Brand className=" attendance-tracking-image" />
-              </Box>
+              </Box>}
             </Grid>
           </Grid>
         </Grid>

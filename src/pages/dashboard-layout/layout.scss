@@ -101,7 +101,7 @@
   display: flex;
   overflow: hidden;
   align-items: center;
-  background-color: $clr_white !important;
+  background-color: $background !important;
   min-height: 6.666rem;
   &-logo-container {
     background-color: $clr_white;
@@ -164,6 +164,8 @@
     min-width: 16.666rem !important;
     padding-inline: 1.5rem !important;
     padding-block: 0.833rem !important;
+    box-shadow: none;
+    border-radius:.46rem ;
   }
 
   & li {
