@@ -22,7 +22,7 @@ import CreateContributorType from "../CreateContributorType";
 interface CustomFile {
   id: number;
   name: string;
-  sourcePath: string;
+
 }
 interface ContributorType {
   value: number | string;
@@ -176,6 +176,11 @@ const SpeakerCard = (_eventData: any) => {
             }));
             const updatedOptionsData = [...options, { label: "Other", value: "other" }];
             setContributorType(updatedOptionsData);
+
+             // Reset the form field after updating options
+          reset({
+            contributorType: "" // Resets contributorType to an empty value
+          });
           }
         },
         errorCB: (context: any) => {
@@ -364,7 +369,7 @@ const SpeakerCard = (_eventData: any) => {
       setSelectedFile({
           id: item.assetId,
           name:item?.name,
-          sourcePath: item.mediaUrl || "",
+
       });
   }
     handleScreenViewChange();
@@ -391,6 +396,7 @@ const SpeakerCard = (_eventData: any) => {
    * function to close the new type creation drawer
    */
   const handleDrawerClose = () => {
+    setAddContributeView(true);
     setNewTypeView(false);
   };
   return (
@@ -537,6 +543,7 @@ const SpeakerCard = (_eventData: any) => {
                         optionClick={(value) => {
                           if (value === "other") {
                             setNewTypeView(true);
+                            setAddContributeView(false);
                           }
                         }}
                         control={control}

@@ -34,31 +34,24 @@ const Navbar = () => {
                <AppThemeLogo className={`nav-logo-container-icon`} />
             </Grid>
             <Grid className="nav-links-container">
-              <Box className={`nav-links ${theme.color}`}>
-              <Link className={getLinkClassName(routes.home())} to={routes.home()}>
-        Home
-      </Link>
-      <Link className={getLinkClassName(routes.feature())} to={routes.feature()}>
-        Features
-      </Link>
-      <Link className={getLinkClassName(routes.pricing())} to={routes.pricing()}>
-        Pricing
-      </Link>
-      <Link className={getLinkClassName(routes.demo())} to={routes.demo()}>
-        Demo
-      </Link>
-      <Link className={getLinkClassName(routes.contact())} to={routes.contact()}>
-        Contact us
-      </Link>
-      <Divider className={`nav-divider ${theme.color}`} />
-      <Link className={getLinkClassName(routes.loginOrg())} to={routes.loginOrg()}>
-        Login
-      </Link>
-      <Link className={getLinkClassName(routes.register())} to={routes.register()}>
-        Signup
-      </Link>
-              </Box>
-
+              <Grid className={`nav-links ${theme.color}`}>
+                <Link className={getLinkClassName(routes.home())} to={routes.home()}>
+                  Home
+                </Link>
+                <Link className={getLinkClassName(routes.pricing())} to={routes.pricing()}>
+                  Pricing
+                </Link>
+                <Link className={getLinkClassName(routes.contact())} to={routes.contact()}>
+                  Contact us
+                </Link>
+                <Divider className={`nav-divider ${theme.color}`} />
+                <Link className={getLinkClassName(routes.loginOrg())} to={routes.loginOrg()}>
+                  Login
+                </Link>
+                <Link className={getLinkClassName(routes.register()) + 'nav-signUp'} to={routes.register()}>
+                  Signup
+                </Link>
+              </Grid>
             </Grid>
           </Grid>
         </Box>

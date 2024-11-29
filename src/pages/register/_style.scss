@@ -11,104 +11,26 @@
       background-position: center -50px;
       background-repeat: no-repeat;
       border-radius: 1.666rem;
-      & .left-content-wrapper {
-        height: 100%;
-        width: 100%;
-        display: flex;
-        justify-content: center;
-
-        & .left-inner-content {
-          align-items: center;
-          justify-content: center;
-          max-width: 36rem;
-          display: flex;
-          flex-direction: column;
-          row-gap: 0.8rem;
-          & .success-icon{
-            padding-top: 2rem;
-            svg{
-              width: 8rem;
-              height: 8rem;
-            }
-          }
-          & .left-description-text {
-            font-size: $h6;
-            color: $clr_gray_medium;
-            font-weight: $font_normal;
-          }
-          & .left-plan-text{
-            font-weight: $font_bold;
-          }
-          & .view-all-plans{
-            padding-bottom: 3rem;
-            padding-top: 1.5rem;
-          }
-        }
-        & .plan-choose-btn {
-          font-size: $h6;
-          background-color: $clr_blue;
-          width: 100%;
-          text-transform: none !important;
-          svg{
-            path{
-              fill: $clr_white;
-            }
-          }
-          &:focus {
-            outline: none;
-          }
-        } & .plan-disabled-choose-btn{
-          font-size: $h6;
-          width: 100%;
-          background-color: $clr_blue; 
-          color: $clr_gray_light; 
-          cursor: none; 
-          opacity: 0.6; 
-          text-transform: none !important;
-          svg {
-              path {
-                  fill: $clr_gray_light;
-              }
-          }
-        }
-        & .form-wrapper {
-          width: 100%;
-          margin-inline: auto;
-          & .form {
-            display: flex;
-            flex-direction: column;
-            row-gap: 2.083rem;
-          }
-        }
-        .success-container {
-          .divider-box {
-             background-color: $clr_gray_light;
-             height: 0.05rem;
-             width: 100%;
-           }
-           .subheader-text{
-            font-weight: $font_semibold;
-           }
-         }
-
-      }
     }
     & .login-label {
-      font-weight: $font_semibold;
+      font-weight: $font_bold !important;
       color: $clr_blue;
     }
     & .register-stepper{
       display: flex;
       margin-bottom: 4rem;
+      &-text{
+        p{
+          font-size: $p5 !important;
+          font-weight: $font_medium;
+        }
+      }
     }
     & .grid-right {
-      background: url("../assets/png/login-bg.png");
-      background-repeat: no-repeat;
-      background-size: cover;  
-        // Hide background image on mobile
-        @media screen and (max-width: 799px) {
-          background: none;
-      }
+        svg{
+          width: 100%;
+          height: auto;
+        }
     }
     & .skip-button-payment-page {
       transform: translate(45rem, 2rem);
@@ -122,8 +44,7 @@
 }
 .stepper-box {
   width: 8rem;
-  height: 0.5rem;
-  border: 0.1rem solid #ccc;
+  height: 0.58rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -133,7 +54,7 @@
     background-color: $clr_blue;
   }
   &.inactive {
-    background-color: $bg_light;
+    background-color: $clr_gray_very_light;
   }
   @media screen and (max-width: 600px) {
     width: 5rem;
@@ -142,4 +63,99 @@
 }
 .cursor-container{
   cursor: pointer;
+}
+
+.signup-content-wrapper {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  & .left-inner-content {
+    align-items: center;
+    justify-content: center;
+    max-width: 36rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.8rem;
+    & .success-icon{
+      padding-top: 2rem;
+      svg{
+        width: 8rem;
+        height: 8rem;
+      }
+    }
+    & .left-description-text {
+      font-size: $h6;
+      color: $clr_gray_medium;
+      font-weight: $font_normal;
+    }
+    & .left-plan-text{
+      font-size: $h2;
+      font-weight: $font_bold;
+    }
+    & .view-all-plans{
+      padding-bottom: 3rem;
+      padding-top: 1.5rem;
+    }
+  }
+  & .plan-choose-btn {
+    box-shadow: none !important;
+    font-size: $p2;
+    background-color: $clr_blue;
+    width: 100%;
+    border-radius: 0.41rem;
+    text-transform: none !important;
+    svg{
+      path{
+        fill: $clr_white;
+      }
+    }
+    &:focus {
+      outline: none;
+    }
+  } 
+  & .plan-disabled-choose-btn{
+    font-size: $h6;
+    width: 100%;
+    background-color: $clr_blue; 
+    color: $clr_gray_light; 
+    cursor: none; 
+    opacity: 0.6; 
+    text-transform: none !important;
+    svg {
+        path {
+            fill: $clr_gray_light;
+        }
+    }
+  }
+  .signup-plan-btn{
+    height: 5rem;
+    border-radius: 0.83rem !important;
+  }
+  & .form-wrapper {
+    width: 100%;
+    margin-inline: auto;
+    & .form {
+      display: flex;
+      flex-direction: column;
+      row-gap: 2.083rem;
+    }
+  }
+  .success-container {
+    .divider-box {
+       background-color: $clr_gray_light;
+       height: 0.05rem;
+       width: 100%;
+     }
+     .subheader-text{
+      font-weight: $font_semibold;
+     }
+   }
+
+}
+
+.circularProgress {
+  color: $clr_white;
+  z-index: 1301; /* theme.zIndex.drawer + 1 is typically 1300 */
 }

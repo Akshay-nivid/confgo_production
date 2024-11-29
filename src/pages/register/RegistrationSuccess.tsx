@@ -34,7 +34,7 @@ const RegistrationSuccess = React.memo(() => {
     navigate(routes.home());
   }
   return (
-      <Grid container className="left-content-wrapper" >
+      <Grid container className="signup-content-wrapper" >
         <Grid container className="left-inner-content" spacing={4}>
             <Grid container justifyContent={'center'} className="success-icon">
               <SuccessTickImage />

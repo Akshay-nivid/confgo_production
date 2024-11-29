@@ -38,7 +38,7 @@ const CreateAccount = React.memo(() => {
     return (
         <Grid>
             <Grid  container spacing={5}>
-                <Grid className="left-content-wrapper">
+                <Grid className="signup-content-wrapper">
                     <Grid className="left-inner-content">
                         <Grid container spacing={2}>
                         <Grid  alignSelf={"center"}>
@@ -103,8 +103,10 @@ const CreateAccount = React.memo(() => {
                                                 label="Phone Number *"
                                                 control={control}
                                                 name="phoneNumber"
-                                                type="number"
+                                                type="text"
                                                 rules={phoneRules}
+                                                isNumeric={true}
+                                                max={10}
                                             />
                                         </Grid>
                                     </Grid>

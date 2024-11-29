@@ -313,6 +313,10 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
         resetField(`addOn.${index}.propertyName`,{});
         resetField(`addOn.${index}.propertyAmount`,{});
       }else{
+        setError(`addOn.${index}.propertyName`, {
+          type: 'manual',
+          message:`This feild is required`,
+        });
         return
       }
     }
@@ -354,7 +358,8 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
             className=""
           >
             <Grid
-              size={{ xs: 12, sm: 8 }}
+              size={{ xs: 12, sm: 7 }}
+              ml={6}
               className="add-program-form-container"
             >
               <Box className="add-program-form-spacing">
@@ -429,13 +434,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     defaultValue={moment(eventData?.startTime).format("YYYY-MM-DD")}
                                     type="date"
                                     min={moment(eventData.startTime).format("YYYY-MM-DD")}
-                                    minDate={eventData?.startTime}
-                                    maxDate={eventData?.endTime}
-                                    rules={{
-                                      validate: () =>
-                                        new Date() >= new Date() ||
-                                        "Start Date cannot be in the past",
-                                    }}
+                                    max={moment(eventData.endTime).format("YYYY-MM-DD")}
                                   />
                                 </Grid>
                                 <Grid size={{ xs: 4 }}>
@@ -445,18 +444,9 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                       name={`addOn.${index}.startTime`}
                                       defaultValue={ moment(new Date()).format("HH:mm")}
                                       type="time"
-                                      min={moment().format("HH:mm")} 
+                                      min={moment(new Date()).format("HH:mm")} 
                                       rules={{
-                                        required: true,
-                                        validate: (value) => {
-                                          if (value) {
-                                            const currentTime = moment().format("HH:mm");
-                                            return (
-                                              value >= currentTime || "Start Time cannot be in the past"
-                                            );
-                                          }
-                                          return "Invalid time";
-                                        },
+                                        required: true
                                       }}
                                     />
                                   </Grid>
@@ -466,19 +456,9 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                         control={control}
                                         name={`addOn.${index}.endTime`}
                                         type="time"
-                                        min={moment().format("HH:mm")}  
+                                        min={moment(new Date()).format("HH:mm")}  
                                         rules={{
-                                          required: true,
-                                          validate: (value) => {
-                                            const startTime = watch(`addOn.${index}.startTime`);  // Get the value of start time
-                                            if (value && startTime) {
-                                              // If end time is less than start time, show an error message
-                                              return (
-                                                value > startTime || "End Time must be after Start Time"
-                                              );
-                                            }
-                                            return "Invalid time";
-                                          },
+                                          required: true
                                         }}
                                       />
                                     </Grid>
@@ -515,7 +495,8 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                   </Grid>
                                 </Grid>
                                 <Grid  size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
-                                {watch(`addOn.${index}.addonType`) === "PAID" &&                                 <Grid size={{  xs: 12, sm: 6  }} >
+                               <Grid size={{  xs: 12, sm: 6  }} >
+                               {watch(`addOn.${index}.addonType`) === "PAID" &&  
                                         <CustomTextField
                                           placeholder="Price"
                                           control={control}
@@ -527,20 +508,10 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                               value: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
                                               message:
                                                 "Enter a valid price (up to 2 decimal places)",
-                                            },
-                                            validate: (value) => {
-                                              if (typeof value === "string") {
-                                                const price = parseFloat(value);
-                                                return (
-                                                  price >= 0 ||
-                                                  "Price cannot be negative"
-                                                );
-                                              }
-                                              return "Invalid price format";
-                                            },
+                                            }
                                           }}
-                                        />
-                                      </Grid> }
+                                          />}
+                                      </Grid> 
                                   {watch(`addOn.${index}.repeat`)?.length > 0 &&
                                     <Grid size={{ xs: 12, sm: 6 }}>
                                       <CustomTextField
@@ -603,17 +574,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                               value: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
                                               message:
                                                 "Enter a valid price (up to 2 decimal places)",
-                                            },
-                                            validate: (value) => {
-                                              if (typeof value === "string") {
-                                                const price = parseFloat(value);
-                                                return (
-                                                  price >= 0 ||
-                                                  "Price cannot be negative"
-                                                );
-                                              }
-                                              return "Invalid price format";
-                                            },
+                                            }
                                           }}
                                         />
                                       </Grid>
@@ -682,6 +643,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                       key={field.id}
                       container
                       className="add-program-display-item"
+                      alignContent={"center"}
                       size={{ xs: 12, sm: 12 }}
                     >
                       <Grid size={{ xs: 8, sm: 8 }} >

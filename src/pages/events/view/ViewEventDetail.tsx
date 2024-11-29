@@ -63,6 +63,9 @@ interface Venue {
   address: string;
   city: string;
   state: string;
+  mapUrl:string;
+  postCode:string;
+  country:string
 }
 
 interface Addon {
@@ -349,7 +352,7 @@ const ViewEventDetail = () => {
             <Sessions eventData={eventFullData} onSubmitHandler={handleSubmitHandler}/>
           </TabPanel>
           <TabPanel value="4">
-            <LocationCard  />
+            <LocationCard data={eventFullData?.venue}/>
           </TabPanel>
           <TabPanel value="5">
             <UserListCard />
@@ -389,7 +392,7 @@ const ViewEventDetail = () => {
       onClose={() => setOpenModal(false)}
       cancelLabel="Cancel"
       cancelAction={() => setOpenModal(false)}
-      header="Ready to Publish?"
+      header="Ready to Publish"
       subHeader="Are you sure you want to publish this event? Once published, it will be visible to attendees."
       submitAction={() => handlePublish(eventFullData?.published)}
       submitLabel="Publish"

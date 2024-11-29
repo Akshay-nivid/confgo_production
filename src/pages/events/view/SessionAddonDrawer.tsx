@@ -119,8 +119,8 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
       setSelectedAddOnId(selectedAddOn?.addon?.id);
       setValue("description", selectedAddOn?.description);
       setValue("addonDate", moment(selectedAddOn?.startTime).format("YYYY-MM-DD"));
-      setValue("startTime", moment(selectedAddOn?.startTime).format("HH:mm"));
-      setValue("endTime", moment(selectedAddOn?.endTime).format("HH:mm"));
+      setValue("startTime", moment.utc(selectedAddOn?.startTime).format("HH:mm"));
+      setValue("endTime", moment.utc(selectedAddOn?.endTime).format("HH:mm"));
       setValue("isPaid", selectedAddOn.amount > 0 ? "PAID" : "FREE");
       setValue("amount", selectedAddOn.amount);
       setValue("dateRequired", !!selectedAddOn?.endTime);
@@ -155,6 +155,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
       setValue("propertyName", "");
       setValue("propertyAmount", "");
     }
+    setValue("isPaid","FREE")
   };
 
   /**
@@ -167,19 +168,18 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
       addonId: Number(selectedAddOnId),
       amount: data.amount,
       description: data.description,
-      properties:
-        Array.isArray(data.properties) && data.properties.length > 0
-          ? data.properties.map((property: any) => ({
-              name: property.propertyName,
-              amount: property.propertyAmount || 0,
-              description: "  ",
-              enabled: 1,
-            }))
-          : [],
+      properties: Array.isArray(data.properties) && data.properties.length > 0
+        ? data.properties.map((property: any) => ({
+          name: property.propertyName,
+          amount: property.propertyAmount || 0,
+          description: "  ",
+          enabled: 1,
+        }))
+        : [],
     };
     if (data.dateRequired) {
-      formattedData.startTime = moment(`${data.addonDate}T${data.startTime}`).toISOString();
-      formattedData.endTime = moment(`${data.addonDate}T${data.endTime}`).toISOString();
+      formattedData.startTime = `${data.addonDate} ${data.startTime}`;
+      formattedData.endTime = `${data.addonDate} ${data.endTime}`;
     }
     onSubmit(formattedData);
   };
@@ -278,7 +278,9 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
               placeholder="Price"
               control={control}
               type="number"
-              requiredField={true}
+              rules={{
+                required: "Price is required",
+              }}            
             />
           </Grid>
         )}

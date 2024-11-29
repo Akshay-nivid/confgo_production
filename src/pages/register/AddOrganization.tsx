@@ -1,7 +1,9 @@
 import Grid from "@mui/material/Grid2";
 import React, { useState } from 'react';
 import {
+    Backdrop,
     Box,
+    CircularProgress,
     FormControl,
     Typography,
 } from "@mui/material";
@@ -81,8 +83,11 @@ const AddOrganization = React.memo(() => {
 
     return (
         <Grid>
+             <Backdrop  open={isButtonDisabled} className="circularProgress">
+                <CircularProgress color="inherit" />
+            </Backdrop>
             <Grid container spacing={5}  >
-                <Grid className="left-content-wrapper">
+                <Grid className="signup-content-wrapper">
                     <Grid className="left-inner-content">
                         <Grid alignSelf={"center"}>
                             <Typography className="left-plan-text" textAlign={"center"} variant="h3" >Add Organization Details</Typography>
@@ -131,9 +136,11 @@ const AddOrganization = React.memo(() => {
                                                 placeholder="Organization Phone"
                                                 label="Organization Phone *"
                                                 name="organizationPhone"
-                                                type="number"
+                                                type="text"
                                                 control={control}
                                                 rules={phoneRules}
+                                                isNumeric={true}
+                                                max={10}
                                             />
 
                                         </Grid>

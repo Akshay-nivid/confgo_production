@@ -4,7 +4,8 @@
     "key": ""
   },
   "event-link": {
-    "sub-domain": "http://localhost:5173/",
+    "sub-domain": "https://www.confgo.com/",
     "top-level-domain": "com"
-  }
+  },
+  "google_api_key":"AIzaSyC7YypQPolQy5S-BHMXLjaaf0ZFKqB1wzs"
 }

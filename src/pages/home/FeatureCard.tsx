@@ -1,7 +1,9 @@
 import { ArrowIconSvg  } from "@/assets/svg";
+import routes from "@/router/routes";
 import { Box, Typography, Button } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import clsx from "clsx";
+import { useNavigate } from "react-router-dom";
 /**
  * card component to display features of the platform
  */
@@ -24,6 +26,7 @@ const FeatureCard = ({
     }[];
 }) => {
   const isReversed = flexDirection === "row-reverse";
+  const navigate = useNavigate();
 
   return (
     <Grid container className={clsx("feature-card", isReversed ? "reversed" : "")}>
@@ -55,7 +58,7 @@ const FeatureCard = ({
             ))}
           </Grid>
         </Box>
-        <Button variant="outlined" className="feature-card__button" endIcon={<ArrowIconSvg/>}>
+        <Button variant="outlined" className="feature-card__button" endIcon={<ArrowIconSvg/>} onClick={() => navigate(routes.loginOrg())}>
           Get Started
         </Button>
       </Grid>

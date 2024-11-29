@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import EventCard from "../Components/EventCard";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import apiClient from "@/Libs/Https/API-client";
-import { NoEvent } from "@/assets/svg"
+//import { NoEvent } from "@/assets/svg"
 import { Logger } from "@/Utils/Logger";
 import React from "react";
 import useStore from '@/Libs/store';
@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import CustomModel from "@/components/CustomModel/CustomModel";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { CloseOutlined } from "@mui/icons-material";
+import NoEvents from "../No-Event/NoEvent";
 /**
  * Interface for a Program, which contains the event details
  */
@@ -186,11 +187,11 @@ const MyEventScreen: React.FC = () => {
   }
   return (
     <Grid className="my-event" container spacing={1}>
-      <Grid container  size={{ xs: 12, sm: 11 }} justifyContent={'space-between'} flexDirection={"row"}>
+      <Grid container  size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} flexDirection={"row"}>
         <Grid size={{ xs: 5 }} alignContent={"center"} container>
           <Typography className="my-event-header">My Events</Typography>
         </Grid>
-        <Grid size={{ xs: 5 }} className="autocomplete-border">
+        <Grid size={{ xs: 5}} className="autocomplete-border">
           <CustomAutocomplete
             name="search"
             className="custom-search-text-field"
@@ -206,19 +207,9 @@ const MyEventScreen: React.FC = () => {
       </Grid>
       {
         events?.data?.length === 0  ? (
-          <Grid container size={12} justifyContent={"center"}>
-          <Grid  container justifyContent={"center"}  className="no-event" >
-          <Grid>
-          <NoEvent className="no-event-svg"/>
-          </Grid>
-          <Grid size={12} flexDirection={"column"}>
-            <Typography className="no-event-svg-text">No Events Found</Typography>
-            <Typography className="no-event-svg-text-description">You haven’t registered for any events yet. Explore upcoming events and secure your spot today!</Typography>
-          </Grid>
-              </Grid> 
-        </Grid>
+        <NoEvents/>
         ) : (
-          <Grid container size={11} spacing={1}>
+          <Grid container size={11}   spacing={1}>
             {events.data && events.data.map((event: Program, index:number) => (
               <Grid size={{ xs: 12, sm: 3, md: 4 }} key={index}>
                 <EventCard

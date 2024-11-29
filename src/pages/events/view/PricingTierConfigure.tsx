@@ -327,55 +327,33 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
    */
   function onSubmit() {
     const { attendeeTypes, attendees, pricingTiers }: any = getValues();
-    let payload: any
-    if (!hasPricingTiers) {
-      payload = {
-        eventId: id, // Pass the eventId directly
-        priceTiers: pricingTiers
-          .filter((tier: any) => tier.tierName?.trim()) // Skip tiers with empty or null names
-          .flatMap((tier: any) =>
-            attendeeTypes.map((attendee: any, index: any) => {
-              const percentage =
-                attendees[index]?.pricingTiers[tier.tierName]?.percentage || ""; // Fetch percentage for the tier and attendee type
-              return {
-                name: tier.tierName,
-                percentage: parseFloat(percentage),
-                participantTypeId: attendee.id,
-                endDate: tier.endDate || "",
-                startDate: tier.startDate || "",
-              };
-            })
-          ),
-      };
+    if (attendeeTypes.length == 0 || pricingTiers.length === 0) {
+      setDataById("snackBarInfo", {
+        open: true,
+        autoHideDuration: 2000,
+        severity: "error",
+        message: "Please provide both attendee types and pricing tiers.",
+      });
+      return;
     }
-    else {
-      const uniquePricingTiers = pricingTiers.filter((value: any, index: number, self: any) =>
-        index === self.findIndex((t: any) => (
-          t.tierName === value.tierName
-        ))
-      );
-      const transformedData = attendees.flatMap((item: any) =>
-        uniquePricingTiers?.flatMap((tier: any) =>
-          Object.entries(item.pricingTiers).map(([tierName, pricingTier]: [string, any]) => {
-            if (tierName === tier?.tierName) {
-              return {
-                name: tier?.tierName,
-                percentage: parseInt(pricingTier?.percentage, 10),
-                participantTypeId: item.id,
-                startDate: tier.startDate || "",
-                endDate: tier.endDate || ""
-              };
-            }
-            return null;
-          }).filter(Boolean)
-        )
-      );
-      payload = {
-        eventId: id,
-        priceTiers: transformedData
-      };
-    }
-
+    const payload = {
+      eventId: id, // Pass the eventId directly
+      priceTiers: pricingTiers
+        .filter((tier: any) => tier.tierName?.trim()) // Skip tiers with empty or null names
+        .flatMap((tier: any) =>
+          attendeeTypes.map((attendee: any, index: any) => {
+            const percentage =
+              attendees[index]?.pricingTiers[tier.tierName]?.percentage || ""; // Fetch percentage for the tier and attendee type
+            return {
+              name: tier.tierName,
+              percentage: parseFloat(percentage),
+              participantTypeId: attendee.id,
+              endDate: tier.endDate || "",
+              startDate: tier.startDate || "",
+            };
+          })
+        ),
+    };
     // Post the prepared payload
     if (!hasPricingTiers) {
       // If there are no pricing tiers, use POST
@@ -455,7 +433,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
         </IconButton>
       </Grid>
       <Box sx={{ maxWidth: 600 }}>
-        <Grid container spacing={2} padding={3}>
+        <Grid container spacing={2} sx={{ px: 3, pt: 2 }}>
           <Grid size={{ xs: 12 }}>
             <Typography className="registration-fee-list-sub-heading">
               Configure Attendee Type

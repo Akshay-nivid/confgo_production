@@ -27,20 +27,19 @@ const PlanCard: React.FC<PlanCardProps> = ({
     <Grid
       container
       alignItems={"center"}
-      className={isActive ? "plan-card plan-card-active" : "plan-card"}
+      className={isActive ? "plan-card plan-card-active plan-card-active-radio-button" : "plan-card"}
       minWidth={"100%"}
     >
       <FormControlLabel
         value={value}
-        control={<Radio className="plan-card-radio-button" />}
+        control={<Radio className="plan-card" />}
         labelPlacement="start"
         label={
           <Grid
             container
-            // justifyContent={"space-"}
             alignItems={"center"}
           >
-            <Grid>{image}</Grid>
+            <Grid className="plan-card-icon">{image}</Grid>
             <Grid flexDirection={"column"} marginLeft={2}>
               <Typography className="plan-card-header">{toCamelCase(header)}</Typography>
               <Typography className="plan-card-price">

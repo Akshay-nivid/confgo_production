@@ -26,9 +26,10 @@
     background-color: $clr_white !important;
     color: $clr_green !important;
     max-width: 21rem !important;
-    border: 0.083rem solid $clr_green !important;
+    border: 0.125rem solid $clr_green !important;
     text-transform: none !important;
-    font-size: $p1 !important;
+    box-shadow: none !important;
+    font-size: $p2 !important;
     font-weight: $font_normal !important;
 
   }
@@ -38,4 +39,16 @@
     font-size: $h4 !important;
     margin: 2rem !important;
   }
+
+  &-create-btn{
+    max-height: 4rem;
+    background-color: $clr_green !important;
+    color: $clr_white !important;
+    max-width: 19rem !important;
+    text-transform: none !important;
+    box-shadow: none !important;
+    font-size: $p2 !important;
+    font-weight: $font_normal !important;
+}
+  
 }

@@ -127,6 +127,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
         });
       }
       const successCB = (response: any) => {
+        onSubmitHandler();
         setDataById("snackBarInfo", {
           open: true,
           autoHideDuration: 2000,
@@ -146,7 +147,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
         Logger.error(`Error deleting program/addon`, error);
       };
 
-      const url = type === "program" ? `program/delete/${id}` : `addon/delete/${id}`;
+      const url = type === "program" ? `event/deleteProgram/${id}` : `event/deleteAddon/${id}`;
 
       PUT({
         url,

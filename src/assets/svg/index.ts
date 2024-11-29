@@ -70,9 +70,18 @@ import UserEditRoundIcon from './user-edit-round-icon.svg';
 import GoogleIcon from './google-icon.svg';
 import WarningIcon from './warning-icon.svg';
 import PublishTickIcon from './publish-tick.svg';
-import transactionHistoryIcon from './payment-history.svg';
+import TransactionHistoryIcon from './payment-history.svg';
 import HomeEvent from './home-event.svg';
 import Brand from './brands.svg';
+import BasicPlainIcon from './basic-plan-icon.svg';
+import StandardPlanIcon from './standard-plan-icon.svg';
+import ProPlanIcon from './pro-plan-icon.svg';
+import CalendarNoEvent from './calender-empty.svg';
+import UserSettingIcon from './user-settings.svg';
+import DownloadCertsIcon from './Download-cert.svg';
+import SignUpFlowIcon from './signup-flow-icon.svg';
+import PlusIcon from './plus-icon.svg';
+import MinusIcon from './minus-icon.svg';
 
 export {
   CalenderIcon,
@@ -147,7 +156,16 @@ export {
   GoogleIcon,
   WarningIcon,
   PublishTickIcon,
-  transactionHistoryIcon,
+  TransactionHistoryIcon,
   HomeEvent,
-  Brand
+  Brand,
+  BasicPlainIcon,
+  StandardPlanIcon,
+  ProPlanIcon,
+  CalendarNoEvent,
+  UserSettingIcon,
+  DownloadCertsIcon,
+  SignUpFlowIcon,
+  PlusIcon,
+  MinusIcon
 };

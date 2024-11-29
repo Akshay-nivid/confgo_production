@@ -1,7 +1,7 @@
 import { Box, Typography, Button } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { Link } from "react-router-dom";
-import AppLogo from "@/assets/appLogo.svg?url";
+import AppLogo from "@/assets/appLogo.svg";
 import routes from "@/router/routes";
 
 /**
@@ -15,14 +15,23 @@ const Footer = () => {
       <Grid size={10}>
         <Box className="footer-content">
           <Grid container>
-            <Grid size={8}>
+            <Grid size={12}>
               <Typography className="footer-title">
                 Do you have <br /> any questions?
               </Typography>
-              <Typography className="footer-subtitle">
-                Feel free to send us your questions or request a free
-                consultation.
-              </Typography>
+              <Grid container size={12}>
+                <Grid container size={6}>
+                  <Typography className="footer-subtitle">
+                    Feel free to send us your questions or request a free <br />
+                    consultation.
+                  </Typography>
+                </Grid>
+                <Grid container size={6} justifyContent={'flex-end'}>
+                  <Typography className="footer-subtitle">
+                    Complete Conference Management at Your  <br />Fingertips
+                  </Typography>
+                </Grid>
+              </Grid>
               <Button variant="contained" className="footer-button">
                 Send A Message
               </Button>
@@ -47,18 +56,9 @@ const Footer = () => {
                           </Link>
                           <Link
                             className="footer-nav-item"
-                            to={routes.feature()}
-                          >
-                            Feature
-                          </Link>
-                          <Link
-                            className="footer-nav-item"
                             to={routes.pricing()}
                           >
                             Pricing
-                          </Link>
-                          <Link className="footer-nav-item" to={routes.demo()}>
-                            Demo
                           </Link>
                           <Link
                             className="footer-nav-item"
@@ -104,7 +104,7 @@ const Footer = () => {
                     </Box>
                   </Grid>
                   <Grid size={4} className="footer-logo-section">
-                    <img className="footer-logo" src={AppLogo} alt="App Logo" />
+                    <AppLogo className="footer-logo"/>
                     <Typography className="footer-description">
                       Don't know where to get your car tinted? <br /> Logoipsum
                       — practical, safe, and affordable.

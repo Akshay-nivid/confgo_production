@@ -85,8 +85,13 @@
             .contact-form-textarea{
                 width: 100%;
                 height: 7rem !important;
-                border: 1.5px solid $clr_requirement_text;
+                border-radius: 0.41rem;
+                border: 1px solid $clr_gray_extra_light;
+                padding: 1rem;
             }
+            .contact-form-textarea:focus-visible {
+                outline: 1px solid $clr_gray_extra_light !important;
+              }
         
            .contact-form-submit-button:disabled{
             opacity: 0.6;
@@ -95,9 +100,13 @@
             color: $clr_white;
            }
            .contact-form-submit-button{
+            height: 3.75rem;
+            width: 41.7rem;
             background: $clr_blue;
             border-radius: .5rem;
             color: $clr_white;
+            font-size: $p2;
+            text-transform: none;
            }
            
 

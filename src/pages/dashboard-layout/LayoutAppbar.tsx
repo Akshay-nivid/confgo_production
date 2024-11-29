@@ -5,7 +5,7 @@ import { ArrowDropDown } from '@mui/icons-material';
 import { SettingsIcon, LogoutIcon } from '@/assets/svg';
 import  AppLogo  from '@/assets/svg/app-logo.svg';
 import Grid from '@mui/material/Grid2';
-import useStore from '@/Libs/store';
+import { resetStore, setDataById } from '@/Libs/store';
 import routes from '@/router/routes';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,7 +15,6 @@ import { useNavigate } from 'react-router-dom';
  */
 export default function LayoutAppbar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const clearDataById = useStore((state: any) => state.clearDataById);
   const navigate = useNavigate();
   const companyUserName = sessionStorage.getItem("companyUserName");
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -25,6 +24,16 @@ export default function LayoutAppbar() {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+  
+/**
+* account settings functionality
+*/
+  const handleAccountSettings = () =>{
+    setDataById('settings', { tabIndex: 0 });
+    setAnchorEl(null); 
+    navigate(routes.organizationUserProfile())
+   
+  }
 
    /**
    * Logout functionality
@@ -33,7 +42,7 @@ export default function LayoutAppbar() {
     // Clear sessionStorage and localStorage
     sessionStorage.clear();
     localStorage.clear();
-    clearDataById("orgDetails");
+    resetStore();
     navigate(routes.home()); 
   };
   
@@ -69,7 +78,7 @@ export default function LayoutAppbar() {
         >
           <MenuItem className="">
             <SettingsIcon />
-            <span className="menu-item-text">Settings</span>
+            <span className="menu-item-text" onClick={handleAccountSettings}>Settings</span>
           </MenuItem>
           <Divider />
           <MenuItem className="" onClick={handleLogout}>

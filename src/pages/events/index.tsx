@@ -199,7 +199,7 @@ const Events = () => {
         ...item,
         amount:amount?amount:"0",
         ...(combinedStartDateTime && { startTime: combinedStartDateTime }),
-        ...(combinedEndDateTime&&{endTime:combinedEndDateTime}),
+        ...(combinedEndDateTime&&{ endTime:combinedEndDateTime}),
         ...(properties.length !== 0 && {
           properties: properties?.map(({ propertyId, propertyName, propertyAmount, ...rest }: any) => ({
             name: propertyName,
@@ -217,7 +217,8 @@ const Events = () => {
       endTime: event?.endTime,
       statusId,
       amount: event?.amount || 0,
-      eventClass: event?.type
+      eventClass: event?.type,
+      assetId:event?.assetId
     };
 
     // Handle URL and Venue logic

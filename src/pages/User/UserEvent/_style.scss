@@ -1,5 +1,7 @@
 .my-event{
-    margin: 2rem;
+    margin-top: 2rem;
+    margin-left: 2rem;
+    margin-right: 7rem !important;
     &-header{
         font-weight: $font-bold !important;
         font-size: $h5 !important;
@@ -35,14 +37,15 @@
     &-svg{
         font-size: 10rem;
     &-text{
-        padding-top:3rem;
+        padding-top:2.7rem;
         text-align:center;
-        font-family:$font ;
+        font-family:$font;
         font-weight:$font_bold !important;
-        font-size:$h5 ;
-        line-height: 1.64rem;
+        font-size:$p5;
+        line-height: 2.185rem;
+        text-underline-position:from-font;
+        text-decoration-skip-ink: none;
      &-description{
-        padding-top:.4rem;
         text-align:center;
         line-height: 1.275rem;
         font-family:$font ;
@@ -56,6 +59,5 @@
    }
    .autocomplete-border{
     border-radius: 0.4rem ;
-    border: 0.1rem solid $clr_light_sky_blue;
-    margin-right: 1rem;
+    
    }

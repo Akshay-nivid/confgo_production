@@ -48,6 +48,9 @@ import { PrivateRouteCompany, PrivateRouteUser } from "./router/PrivateRoute";
 import PublicRoute from "./router/PublicRoute";
 import UserDetail from "./pages/events/view/UserDetail";
 import GoogleAuthProvider from "./pages/User/GoogleAuthProvider";
+import ProfileSettings from "./pages/dashboard/ProfileSettings";
+import AddPlan from "./pages/register/AddPlan";
+import PlanUpgrade from "./pages/planUpgrade/PlanUpgrade";
 
 const userRoutes = [
   {
@@ -225,6 +228,21 @@ const router = createBrowserRouter([
       {
         path: routes.userdetail(":id"),
         element: <UserDetail />,
+      },
+      {  path: routes.organizationUserProfile(),
+        element: <ProfileSettings />,
+      },
+      {
+        path: routes.planUpgradePricing(),
+        element: <Pricing />,
+      },
+      {
+        path: routes.planUpgrade(),
+        element: <AddPlan />,
+      },
+      {
+        path: routes.upgradePlanPayment(),
+        element: <PlanUpgrade />,
       },
     ],
   },
