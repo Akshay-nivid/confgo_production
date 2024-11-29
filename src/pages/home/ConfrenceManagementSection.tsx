@@ -1,3 +1,4 @@
+import { useIsMobileScreen } from "@/Utils/CommonBaseClass";
 import { ArrowIconSvg, AttentionTracking, Brand, ExportPlanImg } from "@/assets/svg";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import routes from "@/router/routes";
@@ -12,25 +13,25 @@ import { useNavigate } from "react-router-dom";
  */
 const ConfrenceManagementSection = () => {
   const navigate = useNavigate();
+  const isMobileScreen = useIsMobileScreen();
 
   return (
     <Box className="confrence-management-section-main">
-      <Grid container>
-        <Grid size={1}></Grid>
-        <Grid container size={10}>
+      <Grid container justifyContent={'center'}>
+        <Grid container size={{ xs: 12, sm: 10 }}>
           <Grid
             size={12}
             className="confrence-management-section-header-content"
           >
             <Typography
               textAlign={"center"}
-              className="conference-management-title text-h2 font-700"
+              className="conference-management-title"
             >
               Complete Conference <br /> Management at Your Fingertips
             </Typography>
             <Typography
               textAlign={"center"}
-              className="conference-management-description text-p1"
+              className="conference-management-description"
             >
               From a fully functional website to a powerful dashboard and mobile
               app, we offer everything <br /> you need to manage your event
@@ -42,11 +43,11 @@ const ConfrenceManagementSection = () => {
             size={12}
             className="confrence-management-content-wrapper"
           >
-            <Grid size={6} className="confrence-management-effortless-content">
-              <Typography className="planning-title text-h2">
-                Effortless Planning & <br /> Execution
+            <Grid size={{xs:12, sm:6}} className="confrence-management-effortless-content">
+              <Typography className="planning-title">
+                Effortless Planning & {!isMobileScreen && <br />} Execution
               </Typography>
-              <Typography className="planning-description text-p1">
+              <Typography className="planning-description">
                 Track every detail from a centralized dashboard that puts all
                 your event management tools in one place. Manage attendee
                 registraImport Costtions, coordinate event logistics, and
@@ -67,11 +68,11 @@ const ConfrenceManagementSection = () => {
                 endIcon={<ArrowIconSvg/>}
               ></CustomButton>
             </Grid>
-            <Grid size={6} className="export-plan-grid-right">
+           {!isMobileScreen && <Grid size={6} className="export-plan-grid-right">
               <Box className="export-plan-image-wrapper">
                 <ExportPlanImg className="export-plan-image" />
               </Box>
-            </Grid>
+            </Grid>}
           </Grid>
           <Grid
             columnSpacing={2}
@@ -116,7 +117,6 @@ const ConfrenceManagementSection = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid size={1}></Grid>
       </Grid>
     </Box>
   );
