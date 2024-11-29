@@ -27,7 +27,6 @@ const HomePage = () => {
       <HeroSection />
       <ConfrenceManagementSection />
       <FeatureSection />
-      {/* <FaqSection /> */}
       <WhychooseSection />
       <ViewPricingBanner />
     </>

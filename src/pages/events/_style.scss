@@ -6,6 +6,9 @@
         font-size: $h6 !important;
         font-weight: $font_semibold !important;
         max-width: 91.5rem;
+        .ql-container{
+            min-height: 15rem;
+        }
         &-error {
             .ql-snow{
                 border: 1px solid $clr_red !important;

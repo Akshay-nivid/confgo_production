@@ -1,3 +1,4 @@
+import { useIsMobileScreen } from "@/Utils/CommonBaseClass";
 import { PlayIconSvg, HomeEvent } from "@/assets/svg";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import routes from "@/router/routes";
@@ -12,23 +13,23 @@ import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
   const navigate = useNavigate();
-
+  const isMobileScreen = useIsMobileScreen();
   return (
     <Grid container justifyContent={'center'} alignItems={'center'} className="hero-section-main">
       <Grid size={12} className="hero-section-content">
         <Grid className="hero-section-container">
           <Typography
             textAlign={"center"}
-            className="hero-section-title text-h1 font-700"
+            className="hero-section-title"
           >
-            Your All-in-One <br /> Conference Solution.
+            Your Ultimate  <br /> Conference Software.
           </Typography>
           <Typography
-            className="hero-section-description text-p1 font-400"
+            className="hero-section-description"
             textAlign={"center"}
           >
-            Tired of juggling multiple tools and platforms to organize conferences and group meetings? Look no further— <br />
-            Summit Pro is here to transform your event management experience!
+            Are you tired of juggling multiple tools and platforms to organize your conferences and group meetings? Look {!isMobileScreen && <br />}
+            no further! Summit Pro is here to revolutionize your event management experience.
           </Typography>
 
           <Grid container className="hero-section-buttons">

@@ -392,7 +392,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                 alignItems={"center"}
                                 spacing={2}
                               >
-                                <Grid size={{ xs: 12, sm: 6 }}>
+                                <Grid size={{ xs: 12, sm: 12 }}>
                                   <CustomSelect
                                   rules={{required:validateRequiredField({})}}
                                     optionClick={(value) => {
@@ -406,13 +406,15 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     options={addOnOptions} />
                                     
                                 </Grid>
-                                <Grid size={{ xs: 12, sm: 6 }}>
+                                <Grid size={{ xs: 12, sm: 12 }}>
                                   <CustomTextField
                                     placeholder="Add-on Description"
                                     control={control}
                                     name={`addOn.${index}.description`}
                                     type="text"
                                     rules={{required:validateRequiredField({})}}
+                                    multiline={true}
+                                    rows={10}
                                   />
                                 </Grid>
                                 <Grid size={{xs:12,sm:12}}>

@@ -66,8 +66,7 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
             <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} alignItems={'center'} className={`${classPrefix}-container`}>
                 <Grid className={`${classPrefix}-logo`}><img
                                 className={`${classPrefix}-logo-img`}
-                                src={`${baseUrl}asset/${data?.assetId? data?.assetId: 14}`}
-                                alt={'Business'}
+                                src={`${baseUrl}asset/${data?.assetId? data?.assetId: ''}`}
                               /></Grid>
                 <Grid container spacing={2}>
                     <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToAbout(e) }}> About </Link></Grid>

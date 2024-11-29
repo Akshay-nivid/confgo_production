@@ -329,3 +329,72 @@
     }
   }
 }
+
+.mobile-navbar{
+  position: fixed;
+  left: 0;
+  right: 0;
+  border: none;
+  overflow: hidden;
+  z-index: 1000;
+  background-color: $clr_white;
+  .logo-container{
+    padding: 1rem;
+    padding-left: 2rem;
+    .logo{
+      width: 13rem;
+      height: 5rem;
+    }
+  }
+  .hamburger-icon{
+    width: 5rem;
+    height: 2rem;
+  }
+}
+.mobile-drawer{
+  .MuiPaper-elevation{
+    background-color: $clr_black;
+    width: 30rem !important;
+  }
+  .drawer-close-icon{
+    padding-top: 2.5rem !important;
+    padding: 1rem;
+   svg{
+    width: 2rem;
+    height: 2rem;
+    path{
+      stroke: $clr_white
+    }
+   }
+
+  }
+  .drawer-container{
+    width: 100%;
+    padding: 0rem 2rem 2rem 2rem;
+    .drawer-link{
+      padding: 2rem 0;
+      color: $clr_white;
+      font-size: $h5;
+      border-bottom: 0.041rem solid $clr_text_gray !important;
+    }
+    .button-container{
+      padding-top: 5rem;
+      button{
+        width: 32.66rem;
+        height: 4.1rem;
+        border-radius: 4.58rem;
+        font-size: $p2;
+        font-weight: $font_semibold;
+        color: $clr_white;
+      }
+      .login-button{
+        background-color: $clr_blue;
+      }
+      .signup-button{
+        background-color: $clr_black;
+        border: 0.16rem solid $clr_white !important;
+      }
+    }
+  }
+  
+}
