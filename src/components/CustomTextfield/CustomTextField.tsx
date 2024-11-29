@@ -6,6 +6,7 @@ import {
   IconButton,
   FormHelperText,
   Typography,
+  Tooltip,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material"; // Example icon, replace with your preferred icon
 import {
@@ -18,6 +19,7 @@ import {
 } from "react-hook-form";
 import { useState } from "react";
 import clsx from "clsx";
+import InfoIcon from '@mui/icons-material/Info';
 
 interface ICustomTextFieldProps<T extends FieldValues> {
   prefixIconButton?: React.ReactNode;
@@ -54,6 +56,8 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   maxDate?:string;
   onClick?: React.ChangeEventHandler<HTMLInputElement>;
   isNumeric?:boolean;
+  info?: any;
+  infoContent?: any
 }
 
 interface InputPropsType {
@@ -174,6 +178,17 @@ const CustomTextField = <T extends FieldValues>({
     if (props.max) {
       propsObj.max = props.max;
     }
+
+    if (props.info) {
+      propsObj.endAdornment = (
+        <InputAdornment position="end"><Tooltip title={props.infoContent}>
+          <IconButton edge="end">
+            <InfoIcon />
+          </IconButton>
+        </Tooltip></InputAdornment>
+      )
+    }
+
     return propsObj;
   };
 
