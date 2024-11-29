@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid2";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
-import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
+import EventFilterIcon from '@/assets/svg/EventFilterIcon.svg';
 import FilterModal from "@/components/CustomFilter/FilterModal";
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
 import { useForm } from "react-hook-form";
@@ -197,7 +197,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction }) => {
                 className="custom-list-filter-btn"
                 onClick={() => setIsFilterModalOpen(true)}
                 label="Filters"
-                startIcon={<TuneRoundedIcon />}
+                startIcon={<EventFilterIcon />}
                 variant="contained"
                 color="primary"
                 size="large"

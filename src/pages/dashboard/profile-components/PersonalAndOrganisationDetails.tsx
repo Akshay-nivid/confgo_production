@@ -182,14 +182,17 @@ const onSubmit = async (data: Profile) => {
           <EditIcon />
           </IconButton>
         </Grid>
-        <Grid className="main-account-profile-image connected">
-          <Avatar
-          className="main-user-profile"
-          src={profileData?.assetId ? `${baseUrl}/asset/${profileData?.assetId}`: ""}
-            alt="User Profile"
-            variant="circular"
-          />
-        </Grid>
+        <Grid size={1} className="main-account-profile-image connected" mb={0}>
+            {profileData?.firstName && profileData?.lastName? (
+              <Avatar  className="main-user-profile">
+                {`${profileData?.firstName[0]}${profileData?.lastName[0]}`.toUpperCase()}
+              </Avatar>
+            ) : (
+              <Avatar>
+              </Avatar>
+            )}
+          </Grid>
+
         <Grid container className="main-account-detail-grid connected" size={12}>
           <Grid size={{ xs: 12, sm: 6 }}>
             <Typography className="main-account-user-detail1">
@@ -275,10 +278,10 @@ const onSubmit = async (data: Profile) => {
       </Grid>
 
       <CustomDrawer open={isDrawerOpen} type="right">
-        <Grid container className="main-account-drawer">
-          <Grid size={12} container className="main-account-drawer-text">
-            <Typography className="main-account-title account-drawer-textfield">Edit Attendee Details</Typography>
-            <IconButton onClick={closeDrawer}>
+        <Grid container className="main-account-drawer"> 
+          <Grid size={12} container className="main-account-drawer-text"  flexDirection={"row"}>
+            <Typography className="main-account-title account-drawer-textfield">Edit Personal Details</Typography>
+            <IconButton className="close" onClick={closeDrawer}>
               <CloseOutlined />
             </IconButton>
           </Grid>
@@ -300,7 +303,7 @@ const onSubmit = async (data: Profile) => {
                   <CustomTextField name="lastName" placeholder="Last Name" control={control} requiredField className="main-account-drawer-textfield"/>
                 </Grid>
                 <Grid size={12} container className="main-account-drawer-btn">
-                  <CustomButton label="Change" type="submit" className="main-user-submit-btn" />
+                  <CustomButton label="Submit" type="submit" className="main-user-submit-btn" />
                 </Grid>             
               </Grid>
             </form>
