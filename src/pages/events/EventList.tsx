@@ -84,6 +84,22 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction }) => {
       dateFormat: "DD/MM/YYYY",
     },
     { type: "status", field: "statusId", headerName: "Status", width: 150 },
+    {
+      type: "default",
+      field: "published",
+      headerName: "Publish",
+      width: 150,
+      renderCell: (params: any) => {
+        if (params.row.statusId !== 1) {
+          return <div></div>;
+        }
+        return (
+          <div>
+            {params.row.published ? "Yes" : "No"}
+          </div>
+        );
+      },
+    }
   ];
   /**
    * Apply filter
