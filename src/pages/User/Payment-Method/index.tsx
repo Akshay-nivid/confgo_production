@@ -30,7 +30,7 @@ import { useNavigate } from "react-router-dom";
 const PaymentMethod = () => {
   const [expanded, setExpanded] = useState<string | false>("panel1");
   const paymentDetails = useStore((state: any) => state?.compData?.["addToCart"])
-
+  
 
 
   const handleChange =

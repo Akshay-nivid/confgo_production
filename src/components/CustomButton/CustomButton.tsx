@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import { CircularProgress } from '@mui/material';
 
 interface CustomButtonProps {
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent) => void;
   label: string;
   variant?: 'text' | 'outlined' | 'contained';
   color?: 'default' | 'inherit' | 'primary' | 'secondary';

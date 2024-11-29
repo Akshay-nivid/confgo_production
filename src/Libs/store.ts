@@ -17,6 +17,8 @@ type ApiRequestOptions = {
     successCB?: (context: any) => void;
     errorCB?: (context: any) => void;
 };
+
+
 interface StoreState {
     compData: CompData;
     userInfo: any; // Specify the type based on your user info structure
@@ -28,6 +30,7 @@ interface StoreState {
     GET: (params: ApiRequestOptions) => Promise<{ status: boolean; data: any; message: string }>;
     PUT: (params: ApiRequestOptions) => Promise<{ status: boolean; data: any; message: string }>;
     DELETE: (params: ApiRequestOptions) => Promise<{ status: boolean; data: any; message: string }>;
+    snackBar: ({severity,message,autoHideDuration}:{severity: "success"|"error",message:string,autoHideDuration?:number}) => void
 }
 
 /**
@@ -167,7 +170,16 @@ const useStore = create<StoreState>()(
                 }
                 return { status, data, message };
             },
+            snackBar: ({severity,message,autoHideDuration}) => {
+                get().setDataById("snackBarInfo", {
+                    open: true,
+                    autoHideDuration:autoHideDuration || 2000,
+                    severity:severity,
+                    message:message,
+                })
+            }
         }),
+
         {
             name: "global-state-storage", // Unique name for local storage key
             storage: createJSONStorage(() => customStorage),
@@ -175,5 +187,5 @@ const useStore = create<StoreState>()(
     ),
 );
 
-export const { POST, GET, PUT, DELETE, setDataById, clearDataById, resetStore } = useStore.getState();
+export const { POST, GET, PUT, DELETE, setDataById, clearDataById, resetStore,snackBar } = useStore.getState();
 export default useStore;
