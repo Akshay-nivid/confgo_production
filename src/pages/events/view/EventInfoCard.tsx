@@ -220,7 +220,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                           >
                             <Grid>
                               <img
-                                src={`${baseUrl}asset/${14}`}
+                                src={`${baseUrl}asset/${eventData?.assetId}`}
                                 alt={'Business'}
                               />
                             </Grid>
