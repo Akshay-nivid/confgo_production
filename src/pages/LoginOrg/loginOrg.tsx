@@ -116,7 +116,6 @@ const LoginOrg = () => {
       sessionStorage.setItem('subscriptionStatus', subscriptionStatus);
       sessionStorage.setItem('userId',id?.toString());
       sessionStorage.setItem('acceptedTerms',acceptedTerms.toString());
-      sessionStorage.setItem('companyId', companyId? companyId: 10);
       sessionStorage.setItem('companyId', companyId);
       sessionStorage.setItem('companyEmail', email);
       sessionStorage.setItem('companyPhone', phone);
