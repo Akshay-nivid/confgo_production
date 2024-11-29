@@ -155,6 +155,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
       setValue("propertyName", "");
       setValue("propertyAmount", "");
     }
+    setValue("isPaid","FREE")
   };
 
   /**
@@ -167,16 +168,14 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
       addonId: Number(selectedAddOnId),
       amount: data.amount,
       description: data.description,
-      ...(data.properties.length > 0 && {
-        properties: Array.isArray(data.properties) && data.properties.length > 0
-          ? data.properties.map((property: any) => ({
-              name: property.propertyName,
-              amount: property.propertyAmount || 0,
-              description: "  ",
-              enabled: 1,
-            }))
-          : [],
-      }),
+      properties: Array.isArray(data.properties) && data.properties.length > 0
+        ? data.properties.map((property: any) => ({
+          name: property.propertyName,
+          amount: property.propertyAmount || 0,
+          description: "  ",
+          enabled: 1,
+        }))
+        : [],
     };
     if (data.dateRequired) {
       formattedData.startTime = `${data.addonDate} ${data.startTime}`;
@@ -279,7 +278,9 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
               placeholder="Price"
               control={control}
               type="number"
-              requiredField={true}
+              rules={{
+                required: "Price is required",
+              }}            
             />
           </Grid>
         )}

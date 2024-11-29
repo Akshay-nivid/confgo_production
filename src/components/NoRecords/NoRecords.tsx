@@ -3,13 +3,14 @@ import Grid from '@mui/material/Grid2';
 
 interface NoRecordsProps {
     imageSrc?: string;
+    noRecordTitle?: string;
     noRecordSubtitle?:string;
 }
 /**
  * No Record Found 
  * @author Neethu
  */
-export const NoRecords: React.FC<NoRecordsProps> = ({imageSrc,noRecordSubtitle}) => {
+export const NoRecords: React.FC<NoRecordsProps> = ({imageSrc,noRecordTitle,noRecordSubtitle}) => {
     
     return (
         <Grid
@@ -25,7 +26,7 @@ export const NoRecords: React.FC<NoRecordsProps> = ({imageSrc,noRecordSubtitle})
             </Grid>
             <Grid size={6} container direction="column" alignItems="center" alignContent="center">
                 <Typography  className="no-record-title">
-                    No Records Available
+                  {noRecordTitle ? noRecordTitle : "No Records Available"}
                 </Typography>
                 <Typography  className="no-record-subtitle" >
                    {noRecordSubtitle?noRecordSubtitle:'It looks like you haven’t created any data yet.'}

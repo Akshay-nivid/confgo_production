@@ -34,26 +34,40 @@
   &-links-container {
     flex: 0 0 83.33%;
     max-width: 83.33%;
+    height: 3.9rem;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    column-gap: 2.75rem;
   }
   .nav-link.active {
     color: $clr_blue;
   }
-
+  .nav-link:hover{
+      color: $clr_blue !important;
+  }
+  
   &-links {
+    text-align: center !important;
     display: flex;
-    column-gap: 2.5rem;
+    align-items: center;
+    column-gap: 2rem;
   }
 
   &-link {
     text-decoration: none;
   }
 
+  &-signUp{
+    width: 10.41rem;
+    height: 3.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4.5rem;
+    border: 0.17rem solid $clr_black !important;
+  }
+
   &-divider {
-    width: 2rem;
     height: 2rem;
     margin-top: -0.2rem;
   }
@@ -82,9 +96,28 @@
     stroke: $clr_black;
   }
 }
-.faq-accordion {
-  .faq-accordion-summary {
-    padding-block: 1rem;
+.accordion {
+  .accordion-summary {
+    padding: 1.5rem;
+    .MuiAccordionSummary-content{
+     p{
+      font-weight: $font_bold;
+      font-size: $h5;
+     }
+    }
+  }
+  .MuiCollapse-root{
+    p{
+      font-weight: $font_medium;
+      font-size: $h6;
+      color: $clr_gray_dark_text !important
+    }
+  }
+  .MuiAccordionSummary-expandIconWrapper{
+    svg{
+      width: 2.08rem !important;
+      height: 2.08rem !important;
+    }
   }
 }
 .service-card {
@@ -104,7 +137,7 @@
   }
 
   &__description {
-    color: $clr_grey;
+    color: $clr_sub_header;
   }
 }
 
@@ -114,7 +147,7 @@
 
   .footer-content {
     width: 100%;
-    border-bottom: 0.1rem dotted $clr_gray_medium;
+    border-bottom: 0.1rem solid $clr_gray_medium;
   }
 
   .footer-title {
@@ -126,12 +159,13 @@
   }
 
   .footer-subtitle {
-    color: $clr_white;
+    color: $clr_light_gray;
     font-size: $h6;
     margin-bottom: 3.33rem;
   }
   .footer-button{
     background-color: $clr_blue;
+    color: $clr_light_gray;
     text-transform: none;
     margin-bottom: 3rem;
   }
@@ -169,8 +203,10 @@
   }
 
   .footer-contact-label {
-    color: $clr_white;
-    font-size: $p2;
+    color: $clr_light_gray;
+    font-size: $p3;
+    padding-bottom: 0.5rem;
+    font-weight: $font_medium;
   }
 
   .footer-contact-value {
@@ -185,19 +221,21 @@
   }
 
   .footer-logo {
-    height: max-content;
-    width: max-content;
-    margin-bottom: 3.91rem;
+   width: 11.8rem;
+   height: 10.8rem;
+   path:last-child{
+      fill: $clr_white;
+    }
   }
 
   .footer-description {
-    color: $clr_white;
+    color: $clr_light_gray;
     text-align: end;
     margin-bottom: 0.66rem;
   }
 
   .footer-copyright {
-    color: $clr_white;
+    color: $clr_light_gray;
   }
 }
 
@@ -286,8 +324,77 @@
     .whychoose-section__header {
       margin-bottom: 4rem;
       &-description {
-        color: $clr_grey;
+        color: $clr_sub_header;
       }
     }
   }
+}
+
+.mobile-navbar{
+  position: fixed;
+  left: 0;
+  right: 0;
+  border: none;
+  overflow: hidden;
+  z-index: 1000;
+  background-color: $clr_white;
+  .logo-container{
+    padding: 1rem;
+    padding-left: 2rem;
+    .logo{
+      width: 13rem;
+      height: 5rem;
+    }
+  }
+  .hamburger-icon{
+    width: 5rem;
+    height: 2rem;
+  }
+}
+.mobile-drawer{
+  .MuiPaper-elevation{
+    background-color: $clr_black;
+    width: 30rem !important;
+  }
+  .drawer-close-icon{
+    padding-top: 2.5rem !important;
+    padding: 1rem;
+   svg{
+    width: 2rem;
+    height: 2rem;
+    path{
+      stroke: $clr_white
+    }
+   }
+
+  }
+  .drawer-container{
+    width: 100%;
+    padding: 0rem 2rem 2rem 2rem;
+    .drawer-link{
+      padding: 2rem 0;
+      color: $clr_white;
+      font-size: $h5;
+      border-bottom: 0.041rem solid $clr_text_gray !important;
+    }
+    .button-container{
+      padding-top: 5rem;
+      button{
+        width: 32.66rem;
+        height: 4.1rem;
+        border-radius: 4.58rem;
+        font-size: $p2;
+        font-weight: $font_semibold;
+        color: $clr_white;
+      }
+      .login-button{
+        background-color: $clr_blue;
+      }
+      .signup-button{
+        background-color: $clr_black;
+        border: 0.16rem solid $clr_white !important;
+      }
+    }
+  }
+  
 }

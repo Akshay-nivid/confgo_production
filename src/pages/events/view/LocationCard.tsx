@@ -1,147 +1,218 @@
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { Logger } from "@/Utils/Logger";
-import useStore from "@/Libs/store";
-
-import CustomButton from "@/components/CustomButton/CustomButton";
-import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import { CloseOutlined, SearchOutlined } from "@mui/icons-material";
-import { useForm } from "react-hook-form";
-import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
-import { IconButton, Typography } from "@mui/material";
-import {EditButtonIcon} from "@/assets/svg";
-//import axios from "axios";
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+//import useStore from "@/Libs/store";
+// import CustomButton from "@/components/CustomButton/CustomButton";
+// import CustomTextField from "@/components/CustomTextfield/CustomTextField";
+// import { CloseOutlined, SearchOutlined } from "@mui/icons-material";
+// import { useForm } from "react-hook-form";
+// import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
+// import { IconButton } from "@mui/material";
+import {Typography} from "@mui/material"
+// import {EditButtonIcon} from "@/assets/svg";
+ import axios from "axios";
+import { GoogleMap, LoadScript,Marker } from '@react-google-maps/api';
+//const { AdvancedMarkerElement } = await google.maps.importLibrary("marker") as any;
+// import config from "../../../../config.json";
 import apiClient from "@/Libs/Https/API-client";
-interface LocationCardProps {
-  data?: string;
+ interface Venue {
+  id: number;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  mapUrl:string;
+  postCode:string;
+  country:string
 }
 /**
- * used to list the location in map
+ * Interface for props
  */
-const LocationCard = ({ data }: LocationCardProps) => {
-
-  /**
-   * Define the coordinates type
-    */ 
-interface Coordinates {
-  lat: number;
-  lng: number;
+interface LocationCardProps{
+  data?: Venue;
 }
 
+/**
+ * Define the coordinates type 
+ */
+interface Coordinates {
+  lat : number
+  lng : number
+}
+
+/**
+ * Component to list the location on a map
+ */
+const LocationCard = ({ data }: LocationCardProps) => { 
   /**
    * State to store map coordinates
    * Initially set to null until fetched from the Google Maps API.
    */
-const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
- 
-  /**
-   * drawer state
-   */
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
 
-  /**
-   *   Functions to open and close the drawer.
-   */
-  const openDrawer = () => setIsDrawerOpen(true);
-  const closeDrawer = () => setIsDrawerOpen(false);
-
-  const setDataById = useStore((state: any) => state.setDataById);
-  // const compData = useStore((state: any) => state.compData.editLocation);
-
+  // const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-
-const GOOGLE_API_KEY = 'YOUR_GOOGLE_API_KEY';  // Replace with your actual API key
-  const { control } = useForm();
+  // const { control } = useForm();
+   //const setDataById = useStore((state: any) => state.setDataById);
   /**
-   * fetch the data of current location
+   *GOOGLE_API_KEY
+   */
+  const GOOGLE_API_KEY = ''; 
+  
+  /**
+   * Function to open and close the drawer
+   */
+  // const openDrawer = () => setIsDrawerOpen(true);
+  // const closeDrawer = () => setIsDrawerOpen(false);
+
+  /**
+   * Fetch the location data when the component mounts
    */
   useEffect(() => {
     getLocation();
   }, []);
- /**
-  * get current location
-  */
+
+  /**
+   * Fetch the current location and update state
+   */
   const getLocation = async () => {
     setLoading(true);
     try {
-      setDataById("editLocation", { data: data });
-      await fetchCoordinates(data);
+      // setDataById("editLocation", {data?.mapUrl });
+      await fetchCoordinates(data?.mapUrl);
     } catch (error) {
-      Logger.error("User Set Password Error", error);
+      Logger.error("Error fetching location data", error);
     } finally {
       setLoading(false);
     }
   };
-
-   /**
-   * Function to fetch coordinates from the Google Maps API
+  /**
+   * Fetch coordinates from the Google Maps API
    * @param mapLocation - Location name or address to fetch coordinates for
    */
-  const fetchCoordinates = async (mapLocation?:string) => {
-    try {
+ const fetchCoordinates = async (mapLocation?: string) => {
+  try {
+    if (!mapLocation || mapLocation.trim() === '') {
+      Logger.error("Invalid or empty mapLocation provided.");
+      return;
+    }
+    if (mapLocation.startsWith("https://maps.app.goo.gl")) {
+      const expandedLocation = await apiClient.get(
+        `https://maps.googleapis.com/maps/api/geocode/json?key=${GOOGLE_API_KEY}&address=${encodeURIComponent(mapLocation)}`
+      );
+      const { lat, lng } = expandedLocation?.data.results[0].geometry.location;
+      setCoordinates({ lat, lng });
+    } else {
       const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-        mapLocation??""
+        mapLocation
       )}&key=${GOOGLE_API_KEY}`;
-       
-      //Use axios here
-       const response = await apiClient.get(geocodeUrl);
+      const response = await axios.get(geocodeUrl);
       if (response.data.results.length > 0) {
         const { lat, lng } = response.data.results[0].geometry.location;
         setCoordinates({ lat, lng });
+      //  await findNearbyPlaces({ lat, lng });
       } else {
-        Logger.error("No coordinates found for the link");
+        Logger.error("No coordinates found for the given location.");
       }
-    } catch (error) {
-      Logger.error('API Error:', error);
     }
-  };
+  } catch (error) {
+    Logger.error("Error fetching coordinates:", error);
+  }
+};   
 
+
+/**
+ * function for find nearby locations 
+ */
+
+// const findNearbyPlaces = async ({ lat, lng }: Coordinates) => {
+//   try {
+//     const radius = 5000; // Radius in meters
+//     const baseUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json";
+
+//     // Helper function to fetch places by type
+//     const fetchPlaces = async (type: string) => {
+//       try {
+//         const response = await apiClient.get(baseUrl, {
+//           params: {
+//             location: `${lat},${lng}`,
+//             radius,
+//             type,
+//             key: GOOGLE_API_KEY,
+//           },
+//         });
+
+//         if (response.data.status !== "OK") {
+//           throw new Error(`Error from Google API: ${response.data.status} - ${response.data.error_message || "Unknown error"}`);
+//         }
+
+//         return response.data.results;
+//       } catch (error:any) {
+//         Logger.error(`Error fetching places for type "${type}":`, error.message);
+//         return [];
+//       }
+//     };
+
+//     // Fetch different types of places in parallel
+//     const [railwayStations, airports, hotels] = await Promise.all([
+//       fetchPlaces("railway station"),
+//       fetchPlaces("Airport"),
+//       fetchPlaces("Hotel"),
+//     ]);
+
+//     // Log the results
+//     console.log("Nearby Railway Stations:", railwayStations);
+//     console.log("Nearby Airports:", airports);
+//     console.log("Nearby Hotels:", hotels);
+
+//     // Return the results if needed
+//     return { railwayStations, airports, hotels };
+//   } catch (error:any) {
+//     console.error("Error fetching nearby places:", error.message);
+//   }
+// };
 
   return (
     <Grid className="main-location-Grid" container >
       <Grid size={12} direction={"row"} container gap={".3rem"} >
-       
         <Grid>
         <Typography className="main-location-Grid-location-Text">
           Location
         </Typography>
         </Grid>
-        <Grid >
+        {/* <Grid >
            <EditButtonIcon className="main-location-Grid-location-button" onClick={openDrawer}/>
-        </Grid>
+        </Grid> */}
         <Grid size={12} container>
         <Grid size={12}className="main-location-Grid-address">
           <Typography className="main-location-Grid-address-title" >Address Line</Typography> 
-          <Typography className="main-location-Grid-address-title-description">here i am </Typography>
+          <Typography className="main-location-Grid-address-title-description">{data?.address} </Typography>
         </Grid>
         <Grid size={12}className="main-location-Grid-address">
         <Typography className="main-location-Grid-address-title" >City</Typography> 
-          <Typography className="main-location-Grid-address-title-description">here i am </Typography>
+          <Typography className="main-location-Grid-address-title-description">{data?.city} </Typography>
         </Grid>
         <Grid size={12}className="main-location-Grid-address">
           <Typography className="main-location-Grid-address-title" >State/Province</Typography> 
-          <Typography className="main-location-Grid-address-title-description">here i am </Typography>
+          <Typography className="main-location-Grid-address-title-description">{data?.state} </Typography>
         </Grid>
         <Grid size={12}className="main-location-Grid-address">
           <Typography className="main-location-Grid-address-title" >ZIP/Postal Code</Typography> 
-          <Typography className="main-location-Grid-address-title-description">here i am </Typography>
+          <Typography className="main-location-Grid-address-title-description">{data?.postCode} </Typography>
         </Grid>
         <Grid size={12}className="main-location-Grid-address">
           <Typography className="main-location-Grid-address-title" >Country</Typography> 
-          <Typography className="main-location-Grid-address-title-description">here i am </Typography>
+          <Typography className="main-location-Grid-address-title-description">{data?.country}  </Typography>
         </Grid>
-        
-    
        </Grid>
       </Grid>
-      <Grid container spacing={4} className="location-grid">
+      <Grid container  className="show-map">
       {loading ? (
           <div>Loading...</div>
         ) : coordinates ? (
           <LoadScript googleMapsApiKey={GOOGLE_API_KEY}>
             <GoogleMap
-              mapContainerStyle={{ width: '100%', height: '400px' }}
+              mapContainerStyle={{ width: '44.84rem', height: '14.59rem'}}
               center={coordinates}
               zoom={12}
             >
@@ -152,7 +223,7 @@ const GOOGLE_API_KEY = 'YOUR_GOOGLE_API_KEY';  // Replace with your actual API k
           <div>No map available</div>
         )}
       </Grid>
-      <Grid size={12} container className="nearby-location-grid">
+      {/* <Grid size={12} container className="nearby-location-grid">
         <Grid flexDirection={"row"} container >
           <Typography className="title">Nearby Landmarks Section</Typography>
           <EditButtonIcon className="main-location-Grid-location-button" onClick={openDrawer}/>
@@ -186,12 +257,10 @@ const GOOGLE_API_KEY = 'YOUR_GOOGLE_API_KEY';  // Replace with your actual API k
           <Typography className="main-location-Grid-address-title-description">here too </Typography>
           </Grid>
         </Grid>
-        
-    
        </Grid>
-      </Grid>
+      </Grid> */}
       {/*edit map drawer */}
-      <CustomDrawer open={isDrawerOpen} type="right">
+      {/* <CustomDrawer open={isDrawerOpen} type="right">
         <Grid container className="edit-location-container">
           <Grid container size={12}>
             <IconButton onClick={closeDrawer}>
@@ -232,7 +301,7 @@ const GOOGLE_API_KEY = 'YOUR_GOOGLE_API_KEY';  // Replace with your actual API k
             <CustomButton className="edit-location-container-edit-location-button" label={"Submit"} />
           </Grid>
         </Grid>
-      </CustomDrawer>
+      </CustomDrawer> */}
     </Grid>
   );
 };

@@ -55,13 +55,13 @@ const PlanFeatureSection = () => {
         >
           <Typography
             textAlign={'center'}
-            className="planfeaturesection__title text-h2 font-700"
+            className="planfeaturesection__title"
           >
             Plan Features
           </Typography>
           <Typography
             textAlign={'center'}
-            className="planfeaturesection__description text-p1"
+            className="planfeaturesection__description"
           >
             Here's an easy to understand comparison table between the features
             you get in the <br /> Free version versus our Pro version.
@@ -119,7 +119,7 @@ const PlanFeatureSection = () => {
             className="planfeaturesection__table-row"
           >
             <Grid size={6} className="planfeaturesection__table-cell">
-              <Typography className="text-p1 font-400">
+              <Typography className="text-p1 font-500">
                 {data?.title}
               </Typography>
             </Grid>

@@ -10,11 +10,12 @@ interface CustomDrawerProps {
   onClose?: () => void;
   children: React.ReactNode; 
   type: 'left' | 'right' | 'top' | 'bottom';
+  className?: string
 }
 
-const CustomDrawer: React.FC<CustomDrawerProps> = ({ open, onClose, children, type }) => {
+const CustomDrawer: React.FC<CustomDrawerProps> = ({ open, onClose, children, type, className }) => {
   return (
-    <Drawer anchor={type} open={open} onClose={onClose}>
+    <Drawer anchor={type} open={open} onClose={onClose} className={className}>
       <div
         role="presentation"
         onClick={onClose}

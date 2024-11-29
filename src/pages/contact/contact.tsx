@@ -134,7 +134,7 @@ const Contact = () => {
                         </Box>
                     </Grid>
                     <Grid container size={{ lg: 4, xs: 9.5 }} spacing={0} className='contact-form' sx={{ order: { xs: 1, lg: 2 } }}  >
-                        <form noValidate onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }} >
+                        <form noValidate onSubmit={handleSubmit(onSubmit)} >
                             <Grid container size={{ lg: 12, xs: 12 }} spacing={3} justifyContent='center' alignItems='center'>
                                 <Grid size={{ lg: 6, xs: 12 }} >
                                     <CustomTextField
@@ -142,7 +142,6 @@ const Contact = () => {
                                         label={"First Name"}
                                         type='text'
                                         control={control}
-                                        placeholder='First Name'
                                         rules={
                                             {
                                                 required: validateRequiredField({})
@@ -153,7 +152,6 @@ const Contact = () => {
                                     <CustomTextField
                                         name='lastName'
                                         label={"Last Nmae"}
-                                        placeholder='Last Name'
                                         type='text'
                                         control={control}
                                         rules={
@@ -169,7 +167,6 @@ const Contact = () => {
                                         name="email"
                                         label={"Email Address"}
                                         type="email"
-                                        placeholder='Email Address'
                                         rules={
                                             {
                                                 required: validateRequiredField({}),
@@ -183,7 +180,6 @@ const Contact = () => {
                                         name='phoneNumber'
                                         label="Phone Number"
                                         type='Number'
-                                        placeholder='Phone Number'
                                         control={control}
                                         rules={{
                                             required: validateRequiredField({}),
@@ -194,10 +190,9 @@ const Contact = () => {
                                 <Grid size={{ lg: 12, xs: 12 }}>
                                     <CustomTextField
                                         name='companyName'
-                                        label="company Name"
+                                        label="Company Name"
                                         type='text'
                                         control={control}
-                                        placeholder='Company Name'
                                         rules={{
                                             required: validateRequiredField({})
                                         }}
@@ -207,7 +202,7 @@ const Contact = () => {
                                     <TextareaAutosize
                                         className='contact-form-textarea'
                                         aria-label="Message"
-                                        placeholder="message....."
+                                        placeholder="Type here....."
                                         name='message'
                                     />
                                 </Grid>
