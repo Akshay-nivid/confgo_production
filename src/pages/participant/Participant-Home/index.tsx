@@ -2,8 +2,7 @@ import { useParams } from 'react-router-dom'
 import Navbar from '../NavBar'
 import EventInfo from './EventInfo'
 import { useEffect } from 'react'
-import  { GET, POST, setDataById } from '@/Libs/store'
-import { Logger } from '@/Utils/Logger'
+import  { GET, POST, setDataById, snackBar } from '@/Libs/store'
 
 
 
@@ -60,7 +59,7 @@ export default function ParticipantHome() {
       },
       
       errorCB: (error: any) => {
-        Logger.error("error", error);
+        snackBar({ severity: 'error', message: error?.message || 'something went wrong' })
       }
    })
  })
