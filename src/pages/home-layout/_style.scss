@@ -96,9 +96,28 @@
     stroke: $clr_black;
   }
 }
-.faq-accordion {
-  .faq-accordion-summary {
-    padding-block: 1rem;
+.accordion {
+  .accordion-summary {
+    padding: 1.5rem;
+    .MuiAccordionSummary-content{
+     p{
+      font-weight: $font_bold;
+      font-size: $h5;
+     }
+    }
+  }
+  .MuiCollapse-root{
+    p{
+      font-weight: $font_medium;
+      font-size: $h6;
+      color: $clr_gray_dark_text !important
+    }
+  }
+  .MuiAccordionSummary-expandIconWrapper{
+    svg{
+      width: 2.08rem !important;
+      height: 2.08rem !important;
+    }
   }
 }
 .service-card {

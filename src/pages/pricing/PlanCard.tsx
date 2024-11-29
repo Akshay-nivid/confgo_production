@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import useStore from '@/Libs/store';
 import { toCamelCase } from '@/Utils/CommonBaseClass';
 import Grid from "@mui/material/Grid2";
-import { BasicPlainIcon, ProPlanIcon, StandardPlanIcon } from '@/assets/svg';
+import { ArrowIconSvg, BasicPlainIcon, ProPlanIcon, StandardPlanIcon } from '@/assets/svg';
 
 /**
  * Plan Card component
@@ -41,7 +41,6 @@ export const PlanCard: React.FC<PlanCardProps> = ({ data, type }) => {
       navigate(routes.upgradePlanPayment());
     }
   };
-  console.log(data, 'data')
   return (
     <Box className=" plancard__container">
       <Box className="plancard__content">
@@ -59,20 +58,20 @@ export const PlanCard: React.FC<PlanCardProps> = ({ data, type }) => {
         <Grid container alignItems={'center'} alignSelf={'center'} className="plancard__price_conatiner">
           <span className="price"> ${data.amount} </span>&nbsp; <span className="period">/&nbsp;{type}</span>
         </Grid>
-        <Box className=" plancard__features">
+        {/* <Box className="plancard__features">
           {Array.from({ length: 5 }).map((_, index) => (
-            <Box key={index} className="plancard__feature">
-              <Typography className="text">
-                Unlimited Conferences & Members
+            <Grid container flexDirection={'row'} key={index} alignItems={'center'} className="plancard__feature">
+               <CheckIcon className='icon'/> &nbsp;&nbsp;<Typography className="text">
+              Unlimited Conferences & Members
               </Typography>
-            </Box>
+            </Grid>
           ))}
-        </Box>
+        </Box> */}
         <Button
           onClick={handleButtonClick}
           fullWidth
-          variant="contained"
           className="plancard__button"
+          endIcon={<ArrowIconSvg/>}
         >
           Choose This Plan
         </Button>

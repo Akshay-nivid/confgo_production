@@ -80,6 +80,8 @@ import CalendarNoEvent from './calender-empty.svg';
 import UserSettingIcon from './user-settings.svg';
 import DownloadCertsIcon from './Download-cert.svg';
 import SignUpFlowIcon from './signup-flow-icon.svg';
+import PlusIcon from './plus-icon.svg';
+import MinusIcon from './minus-icon.svg';
 
 export {
   CalenderIcon,
@@ -163,5 +165,7 @@ export {
   CalendarNoEvent,
   UserSettingIcon,
   DownloadCertsIcon,
-  SignUpFlowIcon
+  SignUpFlowIcon,
+  PlusIcon,
+  MinusIcon
 };
