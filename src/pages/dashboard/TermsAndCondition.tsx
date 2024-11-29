@@ -14,19 +14,26 @@ interface TermsAndConditionProps {
 interface FormData {
     terms: string[],
 }
-
+/**
+ * compoent handles terms and condition
+ */
 const TermsAndCondition = ({ open, onClose }: TermsAndConditionProps) => {
     const { handleSubmit, control } = useForm<FormData>();
     const PUT = useStore((state: any) => state.PUT);
     const setDataById = useStore((state: any) => state.setDataById);
-
+    /**
+     * terms and conditions values
+     */
     const termsArray: string[] = [
         "All events hosted on our platform must adhere to local laws and regulations. The organizer is solely responsible for ensuring compliance and safety during the event. Payments made through the platform are governed by our payment terms, and any refund requests will follow the cancellation policy outlined during event creation.",
         "We are committed to protecting user data as per our privacy policy. Sensitive attendee information will remain confidential and will not be shared without explicit consent. Misuse of the platform, including violation of policies or improper content, may result in account suspension.",
         "Templates and features provided for event customization are subject to availability. Modifications made to event templates after publishing may involve additional charges or limitations."
     ];
-
-    const onSubmit = (data: any) => {
+    /**
+     * submit of terms and condtion
+     * @param data:FormData
+     */
+    const onSubmit = (data: FormData) => {
         if (data?.terms!=undefined&&data?.terms[0] === "YES") {
             handleAcceptTerms();
         } else if (data.terms.length === 0 || data?.terms ==undefined) {
@@ -38,7 +45,9 @@ const TermsAndCondition = ({ open, onClose }: TermsAndConditionProps) => {
             });
         }
     };
-
+    /**
+     * function to handle accept terms condtion
+     */
     const handleAcceptTerms = async () => {
         onClose();  // Close the dialog after accepting terms
         try {
