@@ -183,7 +183,7 @@ const onLogoSubmit = async (newdata: Company) => {
     const { status } = processAPIResponse(response, "personalInformation");
 
     if (status) {
-      setLogoProfileData((prevLogoProfileData) => ({
+      setLogoProfileData(() => ({
         companyName: payload.companyName, 
         companyPhone: payload.companyPhone, 
         companyAddress: payload.companyAddress, 
