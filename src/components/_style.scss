@@ -817,32 +817,36 @@
   width: 26.25rem;
   padding: 1rem;
 
-  &-icon {
+  .action-modal-icon {
       width: 3rem !important;
       height: 3rem !important;
   }
 
-  &-header {
+  .action-modal-header {
       font-weight: $font_bold !important;
       font-size: $h5 !important;
+      text-align: center !important;
+      
   }
 
-  &-sub-header {
+  .action-modal-sub-header {
       font-weight: $font_medium !important;
       font-size: $p3 !important;
       text-align: center !important;
   }
 
-  &-btn-cancel{
+  .action-modal-btn-cancel{
       margin-left: 1rem !important;
       width: 8.75rem;
       text-transform: none !important;
       box-shadow: none !important;
+      background-color: $clr_gray_dark !important;
   }
-  &-btn-ok{
+  .action-modal-btn-ok{
     margin-left: 1rem !important;
     width: 8.75rem;
     text-transform: none !important;
     box-shadow: none !important;
+    background-color: $clr_green !important;
   }
 }

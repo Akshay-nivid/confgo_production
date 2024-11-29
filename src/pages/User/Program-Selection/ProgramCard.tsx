@@ -1,14 +1,14 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomCheckbox from "@/components/CustomCheckbox/CustomCheckbox";
-import useStore, { POST, GET,PUT } from "@/Libs/store";
+import useStore, { POST, GET, PUT } from "@/Libs/store";
 import routes from "@/router/routes";
-import { Box, Typography } from "@mui/material";
+import { Backdrop, Box, CircularProgress, Typography } from "@mui/material";
 import moment from "moment";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import {  useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
-import { formatDate, handleGroupData, isAnyProgramSelectedForDate, processFormData } from "./programsHandlers";
+import { formatDate, handleGroupData, isAnyProgramSelectedForDate, processFormData, toggleProgramCheckboxesByDate } from "./programsHandlers";
 
 
 export interface IProgram {
@@ -55,11 +55,17 @@ const ProgramCard = () => {
 
   const addToCartResponseData = useStore((state: any) => state?.compData?.["addToCart"]) ?? null;
 
-  const { control, handleSubmit, setValue, watch,getValues } = useForm<any>({ defaultValues: defaultFormData ? defaultFormData : {}});
+  const { control, handleSubmit, setValue, watch, getValues,reset } = useForm<any>({ defaultValues:{} });
 
-  const addToCartLoading = useStore((state:any)=>state?.compData?.addToCartLoading?.loading)
- 
+  const cartId = addToCartResponseData?.cart?.data?.id || null;
 
+  const addToCartLoading = cartId ? addToCartResponseData?.[`cart/${cartId}`]?.loading : !!addToCartResponseData?.cart?.loading;
+
+  const eventDataLoading = useStore((state: any) => state?.compData?.["eventData"]?.[`event/${eventId}`]?.loading) ?? false
+
+  const slugName = useStore((state: any) => state?.compData?.["slugName"]?.slugName) || '';
+
+  const participantTypeId = useStore((state: any) => state?.compData?.["participantTypeId"]?.value) ?? null
 
   /**
     * Method used to call event details Api
@@ -69,13 +75,13 @@ const ProgramCard = () => {
     const fetchEventDetails = async () => {
 
       if (!eventId) {
-        navigate(routes.participantHome());
+        navigate(routes.participantHome(slugName));
       }
 
       GET({
         url: `event/${eventId}`,
         id: 'eventData',
-  
+
         successCB: (response: any) => {
           const formatedData = handleGroupData({
             addons: response?.data?.addons,
@@ -95,20 +101,21 @@ const ProgramCard = () => {
   }, []);
 
 
-/**
- * method to handle submission of form, triggers add selected properties to cart api 
- * @param formData 
- * @returns 
- */
+  /**
+   * method to handle submission of form, triggers add selected properties to cart api 
+   * @param formData 
+   * @returns 
+   */
   function handleClickNextButton(formData: any) {
-   
 
-   setDataById('defaultProgramData', { formData: formData }) // storing form data for setting default values in next screen 
+    setDataById('defaultProgramData', { formData: formData }) // storing form data for setting default values in next screen 
 
-   const body = processFormData(formData, eventId) // processing form data to match cart api body format
 
-   const selectedPrograms = body.programIds || null;
-    
+    const body = processFormData(formData, eventId,participantTypeId) // processing form data to match cart api body format
+
+    const selectedPrograms = body.programIds || null;
+
+
     if (selectedPrograms.length === 0 || selectedPrograms === undefined || !selectedPrograms) {
 
       setDataById("snackBarInfo", {
@@ -121,25 +128,39 @@ const ProgramCard = () => {
       return
     }
 
-    const cartId = addToCartResponseData?.cart?.data?.id;
+
+    const addonsWithNoAddonProp = body.addons && body?.addons.some((addon: any) => {
+      
+        return !addon?.propertyIds || addon?.propertyIds?.length === 0
+      
+    })
+
+
+    if(addonsWithNoAddonProp){
+      setDataById("snackBarInfo", {
+        open: true,
+        autoHideDuration: 2000,
+        severity: "error",
+        message: 'Please select at least one property for each selected addon.',
+      });
+      return;
+    }
 
     if (!cartId) {
-      setDataById('addToCartLoading',{loading:true})
       POST({
         url: 'cart',
         body: body,
         id: 'addToCart',
-  
+
         successCB: (data: any) => {
-          setDataById('addToCartLoading',{loading:false})
-  
+
           const cartID = cartId ? cartId : data?.data?.id
-  
+
           GET({
             url: `cart/${cartID}`,
             id: 'getCart',
             successCB: (response: any) => {
-  
+
               const formatedData = handleGroupData({
                 addons: response?.data?.addons,
                 programs: response?.data?.programs,
@@ -147,65 +168,61 @@ const ProgramCard = () => {
               })
 
               setDataById("formatedCartData", { formatedData: formatedData }) // storing data after formatting for mapping in ui
-   
+
               navigate(routes.selectedPrograms());
-  
+
             },
             errorCB: (error: any) => {
-  
+
               setDataById("snackBarInfo", {
                 open: true,
                 autoHideDuration: 2000,
                 severity: "error",
                 message: error?.message || 'something went wrong',
               })
-  
+
             }
           })
-  
+
         },
         errorCB: (error: any) => {
-          setDataById('addToCartLoading',{loading:false})
-  
+
           setDataById("snackBarInfo", {
             open: true,
             autoHideDuration: 2000,
             severity: "error",
             message: error?.message,
           });
-  
+
         }
       })
     }
     else {
-      setDataById('addToCartLoading',{loading:true})
 
       PUT({
         url: `cart/${cartId}`,
         body: body,
         id: 'addToCart',
-  
+
         successCB: (data: any) => {
-          setDataById('addToCartLoading',{loading:false})
 
           const cartID = cartId ? cartId : data?.data?.id
-  
+
           GET({
             url: `cart/${cartID}`,
             id: 'getCart',
             successCB: (response: any) => {
-              setDataById('addToCartLoading',{loading:false})
-  
+
               const formatedData = handleGroupData({
                 addons: response?.data?.addons,
                 programs: response?.data?.programs,
                 calculateTotal: true
               })
-  
+
               setDataById("formatedCartData", { formatedData: formatedData })
-   
+
               navigate(routes.selectedPrograms());
-  
+
             },
             errorCB: (error: any) => {
 
@@ -215,41 +232,72 @@ const ProgramCard = () => {
                 severity: "error",
                 message: error?.message || 'something went wrong',
               })
-  
+
             }
           })
-  
+
         },
         errorCB: (error: any) => {
-          setDataById('addToCartLoading',{loading:false})
-  
+
           setDataById("snackBarInfo", {
             open: true,
             autoHideDuration: 2000,
             severity: "error",
             message: error?.message,
           });
-  
+
         }
       })
     }
   }
 
 
-/**
- * When user toggles an addon checkbox, this function is called.
- * It takes the key of the checkbox as an argument. The key is in the format of "date-ADDON-addonId"
- * It first splits the key into date, ADDON, and addonId. Then it sets the value of the corresponding checkbox in the form to undefined.
- * This is used to remove the addon from the cart when the user unchecks the checkbox.
- * @param key - the key of the checkbox in the format of "date-ADDON-addonId"
- */
-  function onToggleAddonCheckBox(key:string) {
-    const [date,_,id] = key.split("-")
-    getValues(key)
 
-    setValue(`${date}-addonProp-${id}`,undefined)
+  /**
+   * When user toggles an addon checkbox, this function is called.
+   * It takes the key of the checkbox as an argument. The key is in the format of "date-ADDON-addonId"
+   * It first splits the key into date, ADDON, and addonId. Then it sets the value of the corresponding checkbox in the form to undefined.
+   * This is used to remove the addon from the cart when the user unchecks the checkbox.
+   * @param key - the key of the checkbox in the format of "date-ADDON-addonId"
+   */
+  function onToggleAddonCheckBox(key: string) {
+    const [date, _, id] = key.split("-")
+
+    setValue(`${date}-addonProp-${id}`, undefined)
 
   }
+
+
+
+ 
+  /**
+   * Handles toggling of a program checkbox. It takes the key of the checkbox as an argument.
+   * The key is in the format of "date-PROGRAM-programId". It calls the toggleProgramCheckboxesByDate function
+   * which takes care of toggling the checkbox and setting the value of the corresponding program to undefined
+   * if the checkbox is unchecked. This is used to remove the program from the cart when the user unchecks the checkbox.
+   * @param key - the key of the checkbox in the format of "date-PROGRAM-programId"
+   */
+  function handleToggleProgramCheckbox(key: string) {
+    toggleProgramCheckboxesByDate({key, setValue, getValues})
+  }
+
+/**
+ * setting form default value
+ */
+  useEffect(() => {
+    reset(defaultFormData)
+  }, [])
+  
+
+  if (eventDataLoading) {
+    return (
+      <Backdrop  open={true}>
+        <CircularProgress color="inherit" />
+      </Backdrop>
+    )
+  }
+
+
 
   return (
 
@@ -268,6 +316,7 @@ const ProgramCard = () => {
               <Grid container key={program.id} direction="row" className="program-list-container">
                 <Grid className="program-list-item">
                   <CustomCheckbox
+                    onChange={() => handleToggleProgramCheckbox(`${formatDate(date)}-programs`)}
                     control={control}
                     className="program-list-item-checkbox"
                     id={program?.name}
@@ -291,15 +340,18 @@ const ProgramCard = () => {
                 <Box className="space-y-4">
                   {programs.addons?.map((addon: any, index: number) => {
                     const currentAddon = `${formatDate(date)}-addon-${addon?.id}`
-                    const isDisabled = !isAnyProgramSelectedForDate(date,watch);
+                    const isDisabled = !isAnyProgramSelectedForDate(date, watch);
                     return (
                       <Box key={`addon-${addon.addonId}-${index}`}>
-                        <Grid display="flex" className="add-on-list-item">
+                        <Grid  display="flex" className="add-on-list-item">
                           <CustomCheckbox
+
                             disabled={isDisabled}
                             control={control}
                             className="add-on-list-item-checkbox"
-                            onChange={()=>onToggleAddonCheckBox(`${formatDate(date)}-addon-${addon?.id}`)}
+                            onChange={() => {
+                              onToggleAddonCheckBox(`${formatDate(date)}-addon-${addon?.id}`)
+                            }}
                             id={addon?.addonId}
                             name={`${formatDate(date)}-addon-${addon?.id}`}
                             options={[
@@ -318,7 +370,7 @@ const ProgramCard = () => {
 
                         </Grid>
                         {addon?.eventAddonProperties?.length > 0 && (
-                          <Grid >
+                          <Grid container paddingBlock={1} paddingInline={1} columnSpacing={2}>
 
                             {addon.eventAddonProperties.map((property: any) => (
                               < CustomCheckbox
@@ -351,8 +403,7 @@ const ProgramCard = () => {
           label="Back"
           onClick={() => navigate(-1)}
         />
-          <CustomButton isLoading={addToCartLoading} className={"next-button"} label="Next" type="submit" />
-
+        <CustomButton isLoading={addToCartLoading} className={"next-button"} label="Next" type="submit" />
       </Box>
     </form>
   );
