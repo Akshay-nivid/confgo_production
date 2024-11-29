@@ -5,7 +5,6 @@ import React, { useCallback, useState } from "react";
 import { useDropzone, FileRejection, Accept } from "react-dropzone";
 import DeleteIcon from "@mui/icons-material/Close";
 import CustomButton from "../CustomButton/CustomButton";
-import { Logger } from "@/Utils/Logger";
 import clsx from "clsx";
 
 interface Resolution {
@@ -183,7 +182,6 @@ const FileUpload: React.FC<FileUploadProps> = ({
           severity: "error",
           message: error.message,
         });
-        Logger.error("Upload error", error);
       },
     });
   };

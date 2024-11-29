@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from 'react';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import Grid from '@mui/material/Grid2';
 import useStore, { POST, PUT, snackBar } from '@/Libs/store';
-import { Logger } from '@/Utils/Logger';
 import { setDataById } from '@/Libs/store';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
@@ -201,15 +200,13 @@ const PayPalParticipantButton: React.FC = () => {
                 "eventId": eventId
             },
 
-            successCB: (participantResponse) => {
+            successCB: () => {
 
-                Logger._log("participantResponse", participantResponse)
 
             },
 
-            errorCB(participantError) {
+            errorCB() {
 
-                Logger._log("participantResponse", participantError)
 
             },
         })
@@ -233,13 +230,11 @@ const PayPalParticipantButton: React.FC = () => {
         POST({
             url: `order/update/${orderData.id}`, body: orderBody,
             id: 'order1',
-            successCB: (orderResponse: any) => {
+            successCB: () => {
                 
-                Logger.info("orderResponse", orderResponse)
-
                 updateForm()
+
             },
-            errorCB: (error: any) => Logger.error("error", error)
         })
 
     }
@@ -258,7 +253,6 @@ const PayPalParticipantButton: React.FC = () => {
  */
     function updatePaymentStatus(paypalData: IPayPalOrder,paymentId: string|number) {
 
-        Logger._log("paypalData", paypalData)
 
         const paymentBody = {
             "state": paypalData?.status,
@@ -273,9 +267,8 @@ const PayPalParticipantButton: React.FC = () => {
             url: `payment/update/${paymentId}`,
             id: 'payment',
             body: paymentBody,
-            successCB: (paymentResponse: IPaymentResponse) => {
+            successCB: () => {
 
-                Logger.info("paymentResponse", paymentResponse)
                 updateOrderStatus(paypalData)
 
             }
@@ -329,16 +322,14 @@ const PayPalParticipantButton: React.FC = () => {
             body: body,
             successCB: async (paymentResponse: IPaymentResponse) => {
 
-                Logger.info("paymentResponse", paymentResponse)
 
                 POST({
                     url: 'participant',
                     body: participantBody,
                     id: 'participant',
 
-                    successCB:async (participantResponse: any) => {
+                    successCB:async () => {
 
-                        Logger.info("participantResponse", participantResponse)
 
                         
                             const paymentSuccessInfo = await actions.order.capture();
@@ -353,21 +344,19 @@ const PayPalParticipantButton: React.FC = () => {
                             }
     
                     },
-                    errorCB: (error: any) => {
+                    errorCB: () => {
                         snackBar({ severity: 'error', message: 'Something went wrong while creating participant. Please try again' })
-                        Logger.error("error", error)
                     }
                 })
 
             },
-            errorCB: (error: any) => {
+            errorCB: () => {
 
                 snackBar({ severity: 'error', message: 'Something went wrong while creating payment. Please try again' })
 
 
                 navigate(routes.userPaymentMethod())
 
-                Logger.error("error", error)
 
                 return
             }
@@ -390,8 +379,7 @@ const PayPalParticipantButton: React.FC = () => {
      * Handles the error event of paypal. Shows error message and logs the error in the console.
      * @param data - The error data returned by paypal.
      */
-    function handleError(data: any) {
-        Logger.error("error", data)
+    function handleError() {
         snackBar({ severity: 'error', message: 'Something went wrong. Please try again' })
     }
 
