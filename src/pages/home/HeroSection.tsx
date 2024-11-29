@@ -19,12 +19,12 @@ const HeroSection = () => {
         <Grid className="hero-section-container">
           <Typography
             textAlign={"center"}
-            className="hero-section-title text-h1 font-700"
+            className="hero-section-title"
           >
             Your All-in-One <br /> Conference Solution.
           </Typography>
           <Typography
-            className="hero-section-description text-p1 font-400"
+            className="hero-section-description"
             textAlign={"center"}
           >
             Tired of juggling multiple tools and platforms to organize conferences and group meetings? Look no further— <br />
