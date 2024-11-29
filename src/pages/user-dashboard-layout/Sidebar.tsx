@@ -1,8 +1,9 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import {  CalendarEventIcon, DashboardUserIcon, HeartEventIcon, TransactionHistoryIcon, UserSettingIcon } from '@/assets/svg';
-import {  Drawer, List, ListItem, ListItemText, ListItemButton, useMediaQuery, Divider } from '@mui/material';
+import {  Drawer, List, ListItem, ListItemText, ListItemButton, Divider } from '@mui/material';
 import routes from '@/router/routes';
+import { useIsMobileScreen } from '@/Utils/CommonBaseClass';
 
 interface SidebarProps {
   open: boolean;
@@ -48,7 +49,7 @@ const sidebarItems = [
  */
 const Sidebar: React.FC<SidebarProps> = ({ open, onClose }) => {
   const location = useLocation();
-  const isMobile = useMediaQuery('(max-width:600px)'); // Adjust breakpoint as needed
+  const isMobile = useIsMobileScreen(); // Adjust breakpoint as needed
 
   const isActiveLink = (path: string, exact: boolean) => {
     return exact
