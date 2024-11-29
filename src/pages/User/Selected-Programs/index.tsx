@@ -505,7 +505,7 @@ const SelectedPrograms = () => {
 
 
               <Grid display={'flex'} columnGap={2} alignItems={'center'}>
-                <EventRegistrationSuccessIcon fontSize={'40px'} />
+                <EventRegistrationSuccessIcon fontSize={'2.5rem'} />
                 <Box>
                   <Typography className="coupon-code">{couponData?.data?.coupon?.code.toUpperCase()} <span className="ml-1">applied</span></Typography>
                   <Typography></Typography>
