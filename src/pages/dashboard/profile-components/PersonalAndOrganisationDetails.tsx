@@ -239,7 +239,7 @@ return (
           <EditIcon />
         </IconButton>
       </Grid>
-      <Grid className="main-account-profile-image connected">
+      {profileData?.assetId? <Grid className="main-account-profile-image connected">
         <Avatar
           className="main-user-profile"
           src={
@@ -250,7 +250,17 @@ return (
           alt="User Profile"
           variant="circular"
         />
-      </Grid>
+      </Grid>:
+      <Grid size={1} className="main-account-profile-image connected" mb={0}>
+           {profileData?.firstName && profileData?.lastName ? (
+              <Avatar className="main-user-profile main-user-profile-text" >
+                {`${profileData?.firstName[0]}${profileData?.lastName[0]}`.toUpperCase()}
+              </Avatar>
+            ) : (
+              <Avatar>
+              </Avatar>
+            )}
+         </Grid>}
       <Grid
         container
         className="main-account-detail-grid connected"
@@ -307,7 +317,7 @@ return (
           <EditIcon />
         </IconButton>
       </Grid>
-      <Avatar
+      {LogoprofileData?.assetId?<Avatar
         className="main-user-profile"
         src={
           LogoprofileData?.assetId
@@ -316,7 +326,17 @@ return (
         }
         alt="User Profile"
         variant="circular"
-      />
+      />:
+      <Grid size={1} className="main-account-profile-image connected" mb={0}>
+           {LogoprofileData?.companyName ? (
+              <Avatar className="main-user-profile main-user-profile-text" >
+                {`${LogoprofileData?.companyName}`.toUpperCase()}
+              </Avatar>
+            ) : (
+              <Avatar>
+              </Avatar>
+            )}
+         </Grid>}
       <Grid
         container
         className="main-account-detail-grid connected"
@@ -366,7 +386,7 @@ return (
           <Typography className="main-account-title account-drawer-textfield">
             Edit Personal Details
           </Typography>
-          <IconButton onClick={closeDrawer}>
+          <IconButton onClick={closeDrawer} className="close">
             <CloseOutlined />
           </IconButton>
         </Grid>
