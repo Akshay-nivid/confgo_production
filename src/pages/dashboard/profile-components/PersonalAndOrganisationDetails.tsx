@@ -168,7 +168,6 @@ const handleOrganisationImageUpload =(uploadedFiles: CustomFile)=>{
 
 /** function to submit logo */
 const onLogoSubmit = async (newdata: Company) => {
-  console.log("New company data", newdata);
   try {
     const payload = {
       companyName: newdata.companyName || LogoprofileData?.companyName || "", 
@@ -181,14 +180,10 @@ const onLogoSubmit = async (newdata: Company) => {
     // Send the payload to the server for updating the company details
     const response = await apiClient.put(`/company/${companyId}`, payload);
     const { status } = processAPIResponse(response, "personalInformation");
-
     if (status) {
-      setLogoProfileData(() => ({
-        companyName: payload.companyName, 
-        companyPhone: payload.companyPhone, 
-        companyAddress: payload.companyAddress, 
-        companyEmail: payload.companyEmail, 
-        assetId: payload.assetId,
+      setLogoProfileData((prevData) => ({
+        ...prevData,
+        ...payload,
       }));
       setDataById("logo", {
         status: "success",
@@ -197,6 +192,7 @@ const onLogoSubmit = async (newdata: Company) => {
   } catch (error) {
     console.error("Error during logo submit:", error);
   }
+  closeOrganisationDrawer()
 };
 
 /**
