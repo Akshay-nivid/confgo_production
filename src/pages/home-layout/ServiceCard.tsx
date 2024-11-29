@@ -7,18 +7,18 @@ import Typography from "@mui/material/Typography";
 export const ServiceCard: React.FC<any> = ({ data }) => {
   const { Icon, title, description } = data;
   return (
-    <Box className="service-card ">
+    <Box className="service-card">
       <Icon className="service-card_icon"/>
       <Box>
         <Typography
           textAlign={"center"}
-          className="service-card__title text-h5 font-600"
+          className="service-card__title"
         >
           {title}
         </Typography>
         <Typography
           textAlign={"center"}
-          className="text-p1 service-card__description"
+          className="service-card__description"
         >
           {description}
         </Typography>
