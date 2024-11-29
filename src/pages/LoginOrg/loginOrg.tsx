@@ -28,6 +28,7 @@ export interface ApiResponse {
       roleName: string;
     };
     subscriptionStatus: string;
+    acceptedTerms:number;
     companyId: any;
     phone: string;
   };
@@ -90,7 +91,7 @@ const LoginOrg = () => {
    * @param data - The response data from the API.
    */
   const handleLoginSuccess = async (data: ApiResponse['data']) => {
-    const { userRole, token, firstName, lastName, subscriptionStatus, companyId, email, phone } = data;
+    const { userRole, token, firstName, lastName, subscriptionStatus, companyId, email, phone,acceptedTerms,id } = data;
 
     // Clear previous session data
     sessionStorage.clear();
@@ -113,6 +114,8 @@ const LoginOrg = () => {
       // Store specific session details for company users
       sessionStorage.setItem('companyUserName', `${firstName} ${lastName || ''}`);
       sessionStorage.setItem('subscriptionStatus', subscriptionStatus);
+      sessionStorage.setItem('userId',id?.toString());
+      sessionStorage.setItem('acceptedTerms',acceptedTerms.toString());
       sessionStorage.setItem('companyId', companyId);
       sessionStorage.setItem('companyEmail', email);
       sessionStorage.setItem('companyPhone', phone);

@@ -153,6 +153,13 @@ const EventInfoCard: React.FC<any> = React.memo(
         message: "Event is Already Published !",
       });
     }else{
+      if(eventData?.assetId!=0){
+        setSelectedFile({
+          id: eventData?.assetId,
+          name: 'Business'
+      });
+      }
+
       openDrawer()
     }
   }
@@ -164,18 +171,7 @@ const EventInfoCard: React.FC<any> = React.memo(
     setSelectedFile(null);
   };
 
-  /**
-   *useEffect set assestId
-   */
-  useEffect(() => {
-    if(eventData?.assetId){
-      setSelectedFile({
-        id: eventData?.assetId,
-        name: 'Business'
-    });
-    }
 
-  },[])
     /**
      *  Configuration for the editor toolbar
      */
@@ -207,9 +203,9 @@ const EventInfoCard: React.FC<any> = React.memo(
           </IconButton>
         </Grid>
         </Grid>
-        {eventData?.assetId&& <Grid size={0}>
+        {eventData?.assetId!=0&& <Grid size={0}>
         </Grid>}
-       {eventData?.assetId&&<Grid size={{ xs: 12 }}>
+       {eventData?.assetId!=0&&<Grid size={{ xs: 12 }}>
         <Grid container flexDirection={"row"} direction={"row"}>
                         <Grid>
                           <Grid
@@ -299,7 +295,7 @@ const EventInfoCard: React.FC<any> = React.memo(
       </Grid>
       {/* Drawer Component */}
       <CustomDrawer open={isDrawerOpen} type="right">
-        <Grid container spacing={2} padding={2}>
+        <Grid container spacing={2} padding={2} className="event-information-custom-drawer">
           <Grid
             size={{ xs: 12 }}
             container
@@ -318,11 +314,11 @@ const EventInfoCard: React.FC<any> = React.memo(
               <Grid container spacing={2} direction="column">
               <Grid size={{ xs: 12, sm: 12 }} direction={'row'} container flexDirection={"row"}>
                             <Grid container direction={'row'} alignItems={'center'} justifyContent={"center"} alignContent={"center"}>
-                            {selectedFile && (
+                            {selectedFile &&(
                               <Grid className="create-event-btn-container-img-box" >
                                 <img
-                                  src={`${baseUrl}asset/${selectedFile.id}`}
-                                  alt={selectedFile.name}
+                                  src={selectedFile?.id?`${baseUrl}asset/${selectedFile?.id}`:`${baseUrl}asset/${eventData?.assestId}`}
+                                  alt={selectedFile?.name}
                                 />
                               </Grid>
                             )}
