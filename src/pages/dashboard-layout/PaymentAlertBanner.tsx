@@ -4,6 +4,7 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { Alert, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import WarningIcon from "../../assets/svg/warning.svg"
 import useStore from "@/Libs/store";
 import routes from "@/router/routes";
 import { useNavigate } from "react-router-dom";
@@ -24,8 +25,9 @@ export const PaymentAlertBanner = () => {
     }   
     return(
         <Grid container size={{ xs: 12, sm: 12 }} p={3} pb={0} className="payment-alert-banner">
-            <Alert severity="warning">
+            <Alert severity="warning" icon={<WarningIcon style={{ width: 22, height: 22, marginTop:4 }} />} >
                 <Grid>
+                
                 <Typography className="payment-alert-banner-title">
                     No payment done yet
                 </Typography>
