@@ -80,8 +80,8 @@ const LayoutAppbar: React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =
       <Grid className="appbars-logo-container">
         LOGO
       </Grid>
-      <Grid  className="appbars-right" container justifyContent="flex-end" >
-        <Grid size={2} className="appbars-group" onClick={handleMenuOpen}>
+      <Grid  className="appbars-right" container>
+        <Grid size={2} className="appbars-group" onClick={handleMenuOpen} >
           {/*Image */}
           <Grid size={1} className="appbars-group-img" mb={0}>
             {userDetails?.firstName && userDetails?.lastName ? (
@@ -112,23 +112,23 @@ const LayoutAppbar: React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =
           anchorEl={anchorEl}
           onClose={handleMenuClose}
           className="user-profile-menu"
-        >
+          >
           <MenuItem className="" >
-            <Grid size={12} className="appbar-group-image" mb={0}>
-              {userDetails?.firstName && userDetails?.lastName ? (
-                <Avatar className="appbar-group-avatar" >
-                  {`${userDetails.firstName[0]}${userDetails.lastName[0]}`.toUpperCase()}
-                </Avatar>
-
-              ) : (
-                <Avatar>
-                </Avatar>
-              )}
-            </Grid>
-
+          <Grid size={1} className="appbars-group-img" mb={0}>
+            {userDetails?.firstName && userDetails?.lastName ? (
+              <Avatar className="appbars-group-avatar" >
+                {`${userDetails.firstName[0]}${userDetails.lastName[0]}`.toUpperCase()}
+              </Avatar>
+            ) : (
+              <Avatar>
+              </Avatar>
+            )}
+          </Grid>
             <span className="menu-item-text">{userDetails?.firstName} {userDetails?.lastName}
               <br />
-              <span>{userDetails?.email}</span>
+              <span className="menu-item-text-email">
+                  {userDetails?.email}
+              </span>
             </span>
 
           </MenuItem>

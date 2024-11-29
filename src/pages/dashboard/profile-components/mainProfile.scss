@@ -25,7 +25,11 @@
     height: 6.667rem !important; 
     border-radius: 3.333rem !important; 
     object-fit: cover !important;
-  }
+    background-color: $soft-cyan !important;
+    color: $clr_white;
+    font-size: $h2 !important;
+    font-weight: $font-bold !important;
+}
 .main-account-user-detail1{
     font-weight: $font_medium !important;
     font-size: $h6 !important;
@@ -36,16 +40,14 @@
 .main-account-main-grid{
     margin-bottom: 2rem;
 }
-
 .main-account-user-detail2{
     line-height: 3rem !important;
     font-weight: $font_semibold !important;
     font-size: $h6 !important;
 }
-
 .main-account-profile-grid{
     width: 49.438rem;
-    border: 0.083rem solid $clr_gray_very_light;
+    border: 0.0833rem solid $clr_gray_very_light;
     border-radius: 0.625rem;
     padding: 1.5rem;
 }
@@ -64,6 +66,9 @@
     justify-content: space-between;
     align-items: center;
 }
+.close{
+     margin-bottom:2.2rem !important;
+}
 .main-account-drawer-textfield{
     margin-bottom: 2rem !important;
 }
@@ -74,8 +79,14 @@
 .main-account-drawer-btn{
     justify-content: flex-end;
     align-items: center;
-    
-
+    .main-user-submit-btn{
+        width: 10.25rem;
+        height: 3.83rem;
+        font-family:$font_bold;
+        font-size:$h6;
+        font-weight:$font_semibold; 
+        line-height: 1.5rem;
+    }
 }
 .main-outline{
     border: 0.083rem solid $clr_gray_dark !important;
