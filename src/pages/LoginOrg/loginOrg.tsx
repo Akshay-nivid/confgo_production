@@ -89,7 +89,7 @@ const LoginOrg = () => {
    * @param data - The response data from the API.
    */
   const handleLoginSuccess = async (data: ApiResponse['data']) => {
-    const { userRole, token, firstName, lastName, subscriptionStatus, companyId } = data;
+    const { userRole, token, firstName, lastName, subscriptionStatus, companyId, email, phone } = data;
 
     // Clear previous session data
     sessionStorage.clear();
@@ -112,7 +112,9 @@ const LoginOrg = () => {
       // Store specific session details for company users
       sessionStorage.setItem('companyUserName', `${firstName} ${lastName || ''}`);
       sessionStorage.setItem('subscriptionStatus', subscriptionStatus);
-      sessionStorage.setItem('companyId', companyId? companyId: 10);
+      sessionStorage.setItem('companyId', companyId);
+      sessionStorage.setItem('companyEmail', email);
+      sessionStorage.setItem('companyPhone', phone);
           // Show success notification
     setDataById("snackBarInfo", {
       open: true,
