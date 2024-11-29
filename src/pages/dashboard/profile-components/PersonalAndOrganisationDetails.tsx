@@ -203,7 +203,7 @@ const onSubmit = async (data: Profile) => {
   try {
     const payload = {
       ...data,
-      assetId: drawerProfileImage,
+      assetId: drawerProfileImage || profileData?.assetId,
     };
     const response = await apiClient.put(`/user`, payload);
     const { status } = processAPIResponse(response, "personalInformation");
