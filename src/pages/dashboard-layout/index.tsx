@@ -5,7 +5,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { PaymentAlertBanner } from './PaymentAlertBanner';
 import useStore, { POST } from "@/Libs/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 /**
  * component used to render layout
@@ -13,11 +13,16 @@ import { useEffect } from "react";
  */
 const Layout = () => {
   const location = useLocation();
+  const [showAlertBanner, setShowAlertBanner] = useState(false);
 
   const dataInfo = useStore((state: any) => state?.compData?.["paymentBanner"]?.['subscription/verify']?.data) ?? [];
 
-  const showAlertBanner = dataInfo?.subscriptionStatus == false &&
-  !/^\/planUpgrade(\/.*)?$/.test(location.pathname);
+  useEffect(() => {
+    const showBanner =
+      dataInfo?.subscriptionStatus === false &&
+      !/^\/planUpgrade(\/.*)?$/.test(location.pathname);
+    setShowAlertBanner(showBanner);
+  }, [dataInfo, location]);
 
   useEffect(() => {
     POST({

@@ -28,7 +28,7 @@ interface FileListModalProps {
   open: boolean;
   handleClose: () => void;
   onSelectFile: (file: CustomFile[]) => void;
-  companyId: number | string | null;
+  companyId: Number | string | null;
   multipleSelect?: boolean;
   imagesPerRow?: number;
 }
@@ -36,7 +36,7 @@ interface FileListModalProps {
  * function to fetch file 
 @param companyId,searchQuery
  */
-const fetchFilesFromAPI = async (companyId: number, searchQuery: string) => {
+const fetchFilesFromAPI = async (companyId: Number | string | null, searchQuery: string) => {
   const req = {
     filters: {
       companyId,

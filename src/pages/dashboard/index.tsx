@@ -165,8 +165,8 @@ const Dashboard = () => {
   <>
   <TermsAndConditon open={open} onClose={handleClose}/>
   { fullEventList?.data?.length==0?<NoDataDashBoard/>:<Grid container size={{ xs: 12, sm: 12 }} spacing={2} className="dashboard" >
-    <Grid size={{ xs: 12, sm: 8 }} container >
-      <Grid size={{ xs: 12, sm: 12 }} container>
+    <Grid size={{ xs: 12, sm: 8 }} container p={2}>
+      <Grid size={{ xs: 12, sm: 12 }} container >
         <Grid size={{ xs: 12, sm:upcomingData? 6:12 }} className="dashboard-welcome-card"><WelcomeCard /></Grid>
         {upcomingData&& <Grid size={{ xs: 12, sm: 6 }} className="dashboard-upcoming-event-card"><UpcomingEventCard data={upcomingData}/></Grid>}
       </Grid>
@@ -184,7 +184,7 @@ const Dashboard = () => {
         label="Create New Event"/>
         </Grid>}
     </Grid>
-    <Grid size={{ xs: 12, sm: 4 }} >
+    <Grid size={{ xs: 12, sm: 4 }} pt={2}>
       <Grid><Typography className="dashboard-calendar-card-header">Weekly Calendar</Typography></Grid>
       {upcomingData? <Grid className="dashboard-calendar-card"> <CalendarCard data={upcomingData}/> </Grid>:
         <Grid container className="dashboard-no-event-calender" justifyContent={"center"} alignItems={"center"} alignContent={"center"} flexDirection={"column"}>
@@ -199,7 +199,7 @@ const Dashboard = () => {
         </Grid>
        }
     </Grid>
-    <Grid size={{ xs: 12, sm: 12 }} container direction={'column'}>
+    <Grid size={{ xs: 12, sm: 12 }} container direction={'column'} p={1}>
       <Grid className="dashboard-event-list-card"><EventListCard /></Grid>
     </Grid>
   </Grid>}

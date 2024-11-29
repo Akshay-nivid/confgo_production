@@ -15,9 +15,7 @@ const Pricing = () => {
       <PlanSection />
       <PlanFeatureSection/>
       <WhychooseSection/>
-      <Box className="faq-section__container">
-        <FaqSection />
-      </Box>
+      <FaqSection />
     </Box>  
   );
 };

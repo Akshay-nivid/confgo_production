@@ -1,9 +1,10 @@
-import { BasicPlanSvg } from '@/assets/svg';
 import routes from '@/router/routes';
 import { Box, Typography, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import useStore from '@/Libs/store';
 import { toCamelCase } from '@/Utils/CommonBaseClass';
+import Grid from "@mui/material/Grid2";
+import { ArrowIconSvg, BasicPlainIcon, ProPlanIcon, StandardPlanIcon } from '@/assets/svg';
 
 /**
  * Plan Card component
@@ -11,11 +12,19 @@ import { toCamelCase } from '@/Utils/CommonBaseClass';
  */
 type PlanCardProps = {
   data: any;
+  type: string;
 };
-export const PlanCard: React.FC<PlanCardProps> = ({ data }) => {
+export const PlanCard: React.FC<PlanCardProps> = ({ data, type }) => {
 
   const setDataById = useStore((state) => state?.setDataById);
   const navigate = useNavigate();
+
+
+  const planMapper: Record<string, React.ReactNode> = {
+    "BASIC_PLAN": <BasicPlainIcon />,
+    "STANDARD_PLAN": <StandardPlanIcon />,
+    "PROP_LAN": <ProPlanIcon />
+  }
 
   const mode = useStore((state) => state?.compData?.planMode?.mode);
 
@@ -27,7 +36,7 @@ export const PlanCard: React.FC<PlanCardProps> = ({ data }) => {
       setDataById('register', { data: 'CREATE_ACCOUNT_PAGE', step: 2 });
       setDataById('form1', { field_values: { ...data } });
       navigate(routes.register());
-    }else{
+    } else {
       setDataById('planDetails', { field_values: { ...data } });
       navigate(routes.upgradePlanPayment());
     }
@@ -36,33 +45,33 @@ export const PlanCard: React.FC<PlanCardProps> = ({ data }) => {
     <Box className=" plancard__container">
       <Box className="plancard__content">
         <Box display={'flex'} className="plancard__header">
-          <BasicPlanSvg className=" plancard__icon" />
-          <Box className="plancard__title-container">
-            <Typography className="plancard__title text-p1">
-              {toCamelCase(data?.name) }
+          <Grid className="plancard__icon">{planMapper[data?.name]}</Grid>
+          <Grid container flexDirection={'column'}>
+            <Typography className="plancard__title">
+              {toCamelCase(data?.name)}
             </Typography>
-            <Typography className="plancard__subtitle text-p2">
+            <Typography className="plancard__subtitle">
               {data.description}
             </Typography>
-          </Box>
+          </Grid>
         </Box>
-        <Typography className="plancard__price text-h3">
-          ${data.amount} <span className="plancard__price-period text-p2">/${data.amount}</span>
-        </Typography>
-        <Box className=" plancard__features">
+        <Grid container alignItems={'center'} alignSelf={'center'} className="plancard__price_conatiner">
+          <span className="price"> ${data.amount} </span>&nbsp; <span className="period">/&nbsp;{type}</span>
+        </Grid>
+        {/* <Box className="plancard__features">
           {Array.from({ length: 5 }).map((_, index) => (
-            <Box key={index} className="plancard__feature">
-              <Typography className="text-p1">
-                Unlimited Conferences & Members
+            <Grid container flexDirection={'row'} key={index} alignItems={'center'} className="plancard__feature">
+               <CheckIcon className='icon'/> &nbsp;&nbsp;<Typography className="text">
+              Unlimited Conferences & Members
               </Typography>
-            </Box>
+            </Grid>
           ))}
-        </Box>
+        </Box> */}
         <Button
           onClick={handleButtonClick}
           fullWidth
-          variant="contained"
           className="plancard__button"
+          endIcon={<ArrowIconSvg/>}
         >
           Choose This Plan
         </Button>

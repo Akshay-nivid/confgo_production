@@ -313,6 +313,10 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
         resetField(`addOn.${index}.propertyName`,{});
         resetField(`addOn.${index}.propertyAmount`,{});
       }else{
+        setError(`addOn.${index}.propertyName`, {
+          type: 'manual',
+          message:`This feild is required`,
+        });
         return
       }
     }
@@ -354,7 +358,8 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
             className=""
           >
             <Grid
-              size={{ xs: 12, sm: 8 }}
+              size={{ xs: 12, sm: 7 }}
+              ml={6}
               className="add-program-form-container"
             >
               <Box className="add-program-form-spacing">
@@ -387,7 +392,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                 alignItems={"center"}
                                 spacing={2}
                               >
-                                <Grid size={{ xs: 12, sm: 6 }}>
+                                <Grid size={{ xs: 12, sm: 12 }}>
                                   <CustomSelect
                                   rules={{required:validateRequiredField({})}}
                                     optionClick={(value) => {
@@ -401,13 +406,15 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     options={addOnOptions} />
                                     
                                 </Grid>
-                                <Grid size={{ xs: 12, sm: 6 }}>
+                                <Grid size={{ xs: 12, sm: 12 }}>
                                   <CustomTextField
                                     placeholder="Add-on Description"
                                     control={control}
                                     name={`addOn.${index}.description`}
                                     type="text"
                                     rules={{required:validateRequiredField({})}}
+                                    multiline={true}
+                                    rows={10}
                                   />
                                 </Grid>
                                 <Grid size={{xs:12,sm:12}}>
@@ -490,7 +497,8 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                   </Grid>
                                 </Grid>
                                 <Grid  size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
-                                {watch(`addOn.${index}.addonType`) === "PAID" &&                                 <Grid size={{  xs: 12, sm: 6  }} >
+                               <Grid size={{  xs: 12, sm: 6  }} >
+                               {watch(`addOn.${index}.addonType`) === "PAID" &&  
                                         <CustomTextField
                                           placeholder="Price"
                                           control={control}
@@ -504,8 +512,8 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                                 "Enter a valid price (up to 2 decimal places)",
                                             }
                                           }}
-                                        />
-                                      </Grid> }
+                                          />}
+                                      </Grid> 
                                   {watch(`addOn.${index}.repeat`)?.length > 0 &&
                                     <Grid size={{ xs: 12, sm: 6 }}>
                                       <CustomTextField
@@ -637,6 +645,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                       key={field.id}
                       container
                       className="add-program-display-item"
+                      alignContent={"center"}
                       size={{ xs: 12, sm: 12 }}
                     >
                       <Grid size={{ xs: 8, sm: 8 }} >

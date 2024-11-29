@@ -63,7 +63,18 @@ const ProgramSection = React.memo(
                             <Grid container direction={'row'} justifyContent={'center'} alignItems={'center'} >
                                 <Grid container direction={'row'} justifyContent={'center'} alignItems={'center'} className={`${classPrefix}-item-time-container`}>
                                     <Grid><ClockIcon /></Grid>
-                                    <Grid><Typography>{`${moment(program.startTime).format('hh:mm A')} - ${moment(program.endTime).format('hh:mm A')}`}</Typography></Grid>
+                                    <Grid>
+                                        <Typography>
+                                            {`${moment(program.startTime).format('hh:mm A')}` +
+                                                (moment(program.startTime).isSame(moment(program.endTime), 'day')
+                                                    ? '' // Dates are the same, no need to show the date
+                                                    : ` (${moment(program.startTime).format('MMM D')})`) +
+                                                ` - ${moment(program.endTime).format('hh:mm A')}` +
+                                                (moment(program.startTime).isSame(moment(program.endTime), 'day')
+                                                    ? '' // Dates are the same, no need to show the date
+                                                    : ` (${moment(program.endTime).format('MMM D')})`)}
+                                        </Typography>
+                                    </Grid>
                                 </Grid>
                             </Grid>
                             <Grid container direction={'column'} className={`${classPrefix}-item-name-container`} >

@@ -27,13 +27,10 @@
       }
     }
     & .grid-right {
-      background: url("../assets/png/login-bg.png");
-      background-repeat: no-repeat;
-      background-size: cover;  
-        // Hide background image on mobile
-        @media screen and (max-width: 799px) {
-          background: none;
-      }
+        svg{
+          width: 100%;
+          height: auto;
+        }
     }
     & .skip-button-payment-page {
       transform: translate(45rem, 2rem);
@@ -69,7 +66,6 @@
 }
 
 .signup-content-wrapper {
-  margin-top: -1.5rem;
   height: 100%;
   width: 100%;
   display: flex;
@@ -108,8 +104,7 @@
     font-size: $p2;
     background-color: $clr_blue;
     width: 100%;
-    height: 5rem;
-    border-radius: 0.83rem;
+    border-radius: 0.41rem;
     text-transform: none !important;
     svg{
       path{
@@ -119,7 +114,8 @@
     &:focus {
       outline: none;
     }
-  } & .plan-disabled-choose-btn{
+  } 
+  & .plan-disabled-choose-btn{
     font-size: $h6;
     width: 100%;
     background-color: $clr_blue; 
@@ -132,6 +128,10 @@
             fill: $clr_gray_light;
         }
     }
+  }
+  .signup-plan-btn{
+    height: 5rem;
+    border-radius: 0.83rem !important;
   }
   & .form-wrapper {
     width: 100%;
@@ -153,4 +153,9 @@
      }
    }
 
+}
+
+.circularProgress {
+  color: $clr_white;
+  z-index: 1301; /* theme.zIndex.drawer + 1 is typically 1300 */
 }

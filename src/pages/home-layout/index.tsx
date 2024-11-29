@@ -4,12 +4,15 @@ import Navbar from './Navbar';
 import { Outlet } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { Box } from '@mui/material';
+import { useIsMobileScreen } from '@/Utils/CommonBaseClass';
+import MobileNavbar from './MobileNavbar';
 
 /**
  * home layout component
  *
  */
 const HomeLayout = () => {
+  const isMobile= useIsMobileScreen();
   /**
    * scroll to top of the window on initial loading of the page
    */
@@ -23,7 +26,7 @@ const HomeLayout = () => {
 
   return (
     <>
-      <Navbar />
+      {isMobile ? <MobileNavbar /> : <Navbar />}
       <Box paddingTop={'5.5rem'}>
         <Outlet />
       </Box>

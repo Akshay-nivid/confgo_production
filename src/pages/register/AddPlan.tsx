@@ -148,7 +148,7 @@ const AddPlan = React.memo(() => {
         </Grid>
         <Grid container mb={2} className="w-full" >
           <CustomButton
-            className={(loading || planList.length === 0) ? 'plan-disabled-choose-btn' : "plan-choose-btn"}
+            className={(loading || planList.length === 0) ? 'plan-disabled-choose-btn signup-plan-btn' : "plan-choose-btn signup-plan-btn"}
             endIcon={<ArrowIconSvg />}
             onClick={handleClick}
             label="Choose Plan and Proceed"

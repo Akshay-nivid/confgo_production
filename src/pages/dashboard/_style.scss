@@ -247,11 +247,13 @@
            font-size: $p1 !important;
            color: $clr_gray_dark_text !important;
            font-weight: $font_medium !important;
+           margin-bottom: 1rem !important;
        }
 
        &-btn {
            height: 3rem !important;
            background-color: $clr_green !important;
+           box-shadow: none !important;
        }
    }
     

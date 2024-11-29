@@ -85,7 +85,7 @@ const FeatureSection = () => {
         <Grid size={12} className="feature-section-main__header">
           <Typography
             textAlign={"center"}
-            className="feature-section-main__header-title text-h5 font-700"
+            className="feature-section-main__header-title text-h2 font-700"
           >
             Powerful Features for Seamless Conferences
           </Typography>

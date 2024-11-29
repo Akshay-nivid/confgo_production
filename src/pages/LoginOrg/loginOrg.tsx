@@ -6,6 +6,7 @@ import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import routes from "@/router/routes";
 import useStore from "@/Libs/store";
 import apiClient from "@/Libs/Https/API-client";
+import { SignUpFlowIcon } from "@/assets/svg";
 
 
 /**
@@ -29,6 +30,7 @@ export interface ApiResponse {
     subscriptionStatus: string;
     acceptedTerms:number;
     companyId: any;
+    phone: string;
   };
 }
 
@@ -89,7 +91,7 @@ const LoginOrg = () => {
    * @param data - The response data from the API.
    */
   const handleLoginSuccess = async (data: ApiResponse['data']) => {
-    const { userRole, token, firstName, lastName, subscriptionStatus,id, acceptedTerms,companyId } = data;
+    const { userRole, token, firstName, lastName, subscriptionStatus, companyId, email, phone,acceptedTerms,id } = data;
 
     // Clear previous session data
     sessionStorage.clear();
@@ -98,6 +100,7 @@ const LoginOrg = () => {
     sessionStorage.setItem('isUserLoggedIn', 'true');
     sessionStorage.setItem('userLoggedInType', userRole?.roleName);
     sessionStorage.setItem('token', token);
+    sessionStorage.setItem('ssoUser', 'false');
     // Set organization-specific details in global state
     setDataById('orgDetails', { loggedIn: true });
 
@@ -114,6 +117,9 @@ const LoginOrg = () => {
       sessionStorage.setItem('userId',id?.toString());
       sessionStorage.setItem('acceptedTerms',acceptedTerms.toString());
       sessionStorage.setItem('companyId', companyId? companyId: 10);
+      sessionStorage.setItem('companyId', companyId);
+      sessionStorage.setItem('companyEmail', email);
+      sessionStorage.setItem('companyPhone', phone);
           // Show success notification
     setDataById("snackBarInfo", {
       open: true,
@@ -157,7 +163,7 @@ const LoginOrg = () => {
   return (
     <Box className="login-org-main-container">
       <Grid container className="grid-layout">
-        <Grid size={{ xs: 12, sm: 6 }} className="grid-left">
+        <Grid size={{ xs: 12, sm: 7 }} className="grid-left">
           <Grid className="left-content-wrapper">
             <Grid className="left-inner-content">
               <Grid className="left-header-wrapper">
@@ -213,19 +219,8 @@ const LoginOrg = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid size={{ xs: 12, sm: 6 }} className="grid-right">
-          <Box className="right-image-container">
-            <Typography className="image-content-text">
-              <Typography className="paragraph">
-                {" "}
-                Unlock the Future of Conference{" "}
-              </Typography>
-              <Typography className="paragraph">
-                {" "}
-                Management – Join Us Today!{" "}
-              </Typography>
-            </Typography>
-          </Box>
+        <Grid container size={{ xs: 12, md: 5 }} className="grid-right">
+          <SignUpFlowIcon />
         </Grid>
       </Grid>
     </Box>

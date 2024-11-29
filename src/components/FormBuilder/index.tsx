@@ -10,7 +10,6 @@ import FormFieldList from "./FormFieldList";
 import useStore, { POST, setDataById } from '@/Libs/store';
 import  { useEffect } from 'react';
 import CustomButton from '../CustomButton/CustomButton';
-import { Logger } from '@/Utils/Logger';
 import { useLocation } from 'react-router-dom';
 
 
@@ -161,10 +160,7 @@ const FormBuilder = () => {
       url: "event/form",
       body: body,
       id: "dynamicGeneratedForm",
-      successCB: (data: any) => {
-
-        Logger.info(data)
-
+      successCB: () => {
 
         if (isGeneric) {
           const { generic, ...specificFormFieldsArray } = formFieldsArray

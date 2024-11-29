@@ -1,9 +1,8 @@
 .error-text {
   color: $clr_red !important;
   font-size: 0.833rem !important;
-  margin-top: .5rem !important;
   margin-left: 0 !important;
-  margin-bottom: 0.4rem !important;
+  margin-bottom: -0.4rem !important;
 }
 
 .plan-card-active {
@@ -479,7 +478,7 @@
     background-color: $clr_white !important;
     color: $clr_green !important;
     max-width: 21rem !important;
-    border: 0.083rem solid $clr_green !important;
+    border: 0.125rem solid $clr_green !important;
     text-transform: none !important;
     font-size: $p2 !important;
     font-weight: $font_normal !important;
@@ -554,6 +553,8 @@
     background-color: $clr_white;
   }
   &-container {
+    width: 70rem;
+    padding-left: 15rem;
     pointer-events: none;
     .MuiStepLabel-label{
       font-size: $p2 !important;
@@ -658,6 +659,7 @@
             background-color: $clr_status_bar;
             padding-left: 1rem;
             padding-right: 1rem;
+            color: $clr_cyan_blue ;
           }
           &-date-icon{
             svg{
@@ -833,6 +835,7 @@
     height: 3.5rem;
     font-size: $p2 !important;
     font-weight: $font_medium !important;
+    box-shadow: none !important;
   }
   
 }
@@ -841,32 +844,59 @@
   width: 26.25rem;
   padding: 1rem;
 
-  &-icon {
+  .action-modal-icon {
       width: 3rem !important;
       height: 3rem !important;
   }
 
-  &-header {
+  .action-modal-header {
       font-weight: $font_bold !important;
       font-size: $h5 !important;
+      text-align: center !important;
+      
   }
 
-  &-sub-header {
+  .action-modal-sub-header {
       font-weight: $font_medium !important;
       font-size: $p3 !important;
       text-align: center !important;
   }
 
-  &-btn-cancel{
+  .action-modal-btn-cancel{
       margin-left: 1rem !important;
       width: 8.75rem;
       text-transform: none !important;
       box-shadow: none !important;
+      background-color: $clr_gray_dark !important;
   }
-  &-btn-ok{
+  .action-modal-btn-ok{
     margin-left: 1rem !important;
     width: 8.75rem;
     text-transform: none !important;
     box-shadow: none !important;
+    background-color: $clr_green !important;
+  }
+}
+
+.faq-section {
+  padding-bottom: 6.83rem;
+  &__content {
+    .faq-section__header {
+      margin-bottom: 4rem;
+      &-title {
+        margin-bottom: 0.3rem;
+        font-weight: $font_bold !important;
+        font-size: $h2;
+      }
+
+      &-description {
+        color: $clr_sub_header;
+      }
+    }
+  }
+  &__cards{
+    .MuiPaper-elevation{
+      --Paper-shadow:none !important
+    }
   }
 }

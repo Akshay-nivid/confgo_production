@@ -1,9 +1,9 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import {  useState } from 'react';
 import SetPasswordComponent from './PasswordFormComponent';
 import OtpComponent from './OtpFormComponent';
-import { LockIcon } from '@/assets/svg';
+import { LockIcon, SignUpFlowIcon } from '@/assets/svg';
 
 /**
  * ui component of set password page
@@ -27,7 +27,7 @@ const SetPassword = () => {
       <Grid container className="grid-layout ">
         <Grid
           container
-          size={{ xs: 12, sm:6 }}
+          size={{ xs: 12, sm:7 }}
           className="grid-left "
           display={'flex'}
           justifyContent={'center'}
@@ -56,17 +56,8 @@ const SetPassword = () => {
 
           </Grid>
         </Grid>
-        <Grid size={{ xs: 0, md: 6 }}  className="grid-right">
-          <Box className="right-image-container ">
-            <Box className="image-content-text ">
-              <Typography className="paragraph text-h2 font-700 ">
-                Unlock the Future of Conference
-              </Typography>
-              <Typography className="paragraph text-h2 font-700 ">
-                Management – Join Us Today!
-              </Typography>
-            </Box>
-          </Box>
+        <Grid container size={{ xs: 12, md: 5 }} className="grid-right">
+            <SignUpFlowIcon />
         </Grid>
       </Grid>
     </Box>
