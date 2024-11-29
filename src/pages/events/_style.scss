@@ -476,7 +476,10 @@
         &-header{
             font-weight: $font_semibold;
             font-size: $h5 !important;
-         
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            word-break: break-word;
         }
         &-sub-header{
             font-weight: $font_normal;
