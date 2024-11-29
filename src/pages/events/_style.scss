@@ -1041,6 +1041,13 @@
         margin-left: 1rem !important;
     }
 }
+.custom-list-next-btn {
+    box-shadow: none !important; /* Remove shadow on hover */
+}
+.custom-list-filter-btn{
+    border:0.1667rem solid $clr_green !important;
+    box-shadow: none !important; 
+}
 
 .event-list{
     margin-top: 2.2rem !important;
