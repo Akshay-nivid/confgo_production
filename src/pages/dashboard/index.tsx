@@ -34,7 +34,7 @@ const Dashboard = () => {
   const pendingEventList = useStore((state: any) => state?.compData?.["pendingEventList"]?.['event/list']) ?? [];
   const eventCountData=useStore((state:any)=>state?.compData?.["dashBoardEventCount"]?.['dashboard/eventAndUserCount'])??[];
   const [open, setOpen] = useState<boolean>(false);
-  const handleOpen = () => setOpen(false);//true 
+  const handleOpen = () => setOpen(true);//true 
   const handleClose = () => setOpen(false);
   const acceptedTerms=sessionStorage.getItem('acceptedTerms')
   /**

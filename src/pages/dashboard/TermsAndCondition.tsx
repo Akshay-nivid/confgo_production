@@ -42,12 +42,11 @@ const TermsAndCondition = ({ open, onClose }: TermsAndConditionProps) => {
     const handleAcceptTerms = async () => {
         onClose();  // Close the dialog after accepting terms
         try {
-            const id = sessionStorage.getItem('userId');
             const requesBody = {
                 acceptedTerms: 1
             };
             PUT({
-                url: `/user/${id}`,
+                url: `/user`,
                 body: requesBody,
                 successCB: () => {
                     sessionStorage.setItem('acceptedTerms','1');
