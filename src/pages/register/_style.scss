@@ -159,3 +159,26 @@
   color: $clr_white;
   z-index: 1301; /* theme.zIndex.drawer + 1 is typically 1300 */
 }
+.add-organization-btn{
+  box-shadow: none !important;
+  font-size: $p2;
+  background-color: $clr_blue;
+  width: 100%;
+  border-radius: 0.41rem;
+  text-transform: none !important;
+  font-weight: $font_medium !important;
+  box-shadow: none !important;
+}
+
+.add-org-description-text {
+  font-size: $h6 !important;
+  color: $clr_gray_medium !important;
+  font-weight: $font_normal !important;
+  font-family: $font !important;
+}
+
+.add-org-heading-text{
+  font-size: $h2 !important;
+  font-weight: $font_bold !important;
+  font-family: $font !important;
+}
