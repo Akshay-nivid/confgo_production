@@ -354,6 +354,183 @@
   }
 }
 
+.plan-selection-banner {
+  &__content {
+    background: url("/src/assets/png/plan-banner-image.png") no-repeat center;
+    background-size: cover;
+    justify-content: center;
+    margin-bottom: 4.833rem;
+    border-radius: 1.667rem;
+    padding-block: 5.5rem;
+
+    &-header {
+      color: $clr_white;
+      &-title {
+        font-size: $h1 !important;
+        font-weight: $font_extrabold !important;
+        line-height: 4rem !important;
+        margin-bottom: 0.833rem !important;
+      }
+      &-subtitle {
+        font-size: $h6;
+        margin-bottom: 2.833rem !important;
+      }
+    }
+  }
+  &__button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &-view-pricing-button{
+      border-radius: 4.3rem !important;
+      background-color: $clr_white !important;
+      width: 13rem;
+      height: 4.9rem;
+      color: $clr_black !important;
+      font-weight: $font_semibold !important;
+      font-size: $p1 !important;
+      line-height: 1.3rem !important;
+      text-transform: none !important;
+    }
+    &-contact-button{
+      border-radius: 4.3rem !important;
+      background-color: $clr_blue !important;
+      border: 0.2rem solid $clr_white !important;
+      width: 14.8rem;
+      height: 4.9rem;
+      color: $clr_white !important;
+      font-weight: $font_semibold !important;
+      font-size: $p1 !important;
+      line-height: 1.3rem !important;
+      text-transform: none !important;
+      svg{
+        path{
+          fill: $clr_white;
+
+        }
+      }
+    }
+  }
+  .banner-content {
+    .banner-title {
+      text-align: center;
+      margin-bottom: 0.833rem;
+      color: white;
+    }
+
+    .banner-subtitle {
+      text-align: center;
+      margin-bottom: 2.833rem;
+      color: white;
+    }
+
+    .button-container {
+      display: flex;
+      gap: 0.75rem;
+      margin-inline: auto;
+      width: max-content;
+    }
+  }
+}
+
+.footer {
+  background-color: $clr_black;
+  padding-block: 3.33rem;
+
+  .footer-content {
+    width: 100%;
+    border-bottom: 0.1rem solid $clr_gray_medium;
+  }
+
+  .footer-title {
+    color: $clr_white;
+    margin-bottom: 1rem;
+    font-size: $h1;
+    font-weight: $font_medium;
+    line-height: 3.5rem;
+  }
+
+  .footer-subtitle {
+    color: $clr_light_gray;
+    font-size: $h6;
+    margin-bottom: 3.33rem;
+  }
+  .footer-button{
+    background-color: $clr_blue;
+    color: $clr_light_gray;
+    text-transform: none;
+    margin-bottom: 3rem;
+  }
+
+  .footer-links-section {
+    width: 100%;
+    margin-top: 3rem;
+  }
+
+  .footer-links-content {
+    width: 100%;
+  }
+
+  .footer-nav-links {
+    margin-bottom: 4rem;
+  }
+
+  .footer-nav-list {
+    .footer-nav-item {
+      color: $clr_white;
+      margin-right: 2.66rem;
+    }
+  }
+
+  .footer-contact-info {
+    width: 100%;
+  }
+
+  .footer-contact-block {
+    margin-bottom: 5.33rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .footer-contact-label {
+    color: $clr_light_gray;
+    font-size: $p3;
+    padding-bottom: 0.5rem;
+    font-weight: $font_medium;
+  }
+
+  .footer-contact-value {
+    color: $clr_white;
+  }
+
+  .footer-logo-section {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    flex-direction: column;
+  }
+
+  .footer-logo {
+   width: 11.8rem;
+   height: 10.8rem;
+   path:last-child{
+      fill: $clr_white;
+    }
+  }
+
+  .footer-description {
+    color: $clr_light_gray;
+    text-align: end;
+    margin-bottom: 0.66rem;
+  }
+
+  .footer-copyright {
+    color: $clr_light_gray;
+  }
+}
+
 @media (max-width: 600px) {
   .hero-section-main{
     padding: 1rem;
@@ -475,7 +652,7 @@
     }
   }
   .whychoose-section {
-    padding-bottom: 3.83rem;
+    padding-bottom: 1.83rem;
     &__content {
       .whychoose-section__header {
         margin-bottom: 2rem;
@@ -502,6 +679,70 @@
   
     &__description {
       font-size: $p2 !important;
+    }
+  }
+  .plan-selection-banner {
+    padding: 1rem;
+    &__content {
+      padding: 3rem 2rem;
+      margin-bottom: 2rem;
+      border-radius: 0.83rem;
+      &-header {
+        &-title {
+          font-size: $h5 !important;
+          line-height: 2rem !important;
+        }
+        &-subtitle {
+          font-size: $p2;
+        }
+      }
+    }
+    &__button-container {
+     button{
+      border-radius: 4.58rem !important;
+      height: 3.58rem;
+     }
+      &-view-pricing-button{
+        width: 9.91rem;
+        font-size: $p3 !important;
+      }
+      &-contact-button{
+        width: 11.25rem;
+        font-size: $p3 !important;
+        svg{
+          width: 1rem;
+          height: 1rem;
+          path{
+            stroke: $clr_white;
+          }
+        }
+      }
+    }
+  }
+  .footer {
+    padding: 2rem 1rem;
+    .footer-title {
+      margin-bottom: 1rem;
+      font-size: $h4;
+      line-height: 2rem;
+    }
+    .footer-subtitle {
+      font-size: $p3;
+      margin-bottom: 1.33rem;
+    }
+    .footer-button{
+      width: 12.67rem;
+      height: 3.16rem;
+      margin-bottom: 2rem;
+    }
+    .footer-contact-block {
+      margin-bottom: 2.33rem;
+    }
+    .footer-description{
+      text-align:center
+    }
+    .footer-logo {
+      margin-bottom: -1rem;
     }
   }
 }

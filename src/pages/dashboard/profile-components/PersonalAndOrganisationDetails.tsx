@@ -305,7 +305,7 @@ return (
           <EditIcon />
         </IconButton>
       </Grid>
-      <Avatar
+      {LogoprofileData?.assetId?<Avatar
         className="main-user-profile"
         src={
           LogoprofileData?.assetId
@@ -314,7 +314,17 @@ return (
         }
         alt="User Profile"
         variant="circular"
-      />
+      />:
+      <Grid size={1} className="main-account-profile-image connected" mb={0}>
+           {LogoprofileData?.companyName ? (
+              <Avatar className="main-user-profile main-user-profile-text" >
+                {`${LogoprofileData?.companyName}`.toUpperCase()}
+              </Avatar>
+            ) : (
+              <Avatar>
+              </Avatar>
+            )}
+         </Grid>}
       <Grid
         container
         className="main-account-detail-grid connected"

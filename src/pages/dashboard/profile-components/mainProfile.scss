@@ -25,10 +25,13 @@
     height: 6.667rem !important; 
     border-radius: 3.333rem !important; 
     object-fit: cover !important;
-    background-color: $soft-cyan !important;
-    color: $clr_white;
-    font-size: $h2 !important;
-    font-weight: $font-bold !important;
+    &-text{
+        background-color: $soft-cyan !important;
+        color: $clr_white;
+        font-size: $h2 !important;
+        font-weight: $font-bold !important;
+    }
+     
 }
 .main-account-user-detail1{
     font-weight: $font_medium !important;
