@@ -235,3 +235,9 @@ export function formatTimestamp(timestamp:any) {
 export const useIsMobileScreen = () => useMediaQuery({ query: '(max-width: 600px)' });
 
 export const useIsMobileOrTabletScreen = () => useMediaQuery({ query: '(max-width: 900px)' });
+
+// Utility function to truncate strings
+export const truncateString = (str: string | undefined, limit: number, fallback: string = "N/A"): string => {
+    if (!str) return fallback;
+    return str.length > limit ? `${str.substring(0, limit)}...` : str;
+};
