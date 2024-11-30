@@ -159,7 +159,8 @@
 }
 .user-profile-menu {
   transform: translateY(20px) !important;
-  & .MuiPaper-root {
+  & .MuiPaper-root { 
+    border-radius:.6rem;
     min-width: 16.666rem !important;
     padding-inline: 1.5rem !important;
     padding-block: 0.833rem !important;
@@ -171,9 +172,15 @@
     padding-block: 0.5rem;
     font-size: 1.2rem;
   }
-
   & .menu-item-text {
     font-size: 1.125rem;
     margin-left: 0.75rem;
+   &-email{
+
+    color:$clr_gray_dark_text !important; 
+    font-size:$p3 !important;
+    font-weight:$font_bold !important; 
+
+   }
   }
 }

@@ -14,9 +14,8 @@ import { ArrowIconSvg } from "@/assets/svg";
 const ViewPricingBanner = () => {
   const navigate = useNavigate();
   return (
-    <Grid container className={"plan-selection-banner"}>
-      <Grid size={1} className="plan-selection-banner__spacer"></Grid>
-      <Grid size={10} className={"plan-selection-banner__content"}>
+    <Grid container justifyContent={'center'} className={"plan-selection-banner"}>
+      <Grid size={{ xs: 12, sm: 10 }} className={"plan-selection-banner__content"}>
         <Box className="plan-selection-banner__content-header">
           <Typography
             textAlign={"center"}
@@ -51,7 +50,6 @@ const ViewPricingBanner = () => {
           </Grid>
         </Box>
       </Grid>
-      <Grid size={1} className="plan-selection-banner__spacer"></Grid>
     </Grid>
   );
 };

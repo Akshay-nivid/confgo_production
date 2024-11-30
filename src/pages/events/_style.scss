@@ -451,6 +451,8 @@
             width: 16.563rem;
             height: 16.875rem;
             border-radius: 0.5rem;
+            margin-right: 0.833rem;
+            margin-bottom: 1rem;
         }
                 &-name {
                     font-size: $h6 !important;
@@ -666,6 +668,9 @@
   &-content {
     font-weight: $font_semibold !important;
     font-size: $h6 !important; 
+  }
+  &-custom-drawer {
+    max-width: 35rem !important;
   }
   &-edit-heading {
     font-weight: $font_semibold !important;
@@ -1035,6 +1040,13 @@
         color: $clr_white !important;
         margin-left: 1rem !important;
     }
+}
+.custom-list-next-btn {
+    box-shadow: none !important; /* Remove shadow on hover */
+}
+.custom-list-filter-btn{
+    border:0.1667rem solid $clr_green !important;
+    box-shadow: none !important; 
 }
 
 .event-list{
