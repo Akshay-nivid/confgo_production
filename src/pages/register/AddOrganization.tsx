@@ -90,8 +90,8 @@ const AddOrganization = React.memo(() => {
                 <Grid className="signup-content-wrapper">
                     <Grid className="left-inner-content">
                         <Grid alignSelf={"center"}>
-                            <Typography className="left-plan-text" textAlign={"center"} variant="h3" >Add Organization Details</Typography>
-                            <Typography className="left-description-text" textAlign={"center"} variant="h6" mb={2}>Join us and streamline your conference<br /> management today.</Typography>
+                            <Typography className="add-org-heading-text" textAlign={"center"} variant="h3" >Add Organization Details</Typography>
+                            <Typography className="add-org-description-text" textAlign={"center"} variant="h6" mb={2}>Join us and streamline your conference<br /> management today.</Typography>
                         </Grid>
                         <Box className={"form-wrapper"}>
                             <form onSubmit={handleSubmit(onSubmit)} className="form">
@@ -101,7 +101,7 @@ const AddOrganization = React.memo(() => {
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationName}
                                                 placeholder="Organization Name"
-                                                label="Organization Name *"
+                                                label="Organization Name"
                                                 control={control}
                                                 name="organizationName"
                                                 type="text"
@@ -123,7 +123,7 @@ const AddOrganization = React.memo(() => {
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationEmail}
                                                 placeholder="Organization Email"
-                                                label="Organization Email *"
+                                                label="Organization Email"
                                                 control={control}
                                                 name="organizationEmail"
                                                 type="text"
@@ -134,7 +134,7 @@ const AddOrganization = React.memo(() => {
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationPhone}
                                                 placeholder="Organization Phone"
-                                                label="Organization Phone *"
+                                                label="Organization Phone"
                                                 name="organizationPhone"
                                                 type="text"
                                                 control={control}
@@ -148,7 +148,7 @@ const AddOrganization = React.memo(() => {
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationAddress}
                                                 placeholder="Organization Address"
-                                                label="Organization Address *"
+                                                label="Organization Address"
                                                 control={control}
                                                 name="organizationAddress"
                                                 type="text"
@@ -167,7 +167,7 @@ const AddOrganization = React.memo(() => {
                                 <Grid container mb={2} className="w-full" >
                                     <CustomButton
                                         type="submit"
-                                        className="plan-choose-btn"
+                                        className="add-organization-btn"
                                         label="Complete Registration"
                                         variant="contained"
                                         color="primary"

@@ -169,14 +169,14 @@ const EventRecap: React.FC = React.memo(() => {
                         </Grid>
                     </Grid>
                     <Grid className="event-recap-second-grid" container size={12}>
-                        <Grid size={12}>
+                        <Grid size={12} >
                             <Typography className="event-recap-second-grid-text">
                                 Registered Programmes
                             </Typography>
                         </Grid>
                         {eventData?.data?.programs.map((item: any) => {
                             return(
-                            <Grid size={4} container flexDirection={"row"} className="event-recap-second-grid-content">
+                            <Grid size={{lg:4,sm:12}} container flexDirection={"row"} className="event-recap-second-grid-content">
                                 <Grid size={6} className="event-recap-second-grid-content-time" >
                                     <Typography className="event-recap-second-grid-content-time-text">{formatDateTimeRange({date:item.startTime,format:'h:mm A'})},{formatDateTimeRange({date:item.endTime,format:"h:mm A"})}</Typography>
                                 </Grid>

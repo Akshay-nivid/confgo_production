@@ -18,11 +18,12 @@
 
       .forgot-password-title {
         font-size: $h2;
-        font-weight: $font_bold;
+        font-weight: $font_bold !important;
         color: $clr_black;
         justify-content: center;
         align-items: center;
         display: flex;
+        font-family:$font !important;
       }
 
       .forgot-password-title2 {
@@ -50,8 +51,11 @@
         color: $clr_white;
         background-color: $clr_blue;
         border-radius: 0.3125rem;
-       font-family: $font;
+        font-family: $font;
         font-weight: $font_medium;
+        box-shadow: none;
+        text-transform: none;
+        font-size: $p2;
       }
 
       .button-back-to-login {
@@ -60,6 +64,7 @@
         font-weight: $font_medium;
         background-color: transparent;
         color: $clr_black;
+        text-transform: none;
         
       }
     }
