@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid2";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
+import KeyboardBackspaceRoundedIcon from '../../assets/svg/Arrow 2.svg';
 import { ForgotPasswordIcon, SignUpFlowIcon } from "@/assets/svg";
 import routes from "@/router/routes";
 import { validateEmail, validateRequiredField } from "@/Utils/Validation";
