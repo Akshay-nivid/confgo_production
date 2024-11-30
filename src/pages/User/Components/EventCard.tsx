@@ -7,7 +7,7 @@ import { formatDateTimeRange, toTitleCase } from '@/Utils/CommonBaseClass';
 
 interface EventProps {
     datetitle: string;
-    title?: string;
+    title?: string|undefined;
     location?: string;
     eventFullData: any;
     viewCertificate?: boolean;
@@ -29,10 +29,20 @@ const EventCard: React.FC<EventProps> = React.memo(({ eventFullData, datetitle, 
                 <Typography textAlign={"center"} className="event-card-date-title" >Date: {formatDateTimeRange({ date: datetitle, format: 'MMMM D, YYYY' })}</Typography>
             </Grid>
             <Grid container>
-                <Typography className='event-card-title'>{toTitleCase(title)}</Typography>
+            <Typography className="event-card-title">
+                 {title && title.length > 25 
+                 ? `${toTitleCase(title.substring(0, 25))}...` 
+                 : toTitleCase(title || "Untitled")}
+                 </Typography>
             </Grid>
             <Grid container>
-                <Typography className='event-card-location'>Location: {location}</Typography>
+            <Typography className="event-card-location">
+              Location: {location 
+              ? (location.length > 25 
+              ? `${location.substring(0, 25)}...` 
+              : location) 
+              : "Location not specified"}
+               </Typography>
             </Grid>
             {Eventstatus &&
                 <Grid  className="event-card-status" container size={12}  >
