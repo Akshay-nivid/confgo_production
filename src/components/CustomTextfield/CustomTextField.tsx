@@ -58,6 +58,8 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   isNumeric?:boolean;
   info?: any;
   infoContent?: any
+  removeBorder?: boolean;
+  showError?: boolean;
 }
 
 interface InputPropsType {
@@ -89,6 +91,8 @@ const CustomTextField = <T extends FieldValues>({
   readOnly = false,
   onBlur,
   onClick,
+  removeBorder = false,
+  showError = true,
   ...props
 }: ICustomTextFieldProps<T>) => {
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -253,6 +257,17 @@ const CustomTextField = <T extends FieldValues>({
                 onBlur={handleBlur}
                 onClick={handleOnClick}
                 inputProps={inputProps()}
+                sx={{
+                  ...(removeBorder && {
+                    "& .MuiOutlinedInput-notchedOutline": {
+                      border: "none",
+                    },
+                    "& .MuiInputBase-input": {
+                      border: "none", 
+                    },
+                  }),
+                  ...props.style,
+                }}
                 {...inputProps()}
                 onChange={(e) => {
                   const numericValue = (props.isNumeric)? e.target.value.replace(/[^0-9]/g, ""):e.target.value;
@@ -260,7 +275,7 @@ const CustomTextField = <T extends FieldValues>({
                 }}
                 
               />
-              {error?.message && (
+              {showError && error?.message && (
                 <FormHelperText className="error-text">
                   {error.message}
                 </FormHelperText>

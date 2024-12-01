@@ -1,116 +1,185 @@
 .contact-page {
     height: full;
     margin-top: .816rem;
-      
+
     .contact-container {
-        .contact-header-content{
+        .contact-header-content {
             flex-direction: column !important;
             width: 42.375rem !important;
             display: flex;
             justify-content: center;
             align-items: center;
         }
+
         .contact-header-title {
             font-size: $h1 !important;
             font-weight: $font_bold !important;
             color: $clr_black;
             text-align: center;
         }
+
         .contact-header-description {
-            color: $clr_sub_header;  
+            color: $clr_sub_header;
             font-size: $h6 !important;
             font-weight: $font_normal !important;
             text-align: center;
         }
     }
-    .contact-content{
+
+    .contact-content {
         padding-bottom: 5rem;
         margin-top: 3.375rem;
-        .contact-content-wrapper{
-        width: full !important;
-         height:auto ;
-        border-radius: 0.7rem;
 
-        .contact-info{
-             background-image: url('/src/assets/svg/contact-svg.svg');
-             border-radius: 0.7rem;
-             background-size: cover;
-           
-       .contact-info_header{
-       
-        margin-left: 2.3125rem;
-        margin-top: 3.375rem;
-        font-size: $h2!important;
-       
-        .contact-info_title{
-         color: $clr_white;   
-        font-size: $h2!important;
-        font-weight: $font_bold !important;
-     } .contact-info_description{
-        font-size: $h6!important;
-        font-family: $font;
-        color: $clr_white;
+        .contact-content-wrapper {
+            width: full !important;
+            height: auto;
+            border-radius: 0.7rem;
 
-     }
-    
-     }
-        .contact-info_details{
-            margin-left: 2.3125rem;
-           font-size: $h6!important;
-           .contact-info_item{         
-            margin-top: 3.5rem;
-            font-family: $font;
-           }
-       .contact-info-label{
-        color: $clr_white;
-        font-size: $h6!important;
-        font-weight: $font_normal;
-       }
-       .contact-info-value{
-        color: $clr_white;
-        font-size: $h6!important;
-        font-weight: $font_normal;
-       }
-           .contact-page-icon{
-         
-        width: 3.5rem;
-        height: 3.5rem;
-       }}
-    }
-        .contact-form{
-            .contact-form-recaptcha{
-                margin-right: auto;
+            .contact-info {
+                background-image: url('/src/assets/svg/contact-svg.svg');
+                border-radius: 0.7rem;
+                background-size: cover;
+
+                .contact-info_header {
+
+                    margin-left: 2.3125rem;
+                    margin-top: 3.375rem;
+                    font-size: $h2 !important;
+
+                    .contact-info_title {
+                        color: $clr_white;
+                        font-size: $h2 !important;
+                        font-weight: $font_bold !important;
+                    }
+
+                    .contact-info_description {
+                        font-size: $h6 !important;
+                        font-family: $font;
+                        color: $clr_white;
+
+                    }
+
+                }
+
+                .contact-info_details {
+                    margin-left: 2.3125rem;
+                    font-size: $h6 !important;
+
+                    .contact-info_item {
+                        margin-top: 3.5rem;
+                        font-family: $font;
+                    }
+
+                    .contact-info-label {
+                        color: $clr_white;
+                        font-size: $h6 !important;
+                        font-weight: $font_normal;
+                    }
+
+                    .contact-info-value {
+                        color: $clr_white;
+                        font-size: $h6 !important;
+                        font-weight: $font_normal;
+                    }
+
+                    .contact-page-icon {
+
+                        width: 3.5rem;
+                        height: 3.5rem;
+                    }
+                }
             }
-           
-            .contact-form-textarea{
-                width: 100%;
-                height: 7rem !important;
-                border-radius: 0.41rem;
-                border: 1px solid $clr_gray_extra_light;
-                padding: 1rem;
-            }
-            .contact-form-textarea:focus-visible {
-                outline: 1px solid $clr_gray_extra_light !important;
-              }
-        
-           .contact-form-submit-button:disabled{
-            opacity: 0.6;
-            background:$clr_blue;
-            border-radius: .7rem;
-            color: $clr_white;
-           }
-           .contact-form-submit-button{
-            height: 3.75rem;
-            width: 41.7rem;
-            background: $clr_blue;
-            border-radius: .5rem;
-            color: $clr_white;
-            font-size: $p2;
-            text-transform: none;
-           }
-           
 
-    }
-}
+            .contact-form {
+                .contact-form-recaptcha {
+                    margin-right: auto;
+                }
+
+                .contact-form-textarea {
+                    width: 100%;
+                    height: 13.5rem !important;
+                    border-radius: 0.41rem;
+                    border: 1.5px solid $clr_gray_extra_light;
+                    padding: 1rem;
+                }
+
+                .contact-form-textarea:focus-visible {
+                    outline: 1px solid $clr_gray_extra_light !important;
+                }
+
+                .contact-form-submit-button:disabled {
+                    opacity: 0.6;
+                    background: $clr_blue;
+                    border-radius: 0.3125rem;
+                    color: $clr_white;
+                    width: 500px;
+                    height: 45px;
+                }
+
+                .contact-form-submit-button {
+                    opacity: 10;
+                    width: 500px;
+                    height: 45px;
+                    background: $clr_blue;
+                    border-radius: 0.3125rem;
+                    color: $clr_white;
+                    font-size: $p2;
+                    text-transform: none;
+                }
+
+                .contact-form-textarea::placeholder {
+                    font-size: $h6;
+                    font-weight: $font_normal;
+                }
+
+                .contact-form-custom-phone {
+                    display: flex;
+                    align-items: center;
+                    height: 50px;
+                    border: 1px solid $clr_gray_extra_light;
+                    border-radius: 8px;
+                    overflow: hidden;
+                    width: 500px;
+                }
+
+                .contact-form-phone-container {
+                    display: flex;
+                    align-items: center;
+                    border: 1px solid #ddd;
+                    border-radius: 3px
+                }
+
+                .contact-form-country-selector {
+                    display: flex;
+                    align-items: center;
+                    padding: 8px;
+                    border-right: 1px solid #ddd;
+
+                }
+                .contact-form-flagIcon {
+                    font-size: 24px;
+                    margin-right: 8px;
+                  }
+                .contact-form-countryCode{
+                    font-size: 14px;
+                    font-weight: 500;
+                }
+                .contact-form-selectMenu{
+                    font-size: 18px;
+                    font-weight: 500;
+                }
+                .contact-form-countryMenu{
+                    display:flex;
+                    align-Items:center;
+                }
+                .contact-form-countryFlag{
+                    font-size: 14px;
+                    margin-right: 10px;
+                }
+                .contact-form-countryLabel{
+                    font-size: 14px;
+                }
+            }
+        }
     }
 }
