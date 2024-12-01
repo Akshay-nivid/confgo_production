@@ -135,49 +135,59 @@
                 .contact-form-custom-phone {
                     display: flex;
                     align-items: center;
-                    height: 50px;
-                    border: 1px solid $clr_gray_extra_light;
-                    border-radius: 8px;
+                    height: 3.125rem;
+                    border: 0.0625rem solid $clr_gray_extra_light;
                     overflow: hidden;
-                    width: 500px;
+                    width: 31.25rem;
                 }
 
                 .contact-form-phone-container {
                     display: flex;
                     align-items: center;
-                    border: 1px solid #ddd;
-                    border-radius: 3px
+                    border: 0.0625rem solid $clr_gray_extra_light;
+                    border-radius: 0.25rem;
+                }
+
+                .contact-form-phone-container:focus-within {
+                    border-color: #CFD8DC;
+                    border-width: 0.2rem;
                 }
 
                 .contact-form-country-selector {
                     display: flex;
                     align-items: center;
-                    padding: 8px;
-                    border-right: 1px solid #ddd;
+                    padding: 0.5rem;
+                    border-right: 0.0625rem solid $clr_gray_extra_light;
 
                 }
+
                 .contact-form-flagIcon {
-                    font-size: 24px;
-                    margin-right: 8px;
-                  }
-                .contact-form-countryCode{
-                    font-size: 14px;
-                    font-weight: 500;
+                    font-size: $h4;
+                    margin-right: 0.5rem;
                 }
-                .contact-form-selectMenu{
-                    font-size: 18px;
-                    font-weight: 500;
+
+                .contact-form-countryCode {
+                    font-size: $p2;
+                    font-weight: $font_medium;
                 }
-                .contact-form-countryMenu{
-                    display:flex;
-                    align-Items:center;
+
+                .contact-form-selectMenu {
+                    font-size: $p5;
+                    font-weight: $font_medium;
                 }
-                .contact-form-countryFlag{
-                    font-size: 14px;
+
+                .contact-form-countryMenu {
+                    display: flex;
+                    align-Items: center;
+                }
+
+                .contact-form-countryFlag {
+                    font-size: $p2;
                     margin-right: 10px;
                 }
-                .contact-form-countryLabel{
-                    font-size: 14px;
+
+                .contact-form-countryLabel {
+                    font-size: $p2;
                 }
             }
         }
