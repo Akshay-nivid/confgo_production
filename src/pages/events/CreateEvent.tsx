@@ -14,7 +14,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import config from "../../../config.json";
-
+import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
+import { Country, State } from "country-state-city";
 
 type EventProps = {
   formSubmit: boolean;
@@ -155,6 +156,26 @@ const CreateEvent: React.FC<EventProps> = React.memo(
     });
     }
 },[])
+
+const countries = Country.getAllCountries();
+/**
+ *  Map options for dropdown
+ */
+const countryOptions = countries.map((c:any) => ({
+  label: c.name,
+  value: c.isoCode,
+}));
+
+/**
+ * Handle State dropdown according to Country
+ * @param countryCode 
+ * @returns 
+ */
+const stateOptions = (countryCode:any) =>
+  State.getStatesOfCountry(countryCode)?.map((s:any) => ({
+    label: s.name,
+    value: s.isoCode,
+  }));
 
     return (
       <Box className="create-event-container">
@@ -335,23 +356,29 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 6 }}>
-                        <CustomTextField
-                          placeholder="State"
-                          control={control}
-                          name="state"
-                          type="text"
-                          rules={{ required: watch("type") === "OFFLINE" }}
-                        />
+                         <CustomSelect
+                            name="state"
+                            label="State"
+                            control={control}
+                            options={stateOptions(watch("country")) || []}
+                            rules={{
+                              required:Boolean(watch('country')),
+                            }}
+                            fullWidth
+                          />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 6 }}>
-                        <CustomTextField
-                          placeholder="Country"
-                          control={control}
+                      <CustomSelect
                           name="country"
-                          type="text"
-                          readOnly={true}
-                          defaultValue={'India'}
-                          rules={{ required: watch("type") === "OFFLINE" }}
+                          label="Country"
+                          control={control}
+                          options={countryOptions}
+                          defaultValue="IN"
+                          onChange={(e:any) => {
+                            setValue("country", e.target.value);
+                            setValue("state", "");
+                          }}
+                          fullWidth
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 6 }}>
