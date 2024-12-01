@@ -29,7 +29,7 @@ const ShareInvitationDrawer: React.FC<ShareInvitationDrawerProps> = ({
 }) => {
   const { setDataById }: any = useStore();
   const { control, reset, handleSubmit } = useForm<any>();
-  const baseURL = config.api.url;
+  const subDomain = config['event-link']['sub-domain'];
 
   /**
    * Email validation function used for validating chips in CustomChip
@@ -48,7 +48,7 @@ const ShareInvitationDrawer: React.FC<ShareInvitationDrawerProps> = ({
   const onSubmit = async (data: any) => {
     const req = {
       eventName: eventData?.name,
-      eventUrl: `${baseURL}${eventURL}`,
+      eventUrl: `${subDomain}${eventURL}`,
       emails: data.emails,
       notes: data.notes,
     };

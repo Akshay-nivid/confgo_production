@@ -3,11 +3,11 @@ import Grid from '@mui/material/Grid2';
 import { Typography } from '@mui/material';
 import StatusComponent from '@/components/Status/StatusComponent';
 import CustomButton from '@/components/CustomButton/CustomButton';
-import { formatDateTimeRange, toTitleCase } from '@/Utils/CommonBaseClass';
+import { formatDateTimeRange, toTitleCase, truncateString } from '@/Utils/CommonBaseClass';
 
 interface EventProps {
     datetitle: string;
-    title?: string;
+    title?: string|undefined;
     location?: string;
     eventFullData: any;
     viewCertificate?: boolean;
@@ -29,10 +29,14 @@ const EventCard: React.FC<EventProps> = React.memo(({ eventFullData, datetitle, 
                 <Typography textAlign={"center"} className="event-card-date-title" >Date: {formatDateTimeRange({ date: datetitle, format: 'MMMM D, YYYY' })}</Typography>
             </Grid>
             <Grid container>
-                <Typography className='event-card-title'>{toTitleCase(title)}</Typography>
+            <Typography className="event-card-title">
+                {truncateString(toTitleCase(title), 25, "Untitled")}
+                </Typography>
             </Grid>
             <Grid container>
-                <Typography className='event-card-location'>Location: {location}</Typography>
+            <Typography className="event-card-location">
+                 Location: {truncateString(location, 25, "Location not specified")}
+                 </Typography>
             </Grid>
             {Eventstatus &&
                 <Grid  className="event-card-status" container size={12}  >
