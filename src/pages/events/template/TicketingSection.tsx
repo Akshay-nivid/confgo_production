@@ -87,7 +87,7 @@ const TicketingSection = React.memo(
             Object.keys(groupedData).forEach((participantTypeId) => {
                 groupedData[participantTypeId].forEach((item: any) => {
                     // Convert percentage to a decimal and calculate the amount
-                    const percentage = parseFloat(item.percentage) / 100;
+                    const percentage = 1 - (parseFloat(item.percentage) / 100);
                     item.calculatedAmount = totalAmount * percentage;
                 });
             });
