@@ -6,7 +6,6 @@ import { setDataById } from '@/Libs/store';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import { Backdrop, CircularProgress } from '@mui/material';
-import { set } from 'react-hook-form';
 
 enum enumPaymentState {
     INITIATED = 'INITIATED',
@@ -133,13 +132,7 @@ interface Link {
     method: string;
 }
 
-const ORDERSTATUS = {
-    PENDING: 1,
-    AWAITING_PAYMENT: 2,
-    COMPLETED: 3,
-    FAILED: 4,
-    CANCELED: 5,
-}
+
 /*
  * Component used to handle PayPal button 
  */
@@ -170,7 +163,7 @@ const PayPalParticipantButton: React.FC = () => {
 
     const orderLoading = useStore((state: any) => state?.compData?.["orderUpdate"]?.[`order/update/${orderData.id}`]?.loading) ?? false
 
-    const paypalLoading = useStore((state: any) => state?.compData?.["paypalLoading"]?.value) ?? false
+    // const paypalLoading = useStore((state: any) => state?.compData?.["paypalLoading"]?.value) ?? false
 
     useEffect(() => {
         setDataById('paymentReferenceNumber', { value: orderData?.id + JSON.stringify(Date.now()) })

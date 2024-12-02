@@ -38,7 +38,7 @@ const SelectedPrograms = () => {
 
   const cartId = cartInfo?.cart.data?.id ?? null
 
-  const addToCartResponseData = useStore((state: any) => state?.compData?.["addToCart"]?.[`cart/${cartId}`] ? state?.compData?.["addToCart"]?.[`cart/${cartId}`] : state?.compData?.["addToCart"]?.cart?.data) ?? null;
+  // const addToCartResponseData = useStore((state: any) => state?.compData?.["addToCart"]?.[`cart/${cartId}`] ? state?.compData?.["addToCart"]?.[`cart/${cartId}`] : state?.compData?.["addToCart"]?.cart?.data) ?? null;
 
   const orderLoading = useStore((state: any) => state?.compData?.["order"]?.order.loading)
 
