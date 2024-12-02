@@ -33,15 +33,39 @@ interface ISetPasswordForm {
 const UserSetPassword = () => {
   const { control, handleSubmit, watch } = useForm<ISetPasswordForm>();
   const location = useLocation();
-  const {userId,email} = location.state;
   const [token,setToken] = useState<string>('');
   const setDataById = useStore((state: any) => state.setDataById)
-  const navigate=useNavigate();
-  useEffect(()=>{
-    getToken()
-  },[])
+  const navigate = useNavigate();
+  const { userId, email } = location.state || {};
+  
   /**
-   * function to get the token 
+   *  This function will handle the browser back button
+   */ 
+  useEffect(() => {
+    const handleBeforeUnload = (event: any) => {
+      event.preventDefault();
+      navigate(routes.userLogin());
+    };
+    window.history.pushState(null, '', window.location.href);
+    window.addEventListener('popstate', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('popstate', handleBeforeUnload);
+    };
+  }, [navigate]);
+  
+  /**
+   *fetch a token for user registration.
+   */
+  useEffect(() => {
+    if (!userId || !email) {
+      navigate(routes.userLogin());
+    } else {
+      getToken();
+    }
+  }, [userId, email, navigate]);  
+
+  /**
+  *Asynchronous function to fetch a token for user registration.
    */
   const getToken = async () => {
     try{
@@ -67,6 +91,9 @@ const UserSetPassword = () => {
    */
   const createPassword=async(password:string)=>{
     try{
+      if(password.length>15){
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:'Password must not exceed 16 characters.' })
+      }
       const requestBody={
         password:password,
         userId: userId,
@@ -185,7 +212,7 @@ const UserSetPassword = () => {
               >
                 <CheckIcon
                   className={clsx('setpassword__check-icon', {
-                    'active': password?.length >= 8,
+                    'active': password?.length >= 8 && password?.length <= 16,
                   })}
                 />
                 <Typography className="setpassword__requirement-text text-p2 font-400">
