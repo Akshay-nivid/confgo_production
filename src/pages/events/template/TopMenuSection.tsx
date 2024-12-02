@@ -33,17 +33,15 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
     const slugInfo = useStore((state: any) => state?.compData?.['slugEventDetails']?.[`event/slug/${slugName}`]?.data) ?? [];
 
 
-       
+    
     
     /**
      * Function navigates to the login page and stores the previous route in the store
      */
     const  loginFn= () => {
         setDataById("previousRoute", { url: location });
-        
-        if (location.pathname.includes("event-link")) {
-            navigate(routes.userLogin());
-        }
+
+       navigate(routes.userLogin());
     }
 
 
@@ -56,9 +54,7 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
         handleLogout({
             onLogoutSuccess: () => {
                 resetStore();
-                if (location.pathname.includes("event-link")) {
-                    navigate(routes.userLogin());
-                }
+                navigate(routes.userLogin());
             }
         });
     }
@@ -87,7 +83,7 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
                         <><Grid className={`${classPrefix}-login-button`}><span role='button' onClick={loginFn}> Login </span></Grid>
                             <Grid className={`${classPrefix}-button-border`}></Grid>
                             <Grid className={`${classPrefix}-book-button`}><CustomButton label='Signup'
-                             onClick={() => (location.pathname.includes("event-link"))? navigate('/user/register'):"" } 
+                             onClick={() => navigate('/user/register')} 
                              /></Grid></>}
                 </Grid>
             </Grid>
