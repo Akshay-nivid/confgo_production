@@ -151,9 +151,9 @@ const SetPasswordComponent = () => {
           >
             <Box display={'flex'} gap={1} alignItems={'center'} className="setpassword__requirement">
               <CheckIcon className={clsx("setpassword__check-icon", {
-                'active': password.length >= 8,
+                'active': password.length >= 8 &&password?.length<=16,
               })} />
-              <Typography className="setpassword__requirement-text text-p2 font-400">Must be at least 8 characters long</Typography>
+              <Typography className="setpassword__requirement-text text-p2 font-400">Must be between 8 and 16 characters long</Typography>
             </Box>
             <Box display={'flex'} gap={1} alignItems={'center'} className="setpassword__requirement">
               <CheckIcon className={clsx("setpassword__check-icon ", {
