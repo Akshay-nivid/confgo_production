@@ -64,7 +64,7 @@ interface Venue {
   city: string;
   state: string;
   mapUrl:string;
-  postCode:string;
+  postalCode:string;
   country:string
 }
 
