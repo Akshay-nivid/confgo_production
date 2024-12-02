@@ -100,10 +100,13 @@ const CreateEvent: React.FC<EventProps> = React.memo(
      * @param data
      */
     const onSubmit: SubmitHandler<FormData> = (data: any) => {
+      if(watch("description") === "<p><br></p>"){
+        return;
+      }
       const startTime = new Date(data.startTime);
       const endTime = new Date(data.endTime);
       if(selectedFile){
-        setValue('assetId',selectedFile[0]?.id)
+        setValue('assetId',selectedFile[0]?.id) 
       }
       if (startTime > endTime) {
         setError(`startTime`, {
