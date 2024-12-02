@@ -30,7 +30,7 @@ interface DashboardEventCardProps {
             city: string;
             state: string;
             country: string;
-            postCode: string | null;
+            postalCode: string | null;
             totalCapacity: number | null;
             mapUrl: string | null;
         };

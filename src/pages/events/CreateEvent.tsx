@@ -15,7 +15,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import config from "../../../config.json";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
-import { Country, State } from "country-state-city";
+import { State } from "country-state-city";
 
 type EventProps = {
   formSubmit: boolean;
@@ -255,26 +255,8 @@ const stateOptions = (countryCode:any) =>
                     mb={0}
                     className="create-event-description"
                   >
-                    <Controller
-                      name="description"
-                      control={control}
-                      defaultValue=""
-                      rules={{
-                        required: "Description is required",
-                        validate: (value) => value !== "<p><br></p>" || "Description is required",
-                      }}
-                      render={({ field }) => (
-                        <ReactQuill
-                          {...field}
-                          className={
-                            errors?.description ? "create-event-description-error" : ""
-                          }
-                          placeholder="Type your description here..."
-                          theme="snow"
-                        />
-                      )}
-                    />
-                    {/* <ReactQuill
+                   
+                    <ReactQuill
                       className={
                         errors?.description ||
                         watch("description") === "<p><br></p>"
@@ -286,7 +268,7 @@ const stateOptions = (countryCode:any) =>
                       theme="snow"
                       placeholder="Type your description here..."
                       modules={modules}
-                    /> */}
+                    />
                     {/* <CustomTextField
                       control={control}
                       name="description"
@@ -355,9 +337,9 @@ const stateOptions = (countryCode:any) =>
                           type="text" 
                           rules={{
                             required: false,
-                            // validate: (value: any) =>
-                            //     /^(https?:\/\/)?(www\.)?google\.(com|[a-z]{2})\/maps\/(place\/[^\/]+\/@|@)([+-]?\d{1,2}\.\d+),([+-]?\d{1,3}\.\d+)(,[0-9a-zA-Z]+)?(\/data=.*)?$/.test(value) ||
-                            //     "URL must be a valid Google Maps link with latitude and longitude"                                                       
+                            validate: (value: any) =>
+                                /^(https?:\/\/)?(www\.)?google\.(com|[a-z]{2})\/maps\/(place\/[^\/]+\/@|@)([+-]?\d{1,2}\.\d+),([+-]?\d{1,3}\.\d+)(,[0-9a-zA-Z]+)?(\/data=.*)?$/.test(value) ||
+                                "URL must be a valid Google Maps link with latitude and longitude"                                                       
                           }}
                         />
                       </Grid>
