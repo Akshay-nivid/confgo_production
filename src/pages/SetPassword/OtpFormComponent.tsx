@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react';
 import apiClient from '@/Libs/Https/API-client';
 import useStore from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
+import CustomButton from '@/components/CustomButton/CustomButton';
+import clsx from 'clsx';
 
 /**
  * component used to verify the otp
@@ -203,13 +205,12 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
             )}
           </Grid>
 
-          <Button
-            type="submit"
-            variant="contained"
-            className="w-full custom-button"
-          >
-            Verify
-          </Button>
+            <CustomButton
+              label="Verify"
+              type="submit"
+              fullWidth
+              className={clsx('custom-button')}
+            />
         </form>
       </Grid>
       <Grid
