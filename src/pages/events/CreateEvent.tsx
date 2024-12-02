@@ -311,8 +311,9 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                           rules={{
                             required: false,
                             validate: (value: any) =>
-                                /^(https?:\/\/)?(www\.)?google\.(com|[a-z]{2})\/maps\/(place\/[^\/]+\/@|@)([+-]?\d{1,2}\.\d+),([+-]?\d{1,3}\.\d+)(,[0-9a-zA-Z]+)?(\/data=.*)?$/.test(value) ||
-                                "URL must be a valid Google Maps link with latitude and longitude",                                                       
+                              /^(https?:\/\/)?(www\.)?google\.(com|[a-z]{2})\/maps\/(place\/[^\/]+\/@|@)([+-]?\d{1,2}\.\d+),([+-]?\d{1,3}\.\d+),(\d{1,2}(\.\d+)?z)(\/data=.*)?(\/entry=.*)?$/.test(value) ||
+                              "URL must be a valid Google Maps link with latitude, longitude, and zoom level",                            
+                                                                                   
                           }}
                         />
                       </Grid>
