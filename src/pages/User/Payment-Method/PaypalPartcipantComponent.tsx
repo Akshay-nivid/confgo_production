@@ -6,6 +6,7 @@ import { setDataById } from '@/Libs/store';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import { Backdrop, CircularProgress } from '@mui/material';
+import { set } from 'react-hook-form';
 
 enum enumPaymentState {
     INITIATED = 'INITIATED',
@@ -84,7 +85,7 @@ interface ShippingName {
 
 interface Address {
     address_line_1: string;
-    address_line_2?: string; 
+    address_line_2?: string;
     admin_area_2: string;
     admin_area_1: string;
     postal_code: string;
@@ -161,16 +162,22 @@ const PayPalParticipantButton: React.FC = () => {
 
     const paymentId = useStore((state: any) => state?.compData?.["payment"]?.["payment"]?.data?.id) ?? null
 
-    const paymentLoading = useStore((state: any) => state?.compData?.["payment"]?.["payment"]?.[`update/${paymentId}`]?.loading)  ?? false
+    const paymentLoading = useStore((state: any) => state?.compData?.["payment"]?.["payment"]?.[`update/${paymentId}`]?.loading) ?? false
 
     const paymentReferenceNumber = useStore((state: any) => state?.compData?.["paymentReferenceNumber"]?.value) ?? null
+
+    const participantLoading = useStore((state: any) => state?.compData?.["participant"]?.["participant"]?.loading) ?? false
+
+    const orderLoading = useStore((state: any) => state?.compData?.["orderUpdate"]?.[`order/update/${orderData.id}`]?.loading) ?? false
+
+    const paypalLoading = useStore((state: any) => state?.compData?.["paypalLoading"]?.value) ?? false
 
     useEffect(() => {
         setDataById('paymentReferenceNumber', { value: orderData?.id + JSON.stringify(Date.now()) })
     }, [])
 
 
-    
+
 
 
     /**
@@ -202,10 +209,13 @@ const PayPalParticipantButton: React.FC = () => {
 
             successCB: () => {
 
+                setDataById('paypalLoading', { value: false })
+                navigate(routes.userHome())
 
             },
 
             errorCB() {
+                setDataById('paypalLoading', { value: false })
 
 
             },
@@ -219,39 +229,44 @@ const PayPalParticipantButton: React.FC = () => {
      */
     function updateOrderStatus(paypalData: IPayPalOrder) {
 
-        const orderStatusKey = paypalData?.status as keyof typeof ORDERSTATUS;
+        // const orderStatusKey = paypalData?.status as keyof typeof ORDERSTATUS;
 
         const orderBody = {
 
-            statusId: ORDERSTATUS[orderStatusKey],
-
+            status: paypalData?.status,
+            // paymentStatus: paypalData?.status
         }
 
         POST({
-            url: `order/update/${orderData.id}`, body: orderBody,
-            id: 'order1',
+            url: `order/update/${orderData.id}`,
+            body: orderBody,
+            id: 'orderUpdate',
             successCB: () => {
-                
+
+                // 5 - call update form api
                 updateForm()
 
             },
+            errorCB: () => {
+                setDataById('paypalLoading',{value:false})
+            }
         })
 
     }
 
 
-/**
- * Updates the payment record in the database with the latest information from PayPal.
- * 
- * Logs the provided PayPal data and constructs a payment body with relevant details.
- * Sends a PUT request to update the payment using the specified payment ID.
- * On successful update, logs the payment response and triggers the order status update.
- *
- * @param paypalData - The latest data received from PayPal for the order.
- * @param paymentId - The ID of the payment record to update.
- * @returns {void}
- */
-    function updatePaymentStatus(paypalData: IPayPalOrder,paymentId: string|number) {
+    /**
+     * Updates the payment record in the database with the latest information from PayPal.
+     * 
+     * Logs the provided PayPal data and constructs a payment body with relevant details.
+     * Sends a PUT request to update the payment using the specified payment ID.
+     * On successful update, logs the payment response and triggers the order status update.
+     *
+     * @param paypalData - The latest data received from PayPal for the order.
+     * @param paymentId - The ID of the payment record to update.
+     * @returns {void}
+     */
+    function updatePaymentStatus(paypalData: IPayPalOrder, paymentId: string | number) {
 
 
         const paymentBody = {
@@ -269,9 +284,14 @@ const PayPalParticipantButton: React.FC = () => {
             body: paymentBody,
             successCB: () => {
 
+                // 5 - call order update api
                 updateOrderStatus(paypalData)
 
-            }
+            },
+              errorCB: () => {
+                setDataById('paypalLoading',{value:false})
+                  
+              }
         })
 
 
@@ -299,11 +319,13 @@ const PayPalParticipantButton: React.FC = () => {
             return
         }
 
+
+         
+
         const body: IPayment = {
             "paymentMethodId": 1,
             "state": enumPaymentState.INITIATED,
             "errorMessage": "No error",
-            "transactionId": 'test123',
             "metadata": '{}',
             "amount": orderData?.finalPrice,
             "eventId": eventId,
@@ -313,8 +335,11 @@ const PayPalParticipantButton: React.FC = () => {
         const participantBody = {
             orderId: orderData?.id,
             registrationType: "online",
-            
         }
+
+        setDataById('paypalLoading', { value: true }) // set loading to true while making the request
+        
+        // 1 - call payment creation api
 
         POST({
             id: 'payment',
@@ -323,34 +348,44 @@ const PayPalParticipantButton: React.FC = () => {
             successCB: async (paymentResponse: IPaymentResponse) => {
 
 
-                POST({
-                    url: 'participant',
-                    body: participantBody,
-                    id: 'participant',
-
-                    successCB:async () => {
+                // 2 - call payment capture paypal api 
+                const paymentSuccessInfo = await actions.order.capture();
 
 
-                        
-                            const paymentSuccessInfo = await actions.order.capture();
+                if (paymentSuccessInfo) {
 
-                            if (paymentSuccessInfo) {
+                    // 3 - call participant creation api
+
+                    POST({
+                        url: 'participant',
+                        body: participantBody,
+                        id: 'participant',
+
+                        successCB: async () => {
+
+                            // 4 - call payment update api
+                            updatePaymentStatus(paymentSuccessInfo, paymentResponse.data.id);
+
+                        },
+                        errorCB: () => {
+
+                            setDataById('paypalLoading', { value: false })
+                            snackBar({ severity: 'error', message: 'Something went wrong while creating participant. Please try again' })
+                        }
+                    })
+
+                    snackBar({ severity: 'success', message: 'payment successful' })
+
+                    
 
 
-                                snackBar({ severity: 'success', message: 'payment successful' })
+                }
 
-                                updatePaymentStatus(paymentSuccessInfo,paymentResponse.data.id);
-
-                            }
-    
-                    },
-                    errorCB: () => {
-                        snackBar({ severity: 'error', message: 'Something went wrong while creating participant. Please try again' })
-                    }
-                })
 
             },
             errorCB: () => {
+
+                setDataById('paypalLoading', { value: false })
 
                 snackBar({ severity: 'error', message: 'Something went wrong while creating payment. Please try again' })
 
@@ -384,13 +419,13 @@ const PayPalParticipantButton: React.FC = () => {
     }
 
 
-   
-    if (paymentLoading) {
+
+    if (paymentLoading || participantLoading || orderLoading) {
         return (
-            <Backdrop  open={true}>
-              <CircularProgress color="inherit" />
+            <Backdrop open={true}>
+                <CircularProgress color="inherit" />
             </Backdrop>
-          )
+        )
     }
 
     return (
