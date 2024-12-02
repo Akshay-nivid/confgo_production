@@ -19,7 +19,8 @@ const TemplateContainer: React.FC<TemplateContainerProps> = React.memo(({ }) => 
 
 
 
-    return <Grid container size={{ xs: 12, sm: 12 }} className="event-template" spacing={1}>
+
+    return <Grid container size={{ xs: 12, sm: 12 }} className={`event-template${!slug ? " event-template-preview" : ""}`} spacing={1}>
         <Grid container size={{ xs: 12, sm: 12 }} spacing={1}>
             <TemplateView temp={typeof id === 'number' ? id : Number(id) || 1} eventId={entityId} slug={slug}/>
         </Grid>

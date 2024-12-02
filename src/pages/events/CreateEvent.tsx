@@ -341,8 +341,9 @@ const stateOptions = (countryCode:any) =>
                           rules={{
                             required: false,
                             validate: (value: any) =>
-                                /^(https?:\/\/)?(www\.)?google\.(com|[a-z]{2})\/maps\/(place\/[^\/]+\/@|@)([+-]?\d{1,2}\.\d+),([+-]?\d{1,3}\.\d+)(,[0-9a-zA-Z]+)?(\/data=.*)?$/.test(value) ||
-                                "URL must be a valid Google Maps link with latitude and longitude"                                                       
+                              /^(https?:\/\/)?(www\.)?google\.(com|[a-z]{2})\/maps\/(place\/[^\/]+\/@|@)([+-]?\d{1,2}\.\d+),([+-]?\d{1,3}\.\d+),(\d{1,2}(\.\d+)?z)(\/data=.*)?(\/entry=.*)?$/.test(value) ||
+                              "URL must be a valid Google Maps link with latitude, longitude, and zoom level",                            
+                                                                                   
                           }}
                         />
                       </Grid>
@@ -400,8 +401,8 @@ const stateOptions = (countryCode:any) =>
                           rules={{
                             required: watch("type") === "OFFLINE",
                             pattern: {
-                              value: /^[0-9]{5,6}$/,
-                              message: "Pin code must be a 5 or 6-digit number",
+                              value: /(^\d{5}(-\d{4})?$)|(^\d{6}$)/,
+                              message: "Enter a valid postal code (e.g., '12345', '12345-6789', or '123456')",
                             },
                           }}
                         />
