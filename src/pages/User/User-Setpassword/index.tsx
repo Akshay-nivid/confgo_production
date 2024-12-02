@@ -42,20 +42,20 @@ const UserSetPassword = () => {
    *  This function will handle the browser back button
    */ 
   useEffect(() => {
-    const handleBeforeUnload = (event: PopStateEvent) => {
-      try {
+     try {
+     const handleBeforeUnload = (event: PopStateEvent) => {
         event.preventDefault(); 
         navigate(routes.userLogin());
-      } catch (error) {
-        Logger.error('Error in popstate event handler:', error);
-      }
-    };
-    window.history.pushState(null, '', window.location.href);
-    window.addEventListener('popstate', handleBeforeUnload);
-    return () => {
+     };
+     window.history.pushState(null, '', window.location.href);
+     window.addEventListener('popstate', handleBeforeUnload);
+     return () => {
       window.removeEventListener('popstate', handleBeforeUnload);
-    };
-  }, [navigate]); 
+     };
+     } catch (error) {
+        Logger.error('Error in popstate event handler:', error);
+     }
+  },[navigate]); 
   
   /**
    *fetch a token for user registration.
