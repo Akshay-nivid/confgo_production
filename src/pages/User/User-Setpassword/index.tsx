@@ -42,16 +42,20 @@ const UserSetPassword = () => {
    *  This function will handle the browser back button
    */ 
   useEffect(() => {
-    const handleBeforeUnload = (event: any) => {
-      event.preventDefault();
-      navigate(routes.userLogin());
+    const handleBeforeUnload = (event: PopStateEvent) => {
+      try {
+        event.preventDefault(); 
+        navigate(routes.userLogin());
+      } catch (error) {
+        Logger.error('Error in popstate event handler:', error);
+      }
     };
     window.history.pushState(null, '', window.location.href);
     window.addEventListener('popstate', handleBeforeUnload);
     return () => {
       window.removeEventListener('popstate', handleBeforeUnload);
     };
-  }, [navigate]);
+  }, [navigate]); 
   
   /**
    *fetch a token for user registration.
@@ -91,9 +95,6 @@ const UserSetPassword = () => {
    */
   const createPassword=async(password:string)=>{
     try{
-      if(password.length>15){
-        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:'Password must not exceed 16 characters.' })
-      }
       const requestBody={
         password:password,
         userId: userId,
@@ -216,7 +217,7 @@ const UserSetPassword = () => {
                   })}
                 />
                 <Typography className="setpassword__requirement-text text-p2 font-400">
-                  Must be at least 8 characters long
+                Must be between 8 and 16 characters long
                 </Typography>
               </Box>
               <Box
