@@ -1,6 +1,3 @@
-.pricing-main {
- 
-}
 
 .plansection {
   &__container {
@@ -12,12 +9,14 @@
   &__title {
     font-weight: $font_bold !important;
     text-align: center !important;
+    font-size: $h1 !important;
   }
 
   &__subtitle {
     text-align: center !important;
     margin-bottom: 4rem !important;
     color: $clr_sub_header !important;
+    font-size: $h6 !important;
   }
 
   &__button {
@@ -196,5 +195,87 @@
       height: 1.8rem  ;
       width: 1.8rem;
     }
+  }
+}
+
+@media (max-width: 600px) {
+  .plansection {
+    &__container {
+     padding: 1rem !important;
+    }
+    &__title {
+      font-size: $h2 !important;
+      line-height: 3rem !important;
+      margin-bottom: 1rem !important;
+    }
+    &__subtitle {
+      line-height: 2rem !important;
+      font-size: $h6 !important;
+      margin-bottom: 3rem !important;
+    }
+    &__button {
+      &-container{
+        margin-bottom: 4rem !important;
+        width: 23.58rem;
+        height: 4.33rem;
+      }
+      &-group{
+        button{
+          width: 10.75rem;
+          height: 3.5rem;
+          font-size: $p2;
+        }
+      }
+    }
+  }
+  .plancard {
+    &__header {
+      margin-bottom: 2rem;
+    }
+    &__icon {
+      svg{
+        width: 4.3rem;
+        height: 4.3rem;
+      }
+    }
+    &__title{
+      font-size: $h5 !important;
+      line-height: 2.4rem !important;
+    }
+    &__price_conatiner{
+      margin-bottom: 2rem !important;
+    }
+    &__features {
+      margin-bottom: 3.16rem;
+      .icon{
+        width: 1.3rem !important;
+        height: 1.3rem !important;
+      }
+    }
+  
+    &__button{
+      width: 24.9rem !important;
+      height: 4.5rem;
+      border-radius: 0.83rem !important;
+      border: 0.17rem solid $clr_blue !important;
+      text-transform: none !important;
+      color: $clr_blue !important;
+      font-size: $p2 !important;
+      svg{
+        path{
+          fill: $clr_blue;
+        }
+      }
+    }
+    &__button:hover{
+      background-color: $clr_blue;
+      color: $clr_white !important;
+      svg{
+        path{
+          fill: $clr_white;
+        }
+      }
+    }
+  
   }
 }

@@ -66,14 +66,13 @@ export const PlanSection = () => {
   }
 
   return (
-    <Grid container className="plansection__container">
-      <Grid size={1}></Grid>
-      <Grid container size={10} className="plansection__header">
+    <Grid container justifyContent={'center'} className="plansection__container">
+      <Grid container size={{ xs: 12, sm: 10 }} className="plansection__header">
         <Grid size={12}>
-          <Typography className="plansection__title text-h1">
+          <Typography className="plansection__title">
             Simple Pricing For Everyone
           </Typography>
-          <Typography className="plansection__subtitle text-h6">
+          <Typography className="plansection__subtitle">
             Everything you might need and then some more in an accessible and
             intuitive package.
           </Typography>
@@ -99,7 +98,7 @@ export const PlanSection = () => {
         >
           {planList.map((row, index) => (
             <>
-              <Grid size={4} key={index} className="plansection__card">
+              <Grid size={{ xs: 12, sm: 4 }} key={index} className="plansection__card">
                 <PlanCard data={row} type={selectedPlan} />
               </Grid>
             </>

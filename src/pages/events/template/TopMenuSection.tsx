@@ -1,7 +1,7 @@
 /**
  * Component displays the top menu section of the template
  */
-import { clearDataById, resetStore, setDataById } from '@/Libs/store';
+import useStore, { clearDataById, resetStore, setDataById } from '@/Libs/store';
 import { getUserToken, handleLogout } from '@/Utils/CommonBaseClass';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import Grid from '@mui/material/Grid2';
@@ -27,6 +27,9 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
     const classPrefix = `event-template-top-menu-${temp}`;
     const location = useLocation();
     const baseUrl = config.api.url;
+    const slugName = useStore((state: any) => state?.compData?.["slugName"]?.slugName) || '';
+    const slugInfo = useStore((state: any) => state?.compData?.['slugEventDetails']?.[`event/slug/${slugName}`]?.data) ?? [];
+
 
 
     
@@ -59,12 +62,13 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
         clearDataById('previousRoute')
     }, [])
 
+
     return (
         <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}`}>
             <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} alignItems={'center'} className={`${classPrefix}-container`}>
                 <Grid className={`${classPrefix}-logo`}><img
                                 className={`${classPrefix}-logo-img`}
-                                src={`${baseUrl}asset/${data?.assetId? data?.assetId: ''}`}
+                                src={`${baseUrl}asset/${data?.assetId ?? slugInfo?.assetId ?? ''}`}
                               /></Grid>
                 <Grid container spacing={2}>
                     <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToAbout(e) }}> About </Link></Grid>
