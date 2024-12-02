@@ -88,13 +88,15 @@ const Register = () => {
           {pageSwitch.data === "PAYMENT_METHOD_PAGE" && <PaymentMethod />}
           {pageSwitch.data === "REGISTRATION_SUCCESS_PAGE" && <RegistrationSuccess />}
         </Grid>
-        {pageSwitch.data !== "REGISTRATION_SUCCESS_PAGE" && <Grid container direction={'column'} className="register-stepper" spacing={3}>
+        {pageSwitch.data !== "REGISTRATION_SUCCESS_PAGE"  && <Grid container direction={'column'} className="register-stepper" spacing={3}>
+           {pageSwitch.data !== "ADD_ORGANIZATION_PAGE" && (
           <Grid container spacing={1} justifyContent={"center"} display={"flex"} className="register-stepper-text">
-            <Typography>Already have an account?</Typography>
-            <Grid onClick={handleLogin}>
-              <Typography className="login-label cursor-container" alignContent="flex-end"> Log In</Typography>
-            </Grid>
+             <Typography>Already have an account?</Typography>
+          <Grid onClick={handleLogin}>
+             <Typography className="login-label cursor-container" alignContent="flex-end"> Log In</Typography>
           </Grid>
+          </Grid>
+           )}
           <Grid container justifyContent={"center"}>
             <StepperBoxes activeStep={pageSwitch?.step} />
           </Grid>

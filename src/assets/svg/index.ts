@@ -82,6 +82,8 @@ import DownloadCertsIcon from './Download-cert.svg';
 import SignUpFlowIcon from './signup-flow-icon.svg';
 import PlusIcon from './plus-icon.svg';
 import MinusIcon from './minus-icon.svg';
+import HamburgerIcon from './hamburger-menu.svg';
+import CloseIcon from './Close.svg';
 
 export {
   CalenderIcon,
@@ -167,5 +169,7 @@ export {
   DownloadCertsIcon,
   SignUpFlowIcon,
   PlusIcon,
-  MinusIcon
+  MinusIcon,
+  HamburgerIcon,
+  CloseIcon
 };

@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid2";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
-import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
+import EventFilterIcon from '@/assets/svg/EventFilterIcon.svg';
 import FilterModal from "@/components/CustomFilter/FilterModal";
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
 import { useForm } from "react-hook-form";
@@ -84,6 +84,22 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction }) => {
       dateFormat: "DD/MM/YYYY",
     },
     { type: "status", field: "statusId", headerName: "Status", width: 150 },
+    {
+      type: "default",
+      field: "published",
+      headerName: "Publish",
+      width: 150,
+      renderCell: (params: any) => {
+        if (params.row.statusId !== 1) {
+          return <div></div>;
+        }
+        return (
+          <div>
+            {params.row.published ? "Yes" : "No"}
+          </div>
+        );
+      },
+    }
   ];
   /**
    * Apply filter
@@ -182,7 +198,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction }) => {
             </Grid>
             <Grid container spacing={2}>
               <CustomButton
-                className="custom-list-next-btn"
+                className="event-list-create-btn"
                 label="Create New Event"
                 variant="contained"
                 size="large"
@@ -194,10 +210,10 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction }) => {
                 // disabled={loading}
               />
               <CustomButton
-                className="custom-list-filter-btn"
+                className="event-list-filter-btn"
                 onClick={() => setIsFilterModalOpen(true)}
                 label="Filters"
-                startIcon={<TuneRoundedIcon />}
+                startIcon={<EventFilterIcon />}
                 variant="contained"
                 color="primary"
                 size="large"

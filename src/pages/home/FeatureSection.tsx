@@ -6,9 +6,7 @@ import { ArrowIconSvg, SecureTransaction, FlexiblePaymentOptions, ScalableMember
 
 /**
  * feature section ui component for home page
- *
  */
-
 
 const features = [
   {
@@ -32,7 +30,6 @@ const features = [
       },
     ]
   },
-  // 
   {
     title: "Unlimited conference & Members",
     flexDirection: "row-reverse",
@@ -54,7 +51,6 @@ const features = [
       },
     ]
   },
-  // 3
   {
     title: "Registration Management",
     className: "card-3",
@@ -79,18 +75,17 @@ const features = [
 ]
 const FeatureSection = () => {
   return (
-    <Grid container className="feature-section-main">
-      <Grid size={1}></Grid>
-      <Grid container size={10}>
+    <Grid container justifyContent={'center'} className="feature-section-main">
+      <Grid  container size={{ xs: 10, sm: 10 }}>
         <Grid size={12} className="feature-section-main__header">
           <Typography
             textAlign={"center"}
-            className="feature-section-main__header-title text-h2 font-700"
+            className="feature-section-main__header-title"
           >
             Powerful Features for Seamless Conferences
           </Typography>
           <Typography
-            className="feature-section-main__header-description text-p1"
+            className="feature-section-main__header-description"
             textAlign={"center"}
           >
             Discover the tools that enhance your meetings and elevate your
@@ -105,15 +100,12 @@ const FeatureSection = () => {
             />
           </Box>
         </Grid>
-
-        
         {
           features.map((feature)=>(
             <FeatureCard className={feature.className}  flexDirection={feature.flexDirection as "row" | "row-reverse"} title={feature.title} description={feature.description} features={feature.features} />
           ))
         }
       </Grid>
-      <Grid size={1}></Grid>
     </Grid>
   );
 };

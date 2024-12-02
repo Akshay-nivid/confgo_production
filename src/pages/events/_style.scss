@@ -6,6 +6,9 @@
         font-size: $h6 !important;
         font-weight: $font_semibold !important;
         max-width: 91.5rem;
+        .ql-container{
+            min-height: 15rem;
+        }
         &-error {
             .ql-snow{
                 border: 1px solid $clr_red !important;
@@ -163,7 +166,18 @@
     &-radio-btn {
         .Mui-checked {
             color: $clr_green !important;
+            ~.MuiFormControlLabel-label {
+                color: $clr_field !important;
+              }
         }
+        .MuiRadio-root:not(.Mui-checked) {
+            color: $clr_gray_medium !important; // Define light color
+        
+            // Style for the label of unchecked radio
+            ~ .MuiFormControlLabel-label {
+              color: $clr_gray_medium !important; // Light color for label
+            }
+          }
     }
     &-switch-btn {
         .Mui-checked {
@@ -437,6 +451,8 @@
             width: 16.563rem;
             height: 16.875rem;
             border-radius: 0.5rem;
+            margin-right: 0.833rem;
+            margin-bottom: 1rem;
         }
                 &-name {
                     font-size: $h6 !important;
@@ -652,6 +668,9 @@
   &-content {
     font-weight: $font_semibold !important;
     font-size: $h6 !important; 
+  }
+  &-custom-drawer {
+    max-width: 35rem !important;
   }
   &-edit-heading {
     font-weight: $font_semibold !important;
@@ -1022,4 +1041,37 @@
         margin-left: 1rem !important;
     }
 }
+.custom-list-next-btn {
+    box-shadow: none !important; /* Remove shadow on hover */
+}
+.custom-list-filter-btn{
+    border:0.1667rem solid $clr_green !important;
+    box-shadow: none !important; 
+}
 
+.event-list{
+    margin-top: 2.2rem !important;
+    margin-left: 2rem !important;
+    margin-right: 2rem !important;
+    &-create-btn {
+      max-height: 4rem;
+      background-color: $clr_green !important;
+      color: $clr_white !important;
+      max-width: 19rem !important;
+      text-transform: none !important;
+      box-shadow: none !important;
+      font-size: $p2 !important;
+      font-weight: $font_normal !important;
+    }
+    &-filter-btn {
+        max-height: 4rem;
+        background-color: $clr_white !important;
+        color: $clr_green !important;
+        max-width: 21rem !important;
+        border: 0.083rem solid $clr_green !important;
+        text-transform: none !important;
+        font-size: $p2 !important;
+        box-shadow: none !important;
+        font-weight: $font_normal !important;
+    }
+}

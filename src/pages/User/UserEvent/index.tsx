@@ -211,7 +211,7 @@ const MyEventScreen: React.FC = () => {
         ) : (
           <Grid container size={11}   spacing={1}>
             {events.data && events.data.map((event: Program, index:number) => (
-              <Grid size={{ xs: 12, sm: 3, md: 4 }} key={index}>
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
                 <EventCard
                   eventFullData={event}
                   Eventstatus={true}
