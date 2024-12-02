@@ -22,7 +22,7 @@ import apiClient from "@/Libs/Https/API-client";
   city: string;
   state: string;
   mapUrl:string;
-  postCode:string;
+  postalCode:string;
   country:string
 }
 /**
@@ -198,7 +198,7 @@ const LocationCard = ({ data }: LocationCardProps) => {
         </Grid>
         <Grid size={12}className="main-location-Grid-address">
           <Typography className="main-location-Grid-address-title" >ZIP/Postal Code</Typography> 
-          <Typography className="main-location-Grid-address-title-description">{data?.postCode} </Typography>
+          <Typography className="main-location-Grid-address-title-description">{data?.postalCode} </Typography>
         </Grid>
         <Grid size={12}className="main-location-Grid-address">
           <Typography className="main-location-Grid-address-title" >Country</Typography> 
