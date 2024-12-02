@@ -241,7 +241,7 @@ return (
       </Grid>
       <Grid size={1} className="main-account-profile-image connected" mb={0}>
             {profileData?.firstName && profileData?.lastName ? (
-              <Avatar className="main-user-profile" >
+              <Avatar className="main-user-profile main-user-profile-text" >
                 {`${profileData?.firstName[0]}${profileData?.lastName[0]}`.toUpperCase()}
               </Avatar>
             ) : (
