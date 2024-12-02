@@ -227,10 +227,10 @@ const PayPalParticipantButton: React.FC = () => {
         const orderBody = {
 
             status: paypalData?.status,
-            // paymentStatus: paypalData?.status
+            paymentStatus: paypalData?.status
         }
 
-        POST({
+        PUT({
             url: `order/update/${orderData.id}`,
             body: orderBody,
             id: 'orderUpdate',

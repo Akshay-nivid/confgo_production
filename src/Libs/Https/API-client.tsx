@@ -13,8 +13,19 @@ class ApiClient {
     this.axiosInstance = axios.create({
       baseURL: baseURL,
       // You can add additional default headers or configurations here
-      headers: ApiClient.getHeaders()
+      //headers: ApiClient.getHeaders()
     });
+
+    this.axiosInstance.interceptors.request.use(
+      (config) => {
+        const token = ApiClient.getToken();
+        if (token) {
+          config.headers['Authorization'] = `Bearer ${token}`;
+        }
+        return config;
+      },
+      (error) => Promise.reject(error)
+    );
 
     
 
@@ -32,7 +43,6 @@ class ApiClient {
   }
 
   static getInstance(): ApiClient {
-    console.log("Token ",sessionStorage.getItem("token"));
     if (!ApiClient.instance) {
       ApiClient.instance = new ApiClient();
     }
@@ -42,6 +52,7 @@ class ApiClient {
   public setToken(token: string) {
     if (typeof window !== 'undefined') {
         sessionStorage.setItem("token", token);
+        delete this.axiosInstance.defaults.headers.common['Authorization'];
         this.axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
     return this;

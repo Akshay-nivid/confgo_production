@@ -222,7 +222,8 @@ const ViewEventDetail = () => {
       return;
     }
     const req = {
-      slugName: event?.target?.value
+      slugName: event?.target?.value,
+      eventId: id
     }
     const response = await apiClient.post('event/slug/isAvailable', req);
     const { status, data } = await processAPIResponse(response, 'link-availablility');
