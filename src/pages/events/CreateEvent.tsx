@@ -10,7 +10,7 @@ import { Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import config from "../../../config.json";
@@ -157,14 +157,19 @@ const CreateEvent: React.FC<EventProps> = React.memo(
     }
 },[])
 
-const countries = Country.getAllCountries();
 /**
  *  Map options for dropdown
  */
-const countryOptions = countries.map((c:any) => ({
-  label: c.name,
-  value: c.isoCode,
-}));
+const countryOptions = [
+  {
+    label: "United States",
+    value: "US",
+  },
+  {
+    label: "India",
+    value: "IN",
+  },
+];
 
 /**
  * Handle State dropdown according to Country
@@ -250,7 +255,26 @@ const stateOptions = (countryCode:any) =>
                     mb={0}
                     className="create-event-description"
                   >
-                    <ReactQuill
+                    <Controller
+                      name="description"
+                      control={control}
+                      defaultValue=""
+                      rules={{
+                        required: "Description is required",
+                        validate: (value) => value !== "<p><br></p>" || "Description is required",
+                      }}
+                      render={({ field }) => (
+                        <ReactQuill
+                          {...field}
+                          className={
+                            errors?.description ? "create-event-description-error" : ""
+                          }
+                          placeholder="Type your description here..."
+                          theme="snow"
+                        />
+                      )}
+                    />
+                    {/* <ReactQuill
                       className={
                         errors?.description ||
                         watch("description") === "<p><br></p>"
@@ -262,7 +286,7 @@ const stateOptions = (countryCode:any) =>
                       theme="snow"
                       placeholder="Type your description here..."
                       modules={modules}
-                    />
+                    /> */}
                     {/* <CustomTextField
                       control={control}
                       name="description"
@@ -331,9 +355,9 @@ const stateOptions = (countryCode:any) =>
                           type="text" 
                           rules={{
                             required: false,
-                            validate: (value: any) =>
-                                /^(https?:\/\/)?(www\.)?google\.(com|[a-z]{2})\/maps\/(place\/[^\/]+\/@|@)([+-]?\d{1,2}\.\d+),([+-]?\d{1,3}\.\d+)(,[0-9a-zA-Z]+)?(\/data=.*)?$/.test(value) ||
-                                "URL must be a valid Google Maps link with latitude and longitude"                                                       
+                            // validate: (value: any) =>
+                            //     /^(https?:\/\/)?(www\.)?google\.(com|[a-z]{2})\/maps\/(place\/[^\/]+\/@|@)([+-]?\d{1,2}\.\d+),([+-]?\d{1,3}\.\d+)(,[0-9a-zA-Z]+)?(\/data=.*)?$/.test(value) ||
+                            //     "URL must be a valid Google Maps link with latitude and longitude"                                                       
                           }}
                         />
                       </Grid>
@@ -347,14 +371,20 @@ const stateOptions = (countryCode:any) =>
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 6 }}>
-                        <CustomTextField
-                          placeholder="City"
+                      <CustomSelect
+                          name="country"
+                          label="Country"
                           control={control}
-                          name="city"
-                          type="text"
-                          rules={{ required: watch("type") === "OFFLINE" }}
+                          options={countryOptions}
+                          defaultValue="IN"
+                          onChange={(e:any) => {
+                            setValue("country", e.target.value);
+                            setValue("state", "");
+                          }}
+                          fullWidth
                         />
                       </Grid>
+                      
                       <Grid size={{ xs: 12, sm: 6 }}>
                          <CustomSelect
                             name="state"
@@ -368,17 +398,12 @@ const stateOptions = (countryCode:any) =>
                           />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 6 }}>
-                      <CustomSelect
-                          name="country"
-                          label="Country"
+                        <CustomTextField
+                          placeholder="City"
                           control={control}
-                          options={countryOptions}
-                          defaultValue="IN"
-                          onChange={(e:any) => {
-                            setValue("country", e.target.value);
-                            setValue("state", "");
-                          }}
-                          fullWidth
+                          name="city"
+                          type="text"
+                          rules={{ required: watch("type") === "OFFLINE" }}
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 6 }}>

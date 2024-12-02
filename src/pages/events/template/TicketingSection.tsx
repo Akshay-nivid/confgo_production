@@ -5,6 +5,8 @@ import Grid from '@mui/material/Grid2';
 import React from 'react';
 import { Typography } from '@mui/material';
 import CustomButton from '@/components/CustomButton/CustomButton';
+import { useNavigate,useLocation } from 'react-router-dom';
+import routes from '@/router/routes';
 import { setDataById } from '@/Libs/store';
 
 
@@ -18,9 +20,10 @@ const TicketingSection = React.memo(
     React.forwardRef<HTMLDivElement, TicketingSectionProps>(({ data, temp }, ref) => {
 
         const classPrefix = `event-template-ticketing-${temp}`;
+        const navigate = useNavigate()
+        const location =useLocation();
 
-
-
+        console.log(location.pathname,"sdf")
 
         /**
          * Method calculates the total amount
@@ -115,8 +118,10 @@ const TicketingSection = React.memo(
         function handleClickRegister(tierData: any) {
 
             setDataById('participantTypeId', { value: tierData.participantTypeId });
-
-           // navigate(routes.programSelection())
+            if (location.pathname.includes("event-link")) {
+                navigate(routes.programSelection())
+            }
+            
         }
 
 

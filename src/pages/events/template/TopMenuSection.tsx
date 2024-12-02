@@ -4,9 +4,10 @@
 import useStore, { clearDataById, resetStore, setDataById } from '@/Libs/store';
 import { getUserToken, handleLogout } from '@/Utils/CommonBaseClass';
 import CustomButton from '@/components/CustomButton/CustomButton';
+import routes from '@/router/routes';
 import Grid from '@mui/material/Grid2';
 import React, { useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation,useNavigate } from 'react-router-dom';
 import config from "../../../../config.json";
 
 
@@ -25,21 +26,24 @@ type TopMenuSectionProps = {
 const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, onScrollToProgram, onScrollToAbout, onScrollToContributors }) => {
 
     const classPrefix = `event-template-top-menu-${temp}`;
+    const navigate = useNavigate();
     const location = useLocation();
     const baseUrl = config.api.url;
     const slugName = useStore((state: any) => state?.compData?.["slugName"]?.slugName) || '';
     const slugInfo = useStore((state: any) => state?.compData?.['slugEventDetails']?.[`event/slug/${slugName}`]?.data) ?? [];
 
 
-
+       
     
     /**
      * Function navigates to the login page and stores the previous route in the store
      */
     const  loginFn= () => {
         setDataById("previousRoute", { url: location });
-
-       // navigate(routes.userLogin());
+        
+        if (location.pathname.includes("event-link")) {
+            navigate(routes.userLogin());
+        }
     }
 
 
@@ -52,7 +56,9 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
         handleLogout({
             onLogoutSuccess: () => {
                 resetStore();
-                //navigate(routes.userLogin());
+                if (location.pathname.includes("event-link")) {
+                    navigate(routes.userLogin());
+                }
             }
         });
     }
@@ -81,7 +87,7 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
                         <><Grid className={`${classPrefix}-login-button`}><span role='button' onClick={loginFn}> Login </span></Grid>
                             <Grid className={`${classPrefix}-button-border`}></Grid>
                             <Grid className={`${classPrefix}-book-button`}><CustomButton label='Signup'
-                             //onClick={() => navigate('/user/register')} 
+                             onClick={() => (location.pathname.includes("event-link"))? navigate('/user/register'):"" } 
                              /></Grid></>}
                 </Grid>
             </Grid>

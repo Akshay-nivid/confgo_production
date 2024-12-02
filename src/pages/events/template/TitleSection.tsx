@@ -5,7 +5,7 @@ import CustomButton from '@/components/CustomButton/CustomButton';
 import Grid from '@mui/material/Grid2';
 import React from 'react';
 import { Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 
 type TitleSectionProps = {
@@ -21,8 +21,8 @@ const TitleSection: React.FC<TitleSectionProps> = React.memo(({ data, temp,onScr
 
     const classPrefix = `event-template-title-${temp}`;
     const navigate = useNavigate();
-
-
+    const location = useLocation();
+    
     const eventPriceTiersPresent = data?.eventPriceTiers !== undefined && data?.eventPriceTiers !== null && data?.eventPriceTiers?.length > 0;
 
     
@@ -38,8 +38,10 @@ const TitleSection: React.FC<TitleSectionProps> = React.memo(({ data, temp,onScr
             onScrollToTier && onScrollToTier(e) 
             return
         }
-        
-        navigate(routes.programSelection())
+        if (location.pathname.includes("event-link")) {
+            navigate(routes.programSelection())
+        }
+       
     }
 
 
