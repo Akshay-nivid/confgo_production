@@ -206,6 +206,8 @@ const Coupon = () => {
           noRecordIcon={NoCouponData}
           noRecordTitle="No Coupons Available"
           noRecordSubtitle="It looks like you haven't created any coupons yet. Start by creating your first discount coupon to boost event registrations."
+          redirectTo={() => routes.createCoupon()} // define the route
+          btnName="Create New Coupon" //define the label of btn
         />
       </Grid>
 

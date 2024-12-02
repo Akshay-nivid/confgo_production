@@ -33,13 +33,15 @@ type DataGridListProps = {
     noRecordIcon?:any;
     noRecordTitle?: string;
     noRecordSubtitle?:string;
+    redirectTo?: () => string;
+    btnName?: string;
 };
 
 /**
  * Method used to render listing
  * @returns 
  */
-export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFooterPagination, source, dataTransformer, onRowClick, subNode, data,noRecordIcon,noRecordTitle,noRecordSubtitle }) => {
+export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFooterPagination, source, dataTransformer, onRowClick, subNode, data,noRecordIcon,noRecordTitle,noRecordSubtitle,redirectTo,btnName}) => {
     const setDataById = useStore((state: any) => state.setDataById)
     const dataInfo = useStore((state: any) => state?.compData?.[id]) ?? [];
     const prevPageRef = useRef<any>();
@@ -252,7 +254,7 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
                 </Grid>
             ) : (
                 <Grid container size={12} justifyContent={"center"} alignContent={"center"}>
-                     <NoRecords imageSrc={noRecordImg} noRecordSubtitle={noRecordSubtitle} noRecordTitle={noRecordTitle}/>
+                    <NoRecords imageSrc={noRecordImg} noRecordSubtitle={noRecordSubtitle} noRecordTitle={noRecordTitle} redirectTo={redirectTo} btnName={btnName}/>
                      
                 </Grid>
                
