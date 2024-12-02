@@ -33,15 +33,43 @@ interface ISetPasswordForm {
 const UserSetPassword = () => {
   const { control, handleSubmit, watch } = useForm<ISetPasswordForm>();
   const location = useLocation();
-  const {userId,email} = location.state;
   const [token,setToken] = useState<string>('');
   const setDataById = useStore((state: any) => state.setDataById)
-  const navigate=useNavigate();
-  useEffect(()=>{
-    getToken()
-  },[])
+  const navigate = useNavigate();
+  const { userId, email } = location.state || {};
+  
   /**
-   * function to get the token 
+   *  This function will handle the browser back button
+   */ 
+  useEffect(() => {
+     try {
+     const handleBeforeUnload = (event: PopStateEvent) => {
+        event.preventDefault(); 
+        navigate(routes.userLogin());
+     };
+     window.history.pushState(null, '', window.location.href);
+     window.addEventListener('popstate', handleBeforeUnload);
+     return () => {
+      window.removeEventListener('popstate', handleBeforeUnload);
+     };
+     } catch (error) {
+        Logger.error('Error in popstate event handler:', error);
+     }
+  },[navigate]); 
+  
+  /**
+   *fetch a token for user registration.
+   */
+  useEffect(() => {
+    if (!userId || !email) {
+      navigate(routes.userLogin());
+    } else {
+      getToken();
+    }
+  }, [userId, email, navigate]);  
+
+  /**
+  *Asynchronous function to fetch a token for user registration.
    */
   const getToken = async () => {
     try{
@@ -185,11 +213,11 @@ const UserSetPassword = () => {
               >
                 <CheckIcon
                   className={clsx('setpassword__check-icon', {
-                    'active': password?.length >= 8,
+                    'active': password?.length >= 8 && password?.length <= 16,
                   })}
                 />
                 <Typography className="setpassword__requirement-text text-p2 font-400">
-                  Must be at least 8 characters long
+                Must be between 8 and 16 characters long
                 </Typography>
               </Box>
               <Box
