@@ -221,6 +221,11 @@ const ViewEventDetail = () => {
       setErrorMessage('Minimun 5 characters required.')
       return;
     }
+    const slugPattern = /^[a-zA-Z0-9-_]+$/;
+    if (!slugPattern.test(event?.target?.value)) {
+      setErrorMessage('Use only letters, numbers, hyphens, and underscores.');
+      return;
+    }
     const req = {
       slugName: event?.target?.value,
       eventId: id
