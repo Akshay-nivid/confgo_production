@@ -60,6 +60,7 @@ const navigate = useNavigate();
   useEffect(() => () => {
     clearDataById('templateEventDetails');
     clearDataById('slugEventDetails');
+    clearDataById('defaultProgramData')
   }, [])
 
   /**
