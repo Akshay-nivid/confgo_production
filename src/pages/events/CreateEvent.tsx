@@ -367,8 +367,8 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                           rules={{
                             required: watch("type") === "OFFLINE",
                             pattern: {
-                              value: /^[0-9]{5,6}$/,
-                              message: "Pin code must be a 5 or 6-digit number",
+                              value: /(^\d{5}(-\d{4})?$)|(^\d{6}$)/,
+                              message: "Enter a valid postal code (e.g., '12345', '12345-6789', or '123456')",
                             },
                           }}
                         />

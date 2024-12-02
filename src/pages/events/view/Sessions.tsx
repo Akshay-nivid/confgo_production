@@ -221,11 +221,11 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
           Logger.error(`Error ${action} program/addon`, error);
         };
       
-        if (isEditing && isAddon) {
+        if (isEditing) {
         	PUT({
             url,
             body: programData,
-            id: "updateAddon",
+            id: isAddon? "updateAddon": "updateProgram",
             successCB,
             errorCB,
         	});
@@ -233,7 +233,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
         	  POST({
         	    url,
         	    body: programData,
-        	    id: isEditing ? "updateProgram" : "addProgramOrAddon",
+        	    id: isAddon? "addAddon": "addProgram",
         	    successCB,
         	    errorCB,
         	  });
