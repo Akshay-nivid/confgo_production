@@ -101,7 +101,7 @@ const OtpComponent: React.FC<OtpComponentProps> = ({ onOtpVerify }) => {
               </FormHelperText>
             </Grid>
           )}
-          <Button type="submit" variant="contained" className="w-full custom-button">
+          <Button type="submit" variant="contained" className="w-full custom-button text-p1 font-600">
             Verify
           </Button>
         </form>
