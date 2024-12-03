@@ -203,7 +203,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
         }
 
         //When Repeat is true
-        if (lastItem.noOfDays !== '') {
+        if (lastItem.noOfDays !== '' && lastItem?.repeat?.length > 0) {
           // Loop over the remaining days and increment the date for each
           for (let i = 1; i < parseInt(lastItem?.noOfDays); i++) {
             // Create a new addon by copying lastItem
@@ -259,6 +259,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       programsCopy.splice(index, 1);
       setValue("savedAddOns", programsCopy);
       const saveProgram = programsCopy;
+      setEditMode(false);
 
       remove(index);
       if (index === programsCopy.length) {

@@ -1122,3 +1122,45 @@
         font-weight: $font_normal !important;
     }
 }
+
+.settings-attendee{
+    &-title{
+        font-size: $h5 !important;
+        font-weight: $font_semibold !important;
+    }
+    &-edit-btn{
+        padding: 1rem !important;
+        svg{
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+    }
+    &-label{
+        font-size: $h6 !important;
+        font-weight: $font_medium !important;
+        color: $light_grey;
+    }
+    &-value{
+        font-size: $h6 !important;
+        font-weight: $font_semibold !important;
+    }
+}
+
+.edit-seat-info{
+    max-width: 40rem;
+    margin: 2rem;
+    background-color: $clr_white;
+    &-header{
+        font-weight: $font-bold !important;
+        font-size: $h5 !important;
+    }
+    &-form-wrap{
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+    &-btn{
+        background-color: $clr_green !important;
+        text-transform: none !important;
+    }
+}
+

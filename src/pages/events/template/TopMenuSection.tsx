@@ -7,7 +7,7 @@ import CustomButton from '@/components/CustomButton/CustomButton';
 import routes from '@/router/routes';
 import Grid from '@mui/material/Grid2';
 import React, { useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation,useNavigate } from 'react-router-dom';
 import config from "../../../../config.json";
 
 
@@ -33,7 +33,7 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
     const slugInfo = useStore((state: any) => state?.compData?.['slugEventDetails']?.[`event/slug/${slugName}`]?.data) ?? [];
 
 
-
+    
     
     /**
      * Function navigates to the login page and stores the previous route in the store
@@ -41,7 +41,7 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
     const  loginFn= () => {
         setDataById("previousRoute", { url: location });
 
-        navigate(routes.userLogin());
+       navigate(routes.userLogin());
     }
 
 
@@ -82,7 +82,9 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
                     {getUserToken() ? <Grid className={`${classPrefix}-logout-button`}><span role='button' onClick={logoutFn}> Logout </span></Grid> :
                         <><Grid className={`${classPrefix}-login-button`}><span role='button' onClick={loginFn}> Login </span></Grid>
                             <Grid className={`${classPrefix}-button-border`}></Grid>
-                            <Grid className={`${classPrefix}-book-button`}><CustomButton label='Signup' onClick={() => navigate('/user/register')} /></Grid></>}
+                            <Grid className={`${classPrefix}-book-button`}><CustomButton label='Signup'
+                             onClick={() => navigate('/user/register')} 
+                             /></Grid></>}
                 </Grid>
             </Grid>
         </Grid>)
