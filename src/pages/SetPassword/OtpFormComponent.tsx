@@ -1,4 +1,4 @@
-import { Button, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import OtpInput from 'react-otp-input';
 import Grid from '@mui/material/Grid2';
