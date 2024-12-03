@@ -24,7 +24,6 @@ const TicketingSection = React.memo(
 
 
 
-
         /**
          * Method calculates the total amount
          * @param amountData : event data
