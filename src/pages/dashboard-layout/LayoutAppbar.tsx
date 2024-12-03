@@ -76,9 +76,9 @@ export default function LayoutAppbar() {
           onClose={handleMenuClose}
           className="user-profile-menu"
         >
-          <MenuItem className="">
+          <MenuItem className="" onClick={handleAccountSettings}>
             <SettingsIcon />
-            <span className="menu-item-text" onClick={handleAccountSettings}>Settings</span>
+            <span className="menu-item-text">Settings</span>
           </MenuItem>
           <Divider />
           <MenuItem className="" onClick={handleLogout}>

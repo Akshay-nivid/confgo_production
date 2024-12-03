@@ -85,9 +85,6 @@
   & .MuiInputBase-input {
     background-color: $clr_white;
   }
-  & .MuiInputLabel-outlined{
-    color:$clr_field !important;
-  }
   &-icon-btn {
     &:focus {
       outline: none;
