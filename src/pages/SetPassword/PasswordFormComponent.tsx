@@ -1,4 +1,4 @@
-import {  Box, Button, Typography } from '@mui/material';
+import {  Box, Typography } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import CustomTextField from '@/components/CustomTextfield/CustomTextField';
 import Grid from '@mui/material/Grid2';
@@ -10,6 +10,7 @@ import useStore from '@/Libs/store';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import { Logger } from '@/Utils/Logger';
+import CustomButton from '@/components/CustomButton/CustomButton';
 /**
  * Component use to set password
  * @returns
@@ -168,13 +169,12 @@ const SetPasswordComponent = () => {
               <Typography className="setpassword__requirement-text text-p2 font-400">Must contain one Upper case letter</Typography>
             </Box>
           </Box>
-          <Button
-            type="submit"
-            variant="contained"
-            className="setpassword__submit-button w-full custom-button text-p1 font-600"
-          >
-            Set Password
-          </Button>
+           <CustomButton
+              label="Set Password"
+              type="submit"
+              fullWidth
+              className={clsx('custom-button')}
+            />
         </form>
       </Grid>
     </Grid>

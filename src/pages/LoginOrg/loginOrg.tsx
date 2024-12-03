@@ -111,7 +111,7 @@ const LoginOrg = () => {
 
     // Check if the user is of type "COMPANY"
     if (userRole?.roleName === "COMPANY") {
-      // Store specific session details for company users
+      // Store specific session details for company users'
       sessionStorage.setItem('companyUserName', `${firstName} ${lastName || ''}`);
       sessionStorage.setItem('subscriptionStatus', subscriptionStatus);
       sessionStorage.setItem('userId',id?.toString());
