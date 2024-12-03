@@ -76,7 +76,7 @@ const features = [
 const FeatureSection = () => {
   return (
     <Grid container justifyContent={'center'} className="feature-section-main">
-      <Grid  container size={{ xs: 10, sm: 10 }}>
+      <Grid container size={{ xs: 10, sm: 10 }}>
         <Grid size={12} className="feature-section-main__header">
           <Typography
             textAlign={"center"}

@@ -64,7 +64,7 @@ interface Venue {
   city: string;
   state: string;
   mapUrl:string;
-  postCode:string;
+  postalCode:string;
   country:string
 }
 
@@ -221,8 +221,14 @@ const ViewEventDetail = () => {
       setErrorMessage('Minimun 5 characters required.')
       return;
     }
+    const slugPattern = /^[a-zA-Z0-9-_]+$/;
+    if (!slugPattern.test(event?.target?.value)) {
+      setErrorMessage('Use only letters, numbers, hyphens, and underscores.');
+      return;
+    }
     const req = {
-      slugName: event?.target?.value
+      slugName: event?.target?.value,
+      eventId: id
     }
     const response = await apiClient.post('event/slug/isAvailable', req);
     const { status, data } = await processAPIResponse(response, 'link-availablility');

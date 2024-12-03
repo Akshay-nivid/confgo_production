@@ -1,4 +1,4 @@
-import { Button, FormHelperText, Typography } from "@mui/material";
+import { FormHelperText, Typography } from "@mui/material";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import OtpInput from 'react-otp-input';
 import { Link } from "react-router-dom";
@@ -7,6 +7,8 @@ import Grid from "@mui/material/Grid2";
 import { LockIcon } from "@/assets/svg";
 import { useEffect } from "react";
 import apiClient from "@/Libs/Https/API-client";
+import CustomButton from "@/components/CustomButton/CustomButton";
+import clsx from "clsx";
 
 /**
  * component used to verify the otp
@@ -101,9 +103,12 @@ const OtpComponent: React.FC<OtpComponentProps> = ({ onOtpVerify }) => {
               </FormHelperText>
             </Grid>
           )}
-          <Button type="submit" variant="contained" className="w-full custom-button">
-            Verify
-          </Button>
+           <CustomButton
+              label="Verify"
+              type="submit"
+              fullWidth
+              className={clsx('custom-button')}
+            />
         </form>
       </Grid>
 

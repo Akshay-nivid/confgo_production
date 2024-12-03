@@ -517,7 +517,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
             >
             <Grid>
               <Typography textAlign={"start"} className="add-program-display-title">
-                Saved Programmes
+                Saved Programs
               </Typography>
             </Grid>
             <Grid

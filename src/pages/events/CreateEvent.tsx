@@ -14,7 +14,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import config from "../../../config.json";
-
+import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
+import { State } from "country-state-city";
 
 type EventProps = {
   formSubmit: boolean;
@@ -99,10 +100,13 @@ const CreateEvent: React.FC<EventProps> = React.memo(
      * @param data
      */
     const onSubmit: SubmitHandler<FormData> = (data: any) => {
+      if(watch("description") === "<p><br></p>"){
+        return;
+      }
       const startTime = new Date(data.startTime);
       const endTime = new Date(data.endTime);
       if(selectedFile){
-        setValue('assetId',selectedFile[0]?.id)
+        setValue('assetId',selectedFile[0]?.id) 
       }
       if (startTime > endTime) {
         setError(`startTime`, {
@@ -155,6 +159,31 @@ const CreateEvent: React.FC<EventProps> = React.memo(
     });
     }
 },[])
+
+/**
+ *  Map options for dropdown
+ */
+const countryOptions = [
+  {
+    label: "United States",
+    value: "US",
+  },
+  {
+    label: "India",
+    value: "IN",
+  },
+];
+
+/**
+ * Handle State dropdown according to Country
+ * @param countryCode 
+ * @returns 
+ */
+const stateOptions = (countryCode:any) =>
+  State.getStatesOfCountry(countryCode)?.map((s:any) => ({
+    label: s.name,
+    value: s.isoCode,
+  }));
 
     return (
       <Box className="create-event-container">
@@ -229,6 +258,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                     mb={0}
                     className="create-event-description"
                   >
+                   
                     <ReactQuill
                       className={
                         errors?.description ||
@@ -311,8 +341,9 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                           rules={{
                             required: false,
                             validate: (value: any) =>
-                              /^(https?:\/\/)?(www\.)?(google\.(com|[a-z]{2})\/maps(\/.*)?\/@([+-]?\d{1,2}\.\d+),([+-]?\d{1,3}\.\d+))|maps\.app\.goo\.gl\/\S+$/.test(value) ||
-                              "URL must be a valid Google Maps link with latitude and longitude",
+                              /^(https?:\/\/)?(www\.)?google\.(com|[a-z]{2})\/maps\/(place\/[^\/]+\/@|@)([+-]?\d{1,2}\.\d+),([+-]?\d{1,3}\.\d+),(\d{1,2}(\.\d+)?z)(\/data=.*)?(\/entry=.*)?$/.test(value) ||
+                              "URL must be a valid Google Maps link with latitude, longitude, and zoom level",                            
+                                                                                   
                           }}
                         />
                       </Grid>
@@ -326,31 +357,38 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 6 }}>
+                      <CustomSelect
+                          name="country"
+                          label="Country"
+                          control={control}
+                          options={countryOptions}
+                          defaultValue="IN"
+                          onChange={(e:any) => {
+                            setValue("country", e.target.value);
+                            setValue("state", "");
+                          }}
+                          fullWidth
+                        />
+                      </Grid>
+                      
+                      <Grid size={{ xs: 12, sm: 6 }}>
+                         <CustomSelect
+                            name="state"
+                            label="State"
+                            control={control}
+                            options={stateOptions(watch("country")) || []}
+                            rules={{
+                              required:Boolean(watch('country')),
+                            }}
+                            fullWidth
+                          />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 6 }}>
                         <CustomTextField
                           placeholder="City"
                           control={control}
                           name="city"
                           type="text"
-                          rules={{ required: watch("type") === "OFFLINE" }}
-                        />
-                      </Grid>
-                      <Grid size={{ xs: 12, sm: 6 }}>
-                        <CustomTextField
-                          placeholder="State"
-                          control={control}
-                          name="state"
-                          type="text"
-                          rules={{ required: watch("type") === "OFFLINE" }}
-                        />
-                      </Grid>
-                      <Grid size={{ xs: 12, sm: 6 }}>
-                        <CustomTextField
-                          placeholder="Country"
-                          control={control}
-                          name="country"
-                          type="text"
-                          readOnly={true}
-                          defaultValue={'India'}
                           rules={{ required: watch("type") === "OFFLINE" }}
                         />
                       </Grid>
@@ -363,8 +401,8 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                           rules={{
                             required: watch("type") === "OFFLINE",
                             pattern: {
-                              value: /^[0-9]{5,6}$/,
-                              message: "Pin code must be a 5 or 6-digit number",
+                              value: /(^\d{5}(-\d{4})?$)|(^\d{6}$)/,
+                              message: "Enter a valid postal code (e.g., '12345', '12345-6789', or '123456')",
                             },
                           }}
                         />

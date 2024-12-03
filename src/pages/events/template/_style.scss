@@ -1,5 +1,8 @@
 .event-template{
     background-color: $clr_white;
+    &-preview{
+        pointer-events: none;
+    }
     &-top-menu{
         &-1{
                 &-container{

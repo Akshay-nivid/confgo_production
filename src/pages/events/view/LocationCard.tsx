@@ -13,7 +13,7 @@ import {Typography} from "@mui/material"
  import axios from "axios";
 import { GoogleMap, LoadScript,Marker } from '@react-google-maps/api';
 //const { AdvancedMarkerElement } = await google.maps.importLibrary("marker") as any;
-// import config from "../../../../config.json";
+import config from "../../../../config.json";
 import apiClient from "@/Libs/Https/API-client";
  interface Venue {
   id: number;
@@ -22,7 +22,7 @@ import apiClient from "@/Libs/Https/API-client";
   city: string;
   state: string;
   mapUrl:string;
-  postCode:string;
+  postalCode:string;
   country:string
 }
 /**
@@ -57,7 +57,7 @@ const LocationCard = ({ data }: LocationCardProps) => {
   /**
    *GOOGLE_API_KEY
    */
-  const GOOGLE_API_KEY = ''; 
+   const GOOGLE_API_KEY = config?.google_api_key; 
   
   /**
    * Function to open and close the drawer
@@ -198,7 +198,7 @@ const LocationCard = ({ data }: LocationCardProps) => {
         </Grid>
         <Grid size={12}className="main-location-Grid-address">
           <Typography className="main-location-Grid-address-title" >ZIP/Postal Code</Typography> 
-          <Typography className="main-location-Grid-address-title-description">{data?.postCode} </Typography>
+          <Typography className="main-location-Grid-address-title-description">{data?.postalCode} </Typography>
         </Grid>
         <Grid size={12}className="main-location-Grid-address">
           <Typography className="main-location-Grid-address-title" >Country</Typography> 
