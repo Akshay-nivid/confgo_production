@@ -176,16 +176,18 @@ const EventRecap: React.FC = React.memo(() => {
                         </Grid>
                         {eventData?.data?.programs.map((item: any) => {
                             return(
-                            <Grid size={{lg:4,sm:12}} container flexDirection={"row"} className="event-recap-second-grid-content">
-                                <Grid size={6} className="event-recap-second-grid-content-time" >
+                            <Grid size={{lg:4,sm:12}} container  className="event-recap-second-grid-content">
+                                 <Grid container size={{lg:12,sm:8}} columnSpacing={8} className="daate_time" width={"auto"}> 
+                                 <Grid size={{lg:6,sm:6}} className="event-recap-second-grid-content-time" bgcolor={"green"}>
                                     <Typography className="event-recap-second-grid-content-time-text">{formatDateTimeRange({date:item.startTime,format:'h:mm A'})},{formatDateTimeRange({date:item.endTime,format:"h:mm A"})}</Typography>
                                 </Grid>
-                                <Grid className="event-recap-second-grid-content-status" size={6}>
+                                <Grid className="event-recap-second-grid-content-status" size={{lg:6,sm:6}}>
                                     <Typography className="event-recap-second-grid-content-status-text">
                                         <StatusComponent className="event-recap-first-grid-status"   value={item?.statusId.toString()} />
                                     </Typography>
                                 </Grid>
-                                <Grid className="event-recap-second-grid-content-title" size={12} >
+                                </Grid>
+                                <Grid className="event-recap-second-grid-content-title" size={12}>
                                     <Typography className="event-recap-second-grid-content-title-text">{item.name?toTitleCase(item.name):""}</Typography>
                                 </Grid>
                                 <Grid className="event-recap-second-grid-content-location" size={12} >
@@ -194,7 +196,6 @@ const EventRecap: React.FC = React.memo(() => {
                                 <Grid className="event-recap-second-grid-content-speaker" size={12} >
                                     <Typography className="event-recap-second-grid-content-speaker-text">Speaker:swayer</Typography>
                                 </Grid>
-
                             </Grid>
                         )})}
 
