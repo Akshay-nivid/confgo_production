@@ -1,4 +1,5 @@
 
+import routes from "@/router/routes";
 import moment from "moment";
 import { UseFormSetValue, UseFormGetValues } from "react-hook-form";
 
@@ -312,3 +313,15 @@ export function toggleProgramCheckboxesByDate(
 
 
 
+export const handleClickBackButton = (slugName: string, navigate: (params: any) => void) => {
+
+  if (slugName) {
+
+    navigate(routes.eventExternalLink(slugName));
+
+  } else {
+
+    navigate(routes.userLogin());
+    
+  }
+}

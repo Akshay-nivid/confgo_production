@@ -5,7 +5,7 @@ import { Backdrop, Box, Chip, CircularProgress, IconButton, Typography } from "@
 import Grid from "@mui/material/Grid2";
 import { useForm } from "react-hook-form";
 import { CouponIcon } from "@/assets/svg";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
 import useStore, { GET, POST, PUT } from "@/Libs/store";
 import routes from "@/router/routes";
@@ -28,7 +28,7 @@ const SelectedPrograms = () => {
 
   const setDataById = useStore((state: any) => state.setDataById);
 
-  const selectedFormValues = useStore(state => state?.compData?.["defaultProgramData"].formData)
+  const selectedFormValues = useStore(state => state?.compData?.["defaultProgramData"]?.formData)
 
   const couponData = useStore((state: any) => state?.compData?.["couponData"]?.['coupon/applyCoupon']) ?? null
 
@@ -38,15 +38,13 @@ const SelectedPrograms = () => {
 
   const cartId = cartInfo?.cart.data?.id ?? null
 
-  // const addToCartResponseData = useStore((state: any) => state?.compData?.["addToCart"]?.[`cart/${cartId}`] ? state?.compData?.["addToCart"]?.[`cart/${cartId}`] : state?.compData?.["addToCart"]?.cart?.data) ?? null;
-
-  const orderLoading = useStore((state: any) => state?.compData?.["order"]?.order.loading)
+  const orderLoading = useStore((state: any) => state?.compData?.["order"]?.order?.loading)
 
   const addToCartLoading = useStore((state: any) => state?.compData?.["addToCart"]?.[`cart/${cartId}`]?.loading)
 
   const participantTypeId = useStore((state: any) => state?.compData?.["participantTypeId"]?.value) ?? null;
 
-const finalPrice = useStore((state: any) => state?.compData?.["finalPrice"]?.value) ?? null
+  const finalPrice = useStore((state: any) => state?.compData?.["finalPrice"]?.value) ?? null
 
   const location = useLocation()
 
@@ -67,6 +65,7 @@ const finalPrice = useStore((state: any) => state?.compData?.["finalPrice"]?.val
    */
   function handleRemoveCoupon() {
     setDataById('couponData', { ["coupon/applyCoupon"]: null })
+    setDataById('finalPrice', { value: selectedFormValues?.total })
   }
 
   /**
@@ -93,9 +92,11 @@ const finalPrice = useStore((state: any) => state?.compData?.["finalPrice"]?.val
       url: 'coupon/applyCoupon',
       body: body,
       id: 'couponData',
-      successCB: () => {
+      successCB: (couponResponse: any) => {
 
         setValue('coupon', '')
+
+        setDataById('finalPrice', { value: couponResponse?.data?.total })
 
         setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: 'Coupon applied successfully' })
 
@@ -307,6 +308,11 @@ const finalPrice = useStore((state: any) => state?.compData?.["finalPrice"]?.val
     )
   }
 
+
+  if (!cartId) {
+    
+    return <Navigate to={routes.userLogin()} />
+  }
 
 
   return (

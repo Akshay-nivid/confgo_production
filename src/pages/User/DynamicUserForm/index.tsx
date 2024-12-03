@@ -140,7 +140,7 @@ const DynamicUserForm = () => {
     }
 
     const body = {
-      eventId: '7',
+      eventId:eventId,
       data: [...filteredFormData, ...uploadedFileData]
     }
 
