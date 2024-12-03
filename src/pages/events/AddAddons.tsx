@@ -394,6 +394,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                               >
                                 <Grid size={{ xs: 12, sm: 12 }}>
                                   <CustomSelect
+                                  className="add-program-select"
                                   rules={{required:validateRequiredField({})}}
                                     optionClick={(value) => {
                                       if (value === 'other') {
@@ -430,6 +431,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                   <>{watch(`addOn.${index}.dateRequired`)&& <>
                                 <Grid size={{ xs: 12, sm: 4 }}>
                                   <CustomTextField
+                                    className="create-event"
                                     placeholder="Date"
                                     control={control}
                                     name={`addOn.${index}.date`}
@@ -441,6 +443,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                 </Grid>
                                 <Grid size={{ xs: 4 }}>
                                     <CustomTextField
+                                      className="create-event"
                                       placeholder="Start Time"
                                       control={control}
                                       name={`addOn.${index}.startTime`}
@@ -454,6 +457,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                   </Grid>
                                     <Grid size={{ xs: 4 }}>
                                       <CustomTextField
+                                        className="create-event"
                                         placeholder="End Time"
                                         control={control}
                                         name={`addOn.${index}.endTime`}
@@ -464,7 +468,6 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                         }}
                                       />
                                     </Grid>
-                      
                                   </>
                                 } </>}
                                 <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
@@ -477,16 +480,29 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                       options={typeArray}
                                       row={true}
                                       value={"PAID"}
+                                      onChange={
+                                        ()=>{
+                                          if (watch(`addOn.${index}.addonType`)[0] != 'PAID') {
+                                            setValue(`addOn.${index}.amount`, '')
+                                          }  
+                                        }
+                                      }
                                     />
                                   </Grid>
                                   <Grid size={{ xs: 12, sm: 6 }}>
                                     <Grid container display={"flex"} alignItems={"center"}>
-                                    <CustomCheckbox
-                                    className="add-program-check-btn"
-                                      options={[{ label: 'Repeat', value: 'YES' }]}
-                                      control={control}
-                                      name={`addOn.${index}.repeat`}
-                                    />
+                                      <CustomCheckbox
+                                        onChange={() => {
+                                          if (watch(`addOn.${index}.repeat`)[0] != 'YES') {
+                                            setValue(`addOn.${index}.noOfDays`, '')
+                                          }
+                                        }
+                                        }
+                                        className="add-program-check-btn"
+                                        options={[{ label: 'Repeat', value: 'YES' }]}
+                                        control={control}
+                                        name={`addOn.${index}.repeat`}
+                                      />
                                       <Tooltip title="No of Days once Saved can't be edited" arrow>
                                         <IconButton className="add-program-warning-msg"
                                         >
@@ -498,34 +514,37 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                 </Grid>
                                 <Grid  size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
                                <Grid size={{  xs: 12, sm: 6  }} >
-                               {watch(`addOn.${index}.addonType`) === "PAID" &&  
                                         <CustomTextField
+                                          formControlClassName={watch(`addOn.${index}.addonType`) != "PAID"?'create-event-label':''}
                                           placeholder="Price"
+                                          className="create-event"
                                           control={control}
                                           name={`addOn.${index}.amount`}
                                           type="text"
+                                          readOnly={watch(`addOn.${index}.addonType`) != "PAID"?true:false}
                                           rules={{
-                                            required: "Price is required",
+                                            required: watch(`addOn.${index}.addonType`) == "PAID" ? "Price is required" : false,
                                             pattern: {
                                               value: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
-                                              message:
-                                                "Enter a valid price (up to 2 decimal places)",
+                                              message: "Enter a valid price (up to 2 decimal places)",
                                             }
                                           }}
-                                          />}
+                                          />
                                       </Grid> 
-                                  {watch(`addOn.${index}.repeat`)?.length > 0 &&
+                                  {/* {watch(`addOn.${index}.repeat`)?.length > 0 && */}
                                     <Grid size={{ xs: 12, sm: 6 }}>
                                       <CustomTextField
+                                      formControlClassName={watch(`addOn.${index}.repeat`)&&watch(`addOn.${index}.repeat`)[0]!='YES'||editMode ?'create-event-label':''}
+                                      className="create-event"
                                         placeholder="Number of days"
                                         control={control}
                                         name={`addOn.${index}.noOfDays`}
                                         type="number"
-                                        readOnly={editMode ? true : false}
-                                        rules={{ required: true }}
+                                        readOnly={watch(`addOn.${index}.repeat`)&&watch(`addOn.${index}.repeat`)[0]!='YES'||editMode ? true : false}
+                                        rules={{ required:watch(`addOn.${index}.repeat`)&&watch(`addOn.${index}.repeat`)[0]=='YES'?"This field is Required":false }}
                                       />
                                     </Grid>
-                                  }
+                                  {/* } */}
                                       
                                       {}
                                 </Grid>
@@ -550,6 +569,11 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                       options={typeArray}
                                       row={true}
                                       value={"PAID"}
+                                      onChange={()=>{
+                                        if(`addOn.${index}.type`!='PAID'){
+                                          setValue(`addOn.${index}.propertyAmount`, '')
+                                        }
+                                      }}
                                     />
                                   </Grid>
                                 </Grid>
@@ -564,14 +588,17 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     />
                                   </Grid>
                                   <Grid size={{ xs: 12, sm: 6 }} display={"flex"} >
-                                    {watch(`addOn.${index}.type`) === "PAID" && (
                                       <Grid size={{ xs: 12, sm: 12 }}>
                                         <CustomTextField
+                                          formControlClassName={watch(`addOn.${index}.addonType`) != "PAID"?'create-event-label':''}
+                                          className="create-event"
                                           placeholder="Price"
                                           control={control}
                                           name={`addOn.${index}.propertyAmount`}
                                           type="text"
+                                          readOnly={watch(`addOn.${index}.type`) != "PAID" ?true:false}
                                           rules={{
+                                            required: watch(`addOn.${index}.addonType`) == "PAID" ?"Price is required":false,
                                             pattern: {
                                               value: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
                                               message:
@@ -580,7 +607,6 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                           }}
                                         />
                                       </Grid>
-                                    )}
                                     <Grid ml={1} mt={1}>
                                       <IconButton
                                         className="add-program-prop-add"

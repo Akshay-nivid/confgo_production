@@ -313,6 +313,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                   <Grid size={{xs:12,sm:6}}>
                                   <CustomTextField
                                     placeholder="Start Date"
+                                    className="create-event"
                                     control={control}
                                     name={`programs.${index}.startDate`}
                                     type="date"
@@ -326,6 +327,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                   </Grid>
                                   <Grid size={{xs:12,sm:6}}>
                                    <CustomTextField
+                                    className="create-event"
                                     placeholder="Start Time"
                                     control={control}
                                     name={`programs.${index}.startTime`}
@@ -353,6 +355,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                   <Grid size={{xs:12,sm:6}}>
                                   <CustomTextField
                                     placeholder="End Date"
+                                    className="create-event"
                                     control={control}
                                     name={`programs.${index}.endDate`}
                                     type="date"
@@ -379,6 +382,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                   <Grid size={{xs:12,sm:6}}>
                                     <CustomTextField
                                     placeholder="End Time"
+                                    className="create-event"
                                     control={control}
                                     name={`programs.${index}.endTime`}
                                     type="time"
