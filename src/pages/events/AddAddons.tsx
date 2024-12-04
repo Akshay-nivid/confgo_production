@@ -482,6 +482,9 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                       options={typeArray}
                                       row={true}
                                       value={"PAID"}
+                                      onChange={()=>{
+                                          setValue(`addOn.${index}.amount`,'');
+                                      }}
                                     />
                                   </Grid>
                                   <Grid size={{ xs: 12, sm: 6 }}>
@@ -491,6 +494,9 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                       options={[{ label: 'Repeat', value: 'YES' }]}
                                       control={control}
                                       name={`addOn.${index}.repeat`}
+                                      onChange={()=>{              
+                                          setValue(`addOn.${index}.noOfDays`, '')
+                                      }}
                                     />
                                       <Tooltip title="No of Days once Saved can't be edited" arrow>
                                         <IconButton className="add-program-warning-msg"
@@ -555,6 +561,9 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                       options={typeArray}
                                       row={true}
                                       value={"PAID"}
+                                      onChange={()=>{       
+                                          setValue(`addOn.${index}.propertyAmount`,'')
+                                      }}
                                     />
                                   </Grid>
                                 </Grid>
