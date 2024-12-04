@@ -132,7 +132,7 @@ const EventRecap: React.FC = React.memo(() => {
                             />
                         </Grid>
                     </Grid>
-                    <Grid  container>
+                    <Grid container>
                         <Grid container size={12}>
                             <Grid>
                                 <Typography className="event-recap-first-grid-text">
