@@ -286,6 +286,7 @@ const stateOptions = (countryCode:any) =>
                       control={control}
                       name="startTime"
                       type="date"
+                      className="create-event"
                       defaultValue={moment(new Date()).format("YYYY-MM-DD")}
                       min={moment(new Date()).format("YYYY-MM-DD")}
                     />
@@ -293,6 +294,7 @@ const stateOptions = (countryCode:any) =>
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField
                       placeholder="End Date"
+                      className="create-event"
                       control={control}
                       name="endTime"
                       type="date"

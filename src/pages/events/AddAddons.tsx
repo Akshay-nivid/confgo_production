@@ -395,6 +395,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                               >
                                 <Grid size={{ xs: 12, sm: 12 }}>
                                   <CustomSelect
+                                  className="add-program-select"
                                   rules={{required:validateRequiredField({})}}
                                     optionClick={(value) => {
                                       if (value === 'other') {
@@ -431,6 +432,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                   <>{watch(`addOn.${index}.dateRequired`)&& <>
                                 <Grid size={{ xs: 12, sm: 4 }}>
                                   <CustomTextField
+                                    className="create-event"
                                     placeholder="Date"
                                     control={control}
                                     name={`addOn.${index}.date`}
@@ -442,6 +444,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                 </Grid>
                                 <Grid size={{ xs: 4 }}>
                                     <CustomTextField
+                                      className="create-event"
                                       placeholder="Start Time"
                                       control={control}
                                       name={`addOn.${index}.startTime`}
@@ -455,6 +458,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                   </Grid>
                                     <Grid size={{ xs: 4 }}>
                                       <CustomTextField
+                                        className="create-event"
                                         placeholder="End Time"
                                         control={control}
                                         name={`addOn.${index}.endTime`}
@@ -497,38 +501,38 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                   </Grid>
                                   </Grid>
                                 </Grid>
-                                <Grid  size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
-                               <Grid size={{  xs: 12, sm: 6  }} >
-                               {watch(`addOn.${index}.addonType`) === "PAID" &&  
-                                        <CustomTextField
-                                          placeholder="Price"
-                                          control={control}
-                                          name={`addOn.${index}.amount`}
-                                          type="text"
-                                          rules={{
-                                            required: "Price is required",
-                                            pattern: {
-                                              value: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
-                                              message:
-                                                "Enter a valid price (up to 2 decimal places)",
-                                            }
-                                          }}
-                                          />}
-                                      </Grid> 
-                                  {watch(`addOn.${index}.repeat`)?.length > 0 &&
-                                    <Grid size={{ xs: 12, sm: 6 }}>
+                                <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
+                                  {/* Conditionally render Price field for PAID addOn */}
+                                  {watch(`addOn.${index}.addonType`) === "PAID" && (
+                                    <Grid size={{ xs: 12, sm: watch(`addOn.${index}.repeat`)?.length > 0 ? 6 : 12 }}>
+                                      <CustomTextField
+                                        placeholder="Price"
+                                        control={control}
+                                        name={`addOn.${index}.amount`}
+                                        type="text"
+                                        rules={{
+                                          required: "Price is required",
+                                          pattern: {
+                                            value: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
+                                            message: "Enter a valid price (up to 2 decimal places)",
+                                          },
+                                        }}
+                                      />
+                                    </Grid>
+                                  )}
+                                  {/* Conditionally render Number of Days field */}
+                                  {watch(`addOn.${index}.repeat`)?.length > 0 && (
+                                    <Grid size={{ xs: 12, sm: watch(`addOn.${index}.addonType`) !== "PAID" ? 12 : 6 }}>
                                       <CustomTextField
                                         placeholder="Number of days"
                                         control={control}
                                         name={`addOn.${index}.noOfDays`}
                                         type="number"
-                                        readOnly={editMode ? true : false}
+                                        readOnly={editMode}
                                         rules={{ required: true }}
                                       />
                                     </Grid>
-                                  }
-                                      
-                                      {}
+                                  )}
                                 </Grid>
 
                                 <Grid container size={{ xs: 12 }} display={"flex"} justifyContent={"space-between"}>
@@ -555,7 +559,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                   </Grid>
                                 </Grid>
                                 <Grid container display={"flex"} justifyContent={"space-between"} size={{xs:12,sm:12}} alignItems={"center"}>
-                                  <Grid size={{ xs: 12, sm: 6 }}>
+                                  <Grid size={{ xs: 12, sm:watch(`addOn.${index}.type`) === "PAID"?6:11}}>
                                     <CustomTextField
                                       placeholder="Property Name"
                                       control={control}
@@ -564,7 +568,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                       // rules={{ required: true }}
                                     />
                                   </Grid>
-                                  <Grid size={{ xs: 12, sm: 6 }} display={"flex"} >
+                                  <Grid size={{ xs: 12, sm:watch(`addOn.${index}.type`) === "PAID"?6: 1 }} display={"flex"} >
                                     {watch(`addOn.${index}.type`) === "PAID" && (
                                       <Grid size={{ xs: 12, sm: 12 }}>
                                         <CustomTextField
