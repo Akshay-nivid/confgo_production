@@ -186,7 +186,7 @@ const Events = () => {
       };
     });
     //tranform addOnData
-    const transformedAddOnData = addOn.map(({ propertyName,propertyAmount,description,repeat, name, addonType, noOfDays, dateRequired, propertyChip, type, startTime, endTime, date, properties,amount, ...item }: Addons) => {
+    const transformedAddOnData = addOn.map(({ propertyName,propertyAmount,repeat, name, addonType, noOfDays, dateRequired, propertyChip, type, startTime, endTime, date, properties,amount, ...item }: Addons) => {
       // Create the combined datetime field
       let combinedStartDateTime;
       let combinedEndDateTime;
