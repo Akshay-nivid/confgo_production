@@ -2,7 +2,7 @@ import { Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 
 interface NoRecordsProps {
-    imageSrc?: string;
+    noRecordImage: React.ReactNode;
     noRecordTitle?: string;
     noRecordSubtitle?:string;
 }
@@ -10,7 +10,7 @@ interface NoRecordsProps {
  * No Record Found 
  * @author Neethu
  */
-export const NoRecords: React.FC<NoRecordsProps> = ({imageSrc,noRecordTitle,noRecordSubtitle}) => {
+export const NoRecords: React.FC<NoRecordsProps> = ({noRecordImage,noRecordTitle,noRecordSubtitle}) => {
     
     return (
         <Grid
@@ -21,9 +21,7 @@ export const NoRecords: React.FC<NoRecordsProps> = ({imageSrc,noRecordTitle,noRe
             className="no-record-container"
             size={{ xs: 12 }}
         >
-            <Grid >
-                <img src={imageSrc} className="no-record-image"  alt="No records found" />
-            </Grid>
+            <Grid className='no-record-image'>{noRecordImage}</Grid>
             <Grid size={6} container direction="column" alignItems="center" alignContent="center">
                 <Typography  className="no-record-title">
                   {noRecordTitle ? noRecordTitle : "No Records Available"}
