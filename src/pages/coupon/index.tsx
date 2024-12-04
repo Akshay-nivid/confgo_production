@@ -13,7 +13,7 @@ import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { Typography } from "@mui/material";
 import { ISource } from "@/Libs/type";
-import { NoCouponData } from "@/assets/png";
+import { NoCouponDataSvg } from "@/assets/svg";
 
 interface FilterType {
   id?: number;
@@ -203,7 +203,7 @@ const Coupon = () => {
           hideFooterPagination={false}
           columns={columns}
           id="coupon-datagrid"
-          noRecordIcon={NoCouponData}
+          noRecordIcon={<NoCouponDataSvg className="no-coupon-icon"/>}
           noRecordTitle="No Coupons Available"
           noRecordSubtitle="It looks like you haven't created any coupons yet. Start by creating your first discount coupon to boost event registrations."
         />
