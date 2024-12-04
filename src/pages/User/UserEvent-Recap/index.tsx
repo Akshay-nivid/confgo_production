@@ -292,7 +292,7 @@ const EventRecap: React.FC = React.memo(() => {
                                     {eventData?.data?.name?toTitleCase(eventData?.data?.name):""}
                                 </Typography>
                             </Grid>
-                            <Grid  >
+                            <Grid> 
                                 <Typography className="event-recap-first-grid-status-text">
                                     <StatusComponent className="event-recap-first-grid-status" value={eventData?.data?.statusId.toString()} />
                                 </Typography>
@@ -330,13 +330,13 @@ const EventRecap: React.FC = React.memo(() => {
                         {eventData?.data?.programs.map((item: any) => {
                             return(
                             <Grid size={{lg:4,sm:12}} container  className="event-recap-second-grid-content">
-                                 <Grid container size={{lg:12,sm:8}} columnSpacing={8} className="daate_time" width={"auto"}> 
-                                 <Grid size={{lg:6,sm:6}} className="event-recap-second-grid-content-time" bgcolor={"green"}>
-                                    <Typography className="event-recap-second-grid-content-time-text">{formatDateTimeRange({date:item?.startTime,format:'h:mm A'})},{formatDateTimeRange({date:item?.endTime,format:"h:mm A"})}</Typography>
+                                 <Grid container size={12} className="daate_time " columnSpacing={8} > 
+                                 <Grid   size={6}className="event-recap-second-grid-content-time">
+                                    <Typography className="event-recap-second-grid-content-time-text">{formatDateTimeRange({date:item.startTime,format:'h:mm A'})},{formatDateTimeRange({date:item.endTime,format:"h:mm A"})}</Typography>
                                 </Grid>
-                                <Grid className="event-recap-second-grid-content-status" size={{lg:6,sm:6}}>
+                                <Grid  className="event-recap-second-grid-content-status" >
                                     <Typography className="event-recap-second-grid-content-status-text">
-                                        <StatusComponent className="event-recap-first-grid-status"   value={item?.statusId.toString()} />
+                                        <StatusComponent value={item?.statusId.toString()} />
                                     </Typography>
                                 </Grid>
                                 </Grid>
