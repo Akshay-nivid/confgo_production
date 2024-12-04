@@ -72,8 +72,6 @@ const PersonalAndOrganisationDetails:React.FC<AccountSettingProps> = React.memo(
   const closeDrawer = () => setIsDrawerOpen(false);
   const setDataById = useStore((state: any) => state.setDataById)
   const userDetails = useStore((state) => state?.compData?.["userDetails"]) ?? {};
-  useStore.getState().setDataById("company-user", { email: userDetails?.email });
-  
   useEffect(() => {
     AccountProfile();
   }, []);
@@ -96,8 +94,9 @@ const PersonalAndOrganisationDetails:React.FC<AccountSettingProps> = React.memo(
           assetId: data.user.assetId || "",
           isSsoUser:data?.isSsoUser,       
         };
-        setCompId(data.id)
+        setCompId(data.id)        
         setProfileData(AccountData); 
+        useStore.getState().setDataById("company-user", { email: data?.user.email});
 
         const OrganisationData = {
           companyName:data.companyName,
