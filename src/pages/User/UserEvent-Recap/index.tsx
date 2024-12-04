@@ -10,6 +10,9 @@ import React from "react";
 import useStore from "@/Libs/store";
 import StatusComponent from "@/components/Status/StatusComponent";
 import { useLocation } from "react-router-dom";
+import QRCode from 'qrcode';
+import jsPDF from 'jspdf';
+import moment from "moment";
 
 
 /**
@@ -24,7 +27,9 @@ const EventRecap: React.FC = React.memo(() => {
     const GET = useStore((state: any) => state.GET);
     const [eventLoading, setEventLoading] = useState(true);
     const eventData = useStore((state: any) => state?.compData?.["EventDetailsResponse"]?.[`event/${eventId}`]) ?? [];
+    const eventTicketData=useStore((state:any)=>state?.compData?.['eventTicketData']?.['participant/payment/details'])??[];
     const POST = useStore((state: any) => state.POST);
+    const userDetails = useStore((state) => state?.compData?.["userDetails"]) ?? {};
     /**
     * Function to handle search API for autocomplete
     */
@@ -52,7 +57,8 @@ const EventRecap: React.FC = React.memo(() => {
      * Fetch event details when the component mounts
      */
     useEffect(() => {
-        EventDetails(); 
+        EventDetails();
+        eventTicketDataApi(); 
     }, []); 
 
     /**
@@ -108,6 +114,155 @@ const EventRecap: React.FC = React.memo(() => {
             setEventLoading(false);
         }
     };
+    /**
+     * get event ticket details
+     */
+    const eventTicketDataApi = async () => {
+        try {
+            await POST({
+                url:   `participant/payment/details`,
+                body: {"eventId":eventId},
+                id: 'eventTicketData',
+                errorCB: (context: any) => {
+                  setDataById("snackBarInfo", {
+                    open: true,
+                    autoHideDuration: 2000,
+                    severity: "error",
+                    message: context?.message,
+                  });
+                },
+              });
+        } catch (error) {
+            Logger.error(error, "EventDetails");
+        } finally {
+            setEventLoading(false);
+        }
+    };
+    /**
+    * handle to generate the pdf
+    */
+    const handlePdfGenerate = async () => {
+        try {
+          const pdf = new jsPDF({
+            orientation: 'portrait', // Use landscape if needed
+            unit: 'mm',
+            format: [149.53, 204.17] // Custom size in mm
+        });
+        const horizontalPadding = 10; // Padding on left and right
+        const verticalPadding = 3; // Padding on top and bottom
+        const pageWidth = pdf.internal.pageSize.width;
+        let currentYPosition = verticalPadding;
+          // Fill the entire page with white (ID card size)
+          pdf.setFillColor(255, 255, 255); // White color
+          pdf.rect(0, 0, 85.60, 53.98, 'F'); // ID card dimensions
+          pdf.setFont("helvetica", "bold");
+          // Generate the QR code image URL
+          pdf.text(eventData?.data?.name?toTitleCase(eventData?.data?.name):"",horizontalPadding,currentYPosition+2)
+          pdf.setFontSize(10),
+          pdf.setFont("helvetica", "normal");
+          // pdf.setFont('Inter','',500)
+        //   pdf.text('Your Gateway to Innovation and Technology!',horizontalPadding,currentYPosition+10)
+    
+    // Adjust the Y position for the line to be below the text
+    let lineYPosition = currentYPosition + 15; // You can adjust this value depending on your font size and line spacing
+    
+    // Draw the line just below the text
+    pdf.setLineWidth(0.5); // Set the line width
+    pdf.setDrawColor(4, 128, 211); // Set the line color (black)
+    pdf.line(5, lineYPosition, 145, lineYPosition); 
+    const text='Ticket Details';
+    pdf.setFont("helvetica", "bold");
+    const textWidth = pdf.getStringUnitWidth(text) * 12/ pdf.internal.scaleFactor;
+    
+    const xPosition = (pageWidth - textWidth) / 2; // Center horizontally
+    pdf.text(text, xPosition, 25);
+    
+    pdf.text('Attendee Name',horizontalPadding,35)
+    pdf.setFont("helvetica", "normal");
+    pdf.text(userDetails?.firstName +" "+ userDetails?.lastName,pageWidth/2,35)
+    pdf.setFont("helvetica", "bold");
+    // pdf.text('Ticket Id',horizontalPadding,45)
+    // pdf.setFont("helvetica", "normal");
+    // pdf.text('TECH2024-12345',pageWidth/2,45)
+    pdf.setFont("helvetica", "bold");
+    pdf.text('Event Name',horizontalPadding,45)
+    pdf.setFont("helvetica", "normal");
+    pdf.text(eventData?.data?.name,pageWidth/2,45)
+    pdf.setFont("helvetica", "bold");
+    pdf.text('Event Date',horizontalPadding,55)
+    pdf.setFont("helvetica", "normal");
+    const formatDate=formatDateTimeRange(eventData?.data?.startTime,'MMMM D, YYYY')
+    console.log(formatDate,'888888')
+    pdf.text(moment(eventData?.data?.startTime).format('MMMM D, YYYY'),pageWidth/2,55)
+    pdf.setFont("helvetica", "bold");
+    pdf.text('Location',horizontalPadding,65)
+    pdf.setFont("helvetica", "normal");
+    const address = eventData?.data?.venue?.address +"," +eventData?.data?.venue?.city+","+eventData?.data?.venue?.state+","+ eventData?.data?.venue?.country+","+eventData?.data?.venue?.postalCode;
+    // Calculate the maximum width for the text
+    const maxWidth = pageWidth/2;
+    
+    // Split the text into multiple lines based on the max width
+          const lines = pdf.splitTextToSize(address, maxWidth);
+    
+          // Set the initial Y position for the text
+    
+          // Loop through each line and add it to the PDF, with proper Y positioning
+          lines.forEach((line: any, index: any) => {
+            pdf.text(line, pageWidth / 2, 65 + (index * 10)); // Increment Y position for each line
+          });
+          const qrCodeTopRight = await QRCode.toDataURL(eventTicketData?.data?.ParticipantDetails?.qrCode);
+          // Adjust QR code size to fit nicely on the ID card
+          pdf.addImage(qrCodeTopRight, 'PNG', (pageWidth/2)-20, currentYPosition + 75, 30, 30); // Position (60, 10), size 20x20 mm
+          // Draw the line just below the text
+    
+          const startX = 5; // Start of the line (x1)
+          const startY = currentYPosition + 115; // Y position of the line (y1)
+          const endX = 145; // End of the line (x2)
+          const endY = currentYPosition + 115; // Y position of the line (y2), same as startY for horizontal line
+    
+          // Set line color (optional)
+          pdf.setDrawColor(4, 128, 211); // Black color (RGB)
+    
+          // Set line width (optional)
+          pdf.setLineWidth(0.5); // Default is 0.2 mm, you can set it higher for a thicker line
+    
+          // Draw the line
+          pdf.line(startX, startY, endX, endY);
+    
+          // 
+          // pdf.setFont("helvetica", "bold");
+          // pdf.text('Additional Info',horizontalPadding,125);
+          // pdf.setFont("helvetica", "normal");
+          // pdf.text('Additional Info',horizontalPadding,135);
+    
+          pdf.setFont("helvetica", "bold");
+    
+          pdf.text('Payment Details', xPosition, 125);
+        //   pdf.text('Ticket Price', horizontalPadding, 135)
+        //   pdf.setFont("helvetica", "normal");
+        //   pdf.text('100', pageWidth / 2, 135)
+        //   pdf.setFont("helvetica", "bold");
+        //   pdf.text('Discount Applied', horizontalPadding, 145)
+        //   pdf.setFont("helvetica", "normal");
+        //   pdf.text('20', pageWidth / 2, 145);
+          pdf.setFont("helvetica", "bold");
+          pdf.text('Total Paid', horizontalPadding, 135)
+          pdf.setFont("helvetica", "normal");
+          pdf.text(eventTicketData?.data?.PaymentDetails?.amount, pageWidth / 2, 135);
+          pdf.setFont("helvetica", "bold");
+          pdf.text('Payment Date', horizontalPadding, 145)
+          pdf.setFont("helvetica", "normal");
+          pdf.text(moment(eventTicketData?.data?.PaymentDetails?.createdOn).format("DD-MM-YYYY hh:mm A"), pageWidth / 2, 145);
+          pdf.setFont("helvetica", "bold");
+          pdf.text('Payment Reference Id', horizontalPadding, 155)
+          pdf.setFont("helvetica", "normal");
+          pdf.text(eventTicketData?.data?.PaymentDetails?.paymentReferenceNumber, pageWidth / 2, 155);
+          pdf.save('my-ticket.pdf'); 
+          
+        } catch (error) {
+          console.error('Error loading image or generating PDF:', error);
+        }
+      }
     return (
         <>
             {eventLoading ? (
@@ -146,9 +301,9 @@ const EventRecap: React.FC = React.memo(() => {
                             </Grid>
                             <Grid size={12}>
                                 <Typography className="event-recap-first-grid-address" >
-                                {formatDateTimeRange({date:eventData?.data.startTime,format:"MMMM D, YYYY"})}
+                                {formatDateTimeRange({date:eventData?.data?.startTime,format:"MMMM D, YYYY"})}
                                <span className="mx-2">|</span>
-                               {formatDateTimeRange({date:eventData?.data.startTime,format:'h:mm A'})}-{formatDateTimeRange({date:eventData?.data.endTime,format:'h:mm A'})}
+                               {formatDateTimeRange({date:eventData?.data?.startTime,format:'h:mm A'})}-{formatDateTimeRange({date:eventData?.data?.endTime,format:'h:mm A'})}
                                <span className="mx-2">
                                 |
                                </span>
@@ -158,7 +313,7 @@ const EventRecap: React.FC = React.memo(() => {
                             </Grid>
                             <Grid size={12} className="event-recap-first-grid-buttons">
 
-                                <Button className="event-recap-first-grid-buttons-firstButton">
+                                <Button className="event-recap-first-grid-buttons-firstButton" onClick={()=>handlePdfGenerate()}>
                                     View Ticket
                                 </Button>
                                 {/* button hiidden */}
@@ -179,7 +334,7 @@ const EventRecap: React.FC = React.memo(() => {
                             <Grid size={{lg:4,sm:12}} container  className="event-recap-second-grid-content">
                                  <Grid container size={{lg:12,sm:8}} columnSpacing={8} className="daate_time" width={"auto"}> 
                                  <Grid size={{lg:6,sm:6}} className="event-recap-second-grid-content-time" bgcolor={"green"}>
-                                    <Typography className="event-recap-second-grid-content-time-text">{formatDateTimeRange({date:item.startTime,format:'h:mm A'})},{formatDateTimeRange({date:item.endTime,format:"h:mm A"})}</Typography>
+                                    <Typography className="event-recap-second-grid-content-time-text">{formatDateTimeRange({date:item?.startTime,format:'h:mm A'})},{formatDateTimeRange({date:item?.endTime,format:"h:mm A"})}</Typography>
                                 </Grid>
                                 <Grid className="event-recap-second-grid-content-status" size={{lg:6,sm:6}}>
                                     <Typography className="event-recap-second-grid-content-status-text">
