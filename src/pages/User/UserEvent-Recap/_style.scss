@@ -29,19 +29,15 @@
             text-decoration-skip-ink: none;
         }
         &-status {
-        .statusText{
+            background: $clr_status_bar !important;
+            border-radius: 0.49875rem;
+            .statusText{
+            width: 9.25rem !important;
             display:flex;   
             justify-content: center;
             align-items: center;
-            width: 9.25rem !important;
             height: 2.5rem !important;
         }
-            
-            width: 6.25rem !important;
-            height: 2.5rem !important;
-            background: $clr_status_bar !important;
-
-            border-radius: 0.49875rem;
             &-text {
                 color: $clr_cyan_blue;
                 font-family: $font;
@@ -58,7 +54,6 @@
             font-weight: $font-medium !important;
             line-height: 1.36125rem;
         }
-
         &-buttons {
             margin-top: 2rem;
             &-firstButton {
@@ -84,7 +79,7 @@
     }
     &-second-grid {
         .daate_time{
-        margin-top:1rem;
+         margin-top:1rem;
         }
         margin-top: 1.2rem;
         &-text {
@@ -95,19 +90,21 @@
             letter-spacing: 0.0187rem;
         }
         &-content {
-            width: auto;
             border-radius: 0.625rem;
             border: 0.5rem;
             margin-left: 0.5rem;
             padding-left: 0.5rem;
             padding-bottom: 1rem;
             border: 0.03125rem solid $clr_light_border_grey ;
+            // .event-recap-first-grid-status{
+            //     width:100% !important;
+            // }
             &-time {
                 margin-left:.5rem !important;
                 display:flex;   
                 justify-content: center;
                 align-items: center;
-                width: 12rem !important;
+                // width: 12rem !important;
                 height: 2.875rem !important;
                 padding-left:1rem;
                 border-radius: 0.3125rem;
@@ -120,19 +117,16 @@
                 }
             }
             &-status {
-                text-align:centre;
+                text-align:center;
+                width:9.25rem !important;
+                margin-left:.6rem !important;
+                border-radius: 0.49875rem;
                 .statusText{
                     display:flex;   
                     justify-content: center;
                     align-items: center;
-                    width: 9.25rem !important;
-                    height: 2.5rem !important;
-                }
-                margin-left: .5rem;
-                width: 6.25rem !important;
-                height: 1.9956rem !important;
-                border-radius: 0.49875rem;
-
+                    width:100% !important;    
+                }   
                 &-text {
                     font-family: $font;
                     font-size: $h5 !important;
