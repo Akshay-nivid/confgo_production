@@ -8,9 +8,9 @@ interface PrivateRouteProps {
 const PrivateRoutes: React.FC<PrivateRouteProps & { role: "COMPANY" | "USER" }> = ({ children, role }) => {
   const isUserLoggedIn = sessionStorage.getItem("isUserLoggedIn") === "true";
   const userRole = sessionStorage.getItem("userLoggedInType");
-
+  const token=sessionStorage.getItem("token");
   // Wait until the states are checked
-  if (isUserLoggedIn === null || userRole === null) {
+  if (isUserLoggedIn === null || userRole === null && token!=null) {
     return <div>Loading...</div>;
   }
 
