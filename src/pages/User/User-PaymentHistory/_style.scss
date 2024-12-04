@@ -84,5 +84,9 @@
 .paymentlist{
     margin-top: 1.2rem;
     border-radius: 0.8rem !important;
+    &-no-payment-icon{
+      height: 13.83rem;
+      width: 13.83rem;
+    }
 }
 }
