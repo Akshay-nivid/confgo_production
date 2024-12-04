@@ -191,8 +191,6 @@ const EventRecap: React.FC = React.memo(() => {
     pdf.setFont("helvetica", "bold");
     pdf.text('Event Date',horizontalPadding,55)
     pdf.setFont("helvetica", "normal");
-    const formatDate=formatDateTimeRange(eventData?.data?.startTime,'MMMM D, YYYY')
-    console.log(formatDate,'888888')
     pdf.text(moment(eventData?.data?.startTime).format('MMMM D, YYYY'),pageWidth/2,55)
     pdf.setFont("helvetica", "bold");
     pdf.text('Location',horizontalPadding,65)
