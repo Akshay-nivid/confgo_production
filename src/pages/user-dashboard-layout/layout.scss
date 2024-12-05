@@ -346,7 +346,8 @@
         height: 15.5rem;
         border-radius: 0.8rem;
         border: 0.02rem solid $clr_light_border_grey;
-
+        padding-bottom:2.0475rem !important;
+        height:auto;
         &-container {
 
           padding-right: $h2;
@@ -499,6 +500,10 @@
 }
 
 .user-profile-menu {
+  &-icon{
+    width:20px !important;
+    height:20px !important;
+  }
   & .MuiPaper-root {
     min-width: 16.666rem !important;
     padding-inline: 1.5rem !important;
