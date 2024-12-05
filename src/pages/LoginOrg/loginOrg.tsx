@@ -129,9 +129,11 @@ const LoginOrg = () => {
       // Redirect to the company dashboard
       navigate(routes.dashboard());
     } else if(userRole?.roleName === "USER"){
+      sessionStorage.setItem('isUserLoggedIn', 'false'); 
       //Redirect to user login
       navigate(routes.userLogin());
     } else {
+      sessionStorage.setItem('isUserLoggedIn', 'false'); 
     setDataById("snackBarInfo", {
       open: true,
       autoHideDuration: 2000,
@@ -182,6 +184,7 @@ const LoginOrg = () => {
                     name="email"
                     label={"Email Address"}
                     type="email"
+                    className="text-field"
                     placeholder="Email Address"
                   />
                   <CustomTextField
@@ -209,7 +212,7 @@ const LoginOrg = () => {
                     {""}
                     <Link to={routes.register()}> Sign Up </Link>{" "}
                   </span>
-                  Now
+                  now
                 </Typography>
                 <Box className="" onClick={handleClickForgetPassword}>
                   <Grid container size={12} className="forgot-password-link">Forgot Password?</Grid>{" "}
