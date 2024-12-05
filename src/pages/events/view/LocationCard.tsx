@@ -15,6 +15,7 @@ import { GoogleMap, LoadScript,Marker } from '@react-google-maps/api';
 //const { AdvancedMarkerElement } = await google.maps.importLibrary("marker") as any;
 import config from "../../../../config.json";
 import apiClient from "@/Libs/Https/API-client";
+import { State } from "country-state-city";
  interface Venue {
   id: number;
   name: string;
@@ -44,6 +45,40 @@ interface Coordinates {
  * Component to list the location on a map
  */
 const LocationCard = ({ data }: LocationCardProps) => { 
+
+  const [countryName, setCountryName] = useState<any>(data?.country);
+
+  /**
+   * Define an asynchronous function to fetch the country name by country code
+   */
+  useEffect(() => {
+    const fetchCountryName = async () => {
+      try {
+        const response = await fetch(`https://restcountries.com/v3.1/alpha/${data?.country}`);
+        const datas = await response.json();
+        if (datas && datas[0]?.name?.common) {
+          setCountryName(datas[0].name.common);
+        }
+      } catch (error) {
+        Logger.error("Error fetching country name:", error);
+      }
+    };
+
+    fetchCountryName();
+  }, [data?.country]);
+
+  /**
+   * Fetch all states for the given country code using a library function (State.getStatesOfCountry)
+   * and find the state that matches the given state code (data.state)
+   */
+  const getStateNameByCode = (countryCode: any, stateCode: any) => {
+    const states = State.getStatesOfCountry(countryCode); // Fetch all states for the given country
+    const matchedState = states?.find((state: any) => state.isoCode === stateCode); // Find state by isoCode
+    return matchedState?.name || null; // Return the state name or null if not found
+  };
+  const stateName = getStateNameByCode(data?.country,data?.state);
+  
+
   /**
    * State to store map coordinates
    * Initially set to null until fetched from the Google Maps API.
@@ -194,7 +229,7 @@ const LocationCard = ({ data }: LocationCardProps) => {
         </Grid>
         <Grid size={12}className="main-location-Grid-address">
           <Typography className="main-location-Grid-address-title" >State/Province</Typography> 
-          <Typography className="main-location-Grid-address-title-description">{data?.state} </Typography>
+          <Typography className="main-location-Grid-address-title-description">{stateName} </Typography>
         </Grid>
         <Grid size={12}className="main-location-Grid-address">
           <Typography className="main-location-Grid-address-title" >ZIP/Postal Code</Typography> 
@@ -202,7 +237,7 @@ const LocationCard = ({ data }: LocationCardProps) => {
         </Grid>
         <Grid size={12}className="main-location-Grid-address">
           <Typography className="main-location-Grid-address-title" >Country</Typography> 
-          <Typography className="main-location-Grid-address-title-description">{data?.country}  </Typography>
+          <Typography className="main-location-Grid-address-title-description">{countryName}  </Typography>
         </Grid>
        </Grid>
       </Grid>
