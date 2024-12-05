@@ -34,9 +34,12 @@
      }
    }
    .download-Receipt{
-    background-color:$clr_white_90_percent!important;
+    background-color: transparent !important;
     color:$clr_blue;
     box-shadow:none ;
+    font-size: $p2;
+    font-weight: $font_medium;
+    padding: 0rem;
     &:hover {
         box-shadow: none;
 
