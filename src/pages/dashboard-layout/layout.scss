@@ -157,15 +157,18 @@
   height: 1.8rem !important;
   color: black;
 }
-.user-profile-menu {
-  transform: translateY(20px) !important;
+
+.user-profile-menu{
+ background-color: $semi-transparent-black;
   & .MuiPaper-root { 
+    margin-top:1rem !important;
     border-radius:.6rem;
-    min-width: 16.666rem !important;
+    width:20.666rem !important;
     padding-inline: 1.5rem !important;
     padding-block: 0.833rem !important;
     box-shadow: none;
     border-radius:.46rem ;
+    box-shadow: 0.33rem 0rem 0.67rem rgba(0, 0, 0, 0.1) !important;
   }
 
   & li {
