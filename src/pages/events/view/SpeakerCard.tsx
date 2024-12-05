@@ -174,7 +174,7 @@ const SpeakerCard = (_eventData: any) => {
               value: element.name,
               label: element.name,
             }));
-            const updatedOptionsData = [...options, { label: "Other", value: "other" }];
+            const updatedOptionsData = [...options, { label: "Create New Contributors", value: "other" }];
             setContributorType(updatedOptionsData);
 
              // Reset the form field after updating options
