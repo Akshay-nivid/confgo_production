@@ -184,7 +184,6 @@ const LoginOrg = () => {
                     name="email"
                     label={"Email Address"}
                     type="email"
-                    className="text-field"
                     placeholder="Email Address"
                   />
                   <CustomTextField
