@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import AddIcon from "@mui/icons-material/Add";
 
 interface NoRecordsProps {
-    imageSrc?: string;
+    noRecordImage: React.ReactNode;
     noRecordTitle?: string;
     noRecordSubtitle?:string;
     redirectTo?: () => string;
@@ -15,15 +15,7 @@ interface NoRecordsProps {
  * No Record Found 
  * @author Neethu
  */
-export const NoRecords: React.FC<NoRecordsProps> = ({imageSrc,noRecordTitle,noRecordSubtitle,redirectTo,btnName}) => {
-    const navigate = useNavigate()
-/**
- * function to navigate to desired route from datagridlist
-*/
-    const navipath = () => {
-        const path = redirectTo ? redirectTo() : "";
-        navigate(path); 
-    };
+export const NoRecords: React.FC<NoRecordsProps> = ({noRecordImage,noRecordTitle,noRecordSubtitle}) => {
     
     return (
         <Grid
@@ -34,9 +26,7 @@ export const NoRecords: React.FC<NoRecordsProps> = ({imageSrc,noRecordTitle,noRe
             className="no-record-container"
             size={{ xs: 12 }}
         >
-            <Grid >
-                <img src={imageSrc} className="no-record-image"  alt="No records found" />
-            </Grid>
+            <Grid className='no-record-image'>{noRecordImage}</Grid>
             <Grid size={6} container direction="column" alignItems="center" alignContent="center">
                 <Typography  className="no-record-title">
                   {noRecordTitle ? noRecordTitle : "No Records Available"}
