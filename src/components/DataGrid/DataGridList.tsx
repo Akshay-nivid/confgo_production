@@ -254,7 +254,7 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
                 </Grid>
             ) : (
                 <Grid container size={12} justifyContent={"center"} alignContent={"center"}>
-                     <NoRecords noRecordImage={noRecordImg} noRecordSubtitle={noRecordSubtitle} noRecordTitle={noRecordTitle}/>
+                     <NoRecords noRecordImage={noRecordImg} noRecordSubtitle={noRecordSubtitle} noRecordTitle={noRecordTitle} redirectTo={redirectTo} btnName={btnName}/>
                      
                 </Grid>
                

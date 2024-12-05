@@ -115,6 +115,9 @@ const PersonalAndOrganisationDetails:React.FC<AccountSettingProps> = React.memo(
         setValue("email", data.user.email,);
         setValue("phone", data.user.phone,); 
         setValue("assetId", data.user.assetId,); 
+
+        setValue("companyName", data.companyName);
+        setValue("companyAddress", data.companyAddress);
         
         setEmail(data.user.email);
       }
@@ -165,12 +168,28 @@ const handleDeleteAvatar = () => {
 const openLogomodal =()=>{
   setUploadOrganisationModalOpen(true)
 
+
 }
 /** logo upload for company */
 const handleOrganisationImageUpload =(uploadedFiles: CustomFile)=>{
   setDrawerLogoImage(uploadedFiles.id)
   setUploadOrganisationModalOpen(false);
 }
+
+/** logo delete function for company */
+const handleDeleteLogo = () =>{
+  setDrawerLogoImage(null)
+  setLogoProfileData((prevLogoProfileData) => {
+    if (!prevLogoProfileData) {
+      return null;
+    }
+    return {
+      ...prevLogoProfileData,
+      assetId: null,
+    };
+  });
+};
+
 
 /** function to submit logo */
 const onLogoSubmit = async (newdata: Company) => {
@@ -470,7 +489,28 @@ return (
               >
                 Upload New Logo
               </Button>
-
+              <Button
+                className="main-user-profile-upload-btn main-outline"
+                onClick={handleDeleteLogo}
+              >
+                Delete
+              </Button>
+              <Grid size={12} className="main-user-details">
+              <CustomTextField
+                  name="companyName"
+                  placeholder="Company Name"
+                  control={control}
+                  requiredField
+                  className="main-account-drawer-textfield"
+                />
+                <CustomTextField
+                  name="companyAddress"
+                  placeholder="Company Address"
+                  control={control}
+                  requiredField
+                  className="main-account-drawer-textfield"
+                />
+                </Grid>
               <Grid size={12} container className="main-account-drawer-btn">
                 <CustomButton
                   label="Submit"
