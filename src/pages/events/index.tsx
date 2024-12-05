@@ -297,7 +297,7 @@ const Events = () => {
 
   return (
     <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper">
-      <Grid size={{ xs: 12, sm: 12 }} className="custom-stepper-main">
+      <Grid size={{ xs: 12, sm: 12 }} justifyItems={'center'} className="custom-stepper-main">
         <CustomStepper
           steps={steps}
           activeStep={activeStep}

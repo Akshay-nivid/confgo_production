@@ -556,8 +556,7 @@
     background-color: $clr_white;
   }
   &-container {
-    width: 70rem;
-    padding-left: 15rem;
+    width: 54.08rem !important;
     pointer-events: none;
     .MuiStepLabel-label{
       font-size: $p2 !important;
