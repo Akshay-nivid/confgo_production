@@ -85,6 +85,9 @@
   & .MuiInputBase-input {
     background-color: $clr_white;
   }
+  & .MuiInputLabel-outlined{
+    color:$input_label !important;
+  }
   &-icon-btn {
     &:focus {
       outline: none;
@@ -746,8 +749,19 @@
     font-weight: $font_normal !important;
     font-size: $p2 !important;
     text-align: center; 
-    margin-bottom: 10rem !important;
+    margin-bottom: 2rem !important;
     color:$clr_gray_extra_dark !important;
+  }
+  &-create-btn{
+    max-height: 4rem;
+    background-color: $clr_green !important;
+    color: $clr_white !important;
+    max-width: 19rem !important;
+    text-transform: none !important;
+    box-shadow: none !important;
+    font-size: $p2 !important;
+    font-weight: $font_normal !important;
+    margin-bottom: 3rem !important;
   }
 }
 
