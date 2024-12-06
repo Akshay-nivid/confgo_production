@@ -17,7 +17,7 @@ import config from "../../../config.json";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import GoogleMapPlacePicker from "./GoogleMapPlacePicker";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import { validateEmail } from "@/Utils/Validation";
+import { validateEmail, validatePhoneNumber } from "@/Utils/Validation";
 
 type EventProps = {
   formSubmit: boolean;
@@ -270,7 +270,10 @@ const CreateEvent: React.FC<EventProps> =
                       control={control}
                       name="phone"
                       type="phone"
-                      rules={{ required: 'Phone is required' }}
+                      rules={{
+                        required: 'Phone is required',
+                        pattern: validatePhoneNumber({})
+                      }}
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 6 }}>
