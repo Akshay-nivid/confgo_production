@@ -16,6 +16,7 @@ import "react-quill/dist/quill.snow.css";
 import config from "../../../config.json";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import { State } from "country-state-city";
+import { validateEmail } from "@/Utils/Validation";
 
 type EventProps = {
   formSubmit: boolean;
@@ -299,7 +300,10 @@ const stateOptions = (countryCode:any) =>
                       control={control}
                       name="email"
                       type="email"
-                      rules={{ required: 'Email is required' }}
+                      rules={{
+                        required: 'Email is required',
+                        pattern: validateEmail({})
+                      }}
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 6 }}>
