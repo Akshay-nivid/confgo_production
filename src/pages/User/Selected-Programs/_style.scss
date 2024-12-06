@@ -1,12 +1,536 @@
+// .selected-programs-main {
+
+//   &-1 {
+
+//     &-selected-program-wrapper {}
+
+//     &-header {}
+
+//     .add-on-prop-checkbox {
+
+//       padding: 0 !important;
+
+//       .MuiFormControlLabel-root {
+//         .MuiFormControlLabel-label {
+//           font-size: $p3 !important;
+//           font-weight: $font-bold !important;
+//         }
+//       }
+
+//       svg {
+//         width: 1.6rem;
+//         height: 1.6rem;
+//         fill: $clr_charcoal_cyan !important;
+//       }
+//     }
+
+
+
+//     .program-list-item {
+//       width: max-content;
+
+//       .MuiFormControl-root {
+//         width: 100%;
+//       }
+
+//       .MuiFormControlLabel-root {
+//         padding: 0 !important;
+//         margin: 0 !important;
+
+//         .MuiButtonBase-root {
+//           padding: 0 !important;
+//         }
+//       }
+
+//       .MuiCheckbox-root {
+//         width: 100%;
+//         max-width: 10rem;
+
+//         svg {
+//           fill: none !important;
+//           background-color: $clr_charcoal_cyan;
+//           border-radius: .5rem;
+//           width: 100% !important;
+//           height: 2.8rem !important;
+//           padding-inline: 4rem;
+
+//         }
+
+
+//       }
+
+
+//     }
+
+//     // .add-on-list-container {
+//     //   .addon-checkbox-group {
+//     //     position: relative;
+//     //     width: max-content;
+//     //     // height: max-content;
+
+//     //     .add-text {
+//     //       position: absolute;
+//     //       color: white !important;
+//     //       top: 50%;
+//     //       right: 50%;
+//     //       transform: translate(50%, -50%);
+//     //       font-size: $p1 !important;
+//     //       font-weight: $font-medium !important;
+//     //     }
+
+//     //     .MuiFormControl-root {
+//     //       width: 100%;
+//     //     }
+
+//     //     .MuiFormControlLabel-root {
+//     //       padding: 0 !important;
+//     //       margin: 0 !important;
+
+//     //       .MuiButtonBase-root {
+//     //         padding: 0 !important;
+//     //       }
+//     //     }
+
+
+//     //     .MuiCheckbox-root {
+//     //       width: 100%;
+//     //       max-width: 10rem;
+
+//     //       svg {
+//     //         fill: none !important;
+//     //         background-color: $clr_charcoal_cyan;
+//     //         border-radius: .5rem;
+//     //         width: 100% !important;
+//     //         height: 2.8rem !important;
+//     //         padding-inline: 4rem;
+//     //       }
+
+
+//     //     }
+
+//     //     .MuiFormControlLabel-root.Mui-disabled svg {
+//     //       background-color: $clr_gray_faded !important;
+//     //     }
+
+//     //   }
+
+//     // }
+
+//     .back-btn {
+//       border-color: $clr_charcoal_cyan;
+//       color: $clr_charcoal_cyan;
+//       min-width: 8rem;
+//     }
+
+//     .next-btn {
+//       background-color: $clr_charcoal_cyan;
+//       min-width: 8rem;
+//     }
+
+
+//   }
+
+//   &-2 {
+
+//     .add-on-prop-checkbox {
+//       // padding-left: .8rem !important;
+//       // margin-top: .4rem;
+//       padding: 0 !important;
+
+//       .MuiFormControlLabel-root {
+//         .MuiFormControlLabel-label {
+//           font-size: $p3 !important;
+//           font-weight: $font-bold !important;
+//         }
+//       }
+
+//       svg {
+//         width: 1.6rem;
+//         height: 1.6rem;
+//         fill: $clr_black !important;
+//       }
+//     }
+
+
+
+//     .program-list-item {
+
+
+
+//     }
+
+
+
+//     // .add-on-list-container {
+//     //   .addon-checkbox-group {
+//     //     position: relative;
+//     //     width: max-content;
+//     //     // height: max-content;
+
+//     //     .add-text {
+//     //       position: absolute;
+//     //       color: white !important;
+//     //       top: 50%;
+//     //       right: 50%;
+//     //       transform: translate(50%, -50%);
+//     //       font-size: $p1 !important;
+//     //       font-weight: $font-medium !important;
+//     //     }
+
+//     //     .MuiFormControl-root {
+//     //       width: 100%;
+//     //     }
+
+//     //     .MuiFormControlLabel-root {
+//     //       padding: 0 !important;
+//     //       margin: 0 !important;
+
+//     //       .MuiButtonBase-root {
+//     //         padding: 0 !important;
+//     //       }
+//     //     }
+
+
+//     //     .MuiCheckbox-root {
+//     //       width: 100%;
+//     //       max-width: 10rem;
+
+//     //       svg {
+//     //         fill: none !important;
+//     //         background-color: $clr_bright_mint_green;
+//     //         border-radius: .5rem;
+//     //         width: 100% !important;
+//     //         height: 2.8rem !important;
+//     //         padding-inline: 4rem;
+//     //       }
+
+
+//     //     }
+
+//     //     .MuiFormControlLabel-root.Mui-disabled svg {
+//     //       background-color: $clr_gray_faded !important;
+//     //     }
+
+//     //   }
+
+//     // }
+
+
+//     .back-btn {
+//       border-color: $clr_bright_mint_green;
+//       color: $clr_bright_mint_green;
+//       min-width: 8rem;
+//     }
+
+//     .next-btn {
+//       background-color: $clr_bright_mint_green;
+//       min-width: 8rem;
+//     }
+//   }
+
+
+//   .selected-programs-main-header {
+//     .header-title {
+//       margin-bottom: 0.5rem;
+//       font-size: $h2;
+//       font-weight: $font-bold;
+//     }
+
+//     .header-description {
+//       margin-bottom: 3rem;
+//       font-size: $h6;
+//       font-weight: $font_bold;
+//       color: $clr_requirement_text;
+//     }
+//   }
+
+//   .selected-program-card-wrapper {
+
+
+//     .selected-program-card-content {
+
+
+//       .sub-header {
+//         margin-bottom: 2rem;
+//         font-size: $h6;
+//         font-weight: $font_semibold;
+//       }
+//     }
+
+
+
+// .subtotal-container {
+//   padding-left: 2.5rem;
+//   padding-right: 2.5rem;
+//   padding-top: 2rem;
+//   padding-bottom: 2.5rem;
+
+//   .total-text {
+//     font-size: $h5;
+//     font-weight: $font_bold;
+//   }
+// }
+// }
+
+
+
+
+
+//   .food-list-item-checkbox,
+//   .program-list-item-checkbox {
+//     padding: 0 !important;
+//     margin-right: 0.5rem;
+
+//     .MuiFormControlLabel-root {
+//       .MuiFormControlLabel-label {
+//         font-size: $p3 !important;
+//         font-weight: $font-bold !important;
+//       }
+//     }
+
+//     svg {
+//       width: 1.6rem;
+//       height: 1.6rem;
+//       fill: $clr_black;
+//     }
+//   }
+
+//   // .add-on-list-container {
+//   //   display: flex;
+//   //   flex-direction: column;
+
+//   //   .add-on-list-item {
+
+//   //     .add-on-list-item-label {
+//   //       font-size: $h6;
+//   //       font-weight: $font-semibold;
+//   //     }
+
+//   //     .add-on-list-item-checkbox {
+//   //       padding: 0 !important;
+//   //       margin-left: 0.8rem;
+//   //       margin-right: 0.5rem;
+
+//   //       .MuiFormControlLabel-root {
+//   //         .MuiFormControlLabel-label {
+//   //           font-size: $p3 !important;
+//   //           font-weight: $font-bold !important;
+//   //         }
+//   //       }
+
+//   //       svg {
+//   //         width: 1.6rem;
+//   //         height: 1.6rem;
+//   //         fill: $clr_black;
+//   //       }
+//   //     }
+
+//   //     .add-on-list-item-radio {
+//   //       svg {
+//   //         fill: $clr_black;
+//   //       }
+//   //     }
+
+//   //     .add-on-list-item-radio-label {
+//   //       font-size: $p1;
+//   //       font-weight: $font-normal;
+
+//   //       &.checked {
+//   //         color: $clr_blue;
+//   //       }
+//   //     }
+//   //   }
+//   // }
+
+//   .select-add-on-text {
+//     margin-block: 1.2rem;
+//     font-size: $h6;
+//     font-weight: $font-medium;
+//   }
+
+//   .program-list-container {
+//     // display: flex;
+//     // align-items: center;
+//     // padding-bottom: 0.5rem !important;
+//   }
+
+
+// }
+
+
+
+// .selected-programs-main {
+
+//   .program-list-container {
+//   }
+
+
+
+//   .program-card {
+//     // background-color: $clr_gray_10_percent;
+//     padding-inline: 2rem;
+//     padding-block: 2rem;
+//     border-radius: .5rem;
+
+//   }
+
+// .add-on-list-item-wrapper {
+//   padding: 1.5rem !important;
+//   border-radius: 0.7rem !important;
+//   background-color: $clr_white;
+// }
+
+
+
+//   .time-chip {
+//     &.MuiChip-root {
+//       padding-inline: .2rem !important;
+//       font-size: $p1 !important;
+//       border: .1rem solid $clr_gray_faded !important;
+//       background-color: transparent !important;
+//     }
+//   }
+
+
+//   // .price-chip {
+//   //   &.MuiChip-root {
+//   //     padding-inline: .2rem !important;
+//   //     padding-block: .1rem !important;
+//   //     font-size: $h6 !important;
+//   //     background-color: $clr_charcoal_cyan !important;
+//   //     color: $clr_white !important;
+
+//   //     svg {
+//   //       fill: $clr_white !important;
+//   //     }
+//   //   }
+//   // }
+
+//   // .program-list-item {
+//   //   width: max-content;
+
+//   //   .MuiFormControl-root {
+//   //     width: 100%;
+//   //   }
+
+//   //   .MuiFormControlLabel-root {
+//   //     padding: 0 !important;
+//   //     margin: 0 !important;
+
+//   //     .MuiButtonBase-root {
+//   //       padding: 0 !important;
+//   //     }
+//   //   }
+
+//   //   .MuiCheckbox-root {
+//   //     width: 100%;
+//   //     max-width: 10rem;
+
+//   //     svg {
+//   //       fill: none !important;
+//   //       background-color: $clr_charcoal_cyan;
+//   //       border-radius: .5rem;
+//   //       width: 100% !important;
+//   //       height: 2.8rem !important;
+//   //       padding-inline: 4rem;
+
+//   //     }
+
+
+//   //   }
+
+
+//   // }
+
+//   .program-list-container {
+
+
+//     // background-color: $clr_white !important;
+
+
+
+
+
+//   }
+
+
+
+
+
+
+
+.addon-property-item {
+
+  // background-color: $clr_gray_20_percent !important;
+  .MuiCheckbox-root {
+    svg {
+      // fill: $clr_charcoal_cyan !important;
+      background-color: $clr_white;
+      border-radius: .51rem;
+      width: max-content !important;
+      height: 2rem !important;
+      padding: 0 !important;
+      // border: .1rem solid $clr_charcoal_cyan;
+      // padding-inline: 2rem;
+    }
+
+  }
+
+  &.Mui-checked svg {
+    fill: $clr_charcoal_cyan !important;
+  }
+
+  .MuiFormControlLabel-root {
+    padding: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .MuiFormControlLabel-root.Mui-disabled svg {
+    fill: $clr_gray_faded !important;
+  }
+
+  .add-on-property-name {
+    font-size: $p1 !important;
+    font-weight: $font-medium !important;
+  }
+}
+
+//   .addon-card {
+//     border: .08rem solid $clr_gray_faded;
+//     border-radius: .5rem !important;
+//     padding: 1.5rem !important;
+//   }
+// }
+
+
+
+// ==========================
+// _____________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .selected-programs-main {
-  .selected-programs-main-header {
-    .header-title {
+
+  .main-header {
+    &-title {
       margin-bottom: 0.5rem;
       font-size: $h2;
       font-weight: $font-bold;
     }
 
-    .header-description {
+    &-description {
       margin-bottom: 3rem;
       font-size: $h6;
       font-weight: $font_bold;
@@ -14,41 +538,205 @@
     }
   }
 
-  .selected-program-card-wrapper {
-    background-color: $clr_gray_20_percent;
-    border-radius: 0.88rem;
-    // max-width: 50rem;
-    margin-inline: auto;
+  .selected-program-card {
+    &-wrapper {
+      background-color: $clr_gray_20_percent;
+      border-radius: 0.88rem;
+      margin-inline: auto;
+    }
 
-    .selected-program-card-content {
+    &-content {
       padding-inline: 2.5rem;
       padding-block: 1.666rem;
-
-      .sub-header {
-        margin-bottom: 2rem;
-        font-size: $h6;
-        font-weight: $font_semibold;
-      }
     }
+  }
 
-    .divider {
-      height: 0.1rem;
-      width: 100%;
-      background-color: $clr_gray_extra_light;
+  .card-header-wrapper {
+    background-color: transparent !important;
+    padding: 1rem;
+    border-radius: .5rem .5rem 0 0 !important;
+    color: $clr_gray_dark_text !important;
+    background-color: transparent !important;
+    border-bottom: .08rem solid $clr_gray_faded;
+  }
+
+  .card-header {
+    font-size: $h5 !important;
+    font-weight: $font-semibold !important;
+  }
+
+  .card-sub-header {
+    font-size: $p1 !important;
+    font-weight: $font-semibold !important;
+    background-color: $clr_gray_very_light !important;
+    width: max-content;
+    padding-inline: .5rem;
+    border-radius: .3rem;
+    color: $clr_gray_dark_text;
+  }
+
+  .program-list-container {
+    background-color: $clr_white;
+    border: .08rem solid $clr_gray_faded;
+    border-radius: .7rem !important;
+    padding: 1.5rem !important;
+  }
+
+  .time-chip {
+    &.MuiChip-root {
+      padding-inline: .2rem !important;
+      font-size: $p1 !important;
+      border: .1rem solid $clr_gray_faded !important;
+      background-color: transparent !important;
     }
+  }
 
-    .subtotal-container {
-      padding-left: 2.5rem;
-      padding-right: 2.5rem;
-      padding-top: 2rem;
-      padding-bottom: 2.5rem;
+  .price-chip {
+    &.MuiChip-root {
+      padding-inline: .2rem !important;
+      padding-block: .1rem !important;
+      font-size: $h6 !important;
 
-      .total-text {
-        font-size: $h5;
-        font-weight: $font_bold;
+      svg {
+        fill: $clr_white !important;
       }
     }
   }
+
+
+  .program-description {
+    display: -webkit-box !important;
+    -webkit-box-orient: vertical !important;
+    overflow: hidden !important;
+    -webkit-line-clamp: 2 !important;
+    text-overflow: ellipsis !important;
+    width: 90%;
+    color: $clr_gray_dark_text;
+  }
+
+
+  .program-list-item {
+    width: max-content;
+
+    .MuiFormControl-root {
+      width: 100%;
+    }
+
+    .MuiFormControlLabel-root {
+      padding: 0 !important;
+      margin: 0 !important;
+
+      .MuiButtonBase-root {
+        padding: 0 !important;
+      }
+    }
+
+    .MuiCheckbox-root {
+      width: 100%;
+      max-width: 10rem;
+
+      svg {
+        fill: none !important;
+        border-radius: .5rem;
+        width: 100% !important;
+        height: 2.8rem !important;
+        padding-inline: 4rem;
+
+      }
+
+
+    }
+  }
+
+  .checked {
+    background-color: $clr_gray_10_percent !important;
+  }
+
+  .un-checked {
+    background-color: $clr_white !important;
+  }
+
+
+
+  .add-text {
+    position: absolute;
+    color: white !important;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+    font-size: $p1 !important;
+    font-weight: $font-medium !important;
+  }
+
+
+  .add-on-list-container {
+    display: flex;
+    flex-direction: column;
+
+    .addon-list-item {
+      background-color: $clr_white !important;
+
+    }
+
+    .addon-list-item-wrapper {
+      padding: 1.5rem !important;
+      border-radius: 0.7rem !important;
+      background-color: $clr_white;
+    }
+
+    .addon-checkbox-group {
+      position: relative;
+      width: max-content;
+
+      .MuiFormControl-root {
+        width: 100%;
+      }
+
+      .MuiFormControlLabel-root {
+        padding: 0 !important;
+        margin: 0 !important;
+
+        .MuiButtonBase-root {
+          padding: 0 !important;
+        }
+      }
+
+
+      .MuiCheckbox-root {
+        width: 100%;
+        max-width: 10rem;
+
+        svg {
+          fill: none !important;
+          background-color: $clr_black !important;
+          border-radius: .5rem;
+          width: 100% !important;
+          height: 2.8rem !important;
+          padding-inline: 4rem;
+        }
+
+
+      }
+
+      .MuiFormControlLabel-root.Mui-disabled svg {
+        background-color: $clr_gray_faded !important;
+      }
+
+    }
+  }
+
+  .subtotal-container {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+    padding-top: 2rem;
+    padding-bottom: 2.5rem;
+
+    .total-text {
+      font-size: $h5;
+      font-weight: $font_bold;
+    }
+  }
+
 
   .coupon-container {
     margin-top: 1.66rem;
@@ -91,12 +779,25 @@
     background-color: $clr_gray_20_percent;
     margin-bottom: 4rem;
     border-radius: 0.88rem;
+    padding-block: 1.5rem;
 
     .total-text {
       font-weight: $font_semibold;
       font-size: $h5;
-      padding-block: 1rem;
+
     }
+
+    .sub-text {
+      font-weight: $font_medium;
+      font-size: $p1;
+      color: $clr_sub_header;
+    }
+  }
+
+  .divider {
+    height: 0.1rem;
+    width: 100%;
+    background-color: $clr_gray_extra_light;
   }
 
   .navigation-btn-group-container {
@@ -107,364 +808,109 @@
     column-gap: 0.8rem;
 
     .back-btn {
-      border-color: $clr_black;
-      color: $clr_black;
       min-width: 8rem;
     }
 
     .next-btn {
-      background-color: $clr_black;
       min-width: 8rem;
     }
   }
 
-  .food-list-item-checkbox,
-  .program-list-item-checkbox {
-    padding: 0 !important;
-    margin-right: 0.5rem;
 
-    .MuiFormControlLabel-root {
-      .MuiFormControlLabel-label {
-        font-size: $p3 !important;
-        font-weight: $font-bold !important;
-      }
-    }
 
-    svg {
-      width: 1.6rem;
-      height: 1.6rem;
-      fill: $clr_black;
-    }
-  }
-
-  .add-on-list-container {
-    display: flex;
-    flex-direction: column;
-
-    .add-on-list-item {
-
-      .add-on-list-item-label {
-        font-size: $h6;
-        font-weight: $font-semibold;
-      }
-
-      .add-on-list-item-checkbox {
-        padding: 0 !important;
-        margin-left: 0.8rem;
-        margin-right: 0.5rem;
-
-        .MuiFormControlLabel-root {
-          .MuiFormControlLabel-label {
-            font-size: $p3 !important;
-            font-weight: $font-bold !important;
-          }
-        }
-
-        svg {
-          width: 1.6rem;
-          height: 1.6rem;
-          fill: $clr_black;
-        }
-      }
-
-      .add-on-list-item-radio {
-        svg {
-          fill: $clr_black;
-        }
-      }
-
-      .add-on-list-item-radio-label {
-        font-size: $p1;
-        font-weight: $font-normal;
-
-        &.checked {
-          color: $clr_blue;
-        }
-      }
-    }
-  }
-
-  .select-add-on-text {
-    margin-block: 1.2rem;
-    font-size: $h6;
-    font-weight: $font-medium;
-  }
-
-  .program-list-container {
-    // display: flex;
-    // align-items: center;
-    // padding-bottom: 0.5rem !important;
-  }
-
-  .add-on-prop-checkbox {
-    // padding-left: .8rem !important;
-    // margin-top: .4rem;
-    padding: 0 !important;
-
-    .MuiFormControlLabel-root {
-      .MuiFormControlLabel-label {
-        font-size: $p3 !important;
-        font-weight: $font-bold !important;
-      }
-    }
-
-    svg {
-      width: 1.6rem;
-      height: 1.6rem;
-      fill: $clr_black !important;
-    }
-  }
 }
 
-
+// theme
 
 .selected-programs-main {
 
-  .program-list-container {
-    background-color: $clr_white;
-  }
+  &-1 {
 
 
 
-  .program-card {
-    // background-color: $clr_gray_10_percent;
-    padding-inline: 2rem;
-    padding-block: 2rem;
-    border-radius: .5rem;
-
-  }
-
-.add-on-list-item-wrapper{
-  padding: 1.5rem !important;
-  border-radius: 0.7rem !important;
-  background-color: $clr_white;
-}
-
-  .checked {
-    background-color: $clr_gray_10_percent !important;
-  }
-
-  .un-checked {
-    background-color: $clr_white !important;
-  }
-
-  .card-header-wrapper {
-    background-color: transparent !important;
-    padding: 1rem;
-    border-radius: .5rem .5rem 0 0 !important;
-    color: $clr_gray_dark_text !important;
-    background-color: transparent !important;
-    border-bottom: .08rem solid $clr_gray_faded;
-  }
-
-  .card-header {
-    font-size: $h5 !important;
-    font-weight: $font-semibold !important;
-    // color: $clr_gray_dark_text;
-  }
-
-  .card-sub-header {
-    font-size: $p1 !important;
-    font-weight: $font-semibold !important;
-    background-color: $clr_gray_very_light !important;
-    width: max-content;
-    padding-inline: .5rem;
-    border-radius: .3rem;
-    color: $clr_gray_dark_text;
-  }
-
-  .add-text {
-    position: absolute;
-    color: white !important;
-    top: 50%;
-    right: 50%;
-    transform: translate(50%, -50%);
-    font-size: $p1 !important;
-    font-weight: $font-medium !important;
-  }
-
-  .time-chip {
-    &.MuiChip-root {
-      padding-inline: .2rem !important;
-      font-size: $p1 !important;
-      border: .1rem solid $clr_gray_faded !important;
-      background-color: transparent !important;
-    }
-  }
-
-
-  .price-chip {
-    &.MuiChip-root {
-      padding-inline: .2rem !important;
-      padding-block: .1rem !important;
-      font-size: $h6 !important;
-      background-color: $clr_charcoal_cyan !important;
-      color: $clr_white !important;
-
-      svg {
-        fill: $clr_white !important;
-      }
-    }
-  }
-
-  .program-description {
-    display: -webkit-box !important;
-    -webkit-box-orient: vertical !important;
-    overflow: hidden !important;
-    -webkit-line-clamp: 2 !important;
-    text-overflow: ellipsis !important;
-    width: 90%;
-    color: $clr_gray_dark_text;
-  }
-
-  .program-list-item {
-    width: max-content;
-
-    .MuiFormControl-root {
-      width: 100%;
-    }
-
-    .MuiFormControlLabel-root {
-      padding: 0 !important;
-      margin: 0 !important;
-
-      .MuiButtonBase-root {
-        padding: 0 !important;
-      }
-    }
-
-    .MuiCheckbox-root {
-      width: 100%;
-      max-width: 10rem;
-
-      svg {
-        fill: none !important;
-        background-color: $clr_charcoal_cyan;
-        border-radius: .5rem;
-        width: 100% !important;
-        height: 2.8rem !important;
-        padding-inline: 4rem;
-
-      }
-
-
-    }
-
-
-  }
-
-  .program-list-container {
-
-    border: .08rem solid $clr_gray_faded;
-    border-radius: .7rem !important;
-    padding: 1.5rem !important;
-    // background-color: $clr_white !important;
-
-
-
-
-
-  }
-
-
-  .add-on-list-container {
-    .addon-checkbox-group {
-      position: relative;
-      width: max-content;
-      // height: max-content;
-
-      .add-text {
-        position: absolute;
-        color: white !important;
-        top: 50%;
-        right: 50%;
-        transform: translate(50%, -50%);
-        font-size: $p1 !important;
-        font-weight: $font-medium !important;
-      }
-
-      .MuiFormControl-root {
-        width: 100%;
-      }
-
-      .MuiFormControlLabel-root {
-        padding: 0 !important;
-        margin: 0 !important;
-
-        .MuiButtonBase-root {
-          padding: 0 !important;
-        }
-      }
-
-
+    .addon-property-item  {
       .MuiCheckbox-root {
-        width: 100%;
-        max-width: 10rem;
-
         svg {
-          fill: none !important;
-          background-color: $clr_charcoal_cyan;
-          border-radius: .5rem;
-          width: 100% !important;
-          height: 2.8rem !important;
-          padding-inline: 4rem;
+          fill: $clr_charcoal_cyan !important;
+        }
+    
+      }
+    }
+    .back-btn {
+      border-color: $clr_charcoal_cyan;
+      color: $clr_charcoal_cyan;
+    }
+
+    .next-btn {
+      background-color: $clr_charcoal_cyan;
+    }
+
+    .price-chip {
+      &.MuiChip-root {
+        background-color: $clr_charcoal_cyan !important;
+        color: $clr_white !important;
+      }
+    }
+
+    .program-list-item {
+      .MuiCheckbox-root {
+        svg {
+          background-color: $clr_charcoal_cyan !important;
         }
 
 
       }
-
-      .MuiFormControlLabel-root.Mui-disabled svg {
-        background-color: $clr_gray_faded !important;
-      }
-
     }
 
+     
+   
   }
 
 
-  .addon-property-item {
 
-    // background-color: $clr_gray_20_percent !important;
-    .MuiCheckbox-root {
-      svg {
-        fill: $clr_charcoal_cyan !important;
-        background-color: $clr_white;
-        border-radius: .51rem;
-        width: max-content !important;
-        height: 2rem !important;
-        padding: 0 !important;
-        // border: .1rem solid $clr_charcoal_cyan;
-        // padding-inline: 2rem;
-      }
 
-    }
 
-    &.Mui-checked svg {
-      fill: $clr_charcoal_cyan !important;
-    }
+  &-2 {
 
-    .MuiFormControlLabel-root {
-      padding: 0 !important;
-      margin-right: 0 !important;
-    }
-
-    .MuiFormControlLabel-root.Mui-disabled svg {
-      fill: $clr_gray_faded !important;
-    }
-
-    .add-on-property-name {
-      font-size: $p1 !important;
-      font-weight: $font-medium !important;
-    }
-  }
-
-  .addon-card {
-    border: .08rem solid $clr_gray_faded;
-    border-radius: .5rem !important;
-    padding: 1.5rem !important;
-
-    // background-color: $clr_white !important;
 
     
+    .addon-property-item  {
+      .MuiCheckbox-root {
+        svg {
+          fill: $clr_bright_mint_green !important;
+        }
+    
+      }
+    }
+
+    .back-btn {
+      border-color: $clr_bright_mint_green;
+      color: $clr_charcoal_cyan;
+    }
+
+    .next-btn {
+      background-color: $clr_bright_mint_green;
+    }
+
+
+    .price-chip {
+
+      &.MuiChip-root {
+        background-color: $clr_bright_mint_green !important;
+        color: $clr_white !important;
+      }
+
+    }
+
+    .program-list-item {
+      .MuiCheckbox-root {
+        svg {
+          background-color: $clr_bright_mint_green !important;
+        }
+
+
+      }
+    }
   }
+
 }

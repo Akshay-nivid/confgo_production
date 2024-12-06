@@ -35,8 +35,10 @@ const TitleSection: React.FC<TitleSectionProps> = React.memo(({ data, temp,onScr
         e.preventDefault();
 
         if (eventPriceTiersPresent) {
+            console.log("onScrollToTier",onScrollToTier)
             onScrollToTier && onScrollToTier(e) 
             return
+
         }
         
         navigate(routes.programSelection())

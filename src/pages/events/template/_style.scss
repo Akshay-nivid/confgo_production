@@ -31,13 +31,22 @@
                     font-weight: $font_semibold;
                     padding-top: 0.6rem;
                 }
+
                 &-logout-button{
-                    color: $clr_white;
                     font-size: $h6;
                     font-weight: $font_semibold;
-                    padding-top: 0.6rem;
-                    padding-right: 1rem;
+                    border:0.083rem solid $clr_charcoal_cyan;
+                    border-radius: 0.83rem;
+                    height: 3.2rem;
+                    width: 8rem;
+                    background-color:  $clr_charcoal_cyan;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: $clr_white;
+                   
                 }
+
                 &-button-border{
                     border-right: 1px solid $clr_white;
                     margin: 0.5rem 0 0.5rem 0;
@@ -59,6 +68,9 @@
                 padding: 1rem;
                 margin: 2rem 6rem 2rem 6rem;
                 border-radius: 1.25rem;
+                z-index: 1;
+                background-color: $clr_white;
+
             }
             &-logo{
                 font-size: $h2;
@@ -80,8 +92,15 @@
             &-logout-button{
                 font-size: $h6;
                 font-weight: $font_semibold;
-                padding-top: 0.6rem;
-                padding-right: 1rem;
+                border:0.083rem solid $clr_bright_mint_green;
+                border-radius: 0.83rem;
+                height: 3.2rem;
+                width: 8rem;
+                background-color:  $clr_bright_mint_green;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: $clr_white;
             }
             &-button-border{
                 border-right: 1px solid $clr_black;

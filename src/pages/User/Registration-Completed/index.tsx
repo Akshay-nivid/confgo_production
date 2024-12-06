@@ -9,21 +9,22 @@ import { useNavigate } from "react-router-dom";
 import { Navigate } from "react-router-dom";
 const RegistrationCompleted = () => {
 
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
-const finalPrice = useStore((state: any) => state?.compData?.["finalPrice"]?.value)
-const participantId = useStore((state: any) => state?.compData?.["participant"]?.participant?.data?.id) ?? null
-const slugName = useStore((state: any) => state?.compData?.["slugName"]?.value)
-  
-  
-  if (!participantId) { 
-  
+  const finalPrice = useStore((state: any) => state?.compData?.["finalPrice"]?.value)
+  const participantId = useStore((state: any) => state?.compData?.["participant"]?.participant?.data?.id) ?? null
+  const slugName = useStore((state: any) => state?.compData?.["slugName"]?.value)
+  const orderData = useStore((state: any) => state?.compData?.["order"]?.["order"]?.data) ?? null
+  const couponData = useStore((state: any) => state?.compData?.["couponData"]?.['coupon/applyCoupon']?.data) ?? null
+
+  if (!participantId) {
+
     if (!slugName) {
       return <Navigate to={routes.userLogin()} />;
     }
     return <Navigate to={routes.eventExternalLink(slugName)} />
   }
-  
+
   return (
     <Grid container className="event-registration-completed">
       <Grid size={12} display={"flex"} justifyContent={"center"}>
@@ -70,7 +71,7 @@ const slugName = useStore((state: any) => state?.compData?.["slugName"]?.value)
           <Box className="payment-bill-details">
             <Box className="payment-bill-item">
               <Typography className="info-text">Subtotal</Typography>
-              <Typography className="info-text">$720</Typography>
+              <Typography className="info-text">${orderData?.subTotal}</Typography>
             </Box>
             <Box className="payment-bill-item">
               <Typography className="info-text">Coupon Code Applied</Typography>

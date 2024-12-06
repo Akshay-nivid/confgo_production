@@ -53,7 +53,7 @@
       background-color: $clr_gray_20_percent;
       color: $clr_white;
       padding: 1rem;
-      border-radius: .5rem;
+      border-radius: 0.5rem;
       // text-align: center;
       text-transform: uppercase;
     }
@@ -68,9 +68,7 @@
         .program-list-item-label {
           font-size: $h5;
           font-weight: $font-normal;
-
         }
-
 
         // .MuiFormControlLabel-label {
         //   font-size: $p1 !important;
@@ -130,9 +128,7 @@
           //   height: 1.6rem;
           //   fill: $clr_black;
 
-
           // }
-
         }
 
         .MuiFormControlLabel-root.Mui-disabled svg {
@@ -173,10 +169,7 @@
         width: 1.6rem;
         height: 1.6rem;
         fill: $clr_black;
-
-
       }
-
     }
 
     // .MuiFormControlLabel-root.Mui-disabled svg {
@@ -193,27 +186,21 @@
     margin-top: 2rem;
 
     .back-button {
-      border-color: $clr_charcoal_cyan;
+      // border-color: $clr_charcoal_cyan;
       color: $clr_black;
       min-width: 20%;
     }
 
     .next-button {
-      background-color: $clr_charcoal_cyan;
+      // background-color: $clr_charcoal_cyan;
       min-width: 20%;
 
       &:disabled {
         background-color: $clr_gray_faded;
-
       }
     }
-
   }
 }
-
-
-
-
 
 // --------------------------
 
@@ -222,75 +209,29 @@
   height: max-content;
 }
 
-// .add-text{
-//   position: absolute;
-//   color: white !important;
-//   top: 50%;
-//   right: 50%;
-//   transform: translate(50%, -50%);
-//   font-size: $p1 !important;
-//   font-weight: $font-medium !important;
-// }
-
-// .MuiCheckbox-root { 
-//   svg{
-//     fill: none !important;
-//     background-color: $clr_charcoal_cyan;
-//     border-radius: 7px;
-//     width: max-content !important;
-//     height: 40px !important;
-//     padding-inline: 2rem;
-//     width: 2.6rem;
-//     height: 2.6rem;
-//   }
-
-//   &.Mui-checked svg{
-
-//   }
-// }
-
-// .MuiFormControlLabel-root {
-//   padding: 0 !important;
-//   margin: 0 !important;
-
-// }
-
-
-
-
-
-
-
-
-
-
-
 .program-card-form {
-
-
   .program-card {
     // background-color: $clr_gray_10_percent;
     padding-inline: 2rem;
     padding-block: 2rem;
-    border-radius: .5rem;
-
+    border-radius: 0.5rem;
   }
 
-.checked{
-  background-color: $clr_gray_10_percent !important;
-}
+  .checked {
+    background-color: $clr_gray_10_percent !important;
+  }
 
-.un-checked{
-  background-color: $clr_white !important;
-}
+  .un-checked {
+    background-color: $clr_white !important;
+  }
 
   .card-header-wrapper {
     background-color: transparent !important;
     padding: 1rem;
-    border-radius: .5rem .5rem 0 0 !important;
+    border-radius: 0.5rem 0.5rem 0 0 !important;
     color: $clr_gray_dark_text !important;
     background-color: $clr_gray_20_percent !important;
-    border-bottom: .08rem solid $clr_gray_faded;
+    border-bottom: 0.08rem solid $clr_gray_faded;
   }
 
   .card-header {
@@ -304,8 +245,8 @@
     font-weight: $font-semibold !important;
     background-color: $clr_gray_very_light !important;
     width: max-content;
-    padding-inline: .5rem;
-    border-radius: .3rem;
+    padding-inline: 0.5rem;
+    border-radius: 0.3rem;
     color: $clr_gray_dark_text;
   }
 
@@ -321,20 +262,19 @@
 
   .time-chip {
     &.MuiChip-root {
-      padding-inline: .2rem !important;
+      padding-inline: 0.2rem !important;
       font-size: $p1 !important;
-      border: .1rem solid $clr_gray_faded !important;
+      border: 0.1rem solid $clr_gray_faded !important;
       background-color: transparent !important;
     }
   }
 
-
   .price-chip {
     &.MuiChip-root {
-      padding-inline: .2rem !important;
-      padding-block: .1rem !important;
+      padding-inline: 0.2rem !important;
+      padding-block: 0.1rem !important;
       font-size: $h6 !important;
-      background-color: $clr_charcoal_cyan !important;
+      // background-color: $clr_charcoal_cyan !important;
       color: $clr_white !important;
 
       svg {
@@ -353,23 +293,23 @@
     color: $clr_gray_dark_text;
   }
 
-
   .program-list-container {
-
-    border: .08rem solid $clr_gray_faded;
-    border-radius: .7rem !important;
+    border: 0.08rem solid $clr_gray_faded;
+    border-radius: 0.7rem !important;
     padding: 1.5rem !important;
     // background-color: $clr_white !important;
 
-    
     .program-list-item {
       width: max-content;
+
       .MuiFormControl-root {
         width: 100%;
       }
+
       .MuiFormControlLabel-root {
         padding: 0 !important;
         margin: 0 !important;
+
         .MuiButtonBase-root {
           padding: 0 !important;
         }
@@ -378,26 +318,18 @@
       .MuiCheckbox-root {
         width: 100%;
         max-width: 10rem;
+
         svg {
           fill: none !important;
-          background-color: $clr_charcoal_cyan;
-          border-radius: .5rem;
+          border-radius: 0.5rem;
           width: 100% !important;
           height: 2.8rem !important;
           padding-inline: 4rem;
-
         }
-
-        
       }
-      
-      
     }
-    
-    
   }
 
- 
   .add-on-list-container {
     .addon-checkbox-group {
       position: relative;
@@ -427,33 +359,29 @@
         }
       }
 
-
       .MuiCheckbox-root {
         width: 100%;
         max-width: 10rem;
 
         svg {
           fill: none !important;
-          background-color: $clr_charcoal_cyan;
-          border-radius: .5rem;
+          // background-color: $clr_charcoal_cyan;
+          border-radius: 0.5rem;
           width: 100% !important;
           height: 2.8rem !important;
           padding-inline: 4rem;
         }
-
-
       }
+
       .MuiFormControlLabel-root.Mui-disabled svg {
         background-color: $clr_gray_faded !important;
       }
-
     }
-
   }
 
   .addon-card {
-    border: .08rem solid $clr_gray_faded;
-    border-radius: .5rem !important;
+    border: 0.08rem solid $clr_gray_faded;
+    border-radius: 0.5rem !important;
     padding: 1.5rem !important;
 
     // background-color: $clr_white !important;
@@ -463,21 +391,16 @@
       // background-color: $clr_gray_20_percent !important;
       .MuiCheckbox-root {
         svg {
-          fill: $clr_charcoal_cyan !important;
-          background-color: $clr_white;
-          border-radius: .51rem;
+          // fill: $clr_bright_mint_green !important;
+          // background-color: $clr_white;
+          border-radius: 0.51rem;
           width: max-content !important;
           height: 2rem !important;
           padding: 0 !important;
-          // border: .1rem solid $clr_charcoal_cyan;
-          // padding-inline: 2rem;
         }
-
       }
 
-      &.Mui-checked svg {
-        fill: $clr_charcoal_cyan !important;
-      }
+
       .MuiFormControlLabel-root {
         padding: 0 !important;
         margin-right: 0 !important;
@@ -486,10 +409,98 @@
       .MuiFormControlLabel-root.Mui-disabled svg {
         fill: $clr_gray_faded !important;
       }
-      .add-on-property-name{
+
+      .add-on-property-name {
         font-size: $p1 !important;
         font-weight: $font-medium !important;
       }
     }
   }
+
+}
+
+
+
+
+.program-card-form {
+
+  &-1 {
+
+    .price-chip {
+      &.MuiChip-root {
+        background-color: $clr_charcoal_cyan !important;
+      }
+    }
+
+    .program-list-item,
+    .addon-checkbox-group {
+      .MuiCheckbox-root {
+        svg {
+          background-color: $clr_charcoal_cyan;
+
+        }
+      }
+    }
+
+    .navigation-button-container {
+      .back-button {
+        border-color: $clr_charcoal_cyan;
+        color: $clr_charcoal_cyan;
+      }
+
+      .next-button {
+        background-color: $clr_charcoal_cyan;
+        color: $clr_white;
+      }
+    }
+
+    .add-on-property svg {
+      fill: $clr_charcoal_cyan !important;
+    }
+
+
+  }
+
+
+
+  &-2 {
+
+
+    
+
+    .price-chip {
+      &.MuiChip-root {
+        background-color: $clr_bright_mint_green !important;
+      }
+    }
+
+    .program-list-item,
+    .addon-checkbox-group {
+      .MuiCheckbox-root {
+        svg {
+          background-color: $clr_bright_mint_green;
+        }
+      }
+    }
+
+    .navigation-button-container {
+      .back-button {
+        border-color: $clr_bright_mint_green;
+        color: $clr_bright_mint_green;
+      }
+
+      .next-button {
+        background-color: $clr_bright_mint_green;
+        color: $clr_white;
+      }
+    }
+
+    .add-on-property svg {
+      fill: $clr_bright_mint_green !important;
+    }
+
+
+  }
+
+
 }

@@ -70,7 +70,9 @@ const ProgramCard = () => {
 
   const participantTypeId = useStore((state: any) => state?.compData?.["participantTypeId"]?.value) ?? null
 
+  const templateId = useStore((state: any) => state.compData?.["templateId"]?.id)
 
+  const classNamePrefix = `program-card-form-${templateId}`
 
   /**
     * Method used to call event details Api
@@ -325,6 +327,8 @@ const ProgramCard = () => {
     const inputKey = `${date}-addonProp-${id}`
 
 
+
+
     if (inputKey in formData) {
       const updateFormData = { ...formData, [inputKey]: undefined }
       reset(updateFormData)
@@ -374,7 +378,7 @@ const ProgramCard = () => {
 
   return (
 
-    <form className="program-card-form" onSubmit={handleSubmit(handleClickNextButton)}>
+    <form className={`program-card-form ${classNamePrefix}`} onSubmit={handleSubmit(handleClickNextButton)}>
       <Box className="space-y-10">
 
         {eventData?.programs && eventData?.programs && Object.entries(eventData.programs).map(([date, programs]: any, index) => (

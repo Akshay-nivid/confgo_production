@@ -5,10 +5,10 @@ import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomCheckbox from "@/components/CustomCheckbox/CustomCheckbox";
-import useStore, { clearDataById, POST } from "@/Libs/store";
+import useStore, { clearDataById, IStoreState, POST } from "@/Libs/store";
 import CustomDatePicker from "@/components/CustomDatePicker/CustomDatePicker";
 import FileUpload from "@/components/FileUpload/FileUpload";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import routes from "@/router/routes";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
@@ -48,21 +48,27 @@ const DynamicUserForm = () => {
 
   const { control, handleSubmit } = useForm();
 
-  const setDataById = useStore((state) => state.setDataById);
+  const setDataById = useStore((state: IStoreState) => state.setDataById);
 
-  const dynamicFormData = useStore((state: any) => state?.compData?.["dynamicFormData"]) ?? [];
+  const dynamicFormData = useStore((state: IStoreState) => state?.compData?.["dynamicFormData"]) ?? [];
 
-  const uploadedFiles = useStore((state: any) => state?.compData?.["uploadedFiles"]) ?? [];
+  const uploadedFiles = useStore((state: IStoreState) => state?.compData?.["uploadedFiles"]) ?? [];
 
   const navigate = useNavigate();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const formSubmissionLoading = useStore((state: any) => state?.compData?.["registrationRecord"]?.registrationRecord?.loading) ?? false
+  const formSubmissionLoading = useStore((state: IStoreState) => state?.compData?.["registrationRecord"]?.registrationRecord?.loading) ?? false
 
-  const eventId = useStore((state: any) => state?.compData?.["eventSelected"]?.id) ?? null;
+  const eventId = useStore((state: IStoreState) => state?.compData?.["eventSelected"]?.id) ?? null;
 
-  const dynamicFormLoading = useStore((state: any) => state?.compData?.["dynamicFormData"]?.[`event/form/${eventId}`]?.loading) ?? false
+  const dynamicFormLoading = useStore((state: IStoreState) => state?.compData?.["dynamicFormData"]?.[`event/form/${eventId}`]?.loading) ?? false
+
+  const participantTypeId = useStore((state: IStoreState) => state?.compData?.participantTypeId?.value) ?? null;
+
+  const previousRoute = useStore((state: IStoreState) => state?.compData?.["previousRoute"]?.url) ?? null
+
+  const filteredFormData = dynamicFormData?.data?.filter((item: FormField) => item.participantTypeId === participantTypeId) ?? []
 
 
   /**
@@ -140,7 +146,7 @@ const DynamicUserForm = () => {
     }
 
     const body = {
-      eventId:eventId,
+      eventId: eventId,
       data: [...filteredFormData, ...uploadedFileData]
     }
 
@@ -338,6 +344,18 @@ const DynamicUserForm = () => {
     )
   }
 
+
+
+  if (filteredFormData.length === 0) {
+
+    const routeToNavigate = previousRoute === routes.userPaymentMethod() ? routes.selectedPrograms() : routes.userPaymentMethod();
+
+    return <Navigate to={routeToNavigate} />
+
+  }
+
+
+
   return (
     <Box className="dynamic-form">
       <CardContent>
@@ -346,7 +364,7 @@ const DynamicUserForm = () => {
         </Typography>
         <form noValidate onSubmit={handleSubmit(handleFormSubmit)}>
           <Grid container spacing={4}>
-            {dynamicFormData?.data?.map((field: FormField) => (
+            {filteredFormData.map((field: FormField) => (
               <Grid container size={12} key={field.id}>
                 {renderFormField(field)}
               </Grid>
@@ -363,7 +381,7 @@ const DynamicUserForm = () => {
                   variant="outlined"
                   className="back-button"
                   label="Back"
-                  onClick={() => navigate(-1)}
+                  onClick={() => routes.selectedPrograms()}
                 />
                 <CustomButton isLoading={formSubmissionLoading} className={"next-button"} label="Next" type="submit" />
               </Box>
