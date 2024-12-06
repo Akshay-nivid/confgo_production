@@ -12,6 +12,9 @@
       background-repeat: no-repeat;
       border-radius: 1.666rem;
       background-size: 40%;
+      &-mobile_responsive{
+        background-size: 85% !important;
+      }
     }
     & .login-label {
       font-weight: $font_bold !important;
@@ -242,4 +245,19 @@
   font-size: $h2 !important;
   font-weight: $font_bold !important;
   font-family: $font !important;
+}
+
+// Mobile responsive class
+
+.isMobileScreen-choosePlan{
+  padding:1.25rem;
+}
+.signup-content-wrapper-Mr{
+  padding-top: 8rem !important;
+}
+.craeteAccount-Mr{
+  padding-top:15rem !important;
+}
+.AddOrganization-responsive{
+  padding-top:20rem !important;
 }

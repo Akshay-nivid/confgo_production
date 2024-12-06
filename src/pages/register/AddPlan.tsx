@@ -13,8 +13,8 @@ import routes from "@/router/routes";
 import { ArrowIconSvg, BasicPlainIcon, ProPlanIcon, StandardPlanIcon } from "@/assets/svg";
 import { Logger } from "@/Utils/Logger";
 import apiClient from "@/Libs/Https/API-client";
-import { processAPIResponse } from "@/Utils/CommonBaseClass";
-
+import { processAPIResponse, useIsMobileScreen } from "@/Utils/CommonBaseClass";
+import clsx from "clsx";
 
 /*
  * compoent to render the plan
@@ -38,7 +38,7 @@ const AddPlan = React.memo(() => {
   const [currentPlan, setcurrentPlan] = useState('');
   const form1 = useStore((state: any) => state?.compData?.['form1']) ?? [];
   const setDataById = useStore((state: any) => state.setDataById)
-
+  const isMobileScreen = useIsMobileScreen();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const handleChangePlan = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,7 +83,7 @@ const AddPlan = React.memo(() => {
     finally {
       setLoading(false); 
     }
-  }
+  } 
 
   const mode = useStore((state) => state?.compData?.planMode?.mode);
   /*
@@ -117,7 +117,7 @@ const AddPlan = React.memo(() => {
   }
 
   return (
-    <Grid className="signup-content-wrapper">
+    <Grid className={clsx("signup-content-wrapper",isMobileScreen && "signup-content-wrapper-Mr")}>
       <Grid className="left-inner-content">
         <FormControl className="w-full">
           <Grid alignSelf={"center"}>

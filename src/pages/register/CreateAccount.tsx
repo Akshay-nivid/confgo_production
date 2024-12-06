@@ -10,6 +10,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import useStore from "@/Libs/store";
 import { emailRules, phoneRules } from "@/Utils/Validation";
+import { useIsMobileScreen } from "@/Utils/CommonBaseClass";
+import clsx from "clsx";
 /*
  * funtional componet to render create form field
  */
@@ -17,7 +19,7 @@ const CreateAccount = React.memo(() => {
     const { setDataById }: any = useStore();
     const form2 = useStore((state: any) => state?.compData?.['form2']) ?? [];
     const { handleSubmit, control } = useForm<FormData>();
-
+    const isMobileScreen = useIsMobileScreen();
     /*
      * function to handle form submission 
      */
@@ -36,8 +38,8 @@ const CreateAccount = React.memo(() => {
     };
 
     return (
-        <Grid>
-            <Grid  container spacing={5}>
+        <Grid className={clsx(isMobileScreen && "craeteAccount-Mr")}>
+            <Grid  container spacing={5}  >
                 <Grid className="signup-content-wrapper">
                     <Grid className="left-inner-content-add-create">
                         <Grid container spacing={2}>
