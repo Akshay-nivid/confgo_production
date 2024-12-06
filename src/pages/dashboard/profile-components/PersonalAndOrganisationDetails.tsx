@@ -5,7 +5,7 @@
  */
 import React from "react";
 import Grid from "@mui/material/Grid2";
-import { Avatar, Box, Button, IconButton, Modal, Typography } from "@mui/material";
+import { Avatar, Box, Button, CircularProgress, IconButton, Modal, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import "./mainProfile.scss"
 import { useCallback, useEffect, useState } from "react";
@@ -61,6 +61,8 @@ const PersonalAndOrganisationDetails:React.FC<AccountSettingProps> = React.memo(
   const [organsisationDrawer, setorgansisationDrawer] = useState(false);
   const [LogoprofileData, setLogoProfileData] = useState<Company | null>(null);
   const [drawerLogoImage, setDrawerLogoImage] = useState<number | null>(LogoprofileData?.assetId || null);
+  const [loading, setLoading] = useState(false); 
+  const [compId,setCompId]=useState()
 
   const baseUrl = config.api.url;  
   const openOrganisationDrawer =()=> setorgansisationDrawer(true)
@@ -69,9 +71,7 @@ const PersonalAndOrganisationDetails:React.FC<AccountSettingProps> = React.memo(
   const openDrawer = () => setIsDrawerOpen(true);
   const closeDrawer = () => setIsDrawerOpen(false);
   const setDataById = useStore((state: any) => state.setDataById)
-  const companyId = sessionStorage.getItem('companyId');
   const userDetails = useStore((state) => state?.compData?.["userDetails"]) ?? {};
-  
   useEffect(() => {
     AccountProfile();
   }, []);
@@ -81,6 +81,7 @@ const PersonalAndOrganisationDetails:React.FC<AccountSettingProps> = React.memo(
  */
   const AccountProfile = useCallback(async () => {
     try {
+      setLoading(true);
       // Fetch company and user data
       const response = await apiClient.get(`/company`);
       const { status, data } = processAPIResponse(response, "personalInformation");
@@ -93,7 +94,9 @@ const PersonalAndOrganisationDetails:React.FC<AccountSettingProps> = React.memo(
           assetId: data.user.assetId || "",
           isSsoUser:data?.isSsoUser,       
         };
+        setCompId(data.id)        
         setProfileData(AccountData); 
+        useStore.getState().setDataById("company-user", { email: data?.user.email});
 
         const OrganisationData = {
           companyName:data.companyName,
@@ -112,11 +115,17 @@ const PersonalAndOrganisationDetails:React.FC<AccountSettingProps> = React.memo(
         setValue("email", data.user.email,);
         setValue("phone", data.user.phone,); 
         setValue("assetId", data.user.assetId,); 
+
+        setValue("companyName", data.companyName);
+        setValue("companyAddress", data.companyAddress);
         
         setEmail(data.user.email);
       }
     } catch (error) {
       Logger.error("Error fetching participant data:", error);
+    }
+    finally {
+      setLoading(false);
     }
   }, [setEmail,setValue]);
 
@@ -159,12 +168,28 @@ const handleDeleteAvatar = () => {
 const openLogomodal =()=>{
   setUploadOrganisationModalOpen(true)
 
+
 }
 /** logo upload for company */
 const handleOrganisationImageUpload =(uploadedFiles: CustomFile)=>{
   setDrawerLogoImage(uploadedFiles.id)
   setUploadOrganisationModalOpen(false);
 }
+
+/** logo delete function for company */
+const handleDeleteLogo = () =>{
+  setDrawerLogoImage(null)
+  setLogoProfileData((prevLogoProfileData) => {
+    if (!prevLogoProfileData) {
+      return null;
+    }
+    return {
+      ...prevLogoProfileData,
+      assetId: null,
+    };
+  });
+};
+
 
 /** function to submit logo */
 const onLogoSubmit = async (newdata: Company) => {
@@ -178,7 +203,7 @@ const onLogoSubmit = async (newdata: Company) => {
     };
 
     // Send the payload to the server for updating the company details
-    const response = await apiClient.put(`/company/${companyId}`, payload);
+    const response = await apiClient.put(`/company/${compId}`, payload);
     const { status } = processAPIResponse(response, "personalInformation");
     if (status) {
       setLogoProfileData((prevData) => ({
@@ -226,6 +251,10 @@ const onSubmit = async (data: Profile) => {
 };
 
 return (
+  <>
+  {loading ? (
+    <CircularProgress />
+  ) : (
   <Grid container className="main-account-main-grid">
     <Grid size={8} className="main-account-profile-grid account-margin">
       <Grid size={12} className="main-account-title-grid ">
@@ -240,26 +269,26 @@ return (
         </IconButton>
       </Grid>
       <Grid size={1} className="main-account-profile-image connected" mb={0}>
-            {profileData?.firstName && profileData?.lastName ? (
-              <Avatar className="main-user-profile main-user-profile-text" >
-                {`${profileData?.firstName[0]}${profileData?.lastName[0]}`.toUpperCase()}
-              </Avatar>
-            ) : (
-              <Avatar>
-              </Avatar>
-            )}
-          </Grid>
-      <Grid
-        container
-        className="main-account-detail-grid connected"
-        size={12}
-      >
+        {profileData?.assetId ? (
+          <Avatar
+            src={`${baseUrl}/asset/${profileData?.assetId}`}
+            className="main-user-profile"
+            alt="User Profile"
+            variant="circular"
+          />
+        ) : (
+          <Avatar className="main-user-profile main-user-profile-text">
+            {`${profileData?.firstName[0]}${profileData?.lastName[0]}`.toUpperCase()}
+          </Avatar>
+        )}
+      </Grid>
+      <Grid container className="main-account-detail-grid connected" size={12}>
         <Grid size={{ xs: 12, sm: 6 }}>
           <Typography className="main-account-user-detail1">
             First Name
           </Typography>
           <Typography variant="body1" className="main-account-user-detail2">
-            {profileData?.firstName || ""}
+            {profileData?.firstName}
           </Typography>
         </Grid>
 
@@ -268,16 +297,14 @@ return (
             Last Name
           </Typography>
           <Typography variant="body1" className="main-account-user-detail2">
-            {profileData?.lastName || "N/A"}
+            {profileData?.lastName}
           </Typography>
         </Grid>
 
         <Grid size={{ xs: 12, sm: 6 }}>
-          <Typography className="main-account-user-detail1">
-            Email
-          </Typography>
+          <Typography className="main-account-user-detail1">Email</Typography>
           <Typography variant="body1" className="main-account-user-detail2">
-            {profileData?.email || "N/A"}
+            {profileData?.email}
           </Typography>
         </Grid>
 
@@ -286,7 +313,7 @@ return (
             Phone Number
           </Typography>
           <Typography variant="body1" className="main-account-user-detail2">
-            {profileData?.phone || "N/A"}
+            {profileData?.phone}
           </Typography>
         </Grid>
       </Grid>
@@ -305,37 +332,35 @@ return (
           <EditIcon />
         </IconButton>
       </Grid>
-      {LogoprofileData?.assetId?<Avatar
-        className="main-user-profile"
-        src={
-          LogoprofileData?.assetId
-            ? `${baseUrl}/asset/${LogoprofileData?.assetId}`
-            : ""
-        }
-        alt="User Profile"
-        variant="circular"
-      />:
-      <Grid size={1} className="main-account-profile-image connected" mb={0}>
-           {LogoprofileData?.companyName ? (
-              <Avatar className="main-user-profile main-user-profile-text" >
-                {`${LogoprofileData?.companyName}`.toUpperCase()}
-              </Avatar>
-            ) : (
-              <Avatar>
-              </Avatar>
-            )}
-         </Grid>}
-      <Grid
-        container
-        className="main-account-detail-grid connected"
-        size={12}
-      >
+      {LogoprofileData?.assetId ? (
+        <Avatar
+          className="main-user-profile"
+          src={
+            LogoprofileData?.assetId
+              ? `${baseUrl}/asset/${LogoprofileData?.assetId}`
+              : ""
+          }
+          alt="User Profile"
+          variant="circular"
+        />
+      ) : (
+        <Grid size={1} className="main-account-profile-image connected" mb={0}>
+          {LogoprofileData?.companyName ? (
+            <Avatar className="main-user-profile main-user-profile-text">
+              {`${LogoprofileData?.companyName}`.toUpperCase()}
+            </Avatar>
+          ) : (
+            <Avatar></Avatar>
+          )}
+        </Grid>
+      )}
+      <Grid container className="main-account-detail-grid connected" size={12}>
         <Grid size={{ xs: 12, sm: 6 }}>
           <Typography className="main-account-user-detail1">
             Organisation Name
           </Typography>
           <Typography variant="body1" className="main-account-user-detail2">
-            {LogoprofileData?.companyName || ""}
+            {LogoprofileData?.companyName}
           </Typography>
         </Grid>
 
@@ -344,7 +369,7 @@ return (
             Organisation Email
           </Typography>
           <Typography variant="body1" className="main-account-user-detail2">
-            {LogoprofileData?.companyEmail || "N/A"}
+            {LogoprofileData?.companyEmail}
           </Typography>
         </Grid>
 
@@ -353,7 +378,7 @@ return (
             Organisation Phone Number
           </Typography>
           <Typography variant="body1" className="main-account-user-detail2">
-            {LogoprofileData?.companyPhone || "N/A"}
+            {LogoprofileData?.companyPhone}
           </Typography>
         </Grid>
 
@@ -362,14 +387,14 @@ return (
             Organisation Address
           </Typography>
           <Typography variant="body1" className="main-account-user-detail2">
-            {LogoprofileData?.companyAddress || "N/A"}
+            {LogoprofileData?.companyAddress}
           </Typography>
         </Grid>
       </Grid>
     </Grid>
 
     <CustomDrawer open={isDrawerOpen} type="right">
-      <Grid container className="main-account-drawer"> 
+      <Grid container className="main-account-drawer">
         <Grid size={12} container className="main-account-drawer-text">
           <Typography className="main-account-title account-drawer-textfield">
             Edit Personal Details
@@ -464,7 +489,28 @@ return (
               >
                 Upload New Logo
               </Button>
-
+              <Button
+                className="main-user-profile-upload-btn main-outline"
+                onClick={handleDeleteLogo}
+              >
+                Delete
+              </Button>
+              <Grid size={12} className="main-user-details">
+              <CustomTextField
+                  name="companyName"
+                  placeholder="Company Name"
+                  control={control}
+                  requiredField
+                  className="main-account-drawer-textfield"
+                />
+                <CustomTextField
+                  name="companyAddress"
+                  placeholder="Company Address"
+                  control={control}
+                  requiredField
+                  className="main-account-drawer-textfield"
+                />
+                </Grid>
               <Grid size={12} container className="main-account-drawer-btn">
                 <CustomButton
                   label="Submit"
@@ -500,6 +546,8 @@ return (
       </Box>
     </Modal>
   </Grid>
+      )}
+</>
 );
 });
 

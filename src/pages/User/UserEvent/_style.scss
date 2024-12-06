@@ -6,15 +6,6 @@
         font-weight: $font-bold !important;
         font-size: $h5 !important;
     }
-    &-no-event{
-        display:flex;
-        justify-content:center;
-        align-items:center;
-    }
-    &-no-event-image{
-        width:32.94rem;
-        height: 50vh;
-    }
 }
 /* Center the outer grid content */
 .outer-grid {
@@ -35,13 +26,15 @@
     width: 29.69rem;   
     margin-top: 10rem;  
     &-svg{
+        width: 29.69rem !important;
+        height:12rem;   
         font-size: 10rem;
     &-text{
         padding-top:2.7rem;
-        text-align:center;
+        text-align:center;  
         font-family:$font;
         font-weight:$font_bold !important;
-        font-size:$p5;
+        font-size:$p5 !important;
         line-height: 2.185rem;
         text-underline-position:from-font;
         text-decoration-skip-ink: none;
@@ -50,7 +43,7 @@
         line-height: 1.275rem;
         font-family:$font ;
         font-weight:$font_normal;
-        font-size:$p2;
+        font-size:$p2 !important;
         color:$clr_gray_dark_text;
      }
     }

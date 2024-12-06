@@ -25,7 +25,7 @@ const ProfileSettings: React.FC = React.memo(() => {
         Edit Profile
       </Typography>
       <Tabs value={tabInfo?.tabIndex} className='main-account-tabs' onChange={handleTabChange}>
-        <Tab label="Personal Information" className='main-account-tab-title account-tabs' />
+        <Tab label="My Profile" className='main-account-tab-title account-tabs' />
         <Tab label="Security" className="main-account-tab-title account-tabs" />
         {/* <Tab label="Notification" className="main-account-tab-title account-tabs" /> */}
       </Tabs>

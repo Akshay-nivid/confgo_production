@@ -85,6 +85,9 @@
   & .MuiInputBase-input {
     background-color: $clr_white;
   }
+  & .MuiInputLabel-outlined{
+    color:$input_label !important;
+  }
   &-icon-btn {
     &:focus {
       outline: none;
@@ -293,6 +296,23 @@
     display: block;
   }
 }
+.custom-data-grid.with-border {
+  border: 0.083rem solid $clr_light_border_grey !important;
+  border-radius: 0.8rem !important;
+
+  .MuiDataGrid-cell{
+    font-size: $p2 !important;
+  border-top: 0.083rem solid $clr_light_border_grey;
+  }
+  .MuiDataGrid-row--borderBottom .MuiDataGrid-columnHeader{
+    border-bottom: none;
+  }
+  .MuiDataGrid-columnHeader .MuiDataGrid-columnHeaderTitleContainer{
+    color: $clr_black !important;
+    font-size: $p2;
+  }
+}
+
 
 .custom-pagination {
   background-color: #f5f5f5;
@@ -313,8 +333,21 @@
   .Mui-selected {
           font-size: $p2 !important;
           border-radius: $p2 !important;
-          background-color: $clr_green_light !important;  
+
           color: $clr_green !important;           
+        }
+        &.blue-theme {
+          .Mui-selected {
+            background-color: $clr_status_bar !important; // Blue background
+            color: $clr_blue !important;
+          }
+        }
+        
+        &.green-theme {
+          .Mui-selected {
+            background-color: $clr_green_light !important; // Green background
+            color: $clr_green !important;
+          }
         }
 }
 .custom-list{
@@ -413,9 +446,9 @@
   color: $clr_gray_medium !important; 
   font-weight: $font_normal !important;
   font-size: $h6 !important;
-  border-radius: 0.5rem !important;
+  border-radius: 0.4167rem !important;
   padding-left: 0rem !important;
-  border:0.00009rem solid $clr_gray_very_light !important;
+  border:0.0667rem solid $clr_light_sky_blue !important;
   &-icon{
     color: $clr_gray_medium !important;
     font-size: 10rem !important;
@@ -553,8 +586,7 @@
     background-color: $clr_white;
   }
   &-container {
-    width: 70rem;
-    padding-left: 15rem;
+    width: 54.08rem !important;
     pointer-events: none;
     .MuiStepLabel-label{
       font-size: $p2 !important;
@@ -746,8 +778,19 @@
     font-weight: $font_normal !important;
     font-size: $p2 !important;
     text-align: center; 
-    margin-bottom: 10rem !important;
+    margin-bottom: 2rem !important;
     color:$clr_gray_extra_dark !important;
+  }
+  &-create-btn{
+    max-height: 4rem;
+    background-color: $clr_green !important;
+    color: $clr_white !important;
+    max-width: 19rem !important;
+    text-transform: none !important;
+    box-shadow: none !important;
+    font-size: $p2 !important;
+    font-weight: $font_normal !important;
+    margin-bottom: 3rem !important;
   }
 }
 

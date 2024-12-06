@@ -154,7 +154,7 @@ const UserLogin = (props: UserProps) => {
       justifyContent={'center'}
       alignItems={'center'}
       container
-      className="user-login"
+      className="enduser-login"
     >
       <Grid size={12} className="content-container">
         <Box className="header-container">
@@ -178,6 +178,7 @@ const UserLogin = (props: UserProps) => {
               flexDirection={'column'}
             >
               <CustomTextField
+                className='user-textfield'
                 control={control}
                 name="username"
                 placeholder="Email Address"
@@ -202,7 +203,7 @@ const UserLogin = (props: UserProps) => {
               className="login-button"
               fullWidth
               size="large"
-              label="Login"
+              label="Log In"
               type="submit"
             />
           </form>
@@ -213,7 +214,7 @@ const UserLogin = (props: UserProps) => {
                 to={routes.userRegister()}
                 className="signup-text-highlight"
               >
-                Sign Up now.
+                Sign Up.
               </Link>
             </Typography>
 
