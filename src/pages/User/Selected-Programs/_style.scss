@@ -885,7 +885,7 @@
 
     .back-btn {
       border-color: $clr_bright_mint_green;
-      color: $clr_charcoal_cyan;
+      color: $clr_bright_mint_green;
     }
 
     .next-btn {
@@ -906,6 +906,50 @@
       .MuiCheckbox-root {
         svg {
           background-color: $clr_bright_mint_green !important;
+        }
+
+
+      }
+    }
+  }
+
+
+  &-3 {
+
+
+    
+    .addon-property-item  {
+      .MuiCheckbox-root {
+        svg {
+          fill: $clr_dark_blue !important;
+        }
+    
+      }
+    }
+
+    .back-btn {
+      border-color: $clr_dark_blue ;
+      color: $clr_dark_blue;
+    }
+
+    .next-btn {
+      background-color: $clr_dark_blue;
+    }
+
+
+    .price-chip {
+
+      &.MuiChip-root {
+        background-color: $clr_dark_blue !important;
+        color: $clr_white !important;
+      }
+
+    }
+
+    .program-list-item {
+      .MuiCheckbox-root {
+        svg {
+          background-color: $clr_dark_blue !important;
         }
 
 

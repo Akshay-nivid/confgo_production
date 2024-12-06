@@ -133,9 +133,9 @@ const ProgramCard = () => {
       url: 'participant/payment/details',
       id: 'paymentDetails',
       body: { eventId: eventId },
-      successCB: (response: any) => {
+      successCB: () => {
 
-        console.log(response, 'payment details')
+       
         
     }})
 

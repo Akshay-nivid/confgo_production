@@ -502,5 +502,42 @@
 
   }
 
+  &-3 {
 
+
+    
+
+    .price-chip {
+      &.MuiChip-root {
+        background-color: $clr_dark_blue !important;
+      }
+    }
+
+    .program-list-item,
+    .addon-checkbox-group {
+      .MuiCheckbox-root {
+        svg {
+          background-color: $clr_dark_blue;
+        }
+      }
+    }
+
+    .navigation-button-container {
+      .back-button {
+        border-color: $clr_dark_blue;
+        color: $clr_dark_blue;
+      }
+
+      .next-button {
+        background-color: $clr_dark_blue;
+        color: $clr_white;
+      }
+    }
+
+    .add-on-property svg {
+      fill: $clr_dark_blue !important;
+    }
+
+
+  }
 }

@@ -145,11 +145,17 @@
                 padding-top: 0.6rem;
             }
             &-logout-button{
-                color: $clr_white;
                 font-size: $h6;
                 font-weight: $font_semibold;
-                padding-top: 0.6rem;
-                padding-right: 1rem;
+                border:0.083rem solid $clr_white;
+                border-radius: 0.83rem;
+                height: 3.2rem;
+                width: 8rem;
+                background-color:  $clr_white;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: $clr_dark_blue;
             }
             &-button-border{
                 border-right: 1px solid $clr_white;
