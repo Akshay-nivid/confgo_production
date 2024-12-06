@@ -115,6 +115,13 @@
         font-weight: $font_bold !important;
         font-size: $h3 !important;
     }
+    &-map-drawer{
+            width: 30rem !important;
+    }
+    &-choose-map{
+        background-color: $clr_green !important;
+        box-shadow: none !important;
+    }
 }
 
 .add-program{
@@ -1166,5 +1173,6 @@
         background-color: $clr_green !important;
         text-transform: none !important;
     }
+
 }
 
