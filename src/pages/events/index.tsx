@@ -218,7 +218,13 @@ const Events = () => {
       statusId,
       amount: event?.amount || 0,
       eventClass: event?.type,
-      assetId:event?.assetId
+      assetId:event?.assetId,
+      contacts: [
+        {
+          phone: event?.phone,
+          email: event?.email 
+        }
+      ]
     };
 
     // Handle URL and Venue logic
