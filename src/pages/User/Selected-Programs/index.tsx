@@ -1,7 +1,7 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomCheckbox from "@/components/CustomCheckbox/CustomCheckbox";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import { Backdrop, Box, CircularProgress, IconButton, Typography } from "@mui/material";
+import { Backdrop, Box, Chip, CircularProgress, IconButton, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useForm } from "react-hook-form";
 import { CouponIcon } from "@/assets/svg";
@@ -13,7 +13,8 @@ import { handleGroupData } from "../Program-Selection/programsHandlers";
 import { processFormData, formatDate } from "../Program-Selection/programsHandlers";
 import { EventRegistrationSuccessIcon } from "@/assets/svg";
 import CloseIcon from '@mui/icons-material/Close';
-
+import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
+import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 
 /**
  * Compoennt used to render selected program
@@ -37,15 +38,19 @@ const SelectedPrograms = () => {
 
   const cartId = cartInfo?.cart.data?.id ?? null
 
-  const addToCartResponseData = useStore((state: any) => state?.compData?.["addToCart"]?.[`cart/${cartId}`] ? state?.compData?.["addToCart"]?.[`cart/${cartId}`] : state?.compData?.["addToCart"]?.cart?.data) ?? null;
+  // const addToCartResponseData = useStore((state: any) => state?.compData?.["addToCart"]?.[`cart/${cartId}`] ? state?.compData?.["addToCart"]?.[`cart/${cartId}`] : state?.compData?.["addToCart"]?.cart?.data) ?? null;
 
   const orderLoading = useStore((state: any) => state?.compData?.["order"]?.order.loading)
 
-  const addToCartLoading = addToCartResponseData?.[`cart/${cartInfo?.data?.id}`]?.loading;
+  const addToCartLoading = useStore((state: any) => state?.compData?.["addToCart"]?.[`cart/${cartId}`]?.loading)
 
   const participantTypeId = useStore((state: any) => state?.compData?.["participantTypeId"]?.value) ?? null;
 
+const finalPrice = useStore((state: any) => state?.compData?.["finalPrice"]?.value) ?? null
+
   const location = useLocation()
+
+
 
   const { control, setValue, getValues, watch, reset } = useForm({
 
@@ -105,16 +110,16 @@ const SelectedPrograms = () => {
     })
   }
 
- 
 
 
-/**
- * Handles the submission of the selected programs form by making an API call to create an order.
- * If a coupon code is present, it is included in the request body.
- * If the order is created successfully, the user is redirected to either the payment method or dynamic user form page.
- * If the order creation fails, an error message is displayed to the user.
- * If the user is not logged in, the user is redirected to the login page and the current route is stored in the session storage.
- */
+
+  /**
+   * Handles the submission of the selected programs form by making an API call to create an order.
+   * If a coupon code is present, it is included in the request body.
+   * If the order is created successfully, the user is redirected to either the payment method or dynamic user form page.
+   * If the order creation fails, an error message is displayed to the user.
+   * If the user is not logged in, the user is redirected to the login page and the current route is stored in the session storage.
+   */
   function handleClickNextButton() {
 
 
@@ -206,15 +211,15 @@ const SelectedPrograms = () => {
 
   }
 
-/**
- * Handles the toggle event of an addon checkbox.
- * 
- * This function is called when an addon checkbox is toggled. It parses the key to extract the date and id components.
- * It then resets the value of the corresponding addon property in the form to an empty array.
- * Afterward, it processes the updated form data, updates the cart, and stores the default program data.
- * 
- * @param key - The key of the checkbox in the format "date-addon-addonId".
- */
+  /**
+   * Handles the toggle event of an addon checkbox.
+   * 
+   * This function is called when an addon checkbox is toggled. It parses the key to extract the date and id components.
+   * It then resets the value of the corresponding addon property in the form to an empty array.
+   * Afterward, it processes the updated form data, updates the cart, and stores the default program data.
+   * 
+   * @param key - The key of the checkbox in the format "date-addon-addonId".
+   */
   function onAddonCheckboxToggle(key: string) {
 
     if (key.includes("addon")) {
@@ -233,13 +238,13 @@ const SelectedPrograms = () => {
 
   }
 
-/**
- * Makes a call to edit cart API and then gets the cart data.
- * If the request is successful, it formats the data and stores it in the state.
- * If the request fails, it shows an error message on the screen.
- * @param body - Cart body data
- * @param formData - Form data
- */
+  /**
+   * Makes a call to edit cart API and then gets the cart data.
+   * If the request is successful, it formats the data and stores it in the state.
+   * If the request fails, it shows an error message on the screen.
+   * @param body - Cart body data
+   * @param formData - Form data
+   */
   function handleAddAndGetCart(body: any, formData: any) {
     PUT({
       url: `cart/${cartId}`,
@@ -251,6 +256,9 @@ const SelectedPrograms = () => {
           url: `cart/${cartId}`,
           id: 'getCart',
           successCB: (response: any) => {
+
+            setDataById("finalPrice", { value: response?.data?.cart?.finalPrice })
+
 
             const formatedData = handleGroupData({
               addons: response?.data?.addons,
@@ -341,39 +349,63 @@ const SelectedPrograms = () => {
                   >
                     <Grid key={date} className="selected-program-card-content">
 
-                      <Typography className="sub-header">
-                        Day {index + 1} -
-                        {moment(date).format("MMM DD, YYYY")}
-                      </Typography>
+                      <Grid marginBottom={2} display={'flex'} justifyContent={'center'} flexDirection={'column'} alignItems={'center'} className="select-program-text card-header-wrapper ">
 
-                      <Typography className="sub-header">
-                        Programs Selected:
-                      </Typography>
+                        <Box className="program-date-container">
+                          <Typography className="card-header">
+                            Day {index + 1} - {moment(date).format("MMM DD, YYYY")}
+                          </Typography>
+                        </Box>
+
+                        <Typography className="card-header">Program</Typography>
+
+                      </Grid>
 
                       {data?.programs?.length > 0 && data?.programs?.map((item: any) => {
 
                         return (
-                          <Grid key={item?.id} columnSpacing={1} container direction={'row'} className="program-list-container">
+                          <Grid marginBottom={2} key={item?.id} columnSpacing={1} size={12} container className="program-list-container">
 
-                            <Grid size={"auto"}>
+                            <Grid size={12} container justifyContent={'space-between'}>
 
+                              <Grid marginBottom={1} size={12} borderRadius={10} width={"max-content"}>
+                                <Chip className="time-chip" size="medium" icon={<TimerOutlinedIcon />} label={moment(item?.startTime).format("h:mm A") + ' ' + '-' + ' ' + moment(item?.endTime).format("h:mm A")} />
+                              </Grid>
+
+                              <Grid className="program-price">
+                                <Chip className="price-chip" size="medium" icon={<AttachMoneyOutlinedIcon />} label={`${item?.amount}`} />
+                              </Grid>
+
+                            </Grid>
+
+                            <Grid size={9} marginBottom={.5} fontSize={20} fontWeight={500}>{item.name}</Grid>
+
+                            <Grid size={12} fontSize={12} fontWeight={400} >
+                              <Typography className="program-description">
+                                {item.description}
+                              </Typography>
+                            </Grid>
+
+
+                            <Grid size={12}>
+
+                            </Grid>
+                            <Grid marginTop={2} className="program-list-item">
                               <CustomCheckbox
+
                                 onChange={() => onCheckboxToggle()}
                                 control={control}
-                                className="program-list-item-checkbox"
+                                className="program-list-item"
                                 id="program"
                                 name={`${formatDate(date)}-programs`}
                                 setValue={setValue}
                                 options={[
-                                  { label: item?.name, value: item?.id },
+                                  { label: '', value: item?.id },
                                 ]}
                               />
+                              <Typography className="add-text">{watch(`${formatDate(date)}-programs`)?.includes(item?.id) ? 'Remove' : 'Add'}</Typography>
 
                             </Grid>
-
-                            <Grid size={"auto"}>-</Grid>
-
-                            <Grid size={"auto"} alignItems={'center'} display={'flex'}> {moment(date).format("h:mm A")} - ${item?.amount}</Grid>
 
                           </Grid>
                         )
@@ -384,60 +416,100 @@ const SelectedPrograms = () => {
 
                             const currentAddon = `${formatDate(date)}-addon-${addon?.id}`
                             return (
-                              <Grid size={12} container key={addon?.eventAddon?.id}>
 
-                                {index === 0 && <Grid className="select-add-on-text">Addon:</Grid>}
-
-                                <Grid size={12} key={addon?.eventAddon?.id} className="add-on-list-item">
-
-                                  <CustomCheckbox
-                                    onChange={() => onAddonCheckboxToggle(`${formatDate(date)}-addon-${addon?.id}`)}
-                                    control={control}
-                                    className="add-on-list-item-checkbox "
-                                    id={addon?.eventAddon?.id}
-                                    name={`${formatDate(date)}-addon-${addon?.id}`}
-                                    label={addon?.title}
-                                    setValue={setValue}
-                                    options={[
-                                      {
-                                        label: addon?.addon?.name,
-                                        value: addon?.id,
-                                      },
-                                    ]}
-                                  />
-
-                                  <Grid size={6}>- ${addon?.amount}</Grid>
-                                </Grid>
+                              <Grid>
+                                {index === 0 && <Grid textAlign={'center'} marginBottom={2} size={12} className="card-header card-header-wrapper">Addon</Grid>}
+                                <Grid className="add-on-list-item-wrapper" size={12} container key={addon?.eventAddon?.id}>
 
 
-                                {addon?.eventAddonProperties?.length > 0 && (
-                                  <Grid container columnSpacing={2} paddingBlock={1} className="add-on-prop-checkbox ">
 
-                                    {addon?.eventAddonProperties.map((property: any) => {
+                                  <Grid container size={12} key={addon?.eventAddon?.id} className="add-on-list-item">
 
-                                      return property !== null && (
 
-                                        < CustomCheckbox
-                                          key={property?.id}
-                                          className="add-on-prop-checkbox"
-                                          disabled={watch(currentAddon) === undefined || watch(currentAddon).length === 0}
-                                          row={true}
-                                          onChange={() => onCheckboxToggle()}
-                                          control={control}
-                                          // required={false}
-                                          name={`${formatDate(date)}-addonProp-${addon?.id}`}
-                                          options={[
-                                            { label: property?.name, value: property?.id },
-                                          ]}
-                                        />)
-                                      
-                                      
-                                    })}
+                                    <Grid size={12} container justifyContent={'space-between'}>
+
+                                      <Grid marginBottom={1} size={12} borderRadius={10} width={"max-content"}>
+                                        <Chip className="time-chip" size="medium" icon={<TimerOutlinedIcon />} label={moment(addon?.startTime).format("h:mm A") + ' ' + '-' + ' ' + moment(addon?.endTime).format("h:mm A")} />
+                                      </Grid>
+
+                                      <Grid className="program-price">
+                                        <Chip className="price-chip" size="medium" icon={<AttachMoneyOutlinedIcon />} label={`${addon?.amount}`} />
+                                      </Grid>
+
+                                    </Grid>
+
+
+                                    <Grid size={12} marginBottom={.5} fontSize={24} fontWeight={500}>{addon?.addon?.name}</Grid>
+
+                                    <Grid size={12} fontSize={12} fontWeight={400} >
+                                      <Typography className="program-description">
+                                        {addon?.addon?.description}
+                                      </Typography>
+                                    </Grid>
+
+
+
+                                    {/* <Grid size={6}>- ${addon?.amount}</Grid> */}
                                   </Grid>
 
+                                  {addon?.eventAddonProperties?.length > 0 && <Grid marginTop={2} marginBottom={1} className='card-sub-header'>Addon Prop :</Grid>}
 
-                                )}
+                                  {addon?.eventAddonProperties?.length > 0 && (
+                                    <Grid container size={12} columnSpacing={2} paddingBlock={1} className="add-on-prop-checkbox ">
+
+                                      {addon?.eventAddonProperties.map((property: any) => {
+
+                                        return property !== null && (
+
+                                          <Grid display={'flex'} alignItems={'center'} size={4} className='addon-property-item'>
+                                            < CustomCheckbox
+                                              className="add-on-property"
+                                              key={property?.id}
+                                              disabled={watch(currentAddon) === undefined || watch(currentAddon).length === 0}
+                                              row={true}
+                                              onChange={() => onCheckboxToggle()}
+                                              control={control}
+                                              // required={false}
+                                              name={`${formatDate(date)}-addonProp-${addon?.id}`}
+                                              options={[
+                                                { label: '', value: property?.id },
+                                              ]}
+                                            />
+                                            <Typography className="add-on-property-name">{property?.name}-{property?.amount}</Typography>
+                                          </Grid>
+
+                                        )
+
+
+                                      })}
+                                    </Grid>
+
+
+                                  )}
+                                  <Grid marginTop={3} className="program-list-item">
+                                    <CustomCheckbox
+
+                                      onChange={() => onAddonCheckboxToggle(`${formatDate(date)}-addon-${addon?.id}`)}
+                                      control={control}
+                                      className="add-on-list-item-checkbox "
+                                      id={addon?.eventAddon?.id}
+                                      name={`${formatDate(date)}-addon-${addon?.id}`}
+                                      label={addon?.title}
+                                      setValue={setValue}
+                                      options={[
+                                        {
+                                          label: '',
+                                          value: addon?.id,
+                                        },
+                                      ]}
+                                    />
+                                    <Typography className="add-text">{watch(`${formatDate(date)}-addon-${addon?.id}`)?.includes(addon?.id) ? 'Remove' : 'Add'}</Typography>
+
+
+                                  </Grid>
+                                </Grid>
                               </Grid>
+
                             )
                           })}
                         </Grid>
@@ -523,7 +595,7 @@ const SelectedPrograms = () => {
 
           <Grid className="grand-total-container">
             <Typography className="total-text">Grand Total</Typography>
-            <Typography className="total-text">${addToCartResponseData?.cart?.data?.finalPrice}</Typography>
+            <Typography className="total-text">${finalPrice}</Typography>
           </Grid>
 
 

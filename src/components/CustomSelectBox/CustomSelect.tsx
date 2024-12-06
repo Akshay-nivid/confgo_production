@@ -17,6 +17,7 @@ interface CustomSelectProps<T extends FieldValues> {
     size?:"small" | "medium" | undefined;
     disabled?:boolean;
     optionClick?: (index: number | string) => void;
+    onChange?:any
 }
 
 const CustomSelect = <T extends FieldValues>({
@@ -30,7 +31,7 @@ const CustomSelect = <T extends FieldValues>({
   rules,
   disabled = false,
   optionClick,
-  className
+  className,
 }: CustomSelectProps<T>) => {
 
     /**

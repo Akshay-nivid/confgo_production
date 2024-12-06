@@ -187,8 +187,8 @@ interface AccountSettingProps {
       <CustomDrawer open={isDrawerOpen} type="right">
         <Grid container className="account-drawer">
           <Grid size={12} container className="account-drawer-text">
-            <Typography className="account-title account-drawer-textfield">Personal Information</Typography>
-            <IconButton onClick={closeDrawer}>
+            <Typography className="account-title account-drawer-textfield">Personal Information</Typography >
+            <IconButton onClick={closeDrawer}className="close" >
               <CloseOutlined />
             </IconButton>
           </Grid>

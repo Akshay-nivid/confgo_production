@@ -16,10 +16,10 @@
       justify-content: center;
       align-items: center;
       background: url("../assets/svg/background-top.svg") no-repeat top;
-      background-position: center -50px;
+      background-position: center -8.583rem;
       background-repeat: no-repeat;
       border-radius: 1.666rem;
-      background-size: 50%;
+      background-size: 40%;
 
       & .left-content-wrapper {
         height: 100% !important;
@@ -27,24 +27,22 @@
         display: flex !important;
         justify-content: center !important;
         & .left-inner-content {
-          align-items: center;
-          justify-content: center;
           max-width: 36rem;
           display: flex;
           flex-direction: column;
-          padding-top: 2.5rem;
+          padding-top: 5.833rem;
           & .left-header-wrapper {
             font-size: $p3;
             font-weight: $font_normal;
-            line-height: 1.21rem; 
+            line-height: 1.21rem;
             text-align: center;
             
 
             & .header-title {
-              font-size: $h4;
-              font-weight: $font_bold;
+              font-size: $h2;
               line-height: 3.5625rem;
               text-align: center;
+              font-weight: $font_bold !important;
             }
             & .header-description {
               font-size: $h6;
@@ -65,6 +63,9 @@
               flex-direction: column;
               row-gap: 2.083rem;
             }
+            & .text-field{
+              background-color: $clr_white;
+            }
             & .custom-button {
               width: 360px;
               height: 45px;
@@ -73,13 +74,14 @@
               background-color: $clr_blue;
               row-gap: 8px;
               font-weight: $font_medium;
-              font-size: $p3;
+              font-size: $p2;
               line-height: 16.94px;
+              box-shadow:none ;
             }
           }
           & .forgot-password-link {
-            font-size: $p2;
-            font-weight: $font_bold;
+            font-size: $h6;
+            font-weight:$font_semibold;
             width: 19.9375rem; 
             width: -moz-max-content;
             width: max-content;
@@ -98,7 +100,7 @@
         }
         & .already-have-account-link {
           text-align: center;
-          font-size: $p2;
+          font-size: $h6 !important;
           font-weight: $font_medium !important;
           line-height: 1.5rem;
           margin-top: 4rem !important;

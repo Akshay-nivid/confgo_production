@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { Controller } from "react-hook-form";
 import moment from "moment";
+import { setDataById } from "@/Libs/store";
 
 interface PricingTier {
   id: number;
@@ -102,10 +103,12 @@ const PricingTable: React.FC<PricingTableProps> = ({
                       rules={{
                         required: "Percentage is required",
                         pattern: {
-                          value: /^\d+(\.\d{1,2})?$/,
+                          value: /^[0-9]+(\.[0-9]{1,2})?$/,
                           message:
                             "Please enter a valid number with up to two decimal places",
                         },
+                        validate: (value) =>
+                          parseFloat(value) <= 100 || "Percentage cannot exceed 100%",
                       }}
                       render={({ field }) => (
                         <TextField
@@ -117,7 +120,21 @@ const PricingTable: React.FC<PricingTableProps> = ({
                             readOnly: isListView,
                           }}
                           onChange={(e) => {
-                            field.onChange(e);
+                            const input = e.target.value;
+                            if (/^\d*\.?\d{0,2}$/.test(input)) {
+                              if (parseFloat(input) > 100) {
+                                setDataById("snackBarInfo", {
+                                  open: true,
+                                  autoHideDuration: 2000,
+                                  severity: "error",
+                                  message: "Value cannot exceed 100%",
+                                }); // Trigger validation error
+                              } else {
+                                field.onChange(input);
+
+
+                              }
+                            }
                           }}
                         />
                       )}

@@ -60,6 +60,7 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   infoContent?: any
   removeBorder?: boolean;
   showError?: boolean;
+  shrink?:boolean
 }
 
 interface InputPropsType {
@@ -93,6 +94,7 @@ const CustomTextField = <T extends FieldValues>({
   onClick,
   removeBorder = false,
   showError = true,
+  shrink,
   ...props
 }: ICustomTextFieldProps<T>) => {
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -224,7 +226,7 @@ const CustomTextField = <T extends FieldValues>({
         </Typography>
       )}
 
-      <InputLabel htmlFor={name} className="custom-input-label">
+      <InputLabel shrink={shrink}  htmlFor={name} className="custom-input-label">
          {label? label:placeholder}
      </InputLabel>
 

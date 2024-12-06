@@ -118,6 +118,34 @@ export const handleGroupData = ({ programs, addons, calculateTotal = false }: { 
 }
 
 
+
+function sortObjectByKeyPriority(obj:any) {
+  // Define the priority order for key types
+  const priorityOrder = ['programs', 'addon', 'addonProp'];
+
+  // Create a sorted array of keys based on the priority
+  const sortedKeys = Object.keys(obj).sort((a, b) => {
+      // Find the matching priority type for each key
+      const aPriorityIndex = priorityOrder.findIndex(type => a.includes(type));
+      const bPriorityIndex = priorityOrder.findIndex(type => b.includes(type));
+
+      // If priority types are different, sort by their priority
+      if (aPriorityIndex !== bPriorityIndex) {
+          return aPriorityIndex - bPriorityIndex;
+      }
+
+      // If priority types are the same, sort alphabetically
+      return a.localeCompare(b);
+  });
+
+  // Create a new object with sorted keys
+  return sortedKeys.reduce((sorted:{[key: string]: any }, key) => {
+      sorted[key] = obj[key];
+      return sorted;
+  }, {});
+}
+
+
 /**
  * Processes the form data from the program selection form.
  *
@@ -140,19 +168,34 @@ export const handleGroupData = ({ programs, addons, calculateTotal = false }: { 
  * @param {any} id - The id of the event.
  * @returns {Object} - The processed data object.
  */
-export const processFormData = (formData: any, id: any,participantTypeId:string|number) => {
+export const processFormData = (formData: any, id: any,participantTypeId:string|number): { eventId: number; programIds: number[]; addons: any;} => {
 
-  const formattedData: any = {
+  let formattedData: any
 
-    eventId: parseInt(id) || null,
-    programIds: [],
-    participantTypeId:participantTypeId || null
+  if (participantTypeId !== null && participantTypeId !== undefined) {
 
-  };
+    formattedData = {
+      eventId: parseInt(id) || null,
+      programIds: [],
+      participantTypeId:participantTypeId
+    }
+
+  } else {
+
+    formattedData = {
+      eventId: parseInt(id) || null,
+      programIds: [],
+    }
+
+  }
+  
 
   const addonGroup: any = {}
 
-  Object.entries(formData).forEach(([key, value]: [string, any]) => {
+
+  const sortedFormData = sortObjectByKeyPriority(formData)
+
+  Object.entries(sortedFormData).forEach(([key, value]: [string, any]) => {
 
     if (key.includes('program') && value !== undefined) {
 
@@ -177,17 +220,19 @@ export const processFormData = (formData: any, id: any,participantTypeId:string|
 
       }
 
-      return
+      // return
     }
 
 
     if (key.includes('addonProp')) {
 
-      // const addonPropValue = parseInt(value)
 
       const addonKey = parseInt(key.split('-')[2])
 
+      
       if (addonGroup[addonKey]) {
+
+        
 
         if (!addonGroup[addonKey].propertyIds) {
           addonGroup[addonKey].propertyIds = []
@@ -218,12 +263,12 @@ export const processFormData = (formData: any, id: any,participantTypeId:string|
 
 /**
  * Toggles the program checkboxes by date.
- * 
+ *
  * This function takes a key parameter to determine the date and toggles
  * the corresponding checkboxes in the form data. It clears the values
  * of fields that match the date and have keys starting with "addon".
  * It also sets the form data by ID.
- * 
+ *
  * @param {Object} params - The parameters for the function.
  * @param {string} params.key - The key representing the date for which
  *   the checkboxes should be toggled.
@@ -257,9 +302,13 @@ export function toggleProgramCheckboxesByDate(
       if (fieldKey.startsWith(`${date}-addon`) || fieldKey.startsWith(`${date}-addonProp`)) {  // If the field key includes the specific date and matches programs, clear its value
 
         setValue(fieldKey, undefined);
+
       }
     });
  
   }
 
 }
+
+
+

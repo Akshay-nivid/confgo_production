@@ -18,6 +18,7 @@ import ReactQuill from "react-quill";
 import React from "react";
 import config from "../../../../config.json";
 import FileListModal from "@/components/FileUpload/FileListModal";
+import { State } from "country-state-city";
 
 
 const baseUrl = config.api.url;
@@ -66,6 +67,11 @@ const EventInfoCard: React.FC<any> = React.memo(
       reset(formattedEventData);
       setEditorContent(eventData.description);
       setValue("description", eventData.description);
+      setValue("address",eventData?.venue?.address);
+      setValue("city",eventData?.venue?.city);
+      setValue("postalCode",eventData?.venue?.postalCode);
+      setValue("state",eventData?.venue?.state);
+      setValue("mapUrl",eventData?.venue?.mapUrl);
       setOriginalData(eventData);
     }
   }, [eventData, reset]);
@@ -91,15 +97,25 @@ const EventInfoCard: React.FC<any> = React.memo(
    */
   const onSubmit = async (data: any) => {
     // Format the date and time fields before update request.
-    const excludeKeys = ['slugName', 'venue', 'status','templateId','template','eventPriceTiers','eventProgramSchedules','programs','addons'];
+    const excludeKeys = ['slugName','city','address','venue','country','mapUrl','postalCode','state','status','templateId','template','eventPriceTiers','eventProgramSchedules','programs','addons'];
     const formattedData = {
       //remove unnessary fields
       ...Object.fromEntries(
         Object.entries(data).filter(([key]) => !excludeKeys.includes(key))),
       startTime: formatUTCDateTime(data.startTime),
       endTime: formatUTCDateTime(data.endTime),
-      assetId:selectedFile?.id
-    };
+      assetId:selectedFile?.id,
+      venue:{
+        name: data?.name,
+        mapUrl: data?.mapUrl,
+        address: data?.address,
+        city: data?.city,
+        state: data?.state,
+        country: data?.country,
+        postalCode: data?.postalCode,
+    }
+  }
+
     const response = await apiClient.put(`event/update/${id}`, formattedData);
     const { status, message } = await processAPIResponse(
       response,
@@ -125,6 +141,31 @@ const EventInfoCard: React.FC<any> = React.memo(
       });
     }
   };
+
+  /**
+ *  Map options for dropdown
+ */
+const countryOptions = [
+  {
+    label: "United States",
+    value: "US",
+  },
+  {
+    label: "India",
+    value: "IN",
+  },
+];
+
+/**
+ * Handle State dropdown according to Country
+ * @param countryCode 
+ * @returns 
+ */
+const stateOptions = (countryCode:any) =>
+  State.getStatesOfCountry(countryCode)?.map((s:any) => ({
+    label: s.name,
+    value: s.isoCode,
+  }));
 
    /**
      * Method handles the on change event for description editor
@@ -422,6 +463,107 @@ const EventInfoCard: React.FC<any> = React.memo(
                     control={control}
                   />
                 </Grid>
+                {watch("eventClass") !== "OFFLINE" && (
+                    <Grid size={{ xs: 12, sm: 12 }}>
+                      <CustomTextField
+                        placeholder="Url"
+                        control={control}
+                        name="url"
+                        type="text"
+                        rules={{ required: watch("eventClass") === "ONLINE" }}
+                      />  
+                    </Grid>
+                  )}
+                
+                 {watch("eventClass") !== "ONLINE" && (
+                    <>
+                      <Grid size={{ xs: 12, sm: 12 }}>
+                        <CustomTextField
+                          placeholder="Location URL (must be a Google Maps link with latitude and longitude)"
+                          control={control}
+                          name="mapUrl" 
+                          type="text" 
+                          rules={{
+                            required: false,
+                            validate: (value: any) => {
+                              if (value) {
+                                const isValidGoogleMapsLink = /^(https?:\/\/)?(www\.)?google\.(com|[a-z]{2})\/maps\/(place\/[^\/]+\/@|@)([+-]?\d{1,2}\.\d+),([+-]?\d{1,3}\.\d+),(\d{1,2}(\.\d+)?z)(\/data=.*)?(\/entry=.*)?$/.test(
+                                  value
+                                );
+                                return (
+                                  isValidGoogleMapsLink ||
+                                  "URL must be a valid Google Maps link with latitude, longitude, and zoom level"
+                                );
+                              }
+                              return true;
+                            },                         
+                                                      
+                          }}
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 12 }}>
+                        <CustomTextField
+                          placeholder="Address"
+                          control={control}
+                          name="address"
+                          type="text"
+                          rules={{ required: watch("type") === "OFFLINE" }}
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 12 }}>
+                      <CustomSelect
+                          name="country"
+                          label="Country"
+                          control={control}
+                          options={countryOptions}
+                          defaultValue="IN"
+                          onChange={(e:any) => {
+                            setValue("country", e.target.value);
+                            setValue("state", "");
+                          }}
+                          fullWidth
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 12 }}>
+                         <CustomSelect
+                            name="state"
+                            label="State"
+                            control={control}
+                            options={stateOptions(watch("country")) || []}
+                            rules={{
+                              required:Boolean(watch('country')),
+                            }}
+                            fullWidth
+                          />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 12 }}>
+                        <CustomTextField
+                          placeholder="City"
+                          control={control}
+                          name="city"
+                          type="text"
+                          rules={{ required: watch("eventClass") === "OFFLINE" }}
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 12 }}>
+                        <CustomTextField
+                          placeholder="Pin Code"
+                          control={control}
+                          name="postalCode"
+                          type="text"
+                          rules={{
+                            required: watch("type") === "OFFLINE",
+                            pattern: {
+                              value: /(^\d{5}(-\d{4})?$)|(^\d{6}$)/,
+                              message: "Enter a valid postal code (e.g., '12345', '12345-6789', or '123456')",
+                            },
+                          }}
+                        />
+                      </Grid>
+
+                    </>
+                  )}
+                
                 <Grid size={{ xs: 12 }} mt={2}>
                   <Grid
                     container

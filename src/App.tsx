@@ -229,7 +229,8 @@ const router = createBrowserRouter([
         path: routes.userdetail(":id"),
         element: <UserDetail />,
       },
-      {  path: routes.organizationUserProfile(),
+      {  
+        path: routes.organizationUserProfile(),
         element: <ProfileSettings />,
       },
       {

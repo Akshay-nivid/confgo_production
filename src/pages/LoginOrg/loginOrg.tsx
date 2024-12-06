@@ -111,7 +111,7 @@ const LoginOrg = () => {
 
     // Check if the user is of type "COMPANY"
     if (userRole?.roleName === "COMPANY") {
-      // Store specific session details for company users
+      // Store specific session details for company users'
       sessionStorage.setItem('companyUserName', `${firstName} ${lastName || ''}`);
       sessionStorage.setItem('subscriptionStatus', subscriptionStatus);
       sessionStorage.setItem('userId',id?.toString());
@@ -129,9 +129,11 @@ const LoginOrg = () => {
       // Redirect to the company dashboard
       navigate(routes.dashboard());
     } else if(userRole?.roleName === "USER"){
+      sessionStorage.setItem('isUserLoggedIn', 'false'); 
       //Redirect to user login
       navigate(routes.userLogin());
     } else {
+      sessionStorage.setItem('isUserLoggedIn', 'false'); 
     setDataById("snackBarInfo", {
       open: true,
       autoHideDuration: 2000,
@@ -209,7 +211,7 @@ const LoginOrg = () => {
                     {""}
                     <Link to={routes.register()}> Sign Up </Link>{" "}
                   </span>
-                  Now
+                  now
                 </Typography>
                 <Box className="" onClick={handleClickForgetPassword}>
                   <Grid container size={12} className="forgot-password-link">Forgot Password?</Grid>{" "}
