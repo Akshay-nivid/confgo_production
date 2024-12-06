@@ -297,11 +297,11 @@
   }
 }
 .custom-data-grid.with-border {
-  border: 1px solid $clr_light_border_grey !important;
+  border: 0.083rem solid $clr_light_border_grey !important;
   border-radius: 0.8rem !important;
 
   .MuiDataGrid-cell{
-  border-top: 1px solid $clr_light_border_grey;
+  border-top: 0.083rem solid $clr_light_border_grey;
   }
   .MuiDataGrid-row--borderBottom .MuiDataGrid-columnHeader{
     border-bottom: none;
