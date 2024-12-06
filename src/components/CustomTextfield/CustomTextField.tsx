@@ -212,8 +212,6 @@ const CustomTextField = <T extends FieldValues>({
     onClick && onClick(event);
   };
 
-  
-
   return (
     <FormControl
       fullWidth
@@ -257,17 +255,6 @@ const CustomTextField = <T extends FieldValues>({
                 onBlur={handleBlur}
                 onClick={handleOnClick}
                 inputProps={inputProps()}
-                sx={{
-                  ...(removeBorder && {
-                    "& .MuiOutlinedInput-notchedOutline": {
-                      border: "none",
-                    },
-                    "& .MuiInputBase-input": {
-                      border: "none", 
-                    },
-                  }),
-                  ...props.style,
-                }}
                 {...inputProps()}
                 onChange={(e) => {
                   const numericValue = (props.isNumeric)? e.target.value.replace(/[^0-9]/g, ""):e.target.value;

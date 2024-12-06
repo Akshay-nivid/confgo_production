@@ -9,6 +9,7 @@ import {
 import CustomTextField from "../CustomTextfield/CustomTextField";
 import { phoneRules } from "@/Utils/Validation";
 
+
 interface Country {
     countryCode: string;
     label: string;
@@ -50,6 +51,8 @@ const CustomPhone: React.FC<CustomPhoneProps> = ({
         onPhoneNumberChange(event.target.value);
     };
 
+    const borderStyle = error?.message ? "1px solid #f1a7b8" : ''
+
     return (
         <>
            
@@ -58,7 +61,7 @@ const CustomPhone: React.FC<CustomPhoneProps> = ({
                 style={{
                     ...style,
                     maxWidth,
-                    border: error?.message ? "1px solid #f1a7b8" : "",
+                    border:borderStyle,
                 }}
             >
                
@@ -120,6 +123,7 @@ const CustomPhone: React.FC<CustomPhoneProps> = ({
                     onChange={(e) => handlePhoneChange(e.target.value)}
                     removeBorder={removeBorder}
                     showError={false}
+                    className="no-border"
                 />
             </Box>
 
