@@ -103,6 +103,7 @@ const PaymentHistory: React.FC = React.memo(() => {
       ) : (
         <Grid  size={12} justifyContent="center" className="paymentlist">
           <DataGridList
+            isTargetGrid={true}
             noRecordIcon={<NoPayment className="paymentlist-no-payment-icon"/>}
             noRecordSubtitle="It looks like you haven’t made any payments. Once you start registering for events, your payment history will appear here."
             dataTransformer={transformData}
