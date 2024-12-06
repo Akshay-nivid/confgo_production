@@ -1,11 +1,11 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
 import Grid from "@mui/material/Grid2";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
-import { IconButton, Typography } from "@mui/material";
+import { IconButton, Tooltip, Typography } from "@mui/material";
 import { CloseOutlined } from "@mui/icons-material";
 import apiClient from "@/Libs/Https/API-client";
 import { useParams } from "react-router-dom";
@@ -18,7 +18,8 @@ import ReactQuill from "react-quill";
 import React from "react";
 import config from "../../../../config.json";
 import FileListModal from "@/components/FileUpload/FileListModal";
-import { State } from "country-state-city";
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import GoogleMapPlacePicker from "../GoogleMapPlacePicker";
 
 
 const baseUrl = config.api.url;
@@ -37,13 +38,24 @@ interface CustomFile {
 const EventInfoCard: React.FC<any> = React.memo(
   ({ eventData, onSubmitHandler }) => {
   const { id } = useParams();
+  const methods = useForm<any>();
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    watch,
+    reset,
+    formState: { errors },
+  } = methods;
   const setDataById = useStore((state: any) => state.setDataById);
-  const { control, handleSubmit, reset, formState: { errors }, watch, setValue } = useForm<any>();
+
+  // const { control, handleSubmit, reset, formState: { errors }, watch, setValue } = useForm<any>();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Functions to open and close the drawer.
   const openDrawer = () => setIsDrawerOpen(true);
   const closeDrawer = () => setIsDrawerOpen(false);
+  const [drawerOpen,setDrawerOpen]=useState(false);
 
   // Store a copy of the original event data for restoring data.
   const [originalData, setOriginalData] = useState(eventData);
@@ -60,12 +72,13 @@ const EventInfoCard: React.FC<any> = React.memo(
       const formattedEventData = {
         ...eventData,
         startTime: moment(eventData.startTime).format(
-          "YYYY-MM-DDTHH:mm"
+          "YYYY-MM-DD"
         ),
-        endTime: moment(eventData.endTime).format("YYYY-MM-DDTHH:mm"),
+        endTime: moment(eventData.endTime).format("YYYY-MM-DD"),
       };
       reset(formattedEventData);
       setEditorContent(eventData.description);
+      setValue('country',eventData?.venue?.country);
       setValue("description", eventData.description);
       setValue("address",eventData?.venue?.address);
       setValue("city",eventData?.venue?.city);
@@ -142,30 +155,7 @@ const EventInfoCard: React.FC<any> = React.memo(
     }
   };
 
-  /**
- *  Map options for dropdown
- */
-const countryOptions = [
-  {
-    label: "United States",
-    value: "US",
-  },
-  {
-    label: "India",
-    value: "IN",
-  },
-];
 
-/**
- * Handle State dropdown according to Country
- * @param countryCode 
- * @returns 
- */
-const stateOptions = (countryCode:any) =>
-  State.getStatesOfCountry(countryCode)?.map((s:any) => ({
-    label: s.name,
-    value: s.isoCode,
-  }));
 
    /**
      * Method handles the on change event for description editor
@@ -351,6 +341,7 @@ const stateOptions = (countryCode:any) =>
             </IconButton>
           </Grid>
           <Grid size={{ xs: 12 }} mt={2}>
+          <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={2} direction="column">
               <Grid size={{ xs: 12, sm: 12 }} direction={'row'} container flexDirection={"row"}>
@@ -442,18 +433,18 @@ const stateOptions = (countryCode:any) =>
                 </Grid>
                 <Grid size={{ xs: 12 }}>
                   <CustomTextField
-                    placeholder="Start Date & Time"
+                    placeholder="Start Date"
                     control={control}
                     name={"startTime"}
-                    type="datetime-local"
+                    type="date"
                   />
                 </Grid>
                 <Grid size={{ xs: 12 }}>
                   <CustomTextField
-                    placeholder="End Date & Time"
+                    placeholder="End Date"
                     control={control}
                     name={"endTime"}
-                    type="datetime-local"
+                    type="date"
                   />
                 </Grid>
                 <Grid size={{ xs: 12 }}>
@@ -477,6 +468,19 @@ const stateOptions = (countryCode:any) =>
                 
                  {watch("eventClass") !== "ONLINE" && (
                     <>
+                     <Grid size={12} container justifyContent={"flex-start"} alignItems={"center"}>
+                      <CustomButton
+                      className="create-event-choose-map"
+                        label="Choose Location"
+                        onClick={()=>setDrawerOpen(true)}
+                        />
+                          <Tooltip title="Location details fills up on once choose desired location" arrow>
+                            <IconButton className="add-program-warning-msg"
+                            >
+                              <ErrorOutlineIcon />
+                            </IconButton>
+                          </Tooltip>
+                        </Grid>
                       <Grid size={{ xs: 12, sm: 12 }}>
                         <CustomTextField
                           placeholder="Location URL (must be a Google Maps link with latitude and longitude)"
@@ -484,21 +488,9 @@ const stateOptions = (countryCode:any) =>
                           name="mapUrl" 
                           type="text" 
                           rules={{
-                            required: false,
-                            validate: (value: any) => {
-                              if (value) {
-                                const isValidGoogleMapsLink = /^(https?:\/\/)?(www\.)?google\.(com|[a-z]{2})\/maps\/(place\/[^\/]+\/@|@)([+-]?\d{1,2}\.\d+),([+-]?\d{1,3}\.\d+),(\d{1,2}(\.\d+)?z)(\/data=.*)?(\/entry=.*)?$/.test(
-                                  value
-                                );
-                                return (
-                                  isValidGoogleMapsLink ||
-                                  "URL must be a valid Google Maps link with latitude, longitude, and zoom level"
-                                );
-                              }
-                              return true;
-                            },                         
-                                                      
+                            required: false,                                
                           }}
+                          readOnly
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 12 }}>
@@ -508,32 +500,25 @@ const stateOptions = (countryCode:any) =>
                           name="address"
                           type="text"
                           rules={{ required: watch("type") === "OFFLINE" }}
+                          readOnly
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 12 }}>
-                      <CustomSelect
+                      <CustomTextField
+                          placeholder="Country"
                           name="country"
-                          label="Country"
                           control={control}
-                          options={countryOptions}
-                          defaultValue="IN"
-                          onChange={(e:any) => {
-                            setValue("country", e.target.value);
-                            setValue("state", "");
-                          }}
-                          fullWidth
+                          type="text"
+                          readOnly
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 12 }}>
-                         <CustomSelect
+                         <CustomTextField
                             name="state"
                             label="State"
                             control={control}
-                            options={stateOptions(watch("country")) || []}
-                            rules={{
-                              required:Boolean(watch('country')),
-                            }}
-                            fullWidth
+                            type="text"
+                            readOnly
                           />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 12 }}>
@@ -543,6 +528,7 @@ const stateOptions = (countryCode:any) =>
                           name="city"
                           type="text"
                           rules={{ required: watch("eventClass") === "OFFLINE" }}
+                          readOnly
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 12 }}>
@@ -551,6 +537,7 @@ const stateOptions = (countryCode:any) =>
                           control={control}
                           name="postalCode"
                           type="text"
+                          readOnly
                           rules={{
                             required: watch("type") === "OFFLINE",
                             pattern: {
@@ -592,7 +579,11 @@ const stateOptions = (countryCode:any) =>
                   </Grid>
                 </Grid>
               </Grid>
+              <CustomDrawer open={drawerOpen} type="right" children={
+                    <GoogleMapPlacePicker onClose={() => setDrawerOpen(false)}/>
+                  } />
             </form>
+            </FormProvider>
           </Grid>
         </Grid>
       </CustomDrawer>

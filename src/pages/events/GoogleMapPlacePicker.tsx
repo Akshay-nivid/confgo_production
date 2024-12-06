@@ -2,7 +2,7 @@ import Grid from "@mui/material/Grid2";
 import config from "../../../config.json";
 import ReactGooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import { useState } from "react";
-import { IconButton } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import { CloseOutlined } from "@mui/icons-material";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { useFormContext } from 'react-hook-form';
@@ -61,7 +61,6 @@ const GoogleMapPlacePicker = ({ onClose }: GooglePlacePickerProps) => {
             address?.forEach((component) => {
                 fullAddress.push(component.long_name);
                 const types = component.types;
-
                 if (types.includes('administrative_area_level_1')) {
                     state = component.long_name;
                     setValue('state', state);
@@ -70,6 +69,9 @@ const GoogleMapPlacePicker = ({ onClose }: GooglePlacePickerProps) => {
                 if (types.includes('administrative_area_level_3')) {
                     district = component.long_name;
                     setValue('city', district);
+                }else if(types.includes('locality')){
+                    district=component.long_name;
+                    setValue('city',district);
                 }
 
                 if (types.includes('country')) {
@@ -95,12 +97,18 @@ const GoogleMapPlacePicker = ({ onClose }: GooglePlacePickerProps) => {
     };
   return (
     <Grid container className="create-event-map-drawer" spacing={2}>
-      <Grid container size={12} justifyContent={"flex-end"}>
+      <Grid container size={12} justifyContent={"space-between"}>
+      <Typography
+            variant="h3"
+            className="event-detail-event-info-card-title"
+          >
+            Choose Location
+          </Typography>
         <IconButton onClick={onClose}>
           <CloseOutlined />
         </IconButton>
       </Grid>
-      <Grid size={12} justifyContent={"center"} m={1}>
+      <Grid size={12} justifyContent={"center"} >
         {/* Location choose google componet */}
         <ReactGooglePlacesAutocomplete
           apiKey={GOOGLE_API_KEY}
@@ -111,7 +119,7 @@ const GoogleMapPlacePicker = ({ onClose }: GooglePlacePickerProps) => {
           }}
         />
       </Grid>
-      <Grid container size={12} spacing={2} m={1} justifyContent={"flex-end"}>
+      <Grid container size={12} spacing={2} justifyContent={"flex-end"}>
       <CustomButton
         className="create-event-choose-map"
         label="Submit"
