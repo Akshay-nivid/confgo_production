@@ -162,6 +162,7 @@ const UserOtp = () => {
         body: body
         , successCB: successCB,
         errorCB: (error: any) => {
+          Logger.error("Error in validate otp", error);
           setDataById("snackBarInfo", {
           open: true,
           autoHideDuration: 2000,
