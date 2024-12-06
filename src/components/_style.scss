@@ -301,10 +301,15 @@
   border-radius: 0.8rem !important;
 
   .MuiDataGrid-cell{
+    font-size: $p2 !important;
   border-top: 0.083rem solid $clr_light_border_grey;
   }
   .MuiDataGrid-row--borderBottom .MuiDataGrid-columnHeader{
     border-bottom: none;
+  }
+  .MuiDataGrid-columnHeader .MuiDataGrid-columnHeaderTitleContainer{
+    color: $clr_black !important;
+    font-size: $p2;
   }
 }
 
