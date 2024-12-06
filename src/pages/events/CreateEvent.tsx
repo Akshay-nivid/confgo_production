@@ -44,6 +44,8 @@ type FormData = {
   amount: string;
   specialty: string;
   assetId:number;
+  phone: string;
+  email: string;
 };
 
 interface CustomFile {
@@ -279,6 +281,26 @@ const stateOptions = (countryCode:any) =>
                       rules={{ required: true }}
                     />
                     /> */}
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <CustomTextField
+                      className="add-program-text-Field"
+                      placeholder="Phone"
+                      control={control}
+                      name="phone"
+                      type="phone"
+                      rules={{ required: 'Phone is required' }}
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <CustomTextField
+                      className="add-program-text-Field"
+                      placeholder="Email"
+                      control={control}
+                      name="email"
+                      type="email"
+                      rules={{ required: 'Email is required' }}
+                    />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField
