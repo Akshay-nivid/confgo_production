@@ -17,6 +17,7 @@ import config from "../../../config.json";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import GoogleMapPlacePicker from "./GoogleMapPlacePicker";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import { validateEmail, validatePhoneNumber } from "@/Utils/Validation";
 
 type EventProps = {
   formSubmit: boolean;
@@ -45,6 +46,8 @@ type FormData = {
   amount: string;
   specialty: string;
   assetId:number;
+  phone: string;
+  email: string;
 };
 
 interface CustomFile {
@@ -259,6 +262,32 @@ const CreateEvent: React.FC<EventProps> =
                       rules={{ required: true }}
                     />
                     /> */}
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <CustomTextField
+                      className="add-program-text-Field"
+                      placeholder="Phone"
+                      control={control}
+                      name="phone"
+                      type="phone"
+                      rules={{
+                        required: 'Phone is required',
+                        pattern: validatePhoneNumber({})
+                      }}
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <CustomTextField
+                      className="add-program-text-Field"
+                      placeholder="Email"
+                      control={control}
+                      name="email"
+                      type="email"
+                      rules={{
+                        required: 'Email is required',
+                        pattern: validateEmail({})
+                      }}
+                    />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField
