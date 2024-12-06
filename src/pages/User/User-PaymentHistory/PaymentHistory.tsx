@@ -19,15 +19,15 @@ const PaymentHistory: React.FC = React.memo(() => {
    *  * `columns` defines the structure of each column in the DataGridList component.
    */
   const columns = [
-    { type: "default", field: "name", headerName: "Event Name", width: 200 },
+    { type: "default", field: "name", headerName: "Event Name", width: 250 },
     {
       type: "dateField",
       field: "Date",
       headerName: "Date",
-      width: 190,
+      width: 180,
       dateFormat: "DD/MM/YYYY",
     },
-    { type: "default", field: "amount", headerName: "Amount", width: 150 },
+    { type: "default", field: "amount", headerName: "Amount", width: 130 },
     {
       type: "status",
       field: "status",
@@ -103,6 +103,7 @@ const PaymentHistory: React.FC = React.memo(() => {
       ) : (
         <Grid  size={12} justifyContent="center" className="paymentlist">
           <DataGridList
+            isTargetGrid={true}
             noRecordIcon={<NoPayment className="paymentlist-no-payment-icon"/>}
             noRecordSubtitle="It looks like you haven’t made any payments. Once you start registering for events, your payment history will appear here."
             dataTransformer={transformData}
