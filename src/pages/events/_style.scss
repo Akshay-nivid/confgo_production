@@ -116,7 +116,9 @@
         font-size: $h3 !important;
     }
     &-map-drawer{
-            width: 30rem !important;
+        padding-top: 1rem;
+        margin: 0.5rem;
+        width: 35rem !important;
     }
     &-choose-map{
         background-color: $clr_green !important;
