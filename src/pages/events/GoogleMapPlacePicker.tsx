@@ -82,12 +82,12 @@ const GoogleMapPlacePicker = ({ onClose }: GooglePlacePickerProps) => {
                     setValue('postalCode', postalCode);
                 }
             });
-
+            const fullAddressString = fullAddress.join(' '); 
             const formattedPlaceName = encodeURIComponent(placeName ?? "");
             const formattedLatLng = `${latLng.lat},${latLng.lng}`;
             const mapLink = `https://www.google.com/maps?q=${formattedPlaceName}&@${formattedLatLng}z`;
             setValue('mapUrl', mapLink);
-            setValue('address', fullAddress);
+            setValue('address', fullAddressString);
             onClose();
         } catch (e) {
             Logger.error('GoogleMapPlacePicker.tsx');
