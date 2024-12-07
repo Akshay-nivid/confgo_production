@@ -161,7 +161,7 @@ const SelectedPrograms = () => {
     }
 
     POST({
-      url: "order", id: "order", body: body, successCB: (data) => {
+      url: "order", id: "order", body: body, successCB: () => {
 
 
         GET({

@@ -163,7 +163,6 @@ const PayPalParticipantButton: React.FC = () => {
 
     const orderLoading = useStore((state: any) => state?.compData?.["orderUpdate"]?.[`order/update/${orderData.id}`]?.loading) ?? false
 
-    const userPaymentLoading = useStore((state: any) => state?.compData?.["userPaymentLoading"]?.value) ?? false
 
     // const paypalLoading = useStore((state: any) => state?.compData?.["paypalLoading"]?.value) ?? false
 
@@ -191,31 +190,31 @@ const PayPalParticipantButton: React.FC = () => {
      * @param {} 
      * @returns 
      */
-    function updateForm() {
-        PUT({
+    // function updateForm() {
+    //     PUT({
 
-            url: "registrationRecord/participant/1",
-            id: "participant",
+    //         url: "registrationRecord/participant/1",
+    //         id: "participant",
 
-            body: {
-                "participantId": 1,
-                "eventId": eventId
-            },
+    //         body: {
+    //             "participantId": 1,
+    //             "eventId": eventId
+    //         },
 
-            successCB: () => {
+    //         successCB: () => {
 
-                setDataById('paypalLoading', { value: false })
-                navigate(routes.userHome())
+    //             setDataById('paypalLoading', { value: false })
+    //             navigate(routes.userHome())
 
-            },
+    //         },
 
-            errorCB() {
-                setDataById('paypalLoading', { value: false })
+    //         errorCB() {
+    //             setDataById('paypalLoading', { value: false })
 
 
-            },
-        })
-    }
+    //         },
+    //     })
+    // }
 
     /**
      * Updates the order record in the database with the latest status from paypal
