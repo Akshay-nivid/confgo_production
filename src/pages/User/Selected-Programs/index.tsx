@@ -44,7 +44,7 @@ const SelectedPrograms = () => {
 
   const addToCartLoading = useStore((state: IStoreState) => state?.compData?.["addToCart"]?.[`cart/${cartId}`]?.loading)
 
-  const participantTypeId = useStore((state: IStoreState) => state?.compData?.["participantTypeId"]?.value) ?? null;
+  const participantTypeId = useStore((state: IStoreState) => state?.compData?.["participantTypeId"]?.value) ?? '';
 
   const finalPrice = useStore((state: IStoreState) => state?.compData?.["finalPrice"]?.value) ?? null
 
