@@ -29,8 +29,8 @@ const FeatureCard = ({
   const navigate = useNavigate();
 
   return (
-    <Grid container className={clsx("feature-card", isReversed ? "reversed" : "")}>
-      <Grid size={{xs:12,md:6}} className={clsx("feature-card__image-container ", className)}>
+    <Grid container columnSpacing={4} className={clsx("feature-card", isReversed ? "reversed" : "")}>
+      <Grid size={{xs:12,md:6}} marginBottom={{xs:2}} className={clsx("feature-card__image-container ", className)}>
       </Grid>
       <Grid size={{xs:12,md:6}} className="feature-card__content">
         <Box className="feature-card__header">
@@ -42,9 +42,9 @@ const FeatureCard = ({
           </Typography>
         </Box>
         <Box className="feature-card__features">
-          <Grid container className="feature-card__features-grid">
+          <Grid container rowGap={{xs:4}}  className="feature-card__features-grid">
             {features?.map((feature)=>(
-              <Grid key={feature?.key} className="feature-card__feature">
+              <Grid size={{xs:12,md:6}} key={feature?.key} className="feature-card__feature">
               {feature?.icon}
               <Box className="feature-card__feature-content">
                 <Typography className="feature-card__feature-title">

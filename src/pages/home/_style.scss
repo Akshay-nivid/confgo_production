@@ -77,6 +77,10 @@
   }
   .confrence-management-effortless-content {
     padding: 5.833rem 5.083rem;
+    @media screen and (max-width: 900px) {
+    padding:  5.833rem 5.083rem 0  5.833rem !important;
+      
+    }
     .planning-title {
       margin-bottom: 1.33rem;
       line-height: 3rem;
@@ -108,6 +112,14 @@
   .export-plan-image {
     height: 100%;
     width: 100%;
+    
+    @media screen and (max-width: 900px) {
+      object-fit: contain;
+      padding-inline: 1rem; 
+      // border-top-left-radius: 2rem;
+      border-top-right-radius: 4rem;
+
+    }
   }
   .export-plan-grid-right {
     display: flex;
@@ -239,6 +251,9 @@
       padding-left: 5rem;
       padding-right: 0;
       background-position: right;
+      @media screen and (max-width: 600px) {
+        background-position: left;
+      }
     }
   }
 
@@ -444,11 +459,19 @@
 
 .footer {
   background-color: $clr_black;
-  padding-block: 3.33rem;
+  padding-block: 3.33rem !important;
 
+  .divider{
+    height: 0.083rem;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left:0;
+    background-color: $clr_divider !important;
+  }
   .footer-content {
     width: 100%;
-    border-bottom: 0.1rem solid $clr_gray_medium;
+    // border-bottom: 0.1rem solid $clr_gray_medium;
   }
 
   .footer-title {

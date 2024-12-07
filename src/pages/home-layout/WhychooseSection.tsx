@@ -40,9 +40,9 @@ const WhychooseSection = () => {
             events.
           </Typography>
         </Grid>
-        <Grid size={12} container columnSpacing={5}>
+        <Grid rowSpacing={4} size={12} container columnSpacing={5}>
           {info.map((item) => (
-            <Grid size={{ xs: 12, sm: 3 }} key={item.title}>
+            <Grid size={{ xs: 12,sm:6, md: 3 }} key={item.title}>
               <ServiceCard data={item} />
             </Grid>
           ))}

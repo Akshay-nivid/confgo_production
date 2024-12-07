@@ -12,18 +12,18 @@ const Footer = () => {
   const isMobileScreen = useIsMobileScreen();
 
   return (
-    <Grid container justifyContent={'center'} className="footer">
-      <Grid container size={{ xs: 12, sm: 10 }}>
-        <Box className="footer-content">
+    <Grid container padding={0} justifyContent={'center'} className="footer">
+      <Grid container size={{ xs: 12,md:10 }} position={'relative'}>
+        <Box paddingBlock={{ xs: 3.5 }} paddingInline={{ xs: 1.6 }} className="footer-content">
           <Grid container>
-            <Grid size={12}>
+            <Grid size={{xs:12,sm:10}} marginInline={'auto'}>
               <Typography className="footer-title">
                 Do you have{!isMobileScreen && <br />} any questions?
               </Typography>
-              <Grid container size={12}>
-                <Grid container size={{ xs: 12, sm: 6 }}>
+              <Grid columnSpacing={5} container size={12}>
+                <Grid container marginBottom={{ xs: 3.1 }} size={{ xs: 12, sm: 6 }}>
                   <Typography className="footer-subtitle">
-                    Feel free to send us your questions or request a free { !isMobileScreen && <br />}
+                    Feel free to send us your questions or request a free {!isMobileScreen && <br />}
                     consultation.
                   </Typography>
                 </Grid>
@@ -37,10 +37,13 @@ const Footer = () => {
                 Send A Message
               </Button>
             </Grid>
+
           </Grid>
+
         </Box>
+        <Grid className="divider"></Grid>
       </Grid>
-      <Grid size={12}>
+      <Grid paddingInline={1.7} size={12}>
         <Box className="footer-links-section">
           <Grid container justifyContent={'center'}>
             <Grid container size={{ xs: 12, sm: 10 }}>
@@ -105,10 +108,10 @@ const Footer = () => {
                     </Grid>}
                   </Grid>
                   <Grid container justifyContent={isMobileScreen ? 'center' : 'flex-end'} alignItems={isMobileScreen ? 'center' : 'flex-end'} flexDirection={'column'} size={{ xs: 12, sm: 4 }}>
-                    <AppLogo className="footer-logo"/>
+                    <AppLogo className="footer-logo" />
                     <Typography className="footer-description">
                       Don't know where to get your car tinted?{!isMobileScreen && <br />}Logoipsum — {isMobileScreen && <br />}
-                       practical, safe, and affordable.
+                      practical, safe, and affordable.
                     </Typography>
                     <Typography className="footer-copyright">
                       © 2024 — Copyright
