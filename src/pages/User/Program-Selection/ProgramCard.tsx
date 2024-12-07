@@ -6,14 +6,15 @@ import { Backdrop, Box, Chip, CircularProgress, Typography } from "@mui/material
 import moment from "moment";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
-import { formatDate, handleGroupData, isAnyProgramSelectedForDate, processFormData, toggleProgramCheckboxesByDate } from "./programsHandlers";
+import { formatDate, handleClickBackButton, handleGroupData, isAnyProgramSelectedForDate, processFormData, toggleProgramCheckboxesByDate } from "./programsHandlers";
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import { getUserToken } from "@/Utils/CommonBaseClass";
 import clsx from "clsx";
-
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 export interface IProgram {
   id: number;
   parentId: number;
@@ -66,9 +67,13 @@ const ProgramCard = () => {
 
   const eventDataLoading = useStore((state: any) => state?.compData?.["eventData"]?.[`event/${eventId}`]?.loading) ?? false
 
-  const slugName = useStore((state: any) => state?.compData?.["slugName"]?.slugName) || '';
+  const slugName = useStore((state: any) => state?.compData?.["slugName"]?.value) || '';
 
   const participantTypeId = useStore((state: any) => state?.compData?.["participantTypeId"]?.value) ?? null
+
+  const templateId = useStore((state: any) => state.compData?.["templateId"]?.id)
+
+  const classNamePrefix = `program-card-form-${templateId}`
 
   /**
     * Method used to call event details Api
@@ -82,6 +87,7 @@ const ProgramCard = () => {
         if (slugName) {
 
           navigate(routes.participantHome(slugName));
+
           return
 
         }
@@ -116,6 +122,27 @@ const ProgramCard = () => {
 
 
 
+
+/**
+ * API call to get payment details for an event
+ * @param {number} eventId - event id
+ * @returns {void}
+ */
+  const getPaymentDetails = () => {
+
+    POST({
+      url: 'participant/payment/details',
+      id: 'paymentDetails',
+      body: { eventId: eventId },
+      successCB: () => {
+
+       
+        
+    }})
+
+  }
+
+
   /**
    * method to handle submission of form, triggers add selected properties to cart api 
    * @param formData 
@@ -134,6 +161,7 @@ const ProgramCard = () => {
       return
     }
 
+    getPaymentDetails()  // to check if user already registered for this event
 
     setDataById('defaultProgramData', { formData: formData }) // storing form data for setting default values in next screen 
 
@@ -194,6 +222,8 @@ const ProgramCard = () => {
                 calculateTotal: true
               })
 
+              setDataById("finalPrice", { value: response?.data?.cart?.finalPrice })
+
               setDataById("formatedCartData", { formatedData: formatedData }) // storing data after formatting for mapping in ui
 
               navigate(routes.selectedPrograms());
@@ -250,7 +280,7 @@ const ProgramCard = () => {
 
               setDataById("formatedCartData", { formatedData: formatedData })
 
-              navigate(routes.selectedPrograms());
+              navigate(routes.selectedPrograms(),{replace: true});
 
             },
             errorCB: (error: any) => {
@@ -298,6 +328,8 @@ const ProgramCard = () => {
     const inputKey = `${date}-addonProp-${id}`
 
 
+
+
     if (inputKey in formData) {
       const updateFormData = { ...formData, [inputKey]: undefined }
       reset(updateFormData)
@@ -337,10 +369,17 @@ const ProgramCard = () => {
     )
   }
 
+  if (!eventId) {
+    
+    if (slugName) {
+     return <Navigate to={routes.eventExternalLink(slugName)} />
+    }
+  return <Navigate to={routes.userLogin()} />
+  }
 
   return (
 
-    <form className="program-card-form" onSubmit={handleSubmit(handleClickNextButton)}>
+    <form className={`program-card-form ${classNamePrefix}`} onSubmit={handleSubmit(handleClickNextButton)}>
       <Box className="space-y-10">
 
         {eventData?.programs && eventData?.programs && Object.entries(eventData.programs).map(([date, programs]: any, index) => (
@@ -394,7 +433,7 @@ const ProgramCard = () => {
                         },
                       ]}
                     />
-                    <Typography className="add-text">{watch(`${formatDate(date)}-programs`)?.includes(program?.id) ? 'Remove' : 'Add'}</Typography>
+                    <Typography className="add-text">{watch(`${formatDate(date)}-programs`)?.includes(program?.id) ? <> Remove <DeleteIcon/> </> :<> Add <AddIcon/> </>}</Typography>
 
                   </Grid>
 
@@ -492,7 +531,7 @@ const ProgramCard = () => {
                               ]}
                             />
 
-                            <Typography className="add-text">{watch(`${formatDate(date)}-addon-${addon?.id}`)?.includes(addon?.id) ? 'Remove' : 'Add'}</Typography>
+                            <Typography className="add-text">{watch(`${formatDate(date)}-addon-${addon?.id}`)?.includes(addon?.id) ? <> Remove <DeleteIcon/> </> :<> Add <AddIcon/> </>}</Typography>
 
                           </Grid>
                         </Box>
@@ -510,7 +549,7 @@ const ProgramCard = () => {
           variant="outlined"
           className="back-button"
           label="Back"
-          onClick={() => navigate(-1)}
+          onClick={() =>handleClickBackButton(slugName,navigate)}
         />
         <CustomButton isLoading={addToCartLoading} className={"next-button"} label="Next" type="submit" />
       </Box>

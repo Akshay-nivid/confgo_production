@@ -39,7 +39,7 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
      * Function navigates to the login page and stores the previous route in the store
      */
     const  loginFn= () => {
-        setDataById("previousRoute", { url: location });
+        setDataById("previousRoute", { url: location.pathname });
 
        navigate(routes.userLogin());
     }

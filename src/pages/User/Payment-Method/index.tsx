@@ -18,20 +18,22 @@ import {
 } from "@/assets/svg";
 import { useState } from "react";
 import { ArrowDropDown } from "@mui/icons-material";
-import useStore from "@/Libs/store";
+import useStore, { IStoreState, setDataById } from "@/Libs/store";
 import PayPalParticipantButton from "./PaypalPartcipantComponent";
 import { useNavigate } from "react-router-dom";
+import routes from "@/router/routes";
 
 /**
  * This component renders the payment method page, which displays the programs and their corresponding costs, the food and its corresponding cost, and the total cost of the programs and food. It also displays the different payment methods available to the user.
  * @returns {JSX.Element} The payment method page component.
  */
-
 const PaymentMethod = () => {
-  const [expanded, setExpanded] = useState<string | false>("panel1");
-  const paymentDetails = useStore((state: any) => state?.compData?.["addToCart"])
-  
 
+  const [expanded, setExpanded] = useState<string | false>("panel1");
+
+  const orderData = useStore((state: IStoreState) => state.compData?.order?.order?.data)
+  
+  const previousRoute = useStore((state: IStoreState) => state?.compData?.["previousRoute"]?.url)
 
   const handleChange =
     (panel: string) => (_: React.SyntheticEvent, isExpanded: boolean) => {
@@ -39,6 +41,14 @@ const PaymentMethod = () => {
     };
   
   const navigate = useNavigate()
+
+
+  const handleClickBackButton = () => {
+    
+    setDataById("previousRoute", {url: routes.userPaymentMethod()});
+    navigate(routes.dynamicUserForm());
+   }
+
   return (
     <Grid container className="payment-method">
       <Grid size={12}>
@@ -51,7 +61,7 @@ const PaymentMethod = () => {
           <Box className="payment-bill-details">
             <Box className="payment-bill-item">
               <Typography className="info-text">Programs Total</Typography>
-              <Typography className="info-text">{paymentDetails.cart.data.finalPrice }</Typography>
+              <Typography className="info-text">$ {orderData?.programTotal}</Typography>
             </Box>
             {/* <Box className="payment-bill-item">
               <Typography className="info-text">Food Total</Typography>
@@ -74,7 +84,7 @@ const PaymentMethod = () => {
             <Typography className="grand-total-info-text">
               Grand Total
             </Typography>
-            <Typography className="grand-total-info-text">{paymentDetails.cart.data.finalPrice }</Typography>
+            <Typography className="grand-total-info-text">$ {orderData?.finalPrice}</Typography>
           </Box>
         </Box>
       </Grid>
@@ -266,7 +276,7 @@ const PaymentMethod = () => {
           label="Back"
           variant="text"
           className="back-button"
-          onClick={() =>navigate(-1)}
+          onClick={handleClickBackButton}
         />
       </Grid>
     </Grid>

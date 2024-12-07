@@ -4,6 +4,7 @@ import {  useState } from 'react';
 import SetPasswordComponent from './PasswordFormComponent';
 import OtpComponent from './OtpFormComponent';
 import { LockIcon, SignUpFlowIcon } from '@/assets/svg';
+import { useIsMobileScreen } from '@/Utils/CommonBaseClass';
 
 /**
  * ui component of set password page
@@ -12,6 +13,8 @@ import { LockIcon, SignUpFlowIcon } from '@/assets/svg';
 
 const SetPassword = () => {
   const [isOtpVerified, setIsOtpVerified] = useState(false);
+
+  const isMobileScreen = useIsMobileScreen();
 
   /**
    * Callback function to update the OTP verification status
@@ -56,9 +59,9 @@ const SetPassword = () => {
 
           </Grid>
         </Grid>
-        <Grid container size={{ xs: 12, md: 5 }} className="grid-right">
-            <SignUpFlowIcon />
-        </Grid>
+        {isMobileScreen ? <></> : <Grid container size={{ xs: 0, md: 5 }} className="grid-right">
+          <SignUpFlowIcon />
+        </Grid>}
       </Grid>
     </Box>
   );

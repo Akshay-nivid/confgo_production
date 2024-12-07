@@ -31,15 +31,24 @@
                     font-weight: $font_semibold;
                     padding-top: 0.6rem;
                 }
+
                 &-logout-button{
-                    color: $clr_white;
                     font-size: $h6;
                     font-weight: $font_semibold;
-                    padding-top: 0.6rem;
-                    padding-right: 1rem;
+                    border:0.083rem solid $clr_charcoal_cyan;
+                    border-radius: 0.83rem;
+                    height: 3.2rem;
+                    width: 8rem;
+                    background-color:  $clr_charcoal_cyan;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: $clr_white;
+                   
                 }
+
                 &-button-border{
-                    border-right: 1px solid $clr_white;
+                    border-right: 0.083rem solid $clr_white;
                     margin: 0.5rem 0 0.5rem 0;
                 }
                 &-book-button{
@@ -59,6 +68,9 @@
                 padding: 1rem;
                 margin: 2rem 6rem 2rem 6rem;
                 border-radius: 1.25rem;
+                z-index: 1;
+                background-color: $clr_white;
+
             }
             &-logo{
                 font-size: $h2;
@@ -80,11 +92,18 @@
             &-logout-button{
                 font-size: $h6;
                 font-weight: $font_semibold;
-                padding-top: 0.6rem;
-                padding-right: 1rem;
+                border:0.083rem solid $clr_bright_mint_green;
+                border-radius: 0.83rem;
+                height: 3.2rem;
+                width: 8rem;
+                background-color:  $clr_bright_mint_green;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: $clr_white;
             }
             &-button-border{
-                border-right: 1px solid $clr_black;
+                border-right:0.083rem solid $clr_black;
                 margin: 0.5rem 0 0.5rem 0;
             }
             &-book-button{
@@ -126,14 +145,20 @@
                 padding-top: 0.6rem;
             }
             &-logout-button{
-                color: $clr_white;
                 font-size: $h6;
                 font-weight: $font_semibold;
-                padding-top: 0.6rem;
-                padding-right: 1rem;
+                border:0.083rem solid $clr_white;
+                border-radius: 0.83rem;
+                height: 3.2rem;
+                width: 8rem;
+                background-color:  $clr_white;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: $clr_dark_blue;
             }
             &-button-border{
-                border-right: 1px solid $clr_white;
+                border-right: 0.083rem solid $clr_white;
                 margin: 0.5rem 0 0.5rem 0;
             }
             &-book-button{
@@ -255,7 +280,7 @@
             }
             &-item{
                 padding: 3rem 3rem 3rem 2rem;
-                box-shadow: 0px 4px 12px 0px $clr_light_black_shadow;
+                box-shadow: 0 0.3rem 1rem 0 $clr_light_black_shadow;
                 border-radius: 1rem;
                 svg{
                     width: 2.5rem;
@@ -309,7 +334,7 @@
             }
             &-item{
                 padding: 3rem 3rem 3rem 2rem;
-                box-shadow: 0px 4px 12px 0px $clr_light_black_shadow;
+                box-shadow: 0 0.3rem 1rem 0 $clr_light_black_shadow;
                 border-radius: 1rem;
                 svg{
                     width: 2.5rem;
@@ -502,7 +527,7 @@
             }
             &-item {
                 &-day{
-                    border: 2px solid $clr_charcoal_cyan;
+                    border: 0.167rem solid $clr_charcoal_cyan;
                     border-radius: 0.83rem;
                     padding: 1rem;
                     margin-top: 0.6rem;
@@ -513,7 +538,7 @@
                     }
                 }
                 &-group-container{
-                    border: 0.5px solid $clr_charcoal_cyan;
+                    border: 0.0.417rem solid $clr_charcoal_cyan;
                     width: 90rem;
                     border-radius: 0.83rem;
                     padding: 1rem;
@@ -523,7 +548,7 @@
                     }
                 }
                 &-time-container{
-                    border: 2px solid $clr_black;
+                    border: 0.167rem solid $clr_black;
                     border-radius: 0.83rem;
                     padding: 0.5rem;
                     p{
@@ -553,7 +578,7 @@
             }
             &-item {
                 &-day{
-                    border: 2px solid $clr_charcoal_cyan;
+                    border: 0.167rem solid $clr_charcoal_cyan;
                     border-radius: 0.83rem;
                     padding: 1rem;
                     margin-top: 0.6rem;
@@ -564,7 +589,7 @@
                     }
                 }
                 &-group-container{
-                    border-bottom: 1px solid $clr_charcoal_cyan;
+                    border-bottom: 0.083rem solid $clr_charcoal_cyan;
                     width: 90rem;
                     //border-radius: 0.83rem;
                     padding: 1rem;
@@ -574,7 +599,7 @@
                     }
                 }
                 &-time-container{
-                    //border: 2px solid $clr_black;
+                    //border: 0.167rem solid $clr_black;
                     //border-radius: 0.83rem;
                     padding: 0.5rem;
                     p{
@@ -604,7 +629,7 @@
             }
             &-item {
                 &-day{
-                    border: 2px solid $clr_dark_blue;
+                    border: 0.167rem solid $clr_dark_blue;
                     border-radius: 0.83rem;
                     padding: 1rem;
                     margin-top: 0.6rem;
@@ -615,7 +640,7 @@
                     }
                 }
                 &-group-container{
-                    border: 0.5px solid $clr_dark_blue;
+                    border: 0.0.417rem solid $clr_dark_blue;
                     width: 90rem;
                     border-radius: 0.83rem;
                     padding: 1rem;
@@ -625,7 +650,7 @@
                     }
                 }
                 &-time-container{
-                    border: 2px solid $clr_black;
+                    border: 0.167rem solid $clr_black;
                     border-radius: 0.83rem;
                     padding: 0.5rem;
                     p{
@@ -666,7 +691,7 @@
             }
             &-item-title{
                 padding: 0.5rem 1rem 0.5rem 1rem;
-                border: 1px solid $clr_charcoal_blue;
+                border: 0.083rem solid $clr_charcoal_blue;
                 border-radius: 4.1rem;
                 font-size: $h5 !important;
                 font-weight: $font-semibold !important;
@@ -725,7 +750,7 @@
             }
             &-item-title{
                 padding: 0.5rem 1rem 0.5rem 1rem;
-                border: 1px solid $clr_charcoal_blue;
+                border: 0.083rem solid $clr_charcoal_blue;
                 border-radius: 4.1rem;
                 font-size: $h5 !important;
                 font-weight: $font-semibold !important;
@@ -784,7 +809,7 @@
             }
             &-item-title{
                 padding: 0.5rem 1rem 0.5rem 1rem;
-                border: 1px solid $clr_dark_blue;
+                border: 0.083rem solid $clr_dark_blue;
                 border-radius: 4.1rem;
                 font-size: $h5 !important;
                 font-weight: $font-semibold !important;

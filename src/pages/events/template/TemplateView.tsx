@@ -92,7 +92,7 @@ const navigate = useNavigate();
         id: 'slugEventDetails',
         successCB: (context: any) => {
           setDataById('eventSelected', { id: context?.data?.id });
-          setDataById('slugName', { slugName: slug });
+          setDataById('slugName', { value: slug });
           setDataById('templateId', { id: context?.data?.templateId });
           
         },
