@@ -12,6 +12,7 @@ import { MessageIcon } from '@/assets/svg';
 import { Logger } from '@/Utils/Logger';
 import {useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
+import CustomButton from '@/components/CustomButton/CustomButton';
 
 interface FormData {
     name: string;
@@ -103,23 +104,23 @@ const Contact = () => {
     return (
         <Grid container className='contact-page' size={{ lg: 12 }}   >
             <Grid container className='contact-container ' size={{ lg: 12, xs: 12 }} spacing={0} justifyContent='center' alignItems='center' >
-                <Grid className='contact-header-content'>
+                <Grid className='contact-header-content' paddingInline={2}>
                     <Typography className='contact-header-title'>Contact Our Team</Typography>
                     <Typography className='contact-header-description'>Everything you might need and then some more in an accessible and intuitive package.</Typography>
                 </Grid>
             </Grid>
             <Grid container className='contact-content' size={12} spacing={2} >
                 <Grid container className='contact-content-wrapper' size={{ lg: 12, xs: 12 }} spacing={3} justifyContent='center' >
-                    <Grid container size={{ lg: 4, xs: 10 }} className='contact-info' sx={{ order: { xs: 2, lg: 1 } }}>
+                    <Grid container marginInline={1.6} size={{ lg: 4, xs: 12,sm:10 }} className='contact-info' sx={{ order: { xs: 2, lg: 1 } }}>
                         <Box>
-                            <Grid container size={{ lg: 12, xs: 12 }} spacing={2} >
+                            <Grid container size={{ xs: 12,sm:10,lg: 12 }} paddingBlock={3.5} paddingInline={2.5} spacing={2.5} >
                                 <Grid size={{ lg: 10, xs: 12 }} className='contact-info_header'>
                                     <Typography className='contact-info_title'>Get in Touch </Typography>
-                                    <Typography className='contact-info_description'>Everything you might need and then some more in an accessible and intuitive package.</Typography>
+                                    {/* <Typography className='contact-info_description'>Everything you might need and then some more in an accessible and intuitive package.</Typography> */}
                                 </Grid ><Box />
-                                <Grid size={{ lg: 6, xs: 12 }} className='contact-info_details'>
+                                <Grid size={{ lg: 6, xs: 12 }} display={'flex'} flexDirection={'column'} rowGap={4.2} className='contact-info_details'>
                                     {boxArray.map((item) => (
-                                        <Grid key={item.id} container className='contact-info_item'>
+                                        <Grid key={item.id} container columnGap={1.6} className='contact-info_item'>
                                             <Grid size={{ lg: 3 }} className='contact-info_icon'>
                                                 {item.icon}
                                             </Grid>
@@ -133,8 +134,8 @@ const Contact = () => {
                             </Grid>
                         </Box>
                     </Grid>
-                    <Grid container size={{ lg: 4, xs: 9.5 }} spacing={0} className='contact-form' sx={{ order: { xs: 1, lg: 2 } }}  >
-                        <form noValidate onSubmit={handleSubmit(onSubmit)} >
+                    <Grid container size={{ lg: 4, xs: 12,sm:10 }} paddingInline={1.6} spacing={0} className='contact-form' sx={{ order: { xs: 1, lg: 2 } }}  >
+                        <form className='w-full' noValidate onSubmit={handleSubmit(onSubmit)} >
                             <Grid container size={{ lg: 12, xs: 12 }} spacing={3} justifyContent='center' alignItems='center'>
                                 <Grid size={{ lg: 6, xs: 12 }} >
                                     <CustomTextField
@@ -218,8 +219,8 @@ const Contact = () => {
                                         </Typography>
                                     )}
                                     </Grid>
-                                <Grid size={{ lg: 12, xs: 12 }} >
-                                    <Button fullWidth type='submit' className='contact-form-submit-button' disabled={recapcha}>Submit</Button>
+                                <Grid  size={{ lg: 12, xs: 12 }} >
+                                    <CustomButton size='large' fullWidth type='submit' className='contact-form-submit-button' disabled={recapcha} label='Submit'></CustomButton>
                                 </Grid>
                             </Grid>
                         </form>
