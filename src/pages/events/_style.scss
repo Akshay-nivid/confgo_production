@@ -1130,9 +1130,48 @@
         box-shadow: none !important;
         font-weight: $font_normal !important;
     }
+    &-filter-submit-btn {
+        max-height: 4rem;
+        background-color: $clr_green !important;
+        color: $clr_white !important;
+        text-transform: none !important;
+        box-shadow: none !important;
+        font-size: $p2 !important;
+        font-weight: $font_normal !important;
+      }
     &-no-events-icon {
       height: 13.83rem;
       width: 13.83rem;
+  }
+  
+  &-filter-card-template {
+    padding: 0.2rem;
+    background-color: $clr_gray_very_light;
+    text-align: center;
+    border-radius: 5px;
+    button {
+        padding: 0.3rem;
+        color: $clr_gray_dark;
+        text-transform: none;
+        font-weight: $font_bold !important;
+        font-size:small;
+    }
+  }
+  &-filter-card-template-selected {
+    padding: 0.2rem;
+    border: 0.15rem solid;
+    border-color: $clr_green !important;;
+    background-color: $clr_gray_very_light;
+    text-align: center;
+    border-radius: 5px;
+    
+    button {
+        padding: 0.3rem;
+        color: $clr_green;
+        text-transform: none;
+        font-weight: $font_bold !important;
+        font-size:small;
+    }
   }
 }
 

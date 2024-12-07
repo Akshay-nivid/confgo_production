@@ -242,6 +242,7 @@ const CustomTextField = <T extends FieldValues>({
                 {...field}
                 {...props}
                 name={name}
+                value={value}
                 size={size}
                 error={!!error?.message}
                 id={name}
