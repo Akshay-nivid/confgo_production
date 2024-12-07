@@ -15,7 +15,8 @@ import { EventRegistrationSuccessIcon } from "@/assets/svg";
 import CloseIcon from '@mui/icons-material/Close';
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
-import { IParticipantCoupon } from "@/Libs/type";
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 /**
  * Compoennt used to render selected program
@@ -430,7 +431,7 @@ const SelectedPrograms = () => {
                                   { label: '', value: item?.id },
                                 ]}
                               />
-                              <Typography className="add-text">{watch(`${formatDate(date)}-programs`)?.includes(item?.id) ? 'Remove' : 'Add'}</Typography>
+                              <Typography className="add-text">{watch(`${formatDate(date)}-programs`)?.includes(item?.id) ? <> Remove <DeleteIcon/> </> :<> Add <AddIcon/> </>}</Typography>
 
                             </Grid>
 
@@ -532,7 +533,7 @@ const SelectedPrograms = () => {
                                         },
                                       ]}
                                     />
-                                    <Typography className="add-text">{watch(`${formatDate(date)}-addon-${addon?.id}`)?.includes(addon?.id) ? 'Remove' : 'Add'}</Typography>
+                                    <Typography className="add-text">{watch(`${formatDate(date)}-addon-${addon?.id}`)?.includes(addon?.id) ? <> Remove <DeleteIcon/> </> :<> Add <AddIcon/> </>}</Typography>
 
 
                                   </Grid>

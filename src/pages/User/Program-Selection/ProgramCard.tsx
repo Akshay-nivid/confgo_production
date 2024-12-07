@@ -13,7 +13,8 @@ import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import { getUserToken } from "@/Utils/CommonBaseClass";
 import clsx from "clsx";
-
+import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 export interface IProgram {
   id: number;
   parentId: number;
@@ -432,7 +433,7 @@ const ProgramCard = () => {
                         },
                       ]}
                     />
-                    <Typography className="add-text">{watch(`${formatDate(date)}-programs`)?.includes(program?.id) ? 'Remove' : 'Add'}</Typography>
+                    <Typography className="add-text">{watch(`${formatDate(date)}-programs`)?.includes(program?.id) ? <> Remove <DeleteIcon/> </> :<> Add <AddIcon/> </>}</Typography>
 
                   </Grid>
 
@@ -530,7 +531,7 @@ const ProgramCard = () => {
                               ]}
                             />
 
-                            <Typography className="add-text">{watch(`${formatDate(date)}-addon-${addon?.id}`)?.includes(addon?.id) ? 'Remove' : 'Add'}</Typography>
+                            <Typography className="add-text">{watch(`${formatDate(date)}-addon-${addon?.id}`)?.includes(addon?.id) ? <> Remove <DeleteIcon/> </> :<> Add <AddIcon/> </>}</Typography>
 
                           </Grid>
                         </Box>

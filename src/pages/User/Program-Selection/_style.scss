@@ -258,6 +258,9 @@
     transform: translate(50%, -50%);
     font-size: $p1 !important;
     font-weight: $font-medium !important;
+    display: flex;
+    align-items: center;
+    column-gap: .5rem;
   }
 
   .time-chip {

@@ -30,9 +30,9 @@ const FeatureCard = ({
 
   return (
     <Grid container className={clsx("feature-card", isReversed ? "reversed" : "")}>
-      <Grid size={6} className={clsx("feature-card__image-container ", className)}>
+      <Grid size={{xs:12,md:6}} className={clsx("feature-card__image-container ", className)}>
       </Grid>
-      <Grid size={6} className="feature-card__content">
+      <Grid size={{xs:12,md:6}} className="feature-card__content">
         <Box className="feature-card__header">
           <Typography className="feature-card__title">
             {title}
