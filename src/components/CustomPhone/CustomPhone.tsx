@@ -9,7 +9,15 @@ import {
 import CustomTextField from "../CustomTextfield/CustomTextField";
 import { phoneRules } from "@/Utils/Validation";
 
-
+/**
+ * Interface for representing a country in the CustomPhone component.
+ * This includes the country code, label (name of the country), and its flag.
+ * 
+ * @interface Country
+ * @property {string} countryCode - The phone code of the country (e.g., "+1" for the USA, "+44" for the UK).
+ * @property {string} label - The name of the country (e.g., "United States", "United Kingdom").
+ * @property {string} flag - The flag emoji or image for the country (e.g., 🇺🇸 for the USA, 🇬🇧 for the UK).
+ */
 interface Country {
     countryCode: string;
     label: string;
