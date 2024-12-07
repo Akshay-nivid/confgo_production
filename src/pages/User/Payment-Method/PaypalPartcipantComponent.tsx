@@ -163,6 +163,8 @@ const PayPalParticipantButton: React.FC = () => {
 
     const orderLoading = useStore((state: any) => state?.compData?.["orderUpdate"]?.[`order/update/${orderData.id}`]?.loading) ?? false
 
+    const userPaymentLoading = useStore((state: any) => state?.compData?.["userPaymentLoading"]?.value) ?? false
+
     // const paypalLoading = useStore((state: any) => state?.compData?.["paypalLoading"]?.value) ?? false
 
     useEffect(() => {
@@ -236,12 +238,18 @@ const PayPalParticipantButton: React.FC = () => {
             id: 'orderUpdate',
             successCB: () => {
 
+                setDataById('userPaymentLoading', { value: false }) // set loading to true while making the request
+
                 // 5 - call update form api
-                updateForm()
+                // updateForm()
+
+                navigate(routes.userEventRegistrationCompleted())
 
             },
             errorCB: () => {
-                setDataById('paypalLoading',{value:false})
+                
+                setDataById('userPaymentLoading', { value: false }) // set loading to true while making the request
+
             }
         })
 
@@ -277,14 +285,16 @@ const PayPalParticipantButton: React.FC = () => {
             body: paymentBody,
             successCB: () => {
 
+
                 // 5 - call order update api
                 updateOrderStatus(paypalData)
 
             },
-              errorCB: () => {
-                setDataById('paypalLoading',{value:false})
-                  
-              }
+            errorCB: () => {
+                setDataById('userPaymentLoading', { value: false }) // set loading to true while making the request
+
+
+            }
         })
 
 
@@ -313,7 +323,9 @@ const PayPalParticipantButton: React.FC = () => {
         }
 
 
-         
+        setDataById('userPaymentLoading', { value: true }) // set loading to true while making the request
+
+
 
         const body: IPayment = {
             "paymentMethodId": 1,
@@ -330,8 +342,7 @@ const PayPalParticipantButton: React.FC = () => {
             registrationType: "online",
         }
 
-        setDataById('paypalLoading', { value: true }) // set loading to true while making the request
-        
+
         // 1 - call payment creation api
 
         POST({
@@ -362,15 +373,13 @@ const PayPalParticipantButton: React.FC = () => {
                         },
                         errorCB: () => {
 
-                            setDataById('paypalLoading', { value: false })
+                            setDataById('userPaymentLoading', { value: false }) // set loading to true while making the request
+
                             snackBar({ severity: 'error', message: 'Something went wrong while creating participant. Please try again' })
                         }
                     })
 
                     snackBar({ severity: 'success', message: 'payment successful' })
-
-                    
-
 
                 }
 
@@ -378,7 +387,7 @@ const PayPalParticipantButton: React.FC = () => {
             },
             errorCB: () => {
 
-                setDataById('paypalLoading', { value: false })
+                setDataById('userPaymentLoading', { value: false }) // set loading to true while making the request
 
                 snackBar({ severity: 'error', message: 'Something went wrong while creating payment. Please try again' })
 
@@ -404,7 +413,7 @@ const PayPalParticipantButton: React.FC = () => {
 
 
     /**
-     * Handles the error event of paypal. Shows error message and logs the error in the console.
+     * Handles the error event of paypal. Shows error message .
      * @param data - The error data returned by paypal.
      */
     function handleError() {
@@ -412,6 +421,12 @@ const PayPalParticipantButton: React.FC = () => {
     }
 
 
+
+
+    if (!orderData?.id) {
+        navigate(routes.programSelection())
+        return
+    }
 
     if (paymentLoading || participantLoading || orderLoading) {
         return (

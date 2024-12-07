@@ -83,7 +83,7 @@ const UserLogin = (props: UserProps) => {
         if (success?.data?.userRole?.roleName === "USER") {
           
           if (previousRoute) {
-            navigate(previousRoute.pathname);
+            navigate(previousRoute);
           } else {
             navigate(routes.userHome());
           }

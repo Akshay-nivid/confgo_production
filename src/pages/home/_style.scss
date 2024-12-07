@@ -213,16 +213,25 @@
       background-image: url('/src/assets/png/online-payment.png');
       background-size: contain;
       background-repeat: no-repeat;
+      &.card-1-mobile {
+        height: 33rem;
+      }
     }
     &.card-2 {
       background-image: url('/src/assets/png/unlimited-conference.png');
       background-size: contain;
       background-repeat: no-repeat;
+      &.card-2-mobile {
+        height: 33rem;
+      }
     }
     &.card-3 {
       background-image: url('/src/assets/png/registration-management.png');
       background-size: contain;
       background-repeat: no-repeat;
+      &.card-3-mobile {
+        height: 33rem;
+      }
     }
     .reversed & {
       align-items: flex-start;
