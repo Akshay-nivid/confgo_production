@@ -2,8 +2,8 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import { Avatar, Divider, Menu, MenuItem } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
-import { SettingsIcon, LogoutIcon } from '@/assets/svg';
-import  AppLogo  from '@/assets/svg/app-logo.svg';
+import { SettingsIcon, LogoutIcon, AppThemeLogo } from '@/assets/svg';
+
 import Grid from '@mui/material/Grid2';
 import { resetStore, setDataById } from '@/Libs/store';
 import routes from '@/router/routes';
@@ -49,7 +49,7 @@ export default function LayoutAppbar() {
   return (
     <Grid container className="appbar">
       <Grid size={2} className="appbar-logo-container">
-        <AppLogo className="appbar-logo-container-svg" />
+      <AppThemeLogo className={`appbar-logo-container-svg`} />
       </Grid>
       <Grid size={10}>
         <div className="avatar-group" onClick={handleMenuOpen}>

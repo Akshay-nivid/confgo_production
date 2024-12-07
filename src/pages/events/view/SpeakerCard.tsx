@@ -398,6 +398,7 @@ const SpeakerCard = (_eventData: any) => {
   const handleDrawerClose = () => {
     setAddContributeView(true);
     setNewTypeView(false);
+   reset()
   };
   return (
     <Grid
