@@ -16,6 +16,21 @@ interface Country {
     flag: string;
 }
 
+/**
+ * Interface for the CustomPhone component.
+ * 
+ * @interface CustomPhoneProps
+ * @property {Country[]} countries - List of countries with their respective codes, labels, and flags.
+ * @property {string} selectedCountryCode - The currently selected country code.
+ * @property {(code: string) => void} onCountryChange - Callback function triggered when the country code is changed.
+ * @property {string} phoneNumber - The entered phone number.
+ * @property {(phoneNumber: string) => void} onPhoneNumberChange - Callback function triggered when the phone number is updated.
+ * @property {string} [placeholder] - Placeholder text for the phone number input field (default: "Phone Number").
+ * @property {React.CSSProperties} [style] - Custom CSS styles applied to the component container.
+ * @property {string} [maxWidth] - Maximum width for the component container (default: "500px").
+ * @property {any} [error] - Error object containing validation messages or error details.
+ * @property {any} [control] - React Hook Form control object for managing form state.
+ */
 interface CustomPhoneProps {
     countries: Country[];
     selectedCountryCode: string;
@@ -29,6 +44,23 @@ interface CustomPhoneProps {
     control?: any;
 }
 
+/**
+ * CustomPhone component for rendering a phone input field with a country selector.
+ * 
+ * @param {Object} props - The props object.
+ * @param {Country[]} props.countries - List of countries with their respective codes, labels, and flags.
+ * @param {string} props.selectedCountryCode - The currently selected country code.
+ * @param {(code: string) => void} props.onCountryChange - Callback function triggered when the country code is changed.
+ * @param {string} props.phoneNumber - The entered phone number.
+ * @param {(phoneNumber: string) => void} props.onPhoneNumberChange - Callback function triggered when the phone number is updated.
+ * @param {string} [props.placeholder="Phone Number"] - Placeholder text for the phone number input field.
+ * @param {React.CSSProperties} [props.style={}] - Custom CSS styles applied to the component container.
+ * @param {string} [props.maxWidth="48.25rem"] - Maximum width for the component container.
+ * @param {any} [props.error] - Error object containing validation messages or error details.
+ * @param {any} [props.control] - React Hook Form control object for managing form state.
+ * 
+ * @returns {JSX.Element} The rendered CustomPhone component.
+ */
 const CustomPhone: React.FC<CustomPhoneProps> = ({
     countries,
     selectedCountryCode,
@@ -41,10 +73,20 @@ const CustomPhone: React.FC<CustomPhoneProps> = ({
     error,
     control,
 }) => {
+
+   /**
+   * Handles the change event for the country selector.
+   * 
+   * @param {SelectChangeEvent<string>} event - The change event object from the country selector dropdown.
+   */
     const handleCountryChange = (event: SelectChangeEvent<string>) => {
         onCountryChange(event.target.value);
     };
 
+    /**
+     * Handles the change event for the phone number input.
+     * @param event - {React.ChangeEvent<HTMLInputElement>} event - The change event object from the phone number input field.
+     */
     const handlePhoneChange = (event: any) => {
         onPhoneNumberChange(event.target.value);
     };
@@ -53,16 +95,16 @@ const CustomPhone: React.FC<CustomPhoneProps> = ({
 
     return (
         <>
-           
+
             <Box
                 className="contact-form-phone-container"
                 style={{
                     ...style,
                     maxWidth,
-                    border:borderStyle,
+                    border: borderStyle,
                 }}
             >
-               
+
                 <Box className="contact-form-country-selector">
                     <Select
                         value={selectedCountryCode}
