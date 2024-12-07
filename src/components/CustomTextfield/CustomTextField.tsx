@@ -58,7 +58,6 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   isNumeric?:boolean;
   info?: any;
   infoContent?: any
-  removeBorder?: boolean;
   showError?: boolean;
   shrink?:boolean
 }
@@ -92,7 +91,6 @@ const CustomTextField = <T extends FieldValues>({
   readOnly = false,
   onBlur,
   onClick,
-  removeBorder = false,
   showError = true,
   shrink,
   ...props

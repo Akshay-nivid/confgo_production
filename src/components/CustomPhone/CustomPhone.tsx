@@ -25,7 +25,6 @@ interface CustomPhoneProps {
     placeholder?: string;
     style?: React.CSSProperties;
     maxWidth?: string;
-    removeBorder?: boolean;
     error?: any;
     control?: any;
 }
@@ -38,8 +37,7 @@ const CustomPhone: React.FC<CustomPhoneProps> = ({
     onPhoneNumberChange,
     placeholder = "Phone Number",
     style = {},
-    maxWidth = "500px",
-    removeBorder,
+    maxWidth = "48.25rem",
     error,
     control,
 }) => {
@@ -51,7 +49,7 @@ const CustomPhone: React.FC<CustomPhoneProps> = ({
         onPhoneNumberChange(event.target.value);
     };
 
-    const borderStyle = error?.message ? "1px solid #f1a7b8" : ''
+    const borderStyle = error?.message ? "0.092rem solid #f1a7b8" : ''
 
     return (
         <>
@@ -121,7 +119,6 @@ const CustomPhone: React.FC<CustomPhoneProps> = ({
                     max={10}
                     isNumeric={true}
                     onChange={(e) => handlePhoneChange(e.target.value)}
-                    removeBorder={removeBorder}
                     showError={false}
                     className="no-border"
                 />
