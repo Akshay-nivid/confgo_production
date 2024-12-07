@@ -20,6 +20,7 @@ import config from "../../../../config.json";
 import FileListModal from "@/components/FileUpload/FileListModal";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import GoogleMapPlacePicker from "../GoogleMapPlacePicker";
+import { validateEmail, validatePhoneNumber } from "@/Utils/Validation";
 
 
 const baseUrl = config.api.url;
@@ -85,6 +86,8 @@ const EventInfoCard: React.FC<any> = React.memo(
       setValue("postalCode",eventData?.venue?.postalCode);
       setValue("state",eventData?.venue?.state);
       setValue("mapUrl",eventData?.venue?.mapUrl);
+      setValue("phone",eventData?.eventContacts?.[0]?.phone)
+      setValue("email",eventData?.eventContacts?.[0]?.email)
       setOriginalData(eventData);
     }
   }, [eventData, reset]);
@@ -110,15 +113,15 @@ const EventInfoCard: React.FC<any> = React.memo(
    */
   const onSubmit = async (data: any) => {
     // Format the date and time fields before update request.
-    const excludeKeys = ['slugName','city','address','venue','country','mapUrl','postalCode','state','status','templateId','template','eventPriceTiers','eventProgramSchedules','programs','addons'];
+    const excludeKeys = ['slugName','city','address','venue','country','mapUrl','postalCode','state','status','templateId','template','eventPriceTiers','eventProgramSchedules','programs','addons','eventContacts'];
     const formattedData = {
       //remove unnessary fields
       ...Object.fromEntries(
         Object.entries(data).filter(([key]) => !excludeKeys.includes(key))),
       startTime: formatUTCDateTime(data.startTime),
       endTime: formatUTCDateTime(data.endTime),
-      assetId:selectedFile?.id,
-      venue:{
+      assetId: selectedFile?.id,
+      venue: {
         name: data?.name,
         mapUrl: data?.mapUrl,
         address: data?.address,
@@ -126,8 +129,14 @@ const EventInfoCard: React.FC<any> = React.memo(
         state: data?.state,
         country: data?.country,
         postalCode: data?.postalCode,
+      },
+      contacts: [
+        {
+          phone: data?.phone,
+          email: data?.email
+        }
+      ],
     }
-  }
 
     const response = await apiClient.put(`event/update/${id}`, formattedData);
     const { status, message } = await processAPIResponse(
@@ -324,6 +333,26 @@ const EventInfoCard: React.FC<any> = React.memo(
           </Typography>
         </Grid>
       </Grid>
+      <Grid size={{ xs: 3 }}>
+          <Typography className="event-information-subtitle">
+             Phone
+          </Typography>
+        </Grid>
+        <Grid size={{ xs: 9 }}>
+          <Typography className="event-information-content">
+            {eventData?.eventContacts?.[0]?.phone}
+          </Typography>
+        </Grid>
+        <Grid size={{ xs: 3 }}>
+          <Typography className="event-information-subtitle">
+             Email
+          </Typography>
+        </Grid>
+        <Grid size={{ xs: 9 }}>
+          <Typography className="event-information-content">
+            {eventData?.eventContacts?.[0]?.email}
+          </Typography>
+        </Grid>
       {/* Drawer Component */}
       <CustomDrawer open={isDrawerOpen} type="right">
         <Grid container spacing={2} padding={2} className="event-information-custom-drawer">
@@ -452,6 +481,30 @@ const EventInfoCard: React.FC<any> = React.memo(
                     name="amount"
                     placeholder="Price"
                     control={control}
+                  />
+                </Grid>
+                <Grid size={{ xs: 12 }}>
+                  <CustomTextField
+                    placeholder="Phone"
+                    control={control}
+                    name="phone"
+                    type="phone"
+                    rules={{
+                      required: 'Phone is required',
+                      pattern: validatePhoneNumber({})
+                    }}
+                  />
+                </Grid>
+                <Grid size={{ xs: 12 }}>
+                  <CustomTextField
+                    placeholder="Email"
+                    control={control}
+                    name="email"
+                    type="email"
+                    rules={{
+                      required: 'Email is required',
+                      pattern: validateEmail({})
+                    }}
                   />
                 </Grid>
                 {watch("eventClass") !== "OFFLINE" && (
