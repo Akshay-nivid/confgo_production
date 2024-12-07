@@ -84,7 +84,6 @@ const LoginOrg = () => {
           
         }
       });
-
       // Handle success response
     } catch (error: any) {
       // Handle error response
