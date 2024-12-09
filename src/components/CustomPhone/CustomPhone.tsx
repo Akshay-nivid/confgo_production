@@ -99,17 +99,16 @@ const CustomPhone: React.FC<CustomPhoneProps> = ({
         onPhoneNumberChange(event.target.value);
     };
 
-    const borderStyle = error?.message ? "0.092rem solid #f1a7b8" : ''
+    const errorClass = error?.message ? 'error-border'  : '';
 
     return (
         <>
 
             <Box
-                className="contact-form-phone-container"
+               className={`contact-form-phone-container ${errorClass}`}
                 style={{
                     ...style,
-                    maxWidth,
-                    border: borderStyle,
+                    maxWidth
                 }}
             >
 

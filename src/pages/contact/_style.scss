@@ -145,12 +145,16 @@
                     display: flex;
                     align-items: center;
                     border: 0.0625rem solid $clr_gray_extra_light;
-                    border-radius: 0.25rem;
+                    border-radius: 0.20rem;
                 }
 
                 .contact-form-phone-container:focus-within {
-                    border-color: #CFD8DC;
+                    border-color: 0.09375rem solid $clr_gray_extra_light;;
                     border-width: 0.2rem;
+                }
+
+                .contact-form-phone-container.error-border {
+                    border: 0.078rem solid  $clr_red !important;;
                 }
 
                 .contact-form-country-selector {
