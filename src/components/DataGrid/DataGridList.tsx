@@ -35,13 +35,14 @@ type DataGridListProps = {
     noRecordSubtitle?:string;
     redirectTo?: () => string;
     btnName?: string;
+    isTargetGrid?: boolean;
 };
 
 /**
  * Method used to render listing
  * @returns 
  */
-export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFooterPagination, source, dataTransformer, onRowClick, subNode, data,noRecordIcon,noRecordTitle,noRecordSubtitle,redirectTo,btnName}) => {
+export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFooterPagination, source, dataTransformer, onRowClick, subNode, data,noRecordIcon,noRecordTitle,noRecordSubtitle,redirectTo,btnName,isTargetGrid}) => {
     const setDataById = useStore((state: any) => state.setDataById)
     const dataInfo = useStore((state: any) => state?.compData?.[id]) ?? [];
     const prevPageRef = useRef<any>();
@@ -210,7 +211,7 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
                         count={dataInfo.pagination.totalPages}
                         page={dataInfo.pagination.currentPage}
                         onChange={handlePageChange}
-                        className="pagination"
+                        className={`pagination ${isTargetGrid ? 'blue-theme' : 'green-theme'}`}
                     />
                 </Grid>
             </Grid>
@@ -238,7 +239,7 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
                         onRowClick={onRowClick}
                         paginationMode={'server'}
                         getRowClassName={() => 'custom-row'}
-                        className="custom-data-grid"
+                        className={`custom-data-grid ${isTargetGrid ? 'with-border' : ''}`}
                         hideFooterSelectedRowCount={true}
                         slots={{
                             pagination: CustomPagination, // Use the custom pagination component

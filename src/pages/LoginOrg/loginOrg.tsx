@@ -4,9 +4,10 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import routes from "@/router/routes";
-import useStore from "@/Libs/store";
+import useStore, { POST } from "@/Libs/store";
 import apiClient from "@/Libs/Https/API-client";
 import { SignUpFlowIcon } from "@/assets/svg";
+import { useIsMobileScreen } from "@/Utils/CommonBaseClass";
 
 
 /**
@@ -47,8 +48,8 @@ const LoginOrg = () => {
   const setDataById = useStore((state: any) => state.setDataById);
   const { handleSubmit, control } = useForm<FormData>();
   const navigate = useNavigate();
-  const POST = useStore((state: any) => state.POST);
 
+  const isMobileScreen = useIsMobileScreen()
 
   /**
    * function used to handle form submission
@@ -76,8 +77,8 @@ const LoginOrg = () => {
       const response = await POST({
         url: 'auth/login',
         body,
+        id:'orgLogin',
       });
-
       // Handle success response
       handleLoginSuccess(response?.data);
     } catch (error: any) {
@@ -129,9 +130,11 @@ const LoginOrg = () => {
       // Redirect to the company dashboard
       navigate(routes.dashboard());
     } else if(userRole?.roleName === "USER"){
+      sessionStorage.setItem('isUserLoggedIn', 'false'); 
       //Redirect to user login
       navigate(routes.userLogin());
     } else {
+      sessionStorage.setItem('isUserLoggedIn', 'false'); 
     setDataById("snackBarInfo", {
       open: true,
       autoHideDuration: 2000,
@@ -209,7 +212,7 @@ const LoginOrg = () => {
                     {""}
                     <Link to={routes.register()}> Sign Up </Link>{" "}
                   </span>
-                  Now
+                  now
                 </Typography>
                 <Box className="" onClick={handleClickForgetPassword}>
                   <Grid container size={12} className="forgot-password-link">Forgot Password?</Grid>{" "}
@@ -218,9 +221,9 @@ const LoginOrg = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid container size={{ xs: 12, md: 5 }} className="grid-right">
+       {isMobileScreen ? <></>: <Grid container size={{ xs: 12, md: 5 }} className="grid-right">
           <SignUpFlowIcon />
-        </Grid>
+        </Grid>}
       </Grid>
     </Box>
   );

@@ -2,12 +2,19 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from 'zustand/middleware'
 import apiClient from "./Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
+import {  IParticipantCoupon, IParticipantOrder } from "./type";
 
 /**
 * Define types for the state
 */
 interface CompData {
-    [key: string]: any; // You can specify more precise types based on your use case
+    [key: string]: any;
+
+    couponData?: { ["coupon/applyCoupon"]: IParticipantCoupon };
+    order?: { order: IParticipantOrder };
+    participantTypeId?: { value: number };
+    previousRoute?: { url: string };
+    finalPrice?: { value: number };
 }
 
 type ApiRequestOptions = {
@@ -19,7 +26,7 @@ type ApiRequestOptions = {
 };
 
 
-interface StoreState {
+export interface IStoreState {
     compData: CompData;
     userInfo: any; // Specify the type based on your user info structure
     setDataById: (id: string, data: any) => void;
@@ -53,7 +60,7 @@ const customStorage = {
     removeItem: (name: string) => localStorage.removeItem(name),
 };
 
-const useStore = create<StoreState>()(
+const useStore = create<IStoreState>()(
     persist(
         (set, get) => ({
             compData: {},

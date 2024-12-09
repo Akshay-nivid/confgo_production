@@ -39,7 +39,7 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
      * Function navigates to the login page and stores the previous route in the store
      */
     const  loginFn= () => {
-        setDataById("previousRoute", { url: location });
+        setDataById("previousRoute", { url: location.pathname });
 
        navigate(routes.userLogin());
     }
@@ -68,10 +68,10 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
     return (
         <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}`}>
             <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} alignItems={'center'} className={`${classPrefix}-container`}>
-                <Grid className={`${classPrefix}-logo`}><img
+                <Grid className={`${classPrefix}-logo`}>{(data?.assetId || slugInfo?.assetId)? <img
                                 className={`${classPrefix}-logo-img`}
                                 src={`${baseUrl}asset/${data?.assetId ?? slugInfo?.assetId ?? ''}`}
-                              /></Grid>
+                              />:<Grid></Grid>}</Grid>
                 <Grid container spacing={2}>
                     <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToAbout(e) }}> About </Link></Grid>
                     <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToContributors(e) }}> Contributors </Link></Grid>

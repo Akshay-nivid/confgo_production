@@ -218,7 +218,13 @@ const Events = () => {
       statusId,
       amount: event?.amount || 0,
       eventClass: event?.type,
-      assetId:event?.assetId
+      assetId:event?.assetId,
+      contacts: [
+        {
+          phone: event?.phone,
+          email: event?.email 
+        }
+      ]
     };
 
     // Handle URL and Venue logic
@@ -297,7 +303,7 @@ const Events = () => {
 
   return (
     <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper">
-      <Grid size={{ xs: 12, sm: 12 }} className="custom-stepper-main">
+      <Grid size={{ xs: 12, sm: 12 }} justifyItems={'center'} className="custom-stepper-main">
         <CustomStepper
           steps={steps}
           activeStep={activeStep}
