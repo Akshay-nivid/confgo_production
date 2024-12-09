@@ -33,26 +33,58 @@ interface ISetPasswordForm {
 const UserSetPassword = () => {
   const { control, handleSubmit, watch } = useForm<ISetPasswordForm>();
   const location = useLocation();
-  const {userId,email} = location.state;
-  console.log(userId,email,'userId,email')
   const [token,setToken] = useState<string>('');
   const setDataById = useStore((state: any) => state.setDataById)
-  const navigate=useNavigate();
-  useEffect(()=>{
-    getToken()
-  },[])
+  const navigate = useNavigate();
+  const { userId, email } = location.state || {};
+  
   /**
-   * function to get the token 
+   *  This function will handle the browser back button
+   */ 
+  useEffect(() => {
+     try {
+     const handleBeforeUnload = (event: PopStateEvent) => {
+        event.preventDefault(); 
+        navigate(routes.userLogin());
+     };
+     window.history.pushState(null, '', window.location.href);
+     window.addEventListener('popstate', handleBeforeUnload);
+     return () => {
+      window.removeEventListener('popstate', handleBeforeUnload);
+     };
+     } catch (error) {
+        Logger.error('Error in popstate event handler:', error);
+     }
+  },[navigate]); 
+  
+  /**
+   *fetch a token for user registration.
+   */
+  useEffect(() => {
+    if (!userId || !email) {
+      navigate(routes.userLogin());
+    } else {
+      getToken();
+    }
+  }, [userId, email, navigate]);  
+
+  /**
+  *Asynchronous function to fetch a token for user registration.
    */
   const getToken = async () => {
     try{
       const response = await apiClient.post('token', {userId,email,type:'USER_REGISTRATION'})
       if(response.data.status === 'success'){
-        console.log(response.data.data.token,'response.data.token')
         setToken(response.data.data.token)
       }
       return response;
     }catch(error){
+        setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "error",
+          message: "",
+        });
       Logger.error('User Set Password Error',error)
     }
  
@@ -83,7 +115,13 @@ const UserSetPassword = () => {
     }
   }
   const handleLogin = async (data:ISetPasswordForm) => {
-    createPassword(data.password);
+    
+    if(data.password===data.confirmPassword){
+      createPassword(data.password);
+    }else{
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 1000, severity: 'error', message:'Passwords do not match' })
+    }
+   
   }
 
   const password = watch('password');
@@ -111,7 +149,7 @@ const UserSetPassword = () => {
         <Box className="form-container">
           <form
             onSubmit={handleSubmit(handleLogin)}
-            noValidate
+          
             className="form"
           >
             <Box
@@ -142,10 +180,7 @@ const UserSetPassword = () => {
                     fieldName: 'Confirm Password',
                   }),
                   validate: (value) =>
-                    validateConfirmPassword({
-                      password: password,
-                      confirmPassword: value,
-                    }),
+                   validateConfirmPassword({password: password,confirmPassword: value}),
                 }}
               />
             </Box>
@@ -162,12 +197,27 @@ const UserSetPassword = () => {
                 className="setpassword__requirement"
               >
                 <CheckIcon
-                  className={clsx('setpassword__check-icon', {
-                    'active': password?.length >= 8,
+                  className={clsx('setpassword__check-icon ', {
+                    'active': REGEX.PASSWORD_REGEX_UPP.test(password),
                   })}
                 />
                 <Typography className="setpassword__requirement-text text-p2 font-400">
-                  Must be at least 8 characters long
+                Must contain one Upper case letter
+                </Typography>
+              </Box>
+              <Box
+                display={'flex'}
+                gap={1}
+                alignItems={'center'}
+                className="setpassword__requirement"
+              >
+                <CheckIcon
+                  className={clsx('setpassword__check-icon', {
+                    'active': password?.length >= 8 && password?.length <= 16,
+                  })}
+                />
+                <Typography className="setpassword__requirement-text text-p2 font-400">
+                Must be between 8 and 16 characters long
                 </Typography>
               </Box>
               <Box

@@ -4,11 +4,10 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import routes from "@/router/routes";
-import useStore from "@/Libs/store";
+import useStore, { POST } from "@/Libs/store";
 import apiClient from "@/Libs/Https/API-client";
-import { useEffect } from "react";
-
-
+import { SignUpFlowIcon } from "@/assets/svg";
+import { useIsMobileScreen } from "@/Utils/CommonBaseClass";
 
 
 /**
@@ -30,6 +29,9 @@ export interface ApiResponse {
       roleName: string;
     };
     subscriptionStatus: string;
+    acceptedTerms:number;
+    companyId: any;
+    phone: string;
   };
 }
 
@@ -44,76 +46,126 @@ const LoginOrg = () => {
     password: string;
   };
   const setDataById = useStore((state: any) => state.setDataById);
-  const details = useStore((state: any) => state?.compData?.['orgDetails']) ?? [];
   const { handleSubmit, control } = useForm<FormData>();
   const navigate = useNavigate();
-  const POST = useStore((state: any) => state.POST);
-  
-  /**
-   * useEffect to check login status of organization
-   */
-  useEffect(()=>{
-    if(!!details?.loggedIn){
-      navigate(routes.dashboard());
-    }
-  },[])
+
+  const isMobileScreen = useIsMobileScreen()
+
   /**
    * function used to handle form submission
    */
     const handleClickForgetPassword=()=>{
-      navigate(routes.forgotPassword())
+      navigate(routes.organisationForgotPassword())
       }
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     LoginOrg(data);
   };
-  /**
-   * function used to login an organization
-   */
-  const LoginOrg = async (loginFields: FormData) => {
-      const body = {
-        username: loginFields.email,
-        password: loginFields.password,
-      };
-      await POST({
-        url: 'auth/login',
-        body: body,
-        successCB: (success: ApiResponse) =>{  
-          if(success?.data?.userRole?.roleName==="COMPANY"){
-            sessionStorage.clear();
-            setDataById('orgDetails', { loggedIn: true });
-            sessionStorage.setItem('token',success.data.token);
-            sessionStorage.setItem('companyUserName',`${success.data.firstName} ${success.data.lastName || ''}` );
-            sessionStorage.setItem('subscriptionStatus',success.data.subscriptionStatus);
-            apiClient.setToken(success.data.token);
-            navigate(routes.dashboard());
-          }
-          else{
-            navigate(routes.userHome());
-          }
-            setDataById("snackBarInfo", {
-              open: true,
-              autoHideDuration: 2000,
-              severity: "success",
-              message: "success",
-            });
-        },
-        errorCB: (error: any) => {
-          setDataById("snackBarInfo", {
-            open: true,
-            autoHideDuration: 2000,
-            severity: "error",
-            message: error.message,
-          })
-        }
-      });
 
-   
+  /**
+ * Handles the login functionality for the organization.
+ * @param loginFields - Form data containing the username (email) and password.
+ */
+  const LoginOrg = async (loginFields: FormData) => {
+    const { email: username, password } = loginFields;
+
+    // Prepare the request body
+    const body = { username, password };
+
+    try {
+      // Send the login request
+      const response = await POST({
+        url: 'auth/login',
+        body,
+        id:'orgLogin',
+      });
+      // Handle success response
+      handleLoginSuccess(response?.data);
+    } catch (error: any) {
+      // Handle error response
+      handleLoginError(error);
+    }
   };
+
+  /**
+   * Processes the successful login response.
+   * @param data - The response data from the API.
+   */
+  const handleLoginSuccess = async (data: ApiResponse['data']) => {
+    const { userRole, token, firstName, lastName, subscriptionStatus, companyId, email, phone,acceptedTerms,id } = data;
+
+    // Clear previous session data
+    sessionStorage.clear();
+
+    // Store common session information
+    sessionStorage.setItem('isUserLoggedIn', 'true');
+    sessionStorage.setItem('userLoggedInType', userRole?.roleName);
+    sessionStorage.setItem('token', token);
+    sessionStorage.setItem('ssoUser', 'false');
+    // Set organization-specific details in global state
+    setDataById('orgDetails', { loggedIn: true });
+
+    // Set the authentication token for API client
+    apiClient.setToken(token);
+
+
+
+    // Check if the user is of type "COMPANY"
+    if (userRole?.roleName === "COMPANY") {
+      // Store specific session details for company users'
+      sessionStorage.setItem('companyUserName', `${firstName} ${lastName || ''}`);
+      sessionStorage.setItem('subscriptionStatus', subscriptionStatus);
+      sessionStorage.setItem('userId',id?.toString());
+      sessionStorage.setItem('acceptedTerms',acceptedTerms.toString());
+      sessionStorage.setItem('companyId', companyId);
+      sessionStorage.setItem('companyEmail', email);
+      sessionStorage.setItem('companyPhone', phone);
+          // Show success notification
+    setDataById("snackBarInfo", {
+      open: true,
+      autoHideDuration: 2000,
+      severity: "success",
+      message: "Login successful",
+    });
+      // Redirect to the company dashboard
+      navigate(routes.dashboard());
+    } else if(userRole?.roleName === "USER"){
+      sessionStorage.setItem('isUserLoggedIn', 'false'); 
+      //Redirect to user login
+      navigate(routes.userLogin());
+    } else {
+      sessionStorage.setItem('isUserLoggedIn', 'false'); 
+    setDataById("snackBarInfo", {
+      open: true,
+      autoHideDuration: 2000,
+      severity: "error",
+      message: "Invalid username or password",
+    });
+    }
+  };
+
+  /**
+   * Processes the login error and displays an appropriate notification.
+   * @param error - The error object returned from the API.
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleLoginError = (error: any) => {
+    // Extract the error message or use a fallback message
+    const errorMessage = error?.message || "An error occurred during login";
+
+    // Display error notification
+    setDataById("snackBarInfo", {
+      open: true,
+      autoHideDuration: 2000,
+      severity: "error",
+      message: errorMessage,
+    });
+  };
+
   return (
     <Box className="login-org-main-container">
       <Grid container className="grid-layout">
-        <Grid size={{ xs: 12, sm: 6 }} className="grid-left">
+        <Grid size={{ xs: 12, sm: 7 }} className="grid-left">
           <Grid className="left-content-wrapper">
             <Grid className="left-inner-content">
               <Grid className="left-header-wrapper">
@@ -160,29 +212,18 @@ const LoginOrg = () => {
                     {""}
                     <Link to={routes.register()}> Sign Up </Link>{" "}
                   </span>
-                  Now
+                  now
                 </Typography>
-                <Box className=""   onClick={handleClickForgetPassword}>
-                  <Grid container   size={12} className="forgot-password-link">Forgot Password?</Grid>{" "}
-                </Box> 
+                <Box className="" onClick={handleClickForgetPassword}>
+                  <Grid container size={12} className="forgot-password-link">Forgot Password?</Grid>{" "}
+                </Box>
               </Grid>
             </Grid>
           </Grid>
         </Grid>
-        <Grid size={{ xs: 12, sm: 6 }} className="grid-right">
-          <Box className="right-image-container">
-            <Typography className="image-content-text">
-              <Typography className="paragraph">
-                {" "}
-                Unlock the Future of Conference{" "}
-              </Typography>
-              <Typography className="paragraph">
-                {" "}
-                Management – Join Us Today!{" "}
-              </Typography>
-            </Typography>
-          </Box>
-        </Grid>
+       {isMobileScreen ? <></>: <Grid container size={{ xs: 12, md: 5 }} className="grid-right">
+          <SignUpFlowIcon />
+        </Grid>}
       </Grid>
     </Box>
   );

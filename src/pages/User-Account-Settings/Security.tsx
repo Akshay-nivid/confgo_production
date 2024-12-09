@@ -10,7 +10,7 @@ import "./accountsetting.scss";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { useNavigate,useLocation } from "react-router-dom";
 import routes from "@/router/routes";
-import useStore from "@/Libs/store";
+import useStore, { setDataById } from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
 import { purposeTypes } from "@/Utils/CommonBaseClass";
 
@@ -18,22 +18,27 @@ export const userType = {
   PARTICIPANT: 'PARTICIPANT',
   ORGANISATION: 'ORGANIZATION'
 }
+interface SecurityProps {
+  passEmail: string; 
+}
 
-const Security:React.FC = React.memo(() => {
+const Security:React.FC<SecurityProps> = React.memo(({ passEmail }) => {
   const POST = useStore((state: any) => state.POST);
 
   const navigate = useNavigate();
   const location = useLocation();
-  const email = location.state?.email;
+  const email = location.state?.email ? location.state?.email :passEmail;
+  const isSsoUser = sessionStorage.getItem("ssoUser") === 'true';
 /**
  *  Initiates the password reset process by sending the user's email to the forgotPassword
  * @param email
 */
   const handlePasswordReset = async () => {
     const body = { username: email, };
-    const successCB = (context: any) => {  
-        navigate(routes.userOtp(), { state: { email, purpose: purposeTypes.RESET_PASSWORD, token: context?.data?.token?.token, userId: context?.data?.token?.userId  } });          
-    };
+    const successCB = (success: any) => {  
+        navigate(routes.userOtp(), { state: { email, purpose: purposeTypes.RESET_PASSWORD, token: success?.data?.token?.token, userId: success?.data?.token?.userId  } });          
+        setDataById("resendOtp",{token: success?.data?.token?.token}); 
+      };
 
     POST({
       url: 'user/forgotPassword', body: body,
@@ -45,15 +50,15 @@ const Security:React.FC = React.memo(() => {
   };
 
   return (
-    <Grid container>
+    <Grid container className="security-container">
       <Grid size={12}>
-        <Typography className="security-title account-title">Security</Typography>
+        <Typography className="security-title account-title account-margin">Security</Typography>
       </Grid>
-
+<Grid size={12} className="security-bottom-border">
       <Grid
         container
         size={10}
-        className="security-text-border"
+        className="security-text-border account-margin"
       >
         <Grid>
           <Typography className="security-text">
@@ -70,29 +75,31 @@ const Security:React.FC = React.memo(() => {
           
         </Grid>
       </Grid>
-
-      <Grid
-        container
-        size={10}
-         className="security-text-border"
-      >
-        <Grid>
-          <Typography className="security-text">
-            Password
-          </Typography>
-          <Typography  className="security-subtext">
-            Set a unique password to protect your account
-          </Typography>
-        </Grid>
-        <Grid display="flex" alignItems="center">
-          <CustomButton
-            className="security-password-reset-btn"
-            label="Reset Password"
-            variant="contained"
-            onClick={handlePasswordReset}
-          />
-        </Grid>
       </Grid>
+      {!isSsoUser && <Grid size={12} className="security-bottom-border">
+        <Grid
+          container
+          size={10}
+          className="security-text-border account-margin"
+        >
+          <Grid>
+            <Typography className="security-text">
+              Password
+            </Typography>
+            <Typography className="security-subtext">
+              Set a unique password to protect your account
+            </Typography>
+          </Grid>
+          <Grid display="flex" alignItems="center">
+            <CustomButton
+              className="security-password-reset-btn"
+              label="Reset Password"
+              variant="contained"
+              onClick={handlePasswordReset}
+            />
+          </Grid>
+        </Grid>
+      </Grid>}
     </Grid>
   );
 });

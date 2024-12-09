@@ -12,7 +12,7 @@ const NoDataDashBoard = () => {
     const navigate = useNavigate();
     const companyUserName = sessionStorage.getItem("companyUserName");
     return (
-        <Grid className="dashboard-empty" container spacing={2} justifyContent={"center"} alignContent={"center"} alignItems={"center"} >
+        <Grid className="dashboard-empty" container spacing={1} justifyContent={"center"} alignContent={"center"} alignItems={"center"} >
             <Grid container>
                 <Typography className="dashboard-empty-header"> Welcome {companyUserName}</Typography>
             </Grid>

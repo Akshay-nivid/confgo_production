@@ -11,6 +11,8 @@ import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
 import EditIcon from "@/assets/svg/edit-program-icon.svg";
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import moment from "moment";
+import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
+import { WarningIcon } from "@/assets/svg";
 
 type FormData = {
   programs: {
@@ -22,6 +24,7 @@ type FormData = {
     endTime:string;
     type: string;
     amount: string;
+    // totalSeat:string; //for future development changes
   }[];
   savedPrograms: {
     id?: string;
@@ -33,6 +36,7 @@ type FormData = {
     endTime:string;
     type: string;
     amount: string;
+    // totalSeat:string;
   }[];
 };
 type ProgramProps = {
@@ -52,7 +56,7 @@ const typeArray = [
 
 const AddProgram: React.FC<ProgramProps> = React.memo(
   ({ formSubmit, onSubmitHandler, data, onSaveHandler ,eventData}) => {
-    const { handleSubmit, control, watch, setValue } = useForm<FormData>({
+    const { handleSubmit, control, watch, setValue,setError } = useForm<FormData>({
       defaultValues: {
         programs: [
           {
@@ -63,7 +67,8 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
             startTime: moment(new Date()).format("HH:mm"),
             endTime:moment(new Date()).format("HH:mm"),
             type: "PAID",
-            amount: ""
+            amount: "",
+            // totalSeat:""
           },
         ],
       },
@@ -74,15 +79,16 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
     });
     const [programIndex, setProgramIndex] = useState<any>();
     const [editMode, setEditMode] = useState(false);
+    const [openModal,setOpenModal]=useState(false);
 
     /**
      * Useeffect hook updates the programIndex value based on the savedPrograms dependency
      */
-    useEffect(() => {
+    useEffect(() => { 
       const savedPrograms = watch("savedPrograms");
       setProgramIndex(savedPrograms?.length ? savedPrograms.length - 1 : 0);
-  }, [watch]);
-  
+  }, [watch("savedPrograms")]);
+   
 
     /**
      * Useeffect hook submits the form based on the formSubmit variable
@@ -92,7 +98,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
       if (onSubmitHandler) {
           onSubmitHandler(data?.savedPrograms, "PROGRAM");
       }
-  }, [formSubmit, onSubmitHandler, data?.savedPrograms]);
+  }, [formSubmit]);
   
 
     /**
@@ -104,7 +110,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
           onSubmitHandler(data.savedPrograms, "PROGRAM");
       }
   };
-  
+   
 
     /**
      * Useeffect hook set the field based on the data
@@ -113,7 +119,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
       if (!data) return; // Early exit if data is undefined or null
       setValue("programs", data);
       setValue("savedPrograms", data);
-  }, [data, setValue]);
+  }, [data]);
   
 
     /**
@@ -128,22 +134,31 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
      * @param data : form data
      */
     const onSave: SubmitHandler<FormData> = () => {
-      // Get the current programs data from `watch("programs")`
       const programs = watch("programs");
+      const lastItem = programs[programs.length - 1];
+      const lastIndex = programs.length - 1;
+      const startDate = new Date(lastItem.startDate);
+      const endDate = new Date(lastItem.endDate);
+      if (startDate > endDate) {
+        setError(`programs.${lastIndex}.startDate`, {
+          type: 'manual',
+          message: 'Start date cannot be greater than end date',
+        });
+        return
+      }
       const newPrograms = [...programs];
-
       // Handle saving logic based on `editMode`
       if (!editMode) {
         const newProgram = {
           name: "",
           description: "",
-          startDate:moment().format("YYYY-MM-DD"),
-          endDate:moment().format("YYYY-MM-DD"),
+          startDate:moment(eventData?.startTime).format("YYYY-MM-DD"),
+          endDate:moment(eventData?.startTime).format("YYYY-MM-DD"),
           startTime: moment().format("HH:mm"),
           endTime:moment().format("HH:mm"),
           type: "PAID",
           amount: "",
-          addonId: "",
+          // totalSeat:"",
         };
         newPrograms.push(newProgram);
 
@@ -174,11 +189,20 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
       setProgramIndex(index);
     };
 
+/**
+     * opens the custom action model to show warning
+     */
+    const handleDeleteConfirmbox =(index: number) =>{
+      setOpenModal(true)
+      setProgramIndex(index);
+    }
+    
     /**
      * Method handles the deletion of the program
      * @param index : index of the program to delete
      */
     const handleDelete = (index: number) => {
+      setOpenModal(false)
       setValue("programs", watch("savedPrograms"));
       setProgramIndex(index);
       const programsCopy = [...watch("savedPrograms")];
@@ -197,7 +221,8 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
             startTime: moment(new Date()).format("HH:mm"),
             endTime:moment(new Date()).format("HH:mm"),
             type: "PAID",
-            amount: ""
+            amount: "",
+            // totalSeat:"",
           });
           saveProgram.push({
             name: "",
@@ -207,7 +232,8 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
             startTime: moment(new Date()).format("HH:mm"),
             endTime:moment(new Date()).format("HH:mm"),
             type: "PAID",
-            amount: ""
+            amount: "",
+            // totalSeat:"",
           });
         } else {
           setProgramIndex(programsCopy.length);
@@ -226,10 +252,12 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
             size={{ xs: 12, sm: 12 }}
             direction={"row"}
             className=""
+            gap={1}
           >
             <Grid
-              size={{ xs: 12, sm: 8 }}
+              size={{ xs: 12, sm: 7 }}
               className="add-program-form-container"
+              ml={6}
             >
               <Box className="add-program-form-spacing">
                 <Box className="">
@@ -261,7 +289,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                 spacing={2}
                               >
 
-                                <Grid size={{ xs: 12, sm: 6 }} mb={2}>
+                                <Grid size={{ xs: 12, sm: 12 }}>
                                   <CustomTextField
                                     placeholder="Program Name"
                                     control={control}
@@ -270,47 +298,36 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                     rules={{ required: true }}
                                   />
                                 </Grid>
-                                <Grid size={{ xs: 12, sm: 6 }}>
+                                <Grid size={{ xs: 12, sm: 12 }}>
                                   <CustomTextField
                                     placeholder="Program Description"
                                     control={control}
                                     name={`programs.${index}.description`}
                                     type="text"
                                     rules={{ required: true }}
+                                    multiline={true}
+                                    rows={10}
                                   />
                                 </Grid>
-                                <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
+                                <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"} container spacing={2}>
                                   <Grid size={{xs:12,sm:6}}>
                                   <CustomTextField
                                     placeholder="Start Date"
+                                    className="create-event"
                                     control={control}
                                     name={`programs.${index}.startDate`}
                                     type="date"
                                     defaultValue={moment(eventData?.startTime).format("YYYY-MM-DD")}
-                                    min={moment().format("YYYY-MM-DD")}
-                                    maxDate={eventData?.endTime}
+                                    min={moment(eventData?.startTime).format("YYYY-MM-DD")}
+                                    max={moment(eventData?.endTime).format("YYYY-MM-DD")}
                                     rules={{
-                                      required: true,
-                                      validate: (value) => {
-                                        if (
-                                          typeof value === "string" &&
-                                          value
-                                        ) {
-                                          const selectedDate = new Date(value);
-                                          const now = new Date(eventData?.startTime);
-                                          now.setHours(0, 0, 0, 0);
-                                          return (
-                                            selectedDate >= now ||
-                                            "Start Date cannot be in the past"
-                                          );
-                                        }
-                                        return "Invalid date";
-                                      },
+                                      required: true
                                     }}
                                   />
                                   </Grid>
                                   <Grid size={{xs:12,sm:6}}>
                                    <CustomTextField
+                                    className="create-event"
                                     placeholder="Start Time"
                                     control={control}
                                     name={`programs.${index}.startTime`}
@@ -334,33 +351,19 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                   />
                                   </Grid> */}
                                 </Grid>
-                                <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
+                                <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"} container spacing={2}>
                                   <Grid size={{xs:12,sm:6}}>
                                   <CustomTextField
                                     placeholder="End Date"
+                                    className="create-event"
                                     control={control}
                                     name={`programs.${index}.endDate`}
                                     type="date"
                                     defaultValue={moment(eventData?.startTime).format("YYYY-MM-DD")}
-                                    min={moment().format("YYYY-MM-DD")}
-                                    maxDate={eventData?.endTime}
+                                    min={moment(eventData?.startTime).format("YYYY-MM-DD")}
+                                    max={moment(eventData?.endTime).format("YYYY-MM-DD")}
                                     rules={{
-                                      required: true,
-                                      validate: (value) => {
-                                        if (
-                                          typeof value === "string" &&
-                                          value
-                                        ) {
-                                          const selectedDate = new Date(value);
-                                          const now = new Date();
-                                          now.setHours(0, 0, 0, 0);
-                                          return (
-                                            selectedDate >= now ||
-                                            "Start Date cannot be in the past"
-                                          );
-                                        }
-                                        return "Invalid date";
-                                      },
+                                      required: true
                                     }}
                                   />
                                   </Grid>
@@ -379,6 +382,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                   <Grid size={{xs:12,sm:6}}>
                                     <CustomTextField
                                     placeholder="End Time"
+                                    className="create-event"
                                     control={control}
                                     name={`programs.${index}.endTime`}
                                     type="time"
@@ -444,6 +448,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                 </Grid>
                                 <Grid size={{ xs: 12, sm: 12 }}>
                                   <CustomRadio
+                                    className="add-program-radio-btn"
                                     control={control}
                                     name={`programs.${index}.type`}
                                     label=""
@@ -453,7 +458,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                   />
                                 </Grid>
                                 {watch(`programs.${index}.type`) === "PAID" && (
-                                  <Grid size={{ xs: 12, sm: 12 }}>
+                                  <Grid size={{ xs: 12, sm: 6 }}>
                                     <CustomTextField
                                       placeholder="Price"
                                       control={control}
@@ -462,24 +467,22 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                       rules={{
                                         required: "Price is required",
                                         pattern: {
-                                          value: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
+                                        value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
                                           message:
-                                            "Enter a valid price (up to 2 decimal places)",
-                                        },
-                                        validate: (value) => {
-                                          if (typeof value === "string") {
-                                            const price = parseFloat(value);
-                                            return (
-                                              price >= 0 ||
-                                              "Price cannot be negative"
-                                            );
-                                          }
-                                          return "Invalid price format";
-                                        },
+                                            "Enter a valid price (up to 2 decimal places & Zero not accepted)price up to 1Crore",
+                                        }
                                       }}
                                     />
                                   </Grid>
                                 )}
+                                {/* <Grid size={{ xs: 12, sm: 6 }}>
+                                    <CustomTextField
+                                      placeholder="Total seat"
+                                      control={control}
+                                      name={`programs.${index}.totalSeat`}
+                                      type="number"
+                                    />
+                                  </Grid> */}
                                 <Grid
                                   container
                                   direction={"row"}
@@ -507,6 +510,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                 </Box>
               </Box>
             </Grid>
+            {watch("savedPrograms")?.length > 0 &&
             <Grid
               container
               direction={"column"}
@@ -514,6 +518,17 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
               size={{ xs: 12, sm: 4 }}
               spacing={2}
               key='add-program-display-container'
+            >
+            <Grid>
+              <Typography textAlign={"start"} className="add-program-display-title">
+                Saved Programs
+              </Typography>
+            </Grid>
+            <Grid
+              size={{ xs: 12 }}
+              className="add-program-display-items"
+              alignItems="flex-start"
+              justifyContent="flex-start"
             >
               {watch("savedPrograms")?.map(
                 (field, index) =>
@@ -524,11 +539,12 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                       container
                       alignItems="center"
                       className="add-program-display-item"
+                      alignContent={"center"}
                       size={{ xs: 12 }}
                     >
                       <Grid size={{ xs: 8, sm: 9 }} >
                         <Grid container size={{ xs: 12 }} direction={'column'}>
-                        <Grid size={{ xs: 12 }}><Typography className="text-p2 font-700">{field.name}</Typography> </Grid>
+                        <Grid size={{ xs: 12 }}><Typography className="text-p2 font-700 truncate-text" title={field.name}>{field.name}</Typography> </Grid>
                         <Grid size={{ xs: 12}}><Typography className="truncate-text" title={field.description} >{field.description}</Typography></Grid>    
                         </Grid>
                                             
@@ -538,14 +554,27 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                         <IconButton onClick={() => handleEdit(index)}>
                           <EditIcon />
                         </IconButton>
-                        <IconButton onClick={() => handleDelete(index)}>
+                        <IconButton onClick={() => handleDeleteConfirmbox(index)}>
                           <DeleteIcon />
                         </IconButton>
                       </Grid>
+                      <CustomActionModal
+                        open={openModal}
+                        icon={<WarningIcon className="unpublish-modal-icon" />}
+                        onClose={() => setOpenModal(false)}
+                        cancelLabel="Cancel"
+                        cancelAction={() => setOpenModal(false)}
+                        header="Delete Program?"
+                        subHeader="Are you sure you want to delete this program? This action cannot be undone"
+                        submitAction={() => handleDelete(index)}
+                        submitLabel="Delete"
+                        modalClassName="publish-modal"
+                      />
                     </Grid>
                   )
               )}
-            </Grid>
+							</Grid>
+            </Grid>}
           </Grid>
         </Grid>
       </Box>

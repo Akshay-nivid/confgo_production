@@ -38,8 +38,8 @@ const CreateAccount = React.memo(() => {
     return (
         <Grid>
             <Grid  container spacing={5}>
-                <Grid className="left-content-wrapper">
-                    <Grid className="left-inner-content">
+                <Grid className="signup-content-wrapper">
+                    <Grid className="left-inner-content-add-create">
                         <Grid container spacing={2}>
                         <Grid  alignSelf={"center"}>
                             <Typography className="left-plan-text" textAlign={"center"} variant="h3" lineHeight={2} >Create Your Account</Typography>
@@ -55,6 +55,7 @@ const CreateAccount = React.memo(() => {
                                             <CustomTextField
                                                 defaultValue={form2?.field_values?.fullName}
                                                 placeholder="Full Name"
+                                                label="Full Name *"
                                                 control={control}
                                                 name="fullName"
                                                 type="text"
@@ -71,6 +72,7 @@ const CreateAccount = React.memo(() => {
                                             <CustomTextField
                                                 defaultValue={form2?.field_values?.lastName}
                                                 placeholder="Last Name"
+                                                label="Last Name *"
                                                 control={control}
                                                 name="lastName"
                                                 type="text"
@@ -87,6 +89,7 @@ const CreateAccount = React.memo(() => {
                                             <CustomTextField
                                                 defaultValue={form2?.field_values?.email}
                                                 placeholder="Email"
+                                                label="Email *"
                                                 name="email"
                                                 type="email"
                                                 control={control}
@@ -97,10 +100,13 @@ const CreateAccount = React.memo(() => {
                                             <CustomTextField
                                                 defaultValue={form2?.field_values?.phoneNumber}
                                                 placeholder="Phone Number"
+                                                label="Phone Number *"
                                                 control={control}
                                                 name="phoneNumber"
-                                                type="number"
+                                                type="text"
                                                 rules={phoneRules}
+                                                isNumeric={true}
+                                                max={10}
                                             />
                                         </Grid>
                                     </Grid>
@@ -108,7 +114,7 @@ const CreateAccount = React.memo(() => {
                                 <Grid container mb={2} className="w-full" >
                                     <CustomButton
                                     type="submit"
-                                        className="plan-choose-btn"
+                                        className="add-organization-btn"
                                         label="Proceed to Company Details"
                                         variant="contained"
                                         color="primary"

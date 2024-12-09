@@ -11,13 +11,14 @@ import { useForm } from "react-hook-form";
 import "./accountsetting.scss";
 import { useCallback, useEffect, useState } from "react";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import EditIcon from "@/assets/svg/event-edit.svg";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { CloseOutlined } from "@mui/icons-material";
 import apiClient from "@/Libs/Https/API-client"; 
+import { EditIconRound, Google } from "@/assets/svg";
 import useStore from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
+
 
 
 interface Profile {
@@ -26,9 +27,13 @@ interface Profile {
   email: string;
   phone: string;
   avatarUrl: string;
+  isSsoUser:boolean;
 }
+interface AccountSettingProps {
+  setEmail: (email: string) => void; 
+ }
 
-const AccountSetting:React.FC = React.memo(() => {
+ const AccountSetting:React.FC<AccountSettingProps> = React.memo(({ setEmail }) => {
   const { handleSubmit, control, setValue } = useForm<Profile>();
   const [profileData, setProfileData] = useState<Profile | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -57,6 +62,8 @@ const AccountSetting:React.FC = React.memo(() => {
           phone: data.phone,
           email: data.email,
           avatarUrl: data.avatarUrl || "",
+          isSsoUser:data?.isSsoUser
+
         };
         setProfileData(AccountData);
      
@@ -69,11 +76,12 @@ const AccountSetting:React.FC = React.memo(() => {
         setValue("lastName", data.lastName);
         setValue("email", data.email);
         setValue("phone", data.phone); 
+        setEmail(data.email);
       }
     } catch (error) {
       Logger.error("Error fetching participant data:", error);
     }
-  }, []);
+  }, [setEmail,setValue]);
 
 /**
  * Submit form to update profile data from drawer
@@ -111,14 +119,13 @@ const AccountSetting:React.FC = React.memo(() => {
       Logger.error("Error updating profile data:", error);
     }
   };
-
   return (
-    <Grid container>
-      <Grid size={8} className="account-profile-grid">
-        <Grid size={12} className="account-title-grid">
-          <Typography className="account-title">Personal Information</Typography>
+    <Grid container className="account-main-grid">
+      <Grid size={8} className="account-profile-grid account-margin">
+        <Grid size={12} className="account-title-grid ">
+          <Typography className="account-title accountsettings-margin">Personal Information</Typography>
           <IconButton onClick={openDrawer} className="event-detail-event-info-card-edit-btn">
-            <EditIcon />
+          <EditIconRound/>
           </IconButton>
         </Grid>
         <Grid className="account-profile-image connected">
@@ -129,7 +136,7 @@ const AccountSetting:React.FC = React.memo(() => {
             variant="square"
           />
         </Grid>
-        <Grid container className="account-detail-grid connected">
+        <Grid container className="account-detail-grid connected" size={12}>
           <Grid size={{ xs: 12, sm: 6 }}>
             <Typography className="account-user-detail1">
               First Name
@@ -144,7 +151,7 @@ const AccountSetting:React.FC = React.memo(() => {
               Last Name
             </Typography>
             <Typography variant="body1" className="account-user-detail2">
-              {profileData?.lastName || "N/A"}
+              {profileData?.lastName || ""}
             </Typography>
           </Grid>
 
@@ -153,7 +160,7 @@ const AccountSetting:React.FC = React.memo(() => {
               Email
             </Typography>
             <Typography variant="body1" className="account-user-detail2">
-              {profileData?.email || "N/A"}
+              {profileData?.email || ""}
             </Typography>
           </Grid>
 
@@ -162,30 +169,26 @@ const AccountSetting:React.FC = React.memo(() => {
               Phone Number
             </Typography>
             <Typography variant="body1" className="account-user-detail2">
-              {profileData?.phone || "N/A"}
+              {profileData?.phone || ""}
             </Typography>
           </Grid>
         </Grid>
       </Grid>
 
-      <Grid size={8} className="account-profile-grid connected">
+      {profileData?.isSsoUser&&<Grid size={8} className="account-profile-grid connected connected-grid account-margin connected-margin">
       <Typography className="account-title">Connected accounts</Typography>
       <Grid display="flex" alignItems="center" className="connected">
           <Grid className="account-connected-grid">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/4/4a/Logo_2013_Google.png"
-              alt="Google"
-              className="account-connected-img"
-            />
+           <Google className="account-google"/>
           </Grid>
         </Grid>
-      </Grid>
+      </Grid>}
 
       <CustomDrawer open={isDrawerOpen} type="right">
         <Grid container className="account-drawer">
           <Grid size={12} container className="account-drawer-text">
-            <Typography className="account-title">Personal Information</Typography>
-            <IconButton onClick={closeDrawer}>
+            <Typography className="account-title account-drawer-textfield">Personal Information</Typography >
+            <IconButton onClick={closeDrawer}className="close" >
               <CloseOutlined />
             </IconButton>
           </Grid>
@@ -198,8 +201,8 @@ const AccountSetting:React.FC = React.memo(() => {
                 <Grid size={12}>
                   <CustomTextField name="lastName" placeholder="Last Name" control={control} requiredField className="account-drawer-textfield"/>
                 </Grid>
-                <Grid size={12} container className="account-drawer-btn">
-                  <CustomButton label="Change" variant="contained" type="submit" className="account-submit-btn"/>
+                <Grid size={12} container justifyContent={"flex-end"}>
+                  <CustomButton label="Change" type="submit" className="account-submit-btn" variant="contained"/>
                 </Grid>
               </Grid>
             </form>

@@ -48,6 +48,12 @@ const CustomAutocomplete = <T,>({
       render={({ field, fieldState: { error } }) => (
         <Autocomplete
           {...props}
+          disableClearable
+          sx={{
+            "& .MuiAutocomplete-popupIndicator": {
+             display: "none", // Hides the dropdown arrow
+            },
+          }}
           options={options}
           getOptionLabel={getOptionLabel}
           value={field.value || null}

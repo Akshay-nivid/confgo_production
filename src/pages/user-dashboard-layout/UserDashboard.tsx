@@ -2,17 +2,25 @@
 import Grid from '@mui/material/Grid2';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { CircularProgress, Typography } from "@mui/material";
+import { Box, CircularProgress, Divider, Typography } from "@mui/material";
 import DashboardCardItem from './DashboardCardItem';
-import { CalendarEventIcon, DownloadEventIcon, PaymentDashboardIcon } from '@/assets/svg';
+import {  DownloadCertsIcon, DownloadEventIcon, EventsSvg, HeartEventIcon, PaymentDashboardIcon,  TransactionHistoryIcon } from '@/assets/svg';
 import React from 'react';
-import EventCard from '../User/Components/EventCard';
 import useStore from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
-import NoDataCard from './NoDataCard';
-import routes from '@/router/routes';
 import { CalendarCard } from '../dashboard/CalendarCard';
 import moment from 'moment';
+import CustomButton from '@/components/CustomButton/CustomButton';
+import DashboardEventCards from './DashboardEventCard';
+import NoCalenderData from './NoCalenderData';
+import NoDataCard from './NoDataCard';
+
+export interface CalendarCardData {
+  id: string;
+  startTime: string | null;
+  endTime: string | null;
+  name: string;
+}
 
 /**
  * Used to render user dashboard 
@@ -21,38 +29,39 @@ import moment from 'moment';
 const UserDashboard: React.FC = React.memo(() => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+  const [isCalendarLoading, setIsCalendarLoading] = useState(false);
+  const [isCountLoading, setIsCountLoading] = useState(false);
   const setDataById = useStore((state: any) => state.setDataById);
   const POST = useStore((state: any) => state.POST);
+  const GET = useStore((state: any) => state.GET);
   /**
    * Retrieve userDetails from the store
-   */ 
+   */
   const userDetails = useStore((state) => state?.compData?.["userDetails"]) ?? {};
-  const userLatestEvents = useStore((state: any) => state?.compData?.["userLatestEvents"]?.['event/list']) ?? [];
+  const eventAndUserCount = useStore((state: any) => state?.compData?.["eventAndUserCount"]?.['dashboard/eventAndUserCount']) ?? [];
+  const userCompletedEvents = useStore((state: any) => state?.compData?.["userCompletedEvents"]?.['event/list']) ?? [];
+  const userEvents = useStore((state: any) => state?.compData?.["userLatestEvents"]) ?? [];
+ 
+ 
   /**
   * Useeffect hook handles the api call 
   */
   useEffect(() => {
     fetchUpcomingEvents();
-    fetchLatestEvents();
+    fetchPastEvents();
+    getDashboardCount();
   }, [])
 
+
   /**
-    * fetch upcoming events
+  * fetch upcoming events
   */
-  const fetchUpcomingEvents = async () => {
+  const getDashboardCount =  () => {
     try {
-      setIsLoading(true);
-      await POST({
-        url: "event/list",
-        body: {
-          offset: 0,
-          sortBy: "id",
-          sortDirection: "ASC",
-          filters: {
-            "startTime": new Date()
-          },
-        },
-        id: 'userLatestEvents',
+      setIsCountLoading(true);
+       GET({
+        url: "dashboard/eventAndUserCount",
+        id: 'eventAndUserCount',
         errorCB: (context: any) => {
           setDataById("snackBarInfo", {
             open: true,
@@ -66,26 +75,38 @@ const UserDashboard: React.FC = React.memo(() => {
       Logger.error("An error occurred:", error);
     }
     finally {
-      setIsLoading(false);
+      setIsCountLoading(false);
     }
   }
   /**
-  * fetch completed events /last attended events
+  * fetch upcoming events
   */
-  const fetchLatestEvents = async () => {
+  const fetchUpcomingEvents = async () => {
     try {
-      setIsLoading(true);
+      setIsCalendarLoading(true);
       await POST({
         url: "event/list",
         body: {
+          limit: 1,
           offset: 0,
           sortBy: "id",
-          sortDirection: "DESC",
+          sortDirection: "ASC",
           filters: {
-            "endTime": getPreviousDay(new Date())
+            "startTime": new Date().toISOString().replace("T", " ").split(".")[0]
           },
         },
         id: 'userLatestEvents',
+        successCB: (context:any) => {
+          if (context?.success && context?.data.length > 0) {
+            const event = context.data[0];
+            setDataById("userLatestEvents", {
+              id: event.id,
+              startTime: event.startTime,
+              endTime: event.endTime,
+              name: event.name,
+            });
+          }
+        },
         errorCB: (context: any) => {
           setDataById("snackBarInfo", {
             open: true,
@@ -96,7 +117,42 @@ const UserDashboard: React.FC = React.memo(() => {
         },
       });
     } catch (error) {
-      Logger.error("An error occurred:", error);
+      Logger.error("An error occurred event/list/filter:", error);
+
+    }
+    finally {
+      setIsCalendarLoading(false);
+    }
+  }
+  /**
+  * fetch completed events /last attended events
+  */
+  const fetchPastEvents =  () => {
+    try {
+      setIsLoading(true);
+       POST({
+        url: "event/list",
+        body: {
+          offset: 0,
+          sortBy: "id",
+          sortDirection: "DESC",
+          filters: {
+            "endTime": getPreviousDay(new Date())
+          },
+        },
+        id: 'userCompletedEvents',
+        errorCB: (context: any) => {
+          setDataById("snackBarInfo", {
+            open: true,
+            autoHideDuration: 2000,
+            severity: "error",
+            message: context?.message,
+          });
+        },
+      });
+    } catch (error) {
+      Logger.error("An error occurred on event/list:", error);
+
     }
     finally {
       setIsLoading(false);
@@ -108,91 +164,96 @@ const UserDashboard: React.FC = React.memo(() => {
   function getPreviousDay(date: any) {
     return moment(date).subtract(1, 'days').format('YYYY-MM-DD');
   }
-  /**
-   * Labels for the square buttons on each event card
-   */
-  const squareButtonLabels: string[] = ["View Certificate", "Event Recap"];
-
-  /**
-   * @param index  Function to handle the event selection from the autocomplete input.
-   * It updates the API request configuration based on the selected event.
-   */
-  const handleSquareButtonClick = (index: number, eventId: number) => {
-    if (index === 0) {
-    } else if (index === 1) {
-      navigate(routes.userEventRecap(), { state: { eventId: eventId } });
-    }
-  };
-
   return (
-    <Grid container size={12} className="dashboard" >
+    <Grid container size={12} className="dashboard" spacing={1}  >
       {/* left */}
-      <Grid size={{ xs: 12, md: 7 }}  className="dashboard-left" >
-        <Grid size={12}>
-          <Typography className="dashboard-title" gutterBottom>
-            <span className="dashboard-title-wave-icon"></span>
-            <span className="greeting-text">Hey {userDetails?.firstName}!</span>
-          </Typography>
+      <Grid container size={{ xs: 12, md: 7 }} className="dashboard-left" >
+        <Grid size={12} className="dashboard-left-profile">
+          <Grid size={12} className="dashboard-left-profile-textgroup">
+            <Typography className="dashboard-left-profile-title" gutterBottom>
+              <span className="dashboard-left-profile-greeting-text">Hey {userDetails?.firstName}!</span>
+              <span className="dashboard-left-profile-title-wave-icon"></span>
+            </Typography>
+          </Grid>
+          <Grid size={12}>
+            <Typography className="dashboard-left-profile-subtitle" gutterBottom>
+              Your hub for all events and registrations.
+            </Typography>
+          </Grid>
+          <Grid size={12} className="dashboard-left-profile-buttongroup">
+            <CustomButton
+              className="dashboard-left-profile-button"
+              label="View Events"
+              onClick={() => navigate('/user/my-event')}
+            />
+          </Grid>
         </Grid>
-        <Grid size={12}>
-          <Typography className="dashboard-subtitle" gutterBottom>
-            Your hub for all events and registrations
-          </Typography>
-        </Grid>
-
         <Grid container className="dashboard-tight-spacing" size={12} spacing={2}>
-          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-            <DashboardCardItem onClick={() => navigate("/user/my-event")} icon={CalendarEventIcon} title="View All My Events" />
+          <Grid size={12}>
+            <Typography className="dashboard-left-profile-accounttitle" gutterBottom>
+              Account Overview
+            </Typography>
           </Grid>
-          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-            <DashboardCardItem onClick={() => navigate("/user/my-event")} icon={DownloadEventIcon} title="Download Tickets & Certificates" />
+          {isCountLoading ? <CircularProgress /> :
+            <Grid container size={{ xs: 12}}>
+              <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+                <DashboardCardItem onClick={() => navigate("/user/my-event")} count={eventAndUserCount?.data?.totalEventCount ?? 0} icon={EventsSvg} title="Total Events Registered" />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+                <DashboardCardItem onClick={() => navigate("/user/my-event")} count={eventAndUserCount?.data?.pastEventCount ?? 0} icon={DownloadEventIcon} title="Sessions Participated" />
+              </Grid>
+              <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+                <DashboardCardItem onClick={() => navigate("/user/payment-history")} count={eventAndUserCount?.data?.currentEventCount ?? 0} icon={PaymentDashboardIcon} title="Pending Payments" />
+              </Grid>
+            </Grid>}
+        </Grid>
+        <Grid size={12}>
+          <Typography className="dashboard-left-profile-accounttitle" gutterBottom>
+            Attended Event
+          </Typography>
+          <Grid size={{ xs: 12 }} className="dashboard-left-profile-card">
+          {isLoading ? <CircularProgress /> :
+           userCompletedEvents && Array.isArray(userCompletedEvents?.data) && userCompletedEvents?.data.length ?
+            <DashboardEventCards event={userCompletedEvents?.data && userCompletedEvents?.data[0]} />
+            :  
+            <NoDataCard/>
+          }
           </Grid>
-          <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-            <DashboardCardItem onClick={() => navigate("/user/payment-history")} icon={PaymentDashboardIcon} title="View Payment History" />
-          </Grid>
-
         </Grid>
       </Grid>
+
       {/* Right Column */}
-      <Grid  size={{ xs: 12, md: 4 }}  className="dashboard-right" >
-        <Grid container >
-          <Grid><Typography className="dashboard-subhead">Weekly Calendar</Typography></Grid>
-          <Grid className="dashboard-calendar-card"> <CalendarCard data={userLatestEvents} /> </Grid>
+      <Grid size={{ xs: 12, md: 4 }} className="dashboard-right" justifyContent="flex-end">
+        <Grid container className="dashboard-right-calendar" >
+            {isCalendarLoading ? <CircularProgress /> :
+            userEvents && Array.isArray(userEvents['event/list']?.data) && userEvents['event/list']?.data.length > 0 ? 
+              <CalendarCard data={userEvents} />
+              :<NoCalenderData/>
+            }
+         
         </Grid>
         <Grid className="dashboard-right-events">
           {/* title */}
           <Typography className="dashboard-subhead" gutterBottom>
-            Attended Event
+            Recent Activities
           </Typography>
 
-          <Grid container >
-            {
-              isLoading ? <CircularProgress /> :
-                userLatestEvents && userLatestEvents?.data && userLatestEvents.data.length > 0 ? (
-                  <Grid size={12}>
-                    <EventCard
-                      eventFullData={userLatestEvents.data[0]}
-                      Eventstatus={true}
-                      viewCertificate={true}
-                      viewEventRecap={true}
-                      squareButton={true}
-                      viewButton={false}
-                      datetitle={userLatestEvents.data[0].startTime}
-                      title={userLatestEvents.data[0].name}
-                      location={userLatestEvents.data[0].venue.city}
-                      // buttonPress={handleButtonPress}
-                      squareButtonLabels={squareButtonLabels}
-                      onSquareButtonClick={(btnIndex: number) => handleSquareButtonClick(btnIndex, userLatestEvents.data[0].id)}
-
-                    />
-                  </Grid>
-                ) : (
-
-                  <NoDataCard />
-
-                )}
-
-          </Grid>
+          <Grid  >
+           <Box>
+            <Grid size={12} mt={1} className="dashboard-left-profile-card-recent" onClick={() => navigate('/user/payment-history')}>
+              <TransactionHistoryIcon fontSize={24} />   View Payment History
+            </Grid>
+            <Divider className='dashboard-left-profile-card-recent-dividers' />
+            <Grid size={12} mt={1} className="dashboard-left-profile-card-recent" onClick={() => navigate('/user/my-event')}>
+              <HeartEventIcon fontSize={24} /> View All My Events
+            </Grid>
+            <Divider className='dashboard-left-profile-card-recent-dividers' />
+            <Grid size={12} mt={1} className="dashboard-left-profile-card-recent" onClick={() => navigate('/user/my-event')} >
+              <DownloadCertsIcon fontSize={24} /> Download Tickets & Certificates
+            </Grid>
+            </Box>
+          
+            </Grid>
 
 
         </Grid>

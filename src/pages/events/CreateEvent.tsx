@@ -2,15 +2,23 @@
  * CreateEvent handles the event creation first screen
  */
 import { setFormValues } from "@/Utils/CommonBaseClass";
+import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import { Box, Typography } from "@mui/material";
+import FileListModal from "@/components/FileUpload/FileListModal";
+import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import React, { useEffect,useState } from "react";
+import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import config from "../../../config.json";
+import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
+import GoogleMapPlacePicker from "./GoogleMapPlacePicker";
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import { validateEmail, validatePhoneNumber } from "@/Utils/Validation";
+
 type EventProps = {
   formSubmit: boolean;
   onSubmitHandler: (
@@ -37,7 +45,16 @@ type FormData = {
   url: string;
   amount: string;
   specialty: string;
+  assetId:number;
+  phone: string;
+  email: string;
 };
+
+interface CustomFile {
+  id: number;
+  name: string;
+  sourcePath: string;
+}
 
 const typeArray = [
   { label: "Offline", value: "OFFLINE" },
@@ -45,17 +62,27 @@ const typeArray = [
   { label: "Hybrid", value: "HYBRID" },
 ];
 
-const CreateEvent: React.FC<EventProps> = React.memo(
+const CreateEvent: React.FC<EventProps> =
   ({ formSubmit, onSubmitHandler, data }) => {
+    const methods = useForm<FormData>()
     const {
       handleSubmit,
       control,
       setValue,
       watch,
+      setError,
       formState: { errors },
-    } = useForm<FormData>();
+    } = methods;
+ 
+  
 
     const [editorContent, setEditorContent] = useState("");
+    const [selectedFile, setSelectedFile] = useState<any>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const companyId = sessionStorage.getItem('companyId');
+  const baseUrl = config.api.url;
+  const [drawerOpen,setDrawerOpen]=useState(false);
+
 
     /**
      * Method handles the on change event for description editor
@@ -80,6 +107,21 @@ const CreateEvent: React.FC<EventProps> = React.memo(
      * @param data
      */
     const onSubmit: SubmitHandler<FormData> = (data: any) => {
+      if(watch("description") === "<p><br></p>"){
+        return;
+      }
+      const startTime = new Date(data.startTime);
+      const endTime = new Date(data.endTime);
+      if(selectedFile){
+        setValue('assetId',selectedFile[0]?.id) 
+      }
+      if (startTime > endTime) {
+        setError(`startTime`, {
+          type: 'manual',
+          message: 'Start date cannot be greater than end date',
+        });
+        return
+      }
       onSubmitHandler && onSubmitHandler(data, "EVENT");
     };
 
@@ -95,6 +137,35 @@ const CreateEvent: React.FC<EventProps> = React.memo(
       }
     }, [data]);
 
+
+    /**
+     *  Configuration for the editor toolbar
+     */
+    const modules = {
+      toolbar: [
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }], 
+        ['bold', 'italic', 'underline'],
+      ]
+    };
+
+
+     /**
+   *function to handle clean file state
+   */
+  const handleFileDelete = () => {
+    setSelectedFile(null);
+  };
+  /**
+   *useEffect set assestId
+   */
+  useEffect(() => {
+    if(watch('assetId')){
+      setSelectedFile({
+        id: watch('assetId'),
+        name: 'Business'
+    });
+    }
+},[])
 
     return (
       <Box className="create-event-container">
@@ -117,6 +188,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
               </Typography>
             </Grid>
             <Grid>
+              <FormProvider {...methods}>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <Grid
                   container
@@ -126,6 +198,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                 >
                   <Grid size={{ xs: 12, sm: 12 }}>
                     <CustomRadio
+                      className="add-program-radio-btn"
                       control={control}
                       name="type"
                       label=""
@@ -134,8 +207,9 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                       value={"OFFLINE"}
                     />
                   </Grid>
-                  <Grid size={{ xs: 12, sm: 6 }}>
+                  <Grid size={{ xs: 12, sm: 12 }}>
                     <CustomTextField
+                      className="add-program-text-Field"
                       placeholder="Event Name"
                       control={control}
                       name="name"
@@ -143,15 +217,17 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                       rules={{ required: true }}
                     />
                   </Grid>
-                  <Grid size={{ xs: 12, sm: 6 }}>
+                  {/* <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField
                       placeholder="Specialty"
                       control={control}
                       name="specialty"
                       type="text"
                       rules={{ required: true }}
+                      info={true}
+                      infoContent={'test message'}
                     />
-                  </Grid>
+                  </Grid> */}
                   <Grid size={{ xs: 12, sm: 12 }}>
                     <Typography
                       variant="h3"
@@ -165,6 +241,7 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                     mb={0}
                     className="create-event-description"
                   >
+                   
                     <ReactQuill
                       className={
                         errors?.description ||
@@ -176,43 +253,62 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                       onChange={handleChange}
                       theme="snow"
                       placeholder="Type your description here..."
+                      modules={modules}
                     />
-                    <CustomTextField
+                    {/* <CustomTextField
                       control={control}
                       name="description"
                       type="hidden"
                       rules={{ required: true }}
                     />
+                    /> */}
                   </Grid>
-                  
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <CustomTextField
+                      className="add-program-text-Field"
+                      placeholder="Phone"
+                      control={control}
+                      name="phone"
+                      type="phone"
+                      rules={{
+                        required: 'Phone is required',
+                        pattern: validatePhoneNumber({})
+                      }}
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <CustomTextField
+                      className="add-program-text-Field"
+                      placeholder="Email"
+                      control={control}
+                      name="email"
+                      type="email"
+                      rules={{
+                        required: 'Email is required',
+                        pattern: validateEmail({})
+                      }}
+                    />
+                  </Grid>
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField
                       placeholder="Start Date"
                       control={control}
                       name="startTime"
                       type="date"
+                      className="create-event"
                       defaultValue={moment(new Date()).format("YYYY-MM-DD")}
-                      min={moment().format("YYYY-MM-DD")}
-                      rules={{
-                        validate: (value) =>
-                          new Date(value) >= new Date() ||
-                          "Start Date cannot be in the past",
-                      }}
+                      min={moment(new Date()).format("YYYY-MM-DD")}
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField
                       placeholder="End Date"
+                      className="create-event"
                       control={control}
                       name="endTime"
                       type="date"
                       defaultValue={moment(new Date()).format("YYYY-MM-DD")}
-                      min={moment().format("YYYY-MM-DD")}
-                      rules={{
-                        validate: (value) =>
-                          new Date(value) >= new Date() ||
-                          "End Date cannot be in the past",
-                      }}
+                      min={moment(new Date()).format("YYYY-MM-DD")}
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 12 }}>
@@ -242,6 +338,19 @@ const CreateEvent: React.FC<EventProps> = React.memo(
 
                   {watch("type") !== "ONLINE" && (
                     <>
+                    <Grid size={12} container justifyContent={"flex-start"} alignItems={"center"}>
+                      <CustomButton
+                      className="create-event-choose-map"
+                        label="Choose Location"
+                        onClick={()=>setDrawerOpen(true)}
+                        />
+                          <Tooltip title="Location details fills up on once choose desired location" arrow>
+                            <IconButton className="add-program-warning-msg"
+                            >
+                              <ErrorOutlineIcon />
+                            </IconButton>
+                          </Tooltip>
+                        </Grid>
                       <Grid
                         container
                         alignItems="center"
@@ -249,24 +358,15 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                         mb={0}
                       >
                         <CustomTextField
-                          placeholder="Location URL (must be a Google Maps link)"
+                          placeholder="Location URL (must be a Google Maps link with latitude and longitude)"
                           control={control}
-                          name="mapUrl"
-                          type="text"
+                          name="mapUrl" 
+                          type="text" 
+                          shrink={watch('mapUrl')!==''&&watch('mapUrl')!==undefined?true:undefined}
+                          readOnly
                           rules={{
-                            required: false,
-                            validate: (value: any) =>
-                              /^(https?:\/\/)?(www\.)?google\.(com|[a-z]{2})\/maps/.test(value) || "URL must be a valid Google Maps link",
+                            required: false,                                                                  
                           }}
-                        />
-                      </Grid>
-                      <Grid size={{ xs: 12, sm: 12 }}>
-                        <CustomTextField
-                          placeholder="Venue"
-                          control={control}
-                          name="venueName"
-                          type="text"
-                          rules={{ required: watch("type") === "OFFLINE" }}
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 12 }}>
@@ -274,34 +374,43 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                           placeholder="Address"
                           control={control}
                           name="address"
+                          shrink={watch('address')!==''&&watch('address')!==undefined?true:undefined}
                           type="text"
+                          readOnly
                           rules={{ required: watch("type") === "OFFLINE" }}
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 6 }}>
+                      <CustomTextField
+                          name="country"
+                          label="Country"
+                          control={control}
+                          shrink={watch('country')!==''&&watch('country')!==undefined?true:undefined}
+                          type="text"
+                          readOnly
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 6 }}>
+                         <CustomTextField
+                            name="state"
+                            label="State"
+                            control={control}
+                            type="text"
+                            readOnly
+                            shrink={watch('state')!==''&&watch('state')!==undefined}
+                            rules={{
+                              required:Boolean(watch('country')),
+                            }}
+                          />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 6 }}>
                         <CustomTextField
-                          placeholder="City"
+                          label="City"
                           control={control}
                           name="city"
                           type="text"
-                          rules={{ required: watch("type") === "OFFLINE" }}
-                        />
-                      </Grid>
-                      <Grid size={{ xs: 12, sm: 6 }}>
-                        <CustomTextField
-                          placeholder="State"
-                          control={control}
-                          name="state"
-                          type="text"
-                          rules={{ required: watch("type") === "OFFLINE" }}
-                        />
-                      </Grid>
-                      <Grid size={{ xs: 12, sm: 6 }}>
-                        <CustomTextField
-                          placeholder="Country"
-                          control={control}
-                          name="country"
-                          type="text"
+                          shrink={watch('city')!==''&&watch('city')!==undefined}
+                          readOnly
                           rules={{ required: watch("type") === "OFFLINE" }}
                         />
                       </Grid>
@@ -311,25 +420,87 @@ const CreateEvent: React.FC<EventProps> = React.memo(
                           control={control}
                           name="postalCode"
                           type="text"
+                          readOnly
+                          shrink={watch('postalCode')!==''&&watch('postalCode')!==undefined?true:undefined}
                           rules={{
                             required: watch("type") === "OFFLINE",
                             pattern: {
-                              value: /^[0-9]{5,6}$/,
-                              message: "Pin code must be a 5 or 6-digit number",
+                              value: /(^\d{5}(-\d{4})?$)|(^\d{6}$)/,
+                              message: "Enter a valid postal code (e.g., '12345', '12345-6789', or '123456')",
                             },
                           }}
                         />
                       </Grid>
+
                     </>
                   )}
+                            <Grid size={{ xs: 12, sm: 12 }} direction={'row'} container flexDirection={"row"} spacing={2}>
+                            <Grid container direction={'row'} alignItems={'center'} justifyContent={"center"} alignContent={"center"}>
+                            {selectedFile && (
+                              <Grid className="create-event-btn-container-img-box" >
+                                <img
+                                  src={`${baseUrl}asset/${selectedFile.id}`}
+                                  alt={selectedFile.name}
+                                />
+                              </Grid>
+                            )}
+                              <CustomButton
+                            className="create-event-btn-container-select-btn"
+                            label="Choose Logo"
+                            variant="outlined"
+                            onClick={() => setModalOpen(true)}
+                          />
+                              {selectedFile && ( <Grid container spacing={1}>
+
+                                <CustomButton
+                                className="create-event-btn-container-delete-btn"
+                                label="Delete"
+                                variant="outlined"
+                                onClick={handleFileDelete}
+                                />
+                              </Grid>
+                              )}
+                            </Grid>                   
+                        <Grid
+                          className="create-event-btn-container"
+                          container
+                          justifyContent={"flex-start"}
+                          size={{ xs: 12, sm: 12 }}
+                          direction={'row'}
+                        >
+                          <Grid>
+                            {modalOpen && (
+                              <FileListModal
+                                open={modalOpen}
+                                handleClose={() => setModalOpen(false)}
+                                onSelectFile={(files: CustomFile[]) => {
+                                  // Automatically select the newly uploaded file if it exists
+                                  if (files && files.length > 0) {
+                                    setSelectedFile(files[0]); // Set only the first selected file
+                                    setValue('assetId',files[0]?.id);
+                                  }
+                                  setModalOpen(false);
+                                }}
+                                companyId={companyId}
+                                multipleSelect={false}
+                                imagesPerRow={4}
+                              />
+                            )}
+                          </Grid>
+                        </Grid>
+                      </Grid>
                 </Grid>
+                  <CustomDrawer open={drawerOpen} type="right" children={
+                    <GoogleMapPlacePicker onClose={() => setDrawerOpen(false)}/>
+                  } />
               </form>
+              </FormProvider>
             </Grid>
           </Grid>
         </Grid>
       </Box>
     );
   }
-);
+
 
 export default CreateEvent;

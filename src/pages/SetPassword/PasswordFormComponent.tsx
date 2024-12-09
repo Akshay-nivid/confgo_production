@@ -1,15 +1,16 @@
-import {  Box, Button, Typography } from '@mui/material';
+import {  Box, Typography } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import CustomTextField from '@/components/CustomTextfield/CustomTextField';
 import Grid from '@mui/material/Grid2';
 import CheckIcon from '@mui/icons-material/Check';
 import clsx from 'clsx';
-import { validateConfirmPassword, validateMinLength, validatePassword, validateRequiredField } from '@/Utils/Validation';
+import { validateMinLength, validatePassword, validateRequiredField } from '@/Utils/Validation';
 import { REGEX } from '@/Utils/Validation';
-import apiClient from '@/Libs/Https/API-client';
 import useStore from '@/Libs/store';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
+import { Logger } from '@/Utils/Logger';
+import CustomButton from '@/components/CustomButton/CustomButton';
 /**
  * Component use to set password
  * @returns
@@ -17,6 +18,7 @@ import routes from '@/router/routes';
 
 const SetPasswordComponent = () => {
   const setDataById = useStore((state: any) => state.setDataById)
+  const PUT = useStore((state: any) => state.PUT);
   const navigate=useNavigate();
   type FormData = {
     confirmPassword: string;
@@ -25,12 +27,13 @@ const SetPasswordComponent = () => {
   /**
    * function react hook form
    */
-  const { handleSubmit,control,watch } = useForm<FormData>({
+  const { handleSubmit,control,watch , trigger} = useForm<FormData>({
     defaultValues: {
       password: '',
       confirmPassword: '',
     },
   });
+
 
   const password = watch('password');
 
@@ -39,34 +42,48 @@ const SetPasswordComponent = () => {
    * function used to handle form submission
    */
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    createPassword(data.password);
+    if(data.password===data.confirmPassword){
+      createPassword(data.password);
+    }else{
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 1000, severity: 'error', message:'both password should be same' })
+    }
+    
   };
   /**
    * function used to create password
    * @param password 
    */
-  const createPassword=async(password:string)=>{
-    try{
-      const requestBody={
+  const createPassword = async (password: string) => {
+    try {
+      const body = {
         password:password,
-        userId: userDetails.data.userId,
-        token: userDetails.data.token,
-        type:userDetails?.data?.tokenType??"USER_REGISTRATION",
-        email:userDetails.data.email,
-      }
-      const response=await apiClient.put(`user/setpassword`,requestBody);
-      if(response.data.status==='success'){
-        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:'Registration Successfully' })
+        userId: userDetails?.data?.userId,
+        token: userDetails?.data?.token,
+        type:userDetails?.data?.tokenType==="RESET_PASSWORD_OTP"?"FORGOT_PASSWORD_OTP":userDetails?.data?.tokenType,
+        email:userDetails?.data?.email,
+      };
+      await PUT({
+        url: `user/setpassword`,
+        body: body,
+        id: 'userSetPassword',
+        successCB: (_success: any) => {
+          setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:'Registration Successfully' })
         navigate(routes.loginOrg());
-      }else{
-        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:'Something went wrong' })
-      }
-    }
-    catch(error:any){
-      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:error.response.data.message})
+        },
+        errorCB: (error: any) => {
+          setDataById("snackBarInfo", {
+            open: true,
+            autoHideDuration: 2000,
+            severity: "error",
+            message: error.message,
+          })
+          navigate(routes.loginOrg());
+        }
+      });
+    } catch (error) {
+      Logger.error('OtpFormCompoent.tsx', error)
     }
   }
-
   return (
     <Grid container size={12} className="setpassword">
       <Grid size={12} className="setpassword__header-wrapper">
@@ -88,16 +105,17 @@ const SetPasswordComponent = () => {
           className="setpassword__form"
         >
           <Box className="setpassword__input-container">
-            <Typography className="setpassword__input-label text-p2 font-500">
-              Password
-            </Typography>
             <CustomTextField
               control={control}
               name="password"
               rules={{
                 required: validateRequiredField({fieldName:'Password'}),
                 minLength: validateMinLength({fieldName:'Password',minLength:8}),
-                pattern:validatePassword({})
+                pattern:validatePassword({}),
+                validate: () => {
+                  trigger('confirmPassword');
+                  return true;
+              },
               }}
               type="password"
               placeholder="Password"
@@ -105,9 +123,6 @@ const SetPasswordComponent = () => {
             />
           </Box>
           <Box className="setpassword__input-container">
-            <Typography className="setpassword__input-label text-p2 font-500">
-              Confirm Password
-            </Typography>
             <CustomTextField
               name="confirmPassword"
               type="password"
@@ -115,8 +130,15 @@ const SetPasswordComponent = () => {
               control={control}
               rules={{
                 required: validateRequiredField({fieldName:'Confirm Password'}),
-                validate:(value)=> validateConfirmPassword({password,confirmPassword:value})
+                validate: (value: any) => {
+                  if (value === watch("password")) {
+                      return true;
+                  } else {
+                      return "The passwords do not match";
+                  }
+              }
               }}
+              
               className="setpassword__input"
             />
           </Box>
@@ -130,9 +152,9 @@ const SetPasswordComponent = () => {
           >
             <Box display={'flex'} gap={1} alignItems={'center'} className="setpassword__requirement">
               <CheckIcon className={clsx("setpassword__check-icon", {
-                'active': password.length >= 8,
+                'active': password.length >= 8 &&password?.length<=16,
               })} />
-              <Typography className="setpassword__requirement-text text-p2 font-400">Must be at least 8 characters long</Typography>
+              <Typography className="setpassword__requirement-text text-p2 font-400">Must be between 8 and 16 characters long</Typography>
             </Box>
             <Box display={'flex'} gap={1} alignItems={'center'} className="setpassword__requirement">
               <CheckIcon className={clsx("setpassword__check-icon ", {
@@ -147,13 +169,12 @@ const SetPasswordComponent = () => {
               <Typography className="setpassword__requirement-text text-p2 font-400">Must contain one Upper case letter</Typography>
             </Box>
           </Box>
-          <Button
-            type="submit"
-            variant="contained"
-            className="setpassword__submit-button w-full custom-button text-p1 font-600"
-          >
-            Set Password
-          </Button>
+           <CustomButton
+              label="Set Password"
+              type="submit"
+              fullWidth
+              className={clsx('custom-button')}
+            />
         </form>
       </Grid>
     </Grid>

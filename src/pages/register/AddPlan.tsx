@@ -10,7 +10,7 @@ import useStore from "@/Libs/store";
 import PlanCard from "@/components/PlanCard";
 import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";
-import { ArrowIconSvg } from "@/assets/svg";
+import { ArrowIconSvg, BasicPlainIcon, ProPlanIcon, StandardPlanIcon } from "@/assets/svg";
 import { Logger } from "@/Utils/Logger";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
@@ -85,65 +85,77 @@ const AddPlan = React.memo(() => {
     }
   }
 
+  const mode = useStore((state) => state?.compData?.planMode?.mode);
   /*
    * function to change the state and store selected plan
    */
   const handleClick = () => {
     const planDetail = planList.find((item) => item.name === currentPlan);
-    setDataById('register', { data: 'CREATE_ACCOUNT_PAGE', step: 2 });
-    setDataById('form1', { field_values: planDetail });
+    if (mode === 'register') {
+      setDataById('register', { data: 'CREATE_ACCOUNT_PAGE', step: 2 });
+      setDataById('form1', { field_values: planDetail });
+    }else{
+    setDataById('planDetails', { field_values: { ...planDetail } });
+    navigate(routes.upgradePlanPayment());
+    }
   }
   /*
  * function to handle view plan details
  */
   const handleViewPlanDetails=()=>{
-    navigate(routes.pricing());
+    if (mode === 'register') {
+    navigate(routes.pricing());}
+    else{
+      navigate(routes.planUpgradePricing())
+    }
+  }
+
+  const planMapper: Record<string, React.ReactNode> = {
+    "BASIC_PLAN": <BasicPlainIcon />,
+    "STANDARD_PLAN": <StandardPlanIcon />,
+    "PROP_LAN": <ProPlanIcon />
   }
 
   return (
-    <Grid>
-      <Grid container spacing={5}>
-      <Grid  className="left-content-wrapper">
-        <Grid className="left-inner-content">
-          <FormControl className="w-full">
-            <Grid alignSelf={"center"}>
-              <Typography className="left-plan-text" textAlign={"center"} variant="h3" lineHeight={2} >Choose Your Plan</Typography>
-              <Typography className="left-description-text" textAlign={"center"} variant="h6">Everything you might need and then some more in an accessible and intuitive package.</Typography>
-            </Grid>
-            <RadioGroup
-              className="space-y-[1rem]"
-              value={currentPlan}
-              onChange={handleChangePlan}
-            >
-              {planList.map((plan) => (
-                <PlanCard
-                  image={''}
-                  isActive={currentPlan === plan?.name}
-                  key={plan?.id}
-                  value={plan?.name}
-                  header={plan?.name}
-                  price={plan?.amount}
-                  discount={''}
-                  isDicount={false}
-                />
-              ))}
-            </RadioGroup>
-          </FormControl>
-          <Grid container className="view-all-plans" alignSelf={"flex-end"} onClick={handleViewPlanDetails}>
-          <Typography className="cursor-container" variant="h5">View all Pricing details?</Typography>
+    <Grid className="signup-content-wrapper">
+      <Grid className="left-inner-content">
+        <FormControl className="w-full">
+          <Grid alignSelf={"center"}>
+            <Typography className="left-plan-text" textAlign={"center"} lineHeight={2} >Choose Your Plan</Typography>
+            <Typography className="left-description-text" textAlign={"center"} variant="h6">Everything you might need and then some more in an accessible and intuitive package.</Typography>
           </Grid>
-          <Grid container mb={2} className="w-full" >
+          <RadioGroup
+            className="space-y-[1rem]"
+            value={currentPlan}
+            onChange={handleChangePlan}
+          >
+            {planList.map((plan) => {
+              return <PlanCard
+                image={planMapper[plan?.name]}
+                isActive={currentPlan === plan?.name}
+                key={plan?.id}
+                value={plan?.name}
+                header={plan?.name}
+                price={plan?.amount}
+                discount={''}
+                isDicount={false}
+              />
+})}
+          </RadioGroup>
+        </FormControl>
+        <Grid container className="view-all-plans" alignSelf={"flex-end"} onClick={handleViewPlanDetails}>
+          <Typography className="cursor-container" variant="h5">View all Pricing details?</Typography>
+        </Grid>
+        <Grid container mb={2} className="w-full" >
           <CustomButton
-            className={(loading || planList.length===0)?'plan-disabled-choose-btn':"plan-choose-btn"}
-            endIcon={<ArrowIconSvg/>}
+            className={(loading || planList.length === 0) ? 'plan-disabled-choose-btn signup-plan-btn' : "plan-choose-btn signup-plan-btn"}
+            endIcon={<ArrowIconSvg />}
             onClick={handleClick}
             label="Choose Plan and Proceed"
             size="large"
-            disabled={ loading || planList.length===0}
+            disabled={loading || planList.length === 0}
           />
-          </Grid>
         </Grid>
-      </Grid>
       </Grid>
     </Grid>
   )

@@ -8,8 +8,6 @@ import LogoutIcon from "./logout.svg";
 import StepperActive from "./stepper-active.svg";
 import StepperCurrent from "./Stepper-current.svg";
 import StepperDefault from "./stepper-default.svg";
-import GridEndOneImg from "./grid-end-one.svg";
-import GridEndTwoImg from "./grid-end-two.svg";
 import ExportPlanImg from "./export-plan.svg";
 import AttentionTracking from "./attention-tracking.svg";
 import SeamlessIntegration from "./seamless-integration.svg";
@@ -49,7 +47,7 @@ import ForgotPasswordIcon from "./key-icon.svg";
 import PaymentHistoryIcon from "./paymentHistory-icon.svg";
 import CalendarEventIcon from "./calendar-event-line.svg";
 import DownloadEventIcon from "./downloadCerts.svg";
-import HeartEventIcon from "./heart-2-line.svg";
+import HeartEventIcon from "./heart.svg";
 import PaymentDashboardIcon from "./payment.svg";
 import CouponDashboardIcon from "./coupons.svg";
 import DashboardUserIcon from "./dashboard-user.svg";
@@ -60,11 +58,33 @@ import CalenderNoData from'./calender-no.svg';
 import NoEvent from "./NoEvents.svg";
 import NoPayment from "./noPayment.svg"
 import NoDataSvg from './nodata.svg';
+import Google from './google.svg';
+import EditIconRound from './editIconRound.svg'
 import DashBoardEmpty from './dashboard-empty.svg';
+import EventsSvg from './events.svg';
 import ClockIcon from './clock-icon.svg';
 import SecuityIcon from './security-icon.svg';
 import ProgressBarIcon from './progress-bar-icon.svg';
 import IntegrationIcon from './integration-icon.svg';
+import UserEditRoundIcon from './user-edit-round-icon.svg';
+import GoogleIcon from './google-icon.svg';
+import WarningIcon from './warning-icon.svg';
+import PublishTickIcon from './publish-tick.svg';
+import TransactionHistoryIcon from './payment-history.svg';
+import HomeEvent from './home-event.svg';
+import Brand from './brands.svg';
+import BasicPlainIcon from './basic-plan-icon.svg';
+import StandardPlanIcon from './standard-plan-icon.svg';
+import ProPlanIcon from './pro-plan-icon.svg';
+import CalendarNoEvent from './calender-empty.svg';
+import UserSettingIcon from './user-settings.svg';
+import DownloadCertsIcon from './Download-cert.svg';
+import SignUpFlowIcon from './signup-flow-icon.svg';
+import PlusIcon from './plus-icon.svg';
+import MinusIcon from './minus-icon.svg';
+import HamburgerIcon from './hamburger-menu.svg';
+import CloseIcon from './Close.svg';
+import NoCouponDataSvg from './no-coupon-data.svg';
 
 export {
   CalenderIcon,
@@ -77,8 +97,6 @@ export {
   StepperActive,
   StepperCurrent,
   StepperDefault,
-  GridEndOneImg,
-  GridEndTwoImg,
   SeamlessIntegration,
   ExportPlanImg,
   AttentionTracking,
@@ -128,10 +146,32 @@ export {
   NoDataSvg,
   NoPayment,
   ResetPassword,
+  Google,
+  EditIconRound,
   CalenderNoData,
   DashBoardEmpty,
   ClockIcon,
   SecuityIcon,
   ProgressBarIcon,
-  IntegrationIcon
+  IntegrationIcon,
+  EventsSvg,
+  UserEditRoundIcon,
+  GoogleIcon,
+  WarningIcon,
+  PublishTickIcon,
+  TransactionHistoryIcon,
+  HomeEvent,
+  Brand,
+  BasicPlainIcon,
+  StandardPlanIcon,
+  ProPlanIcon,
+  CalendarNoEvent,
+  UserSettingIcon,
+  DownloadCertsIcon,
+  SignUpFlowIcon,
+  PlusIcon,
+  MinusIcon,
+  HamburgerIcon,
+  CloseIcon,
+  NoCouponDataSvg,
 };

@@ -1,31 +1,31 @@
 .hero-section-main {
-  background: url('/src/assets/images/hero-section-bg-image.jpg') no-repeat
+  background: url('/src/assets/images/hero-section-bg-image.png') no-repeat
     bottom;
   height: max-content;
-  color: $clr_white;
+  color: $clr_black;
   background-size: cover;
   .hero-section-content {
-    padding-top: 11.25rem;
+    padding-top: 3.25rem;
     .hero-section-container {
-      height: 100%;
       display: flex;
       flex-direction: column;
       .get-started-button {
+        box-shadow: none;
         border-radius: 4.2rem;
         height: 4.8rem !important;
         width: 13.4rem !important;
-        background-color: $clr_white;
-        color: $clr_black;
+        background-color: $clr_blue;
+        color: $clr_white;
         font-weight: $font_semibold;
         font-size: $p2;
         text-transform: none;
       }
       .watch-video-button{
-        border: 0.2rem solid $clr_white;
+        border: 0.2rem solid $clr_blue;
         border-radius: 4.2rem;
         height: 4.8rem !important;
         width: 17rem !important;
-        color: $clr_white;
+        color: $clr_blue;
         font-weight: $font_semibold;
         font-size: $p2;
         text-transform: none;
@@ -39,74 +39,30 @@
         margin-bottom: 5.17rem;
         width: max-content;
       }
-      .hero-section-left-column {
-        .hero-section-side-box {
-          height: 100%;
-          width: 100%;
-          .hero-section-side-grid {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            align-items: center;
-            row-gap: 0.5rem;
-            padding-block: 2rem;
-          }
-        }
-        .hero-section-side-image-large {
-          width: 100%;
-          height: 25.5rem;
-          border-radius: 1.25rem;
-        }
-        .hero-section-side-image-small {
-          width: 100%;
-          height: 7.8333rem;
-          border-radius: 1.25rem;
-        }
-      }
-
-      .hero-section-middle-column {
-        border-radius: 1.25rem 1.25rem 0 0;
-        overflow: hidden;
-        .hero-section-middle-image {
-          height: 100%;
-          width: 100%;
-        }
-      }
-      .hero-section-right-column {
-        .hero-section-side-grid {
-          height: 100%;
-          flex-direction: column;
-          justify-content: flex-end;
-          align-items: center;
-          row-gap: 0.5rem;
-          padding-block: 2rem;
-          .hero-section-side-image-large {
-            height: 25.5rem;
-            width: 100%;
-            border-radius: 1.25rem;
-          }
-          .hero-section-side-image-small {
-            height: 7.8333rem;
-            width: 100%;
-            border-radius: 1.25rem;
-          }
-        }
-      }
       .hero-section-title {
         line-height: 4rem;
         font-size: $h1;
         font-weight: $font_bold;
         margin-bottom: 1rem;
       }
+      .hero-section-description {
+        font-size: $p2;
+        color: $clr_sub_header;
+      }
+    }
+    .hero-section-image-grid{
+      svg{
+        width: 85rem;
+        height: 40rem;
+      }
     }
   }
 }
 
 .confrence-management-section-main {
-  padding-block: 6.83rem;
+  padding-block: 4.83rem;
   .confrence-management-section-header-content {
-    margin-bottom: 5rem;
+    margin-bottom: 4rem;
     .conference-management-title {
       font-size: $h2;
       font-weight: $font_bold;
@@ -116,13 +72,11 @@
 
     .conference-management-description {
       font-size: $p2;
-      color: $clr_grey;
+      color: $clr_sub_header;
     }
   }
   .confrence-management-effortless-content {
-    padding-block: 5.833rem;
-    padding-inline: 5.083rem;
-
+    padding: 5.833rem 5.083rem;
     .planning-title {
       margin-bottom: 1.33rem;
       line-height: 3rem;
@@ -132,7 +86,8 @@
     .planning-description {
       margin-bottom: 2rem;
       line-height: 2.167rem;
-      color: $clr_grey;
+      color: $clr_sub_header;
+      font-size: $h6;
     }
     .get-started-btn{
       border: 0.2rem solid $clr_black;
@@ -173,6 +128,16 @@
   .grid-right {
     background-color: $clr_yellow_light;
   }
+  .tracking-title{
+    font-weight: $font_semibold;
+    line-height: 3rem;
+    margin-bottom: 1rem;
+    font-size: $h2;
+  }
+  .tracking-description{
+    color: $clr_sub_header;
+    font-size: $h6;
+  }
   .grid-left,
   .grid-right {
     padding-top: 3.333rem;
@@ -185,8 +150,8 @@
       justify-content: center;
       align-items: end;
       .attendance-tracking-image {
-        height: 100%;
-        width: 100%;
+        height: 30rem;
+        width: 45rem;
       }
     }
   }
@@ -195,10 +160,15 @@
 .feature-section-main {
   padding-bottom: 1rem;
   .feature-section-main__header {
-    margin-bottom: 8rem;
+    margin-bottom: 5rem;
+    &-title{
+      font-size: $h2;
+      font-weight: $font_bold;
+    }
     &-description {
+      font-size: $h6;
       margin-bottom: 3rem;
-      color: $clr_gray_dark;
+      color: $clr_sub_header;
     }
     &-button-container {
       width: 100%;
@@ -226,10 +196,10 @@
     
   }
 }
+
 .feature-card {
   margin-bottom: 6rem;
   flex-direction: row;
-
   &.reversed {
     flex-direction: row-reverse;
   }
@@ -243,16 +213,25 @@
       background-image: url('/src/assets/png/online-payment.png');
       background-size: contain;
       background-repeat: no-repeat;
+      &.card-1-mobile {
+        height: 33rem;
+      }
     }
     &.card-2 {
       background-image: url('/src/assets/png/unlimited-conference.png');
       background-size: contain;
       background-repeat: no-repeat;
+      &.card-2-mobile {
+        height: 33rem;
+      }
     }
     &.card-3 {
       background-image: url('/src/assets/png/registration-management.png');
       background-size: contain;
       background-repeat: no-repeat;
+      &.card-3-mobile {
+        height: 33rem;
+      }
     }
     .reversed & {
       align-items: flex-start;
@@ -284,12 +263,13 @@
   }
 
   &__title {
+    font-weight: $font_semibold !important;
     font-size: $h2 !important;
-    font-weight: 600;
   }
 
   &__description {
     font-size: $p2 !important;
+    color: $clr_sub_header;
   }
 
   &__features {
@@ -320,7 +300,8 @@
   }
 
   &__feature-description {
-    font-size: $p2;
+    font-size: $p2 !important;
+    color: $clr_sub_header;
   }
 
   &__button {
@@ -341,18 +322,436 @@
   }
 }
 
-.faq-section {
+.whychoose-section {
   padding-bottom: 6.83rem;
   &__content {
-    .faq-section__header {
+    .whychoose-section__header {
       margin-bottom: 4rem;
-      &-title {
-        margin-bottom: 0.3rem;
+      &-title{
+        font-size: $h2;
+        font-weight: $font_bold;
       }
-
       &-description {
-        color: $clr_grey;
+        font-size: $h6;
+        color: $clr_sub_header;
       }
+    }
+  }
+}
+
+.service-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  &_icon {
+    width: 8rem;
+    height: 8rem;
+    padding: 1rem
+  }
+
+  &__title {
+    font-size: $h5 !important;
+    font-weight: $font_semibold !important;
+    margin-bottom: 8px;
+  }
+
+  &__description {
+    font-size: $p2 !important;
+    color: $clr_sub_header;
+  }
+}
+
+.plan-selection-banner {
+  &__content {
+    background: url("/src/assets/png/plan-banner-image.png") no-repeat center;
+    background-size: cover;
+    justify-content: center;
+    margin-bottom: 4.833rem;
+    border-radius: 1.667rem;
+    padding-block: 5.5rem;
+
+    &-header {
+      color: $clr_white;
+      &-title {
+        font-size: $h1 !important;
+        font-weight: $font_extrabold !important;
+        line-height: 4rem !important;
+        margin-bottom: 0.833rem !important;
+      }
+      &-subtitle {
+        font-size: $h6;
+        margin-bottom: 2.833rem !important;
+      }
+    }
+  }
+  &__button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &-view-pricing-button{
+      border-radius: 4.3rem !important;
+      background-color: $clr_white !important;
+      width: 13rem;
+      height: 4.9rem;
+      color: $clr_black !important;
+      font-weight: $font_semibold !important;
+      font-size: $p1 !important;
+      line-height: 1.3rem !important;
+      text-transform: none !important;
+    }
+    &-contact-button{
+      border-radius: 4.3rem !important;
+      background-color: $clr_blue !important;
+      border: 0.2rem solid $clr_white !important;
+      width: 14.8rem;
+      height: 4.9rem;
+      color: $clr_white !important;
+      font-weight: $font_semibold !important;
+      font-size: $p1 !important;
+      line-height: 1.3rem !important;
+      text-transform: none !important;
+      svg{
+        path{
+          fill: $clr_white;
+
+        }
+      }
+    }
+  }
+  .banner-content {
+    .banner-title {
+      text-align: center;
+      margin-bottom: 0.833rem;
+      color: white;
+    }
+
+    .banner-subtitle {
+      text-align: center;
+      margin-bottom: 2.833rem;
+      color: white;
+    }
+
+    .button-container {
+      display: flex;
+      gap: 0.75rem;
+      margin-inline: auto;
+      width: max-content;
+    }
+  }
+}
+
+.footer {
+  background-color: $clr_black;
+  padding-block: 3.33rem;
+
+  .footer-content {
+    width: 100%;
+    border-bottom: 0.1rem solid $clr_gray_medium;
+  }
+
+  .footer-title {
+    color: $clr_white;
+    margin-bottom: 1rem;
+    font-size: $h1;
+    font-weight: $font_medium;
+    line-height: 3.5rem;
+  }
+
+  .footer-subtitle {
+    color: $clr_light_gray;
+    font-size: $h6;
+    margin-bottom: 3.33rem;
+  }
+  .footer-button{
+    background-color: $clr_blue;
+    color: $clr_light_gray;
+    text-transform: none;
+    margin-bottom: 3rem;
+  }
+
+  .footer-links-section {
+    width: 100%;
+    margin-top: 3rem;
+  }
+
+  .footer-links-content {
+    width: 100%;
+  }
+
+  .footer-nav-links {
+    margin-bottom: 4rem;
+  }
+
+  .footer-nav-list {
+    .footer-nav-item {
+      color: $clr_white;
+      margin-right: 2.66rem;
+    }
+  }
+
+  .footer-contact-info {
+    width: 100%;
+  }
+
+  .footer-contact-block {
+    margin-bottom: 5.33rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .footer-contact-label {
+    color: $clr_light_gray;
+    font-size: $p3;
+    padding-bottom: 0.5rem;
+    font-weight: $font_medium;
+  }
+
+  .footer-contact-value {
+    color: $clr_white;
+  }
+
+  .footer-logo-section {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    flex-direction: column;
+  }
+
+  .footer-logo {
+   width: 11.8rem;
+   height: 10.8rem;
+   path:last-child{
+      fill: $clr_white;
+    }
+  }
+
+  .footer-description {
+    color: $clr_light_gray;
+    text-align: end;
+    margin-bottom: 0.66rem;
+  }
+
+  .footer-copyright {
+    color: $clr_light_gray;
+  }
+}
+
+@media (max-width: 600px) {
+  .hero-section-main{
+    padding: 1rem;
+    margin-bottom: 2rem;
+    .hero-section-content {
+      .hero-section-container {
+        .get-started-button {
+          width: 9.75rem !important;
+        }
+        .watch-video-button{
+          svg{
+            width: 1rem;
+            height: 1rem;
+          }
+          border: 0.2rem solid $clr_blue;
+          border-radius: 4.2rem;
+          width: 15rem !important;
+          color: $clr_blue;
+          
+        }
+        .hero-section-buttons {
+          button{
+            height: 4rem !important;
+            box-shadow: none;
+            border-radius: 4.2rem;
+            text-transform: none;
+            font-size: $p2;
+          }
+        }
+        .hero-section-title {
+          line-height: 3rem;
+          font-size: $h2;
+          margin-bottom: 1rem;
+        }
+        .hero-section-description {
+          font-size: $h6;
+        }
+      }
+      .hero-section-image-grid{
+        margin-top: -5rem;
+        margin-bottom: -2rem;
+        svg{
+          width: 80rem;
+          height: 20rem;
+        }
+      }
+    }
+  }
+  .confrence-management-section-main {
+    padding: 1rem;
+    .confrence-management-section-header-content {
+      .conference-management-title {
+        font-size: $h5;
+        line-height: 2.3rem;
+        margin-bottom: 1rem;
+      }
+    }
+    .confrence-management-effortless-content {
+      padding: 2.833rem 2.083rem;
+      .planning-title {
+        font-size: $h5;
+        line-height: 2.3rem;
+      }
+      .planning-description {
+        font-size: $p2;
+      }
+      .get-started-btn{
+        height: 3.58rem;
+        width: 11.25rem;
+        svg{
+          width: 1rem;
+          height: 1rem;
+        }
+      }
+    }
+    .confrence-management-content-wrapper {
+      margin-bottom: 1.5rem
+    }
+  }
+  .conference-management-grid-main {
+    .tracking-title{
+      line-height: 2rem;
+      font-size: $h5;
+    }
+    .tracking-description{
+      font-size: $p2 !important;
+    }
+    .grid-left,
+    .grid-right {
+      padding: 2.833rem 2.083rem;
+      margin-bottom: 1.5rem !important;
+    }
+  }
+  .feature-section-main {
+    .feature-section-main__header {
+      margin-bottom: 3rem;
+      &-title{
+        font-size: $h5;
+        line-height: 2.5rem;
+      }
+      &-description {
+        font-size: $p2;
+        margin-bottom: 2rem;
+      }
+      &-button-container {
+        &-feature-all-button{
+          height: 3.58rem;
+          width: 13rem;
+          font-size: $p3;
+          span{
+            svg{
+              width: 1rem;
+              height: 1rem;
+            }
+          }
+        }
+      }
+      
+    }
+  }
+  .whychoose-section {
+    padding-bottom: 1.83rem;
+    &__content {
+      .whychoose-section__header {
+        margin-bottom: 2rem;
+        &-title{
+          font-size: $h5;
+        }
+        &-description {
+          font-size: $p2;
+        }
+      }
+    }
+  }
+  .service-card {
+    padding: 0 1rem 1rem;
+    &_icon {
+      width: 6rem;
+      height: 6rem;
+    }
+  
+    &__title {
+      font-size: $h6 !important;
+      margin-bottom: 8px;
+    }
+  
+    &__description {
+      font-size: $p2 !important;
+    }
+  }
+  .plan-selection-banner {
+    padding: 1rem;
+    &__content {
+      padding: 3rem 2rem;
+      margin-bottom: 2rem;
+      border-radius: 0.83rem;
+      &-header {
+        &-title {
+          font-size: $h5 !important;
+          line-height: 2rem !important;
+        }
+        &-subtitle {
+          font-size: $p2;
+        }
+      }
+    }
+    &__button-container {
+     button{
+      border-radius: 4.58rem !important;
+      height: 3.58rem;
+     }
+      &-view-pricing-button{
+        width: 9.91rem;
+        font-size: $p3 !important;
+      }
+      &-contact-button{
+        width: 11.25rem;
+        font-size: $p3 !important;
+        svg{
+          width: 1rem;
+          height: 1rem;
+          path{
+            stroke: $clr_white;
+          }
+        }
+      }
+    }
+  }
+  .footer {
+    padding: 2rem 1rem;
+    .footer-title {
+      margin-bottom: 1rem;
+      font-size: $h4;
+      line-height: 2rem;
+    }
+    .footer-subtitle {
+      font-size: $p3;
+      margin-bottom: 1.33rem;
+    }
+    .footer-button{
+      width: 12.67rem;
+      height: 3.16rem;
+      margin-bottom: 2rem;
+    }
+    .footer-contact-block {
+      margin-bottom: 2.33rem;
+    }
+    .footer-description{
+      text-align:center
+    }
+    .footer-logo {
+      margin-bottom: -1rem;
     }
   }
 }

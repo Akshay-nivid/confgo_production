@@ -1,7 +1,9 @@
 import Grid from "@mui/material/Grid2";
-import React from 'react';
+import React, { useState } from 'react';
 import {
+    Backdrop,
     Box,
+    CircularProgress,
     FormControl,
     Typography,
 } from "@mui/material";
@@ -21,6 +23,7 @@ const AddOrganization = React.memo(() => {
     const form1 = useStore((state: any) => state?.compData?.['form1']) ?? [];
     const form2 = useStore((state: any) => state?.compData?.['form2']) ?? [];
     const form3 = useStore((state: any) => state?.compData?.['form3']) ?? [];
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
     /*
      * function to handle submission of the form and create new company
@@ -28,6 +31,8 @@ const AddOrganization = React.memo(() => {
     const onSubmit: SubmitHandler<FormData> = (data) => { 
         setDataById('form3', { field_values: data });
         createAccount(data)
+        setIsButtonDisabled(true); 
+
     };
 
     /*
@@ -63,9 +68,12 @@ const AddOrganization = React.memo(() => {
                 setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Registration Successfully and Please Complete Payment for Completion" });
                 setDataById('form3', { companyData: data });
                 setDataById('register', { data: 'PAYMENT_METHOD_PAGE' });
+                setIsButtonDisabled(true); 
             }
             else{
                 setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message});
+                setIsButtonDisabled(false); // Disable the button
+
             }
 
         } catch (error: any) {
@@ -75,12 +83,15 @@ const AddOrganization = React.memo(() => {
 
     return (
         <Grid>
+             <Backdrop  open={isButtonDisabled} className="circularProgress">
+                <CircularProgress color="inherit" />
+            </Backdrop>
             <Grid container spacing={5}  >
-                <Grid className="left-content-wrapper">
-                    <Grid className="left-inner-content">
+                <Grid className="signup-content-wrapper">
+                    <Grid className="left-inner-content-add-org">
                         <Grid alignSelf={"center"}>
-                            <Typography className="left-plan-text" textAlign={"center"} variant="h3" >Add Organization Details</Typography>
-                            <Typography className="left-description-text" textAlign={"center"} variant="h6" mb={2}>Join us and streamline your conference<br /> management today.</Typography>
+                            <Typography className="add-org-heading-text" textAlign={"center"} variant="h3" >Add Organization Details</Typography>
+                            <Typography className="add-org-description-text" textAlign={"center"} variant="h6" mb={2}>Join us and streamline your conference<br /> management today.</Typography>
                         </Grid>
                         <Box className={"form-wrapper"}>
                             <form onSubmit={handleSubmit(onSubmit)} className="form">
@@ -90,6 +101,7 @@ const AddOrganization = React.memo(() => {
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationName}
                                                 placeholder="Organization Name"
+                                                label="Organization Name"
                                                 control={control}
                                                 name="organizationName"
                                                 type="text"
@@ -111,6 +123,7 @@ const AddOrganization = React.memo(() => {
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationEmail}
                                                 placeholder="Organization Email"
+                                                label="Organization Email"
                                                 control={control}
                                                 name="organizationEmail"
                                                 type="text"
@@ -121,10 +134,13 @@ const AddOrganization = React.memo(() => {
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationPhone}
                                                 placeholder="Organization Phone"
+                                                label="Organization Phone"
                                                 name="organizationPhone"
-                                                type="number"
+                                                type="text"
                                                 control={control}
                                                 rules={phoneRules}
+                                                isNumeric={true}
+                                                max={10}
                                             />
 
                                         </Grid>
@@ -132,6 +148,7 @@ const AddOrganization = React.memo(() => {
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationAddress}
                                                 placeholder="Organization Address"
+                                                label="Organization Address"
                                                 control={control}
                                                 name="organizationAddress"
                                                 type="text"
@@ -150,11 +167,12 @@ const AddOrganization = React.memo(() => {
                                 <Grid container mb={2} className="w-full" >
                                     <CustomButton
                                         type="submit"
-                                        className="plan-choose-btn"
+                                        className="add-organization-btn"
                                         label="Complete Registration"
                                         variant="contained"
                                         color="primary"
                                         size="large"
+                                        disabled={isButtonDisabled}
                                     />
                                 </Grid>
                             </form>

@@ -8,28 +8,110 @@ import { Controller, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import OtpInput from 'react-otp-input';
 import { LockIcon } from '@/assets/svg';
-import { useEffect } from 'react';
-import useStore from '@/Libs/store';
+import { useEffect, useState } from 'react';
+import useStore, { clearDataById } from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import { purposeTypes } from '@/Utils/CommonBaseClass';
+import CustomTimer from '@/components/CustomTimer/CustomTimer';
+
+
 interface IFormData {
   otp: string;
 }
 /**
  * User Otp page component
- *
  */
-
 const UserOtp = () => {
-
   const { email, token, userId, purpose, phoneNumber } = useLocation().state || {};
-
-
+  const setDataById = useStore((state: any) => state.setDataById);
   const eventData = useStore((state: any) => state?.compData?.["userDetails"]?.[`user/details`]) ?? [];
-  
+  const ResendOtpToken=  useStore((state: any) => state?.compData.resendOtp?.token);
   const navigate = useNavigate();
   const POST = useStore((state: any) => state.POST);
-  
+  /**
+   * State to manage the disable/enable status of the "Resend OTP" button.
+   */
+  const [isResendDisabled, setIsResendDisabled] = useState(true);
+  /**
+   * function to fetch user Details 
+   */
+  useEffect(() => {
+    handleuserDetails();
+  }, []);
+  /**
+   * Fetching user Details based on pupose types
+   */
+  function handleuserDetails(){
+     if(purpose===purposeTypes.RESET_PASSWORD){
+      const body={
+        token:token,
+        userId:userId,
+        type: "FORGOT_PASSWORD_OTP",
+      }
+        POST({
+          id: 'userDetails',
+          url: 'user/details',
+          body:body,
+          successCB: successCB,
+          errorCB: (error: any) => Logger.error("error", error),
+        });
+        function successCB(success:any){
+          const setOtp={
+            phone:success?.data?.phone,
+            type:purpose
+         }
+         POST({
+           id: 'resendOtp',
+           url: 'token/otp',
+           body:setOtp,
+           successCB:successCB,
+           errorCB: (error: any) =>{Logger.error("error", error);
+             setDataById('snackBarInfo',
+               { open: true, autoHideDuration: 2000, severity: 'error',
+               message: "Something went wrong. Try again."})}
+         });
+         function successCB(success:any){
+           setDataById("resendOtp",{token: success?.data?.token});
+         }
+            
+          }
+     }
+     if(purpose===purposeTypes.SET_PASSWORD){
+      const body={
+        token:token,
+        userId:userId,
+        type:'USER_REGISTRATION',
+      }
+        POST({
+          id: 'userDetails',
+          url: 'user/details',
+          body:body,
+          successCB: successCB,
+          errorCB: (error: any) => Logger.error("error", error),
+        });
+        function successCB(success:any){
+          const setOtp={
+            phone:success?.data?.phone,
+            type:purpose
+         }
+         POST({
+           id: 'resendOtp',
+           url: 'token/otp',
+           body:setOtp,
+           successCB:successCB,
+           errorCB: (error: any) =>{Logger.error("error", error);
+             setDataById('snackBarInfo',
+               { open: true, autoHideDuration: 2000, severity: 'error',
+               message: "Something went wrong. Try again."})}
+         });
+         function successCB(success:any){
+           setDataById("resendOtp",{token: success?.data?.token});
+         }
+            
+          }
+     }
+  }
+ 
   /*
    * if email and phone number are not present in the state, redirect to the register page
    */
@@ -38,6 +120,7 @@ const UserOtp = () => {
       navigate(routes.userRegister());
     }
   }, []);
+
   /**
    * useForm hook
    */
@@ -56,15 +139,13 @@ const UserOtp = () => {
     /*
      * set password api call
      */
-    if (purpose === purposeTypes.SET_PASSWORD) {
-      const body = {
+    if (purpose === purposeTypes.SET_PASSWORD){
+      const body = { 
+        token:ResendOtpToken,
         userId: userId,
-        otp: data.otp,
-        type: "USER_REGISTRATION_OTP",
-        token: token,
-    
+        otp: data?.otp,
+        type:purpose,
       };
-
       /**
        * success callback function
        */
@@ -72,7 +153,6 @@ const UserOtp = () => {
         navigate(routes.userSetPassword(),
           { state: { userId: userId, email: email,purpose} });
       }
-
       /**
        * if purpose is new user registration set password
        * function to make api call
@@ -81,7 +161,15 @@ const UserOtp = () => {
         id: 'setPassword', url: 'token/validateotp',
         body: body
         , successCB: successCB,
-        errorCB: (error: any) => Logger.error("error", error)
+        errorCB: (error: any) => {
+          Logger.error("Error in validate otp", error);
+          setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "error",
+          message: error?.message,
+        });
+      }
       })
     };
     /**
@@ -89,54 +177,84 @@ const UserOtp = () => {
      * reset password api call
      */
     if (purpose == purposeTypes.RESET_PASSWORD) {
-      
-      const body = {
-        otp: data.otp,
-        token: token,
-        type: 'RESET_PASSWORD_OTP',
+       const body = {
+        otp: data.otp,  
+        token: ResendOtpToken,
+        type: purpose,
         userId: userId,
       };
       function successCB(_context: any) {
-        navigate(routes.userSetPassword(), { state: { email,userId,purpose } });
+        clearDataById("resendOtp");
+        clearDataById("userDetails");
+        navigate(routes.userSetPassword(),{state:{email,userId,purpose }});
       }
       POST({
         id: 'reset-password'
-        , url: 'token/validateotp',
+        ,url: 'token/validateotp',
         body: body,
         successCB: successCB,
-        errorCB: (error:any) => Logger.error("error", error)
+        errorCB: (error:any) => {
+          Logger.error("error", error)
+          setDataById("snackBarInfo", {
+            open: true,
+            autoHideDuration: 2000,
+            severity: "error",
+            message: error?.message,
+          });
+        }
       })
     }
   };
+
 /**
  * function to handle resend otp
  * @returns 
  */
   const handleResendOtp = async () => {
-  const body={
-    token:token,
-    userId:userId,
-    type: 'RESET_PASSWORD_OTP',
-    phoneNumber:phoneNumber
-  }
-   await POST({
-      id: 'userDetails',
-      url: 'user/details',
-      body:body,
-      errorCB: (error: any) => Logger.error("error", error)
-    });
-   
-   const resendOtpBody={
-      phone: eventData?.data?.phone,
-      type: 'RESET_PASSWORD_OTP',
+    setIsResendDisabled(true);
+  if(purpose===purposeTypes.SET_PASSWORD){
+   const setOtp={
+       phone:phoneNumber,
+       type:purpose
     }
-    const response=await POST({
+    POST({
       id: 'resendOtp',
       url: 'token/otp',
-      body:resendOtpBody,
-      errorCB: (error: any) => Logger.error("error", error)
+      body:setOtp,
+      successCB:successCB,
+      errorCB: (error: any) =>{Logger.error("error", error);
+        setDataById('snackBarInfo',
+          { open: true, autoHideDuration: 2000, severity: 'error',
+            message: "Something went wrong. Try again."})}
     });
-    return response;
+    function successCB(success:any){
+      setDataById("resendOtp",{token: success?.data?.token});
+    }
+  }
+  if(purpose===purposeTypes.RESET_PASSWORD){
+       if(eventData){
+        const  resendOtp={
+        type:purpose,
+        phone: eventData?.data?.phone,
+        }
+        POST({
+        id: 'resendOtpToken',
+        url: 'token/otp',
+        body:resendOtp,
+        successCB:successCB,
+        errorCB: (error: any) =>{Logger.error("error", error);
+        setDataById('snackBarInfo',
+          { open: true, autoHideDuration: 2000, severity: 'error',
+            message: "Something went wrong. Try again."})}
+      });
+      function successCB(success: any) {
+         setDataById("resendOtp",{token: success?.data?.token});
+         setDataById('snackBarInfo',
+           { open: true, autoHideDuration: 2000, severity: 'success',
+             message: "Resend OTP. Sent successfully." });
+      }
+      }
+      }
   };
 
   return (
@@ -155,7 +273,7 @@ const UserOtp = () => {
             Verify Your Account
           </Typography>
           <Typography textAlign={'center'} className="header-subtitle">
-            {`Enter the OTP sent ${email} `}
+            {`Enter the OTP sent ${eventData?.data?.phone}`}
             <br />
             {`   to complete the process.`}
           </Typography>
@@ -222,12 +340,22 @@ const UserOtp = () => {
 
             />
           </form>
-          <Box className="navigation-text-container">
-            <Typography className="resend-text">
-              Didn't receive the OTP?{" "}
-              <span onClick={handleResendOtp} className="resend-text-highlight">
-                Resend OTP.
-              </span>
+          <Box className="navigation-text-container" flexDirection={"column"}>
+          <Typography className="resend-text">
+              Didn't receive the OTP?
+              {!isResendDisabled && (
+                <Typography onClick={handleResendOtp} className="resend-otp">
+                Resend Otp
+                </Typography>
+                 )}
+              <CustomTimer
+                initialTime={15}
+                isResendDisabled={isResendDisabled}
+                setIsResendDisabled={setIsResendDisabled}
+                className="resend-otp"
+              />{!isResendDisabled && (
+               <Typography className=""></Typography>  
+              )}
             </Typography>
           </Box>
         </Box>

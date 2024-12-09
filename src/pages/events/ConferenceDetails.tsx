@@ -88,9 +88,7 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
                 <Grid className="custom-stepper-conference-details-content-date-icon"><LocationIcon /></Grid>
                 <Grid>{data?.event?.location}</Grid>
             </Grid>}
-            <Grid>
-                {parse(data?.event?.description)}
-            </Grid>
+			<Grid className='custom-stepper-parse'>{parse(data?.event?.description)}</Grid>
             <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper-conference-details-content-header-container" alignItems={'center'}>
                 <Typography variant="h3" lineHeight={2} className="custom-stepper-conference-details-content-sub-title">Scheduled Programmes</Typography>
             </Grid>
@@ -124,13 +122,14 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
 								container
 								sx={{ width: "fit-content" }}
 								className="custom-stepper-conference-details-content-date"
-								justifyContent="flex-start"
+								justifyContent="space-around"
 								alignItems="center"
-							>
-								<DateIcon />
-								{date && moment(date).format("MMMM D")}
+
+							><Grid size={1}><DateIcon /></Grid>
+								<Grid>{date && moment(date).format("MMMM D")}</Grid>
+								
 								</Grid>
-							<Grid container spacing={2}>
+							<Grid container spacing={3} size={12}>
 								{scheduledData[date]?.map((item: any, index: number) => (
 									<SessionCard
 										key={index}

@@ -16,7 +16,7 @@ const PaymentMethod = React.memo(() => {
             <Grid container spacing={5}>
             <Grid container size={12} justifyContent={"flex-end"} >
                 </Grid>
-                <Grid className="left-content-wrapper">
+                <Grid className="signup-content-wrapper">
                     <Grid className="left-inner-content">
                         <Grid alignSelf={"center"}>
                             <Typography  className="left-plan-text" textAlign={"center"} variant="h3" lineHeight={2} >Payment Method</Typography>

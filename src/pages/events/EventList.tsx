@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid2";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
-import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
+import EventFilterIcon from '@/assets/svg/EventFilterIcon.svg';
 import FilterModal from "@/components/CustomFilter/FilterModal";
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
 import { useForm } from "react-hook-form";
@@ -15,7 +15,7 @@ import { Typography } from "@mui/material";
 import { ISource } from "@/Libs/type";
 import { Logger } from "@/Utils/Logger";
 import React from "react";
-
+import { NoEvent as NoEventIcon } from "@/assets/svg";
 interface EventListProps {
   hideAction?: boolean;
 }
@@ -24,7 +24,7 @@ interface EventListProps {
  * Used to render events list
  * @author Vanisree
  */
-const EventList : React.FC<EventListProps> = React.memo(({ hideAction }) => {
+const EventList: React.FC<EventListProps> = React.memo(({ hideAction }) => {
   const navigate = useNavigate();
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
@@ -65,24 +65,41 @@ const EventList : React.FC<EventListProps> = React.memo(({ hideAction }) => {
     {
       type: "default",
       field: "name",
-      headerName: "Conference Name",
+      headerName: "Event Name",
       width: 200,
     },
-    { type: "default", field: "type", headerName: "Type", width: 150 },
+    { type: "default", field: "eventClass", headerName: "Type", width: 150 },
     {
       type: "dateField",
       field: "createdOn",
-      headerName: "Date & Time",
-      width: 250,
+      headerName: "Created Date",
+      width: 200,
       dateFormat: "DD/MM/YYYY",
     },
     {
-      type: "default",
-      field: "description",
-      headerName: "Host/Organizer",
+      type: "dateField",
+      field: "startTime",
+      headerName: "Start Date",
       width: 200,
+      dateFormat: "DD/MM/YYYY",
     },
     { type: "status", field: "statusId", headerName: "Status", width: 150 },
+    {
+      type: "default",
+      field: "published",
+      headerName: "Publish",
+      width: 150,
+      renderCell: (params: any) => {
+        if (params.row.statusId !== 1) {
+          return <div></div>;
+        }
+        return (
+          <div>
+            {params.row.published ? "Yes" : "No"}
+          </div>
+        );
+      },
+    }
   ];
   /**
    * Apply filter
@@ -116,12 +133,12 @@ const EventList : React.FC<EventListProps> = React.memo(({ hideAction }) => {
   const handleSearch = async (query: string) => {
     setLoading(true);
     try {
-      let req:any = {
+      let req: any = {
         filters: {
           name: query,
         },
       };
-      const response = await await apiClient.get(`event/list`, req);
+      const response = await await apiClient.post(`event/list`, req);
       const { status, data } = await processAPIResponse(response, "eventList");
       if (status) {
         setSearchResults(data);
@@ -164,61 +181,77 @@ const EventList : React.FC<EventListProps> = React.memo(({ hideAction }) => {
 
       {/* Buttons for 'Create New Event' and 'Filters' */}
       <Grid container size={{ xs: 8 }} spacing={2} justifyContent="flex-end">
-        {!hideAction && <><Grid container>
-          <CustomAutocomplete
-            name="search"
-            className="custom-search-text-field"
-            control={control}
-            options={searchResults} // Dynamic options based on API results
-            getOptionLabel={(option: any) => option.name || ""} // Adjust based on your data structure
-            onSearch={handleSearch} // Call the search function
-            loading={loading}
-            onChange={handleAutocompleteChange}
-          />
-        </Grid>
-        <Grid container spacing={2}>
-          <CustomButton
-            className="custom-list-next-btn"
-            label="Create New Event"
-            variant="contained"
-            size="large"
-            type="submit"
-            startIcon={<AddIcon />}
-            onClick={() => {
-              navigate(routes.createEvent());
-            }}
-            // disabled={loading}
-          />
-          <CustomButton
-            className="custom-list-filter-btn"
-            onClick={() => setIsFilterModalOpen(true)}
-            label="Filters"
-            startIcon={<TuneRoundedIcon />}
-            variant="contained"
-            color="primary"
-            size="large"
-          />
-        </Grid></>}
+        {!hideAction && (
+          <>
+            <Grid container>
+              <CustomAutocomplete
+                name="search"
+                className="custom-search-text-field"
+                control={control}
+                placeholder="Search Events Name"
+                options={searchResults} // Dynamic options based on API results
+                getOptionLabel={(option: any) => option.name || ""} // Adjust based on your data structure
+                onSearch={handleSearch} // Call the search function
+                loading={loading}
+                onChange={handleAutocompleteChange}
+              />
+            </Grid>
+            <Grid container spacing={2}>
+              <CustomButton
+                className="event-list-create-btn"
+                label="Create New Event"
+                variant="contained"
+                size="large"
+                type="submit"
+                startIcon={<AddIcon />}
+                onClick={() => {
+                  navigate(routes.createEvent());
+                }}
+                // disabled={loading}
+              />
+              <CustomButton
+                className="event-list-filter-btn"
+                onClick={() => setIsFilterModalOpen(true)}
+                label="Filters"
+                startIcon={<EventFilterIcon />}
+                variant="contained"
+                color="primary"
+                size="large"
+              />
+            </Grid>
+          </>
+        )}
       </Grid>
       <Grid size={{ xs: 12 }}>
-        <DataGridList
+       <DataGridList
           source={source}
           onRowClick={(params: any) => handleRowClick(params.id)}
           title="Event"
-          hideFooterPagination={hideAction? true: false}
+          hideFooterPagination={hideAction ? true : false}
           columns={columns}
           id="event-datagrid"
-        />
+          noRecordIcon={<NoEventIcon className="event-list-no-events-icon"/>}
+          noRecordSubtitle="You haven’t registered for any events yet. Explore upcoming events and secure your spot today!"
+          redirectTo={() => routes.createEvent()} // define the route
+          btnName="Create New Event" //define the label of btn
+        /> 
       </Grid>
-      {hideAction && <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'center'} alignItems={'center'}>
-        <CustomButton
-          className="custom-list-view-all-button"
-          label="View All"
-          variant="outlined"
-          size="large"
-          onClick={() => navigate("/events")}
-        />
-      </Grid>}
+      {hideAction && (
+        <Grid
+          container
+          size={{ xs: 12, sm: 12 }}
+          justifyContent={"center"}
+          alignItems={"center"}
+        >
+          <CustomButton
+            className="custom-list-view-all-button"
+            label="View All"
+            variant="outlined"
+            size="large"
+            onClick={() => navigate("/events")}
+          />
+        </Grid>
+      )}
 
       {/* Filter Modal */}
       <FilterModal

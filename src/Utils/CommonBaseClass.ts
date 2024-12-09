@@ -1,4 +1,6 @@
 import moment from 'moment';
+import { useMediaQuery } from "react-responsive";
+
 /**
  * Process the API response to extract status and message.
  * @param
@@ -140,6 +142,24 @@ export function formatDateTimeRange({date,format}:IDateTimeRangeParams){
 return  moment.utc(date).local().format(format);
 }
 
+export function formatUTCDateTime(dateString: string) {
+  if (!dateString) {
+    return '';
+  }
+  const date = new Date(dateString);
+
+  // Extract date and time components
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0"); // Months are 0-based
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const hours = String(date.getUTCHours()).padStart(2, "0");
+  const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+
+  // Format to desired output
+  const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;
+  return formattedDate;
+}
+
 /**
  * Method used to convert text to camelcase
  * @param sentenceCase 
@@ -157,3 +177,67 @@ export const toCamelCase = (sentenceCase: any) => {
   }
   return out;
 }
+
+
+
+
+
+/**
+ * Clears the localStorage and sessionStorage, then invokes the success callback function.
+ * 
+ * @param successCB - A callback function that will be executed after clearing storage.
+ */
+export function handleLogout({ onLogoutSuccess }: { onLogoutSuccess: Function }) {
+  localStorage.clear();
+  sessionStorage.clear();
+  onLogoutSuccess();
+}
+
+
+/**
+ * Method fetches the user token
+ * @returns : user token
+ */
+export const getUserToken = () => {
+  return sessionStorage.getItem("userToken");
+}
+
+/**
+ * Converts a timestamp to a time string formatted as "HH:mm" (24-hour format).
+ * @param timestamp 
+ * @returns 
+ */
+export function getTimeFromTimestamp(timestamp:any) {
+  const date = new Date(timestamp);
+  return `${date.getUTCHours().toString().padStart(2, '0')}:${date.getUTCMinutes().toString().padStart(2, '0')}`;
+}
+
+/**
+ * Formats a timestamp into a string with the format "YYYY-MM-DDTHH:mm"
+ * @param timestamp 
+ * @returns 
+ */
+export function formatTimestamp(timestamp:any) {
+  const date = new Date(timestamp);
+  
+  const year = date.getUTCFullYear();
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // Month is 0-based
+  const day = date.getUTCDate().toString().padStart(2, '0');
+  const hours = date.getUTCHours().toString().padStart(2, '0');
+  const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+
+  return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+
+/**
+ * Hook for checking mobile screen
+ */
+export const useIsMobileScreen = () => useMediaQuery({ query: '(max-width: 600px)' });
+
+export const useIsMobileOrTabletScreen = () => useMediaQuery({ query: '(max-width: 900px)' });
+
+// Utility function to truncate strings
+export const truncateString = (str: string | undefined, limit: number, fallback: string = "N/A"): string => {
+    if (!str) return fallback;
+    return str.length > limit ? `${str.substring(0, limit)}...` : str;
+};

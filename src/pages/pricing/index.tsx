@@ -2,7 +2,7 @@ import { PlanSection } from './PlanSection';
 import WhychooseSection from '../home-layout/WhychooseSection';
 import FaqSection from '../home/FaqSection';
 import PlanFeatureSection from './PlanFeatureSection';
-import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid2';
 
 /**
  * pricing page component
@@ -11,14 +11,12 @@ import Box from '@mui/material/Box';
 
 const Pricing = () => {
   return (
-    <Box className="pricing-main">
+    <Grid>
       <PlanSection />
       <PlanFeatureSection/>
       <WhychooseSection/>
-      <Box className="faq-section__container">
-        <FaqSection />
-      </Box>
-    </Box>  
+      <FaqSection />
+    </Grid>  
   );
 };
 

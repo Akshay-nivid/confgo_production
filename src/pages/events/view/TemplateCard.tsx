@@ -1,44 +1,139 @@
+/**
+ * Component handles the template selection
+ */
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import template1 from '../../../assets/png/template1.png'
+import Template1 from '../../../assets/png/template1-preview.png'
+import Template2 from '../../../assets/png/template2-preview.png'
+import Template3 from '../../../assets/png/template3-preview.png'
+import CustomButton from "@/components/CustomButton/CustomButton";
+import CheckCircleIcon from '../../../assets/svg/template-select.svg'
+import { useEffect } from "react";
+import useStore from "@/Libs/store";
+import { Logger } from "@/Utils/Logger";
 
 
-const TemplateCard = () => {
-    interface TemplateType{
-        id:number,
-        name:string,
-        description:string,
-        image:string
-    }
-    const templateData :TemplateType[] = [
-        {
-            id: 1,
-            name: 'Template 1',
-            description: 'Description 1',
-            image: template1
-        },
-    ]
-    /**
-   *function to handle template selection
+
+const TemplateCard = (data: any) => {
+
+  const POST = useStore((state: any) => state.POST);
+  const PUT = useStore((state: any) => state.PUT);
+  const templateInfo = useStore((state: any) => state?.compData?.['templateList']?.[`template/list`]?.data) ?? [];
+  const templates = [Template1, Template2, Template3];
+  const setDataById = useStore((state: any) => state.setDataById);
+
+
+  /**
+   * Method transforms the template list data
+   * @param tempData : template list data
+   * @returns 
    */
-    const templateSelected=(_item:TemplateType)=>{
+  const createTemplateData = (tempData: any) => {
+    return tempData?.map((item: any, index: number) => ({
+      id: item.id,
+      name: item.name,
+      image: templates[index] || null,
+      selected: item.id === data?.eventData?.templateId,
+    }));
+  }
+
+  /**
+   * Method handles the template preview functionality
+   * @param temp : template id
+   */
+  const handlePreview = (temp: any) => {
+    const url = `/event/detail/${data?.eventData?.id}/template/${temp?.id}/preview`;
+    window.open(url, '_blank');
+  }
+
+  const handleItem = (_tempItem: any) => {
+    const url = `/event-link/${data?.eventData?.slugName}`;
+    window.open(url, '_blank');
+  }
+
+  /**
+   * Useeffect hook handles the api call for fetching template list
+   */
+  useEffect(() => {
+    fetchTemplateList();
+  }, [])
+
+
+  /**
+* Method fetch the event details
+*/
+  const fetchTemplateList = async () => {
+    try {
+      await POST({
+        url: `template/list`,
+        id: 'templateList',
+        body: { enabled: 1, limit: 3 },
+        errorCB: (context: any) => {
+          Logger.error('TemplateView.tsx', context?.message);
+        }
+      });
+    } catch (error) {
+      Logger.error('TemplateView.tsx', error);
+
     }
-    return (
-        <Grid className="event-detail-template-card" container spacing={2}>
-            <Grid container size={{ xs: 12, md:12}}>
-                <Typography className="event-detail-template-card-header" >
-                    Templates
-                </Typography>
+  }
+
+  /**
+   * Method handles the template selection updation
+   * @param item : template id
+   */
+  const handleApply = async (item: any) => {
+    try {
+      await PUT({
+        url: `event/template/${data?.eventData?.id}`,
+        id: 'templateUpdate',
+        body: { templateId: item.id },
+        successCB: (context: any) => {
+          if (context?.success) {
+            data?.onSubmitHandler && data?.onSubmitHandler();
+            setDataById("snackBarInfo", {
+              open: true,
+              autoHideDuration: 2000,
+              severity: "success",
+              message: "Theme applied successfully!",
+            });
+
+          }
+        },
+        errorCB: (context: any) => {
+          Logger.error('TemplateView.tsx', context?.message);
+        }
+      });
+    } catch (error) {
+      Logger.error('TemplateView.tsx', error);
+
+    }
+  }
+
+
+  return (
+    <Grid className="event-detail-template-card" container spacing={2}>
+      <Grid container size={{ xs: 12, md: 12 }}>
+        <Typography className="event-detail-template-card-header" >
+          Templates
+        </Typography>
+      </Grid>
+      <Grid container className="event-detail-template-card-selection" >
+        {templateInfo && createTemplateData(templateInfo)?.map((item: any) => (
+          <Grid className={item.selected ? `event-detail-template-card-selection-container event-detail-template-card-selection-container-selected` : `event-detail-template-card-selection-container`}>
+            <Grid container className="event-detail-template-card-selection-container-icon-container" justifyContent={'flex-end'}>{item.selected && <CheckCircleIcon />}</Grid>
+            <Grid container className="event-detail-template-card-selection-container-overlay" spacing={2} direction={'column'}>
+              {!item.selected && <CustomButton onClick={() => handleApply(item)} label="Apply Theme" className="event-detail-template-card-selection-container-overlay-apply-button" />}
+              <CustomButton onClick={() => handlePreview(item)} label="Preview Theme" className="event-detail-template-card-selection-container-overlay-preview-button" />
             </Grid>
-            <Grid container className="event-detail-template-card-selection" >
-            {templateData.map((item) => (
-                <Grid onClick={() => templateSelected(item)}>
-                    <img id={item.id.toString()} src={item.image} alt={item.name} />
-                </Grid>
-            ))}
+            <Grid className="event-detail-template-card-selection-preview-container" onClick={() => handleItem(item)}>
+              <img id={item.id.toString()} src={item.image} alt={item.name} />
             </Grid>
-        </Grid>
-    );
+          </Grid>
+        ))}
+      </Grid>
+    </Grid>
+  );
 };
 
 export default TemplateCard;

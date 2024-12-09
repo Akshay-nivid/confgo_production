@@ -32,4 +32,85 @@
       fill: $clr_black;
     }
   }
+
+  .file-upload-wrapper{
+  background-color: $clr_gray_20_percent !important;
+  width: 100% !important;
+  border-radius: .5rem;
+  padding-block:1rem ;
+  }
+
+  .dynamic-file-upload{
+    row-gap: 1rem !important;
+    .file-upload-button{
+      background-color: $clr_white !important;
+      border: 0.08rem solid $clr_black !important;
+    color: $clr_black !important;
+    }
+  }
+  .navigation-button-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 2rem;
+    margin-top: 2rem;
+    .back-button {
+      border-color: $clr_black;
+      color: $clr_black;
+      min-width: 20%;
+    }
+    .next-button {
+      background-color: $clr_black;
+      min-width: 20%;
+      &:disabled{
+      background-color: $clr_gray_faded;
+
+      }
+    }
+    
+  }
+  
+}
+
+.dynamic-form-modal {
+  margin-bottom: 1rem;
+  width: 26.25rem;
+  padding: 1rem;
+
+  .action-modal-icon {
+      width: 3rem !important;
+      height: 3rem !important;
+  }
+
+  .action-modal-header {
+      font-weight: $font_bold !important;
+      font-size: $h5 !important;
+      text-align: center !important;
+      
+  }
+
+  .action-modal-sub-header {
+      font-weight: $font_medium !important;
+      font-size: $p3 !important;
+      text-align: center !important;
+      margin-bottom: .5rem;
+  }
+
+  .action-modal-btn-cancel{
+      margin-left: 1rem !important;
+      width: 8.75rem;
+      text-transform: none !important;
+      box-shadow: none !important;
+      background-color: $clr_white !important;
+      color: $clr_black !important;
+      border: .008rem solid $clr_black !important;
+  }
+  .action-modal-btn-ok{
+    margin-left: 1rem !important;
+    width: 8.75rem;
+    text-transform: none !important;
+    box-shadow: none !important;
+    background-color: $clr_black !important;
+  }
 }

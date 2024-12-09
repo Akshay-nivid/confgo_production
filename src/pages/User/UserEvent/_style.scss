@@ -1,17 +1,10 @@
 .my-event{
-    margin: 2rem;
+    margin-top: 2rem;
+    margin-left: 2rem;
+    margin-right: 7rem !important;
     &-header{
         font-weight: $font-bold !important;
         font-size: $h5 !important;
-    }
-    &-no-event{
-        display:flex;
-        justify-content:center;
-        align-items:center;
-    }
-    &-no-event-image{
-        width:32.94rem;
-        height: 50vh;
     }
 }
 /* Center the outer grid content */
@@ -31,27 +24,33 @@
   }
   .no-event{
     width: 29.69rem;   
-   margin-top: 12.63rem;  
+    margin-top: 10rem;  
     &-svg{
-        width: 7.78rem;  
-        height: 8.43rem;
+        width: 29.69rem !important;
+        height:12rem;   
+        font-size: 10rem;
     &-text{
-        padding-top:3rem;
-        text-align:center;
-        font-family:$font ;
-        font-weight:$font_bold ;
-        font-size:$h5 ;
-        line-height: 1.64rem;
+        padding-top:2.7rem;
+        text-align:center;  
+        font-family:$font;
+        font-weight:$font_bold !important;
+        font-size:$p5 !important;
+        line-height: 2.185rem;
+        text-underline-position:from-font;
+        text-decoration-skip-ink: none;
      &-description{
-        padding-top:.4rem;
         text-align:center;
         line-height: 1.275rem;
         font-family:$font ;
         font-weight:$font_normal;
-        font-size:$p2;
+        font-size:$p2 !important;
         color:$clr_gray_dark_text;
      }
     }
     
     }
+   }
+   .autocomplete-border{
+    border-radius: 0.4rem ;
+    
    }

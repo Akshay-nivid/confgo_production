@@ -5,7 +5,7 @@ import HeroSection from './HeroSection';
 import WhychooseSection from '../home-layout/WhychooseSection';
 import useStore from '@/Libs/store';
 import { useEffect } from 'react';
-
+import { resetStore } from '@/Libs/store';
 /*
  * home page component
  * @returns
@@ -18,7 +18,11 @@ const HomePage = () => {
    * useEffect used to set page when return from this page
    */
   useEffect(() => {
+    sessionStorage.clear();
+    resetStore();
+    localStorage.clear();
     setDataById('register', { data: 'PLAN_PAGE', step: 1 });
+    setDataById("planMode", { mode: "register" });
   }, []);
   
   return (
@@ -26,7 +30,6 @@ const HomePage = () => {
       <HeroSection />
       <ConfrenceManagementSection />
       <FeatureSection />
-      {/* <FaqSection /> */}
       <WhychooseSection />
       <ViewPricingBanner />
     </>

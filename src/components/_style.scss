@@ -1,30 +1,39 @@
 .error-text {
   color: $clr_red !important;
   font-size: 0.833rem !important;
-  margin-top: .5rem !important;
   margin-left: 0 !important;
-  margin-bottom: 0.4rem !important;
+  margin-bottom: -0.4rem !important;
 }
 
 .plan-card-active {
-  background-color: $bg_light !important;
-  border: 0.188rem solid $clr_blue !important;
+  border: 0.25rem solid $clr_blue !important;
   color: $clr_black !important;
+  &-radio-button{
+    span {
+      .MuiSvgIcon-root {
+        path {
+          fill: $clr-bright-blue;
+        }
+  
+        &:last-child {
+          padding: 0.15rem;
+        }
+      }
+    }
+  }
 }
 
 .plan-card {
-  max-width: 36rem;
-  max-height: 6.833rem;
+  max-width: 39.6rem;
+  max-height: 7.833rem;
   background-color: $clr_white;
-  border: 0.083rem solid $clr_gray_light;
+  border: 0.083rem solid $clr_requirement_text;
   margin-top: 2.5rem;
   overflow: hidden;
-  border-radius: 0.4rem;
-  color: $clr_gray_faded;
+  border-radius: 0.83rem;
   & .MuiFormControlLabel-root {
     margin: 0 !important;
-    padding-block: 1.5rem;
-    padding-inline: 1.5rem !important;
+    padding: 1.5rem;
     width: 100% !important;
 
     & .MuiFormControlLabel-label {
@@ -33,9 +42,12 @@
   }
   &-header {
     font-size: $h5 !important;
+    font-weight: $font_semibold !important;
   }
   &-price {
-    font-size: $h6;
+    font-size: $h6 !important;
+    color: $clr_sub_header !important;
+    font-weight: $font_medium !important;
   }
   &-discount-percent {
     background-color: $clr_blue;
@@ -45,6 +57,12 @@
     font-size: $h6;
     border-radius: 0.417rem;
     color: $clr_white;
+  }
+  &-icon{
+    svg{
+      width: 4rem;
+      height: 4rem;
+    }
   }
 }
 
@@ -66,6 +84,9 @@
   }
   & .MuiInputBase-input {
     background-color: $clr_white;
+  }
+  & .MuiInputLabel-outlined{
+    color:$input_label !important;
   }
   &-icon-btn {
     &:focus {
@@ -159,6 +180,12 @@
   font-size: $p1;
   .MuiDataGrid-main{
     max-height: var(--grid-height, calc(100vh - 200px)) !important;
+  }
+  .MuiDataGrid-row {
+    background-color: $clr_white;
+  }
+  .MuiDataGrid-row:hover {
+    background-color: $clr_gray_medium;
   }
   .MuiDataGrid-virtualScrollerRenderZone{
     overflow: scroll !important;
@@ -258,7 +285,7 @@
   }
   .MuiDataGrid-cell {
     border-color: $clr_white;
-    background-color: $clr_white;
+    background-color: transparent;
     font-weight: $font_normal;
     font-size:$p1 !important;
     justify-content: center !important;
@@ -269,6 +296,23 @@
     display: block;
   }
 }
+.custom-data-grid.with-border {
+  border: 0.083rem solid $clr_light_border_grey !important;
+  border-radius: 0.8rem !important;
+
+  .MuiDataGrid-cell{
+    font-size: $p2 !important;
+  border-top: 0.083rem solid $clr_light_border_grey;
+  }
+  .MuiDataGrid-row--borderBottom .MuiDataGrid-columnHeader{
+    border-bottom: none;
+  }
+  .MuiDataGrid-columnHeader .MuiDataGrid-columnHeaderTitleContainer{
+    color: $clr_black !important;
+    font-size: $p2;
+  }
+}
+
 
 .custom-pagination {
   background-color: #f5f5f5;
@@ -289,8 +333,21 @@
   .Mui-selected {
           font-size: $p2 !important;
           border-radius: $p2 !important;
-          background-color: $clr_green_light !important;  
+
           color: $clr_green !important;           
+        }
+        &.blue-theme {
+          .Mui-selected {
+            background-color: $clr_status_bar !important; // Blue background
+            color: $clr_blue !important;
+          }
+        }
+        
+        &.green-theme {
+          .Mui-selected {
+            background-color: $clr_green_light !important; // Green background
+            color: $clr_green !important;
+          }
         }
 }
 .custom-list{
@@ -365,6 +422,11 @@
       padding-top: 1rem !important;
       padding-bottom: 3rem !important;
   }
+  &-restore-btn{
+    background-color: $clr_white !important ;
+    color: $clr_green !important;
+    margin-left: 1rem !important;
+  }
 
 }
 .custom-autopopulate {
@@ -384,8 +446,9 @@
   color: $clr_gray_medium !important; 
   font-weight: $font_normal !important;
   font-size: $h6 !important;
-  border-radius: 0.5rem !important;
+  border-radius: 0.4167rem !important;
   padding-left: 0rem !important;
+  border:0.0667rem solid $clr_light_sky_blue !important;
   &-icon{
     color: $clr_gray_medium !important;
     font-size: 10rem !important;
@@ -448,7 +511,7 @@
     background-color: $clr_white !important;
     color: $clr_green !important;
     max-width: 21rem !important;
-    border: 0.083rem solid $clr_green !important;
+    border: 0.125rem solid $clr_green !important;
     text-transform: none !important;
     font-size: $p2 !important;
     font-weight: $font_normal !important;
@@ -523,6 +586,7 @@
     background-color: $clr_white;
   }
   &-container {
+    width: 54.08rem !important;
     pointer-events: none;
     .MuiStepLabel-label{
       font-size: $p2 !important;
@@ -627,6 +691,7 @@
             background-color: $clr_status_bar;
             padding-left: 1rem;
             padding-right: 1rem;
+            color: $clr_cyan_blue ;
           }
           &-date-icon{
             svg{
@@ -652,6 +717,20 @@
           }
         }
     }
+    &-parse{
+      max-width: 100% !important;
+      overflow-wrap: break-word !important;
+      ul {
+        list-style-type: disc !important;
+        padding-left: 1.25rem !important; 
+      }
+      
+      ol {
+        list-style-type: decimal !important; 
+        padding-left: 1.25rem !important; 
+      }
+    }
+
 }
 
 
@@ -677,12 +756,12 @@
 }
 
 .no-record {
+  display: flex;
   &-container {
       width: '100%';
       background-color: $clr_white;
       margin: 1rem;
       border-radius: 0.9rem;
-      justify-content: center !important;
   }
   &-image{
     margin-top: 10rem !important;
@@ -690,17 +769,28 @@
   &-title{
     display: flex;
     font-weight: $font_semibold !important;
-    font-size: $p3 !important;
+    font-size: $p5 !important;
     justify-content: center !important;
     margin-top: 3rem !important;
     color:$clr_black !important;
   }
   &-subtitle{
     font-weight: $font_normal !important;
-    font-size: $p1 !important;
-    justify-content: center !important;
-    margin-bottom: 10rem !important;
+    font-size: $p2 !important;
+    text-align: center; 
+    margin-bottom: 2rem !important;
     color:$clr_gray_extra_dark !important;
+  }
+  &-create-btn{
+    max-height: 4rem;
+    background-color: $clr_green !important;
+    color: $clr_white !important;
+    max-width: 19rem !important;
+    text-transform: none !important;
+    box-shadow: none !important;
+    font-size: $p2 !important;
+    font-weight: $font_normal !important;
+    margin-bottom: 3rem !important;
   }
 }
 
@@ -788,5 +878,68 @@
     height: 3.5rem;
     font-size: $p2 !important;
     font-weight: $font_medium !important;
+    box-shadow: none !important;
+  }
+  
+}
+.action-modal{
+  margin-bottom: 1rem;
+  width: 26.25rem;
+  padding: 1rem;
+
+  .action-modal-icon {
+      width: 3rem !important;
+      height: 3rem !important;
+  }
+
+  .action-modal-header {
+      font-weight: $font_bold !important;
+      font-size: $h5 !important;
+      text-align: center !important;
+      
+  }
+
+  .action-modal-sub-header {
+      font-weight: $font_medium !important;
+      font-size: $p3 !important;
+      text-align: center !important;
+  }
+
+  .action-modal-btn-cancel{
+      margin-left: 1rem !important;
+      width: 8.75rem;
+      text-transform: none !important;
+      box-shadow: none !important;
+      background-color: $clr_gray_dark !important;
+  }
+  .action-modal-btn-ok{
+    margin-left: 1rem !important;
+    width: 8.75rem;
+    text-transform: none !important;
+    box-shadow: none !important;
+    background-color: $clr_green !important;
+  }
+}
+
+.faq-section {
+  padding-bottom: 6.83rem;
+  &__content {
+    .faq-section__header {
+      margin-bottom: 4rem;
+      &-title {
+        margin-bottom: 0.3rem;
+        font-weight: $font_bold !important;
+        font-size: $h2;
+      }
+
+      &-description {
+        color: $clr_sub_header;
+      }
+    }
+  }
+  &__cards{
+    .MuiPaper-elevation{
+      --Paper-shadow:none !important
+    }
   }
 }

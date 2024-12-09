@@ -186,7 +186,7 @@ const Events = () => {
       };
     });
     //tranform addOnData
-    const transformedAddOnData = addOn.map(({ propertyName,propertyAmount,description,repeat, name, addonType, noOfDays, dateRequired, propertyChip, type, startTime, endTime, date, properties,amount, ...item }: Addons) => {
+    const transformedAddOnData = addOn.map(({ propertyName,propertyAmount,repeat, name, addonType, noOfDays, dateRequired, propertyChip, type, startTime, endTime, date, properties,amount, ...item }: Addons) => {
       // Create the combined datetime field
       let combinedStartDateTime;
       let combinedEndDateTime;
@@ -199,7 +199,7 @@ const Events = () => {
         ...item,
         amount:amount?amount:"0",
         ...(combinedStartDateTime && { startTime: combinedStartDateTime }),
-        ...(combinedEndDateTime&&{endTime:combinedEndDateTime}),
+        ...(combinedEndDateTime&&{ endTime:combinedEndDateTime}),
         ...(properties.length !== 0 && {
           properties: properties?.map(({ propertyId, propertyName, propertyAmount, ...rest }: any) => ({
             name: propertyName,
@@ -216,11 +216,19 @@ const Events = () => {
       startTime: event?.startTime,
       endTime: event?.endTime,
       statusId,
-      amount: event?.amount || 0
+      amount: event?.amount || 0,
+      eventClass: event?.type,
+      assetId:event?.assetId,
+      contacts: [
+        {
+          phone: event?.phone,
+          email: event?.email 
+        }
+      ]
     };
 
     // Handle URL and Venue logic
-    if (event?.programType === 'ONLINE') {
+    if ( event?.type === 'ONLINE') {
       req['url'] = event?.url;
     } else {
       req['venue'] = {
@@ -232,12 +240,12 @@ const Events = () => {
         country: event?.country,
         postalCode: event?.postalCode,
       };
-      if (event?.programType !== 'OFFLINE') {
+      if ( event?.type !== 'OFFLINE') {
         req['url'] = event?.url;
       }
     }
     req['programs']=transformProgram;
-    req['addon']=transformedAddOnData;
+    req['addons']=transformedAddOnData;
 
     return req;
   };
@@ -295,7 +303,7 @@ const Events = () => {
 
   return (
     <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper">
-      <Grid size={{ xs: 12, sm: 12 }} className="custom-stepper-main">
+      <Grid size={{ xs: 12, sm: 12 }} justifyItems={'center'} className="custom-stepper-main">
         <CustomStepper
           steps={steps}
           activeStep={activeStep}

@@ -1,0 +1,212 @@
+.main-account-title{
+    font-weight: $font_semibold !important;
+    font-size: $h5 !important;
+}
+.main-account-grid{ 
+    background-color: $clr_white;
+}
+.main-account-profile-grid{
+    margin-top: 1rem !important;;
+}
+.main-security-title{
+    margin-bottom: 2rem !important;
+    margin-top: 2rem !important;
+}
+.main-account-title-grid{
+    display: flex;
+    align-items: center;
+}
+.main-account-profile-image{
+    display: flex;
+}
+
+.main-user-profile {
+    width: 6.667rem !important;
+    height: 6.667rem !important; 
+    border-radius: 3.333rem !important; 
+    object-fit: cover !important;
+    &-text{
+        background-color: $soft-cyan !important;
+        color: $clr_white;
+        font-size: $h2 !important;
+        font-weight: $font-bold !important;
+    }
+     
+}
+.main-account-user-detail1{
+    font-weight: $font_medium !important;
+    font-size: $h6 !important;
+    line-height: 1.5rem !important;
+    color: $light_grey;
+    margin-top: 2rem !important;
+}
+.main-account-main-grid{
+    margin-bottom: 2rem;
+}
+.main-account-user-detail2{
+    line-height: 3rem !important;
+    font-weight: $font_semibold !important;
+    font-size: $h6 !important;
+}
+.main-account-profile-grid{
+    width: 49.438rem;
+    border: 0.0833rem solid $clr_gray_very_light;
+    border-radius: 0.625rem;
+    padding: 1.5rem;
+}
+.main-account-tab-details{
+    margin-top: 1rem;
+}
+
+.connected{
+    margin-top: 1rem;
+}
+.main-account-drawer{
+    padding: 3rem;
+    max-width: 39.083rem;
+}
+.main-account-drawer-text{
+    justify-content: space-between;
+    align-items: center;
+}
+.close{
+     margin-bottom:2.2rem !important;
+}
+.main-account-drawer-textfield{
+    margin-bottom: 2rem !important;
+}
+.main-user-details{
+    margin-top: 2rem !important;
+}
+
+.main-account-drawer-btn{
+    justify-content: flex-end;
+    align-items: center;
+    .main-user-submit-btn{
+        width: 10.25rem;
+        height: 3.83rem;
+        font-family:$font_bold;
+        font-size:$h6;
+        font-weight:$font_semibold; 
+        line-height: 1.5rem;
+    }
+}
+.main-outline{
+    border: 0.083rem solid $clr_gray_dark !important;
+}
+.main-account-settings-main-title{
+    padding: 1rem;
+    font-size: $h4 !important;
+    font-weight: $font_bold  !important;
+}
+.main-account-tabs {
+    align-items: flex-start !important;
+    .css-q0nj0x-MuiButtonBase-root-MuiTab-root{
+        padding: 0rem !important;
+    }
+    .css-1usuzwp-MuiButtonBase-root-MuiTab-root{
+        margin-left:1rem !important;
+    }
+    .css-15gx8z5-MuiButtonBase-root-MuiTab-root {
+        padding: 0rem !important;
+    }
+    .MuiTabs-indicator {
+        border-bottom: 0.167rem solid $clr_green !important;
+      }
+      .css-1wxkzlj-MuiTabs-flexContainer{
+        border-bottom: 0.125rem solid $clr_tab_border_color
+      }
+      .css-1qltlow-MuiTabs-indicator{
+        background-color: transparent;
+      }
+      &-container{
+        justify-content: flex-start;
+        border-bottom: 0.1rem solid $clr_tab_border_color;
+        padding: 0 !important;
+        .MuiTabPanel-root{
+            min-height: 40rem;
+        }
+    }
+    &-item{
+        padding: 3rem 3rem 2rem 3rem !important;
+        &:first-of-type {
+            padding: 3rem 2rem 2rem 2rem !important; 
+        }
+    }
+      .MuiTab-textColorPrimary {
+        color: $clr_text_gray;
+        font-weight: $font_medium;
+        text-transform: none;
+        font-size: $h6 ;
+    }
+  
+    .Mui-selected{
+        color: $clr_black !important;
+    }
+}
+.main-account-tab-title{
+    font-weight: $font_medium !important;
+    font-size: $h6 !important;
+    text-transform: none !important;
+
+}
+.main-security-container{
+    padding: 1rem;  
+
+.main-security-text{
+    font-weight: $font_semibold !important;
+    font-size: $h6 !important;
+    margin-bottom: 0.625rem !important;
+
+}
+.main-security-subtext{
+    color: $light_grey !important;
+    font-size: $p1 !important;
+    font-weight: $font_medium !important;
+    margin-bottom: 1.25rem !important;
+
+}
+.main-security-text-border{
+    align-items: center;
+    justify-content: space-between !important;
+    margin-top: 1rem;
+    
+}
+.main-security-password-reset-btn{
+    box-shadow: none !important;
+    padding: 0.8rem 3rem !important;
+    background: $clr_green !important;
+}
+
+.main-security-bottom-border{
+    padding-bottom: 0.625rem;
+    border-bottom: 0.083rem solid $clr_light_border_grey;
+}
+}
+
+//newly added
+.main-profile-text{
+    font-weight:$font_medium !important;
+    font-size: $h4 !important;
+}
+.main-profile-email{
+    font-weight:$font_semibold !important;
+    font-size: $h5 !important;
+    margin-top: 1.667rem  !important;
+}
+.main-profile-email-subtext{
+    font-weight:$font_medium !important;
+    font-size: $h6 !important;
+    margin-bottom: 1.667rem !important;
+}
+.main-user-profile-upload-btn{
+    margin-left: 1.5rem !important;
+    padding: 1rem 1.667rem !important;
+    border-radius: 4.583rem !important;
+    background-color: $clr_light_grey !important;
+    color: $clr_black !important;
+
+}
+.main-user-submit-btn{
+    background-color: $clr_green  !important;
+}

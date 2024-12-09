@@ -10,7 +10,7 @@ import UsersRegisteredIcon from '@/assets/svg/users-registered-icon.svg';
 import NewRegistrationsIcon from '@/assets/svg/new-registrations-icon.svg';
 import { EventListCard } from "./EventListCard";
 import { CalendarCard } from "./CalendarCard";
-import { Typography } from "@mui/material";
+import { Typography,CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import useStore from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
@@ -22,16 +22,21 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import routes from "@/router/routes";
 import { useNavigate } from "react-router-dom";
 import NoDataDashBoard from "./NoDataDashBoard";
+import TermsAndConditon from "./TermsAndCondition";
 
 const Dashboard = () => {
-
   const POST = useStore((state: any) => state.POST);
   const GET = useStore((state: any) => state.GET);
   const [upcomingData, setUpcomingData] = useState<CalendarCardData | null>(null);
   const [pendingData, setPendingData] = useState<any>(null);
   const navigate = useNavigate();
   const fullEventList = useStore((state: any) => state?.compData?.["fullEventList"]?.['event/list']) ?? [];
+  const pendingEventList = useStore((state: any) => state?.compData?.["pendingEventList"]?.['event/list']) ?? [];
   const eventCountData=useStore((state:any)=>state?.compData?.["dashBoardEventCount"]?.['dashboard/eventAndUserCount'])??[];
+  const [open, setOpen] = useState<boolean>(false);
+  const handleOpen = () => setOpen(true);//true 
+  const handleClose = () => setOpen(false);
+  const acceptedTerms=sessionStorage.getItem('acceptedTerms')
   /**
    * Useeffect hook handles the api call for fetching upcoming event list and pending event list
    */
@@ -40,6 +45,9 @@ const Dashboard = () => {
     fetchFullEventList();
     fetchUpcomingEventList();
     fetchPendingEventList();
+    if(acceptedTerms=='0'){
+      handleOpen();
+    }
   }, [])
 
   /**
@@ -75,11 +83,6 @@ const Dashboard = () => {
             sortDirection: "DESC",
           },
           id: 'fullEventList',
-          successCB: (context: any) => {
-            if (context?.success) {
-              setUpcomingData(context?.data?.[0])
-            }
-          },
           errorCB: (context: any) => {
             Logger.error('Dashboard', context?.message);
           }
@@ -100,7 +103,7 @@ const Dashboard = () => {
         body: {
           filters: {
             published: 1,
-            startTime: moment(new Date()).format('YYYY-MM-DD'),
+            startTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
           },
           sortDirection: "asc",
           sortBy: "startTime",
@@ -158,9 +161,12 @@ const Dashboard = () => {
   }
 
 
-  return(<>{fullEventList?.data?.length==0?<NoDataDashBoard/>:  <Grid container size={{ xs: 12, sm: 12 }} spacing={2} className="dashboard" >
-    <Grid size={{ xs: 12, sm: 8 }} container >
-      <Grid size={{ xs: 12, sm: 12 }} container>
+  return(pendingEventList?.success ?
+  <>
+  <TermsAndConditon open={open} onClose={handleClose}/>
+  { fullEventList?.data?.length==0?<NoDataDashBoard/>:<Grid container size={{ xs: 12, sm: 12 }} spacing={2} className="dashboard" >
+    <Grid size={{ xs: 12, sm: 8 }} container p={2}>
+      <Grid size={{ xs: 12, sm: 12 }} container >
         <Grid size={{ xs: 12, sm:upcomingData? 6:12 }} className="dashboard-welcome-card"><WelcomeCard /></Grid>
         {upcomingData&& <Grid size={{ xs: 12, sm: 6 }} className="dashboard-upcoming-event-card"><UpcomingEventCard data={upcomingData}/></Grid>}
       </Grid>
@@ -178,7 +184,7 @@ const Dashboard = () => {
         label="Create New Event"/>
         </Grid>}
     </Grid>
-    <Grid size={{ xs: 12, sm: 4 }} >
+    <Grid size={{ xs: 12, sm: 4 }} pt={2}>
       <Grid><Typography className="dashboard-calendar-card-header">Weekly Calendar</Typography></Grid>
       {upcomingData? <Grid className="dashboard-calendar-card"> <CalendarCard data={upcomingData}/> </Grid>:
         <Grid container className="dashboard-no-event-calender" justifyContent={"center"} alignItems={"center"} alignContent={"center"} flexDirection={"column"}>
@@ -193,10 +199,20 @@ const Dashboard = () => {
         </Grid>
        }
     </Grid>
-    <Grid size={{ xs: 12, sm: 12 }} container direction={'column'}>
-      <Grid className="dashboard-event-list-card"><EventListCard /></Grid>
+    <Grid size={{ xs: 12, sm: 12 }} container direction={'column'} p={1}>
+    {fullEventList?.data?.length < 5 ? (
+              <Grid className="dashboard-event-list-card">
+                <EventListCard view={false} />
+              </Grid>
+            ) : (
+              <Grid className="dashboard-event-list-card">
+                <EventListCard view={true} />
+              </Grid>
+            )}
+      
     </Grid>
   </Grid>}
-  </>)};
+  </>:
+  <Grid container justifyContent={'center'}><CircularProgress /> </Grid>)};
 
 export default Dashboard;

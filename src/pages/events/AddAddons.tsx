@@ -4,7 +4,7 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import { Box, Chip, IconButton, Typography } from "@mui/material";
+import { Box, Chip, IconButton, Tooltip, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler, useFieldArray} from "react-hook-form";
@@ -18,6 +18,7 @@ import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CreateAddon from "./CreateAddon";
 import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
 import { validateRequiredField } from "@/Utils/Validation";
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 type FormData = {
   addOn: {
@@ -42,7 +43,7 @@ type FormData = {
     repeat:string[];
     noOfDays:string;
   }[];
-  savedPrograms: {
+  savedAddOns: {
     id?: string;
     name: string;
     description: string;
@@ -84,7 +85,7 @@ const typeArray = [
 
 const AddAddOns: React.FC<ProgramProps> = React.memo(
   ({ formSubmit, onSubmitHandler, data, onSaveHandler ,onaddOnSubmitHandler,addOnOptions,eventData}) => {
-    const { handleSubmit, control, watch, setValue,resetField } = useForm<FormData>({
+    const { handleSubmit, control, watch, setValue,resetField,setError} = useForm<FormData>({
 
       defaultValues: {
         addOn: [
@@ -114,24 +115,23 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
     const [editMode, setEditMode] = useState(false);
     const [addOnView,setAddonView]=useState(false);
     /**
-     * Useeffect hook updates the programIndex value based on the savedPrograms dependency
+     * Useeffect hook updates the programIndex value based on the savedAddOns dependency
      */
     useEffect(() => {
 
-      const savedPrograms = watch("savedPrograms");
-      if (savedPrograms && savedPrograms.length > 0) {
-        setProgramIndex(savedPrograms.length - 1);
+      const savedAddOns = watch("savedAddOns");
+      if (savedAddOns && savedAddOns.length > 0) {
+        setProgramIndex(savedAddOns.length - 1);
       } else {
         setProgramIndex(0);
       }
-    }, [watch("savedPrograms")]);
-    
+    }, [watch("savedAddOns")]);
     /**
      * Useeffect hook submits the form based on the formSubmit variable
      */
     useEffect(() => {
       if (formSubmit) {
-        onSubmitHandler && onSubmitHandler(data?.savedPrograms, "ADDS");
+        onSubmitHandler && onSubmitHandler(data?.savedAddOns, "ADDS");
       }
     }, [formSubmit]);
 
@@ -140,7 +140,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
      * @param data : form data
      */
     const onSubmit: SubmitHandler<FormData> = (data: any) => {
-      onSubmitHandler && onSubmitHandler(data?.savedPrograms, "ADDS");
+      onSubmitHandler && onSubmitHandler(data?.savedAddOns, "ADDS");
     };
 
     /**
@@ -149,7 +149,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
     useEffect(() => {
       if (data) {
         setValue("addOn", data);
-        setValue("savedPrograms", data);
+        setValue("savedAddOns", data);
       }
     }, [data]);
 
@@ -168,6 +168,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       // Get the current programs data from `watch("programs")`
       const addOn = watch("addOn");
       const lastItem = addOn[addOn.length - 1];
+      const lastIndex = addOn.length - 1;
       let newPrograms = [...addOn];
       // Handle saving logic based on `editMode`
       if (!editMode) {
@@ -189,8 +190,20 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
           repeat: [],
           noOfDays: ""
         };
+     
+        const startDate = moment(eventData.startTime).startOf('day');
+        const endDate = moment(eventData.endTime).startOf('day');
+        const differenceInDays = endDate.diff(startDate, 'days');
+        if (parseInt(lastItem?.noOfDays) > differenceInDays) {
+          setError(`addOn.${lastIndex}.noOfDays`, {
+            type: 'manual',
+            message: `Maximum ${differenceInDays} can be repeated!`,
+          });
+          return;
+        }
+
         //When Repeat is true
-        if (lastItem.noOfDays !== '') {
+        if (lastItem.noOfDays !== '' && lastItem?.repeat?.length > 0) {
           // Loop over the remaining days and increment the date for each
           for (let i = 1; i < parseInt(lastItem?.noOfDays); i++) {
             // Create a new addon by copying lastItem
@@ -201,14 +214,14 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
             //update newPrograms Array
             newPrograms.push(newAddon);
           }
-          setValue("savedPrograms", addOn); 
+          setValue("savedAddOns", addOn); 
           newPrograms.push(newAddon);
           append(newAddon); 
           setProgramIndex(addOn?.length || 0);
         } else {
           newPrograms.push(newAddon);
-        // Update both `savedPrograms` and the local `programs` array
-          setValue("savedPrograms", addOn);
+        // Update both `savedAddOns` and the local `programs` array
+          setValue("savedAddOns", addOn);
           append(newAddon);
           setProgramIndex(addOn?.length || 0);
         }
@@ -231,7 +244,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
      */
     const handleEdit = (index: number) => {
       setEditMode(true);
-      setValue("addOn", watch("savedPrograms"));
+      setValue("addOn", watch("savedAddOns"));
       setProgramIndex(index);
     };
 
@@ -240,12 +253,13 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
      * @param index : index of the program to delete
      */
     const handleDelete = (index: number) => {
-      setValue("addOn", watch("savedPrograms"));
+      setValue("addOn", watch("savedAddOns"));
       setProgramIndex(index);
-      const programsCopy = [...watch("savedPrograms")];
+      const programsCopy = [...watch("savedAddOns")];
       programsCopy.splice(index, 1);
-      setValue("savedPrograms", programsCopy);
+      setValue("savedAddOns", programsCopy);
       const saveProgram = programsCopy;
+      setEditMode(false);
 
       remove(index);
       if (index === programsCopy.length) {
@@ -285,40 +299,47 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       const values = watch();      
       const propertyName = values.addOn[index].propertyName; 
       const propertyAmount = values.addOn[index].propertyAmount;
-    
-      const newProperty = {
-        propertyId:Date.now().toString(),
-        propertyName: propertyName,
-        propertyAmount: propertyAmount,
-      };
-    
-      const updatedAddOn = [...values.addOn]; 
-    
-      updatedAddOn[index].properties = updatedAddOn[index].properties.filter(
-        prop => prop.propertyName !== ""
-      );
-      updatedAddOn[index].properties.push({ ...newProperty});
-    
-      setValue("addOn", updatedAddOn);
-      resetField(`addOn.${index}.propertyName`,{});
-      resetField(`addOn.${index}.propertyAmount`,{});
+      if(propertyName){
+        const newProperty = {
+          propertyId:Date.now().toString(),
+          propertyName: propertyName,
+          propertyAmount: propertyAmount,
+        };
+        const updatedAddOn = [...values.addOn]; 
+        updatedAddOn[index].properties = updatedAddOn[index].properties.filter(
+          prop => prop.propertyName !== ""
+        );
+        updatedAddOn[index].properties.push({ ...newProperty});
+        setValue("addOn", updatedAddOn);
+        resetField(`addOn.${index}.propertyName`,{});
+        resetField(`addOn.${index}.propertyAmount`,{});
+      }else{
+        setError(`addOn.${index}.propertyName`, {
+          type: 'manual',
+          message:`This feild is required`,
+        });
+        return
+      }
     }
     /**
      * Method handles the delete a property
      * @param index : form index
      */
     const deleteChip = (item: any, _index: number) => {
-      const values = watch(); 
+      const values = watch();     
+      // Update the addOn array by filtering out the specific property
       const updatedAddOn = values.addOn.map((addOnItem) => {
-          const updatedProperties = addOnItem.properties.filter(
-            (property) => property.propertyId !== item.propertyId
-          );
-          const data= {
-            ...addOnItem,
-            property: updatedProperties,
-          };
-        return data;
+        const updatedProperties = addOnItem.properties.filter(
+          (property) => property.propertyId !== item.propertyId
+        );
+    
+        // Return the updated object with correct key (`properties`)
+        return {
+          ...addOnItem,
+          properties: updatedProperties, // make sure the key is `properties`, not `property`
+        };
       });
+      // Use setValue to update the form state
       setValue('addOn', updatedAddOn);
     };
     /**
@@ -326,6 +347,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
      */
     const handleDrawerClose=()=>{
       setAddonView(false)
+      resetField(`addOn.${0}.addonId`,{});
     }
     return (
       <Box className="add-program-container">
@@ -337,7 +359,8 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
             className=""
           >
             <Grid
-              size={{ xs: 12, sm: 8 }}
+              size={{ xs: 12, sm: 7 }}
+              ml={6}
               className="add-program-form-container"
             >
               <Box className="add-program-form-spacing">
@@ -370,8 +393,9 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                 alignItems={"center"}
                                 spacing={2}
                               >
-                                <Grid size={{ xs: 12, sm: 6 }}>
+                                <Grid size={{ xs: 12, sm: 12 }}>
                                   <CustomSelect
+                                  className="add-program-select"
                                   rules={{required:validateRequiredField({})}}
                                     optionClick={(value) => {
                                       if (value === 'other') {
@@ -384,13 +408,15 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     options={addOnOptions} />
                                     
                                 </Grid>
-                                <Grid size={{ xs: 12, sm: 6 }}>
+                                <Grid size={{ xs: 12, sm: 12 }}>
                                   <CustomTextField
                                     placeholder="Add-on Description"
                                     control={control}
                                     name={`addOn.${index}.description`}
                                     type="text"
                                     rules={{required:validateRequiredField({})}}
+                                    multiline={true}
+                                    rows={10}
                                   />
                                 </Grid>
                                 <Grid size={{xs:12,sm:12}}>
@@ -406,62 +432,40 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                   <>{watch(`addOn.${index}.dateRequired`)&& <>
                                 <Grid size={{ xs: 12, sm: 4 }}>
                                   <CustomTextField
+                                    className="create-event"
                                     placeholder="Date"
                                     control={control}
                                     name={`addOn.${index}.date`}
                                     defaultValue={moment(eventData?.startTime).format("YYYY-MM-DD")}
                                     type="date"
-                                    min={moment().format("YYYY-MM-DD")}
-                                    minDate={eventData?.startTime}
-                                    maxDate={eventData?.endTime}
-                                    rules={{
-                                      validate: () =>
-                                        new Date() >= new Date() ||
-                                        "Start Date cannot be in the past",
-                                    }}
+                                    min={moment(eventData.startTime).format("YYYY-MM-DD")}
+                                    max={moment(eventData.endTime).format("YYYY-MM-DD")}
                                   />
                                 </Grid>
                                 <Grid size={{ xs: 4 }}>
                                     <CustomTextField
+                                      className="create-event"
                                       placeholder="Start Time"
                                       control={control}
                                       name={`addOn.${index}.startTime`}
                                       defaultValue={ moment(new Date()).format("HH:mm")}
                                       type="time"
-                                      min={moment().format("HH:mm")} 
+                                      min={moment(new Date()).format("HH:mm")} 
                                       rules={{
-                                        required: true,
-                                        validate: (value) => {
-                                          if (value) {
-                                            const currentTime = moment().format("HH:mm");
-                                            return (
-                                              value >= currentTime || "Start Time cannot be in the past"
-                                            );
-                                          }
-                                          return "Invalid time";
-                                        },
+                                        required: true
                                       }}
                                     />
                                   </Grid>
                                     <Grid size={{ xs: 4 }}>
                                       <CustomTextField
+                                        className="create-event"
                                         placeholder="End Time"
                                         control={control}
                                         name={`addOn.${index}.endTime`}
                                         type="time"
-                                        min={moment().format("HH:mm")}  
+                                        min={moment(new Date()).format("HH:mm")}  
                                         rules={{
-                                          required: true,
-                                          validate: (value) => {
-                                            const startTime = watch(`addOn.${index}.startTime`);  // Get the value of start time
-                                            if (value && startTime) {
-                                              // If end time is less than start time, show an error message
-                                              return (
-                                                value > startTime || "End Time must be after Start Time"
-                                              );
-                                            }
-                                            return "Invalid time";
-                                          },
+                                          required: true
                                         }}
                                       />
                                     </Grid>
@@ -478,57 +482,63 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                       options={typeArray}
                                       row={true}
                                       value={"PAID"}
+                                      onChange={()=>{
+                                          setValue(`addOn.${index}.amount`,'');
+                                      }}
                                     />
                                   </Grid>
                                   <Grid size={{ xs: 12, sm: 6 }}>
+                                    <Grid container display={"flex"} alignItems={"center"}>
                                     <CustomCheckbox
                                     className="add-program-check-btn"
                                       options={[{ label: 'Repeat', value: 'YES' }]}
                                       control={control}
                                       name={`addOn.${index}.repeat`}
+                                      onChange={()=>{              
+                                          setValue(`addOn.${index}.noOfDays`, '')
+                                      }}
                                     />
+                                      <Tooltip title="No of Days once Saved can't be edited" arrow>
+                                        <IconButton className="add-program-warning-msg"
+                                        >
+                                          <ErrorOutlineIcon />
+                                        </IconButton>
+                                      </Tooltip>
+                                  </Grid>
                                   </Grid>
                                 </Grid>
-                                <Grid  size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
-                                {watch(`addOn.${index}.addonType`) === "PAID" &&                                 <Grid size={{  xs: 12, sm: 6  }} >
-                                        <CustomTextField
-                                          placeholder="Price"
-                                          control={control}
-                                          name={`addOn.${index}.amount`}
-                                          type="text"
-                                          rules={{
-                                            required: "Price is required",
-                                            pattern: {
-                                              value: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
-                                              message:
-                                                "Enter a valid price (up to 2 decimal places)",
-                                            },
-                                            validate: (value) => {
-                                              if (typeof value === "string") {
-                                                const price = parseFloat(value);
-                                                return (
-                                                  price >= 0 ||
-                                                  "Price cannot be negative"
-                                                );
-                                              }
-                                              return "Invalid price format";
-                                            },
-                                          }}
-                                        />
-                                      </Grid> }
-                                      {watch(`addOn.${index}.repeat`)?.length>0 &&
-                                      <Grid size={{xs:12,sm:6}}>
+                                <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
+                                  {/* Conditionally render Price field for PAID addOn */}
+                                  {watch(`addOn.${index}.addonType`) === "PAID" && (
+                                    <Grid size={{ xs: 12, sm: watch(`addOn.${index}.repeat`)?.length > 0 ? 6 : 12 }}>
                                       <CustomTextField
-                                      placeholder="Number of days"
-                                      control={control}
-                                      name={`addOn.${index}.noOfDays`}
-                                      type="text"
-                                      rules={{ required: true }}
-                                    />
-                                      </Grid>
-                                      }
-                                      
-                                      {}
+                                        placeholder="Price"
+                                        control={control}
+                                        name={`addOn.${index}.amount`}
+                                        type="text"
+                                        rules={{
+                                          required: "Price is required",
+                                          pattern: {
+                                            value: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
+                                            message: "Enter a valid price (up to 2 decimal places)",
+                                          },
+                                        }}
+                                      />
+                                    </Grid>
+                                  )}
+                                  {/* Conditionally render Number of Days field */}
+                                  {watch(`addOn.${index}.repeat`)?.length > 0 && (
+                                    <Grid size={{ xs: 12, sm: watch(`addOn.${index}.addonType`) !== "PAID" ? 12 : 6 }}>
+                                      <CustomTextField
+                                        placeholder="Number of days"
+                                        control={control}
+                                        name={`addOn.${index}.noOfDays`}
+                                        type="number"
+                                        readOnly={editMode}
+                                        rules={{ required: true }}
+                                      />
+                                    </Grid>
+                                  )}
                                 </Grid>
 
                                 <Grid container size={{ xs: 12 }} display={"flex"} justifyContent={"space-between"}>
@@ -551,11 +561,14 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                       options={typeArray}
                                       row={true}
                                       value={"PAID"}
+                                      onChange={()=>{       
+                                          setValue(`addOn.${index}.propertyAmount`,'')
+                                      }}
                                     />
                                   </Grid>
                                 </Grid>
                                 <Grid container display={"flex"} justifyContent={"space-between"} size={{xs:12,sm:12}} alignItems={"center"}>
-                                  <Grid size={{ xs: 12, sm: 6 }}>
+                                  <Grid size={{ xs: 12, sm:watch(`addOn.${index}.type`) === "PAID"?6:11}}>
                                     <CustomTextField
                                       placeholder="Property Name"
                                       control={control}
@@ -564,7 +577,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                       // rules={{ required: true }}
                                     />
                                   </Grid>
-                                  <Grid size={{ xs: 12, sm: 6 }} display={"flex"} >
+                                  <Grid size={{ xs: 12, sm:watch(`addOn.${index}.type`) === "PAID"?6: 1 }} display={"flex"} >
                                     {watch(`addOn.${index}.type`) === "PAID" && (
                                       <Grid size={{ xs: 12, sm: 12 }}>
                                         <CustomTextField
@@ -577,17 +590,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                               value: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
                                               message:
                                                 "Enter a valid price (up to 2 decimal places)",
-                                            },
-                                            validate: (value) => {
-                                              if (typeof value === "string") {
-                                                const price = parseFloat(value);
-                                                return (
-                                                  price >= 0 ||
-                                                  "Price cannot be negative"
-                                                );
-                                              }
-                                              return "Invalid price format";
-                                            },
+                                            }
                                           }}
                                         />
                                       </Grid>
@@ -637,7 +640,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                 </Box>
               </Box>
             </Grid>
-            <Grid
+            {watch("savedAddOns")?.length>=1&&<Grid
               container
               direction={"column"}
               className="add-program-display-container"
@@ -645,9 +648,9 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
               spacing={2}
               key='add-program-display-container'
             >
-              {watch("savedPrograms")?.length>=1&&<Grid container className="add-program-display-container-box">
+             <Grid container className="add-program-display-container-box">
                <Typography variant="h6">Saved Add-Ons</Typography>
-              {watch("savedPrograms")?.map(
+              {watch("savedAddOns")?.map(
                 (field, index) =>
                   field.addonId&&
            
@@ -656,6 +659,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                       key={field.id}
                       container
                       className="add-program-display-item"
+                      alignContent={"center"}
                       size={{ xs: 12, sm: 12 }}
                     >
                       <Grid size={{ xs: 8, sm: 8 }} >
@@ -679,8 +683,8 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                     </Grid>
                   )
               )}
-            </Grid>}
             </Grid>
+            </Grid>}
           </Grid>
         </Grid>
 

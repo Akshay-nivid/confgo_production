@@ -1,9 +1,9 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import {  CalendarEventIcon, DashboardUserIcon, SettingsIcon } from '@/assets/svg';
-import {  Drawer, List, ListItem, ListItemText, ListItemButton, useMediaQuery, Divider } from '@mui/material';
-import { EventIcon, PaymentHistoryIcon } from '@/assets/svg';
+import {  CalendarEventIcon, DashboardUserIcon, HeartEventIcon, TransactionHistoryIcon, UserSettingIcon } from '@/assets/svg';
+import {  Drawer, List, ListItem, ListItemText, ListItemButton, Divider } from '@mui/material';
 import routes from '@/router/routes';
+import { useIsMobileScreen } from '@/Utils/CommonBaseClass';
 
 interface SidebarProps {
   open: boolean;
@@ -19,13 +19,13 @@ const sidebarItems = [
   },
   {
     path: routes.userMyEvents(),
-    icon: EventIcon,
+    icon: HeartEventIcon,
     label: 'My Events',
     exact: true,
   },
   {
     path: routes.paymentHistory(),
-    icon: PaymentHistoryIcon,
+    icon: TransactionHistoryIcon,
     label: 'Payment History',
     exact: true,
   },
@@ -37,9 +37,10 @@ const sidebarItems = [
   },
   {
     path: routes.accountsettings(), 
-    icon: SettingsIcon,
+    icon: UserSettingIcon,
     label: 'Settings',
     exact: true,
+    state: { tabIndex: 0 }, 
   },
 ];
 /**
@@ -48,7 +49,7 @@ const sidebarItems = [
  */
 const Sidebar: React.FC<SidebarProps> = ({ open, onClose }) => {
   const location = useLocation();
-  const isMobile = useMediaQuery('(max-width:600px)'); // Adjust breakpoint as needed
+  const isMobile = useIsMobileScreen(); // Adjust breakpoint as needed
 
   const isActiveLink = (path: string, exact: boolean) => {
     return exact
@@ -62,22 +63,21 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose }) => {
       anchor="left"
       open={open}
       onClose={onClose} 
-      className="sidebar-dashboard"
+      className="user-sidebar-dashboard"
       ModalProps={{
         keepMounted: true, // Keeps the drawer in the DOM on mobile to avoid reloading
       }}
     >
-      <div className="sidebar-dashboard">
-        <List className="sidebar-list">
+      <div className="user-sidebar-dashboard">
+        <List className="user-sidebar-list">
           {sidebarItems.map((item) => {
             const isActive = isActiveLink(item.path, item.exact);
-
             return (
               <React.Fragment key={item.path}>
-                <NavLink to={item.path} onClick={isMobile ? onClose : undefined}>
+                <NavLink to={item.path} state={item.state} onClick={isMobile ? onClose : undefined }>  
                   <ListItem>
                     <ListItemButton>
-                      <item.icon className={isActive ? 'sidebar-list-active-drawer-icon' : ''} />
+                      <item.icon className={isActive ? 'active-drawer-icon' : 'inactive-drawer-icon'} />
                       <ListItemText className={isActive ? 'active-link' : ''}>
                         {item.label}
                       </ListItemText>

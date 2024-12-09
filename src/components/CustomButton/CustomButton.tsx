@@ -1,8 +1,9 @@
 import React from 'react';
 import Button from '@mui/material/Button';
+import { CircularProgress } from '@mui/material';
 
 interface CustomButtonProps {
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent) => void;
   label: string;
   variant?: 'text' | 'outlined' | 'contained';
   color?: 'default' | 'inherit' | 'primary' | 'secondary';
@@ -13,6 +14,7 @@ interface CustomButtonProps {
   startIcon?: React.ReactNode;
   endIcon?: React.ReactNode;
   type?: 'button' | 'submit';
+  isLoading?: boolean;
 }
 
 /**
@@ -31,6 +33,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   startIcon,
   endIcon,
   type,
+  isLoading=false
 }) => {
   return (
     <Button
@@ -45,6 +48,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       fullWidth={fullWidth}
     >
       {label}
+      {isLoading ?<CircularProgress className='circular-progress ml-2' color='inherit' size={18}/>:<></>}
     </Button>
   );
 };

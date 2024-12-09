@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Typography, IconButton, Box } from "@mui/material";
 import EditIcon from "@/assets/svg/event-edit.svg";
 import AddIcon from "../../../assets/svg/event-addon-icon.svg"; // Importing the icon to display next to the start time
-import moment from "moment";
 import Grid from "@mui/material/Grid2";
+import { DeleteContributorIcon, WarningIcon} from "@/assets/svg";
+import moment from "moment";
+import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
 
 interface FieldConfig {
   label: string;
@@ -19,9 +21,10 @@ interface SessionCardProps {
   endTimeField: string;
   hasAddOns?: boolean;
   optionsData?:[];
+  onDeleteClick?: (item: any) => void;
 }
 
-interface addOnOptions{
+interface AddOnOptions{
   label:string;
   value:number|string
 }
@@ -37,15 +40,46 @@ const SessionCard: React.FC<SessionCardProps> = ({
   startTimeField,
   endTimeField,
   hasAddOns = false,
- optionsData,
+  optionsData,
+  onDeleteClick,
 }) => {
+
+  const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  /**
+   * function to access nested properties in an object.
+   * @param obj - Object to search.
+   * @param path - Key path.
+   * @returns Value at the specified key path.
+   */
+  const getNestedValue = (obj: any, path: string): any => {
+    return path.split('.').reduce((acc, key) => acc?.[key], obj);
+  };
+
+  /**
+   * Check the formate of the satetime and according to it convert to hh:mm format
+   * @param time 
+   * @returns 
+   */
+  function formatTime(time: string): string {
+    if (time.includes('T')) {
+      // Handle ISO 8601 format (e.g., 2024-11-26T06:27:00.000Z)
+      const date = new Date(time);
+      return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' , hour12: true,timeZone:'UTC'});
+    } else {
+      return moment(time, "HH:mm").format("h:mm A");
+    }
+  }
+
   /**
   * render the selected addon property label from it's value using useMemo
   */
   const selectedLabel = React.useMemo(() => {
-    const option:any = optionsData?.find((option:addOnOptions) => option?.value === item?.addonId);
+    const option: any = optionsData?.find((option: AddOnOptions) => option?.value === item?.addonId);
     return option ? option?.label : 'Unknown';
   }, [item?.addonId, optionsData]); 
+
+  const title = getNestedValue(item, titleField) || selectedLabel || "";
+
   return (
     <Grid
       size={{
@@ -64,11 +98,12 @@ const SessionCard: React.FC<SessionCardProps> = ({
               {hasAddOns && (
                 <AddIcon fontSize="small"  />
               )}
-              {item[startTimeField]&&item[endTimeField]?<><span>{moment(item[startTimeField], 'HH:mm').format('hh:mmA')}</span>
-              <span>{moment(item[endTimeField], 'HH:mm').format('hh:mmA')}</span></>:<span>General Addon</span>}
+              {item[startTimeField]&&item[endTimeField]?<><span>{formatTime(item[startTimeField])}</span>
+              <span>{formatTime(item[endTimeField])}</span></>:<span>General Addon</span>}
             </Box>
           </Typography>
         </div>
+        <Grid>
         {onEditClick && (
         <IconButton
           size="small"
@@ -78,17 +113,27 @@ const SessionCard: React.FC<SessionCardProps> = ({
           <EditIcon fontSize="small" />
         </IconButton>
           )}
+          {onDeleteClick && (
+            <IconButton
+              size="small"
+              className="event-detail-event-info-card-edit-btn"
+              onClick={() => setDeleteModalOpen(true)}
+            >
+              <DeleteContributorIcon fontSize="small" />
+            </IconButton>
+          )}
+        </Grid>
       </div>
 
       <div className="session-details">
         {/* Render title */}
         <Typography variant="h6" className="event-detail-sessions-card-header">
-          {item[titleField] || selectedLabel||""}
+          {title}
         </Typography>
         {/* Dynamically render fields based on configuration */}
         {fields.map(
           (field, index) =>
-            item[field.field] && (
+            (item[field.field] !== undefined && item[field.field] !== null) && (
               <Typography
                 key={index}
                 className="event-sessions-session-card-speaker"
@@ -101,6 +146,21 @@ const SessionCard: React.FC<SessionCardProps> = ({
             )
         )}
       </div>
+      {/* Delete Confirmation Modal */}
+      <CustomActionModal
+        icon={<WarningIcon className="unpublish-modal-icon"/>}
+        header="Delete Session"
+        subHeader="Are you sure you want to delete this session? This action cannot be undone."
+        cancelLabel="Cancel"
+        submitLabel="Delete"
+        open={isDeleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        cancelAction={() => setDeleteModalOpen(false)}
+        submitAction={() => {
+          setDeleteModalOpen(false);
+          onDeleteClick?.(item);
+        }}
+        />
     </Grid>
   );
 };

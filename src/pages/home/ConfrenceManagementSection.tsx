@@ -1,32 +1,37 @@
-import { AttentionTracking, ExportPlanImg } from "@/assets/svg";
+import { useIsMobileScreen } from "@/Utils/CommonBaseClass";
+import { ArrowIconSvg, AttentionTracking, Brand, ExportPlanImg } from "@/assets/svg";
 import CustomButton from "@/components/CustomButton/CustomButton";
+import routes from "@/router/routes";
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box/Box";
 import Grid from "@mui/material/Grid2";
+import { useNavigate } from "react-router-dom";
 
 /**
  * confrence management section ui component for home page
  *
  */
 const ConfrenceManagementSection = () => {
+  const navigate = useNavigate();
+  const isMobileScreen = useIsMobileScreen();
+
   return (
     <Box className="confrence-management-section-main">
-      <Grid container>
-        <Grid size={1}></Grid>
-        <Grid container size={10}>
+      <Grid container justifyContent={'center'}>
+        <Grid container size={{ xs: 12, sm: 10 }}>
           <Grid
             size={12}
             className="confrence-management-section-header-content"
           >
             <Typography
               textAlign={"center"}
-              className="conference-management-title text-h2 font-700"
+              className="conference-management-title"
             >
               Complete Conference <br /> Management at Your Fingertips
             </Typography>
             <Typography
               textAlign={"center"}
-              className="conference-management-description text-p1"
+              className="conference-management-description"
             >
               From a fully functional website to a powerful dashboard and mobile
               app, we offer everything <br /> you need to manage your event
@@ -38,11 +43,11 @@ const ConfrenceManagementSection = () => {
             size={12}
             className="confrence-management-content-wrapper"
           >
-            <Grid size={6} className="confrence-management-effortless-content">
-              <Typography className="planning-title text-h2">
-                Effortless Planning & <br /> Execution
+            <Grid size={{ xs: 12, sm: 6 }} className="confrence-management-effortless-content">
+              <Typography className="planning-title">
+                Effortless Planning & {!isMobileScreen && <br />} Execution
               </Typography>
-              <Typography className="planning-description text-p1">
+              <Typography className="planning-description">
                 Track every detail from a centralized dashboard that puts all
                 your event management tools in one place. Manage attendee
                 registraImport Costtions, coordinate event logistics, and
@@ -59,13 +64,15 @@ const ConfrenceManagementSection = () => {
                 label="Get Started"
                 variant="outlined"
                 className="get-started-btn"
+                onClick={() => navigate(routes.loginOrg())}
+                endIcon={<ArrowIconSvg />}
               ></CustomButton>
             </Grid>
-            <Grid size={6} className="export-plan-grid-right">
+            {!isMobileScreen && <Grid size={6} className="export-plan-grid-right">
               <Box className="export-plan-image-wrapper">
                 <ExportPlanImg className="export-plan-image" />
               </Box>
-            </Grid>
+            </Grid>}
           </Grid>
           <Grid
             columnSpacing={2}
@@ -74,46 +81,42 @@ const ConfrenceManagementSection = () => {
             className="conference-management-grid-main"
           >
             <Grid
-              size={6}
+              size={{ xs: 12, sm: 6 }}
               className={"grid-left"}
               display={"flex"}
               flexDirection={"column"}
             >
-              <Typography className="tracking-title text-h2">
+              <Typography className="tracking-title">
                 Seamless Attendance Tracking on Android and iOS
               </Typography>
-              <Typography className="tracking-description text-p1">
+              <Typography className="tracking-description">
                 Simplify your event management with our built-in scanner app.
                 Track attendee participation effortlessly by scanning QR codes
                 for quick and accurate attendance registration—keeping you
                 organized and on schedule.
               </Typography>
-              <Box className="tracking-image-container">
+              {!isMobileScreen && <Box className="tracking-image-container">
                 <AttentionTracking className=" attendance-tracking-image" />
-              </Box>
+              </Box>}
             </Grid>
             <Grid
-              size={6}
+              size={{ xs: 12, sm: 6 }}
               className={"grid-right"}
               display={"flex"}
               flexDirection={"column"}
             >
-              <Typography className="tracking-title text-h2">
-                Seamless Attendance Tracking on Android and iOS
+              <Typography className="tracking-title">
+                Your Conference, Your Brand
               </Typography>
-              <Typography className="tracking-description text-p1">
-                Simplify your event management with our built-in scanner app.
-                Track attendee participation effortlessly by scanning QR codes
-                for quick and accurate attendance registration—keeping you
-                organized and on schedule.
+              <Typography className="tracking-description">
+                Get a fully functional website to engage attendees and promote your event. It includes schedules, speaker profiles, registration, payments, and real-time updates. Customizable to reflect your brand and deliver a seamless user experience.
               </Typography>
-              <Box className="tracking-image-container">
-                <AttentionTracking className=" attendance-tracking-image" />
-              </Box>
+              {!isMobileScreen && <Box className="tracking-image-container">
+                <Brand className=" attendance-tracking-image" />
+              </Box>}
             </Grid>
           </Grid>
         </Grid>
-        <Grid size={1}></Grid>
       </Grid>
     </Box>
   );

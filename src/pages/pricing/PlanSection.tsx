@@ -34,6 +34,15 @@ type PlanType = {
 export const PlanSection = () => {
 
   const [planList, setPlanList] = useState<PlanType[]>([]);
+  const [selectedPlan, setSelectedPlan] = useState('Monthly');
+
+  /**
+   * Method sued to set selected plan
+   * @param plan 
+   */
+  const handleSelection = (plan: string) => {
+    setSelectedPlan(plan);
+  };
   /*
    * get state data if selected plan data is there
    */
@@ -41,6 +50,9 @@ export const PlanSection = () => {
     getPlanData();
   }, []);
 
+  /**
+   * Method used to call plan list API
+   */
   const getPlanData = async () => {
     try {
       const response = await apiClient.post(`plan/list`, {});
@@ -52,15 +64,15 @@ export const PlanSection = () => {
       Logger.error(error)
     }
   }
+
   return (
-    <Grid container className="plansection__container">
-      <Grid size={1}></Grid>
-      <Grid container size={10} className="plansection__header">
+    <Grid container justifyContent={'center'} className="plansection__container">
+      <Grid container size={{ xs: 12, sm: 10 }} className="plansection__header">
         <Grid size={12}>
-          <Typography className="plansection__title text-h1 font-700">
+          <Typography className="plansection__title">
             Simple Pricing For Everyone
           </Typography>
-          <Typography className="plansection__subtitle text-h6">
+          <Typography className="plansection__subtitle">
             Everything you might need and then some more in an accessible and
             intuitive package.
           </Typography>
@@ -70,11 +82,12 @@ export const PlanSection = () => {
           display={'flex'}
           justifyContent={'center'}
           alignItems={'center'}
-          gap={1}
-          className="plansection__buttons"
+          className="plansection__button-container"
         >
-          <CustomButton label="Monthly" />
-          <CustomButton label="Annualy" variant="outlined" />
+          <Grid className='plansection__button-group'>
+            <CustomButton label="Monthly" variant={selectedPlan === 'Monthly' ? 'contained' : 'outlined'} onClick={() => handleSelection('Monthly')} />
+            <CustomButton label="Annualy" variant={selectedPlan === 'Annualy' ? 'contained' : 'outlined'} onClick={() => handleSelection('Annualy')} />
+          </Grid>
         </Grid>
         <Grid
           size={12}
@@ -85,14 +98,13 @@ export const PlanSection = () => {
         >
           {planList.map((row, index) => (
             <>
-              <Grid size={4} key={index} className="plansection__card">
-                <PlanCard data={row} />
+              <Grid size={{ xs: 12, sm: 4 }} key={index} className="plansection__card">
+                <PlanCard data={row} type={selectedPlan} />
               </Grid>
             </>
           ))}
         </Grid>
       </Grid>
-      <Grid size={1}></Grid>
     </Grid>
   );
 };

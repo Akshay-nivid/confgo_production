@@ -1,13 +1,16 @@
+
+
 const routes = {
   home: () => "/",
   dashboard: () => "/dashboard",
   register: () => "/register",
   events: () => "/events",
   createEvent: () => "/events/create",
-  forgotPassword: () => "/forgot-password",
+  userForgotPassword: () => "/user/forgot-password",
+  organisationForgotPassword: () => "/organisation/forgot-password",
   thankyou: () => "/thankyou",
   viewEvent: (id: string | number) => `/events/detail/${id}`,
-  template: () => "/template",
+  template: (id: string | number, entityId: string | number) => `/event/detail/${entityId}/template/${id}/preview`,
   coupon: () => "/coupon",
   createCoupon: () => "/coupon/create",
   CouponView: (id: string | number) => `/coupon/${id}`,
@@ -23,7 +26,7 @@ const routes = {
   verifyEmail: () => `/verify-email/:token/:id`,
   verfiyForgotEmail:()=>`/change-password/:token/:id`,
   user: () => "/user",
-  participantHome: () => "/participant/home",
+  participantHome: (slugName?: string) => `/participant/home/:${slugName}`,
   userLogin: () => "/user/login",
   userHome: () => "/user/dashboard",
   paymentHistory:()=>"user/payment-history",
@@ -39,10 +42,16 @@ const routes = {
   userEventRegistrationCompleted: () => "/user/event-registration-completed",
   userMyEvents:()=>"/user/my-event",
   formBuilder: () => "/formbuilder",
-  dynamicUserForm: () => "user/form",
+  dynamicUserForm: () => "/user/form",
   userCoupons:()=>"user/coupons",
   userEventRecap:()=>"/event-recap",
   accountsettings: () => `/user/account-settings`,
+  userdetail: (id:string | number ) => `/userdetail/${id}`,
+  eventExternalLink: (slug: string) => `/event-link/${slug}`,
+  organizationUserProfile: () => `/account-settings`,
+  planUpgrade: () => "/planUpgrade",
+  upgradePlanPayment: ()=> "/planUpgrade/payment",
+  planUpgradePricing: () => "/planUpgrade/pricing",
 };
 
 export default routes;

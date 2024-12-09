@@ -1,8 +1,10 @@
-import { gridMiddleImg } from "@/assets/images";
-import { GridEndOneImg, GridEndTwoImg, PlayIconSvg } from "@/assets/svg";
+import { useIsMobileScreen } from "@/Utils/CommonBaseClass";
+import { PlayIconSvg, HomeEvent } from "@/assets/svg";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import { Box, Typography } from "@mui/material";
+import routes from "@/router/routes";
+import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import { useNavigate } from "react-router-dom";
 
 /**
  * HeroSection component => first section of the home page
@@ -10,110 +12,45 @@ import Grid from "@mui/material/Grid2";
  */
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+  const isMobileScreen = useIsMobileScreen();
   return (
-    <Grid container className="hero-section-main">
-      <Grid size={1} className="hero-section-spacer"></Grid>
-      <Grid size={10} className="hero-section-content">
-        <Box className="hero-section-container">
-          <Box className="hero-section-text-container">
-            <Typography
-              textAlign={"center"}
-              className="hero-section-title text-h1 font-700"
-            >
-              Your Ultimate <br /> Conference Software.
-            </Typography>
-            <Typography
-              className="hero-section-description text-p1 font-400"
-              textAlign={"center"}
-            >
-              Are you tired of juggling multiple tools and platforms to organize
-              your conferences and group meetings? Look no <br /> further!
-              Summit Pro is here to revolutionize your event management
-              experience.
-            </Typography>
+    <Grid container justifyContent={'center'} alignItems={'center'} className="hero-section-main">
+      <Grid size={12} className="hero-section-content">
+        <Grid className="hero-section-container">
+          <Typography
+            textAlign={"center"}
+            className="hero-section-title"
+          >
+            Your Ultimate  <br /> Conference Software.
+          </Typography>
+          <Typography
+            className="hero-section-description"
+            textAlign={"center"}
+          >
+            Are you tired of juggling multiple tools and platforms to organize your conferences and group meetings? Look {!isMobileScreen && <br />}
+            no further! Summit Pro is here to revolutionize your event management experience.
+          </Typography>
 
-            <Grid container className="hero-section-buttons">
-              <CustomButton
-                variant="contained"
-                label="Get Started"
-                className="get-started-button"
-              />
-              <CustomButton
-                startIcon={<PlayIconSvg/>}
-                variant="outlined"
-                label="Watch Our Videos"
-                className="watch-video-button"
-              />
-            </Grid>
-          </Box>
-          <Grid size={12} className="hero-section-image-grid">
-            <Box
-              width={"100%"}
-              height={"100%"}
-              className="hero-section-image-container"
-            >
-              <Grid
-                container
-                columnSpacing={2}
-                className="hero-section-image-row"
-              >
-                <Grid size={2} className="hero-section-left-column">
-                  <Box className="hero-section-side-box">
-                    <Grid container className="hero-section-side-grid">
-                      <Grid
-                        size={12}
-                        className="hero-section-side-image-wrapper"
-                      >
-                        <Box width={"100%"}>
-                          <GridEndOneImg className="hero-section-side-image-large " />
-                        </Box>
-                      </Grid>
-                      <Grid
-                        size={12}
-                        className="hero-section-side-image-wrapper"
-                      >
-                        <Box width={"100%"}>
-                          <GridEndTwoImg className="hero-section-side-image-small " />
-                        </Box>
-                      </Grid>
-                    </Grid>
-                  </Box>
-                </Grid>
-                <Grid size={8} className="hero-section-middle-column">
-                  <img
-                    className="hero-section-middle-image"
-                    src={gridMiddleImg}
-                    alt=""
-                  />
-                </Grid>
-                <Grid size={2} className="hero-section-right-column">
-                  <Box height={"100%"} className="hero-section-side-box">
-                    <Grid container className="hero-section-side-grid">
-                      <Grid
-                        size={12}
-                        className="hero-section-side-image-wrapper"
-                      >
-                        <Box width={"100%"}>
-                          <GridEndOneImg className="hero-section-side-image-large " />
-                        </Box>
-                      </Grid>
-                      <Grid
-                        size={12}
-                        className="hero-section-side-image-wrapper"
-                      >
-                        <Box width={"100%"}>
-                          <GridEndTwoImg className="hero-section-side-image-small " />
-                        </Box>
-                      </Grid>
-                    </Grid>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Box>
+          <Grid container className="hero-section-buttons">
+            <CustomButton
+              variant="contained"
+              label="Get Started"
+              className="get-started-button"
+              onClick={() => navigate(routes.loginOrg())}
+            />
+            <CustomButton
+              startIcon={<PlayIconSvg />}
+              variant="outlined"
+              label="Watch Our Videos"
+              className="watch-video-button"
+            />
           </Grid>
-        </Box>
+        </Grid>
+        <Grid container justifyContent={'center'} alignItems={'center'} size={12} className="hero-section-image-grid">
+          <HomeEvent />
+        </Grid>
       </Grid>
-      <Grid size={1} className="hero-section-spacer"></Grid>
     </Grid>
   );
 };

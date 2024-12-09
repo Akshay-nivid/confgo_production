@@ -24,9 +24,9 @@
       width: 100%;
       flex-direction: column;
       display: flex;
-      &-outlet-wrapper {
+      &-outlet-adminwrapper {
         flex: 1;
-        background-color: $background;
+        background-color: $background !important;
         overflow-y: auto;
       }
     }
@@ -34,14 +34,16 @@
 }
 
 // sidebar
-.sidebar-drawer {
+.sidebar-drawer-admin {
   height: 100% !important;
 
   & .MuiPaper-root {
     width: '100%';
     position: relative;
     overflow-y: auto;
-    border: none;
+    border-top: none;
+    border-bottom-width: 0.0416rem;
+    border-bottom-color: $clr_gray_faded;
   }
 }
 
@@ -51,7 +53,7 @@
   margin-bottom: 0.2rem;
 }
 
-.sidebar-list {
+.sidebar-list-admin {
   .MuiListItem-padding {
     padding: 0;
   }
@@ -72,18 +74,21 @@
     span {
       font-size: 1.25rem;
       font-weight: 500;
+      color: $clr_gray_medium;
     }
   }
   .active {
     color: $clr_green;
     background-color: $clr_green_light;
+    border-radius: 0.417rem;
     span {
       color: $clr_green;
     }
   }
-  &-active-drawer-icon {
+  &-active-drawer-icon-admin {
+    color: $clr_green !important;
     path {
-      fill: $clr_green;
+      fill: $clr_green !important;
     }
   }
 }
@@ -103,7 +108,7 @@
     height: 6.666rem;
     display: flex;
     align-items: center;
-    justify-content: center;
+    padding-left: 3.3rem;
     &-svg {
       width: 13rem;
       height: 3rem;
@@ -152,21 +157,33 @@
   height: 1.8rem !important;
   color: black;
 }
-.user-profile-menu {
-  transform: translateY(20px) !important;
-  & .MuiPaper-root {
-    min-width: 16.666rem !important;
+
+.user-profile-menu{
+ background-color: $semi-transparent-black;
+  & .MuiPaper-root { 
+    margin-top:1rem !important;
+    border-radius:.6rem;
+    width:20.666rem !important;
     padding-inline: 1.5rem !important;
     padding-block: 0.833rem !important;
+    box-shadow: none;
+    border-radius:.46rem ;
+    box-shadow: 0.33rem 0rem 0.67rem rgba(0, 0, 0, 0.1) !important;
   }
 
   & li {
     padding-block: 0.5rem;
     font-size: 1.2rem;
   }
-
   & .menu-item-text {
     font-size: 1.125rem;
     margin-left: 0.75rem;
+   &-email{
+
+    color:$clr_gray_dark_text !important; 
+    font-size:$p3 !important;
+    font-weight:$font_bold !important; 
+
+   }
   }
 }

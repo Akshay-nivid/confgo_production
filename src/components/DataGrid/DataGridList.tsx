@@ -10,6 +10,7 @@ import StatusComponent from '../Status/StatusComponent';
 import { NoRecords } from '../NoRecords/NoRecords';
 import { ISource } from '@/Libs/type';
 import moment from 'moment';
+import { NoEvent } from '@/assets/svg';
 
 type DefColumn = {
     type?: string;
@@ -29,20 +30,26 @@ type DataGridListProps = {
     title?: string
     onRowClick?: (params: any) => void;
     subNode?: string;
+    noRecordIcon?:React.ReactNode;
+    noRecordTitle?: string;
+    noRecordSubtitle?:string;
+    redirectTo?: () => string;
+    btnName?: string;
+    isTargetGrid?: boolean;
 };
 
 /**
  * Method used to render listing
  * @returns 
  */
-export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFooterPagination, source, dataTransformer, onRowClick, subNode, data }) => {
+export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFooterPagination, source, dataTransformer, onRowClick, subNode, data,noRecordIcon,noRecordTitle,noRecordSubtitle,redirectTo,btnName,isTargetGrid}) => {
     const setDataById = useStore((state: any) => state.setDataById)
     const dataInfo = useStore((state: any) => state?.compData?.[id]) ?? [];
     const prevPageRef = useRef<any>();
     const pageSize = dataInfo.source?.data?.limit || 5;
     const currentPage = dataInfo.currentPage || 1;
     const [loading, setLoading] = useState(false); // Added loading state
-
+    const noRecordImg = noRecordIcon || <NoEvent/>;
     /**
      * Method used to find screen height and set datagrid height
      */
@@ -202,14 +209,14 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
                         count={dataInfo.pagination.totalPages}
                         page={dataInfo.pagination.currentPage}
                         onChange={handlePageChange}
-                        className="pagination"
+                        className={`pagination ${isTargetGrid ? 'blue-theme' : 'green-theme'}`}
                     />
                 </Grid>
             </Grid>
         );
     }
     return (
-        <Grid container className="custom-data-grid-grid">
+        <Grid container className="custom-data-grid-grid" justifyContent={'center'}>
             {loading ? (
                 <CircularProgress />
             ) : dataInfo?.data && dataInfo?.data?.length > 0 ? (
@@ -230,7 +237,7 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
                         onRowClick={onRowClick}
                         paginationMode={'server'}
                         getRowClassName={() => 'custom-row'}
-                        className="custom-data-grid"
+                        className={`custom-data-grid ${isTargetGrid ? 'with-border' : ''}`}
                         hideFooterSelectedRowCount={true}
                         slots={{
                             pagination: CustomPagination, // Use the custom pagination component
@@ -247,7 +254,11 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
                     />
                 </Grid>
             ) : (
-                <NoRecords />
+                <Grid container size={12} justifyContent={"center"} alignContent={"center"}>
+                     <NoRecords noRecordImage={noRecordImg} noRecordSubtitle={noRecordSubtitle} noRecordTitle={noRecordTitle} redirectTo={redirectTo} btnName={btnName}/>
+                     
+                </Grid>
+               
             )}
         </Grid>
     );

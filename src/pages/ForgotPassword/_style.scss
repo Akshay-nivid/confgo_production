@@ -6,10 +6,13 @@
 
     .grid-left-image {
       background: url("/src/assets/svg/background-top.svg") no-repeat top;
-      background-position: center -7.5rem !important;
+      background-position: center -8.583rem !important;
       background-repeat: no-repeat !important;
       border-radius: 1.666rem !important;
-      padding-top: 8rem !important;
+      background-size: 100%;
+      padding-top: 5.83rem !important;
+      justify-content: center !important;
+      width: 30rem;
 
       .forgot-password-icon {
         width: 5.5rem;
@@ -18,11 +21,12 @@
 
       .forgot-password-title {
         font-size: $h2;
-        font-weight: $font_bold;
+        font-weight: $font_bold !important;
         color: $clr_black;
         justify-content: center;
         align-items: center;
         display: flex;
+        font-family:$font !important;
       }
 
       .forgot-password-title2 {
@@ -45,13 +49,16 @@
       .button-reset-password {
         margin-top: 2rem;
         width: 100%;
-        height: 2.8125rem;
+        height: 3.75rem;
         border-radius: 0.3125rem 0 0 0;
         color: $clr_white;
         background-color: $clr_blue;
         border-radius: 0.3125rem;
-       font-family: $font;
+        font-family: $font;
         font-weight: $font_medium;
+        box-shadow: none;
+        text-transform: none;
+        font-size: $p2;
       }
 
       .button-back-to-login {
@@ -60,34 +67,22 @@
         font-weight: $font_medium;
         background-color: transparent;
         color: $clr_black;
+        text-transform: none;
         
       }
     }
   }
 
   .grid-right {
-    background-image: url("/src/assets/png/login-bg.png");
-    background-repeat: no-repeat;
-    background-size: 100% 100% !important;
-    min-height: 100vh;
-
-    .image-title {
-      padding-left: 3.125rem;
-      padding-top: 3.1875rem;
-      font-family: $font;
-      font-size: $h3;
-      font-weight: $font_semibold;
-      line-height: 1.9375rem;
-      color: $clr_white;
-    }
-
-    .image-title2 {
-      padding-left: 3.125rem;
-      font-family: $font;
-      font-size: $h3;
-      font-weight: $font_semibold;
-      line-height: 1.9375rem;
-      color: $clr_white;
+    svg{
+      width: 100%;
+      height: auto;
     }
   }
+}
+.Loader{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
 }

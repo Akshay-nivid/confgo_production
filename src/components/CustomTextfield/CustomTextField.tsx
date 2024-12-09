@@ -6,6 +6,7 @@ import {
   IconButton,
   FormHelperText,
   Typography,
+  Tooltip,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material"; // Example icon, replace with your preferred icon
 import {
@@ -18,6 +19,7 @@ import {
 } from "react-hook-form";
 import { useState } from "react";
 import clsx from "clsx";
+import InfoIcon from '@mui/icons-material/Info';
 
 interface ICustomTextFieldProps<T extends FieldValues> {
   prefixIconButton?: React.ReactNode;
@@ -52,6 +54,11 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   onBlur?: React.ChangeEventHandler<HTMLInputElement>;
   minDate?:string;
   maxDate?:string;
+  onClick?: React.ChangeEventHandler<HTMLInputElement>;
+  isNumeric?:boolean;
+  info?: any;
+  infoContent?: any
+  shrink?:boolean
 }
 
 interface InputPropsType {
@@ -82,6 +89,8 @@ const CustomTextField = <T extends FieldValues>({
   rows,
   readOnly = false,
   onBlur,
+  onClick,
+  shrink,
   ...props
 }: ICustomTextFieldProps<T>) => {
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -171,6 +180,17 @@ const CustomTextField = <T extends FieldValues>({
     if (props.max) {
       propsObj.max = props.max;
     }
+
+    if (props.info) {
+      propsObj.endAdornment = (
+        <InputAdornment position="end"><Tooltip title={props.infoContent}>
+          <IconButton edge="end">
+            <InfoIcon />
+          </IconButton>
+        </Tooltip></InputAdornment>
+      )
+    }
+
     return propsObj;
   };
 
@@ -181,6 +201,16 @@ const CustomTextField = <T extends FieldValues>({
   const handleBlur = (event: any) => {
     onBlur && onBlur(event);
   };
+
+  /**
+   * Method handles the on click event
+   * @param event : on click event parameter
+   */
+  const handleOnClick = (event: any) => {
+    onClick && onClick(event);
+  };
+
+  
 
   return (
     <FormControl
@@ -194,32 +224,15 @@ const CustomTextField = <T extends FieldValues>({
         </Typography>
       )}
 
-      <InputLabel htmlFor={name} className="custom-input-label">
-         {placeholder}
+      <InputLabel shrink={shrink}  htmlFor={name} className="custom-input-label">
+         {label? label:placeholder}
      </InputLabel>
 
       <Controller
         name={name}
         defaultValue={defaultValue}
         control={control}
-        rules={{
-          ...rules,
-          validate: {
-            ...rules?.validate,
-            notInPast: (value) => {
-              const selectedDate = new Date(value);
-              const today = new Date();
-              today.setHours(0, 0, 0, 0);
-              if (
-                (type === "date" || type === "datetime-local") &&
-                selectedDate < today
-              ) {
-                return "Date cannot be in the past";
-              }
-              return true;
-            },
-          },
-        }}
+        rules={rules}
         render={({ field, fieldState: { error } }) => {
           const passwordType = isShowPassword ? "text" : "password";
           return (
@@ -240,8 +253,14 @@ const CustomTextField = <T extends FieldValues>({
                 placeholder={type === "date" ? "" : placeholder}
                 className={clsx(error ? "error-input" : "", props.className)}
                 onBlur={handleBlur}
+                onClick={handleOnClick}
                 inputProps={inputProps()}
                 {...inputProps()}
+                onChange={(e) => {
+                  const numericValue = (props.isNumeric)? e.target.value.replace(/[^0-9]/g, ""):e.target.value;
+                  field.onChange(numericValue); 
+                }}
+                
               />
               {error?.message && (
                 <FormHelperText className="error-text">

@@ -50,14 +50,15 @@ const UserLogin = (props: UserProps) => {
 
   const { control, handleSubmit } = useForm<IUserLogin>();
   const setDataById = useStore((state: any) => state.setDataById);
-  
+  const previousRoute = useStore((state: any) => state.compData?.previousRoute?.url) ?? '';
+
   const POST = useStore((state: any) => state.POST);
   const navigate = useNavigate();
    /**
    * function for set userTpype
    */
   function handleClickForgetPassword() {
-    navigate(routes.forgotPassword());
+    navigate(routes.userForgotPassword());
   }
   /**
    * function to handle login
@@ -70,19 +71,28 @@ const UserLogin = (props: UserProps) => {
       successCB: (success: ApiResponse) => {
         sessionStorage.clear();
         sessionStorage.setItem("token", success.data?.token);
+        sessionStorage.setItem("userToken", success.data?.token);
         sessionStorage.setItem("userId",success.data?.id.toString());
-
-      
+        sessionStorage.setItem('userLoggedInType', success?.data?.userRole?.roleName);
+        sessionStorage.setItem('isUserLoggedIn', 'true');
+        sessionStorage.setItem('ssoUser', 'false');
         setDataById('participantLogin', true);
         apiClient.setToken(success.data.token);
         setDataById('userDetails', success.data);
         setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
-        if(success?.data?.userRole?.roleName==="USER"){
-          navigate(routes.userHome());
+        if (success?.data?.userRole?.roleName === "USER") {
+          
+          if (previousRoute) {
+            navigate(previousRoute);
+          } else {
+            navigate(routes.userHome());
+          }
+
         }
-        else{
+        else {
           navigate(routes.dashboard());
         } 
+        
       },
       errorCB: (error: any) => {
         setDataById("snackBarInfo", {
@@ -114,10 +124,22 @@ const UserLogin = (props: UserProps) => {
       id: props?.id,
       successCB: (context: any) => {
         if (context?.success) {
+
           sessionStorage.setItem("token", context.data?.token);
+          sessionStorage.setItem("userToken", context.data?.token);
           setDataById('participantLogin', true);
+          apiClient.setToken(context.data.token);
+          setDataById('userDetails', context.data);
+          sessionStorage.setItem('userLoggedInType', context?.data?.userRole?.roleName);
+          sessionStorage.setItem('isUserLoggedIn', 'true');
+          sessionStorage.setItem('ssoUser', 'true');
           setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
-          navigate(routes.participantHome());
+          if (previousRoute) {
+            navigate(previousRoute?.pathname);
+            return
+          }
+          navigate(routes.userHome());
+
         }
       },
       errorCB: (context: any) => {
@@ -127,11 +149,12 @@ const UserLogin = (props: UserProps) => {
   }
 
   return (
+
     <Grid
       justifyContent={'center'}
       alignItems={'center'}
       container
-      className="user-login"
+      className="enduser-login"
     >
       <Grid size={12} className="content-container">
         <Box className="header-container">
@@ -155,6 +178,7 @@ const UserLogin = (props: UserProps) => {
               flexDirection={'column'}
             >
               <CustomTextField
+                className='user-textfield'
                 control={control}
                 name="username"
                 placeholder="Email Address"
@@ -179,7 +203,7 @@ const UserLogin = (props: UserProps) => {
               className="login-button"
               fullWidth
               size="large"
-              label="Login"
+              label="Log In"
               type="submit"
             />
           </form>
@@ -190,7 +214,7 @@ const UserLogin = (props: UserProps) => {
                 to={routes.userRegister()}
                 className="signup-text-highlight"
               >
-                Sign Up now.
+                Sign Up.
               </Link>
             </Typography>
 

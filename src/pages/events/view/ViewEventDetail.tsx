@@ -15,7 +15,7 @@ import { Logger } from "@/Utils/Logger";
 import apiClient from "@/Libs/Https/API-client";
 import { useParams } from "react-router-dom";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
-import FormBuilder from "@/components/FormBuilder/FormBuilder";
+import FormBuilder from "@/components/FormBuilder";
 import StatusComponent from "@/components/Status/StatusComponent";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import useStore from "@/Libs/store";
@@ -23,10 +23,13 @@ import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { useForm } from "react-hook-form";
 import PublishIcon from "@/assets/svg/publish.svg";
 import UnpublishIcon from "@/assets/svg/unpublish.svg";
-import CopyIcon from "@/assets/svg/copy-clipboard.svg";
+import CopyIcon from "@/assets/svg/external-link.svg";
 import ShareIcon from "@/assets/svg/share.svg";
 import config from '../../../../config.json';
 import ShareInvitationDrawer from "./ShareInvitationDrawer";
+import PriceTierList from "./PriceTierList";
+import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
+import { PublishTickIcon, WarningIcon } from "@/assets/svg";
 
 
 
@@ -60,6 +63,9 @@ interface Venue {
   address: string;
   city: string;
   state: string;
+  mapUrl:string;
+  postalCode:string;
+  country:string
 }
 
 interface Addon {
@@ -81,6 +87,7 @@ interface Addon {
   venue: Venue;
   venueId: number;
   published: boolean;
+  slugName: string;
 }
 
 const ViewEventDetail = () => {
@@ -92,6 +99,7 @@ const ViewEventDetail = () => {
   const [eventFullData,setEventFullData]=useState<Addon>();
   const [link, setLink] = useState('');
   const [errorMessage, setErrorMessage] = useState('')
+  const [openModal,setOpenModal]=useState(false);
 
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	// Functions to open and close the drawer.
@@ -173,7 +181,12 @@ const ViewEventDetail = () => {
       setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message });
     }
   }
-
+  /**
+   * Mehod handles the publish/unpublish using the modal
+   */
+  const handlePublishUnPublish = () => {
+    setOpenModal(!openModal);
+  }
   /**
    * Mehod handles the publish/unpublish of the event
    */
@@ -191,6 +204,7 @@ const ViewEventDetail = () => {
       setErrorMessage('')
       getEventDetails();
       published && handleLinkGenerationApiCall();
+      setOpenModal(false);
     }
     else {
       setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message });
@@ -207,8 +221,14 @@ const ViewEventDetail = () => {
       setErrorMessage('Minimun 5 characters required.')
       return;
     }
+    const slugPattern = /^[a-zA-Z0-9-_]+$/;
+    if (!slugPattern.test(event?.target?.value)) {
+      setErrorMessage('Use only letters, numbers, hyphens, and underscores.');
+      return;
+    }
     const req = {
-      slugName: event?.target?.value
+      slugName: event?.target?.value,
+      eventId: id
     }
     const response = await apiClient.post('event/slug/isAvailable', req);
     const { status, data } = await processAPIResponse(response, 'link-availablility');
@@ -218,14 +238,13 @@ const ViewEventDetail = () => {
   }
 
   /**
-   * Method handles the click event for the copy to clipboard icon
+   * Method handles the copy to clipboard functionality
    */
-  const handleToggleSuffixIcon = () => {
+  const handleEventCopy = () => {
     const textToCopy = watch("event");
     if (textToCopy) {
       const subDomain = config['event-link']['sub-domain'];
-      const topLevelDomain = config['event-link']['top-level-domain'];
-      navigator.clipboard.writeText(`${subDomain}.${textToCopy}.${topLevelDomain}`)
+      navigator.clipboard.writeText(`${subDomain}${textToCopy}`)
         .then(() => {
           setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: 'Text copied to clipboard' });
         })
@@ -236,18 +255,25 @@ const ViewEventDetail = () => {
   }
 
   /**
+   * Method handles the click event for the copy to clipboard icon
+   */
+  const handleToggleSuffixIcon = () => {
+    const url = `/event-link/${eventFullData?.slugName}`;
+    window.open(url, '_blank');
+  }
+
+  /**
    * Method gets triggered when successfully submitting the edit form
    */
   const handleSubmitHandler = () => {
     getEventDetails();
   }
-
   return <Grid >
     <Grid container
       className="event-detail-card" >
       <Grid size={{ xs: 12, sm: 12 }} flexDirection={"column"} >
         <Grid className="event-detail-header" size={{ xs: 12, sm: 12 }} >
-          <Grid container justifyContent={'space-between'}>
+          <Grid container justifyContent={'space-between'} alignItems={"center"}>
             <Grid container>
               <Grid >
                 <Typography variant="h4" className="event-detail-header-title">{eventFullData?.name}</Typography>
@@ -270,8 +296,9 @@ const ViewEventDetail = () => {
                                     suffixIconButton={<CopyIcon />}
                                     handleToggleSuffixIcon={handleToggleSuffixIcon}
                                     suffixIconSecondButton={<ShareIcon />}
-									handleToggleSuffixSecondIcon={openDrawer}
+									                  handleToggleSuffixSecondIcon={openDrawer}
                                     value={link}
+                                    onClick={handleEventCopy}
                                 /></Grid>
                 </Grid>
             </Grid>:
@@ -301,7 +328,7 @@ const ViewEventDetail = () => {
             </Grid>}
               </Grid>
               <Grid>
-                <CustomButton className={eventFullData?.published?"event-detail-event-info-card-unpublish-btn": "event-detail-event-info-card-publish-btn"} startIcon={eventFullData?.published?<UnpublishIcon/>:<PublishIcon />} label={eventFullData?.published? "Unpublish Event": "Publish Event"} onClick={() => handlePublish(eventFullData?.published)}/>
+                <CustomButton className={eventFullData?.published?"event-detail-event-info-card-unpublish-btn": "event-detail-event-info-card-publish-btn"} startIcon={eventFullData?.published?<UnpublishIcon/>:<PublishIcon />} label={eventFullData?.published? "Unpublish Event": "Publish Event"} onClick={() =>{ handlePublishUnPublish()}}/>
               </Grid>
             </Grid>
           </Grid>
@@ -318,6 +345,7 @@ const ViewEventDetail = () => {
               <Tab label="Users" className="event-detail-tab-layout-item" value="5" />
               <Tab label="Template" className="event-detail-tab-layout-item" value="6" />
               <Tab label="Custom Fields" className="event-detail-tab-layout-item" value="7" />
+              <Tab label='Settings' className="event-detail-tab-layout-item" value="8"/>
             </TabList>
           </Grid>
           <TabPanel value="1">
@@ -327,19 +355,22 @@ const ViewEventDetail = () => {
             <SepekerCard eventData={eventFullData} />
           </TabPanel>
           <TabPanel value="3">
-            <Sessions eventData={eventFullData} />
+            <Sessions eventData={eventFullData} onSubmitHandler={handleSubmitHandler}/>
           </TabPanel>
           <TabPanel value="4">
-            <LocationCard  />
+            <LocationCard data={eventFullData?.venue}/>
           </TabPanel>
           <TabPanel value="5">
             <UserListCard />
           </TabPanel>
           <TabPanel value="6">
-            <TemplateCard />
+            <TemplateCard eventData={eventFullData} onSubmitHandler={handleSubmitHandler}/>
           </TabPanel>
           <TabPanel value="7">
             <FormBuilder />
+          </TabPanel>
+          <TabPanel value="8">
+            <PriceTierList />
           </TabPanel>
         </TabContext>
       </Grid>
@@ -350,6 +381,29 @@ const ViewEventDetail = () => {
         eventData={eventFullData}
 		eventURL={watch('event')}
     />
+    {eventFullData?.published ? <CustomActionModal
+      icon={<WarningIcon className="unpublish-modal-icon" />}
+      open={openModal}
+      onClose={() => setOpenModal(false)}
+      cancelLabel="Cancel"
+      cancelAction={() => setOpenModal(false)}
+      header="Unpublish Event?"
+      subHeader="Are you sure you want to unpublish this event? It will no longer be visible to attendees."
+      submitAction={() => handlePublish(eventFullData?.published)}
+      submitLabel="Unpublish"
+      modalClassName="unpublish-modal"
+    /> : <CustomActionModal
+      open={openModal}
+      icon={<PublishTickIcon className="publish-modal-icon"/>}
+      onClose={() => setOpenModal(false)}
+      cancelLabel="Cancel"
+      cancelAction={() => setOpenModal(false)}
+      header="Ready to Publish"
+      subHeader="Are you sure you want to publish this event? Once published, it will be visible to attendees."
+      submitAction={() => handlePublish(eventFullData?.published)}
+      submitLabel="Publish"
+      modalClassName="publish-modal"
+    />}
   </Grid>
 
 }

@@ -1,5 +1,7 @@
 .event-recap {
-    margin: 2rem;
+    margin-top: 2rem;
+    margin-left: 2rem;
+    margin-right: 7rem;
     &-header {
         font-weight: $font-bold !important;
         font-size: $h4 !important;
@@ -27,20 +29,15 @@
             text-decoration-skip-ink: none;
         }
         &-status {
-        .statusText{
+            background: $clr_status_bar !important;
+            border-radius: 0.49875rem;
+            .statusText{
+            width: 9.25rem !important;
             display:flex;   
             justify-content: center;
             align-items: center;
-            width: 9.25rem !important;
             height: 2.5rem !important;
-            background: $clr_status_bar !important;
         }
-            
-            width: 6.25rem !important;
-            height: 2.5rem !important;
-            background: $clr_status_bar !important;
-
-            border-radius: 0.49875rem;
             &-text {
                 color: $clr_cyan_blue;
                 font-family: $font;
@@ -57,16 +54,17 @@
             font-weight: $font-medium !important;
             line-height: 1.36125rem;
         }
-
         &-buttons {
-            margin-top: 2.129375rem;
+            margin-top: 2rem;
             &-firstButton {
-                width: 7.4375rem;
-                height: 2.8125rem;
+                width: 10rem;
+                height: 3.6rem;
                 padding: 0.875rem 1.25rem;
                 border-radius: 0.3125rem;
                 color: $clr_white !important;
                 background: $clr_blue !important;
+                text-transform: none !important;
+                font-size: $p2 !important;
             }
             &-secondButton {
                 display:none !important;
@@ -80,8 +78,10 @@
         }
     }
     &-second-grid {
-        margin-top: 3.375rem;
-
+        .daate_time{
+         margin-top:1rem;
+        }
+        margin-top: 1.2rem;
         &-text {
             font-family: Inter;
             font-size: $h5 !important;
@@ -90,60 +90,51 @@
             letter-spacing: 0.0187rem;
         }
         &-content {
-            width: 20.625rem;
-            // height: 10.25rem;
             border-radius: 0.625rem;
             border: 0.5rem;
             margin-left: 0.5rem;
+            padding-left: 0.5rem;
+            padding-bottom: 1rem;
             border: 0.03125rem solid $clr_light_border_grey ;
             &-time {
+                margin-left:.5rem !important;
                 display:flex;   
-            justify-content: center;
-            align-items: center;
-                width: 12rem !important;
+                justify-content: center;
+                align-items: center;
                 height: 2.875rem !important;
-                margin-top: 1rem;
-                padding-left:1rem;
                 border-radius: 0.3125rem;
                 text-align: center !important;
                 inline-size: 1.05875rem;
-                 background-color: $clr_green_light !important;
-               
-
+                background-color: $clr_green_light !important;
                 &-text {
                     font-size: $p2 !important;
                     font-weight: $font_medium !important;
                 }
             }
             &-status {
-                text-align:centre;
+                text-align:center;
+                width:9.25rem !important;
+                margin-left:.6rem !important;
+                border-radius: 0.49875rem;
                 .statusText{
                     display:flex;   
                     justify-content: center;
                     align-items: center;
-                    width: 9.25rem !important;
-                    height: 2.5rem !important;
-                    background: $clr_status_bar !important;
-                }
-                margin-left: 5rem;
-                width: 6.25rem !important;
-                height: 1.9956rem !important;
-                border-radius: 0.49875rem;
-
+                    width:100% !important;    
+                }   
                 &-text {
                     font-family: $font;
                     font-size: $h5 !important;
                     font-weight: $font-bold !important;
                     line-height: 1.4rem;
                     text-align: center !important;
-                    border-radius: 1rem;
-                    margin-top: 1rem !important;
+                    border-radius: 1rem;   
                 }
             }
             &-title {
                 &-text {
-                    font-size: $h4 !important;
-                    font-weight: $font-bold !important;
+                    font-size: $h5 !important;
+                    font-weight: $font_semibold !important;
                     margin-left: 0.5rem !important;
                 }
             }

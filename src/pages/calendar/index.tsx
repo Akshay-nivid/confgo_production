@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid2";
 import { Typography } from "@mui/material";
 import useStore from "@/Libs/store";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Logger } from "@/Utils/Logger";
 import { CustomCalendar } from "@/components/CustomCalendar/CustomCalendar";
 import moment from "moment";
@@ -20,9 +20,11 @@ const CalendarPage: React.FC<calendarProps> = ({ id }) => {
 
   const setDataById = useStore((state: any) => state.setDataById);
   const clearDataById = useStore((state: any) => state?.clearDataById)
-  const dataInfo = useStore((state: any) => state?.compData?.[id]?.['event/list']) ?? [];
+  const dataInfo = useStore((state: any) => state?.compData?.[id]?.['event/list']);
   const POST = useStore((state: any) => state.POST);
   const navigate = useNavigate();
+  const location = useLocation(); 
+  const containsUserCalendar = location.pathname.indexOf('user/calendar') !== -1;
   /**
    * Useeffect hook clears the state data while unmounting
    */
@@ -91,7 +93,7 @@ const CalendarPage: React.FC<calendarProps> = ({ id }) => {
    * @param event : event parameter
    */
   const handleSelectEvent = (event: any) => {
-    navigate(routes.userEventRecap(),{state:{eventId:event.id}})
+     containsUserCalendar? navigate(routes.userEventRecap(),{state:{eventId:event.id}}): navigate(`/events/detail/${event.id}`);
   };
 
   
@@ -110,7 +112,7 @@ const CalendarPage: React.FC<calendarProps> = ({ id }) => {
       <Grid size={{ xs: 12, sm: 12 }}>
         <Typography className="calendar-title">Calendar</Typography>
       </Grid>
-      <Grid size={{ xs: 12, sm: 12 }} className="calendar-container">
+      <Grid size={{ xs: 12, sm: 12 }} className={containsUserCalendar?"calendar-usercontainer":"calendar-container"}>
         <CustomCalendar id="events-custom-calendar" events={dataInfo?.data && transformEventData(dataInfo?.data)} onSelectEvent={handleSelectEvent} onNavigate={handleNavigate} defaultDate={new Date()}/>
       </Grid>
     </Grid>)

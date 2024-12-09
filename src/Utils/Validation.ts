@@ -23,12 +23,12 @@ export const phoneRules = {
     value: true,
     message: AUTH_STRINGS.ERRORS.PPI_REQUIRED,
   },
-  maxLength: {
-    value: 10,
-    message: AUTH_STRINGS.ERRORS.PPI_INVALID_LENGTH,
-  },
+  // maxLength: {
+  //   value: 10,
+  //   message: AUTH_STRINGS.ERRORS.PPI_INVALID_LENGTH,
+  // },
   pattern: {
-    value: /^\d{10}$/,
+    value: /^((\+91[\-\s]?)?[0]?(91)?[6789]\d{9}$|^(\+1[\-\s]?)?\(?[2-9][0-9]{2}\)?[\-\s]?[2-9][0-9]{2}[\-\s]?[0-9]{4}$)/,
     message: AUTH_STRINGS.ERRORS.PPI_INVALID_REGEXP,
   },
 };
@@ -66,14 +66,16 @@ export const validateEmail = ({ message }: { message?: string }) => {
 export const validateRequiredField = ({
   message,
   fieldName,
+  showMessage = true,
 }: {
   message?: string;
-  fieldName?: string;
-}) => {
+    fieldName?: string;
+  showMessage?: boolean;
+  }) => {
+  
   return {
     value: true,
-    message:
-      message || fieldName ? `${fieldName} is required` : 'Field is required',
+    message: !showMessage ? "" : (message || fieldName ? `${fieldName} is required` : 'Field is required'),
   };
 };
 

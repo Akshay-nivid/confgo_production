@@ -1,41 +1,43 @@
 .bg-background {
-  background-color: $background;
+  background-color: $clr_white;
 }
 
 .text-danger {
   color: $clr_red !important;
 }
 
-.layout-container {
+.user-layout-container {
   display: flex;
   flex-direction: column;
   height: 100vh;
   overflow: hidden;
 
-  &-sidebar{
-   max-width:25rem !important;
-  }
+
   &-grid-wrapper {
     flex: 1;
     overflow: hidden;
   }
 
   &-grid {
-    background-color: $background;
     height: 100%;
     width: 100%;
     display: flex;
+
+    &-sidebar-grid {
+      width: 20%;
+    }
+
     &-outlet-grid {
       overflow: hidden;
       height: 100%;
-      width: 100%;
+      width: 80%;
       flex-direction: column;
       display: flex;
-      flex-grow: 1; 
+      flex-grow: 1;
+
       &-outlet-wrapper {
         flex: 1;
-        flex-grow: 1; 
-        background-color: $background;
+        flex-grow: 1;
         overflow-y: auto;
       }
     }
@@ -43,135 +45,171 @@
 }
 
 // sidebar
-.sidebar-dashboard {
+.user-sidebar-dashboard {
   height: 100% !important;
-  background: $background !important;
   border-right: 0.06rem solid $clr_light_border_grey;
+
+  // background:transparent !important;
   & .MuiPaper-root {
+    background: transparent !important;
     width: '100%';
     position: relative;
     overflow-y: auto;
     border: none;
+    @media (max-width: 768px) {
+      background: $clr_background_shade !important;
+    }
+  }
+
+  .user-sidebar-list {
+    padding-left: 3rem;
+    min-width: 20rem;
+    flex-shrink: 0;
+
+    .MuiListItem-padding {
+      padding: 0;
+    }
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.333rem;
+    overflow-y: auto;
+
+    .MuiListItemButton-root {
+      display: flex;
+      column-gap: 0.483rem;
+      padding: 1rem 3.2rem;
+      border-radius: 0.417rem;
+      color: $clr_black;
+
+      &:hover {
+        color: $clr_blue;
+        background-color: transparent !important;
+        svg path{
+          stroke: $clr_blue !important ;
+        }
+      }
+
+      span {
+        margin-left: 0.5rem;
+        font-size: 1.25rem;
+        font-weight: $font_medium;
+      }
+    }
+
+    .active {
+      color: $clr_blue !important;
+      stroke: $clr_blue !important;
+      background-color: transparent !important;
+
+      span {
+        color: transparent !important;
+      }
+    }
+
+    .active-link {
+      color: $clr_blue;
+
+      span {
+        color: $clr_blue !important;
+      }
+    }
+
+    .active-drawer-icon {
+      font-size: 2rem;
+      color: $clr_blue !important;
+
+      path {
+        stroke: $clr_blue !important;
+      }
+
+      &:hover {
+        color: $clr_blue !important;
+        background-color: transparent !important;
+      }
+    }
+
+    .inactive-drawer-icon {
+      font-size: 2rem;
+      color: $clr_black !important;
+
+     
+    }
   }
 }
+
 .sidebar-divider {
   margin: 1rem !important;
+
 }
+
 .list-header {
   font-size: $p3;
   margin-top: 1.916rem;
   margin-bottom: 0.2rem;
 }
 
-.sidebar-list {
-  .MuiListItem-padding {
-    padding: 0;
-  }
-
-  display: flex;
-  flex-direction: column;
-  row-gap: 0.333rem;
-  overflow-y: auto;
-
-  .MuiListItemButton-root {
-    display: flex;
-    column-gap: 0.483rem;
-    padding: 0.5rem 6rem;
-    border-radius: 0.417rem;
-    font-size: 1.5rem;
-    color: $clr_black;
-
-    &:hover {
-      color: $clr_blue;
-    }
-
-    span {
-      font-size: 1.25rem;
-      font-weight: $font_medium;
-    }
-  }
-
-  .active-link {
-    color: $clr_blue;
-    span {
-      color: $clr_blue !important;
-    }
-  }
-
-  &-active-drawer-icon {
-    color: $clr_blue !important;
-    
-    path {
-      fill: $clr_blue;
-    }
-  }
-}
 
 //layout appbar
 
-.appbar {
+.appbars {
+  box-shadow: 0rem 0.8rem 5rem 0rem $medium_grey !important;
   border-bottom-width: 0.0416rem;
-  border-bottom-color: $clr_gray_faded;
+  border-bottom-color: $clr_appbar_border;
   display: flex;
   overflow: hidden;
   align-items: center;
   background-color: $clr_white !important;
   min-height: 6.666rem;
+  position: relative;
+  z-index: 100;
 
   &-logo-container {
     background-color: $clr_white;
     height: 6.666rem;
     display: flex;
     align-items: center;
-    justify-content: center;
+    padding-left: 6.5rem;
     font-size: 2.6rem;
     font-weight: $font_extrabold;
+    width: 20% !important;
     &-svg {
       width: 13rem;
       height: 3rem;
     }
-  }
+    }
 
-  &-notification {
-    cursor: pointer;
-    position: relative;
-    border: 0.1rem solid $clr_light_border_grey;
-    position: relative;
-    border-radius: 0.8rem;
+  &-right{ 
+    display:flex;
+    justify-content:flex-end;
+    width: 80% !important;
+    padding-right: 6.7rem !important;
+  }
+  &-group {
+    width: 20rem !important;
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-right: $p3;
-    width: 4.6rem;
-    height: 4.6rem;
-
-    &-icon {
-      display: flex;
-      justify-content: center;
-      font-size: 2.6rem; // For scaling the icon size if it is an inline SVG or uses font size
-    }
-
-    &-badge .MuiBadge-badge {
-      position: absolute !important;
-      top: -2rem !important;  
-      right: -1rem !important;
-      background-color: $clr_blue;
-      color: $clr_white;
-      font-size: 0.75rem;
-      font-weight: $font_bold;
-    }
-  }
-
-  &-group {
-  display: flex;
-  align-items: center;
-  border-radius: 0.8rem;
-  border: 0.1rem solid $clr_light_border_grey;
-  margin-right: 3.166rem;
-  cursor: pointer;
-
+    border-radius: 0.8rem;
+    border: 0.1rem solid $clr_light_border_grey;
+    margin-left:2rem !important;
+    cursor: pointer;
     &:hover {
       cursor: pointer;
+    }
+    &-text{
+      color:$clr_black !important; 
+      font-family:$font;
+      font-size:$p2;
+      font-weight:$font_semibold;
+      line-height: 1.412rem !important;
+      
+    }
+    &-avatar {
+      margin-left: 0.3rem;
+      background-color: $soft-cyan !important;
+      color: $clr_white;
+      font-size: $h4;
+      font-weight: $font-bold;
     }
 
     &-text {
@@ -190,115 +228,287 @@
       overflow: hidden;
       border-top-left-radius: 0.8rem;
       border-bottom-left-radius: 0.8rem;
-  
+
       img {
-        width: 100%; 
+        width: 100%;
         height: 100%;
-        object-fit: cover; 
+        object-fit: cover;
         border-radius: inherit;
       }
     }
 
-    &-textgroup{
-      margin-left: 1.3rem;
+    &-textgroup {
+      margin-left: 1.1rem;
     }
+
     &-subheader-text {
       font-size: 0.95rem !important;
       font-weight: $font_semibold;
       text-align: left;
       color: $clr_gray_light;
     }
+
     &-arrow-container {
       display: flex;
       justify-content: center;
       align-items: center;
     }
+
     &-arrow-down {
-      color: clr_black;
-      width: 2rem;
-      height: 2rem;
+      font-size: 1.7rem !important;
     }
   }
 }
 
-
 .dashboard {
-  padding: $p3;
-  margin-top: $p3 !important;
   flex-grow: 1;
+
   &-left {
-    flex-grow: 1;
+    position: relative;
+    z-index: 100;
+    padding: $h2;
+    align-items: center;
+    padding-right: $h2;
     border-right: 0.06rem solid $clr_light_border_grey;
-  }
 
-  &-title {
-    font-size: $p2 !important;
-    color: $clr_dark_orange;
-    font-weight: $font_semibold !important;
-    display: inline-block;
-
-    .greeting-text {
-      margin-left:0.5rem;
-    }
-
-    &-wave-icon {
-      display: inline-block;
-      width: $p1;
-      height: $p1;
-      background-image: url('../assets/svg/wave.svg');
-      background-size: contain;
+    &-profile {
+      color: $clr_white;
+      border-radius: 0.8rem;
+      align-content: center !important;
+      background: url('/src/assets/png/user-background.png');
       background-repeat: no-repeat;
-      background-position: center;
+      margin-bottom: $p3 !important;
+      padding-left: $p2 !important;
+      &-textgroup{
+        margin-top: 2.5rem;
+      }
+      &-buttongroup{
+        margin-bottom: 3rem;
+      }
+      &-greeting-text {
+        font-size: $p5 !important;
+      }
+
+      &-title {
+        font-weight: $font_semibold !important;
+        display: inline-block;
+        line-height: $p2;
+
+        &-wave-icon {
+          display: inline-block;
+          width: $p1;
+          height: $p1;
+          padding-left: 2rem;
+          background-image: url('../assets/svg/wave.svg');
+          background-size: contain;
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+      }
+
+      &-subtitle {
+        margin-bottom: 1.9rem !important;
+        display: block;
+        font-size: $h4 !important;
+        font-weight: $font_semibold !important;
+      }
+
+      &-accounttitle {
+        margin-top: 1rem !important;
+        display: block;
+        font-size: $h6 !important;
+        font-weight: $font_semibold !important;
+      }
+
+      &-button {
+        background: $clr_white !important;
+        color: $clr_blue !important;
+        text-transform: none !important;
+        font-size: 1rem !important;
+        font-weight: $font_medium;
+        line-height: 1.4rem;
+        box-shadow: none !important;
+      }
+
+      &-viewbutton {
+        background: $clr_blue !important;
+        color: $clr_white !important;
+        text-transform: none !important;
+        font-size: 1rem !important;
+        font-weight: $font_medium;
+        line-height: 1.4rem;
+        box-shadow: none !important;
+      }
+
+      &-card {
+
+        justify-content: center;
+        height: 15.5rem;
+        border-radius: 0.8rem;
+        border: 0.02rem solid $clr_light_border_grey;
+        padding-bottom:2.0475rem !important;
+        height:auto;
+        &-container {
+
+          padding-right: $h2;
+          padding-left: $h2;
+        }
+
+        &-status {
+          display: flex !important;
+          align-items: center;
+          gap: 1.2rem;
+        }
+
+        &-block {
+          font-size: $h6 !important;
+          display: flex !important;
+
+          gap: 1rem;
+
+          &-title {
+            font-size: $h6 !important;
+            color: $clr_grey;
+            font-weight: $font_medium;
+            margin-top: 0.5rem;
+          }
+
+          &-content {
+            font-size: $h6 !important;
+            font-weight: $font_semibold;
+            margin-top: 0.7rem;
+          }
+
+          &-date {
+            padding-right: 0.1rem;
+            border-right: 0.05rem solid $clr_grey;
+            padding-bottom: 0.5rem;
+          }
+        }
+
+        &-recent {
+          cursor: pointer;
+          gap: 1.3rem;
+          align-items: center;
+          display: flex;
+          font-weight: $font_semibold;
+          font-size: $p2;
+          height: 4.5rem;
+          background-color: transparent;
+
+          &-dividers {
+            border-top: 0.0625rem solid $clr_gray_very_light;
+          }
+        }
+      }
     }
+
+
   }
+
 
   &-tight-spacing>.MuiGrid-item {
     padding: 0.3rem;
   }
 
-  &-right{
-    margin: $p3 !important;
+  &-right {
+    position: relative;
+    z-index: 100;
+    padding-top: $h2;
+    padding-bottom: $h2;
+    margin-left: $h3 !important;
+    &-calendar {
+      position: relative;
+      border-radius: 0.8rem;
+      box-shadow: 0rem 0.06rem 1.3rem 0rem $clr_shadow !important;
+    }
   }
-  &-right-events{
+
+
+  &-right-events {
     margin-top: 2rem !important;
   }
-  &-subtitle {
-    margin-bottom: 2rem !important;
-    display: block;
-    font-size: $h4 !important;
-    font-weight: $font_semibold !important;
-  }
+
   &-subhead {
     font-size: $p2 !important;
     font-weight: $font_bold !important;
   }
+
   &-card {
-    text-align: center;
-    padding: 2;
-    background: $background !important;
+    text-align: left;
+    background: $clr_white !important;
     width: 15rem;
-    height: 14.5rem;
-    cursor: pointer;
+    height: 13.3rem;
+
+    .MuiCardContent-root {
+      padding: 0rem;
+    }
+
     &-icon {
+      padding-top: 1rem;
+      padding-left: 1rem;
       display: flex;
-      justify-content: center;
-      font-size: 5.3rem; // For scaling the icon size if it is an inline SVG or uses font size
+      justify-content: left;
+      font-size: 4rem;
     }
 
     &-title {
       font-weight: $font_medium !important;
-      font-size: $p3 !important;
+      font-size: $p2 !important;
       color: $clr_black ;
+      padding-left: 1rem;
+      justify-content: left !important;
+    }
+
+    &-count {
+      padding-left: 1rem;
+      font-weight: $font_semibold !important;
+      font-size: $h4 !important;
+      color: $clr_black ;
+      text-align: left;
     }
   }
 
+  &-nocalendar {
+    background: linear-gradient(360deg, $clr_dark_blue 0%, $clr_sky_blue 100%);
+    height: 30rem;
+    border-radius: .8rem;
+    padding-top: 3rem;
+    padding-left: 2.5rem;
+    color: $clr_white;
+
+    &-title {
+      padding-right: 1.7rem;
+      font-size: $h4 !important;
+      font-weight: $font_semibold;
+      line-height: 3.1rem !important;
+      text-align: left !important;
+    }
+
+    &-subtitle {
+      margin-top: 0.5rem !important;
+      margin-bottom: 2rem !important;
+      padding-right: 2rem !important;
+      font-size: 1.1rem !important;
+      font-weight: $font_normal;
+      line-height: 1.2rem;
+      letter-spacing: 0.6rem;
+      text-align: left;
+
+    }
+  }
 }
 
 .user-profile-menu {
+  &-icon{
+    width:1.67rem !important;
+    height:1.67rem !important;
+  }
   & .MuiPaper-root {
     min-width: 16.666rem !important;
     padding-inline: 1.5rem !important;
     padding-block: 0.833rem !important;
+    box-shadow:none ;
   }
 
   & li {
@@ -310,40 +520,52 @@
     font-size: 1.125rem;
     margin-left: 0.75rem;
     font-weight: $font_medium;
-
+    color:$clr_black !important; 
+    font-family:$font;
+    font-size:$p2;
+    font-weight:$font_semibold;
+    line-height: 1.412rem !important;
   }
+
   & .menu-item-margin {
-   margin-bottom: 0.5rem;
-   margin-top: 0.6rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.9rem;
   }
 }
-.no-record {
+
+.no-records {
   display: flex;
+  padding: 1rem !important;
+
   &-container {
-      background-color: $background;
-      margin: 1rem;
-      border-radius: 0.9rem;
-      justify-content: center !important;
+    margin-top: 1rem !important;
+    background-color: $clr_white;
+    padding-left: 4rem;
+    border-radius: 0.9rem;
   }
-  &-image{
-    margin-top: 5rem !important;
-    width:20rem !important;
-    height:20rem !important;
+
+  &-image {
+    margin-top: 1rem !important;
+    font-size: 13rem !important;
+
   }
-  &-title{
+
+  &-title {
     display: flex;
     font-weight: $font_semibold !important;
     font-size: $p3 !important;
     justify-content: center !important;
     margin-top: 3rem !important;
-    color:$clr_black !important;
+    color: $clr_black !important;
   }
-  &-subtitle{
+
+  &-subtitle {
     font-weight: $font_normal !important;
-    font-size: $p1 !important;
+    font-size: $p2 !important;
     justify-content: center !important;
     align-items: center;
-    margin-bottom: 10rem !important;
-    color:$clr_gray_extra_dark !important;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    color: $clr_black !important;
   }
 }
