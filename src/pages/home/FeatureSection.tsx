@@ -3,8 +3,16 @@ import { Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import FeatureCard from "./FeatureCard";
 import { ArrowIconSvg, SecureTransaction, FlexiblePaymentOptions, ScalableMember, EndlessEvent, StreamlinedRegistration, RealTimeTracking } from "@/assets/svg";
+import { useIsMobileScreen } from "@/Utils/CommonBaseClass";
 
-/**
+
+const FeatureSection = () => {
+
+
+
+ const isMobileScreen = useIsMobileScreen()
+
+  /**
  * feature section ui component for home page
  */
 
@@ -12,7 +20,7 @@ const features = [
   {
     title: "Online Payments Support(Support all type payments)",
     flexDirection: "row",
-    className: "card-1",
+    className: `card-1 ${isMobileScreen ? "card-1-mobile" : ""}`,
     description: "Experience seamless transactions with our comprehensive online payment support. We cater to all payment types, ensuring hassle-free experiences for both customers and businesses. Whether it's credit cards, debit cards, digital wallets, or bank transfers, our system is designed to handle them all with ease. Enjoy secure, efficient, and swift processing for every transaction, providing peace of mind and convenience. Let us simplify your payment process, so you can focus on what matters most—growing your business.",
     features: [
       {
@@ -33,7 +41,7 @@ const features = [
   {
     title: "Unlimited conference & Members",
     flexDirection: "row-reverse",
-    className: "card-2",
+    className: `card-2 ${isMobileScreen ? "card-2-mobile" : ""}`,
     description: "Unlock boundless possibilities with our unlimited conference and member capacities. Host gatherings of any size effortlessly, whether it's a small meeting or a large-scale event. Our platform is designed to accommodate your growing needs, providing seamless support for unlimited participants. Enjoy the freedom to expand your community, network, and collaborations without restrictions. With robust features and scalable solutions, managing conferences and memberships has never been easier. Embrace the potential for growth and connection with our limitless capabilities.",
     features: [
       {
@@ -53,7 +61,7 @@ const features = [
   },
   {
     title: "Registration Management",
-    className: "card-3",
+    className: `card-3 ${isMobileScreen ? "card-3-mobile" : ""}`,
     flexDirection: "row",
     description: "Simplify your event registration process with our comprehensive Registration Management feature. Easily set up and customize registration forms to capture all the necessary attendee information. Automate confirmations, reminders, and updates to keep participants informed. Track registrations in real-time, manage attendee lists, and handle payments seamlessly. Ensure a smooth and efficient experience for both organizers and attendees, reducing manual work and minimizing errors. Streamline your event planning with a user-friendly, all-in-one registration solution.",
     features: [
@@ -73,7 +81,8 @@ const features = [
     ]
   }
 ]
-const FeatureSection = () => {
+  
+  
   return (
     <Grid container justifyContent={'center'} className="feature-section-main">
       <Grid container size={{ xs: 10, sm: 10 }}>
