@@ -748,3 +748,235 @@
     }
 
 }
+.pricing-table{
+    &-table-container-root{
+        border-radius: 1rem;
+        overflow: hidden;
+        border: .0625rem;
+        margin-top: 2rem;
+        border-color: $clr_gray_very_light;
+    }
+    &-table{
+        width: 100% !important;
+        border-collapse: collapse !important;
+        .MuiTableCell-root {
+            padding: 0.75rem;
+            text-align: center;
+            font-size: 0.95rem;
+            color: $clr_dark_brown;
+            border: .0625rem solid $clr_light_white; // Adds border to each cell for clear column separation
+          }
+    }
+    &-table-header{
+        background-color: $clr_white;
+        color: $clr_slate_gray_blue !important;
+        text-align: center !important;
+        font-weight: $font_medium !important;
+        font-size: $h6 !important;
+        
+    }
+
+    &-table-input-text{
+        input {
+            font-size: $h6;
+            padding: 0.25rem 0;
+            font-weight: $font-semibold;
+            text-align: center;
+          }
+      
+          .MuiOutlinedInput-notchedOutline {
+            border: none; // Removes the border from the input field
+          }
+      
+          .MuiInputBase-root {
+            &:hover .MuiOutlinedInput-notchedOutline {
+              border: none;
+            }
+            &.Mui-focused .MuiOutlinedInput-notchedOutline {
+              border: none;
+            }
+          }
+        
+    }
+
+   
+}
+
+.registration-fee-list{
+    &-heading{
+        font-weight: $font_semibold !important;
+        font-size: $h5 !important;
+        padding: 1.333rem !important;
+    }
+    &-sub-heading{
+        font-weight: $font_normal !important;
+        font-size: $h6 !important;
+    }
+
+    &-grid-style{
+        border-bottom: .025rem solid ;
+    }
+
+    &-sub-title{
+        font-weight: $font-semibold !important;
+        font-size: $h5 !important; 
+    }
+
+    &-chip{
+        border: .0625rem !important;
+        border-radius: $h1 !important;
+        gap: $p3 !important;
+        padding-left: 1.333rem !important;
+        padding-right: 1.333rem !important;
+        background-color: $clr_green_light !important;
+        border: solid .0625rem $clr_green  !important;
+        color:$clr_black;
+        font-size: $h6 !important;
+        font-weight: $font_medium !important;
+
+    }
+    &-circle-add-icon{
+        border-radius: 2rem !important;
+        height: 3.333rem !important;
+        width: 3.333rem !important;
+    }
+    &-custom-drawer-header{
+        border-bottom: .0312rem solid $clr_gray_light;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+}
+
+.unpublish-modal {   
+    &-icon{
+        width: 3rem !important;
+        height: 3rem !important;
+    }     
+     .action-modal-btn-cancel {
+        background-color: $clr_light_grey !important;
+        color: $clr_gray_dark_text !important;
+        margin-left: 1rem !important;
+    }
+    .action-modal-btn-ok {
+        background-color: $clr_medium_red !important;
+        color: $clr_white !important;
+        margin-left: 1rem !important;
+    }
+}
+.publish-modal {   
+    &-icon{
+        width: 3rem !important;
+        height: 3rem !important;
+    } 
+     .action-modal-btn-cancel {
+        background-color: $clr_light_grey !important;
+        color: $clr_gray_dark_text !important;
+        margin-left: 1rem !important;
+    }
+    .action-modal-btn-ok {
+        background-color: $clr_green !important;
+        color: $clr_white !important;
+        margin-left: 1rem !important;
+    }
+}
+.custom-list-next-btn {
+    box-shadow: none !important; /* Remove shadow on hover */
+}
+.custom-list-filter-btn{
+    border:0.1667rem solid $clr_green !important;
+    box-shadow: none !important; 
+}
+
+.custom-green-btn {
+    background-color: $clr_green !important; 
+    color: white !important; 
+  }
+  
+
+
+.event-list{
+    margin-top: 2.2rem !important;
+    margin-left: 2rem !important;
+    margin-right: 2rem !important;
+    &-create-btn {
+      max-height: 4rem;
+      background-color: $clr_green !important;
+      color: $clr_white !important;
+      max-width: 19rem !important;
+      text-transform: none !important;
+      box-shadow: none !important;
+      font-size: $p2 !important;
+      font-weight: $font_normal !important;
+    }
+    &-filter-btn {
+        max-height: 4rem;
+        background-color: $clr_white !important;
+        color: $clr_green !important;
+        max-width: 21rem !important;
+        border: 0.083rem solid $clr_green !important;
+        text-transform: none !important;
+        font-size: $p2 !important;
+        box-shadow: none !important;
+        font-weight: $font_normal !important;
+    }
+    &-no-events-icon {
+      height: 13.83rem;
+      width: 13.83rem;
+  }
+}
+
+.settings-attendee{
+    &-title{
+        font-size: $h5 !important;
+        font-weight: $font_semibold !important;
+    }
+    &-edit-btn{
+        padding: 1rem !important;
+        svg{
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+    }
+    &-label{
+        font-size: $h6 !important;
+        font-weight: $font_medium !important;
+        color: $light_grey;
+    }
+    &-value{
+        font-size: $h6 !important;
+        font-weight: $font_semibold !important;
+    }
+}
+
+.edit-seat-info{
+    max-width: 40rem;
+    margin: 2rem;
+    background-color: $clr_white;
+    &-header{
+        font-weight: $font-bold !important;
+        font-size: $h5 !important;
+    }
+    &-form-wrap{
+        width: 100%;
+        margin-bottom: 2rem;
+    }
+    &-btn{
+        background-color: $clr_green !important;
+        text-transform: none !important;
+    }
+
+}
+
+.assigned-volunteer-button {
+    margin-top: 10% !important; /* Adjust spacing */
+    background-color: $clr_green !important; /* Ensure valid syntax */
+    color: white !important; /* Remove single quotes */
+    width: 120px !important; /* Button width */
+    height:50px !important;
+    text-align: left; /* Align content inside */
+    display: block; /* Ensure button behaves as a block element */
+    font-size: $p1 !important;
+}
+
+
