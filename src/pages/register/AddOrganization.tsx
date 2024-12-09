@@ -12,9 +12,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import useStore from "@/Libs/store";
 import { emailRules, phoneRules } from "@/Utils/Validation";
-import { processAPIResponse, useIsMobileScreen } from "@/Utils/CommonBaseClass";
+import { processAPIResponse} from "@/Utils/CommonBaseClass";
 import apiClient from "@/Libs/Https/API-client";
-import clsx from "clsx";
+
 /*
  * Organization form 
  */
@@ -25,7 +25,6 @@ const AddOrganization = React.memo(() => {
     const form2 = useStore((state: any) => state?.compData?.['form2']) ?? [];
     const form3 = useStore((state: any) => state?.compData?.['form3']) ?? [];
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-    const isMobileScreen = useIsMobileScreen();
     /*
      * function to handle submission of the form and create new company
      */
