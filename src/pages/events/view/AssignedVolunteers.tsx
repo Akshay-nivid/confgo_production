@@ -79,7 +79,7 @@ const AssignedVolunteers = ({ onClose, data }: AssignedVolunteersProps) => {
             });
         }
     };
-    console.log('1', volunteers)
+   
     return (
         <div className='assigned-volunteer-main-container'>
             <Box
