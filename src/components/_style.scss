@@ -943,3 +943,13 @@
     }
   }
 }
+
+.no-border .MuiOutlinedInput-notchedOutline {
+  border: none !important;
+}
+.no-border .MuiInputBase-input{
+  border: "none", 
+}
+.MuiOutlinedInput-notchedOutline {
+  border-color: $clr_gray_extra_light !important;
+}
