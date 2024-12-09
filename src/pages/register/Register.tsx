@@ -93,7 +93,7 @@ const Register = () => {
                     <Typography variant="h6">Skip</Typography>
               <ArrowForwardIcon/>
         </Grid>}
-        <Grid container justifyContent={'center'} className= 'isMobileScreen-choosePlan'>
+        <Grid container justifyContent={'center'} className= 'isMobileScreen-choosePlan' alignItems={"center"}>
           {pageSwitch == "" && <AddPlan />}
           {pageSwitch.data == "PLAN_PAGE" && <AddPlan />}
           {pageSwitch.data == "CREATE_ACCOUNT_PAGE" && <CreateAccount />}
@@ -110,9 +110,9 @@ const Register = () => {
           </Grid>
           </Grid>
            )}
-          {isMobileScreen?<></>:<Grid container justifyContent={"center"}>
+          {!isMobileScreen&&(<Grid container justifyContent={"center"}>
             <StepperBoxes activeStep={pageSwitch?.step} />
-          </Grid>}
+          </Grid>)}
         </Grid>
         }
       </Grid>

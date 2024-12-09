@@ -82,7 +82,7 @@ const AddOrganization = React.memo(() => {
     }
 
     return (
-        <Grid className="AddOrganization-responsive">
+        <Grid>
              <Backdrop  open={isButtonDisabled} className="circularProgress">
                 <CircularProgress color="inherit" />
             </Backdrop>

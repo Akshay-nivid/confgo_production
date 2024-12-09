@@ -246,19 +246,17 @@
 
 // Mobile responsive class
 @media (max-width: 600px) {
-      .AddOrganization-responsive{
-        padding-top:20rem !important;
+        .signup-content-wrapper {
+          .left-inner-content-add-org {
+            margin-top:0 !important
+          }
         }
         .isMobileScreen-choosePlan{
-          padding:1.25rem;
-        }
-        .signup-content-wrapper{
-          padding-top: 8rem !important;
-        }
-        .craeteAccount-Mr{
-          padding-top:8.5rem !important;
+           padding: 0 1.25rem;
+           padding-top:8.5rem !important; 
         }
         .grid-left{
+          justify-content: center !important;
           background-size: 85% !important;
         }
 }

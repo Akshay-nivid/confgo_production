@@ -35,7 +35,7 @@ const CreateAccount = React.memo(() => {
     };
 
     return (
-        <Grid className="craeteAccount-Mr">
+        <Grid>
             <Grid  container spacing={5}  >
                 <Grid className="signup-content-wrapper">
                     <Grid className="left-inner-content-add-create">
