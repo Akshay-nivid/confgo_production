@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, TextField, Popover, FormControlLabel, FormControl, InputLabel, Select, MenuItem, Checkbox, FormGroup, Typography, RadioGroup, Radio, IconButton } from '@mui/material';
+import { Button, TextField, FormControlLabel, FormControl, InputLabel, Select, MenuItem, Checkbox, FormGroup, Typography, RadioGroup, Radio, IconButton } from '@mui/material';
 import Grid from "@mui/material/Grid2";
 import { Controller, useForm } from 'react-hook-form';
 import useStore from '@/Libs/store';
@@ -14,8 +14,6 @@ import CustomButton from './CustomButton/CustomButton';
 import EventFilterIcon from '@/assets/svg/EventFilterIcon.svg';
 import CustomDrawer from './CustomDrawer/CustomDrawer';
 import { CloseOutlined } from '@mui/icons-material';
-import CustomDatePicker from './CustomDatePicker/CustomDatePicker';
-import moment from 'moment';
 
 type FilterProps = {
     datagridId: string;
@@ -27,7 +25,6 @@ type FilterProps = {
  * @returns 
  */
 export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
-    const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
     const dataGridInfo = useStore(
         (state: any) => state?.compData?.[datagridId]
     ) ?? [];
@@ -40,17 +37,9 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
     const [dateTemplate, setDateTemplate] = useState(String); // To store the selected date template : Today/Yesterday
     const [selectedTile, setSelectedTile] = useState(String); // To store the selected date template : Today/Yesterday
 
-
-    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
     const handleClose = () => {
-        setAnchorEl(null);
+        setIsFilterModalOpen(false);
     };
-
-    const open = Boolean(anchorEl);
-    const id = open ? 'simple-popover' : undefined;
 
     /**
      * Method to check value is not empty
@@ -112,18 +101,27 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
     /**
      * Method used to handle filter reset
      */
+
     const handleClear = () => {
-        reset()
-        console.log(control);
+        reset();
         fields?.forEach((item: any) => {
             setValue(item.fieldName, '')
-            setValue('from_date', '')
-            setValue('to_date', '')
         })
-        setValue('RequestDate', '');
+
         setDateTemplate('');
         setSelectedTile('');
     }
+
+    const setTodaysDate = () => {
+        const currentDate = dayjs(); // Get the current date using dayjs
+        setValue("startTime", currentDate);
+        setDateTemplate('Today');
+    };
+    const setYesterDaysDate = () => {
+        const yesterday = dayjs().subtract(1, "day");
+        setValue("startTime", yesterday);
+        setDateTemplate('Yesterday');
+    };
 
     /**
      * on click the calender shows a date range
@@ -149,7 +147,7 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
                 size="large"
             />
             <CustomDrawer
-            className='filter-drawer'
+                className='filter-drawer'
                 type="right"
                 open={isFilterModalOpen}
                 children={
@@ -243,9 +241,9 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
                                                     defaultValue={null}
                                                     render={({ field }) => (
                                                         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en">
-                                                            <CustomDatePicker
+                                                            <DatePicker
                                                                 name={item.fieldName}
-                                                                control={control}
+                                                                sx={{ width: '100%' }}
                                                                 label={item.label}
                                                                 value={field.value || null}
                                                                 onChange={(newValue) => {
@@ -257,13 +255,13 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
                                                     )}
                                                 />
                                             </Grid>
-                                            <Grid size={{ xs: 12 }} margin={2} container spacing={2}>
+                                            <Grid size={{ xs: 12 }} margin={2} container spacing={1} sx={{ marginLeft: 0 }} >
                                                 <Grid size={{ xs: 3 }}
                                                     sx={{ cursor: 'pointer' }}
                                                     className={(dateTemplate == 'Today') ? "filter-drawer-card-template-selected" : "filter-drawer-card-template"}>
                                                     <Button
                                                         type="button"
-                                                        onClick={() => { setValue(item.fieldName, moment(new Date()).format("YYYY-MM-DD")); setDateTemplate('Today'); }}>
+                                                        onClick={setTodaysDate} >
                                                         Today
                                                     </Button>
                                                 </Grid>
@@ -272,15 +270,16 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
                                                     className={(dateTemplate == 'Yesterday') ? "filter-drawer-card-template-selected" : "filter-drawer-card-template"}>
                                                     <Button
                                                         type="button"
-                                                        onClick={() => { setValue(item.fieldName, moment().subtract(1, 'days').format("YYYY-MM-DD")); setDateTemplate('Yesterday'); }}>
+                                                        onClick={setYesterDaysDate}>
                                                         Yesterday
                                                     </Button>
                                                 </Grid>
                                             </Grid>
+                                            <hr className="seperator" ></hr>
                                         </Grid>
                                     )}
                                     {item.type === 'tiles' && (
-                                        <Grid size={{ xs: 12 }} container spacing={2}>
+                                        <Grid size={{ xs: 12 }} container spacing={1}>
                                             {item.options.map((option: any) => (
                                                 <Grid size={{ xs: 3 }}
                                                     sx={{ cursor: 'pointer' }}

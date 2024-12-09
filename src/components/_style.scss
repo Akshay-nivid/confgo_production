@@ -485,7 +485,7 @@
 .filter-drawer {
   padding: 2rem;
   margin: 1rem;
- width: 40rem;
+  width: 36rem;
   &-header {
     font-size: $h5 !important;
     font-weight: $font-semibold !important;
@@ -524,6 +524,11 @@
         font-weight: $font_bold !important;
         font-size:small;
     }
+  }
+  .seperator {
+    width: 100%;
+    margin: 0 auto;
+    border-color: $clr_gray_medium;
   }
 }
 
