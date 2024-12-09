@@ -20,6 +20,7 @@ import { Logger } from "@/Utils/Logger";
 import config from "../../../../config.json";
 import FileUpload from "@/components/FileUpload/FileUpload";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
+import CustomSnackbar from "@/components/CustomSnackbar/CustomSnackbar";
 
 interface CustomFile {
   id: number;
@@ -61,6 +62,9 @@ const PersonalAndOrganisationDetails:React.FC<AccountSettingProps> = React.memo(
   const [organsisationDrawer, setorgansisationDrawer] = useState(false);
   const [LogoprofileData, setLogoProfileData] = useState<Company | null>(null);
   const [drawerLogoImage, setDrawerLogoImage] = useState<number | null>(LogoprofileData?.assetId || null);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const [loading, setLoading] = useState(false); 
   const [compId,setCompId]=useState()
 
@@ -129,6 +133,10 @@ const PersonalAndOrganisationDetails:React.FC<AccountSettingProps> = React.memo(
     }
   }, [setEmail,setValue]);
 
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
 /** 
 * opens the modal for image upload
 */
@@ -144,52 +152,15 @@ const handleImageUpload = (uploadedFile: CustomFile) => {
   setUploadModalOpen(false);
 };
 
-/** 
- * image delete function for profile img
- */
-const handleDeleteAvatar = () => {
-  setDrawerProfileImage(null);
-  setProfileData((prevProfileData) => {
-    if (!prevProfileData) {
-      return null;
-    }
-    return {
-      ...prevProfileData,
-      assetId: null,
-    };
-  });
-  setDataById("userDetails", {
-    ...userDetails,
-    assetId: null,
-  });
-};
-
 /** open modal for logo upload */
 const openLogomodal =()=>{
   setUploadOrganisationModalOpen(true)
-
-
 }
 /** logo upload for company */
 const handleOrganisationImageUpload =(uploadedFiles: CustomFile)=>{
   setDrawerLogoImage(uploadedFiles.id)
   setUploadOrganisationModalOpen(false);
 }
-
-/** logo delete function for company */
-const handleDeleteLogo = () =>{
-  setDrawerLogoImage(null)
-  setLogoProfileData((prevLogoProfileData) => {
-    if (!prevLogoProfileData) {
-      return null;
-    }
-    return {
-      ...prevLogoProfileData,
-      assetId: null,
-    };
-  });
-};
-
 
 /** function to submit logo */
 const onLogoSubmit = async (newdata: Company) => {
@@ -233,7 +204,9 @@ const onSubmit = async (data: Profile) => {
     const response = await apiClient.put(`/user`, payload);
     const { status } = processAPIResponse(response, "personalInformation");
     if (status) {
-      setProfileData((prevProfileData) => ({
+       setSnackbarMessage("Profile Updated Successfully");
+       setSnackbarSeverity('success');
+       setProfileData((prevProfileData) => ({
         ...prevProfileData,
         ...payload,
       }));
@@ -247,6 +220,8 @@ const onSubmit = async (data: Profile) => {
     }
   } catch (error) {
     Logger.error("Error updating profile data:", error);
+  } finally{
+    setSnackbarOpen(true);
   }
 };
 
@@ -256,6 +231,12 @@ return (
     <CircularProgress />
   ) : (
   <Grid container className="main-account-main-grid">
+     <CustomSnackbar
+        open={snackbarOpen}
+        message={snackbarMessage}
+        severity={snackbarSeverity}
+        onClose={handleSnackbarClose}
+      />
     <Grid size={8} className="main-account-profile-grid account-margin">
       <Grid size={12} className="main-account-title-grid ">
         <Typography className="main-account-title accountsettings-margin">
@@ -271,7 +252,7 @@ return (
       <Grid size={1} className="main-account-profile-image connected" mb={0}>
         {profileData?.assetId ? (
           <Avatar
-            src={`${baseUrl}/asset/${profileData?.assetId}`}
+            src={`${baseUrl}asset/${profileData?.assetId}`}
             className="main-user-profile"
             alt="User Profile"
             variant="circular"
@@ -337,7 +318,7 @@ return (
           className="main-user-profile"
           src={
             LogoprofileData?.assetId
-              ? `${baseUrl}/asset/${LogoprofileData?.assetId}`
+              ? `${baseUrl}asset/${LogoprofileData?.assetId}`
               : ""
           }
           alt="User Profile"
@@ -410,8 +391,8 @@ return (
                 className="main-user-profile"
                 src={
                   drawerProfileImage
-                    ? `${baseUrl}/asset/${drawerProfileImage}`
-                    : `${baseUrl}/asset/${profileData?.assetId}`
+                    ? `${baseUrl}asset/${drawerProfileImage}`
+                    : `${baseUrl}asset/${profileData?.assetId}`
                 }
                 alt="User Profile"
                 variant="circular"
@@ -421,12 +402,6 @@ return (
                 onClick={openmodal}
               >
                 Upload New Photo
-              </Button>
-              <Button
-                className="main-user-profile-upload-btn main-outline"
-                onClick={handleDeleteAvatar}
-              >
-                Delete
               </Button>
               <Grid size={12} className="main-user-details">
                 <CustomTextField
@@ -477,8 +452,8 @@ return (
                 className="main-user-profile"
                 src={
                   drawerLogoImage
-                    ? `${baseUrl}/asset/${drawerLogoImage}`
-                    : `${baseUrl}/asset/${LogoprofileData?.assetId}`
+                    ? `${baseUrl}asset/${drawerLogoImage}`
+                    : `${baseUrl}asset/${LogoprofileData?.assetId}`
                 }
                 alt="User Profile"
                 variant="circular"
@@ -488,12 +463,6 @@ return (
                 onClick={openLogomodal}
               >
                 Upload New Logo
-              </Button>
-              <Button
-                className="main-user-profile-upload-btn main-outline"
-                onClick={handleDeleteLogo}
-              >
-                Delete
               </Button>
               <Grid size={12} className="main-user-details">
               <CustomTextField

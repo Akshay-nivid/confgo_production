@@ -10,7 +10,7 @@ interface Eventprops{
 export const EventListCard: React.FC<Eventprops> = ({ view }) => {
 
     return (
-        <EventList hideAction={view} />
+        <EventList hideAction={true} view={view} />
     )
 
 }

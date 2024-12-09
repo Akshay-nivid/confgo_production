@@ -289,6 +289,12 @@ const stateOptions = (countryCode:any) =>
                       className="create-event"
                       defaultValue={moment(new Date()).format("YYYY-MM-DD")}
                       min={moment(new Date()).format("YYYY-MM-DD")}
+                      rules={{
+                        pattern: {
+                          value: /^\d{4}-\d{2}-\d{2}$/, 
+                          message: "Please enter a valid start start date (DD-MM-YYYY)"
+                        }
+                      }}
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 6 }}>
@@ -300,6 +306,12 @@ const stateOptions = (countryCode:any) =>
                       type="date"
                       defaultValue={moment(new Date()).format("YYYY-MM-DD")}
                       min={moment(new Date()).format("YYYY-MM-DD")}
+                      rules={{
+                        pattern: {
+                          value: /^\d{4}-\d{2}-\d{2}$/,
+                          message: "Please enter a valid end date (DD-MM-YYYY)"
+                        }
+                      }}
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 12 }}>
