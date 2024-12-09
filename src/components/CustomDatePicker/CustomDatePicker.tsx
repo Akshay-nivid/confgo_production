@@ -12,10 +12,12 @@ interface ICustomDatePickerProps<T extends FieldValues> {
   showHeader?: boolean;
   requiredField?: boolean;
   defaultValue?: any;
+  value?:any;
   disabled?:boolean;
   className?: string;
   formControlClassName?: string;
   min?:any;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 }
 /**
  * Component used to render date picker for start and end date
@@ -30,7 +32,9 @@ const CustomDatePicker = <T extends FieldValues>({
   showHeader = false,
   requiredField = false,
   defaultValue,
+  value,
   min,
+  onChange,
   ...props
 }: ICustomDatePickerProps<T>) => {
   return (
@@ -53,6 +57,7 @@ const CustomDatePicker = <T extends FieldValues>({
                 {...field}
                 {...props}
                 name={name}
+                value={value}
                 type="date"
                 label={label}
                 error={!!error?.message}
@@ -63,6 +68,7 @@ const CustomDatePicker = <T extends FieldValues>({
                 inputProps={{
                   min: min, // Add min attribute for the input
                 }}
+                onChange={onChange}
                 className={clsx(
                   error ? "custom-date-picker error-input" : "custom-date-picker",
                   props.className

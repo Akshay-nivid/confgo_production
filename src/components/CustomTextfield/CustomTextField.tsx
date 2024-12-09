@@ -258,8 +258,8 @@ const CustomTextField = <T extends FieldValues>({
                 inputProps={inputProps()}
                 {...inputProps()}
                 onChange={(e) => {
-                  const numericValue = (props.isNumeric)? e.target.value.replace(/[^0-9]/g, ""):e.target.value;
-                  field.onChange(numericValue); 
+                 // const numericValue = (props.isNumeric)? e.target.value.replace(/[^0-9]/g, ""):e.target.value;
+                  field.onChange(e); 
                 }}
                 
               />
