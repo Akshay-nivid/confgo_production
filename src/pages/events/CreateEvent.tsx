@@ -214,8 +214,14 @@ const CreateEvent: React.FC<EventProps> =
                       control={control}
                       name="name"
                       type="text"
-                      rules={{ required: true }}
-                    />
+                      rules={{
+                        required: true,
+                        maxLength: {
+                          value: 255,
+                          message: 'Event name cannot exceed 255 characters',
+                        },
+                      }} 
+                      />
                   </Grid>
                   {/* <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField

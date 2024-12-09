@@ -433,7 +433,13 @@ const EventInfoCard: React.FC<any> = React.memo(
                     name="name"
                     placeholder="Event Name"
                     control={control}
-                    requiredField
+                    rules={{
+                      required: true,
+                      maxLength: {
+                        value: 255,
+                        message: 'Event name cannot exceed 255 characters',
+                      },
+                    }}
                   />
                 </Grid>
                 <Grid size={{ xs: 12 }}>
