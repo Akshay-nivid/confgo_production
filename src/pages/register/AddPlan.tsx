@@ -13,8 +13,7 @@ import routes from "@/router/routes";
 import { ArrowIconSvg, BasicPlainIcon, ProPlanIcon, StandardPlanIcon } from "@/assets/svg";
 import { Logger } from "@/Utils/Logger";
 import apiClient from "@/Libs/Https/API-client";
-import { processAPIResponse, useIsMobileScreen } from "@/Utils/CommonBaseClass";
-import clsx from "clsx";
+import { processAPIResponse} from "@/Utils/CommonBaseClass";
 
 /*
  * compoent to render the plan
@@ -38,7 +37,6 @@ const AddPlan = React.memo(() => {
   const [currentPlan, setcurrentPlan] = useState('');
   const form1 = useStore((state: any) => state?.compData?.['form1']) ?? [];
   const setDataById = useStore((state: any) => state.setDataById)
-  const isMobileScreen = useIsMobileScreen();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const handleChangePlan = (event: React.ChangeEvent<HTMLInputElement>) => {
