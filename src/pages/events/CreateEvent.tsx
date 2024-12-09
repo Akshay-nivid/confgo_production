@@ -376,7 +376,6 @@ const CreateEvent: React.FC<EventProps> =
                           name="address"
                           shrink={watch('address')!==''&&watch('address')!==undefined?true:undefined}
                           type="text"
-                          readOnly
                           rules={{ required: watch("type") === "OFFLINE" }}
                         />
                       </Grid>
@@ -387,7 +386,6 @@ const CreateEvent: React.FC<EventProps> =
                           control={control}
                           shrink={watch('country')!==''&&watch('country')!==undefined?true:undefined}
                           type="text"
-                          readOnly
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 6 }}>
@@ -396,7 +394,6 @@ const CreateEvent: React.FC<EventProps> =
                             label="State"
                             control={control}
                             type="text"
-                            readOnly
                             shrink={watch('state')!==''&&watch('state')!==undefined}
                             rules={{
                               required:Boolean(watch('country')),
@@ -410,7 +407,6 @@ const CreateEvent: React.FC<EventProps> =
                           name="city"
                           type="text"
                           shrink={watch('city')!==''&&watch('city')!==undefined}
-                          readOnly
                           rules={{ required: watch("type") === "OFFLINE" }}
                         />
                       </Grid>
@@ -420,7 +416,6 @@ const CreateEvent: React.FC<EventProps> =
                           control={control}
                           name="postalCode"
                           type="text"
-                          readOnly
                           shrink={watch('postalCode')!==''&&watch('postalCode')!==undefined?true:undefined}
                           rules={{
                             required: watch("type") === "OFFLINE",

@@ -117,7 +117,7 @@ const AddPlan = React.memo(() => {
   }
 
   return (
-    <Grid className={clsx("signup-content-wrapper",isMobileScreen && "signup-content-wrapper-Mr")}>
+    <Grid className="signup-content-wrapper">
       <Grid className="left-inner-content">
         <FormControl className="w-full">
           <Grid alignSelf={"center"}>

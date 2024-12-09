@@ -83,7 +83,7 @@ const AddOrganization = React.memo(() => {
     }
 
     return (
-        <Grid className={clsx(isMobileScreen && 'AddOrganization-responsive')}>
+        <Grid className="AddOrganization-responsive">
              <Backdrop  open={isButtonDisabled} className="circularProgress">
                 <CircularProgress color="inherit" />
             </Backdrop>

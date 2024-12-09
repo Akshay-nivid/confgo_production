@@ -72,18 +72,29 @@ const Register = () => {
   };
   return (
     <Grid container className="register-main-container">
-      <Grid container justifyContent={'space-between'} direction={'column'}  className={clsx("grid-left",isMobileScreen && 'grid-left-mobile_responsive')} size={{ xs: 12, sm: 7 }} >
-        {
-         isMobileScreen?<></>:(pageSwitch.data === "CREATE_ACCOUNT_PAGE" || pageSwitch.data == "ADD_ORGANIZATION_PAGE" || pageSwitch.data === "PLAN_PAGE" )  && <Grid container alignItems={"center"} display={"flex"} className="back-button" onClick={handleBack} >
-          <ArrowBackIcon />
-          <Typography variant="h6">Back</Typography>
-        </Grid>}
+      <Grid container justifyContent={'space-between'} direction={'column'}  className="grid-left" size={{ xs: 12, sm: 7 }} >
+      {!isMobileScreen &&
+        (pageSwitch.data === "CREATE_ACCOUNT_PAGE" || 
+         pageSwitch.data === "ADD_ORGANIZATION_PAGE" || 
+         pageSwitch.data === "PLAN_PAGE") && (
+          <Grid 
+            container 
+            alignItems="center" 
+            display="flex" 
+            className="back-button" 
+            onClick={handleBack}
+          >
+            <ArrowBackIcon />
+            <Typography variant="h6">Back</Typography>
+          </Grid>
+        )}
+      
         {pageSwitch.data === "PAYMENT_METHOD_PAGE" &&
               <Grid alignItems={"center"} display={"flex"} className="cursor-container skip-button-payment-page" onClick={handleSkipNavigation}>
                     <Typography variant="h6">Skip</Typography>
               <ArrowForwardIcon/>
         </Grid>}
-        <Grid container justifyContent={'center'} className={clsx("",isMobileScreen && 'isMobileScreen-choosePlan')}>
+        <Grid container justifyContent={'center'} className= 'isMobileScreen-choosePlan'>
           {pageSwitch == "" && <AddPlan />}
           {pageSwitch.data == "PLAN_PAGE" && <AddPlan />}
           {pageSwitch.data == "CREATE_ACCOUNT_PAGE" && <CreateAccount />}
@@ -106,9 +117,9 @@ const Register = () => {
         </Grid>
         }
       </Grid>
-      {isMobileScreen?<></>:<Grid container size={{ xs: 12, md: 5 }} className="grid-right">
+      {!isMobileScreen && (<Grid container size={{ xs: 12, md: 5 }} className="grid-right">
         <SignUpFlowIcon/>
-      </Grid>}
+      </Grid>)}
     </Grid>
   );
 };

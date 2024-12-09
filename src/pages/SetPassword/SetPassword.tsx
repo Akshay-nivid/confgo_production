@@ -60,9 +60,12 @@ const SetPassword = () => {
 
           </Grid>
         </Grid>
-        {isMobileScreen ? <></> : <Grid container size={{ xs: 0, md: 5 }} className="grid-right">
+        {!isMobileScreen && (
+          <Grid container size={{ xs: 0, md: 5 }} className="grid-right">
           <SignUpFlowIcon />
-        </Grid>}
+        </Grid>
+        )}
+
       </Grid>
     </Box>
   );
