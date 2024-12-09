@@ -11,7 +11,7 @@ import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import { DataGridList } from "@/components/DataGrid/DataGridList";
 import FilterModal from "@/components/CustomFilter/FilterModal";
 import { Logger } from "@/Utils/Logger";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import AssignedVolunteers from "./AssignedVolunteers";
 
@@ -25,9 +25,11 @@ const VolunteerListCard = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [filters, setFilters] = useState({ eventId: id });
   const [source, setSource] = useState<ISource | undefined>(undefined);
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const closeOrganisationDrawer = () => setDrawerOpen(false);
+  const [data, setData] = useState([]);
+
 
   const { control } = useForm();
   /**
@@ -63,6 +65,7 @@ const VolunteerListCard = () => {
    */
   const transformData = (data: any) => {
     if (!data) return [];
+    setData(data)
     return data.map((item: any) => {
       return {
         ...item,
@@ -243,10 +246,10 @@ const VolunteerListCard = () => {
         onClose={() => setIsFilterModalOpen(false)}
         onApplyFilters={handleApplyFilters}
       />
-          <CustomDrawer open={drawerOpen} type="right">
-        <AssignedVolunteers onClose={onClose} />
-         
-    </CustomDrawer>
+      <CustomDrawer open={drawerOpen} type="right">
+        <AssignedVolunteers data={data} onClose={onClose} />
+
+      </CustomDrawer>
     </Grid>
   );
 };

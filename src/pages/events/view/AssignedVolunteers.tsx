@@ -1,4 +1,4 @@
-import { Grid, Card, CardContent, Typography, IconButton, Button, Box } from '@mui/material';
+import { Grid, Card, CardContent, Typography, IconButton, Box } from '@mui/material';
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import CustomAutocomplete from '@/components/CustomAutocomplete/CustomAutocomplete';
 import { useForm } from 'react-hook-form';
@@ -12,25 +12,21 @@ import { CloseOutlined } from '@mui/icons-material';
 
 interface AssignedVolunteersProps {
     onClose: () => void;
+    data: any[];
 }
-const AssignedVolunteers = ({ onClose }: AssignedVolunteersProps) => {
+const AssignedVolunteers = ({ onClose, data }: AssignedVolunteersProps) => {
     const { control } = useForm();
     const [searchResults, setSearchResults] = useState([]);
-    const [loading, setLoading] = useState(false); // To indicate loading state for API
+    const [loading, setLoading] = useState(false);
     const [source, setSource] = useState<ISource | undefined>(undefined);
-    const volunteers = [
-        { id: 1, name: 'Kathy Pacheco', phone: '(215) 424-7763' },
-        { id: 2, name: 'Corina McCoy', phone: '(215) 424-7763' },
-        { id: 3, name: 'Mary Freund', phone: '(215) 424-7763' },
-        { id: 4, name: 'Frances Swann', phone: '(215) 424-7763' },
-    ];
+    const volunteers: any[] = data;
 
     const handleDelete = (id: number) => {
-        console.log(`Delete volunteer with ID: ${id}`);
+
     };
 
     const handleSubmit = () => {
-        console.log('Submit assigned volunteers');
+
     };
 
     /**
@@ -83,16 +79,13 @@ const AssignedVolunteers = ({ onClose }: AssignedVolunteersProps) => {
             });
         }
     };
-
+    console.log('1', volunteers)
     return (
-        <div style={{ padding: 16, maxWidth: 500, margin: '0 auto', marginTop: 35 }}>
+        <div className='assigned-volunteer-main-container'>
             <Box
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                marginBottom={2} // Adds spacing below the header
+                className="assigned-volunteer-container"
             >
-                <Typography variant="h4">
+                <Typography className='assigned-volunteer-main-label'>
                     Assign Volunteers
                 </Typography>
                 <IconButton>
@@ -100,10 +93,10 @@ const AssignedVolunteers = ({ onClose }: AssignedVolunteersProps) => {
                 </IconButton>
             </Box>
 
-            <Grid container style={{ marginTop: 30, width: '100%' }}>
+            <Grid container className='assigned-volunteer-search'>
                 <CustomAutocomplete
                     name="search"
-                    className="custom-user-search-field"
+                    className="custom-user-search-field assigned-volunteer-search-field"
                     placeholder="Search by ID, Name or Phone ..."
                     control={control}
                     options={searchResults}
@@ -111,46 +104,28 @@ const AssignedVolunteers = ({ onClose }: AssignedVolunteersProps) => {
                     onSearch={handleSearch}
                     loading={loading}
                     onChange={handleAutocompleteChange}
-                    style={{
-                        width: '100%',
-                        maxWidth: '600px',
-                    }}
                 />
             </Grid>
-            <Typography variant="h6" gutterBottom style={{ marginTop: 50 }}>
+            <Typography gutterBottom className='assigned-volunteer-label'>
                 Assigned Volunteers
             </Typography>
 
-            <Grid container spacing={2} style={{ marginTop: 10 }}>
-                {volunteers.map((volunteer) => (
+            <Grid container spacing={2} className='assigned-volunteer-container-style'>
+                {volunteers?.map((volunteer) => (
                     <Grid item xs={12} key={volunteer.id}>
                         <Card
                             variant="outlined"
-                            style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'space-between',
-                                padding: 16,
-                            }}
+                            className='assigned-volunteer-card'
                         >
-                            <CardContent style={{ flex: 1 }}>
-                                <Typography variant="subtitle1" fontWeight="bold">
-                                    {volunteer.name}
+                            <CardContent className='assigned-volunteer-container-card'>
+                                <Typography variant="subtitle1" className='assigned-volunteer-name'>
+                                    {volunteer.user.firstName}
                                 </Typography>
-                                <Typography variant="body2">{volunteer.phone}</Typography>
+                                <Typography variant="body2" className='assigned-volunteer-phone'>{volunteer.phone}</Typography>
                             </CardContent>
                             <IconButton
                                 onClick={() => handleDelete(volunteer.id)}
-                                style={{
-                                    border: '2px solid #FF0000', // Red border
-                                    borderRadius: '5px', // Slightly rounded corners
-                                    padding: '5px', // Space around the icon
-                                    width: '30px', // Adjust width for consistency
-                                    height: '30px', // Adjust height for consistency
-                                    display: 'flex', // Center the icon
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                }}
+                                className='assigned-volunteer-delete-icon'
                             >
                                 <DeleteIcon />
                             </IconButton>
@@ -159,7 +134,7 @@ const AssignedVolunteers = ({ onClose }: AssignedVolunteersProps) => {
                 ))}
             </Grid>
 
-            <div style={{ textAlign: 'right', marginTop: 14 }}>
+            <div className='assigned-volunteer-button-container'>
                 <CustomButton
                     className="assigned-volunteer-button"
                     label="Submit"

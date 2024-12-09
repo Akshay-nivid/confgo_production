@@ -1184,15 +1184,103 @@
 
 }
 
+.assigned-volunteer-main-container {
+    padding: 1rem;
+    max-width: 38.25rem;
+    margin-top: 2.1875rem; 
+}
+
+.assigned-volunteer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.625rem;
+}
+
+.assigned-volunteer-search {
+    margin-top: 1.875rem; 
+    width: 100%;
+    padding-left: 25px;
+}
+
+.assigned-volunteer-search-field {
+    width: 100% !important;
+    max-width: 37.5rem;
+}
+
+.assigned-volunteer-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem; 
+}
+
 .assigned-volunteer-button {
-    margin-top: 10% !important; /* Adjust spacing */
-    background-color: $clr_green !important; /* Ensure valid syntax */
-    color: white !important; /* Remove single quotes */
-    width: 120px !important; /* Button width */
-    height:50px !important;
-    text-align: left; /* Align content inside */
-    display: block; /* Ensure button behaves as a block element */
+    margin-top: 10% !important;
+    background-color: $clr_green !important; 
+    color: $clr_white !important;
+    width: 7.5rem !important; 
+    height: 3.125rem !important; 
+    text-align: left;
+    display: block;
     font-size: $p1 !important;
 }
+
+.assigned-volunteer-button-container {
+    text-align: right;
+    margin-top: 0.875rem; 
+}
+
+.assigned-volunteer-delete-icon {
+    border: 0.125rem solid $clr_red !important; 
+    border-radius: 0.3125rem !important; 
+    padding: 0.3125rem !important;
+    width: 1.875rem !important; 
+    height: 1.875rem !important; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.assigned-volunteer-main-label {
+    font-weight: $font_semibold !important;
+    font-size: $h5 !important; 
+    padding-left: 2.125rem; 
+}
+
+.assigned-volunteer-label {
+    font-weight: $font_medium !important;
+    font-size: $p5 !important; 
+    padding-left: 1.5625rem; 
+    padding-top: 2.5rem; 
+    width: 25.0625rem; 
+    height: 1.6875rem; 
+}
+
+.assigned-volunteer-container-style {
+    padding-top: 3.125rem !important; 
+    padding-left: 1.5625rem; 
+}
+
+.assigned-volunteer-container-card {
+   flex: 1;
+}
+
+.assigned-volunteer-name {
+    font-weight: $font_medium !important;
+    font-size: $h5 !important; 
+    line-height: 1.5125rem;
+}
+
+.assigned-volunteer-phone {
+    font-weight: $font_medium !important;
+    font-size: $p2 !important; 
+    line-height: 1.030625rem; 
+    margin-top: 0.5rem;
+}
+
+
+
+
 
 
