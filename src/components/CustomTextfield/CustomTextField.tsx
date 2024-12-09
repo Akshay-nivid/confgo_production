@@ -58,6 +58,7 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   isNumeric?:boolean;
   info?: any;
   infoContent?: any
+  showError?: boolean;
   shrink?:boolean
 }
 
@@ -90,6 +91,7 @@ const CustomTextField = <T extends FieldValues>({
   readOnly = false,
   onBlur,
   onClick,
+  showError = true,
   shrink,
   ...props
 }: ICustomTextFieldProps<T>) => {
@@ -210,8 +212,6 @@ const CustomTextField = <T extends FieldValues>({
     onClick && onClick(event);
   };
 
-  
-
   return (
     <FormControl
       fullWidth
@@ -263,7 +263,7 @@ const CustomTextField = <T extends FieldValues>({
                 }}
                 
               />
-              {error?.message && (
+              {showError && error?.message && (
                 <FormHelperText className="error-text">
                   {error.message}
                 </FormHelperText>
