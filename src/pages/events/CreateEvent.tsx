@@ -217,8 +217,8 @@ const CreateEvent: React.FC<EventProps> =
                       rules={{
                         required: true,
                         maxLength: {
-                          value: 255,
-                          message: 'Event name cannot exceed 255 characters',
+                          value: 100,
+                          message: 'Event name cannot exceed 100 characters',
                         },
                       }} 
                       />
