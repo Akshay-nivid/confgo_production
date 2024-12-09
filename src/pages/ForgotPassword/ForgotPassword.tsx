@@ -125,9 +125,9 @@ const  previousPath=()=>{
           </Grid>
         </Grid>
       </Grid>
-    {isMobileScreen?<></>:<Grid style={{ display: isMobileScreen ? 'none' : 'block' }} container size={{ xs: 12, md: 5 }} className="grid-right">
-          <SignUpFlowIcon />
-      </Grid>}
+    {!isMobileScreen &&(<Grid  container size={{ xs: 12, md: 5 }} className="grid-right">
+          <SignUpFlowIcon/>
+      </Grid>)}
     </Grid>
   )}
    </>
