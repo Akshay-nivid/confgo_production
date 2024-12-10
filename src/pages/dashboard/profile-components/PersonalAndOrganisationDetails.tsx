@@ -20,8 +20,6 @@ import { Logger } from "@/Utils/Logger";
 import config from "../../../../config.json";
 import FileUpload from "@/components/FileUpload/FileUpload";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
-import CustomSnackbar from "@/components/CustomSnackbar/CustomSnackbar";
-
 interface CustomFile {
   id: number;
   name: string;
@@ -62,9 +60,6 @@ const PersonalAndOrganisationDetails:React.FC<AccountSettingProps> = React.memo(
   const [organsisationDrawer, setorgansisationDrawer] = useState(false);
   const [LogoprofileData, setLogoProfileData] = useState<Company | null>(null);
   const [drawerLogoImage, setDrawerLogoImage] = useState<number | null>(LogoprofileData?.assetId || null);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const [loading, setLoading] = useState(false); 
   const [compId,setCompId]=useState()
 
@@ -133,10 +128,6 @@ const PersonalAndOrganisationDetails:React.FC<AccountSettingProps> = React.memo(
     }
   }, [setEmail,setValue]);
 
-  const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
-  };
-
 /** 
 * opens the modal for image upload
 */
@@ -175,8 +166,9 @@ const onLogoSubmit = async (newdata: Company) => {
 
     // Send the payload to the server for updating the company details
     const response = await apiClient.put(`/company/${compId}`, payload);
-    const { status } = processAPIResponse(response, "personalInformation");
+    const { status,message } = processAPIResponse(response, "personalInformation");
     if (status) {
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: message });
       setLogoProfileData((prevData) => ({
         ...prevData,
         ...payload,
@@ -184,6 +176,9 @@ const onLogoSubmit = async (newdata: Company) => {
       setDataById("logo", {
         status: "success",
       });
+    }
+    else{
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message })
     }
   } catch (error) {
     console.error("Error during logo submit:", error);
@@ -202,10 +197,9 @@ const onSubmit = async (data: Profile) => {
       assetId: drawerProfileImage || profileData?.assetId,
     };
     const response = await apiClient.put(`/user`, payload);
-    const { status } = processAPIResponse(response, "personalInformation");
+    const { status, message } = processAPIResponse(response, "personalInformation");
     if (status) {
-       setSnackbarMessage("Profile Updated Successfully");
-       setSnackbarSeverity('success');
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: message });
        setProfileData((prevProfileData) => ({
         ...prevProfileData,
         ...payload,
@@ -218,10 +212,12 @@ const onSubmit = async (data: Profile) => {
       });
       closeDrawer();
     }
-  } catch (error) {
+    else{
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message })
+    }
+  } 
+  catch (error) {
     Logger.error("Error updating profile data:", error);
-  } finally{
-    setSnackbarOpen(true);
   }
 };
 
@@ -231,12 +227,6 @@ return (
     <CircularProgress />
   ) : (
   <Grid container className="main-account-main-grid">
-     <CustomSnackbar
-        open={snackbarOpen}
-        message={snackbarMessage}
-        severity={snackbarSeverity}
-        onClose={handleSnackbarClose}
-      />
     <Grid size={8} className="main-account-profile-grid account-margin">
       <Grid size={12} className="main-account-title-grid ">
         <Typography className="main-account-title accountsettings-margin">
