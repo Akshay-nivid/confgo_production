@@ -5,6 +5,7 @@ import useStore from '@/Libs/store';
 import { toCamelCase } from '@/Utils/CommonBaseClass';
 import Grid from "@mui/material/Grid2";
 import { ArrowIconSvg, BasicPlainIcon, ProPlanIcon, StandardPlanIcon } from '@/assets/svg';
+import CustomButton from '@/components/CustomButton/CustomButton';
 
 /**
  * Plan Card component
@@ -67,14 +68,14 @@ export const PlanCard: React.FC<PlanCardProps> = ({ data, type }) => {
             </Grid>
           ))}
         </Box> */}
-        <Button
+        <CustomButton
           onClick={handleButtonClick}
           fullWidth
           className="plancard__button"
-          endIcon={<ArrowIconSvg/>}
+          endIcon={<ArrowIconSvg />}
+          label='Choose This Plan'
         >
-          Choose This Plan
-        </Button>
+        </CustomButton>
       </Box>
     </Box>
   );

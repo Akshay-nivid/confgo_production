@@ -13,7 +13,7 @@ const Footer = () => {
 
   return (
     <Grid container padding={0} justifyContent={'center'} className="footer">
-      <Grid container size={{ xs: 12,md:10 }} position={'relative'}>
+      <Grid container size={{ xs: 12,md:12 }} position={'relative'}>
         <Box paddingBlock={{ xs: 3.5 }} paddingInline={{ xs: 1.6 }} className="footer-content">
           <Grid container>
             <Grid size={{xs:12,sm:10}} marginInline={'auto'}>
@@ -41,7 +41,7 @@ const Footer = () => {
           </Grid>
 
         </Box>
-        <Grid className="divider"></Grid>
+        <Grid size={{md:10}} marginInline={'auto'} className="divider"></Grid>
       </Grid>
       <Grid paddingInline={1.7} size={12}>
         <Box className="footer-links-section">

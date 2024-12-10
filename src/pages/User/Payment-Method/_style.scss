@@ -1,4 +1,5 @@
 .payment-method {
+  max-width: 56rem;
   .payment-method-header {
     font-size: $h2;
     font-weight: $font-bold;
@@ -43,12 +44,13 @@
     width: 100%;
   }
   .payment-method-options-container {
-    padding-inline: 1.66rem;
+    // padding-inline: 1.66rem;
     margin-block: 3rem;
     .payment-method-options-header {
       font-size: $p1;
       font-weight: $font_medium;
       margin-bottom: 2rem;
+      padding-inline: 1.66rem;
     }
   }
   .payment-method-buttons-container {

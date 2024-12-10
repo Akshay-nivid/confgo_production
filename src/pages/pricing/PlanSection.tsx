@@ -92,13 +92,14 @@ export const PlanSection = () => {
         <Grid
           size={12}
           display={'flex'}
-          columnSpacing={5}
+          columnSpacing={{ xs: 2, md: 3 }}
+          rowSpacing={{xs:3,md:0}}
           container
           className="plansection__cards"
         >
           {planList.map((row, index) => (
             <>
-              <Grid size={{ xs: 12, sm: 4 }} key={index} className="plansection__card">
+              <Grid size={{ xs: 12, sm: 6,md:4 }} key={index} className="plansection__card">
                 <PlanCard data={row} type={selectedPlan} />
               </Grid>
             </>

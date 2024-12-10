@@ -12,12 +12,14 @@ const RegistrationCompleted = () => {
   const navigate = useNavigate();
 
   const finalPrice = useStore((state: any) => state?.compData?.["finalPrice"]?.value)
-  const participantId = useStore((state: any) => state?.compData?.["participant"]?.participant?.data?.id) ?? null
   const slugName = useStore((state: any) => state?.compData?.["slugName"]?.value)
-  const orderData = useStore((state: IStoreState) => state?.compData?.["order"]?.["order"]?.data) ?? null
+  const orderData = useStore((state: IStoreState) => state?.compData?.["order"]?.["order"]?.data) || null
+  const isCheckout = useStore((state: IStoreState) => state?.compData?.checkout?.checkout) || false 
   const couponData = useStore((state: IStoreState) => state?.compData?.["couponData"]?.['coupon/applyCoupon']?.data) ?? null
 
-  if (!participantId) {
+
+
+  if (isCheckout === false) {
 
     if (!slugName) {
       return <Navigate to={routes.userLogin()} />;

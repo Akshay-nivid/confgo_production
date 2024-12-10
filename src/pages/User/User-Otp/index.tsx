@@ -299,24 +299,21 @@ const UserOtp = () => {
                     minLength: 6,
                   }),
                 }}
+              
                 render={({ field }) => (
                   <OtpInput
                     value={field.value}
                     onChange={field.onChange}
+                    renderInput={(props) => <input {...props}  />}
+                    inputType='number'
                     numInputs={6}
-                    shouldAutoFocus
-                    renderInput={(props) => (
-                      <input
-                        {...field}
-                        {...props}
-                        className="otpcomponent__otp-input-container-otp-input"
-                        onKeyDown={(e) => {
-                          if (e.key !== "Backspace" && isNaN(Number(e.key))) {
-                            e.preventDefault();
-                          }
-                        }}
-                      />
-                    )}
+                    inputStyle={{
+                      border: '0.083rem solid #D0D5DD',
+                      borderRadius: '.45rem',
+                      height: '3.667rem',
+                      width: '3.5rem',
+                      color:'black',
+                    }}
                     containerStyle={{
                       display: "flex",
                       justifyContent: "space-between",

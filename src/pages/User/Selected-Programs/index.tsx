@@ -17,6 +17,7 @@ import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { ICartResponse } from "@/Libs/type";
 
 /**
  * Compoennt used to render selected program
@@ -25,37 +26,36 @@ const SelectedPrograms = () => {
 
 
   const navigate = useNavigate();
+  const location = useLocation()
+
 
   const selectedPrograms = useStore((state: IStoreState) => state?.compData?.["formatedCartData"]?.["formatedData"]) ?? null;
 
   const setDataById = useStore((state: IStoreState) => state.setDataById);
 
-  const selectedFormValues = useStore((state: IStoreState) => state?.compData?.["defaultProgramData"]?.formData)
-
   const couponData = useStore((state: IStoreState) => state?.compData?.couponData?.['coupon/applyCoupon']) ?? null
+  const cartInfo = useStore((state: any) => state?.compData?.addToCart) 
 
   const eventId = useStore((state: IStoreState) => state?.compData?.["eventSelected"]?.id) ?? null;
-
-  const cartInfo = useStore((state: IStoreState) => state?.compData?.["addToCart"]) // cart.data.id
-
   const cartId = cartInfo?.cart.data?.id ?? null
+  const participantTypeId = useStore((state: any) => state?.compData?.["participantTypeId"]?.value) ?? '';
 
-  const orderLoading = useStore((state: IStoreState) => state?.compData?.["order"]?.order?.loading)
-
-  const addToCartLoading = useStore((state: IStoreState) => state?.compData?.["addToCart"]?.[`cart/${cartId}`]?.loading)
-
-  const participantTypeId = useStore((state: IStoreState) => state?.compData?.["participantTypeId"]?.value) ?? '';
+  const cartData = useStore((state) => state.compData?.getCart?.[`cart/${cartId}`]) ?? null
+  
+  
 
   const finalPrice = useStore((state: IStoreState) => state?.compData?.["finalPrice"]?.value) ?? null
 
-  const location = useLocation()
-
+  const orderLoading = useStore((state: IStoreState) => state?.compData?.["order"]?.order?.loading)
+  const addToCartLoading = useStore((state: IStoreState) => state?.compData?.addToCart?.cart?.loading) ?? false
   const removeCouponLoading = useStore((state: IStoreState) => state.compData?.couponData?.["coupon/applyCoupon"]?.loading) ?? false
 
-  const templateId = useStore((state: IStoreState) => state?.compData?.["templateId"]?.id)
 
+  const templateId = useStore((state: IStoreState) => state?.compData?.["templateId"]?.id)
   const classNamePrefix = `selected-programs-main-${templateId}`
 
+
+  const selectedFormValues = useStore((state: IStoreState) => state?.compData?.["defaultProgramData"]?.formData)
   const { control, setValue, getValues, watch, reset } = useForm({
 
     defaultValues: {
@@ -269,8 +269,8 @@ const SelectedPrograms = () => {
    * @param formData - Form data
    */
   function handleAddAndGetCart(body: any, formData: any) {
-    PUT({
-      url: `cart/${cartId}`,
+    POST({
+      url: 'cart',
       body: body,
       id: 'addToCart',
 
@@ -281,7 +281,6 @@ const SelectedPrograms = () => {
           successCB: (response: any) => {
 
             setDataById("finalPrice", { value: response?.data?.cart?.finalPrice })
-
 
             const formatedData = handleGroupData({
               addons: response?.data?.addons,
@@ -401,7 +400,7 @@ const SelectedPrograms = () => {
                               </Grid>
 
                               <Grid className="program-price">
-                                <Chip className="price-chip" size="medium" icon={<AttachMoneyOutlinedIcon />} label={`${item?.amount}`} />
+                                <Chip className="price-chip" size="medium" icon={<AttachMoneyOutlinedIcon />} label={Math.trunc(item?.amount) === 0 ? "free" : `${item?.amount}`} />
                               </Grid>
 
                             </Grid>
@@ -431,7 +430,7 @@ const SelectedPrograms = () => {
                                   { label: '', value: item?.id },
                                 ]}
                               />
-                              <Typography className="add-text">{watch(`${formatDate(date)}-programs`)?.includes(item?.id) ? <> Remove <DeleteIcon/> </> :<> Add <AddIcon/> </>}</Typography>
+                              <Typography className="add-text">{watch(`${formatDate(date)}-programs`)?.includes(item?.id) ? <> Remove <DeleteIcon /> </> : <> Add <AddIcon /> </>}</Typography>
 
                             </Grid>
 
@@ -462,7 +461,7 @@ const SelectedPrograms = () => {
                                       </Grid>
 
                                       <Grid className="program-price">
-                                        <Chip className="price-chip" size="medium" icon={<AttachMoneyOutlinedIcon />} label={`${addon?.amount}`} />
+                                        <Chip className="price-chip" size="medium" icon={<AttachMoneyOutlinedIcon />} label={Math.trunc(addon?.amount) === 0 ? "free" : `${addon?.amount}`} />
                                       </Grid>
 
                                     </Grid>
@@ -483,7 +482,7 @@ const SelectedPrograms = () => {
 
                                   {(addon?.eventAddonProperties[0] !== null && addon?.eventAddonProperties?.length > 0) && <Grid marginTop={2} marginBottom={1} className='card-sub-header'>Addon Prop :</Grid>}
 
-                                  
+
                                   {addon?.eventAddonProperties?.length > 0 && (
                                     <Grid container size={12} columnSpacing={2} paddingBlock={1} className="add-on-prop-checkbox ">
 
@@ -533,7 +532,7 @@ const SelectedPrograms = () => {
                                         },
                                       ]}
                                     />
-                                    <Typography className="add-text">{watch(`${formatDate(date)}-addon-${addon?.id}`)?.includes(addon?.id) ? <> Remove <DeleteIcon/> </> :<> Add <AddIcon/> </>}</Typography>
+                                    <Typography className="add-text">{watch(`${formatDate(date)}-addon-${addon?.id}`)?.includes(addon?.id) ? <> Remove <DeleteIcon /> </> : <> Add <AddIcon /> </>}</Typography>
 
 
                                   </Grid>
@@ -629,15 +628,30 @@ const SelectedPrograms = () => {
               <Typography className="sub-text">${couponData.data?.discountAmount}</Typography>
             </Grid>}
 
+            <Grid container flexDirection={"row"} marginBottom={2} justifyContent={"space-between"}>
+              <Typography className="sub-text">Event amount</Typography>
+              <Typography className="sub-text">${cartData?.data?.event?.amount}</Typography>
+            </Grid>
+
+            
+            <Grid container flexDirection={"row"} marginBottom={2} justifyContent={"space-between"}>
+              <Typography className="sub-text">Program amount</Typography>
+              <Typography className="sub-text">${cartData?.data?.event?.amount}</Typography>
+            </Grid>
+
+            <Grid container flexDirection={"row"} marginBottom={2} justifyContent={"space-between"}>
+              <Typography className="sub-text">Addon amount</Typography>
+              <Typography className="sub-text">${cartData?.data?.event?.amount}</Typography>
+            </Grid>
+
+            <Grid className="divider " marginBottom={2}></Grid>
+
             <Grid container flexDirection={"row"} justifyContent={"space-between"}>
               <Typography className="total-text">Grand Total</Typography>
               <Typography className="total-text">${finalPrice}</Typography>
             </Grid>
 
           </Grid>
-
-
-
 
           <Grid className="navigation-btn-group-container">
             <CustomButton

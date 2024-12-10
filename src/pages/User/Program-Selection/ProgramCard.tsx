@@ -1,6 +1,6 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomCheckbox from "@/components/CustomCheckbox/CustomCheckbox";
-import useStore, { POST, GET, PUT } from "@/Libs/store";
+import useStore, { POST, GET, PUT, setDataById, IStoreState } from "@/Libs/store";
 import routes from "@/router/routes";
 import { Backdrop, Box, Chip, CircularProgress, Typography } from "@mui/material";
 import moment from "moment";
@@ -47,33 +47,32 @@ export interface Status {
  */
 const ProgramCard = () => {
 
-  const defaultFormData = useStore((state: any) => state?.compData?.["defaultProgramData"]?.formData) || undefined;
-
   const navigate = useNavigate();
-
-  const setDataById = useStore((state: any) => state.setDataById);
-
-  const eventData = useStore((state: any) => state?.compData?.["eventData"]) ?? undefined;
-
-  const eventId = useStore((state: any) => state?.compData?.["eventSelected"]?.id) ?? null;
-
-  const addToCartResponseData = useStore((state: any) => state?.compData?.["addToCart"]) ?? null;
-
   const { control, handleSubmit, setValue, watch, getValues, reset } = useForm<any>({ defaultValues: {} });
 
-  const cartId = addToCartResponseData?.cart?.data?.id || null;
 
-  const addToCartLoading = cartId ? addToCartResponseData?.[`cart/${cartId}`]?.loading : !!addToCartResponseData?.cart?.loading;
+  const defaultFormData = useStore((state: any) => state?.compData?.["defaultProgramData"]?.formData) || undefined;
+  
+  const eventData = useStore((state: IStoreState) => state?.compData?.["eventData"]) ?? undefined;
+
+  const eventId = useStore((state: IStoreState) => state?.compData?.eventSelected?.id) 
+
+  const addToCartResponseData = useStore((state: IStoreState) => state?.compData?.addToCart )
+
+  const addToCartLoading = addToCartResponseData?.cart?.loading ?? false
 
   const eventDataLoading = useStore((state: any) => state?.compData?.["eventData"]?.[`event/${eventId}`]?.loading) ?? false
 
-  const slugName = useStore((state: any) => state?.compData?.["slugName"]?.value) || '';
+  const slugName = useStore((state: IStoreState) => state?.compData?.slugName?.value) || ''
 
-  const participantTypeId = useStore((state: any) => state?.compData?.["participantTypeId"]?.value) ?? null
+  const participantTypeId = useStore((state: IStoreState) => state?.compData?.participantTypeId?.value)
 
-  const templateId = useStore((state: any) => state.compData?.["templateId"]?.id)
+  const templateId = useStore((state: IStoreState) => state.compData?.templateId?.id) 
 
-  const classNamePrefix = `program-card-form-${templateId}`
+  const classNamePrefix: string = `program-card-form-${templateId}`
+
+
+
 
   /**
     * Method used to call event details Api
@@ -201,114 +200,117 @@ const ProgramCard = () => {
       return;
     }
 
-    if (!cartId) {
-      POST({
-        url: 'cart',
-        body: body,
-        id: 'addToCart',
+    POST({
+      url: 'cart',
+      body: body,
+      id: 'addToCart',
 
-        successCB: (data: any) => {
+      successCB: (data: any) => {
 
-          const cartID = cartId ? cartId : data?.data?.id
+        const cartID = data?.data?.id
 
-          GET({
-            url: `cart/${cartID}`,
-            id: 'getCart',
-            successCB: (response: any) => {
+        GET({
+          url: `cart/${cartID}`,
+          id: 'getCart',
+          successCB: (response: any) => {
 
-              const formatedData = handleGroupData({
-                addons: response?.data?.addons,
-                programs: response?.data?.programs,
-                calculateTotal: true
-              })
+            const formatedData = handleGroupData({
+              addons: response?.data?.addons,
+              programs: response?.data?.programs,
+              calculateTotal: true
+            })
 
-              setDataById("finalPrice", { value: response?.data?.cart?.finalPrice })
+            setDataById("finalPrice", { value: response?.data?.cart?.finalPrice })
 
-              setDataById("formatedCartData", { formatedData: formatedData }) // storing data after formatting for mapping in ui
+            setDataById("formatedCartData", { formatedData: formatedData }) // storing data after formatting for mapping in ui
 
-              navigate(routes.selectedPrograms());
+            navigate(routes.selectedPrograms());
 
-            },
-            errorCB: (error: any) => {
+          },
+          errorCB: (error: any) => {
 
-              setDataById("snackBarInfo", {
-                open: true,
-                autoHideDuration: 2000,
-                severity: "error",
-                message: error?.message || 'something went wrong',
-              })
+            setDataById("snackBarInfo", {
+              open: true,
+              autoHideDuration: 2000,
+              severity: "error",
+              message: error?.message || 'something went wrong',
+            })
 
-            }
-          })
+          }
+        })
 
-        },
-        errorCB: (error: any) => {
+      },
+      errorCB: (error: any) => {
 
-          setDataById("snackBarInfo", {
-            open: true,
-            autoHideDuration: 2000,
-            severity: "error",
-            message: error?.message,
-          });
+        setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "error",
+          message: error?.message,
+        });
 
-        }
-      })
-    }
-    else {
-
-      PUT({
-        url: `cart/${cartId}`,
-        body: body,
-        id: 'addToCart',
-
-        successCB: (data: any) => {
-
-          const cartID = cartId ? cartId : data?.data?.id
-
-          GET({
-            url: `cart/${cartID}`,
-            id: 'getCart',
-            successCB: (response: any) => {
-
-              setDataById("finalPrice", { value: response?.data?.cart?.finalPrice })
-
-              const formatedData = handleGroupData({
-                addons: response?.data?.addons,
-                programs: response?.data?.programs,
-                calculateTotal: true
-              })
-
-              setDataById("formatedCartData", { formatedData: formatedData })
-
-              navigate(routes.selectedPrograms(),{replace: true});
-
-            },
-            errorCB: (error: any) => {
-
-              setDataById("snackBarInfo", {
-                open: true,
-                autoHideDuration: 2000,
-                severity: "error",
-                message: error?.message || 'something went wrong',
-              })
-
-            }
-          })
-
-        },
-        errorCB: (error: any) => {
-
-          setDataById("snackBarInfo", {
-            open: true,
-            autoHideDuration: 2000,
-            severity: "error",
-            message: error?.message,
-          });
-
-        }
-      })
-    }
+      }
+    })
   }
+
+  //   if (!cartId) {
+     
+  //   }
+  //   else {
+
+  //     PUT({
+  //       url: `cart/${cartId}`,
+  //       body: body,
+  //       id: 'addToCart',
+
+  //       successCB: (data: any) => {
+
+  //         const cartID = cartId ? cartId : data?.data?.id
+
+  //         GET({
+  //           url: `cart/${cartID}`,
+  //           id: 'getCart',
+  //           successCB: (response: any) => {
+
+  //             setDataById("finalPrice", { value: response?.data?.cart?.finalPrice })
+
+  //             const formatedData = handleGroupData({
+  //               addons: response?.data?.addons,
+  //               programs: response?.data?.programs,
+  //               calculateTotal: true
+  //             })
+
+  //             setDataById("formatedCartData", { formatedData: formatedData })
+
+  //             navigate(routes.selectedPrograms(),{replace: true});
+
+  //           },
+  //           errorCB: (error: any) => {
+
+  //             setDataById("snackBarInfo", {
+  //               open: true,
+  //               autoHideDuration: 2000,
+  //               severity: "error",
+  //               message: error?.message || 'something went wrong',
+  //             })
+
+  //           }
+  //         })
+
+  //       },
+  //       errorCB: (error: any) => {
+
+  //         setDataById("snackBarInfo", {
+  //           open: true,
+  //           autoHideDuration: 2000,
+  //           severity: "error",
+  //           message: error?.message,
+  //         });
+
+  //       }
+  //     })
+  //   }
+  // }
 
 
 
@@ -441,7 +443,7 @@ const ProgramCard = () => {
                 </Grid>
 
                 <Grid className="program-price">
-                  <Chip className="price-chip" size="medium" icon={<AttachMoneyOutlinedIcon />} label={`${program?.amount}`} />
+                  <Chip className="price-chip" size="medium" icon={<AttachMoneyOutlinedIcon />} label={Math.trunc(Number(program?.amount)) === 0 ? "Free" : `${program?.amount}`} />
                 </Grid>
 
                 <Grid className='pl-8' size={12}></Grid>
@@ -483,7 +485,7 @@ const ProgramCard = () => {
                             </Grid>
 
                             <Grid marginBottom={3} size={'auto'} className="program-price">
-                              <Chip className="price-chip" size="medium" icon={<AttachMoneyOutlinedIcon />} label={`${addon?.amount}`} />
+                              <Chip className="price-chip" size="medium" icon={<AttachMoneyOutlinedIcon />} label={Math.trunc(addon?.amount) === 0  ? 'Free' : `${addon?.amount}`} />
                             </Grid>
 
 
@@ -491,10 +493,10 @@ const ProgramCard = () => {
 
                           {addon?.eventAddonProperties?.length > 0 && <Grid marginTop={2} className='card-sub-header'>Addon Prop :</Grid>}
                           {(addon?.eventAddonProperties && addon?.eventAddonProperties?.length > 0) ? (
-                            <Grid paddingInline={1} container columnSpacing={2}>
+                            <Grid size={12} paddingInline={1} container columnSpacing={2}>
 
                               {addon.eventAddonProperties.map((property: any) => (
-                                <Grid display={'flex'} alignItems={'center'} size={4} className='addon-property-item'>
+                                <Grid size={'grow'} display={'flex'} alignItems={'center'} className='addon-property-item'>
                                   < CustomCheckbox
                                     className="add-on-property "
                                     key={`${property?.id}-${property?.name}-${addon?.addonId}`}
@@ -507,7 +509,7 @@ const ProgramCard = () => {
                                       { label: '', value: property?.id },
                                     ]}
                                   />
-                                  <Typography className="add-on-property-name">{property?.name}-{property?.amount}</Typography>
+                                  <Typography className="add-on-property-name w-full">{property?.name}-{property?.amount}</Typography>
                                 </Grid>
                               ))}
                             </Grid>

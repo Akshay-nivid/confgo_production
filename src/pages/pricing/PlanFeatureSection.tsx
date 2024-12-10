@@ -46,9 +46,10 @@ const PlanFeatureSection = () => {
     <Grid
       container
       className="planfeaturesection__container"
+      paddingInline={{ xs: 1.6,sm:0 }}
     >
-      <Grid size={2}></Grid>
-      <Grid container size={8} className="planfeaturesection__content">
+      <Grid size={{xs:0,sm:2}}></Grid>
+      <Grid container size={{xs:12,sm:8}} className="planfeaturesection__content">
         <Grid
           size={12}
           className="planfeaturesection__header"
@@ -174,7 +175,7 @@ const PlanFeatureSection = () => {
           </Grid>
         ))}
       </Grid>
-      <Grid size={2}></Grid>
+      <Grid size={{xs:0,sm:2}}></Grid>
     </Grid>
   );
 };
