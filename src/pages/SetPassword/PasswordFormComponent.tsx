@@ -1,4 +1,4 @@
-import {  Box, Button, Typography } from '@mui/material';
+import {  Box, Typography } from '@mui/material';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import CustomTextField from '@/components/CustomTextfield/CustomTextField';
 import Grid from '@mui/material/Grid2';
@@ -10,6 +10,7 @@ import useStore from '@/Libs/store';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import { Logger } from '@/Utils/Logger';
+import CustomButton from '@/components/CustomButton/CustomButton';
 /**
  * Component use to set password
  * @returns
@@ -76,7 +77,7 @@ const SetPasswordComponent = () => {
             severity: "error",
             message: error.message,
           })
-          navigate(routes.loginOrg());
+        
         }
       });
     } catch (error) {
@@ -110,6 +111,7 @@ const SetPasswordComponent = () => {
               rules={{
                 required: validateRequiredField({fieldName:'Password'}),
                 minLength: validateMinLength({fieldName:'Password',minLength:8}),
+              
                 pattern:validatePassword({}),
                 validate: () => {
                   trigger('confirmPassword');
@@ -151,9 +153,9 @@ const SetPasswordComponent = () => {
           >
             <Box display={'flex'} gap={1} alignItems={'center'} className="setpassword__requirement">
               <CheckIcon className={clsx("setpassword__check-icon", {
-                'active': password.length >= 8,
+                'active': password.length >= 8 &&password?.length<=16,
               })} />
-              <Typography className="setpassword__requirement-text text-p2 font-400">Must be at least 8 characters long</Typography>
+              <Typography className="setpassword__requirement-text text-p2 font-400">Must be between 8 and 16 characters long</Typography>
             </Box>
             <Box display={'flex'} gap={1} alignItems={'center'} className="setpassword__requirement">
               <CheckIcon className={clsx("setpassword__check-icon ", {
@@ -168,13 +170,12 @@ const SetPasswordComponent = () => {
               <Typography className="setpassword__requirement-text text-p2 font-400">Must contain one Upper case letter</Typography>
             </Box>
           </Box>
-          <Button
-            type="submit"
-            variant="contained"
-            className="setpassword__submit-button w-full custom-button text-p1 font-600"
-          >
-            Set Password
-          </Button>
+           <CustomButton
+              label="Set Password"
+              type="submit"
+              fullWidth
+              className={clsx('custom-button')}
+            />
         </form>
       </Grid>
     </Grid>

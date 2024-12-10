@@ -2,7 +2,29 @@ import Grid from "@mui/material/Grid2";
 import { EventRegistrationSuccessIcon, QrIcon } from "@/assets/svg";
 import { Box, Typography } from "@mui/material";
 import CustomButton from "@/components/CustomButton/CustomButton";
+import useStore from "@/Libs/store";
+import routes from "@/router/routes";
+import { useNavigate } from "react-router-dom";
+
+import { Navigate } from "react-router-dom";
 const RegistrationCompleted = () => {
+
+  const navigate = useNavigate();
+
+  const finalPrice = useStore((state: any) => state?.compData?.["finalPrice"]?.value)
+  const participantId = useStore((state: any) => state?.compData?.["participant"]?.participant?.data?.id) ?? null
+  const slugName = useStore((state: any) => state?.compData?.["slugName"]?.value)
+  const orderData = useStore((state: any) => state?.compData?.["order"]?.["order"]?.data) ?? null
+  const couponData = useStore((state: any) => state?.compData?.["couponData"]?.['coupon/applyCoupon']?.data) ?? null
+
+  if (!participantId) {
+
+    if (!slugName) {
+      return <Navigate to={routes.userLogin()} />;
+    }
+    return <Navigate to={routes.eventExternalLink(slugName)} />
+  }
+
   return (
     <Grid container className="event-registration-completed">
       <Grid size={12} display={"flex"} justifyContent={"center"}>
@@ -49,7 +71,7 @@ const RegistrationCompleted = () => {
           <Box className="payment-bill-details">
             <Box className="payment-bill-item">
               <Typography className="info-text">Subtotal</Typography>
-              <Typography className="info-text">$720</Typography>
+              <Typography className="info-text">${orderData?.subTotal}</Typography>
             </Box>
             <Box className="payment-bill-item">
               <Typography className="info-text">Coupon Code Applied</Typography>
@@ -61,7 +83,8 @@ const RegistrationCompleted = () => {
             <Typography className="grand-total-info-text">
               Grand Total
             </Typography>
-            <Typography className="grand-total-info-text">$100</Typography>
+            <Typography className="grand-total-info-text">
+              $ {finalPrice}</Typography>
           </Box>
         </Box>
       </Grid>
@@ -70,7 +93,9 @@ const RegistrationCompleted = () => {
           size="large"
           label="Back to Home"
           className="back-to-home-btn"
-          onClick={() => {}}
+          onClick={() => {
+            navigate(routes.userHome(), { replace: true });
+          }}
         />
       </Grid>
       <Grid size={12} className="note-container">

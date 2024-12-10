@@ -13,6 +13,7 @@ import FooterSection from './FooterSection';
 import TicketingSection from './TicketingSection';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
+import LocationSection from './LocationSection';
 
 type TemplateViewProps = {
   temp: number | undefined;
@@ -59,7 +60,7 @@ const navigate = useNavigate();
 
   useEffect(() => () => {
     clearDataById('templateEventDetails');
-    clearDataById('slugEventDetails');
+    //clearDataById('slugEventDetails');
     clearDataById('defaultProgramData')
   }, [])
 
@@ -91,7 +92,7 @@ const navigate = useNavigate();
         id: 'slugEventDetails',
         successCB: (context: any) => {
           setDataById('eventSelected', { id: context?.data?.id });
-          setDataById('slugName', { slugName: slug });
+          setDataById('slugName', { value: slug });
           setDataById('templateId', { id: context?.data?.templateId });
           
         },
@@ -109,9 +110,10 @@ const navigate = useNavigate();
   return <Grid container size={{ xs: 12, sm: 12 }} className="event-template">
     {(dataInfo?.data || slugInfo?.data) && <><HeaderSection onScrollToTier={()=>handleScrollTo(tierRef)} temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} onScrollToProgram={() => handleScrollTo(programRef)} onScrollToAbout={() => handleScrollTo(aboutRef)} onScrollToContributors={() => handleScrollTo(contributorsRef)}/>
       <AboutSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} ref={aboutRef}/>
-      <EventContributorsSection temp={updatedTemp} data={dataInfo?.data?.eventProgramSchedules || slugInfo?.data?.eventProgramSchedules} ref={contributorsRef}/>
+      {(dataInfo?.data?.eventProgramSchedules?.length > 0 || slugInfo?.data?.eventProgramSchedules?.length > 0) && <EventContributorsSection temp={updatedTemp} data={dataInfo?.data?.eventProgramSchedules || slugInfo?.data?.eventProgramSchedules} ref={contributorsRef}/>}
       <ProgramSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} ref={programRef}/>
       {(dataInfo?.data?.eventPriceTiers?.length > 0 || slugInfo?.data?.eventPriceTiers?.length > 0) && <TicketingSection ref={tierRef} temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} />}
+      <LocationSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data}/>
       <FooterSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} /></>}
   </Grid>
 });

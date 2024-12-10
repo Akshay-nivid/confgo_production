@@ -1,0 +1,30 @@
+/**
+ * Component displays the location section of the template
+ */
+import Grid from '@mui/material/Grid2';
+import React from 'react';
+import { MapIframe } from './MapIFrame';
+
+type LocationSectionProps = {
+    data?: any;
+    temp: number;
+    onScrollToTier?: any;
+}
+
+/**
+ * Displays the title section
+ */
+const LocationSection: React.FC<LocationSectionProps> = React.memo(({ data, temp }) => {
+
+    const classPrefix = `event-template-location-${temp}`;
+   
+
+    return <Grid container size={{ xs:12, sm:12 }} className={`${classPrefix}`}>
+       {data?.venue?.mapUrl? <MapIframe url={data?.venue?.mapUrl} />:
+        <Grid>No map available</Grid>
+
+        }
+    </Grid>
+});
+
+export default LocationSection;

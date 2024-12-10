@@ -5,7 +5,7 @@ import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import Template1 from '../../../assets/png/template1-preview.png'
 import Template2 from '../../../assets/png/template2-preview.png'
-import Template3 from '../../../assets/png/template2-preview.png'
+import Template3 from '../../../assets/png/template3-preview.png'
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CheckCircleIcon from '../../../assets/svg/template-select.svg'
 import { useEffect } from "react";
@@ -67,7 +67,7 @@ const TemplateCard = (data: any) => {
       await POST({
         url: `template/list`,
         id: 'templateList',
-        body: { enabled: 1, limit: 2 },
+        body: { enabled: 1, limit: 3 },
         errorCB: (context: any) => {
           Logger.error('TemplateView.tsx', context?.message);
         }

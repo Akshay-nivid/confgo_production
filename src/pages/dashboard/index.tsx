@@ -200,7 +200,16 @@ const Dashboard = () => {
        }
     </Grid>
     <Grid size={{ xs: 12, sm: 12 }} container direction={'column'} p={1}>
-      <Grid className="dashboard-event-list-card"><EventListCard /></Grid>
+    {fullEventList?.data?.length < 5 ? (
+              <Grid className="dashboard-event-list-card">
+                <EventListCard view={false} />
+              </Grid>
+            ) : (
+              <Grid className="dashboard-event-list-card">
+                <EventListCard view={true} />
+              </Grid>
+            )}
+      
     </Grid>
   </Grid>}
   </>:

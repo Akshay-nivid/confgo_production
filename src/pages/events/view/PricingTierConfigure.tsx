@@ -107,7 +107,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
   const fetchAttendeeTypeList = async () => {
     POST({
       url: "/participant/type/list",
-      body: { filters: { eventId: id } },
+      body: { filters: { eventId: id ,isContributor: '0'} },
       id: "attendeeTypeList",
       successCB: (context: any) => {
         if (context?.success) {
@@ -566,7 +566,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
           <CustomButton
             label="Submit"
             onClick={() => onSubmit()}
-            className="event-sessions-edit-button"
+            className="registration-fee-list-submit-button"
           />
         </Grid>
       </Box>

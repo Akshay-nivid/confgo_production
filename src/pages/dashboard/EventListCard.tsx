@@ -3,11 +3,14 @@
  */
 import EventList from "../events/EventList";
 
+interface Eventprops{
+    view? : any
+}
 
-export const EventListCard = () => {
+export const EventListCard: React.FC<Eventprops> = ({ view }) => {
 
     return (
-        <EventList hideAction={true} />
+        <EventList hideAction={true} view={view} />
     )
 
 }

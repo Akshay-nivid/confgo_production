@@ -169,11 +169,17 @@ const CreateCoupon: React.FC = () => {
                     placeholder='Start Date'
                     name='startDate'
                     control={control}
-                    rules={{required:{value:true,message:""}}}
+                    //rules={{required:{value:true,message:""}}}
                     min={moment().format("YYYY-MM-DD")}
                     defaultValue={moment().format("YYYY-MM-DD")}
                     label='Start Date'
                     requiredField
+                    rules={{
+                      pattern: {
+                        value: /^\d{4}-\d{2}-\d{2}$/, 
+                        message: "Please enter a valid start date (DD-MM-YYYY)"
+                      },required:{value:true,message:""}
+                    }}
                   />
                 </Grid>
 
@@ -184,9 +190,15 @@ const CreateCoupon: React.FC = () => {
                     control={control}
                     min={minEndDate}
                     defaultValue={minEndDate}
-                    rules={{required:{value:true,message:""}}}
+                    // rules={{required:{value:true,message:""}}}
                     label='End Date'
                     requiredField
+                    rules={{
+                      pattern: {
+                        value: /^\d{4}-\d{2}-\d{2}$/, 
+                        message: "Please enter a valid end date (DD-MM-YYYY)"
+                      },required:{value:true,message:""}
+                    }}
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>

@@ -34,9 +34,13 @@
      }
    }
    .download-Receipt{
-    background-color:$clr_white_90_percent!important;
+    background-color: transparent !important;
     color:$clr_blue;
     box-shadow:none ;
+    font-size: $p2;
+    font-weight: $font_medium;
+    text-transform: none;
+    padding: 0rem;
     &:hover {
         box-shadow: none;
 
@@ -84,5 +88,9 @@
 .paymentlist{
     margin-top: 1.2rem;
     border-radius: 0.8rem !important;
+    &-no-payment-icon{
+      height: 13.83rem;
+      width: 13.83rem;
+    }
 }
 }

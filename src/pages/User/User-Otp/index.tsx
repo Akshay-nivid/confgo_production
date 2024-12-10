@@ -161,7 +161,15 @@ const UserOtp = () => {
         id: 'setPassword', url: 'token/validateotp',
         body: body
         , successCB: successCB,
-        errorCB: (error: any) => Logger.error("Error in validate otp", error)
+        errorCB: (error: any) => {
+          Logger.error("Error in validate otp", error);
+          setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "error",
+          message: error?.message,
+        });
+      }
       })
     };
     /**

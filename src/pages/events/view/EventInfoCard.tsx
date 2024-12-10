@@ -1,11 +1,11 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
 import Grid from "@mui/material/Grid2";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
-import { IconButton, Typography } from "@mui/material";
+import { IconButton, Tooltip, Typography } from "@mui/material";
 import { CloseOutlined } from "@mui/icons-material";
 import apiClient from "@/Libs/Https/API-client";
 import { useParams } from "react-router-dom";
@@ -18,6 +18,9 @@ import ReactQuill from "react-quill";
 import React from "react";
 import config from "../../../../config.json";
 import FileListModal from "@/components/FileUpload/FileListModal";
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import GoogleMapPlacePicker from "../GoogleMapPlacePicker";
+import { validateEmail, validatePhoneNumber } from "@/Utils/Validation";
 
 
 const baseUrl = config.api.url;
@@ -36,13 +39,24 @@ interface CustomFile {
 const EventInfoCard: React.FC<any> = React.memo(
   ({ eventData, onSubmitHandler }) => {
   const { id } = useParams();
+  const methods = useForm<any>();
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    watch,
+    reset,
+    formState: { errors },
+  } = methods;
   const setDataById = useStore((state: any) => state.setDataById);
-  const { control, handleSubmit, reset, formState: { errors }, watch, setValue } = useForm<any>();
+
+  // const { control, handleSubmit, reset, formState: { errors }, watch, setValue } = useForm<any>();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   // Functions to open and close the drawer.
   const openDrawer = () => setIsDrawerOpen(true);
   const closeDrawer = () => setIsDrawerOpen(false);
+  const [drawerOpen,setDrawerOpen]=useState(false);
 
   // Store a copy of the original event data for restoring data.
   const [originalData, setOriginalData] = useState(eventData);
@@ -59,13 +73,21 @@ const EventInfoCard: React.FC<any> = React.memo(
       const formattedEventData = {
         ...eventData,
         startTime: moment(eventData.startTime).format(
-          "YYYY-MM-DDTHH:mm"
+          "YYYY-MM-DD"
         ),
-        endTime: moment(eventData.endTime).format("YYYY-MM-DDTHH:mm"),
+        endTime: moment(eventData.endTime).format("YYYY-MM-DD"),
       };
       reset(formattedEventData);
       setEditorContent(eventData.description);
+      setValue('country',eventData?.venue?.country);
       setValue("description", eventData.description);
+      setValue("address",eventData?.venue?.address);
+      setValue("city",eventData?.venue?.city);
+      setValue("postalCode",eventData?.venue?.postalCode);
+      setValue("state",eventData?.venue?.state);
+      setValue("mapUrl",eventData?.venue?.mapUrl);
+      setValue("phone",eventData?.eventContacts?.[0]?.phone)
+      setValue("email",eventData?.eventContacts?.[0]?.email)
       setOriginalData(eventData);
     }
   }, [eventData, reset]);
@@ -91,15 +113,31 @@ const EventInfoCard: React.FC<any> = React.memo(
    */
   const onSubmit = async (data: any) => {
     // Format the date and time fields before update request.
-    const excludeKeys = ['slugName', 'venue', 'status','templateId','template','eventPriceTiers','eventProgramSchedules','programs','addons'];
+    const excludeKeys = ['slugName','city','address','venue','country','mapUrl','postalCode','state','status','templateId','template','eventPriceTiers','eventProgramSchedules','programs','addons','eventContacts'];
     const formattedData = {
       //remove unnessary fields
       ...Object.fromEntries(
         Object.entries(data).filter(([key]) => !excludeKeys.includes(key))),
       startTime: formatUTCDateTime(data.startTime),
       endTime: formatUTCDateTime(data.endTime),
-      assetId:selectedFile?.id
-    };
+      assetId: selectedFile?.id,
+      venue: {
+        name: data?.name,
+        mapUrl: data?.mapUrl,
+        address: data?.address,
+        city: data?.city,
+        state: data?.state,
+        country: data?.country,
+        postalCode: data?.postalCode,
+      },
+      contacts: [
+        {
+          phone: data?.phone,
+          email: data?.email
+        }
+      ],
+    }
+
     const response = await apiClient.put(`event/update/${id}`, formattedData);
     const { status, message } = await processAPIResponse(
       response,
@@ -125,6 +163,8 @@ const EventInfoCard: React.FC<any> = React.memo(
       });
     }
   };
+
+
 
    /**
      * Method handles the on change event for description editor
@@ -293,6 +333,26 @@ const EventInfoCard: React.FC<any> = React.memo(
           </Typography>
         </Grid>
       </Grid>
+      <Grid size={{ xs: 3 }}>
+          <Typography className="event-information-subtitle">
+             Phone
+          </Typography>
+        </Grid>
+        <Grid size={{ xs: 9 }}>
+          <Typography className="event-information-content">
+            {eventData?.eventContacts?.[0]?.phone}
+          </Typography>
+        </Grid>
+        <Grid size={{ xs: 3 }}>
+          <Typography className="event-information-subtitle">
+             Email
+          </Typography>
+        </Grid>
+        <Grid size={{ xs: 9 }}>
+          <Typography className="event-information-content">
+            {eventData?.eventContacts?.[0]?.email}
+          </Typography>
+        </Grid>
       {/* Drawer Component */}
       <CustomDrawer open={isDrawerOpen} type="right">
         <Grid container spacing={2} padding={2} className="event-information-custom-drawer">
@@ -310,6 +370,7 @@ const EventInfoCard: React.FC<any> = React.memo(
             </IconButton>
           </Grid>
           <Grid size={{ xs: 12 }} mt={2}>
+          <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={2} direction="column">
               <Grid size={{ xs: 12, sm: 12 }} direction={'row'} container flexDirection={"row"}>
@@ -372,7 +433,13 @@ const EventInfoCard: React.FC<any> = React.memo(
                     name="name"
                     placeholder="Event Name"
                     control={control}
-                    requiredField
+                    rules={{
+                      required: true,
+                      maxLength: {
+                        value: 100,
+                        message: 'Event name cannot exceed 100 characters',
+                      },
+                    }}
                   />
                 </Grid>
                 <Grid size={{ xs: 12 }}>
@@ -401,18 +468,18 @@ const EventInfoCard: React.FC<any> = React.memo(
                 </Grid>
                 <Grid size={{ xs: 12 }}>
                   <CustomTextField
-                    placeholder="Start Date & Time"
+                    placeholder="Start Date"
                     control={control}
                     name={"startTime"}
-                    type="datetime-local"
+                    type="date"
                   />
                 </Grid>
                 <Grid size={{ xs: 12 }}>
                   <CustomTextField
-                    placeholder="End Date & Time"
+                    placeholder="End Date"
                     control={control}
                     name={"endTime"}
-                    type="datetime-local"
+                    type="date"
                   />
                 </Grid>
                 <Grid size={{ xs: 12 }}>
@@ -422,6 +489,127 @@ const EventInfoCard: React.FC<any> = React.memo(
                     control={control}
                   />
                 </Grid>
+                <Grid size={{ xs: 12 }}>
+                  <CustomTextField
+                    placeholder="Phone"
+                    control={control}
+                    name="phone"
+                    type="phone"
+                    rules={{
+                      required: 'Phone is required',
+                      pattern: validatePhoneNumber({})
+                    }}
+                  />
+                </Grid>
+                <Grid size={{ xs: 12 }}>
+                  <CustomTextField
+                    placeholder="Email"
+                    control={control}
+                    name="email"
+                    type="email"
+                    rules={{
+                      required: 'Email is required',
+                      pattern: validateEmail({})
+                    }}
+                  />
+                </Grid>
+                {watch("eventClass") !== "OFFLINE" && (
+                    <Grid size={{ xs: 12, sm: 12 }}>
+                      <CustomTextField
+                        placeholder="Url"
+                        control={control}
+                        name="url"
+                        type="text"
+                        rules={{ required: watch("eventClass") === "ONLINE" }}
+                      />  
+                    </Grid>
+                  )}
+                
+                 {watch("eventClass") !== "ONLINE" && (
+                    <>
+                     <Grid size={12} container justifyContent={"flex-start"} alignItems={"center"}>
+                      <CustomButton
+                      className="create-event-choose-map"
+                        label="Choose Location"
+                        onClick={()=>setDrawerOpen(true)}
+                        />
+                          <Tooltip title="Location details fills up on once choose desired location" arrow>
+                            <IconButton className="add-program-warning-msg"
+                            >
+                              <ErrorOutlineIcon />
+                            </IconButton>
+                          </Tooltip>
+                        </Grid>
+                      <Grid size={{ xs: 12, sm: 12 }}>
+                        <CustomTextField
+                          placeholder="Location URL (must be a Google Maps link with latitude and longitude)"
+                          control={control}
+                          name="mapUrl" 
+                          type="text" 
+                          rules={{
+                            required: false,                                
+                          }}
+                          readOnly
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 12 }}>
+                        <CustomTextField
+                          placeholder="Address"
+                          control={control}
+                          name="address"
+                          type="text"
+                          rules={{ required: watch("type") === "OFFLINE" }}
+                          readOnly
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 12 }}>
+                      <CustomTextField
+                          placeholder="Country"
+                          name="country"
+                          control={control}
+                          type="text"
+                          readOnly
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 12 }}>
+                         <CustomTextField
+                            name="state"
+                            label="State"
+                            control={control}
+                            type="text"
+                            readOnly
+                          />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 12 }}>
+                        <CustomTextField
+                          placeholder="City"
+                          control={control}
+                          name="city"
+                          type="text"
+                          rules={{ required: watch("eventClass") === "OFFLINE" }}
+                          readOnly
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 12 }}>
+                        <CustomTextField
+                          placeholder="Pin Code"
+                          control={control}
+                          name="postalCode"
+                          type="text"
+                          readOnly
+                          rules={{
+                            required: watch("type") === "OFFLINE",
+                            pattern: {
+                              value: /(^\d{5}(-\d{4})?$)|(^\d{6}$)/,
+                              message: "Enter a valid postal code (e.g., '12345', '12345-6789', or '123456')",
+                            },
+                          }}
+                        />
+                      </Grid>
+
+                    </>
+                  )}
+                
                 <Grid size={{ xs: 12 }} mt={2}>
                   <Grid
                     container
@@ -450,7 +638,11 @@ const EventInfoCard: React.FC<any> = React.memo(
                   </Grid>
                 </Grid>
               </Grid>
+              <CustomDrawer open={drawerOpen} type="right" children={
+                    <GoogleMapPlacePicker onClose={() => setDrawerOpen(false)}/>
+                  } />
             </form>
+            </FormProvider>
           </Grid>
         </Grid>
       </CustomDrawer>

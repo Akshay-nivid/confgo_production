@@ -12,8 +12,9 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import useStore from "@/Libs/store";
 import { emailRules, phoneRules } from "@/Utils/Validation";
-import { processAPIResponse } from "@/Utils/CommonBaseClass";
+import { processAPIResponse} from "@/Utils/CommonBaseClass";
 import apiClient from "@/Libs/Https/API-client";
+
 /*
  * Organization form 
  */
@@ -24,7 +25,6 @@ const AddOrganization = React.memo(() => {
     const form2 = useStore((state: any) => state?.compData?.['form2']) ?? [];
     const form3 = useStore((state: any) => state?.compData?.['form3']) ?? [];
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-
     /*
      * function to handle submission of the form and create new company
      */
@@ -88,7 +88,7 @@ const AddOrganization = React.memo(() => {
             </Backdrop>
             <Grid container spacing={5}  >
                 <Grid className="signup-content-wrapper">
-                    <Grid className="left-inner-content">
+                    <Grid className="left-inner-content-add-org">
                         <Grid alignSelf={"center"}>
                             <Typography className="add-org-heading-text" textAlign={"center"} variant="h3" >Add Organization Details</Typography>
                             <Typography className="add-org-description-text" textAlign={"center"} variant="h6" mb={2}>Join us and streamline your conference<br /> management today.</Typography>

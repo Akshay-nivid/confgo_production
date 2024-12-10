@@ -18,9 +18,11 @@ interface FormData {
  * compoent handles terms and condition
  */
 const TermsAndCondition = ({ open, onClose }: TermsAndConditionProps) => {
-    const { handleSubmit, control } = useForm<FormData>();
+    const { handleSubmit, control,watch } = useForm<FormData>();
     const PUT = useStore((state: any) => state.PUT);
     const setDataById = useStore((state: any) => state.setDataById);
+
+    const termsAccepted = watch("terms")?.includes("YES");
     /**
      * terms and conditions values
      */
@@ -117,6 +119,7 @@ const TermsAndCondition = ({ open, onClose }: TermsAndConditionProps) => {
                                 type="submit"
                                 label="Accept"
                                 variant="contained"
+                                disabled={!termsAccepted} 
                             />
                         </Grid>
                     </form>
