@@ -18,7 +18,9 @@ type ConferenceDetailsProps = {
 }
 
 const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,addOnOptions }) => {
-    const startDate = moment(data?.event?.startDate).format("MMMM D, YYYY");
+	
+	
+    const startDate = moment(data?.event?.startTime).format("MMMM D, YYYY");
     const endDate = moment(data?.event?.endTime).format("MMMM D, YYYY");
     /**
      * Method checks the start and end date matches or not
