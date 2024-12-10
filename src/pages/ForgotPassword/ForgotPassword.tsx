@@ -10,8 +10,9 @@ import { validateEmail, validateRequiredField } from "@/Utils/Validation";
 import useStore from "@/Libs/store";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { Logger } from "@/Utils/Logger";
-import { purposeTypes } from "@/Utils/CommonBaseClass";
+import { purposeTypes, useIsMobileScreen } from "@/Utils/CommonBaseClass";
 import { useState } from "react";
+
 /**
  * Form data interface
  */
@@ -26,6 +27,7 @@ const ForgotPassword = () => {
   const POST = useStore((state: any) => state.POST);
   const [loading, setLoading] = useState(false); 
   const navigate = useNavigate();
+   const isMobileScreen = useIsMobileScreen();
 
   /**
    *   A functional  that provides a "Bach to login" button
@@ -123,9 +125,9 @@ const  previousPath=()=>{
           </Grid>
         </Grid>
       </Grid>
-      <Grid container size={{ xs: 12, md: 5 }} className="grid-right">
-          <SignUpFlowIcon />
-      </Grid>
+    {!isMobileScreen &&(<Grid  container size={{ xs: 12, md: 5 }} className="grid-right">
+          <SignUpFlowIcon/>
+      </Grid>)}
     </Grid>
   )}
    </>

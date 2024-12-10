@@ -566,7 +566,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
           <CustomButton
             label="Submit"
             onClick={() => onSubmit()}
-            className="event-sessions-edit-button"
+            className="registration-fee-list-submit-button"
           />
         </Grid>
       </Box>
