@@ -85,6 +85,12 @@ import MinusIcon from './minus-icon.svg';
 import HamburgerIcon from './hamburger-menu.svg';
 import CloseIcon from './Close.svg';
 import NoCouponDataSvg from './no-coupon-data.svg';
+import MenuIcon from './Vector.svg'
+import DashboardUserMobIcon from'./DashboardUserMobIcon.svg';
+import MyEventsMobIcon from './MyEventsMobIcon.svg';
+import paymentHistoryMobIcon from './PaymentHistoryMobIcon.svg';
+import CalenderEventMobIcon from './CalenderEventMobIcon.svg';
+import SettingsDashBoardMobIcon from './SettingsDashBoarsmobIcon.svg'
 
 export {
   CalenderIcon,
@@ -174,4 +180,10 @@ export {
   HamburgerIcon,
   CloseIcon,
   NoCouponDataSvg,
+  MenuIcon,
+  DashboardUserMobIcon,
+  MyEventsMobIcon,
+  paymentHistoryMobIcon,
+  CalenderEventMobIcon,
+  SettingsDashBoardMobIcon
 };

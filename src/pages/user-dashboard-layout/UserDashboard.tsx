@@ -14,6 +14,9 @@ import CustomButton from '@/components/CustomButton/CustomButton';
 import DashboardEventCards from './DashboardEventCard';
 import NoCalenderData from './NoCalenderData';
 import NoDataCard from './NoDataCard';
+import clsx from 'clsx';
+import { useIsMobileScreen } from '@/Utils/CommonBaseClass';
+import EventCard from '../User/Components/EventCard';
 
 export interface CalendarCardData {
   id: string;
@@ -41,7 +44,7 @@ const UserDashboard: React.FC = React.memo(() => {
   const eventAndUserCount = useStore((state: any) => state?.compData?.["eventAndUserCount"]?.['dashboard/eventAndUserCount']) ?? [];
   const userCompletedEvents = useStore((state: any) => state?.compData?.["userCompletedEvents"]?.['event/list']) ?? [];
   const userEvents = useStore((state: any) => state?.compData?.["userLatestEvents"]) ?? [];
- 
+  const isMobileView = useIsMobileScreen()
  
   /**
   * Useeffect hook handles the api call 
@@ -164,19 +167,23 @@ const UserDashboard: React.FC = React.memo(() => {
   function getPreviousDay(date: any) {
     return moment(date).subtract(1, 'days').format('YYYY-MM-DD');
   }
+  if (!isLoading && userCompletedEvents) {
+    console.log("User Completed Events:", userCompletedEvents);
+  }
   return (
     <Grid container size={12} className="dashboard" spacing={1}  >
       {/* left */}
-      <Grid container size={{ xs: 12, md: 7 }} className="dashboard-left" >
+      <Grid container size={{ xs: 12, md: 7 }}   className={clsx("dashboard-left", isMobileView && "dashboard-responsive-left")}
+      >
         <Grid size={12} className="dashboard-left-profile">
           <Grid size={12} className="dashboard-left-profile-textgroup">
             <Typography className="dashboard-left-profile-title" gutterBottom>
-              <span className="dashboard-left-profile-greeting-text">Hey {userDetails?.firstName}!</span>
+              <span className={clsx("dashboard-left-profile-greeting-text", isMobileView && "dashboard-responsive-left-profile-title-greeting-text")}>Hey {userDetails?.firstName}!</span>
               <span className="dashboard-left-profile-title-wave-icon"></span>
             </Typography>
           </Grid>
           <Grid size={12}>
-            <Typography className="dashboard-left-profile-subtitle" gutterBottom>
+            <Typography className={clsx("dashboard-left-profile-subtitle", isMobileView && "dashboard-responsive-left-profile-subtitle")} gutterBottom>
               Your hub for all events and registrations.
             </Typography>
           </Grid>
@@ -188,42 +195,109 @@ const UserDashboard: React.FC = React.memo(() => {
             />
           </Grid>
         </Grid>
-        <Grid container className="dashboard-tight-spacing" size={12} spacing={2}>
-          <Grid size={12}>
-            <Typography className="dashboard-left-profile-accounttitle" gutterBottom>
+        <Grid container size={12} spacing={2}>
+        {!isMobileView && (
+         <Grid size={12}>
+           <Typography className="dashboard-left-profile-accounttitle" gutterBottom>
               Account Overview
-            </Typography>
-          </Grid>
+          </Typography>
+         </Grid>
+        )}
           {isCountLoading ? <CircularProgress /> :
             <Grid container size={{ xs: 12}}>
               <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-                <DashboardCardItem onClick={() => navigate("/user/my-event")} count={eventAndUserCount?.data?.totalEventCount ?? 0} icon={EventsSvg} title="Total Events Registered" />
+                <DashboardCardItem onClick={() => navigate("/user/my-event")} count={eventAndUserCount?.data?.totalEventCount ?? 0} icon={EventsSvg} title="Total Events Registered" className={clsx(isMobileView &&'dashboard-responsive-left-profile-dashboard-event')} contentClassName={clsx(isMobileView &&'dashboard-responsive-left-profile-dashboard-event-card')} iconClassName={clsx(isMobileView && 'dashboard-responsive-left-profile-dashboard-event-icon')} titleClassName={clsx(isMobileView && "dashboard-responsive-left-profile-dashboard-event-card-title")} countClassName={clsx(isMobileView && "dashboard-responsive-left-profile-dashboard-event-card-title")}/>
               </Grid>
-              <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-                <DashboardCardItem onClick={() => navigate("/user/my-event")} count={eventAndUserCount?.data?.pastEventCount ?? 0} icon={DownloadEventIcon} title="Sessions Participated" />
-              </Grid>
-              <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-                <DashboardCardItem onClick={() => navigate("/user/payment-history")} count={eventAndUserCount?.data?.currentEventCount ?? 0} icon={PaymentDashboardIcon} title="Pending Payments" />
-              </Grid>
+              {isMobileView ? (
+  // Render both items in a single row for mobile view
+  <Grid
+    container
+    size={{xs:12}}
+    spacing={2}
+     className="dashboard-responsive-row"
+    justifyContent="space-between"
+  >
+    <Grid size={{xs:6}}>
+      <DashboardCardItem
+        onClick={() => navigate("/user/my-event")}
+        count={eventAndUserCount?.data?.pastEventCount ?? 0}
+        icon={DownloadEventIcon}
+        title="Sessions Participated"
+        className="dashboard-responsive-left-profile-dashboard-session"
+        iconClassName='dashboard-responsive-left-profile-dashboard-session-card-icon'
+        contentClassName='dashboard-responsive-left-profile-dashboard-session-card'
+        titleClassName='dashboard-responsive-left-profile-dashboard-session-card-title'
+        countClassName='dashboard-responsive-left-profile-dashboard-session-card-count'
+      />
+    </Grid>
+    <Grid size={{xs:6}}>
+      <DashboardCardItem
+        onClick={() => navigate("/user/payment-history")}
+        count={eventAndUserCount?.data?.currentEventCount ?? 0}
+        icon={PaymentDashboardIcon}
+        title="Pending Payments"
+        className="dashboard-responsive-left-profile-dashboard-session"
+        iconClassName='dashboard-responsive-left-profile-dashboard-session-card-icon'
+        contentClassName='dashboard-responsive-left-profile-dashboard-session-card'
+        titleClassName='dashboard-responsive-left-profile-dashboard-session-card-title'
+        countClassName='dashboard-responsive-left-profile-dashboard-session-card-count'
+      />
+    </Grid>
+  </Grid>
+) : (
+  // Render items stacked in separate rows for non-mobile view
+  <>
+    <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+      <DashboardCardItem
+        onClick={() => navigate("/user/my-event")}
+        count={eventAndUserCount?.data?.pastEventCount ?? 0}
+        icon={DownloadEventIcon}
+        title="Sessions Participated"
+      />
+    </Grid>
+    <Grid size={{ xs: 12, sm: 6, md: 4 }}>
+      <DashboardCardItem
+        onClick={() => navigate("/user/payment-history")}
+        count={eventAndUserCount?.data?.currentEventCount ?? 0}
+        icon={PaymentDashboardIcon}
+        title="Pending Payments"
+        className=""
+      />
+    </Grid>
+  </>
+)}
+
             </Grid>}
         </Grid>
-        <Grid size={12}>
+        <Grid size={12}> 
+          {!isMobileView &&
           <Typography className="dashboard-left-profile-accounttitle" gutterBottom>
             Attended Event
           </Typography>
-          <Grid size={{ xs: 12 }} className="dashboard-left-profile-card">
-          {isLoading ? <CircularProgress /> :
-           userCompletedEvents && Array.isArray(userCompletedEvents?.data) && userCompletedEvents?.data.length ?
-            <DashboardEventCards event={userCompletedEvents?.data && userCompletedEvents?.data[0]} />
-            :  
-            <NoDataCard/>
           }
+          <Grid size={{ xs: 12 }} className={isMobileView ? "dashboard-responsive-left-profile-card" : "dashboard-left-profile-card"}>
+          {isLoading ? <CircularProgress /> :
+           userCompletedEvents && Array.isArray(userCompletedEvents?.data) && userCompletedEvents?.data.length ? (
+
+            isMobileView ? (
+              <EventCard Eventstatus={true} datetitle={userCompletedEvents?.data[0]?.startTime} eventFullData={userCompletedEvents?.data[0]} squareButtonLabels={[]} title={userCompletedEvents?.data[0]?.name} location={userCompletedEvents?.data[0]?.venue?.address} />
+            ) : (
+        
+              <DashboardEventCards event={userCompletedEvents?.data[0]} />
+            )
+          ):(isMobileView ? ( 
+            <NoDataCard/>
+          ):
+          (
+            <NoDataCard/>
+          ))}
           </Grid>
         </Grid>
       </Grid>
 
       {/* Right Column */}
-      <Grid size={{ xs: 12, md: 4 }} className="dashboard-right" justifyContent="flex-end">
+      <Grid size={{ xs: 12, md: 4 }} className={clsx("dashboard-right",isMobileView && "dashboard-responsive-right")} justifyContent="flex-end">
+      {!isMobileView && (
         <Grid container className="dashboard-right-calendar" >
             {isCalendarLoading ? <CircularProgress /> :
             userEvents && Array.isArray(userEvents['event/list']?.data) && userEvents['event/list']?.data.length > 0 ? 
@@ -232,23 +306,24 @@ const UserDashboard: React.FC = React.memo(() => {
             }
          
         </Grid>
-        <Grid className="dashboard-right-events">
+      )}
+        <Grid className={clsx("dashboard-right-events", isMobileView && "dashboard-responsive-right-events")}>
           {/* title */}
-          <Typography className="dashboard-subhead" gutterBottom>
+          <Typography className={clsx("dashboard-subhead", isMobileView && "dashboard-responsive-subhead")} gutterBottom>
             Recent Activities
           </Typography>
 
           <Grid  >
            <Box>
-            <Grid size={12} mt={1} className="dashboard-left-profile-card-recent" onClick={() => navigate('/user/payment-history')}>
+            <Grid size={12} mt={1} className={clsx("dashboard-left-profile-card-recent", isMobileView && "dashboard-responsive-left-profile-dashboard-session-card-recent")} onClick={() => navigate('/user/payment-history')}>
               <TransactionHistoryIcon fontSize={24} />   View Payment History
             </Grid>
-            <Divider className='dashboard-left-profile-card-recent-dividers' />
-            <Grid size={12} mt={1} className="dashboard-left-profile-card-recent" onClick={() => navigate('/user/my-event')}>
+            <Divider className={clsx('dashboard-left-profile-card-recent-dividers', isMobileView && "dashboard-responsive-left-profile-dashboard-session-card-recent-divider")} />
+            <Grid size={12} mt={1}  className={clsx("dashboard-left-profile-card-recent", isMobileView && "dashboard-responsive-left-profile-dashboard-session-card-recent")} onClick={() => navigate('/user/my-event')}>
               <HeartEventIcon fontSize={24} /> View All My Events
             </Grid>
-            <Divider className='dashboard-left-profile-card-recent-dividers' />
-            <Grid size={12} mt={1} className="dashboard-left-profile-card-recent" onClick={() => navigate('/user/my-event')} >
+            <Divider className={clsx('dashboard-left-profile-card-recent-dividers', isMobileView && "dashboard-responsive-left-profile-dashboard-session-card-recent-divider")} />
+            <Grid size={12} mt={1}  className={clsx("dashboard-left-profile-card-recent", isMobileView && "dashboard-responsive-left-profile-dashboard-session-card-recent")} onClick={() => navigate('/user/my-event')} >
               <DownloadCertsIcon fontSize={24} /> Download Tickets & Certificates
             </Grid>
             </Box>

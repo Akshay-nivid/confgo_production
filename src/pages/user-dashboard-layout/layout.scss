@@ -137,6 +137,118 @@
     }
   }
 }
+.user-sidebar-dashboard-responsive {
+  height: 100% !important;
+  width: 100% !important;
+  background-color: $clr_black !important;
+
+  &-close-icon-grid{
+    padding-top: 3rem;
+    display:flex !important;
+    background-color: $clr_black;
+    justify-content: flex-end;
+    width:100vw !important;
+    padding-right: 1rem;
+    color: $clr_white;
+    border: none !important;
+  }
+  .close-icon{
+    width: 2rem;
+    height:2rem;
+  }
+  &-menu-container{
+    background-color: $clr_black !important;
+    height: 100%;
+    border: none !important;
+    padding-left: $p5;
+    padding-right: $p5;
+
+    padding-top: 1.916rem !important;
+
+    &-item-list{
+      color:$clr_white;
+      background-color:$clr_black;
+      
+      .user-sidebar-list {
+        min-width: 20rem;
+        flex-shrink: 0;    
+        .MuiListItem-padding {
+          padding: 0;
+        }
+    
+        display: flex;
+        flex-direction: column;
+        row-gap: 0.333rem;
+        overflow-y: auto;
+    
+        .MuiListItemButton-root {
+          display: flex;
+          column-gap: .483rem;
+          border-radius: 0.417rem;
+          color: $clr_white;
+          padding-left: 0rem;
+    
+          &:hover {
+            color: $clr_blue;
+            background-color: transparent !important;
+            svg path{
+              stroke: $clr_blue !important ;
+            }
+          }
+    
+          span {
+            margin-left: 0.5rem;
+            font-size: $p5;
+            font-weight: $font_medium;
+          }
+        }
+    
+        .active {
+          padding-left: 0rem;
+          color: $clr_blue !important;
+          stroke: $clr_blue !important;
+          background-color: transparent !important;
+    
+          span {
+            color: transparent !important;
+          }
+        }
+    
+        .active-link {
+          color: $clr_blue;
+    
+          span {
+            color: $clr_blue !important;
+          }
+        }
+    
+        .active-drawer-icon {
+          font-size: 2rem;
+          color: $clr_blue !important;
+    
+          path {
+            stroke: $clr_blue !important;
+          }
+    
+          &:hover {
+            color: $clr_blue !important;
+            background-color: transparent !important;
+          }
+        }
+    
+        .inactive-drawer-icon {
+          font-size: 2rem;
+          color: $clr_black !important;
+        }
+        .line-divider{
+          border:.0416rem solid $clr_medium_dim_gray;
+          margin: 1.33rem 0;
+        }
+      }
+    }
+  }
+}
+
 
 .sidebar-divider {
   margin: 1rem !important;
@@ -260,6 +372,38 @@
   }
 }
 
+.appbars-responsive{
+
+  &-logo-container {
+    background-color: $clr_white;
+    height: 3.83rem;
+    display: flex;
+    align-items: center;
+    padding-left: $h6;
+    font-size: 2.6rem;
+    gap: 1.75rem;
+    font-weight: $font_extrabold;
+    width: 20% !important;
+    &-svg {
+      width: 13rem;
+      height: 3rem;
+    }
+    &-menu-button {
+      background: none; /* Remove default button background */
+      border: none; /* Remove default button border */
+      padding: 0; /* Remove default padding */
+      display: flex; /* Ensure the button's content (MenuIcon) uses flexbox */
+      align-items: center; /* Vertically align the icon inside the button */
+      justify-content: center; /* Center the icon horizontally */
+      cursor: pointer; /* Change the cursor to pointer on hover */
+    }
+    }
+    &-right{
+      display:flex;
+      justify-content:flex-end;
+      width: 75% !important;
+    }
+}
 .dashboard {
   flex-grow: 1;
 
@@ -499,6 +643,141 @@
   }
 }
 
+.dashboard-responsive{
+
+  flex-grow: 1;
+
+  &-left {
+    padding:$h5;
+    border: none;
+    &-profile {
+      
+      &-title{
+
+        &-greeting-text{
+          font-size: $p2 !important;
+          font-weight: $font_bold;
+        }
+      }
+      &-subtitle{
+        font-size: $p5 !important;
+        font-weight:$font_bold !important ;
+      }
+      &-button {
+        font-size:1.083rem !important ;
+      }
+
+      
+      &-card{
+        margin-top:.9rem !important;
+      }
+
+      &-dashboard-event{
+        width: 100% !important;
+        height: 5.833rem !important;
+        border-radius: .416rem;
+        border:.0416 solid $clr_light_border_grey !important ;
+        align-content: center !important;
+        padding-left: 1.666rem;
+
+        &-card{
+          display: flex;
+          flex-direction: row;
+          align-items: center !important;
+          padding: 0rem; // Adjust padding as needed        
+          &-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0; // Prevents the icon from shrinking
+            svg {
+              width: 2rem; // Adjust size as needed
+              height: 2rem;
+            }
+          }
+          &-title {
+            font-size: $h6 !important; // Adjust font size
+            font-weight: $font_semibold !important;
+            font: $font !important; // Adjust font weight
+            color:$clr_black !important; // Adjust color
+            flex-grow: 1; // Allows the title to take remaining space
+          }
+          &-count {
+            font-size: $h5 !important; // Adjust font size
+            font-weight: $font_bold !important;
+            color:$clr_black; // Adjust color
+          }
+        }
+
+      
+      }
+
+      &-dashboard-session{
+        width: 100% !important;
+        height:12rem !important;
+        border-radius: .833rem;
+        border:.0417rem solid $clr_light_border_grey !important ;
+        // align-content: center !important;
+        padding-left: 1.66rem;
+
+        &-card{
+          display: flex;
+          padding: 0rem !important;
+          flex-direction: column; 
+          align-content: left !important;  
+
+          &-icon {
+            flex-shrink: 0;
+            svg {
+              width: 3.33rem; // Adjust size as needed
+              height: 3.33rem;
+            }
+          }
+          &-title {
+            font-size: $p2 !important; // Adjust font size
+            font-weight: $font_semibold !important;
+            font-family: $font !important; // Adjust font weight
+            color:$clr_black !important; // Adjust color
+          }
+          &-count {
+            font-size: $h4 !important; // Adjust font size
+            font-weight: $font_bold !important;
+            color:$clr_black; // Adjust color
+            font-family: $font;
+          }
+          &-recent{
+            font-size: $p1 !important;
+
+            &-divider{
+              border-top: 0.0417rem solid $clr_light_sky_blue !important;
+
+            }
+          }
+        }
+      }
+      &-accountittle{
+        font-size: $h5 !important;
+        margin-top: 1.66rem !important;
+      }
+    }
+  }
+  &-right{
+    padding: $h5 !important;
+    padding-top: 0rem !important;
+    margin-left: 0rem !important;
+
+    &-events{
+      margin-top: 0rem!important;
+    }
+  }
+
+  &-subhead{
+    font-size:$h6 !important;
+    font-weight:$font_semibold !important ;
+    font-family: $font !important;
+  }
+}
+
 .user-profile-menu {
   &-icon{
     width:1.67rem !important;
@@ -567,5 +846,20 @@
     padding-top: 1rem;
     padding-bottom: 1rem;
     color: $clr_black !important;
+  }
+}
+
+.no-records-responsive{
+  border: .0417rem solid $clr_light_border_grey;
+  border-radius: .833rem;
+  padding-left: 1.083rem;
+  height: 16.5rem;
+
+  &-subtitle{
+    padding-top: .5rem;
+  }
+
+  &-image{
+    margin-top: 3.5rem !important;
   }
 }
