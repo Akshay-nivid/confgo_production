@@ -189,6 +189,7 @@ const UserLogin = (props: UserProps) => {
                 }}
               />
               <CustomTextField
+                className='user-textfield'
                 control={control}
                 name="password"
                 placeholder="Password"

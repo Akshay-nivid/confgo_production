@@ -77,7 +77,7 @@ const SetPasswordComponent = () => {
             severity: "error",
             message: error.message,
           })
-          navigate(routes.loginOrg());
+        
         }
       });
     } catch (error) {
@@ -111,6 +111,7 @@ const SetPasswordComponent = () => {
               rules={{
                 required: validateRequiredField({fieldName:'Password'}),
                 minLength: validateMinLength({fieldName:'Password',minLength:8}),
+              
                 pattern:validatePassword({}),
                 validate: () => {
                   trigger('confirmPassword');
