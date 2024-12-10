@@ -10,8 +10,8 @@ import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';
 import CustomDatePicker from '@/components/CustomDatePicker/CustomDatePicker';
-import CustomSnackbar from '@/components/CustomSnackbar/CustomSnackbar';
 import moment from 'moment';
+import { setDataById } from '@/Libs/store';
 
 interface CouponFormData {
   name: string;
@@ -47,9 +47,6 @@ const CreateCoupon: React.FC = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const navigate = useNavigate();
 
   //on submit of create
@@ -65,8 +62,12 @@ const CreateCoupon: React.FC = () => {
       const response = await apiClient.post('coupon', req);
       const { status,message } = await processAPIResponse(response, "createCoupon");
       if (status) {
-        setSnackbarMessage("Coupon Created Successfully");
-        setSnackbarSeverity('success');
+        setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "success",
+          message: "Coupon Created Successfully",
+        });
         reset();
         setTimeout(() => {
           navigate(routes.coupon()); // Redirect to the coupon list
@@ -76,16 +77,15 @@ const CreateCoupon: React.FC = () => {
       }
     } catch (error: any) {
       const errorMessage = error.response?.data?.message || error.message || 'An error occurred while creating the coupon.';
-      setSnackbarMessage(errorMessage);
-      setSnackbarSeverity('error');
+      setDataById("snackBarInfo", {
+        open: true,
+        autoHideDuration: 2000,
+        severity: "error",
+        message: errorMessage,
+      });
     } finally {
       setLoading(false);
-      setSnackbarOpen(true);
     }
-  };
-
-  const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
   };
 
   const discountTypeOptions = [
@@ -109,12 +109,6 @@ const CreateCoupon: React.FC = () => {
 
   return (
     <Box className="create-coupon-container">
-      <CustomSnackbar
-        open={snackbarOpen}
-        message={snackbarMessage}
-        severity={snackbarSeverity}
-        onClose={handleSnackbarClose}
-      />
       <Grid container size={{ xs: 12, sm: 12 }} justifyContent='center' alignItems='center' spacing={4}>
         <Grid size={{ xs: 12, sm: 6 }} className="create-coupon-grid">
           <Grid size={{ xs: 12, sm: 12 }}>
