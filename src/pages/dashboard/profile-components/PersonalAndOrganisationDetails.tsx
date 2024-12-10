@@ -20,7 +20,6 @@ import { Logger } from "@/Utils/Logger";
 import config from "../../../../config.json";
 import FileUpload from "@/components/FileUpload/FileUpload";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
-
 interface CustomFile {
   id: number;
   name: string;
@@ -144,52 +143,15 @@ const handleImageUpload = (uploadedFile: CustomFile) => {
   setUploadModalOpen(false);
 };
 
-/** 
- * image delete function for profile img
- */
-const handleDeleteAvatar = () => {
-  setDrawerProfileImage(null);
-  setProfileData((prevProfileData) => {
-    if (!prevProfileData) {
-      return null;
-    }
-    return {
-      ...prevProfileData,
-      assetId: null,
-    };
-  });
-  setDataById("userDetails", {
-    ...userDetails,
-    assetId: null,
-  });
-};
-
 /** open modal for logo upload */
 const openLogomodal =()=>{
   setUploadOrganisationModalOpen(true)
-
-
 }
 /** logo upload for company */
 const handleOrganisationImageUpload =(uploadedFiles: CustomFile)=>{
   setDrawerLogoImage(uploadedFiles.id)
   setUploadOrganisationModalOpen(false);
 }
-
-/** logo delete function for company */
-const handleDeleteLogo = () =>{
-  setDrawerLogoImage(null)
-  setLogoProfileData((prevLogoProfileData) => {
-    if (!prevLogoProfileData) {
-      return null;
-    }
-    return {
-      ...prevLogoProfileData,
-      assetId: null,
-    };
-  });
-};
-
 
 /** function to submit logo */
 const onLogoSubmit = async (newdata: Company) => {
@@ -204,8 +166,9 @@ const onLogoSubmit = async (newdata: Company) => {
 
     // Send the payload to the server for updating the company details
     const response = await apiClient.put(`/company/${compId}`, payload);
-    const { status } = processAPIResponse(response, "personalInformation");
+    const { status,message } = processAPIResponse(response, "personalInformation");
     if (status) {
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: message });
       setLogoProfileData((prevData) => ({
         ...prevData,
         ...payload,
@@ -213,6 +176,9 @@ const onLogoSubmit = async (newdata: Company) => {
       setDataById("logo", {
         status: "success",
       });
+    }
+    else{
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message })
     }
   } catch (error) {
     console.error("Error during logo submit:", error);
@@ -231,9 +197,10 @@ const onSubmit = async (data: Profile) => {
       assetId: drawerProfileImage || profileData?.assetId,
     };
     const response = await apiClient.put(`/user`, payload);
-    const { status } = processAPIResponse(response, "personalInformation");
+    const { status, message } = processAPIResponse(response, "personalInformation");
     if (status) {
-      setProfileData((prevProfileData) => ({
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: message });
+       setProfileData((prevProfileData) => ({
         ...prevProfileData,
         ...payload,
       }));
@@ -245,7 +212,11 @@ const onSubmit = async (data: Profile) => {
       });
       closeDrawer();
     }
-  } catch (error) {
+    else{
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message })
+    }
+  } 
+  catch (error) {
     Logger.error("Error updating profile data:", error);
   }
 };
@@ -271,7 +242,7 @@ return (
       <Grid size={1} className="main-account-profile-image connected" mb={0}>
         {profileData?.assetId ? (
           <Avatar
-            src={`${baseUrl}/asset/${profileData?.assetId}`}
+            src={`${baseUrl}asset/${profileData?.assetId}`}
             className="main-user-profile"
             alt="User Profile"
             variant="circular"
@@ -337,7 +308,7 @@ return (
           className="main-user-profile"
           src={
             LogoprofileData?.assetId
-              ? `${baseUrl}/asset/${LogoprofileData?.assetId}`
+              ? `${baseUrl}asset/${LogoprofileData?.assetId}`
               : ""
           }
           alt="User Profile"
@@ -410,8 +381,8 @@ return (
                 className="main-user-profile"
                 src={
                   drawerProfileImage
-                    ? `${baseUrl}/asset/${drawerProfileImage}`
-                    : `${baseUrl}/asset/${profileData?.assetId}`
+                    ? `${baseUrl}asset/${drawerProfileImage}`
+                    : `${baseUrl}asset/${profileData?.assetId}`
                 }
                 alt="User Profile"
                 variant="circular"
@@ -421,12 +392,6 @@ return (
                 onClick={openmodal}
               >
                 Upload New Photo
-              </Button>
-              <Button
-                className="main-user-profile-upload-btn main-outline"
-                onClick={handleDeleteAvatar}
-              >
-                Delete
               </Button>
               <Grid size={12} className="main-user-details">
                 <CustomTextField
@@ -477,8 +442,8 @@ return (
                 className="main-user-profile"
                 src={
                   drawerLogoImage
-                    ? `${baseUrl}/asset/${drawerLogoImage}`
-                    : `${baseUrl}/asset/${LogoprofileData?.assetId}`
+                    ? `${baseUrl}asset/${drawerLogoImage}`
+                    : `${baseUrl}asset/${LogoprofileData?.assetId}`
                 }
                 alt="User Profile"
                 variant="circular"
@@ -488,12 +453,6 @@ return (
                 onClick={openLogomodal}
               >
                 Upload New Logo
-              </Button>
-              <Button
-                className="main-user-profile-upload-btn main-outline"
-                onClick={handleDeleteLogo}
-              >
-                Delete
               </Button>
               <Grid size={12} className="main-user-details">
               <CustomTextField

@@ -132,8 +132,10 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
                 return {
                     ...item,
                     cellClassName: 'default-label flex',
-                    renderCell: (params: any) => <StatusComponent className="data-grid-status" value={params.value}
-                    />
+                    renderCell: (params: any) => {
+                        const published = params.row.published
+                        return <StatusComponent className="data-grid-status" value={ published === true && params.value == 1 ? "6" : params.value } />;
+                    }
                 };
             }
             if (item.type === 'default') {

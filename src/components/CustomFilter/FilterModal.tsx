@@ -14,7 +14,7 @@ interface FilterDialogProps {
  * @author Neethu
  */
 const FilterDialog: React.FC<FilterDialogProps> = ({ open, onClose, onApplyFilters }) => {
-  const { control, handleSubmit, reset, setValue } = useForm();
+  const { control, handleSubmit, reset, setValue , formState: { errors } } = useForm();
 
   //On apply button click
   const onSubmit = (data: any) => {
@@ -57,6 +57,12 @@ const FilterDialog: React.FC<FilterDialogProps> = ({ open, onClose, onApplyFilte
             <Controller
               name="startDate"
               control={control}
+              rules={{
+                pattern: {
+                  value: /^\d{4}-\d{2}-\d{2}$/, // Date format validation: YYYY-MM-DD
+                  message: "Please enter a valid start date (DD-MM-YYYY)"
+                }
+              }}
               render={({ field }) => (
                 <TextField
                   {...field}
@@ -66,6 +72,8 @@ const FilterDialog: React.FC<FilterDialogProps> = ({ open, onClose, onApplyFilte
                     shrink: true,
                   }}
                   fullWidth
+                  error={!!errors.startDate}
+                  helperText={errors.startDate ? "Please enter a valid start date" : ''}
                 />
               )}
             />
@@ -76,6 +84,12 @@ const FilterDialog: React.FC<FilterDialogProps> = ({ open, onClose, onApplyFilte
             <Controller
               name="endDate"
               control={control}
+              rules={{
+                pattern: {
+                  value: /^\d{4}-\d{2}-\d{2}$/, // Date format validation: YYYY-MM-DD
+                  message: "Please enter a valid end date (DD-MM-YYYY)"
+                }
+              }}
               render={({ field }) => (
                 <TextField
                   {...field}
@@ -85,6 +99,8 @@ const FilterDialog: React.FC<FilterDialogProps> = ({ open, onClose, onApplyFilte
                     shrink: true,
                   }}
                   fullWidth
+                  error={!!errors.endDate}
+                  helperText={errors.endDate ? "Please enter a valid end date" : ''}
                 />
               )}
             />
