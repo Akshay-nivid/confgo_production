@@ -1071,6 +1071,17 @@
         justify-content: space-between;
         align-items: center;
     }
+    &-submit-button{
+            background-color: $clr_green !important;
+            color: $clr_white !important;
+            min-width: 8rem !important;
+            border: .16rem solid $clr_green !important;
+            text-transform: none ;
+            font-size: $h6 ;
+            font-weight: $font_semibold !important;
+            box-shadow: none ;
+            margin-bottom: 1rem !important;
+    }
 
 }
 

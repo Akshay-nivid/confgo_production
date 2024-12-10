@@ -17,7 +17,6 @@ const CreateAccount = React.memo(() => {
     const { setDataById }: any = useStore();
     const form2 = useStore((state: any) => state?.compData?.['form2']) ?? [];
     const { handleSubmit, control } = useForm<FormData>();
-
     /*
      * function to handle form submission 
      */
@@ -37,7 +36,7 @@ const CreateAccount = React.memo(() => {
 
     return (
         <Grid>
-            <Grid  container spacing={5}>
+            <Grid  container spacing={5}  >
                 <Grid className="signup-content-wrapper">
                     <Grid className="left-inner-content-add-create">
                         <Grid container spacing={2}>

@@ -6,6 +6,7 @@ import OtpComponent from './OtpFormComponent';
 import { LockIcon, SignUpFlowIcon } from '@/assets/svg';
 import { useIsMobileScreen } from '@/Utils/CommonBaseClass';
 
+
 /**
  * ui component of set password page
  * @returns
@@ -59,9 +60,12 @@ const SetPassword = () => {
 
           </Grid>
         </Grid>
-        {isMobileScreen ? <></> : <Grid container size={{ xs: 0, md: 5 }} className="grid-right">
+        {!isMobileScreen && (
+          <Grid container size={{ xs: 0, md: 5 }} className="grid-right">
           <SignUpFlowIcon />
-        </Grid>}
+        </Grid>
+        )}
+
       </Grid>
     </Box>
   );
