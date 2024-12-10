@@ -18,7 +18,7 @@ const StatusComponent: React.FC<AppBarProps> = ({ value ,className}) => {
     { id: "0", textColor: '#D6983A', cellColor: '#FFECDF' },
     { id: "1", textColor: '#0CAF60', cellColor: '#E7F7EF' },
     { id: "5", textColor: '#0CAF60', cellColor: '#E7F7EF' },
-    { id: ["2", "3"],  textColor: '#D32C2C', cellColor: '#FFE8EC'},
+    { id: ["2", "3","6"],  textColor: '#D32C2C', cellColor: '#FFE8EC'},
     { id: "4", textColor: '#2C3CD3', cellColor: '#E8EBFF' },
   ];
 
@@ -42,6 +42,8 @@ const StatusComponent: React.FC<AppBarProps> = ({ value ,className}) => {
         return "Pending";
       case "4":
         return "Complete";
+      case "6":
+          return "Published";
       default:
         return "Pending";
     }
