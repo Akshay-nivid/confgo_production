@@ -383,7 +383,7 @@ const CreateEvent: React.FC<EventProps> =
                           shrink={watch('mapUrl')!==''&&watch('mapUrl')!==undefined?true:undefined}
                           readOnly
                           rules={{
-                            required: false,                                                                  
+                            required: true,                                                                  
                           }}
                         />
                       </Grid>
