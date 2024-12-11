@@ -10,15 +10,16 @@ import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';
 import CustomDatePicker from '@/components/CustomDatePicker/CustomDatePicker';
-import CustomSnackbar from '@/components/CustomSnackbar/CustomSnackbar';
 import moment from 'moment';
+import { setDataById } from '@/Libs/store';
+import { validateAmount, validateMaxLength, validateMinLength } from '@/Utils/Validation';
 
 interface CouponFormData {
   name: string;
   code: string;
   startDate: string;
   endDate?: string;
-  discountType: '';
+  discountType: 'percentage' | 'flat';
   discountValue: string;
   maxUses: string;
   maxDiscountValue: string;
@@ -31,13 +32,13 @@ interface CouponFormData {
  * @author Neethu
  */
 const CreateCoupon: React.FC = () => {
-  const { control, handleSubmit, reset,watch } = useForm<CouponFormData>({
+  const { control, handleSubmit, reset, watch, setValue, clearErrors, } = useForm<CouponFormData>({
     defaultValues: {
       code: '',
       name: '',
       startDate: '',
       endDate: '',
-      discountType: '',
+      discountType: 'percentage',
       discountValue: '',
       maxUses: '',
       maxDiscountValue: '',
@@ -47,10 +48,48 @@ const CreateCoupon: React.FC = () => {
   });
 
   const [loading, setLoading] = useState(false);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
   const navigate = useNavigate();
+
+  const discountType = watch('discountType');
+  const discountValue = watch('discountValue');
+
+  /**
+   * Update maxDiscountValue as discountValue if discountType is flat.
+   */
+  useEffect(() => {
+    if (discountType === 'flat') {
+      setValue('maxDiscountValue', discountValue);
+    }
+  }, [discountType, discountValue, setValue]);
+
+  /**
+   * useEffect to clear validation errors for fields when the discountType changes.
+   */
+  useEffect(() => {
+    clearErrors(['discountValue', 'maxDiscountValue','minPurchaseValue']);
+  }, [discountType, clearErrors]);
+
+  /**
+   * Function to validate the discountValue field based on the discountType.
+   * @param value 
+   * @param discountType 
+   * @returns an error message if validation fails or true if valid.
+   */
+  const validateDiscountValue = (value: string | undefined, discountType: string | undefined) => {
+    if (!value) return "";
+    const parsedValue = parseFloat(value);
+    if (discountType === "percentage") {
+      if (isNaN(parsedValue) || parsedValue > 100) {
+        return "Discount percentage cannot exceed 100.";
+      }
+    } else if (discountType === "flat") {
+      if (isNaN(parsedValue)) {
+        return "Discount value must be a valid number.";
+      }
+      setValue("maxDiscountValue", value);
+    }
+    return true;
+  };
 
   //on submit of create
   const onSubmit = async (data: CouponFormData) => {
@@ -65,8 +104,12 @@ const CreateCoupon: React.FC = () => {
       const response = await apiClient.post('coupon', req);
       const { status,message } = await processAPIResponse(response, "createCoupon");
       if (status) {
-        setSnackbarMessage("Coupon Created Successfully");
-        setSnackbarSeverity('success');
+        setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "success",
+          message: "Coupon Created Successfully",
+        });
         reset();
         setTimeout(() => {
           navigate(routes.coupon()); // Redirect to the coupon list
@@ -76,16 +119,15 @@ const CreateCoupon: React.FC = () => {
       }
     } catch (error: any) {
       const errorMessage = error.response?.data?.message || error.message || 'An error occurred while creating the coupon.';
-      setSnackbarMessage(errorMessage);
-      setSnackbarSeverity('error');
+      setDataById("snackBarInfo", {
+        open: true,
+        autoHideDuration: 2000,
+        severity: "error",
+        message: errorMessage,
+      });
     } finally {
       setLoading(false);
-      setSnackbarOpen(true);
     }
-  };
-
-  const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
   };
 
   const discountTypeOptions = [
@@ -109,12 +151,6 @@ const CreateCoupon: React.FC = () => {
 
   return (
     <Box className="create-coupon-container">
-      <CustomSnackbar
-        open={snackbarOpen}
-        message={snackbarMessage}
-        severity={snackbarSeverity}
-        onClose={handleSnackbarClose}
-      />
       <Grid container size={{ xs: 12, sm: 12 }} justifyContent='center' alignItems='center' spacing={4}>
         <Grid size={{ xs: 12, sm: 6 }} className="create-coupon-grid">
           <Grid size={{ xs: 12, sm: 12 }}>
@@ -139,7 +175,11 @@ const CreateCoupon: React.FC = () => {
                     name='code'
                     placeholder='Coupon Code'
                     control={control}
-                    rules={{required:{value:true,message:""}}}
+                    rules={{
+                      required:{value:true,message:""},
+                      minLength: validateMinLength({minLength: 6, fieldName: "Coupon Code"}),
+                      maxLength: validateMaxLength({maxLength: 8, fieldName: "Coupon Code"}),
+                    }}
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
@@ -157,9 +197,10 @@ const CreateCoupon: React.FC = () => {
                     name='discountValue'
                     placeholder='Discount Value'
                     control={control}
-                    rules={{required:{value:true,message:""},
-                            pattern:{value:/^\d+$/,message: "Discount Value must be a positive number."}}
-                    }
+                    rules={{
+                      pattern: validateAmount({}),
+                      validate: (value) => validateDiscountValue(value, watch("discountType")),
+                    }}
                     type='number'
                     requiredField
                   />
@@ -217,8 +258,11 @@ const CreateCoupon: React.FC = () => {
                     placeholder='Maximum Discount Amount'
                     control={control}
                     type='number'
-                    rules={{required:{value:true,message:""}}
-                          }
+                    rules={{
+                        required:{value:true,message:""},
+                        pattern: validateAmount({})
+                    }}
+                    readOnly= {discountType === "flat"}
                   />
                 </Grid>
                 <Grid size={{ xs: 12, sm: 12 }}>
@@ -227,8 +271,16 @@ const CreateCoupon: React.FC = () => {
                     placeholder='Minimum Purchase Amount'
                     control={control}
                     type='number'
-                    rules={{required:{value:true,message:""}}
-                          }
+                    rules={{
+                      required:{value:true,message:""},
+                      pattern: validateAmount({}),
+                      ...(watch('discountType') === 'flat' && {
+                        min: {
+                          value: watch('discountValue'),
+                          message: "Min Purchase Value should not be less than Discount Value for flat rate discounts."
+                        },
+                      }),
+                    }}
                   />
                 </Grid>
 
