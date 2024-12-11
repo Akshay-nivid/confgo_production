@@ -643,10 +643,9 @@
   }
 }
 
-.dashboard-responsive{
 
-  flex-grow: 1;
-
+@media (max-width: 600px) {
+.dashboard{
   &-left {
     padding:$h5;
     border: none;
@@ -670,6 +669,17 @@
       
       &-card{
         margin-top:.9rem !important;
+        padding-bottom: 0rem !important;
+        border: none;
+
+        &-recent{
+          font-size: $p1 !important;
+
+          &-dividers{
+            border-top: 0.0417rem solid $clr_light_sky_blue !important;
+
+          }
+        }
       }
 
       &-dashboard-event{
@@ -680,36 +690,36 @@
         align-content: center !important;
         padding-left: 1.666rem;
 
-        &-card{
+        .dashboard-content-card{
           display: flex;
           flex-direction: row;
           align-items: center !important;
-          padding: 0rem; // Adjust padding as needed        
-          &-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0; // Prevents the icon from shrinking
+          padding: 0rem !important; // Adjust padding as needed  
+        }
+          .dashboard-card-icon {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex-shrink: 0 !important; // Prevents the icon from shrinking
             svg {
-              width: 2rem; // Adjust size as needed
-              height: 2rem;
+              width: 3.33rem !important; // Adjust size as needed
+              height: 3.33rem !important;
             }
           }
-          &-title {
+          .dashboard-card-title {
             font-size: $h6 !important; // Adjust font size
             font-weight: $font_semibold !important;
-            font: $font !important; // Adjust font weight
+            font-family: $font !important; // Adjust font weight
             color:$clr_black !important; // Adjust color
-            flex-grow: 1; // Allows the title to take remaining space
+            flex-grow: 1 !important; // Allows the title to take remaining space
           }
-          &-count {
+          .dashboard-card-count {
             font-size: $h5 !important; // Adjust font size
             font-weight: $font_bold !important;
             color:$clr_black; // Adjust color
+            padding-right: 2.55rem !important;
           }
-        }
-
-      
+        
       }
 
       &-dashboard-session{
@@ -717,43 +727,34 @@
         height:12rem !important;
         border-radius: .833rem;
         border:.0417rem solid $clr_light_border_grey !important ;
-        // align-content: center !important;
         padding-left: 1.66rem;
 
-        &-card{
+        .dashboard-content-card{
           display: flex;
           padding: 0rem !important;
           flex-direction: column; 
           align-content: left !important;  
-
-          &-icon {
+        }
+          .dashboard-card-icon {
             flex-shrink: 0;
             svg {
               width: 3.33rem; // Adjust size as needed
               height: 3.33rem;
             }
           }
-          &-title {
+          .dashboard-card-title {
             font-size: $p2 !important; // Adjust font size
             font-weight: $font_semibold !important;
             font-family: $font !important; // Adjust font weight
             color:$clr_black !important; // Adjust color
           }
-          &-count {
+          .dashboard-card-count {
             font-size: $h4 !important; // Adjust font size
             font-weight: $font_bold !important;
             color:$clr_black; // Adjust color
             font-family: $font;
           }
-          &-recent{
-            font-size: $p1 !important;
-
-            &-divider{
-              border-top: 0.0417rem solid $clr_light_sky_blue !important;
-
-            }
-          }
-        }
+        
       }
       &-accountittle{
         font-size: $h5 !important;
@@ -777,7 +778,7 @@
     font-family: $font !important;
   }
 }
-
+}
 .user-profile-menu {
   &-icon{
     width:1.67rem !important;
@@ -849,12 +850,14 @@
   }
 }
 
-.no-records-responsive{
+@media (max-width: 600px) {
+.no-records{
+  &-container{
   border: .0417rem solid $clr_light_border_grey;
   border-radius: .833rem;
   padding-left: 1.083rem;
   height: 16.5rem;
-
+  }
   &-subtitle{
     padding-top: .5rem;
   }
@@ -862,4 +865,5 @@
   &-image{
     margin-top: 3.5rem !important;
   }
+}
 }

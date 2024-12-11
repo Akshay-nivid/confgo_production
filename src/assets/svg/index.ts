@@ -183,7 +183,7 @@ export {
   CloseIcon,
   NoCouponDataSvg,
   CallingIcon,
-  MailIcon
+  MailIcon,
   MenuIcon,
   DashboardUserMobIcon,
   MyEventsMobIcon,

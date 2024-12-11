@@ -1,4 +1,5 @@
 
+import { useIsMobileScreen } from "@/Utils/CommonBaseClass";
 import { Card, CardContent, Typography, Box } from "@mui/material";
 import React from "react";
 import { FC } from "react";
@@ -20,24 +21,22 @@ interface DashboardCardItemProps {
  * @author Neethu
  */
 const DashboardCardItem: React.FC<DashboardCardItemProps> = React.memo(({ icon: Icon, title, onClick,count,className = "", 
-  iconClassName = "", 
-  titleClassName = "", 
-  countClassName = "" ,
-  contentClassName = "" }) => (
- 
+ }) => {
+  const isMobileView = useIsMobileScreen()
+  return(
   <Card variant="outlined" className={`dashboard-card ${className}`}  onClick={onClick}>
-    <CardContent className={`${contentClassName}`}>
-      <Box className={`dashboard-card-icon ${iconClassName}`} display="flex" justifyContent="left" mb={2}>
+    <CardContent className={isMobileView? "dashboard-content-card":""}>
+      <Box className={`dashboard-card-icon`} display="flex" justifyContent="left" mb={2}>
         {Icon && <Icon />}
       </Box>
-      <Typography className={`dashboard-card-title ${titleClassName}`}  component="div"  >
+      <Typography className={`dashboard-card-title`}  component="div"  >
         {title}
       </Typography>
-      <Typography className={`dashboard-card-count ${countClassName}`}  component="div" >
+      <Typography className={`dashboard-card-count`}  component="div" >
         {count}
       </Typography>
     </CardContent>
   </Card>
-));
+)});
 
 export default DashboardCardItem;
