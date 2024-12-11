@@ -12,7 +12,6 @@
         font-size: $h4;
         font-weight: $font_semibold;
         margin-right: 1rem;
-        margin-bottom: 2.5rem;
     }
     .userdetail-title-personal{
         margin-bottom: 2rem;
@@ -57,7 +56,15 @@
     .userdetail-data{
         font-size: $h5;
         font-weight: $font_semibold;
+    }
+    .userdetail-data-image{
+        width:2rem !important;
+        height: 2rem !important;
+    }
+    .userdetail-data-title{
         margin-bottom: 1.4rem;
+        font-size: $p5;
+        font-weight: $font_semibold;
     }
   
     .userdetail-name{
@@ -72,4 +79,29 @@
         font-weight: $font_medium;
     }
     
+}
+.userdetail-avatar{
+    width: 5rem!important;
+    height: 5rem!important;
+}
+.userdetail-data-grid{
+    align-items: center;
+        border: 0.083rem solid $clr_light_border_grey !important;
+       border-radius: 0.667rem;
+       padding: 1rem 1.333rem;
+}
+.all-details-title{
+    font-weight: $font_semibold !important;
+    font-size: $p5 !important;
+
+}
+.all-details-data-title{
+    font-weight: $font_medium !important;
+    font-size: $h6 !important;
+    color: $light_grey !important;
+}
+.all-details-data{
+    font-weight: $font_semibold !important;
+    font-size: $h6 !important;
+    text-align: left !important;
 }

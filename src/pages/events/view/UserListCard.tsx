@@ -64,11 +64,11 @@ const UserListCard = () => {
     return data.map((item: any) => {
       return {
         ...item,
-        id: item?.id,
-        name: item?.user?.firstName,
-        email: item?.user?.email,
-        createdOn: item?.createdOn,
-        registrationType: item?.registrationType,
+        id: item?.participant?.id,
+        name: item?.participant?.user?.firstName, 
+        email: item?.participant?.user?.email, 
+        registrationType: item?.participant?.registrationType, 
+        createdOn: item?.participant?.createdOn
       };
     });
   };

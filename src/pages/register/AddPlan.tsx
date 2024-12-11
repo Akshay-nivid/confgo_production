@@ -111,7 +111,7 @@ const AddPlan = React.memo(() => {
   const planMapper: Record<string, React.ReactNode> = {
     "BASIC_PLAN": <BasicPlainIcon />,
     "STANDARD_PLAN": <StandardPlanIcon />,
-    "PROP_LAN": <ProPlanIcon />
+    "PRO_PLAN": <ProPlanIcon />
   }
 
   return (

@@ -85,6 +85,8 @@ import MinusIcon from './minus-icon.svg';
 import HamburgerIcon from './hamburger-menu.svg';
 import CloseIcon from './Close.svg';
 import NoCouponDataSvg from './no-coupon-data.svg';
+import CallingIcon from './callingIcon.svg';
+import MailIcon from "./mailIcon.svg"
 import MenuIcon from './Vector.svg'
 import DashboardUserMobIcon from'./DashboardUserMobIcon.svg';
 import MyEventsMobIcon from './MyEventsMobIcon.svg';
@@ -180,6 +182,8 @@ export {
   HamburgerIcon,
   CloseIcon,
   NoCouponDataSvg,
+  CallingIcon,
+  MailIcon
   MenuIcon,
   DashboardUserMobIcon,
   MyEventsMobIcon,

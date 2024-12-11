@@ -1,4 +1,3 @@
-
 .plansection {
   &__container {
     margin-top: 2rem;
@@ -20,28 +19,32 @@
   }
 
   &__button {
-    &-container{
+    &-container {
       margin-bottom: 5rem !important;
     }
-    &-group{
+
+    &-group {
       background-color: $clr_background_gray !important;
       border-radius: 0.83rem !important;
-      box-shadow:none !important;
-      button{
+      box-shadow: none !important;
+
+      button {
         width: 15.41rem;
         height: 3.5rem;
         border: none;
         margin: 0.5rem;
         border-color: $clr_background_gray !important;
+        background-color: transparent !important;
         font-size: $h6;
         font-weight: $font_medium;
         color: $clr_sub_header;
-        box-shadow:none !important;
+        box-shadow: none !important;
         text-transform: none;
       }
-     .MuiButton-contained{
+
+      .MuiButton-contained {
         border-radius: 0.6rem;
-        background-color: $clr_white;
+        background-color: $clr_white !important;
         color: $clr_black !important;
       }
     }
@@ -55,6 +58,7 @@
     background: linear-gradient(to bottom, $clr_offwhite, transparent);
     padding: 1.25rem;
     border-radius: 2.5rem;
+
   }
 
   &__content {
@@ -64,39 +68,49 @@
     padding-inline: 1.833rem;
     border-radius: 1.85rem;
     box-shadow: $clr_gray_light 0rem 0.25rem 0.667rem;
+
   }
 
   &__header {
-    column-gap: 1.3rem;
+    column-gap: 1.5rem;
     margin-bottom: 2.91rem;
   }
 
   &__icon {
-    svg{
+    svg {
       width: 4.91rem;
       height: 4.91rem;
     }
+
   }
 
-  &__title{
+  &__title {
     font-size: $h4 !important;
     font-weight: $font_semibold !important;
+
+ 
   }
 
-  &__subtitle{
+  &__subtitle {
     color: $clr_sub_header !important;
-    font-size: $p5 !important;
+    font-size: $p1 !important;
     font-weight: $font_medium !important;
+
   }
 
-  &__price_conatiner{
+  &__price_conatiner {
     margin-bottom: 3rem !important;
+
     .price {
       font-size: $h1 !important;
       font-weight: $font_bold !important;
+
+    
     }
-    .period{
-      font-size: $h6 !important;;
+
+    .period {
+      font-size: $h6 !important;
+      ;
       color: $clr_text_grey !important;
     }
   }
@@ -107,17 +121,21 @@
     flex-direction: column;
     row-gap: 1.85rem;
     margin-bottom: 5.16rem;
-    .icon{
+
+    .icon {
       width: 1.66rem !important;
       height: 1.66rem !important;
-      circle{
+
+      circle {
         fill: $clr_blue;
       }
-      path{
+
+      path {
         fill: $clr_white
       }
     }
-    .text{
+
+    .text {
       font-size: $h6 !important;
       color: $clr_text_grey !important;
       line-height: 1.4rem !important;
@@ -125,25 +143,28 @@
     }
   }
 
-  &__button{
-    width: 24.9rem !important;
+  &__button {
     height: 4.5rem;
     border-radius: 0.83rem !important;
     border: 0.17rem solid $clr_blue !important;
+    background-color: $clr_white !important;
     text-transform: none !important;
     color: $clr_blue !important;
     font-size: $p2 !important;
-    svg{
-      path{
+
+    svg {
+      path {
         fill: $clr_blue;
       }
     }
   }
-  &__button:hover{
+
+  &__button:hover {
     background-color: $clr_blue;
     color: $clr_white !important;
-    svg{
-      path{
+
+    svg {
+      path {
         fill: $clr_white;
       }
     }
@@ -162,15 +183,16 @@
     margin-bottom: 6rem;
   }
 
-  &__title{
+  &__title {
     font-weight: $font_bold !important;
     font-size: $h2 !important;
   }
-  &__description{
+
+  &__description {
     font-size: $h6 !important;
     color: $clr_sub_header !important;
   }
-  
+
   &__table-header {
     margin-bottom: 3rem;
   }
@@ -178,8 +200,8 @@
   &__table-header-cell {
     padding-inline: 1rem;
   }
-  
-  &__badge-icon{
+
+  &__badge-icon {
     width: 2.5rem !important;
     height: 2.5rem !important;
   }
@@ -192,7 +214,7 @@
 
   &__badge {
     &-icon {
-      height: 1.8rem  ;
+      height: 1.8rem;
       width: 1.8rem;
     }
   }
@@ -201,26 +223,30 @@
 @media (max-width: 600px) {
   .plansection {
     &__container {
-     padding: 1rem !important;
+      padding: 1rem !important;
     }
+
     &__title {
       font-size: $h2 !important;
       line-height: 3rem !important;
       margin-bottom: 1rem !important;
     }
+
     &__subtitle {
       line-height: 2rem !important;
       font-size: $h6 !important;
       margin-bottom: 3rem !important;
     }
+
     &__button {
-      &-container{
+      &-container {
         margin-bottom: 4rem !important;
         width: 23.58rem;
         height: 4.33rem;
       }
-      &-group{
-        button{
+
+      &-group {
+        button {
           width: 10.75rem;
           height: 3.5rem;
           font-size: $p2;
@@ -228,54 +254,113 @@
       }
     }
   }
+
   .plancard {
     &__header {
       margin-bottom: 2rem;
     }
+
     &__icon {
-      svg{
+      svg {
         width: 4.3rem;
         height: 4.3rem;
       }
     }
-    &__title{
+
+    &__title {
       font-size: $h5 !important;
       line-height: 2.4rem !important;
     }
-    &__price_conatiner{
+
+    &__price_conatiner {
       margin-bottom: 2rem !important;
     }
+
     &__features {
       margin-bottom: 3.16rem;
-      .icon{
+
+      .icon {
         width: 1.3rem !important;
         height: 1.3rem !important;
       }
     }
-  
-    &__button{
-      width: 24.9rem !important;
+
+    &__button {
+      // width: 24.9rem !important;
       height: 4.5rem;
       border-radius: 0.83rem !important;
       border: 0.17rem solid $clr_blue !important;
       text-transform: none !important;
       color: $clr_blue !important;
       font-size: $p2 !important;
-      svg{
-        path{
+
+      svg {
+        path {
           fill: $clr_blue;
         }
       }
     }
-    &__button:hover{
+
+    &__button:hover {
       background-color: $clr_blue;
       color: $clr_white !important;
-      svg{
-        path{
+
+      svg {
+        path {
           fill: $clr_white;
         }
       }
     }
-  
+
   }
+}
+
+
+@media screen and (min-width: 600px) and (max-width: 900px) {
+
+  .plancard {
+    &__container {
+
+      padding: .8rem;
+    }
+
+    &__content {
+
+      padding-inline: .8rem;
+    }
+
+
+    &__icon {
+
+      svg {
+        width: 3.91rem;
+        height: 3.91rem;
+      }
+    }
+
+    &__title {
+      font-size: $h5 !important;
+      font-weight: $font_semibold !important;
+    }
+
+    &__subtitle {
+
+      font-size: $p1 !important;
+      font-weight: $font_semibold !important;
+
+    }
+
+    &__price_conatiner {
+      margin-bottom: 3rem !important;
+
+      .price {
+        font-size: $h3 !important;
+        font-weight: $font_bold !important;
+      }
+
+    }
+
+  }
+
+
 }

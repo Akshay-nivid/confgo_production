@@ -72,12 +72,12 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
                                 className={`${classPrefix}-logo-img`}
                                 src={`${baseUrl}asset/${data?.assetId ?? slugInfo?.assetId ?? ''}`}
                               />:<Grid></Grid>}</Grid>
-                <Grid container spacing={2}>
+               {location.pathname.startsWith('/event-link') && <Grid container spacing={2}>
                     <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToAbout(e) }}> About </Link></Grid>
                     <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToContributors(e) }}> Contributors </Link></Grid>
                     <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToProgram(e) }}> Programs </Link></Grid>
                     <Grid className={`${classPrefix}-sub-item`}><Link to={'#'}> Location </Link></Grid>
-                </Grid>
+                </Grid>}
                 <Grid container spacing={2}>
                     {getUserToken() ? <Grid className={`${classPrefix}-logout-button`}><span role='button' onClick={logoutFn}> Logout </span></Grid> :
                         <><Grid className={`${classPrefix}-login-button`}><span role='button' onClick={loginFn}> Login </span></Grid>
