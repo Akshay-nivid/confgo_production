@@ -13,6 +13,7 @@ import { StepperBoxes } from "./StepperBox";
 import { useEffect } from "react";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { SignUpFlowIcon } from "@/assets/svg";
+import { useIsMobileScreen } from "@/Utils/CommonBaseClass";
 /*
  * Component used to register company for scheduling meting,metups etc
  */
@@ -22,7 +23,7 @@ const Register = () => {
     useStore((state: any) => state?.compData?.["register"]) ?? [];
   const navigate = useNavigate();
   const setDataById = useStore((state: any) => state.setDataById)
-
+  const isMobileScreen = useIsMobileScreen();
   /*
   * function to handle navigate to login page
   */
@@ -70,17 +71,29 @@ const Register = () => {
   };
   return (
     <Grid container className="register-main-container">
-      <Grid container justifyContent={'space-between'} direction={'column'} className="grid-left" size={{ xs: 12, sm: 7 }} >
-        {(pageSwitch.data === "CREATE_ACCOUNT_PAGE" || pageSwitch.data == "ADD_ORGANIZATION_PAGE" || pageSwitch.data === "PLAN_PAGE" )  && <Grid container alignItems={"center"} display={"flex"} className="back-button" onClick={handleBack} >
-          <ArrowBackIcon />
-          <Typography variant="h6">Back</Typography>
-        </Grid>}
+      <Grid container justifyContent={'space-between'} direction={'column'}  className="grid-left" size={{ xs: 12, sm: 7 }} >
+      {!isMobileScreen &&
+        (pageSwitch.data === "CREATE_ACCOUNT_PAGE" || 
+         pageSwitch.data === "ADD_ORGANIZATION_PAGE" || 
+         pageSwitch.data === "PLAN_PAGE") && (
+          <Grid 
+            container 
+            alignItems="center" 
+            display="flex" 
+            className="back-button" 
+            onClick={handleBack}
+          >
+            <ArrowBackIcon />
+            <Typography variant="h6">Back</Typography>
+          </Grid>
+        )}
+      
         {pageSwitch.data === "PAYMENT_METHOD_PAGE" &&
               <Grid alignItems={"center"} display={"flex"} className="cursor-container skip-button-payment-page" onClick={handleSkipNavigation}>
                     <Typography variant="h6">Skip</Typography>
               <ArrowForwardIcon/>
         </Grid>}
-        <Grid container justifyContent={'center'}>
+        <Grid container justifyContent={'center'} className= 'isMobileScreen-choosePlan' alignItems={"center"}>
           {pageSwitch == "" && <AddPlan />}
           {pageSwitch.data == "PLAN_PAGE" && <AddPlan />}
           {pageSwitch.data == "CREATE_ACCOUNT_PAGE" && <CreateAccount />}
@@ -97,14 +110,15 @@ const Register = () => {
           </Grid>
           </Grid>
            )}
-          <Grid container justifyContent={"center"}>
+          {!isMobileScreen&&(<Grid container justifyContent={"center"}>
             <StepperBoxes activeStep={pageSwitch?.step} />
-          </Grid>
-        </Grid>}
+          </Grid>)}
+        </Grid>
+        }
       </Grid>
-      <Grid container size={{ xs: 12, md: 5 }} className="grid-right">
+      {!isMobileScreen && (<Grid container size={{ xs: 12, md: 5 }} className="grid-right">
         <SignUpFlowIcon/>
-      </Grid>
+      </Grid>)}
     </Grid>
   );
 };

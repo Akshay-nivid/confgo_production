@@ -449,7 +449,6 @@
         &-btn-container{
             justify-content: center;
             align-items: center;
-            margin: 2rem;
 
             
             &-photo-btn{
@@ -483,6 +482,15 @@
             scroll-behavior: smooth;
             overflow-wrap: anywhere;
             overflow-x: auto;
+
+        &-designation{
+            color: $clr_grayish_blue;
+            font-weight: $font_medium !important;
+            font-size: $p2 !important;
+            margin-top: 0.417rem !important;
+            margin-bottom: 0.5rem !important;
+
+            }
         &-box{
             justify-content: "space-between";
             &-icon{
@@ -490,6 +498,7 @@
                 padding-right: 0.5rem;
                 width: 2.5rem;
                 height: 2.5rem;
+                margin-right: 0.5rem;
             }
             
     
@@ -1061,6 +1070,17 @@
         border-bottom: .0312rem solid $clr_gray_light;
         justify-content: space-between;
         align-items: center;
+    }
+    &-submit-button{
+            background-color: $clr_green !important;
+            color: $clr_white !important;
+            min-width: 8rem !important;
+            border: .16rem solid $clr_green !important;
+            text-transform: none ;
+            font-size: $h6 ;
+            font-weight: $font_semibold !important;
+            box-shadow: none ;
+            margin-bottom: 1rem !important;
     }
 
 }

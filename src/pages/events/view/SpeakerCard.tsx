@@ -95,7 +95,11 @@ const SpeakerCard = (_eventData: any) => {
       });
     }else{
     setSelectedFile(null)
-    reset();
+    reset({
+      contributorName: "",
+      contributorType: "",
+      contributorDescription:"",
+    });
     setAddContributeView(true);
     setEditConrtributorValue(null);
     clearDataById("contributorFields");
@@ -132,18 +136,7 @@ const SpeakerCard = (_eventData: any) => {
         id: "eventProgramList",
         successCB: (context: any) => {
           if (context?.success) {
-            const groupedByDesignation = context.data.reduce(
-              (acc: any, item: any) => {
-                const designation = item.designation;
-                if (!acc[designation]) {
-                  acc[designation] = [];
-                }
-                acc[designation].push(item);
-                return acc;
-              },
-              {}
-            );
-            setContributorList(groupedByDesignation);
+            setContributorList(context.data);
           }
         },
         errorCB: (context: any) => {
@@ -361,7 +354,16 @@ const SpeakerCard = (_eventData: any) => {
         message: "Event is Already Published !",
       });
     }else{
-    reset();
+      if (item?.name ) {
+      reset({
+        contributorName: item.name,
+        contributorType: item.designation,
+        contributorDescription: item.description || "",
+      });
+    }
+    else{
+      reset()
+    }
     setDataById("contributorFields", item);
     setEditConrtributorValue(item);
 
@@ -398,6 +400,7 @@ const SpeakerCard = (_eventData: any) => {
   const handleDrawerClose = () => {
     setAddContributeView(true);
     setNewTypeView(false);
+   reset()
   };
   return (
     <Grid
@@ -458,23 +461,8 @@ const SpeakerCard = (_eventData: any) => {
           justifyContent={"center"}
           alignContent={"center"}
         >
-          {contributorList &&
-            Object.values(contributorList)?.map((item: any) => {
-              return (
-                <Grid
-                  size={{ xs: 12 }}
-                  container
-                  flexDirection={"column"}
-                  direction={"column"}
-                >
-                  <Grid>
-                    {" "}
-                    <Typography className="event-detail-speakers-card-list-row-header">
-                      {item[0]?.designation}
-                    </Typography>
-                  </Grid>
                   <Grid container flexDirection={"row"} direction={"row"}>
-                    {item?.map((item: any) => {
+                    {contributorList?.map((item: any) => {
                       return (
                         <Grid>
                           <Grid
@@ -492,6 +480,9 @@ const SpeakerCard = (_eventData: any) => {
                               />
                               <Typography className="event-detail-speakers-card-list-row-name">
                                 {item?.name}
+                              </Typography>
+                              <Typography className="event-detail-speakers-card-list-row-designation">
+                                {item?.designation}
                               </Typography>
                               <Grid
                                 display={"flex"}
@@ -512,9 +503,6 @@ const SpeakerCard = (_eventData: any) => {
                       );
                     })}
                   </Grid>
-                </Grid>
-              );
-            })}
         </Grid>
         {/* Drawer */}
         <CustomDrawer
@@ -583,30 +571,19 @@ const SpeakerCard = (_eventData: any) => {
                   </Grid>
                   {/* Image Picker */}
                   <Grid
-                    className="event-detail-speakers-card-btn-container"
                     container
-                    justifyContent={"flex-end"}
-                    flexDirection={"row"}
-                    mr={2}
+                    className="event-detail-speakers-card-btn-container"
+                    alignItems="center"
+                    justifyContent="flex-start"
+                    flexDirection="row"
                   >
-                    <CustomButton
-                      className="event-detail-speakers-card-btn-container-photo-btn"
-                      label="Select Photo"
-                      variant="outlined"
-                      onClick={() => setModalOpen(true)}
-                    />
+                    {/* Select Photo Button */}
                     <Grid>
-                      {fileRequired && (
-                        <Typography className="event-detail-speakers-card-btn-container-photo-txt">
-                          Please Select an Image
-                        </Typography>
-                      )}
                       {modalOpen && (
                         <FileListModal
                           open={modalOpen}
                           handleClose={() => setModalOpen(false)}
                           onSelectFile={(files: CustomFile[]) => {
-                            // Automatically select the newly uploaded file if it exists
                             if (files && files.length > 0) {
                               setSelectedFile(files[0]); // Set only the first selected file
                             }
@@ -618,35 +595,61 @@ const SpeakerCard = (_eventData: any) => {
                           imagesPerRow={4}
                         />
                       )}
+                      {fileRequired && (
+                        <Typography className="event-detail-speakers-card-btn-container-photo-txt">
+                          Please Select an Image
+                        </Typography>
+                      )}
                     </Grid>
+
+                    {/* Selected Image Display */}
+                    {selectedFile && (
+                      <Grid direction="column" alignItems="center">
+                        <img
+                          src={`${baseUrl}asset/${selectedFile.id}`}
+                          alt={selectedFile.name}
+                          className="event-detail-speakers-card-btn-container-selected-img"
+                          style={{ maxWidth: 100, maxHeight: 100 }}
+                        />
+                        <Grid
+                          container
+                          direction="column"
+                          alignItems="center"
+                          justifyContent="center"
+                        >
+                          {/* <Grid> */}
+                            <Typography variant="body2" align="center">
+                              {selectedFile.name}
+                            </Typography>
+                            <IconButton
+                              aria-label="delete"
+                              size="small"
+                              onClick={handleFileDelete}
+                            >
+                              <DeleteIcon fontSize="small" />
+                            </IconButton>
+                          {/* </Grid> */}
+                        </Grid>
+                      </Grid>
+                    )}
+                    <Grid  ml={2}>
+                      <CustomButton
+                        className="event-detail-speakers-card-btn-container-photo-btn"
+                        label="Select Photo"
+                        variant="outlined"
+                        onClick={() => setModalOpen(true)}
+                      />
+                    </Grid>
+                    
+                  </Grid >
+                  <Grid container justifyContent="flex-end" alignItems="center" size={12}>
                     <CustomButton
                       className="event-detail-speakers-card-btn-container-submit-btn"
                       label="Submit"
                       variant="contained"
                       type="submit"
                     />
-                  </Grid>
-                  {selectedFile && (
-                    <Grid justifyContent={"center"} alignItems={"center"}>
-                      <img
-                        src={`${baseUrl}asset/${selectedFile.id}`}
-                        alt={selectedFile.name}
-                        className="event-detail-speakers-card-btn-container-selected-img"
-                      />
-                      <Grid>
-                        <Typography variant="body2">
-                          {selectedFile.name}
-                        </Typography>
-                        <IconButton
-                          aria-label="delete"
-                          size="small"
-                          onClick={handleFileDelete}
-                        >
-                          <DeleteIcon fontSize="small" />
-                        </IconButton>
-                      </Grid>
-                    </Grid>
-                  )}
+                  </Grid>   
                 </form>
               </Grid>
             </Grid>

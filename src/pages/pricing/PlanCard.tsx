@@ -1,5 +1,5 @@
 import routes from '@/router/routes';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import useStore from '@/Libs/store';
 import { toCamelCase } from '@/Utils/CommonBaseClass';

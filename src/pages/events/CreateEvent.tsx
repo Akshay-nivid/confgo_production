@@ -214,8 +214,14 @@ const CreateEvent: React.FC<EventProps> =
                       control={control}
                       name="name"
                       type="text"
-                      rules={{ required: true }}
-                    />
+                      rules={{
+                        required: true,
+                        maxLength: {
+                          value: 100,
+                          message: 'Event name cannot exceed 100 characters',
+                        },
+                      }} 
+                      />
                   </Grid>
                   {/* <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField
@@ -298,6 +304,12 @@ const CreateEvent: React.FC<EventProps> =
                       className="create-event"
                       defaultValue={moment(new Date()).format("YYYY-MM-DD")}
                       min={moment(new Date()).format("YYYY-MM-DD")}
+                      rules={{
+                        pattern: {
+                          value: /^\d{4}-\d{2}-\d{2}$/, 
+                          message: "Please enter a valid start start date (DD-MM-YYYY)"
+                        }
+                      }}
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 6 }}>
@@ -309,6 +321,12 @@ const CreateEvent: React.FC<EventProps> =
                       type="date"
                       defaultValue={moment(new Date()).format("YYYY-MM-DD")}
                       min={moment(new Date()).format("YYYY-MM-DD")}
+                      rules={{
+                        pattern: {
+                          value: /^\d{4}-\d{2}-\d{2}$/,
+                          message: "Please enter a valid end date (DD-MM-YYYY)"
+                        }
+                      }}
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 12 }}>
@@ -376,7 +394,6 @@ const CreateEvent: React.FC<EventProps> =
                           name="address"
                           shrink={watch('address')!==''&&watch('address')!==undefined?true:undefined}
                           type="text"
-                          readOnly
                           rules={{ required: watch("type") === "OFFLINE" }}
                         />
                       </Grid>
@@ -387,7 +404,6 @@ const CreateEvent: React.FC<EventProps> =
                           control={control}
                           shrink={watch('country')!==''&&watch('country')!==undefined?true:undefined}
                           type="text"
-                          readOnly
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 6 }}>
@@ -396,7 +412,6 @@ const CreateEvent: React.FC<EventProps> =
                             label="State"
                             control={control}
                             type="text"
-                            readOnly
                             shrink={watch('state')!==''&&watch('state')!==undefined}
                             rules={{
                               required:Boolean(watch('country')),
@@ -410,7 +425,6 @@ const CreateEvent: React.FC<EventProps> =
                           name="city"
                           type="text"
                           shrink={watch('city')!==''&&watch('city')!==undefined}
-                          readOnly
                           rules={{ required: watch("type") === "OFFLINE" }}
                         />
                       </Grid>
@@ -420,7 +434,6 @@ const CreateEvent: React.FC<EventProps> =
                           control={control}
                           name="postalCode"
                           type="text"
-                          readOnly
                           shrink={watch('postalCode')!==''&&watch('postalCode')!==undefined?true:undefined}
                           rules={{
                             required: watch("type") === "OFFLINE",

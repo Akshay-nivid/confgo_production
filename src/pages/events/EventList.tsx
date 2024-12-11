@@ -18,13 +18,14 @@ import React from "react";
 import { NoEvent as NoEventIcon } from "@/assets/svg";
 interface EventListProps {
   hideAction?: boolean;
+  view?:any
 }
 
 /**
  * Used to render events list
  * @author Vanisree
  */
-const EventList: React.FC<EventListProps> = React.memo(({ hideAction }) => {
+const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => {
   const navigate = useNavigate();
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
@@ -83,23 +84,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction }) => {
       width: 200,
       dateFormat: "DD/MM/YYYY",
     },
-    { type: "status", field: "statusId", headerName: "Status", width: 150 },
-    {
-      type: "default",
-      field: "published",
-      headerName: "Publish",
-      width: 150,
-      renderCell: (params: any) => {
-        if (params.row.statusId !== 1) {
-          return <div></div>;
-        }
-        return (
-          <div>
-            {params.row.published ? "Yes" : "No"}
-          </div>
-        );
-      },
-    }
+    { type: "status", field: "statusId", headerName: "Status", width: 150 }
   ];
   /**
    * Apply filter
@@ -236,7 +221,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction }) => {
           btnName="Create New Event" //define the label of btn
         /> 
       </Grid>
-      {hideAction && (
+      {hideAction && view && (
         <Grid
           container
           size={{ xs: 12, sm: 12 }}

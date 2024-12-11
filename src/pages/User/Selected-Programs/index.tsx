@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { CouponIcon } from "@/assets/svg";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
-import useStore, { clearDataById, GET, IStoreState, POST, PUT } from "@/Libs/store";
+import useStore, { clearDataById, GET, IStoreState, POST } from "@/Libs/store";
 import routes from "@/router/routes";
 import { handleGroupData } from "../Program-Selection/programsHandlers";
 import { processFormData, formatDate } from "../Program-Selection/programsHandlers";
@@ -17,7 +17,6 @@ import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { ICartResponse } from "@/Libs/type";
 
 /**
  * Compoennt used to render selected program

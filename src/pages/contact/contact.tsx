@@ -2,7 +2,7 @@ import { Typography,TextareaAutosize, Box } from '@mui/material';
 import CustomTextField from '@/components/CustomTextfield/CustomTextField';
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useRef, useState } from 'react';
-import { validateEmail, validatePhoneNumber, validateRequiredField } from '@/Utils/Validation';
+import {  validateEmail,  validateRequiredField } from '@/Utils/Validation';
 import ReCAPTCHA from 'react-google-recaptcha';
 import Grid from '@mui/material/Grid2';
 import useStore from '@/Libs/store';
@@ -10,9 +10,12 @@ import { CallIcon } from '@/assets/svg';
 import { LocatioIcon } from '@/assets/svg';
 import { MessageIcon } from '@/assets/svg';
 import { Logger } from '@/Utils/Logger';
-import {useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import CustomButton from '@/components/CustomButton/CustomButton';
+import CustomPhone from '@/components/CustomPhone/CustomPhone';
+import { countries } from '@/Utils/country/country';
+
 
 interface FormData {
     name: string;
@@ -49,17 +52,28 @@ const boxArray = [
  * @returns 
  */
 const Contact = () => {
-    const { handleSubmit, control } = useForm<FormData>();
+    const { handleSubmit, control, formState: { errors }} = useForm<FormData>();
     const [recapcha, setRecapcha] = useState(true)
     const recaptchaRef = useRef<ReCAPTCHA>(null);
     const POST = useStore((state: any) => state.POST);
-    const setDataById=useStore((state: any) => state.setDtaById);
+    const setDataById = useStore((state: any) => state.setDtaById);
     const navigate = useNavigate();
-       /**
-    * change state of recapcha
-    * @param value 
-    */
-     const [recaptchaError, setRecaptchaError] = useState<string | null>(null);
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [selectedCountryCode, setSelectedCountryCode] = useState("+91");
+
+    const handleCountryChange = (code: string) => {
+        setSelectedCountryCode(code);
+    };
+
+    const handlePhoneNumberChange = (number: string) => {
+        setPhoneNumber(number);
+    };
+
+/**
+ * change state of recapcha
+ * @param value 
+ */
+    const [recaptchaError, setRecaptchaError] = useState<string | null>(null);
     const validateReCAPTCHA = (value: string | null) => {
         if (value) {
             setRecapcha(false);
@@ -69,37 +83,39 @@ const Contact = () => {
             setRecaptchaError('Please complete the reCAPTCHA');
         }
     };
-  
+
     /**
      * submit handler
      * @param data 
      */
     const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
-            const body = {
-                firstName: data.name,
-                lastName: data.lastName,
-                companyName: data.companyName,
-                gRecaptcha: recaptchaRef.current?.getValue() || '',
-                phone: data.phoneNumber,
-                email: data.email,
-                message: data.message
-            }
-            /**
-             * function to make api call
-             */
-            POST({
-                url: 'notification/contact', body: body,
-                id: 'contact',
-                successCB: successCB,
-                errorCB: (error: any) => Logger.error("error", error)
-            })
-            /**
-             * success callback function
-             */
-              function successCB(_context: any) {
-                setDataById("thankYouPageInfo",{type:"Submitted sucessfully",redirectTo:routes.userLogin()});
-                navigate(routes.thankyou());
-            }
+        const fullPhoneNumber = `${selectedCountryCode}` + data.phoneNumber;
+        const body = {
+            firstName: data.name,
+            lastName: data.lastName,
+            companyName: data.companyName,
+            gRecaptcha: recaptchaRef.current?.getValue() || '',
+            phone: fullPhoneNumber,
+            email: data.email,
+            message: data.message
+        }
+        
+        /**
+         * function to make api call
+         */
+        POST({
+            url: 'notification/contact', body: body,
+            id: 'contact',
+            successCB: successCB,
+            errorCB: (error: any) => Logger.error("error", error)
+        })
+        /**
+         * success callback function
+         */
+        function successCB(_context: any) {
+            setDataById("thankYouPageInfo", { type: "Submitted sucessfully", redirectTo: routes.userLogin() });
+            navigate(routes.thankyou());
+        }
     };
     return (
         <Grid container className='contact-page' size={{ lg: 12 }}   >
@@ -111,7 +127,7 @@ const Contact = () => {
             </Grid>
             <Grid container className='contact-content' size={12} spacing={2} >
                 <Grid container className='contact-content-wrapper' size={{ lg: 12, xs: 12 }} spacing={3} justifyContent='center' >
-                    <Grid container marginInline={1.6} size={{ lg: 4, xs: 12,sm:10 }} className='contact-info' sx={{ order: { xs: 2, lg: 1 } }}>
+                    <Grid container marginInline={1.6} size={{ lg: 4, xs: 12,sm:10,md:6 }} className='contact-info' sx={{ order: { xs: 2, lg: 1 } }}>
                         <Box>
                             <Grid container size={{ xs: 12,sm:10,lg: 12 }} paddingBlock={3.5} paddingInline={2.5} spacing={2.5} >
                                 <Grid size={{ lg: 10, xs: 12 }} className='contact-info_header'>
@@ -134,7 +150,7 @@ const Contact = () => {
                             </Grid>
                         </Box>
                     </Grid>
-                    <Grid container size={{ lg: 4, xs: 12,sm:10 }} paddingInline={1.6} spacing={0} className='contact-form' sx={{ order: { xs: 1, lg: 2 } }}  >
+                    <Grid container size={{ lg: 4, xs: 12,sm:10,md:6 }} paddingInline={1.6} spacing={0} className='contact-form' sx={{ order: { xs: 1, lg: 2 } }}  >
                         <form className='w-full' noValidate onSubmit={handleSubmit(onSubmit)} >
                             <Grid container size={{ lg: 12, xs: 12 }} spacing={3} justifyContent='center' alignItems='center'>
                                 <Grid size={{ lg: 6, xs: 12 }} >
@@ -152,7 +168,7 @@ const Contact = () => {
                                 <Grid size={{ lg: 6, xs: 12 }}>
                                     <CustomTextField
                                         name='lastName'
-                                        label={"Last Nmae"}
+                                        label={"Last Name"}
                                         type='text'
                                         control={control}
                                         rules={
@@ -162,7 +178,7 @@ const Contact = () => {
                                         }
                                     />
                                 </Grid>
-                                <Grid size={{ lg: 6, xs: 12 }}>
+                                <Grid size={{ lg: 12, xs: 12 }}>
                                     <CustomTextField
                                         control={control}
                                         name="email"
@@ -176,16 +192,18 @@ const Contact = () => {
                                         }
                                     />
                                 </Grid>
-                                <Grid size={{ lg: 6, xs: 12 }}>
-                                    <CustomTextField
-                                        name='phoneNumber'
-                                        label="Phone Number"
-                                        type='Number'
+                                <Grid size={{ lg: 12, xs: 12 }}>
+                                    <CustomPhone
+                                        countries={countries}
+                                        selectedCountryCode={selectedCountryCode}
+                                        onCountryChange={handleCountryChange}
+                                        phoneNumber={phoneNumber}
                                         control={control}
-                                        rules={{
-                                            required: validateRequiredField({}),
-                                            pattern: validatePhoneNumber({})
-                                        }}
+                                        onPhoneNumberChange={handlePhoneNumberChange}
+                                        placeholder="Phone Number"
+                                        // removeBorder={true}
+                                        error={errors.phoneNumber}
+                                        
                                     />
                                 </Grid>
                                 <Grid size={{ lg: 12, xs: 12 }}>
@@ -202,7 +220,7 @@ const Contact = () => {
                                 <Grid size={{ lg: 12, xs: 12 }}>
                                     <TextareaAutosize
                                         className='contact-form-textarea'
-                                        aria-label="Message"
+                                        aria-label=""
                                         placeholder="Type here....."
                                         name='message'
                                     />

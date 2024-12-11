@@ -243,3 +243,20 @@
   font-weight: $font_bold !important;
   font-family: $font !important;
 }
+
+// Mobile responsive class
+@media (max-width: 600px) {
+        .signup-content-wrapper {
+          .left-inner-content-add-org {
+            margin-top:0 !important
+          }
+        }
+        .isMobileScreen-choosePlan{
+          padding: 8.5rem 1.25rem 0 !important;
+
+        }
+        .grid-left{
+          justify-content: center !important;
+          background-size: 85% !important;
+        }
+}
