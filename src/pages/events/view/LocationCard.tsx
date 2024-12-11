@@ -14,8 +14,8 @@ import {Typography} from "@mui/material"
 import { GoogleMap, LoadScript,Marker } from '@react-google-maps/api';
 //const { AdvancedMarkerElement } = await google.maps.importLibrary("marker") as any;
 import config from "../../../../config.json";
-import apiClient from "@/Libs/Https/API-client";
-import { State } from "country-state-city";
+//import apiClient from "@/Libs/Https/API-client";
+//import { State } from "country-state-city";
  interface Venue {
   id: number;
   name: string;
@@ -71,12 +71,12 @@ const LocationCard = ({ data }: LocationCardProps) => {
    * Fetch all states for the given country code using a library function (State.getStatesOfCountry)
    * and find the state that matches the given state code (data.state)
    */
-  const getStateNameByCode = (countryCode: any, stateCode: any) => {
-    const states = State.getStatesOfCountry(countryCode); // Fetch all states for the given country
-    const matchedState = states?.find((state: any) => state.isoCode === stateCode); // Find state by isoCode
-    return matchedState?.name || null; // Return the state name or null if not found
-  };
-  const stateName = getStateNameByCode(data?.country,data?.state);
+  // const getStateNameByCode = (countryCode: any, stateCode: any) => {
+  //   const states = State.getStatesOfCountry(countryCode); // Fetch all states for the given country
+  //   const matchedState = states?.find((state: any) => state.isoCode === stateCode); // Find state by isoCode
+  //   return matchedState?.name || null; // Return the state name or null if not found
+  // };
+  // const stateName = getStateNameByCode(data?.country,data?.state);
   
 
   /**
@@ -121,39 +121,56 @@ const LocationCard = ({ data }: LocationCardProps) => {
       setLoading(false);
     }
   };
+  
+  /**
+ * Extracts latitude and longitude from a Google Maps URL.
+ * 
+ * @param {string} url - The Google Maps URL containing coordinates.
+ * @returns {object | null} - An object with latitude and longitude if found, otherwise null.
+ */
+  const extractLatLngFromUrl = (url:string) => {
+    const match = url.match(/@(-?\d+\.?\d*),(-?\d+\.?\d*)/);
+    if (match) {
+      return { lat: parseFloat(match[1]), lng: parseFloat(match[2]) };
+    }
+    return null;
+  };
   /**
    * Fetch coordinates from the Google Maps API
    * @param mapLocation - Location name or address to fetch coordinates for
    */
- const fetchCoordinates = async (mapLocation?: string) => {
-  try {
-    if (!mapLocation || mapLocation.trim() === '') {
-      Logger.error("Invalid or empty mapLocation provided.");
-      return;
-    }
-    if (mapLocation.startsWith("https://maps.app.goo.gl")) {
-      const expandedLocation = await apiClient.get(
-        `https://maps.googleapis.com/maps/api/geocode/json?key=${GOOGLE_API_KEY}&address=${encodeURIComponent(mapLocation)}`
-      );
-      const { lat, lng } = expandedLocation?.data.results[0].geometry.location;
-      setCoordinates({ lat, lng });
-    } else {
-      const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
-        mapLocation
-      )}&key=${GOOGLE_API_KEY}`;
+  const fetchCoordinates = async (mapLocation?: string) => {
+    try {
+      if (!mapLocation || mapLocation.trim() === '') {
+        Logger.error("Invalid or empty mapLocation provided.");
+        return;
+      }
+  
+      const extractedLatLng = extractLatLngFromUrl(mapLocation);
+      if (extractedLatLng) {
+        setCoordinates(extractedLatLng);
+        return;
+      }
+  
+      const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(mapLocation)}&key=${GOOGLE_API_KEY}`;
       const response = await axios.get(geocodeUrl);
+  
+      if (response.data.status !== 'OK') {
+        Logger.error(`API Error: ${response.data.error_message}`);
+        return;
+      }
       if (response.data.results.length > 0) {
         const { lat, lng } = response.data.results[0].geometry.location;
         setCoordinates({ lat, lng });
-      //  await findNearbyPlaces({ lat, lng });
+        //  await findNearbyPlaces({ lat, lng });
       } else {
-        Logger.error("No coordinates found for the given location.");
+        Logger.error("No coordinates found.");
       }
+    } catch (error) {
+      Logger.error("Error fetching coordinates:",error);
     }
-  } catch (error) {
-    Logger.error("Error fetching coordinates:", error);
-  }
-};   
+  };
+  
 
 
 /**
@@ -229,7 +246,7 @@ const LocationCard = ({ data }: LocationCardProps) => {
         </Grid>
         <Grid size={12}className="main-location-Grid-address">
           <Typography className="main-location-Grid-address-title" >State/Province</Typography> 
-          <Typography className="main-location-Grid-address-title-description">{stateName} </Typography>
+          <Typography className="main-location-Grid-address-title-description">{data?.state} </Typography>
         </Grid>
         <Grid size={12}className="main-location-Grid-address">
           <Typography className="main-location-Grid-address-title" >ZIP/Postal Code</Typography> 
@@ -249,9 +266,10 @@ const LocationCard = ({ data }: LocationCardProps) => {
             <GoogleMap
               mapContainerStyle={{ width: '44.84rem', height: '14.59rem'}}
               center={coordinates}
-              zoom={12}
+              zoom={16}
             >
-              <Marker position={coordinates}/>
+              <Marker position={coordinates}
+              />
             </GoogleMap>
           </LoadScript>
         ) : (
