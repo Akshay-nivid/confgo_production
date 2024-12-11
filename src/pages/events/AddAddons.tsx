@@ -28,7 +28,7 @@ type FormData = {
     startTime: string;
     endTime: string;
     type: string;
-    amount:string;
+    // amount:string;
     properties: {
       propertyId:string,
       propertyName: string;
@@ -51,7 +51,7 @@ type FormData = {
     startTime: string;
     endTime: string;
     type: string;
-    amount:string;
+    // amount:string;
     properties: {
       propertyId:string,
       propertyName: string;
@@ -170,6 +170,14 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       const lastItem = addOn[addOn.length - 1];
       const lastIndex = addOn.length - 1;
       let newPrograms = [...addOn];
+      //checking atleast property length
+      if (lastItem.properties && lastItem.properties.length== 0){
+        setError(`addOn.${lastIndex}.propertyName`, {
+          type: 'manual',
+          message: `Minimum one Addon property should be there`,
+        });
+        return;
+      }
       // Handle saving logic based on `editMode`
       if (!editMode) {
         const newAddon = {
@@ -179,7 +187,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
           startTime: moment().format("HH:mm"),
           endTime: moment().format("HH:mm"),
           type: "PAID",
-          amount: "",
+          // amount: "",
           properties: [],
           propertyName: "",
           propertyAmount: "",
@@ -276,7 +284,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
             propertyName:"",
             propertyAmount:"",
             propertyChip:"",
-            amount:"",
+            // amount:"",
             dateRequired:[],
             addonType:"PAID",
             repeat:[],
@@ -473,7 +481,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                   </>
                                 } </>}
                                 <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
-                                  <Grid size={{ xs: 12, sm: 6 }}>
+                                  {/* <Grid size={{ xs: 12, sm: 6 }}>
                                     <CustomRadio
                                       className="add-program-radio-btn"
                                       control={control}
@@ -486,7 +494,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                           setValue(`addOn.${index}.amount`,'');
                                       }}
                                     />
-                                  </Grid>
+                                  </Grid> */}
                                   <Grid size={{ xs: 12, sm: 6 }}>
                                     <Grid container display={"flex"} alignItems={"center"}>
                                     <CustomCheckbox
@@ -509,7 +517,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                 </Grid>
                                 <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
                                   {/* Conditionally render Price field for PAID addOn */}
-                                  {watch(`addOn.${index}.addonType`) === "PAID" && (
+                                  {/* {watch(`addOn.${index}.addonType`) === "PAID" && (
                                     <Grid size={{ xs: 12, sm: watch(`addOn.${index}.repeat`)?.length > 0 ? 6 : 12 }}>
                                       <CustomTextField
                                         placeholder="Price"
@@ -525,10 +533,10 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                         }}
                                       />
                                     </Grid>
-                                  )}
+                                  )} */}
                                   {/* Conditionally render Number of Days field */}
                                   {watch(`addOn.${index}.repeat`)?.length > 0 && (
-                                    <Grid size={{ xs: 12, sm: watch(`addOn.${index}.addonType`) !== "PAID" ? 12 : 6 }}>
+                                    <Grid size={{ xs: 12, sm: 12}}>
                                       <CustomTextField
                                         placeholder="Number of days"
                                         control={control}
