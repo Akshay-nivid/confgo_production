@@ -9,59 +9,28 @@ import apiClient from "@/Libs/Https/API-client";
 //import { NoEvent } from "@/assets/svg"
 import { Logger } from "@/Utils/Logger";
 import React from "react";
-import useStore from '@/Libs/store';
+import useStore, { GET, IStoreState } from '@/Libs/store';
 import routes from "@/router/routes";
 import { useNavigate } from "react-router-dom";
 import CustomModel from "@/components/CustomModel/CustomModel";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { CloseOutlined } from "@mui/icons-material";
 import NoEvents from "../No-Event/NoEvent";
-/**
- * Interface for a Program, which contains the event details
- */
-interface Program {
-  id: number;
-  parentId: number | null;
-  name: string;
-  description: string;
-  startTime: string;
-  endTime: string;
-  venueId: number;
-  eventClass: string;
-  interval: string | null;
-  companyId: number;
-  title: string | null;
-  amount: string;
-  discount: string | null;
-  statusId: number;
-  published: boolean;
-  slugName: string | null;
-  registrationDeadline: string | null;
-  venue: {
-    id: number;
-    name: string;
-    address: string;
-    city: string;
-    state: string;
-    country: string;
-    postalCode: string | null;
-    totalCapacity: number | null;
-    mapUrl: string | null;
-  };
-  eventAddons: any[]; 
-}
+import { IEvent } from "@/Libs/type";
+
 
 /**
  * component for show the events
  */
-const MyEventScreen: React.FC = () => {
+const MyEventScreen = () => {
   const { control } = useForm();
   const [searchResults, setSearchResults] = useState<any>([]);
   const [loading, setLoading] = useState(false);
-  const events = useStore((state: any) => state?.compData?.["userEvents"]?.['event/list']) ?? [] as Program[];
   const POST = useStore((state: any) => state.POST);
   const setDataById = useStore((state: any) => state.setDataById);
   const navigate = useNavigate();
+  const events = useStore((state: IStoreState) => state?.compData.userEvents?.["participant/registered/events"]?.data?.Events) ?? []
+
   /**
    * model for view certificate
    */
@@ -104,6 +73,7 @@ const MyEventScreen: React.FC = () => {
  * @param selected
  */
   const handleAutocompleteChange = async (selected: any) => {
+   
     if (selected) {
       try {
         await POST({
@@ -134,14 +104,8 @@ const MyEventScreen: React.FC = () => {
    */
   const participantEventDetails = async () => {
     try {
-      await POST({
-        url: "event/list",
-        body: {
-          offset: 0,
-          sortBy: "id",
-          sortDirection: "DESC",
-          filters: {},
-        },
+      await GET({
+        url: "participant/registered/events",
         id: 'userEvents',
         errorCB: (context: any) => {
           setDataById("snackBarInfo", {
@@ -206,11 +170,12 @@ const MyEventScreen: React.FC = () => {
         </Grid>
       </Grid>
       {
-        events?.data?.length === 0  ? (
-        <NoEvents/>
+        events?.length === 0  ? (
+       <NoEvents/>
         ) : (
           <Grid container size={11}   spacing={1}>
-            {events.data && events.data.map((event: Program, index:number) => (
+            
+            {events?.map((event: IEvent, index:number) => (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
                 <EventCard
                   eventFullData={event}

@@ -2,7 +2,6 @@
       height: 100vh;
     & .back-button{
       cursor: pointer;
-      padding-left: 12rem !important;
       padding-top: 2rem;
     }
     & .grid-left {
@@ -34,7 +33,7 @@
         }
     }
     & .skip-button-payment-page {
-      transform: translate(45rem, 2rem);
+      transform: translate(0rem, 1.25rem);
     }
   }
 .checkbox-text-grey {
@@ -252,8 +251,7 @@
           }
         }
         .isMobileScreen-choosePlan{
-          padding: 8.5rem 1.25rem 0 !important;
-
+          padding: 0 1.25rem 0 !important;
         }
         .grid-left{
           justify-content: center !important;

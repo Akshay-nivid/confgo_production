@@ -59,7 +59,7 @@ export interface IParticipantOrder {
     programTotal: number;
     addonTotal: number;
   };
-  loading: boolean;
+  loading: boolean; 
   success: boolean;
 }
 
@@ -77,7 +77,7 @@ export interface ICart {
   modifiedBy: number;
 }
 
-export interface IEvent {
+export interface IEvents {
   id: number;
   parentId: number | null;
   name: string;
@@ -101,29 +101,7 @@ export interface IEvent {
   assetId: number | null;
 }
 
-// export interface IProgram {
-//   id: number;
-//   parentId: number;
-//   name: string;
-//   description: string;
-//   startTime: string;
-//   endTime: string;
-//   venueId: number;
-//   eventClass: 'OFFLINE' | 'ONLINE';
-//   interval: string | null;
-//   companyId: number;
-//   title: string | null;
-//   amount: string;
-//   discount: string | null;
-//   statusId: number;
-//   registrationDeadline: string | null;
-//   slugName: string | null;
-//   published: boolean;
-//   url: string | null;
-//   speciality: string | null;
-//   templateId: number | null;
-//   assetId: number | null;
-// }
+
 
 export interface IProgram {
   id: number;
@@ -244,18 +222,6 @@ export interface IEventData {
   eventContacts: any[]; // Adjust if structure is known
 }
 
-export interface Venue {
-  id: number;
-  name: string;
-  address: string;
-  city: string;
-  state: string;
-  country: string;
-  postalCode: string;
-  totalCapacity: number | null;
-  mapUrl: string;
-}
-
 export interface Status {
   id: number;
   statusName: string;
@@ -301,3 +267,58 @@ export interface AddonDetails {
   enabled: number;
   assetId: number | null;
 }
+
+export interface Venue {
+  id: number;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  country: string;
+  postalCode: string;
+  totalCapacity: number;
+  createdBy: number;
+  createdOn: string;
+  modifiedBy: number;
+  modifiedOn: string;
+  mapUrl: string | null;
+};
+
+export interface IEvent  {
+  id: number;
+  parentId: number | null;
+  name: string;
+  description: string;
+  startTime: string;
+  endTime: string;
+  venueId: number;
+  eventClass: "OFFLINE" | "ONLINE" | string;
+  interval: string;
+  companyId: number;
+  title: string;
+  amount: string;
+  discount: string;
+  statusId: number;
+  registrationDeadline: string | null;
+  slugName: string;
+  published: boolean;
+  url: string | null;
+  speciality: string | null;
+  templateId: string | null;
+  assetId: string | null;
+  createdBy: number;
+  createdOn: string;
+  modifiedBy: number;
+  modifiedOn: string;
+  venue: Venue;
+};
+
+interface Data  {
+  Events: IEvent[];
+};
+
+export interface IUserEvents  {
+  data: Data;
+  loading: boolean;
+  success: boolean;
+};

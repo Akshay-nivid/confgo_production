@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from 'zustand/middleware'
 import apiClient from "./Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
-import { ICartData, ICartResponse, IParticipantCoupon, IParticipantOrder } from "./type";
+import { ICartData, ICartResponse, IParticipantCoupon, IParticipantOrder ,IUserEvents} from "./type";
 
 
 /**
@@ -21,6 +21,7 @@ interface CompData {
     eventSelected?: { id: number | null };
     templateId?: { id: number | null };
     checkout?: { checkout: { data: any, loading: boolean, success: boolean } };
+    userEvents?:{["participant/registered/events"]:IUserEvents}
 }
 
 type ApiRequestOptions = {
