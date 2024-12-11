@@ -2,7 +2,7 @@ import Grid from "@mui/material/Grid2";
 import { EventRegistrationSuccessIcon, QrIcon } from "@/assets/svg";
 import { Box, Typography } from "@mui/material";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import useStore from "@/Libs/store";
+import useStore, { IStoreState } from "@/Libs/store";
 import routes from "@/router/routes";
 import { useNavigate } from "react-router-dom";
 
@@ -12,12 +12,14 @@ const RegistrationCompleted = () => {
   const navigate = useNavigate();
 
   const finalPrice = useStore((state: any) => state?.compData?.["finalPrice"]?.value)
-  const participantId = useStore((state: any) => state?.compData?.["participant"]?.participant?.data?.id) ?? null
   const slugName = useStore((state: any) => state?.compData?.["slugName"]?.value)
-  const orderData = useStore((state: any) => state?.compData?.["order"]?.["order"]?.data) ?? null
-  const couponData = useStore((state: any) => state?.compData?.["couponData"]?.['coupon/applyCoupon']?.data) ?? null
+  const orderData = useStore((state: IStoreState) => state?.compData?.["order"]?.["order"]?.data) || null
+  const isCheckout = useStore((state: IStoreState) => state?.compData?.checkout?.checkout) || false 
+  const couponData = useStore((state: IStoreState) => state?.compData?.["couponData"]?.['coupon/applyCoupon']?.data) ?? null
 
-  if (!participantId) {
+
+
+  if (isCheckout === false) {
 
     if (!slugName) {
       return <Navigate to={routes.userLogin()} />;
@@ -60,22 +62,22 @@ const RegistrationCompleted = () => {
           <Box className="payment-bill-details">
             <Box className="payment-bill-item">
               <Typography className="info-text">Programs Total</Typography>
-              <Typography className="info-text">$720</Typography>
+              <Typography className="info-text">${orderData?.programTotal ?? 0}</Typography>
             </Box>
             <Box className="payment-bill-item">
               <Typography className="info-text">Food Total</Typography>
-              <Typography className="info-text">$100</Typography>
+              <Typography className="info-text">${orderData?.addonTotal ?? 0}</Typography>
             </Box>
           </Box>
           <Box className="divider"></Box>
           <Box className="payment-bill-details">
             <Box className="payment-bill-item">
               <Typography className="info-text">Subtotal</Typography>
-              <Typography className="info-text">${orderData?.subTotal}</Typography>
+              <Typography className="info-text">${orderData?.subTotal ?? 0}</Typography>
             </Box>
-            <Box className="payment-bill-item">
+             <Box className="payment-bill-item">
               <Typography className="info-text">Coupon Code Applied</Typography>
-              <Typography className="info-text">$100</Typography>
+              <Typography className="info-text">${couponData?.discountAmount ?? 0 }</Typography>
             </Box>
           </Box>
           <Box className="divider"></Box>
@@ -84,7 +86,7 @@ const RegistrationCompleted = () => {
               Grand Total
             </Typography>
             <Typography className="grand-total-info-text">
-              $ {finalPrice}</Typography>
+              $ {finalPrice ?? 0} </Typography>
           </Box>
         </Box>
       </Grid>
