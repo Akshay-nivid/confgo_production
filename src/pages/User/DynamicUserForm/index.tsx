@@ -23,6 +23,7 @@ interface Metadata {
   fieldType: string;
   required: string[];
   option?: Option[];
+  participantType: "generic" | number;
   id: string;
 }
 
@@ -30,7 +31,7 @@ interface FormField {
   id: number;
   eventId: number;
   name: string;
-  participantTypeId: number;
+  participantTypeId: number | string;
   metadata: Metadata;
 }
 
@@ -68,7 +69,7 @@ const DynamicUserForm = () => {
 
   const previousRoute = useStore((state: IStoreState) => state?.compData?.["previousRoute"]?.url) ?? null
 
-  const filteredFormData = dynamicFormData?.data?.filter((item: FormField) => item.participantTypeId === participantTypeId) ?? []
+  const filteredFormData = dynamicFormData?.data?.filter((item: FormField) => item.participantTypeId === participantTypeId || item.metadata.participantType === "generic") ?? []
 
 
   /**
@@ -381,7 +382,7 @@ const DynamicUserForm = () => {
                   variant="outlined"
                   className="back-button"
                   label="Back"
-                  onClick={() => routes.selectedPrograms()}
+                  onClick={() => navigate(routes.selectedPrograms())}
                 />
                 <CustomButton isLoading={formSubmissionLoading} className={"next-button"} label="Next" type="submit" />
               </Box>
