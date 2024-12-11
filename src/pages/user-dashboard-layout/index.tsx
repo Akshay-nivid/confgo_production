@@ -5,6 +5,7 @@ import { Outlet } from 'react-router-dom';
 import { Box } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import useStore from '@/Libs/store';
+import { useIsMobileScreen } from '@/Utils/CommonBaseClass';
 
 /**
  * component used to render dashboard layout
@@ -21,7 +22,7 @@ const UserDashboardLayout: React.FC = React.memo(() => {
   }, [userDetails]);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
+  const isMobileView = useIsMobileScreen();
   //hide sidebar close
   const handleSidebarClose = () => {
     setIsSidebarOpen(false);
@@ -31,9 +32,11 @@ const UserDashboardLayout: React.FC = React.memo(() => {
       <LayoutAppbar userDetails={userDetails}/>
       <Box className="user-layout-container-grid-wrapper">
         <Grid container size={12} className="user-layout-container-grid">
-          <Grid  className="user-layout-container-grid-sidebar-grid" >
-            <Sidebar open={isSidebarOpen} onClose={handleSidebarClose}/>
-          </Grid>
+        {!isMobileView && (
+  <Grid className="user-layout-container-grid-sidebar-grid">
+    <Sidebar open={isSidebarOpen} onClose={handleSidebarClose} />
+  </Grid>
+)}
           <Grid   className="user-layout-container-grid-outlet-grid">
             <Box className="user-layout-container-grid-outlet-grid-outlet-wrapper">
               <Outlet />
