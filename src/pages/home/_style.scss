@@ -1,14 +1,16 @@
 .hero-section-main {
-  background: url('/src/assets/images/hero-section-bg-image.png') no-repeat
-    bottom;
+  background: url('/src/assets/images/hero-section-bg-image.png') no-repeat bottom;
   height: max-content;
   color: $clr_black;
   background-size: cover;
+
   .hero-section-content {
     padding-top: 3.25rem;
+
     .hero-section-container {
       display: flex;
       flex-direction: column;
+
       .get-started-button {
         box-shadow: none;
         border-radius: 4.2rem;
@@ -20,7 +22,8 @@
         font-size: $p2;
         text-transform: none;
       }
-      .watch-video-button{
+
+      .watch-video-button {
         border: 0.2rem solid $clr_blue;
         border-radius: 4.2rem;
         height: 4.8rem !important;
@@ -30,6 +33,7 @@
         font-size: $p2;
         text-transform: none;
       }
+
       .hero-section-buttons {
         margin-top: 2.42rem;
         display: flex;
@@ -39,19 +43,22 @@
         margin-bottom: 5.17rem;
         width: max-content;
       }
+
       .hero-section-title {
         line-height: 4rem;
         font-size: $h1;
         font-weight: $font_bold;
         margin-bottom: 1rem;
       }
+
       .hero-section-description {
         font-size: $p2;
         color: $clr_sub_header;
       }
     }
-    .hero-section-image-grid{
-      svg{
+
+    .hero-section-image-grid {
+      svg {
         width: 85rem;
         height: 40rem;
       }
@@ -61,8 +68,10 @@
 
 .confrence-management-section-main {
   padding-block: 4.83rem;
+
   .confrence-management-section-header-content {
     margin-bottom: 4rem;
+
     .conference-management-title {
       font-size: $h2;
       font-weight: $font_bold;
@@ -75,21 +84,25 @@
       color: $clr_sub_header;
     }
   }
+
   .confrence-management-effortless-content {
     padding: 5.833rem 5.083rem;
+
     .planning-title {
       margin-bottom: 1.33rem;
       line-height: 3rem;
       font-size: $h2;
       font-weight: $font_semibold;
     }
+
     .planning-description {
       margin-bottom: 2rem;
       line-height: 2.167rem;
       color: $clr_sub_header;
       font-size: $h6;
     }
-    .get-started-btn{
+
+    .get-started-btn {
       border: 0.2rem solid $clr_black;
       border-radius: 4.2rem;
       height: 4.8rem;
@@ -100,20 +113,24 @@
       text-transform: none;
     }
   }
+
   .confrence-management-content-wrapper {
     background-color: $clr_honeydew;
     border-radius: 1.667rem;
     margin-bottom: 2.5rem;
   }
+
   .export-plan-image {
     height: 100%;
     width: 100%;
   }
+
   .export-plan-grid-right {
     display: flex;
     justify-content: center;
     align-items: flex-end;
   }
+
   .export-plan-image-wrapper {
     height: 85%;
     width: 100%;
@@ -125,19 +142,23 @@
   .grid-left {
     background-color: $clr_purple_light;
   }
+
   .grid-right {
     background-color: $clr_yellow_light;
   }
-  .tracking-title{
+
+  .tracking-title {
     font-weight: $font_semibold;
     line-height: 3rem;
     margin-bottom: 1rem;
     font-size: $h2;
   }
-  .tracking-description{
+
+  .tracking-description {
     color: $clr_sub_header;
     font-size: $h6;
   }
+
   .grid-left,
   .grid-right {
     padding-top: 3.333rem;
@@ -149,6 +170,7 @@
       display: flex;
       justify-content: center;
       align-items: end;
+
       .attendance-tracking-image {
         height: 30rem;
         width: 45rem;
@@ -159,24 +181,29 @@
 
 .feature-section-main {
   padding-bottom: 1rem;
+
   .feature-section-main__header {
     margin-bottom: 5rem;
-    &-title{
+
+    &-title {
       font-size: $h2;
       font-weight: $font_bold;
     }
+
     &-description {
       font-size: $h6;
       margin-bottom: 3rem;
       color: $clr_sub_header;
     }
+
     &-button-container {
       width: 100%;
       display: flex;
       justify-content: center;
       flex-direction: column;
       align-items: center;
-      &-feature-all-button{
+
+      &-feature-all-button {
         border: 0.2rem solid $clr_black;
         border-radius: 4.2rem;
         height: 4.8rem;
@@ -185,21 +212,23 @@
         font-weight: $font_semibold;
         font-size: $p2;
         text-transform: none;
-        span{
-          svg{
+
+        span {
+          svg {
             width: 1.9rem;
             height: 1.9rem;
           }
         }
       }
     }
-    
+
   }
 }
 
 .feature-card {
   margin-bottom: 6rem;
   flex-direction: row;
+
   &.reversed {
     flex-direction: row-reverse;
   }
@@ -208,31 +237,37 @@
     padding-right: 5rem;
     background-size: contain;
     background-repeat: no-repeat;
-    
+
     &.card-1 {
       background-image: url('/src/assets/png/online-payment.png');
       background-size: contain;
       background-repeat: no-repeat;
+
       &.card-1-mobile {
         height: 33rem;
       }
     }
+
     &.card-2 {
       background-image: url('/src/assets/png/unlimited-conference.png');
       background-size: contain;
       background-repeat: no-repeat;
+
       &.card-2-mobile {
         height: 33rem;
       }
     }
+
     &.card-3 {
       background-image: url('/src/assets/png/registration-management.png');
       background-size: contain;
       background-repeat: no-repeat;
+
       &.card-3-mobile {
         height: 33rem;
       }
     }
+
     .reversed & {
       align-items: flex-start;
       justify-content: flex-end;
@@ -242,7 +277,7 @@
     }
   }
 
- 
+
 
   &__image {
     height: 100%;
@@ -313,8 +348,9 @@
     font-weight: $font_semibold !important;
     font-size: $p2 !important;
     text-transform: none !important;
-    span{
-      svg{
+
+    span {
+      svg {
         width: 1.9rem;
         height: 1.9rem;
       }
@@ -324,13 +360,16 @@
 
 .whychoose-section {
   padding-bottom: 6.83rem;
+
   &__content {
     .whychoose-section__header {
       margin-bottom: 4rem;
-      &-title{
+
+      &-title {
         font-size: $h2;
         font-weight: $font_bold;
       }
+
       &-description {
         font-size: $h6;
         color: $clr_sub_header;
@@ -345,6 +384,7 @@
   align-items: center;
   flex-direction: column;
   width: 100%;
+
   &_icon {
     width: 8rem;
     height: 8rem;
@@ -374,23 +414,27 @@
 
     &-header {
       color: $clr_white;
+
       &-title {
         font-size: $h1 !important;
         font-weight: $font_extrabold !important;
         line-height: 4rem !important;
         margin-bottom: 0.833rem !important;
       }
+
       &-subtitle {
         font-size: $h6;
         margin-bottom: 2.833rem !important;
       }
     }
   }
+
   &__button-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    &-view-pricing-button{
+
+    &-view-pricing-button {
       border-radius: 4.3rem !important;
       background-color: $clr_white !important;
       width: 13rem;
@@ -401,7 +445,8 @@
       line-height: 1.3rem !important;
       text-transform: none !important;
     }
-    &-contact-button{
+
+    &-contact-button {
       border-radius: 4.3rem !important;
       background-color: $clr_blue !important;
       border: 0.2rem solid $clr_white !important;
@@ -412,14 +457,16 @@
       font-size: $p1 !important;
       line-height: 1.3rem !important;
       text-transform: none !important;
-      svg{
-        path{
+
+      svg {
+        path {
           fill: $clr_white;
 
         }
       }
     }
   }
+
   .banner-content {
     .banner-title {
       text-align: center;
@@ -444,11 +491,20 @@
 
 .footer {
   background-color: $clr_black;
-  padding-block: 3.33rem;
+  padding-block: 3.33rem !important;
+
+  .divider {
+    height: 0.083rem;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: $clr_divider !important;
+  }
 
   .footer-content {
     width: 100%;
-    border-bottom: 0.1rem solid $clr_gray_medium;
+    // border-bottom: 0.1rem solid $clr_gray_medium;
   }
 
   .footer-title {
@@ -464,7 +520,8 @@
     font-size: $h6;
     margin-bottom: 3.33rem;
   }
-  .footer-button{
+
+  .footer-button {
     background-color: $clr_blue;
     color: $clr_light_gray;
     text-transform: none;
@@ -522,9 +579,10 @@
   }
 
   .footer-logo {
-   width: 11.8rem;
-   height: 10.8rem;
-   path:last-child{
+    width: 11.8rem;
+    height: 10.8rem;
+
+    path:last-child {
       fill: $clr_white;
     }
   }
@@ -540,28 +598,50 @@
   }
 }
 
+
+
+@media (min-width: 600px) and (max-width: 900px) {
+
+  .confrence-management-effortless-content {
+    padding: 5.833rem 5.083rem 0 5.833rem !important;
+  }
+
+  .export-plan-image {
+    object-fit: contain;
+    padding-inline: 1rem;
+    border-top-right-radius: 4rem;
+  }
+
+
+
+}
+
 @media (max-width: 600px) {
-  .hero-section-main{
+  .hero-section-main {
     padding: 1rem;
     margin-bottom: 2rem;
+
     .hero-section-content {
       .hero-section-container {
         .get-started-button {
           width: 9.75rem !important;
         }
-        .watch-video-button{
-          svg{
+
+        .watch-video-button {
+          svg {
             width: 1rem;
             height: 1rem;
           }
+
           border: 0.2rem solid $clr_blue;
           border-radius: 4.2rem;
           width: 15rem !important;
           color: $clr_blue;
-          
+
         }
+
         .hero-section-buttons {
-          button{
+          button {
             height: 4rem !important;
             box-shadow: none;
             border-radius: 4.2rem;
@@ -569,27 +649,33 @@
             font-size: $p2;
           }
         }
+
         .hero-section-title {
           line-height: 3rem;
           font-size: $h2;
           margin-bottom: 1rem;
         }
+
         .hero-section-description {
           font-size: $h6;
         }
       }
-      .hero-section-image-grid{
+
+      .hero-section-image-grid {
         margin-top: -5rem;
         margin-bottom: -2rem;
-        svg{
+
+        svg {
           width: 80rem;
           height: 20rem;
         }
       }
     }
   }
+
   .confrence-management-section-main {
     padding: 1rem;
+
     .confrence-management-section-header-content {
       .conference-management-title {
         font-size: $h5;
@@ -597,159 +683,201 @@
         margin-bottom: 1rem;
       }
     }
+
     .confrence-management-effortless-content {
       padding: 2.833rem 2.083rem;
+
       .planning-title {
         font-size: $h5;
         line-height: 2.3rem;
       }
+
       .planning-description {
         font-size: $p2;
       }
-      .get-started-btn{
+
+      .get-started-btn {
         height: 3.58rem;
         width: 11.25rem;
-        svg{
+
+        svg {
           width: 1rem;
           height: 1rem;
         }
       }
     }
+
     .confrence-management-content-wrapper {
       margin-bottom: 1.5rem
     }
   }
+
   .conference-management-grid-main {
-    .tracking-title{
+    .tracking-title {
       line-height: 2rem;
       font-size: $h5;
     }
-    .tracking-description{
+
+    .tracking-description {
       font-size: $p2 !important;
     }
+
     .grid-left,
     .grid-right {
       padding: 2.833rem 2.083rem;
       margin-bottom: 1.5rem !important;
     }
   }
+
   .feature-section-main {
     .feature-section-main__header {
       margin-bottom: 3rem;
-      &-title{
+
+      &-title {
         font-size: $h5;
         line-height: 2.5rem;
       }
+
       &-description {
         font-size: $p2;
         margin-bottom: 2rem;
       }
+
       &-button-container {
-        &-feature-all-button{
+        &-feature-all-button {
           height: 3.58rem;
           width: 13rem;
           font-size: $p3;
-          span{
-            svg{
+
+          span {
+            svg {
               width: 1rem;
               height: 1rem;
             }
           }
         }
       }
-      
+
     }
   }
+
+.feature-card{
+  .reversed & {
+      background-position: left;
+  }
+}
+
   .whychoose-section {
     padding-bottom: 1.83rem;
+
     &__content {
       .whychoose-section__header {
         margin-bottom: 2rem;
-        &-title{
+
+        &-title {
           font-size: $h5;
         }
+
         &-description {
           font-size: $p2;
         }
       }
     }
   }
+
   .service-card {
     padding: 0 1rem 1rem;
+
     &_icon {
       width: 6rem;
       height: 6rem;
     }
-  
+
     &__title {
       font-size: $h6 !important;
       margin-bottom: 8px;
     }
-  
+
     &__description {
       font-size: $p2 !important;
     }
   }
+
   .plan-selection-banner {
     padding: 1rem;
+
     &__content {
       padding: 3rem 2rem;
       margin-bottom: 2rem;
       border-radius: 0.83rem;
+
       &-header {
         &-title {
           font-size: $h5 !important;
           line-height: 2rem !important;
         }
+
         &-subtitle {
           font-size: $p2;
         }
       }
     }
+
     &__button-container {
-     button{
-      border-radius: 4.58rem !important;
-      height: 3.58rem;
-     }
-      &-view-pricing-button{
+      button {
+        border-radius: 4.58rem !important;
+        height: 3.58rem;
+      }
+
+      &-view-pricing-button {
         width: 9.91rem;
         font-size: $p3 !important;
       }
-      &-contact-button{
+
+      &-contact-button {
         width: 11.25rem;
         font-size: $p3 !important;
-        svg{
+
+        svg {
           width: 1rem;
           height: 1rem;
-          path{
+
+          path {
             stroke: $clr_white;
           }
         }
       }
     }
   }
+
   .footer {
     padding: 2rem 1rem;
+
     .footer-title {
       margin-bottom: 1rem;
       font-size: $h4;
       line-height: 2rem;
     }
+
     .footer-subtitle {
       font-size: $p3;
       margin-bottom: 1.33rem;
     }
-    .footer-button{
+
+    .footer-button {
       width: 12.67rem;
       height: 3.16rem;
       margin-bottom: 2rem;
     }
+
     .footer-contact-block {
       margin-bottom: 2.33rem;
     }
-    .footer-description{
-      text-align:center
+
+    .footer-description {
+      text-align: center
     }
+
     .footer-logo {
       margin-bottom: -1rem;
     }

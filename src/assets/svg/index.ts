@@ -85,6 +85,8 @@ import MinusIcon from './minus-icon.svg';
 import HamburgerIcon from './hamburger-menu.svg';
 import CloseIcon from './Close.svg';
 import NoCouponDataSvg from './no-coupon-data.svg';
+import CallingIcon from './callingIcon.svg';
+import MailIcon from "./mailIcon.svg"
 
 export {
   CalenderIcon,
@@ -174,4 +176,6 @@ export {
   HamburgerIcon,
   CloseIcon,
   NoCouponDataSvg,
+  CallingIcon,
+  MailIcon
 };
