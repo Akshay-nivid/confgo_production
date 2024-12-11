@@ -430,35 +430,19 @@
 
 }
 .custom-autopopulate {
+  overflow: hidden;
+  padding-block:.65rem !important;
   /* Remove the default border or outline */
-  border: none;
-  box-shadow: none; /* Remove box shadow if needed */
-}
-
-.custom-autopopulate .MuiOutlinedInput-notchedOutline {
-  border: none; /* Ensure no outline */
-}
-
-.custom-search-text-field{
-  max-height: 4.2rem !important;
-  min-width: 33rem !important;
-  background-color: $clr_white !important;
-  color: $clr_gray_medium !important; 
-  font-weight: $font_normal !important;
-  font-size: $h6 !important;
-  border-radius: 0.4167rem !important;
-  padding-left: 0rem !important;
   border:0.0667rem solid $clr_light_sky_blue !important;
-  &-icon{
-    color: $clr_gray_medium !important;
-    font-size: 10rem !important;
-  }
+}
+
+.custom-autopopulate .MuiOutlinedInput-root{
+  padding: 0 !important;
+  border:none !important; 
 }
 .custom-user-search-field{
+  padding-left: 0.2rem !important;
   max-height: 4.2rem !important;
-  min-width: 33rem !important;
-  background-color: $clr_light_grey !important;
-  color: $clr_gray_medium !important; 
   font-weight: $font_normal !important;
   font-size: $h6 !important;
   border-radius: 0.5rem !important;
