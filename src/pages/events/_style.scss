@@ -824,12 +824,13 @@
 
         &-location,
         &-speaker {
+            width: 30.25rem;
             color: $clr_black;
             font-size: $p2 !important;
             margin-bottom: .12rem;
             white-space: nowrap;          /* Prevents wrapping */
-            overflow: hidden;             /* Hides overflowed text */
-            text-overflow: ellipsis;     /* Shows ellipsis for truncated text */
+            overflow: hidden ;             /* Hides overflowed text */
+            text-overflow: ellipsis ;     /* Shows ellipsis for truncated text */
             max-width: 100%;  
             
         }
