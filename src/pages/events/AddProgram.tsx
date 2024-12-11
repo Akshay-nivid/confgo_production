@@ -463,7 +463,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
                                       placeholder="Price"
                                       control={control}
                                       name={`programs.${index}.amount`}
-                                      type="text"
+                                      type="number"
                                       rules={{
                                         required: "Price is required",
                                         pattern: {
