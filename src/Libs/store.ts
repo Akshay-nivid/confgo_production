@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from 'zustand/middleware'
 import apiClient from "./Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
-import {  IParticipantCoupon, IParticipantOrder } from "./type";
+import {  IParticipantCoupon, IParticipantOrder, IUserEvents } from "./type";
 
 /**
 * Define types for the state
@@ -15,7 +15,9 @@ interface CompData {
     participantTypeId?: { value: number };
     previousRoute?: { url: string };
     finalPrice?: { value: number };
-}
+    userEvents?:{["participant/registered/events"]:IUserEvents}
+    }
+
 
 type ApiRequestOptions = {
     url: string;

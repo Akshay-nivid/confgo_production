@@ -59,6 +59,61 @@ export interface IParticipantOrder {
     programTotal: number;
     addonTotal: number;
   };
-  loading: boolean;
+  loading: boolean; 
   success: boolean;
 }
+
+export interface Venue {
+  id: number;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  country: string;
+  postalCode: string;
+  totalCapacity: number;
+  createdBy: number;
+  createdOn: string;
+  modifiedBy: number;
+  modifiedOn: string;
+  mapUrl: string | null;
+};
+
+export interface IEvent  {
+  id: number;
+  parentId: number | null;
+  name: string;
+  description: string;
+  startTime: string;
+  endTime: string;
+  venueId: number;
+  eventClass: "OFFLINE" | "ONLINE" | string;
+  interval: string;
+  companyId: number;
+  title: string;
+  amount: string;
+  discount: string;
+  statusId: number;
+  registrationDeadline: string | null;
+  slugName: string;
+  published: boolean;
+  url: string | null;
+  speciality: string | null;
+  templateId: string | null;
+  assetId: string | null;
+  createdBy: number;
+  createdOn: string;
+  modifiedBy: number;
+  modifiedOn: string;
+  venue: Venue;
+};
+
+interface Data  {
+  Events: IEvent[];
+};
+
+export interface IUserEvents  {
+  data: Data;
+  loading: boolean;
+  success: boolean;
+};
