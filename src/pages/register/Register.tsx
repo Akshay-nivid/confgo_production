@@ -78,10 +78,11 @@ const Register = () => {
          pageSwitch.data === "PLAN_PAGE") && (
           <Grid 
             container 
-            alignItems="center" 
+            alignItems={"center"} 
             display="flex" 
             className="back-button" 
             onClick={handleBack}
+            justifyContent={"center"}
           >
             <ArrowBackIcon />
             <Typography variant="h6">Back</Typography>
@@ -89,11 +90,11 @@ const Register = () => {
         )}
       
         {pageSwitch.data === "PAYMENT_METHOD_PAGE" &&
-              <Grid alignItems={"center"} display={"flex"} className="cursor-container skip-button-payment-page" onClick={handleSkipNavigation}>
+              <Grid  alignItems={"center"} display={"flex"} justifyContent={"center"} className="cursor-container skip-button-payment-page" onClick={handleSkipNavigation}>
                     <Typography variant="h6">Skip</Typography>
               <ArrowForwardIcon/>
         </Grid>}
-        <Grid container justifyContent={'center'} className= 'isMobileScreen-choosePlan' alignItems={"center"}>
+        <Grid container justifyContent={'center'} className='isMobileScreen-choosePlan' alignItems={"center"}>
           {pageSwitch == "" && <AddPlan />}
           {pageSwitch.data == "PLAN_PAGE" && <AddPlan />}
           {pageSwitch.data == "CREATE_ACCOUNT_PAGE" && <CreateAccount />}
