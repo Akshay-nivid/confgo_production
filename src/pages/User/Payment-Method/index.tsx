@@ -33,7 +33,6 @@ const PaymentMethod = () => {
 
   const orderData = useStore((state: IStoreState) => state.compData?.order?.order?.data)
   
-  const previousRoute = useStore((state: IStoreState) => state?.compData?.["previousRoute"]?.url)
 
   const handleChange =
     (panel: string) => (_: React.SyntheticEvent, isExpanded: boolean) => {

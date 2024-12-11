@@ -74,13 +74,17 @@ const LoginOrg = () => {
 
     try {
       // Send the login request
-      const response = await POST({
+       POST({
         url: 'auth/login',
         body,
-        id:'orgLogin',
+        id: 'orgLogin',
+         successCB: (response) => {
+          
+         handleLoginSuccess(response?.data);
+          
+        }
       });
       // Handle success response
-      handleLoginSuccess(response?.data);
     } catch (error: any) {
       // Handle error response
       handleLoginError(error);

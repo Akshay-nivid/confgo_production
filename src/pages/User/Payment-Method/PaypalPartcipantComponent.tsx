@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import Grid from '@mui/material/Grid2';
-import useStore, { POST, PUT, snackBar } from '@/Libs/store';
+import useStore, { IStoreState, POST, snackBar } from '@/Libs/store';
 import { setDataById } from '@/Libs/store';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
@@ -153,25 +153,21 @@ const PayPalParticipantButton: React.FC = () => {
 
     const orderData = useStore((state: any) => state?.compData?.["order"]?.["order"]?.data) ?? null
 
-    const paymentId = useStore((state: any) => state?.compData?.["payment"]?.["payment"]?.data?.id) ?? null
-
-    const paymentLoading = useStore((state: any) => state?.compData?.["payment"]?.["payment"]?.[`update/${paymentId}`]?.loading) ?? false
+    const paymentLoading = useStore((state: any) => state?.compData?.["payment"]?.["payment"]?.loading) ?? false
 
     const paymentReferenceNumber = useStore((state: any) => state?.compData?.["paymentReferenceNumber"]?.value) ?? null
 
-    const participantLoading = useStore((state: any) => state?.compData?.["participant"]?.["participant"]?.loading) ?? false
 
-    const orderLoading = useStore((state: any) => state?.compData?.["orderUpdate"]?.[`order/update/${orderData.id}`]?.loading) ?? false
 
-    const userPaymentLoading = useStore((state: any) => state?.compData?.["userPaymentLoading"]?.value) ?? false
+
+    const checkoutLoading = useStore((state: IStoreState) => state?.compData?.checkout?.checkout?.loading) ?? false
+
 
     // const paypalLoading = useStore((state: any) => state?.compData?.["paypalLoading"]?.value) ?? false
 
     useEffect(() => {
         setDataById('paymentReferenceNumber', { value: orderData?.id + JSON.stringify(Date.now()) })
     }, [])
-
-
 
 
 
@@ -184,125 +180,7 @@ const PayPalParticipantButton: React.FC = () => {
         setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: 'Could not find order. Please try again' })
         return;
 
-    }
-
-    /**
-     * Updates the participant record in the database
-     * @param {} 
-     * @returns 
-     */
-    function updateForm() {
-        PUT({
-
-            url: "registrationRecord/participant/1",
-            id: "participant",
-
-            body: {
-                "participantId": 1,
-                "eventId": eventId
-            },
-
-            successCB: () => {
-
-                setDataById('paypalLoading', { value: false })
-                navigate(routes.userHome())
-
-            },
-
-            errorCB() {
-                setDataById('paypalLoading', { value: false })
-
-
-            },
-        })
-    }
-
-    /**
-     * Updates the order record in the database with the latest status from paypal
-     * @param paypalData - latest paypal order data
-     * @returns {void}
-     */
-    function updateOrderStatus(paypalData: IPayPalOrder) {
-
-        // const orderStatusKey = paypalData?.status as keyof typeof ORDERSTATUS;
-
-        const orderBody = {
-
-            status: paypalData?.status,
-            paymentStatus: paypalData?.status
-        }
-
-        PUT({
-            url: `order/update/${orderData.id}`,
-            body: orderBody,
-            id: 'orderUpdate',
-            successCB: () => {
-
-                setDataById('userPaymentLoading', { value: false }) // set loading to true while making the request
-
-                // 5 - call update form api
-                // updateForm()
-
-                navigate(routes.userEventRegistrationCompleted())
-
-            },
-            errorCB: () => {
-                
-                setDataById('userPaymentLoading', { value: false }) // set loading to true while making the request
-
-            }
-        })
-
-    }
-
-
-    /**
-     * Updates the payment record in the database with the latest information from PayPal.
-     * 
-     * Logs the provided PayPal data and constructs a payment body with relevant details.
-     * Sends a PUT request to update the payment using the specified payment ID.
-     * On successful update, logs the payment response and triggers the order status update.
-     *
-     * @param paypalData - The latest data received from PayPal for the order.
-     * @param paymentId - The ID of the payment record to update.
-     * @returns {void}
-     */
-    function updatePaymentStatus(paypalData: IPayPalOrder, paymentId: string | number) {
-
-
-        const paymentBody = {
-            "state": paypalData?.status,
-            "errorMessage": "No Error",
-            "transactionId": paypalData?.id,
-            "paymentReferenceNumber": paymentReferenceNumber,
-            "metadata": JSON.stringify(paypalData),
-            "amount": paypalData.purchase_units?.[0]?.amount?.value || orderData?.finalPrice,
-        }
-
-        PUT({
-            url: `payment/update/${paymentId}`,
-            id: 'payment',
-            body: paymentBody,
-            successCB: () => {
-
-
-                // 5 - call order update api
-                updateOrderStatus(paypalData)
-
-            },
-            errorCB: () => {
-                setDataById('userPaymentLoading', { value: false }) // set loading to true while making the request
-
-
-            }
-        })
-
-
-    }
-
-
-
-
+    } 
 
 
     /**
@@ -323,10 +201,6 @@ const PayPalParticipantButton: React.FC = () => {
         }
 
 
-        setDataById('userPaymentLoading', { value: true }) // set loading to true while making the request
-
-
-
         const body: IPayment = {
             "paymentMethodId": 1,
             "state": enumPaymentState.INITIATED,
@@ -337,65 +211,44 @@ const PayPalParticipantButton: React.FC = () => {
             "paymentReferenceNumber": paymentReferenceNumber
         }
 
-        const participantBody = {
-            orderId: orderData?.id,
-            registrationType: "online",
-        }
-
-
-        // 1 - call payment creation api
-
         POST({
             id: 'payment',
             url: 'payment',
             body: body,
             successCB: async (paymentResponse: IPaymentResponse) => {
 
+            
 
-                // 2 - call payment capture paypal api 
-                const paymentSuccessInfo = await actions.order.capture();
+
+               setDataById('checkout',{checkout:{loading:true}})
+
+                const paymentSuccessInfo: IPayPalOrder = await actions.order.capture();
 
 
                 if (paymentSuccessInfo) {
 
-                    // 3 - call participant creation api
-
                     POST({
-                        url: 'participant',
-                        body: participantBody,
-                        id: 'participant',
-
-                        successCB: async () => {
-
-                            // 4 - call payment update api
-                            updatePaymentStatus(paymentSuccessInfo, paymentResponse.data.id);
-
+                        url: 'checkout',
+                        id: 'checkout',
+                        body: {
+                            orderId: orderData.id,
+                            registrationType: "online",
+                            eventId: eventId,
+                            status: paymentSuccessInfo.status,
+                            paymentStatus: paymentSuccessInfo.status,
+                            paymentId: paymentResponse?.data?.id,
+                            state: "COMPLETED",
+                            errorMessage: "No error",
+                            transactionid: paymentSuccessInfo.id,
+                            paymentreferencenumber: paymentReferenceNumber,
+                            metadata: JSON.stringify(paymentSuccessInfo),
+                            amount: paymentSuccessInfo.purchase_units?.[0]?.amount?.value || orderData?.finalPrice,
                         },
-                        errorCB: () => {
-
-                            setDataById('userPaymentLoading', { value: false }) // set loading to true while making the request
-
-                            snackBar({ severity: 'error', message: 'Something went wrong while creating participant. Please try again' })
+                        successCB: () => {
+                            navigate(routes.userEventRegistrationCompleted())
                         }
                     })
-
-                    snackBar({ severity: 'success', message: 'payment successful' })
-
                 }
-
-
-            },
-            errorCB: () => {
-
-                setDataById('userPaymentLoading', { value: false }) // set loading to true while making the request
-
-                snackBar({ severity: 'error', message: 'Something went wrong while creating payment. Please try again' })
-
-
-                navigate(routes.userPaymentMethod())
-
-
-                return
             }
         })
     };
@@ -428,19 +281,16 @@ const PayPalParticipantButton: React.FC = () => {
         return
     }
 
-    if (paymentLoading || participantLoading || orderLoading) {
-        return (
-            <Backdrop open={true}>
-                <CircularProgress color="inherit" />
-            </Backdrop>
-        )
-    }
 
     return (
         <Grid>
+            {(checkoutLoading || paymentLoading) && <Backdrop open={true}>
+                        <CircularProgress color="inherit" />
+                    </Backdrop>}
             <PayPalScriptProvider options={initialOptions}>
                 <div ref={paypalButtonRef}>
                     <PayPalButtons
+                        disabled={checkoutLoading || paymentLoading}
                         style={{ layout: 'vertical' }}
                         createOrder={(_data, actions) => {
                             return actions.order.create({
@@ -459,7 +309,9 @@ const PayPalParticipantButton: React.FC = () => {
                         onError={handleError}
 
                     />
+                    
                 </div>
+
             </PayPalScriptProvider>
         </Grid>
     );

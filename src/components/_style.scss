@@ -944,6 +944,31 @@
   }
 }
 
+.otp-container{
+
+  input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+}
+
+.no-border .MuiOutlinedInput-notchedOutline {
+  border: none !important;
+}
+.no-border .MuiInputBase-input{
+  border: "none", 
+}
+.MuiOutlinedInput-notchedOutline {
+  border-color: $clr_gray_extra_light !important;
+}
+
+
 .no-border .MuiOutlinedInput-notchedOutline {
   border: none !important;
 }
