@@ -245,7 +245,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
               />
             </Grid>
             <Grid size={{ xs: 6 }}>
-              <CustomTextField name="endTime" label="End Time" placeholder="End Time" control={control} type="time" />
+              <CustomTextField name="endTime" label="End Time"  placeholder="End Time" control={control} type="time" />
             </Grid>
           </>
         )}

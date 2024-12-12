@@ -109,6 +109,9 @@ const UserLogin = (props: UserProps) => {
    * @param {any}
    */
   const googleSsoLogin = async (obj: GoogleUserData) => {
+
+    console.log("googleSsoLogin obj", obj)
+
     const requestBody = {
       provider: "google",
       providerUserId: obj.sub ?? '',

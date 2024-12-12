@@ -1,13 +1,13 @@
 
 export interface ISource {
-    method: string; // HTTP method, e.g., 'POST'
-    data: {
-      offset: number;
-      limit: number;
-      filters?: any;
-    };
-    url: string; // API endpoint, e.g., 'coupon/list'
-    listName: string; // Name of the list
+  method: string; // HTTP method, e.g., 'POST'
+  data: {
+    offset: number;
+    limit: number;
+    filters?: any;
+  };
+  url: string; // API endpoint, e.g., 'coupon/list'
+  listName: string; // Name of the list
 }
 
 export type IParticipantCoupon = {
@@ -178,6 +178,10 @@ export interface ICartData {
     event: IEvent;
     programs: IProgram[];
     addons: IAddon[];
+    eventAmount: string;
+    priceTierDiscount: string;
+    programTotal: string;
+    addonTotal: string;
   },
   loading: boolean;
   success: boolean;

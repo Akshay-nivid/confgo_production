@@ -40,7 +40,7 @@ const CustomTimer: React.FC<ResendOtpTimerProps> = ({
 
     return (
         <span className={className}>
-            {isResendDisabled ? `: 0:${timer}` : null}
+            {isResendDisabled ? `0:${timer}` : null}
         </span>
     );
 };

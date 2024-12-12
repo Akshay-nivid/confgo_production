@@ -338,10 +338,10 @@ const UserOtp = () => {
             />
           </form>
           <Box className="navigation-text-container" flexDirection={"column"}>
-          <Typography className="resend-text">
+          <Typography className="resend-text mr-4">
               Didn't receive the OTP?
               {!isResendDisabled && (
-                <Typography onClick={handleResendOtp} className="resend-otp">
+                <Typography onClick={handleResendOtp} className="resend-otp ">
                 Resend Otp
                 </Typography>
                  )}

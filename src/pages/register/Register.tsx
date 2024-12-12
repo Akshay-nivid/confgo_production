@@ -71,17 +71,17 @@ const Register = () => {
   };
   return (
     <Grid container className="register-main-container">
-      <Grid container justifyContent={'space-between'} direction={'column'}  className="grid-left" size={{ xs: 12, sm: 7 }} >
+      <Grid  justifyContent={'space-between'} direction={'column'}  className="grid-left" size={{ xs: 12, sm: 7 }} >
       {!isMobileScreen &&
-        (pageSwitch.data === "CREATE_ACCOUNT_PAGE" || 
-         pageSwitch.data === "ADD_ORGANIZATION_PAGE" || 
-         pageSwitch.data === "PLAN_PAGE") && (
+       (["CREATE_ACCOUNT_PAGE", "ADD_ORGANIZATION_PAGE", "PLAN_PAGE"].includes(pageSwitch.data)) && (
           <Grid 
             container 
             alignItems="center" 
             display="flex" 
-            className="back-button" 
+            className="back-button absolute top-5" 
+
             onClick={handleBack}
+
           >
             <ArrowBackIcon />
             <Typography variant="h6">Back</Typography>
@@ -101,10 +101,10 @@ const Register = () => {
           {pageSwitch.data === "PAYMENT_METHOD_PAGE" && <PaymentMethod />}
           {pageSwitch.data === "REGISTRATION_SUCCESS_PAGE" && <RegistrationSuccess />}
         </Grid>
-        {pageSwitch.data !== "REGISTRATION_SUCCESS_PAGE"  && <Grid container direction={'column'} className="register-stepper" spacing={3}>
+        {pageSwitch.data !== "REGISTRATION_SUCCESS_PAGE"  && <Grid container direction={'column'} className="register-stepper py-5"  spacing={3}>
            {pageSwitch.data !== "ADD_ORGANIZATION_PAGE" && (
           <Grid container spacing={1} justifyContent={"center"} display={"flex"} className="register-stepper-text">
-             <Typography>Already have an account?</Typography>
+             <Typography className="already-text">Already have an account?</Typography>
           <Grid onClick={handleLogin}>
              <Typography className="login-label cursor-container" alignContent="flex-end"> Log In</Typography>
           </Grid>
@@ -116,8 +116,8 @@ const Register = () => {
         </Grid>
         }
       </Grid>
-      {!isMobileScreen && (<Grid container size={{ xs: 12, md: 5 }} className="grid-right">
-        <SignUpFlowIcon/>
+      {!isMobileScreen && (<Grid container size={{ xs: 12, md: 5 }}  className="grid-right bg-[url(/src/assets/svg/signup-flow-icon.svg)] bg-no-repeat bg-cover bg-left-[200px] ">
+        {/* <SignUpFlowIcon /> */}
       </Grid>)}
     </Grid>
   );

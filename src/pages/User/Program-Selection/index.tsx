@@ -2,12 +2,19 @@ import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid2";
 import ProgramCard from "./ProgramCard";
+import { useLayoutEffect } from "react";
 
 /**
  * User program selection page component
  *
  */
 const ProgramSelection = () => {
+
+
+  useLayoutEffect(() => {
+    console.log("Program Selection page loaded.")
+  }, [])
+
   return (
     <Grid
       justifyContent={"center"}

@@ -184,6 +184,7 @@
   .card-header {
     font-size: $h5 !important;
     font-weight: $font-semibold !important;
+    margin-bottom: 1.66rem !important;
   }
 
   .card-sub-header {
@@ -194,6 +195,11 @@
     padding-inline: 0.5rem;
     border-radius: 0.3rem;
     color: $clr_gray_dark_text;
+    margin-top: 1.66rem !important;
+  }
+
+  .addon-property-container{
+    padding-inline: .86rem !important;
   }
 
   .add-text {
@@ -209,15 +215,30 @@
     column-gap: .5rem;
   }
 
-  .time-chip {
-    &.MuiChip-root {
-      padding-inline: 0.2rem !important;
-      font-size: $p1 !important;
-      border: 0.1rem solid $clr_gray_faded !important;
-      background-color: transparent !important;
+  .time-chip-container{
+    margin-bottom:0.86rem;
+    border-radius: 0.866rem;
+    .time-chip {
+      &.MuiChip-root {
+        padding-inline: 0.2rem !important;
+        font-size: $p1 !important;
+        border: 0.1rem solid $clr_gray_faded !important;
+        background-color: transparent !important;
+      }
     }
+  
   }
 
+
+  .program-name{
+    margin-bottom: .45rem !important;
+  }
+  
+  .addon-name{
+    margin-bottom: .45rem !important;
+font-weight: $font-medium !important;
+font-size: $h5 !important;
+  }
   .price-chip {
     &.MuiChip-root {
       padding-inline: 0.2rem !important;
@@ -233,6 +254,8 @@
 
   .program-description {
     display: -webkit-box !important;
+    font-size: $p3 !important;
+    font-weight: $font_normal !important;
     -webkit-box-orient: vertical !important;
     overflow: hidden !important;
     -webkit-line-clamp: 2 !important;
@@ -245,10 +268,10 @@
     border: 0.08rem solid $clr_gray_faded;
     border-radius: 0.7rem !important;
     padding: 1.5rem !important;
-
+    margin-bottom: 1.66rem !important;
     .program-list-item {
       width: max-content;
-
+      margin-top: 2.66rem;
       .MuiFormControl-root {
         width: 100%;
       }
@@ -278,10 +301,11 @@
   }
 
   .add-on-list-container {
+    margin-top: 6.66rem !important;
     .addon-checkbox-group {
       position: relative;
       width: max-content;
-
+      margin-top: 2.66rem;
       .add-text {
         position: absolute;
         color: white !important;
