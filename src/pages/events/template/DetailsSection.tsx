@@ -80,7 +80,7 @@ const DetailsSection: React.FC<DetailsSectionProps> = React.memo(({ data, temp }
                         itemArray?.map((item: any) => {
                             return <Grid container size={{ xs: 12, sm: 3 }} direction={'column'} justifyContent={temp === 2? 'center': 'flex-start'} alignItems={temp === 2? 'center': 'flex-start'}><Grid>{item.icon} </Grid>
                                 <Grid><Typography className={`${classPrefix}-label`}>{item.label}</Typography></Grid>
-                                <Grid><Typography className={`${classPrefix}-value`} textAlign={temp === 2? 'center': 'left'}> {truncateString(toTitleCase(item.value),20, "Untitled")}
+                                <Grid><Typography className={`${classPrefix}-value`} textAlign={temp === 2? 'center': 'left'}> {truncateString(toTitleCase(item.value),35, "Untitled")}
                                     </Typography></Grid>
                             </Grid>
                         })
