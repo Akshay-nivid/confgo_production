@@ -2,13 +2,14 @@
  * Component displays the details section of the template
  */
 import Grid from '@mui/material/Grid2';
-import React from 'react';
-import { Typography } from '@mui/material';
+import React, { useState } from 'react';
+import { Button, Typography } from '@mui/material';
 import LocationIcon from '@/assets/svg/template1-location.svg';
 import CalendarIcon from '@/assets/svg/template1-calendar.svg';
 import EmailIcon from '@/assets/svg/template1-email.svg';
 import PhoneIcon from '@/assets/svg/template1-phone.svg';
 import moment from 'moment';
+import { toTitleCase, truncateString } from '@/Utils/CommonBaseClass';
 
 type DetailsSectionProps = {
     data?: any;
@@ -51,26 +52,52 @@ const DetailsSection: React.FC<DetailsSectionProps> = React.memo(({ data, temp }
         { icon: <LocationIcon />, label: 'Location', value: data?.venue?.address },
         { icon: <CalendarIcon />, label: 'Date', value: formatDateRange(data?.startTime, data?.endTime) },
         { icon: <EmailIcon />, label: 'Email', value: data?.eventContacts[0]?.email || '' },
-        { icon: <PhoneIcon />, label: 'Phone', value: data?.eventContacts[0]?.phone || '' }
-    ]
+        { icon: <PhoneIcon />, label: 'Phone', value: data?.eventContacts[0]?.phone || '' },
 
+    ]
+     
+    const CopyUrl=data?.venue?.mapUrl
+    const [copied, setCopied] = useState(false);
+    /**
+     * Method to copy the URL to clipboard
+      */ 
+    const copyToClipboard = () => {
+        const url = data?.venue?.mapUrl;
+        if (url) {
+            navigator.clipboard.writeText(url).then(() => {
+                setCopied(true); // Indicate that the URL was copied
+                setTimeout(() => setCopied(false), 3000); // Reset copied state after 2 seconds
+            });
+        }
+    };
 
 
     return (
         <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-container`}>
             <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}`} justifyContent={'center'} alignItems={'center'}>
-                <Grid size={{ xs: 12, sm: 12 }} container className={`${classPrefix}-item`} spacing={1}>
+                <Grid size={{ xs: 12, sm: 12 }} container className={`${classPrefix}-item`} spacing={1} >
                     {
                         itemArray?.map((item: any) => {
-                            return <Grid container size={{ xs: 12, sm: 3 }} direction={'column'} justifyContent={temp === 2? 'center': 'flex-start'} alignItems={temp === 2? 'center': 'flex-start'}><Grid>{item.icon}</Grid>
+                            return <Grid container size={{ xs: 12, sm: 3 }} direction={'column'} justifyContent={temp === 2? 'center': 'flex-start'} alignItems={temp === 2? 'center': 'flex-start'}><Grid>{item.icon} </Grid>
                                 <Grid><Typography className={`${classPrefix}-label`}>{item.label}</Typography></Grid>
-                                <Grid><Typography className={`${classPrefix}-value`} textAlign={temp === 2? 'center': 'left'}>{item.value}</Typography></Grid>
+                                <Grid><Typography className={`${classPrefix}-value`} textAlign={temp === 2? 'center': 'left'}> {truncateString(toTitleCase(item.value),35, "Untitled")}
+                                    </Typography></Grid>
                             </Grid>
                         })
+                        
                     }
-
+                    {CopyUrl && (
+                        <Grid container size={{ xs: 1 }} justifyContent="center" direction="column" >
+                            <Button onClick={copyToClipboard} variant="outlined" color="primary">
+                                {copied ? "Copied!" : "Copy URL"}
+                            </Button>
+                        </Grid>
+                    )}
+                 
                 </Grid>
             </Grid></Grid>)
+                                      
+
 });
 
 export default DetailsSection;
