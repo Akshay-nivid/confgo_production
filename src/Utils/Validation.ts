@@ -172,3 +172,14 @@ export const validateMaxLength = ({
       message || `${ fieldName ? fieldName : 'Field'} must not exceed ${maxLength} characters`,
   };
 };
+
+/**
+ * @description: Validate amount with upto two decimal places
+ * @param {message} message - The message to display if the amount is invalid (default: Please enter a valid number with up to two decimal places)
+ */
+export const validateAmount = ({message}: {message?: string})=>{
+  return {
+    value: /^[0-9]+(\.[0-9]{1,2})?$/,
+    message: message || 'Enter valid number with up to two decimal places',
+  }
+}

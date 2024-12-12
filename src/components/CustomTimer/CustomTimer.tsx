@@ -37,10 +37,17 @@ const CustomTimer: React.FC<ResendOtpTimerProps> = ({
          */
         return () => clearInterval(interval);
     }, [isResendDisabled, initialTime, setIsResendDisabled]);
+    
+    //Used to formate the given seconds into MM:SS
+    const formatTime = (seconds: number): string => {
+        const minutes = Math.floor(seconds / 60); // Get the minutes
+        const remainingSeconds = seconds % 60; // Get the remaining seconds
+        return `${minutes}:${remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds}`;
+    };
 
     return (
         <span className={className}>
-            {isResendDisabled ? `: 0:${timer}` : null}
+            {isResendDisabled ? formatTime(timer) : null}
         </span>
     );
 };
