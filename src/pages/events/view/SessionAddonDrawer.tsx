@@ -16,6 +16,7 @@ import { useParams } from "react-router-dom";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CreateAddon from "../CreateAddon";
 import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
+import CustomTimePicker from "@/components/CustomTimePicker/CustomTimePicker";
 
 interface FormData {
   addonId: number;
@@ -236,16 +237,25 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
               <CustomTextField name="addonDate" placeholder="Add-on Date" control={control} type="date" />
             </Grid>
             <Grid size={{ xs: 6 }}>
-              <CustomTextField
-                name="startTime"
-                label="Start Time"
-                placeholder="Start Time"
-                control={control}
-                type="time"
-              />
+               <CustomTimePicker
+               name="startTime"
+               label="Start Time"
+               placeholder="Start Time"
+               control={control}
+               type="time"
+                className="Custom-TimePicker"
+                 />
             </Grid>
             <Grid size={{ xs: 6 }}>
-              <CustomTextField name="endTime" label="End Time" placeholder="End Time" control={control} type="time" />
+            <CustomTimePicker
+               name="endTime"
+               label="End Time"
+               placeholder="End Time"
+               control={control}
+               type="time"
+               ampm={false}
+                className="Custom-TimePicker"
+                     /> 
             </Grid>
           </>
         )}
