@@ -4,18 +4,21 @@ import Grid from "@mui/material/Grid2";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
-import EventFilterIcon from '@/assets/svg/EventFilterIcon.svg';
-import FilterModal from "@/components/CustomFilter/FilterModal";
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
 import { useForm } from "react-hook-form";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import { Typography } from "@mui/material";
+import { Button, IconButton, Typography } from "@mui/material";
 import { ISource } from "@/Libs/type";
 import { Logger } from "@/Utils/Logger";
 import React from "react";
 import { NoEvent as NoEventIcon } from "@/assets/svg";
+import { CloseOutlined } from "@mui/icons-material";
+import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
+import moment from "moment";
+import CustomTextField from "@/components/CustomTextfield/CustomTextField";
+import { Filter } from "@/components/Filter";
 interface EventListProps {
   hideAction?: boolean;
   view?:any
@@ -27,11 +30,11 @@ interface EventListProps {
  */
 const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => {
   const navigate = useNavigate();
-  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState({ requestDate: '', eventType: '' });
   const [source, setSource] = useState<ISource | undefined>(undefined);
   const [loading, setLoading] = useState(false); // To indicate loading state for API
+
   const { control } = useForm();
   /**
    * Useeffect hook handles the api call
@@ -61,6 +64,27 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
     return;
   }, []);
 
+  const EventTypeArray = [
+    { label: "Offline", value: "OFFLINE" },
+    { label: "Online", value: "ONLINE" },
+    { label: "Hybrid", value: "HYBRID" },
+  ];
+
+  const filterFileds: any = [
+    {
+      type: 'date',
+      fieldName: 'startTime',
+      label: 'Start Date',
+      heading: 'Filter with Start Date'
+    },
+    {
+      type: 'tiles',
+      fieldName: 'eventClass',
+      label: 'Event Type',
+      heading: 'Filter with Event Type',
+      options: EventTypeArray
+    }
+  ]
   const columns = [
     { type: "default", field: "id", headerName: "ID", width: 150 },
     {
@@ -86,25 +110,6 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
     },
     { type: "status", field: "statusId", headerName: "Status", width: 150 }
   ];
-  /**
-   * Apply filter
-   * @param newFilters
-   */
-  const handleApplyFilters = (newFilters: any) => {
-    setSource({
-      method: "GET",
-      data: {
-        offset: 0,
-        limit: 5,
-        filters: {
-          ...newFilters,
-        },
-      },
-      url: `event/list`,
-      listName: "eventList",
-    });
-    setFilters(newFilters);
-  };
 
   /**
    * Row click navigation
@@ -192,34 +197,26 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
                 onClick={() => {
                   navigate(routes.createEvent());
                 }}
-                // disabled={loading}
+              // disabled={loading}
               />
-              <CustomButton
-                className="event-list-filter-btn"
-                onClick={() => setIsFilterModalOpen(true)}
-                label="Filters"
-                startIcon={<EventFilterIcon />}
-                variant="contained"
-                color="primary"
-                size="large"
-              />
+              <Filter datagridId='event-datagrid' fields={filterFileds} />
             </Grid>
           </>
         )}
       </Grid>
       <Grid size={{ xs: 12 }}>
-       <DataGridList
+        <DataGridList
           source={source}
           onRowClick={(params: any) => handleRowClick(params.id)}
           title="Event"
           hideFooterPagination={hideAction ? true : false}
           columns={columns}
           id="event-datagrid"
-          noRecordIcon={<NoEventIcon className="event-list-no-events-icon"/>}
+          noRecordIcon={<NoEventIcon className="event-list-no-events-icon" />}
           noRecordSubtitle="You haven’t registered for any events yet. Explore upcoming events and secure your spot today!"
           redirectTo={() => routes.createEvent()} // define the route
           btnName="Create New Event" //define the label of btn
-        /> 
+        />
       </Grid>
       {hideAction && view && (
         <Grid
@@ -237,13 +234,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
           />
         </Grid>
       )}
-
-      {/* Filter Modal */}
-      <FilterModal
-        open={isFilterModalOpen}
-        onClose={() => setIsFilterModalOpen(false)}
-        onApplyFilters={handleApplyFilters}
-      />
+    
     </Grid>
   );
 });
