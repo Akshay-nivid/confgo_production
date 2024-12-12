@@ -536,9 +536,13 @@
             }
 
             &-selected-img {
-                width: 5rem;
-                height: 5rem;
-
+              width: 5rem !important;
+              height: 5rem !important;
+              border-radius: 0% !important;
+              &-icon{
+                width: 5rem !important;
+                height: 5rem !important;
+              }
             }
         }
 
@@ -595,6 +599,18 @@
                 border-radius: 0.5rem;
                 margin-right: 0.833rem;
                 margin-bottom: 1rem;
+            }
+            &-no-img {
+              width: 16.563rem !important;
+              height: 16.875rem !important;
+              border-radius: 0.5rem !important;
+              margin-right: 0.833rem !important;
+              margin-bottom: 1rem !important;
+    
+              &-icon {
+                width: 16.563rem !important;
+                height: 16.875rem !important;
+              }
             }
 
             &-name {

@@ -5,6 +5,8 @@ import Grid from '@mui/material/Grid2';
 import React from 'react';
 import config from '../../../../config.json';
 import { truncateString } from '@/Utils/CommonBaseClass';
+import { Avatar } from '@mui/material';
+import PersonIcon from '@mui/icons-material/Person';
 
 
 type EventContributorsSectionProps = {
@@ -31,10 +33,12 @@ const EventContributorsSection = React.memo(
                 return <Grid size={{ xs: 12, sm: 6 }} container direction={'row'} className={`${classPrefix}-item-container`} spacing={2}>
                     <Grid size={{ xs: 12, sm: 12 }} container direction={'row'}>
                         <Grid size={{ xs: 12, sm: 3 }}>
-                            <img
+                            {item?.assetId ? (<img
                                 src={`${baseUrl}asset/${item?.assetId}`}
                                 alt={item.name}
-                            />
+                            />):(<Avatar>
+                              <PersonIcon/>
+                            </Avatar>)}
                         </Grid>
                         <Grid container size={{ xs: 12, sm: 9 }} direction={'column'}>
                             <Grid className={`${classPrefix}-item-name`}>{item.name}</Grid>

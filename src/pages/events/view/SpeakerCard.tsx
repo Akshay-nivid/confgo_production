@@ -1,5 +1,5 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
-import { IconButton, Modal, Typography } from "@mui/material";
+import { Avatar, IconButton, Modal, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
@@ -18,6 +18,7 @@ import useStore from "@/Libs/store";
 import AddIcon from "@mui/icons-material/Add";
 import config from "../../../../config.json";
 import CreateContributorType from "../CreateContributorType";
+import PersonIcon from '@mui/icons-material/Person';
 
 interface CustomFile {
   id: number;
@@ -207,7 +208,7 @@ const SpeakerCard = (_eventData: any) => {
   ];
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    if (selectedFile && !editContributorValue) {
+    if (!editContributorValue) {
       createContributor(data);
     } else if (editContributorValue && contributorFields) {
       editContributor(data);
@@ -225,7 +226,7 @@ const SpeakerCard = (_eventData: any) => {
       const requestBody = {
         eventId: id,
         name: formData.contributorName,
-        assetId: selectedFile?.id ?? "",
+        assetId: selectedFile?.id ?? null,
         designation: formData.contributorType,
         description: formData.contributorDescription,
         statusId: "1",
@@ -311,7 +312,7 @@ const SpeakerCard = (_eventData: any) => {
       const requestBody = {
         eventId: id,
         name: formData.contributorName,
-        assetId: selectedFile?.id ?? contributorFields?.assetId,
+        assetId: selectedFile?.id ?? null,
         designation: formData.contributorType,
         description: formData.contributorDescription,
         statusId: "1",
@@ -360,6 +361,7 @@ const SpeakerCard = (_eventData: any) => {
         contributorType: item.designation,
         contributorDescription: item.description || "",
       });
+      setSelectedFile(null);
     }
     else{
       reset()
@@ -473,11 +475,16 @@ const SpeakerCard = (_eventData: any) => {
                             spacing={0.5}
                           >
                             <Grid>
+                              {item?.assetId ?(
                               <img
                                 className="event-detail-speakers-card-list-row-img"
                                 src={`${baseUrl}asset/${item?.assetId}`}
                                 alt={item?.name}
-                              />
+                              />):(
+                                <Avatar className="event-detail-speakers-card-list-row-no-img">
+                                  <PersonIcon className="event-detail-speakers-card-list-row-no-img-icon"/>
+                                </Avatar>
+                              )}
                               <Typography className="event-detail-speakers-card-list-row-name">
                                 {item?.name}
                               </Typography>
@@ -596,14 +603,17 @@ const SpeakerCard = (_eventData: any) => {
                         />
                       )}
                       {fileRequired && (
-                        <Typography className="event-detail-speakers-card-btn-container-photo-txt">
-                          Please Select an Image
-                        </Typography>
+                        // <Typography className="event-detail-speakers-card-btn-container-photo-txt">
+                        //   Please Select an Image
+                        // </Typography>
+                      <Avatar>
+                        <PersonIcon />
+                      </Avatar>
                       )}
                     </Grid>
 
                     {/* Selected Image Display */}
-                    {selectedFile && (
+                    {selectedFile ? (
                       <Grid direction="column" alignItems="center">
                         <img
                           src={`${baseUrl}asset/${selectedFile.id}`}
@@ -631,6 +641,10 @@ const SpeakerCard = (_eventData: any) => {
                           {/* </Grid> */}
                         </Grid>
                       </Grid>
+                    ):(
+                      <Avatar className="event-detail-speakers-card-btn-container-selected-img">
+                        <PersonIcon className="event-detail-speakers-card-btn-container-selected-img-icon"/>
+                      </Avatar>
                     )}
                     <Grid  ml={2}>
                       <CustomButton

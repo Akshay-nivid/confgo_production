@@ -1176,3 +1176,81 @@
 .MuiOutlinedInput-notchedOutline {
   border-color: $clr_gray_extra_light !important;
 }
+
+.custom-Time-picker{
+  width: 100%;
+  margin-top: 0.5rem;
+  caret-color: $clr_black;
+  color: $clr_black;
+  & .label-header {
+    font-weight: $font_medium;
+    color: $clr_black;
+  }
+  input:-webkit-autofill {
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: $clr_black !important;
+    caret-color: $clr_black;
+  }
+  & .MuiInputBase-input {
+    background-color: $clr_white;
+  }
+  & .MuiInputLabel-outlined{
+    color:$input_label !important;
+  }
+  &-icon-btn {
+    &:focus {
+      outline: none;
+    }
+  }
+  &-placeholder{
+    color: $clr_black !important; 
+    font-size: $p1 !important;
+    font-weight: $font_normal !important;
+  }
+  input[type='number'] {
+    // Hide spin buttons in WebKit browsers (Chrome, Safari)
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+  }
+  & .MuiInputBase-input::placeholder {
+    color: $clr_gray_dark !important;
+    font-size: $p1;
+  }
+  .MuiOutlinedInput-notchedOutline {
+    border: 0.083rem solid $clr_gray_light;
+    color: $clr_gray_extra_dark !important;
+  }
+
+  .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: $clr_gray_light;
+  }
+  .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+    border-color: $clr_gray_light;
+  }
+
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: $clr_gray_light;
+  }
+  .MuiInputLabel-outlined {
+    color: $clr_grey;
+    font-size: $p1;
+    background-color: $clr_white;
+    padding-right: 0.5rem;
+    &.Mui-focused {
+      font-weight: $font_normal;
+    }
+  }
+
+  .MuiInputLabel-root{
+    &.Mui-focused {
+      color: $clr_grey;
+      background-color: $clr_white;
+    }
+  }
+
+  
+}
