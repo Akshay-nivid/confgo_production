@@ -18,6 +18,7 @@ import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import GoogleMapPlacePicker from "./GoogleMapPlacePicker";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { validateEmail, validatePhoneNumber } from "@/Utils/Validation";
+import { validateMaxLength } from '@/Utils/Validation';
 
 type EventProps = {
   formSubmit: boolean;
@@ -216,10 +217,10 @@ const CreateEvent: React.FC<EventProps> =
                       type="text"
                       rules={{
                         required: true,
-                        maxLength: {
-                          value: 100,
-                          message: 'Event name cannot exceed 100 characters',
-                        },
+                        maxLength: validateMaxLength({
+                          maxLength: 255,
+                          fieldName: 'Event Name',
+                        }),
                       }} 
                       />
                   </Grid>

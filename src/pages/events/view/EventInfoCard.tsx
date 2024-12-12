@@ -20,7 +20,7 @@ import config from "../../../../config.json";
 import FileListModal from "@/components/FileUpload/FileListModal";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import GoogleMapPlacePicker from "../GoogleMapPlacePicker";
-import { validateEmail, validatePhoneNumber } from "@/Utils/Validation";
+import { validateEmail, validateMaxLength, validatePhoneNumber } from "@/Utils/Validation";
 
 
 const baseUrl = config.api.url;
@@ -436,10 +436,10 @@ const EventInfoCard: React.FC<any> = React.memo(
                     control={control}
                     rules={{
                       required: true,
-                      maxLength: {
-                        value: 100,
-                        message: 'Event name cannot exceed 100 characters',
-                      },
+                      maxLength: validateMaxLength({
+                        maxLength: 255,
+                        fieldName: 'Event Name',
+                      }),
                     }}
                   />
                 </Grid>
