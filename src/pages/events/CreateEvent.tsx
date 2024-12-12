@@ -389,6 +389,16 @@ const CreateEvent: React.FC<EventProps> =
                       </Grid>
                       <Grid size={{ xs: 12, sm: 12 }}>
                         <CustomTextField
+                          placeholder="Venue Name"
+                          control={control}
+                          name="venueName"
+                          shrink={watch('venueName')!==''&&watch('venueName')!==undefined?true:undefined}
+                          type="text"
+                          rules={{ required: watch("type") === "OFFLINE" }}
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 12 }}>
+                        <CustomTextField
                           placeholder="Address"
                           control={control}
                           name="address"

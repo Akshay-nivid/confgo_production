@@ -2,7 +2,12 @@
       height: 100vh;
     & .back-button{
       cursor: pointer;
-      padding-top: 2rem;
+      padding-top: 2.667rem;
+      margin-left: 17%;
+    }
+    & .skip-button{
+      padding-top: 2.667rem;
+      margin-right: 17%;   
     }
     & .grid-left {
       min-width: min(42rem, 100%);
@@ -94,6 +99,7 @@
     & .left-plan-text{
       font-size: $h2;
       font-weight: $font_bold;
+      color:$clr_black
     }
     & .view-all-plans{
       padding-bottom: 3rem;
@@ -105,7 +111,7 @@
     justify-content: center;
     max-width: 36rem;
     display: flex;
-    margin-top: -6.133rem !important;
+    margin-top: 1.133rem !important;
     flex-direction: column;
     row-gap: 0.8rem;
     & .success-icon{
@@ -133,8 +139,8 @@
     align-items: center;
     justify-content: center;
     max-width: 36rem;
+    margin-top: 1.55rem !important;
     display: flex;
-    margin-top: -9.99rem !important;
     flex-direction: column;
     row-gap: 0.8rem;
     & .success-icon{
@@ -193,7 +199,7 @@
     border-radius: 0.83rem !important;
   }
   & .form-wrapper {
-    width: 100%;
+    width: 30rem;
     margin-inline: auto;
     & .form {
       display: flex;
@@ -221,7 +227,7 @@
 .add-organization-btn{
   box-shadow: none !important;
   font-size: $p2!important;
-  background-color: $clr_blue;
+  background-color: $clr_blue !important;
   width: 100%;
   height:3.75rem;
   border-radius: 0.41rem;
@@ -257,4 +263,7 @@
           justify-content: center !important;
           background-size: 85% !important;
         }
+}
+.button-margin-bm{
+  margin-bottom: 10% !important;
 }
