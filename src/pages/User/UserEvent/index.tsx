@@ -1,5 +1,5 @@
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
-import { IconButton, Typography } from "@mui/material";
+import { CircularProgress, IconButton, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -76,6 +76,7 @@ const MyEventScreen = () => {
    
     if (selected) {
       try {
+        setLoading(true);
         await POST({
           url: "event/list",
           body: {
@@ -97,6 +98,9 @@ const MyEventScreen = () => {
       } catch (error) {
         Logger.error("An error occurred:", error);
       }
+      finally{
+        setLoading(false);
+      }
     }
   };
   /**
@@ -104,6 +108,7 @@ const MyEventScreen = () => {
    */
   const participantEventDetails = async () => {
     try {
+      setLoading(true);
       await GET({
         url: "participant/registered/events",
         id: 'userEvents',
@@ -118,6 +123,9 @@ const MyEventScreen = () => {
       });
     } catch (error) {
       Logger.error("An error occurred:", error);
+    }
+    finally{
+      setLoading(false);
     }
   }
   /**
@@ -150,7 +158,7 @@ const MyEventScreen = () => {
     navigate(routes.userEventRecap(),{state:{eventId:eventId}});
   }
   return (
-    <Grid className="my-event" container spacing={1}>
+    <Grid className="my-event" spacing={1} container >
       <Grid container  size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} flexDirection={"row"}>
         <Grid size={{ xs: 5 }} alignContent={"center"} container>
           <Typography className="my-event-header">My Events</Typography>
@@ -158,7 +166,7 @@ const MyEventScreen = () => {
         <Grid size={{ xs: 5}} className="autocomplete-border">
           <CustomAutocomplete
             name="search"
-            className="custom-search-text-field"
+            className="custom-search-event-text-field"
             control={control}
             options={searchResults}
             getOptionLabel={(option: any) => option.name || ""}
@@ -169,11 +177,13 @@ const MyEventScreen = () => {
           />
         </Grid>
       </Grid>
-      {
-        events?.length === 0  ? (
+      {loading ? (
+        <CircularProgress />
+      ):
+      !loading && events?.length === 0  ? (
        <NoEvents/>
         ) : (
-          <Grid container size={11}   spacing={1}>
+          <Grid container size={12}  spacing={2}>
             
             {events?.map((event: IEvent, index:number) => (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>

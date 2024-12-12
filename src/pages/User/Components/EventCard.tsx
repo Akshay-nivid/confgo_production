@@ -28,9 +28,9 @@ const EventCard: React.FC<EventProps> = React.memo(({ eventFullData, datetitle, 
             <Grid container className="event-card-date-box" justifyContent={"center"}>
                 <Typography textAlign={"center"} className="event-card-date-title" >Date: {formatDateTimeRange({ date: datetitle, format: 'MMMM D, YYYY' })}</Typography>
             </Grid>
-            <Grid container>
-            <Typography className="event-card-title">
-                {truncateString(toTitleCase(title), 23, "Untitled")}
+            <Grid  container>
+            <Typography className="event-card-title" >
+                {truncateString(toTitleCase(title), 25, "Untitled")}
                 </Typography>
             </Grid>
             <Grid container>

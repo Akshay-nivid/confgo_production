@@ -22,6 +22,17 @@
         font-weight: $font_semibold !important;
         font-size: $h5 !important;
         font-family:$font;
+        padding-right: 0rem;
+        max-lines: 1;
+       // For medium devices between 1024px and 1182px
+        @media (min-width: 1024px) and (max-width: 1182px) {
+            font-size: 1.25rem !important; // Custom font size for this range
+        }
+
+        // For smaller screens (below 768px)
+        @media (max-width: 768px) {
+            font-size: 1rem !important; // Further reduce for small screens
+        }
     
     }
     &-location{
