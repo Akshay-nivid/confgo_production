@@ -14,10 +14,6 @@ import { ISource } from "@/Libs/type";
 import { Logger } from "@/Utils/Logger";
 import React from "react";
 import { NoEvent as NoEventIcon } from "@/assets/svg";
-import { CloseOutlined } from "@mui/icons-material";
-import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
-import moment from "moment";
-import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { Filter } from "@/components/Filter";
 interface EventListProps {
   hideAction?: boolean;
@@ -31,7 +27,7 @@ interface EventListProps {
 const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => {
   const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState([]);
-  const [filters, setFilters] = useState({ requestDate: '', eventType: '' });
+  const [filters, setFilters] = useState({ requestDate: '', eventClass: '' });
   const [source, setSource] = useState<ISource | undefined>(undefined);
   const [loading, setLoading] = useState(false); // To indicate loading state for API
 
@@ -70,7 +66,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
     { label: "Hybrid", value: "HYBRID" },
   ];
 
-  const filterFileds: any = [
+  const filterFields: any = [
     {
       type: 'date',
       fieldName: 'startTime',
@@ -199,7 +195,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
                 }}
               // disabled={loading}
               />
-              <Filter datagridId='event-datagrid' fields={filterFileds} />
+              <Filter datagridId='event-datagrid' fields={filterFields} />
             </Grid>
           </>
         )}

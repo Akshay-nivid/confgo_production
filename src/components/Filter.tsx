@@ -58,6 +58,7 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
      * @param event 
      */
     const onSubmit = (data: any) => {
+        
         const formattedData = Object.keys(data).reduce((acc: any, key: string) => {
             if (data[key] && typeof data[key] === 'object' && dayjs(data[key]).isValid()) {
                 acc[key] = dayjs(data[key]).format('MM/DD/YYYY');
@@ -66,6 +67,8 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
             }
             return acc;
         }, {});
+        console.log(data);
+       // const formattedData = data;
 
         let req: any = {
             ...dataGridInfo?.source?.data,
@@ -246,8 +249,11 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
                                                                 sx={{ width: '100%' }}
                                                                 label={item.label}
                                                                 value={field.value || null}
+                                                                defaultValue={null}
                                                                 onChange={(newValue) => {
-                                                                    field.onChange(newValue);
+                                                                    const date =  newValue.format('YYYY-MM-DD');
+                                                                    console.log(date);
+                                                                    field.onChange(date);
                                                                     setDateTemplate('');
                                                                 }}
                                                             />
