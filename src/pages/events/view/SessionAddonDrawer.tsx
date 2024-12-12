@@ -243,7 +243,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
                placeholder="Start Time"
                control={control}
                type="time"
-                className="Custom-TimePicker"
+               ampm={true}
                  />
             </Grid>
             <Grid size={{ xs: 6 }}>
@@ -253,8 +253,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
                placeholder="End Time"
                control={control}
                type="time"
-               ampm={false}
-                className="Custom-TimePicker"
+               ampm={true}
                      /> 
             </Grid>
           </>
