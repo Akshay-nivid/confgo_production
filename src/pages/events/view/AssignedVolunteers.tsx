@@ -6,7 +6,7 @@ import { useState } from 'react';
 import apiClient from '@/Libs/Https/API-client';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';
 import { Logger } from '@/Utils/Logger';
-import { ISource } from '@/Libs/type';
+// import { ISource } from '@/Libs/type';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import { CloseOutlined } from '@mui/icons-material';
 
@@ -18,16 +18,16 @@ const AssignedVolunteers = ({ onClose, data }: AssignedVolunteersProps) => {
     const { control } = useForm();
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [source, setSource] = useState<ISource | undefined>(undefined);
+    // const [source, setSource] = useState<ISource | undefined>(undefined);
     const volunteers: any[] = data;
 
-    const handleDelete = (id: number) => {
+    const handleDelete = (_id: number) => {
 
     };
 
-    const handleSubmit = () => {
+    // const handleSubmit = () => {
 
-    };
+    // };
 
     /**
   * Searches participants based on the query entered by the user.
@@ -65,18 +65,18 @@ const AssignedVolunteers = ({ onClose, data }: AssignedVolunteersProps) => {
  */
     const handleAutocompleteChange = (selected: any) => {
         if (selected) {
-            setSource({
-                method: "POST",
-                data: {
-                    offset: 0,
-                    limit: 5,
-                    filters: {
-                        id: selected.id,
-                    },
-                },
-                url: `participant/list`,
-                listName: "participant-list-",
-            });
+            // setSource({
+            //     method: "POST",
+            //     data: {
+            //         offset: 0,
+            //         limit: 5,
+            //         filters: {
+            //             id: selected.id,
+            //         },
+            //     },
+            //     url: `participant/list`,
+            //     listName: "participant-list-",
+            // });
         }
     };
    
@@ -133,7 +133,6 @@ const AssignedVolunteers = ({ onClose, data }: AssignedVolunteersProps) => {
                     </Grid>
                 ))}
             </Grid>
-
             <div className='assigned-volunteer-button-container'>
                 <CustomButton
                     className="assigned-volunteer-button"
