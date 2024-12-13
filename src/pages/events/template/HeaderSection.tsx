@@ -15,18 +15,19 @@ type HeaderSectionProps = {
     onScrollToProgram?: any;
     onScrollToAbout?: any;
     onScrollToContributors?: any;
-    onScrollToTier?:any
+    onScrollToTier?:any;
+    onScrollToLocation?:any;
 }
 
 /**
  * Component displays the header section of the template
  */
-const HeaderSection: React.FC<HeaderSectionProps> = React.memo(({ data, temp, onScrollToProgram, onScrollToAbout, onScrollToContributors,onScrollToTier }) => {
+const HeaderSection: React.FC<HeaderSectionProps> = React.memo(({ data, temp, onScrollToProgram, onScrollToAbout, onScrollToContributors,onScrollToTier,onScrollToLocation }) => {
 
     const classPrefix = `event-template-header-${temp}`;
 
     return <Grid container size={{ xs: 12, sm: 12 }} className={classPrefix}>
-        <TopMenuSection temp={temp} data={data} onScrollToProgram={onScrollToProgram} onScrollToAbout={onScrollToAbout} onScrollToContributors={onScrollToContributors}/>
+        <TopMenuSection temp={temp} data={data} onScrollToProgram={onScrollToProgram} onScrollToAbout={onScrollToAbout} onScrollToContributors={onScrollToContributors} onScrollToLocation={onScrollToLocation}/>
         <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} direction={'row'}>
             {(temp == 1 || temp == 3) && <><Grid container className={`${classPrefix}-title-container`} size={{ xs: 12, sm: 6 }} alignItems={'center'}><TitleSection onScrollToTier={onScrollToTier} temp={temp} data={data} /></Grid>
             <Grid className={`${classPrefix}-photo-container`} size={{ xs: 12, sm: 6 }}><img src={temp == 1? Temp1PhotoIcon: Temp3PhotoIcon} alt="Template 1 Photo" /></Grid>

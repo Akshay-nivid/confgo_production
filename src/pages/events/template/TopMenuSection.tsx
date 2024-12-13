@@ -17,13 +17,14 @@ type TopMenuSectionProps = {
     onScrollToProgram?: any;
     onScrollToAbout?: any;
     onScrollToContributors?: any;
+    onScrollToLocation?:any;
 }
 
 
 /**
  * Component displays the top menu section of the template
  */
-const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, onScrollToProgram, onScrollToAbout, onScrollToContributors }) => {
+const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, onScrollToProgram, onScrollToAbout, onScrollToContributors,onScrollToLocation }) => {
 
     const classPrefix = `event-template-top-menu-${temp}`;
     const navigate = useNavigate();
@@ -76,7 +77,7 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
                     <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToAbout(e) }}> About </Link></Grid>
                     <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToContributors(e) }}> Contributors </Link></Grid>
                     <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToProgram(e) }}> Programs </Link></Grid>
-                    <Grid className={`${classPrefix}-sub-item`}><Link to={'#'}> Location </Link></Grid>
+                    <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToLocation(e) }}> Location </Link></Grid>
                 </Grid>}
                 <Grid container spacing={2}>
                     {getUserToken() ? <Grid className={`${classPrefix}-logout-button`}><span role='button' onClick={logoutFn}> Logout </span></Grid> :

@@ -28,14 +28,14 @@ const EventCard: React.FC<EventProps> = React.memo(({ eventFullData, datetitle, 
             <Grid container className="event-card-date-box" justifyContent={"center"}>
                 <Typography textAlign={"center"} className="event-card-date-title" >Date: {formatDateTimeRange({ date: datetitle, format: 'MMMM D, YYYY' })}</Typography>
             </Grid>
-            <Grid container>
-            <Typography className="event-card-title">
+            <Grid  container>
+            <Typography className="event-card-title" >
                 {truncateString(toTitleCase(title), 23, "Untitled")}
                 </Typography>
             </Grid>
             <Grid container>
             <Typography className="event-card-location">
-                 Location: {truncateString(location, 23, "Location not specified")}
+                 Location: {truncateString(location, 20, "Location not specified")}
                  </Typography>
             </Grid>
             {Eventstatus &&

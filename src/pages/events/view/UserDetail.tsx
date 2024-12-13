@@ -12,7 +12,7 @@ import Grid from "@mui/material/Grid2";
 import StatusComponent from "@/components/Status/StatusComponent";
 import "./userdetail.scss";
 import React from "react";
-import {formatDateTimeRange } from "@/Utils/CommonBaseClass";
+import { formatDateTimeRange } from "@/Utils/CommonBaseClass";
 import { CallingIcon, MailIcon } from "@/assets/svg";
 import config from "../../../../config.json";
 interface User {
@@ -67,14 +67,16 @@ const UserDetail: React.FC = React.memo(() => {
         };
         setUser(userData);
 
-        const programData = data.programs.map((program: any) => ({
-          id: program.event.id,
-          name: program.event.name,
-          location: program.event.venueId,
-          startTime: program.event.startTime,
-          endTime: program.event.endTime,
-          status: program.event.statusId,
-          speaker: program.event.speaker,
+        const programData = data.programs
+        .filter((program: any) => program.event)
+        .map((program: any) => ({
+          id: program.event?.id,
+          name: program.event?.name, 
+          location: program.event?.venue?.city + "," + program.event?.venue?.country || "Unknown",
+          startTime: program.event?.startTime,
+          endTime: program.event?.endTime,
+          status: program.event?.statusId,
+          speaker: program.event?.speaker,
         }));
         setPrograms(programData);
       }
@@ -137,7 +139,8 @@ const UserDetail: React.FC = React.memo(() => {
         Registered Programmes
       </Typography>
       <Grid container spacing={2}>
-        {programs.map((program, index) => (
+        {programs.length > 0 ? (
+        programs.map((program, index) => (
           <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
             <Grid className="userdetail-event-card">
               <Grid container direction="row" className="userdetail-time-status">
@@ -159,7 +162,9 @@ const UserDetail: React.FC = React.memo(() => {
               </Typography>
             </Grid>
           </Grid>
-        ))}
+        )))
+        : (
+          null)}
       </Grid>  
     </Grid>
   );
