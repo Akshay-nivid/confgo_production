@@ -137,10 +137,7 @@
 }
 .security-container{
 
-.account-google{
-    width: 5.706rem;
-    height: 1.875rem;
-}
+  
 .security-text{
     font-weight: $font_semibold !important;
     font-size: $h6 !important;
@@ -182,3 +179,16 @@
     padding: 0.5rem 1.5rem !important;
     box-shadow: none !important;
 }  
+.account-google{
+    display: flex; /* Optional: Adjust layout */
+    align-items: center;
+    justify-content: center;
+    border: 0.0833rem solid  #d0d5dd;
+    width: 123.29px;
+    height: 56px;
+    
+  }
+.account-google svg {
+    width: 7.6075rem;
+    height: 2.5rem; 
+}

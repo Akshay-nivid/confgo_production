@@ -178,8 +178,8 @@ interface AccountSettingProps {
       {profileData?.isSsoUser&&<Grid size={8} className="account-profile-grid connected connected-grid account-margin connected-margin">
       <Typography className="account-title">Connected accounts</Typography>
       <Grid display="flex" alignItems="center" className="connected">
-          <Grid className="account-connected-grid">
-           <Google className="account-google"/>
+          <Grid className="account-google-grid">
+            <Grid className="account-google" container> <Google/></Grid>
           </Grid>
         </Grid>
       </Grid>}
