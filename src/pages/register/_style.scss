@@ -18,9 +18,12 @@
       background-size: 40%;
       display: flex;
       flex-direction: column;
-      justify-content: end;
-
+      .form-fields-container{
+        row-gap: 2.5rem;
+      }
+      
     }
+   
     & .login-label {
       font-weight: $font_bold !important;
       color: $clr_blue;

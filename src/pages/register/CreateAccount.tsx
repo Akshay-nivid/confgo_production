@@ -49,7 +49,7 @@ const CreateAccount = React.memo(() => {
                         <Box className={"form-wrapper"}>
                             <form onSubmit={handleSubmit(onSubmit)} className="form">
                                 <FormControl className="">
-                                    <Grid container spacing={4}>
+                                    <Grid container className='form-fields-container'>
                                         <Grid container className='w-full'>
                                             <CustomTextField
                                                 defaultValue={form2?.field_values?.fullName}
