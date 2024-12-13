@@ -79,6 +79,7 @@ const EventInfoCard: React.FC<any> = React.memo(
       };
       reset(formattedEventData);
       setEditorContent(eventData.description);
+      setValue('venueName',eventData?.venue?.name);
       setValue('country',eventData?.venue?.country);
       setValue("description", eventData.description);
       setValue("address",eventData?.venue?.address);
@@ -122,7 +123,7 @@ const EventInfoCard: React.FC<any> = React.memo(
       endTime: formatUTCDateTime(data.endTime),
       assetId: selectedFile?.id,
       venue: {
-        name: data?.name,
+        name: data?.venueName,
         mapUrl: data?.mapUrl,
         address: data?.address,
         city: data?.city,
@@ -554,12 +555,21 @@ const EventInfoCard: React.FC<any> = React.memo(
                       </Grid>
                       <Grid size={{ xs: 12, sm: 12 }}>
                         <CustomTextField
+                          placeholder="Venue Name"
+                          control={control}
+                          name="venueName"
+                          type="text"
+                          rules={{ required: watch("type") === "OFFLINE" }}
+                          readOnly
+                        />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 12 }}>
+                        <CustomTextField
                           placeholder="Address"
                           control={control}
                           name="address"
                           type="text"
                           rules={{ required: watch("type") === "OFFLINE" }}
-                          readOnly
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 12 }}>

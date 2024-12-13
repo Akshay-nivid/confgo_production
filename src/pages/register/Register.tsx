@@ -81,7 +81,7 @@ const Register = () => {
             className="back-button absolute top-5" 
 
             onClick={handleBack}
-            justifyContent={"center"}
+            justifyContent={"start"}
           >
             <ArrowBackIcon />
             <Typography variant="h6">Back</Typography>
@@ -89,10 +89,18 @@ const Register = () => {
         )}
       
         {pageSwitch.data === "PAYMENT_METHOD_PAGE" &&
-              <Grid  alignItems={"center"} display={"flex"} justifyContent={"center"} className="cursor-container skip-button-payment-page" onClick={handleSkipNavigation}>
+              <Grid container 
+              alignItems={"center"} 
+              display="flex" 
+              className="skip-button" 
+              justifyContent={"flex-end"} 
+              onClick={handleSkipNavigation}>
+              
                     <Typography variant="h6">Skip</Typography>
               <ArrowForwardIcon/>
-        </Grid>}
+           
+         </Grid>
+        }
         <Grid container justifyContent={'center'} className='isMobileScreen-choosePlan' alignItems={"center"}>
           {pageSwitch == "" && <AddPlan />}
           {pageSwitch.data == "PLAN_PAGE" && <AddPlan />}
