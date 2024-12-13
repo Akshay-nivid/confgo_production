@@ -183,7 +183,7 @@ const MyEventScreen = () => {
       !loading && events?.length === 0  ? (
        <NoEvents/>
         ) : (
-          <Grid container size={12}  spacing={2}>
+          <Grid container size={12} mt={2} spacing={2}>
             
             {events?.map((event: IEvent, index:number) => (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
