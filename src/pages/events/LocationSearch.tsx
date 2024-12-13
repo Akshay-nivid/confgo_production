@@ -54,7 +54,9 @@ const LocationSearch = ({ onClose }: GooglePlacePickerProps) => {
   const [latLng, setLatLng] = useState<{ lat: number; lng: number } | null>();
   const [address, setAddress] = useState<AddressComponent[]>();
 
-  // Fetch search results
+  /**
+    * Fetch search results
+    */
   const onSearch = (query: string) => {
     if (query.length < 3) {
       setOptions([]);
