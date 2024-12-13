@@ -12,6 +12,7 @@ import FilterModal from "@/components/CustomFilter/FilterModal";
 import { Logger } from "@/Utils/Logger";
 import { useNavigate, useParams } from "react-router-dom";
 import routes from "@/router/routes";
+import { NoUserList } from "@/assets/svg";
 
 
 /**
@@ -212,9 +213,11 @@ const handleRowClick=(id:string |number)=>{
           dataTransformer={transformData}
           source={source}
           title="Event Partcipant List"
+          noRecordIcon={<NoUserList className="userdetail-niimage"/>}
           hideFooterPagination={false}
           columns={columns}
           id="participant-list-datagrid"
+          noRecordSubtitle="There are no participants registered for this event."
           onRowClick={(params:any) => handleRowClick(params.id)}
         />
       </Grid>

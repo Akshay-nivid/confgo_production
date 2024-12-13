@@ -92,7 +92,9 @@ import DashboardUserMobIcon from'./DashboardUserMobIcon.svg';
 import MyEventsMobIcon from './MyEventsMobIcon.svg';
 import paymentHistoryMobIcon from './PaymentHistoryMobIcon.svg';
 import CalenderEventMobIcon from './CalenderEventMobIcon.svg';
-import SettingsDashBoardMobIcon from './SettingsDashBoarsmobIcon.svg'
+import SettingsDashBoardMobIcon from './SettingsDashBoarsmobIcon.svg';
+import UploadedFile from "./uploaded-file.svg";
+import NoUserList from "./no-user-list.svg";
 
 export {
   CalenderIcon,
@@ -189,5 +191,7 @@ export {
   MyEventsMobIcon,
   paymentHistoryMobIcon,
   CalenderEventMobIcon,
-  SettingsDashBoardMobIcon
+  SettingsDashBoardMobIcon,
+  UploadedFile,
+  NoUserList,
 };
