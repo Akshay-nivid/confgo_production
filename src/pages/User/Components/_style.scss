@@ -26,15 +26,15 @@
         max-lines: 1;
        // For medium devices between 1024px and 1182px
         @media (min-width: 1024px) and (max-width: 1190px) {
-            font-size: 1.25rem !important; // Custom font size for this range
+            font-size: $p1 !important; // Custom font size for this range
         }
         // For iPad Air resolution (820px width)
         @media (min-width: 820px) and (max-width: 840px) {
-            font-size: 1.15rem !important; // Adjust font size for iPad Air
+            font-size: $p2 !important; // Adjust font size for iPad Air
         }
         // For smaller screens (below 768px)
         @media (max-width: 768px) {
-            font-size: 1.2rem !important; // Further reduce for small screens
+            font-size:$p6 !important; // Further reduce for small screens
         }
     }
     &-location{
