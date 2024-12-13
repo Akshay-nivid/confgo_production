@@ -36,10 +36,10 @@ const CreateAccount = React.memo(() => {
 
     return (
         <Grid>
-            <Grid  container spacing={5}  >
+            <Grid  container   >
                 <Grid className="signup-content-wrapper">
                     <Grid className="left-inner-content-add-create">
-                        <Grid container spacing={2}>
+                        <Grid container>
                         <Grid  alignSelf={"center"}>
                             <Typography className="left-plan-text" textAlign={"center"} variant="h3" lineHeight={2} >Create Your Account</Typography>
                             <Typography className="left-description-text" textAlign={"center"} variant="h6" mb={2}>Join us and streamline your conference management today.</Typography>

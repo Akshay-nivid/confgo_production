@@ -232,7 +232,7 @@ const Events = () => {
       req['url'] = event?.url;
     } else {
       req['venue'] = {
-        name: event?.name,
+        name: event?.venueName,
         mapUrl: event?.mapUrl,
         address: event?.address,
         city: event?.city,
