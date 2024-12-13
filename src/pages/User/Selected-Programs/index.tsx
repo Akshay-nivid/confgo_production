@@ -545,25 +545,8 @@ const SelectedPrograms = () => {
                       )}
                     </Grid>
 
-                    <Grid className="divider "></Grid>
 
-                    <Grid
-                      display={"flex"}
-                      justifyContent={"space-between"}
-                      alignItems={"center"}
-                      className="subtotal-container"
-                    >
-
-                      <Typography className="total-text">
-                        Subtotal for Day {index + 1}
-                      </Typography>
-
-                      <Typography className="total-text">
-                        $ {selectedPrograms[date].total}
-                      </Typography>
-
-                    </Grid>
-
+                   
                   </Grid>}
               </>
             ))

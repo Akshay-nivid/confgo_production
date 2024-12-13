@@ -1,4 +1,5 @@
 .event-template {
+    
     background-color: $clr_white;
 
     &-preview {
@@ -1086,25 +1087,4 @@
     }
 }
 
-.slide-right {
-    transform: translateX(-40%);
-  
-  /* Animation properties */
-  animation: slide-right 1s cubic-bezier(.25, .46, .45, .94) forwards;
-  
-  /* Use view() to trigger animation based on viewport */
-  animation-timeline: view();
-  
-  /* Adjust animation range to trigger before leaving viewport */
-  animation-range: entry 0% exit -90%;
-
-}
-
-
-
-@keyframes slide-right {
-   
-    100% {
-        transform: translateX(0)
-    }
-}
+// 

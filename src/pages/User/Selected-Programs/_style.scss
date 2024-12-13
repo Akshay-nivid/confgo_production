@@ -235,6 +235,7 @@
     .addon-list-item {
       background-color: $clr_white !important;
 
+
       .addon-name {
         margin-bottom: .45rem;
         font-size: $h5 !important;
@@ -378,7 +379,8 @@
     justify-content: center;
     align-items: center;
     column-gap: 0.8rem;
-padding-block: 3rem;
+    padding-block: 3rem;
+
     .back-btn {
       min-width: 8rem;
     }
@@ -398,7 +400,17 @@ padding-block: 3rem;
 
   &-1 {
 
+    .checkbox-container{
 
+      .MuiCheckbox-root {
+        
+        svg {
+         
+          background-color: $clr_charcoal_cyan !important;
+    
+        }
+      }
+    }
 
     .addon-property-item {
       .MuiCheckbox-root {
@@ -445,9 +457,21 @@ padding-block: 3rem;
 
   &-2 {
 
+    .checkbox-container{
+
+      .MuiCheckbox-root {
+        
+        svg {
+         
+          background-color: $clr_bright_mint_green !important;
+    
+        }
+      }
+    }
 
 
     .addon-property-item {
+
       .MuiCheckbox-root {
         svg {
           fill: $clr_bright_mint_green !important;
@@ -543,6 +567,8 @@ padding-block: 3rem;
 }
 
 
+// 
+
 .checkbox-container{
   width: max-content;
   margin-top: 2.66rem;
@@ -573,14 +599,16 @@ padding-block: 3rem;
   .MuiCheckbox-root {
     width: 100%;
     max-width: 10rem;
-
     svg {
       fill: none !important;
       border-radius: 0.5rem;
       width: 100% !important;
       height: 2.8rem !important;
       padding-inline: 4rem;
+
     }
   }
 
 }
+
+

@@ -26,7 +26,7 @@ const EventContributorsSection = React.memo(
 
     return <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix} `} spacing={1} direction={'column'} justifyContent={'center'} alignItems={'center'} ref={ref}>
         <Grid className={`${classPrefix}-title`}>Meet Our Esteemed Event Contributors</Grid>
-        <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-item-group-container `} justifyContent={'center'} alignItems={'center'}>
+        <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-item-group-container anim-container`} justifyContent={'center'} alignItems={'center'}>
             {data?.map((item: any) => {
                 return <Grid size={{ xs: 12, sm: 6 }} container direction={'row'} className={`${classPrefix}-item-container slide-right`} spacing={2}>
                     <Grid size={{ xs: 12, sm: 12 }} container direction={'row'}>

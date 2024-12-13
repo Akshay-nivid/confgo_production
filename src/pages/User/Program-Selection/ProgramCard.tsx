@@ -15,6 +15,7 @@ import { getUserToken } from "@/Utils/CommonBaseClass";
 import clsx from "clsx";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
+import LocalTimeDate from "@/components/LocalTimeDate/LocalTimeDate";
 export interface IProgram {
   id: number;
   parentId: number;
@@ -324,7 +325,7 @@ const ProgramCard = () => {
               <Grid  columnSpacing={2} container key={program.id} className={clsx("program-list-container", watch(`${formatDate(date)}-programs`)?.includes(program?.id) ? 'checked' : 'un-checked')}>
 
                 <Grid size={'grow'} container>
-
+  
                   <Grid  className="time-chip-container"  size={12} borderRadius={10} width={"max-content"}>
                     <Chip className="time-chip" size="medium" icon={<TimerOutlinedIcon />} label={moment(program?.startTime).format("h:mm A") + ' ' + '-' + ' ' + moment(program?.endTime).format("h:mm A")} />
                   </Grid>
@@ -337,7 +338,7 @@ const ProgramCard = () => {
                     </Typography>
                   </Grid>
 
-                  <Grid className="program-list-item">
+                  <Grid className="program-list-item program">
                     <CustomCheckbox
 
                       onChange={() => handleToggleProgramCheckbox(`${formatDate(date)}-programs`)}
