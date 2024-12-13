@@ -40,8 +40,8 @@
     }
 
     .userdetail-time{
-        padding: 0.665rem 0.625rem!important;
-        border-radius: 0.313rem !important;
+        padding: 0.5rem 0.833rem !important;
+        border-radius: 0.417em !important;
         background-color:  $clr_green_light !important;
         text-align: center !important;
         font-size: $p2;
@@ -54,7 +54,7 @@
         color:$clr_cyan_blue;
     } 
     .userdetail-data{
-        font-size: $h5;
+        font-size: $p5;
         font-weight: $font_semibold;
     }
     .userdetail-data-image{
@@ -69,7 +69,7 @@
   
     .userdetail-name{
         line-height: 1.9375rem;
-        font-size: $h4;
+        font-size: $h5;
         font-weight: $font_semibold;
         margin-top: 1rem;
     }
@@ -104,4 +104,31 @@
     font-weight: $font_semibold !important;
     font-size: $h6 !important;
     text-align: left !important;
+}
+.userdetail-subtitle{
+    font-size: 1.333rem !important;
+    font-weight: $font_medium !important;
+}
+.all-details-upload-file{
+    border: 0.083rem solid $clr_light_border_grey;
+    padding:1.667rem 1.5rem;
+    border-radius:0.667rem;
+
+    &-image{
+        width:1.667rem;
+        height:1.667rem
+    }
+    &-type{
+        font-size: 1.333rem !important;
+        font-weight: $font_medium !important;
+    }
+    &-name{
+        font-size: 1.5rem !important;
+        font-weight: $font_semibold !important;
+        overflow: hidden ;
+    }
+}
+.userdetail-niimage{
+    width: 13.83rem !important;
+    height: 13.83rem !important;
 }
