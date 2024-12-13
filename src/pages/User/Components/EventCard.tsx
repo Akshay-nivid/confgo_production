@@ -30,12 +30,12 @@ const EventCard: React.FC<EventProps> = React.memo(({ eventFullData, datetitle, 
             </Grid>
             <Grid  container>
             <Typography className="event-card-title" >
-                {truncateString(toTitleCase(title), 25, "Untitled")}
+                {truncateString(toTitleCase(title), 23, "Untitled")}
                 </Typography>
             </Grid>
             <Grid container>
             <Typography className="event-card-location">
-                 Location: {truncateString(location, 23, "Location not specified")}
+                 Location: {truncateString(location, 20, "Location not specified")}
                  </Typography>
             </Grid>
             {Eventstatus &&

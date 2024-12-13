@@ -25,15 +25,17 @@
         padding-right: 0rem;
         max-lines: 1;
        // For medium devices between 1024px and 1182px
-        @media (min-width: 1024px) and (max-width: 1182px) {
+        @media (min-width: 1024px) and (max-width: 1190px) {
             font-size: 1.25rem !important; // Custom font size for this range
         }
-
+        // For specific width: 1157px
+        @media (min-width: 1140px) and (max-width: 1180px) {
+            font-size: 1.2rem !important; // Slightly smaller for this range
+        }
         // For smaller screens (below 768px)
         @media (max-width: 768px) {
-            font-size: 1rem !important; // Further reduce for small screens
+            font-size: 1.2rem !important; // Further reduce for small screens
         }
-    
     }
     &-location{
         font-family: $font;
@@ -41,6 +43,10 @@
         font-weight:$font_medium;
         color:$clr_black;
         text-align:padding-top;
+        // For medium devices between 1024px and 1182px
+        @media (min-width: 1024px) and (max-width: 1182px) {
+            font-size: $p3 !important; // Custom font size for this range
+        }
     }
     &-status{
         font-family: $font;
