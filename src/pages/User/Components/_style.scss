@@ -28,9 +28,9 @@
         @media (min-width: 1024px) and (max-width: 1190px) {
             font-size: 1.25rem !important; // Custom font size for this range
         }
-        // For specific width: 1157px
-        @media (min-width: 1140px) and (max-width: 1180px) {
-            font-size: 1.2rem !important; // Slightly smaller for this range
+        // For iPad Air resolution (820px width)
+        @media (min-width: 820px) and (max-width: 840px) {
+            font-size: 1.15rem !important; // Adjust font size for iPad Air
         }
         // For smaller screens (below 768px)
         @media (max-width: 768px) {
