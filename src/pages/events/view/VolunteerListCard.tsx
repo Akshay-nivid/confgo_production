@@ -4,42 +4,45 @@ import { ISource } from "@/Libs/type";
 import Grid from "@mui/material/Grid2";
 import { useCallback, useEffect, useState } from "react";
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
+import AddIcon from '@mui/icons-material/Add';
 import { useForm } from "react-hook-form";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import { DataGridList } from "@/components/DataGrid/DataGridList";
 import FilterModal from "@/components/CustomFilter/FilterModal";
 import { Logger } from "@/Utils/Logger";
-import { useNavigate, useParams } from "react-router-dom";
-import routes from "@/router/routes";
-import { NoUserList } from "@/assets/svg";
+import { useParams } from "react-router-dom";
+import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
+import AssignedVolunteers from "./AssignedVolunteers";
 
 
 /**
- * Component to display a list of registered event participants with search and filter functionality.
+ * Component to display a list of volunteers with search, assign and filter functionality.
  */
-const UserListCard = () => {
-  // Retrieve the event ID from route parameters
+const VolunteerListCard = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [filters, setFilters] = useState({ eventId: id });
   const [source, setSource] = useState<ISource | undefined>(undefined);
-  const [loading, setLoading] = useState(false); // To indicate loading state for API
+  const [loading, setLoading] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const closeOrganisationDrawer = () => setDrawerOpen(false);
+  const [data, setData] = useState([]);
+
 
   const { control } = useForm();
   /**
-   * Fetches the participant list when the component mounts.
+   * Fetches the volunteer list when the component mounts.
    */
   useEffect(() => {
-    eventPartcipantList();
+    volunteerList();
   }, []);
 
   /**
-   * Function to set the initial request configuration for fetching participant data.
+   * Function to set the initial request configuration for fetching volunteer data.
    */
-  const eventPartcipantList = useCallback(() => {
+  const volunteerList = useCallback(() => {
     const req = {
       offset: 0,
       limit: 5,
@@ -62,14 +65,16 @@ const UserListCard = () => {
    */
   const transformData = (data: any) => {
     if (!data) return [];
+    setData(data)
     return data.map((item: any) => {
       return {
         ...item,
-        id: item?.participant?.id,
-        name: item?.participant?.user?.firstName, 
-        email: item?.participant?.user?.email, 
-        registrationType: item?.participant?.registrationType, 
-        createdOn: item?.participant?.createdOn
+        id: item?.id,
+        name: item?.user?.firstName,
+        email: item?.user?.email,
+        role: item?.role,
+        phone: item?.phone,
+        status: item?.status
       };
     });
   };
@@ -115,9 +120,7 @@ const UserListCard = () => {
     }
   };
 
-const handleRowClick=(id:string |number)=>{
-  navigate(routes.userdetail(id))
-}
+
   /**
    * Searches participants based on the query entered by the user.
    * @param query - The search query entered by the user
@@ -154,30 +157,40 @@ const handleRowClick=(id:string |number)=>{
     { type: "default", field: "name", headerName: "Name", width: 200 },
     {
       type: "default",
+      field: "role",
+      headerName: "Role",
+      width: 200,
+    },
+    {
+      type: "default",
       field: "email",
       headerName: "Email",
       width: 200,
     },
     {
-      type: "dateField",
-      field: "createdOn",
-      headerName: "Registration Date & Time",
-      width: 250,
-      dateFormat: "DD-MM-YYYY hh:mm A",
+      type: "default",
+      field: "phone",
+      headerName: "Phone No",
+      width: 200,
     },
     {
-      type: "default",
-      field: "registrationType",
-      headerName: "Registration Type",
+      type: "status",
+      field: "status",
+      headerName: "Status",
       width: 200,
     },
   ];
+
+  const onClose = () => {
+    closeOrganisationDrawer();
+  }
+
   return (
     <Grid container>
       <Grid
         container
         size={{ xs: 12 }}
-        className="user-list-card"
+        className="volunteer-list-card"
         spacing={2}
         justifyContent="flex-end"
       >
@@ -185,7 +198,7 @@ const handleRowClick=(id:string |number)=>{
           <CustomAutocomplete
             name="search"
             className="custom-user-search-field"
-            placeholder="Search by name"
+            placeholder="Search by ID, Name or Phone ..."
             control={control}
             options={searchResults}
             getOptionLabel={(option: any) =>
@@ -194,6 +207,15 @@ const handleRowClick=(id:string |number)=>{
             onSearch={handleSearch}
             loading={loading}
             onChange={handleAutocompleteChange}
+          />
+        </Grid>
+        <Grid container spacing={2}>
+          <CustomButton
+            className="custom-green-btn"
+            onClick={() => setDrawerOpen(true)}
+            label="Assign"
+            startIcon={<AddIcon />}
+            size="large"
           />
         </Grid>
         <Grid container spacing={2}>
@@ -212,24 +234,24 @@ const handleRowClick=(id:string |number)=>{
         <DataGridList
           dataTransformer={transformData}
           source={source}
-          title="Event Partcipant List"
-          noRecordIcon={<NoUserList className="userdetail-niimage"/>}
+          title="Volunteers"
           hideFooterPagination={false}
           columns={columns}
-          id="participant-list-datagrid"
-          noRecordSubtitle="There are no participants registered for this event."
-          onRowClick={(params:any) => handleRowClick(params.id)}
+          id="volunteer-list-datagrid"
         />
       </Grid>
 
-      {/* Filter Modal */}
       <FilterModal
         open={isFilterModalOpen}
         onClose={() => setIsFilterModalOpen(false)}
         onApplyFilters={handleApplyFilters}
       />
+      <CustomDrawer open={drawerOpen} type="right">
+        <AssignedVolunteers data={data} onClose={onClose} />
+
+      </CustomDrawer>
     </Grid>
   );
 };
 
-export default UserListCard;
+export default VolunteerListCard;

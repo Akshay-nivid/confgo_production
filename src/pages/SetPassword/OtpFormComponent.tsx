@@ -10,6 +10,7 @@ import useStore from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import clsx from 'clsx';
+import CustomTimer from '@/components/CustomTimer/CustomTimer';
 
 /**
  * component used to verify the otp
@@ -29,6 +30,7 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
   const [userData, setUserData] = useState<any>(null);
   const [otpData,setOtpData]=useState<otpDataFields>();
   const POST = useStore((state: any) => state.POST);
+  const [isResendDisabled, setIsResendDisabled] = useState(true);
   type FormData = {
     otp: string;
   };
@@ -98,6 +100,7 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
         setOtpData(
           {otp:response.data.data.otp,token:response.data.data.token,type:response.data.data.type}
         )
+        setIsResendDisabled(true)
       }else{
         setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:response.data.message })
       }
@@ -224,9 +227,17 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
           className="otpcomponent__already-have-account-text"
         >
           Didn't receive the code?
+          {!isResendDisabled &&
           <span onClick={() => { getOtp(userData.phone) }} className="otpcomponent__signup-now-text">
             Resend OTP
           </span>
+      }
+      <CustomTimer
+          initialTime={180}
+          isResendDisabled={isResendDisabled}
+          setIsResendDisabled={setIsResendDisabled}
+          className='otpcomponent__signup-now-text'
+          />
         </Typography>
       </Grid>
     </Grid>

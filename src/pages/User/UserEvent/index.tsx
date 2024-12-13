@@ -1,5 +1,5 @@
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
-import { IconButton, Typography } from "@mui/material";
+import { CircularProgress, IconButton, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -9,59 +9,28 @@ import apiClient from "@/Libs/Https/API-client";
 //import { NoEvent } from "@/assets/svg"
 import { Logger } from "@/Utils/Logger";
 import React from "react";
-import useStore from '@/Libs/store';
+import useStore, { GET, IStoreState } from '@/Libs/store';
 import routes from "@/router/routes";
 import { useNavigate } from "react-router-dom";
 import CustomModel from "@/components/CustomModel/CustomModel";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { CloseOutlined } from "@mui/icons-material";
 import NoEvents from "../No-Event/NoEvent";
-/**
- * Interface for a Program, which contains the event details
- */
-interface Program {
-  id: number;
-  parentId: number | null;
-  name: string;
-  description: string;
-  startTime: string;
-  endTime: string;
-  venueId: number;
-  eventClass: string;
-  interval: string | null;
-  companyId: number;
-  title: string | null;
-  amount: string;
-  discount: string | null;
-  statusId: number;
-  published: boolean;
-  slugName: string | null;
-  registrationDeadline: string | null;
-  venue: {
-    id: number;
-    name: string;
-    address: string;
-    city: string;
-    state: string;
-    country: string;
-    postalCode: string | null;
-    totalCapacity: number | null;
-    mapUrl: string | null;
-  };
-  eventAddons: any[]; 
-}
+import { IEvent } from "@/Libs/type";
+
 
 /**
  * component for show the events
  */
-const MyEventScreen: React.FC = () => {
+const MyEventScreen = () => {
   const { control } = useForm();
   const [searchResults, setSearchResults] = useState<any>([]);
   const [loading, setLoading] = useState(false);
-  const events = useStore((state: any) => state?.compData?.["userEvents"]?.['event/list']) ?? [] as Program[];
   const POST = useStore((state: any) => state.POST);
   const setDataById = useStore((state: any) => state.setDataById);
   const navigate = useNavigate();
+  const events = useStore((state: IStoreState) => state?.compData.userEvents?.["participant/registered/events"]?.data?.Events) ?? []
+
   /**
    * model for view certificate
    */
@@ -104,8 +73,10 @@ const MyEventScreen: React.FC = () => {
  * @param selected
  */
   const handleAutocompleteChange = async (selected: any) => {
+   
     if (selected) {
       try {
+        setLoading(true);
         await POST({
           url: "event/list",
           body: {
@@ -127,6 +98,9 @@ const MyEventScreen: React.FC = () => {
       } catch (error) {
         Logger.error("An error occurred:", error);
       }
+      finally{
+        setLoading(false);
+      }
     }
   };
   /**
@@ -134,14 +108,9 @@ const MyEventScreen: React.FC = () => {
    */
   const participantEventDetails = async () => {
     try {
-      await POST({
-        url: "event/list",
-        body: {
-          offset: 0,
-          sortBy: "id",
-          sortDirection: "DESC",
-          filters: {},
-        },
+      setLoading(true);
+      await GET({
+        url: "participant/registered/events",
         id: 'userEvents',
         errorCB: (context: any) => {
           setDataById("snackBarInfo", {
@@ -154,6 +123,9 @@ const MyEventScreen: React.FC = () => {
       });
     } catch (error) {
       Logger.error("An error occurred:", error);
+    }
+    finally{
+      setLoading(false);
     }
   }
   /**
@@ -186,7 +158,7 @@ const MyEventScreen: React.FC = () => {
     navigate(routes.userEventRecap(),{state:{eventId:eventId}});
   }
   return (
-    <Grid className="my-event" container spacing={1}>
+    <Grid className="my-event" spacing={1} container >
       <Grid container  size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} flexDirection={"row"}>
         <Grid size={{ xs: 5 }} alignContent={"center"} container>
           <Typography className="my-event-header">My Events</Typography>
@@ -194,7 +166,7 @@ const MyEventScreen: React.FC = () => {
         <Grid size={{ xs: 5}} className="autocomplete-border">
           <CustomAutocomplete
             name="search"
-            className="custom-search-text-field"
+            className="custom-search-event-text-field"
             control={control}
             options={searchResults}
             getOptionLabel={(option: any) => option.name || ""}
@@ -205,12 +177,15 @@ const MyEventScreen: React.FC = () => {
           />
         </Grid>
       </Grid>
-      {
-        events?.data?.length === 0  ? (
-        <NoEvents/>
+      {loading ? (
+        <CircularProgress />
+      ):
+      !loading && events?.length === 0  ? (
+       <NoEvents/>
         ) : (
-          <Grid container size={11}   spacing={1}>
-            {events.data && events.data.map((event: Program, index:number) => (
+          <Grid container size={12} mt={2} spacing={2}>
+            
+            {events?.map((event: IEvent, index:number) => (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
                 <EventCard
                   eventFullData={event}

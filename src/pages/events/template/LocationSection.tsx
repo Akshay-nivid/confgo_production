@@ -14,12 +14,12 @@ type LocationSectionProps = {
 /**
  * Displays the title section
  */
-const LocationSection: React.FC<LocationSectionProps> = React.memo(({ data, temp }) => {
+const LocationSection: React.FC<LocationSectionProps> = React.memo(({ data, temp,onScrollToTier}) => {
 
     const classPrefix = `event-template-location-${temp}`;
    
 
-    return <Grid container size={{ xs:12, sm:12 }} className={`${classPrefix}`}>
+    return <Grid container size={{ xs:12, sm:12 }} className={`${classPrefix}`} ref={onScrollToTier}>
        {data?.venue?.mapUrl? <MapIframe url={data?.venue?.mapUrl} />:
         <Grid>No map available</Grid>
 

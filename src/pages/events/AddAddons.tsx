@@ -28,7 +28,6 @@ type FormData = {
     startTime: string;
     endTime: string;
     type: string;
-    amount:string;
     properties: {
       propertyId:string,
       propertyName: string;
@@ -51,7 +50,6 @@ type FormData = {
     startTime: string;
     endTime: string;
     type: string;
-    amount:string;
     properties: {
       propertyId:string,
       propertyName: string;
@@ -170,6 +168,8 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       const lastItem = addOn[addOn.length - 1];
       const lastIndex = addOn.length - 1;
       let newPrograms = [...addOn];
+      //checking atleast property length
+
       // Handle saving logic based on `editMode`
       if (!editMode) {
         const newAddon = {
@@ -179,7 +179,6 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
           startTime: moment().format("HH:mm"),
           endTime: moment().format("HH:mm"),
           type: "PAID",
-          amount: "",
           properties: [],
           propertyName: "",
           propertyAmount: "",
@@ -190,6 +189,13 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
           repeat: [],
           noOfDays: ""
         };
+        if (lastItem.properties && lastItem.properties.length== 0){
+          setError(`addOn.${lastIndex}.propertyName`, {
+            type: 'manual',
+            message: `Minimum one Addon property should be there`,
+          });
+          return;
+        }
      
         const startDate = moment(eventData.startTime).startOf('day');
         const endDate = moment(eventData.endTime).startOf('day');
@@ -276,7 +282,6 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
             propertyName:"",
             propertyAmount:"",
             propertyChip:"",
-            amount:"",
             dateRequired:[],
             addonType:"PAID",
             repeat:[],
@@ -295,31 +300,47 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
      * Method handles the adding a new property
      * @param index : form index
      */
-    const addProperty = (index:number) => {
-      const values = watch();      
-      const propertyName = values.addOn[index].propertyName; 
+    const addProperty = (index: number) => {
+      const values = watch();
+      const propertyName = values.addOn[index].propertyName;
       const propertyAmount = values.addOn[index].propertyAmount;
-      if(propertyName){
-        const newProperty = {
-          propertyId:Date.now().toString(),
-          propertyName: propertyName,
-          propertyAmount: propertyAmount,
-        };
-        const updatedAddOn = [...values.addOn]; 
-        updatedAddOn[index].properties = updatedAddOn[index].properties.filter(
-          prop => prop.propertyName !== ""
-        );
-        updatedAddOn[index].properties.push({ ...newProperty});
-        setValue("addOn", updatedAddOn);
-        resetField(`addOn.${index}.propertyName`,{});
-        resetField(`addOn.${index}.propertyAmount`,{});
-      }else{
+      const propertyType = watch(`addOn.${index}.type`);
+    
+      // Check if the propertyName and propertyAmount are valid
+      if (!propertyName) {
         setError(`addOn.${index}.propertyName`, {
           type: 'manual',
-          message:`This feild is required`,
+          message: 'This field is required',
         });
-        return
+        return;
       }
+    // Check if propertyAmount not and propertyType is PAID
+      if (!propertyAmount&&propertyType === "PAID") {  
+        setError(`addOn.${index}.propertyAmount`, {
+          type: 'manual',
+          message: 'This field is required',
+        });
+        return;
+      }
+    
+      // Prepare the new property object
+      const newProperty = {
+        propertyId: Date.now().toString(),
+        propertyName,
+        propertyAmount,
+      };
+    
+      // Update the addOn array by filtering out empty properties and adding the new property
+      const updatedAddOn = [...values.addOn];
+      updatedAddOn[index].properties = updatedAddOn[index].properties.filter(
+        prop => prop.propertyName !== ""
+      );
+      updatedAddOn[index].properties.push({ ...newProperty });
+    
+      // Update the addOn state and reset the form fields for propertyName and propertyAmount
+      setValue("addOn", updatedAddOn);
+      resetField(`addOn.${index}.propertyName`);
+      resetField(`addOn.${index}.propertyAmount`);
     }
     /**
      * Method handles the delete a property
@@ -474,20 +495,6 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                 } </>}
                                 <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
                                   <Grid size={{ xs: 12, sm: 6 }}>
-                                    <CustomRadio
-                                      className="add-program-radio-btn"
-                                      control={control}
-                                      name={`addOn.${index}.addonType`}
-                                      label=""
-                                      options={typeArray}
-                                      row={true}
-                                      value={"PAID"}
-                                      onChange={()=>{
-                                          setValue(`addOn.${index}.amount`,'');
-                                      }}
-                                    />
-                                  </Grid>
-                                  <Grid size={{ xs: 12, sm: 6 }}>
                                     <Grid container display={"flex"} alignItems={"center"}>
                                     <CustomCheckbox
                                     className="add-program-check-btn"
@@ -508,27 +515,9 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                   </Grid>
                                 </Grid>
                                 <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
-                                  {/* Conditionally render Price field for PAID addOn */}
-                                  {watch(`addOn.${index}.addonType`) === "PAID" && (
-                                    <Grid size={{ xs: 12, sm: watch(`addOn.${index}.repeat`)?.length > 0 ? 6 : 12 }}>
-                                      <CustomTextField
-                                        placeholder="Price"
-                                        control={control}
-                                        name={`addOn.${index}.amount`}
-                                        type="text"
-                                        rules={{
-                                          required: "Price is required",
-                                          pattern: {
-                                            value: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
-                                            message: "Enter a valid price (up to 2 decimal places)",
-                                          },
-                                        }}
-                                      />
-                                    </Grid>
-                                  )}
                                   {/* Conditionally render Number of Days field */}
                                   {watch(`addOn.${index}.repeat`)?.length > 0 && (
-                                    <Grid size={{ xs: 12, sm: watch(`addOn.${index}.addonType`) !== "PAID" ? 12 : 6 }}>
+                                    <Grid size={{ xs: 12, sm: 12}}>
                                       <CustomTextField
                                         placeholder="Number of days"
                                         control={control}

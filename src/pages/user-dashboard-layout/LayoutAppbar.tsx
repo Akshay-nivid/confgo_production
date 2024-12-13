@@ -5,9 +5,11 @@ import { SettingsIcon, LogoutIcon, DownArrowSvg, ResetPassword } from '@/assets/
 import Grid from '@mui/material/Grid2';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
-import { toSentenceCase } from '@/Utils/CommonBaseClass';
+import { toSentenceCase, useIsMobileScreen } from '@/Utils/CommonBaseClass';
 import useStore, { resetStore, setDataById } from '@/Libs/store';
-
+import MenuIcon from "../../assets/svg/Vector.svg"
+import { useState } from 'react';
+import MobileDashboardSideMenu from './MobileDashboardSideMenu';
 interface LayoutAppbarProps {
   userDetails: {
     firstName: string;
@@ -69,17 +71,44 @@ const LayoutAppbar: React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =
 
     navigate(routes.accountsettings(), { state: { email: userDetails?.email } })
   };
+  const isMobileView = useIsMobileScreen();
   /**
  * Account settings
  */
   // const handleAccountSettings = () => {
   // };
 
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+   // Toggle the drawer state
+   const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  // Close the drawer (e.g., when a link is clicked)
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+  };
+
+
   return (
     <Grid container size={12} className="appbars">
+      {!isMobileView ? (
       <Grid className="appbars-logo-container">
         LOGO
       </Grid>
+      ):(
+        <Grid className="appbars-responsive-logo-container" >
+        <Grid justifyItems={'center'}>
+          <button className='appbars-responsive-logo-container-menu-button'  onClick={toggleMenu}> 
+          <MenuIcon/>
+           </button> 
+           <MobileDashboardSideMenu open={isMenuOpen} onClose={closeMenu} />
+          </Grid>
+        <Grid>LOGO</Grid>
+      </Grid>
+      )}
+      {!isMobileView ? (
       <Grid  className="appbars-right" container>
         <Grid size={2} className="appbars-group" onClick={handleMenuOpen} >
           {/*Image */}
@@ -146,7 +175,19 @@ const LayoutAppbar: React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =
             <span className="menu-item-text text-danger">Logout</span>
           </MenuItem>
         </Menu>
-      </Grid>
+      </Grid>):(<>
+      <Grid container size={12} className="appbars-responsive-right">
+      <Grid size={1} className="appbars-group-img" mb={0}>
+            {userDetails?.firstName && userDetails?.lastName ? (
+              <Avatar className="appbars-group-avatar" >
+                {`${userDetails.firstName[0]}${userDetails.lastName[0]}`.toUpperCase()}
+              </Avatar>
+            ) : (
+              <Avatar>
+              </Avatar>
+            )}
+          </Grid>
+        </Grid></>)}
     </Grid>
   );
 });
