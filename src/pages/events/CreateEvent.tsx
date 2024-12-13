@@ -15,10 +15,10 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import config from "../../../config.json";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
-import GoogleMapPlacePicker from "./GoogleMapPlacePicker";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { validateEmail, validatePhoneNumber } from "@/Utils/Validation";
 import { validateMaxLength } from '@/Utils/Validation';
+import LocationSearch from "./LocationSearch";
 
 type EventProps = {
   formSubmit: boolean;
@@ -515,7 +515,7 @@ const CreateEvent: React.FC<EventProps> =
                       </Grid>
                 </Grid>
                   <CustomDrawer open={drawerOpen} type="right" children={
-                    <GoogleMapPlacePicker onClose={() => setDrawerOpen(false)}/>
+                    <LocationSearch onClose={()=>setDrawerOpen(false)} />
                   } />
               </form>
               </FormProvider>
