@@ -119,11 +119,11 @@
         height:1.667rem
     }
     &-type{
-        font-size: 1.333rem !important;
+        font-size: $h6 !important;
         font-weight: $font_medium !important;
     }
     &-name{
-        font-size: 1.5rem !important;
+        font-size: $p5 !important;
         font-weight: $font_semibold !important;
         overflow: hidden ;
     }
