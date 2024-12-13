@@ -11,10 +11,6 @@ import { useLayoutEffect } from "react";
 const ProgramSelection = () => {
 
 
-  useLayoutEffect(() => {
-    console.log("Program Selection page loaded.")
-  }, [])
-
   return (
     <Grid
       justifyContent={"center"}

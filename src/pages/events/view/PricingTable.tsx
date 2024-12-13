@@ -53,7 +53,6 @@ const PricingTable: React.FC<PricingTableProps> = ({
     new Map(pricingTiers.map((tier) => [tier.tierName, tier])).values()
   );
 
-  console.log(attendees)
 
   return (
     <TableContainer
@@ -89,7 +88,6 @@ const PricingTable: React.FC<PricingTableProps> = ({
                 {attendee.attendeeName}
               </TableCell>
               {uniqueTiers.map((tier) => { 
-                console.log(uniqueTiers, "uniqueTiers");
                 return (
                   <TableCell key={`${attendee.id}-${tier.id}`}>
                     <Controller

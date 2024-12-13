@@ -334,7 +334,6 @@ const SelectedPrograms = () => {
     return <Navigate to={routes.userLogin()} />
   }
 
-  console.log(cartData, 'cartData')
 
   return (
     <Grid container className={`selected-programs-main ${classNamePrefix}`}>

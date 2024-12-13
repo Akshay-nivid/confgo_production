@@ -110,7 +110,6 @@ const UserLogin = (props: UserProps) => {
    */
   const googleSsoLogin = async (obj: GoogleUserData) => {
 
-    console.log("googleSsoLogin obj", obj)
 
     const requestBody = {
       provider: "google",
