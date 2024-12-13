@@ -180,12 +180,13 @@
     box-shadow: none !important;
 }  
 .account-google{
-    display: flex; /* Optional: Adjust layout */
+    display: flex;
     align-items: center;
     justify-content: center;
-    border: 0.0833rem solid  #d0d5dd;
+    border: 0.0833rem solid $clr_gray_extra_light ;
     width: 123.29px;
     height: 56px;
+    border-radius: 0.4167rem;
     
   }
 .account-google svg {
