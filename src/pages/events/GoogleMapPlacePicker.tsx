@@ -26,6 +26,7 @@ const GoogleMapPlacePicker = ({ onClose }: GooglePlacePickerProps) => {
   const [latLng, setLatLng] = useState<any>();
   const [address, setAddress] = useState<AddressComponent[]>();
   const [placeName, setPlaceName] = useState<string>();
+  const [venueName,setVenueName]=useState<string>();
     /**
      * select the place from the dropdown
      * @param place
@@ -34,7 +35,7 @@ const GoogleMapPlacePicker = ({ onClose }: GooglePlacePickerProps) => {
         setSelectedPlace(place); // Set the selected place
         const placeId = place.value.place_id;
         setPlaceName(place?.value?.structured_formatting?.main_text);
-
+        setVenueName(place?.value?.terms[0]?.value);
         if (placeId) {
             const geocoder = new window.google.maps.Geocoder();
             geocoder.geocode({ placeId }, (results, status) => {
@@ -84,6 +85,7 @@ const GoogleMapPlacePicker = ({ onClose }: GooglePlacePickerProps) => {
                     setValue('postalCode', postalCode);
                 }
             });
+            setValue('venueName',venueName);
             const fullAddressString = fullAddress.join(' '); 
             const formattedPlaceName = encodeURIComponent(placeName ?? "");
             const formattedLatLng = `${latLng.lat},${latLng.lng}`;
@@ -116,6 +118,12 @@ const GoogleMapPlacePicker = ({ onClose }: GooglePlacePickerProps) => {
             value: selectedPlace,
             onChange: handlePlaceSelect,
             placeholder: "Search for a place",
+            styles: {
+                dropdownIndicator: (provided) => ({
+                  ...provided,
+                  display: 'none',  // Hide the down arrow icon
+                }),
+              },
           }}
         />
       </Grid>

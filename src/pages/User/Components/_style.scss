@@ -22,7 +22,20 @@
         font-weight: $font_semibold !important;
         font-size: $h5 !important;
         font-family:$font;
-    
+        padding-right: 0rem;
+        max-lines: 1;
+       // For medium devices between 1024px and 1182px
+        @media (min-width: 1024px) and (max-width: 1190px) {
+            font-size: $p1 !important; // Custom font size for this range
+        }
+        // For iPad Air resolution (820px width)
+        @media (min-width: 820px) and (max-width: 840px) {
+            font-size: $p2 !important; // Adjust font size for iPad Air
+        }
+        // For smaller screens (below 768px)
+        @media (max-width: 768px) {
+            font-size:$p6 !important; // Further reduce for small screens
+        }
     }
     &-location{
         font-family: $font;
@@ -30,6 +43,10 @@
         font-weight:$font_medium;
         color:$clr_black;
         text-align:padding-top;
+        // For medium devices between 1024px and 1182px
+        @media (min-width: 1024px) and (max-width: 1182px) {
+            font-size: $p3 !important; // Custom font size for this range
+        }
     }
     &-status{
         font-family: $font;
