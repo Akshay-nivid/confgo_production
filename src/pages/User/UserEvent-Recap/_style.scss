@@ -1,7 +1,7 @@
 .event-recap {
     margin-top: 2rem;
-    margin-left: 2rem;
-    margin-right: 7rem;
+    margin-left: 1.5rem;
+    margin-right: 6.2rem;
     &-header {
         font-weight: $font-bold !important;
         font-size: $h4 !important;
@@ -37,7 +37,7 @@
             justify-content: center;
             align-items: center;
             height: 2.5rem !important;
-        }
+             }
             &-text {
                 color: $clr_cyan_blue;
                 font-family: $font;
@@ -47,7 +47,7 @@
             }
         }
         &-address {
-            margin-top:1.3731rem!important;
+            margin-top:1rem!important;
             color: $clr_black;
             font-family: $font !important;
             font-size: $h6 !important;
@@ -81,7 +81,7 @@
         .daate_time{
          margin-top:1rem;
         }
-        margin-top: 1.2rem;
+        margin-top: 3rem;
         &-text {
             font-family: Inter;
             font-size: $h5 !important;
@@ -92,7 +92,6 @@
         &-content {
             border-radius: 0.625rem;
             border: 0.5rem;
-            margin-left: 0.5rem;
             padding-left: 0.5rem;
             padding-bottom: 1rem;
             border: 0.03125rem solid $clr_light_border_grey ;

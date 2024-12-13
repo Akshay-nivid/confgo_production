@@ -734,6 +734,20 @@
     font-size: 10rem !important;
   }
 }
+.custom-search-event-text-field {
+  max-height: 4.2rem !important;
+  background-color: $clr_white !important;
+  color: $clr_gray_medium !important;
+  font-weight: $font_normal !important;
+  font-size: $h6 !important;
+  border-radius: 0.5rem !important;
+  padding-left: 0rem !important;
+
+  &-icon {
+    color: $clr_gray_medium !important;
+    font-size: 10rem !important;
+  }
+}
 
 //DataGrid css ends here
 .custom-stepper {

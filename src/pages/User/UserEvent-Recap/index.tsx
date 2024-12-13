@@ -268,13 +268,13 @@ const EventRecap: React.FC = React.memo(() => {
             ) : (
                 <Grid  className="event-recap" container spacing={1}>
                     <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} flexDirection={"row"}>
-                        <Grid size={{ xs: 6 }} >
+                        <Grid size={{ xs: 12, sm: 6,md:6 }}  >
                             <Typography className="event-recap-header">My Events</Typography>
                         </Grid>
-                        <Grid size={{ xs: 6 }}>
+                        <Grid size={{ xs:12, sm: 5,md:5 }} >
                             <CustomAutocomplete
                                 name="search"
-                                className="custom-search-text-field"
+                                className="custom-search-event-text-field"
                                 control={control}
                                 options={searchResults}
                                 getOptionLabel={(option: any) => option.name || ""}
@@ -286,7 +286,7 @@ const EventRecap: React.FC = React.memo(() => {
                         </Grid>
                     </Grid>
                     <Grid container>
-                        <Grid container size={12}>
+                        <Grid container size={12} className="event-recap-first-grid">
                             <Grid>
                                 <Typography className="event-recap-first-grid-text">
                                     {eventData?.data?.name?toTitleCase(eventData?.data?.name):""}
@@ -321,7 +321,7 @@ const EventRecap: React.FC = React.memo(() => {
                             </Grid>
                         </Grid>
                     </Grid>
-                    <Grid className="event-recap-second-grid" container size={12}>
+                    <Grid className="event-recap-second-grid"  container size={12}>
                         <Grid size={12} >
                             <Typography className="event-recap-second-grid-text">
                                 Registered Programmes
