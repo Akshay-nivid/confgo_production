@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import { Button, IconButton, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { ISource } from "@/Libs/type";
 import { Logger } from "@/Utils/Logger";
 import React from "react";
@@ -27,7 +27,7 @@ interface EventListProps {
 const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => {
   const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState([]);
-  const [filters, setFilters] = useState({ requestDate: '', eventClass: '' });
+  let filters = { requestDate: '', eventClass: '' };
   const [source, setSource] = useState<ISource | undefined>(undefined);
   const [loading, setLoading] = useState(false); // To indicate loading state for API
 
@@ -37,7 +37,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
    */
   useEffect(() => {
     eventList();
-  }, [filters]);
+  }, []);
   // const [filterValue, setFilterValue] = useState('');
   /**
    *  Fetch summary balance when the component mounts
