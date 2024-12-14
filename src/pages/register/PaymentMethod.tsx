@@ -13,7 +13,7 @@ const PaymentMethod = React.memo(() => {
 
     return (
         <Grid>
-            <Grid container spacing={5}>
+            <Grid container >
             <Grid container size={12} justifyContent={"flex-end"} >
                 </Grid>
                 <Grid className="signup-content-wrapper">

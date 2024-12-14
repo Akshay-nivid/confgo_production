@@ -12,6 +12,7 @@ import FilterModal from "@/components/CustomFilter/FilterModal";
 import { Logger } from "@/Utils/Logger";
 import { useNavigate, useParams } from "react-router-dom";
 import routes from "@/router/routes";
+import { NoUserList } from "@/assets/svg";
 
 
 /**
@@ -64,11 +65,11 @@ const UserListCard = () => {
     return data.map((item: any) => {
       return {
         ...item,
-        id: item?.id,
-        name: item?.user?.firstName,
-        email: item?.user?.email,
-        createdOn: item?.createdOn,
-        registrationType: item?.registrationType,
+        id: item?.participant?.id,
+        name: item?.participant?.user?.firstName, 
+        email: item?.participant?.user?.email, 
+        registrationType: item?.participant?.registrationType, 
+        createdOn: item?.participant?.createdOn
       };
     });
   };
@@ -212,9 +213,11 @@ const handleRowClick=(id:string |number)=>{
           dataTransformer={transformData}
           source={source}
           title="Event Partcipant List"
+          noRecordIcon={<NoUserList className="userdetail-niimage"/>}
           hideFooterPagination={false}
           columns={columns}
           id="participant-list-datagrid"
+          noRecordSubtitle="There are no participants registered for this event."
           onRowClick={(params:any) => handleRowClick(params.id)}
         />
       </Grid>

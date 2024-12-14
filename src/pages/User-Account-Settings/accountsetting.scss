@@ -1,4 +1,5 @@
-.account-title{
+.accounty
+-title{
     font-weight: $font_semibold !important;
     font-size: $h5 !important;
 }
@@ -82,6 +83,9 @@
     align-items: center;
 }
 .account-drawer-textfield{
+    font-family: $font !important;
+    font-weight: $font_semibold !important;
+    font-size: $h2 !important;
     margin-bottom: 2rem !important;
 }
 .account-connected-img{
@@ -137,10 +141,7 @@
 }
 .security-container{
 
-.account-google{
-    width: 5.706rem;
-    height: 1.875rem;
-}
+  
 .security-text{
     font-weight: $font_semibold !important;
     font-size: $h6 !important;
@@ -176,9 +177,24 @@
 }
 }
 .account-submit-btn{
-    width: 9.5rem !important;
+    width: 12.6667rem;
+    height: 3.75rem;
     background-color: $clr_blue !important;
-    border-radius: 0.313rem !important;
+    border-radius :0.4167rem !important;
     padding: 0.5rem 1.5rem !important;
     box-shadow: none !important;
 }  
+.account-google{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0.0833rem solid $clr_gray_extra_light ;
+    width: 123.29px;
+    height: 56px;
+    border-radius: 0.4167rem;
+    
+  }
+.account-google svg {
+    width: 7.6075rem;
+    height: 2.5rem; 
+}

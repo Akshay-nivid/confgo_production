@@ -164,7 +164,7 @@ const AddOrganization = React.memo(() => {
                                         </Grid>
                                     </Grid>
                                 </FormControl>
-                                <Grid container mb={2} className="w-full" >
+                                <Grid container className="w-full button-margin-bm" >
                                     <CustomButton
                                         type="submit"
                                         className="add-organization-btn"

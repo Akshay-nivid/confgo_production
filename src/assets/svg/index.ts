@@ -85,6 +85,16 @@ import MinusIcon from './minus-icon.svg';
 import HamburgerIcon from './hamburger-menu.svg';
 import CloseIcon from './Close.svg';
 import NoCouponDataSvg from './no-coupon-data.svg';
+import CallingIcon from './callingIcon.svg';
+import MailIcon from "./mailIcon.svg"
+import MenuIcon from './Vector.svg'
+import DashboardUserMobIcon from'./DashboardUserMobIcon.svg';
+import MyEventsMobIcon from './MyEventsMobIcon.svg';
+import paymentHistoryMobIcon from './PaymentHistoryMobIcon.svg';
+import CalenderEventMobIcon from './CalenderEventMobIcon.svg';
+import SettingsDashBoardMobIcon from './SettingsDashBoarsmobIcon.svg';
+import UploadedFile from "./uploaded-file.svg";
+import NoUserList from "./no-user-list.svg";
 
 export {
   CalenderIcon,
@@ -174,4 +184,14 @@ export {
   HamburgerIcon,
   CloseIcon,
   NoCouponDataSvg,
+  CallingIcon,
+  MailIcon,
+  MenuIcon,
+  DashboardUserMobIcon,
+  MyEventsMobIcon,
+  paymentHistoryMobIcon,
+  CalenderEventMobIcon,
+  SettingsDashBoardMobIcon,
+  UploadedFile,
+  NoUserList,
 };

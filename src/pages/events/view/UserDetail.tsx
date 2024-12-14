@@ -5,14 +5,16 @@
  */
 
 import { useCallback, useEffect, useState } from "react";
-import { Typography } from "@mui/material";
+import { Typography,Avatar } from "@mui/material";
 import { useParams } from "react-router-dom";
 import apiClient from "@/Libs/Https/API-client";
 import Grid from "@mui/material/Grid2";
 import StatusComponent from "@/components/Status/StatusComponent";
 import "./userdetail.scss";
 import React from "react";
-import {formatDateTimeRange } from "@/Utils/CommonBaseClass";
+import { formatDateTimeRange } from "@/Utils/CommonBaseClass";
+import { CallingIcon, MailIcon } from "@/assets/svg";
+import config from "../../../../config.json";
 interface User {
   id: string;
   firstName: string;
@@ -20,6 +22,8 @@ interface User {
   phone: string;
   email: string;
   statusId: string;
+  assetId:number;
+  roleName:string;
 }
 
 interface Program {
@@ -32,10 +36,11 @@ interface Program {
   speaker: string;
 }
 
-const UserDetail : React.FC = React.memo(() => {
+const UserDetail: React.FC = React.memo(() => {
   const { id } = useParams();
   const [user, setUser] = useState<User | null>(null);
   const [programs, setPrograms] = useState<Program[]>([]);
+  const baseUrl = config.api.url;
 
   useEffect(() => {
     eventParticipantList();
@@ -57,17 +62,21 @@ const UserDetail : React.FC = React.memo(() => {
           phone: data.details.user.phone,
           email: data.details.user.email,
           statusId: data.details.user.statusId,
+          assetId : data.details.user.assetId,
+          roleName :data.programs?.[0]?.roleName
         };
         setUser(userData);
 
-        const programData = data.programs.map((program: any) => ({
-          id: program.event.id,
-          name: program.event.title,
-          location: program.event.venueId,
-          startTime: program.event.startTime,
-          endTime: program.event.endTime,
-          status: program.event.statusId,
-          speaker: program.event.speaker,
+        const programData = data.programs
+        .filter((program: any) => program.event)
+        .map((program: any) => ({
+          id: program.event?.id,
+          name: program.event?.name, 
+          location: program.event?.venue?.city + "," + program.event?.venue?.country || "Unknown",
+          startTime: program.event?.startTime,
+          endTime: program.event?.endTime,
+          status: program.event?.statusId,
+          speaker: program.event?.speaker,
         }));
         setPrograms(programData);
       }
@@ -80,61 +89,66 @@ const UserDetail : React.FC = React.memo(() => {
 
   return (
     <Grid className="user-detail-card">
-      <Grid className="user-detail-grid">
-        <Grid display="flex">
-          <Typography
-            variant="h5"
-            className="userdetail-title-name"
-          >
+    <Grid container className="user-detail-grid" spacing={2}>
+      {/* Avatar Section */}
+      <Grid>
+        {user?.assetId ? (
+          <Avatar
+            src={`${baseUrl}asset/${user?.assetId}`}
+            className="userdetail-avatar"
+            alt="User Profile"
+            variant="circular"
+          />
+        ) : (
+          <Avatar className="userdetail-avatar main-user-profile-text">
+            {`${user?.firstName[0]}${user?.lastName[0]}`.toUpperCase()}
+          </Avatar>
+        )}
+      </Grid>
+  
+      {/* User Info Section */}
+      <Grid>
+        {/* Name and Status */}
+        <Grid display="flex" alignItems="center">
+          <Typography variant="h5" className="userdetail-title-name">
             {user.firstName} {user.lastName}
           </Typography>
-            {user.statusId && (
-              <StatusComponent className="user-status" value={user.statusId} />
-            )}
+          {user.statusId && (
+            <StatusComponent className="user-status" value={user.statusId.toString()}/>
+          )}
         </Grid>
-        <Grid className="userdetail-title-personal">
-          <Grid
-            container
-            spacing={6}
-            size={{ xs: 12, sm: 6, md: 6 }}
-            className="userdetail"
-          >
-            <Grid>
-              <Typography className="userdetail-text" variant="subtitle1">
-                Mobile Number
-              </Typography>
-              <Typography className="userdetail-data">{user.phone}</Typography>
-            </Grid>
-            <Grid>
-              <Typography className="userdetail-text" variant="subtitle1">
-                Email
-              </Typography>
-              <Typography className="userdetail-data">{user.email}</Typography>
-            </Grid>
-            <Grid>
-              <Typography className="userdetail-text" variant="subtitle1">
-                User ID
-              </Typography>
-              <Typography className="userdetail-data">{user.id}</Typography>
-            </Grid>
+        
+        {/* Role Name */}
+        <Typography className="userdetail-subtitle">{user.roleName}</Typography>
+      </Grid>
+    </Grid>
+
+      {/* Contact Details */}
+      <Grid className="userdetail-title-personal" container direction="row" alignItems="center" spacing={2}>
+          <Grid container direction="row" className="userdetail-data-grid">
+            <CallingIcon className="userdetail-data-image"/>
+            <Typography className="userdetail-data">{user.phone}</Typography>
+          </Grid>
+          <Grid container direction="row" className="userdetail-data-grid">
+            <MailIcon className="userdetail-data-image"/>
+            <Typography className="userdetail-data">{user.email}</Typography>
           </Grid>
         </Grid>
-      </Grid>
-
       {/* Registered Programs Section */}
-      <Typography variant="h6" className="userdetail-data">
-        Registered Programs
+      <Typography variant="h6" className="userdetail-data-title">
+        Registered Programmes
       </Typography>
-       <Grid container spacing={2}>
-        {programs.map((program, index) => (
+      <Grid container spacing={2}>
+        {programs.length > 0 ? (
+        programs.map((program, index) => (
           <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
             <Grid className="userdetail-event-card">
               <Grid container direction="row" className="userdetail-time-status">
                 <Typography className="userdetail-time" variant="subtitle2">
-                {formatDateTimeRange({date:program.startTime,format:'h:mm A'})},{formatDateTimeRange({date:program.endTime,format:"h:mm A"})}
+                  {formatDateTimeRange({ date: program.startTime,format: "h:mm A",})}-{formatDateTimeRange({ date: program.endTime,format: "h:mm A",})}
                 </Typography>
                 {program.status && (
-                  <StatusComponent className="user-status" value={program.status} />
+                  <StatusComponent className="user-status" value={program.status}/>
                 )}
               </Grid>
               <Typography variant="h6" className="userdetail-name">
@@ -148,8 +162,10 @@ const UserDetail : React.FC = React.memo(() => {
               </Typography>
             </Grid>
           </Grid>
-        ))}
-     </Grid>
+        )))
+        : (
+          null)}
+      </Grid>  
     </Grid>
   );
 });

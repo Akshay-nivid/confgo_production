@@ -12,7 +12,6 @@
         font-size: $h4;
         font-weight: $font_semibold;
         margin-right: 1rem;
-        margin-bottom: 2.5rem;
     }
     .userdetail-title-personal{
         margin-bottom: 2rem;
@@ -41,8 +40,8 @@
     }
 
     .userdetail-time{
-        padding: 0.665rem 0.625rem!important;
-        border-radius: 0.313rem !important;
+        padding: 0.5rem 0.833rem !important;
+        border-radius: 0.417em !important;
         background-color:  $clr_green_light !important;
         text-align: center !important;
         font-size: $p2;
@@ -55,14 +54,22 @@
         color:$clr_cyan_blue;
     } 
     .userdetail-data{
-        font-size: $h5;
+        font-size: $p5;
         font-weight: $font_semibold;
+    }
+    .userdetail-data-image{
+        width:2rem !important;
+        height: 2rem !important;
+    }
+    .userdetail-data-title{
         margin-bottom: 1.4rem;
+        font-size: $p5;
+        font-weight: $font_semibold;
     }
   
     .userdetail-name{
         line-height: 1.9375rem;
-        font-size: $h4;
+        font-size: $h5;
         font-weight: $font_semibold;
         margin-top: 1rem;
     }
@@ -72,4 +79,56 @@
         font-weight: $font_medium;
     }
     
+}
+.userdetail-avatar{
+    width: 5rem!important;
+    height: 5rem!important;
+}
+.userdetail-data-grid{
+    align-items: center;
+        border: 0.083rem solid $clr_light_border_grey !important;
+       border-radius: 0.667rem;
+       padding: 1rem 1.333rem;
+}
+.all-details-title{
+    font-weight: $font_semibold !important;
+    font-size: $p5 !important;
+
+}
+.all-details-data-title{
+    font-weight: $font_medium !important;
+    font-size: $h6 !important;
+    color: $light_grey !important;
+}
+.all-details-data{
+    font-weight: $font_semibold !important;
+    font-size: $h6 !important;
+    text-align: left !important;
+}
+.userdetail-subtitle{
+    font-size:$h6 !important;
+    font-weight: $font_medium !important;
+}
+.all-details-upload-file{
+    border: 0.083rem solid $clr_light_border_grey;
+    padding:1.667rem 1.5rem;
+    border-radius:0.667rem;
+
+    &-image{
+        width:1.667rem;
+        height:1.667rem
+    }
+    &-type{
+        font-size: $h6 !important;
+        font-weight: $font_medium !important;
+    }
+    &-name{
+        font-size: $p5 !important;
+        font-weight: $font_semibold !important;
+        overflow: hidden ;
+    }
+}
+.userdetail-niimage{
+    width: 13.83rem !important;
+    height: 13.83rem !important;
 }
