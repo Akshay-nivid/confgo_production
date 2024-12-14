@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { Control } from "react-hook-form";
+import { Control, Controller } from "react-hook-form";
 import { Dayjs } from "dayjs";
 
 /**
@@ -51,7 +51,8 @@ interface BasicTimePickerProps {
 }
 
 const CustomTimePicker: React.FC<BasicTimePickerProps> = React.memo(({ 
-  
+  control,
+  name,
   label, 
   className, 
   ampm = true 
@@ -60,13 +61,25 @@ const CustomTimePicker: React.FC<BasicTimePickerProps> = React.memo(({
 
   const memoizedTimePicker = useMemo(
     () => (
-      <TimePicker
-        label={label} 
-        value={value}
-        onChange={(newValue: Dayjs | null) => setValue(newValue)}
-        ampm={ampm} 
-        className="custom-Time-picker"
-      />
+      <Controller
+      name={name}
+      control={control}
+      render={({field}) =>
+        
+        <TimePicker
+        {...field}
+          label={label} 
+          onChange={(newValue: Dayjs | null) =>{
+            const formattedTime = newValue?.format("HH:mm"); 
+            field.onChange(formattedTime)
+             setValue(newValue)}}
+             value={value}
+          ampm={ampm}
+          className="custom-Time-picker"
+        />
+      }
+
+    />
     ),
     [value, className, ampm, label]
   );
