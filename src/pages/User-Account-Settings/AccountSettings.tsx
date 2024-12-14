@@ -194,12 +194,12 @@ interface AccountSettingProps {
           </Grid>
           <Grid size={12} className="connected">
             <form onSubmit={handleSubmit(onSubmit)}>
-              <Grid container direction="column">
+              <Grid container direction="column" spacing={2}>
                 <Grid size={12}>
-                  <CustomTextField name="firstName" placeholder="First Name" control={control} requiredField className="account-drawer-textfield" />
+                  <CustomTextField name="firstName" placeholder="First Name" control={control} requiredField />
                 </Grid>
                 <Grid size={12}>
-                  <CustomTextField name="lastName" placeholder="Last Name" control={control} requiredField className="account-drawer-textfield"/>
+                  <CustomTextField name="lastName" placeholder="Last Name" control={control} requiredField />
                 </Grid>
                 <Grid size={12} container justifyContent={"flex-end"}>
                   <CustomButton label="Change" type="submit" className="account-submit-btn" variant="contained"/>
