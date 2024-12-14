@@ -12,8 +12,9 @@ class ApiClient {
     // Create an Axios instance with default configuration
     this.axiosInstance = axios.create({
       baseURL: baseURL,
+      withCredentials: true,
       // You can add additional default headers or configurations here
-      //headers: ApiClient.getHeaders()
+      headers: ApiClient.getHeaders(),
     });
 
     this.axiosInstance.interceptors.request.use(
@@ -79,12 +80,21 @@ class ApiClient {
 
   // Method for making GET requests
   get<T = any>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.axiosInstance.get(url, config);
+    const updatedConfig: AxiosRequestConfig = {
+      ...config,
+      withCredentials: true, // Include credentials in the request
+    };
+  
+    return this.axiosInstance.get(url, updatedConfig);
   }
 
   // Method for making POST requests
   post<T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> {
-    return this.axiosInstance.post(url, data, config);
+    const updatedConfig: AxiosRequestConfig = {
+      ...config,
+      withCredentials: true, // Include credentials in the request
+    };
+    return this.axiosInstance.post(url, data, updatedConfig);
     // return this.axiosInstance.post(url, data, { ...config, headers });
   }
 
