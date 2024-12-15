@@ -16,7 +16,7 @@ const ProgramSelection = () => {
       justifyContent={"center"}
       alignItems={"center"}
       container
-      className="user-program-selection"
+      className="program-selection"
     >
       <Grid size={12} className="content-container">
         <Box className="header-container">

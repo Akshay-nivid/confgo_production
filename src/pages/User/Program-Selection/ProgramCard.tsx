@@ -1,3 +1,4 @@
+
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomCheckbox from "@/components/CustomCheckbox/CustomCheckbox";
 import useStore, { POST, GET, setDataById, IStoreState } from "@/Libs/store";
@@ -121,6 +122,27 @@ const ProgramCard = () => {
 
 
 
+
+/**
+ * API call to get payment details for an event
+ * @param {number} eventId - event id
+ * @returns {void}
+ */
+  const getPaymentDetails = () => {
+
+    POST({
+      url: 'participant/payment/details',
+      id: 'paymentDetails',
+      body: { eventId: eventId },
+      successCB: () => {
+
+       
+        
+    }})
+
+  }
+
+
   /**
    * method to handle submission of form, triggers add selected properties to cart api 
    * @param formData 
@@ -139,6 +161,7 @@ const ProgramCard = () => {
       return
     }
 
+    getPaymentDetails()  // to check if user already registered for this event
 
     setDataById('defaultProgramData', { formData: formData }) // storing form data for setting default values in next screen 
 
@@ -232,7 +255,6 @@ const ProgramCard = () => {
   }
 
 
-
   /**
    * When user toggles an addon checkbox, this function is called.
    * It takes the key of the checkbox as an argument. The key is in the format of "date-ADDON-addonId"
@@ -321,23 +343,25 @@ const ProgramCard = () => {
 
             {programs?.programs?.map((program: IProgram) => (
 
-              <Grid  columnSpacing={2} container key={program.id} className={clsx("program-list-container", watch(`${formatDate(date)}-programs`)?.includes(program?.id) ? 'checked' : 'un-checked')}>
+              <Grid columnSpacing={2} container key={program.id} className={clsx("program-list-container", watch(`${formatDate(date)}-programs`)?.includes(program?.id) ? 'checked' : 'un-checked')}>
 
                 <Grid size={'grow'} container>
-  
-                  <Grid  className="time-chip-container"  size={12} borderRadius={10} width={"max-content"}>
+
+                  <Grid  size={12} borderRadius={10} width={"max-content"} className="mb-1">
                     <Chip className="time-chip" size="medium" icon={<TimerOutlinedIcon />} label={moment(program?.startTime).format("h:mm A") + ' ' + '-' + ' ' + moment(program?.endTime).format("h:mm A")} />
                   </Grid>
 
-                  <Grid size={12} className="program-name" fontSize={20} fontWeight={500}>{program.name}</Grid>
+                  <Grid size={12} className="mb-1 " >
+                    <Typography className="program-name">{program.name}</Typography>
+                  </Grid>
 
-                  <Grid size={12} fontSize={12} fontWeight={400} >
+                  <Grid size={12}  >
                     <Typography className="program-description">
                       {program.description}
                     </Typography>
                   </Grid>
 
-                  <Grid className="program-list-item program">
+                  <Grid  className=" program-checkbox-group ">
                     <CustomCheckbox
 
                       onChange={() => handleToggleProgramCheckbox(`${formatDate(date)}-programs`)}
@@ -373,7 +397,7 @@ const ProgramCard = () => {
               <Grid size={12} container >
 
 
-                {programs.addons.length > 0 && <Grid textAlign={'center'} size={12} className="card-header card-header-wrapper">Addon</Grid>}
+                {programs.addons.length > 0 && <Grid textAlign={'center'}  size={12} className="card-header card-header-wrapper">Addon</Grid>}
                 <Box width={'100%'} className="space-y-4">
                   {programs.addons?.map((addon: any, index: number) => {
 
@@ -388,14 +412,14 @@ const ProgramCard = () => {
 
                             <Grid size={'grow'}>
 
-                              <Grid size={12} className="time-chip-container" width={"max-content"}>
+                              <Grid  size={12} borderRadius={10} width={"max-content"}>
                                 <Chip className="time-chip" size="medium" icon={<TimerOutlinedIcon />} label={moment(addon?.startTime).format("h:mm A") + ' ' + '-' + ' ' + moment(addon?.endTime).format("h:mm A")} />
                               </Grid>
 
 
-                              <Grid size={12} className="addon-name">{addon?.addon?.name}</Grid>
+                              <Grid size={12}  className="addon-name mt-2">{addon?.addon?.name}</Grid>
 
-                              <Grid size={12}  >
+                              <Grid size={12} >
                                 <Typography className="program-description">
                                   {addon?.addon?.description}
                                 </Typography>
@@ -403,16 +427,16 @@ const ProgramCard = () => {
 
                             </Grid>
 
-                            <Grid size={'auto'} className="program-price">
+                            <Grid  size={'auto'} className="program-price">
                               <Chip className="price-chip" size="medium" icon={<AttachMoneyOutlinedIcon />} label={Math.trunc(addon?.amount) === 0  ? 'Free' : `${addon?.amount}`} />
                             </Grid>
 
 
                           </Grid>
 
-                          {addon?.eventAddonProperties?.length > 0 && <Grid  className='card-sub-header'>Addon Prop :</Grid>}
+                          {addon?.eventAddonProperties?.length > 0 && <Grid className='card-sub-header'>Addon Prop :</Grid>}
                           {(addon?.eventAddonProperties && addon?.eventAddonProperties?.length > 0) ? (
-                            <Grid size={12} className='addon-property-container' container columnSpacing={2}>
+                            <Grid size={12} className="addon-property-list-container" container columnSpacing={2}>
 
                               {addon.eventAddonProperties.map((property: any) => (
                                 <Grid size={'grow'} display={'flex'} alignItems={'center'} className='addon-property-item'>
@@ -433,7 +457,7 @@ const ProgramCard = () => {
                               ))}
                             </Grid>
                           ) : <></>}
-                          <Grid  className='addon-checkbox-group'>
+                          <Grid   className='addon-checkbox-group'>
 
                             <CustomCheckbox
                               disabled={isDisabled}
@@ -453,6 +477,7 @@ const ProgramCard = () => {
                             />
 
                             <Typography className="add-text">{watch(`${formatDate(date)}-addon-${addon?.id}`)?.includes(addon?.id) ? <> Remove <DeleteIcon/> </> :<> Add <AddIcon/> </>}</Typography>
+
                           </Grid>
                         </Box>
                       </>
