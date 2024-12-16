@@ -246,10 +246,15 @@ const PayPalParticipantButton: React.FC = () => {
                         },
                         successCB: () => {
                             navigate(routes.userEventRegistrationCompleted())
+                        },errorCB: (errorResponse) => {
+                            snackBar({ severity: 'error', message: errorResponse.message })
                         }
                     })
                 }
+            },errorCB: (errorResponse) => {
+                snackBar({ severity: 'error', message: errorResponse.message })
             }
+
         })
     };
 

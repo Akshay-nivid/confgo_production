@@ -1122,6 +1122,7 @@
         border: .0625rem;
         margin-top: 2rem;
         border-color: $clr_gray_very_light;
+        width: 100%;
     }
 
     &-table {
@@ -1143,10 +1144,12 @@
         text-align: center !important;
         font-weight: $font_medium !important;
         font-size: $h6 !important;
-
+        display: flex;
+        justify-content: center;
+        margin-top: .8rem;
     }
-
-    &-table-input-text {
+    
+    &-table-input-text{
         input {
             font-size: $h6;
             padding: 0.25rem 0;

@@ -274,9 +274,11 @@ interface FormBuilderProps {
               })
             }
             <Box className="flex justify-end">
+            {participantTypeList && participantTypeList.length > 0 && (
               <CustomButton className="save-form-btn" onClick={() => {
                 handleClickGenerateForm("specific")
               }} label="Save Form" />
+            )}
             </Box>
           </Box>
         )

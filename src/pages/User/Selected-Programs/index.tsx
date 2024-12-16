@@ -33,15 +33,15 @@ const SelectedPrograms = () => {
   const setDataById = useStore((state: IStoreState) => state.setDataById);
 
   const couponData = useStore((state: IStoreState) => state?.compData?.couponData?.['coupon/applyCoupon']) ?? null
-  const cartInfo = useStore((state: any) => state?.compData?.addToCart) 
+  const cartInfo = useStore((state: any) => state?.compData?.addToCart)
 
   const eventId = useStore((state: IStoreState) => state?.compData?.["eventSelected"]?.id) ?? null;
   const cartId = cartInfo?.cart.data?.id ?? null
   const participantTypeId = useStore((state: any) => state?.compData?.["participantTypeId"]?.value) ?? '';
 
   const cartData = useStore((state) => state.compData?.getCart?.[`cart/${cartId}`]) ?? null
-  
-  
+
+
 
   const finalPrice = useStore((state: IStoreState) => state?.compData?.["finalPrice"]?.value) ?? null
 
@@ -375,7 +375,7 @@ const SelectedPrograms = () => {
                   >
                     <Grid key={date} className="selected-program-card-content">
 
-                      <Grid marginBottom={2} display={'flex'} justifyContent={'center'} flexDirection={'column'} alignItems={'center'} className="select-program-text card-header-wrapper ">
+                      <Grid display={'flex'} justifyContent={'center'} flexDirection={'column'} alignItems={'center'} className="select-program-text card-header-wrapper ">
 
                         <Box className="program-date-container">
                           <Typography className="card-header">
@@ -390,11 +390,11 @@ const SelectedPrograms = () => {
                       {data?.programs?.length > 0 && data?.programs?.map((item: any) => {
 
                         return (
-                          <Grid marginBottom={2} key={item?.id} columnSpacing={1} size={12} container className="program-list-container">
+                          <Grid key={item?.id} columnSpacing={1} size={12} container className="program-list-container">
 
                             <Grid size={12} container justifyContent={'space-between'}>
 
-                              <Grid marginBottom={1} size={12} borderRadius={10} width={"max-content"}>
+                              <Grid className="time-chip-container" size={12} width={"max-content"}>
                                 <Chip className="time-chip" size="medium" icon={<TimerOutlinedIcon />} label={moment(item?.startTime).format("h:mm A") + ' ' + '-' + ' ' + moment(item?.endTime).format("h:mm A")} />
                               </Grid>
 
@@ -404,9 +404,9 @@ const SelectedPrograms = () => {
 
                             </Grid>
 
-                            <Grid size={9} marginBottom={.5} fontSize={20} fontWeight={500}>{item.name}</Grid>
+                            <Grid size={9} className="program-name">{item.name}</Grid>
 
-                            <Grid size={12} fontSize={12} fontWeight={400} >
+                            <Grid size={12}  >
                               <Typography className="program-description">
                                 {item.description}
                               </Typography>
@@ -416,12 +416,12 @@ const SelectedPrograms = () => {
                             <Grid size={12}>
 
                             </Grid>
-                            <Grid marginTop={2} className="program-list-item">
+                            <Grid className="checkbox-container">
                               <CustomCheckbox
 
                                 onChange={() => onCheckboxToggle()}
                                 control={control}
-                                className="program-list-item"
+                                className="cart-checkbox"
                                 id="program"
                                 name={`${formatDate(date)}-programs`}
                                 setValue={setValue}
@@ -445,7 +445,7 @@ const SelectedPrograms = () => {
                             return (
 
                               <Grid>
-                                {index === 0 && <Grid textAlign={'center'} marginBottom={2} size={12} className="card-header card-header-wrapper">Addon</Grid>}
+                                {index === 0 && <Grid textAlign={'center'} size={12} className="card-header card-header-wrapper">Addon</Grid>}
                                 <Grid className="addon-list-item-wrapper" size={12} container key={addon?.eventAddon?.id}>
 
 
@@ -455,7 +455,7 @@ const SelectedPrograms = () => {
 
                                     <Grid size={12} container justifyContent={'space-between'}>
 
-                                      <Grid marginBottom={1} size={12} borderRadius={10} width={"max-content"}>
+                                      <Grid size={12} className="time-chip-container" width={"max-content"}>
                                         <Chip className="time-chip" size="medium" icon={<TimerOutlinedIcon />} label={moment(addon?.startTime).format("h:mm A") + ' ' + '-' + ' ' + moment(addon?.endTime).format("h:mm A")} />
                                       </Grid>
 
@@ -466,9 +466,9 @@ const SelectedPrograms = () => {
                                     </Grid>
 
 
-                                    <Grid size={12} marginBottom={.5} fontSize={24} fontWeight={500}>{addon?.addon?.name}</Grid>
+                                    <Grid size={12} className="addon-name">{addon?.addon?.name}</Grid>
 
-                                    <Grid size={12} fontSize={12} fontWeight={400} >
+                                    <Grid size={12} >
                                       <Typography className="program-description">
                                         {addon?.addon?.description}
                                       </Typography>
@@ -479,11 +479,11 @@ const SelectedPrograms = () => {
                                     {/* <Grid size={6}>- ${addon?.amount}</Grid> */}
                                   </Grid>
 
-                                  {(addon?.eventAddonProperties[0] !== null && addon?.eventAddonProperties?.length > 0) && <Grid marginTop={2} marginBottom={1} className='card-sub-header'>Addon Prop :</Grid>}
+                                  {(addon?.eventAddonProperties[0] !== null && addon?.eventAddonProperties?.length > 0) && <Grid className='card-sub-header mt_2 mb_1'>Addon Prop :</Grid>}
 
 
                                   {addon?.eventAddonProperties?.length > 0 && (
-                                    <Grid container size={12} columnSpacing={2} paddingBlock={1} className="add-on-prop-checkbox ">
+                                    <Grid container size={12} columnSpacing={2} className="add-on-prop-checkbox ">
 
                                       {addon?.eventAddonProperties.map((property: any) => {
 
@@ -514,12 +514,12 @@ const SelectedPrograms = () => {
 
 
                                   )}
-                                  <Grid marginTop={3} className="program-list-item">
+                                  <Grid className="checkbox-container mt_3">
                                     <CustomCheckbox
 
                                       onChange={() => onAddonCheckboxToggle(`${formatDate(date)}-addon-${addon?.id}`)}
                                       control={control}
-                                      className="add-on-list-item-checkbox "
+                                      className="add-on-list-item-checkbox cart-checkbox "
                                       id={addon?.eventAddon?.id}
                                       name={`${formatDate(date)}-addon-${addon?.id}`}
                                       label={addon?.title}
@@ -544,25 +544,8 @@ const SelectedPrograms = () => {
                       )}
                     </Grid>
 
-                    <Grid className="divider "></Grid>
 
-                    <Grid
-                      display={"flex"}
-                      justifyContent={"space-between"}
-                      alignItems={"center"}
-                      className="subtotal-container"
-                    >
-
-                      <Typography className="total-text">
-                        Subtotal for Day {index + 1}
-                      </Typography>
-
-                      <Typography className="total-text">
-                        $ {selectedPrograms[date].total}
-                      </Typography>
-
-                    </Grid>
-
+                   
                   </Grid>}
               </>
             ))
@@ -601,7 +584,7 @@ const SelectedPrograms = () => {
             </Grid> :
 
 
-            <Grid display={'flex'} justifyContent={'space-between'} size={12} className="coupon-banner-container border border-green-600  rounded-lg p-5 bg-green-50/20 ">
+            <Grid display={'flex'} justifyContent={'space-between'} size={12} className="coupon-banner-container  ">
 
 
               <Grid display={'flex'} columnGap={2} alignItems={'center'}>
@@ -622,32 +605,32 @@ const SelectedPrograms = () => {
 
           <Grid container flexDirection={"column"} className="grand-total-container">
 
-            {couponData?.data?.coupon?.code && <Grid marginBottom={2} container flexDirection={"row"} justifyContent={"space-between"}>
+            {couponData?.data?.coupon?.code && <Grid className="mb_2" container flexDirection={"row"} justifyContent={"space-between"}>
               <Typography className="sub-text">Coupon Applied</Typography>
-              <Typography className="sub-text">${couponData.data?.discountAmount}</Typography>
+              <Typography className="sub-text">$ {couponData.data?.discountAmount}</Typography>
             </Grid>}
 
-            <Grid container flexDirection={"row"} marginBottom={2} justifyContent={"space-between"}>
+            <Grid container flexDirection={"row"} className="mb_2" justifyContent={"space-between"}>
               <Typography className="sub-text">Event amount</Typography>
-              <Typography className="sub-text">${cartData?.data?.event?.amount}</Typography>
+              <Typography className="sub-text">$ {cartData?.data?.eventAmount}</Typography>
             </Grid>
 
-            
-            <Grid container flexDirection={"row"} marginBottom={2} justifyContent={"space-between"}>
+
+            <Grid container flexDirection={"row"} className="mb_2" justifyContent={"space-between"}>
               <Typography className="sub-text">Program amount</Typography>
-              <Typography className="sub-text">${cartData?.data?.event?.amount}</Typography>
+              <Typography className="sub-text">$ {cartData?.data?.programTotal}</Typography>
             </Grid>
 
-            <Grid container flexDirection={"row"} marginBottom={2} justifyContent={"space-between"}>
+            <Grid container flexDirection={"row"} className="mb_2" justifyContent={"space-between"}>
               <Typography className="sub-text">Addon amount</Typography>
-              <Typography className="sub-text">${cartData?.data?.event?.amount}</Typography>
+              <Typography className="sub-text">$ {cartData?.data?.addonTotal}</Typography>
             </Grid>
 
-            <Grid className="divider " marginBottom={2}></Grid>
+            <Grid className="divider mb_2" ></Grid>
 
             <Grid container flexDirection={"row"} justifyContent={"space-between"}>
               <Typography className="total-text">Grand Total</Typography>
-              <Typography className="total-text">${finalPrice}</Typography>
+              <Typography className="total-text">$ {finalPrice}</Typography>
             </Grid>
 
           </Grid>

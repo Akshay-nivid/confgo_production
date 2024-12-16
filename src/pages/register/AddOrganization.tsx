@@ -96,7 +96,7 @@ const AddOrganization = React.memo(() => {
                         <Box className={"form-wrapper"}>
                             <form onSubmit={handleSubmit(onSubmit)} className="form">
                                 <FormControl >
-                                    <Grid container spacing={2}>
+                                    <Grid container spacing={2} className="form-fields-container">
                                         <Grid container className='w-full'>
                                             <CustomTextField
                                                 defaultValue={form3?.field_values?.organizationName}
@@ -164,7 +164,7 @@ const AddOrganization = React.memo(() => {
                                         </Grid>
                                     </Grid>
                                 </FormControl>
-                                <Grid container mb={2} className="w-full" >
+                                <Grid container className="w-full button-margin-bm" >
                                     <CustomButton
                                         type="submit"
                                         className="add-organization-btn"

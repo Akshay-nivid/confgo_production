@@ -36,59 +36,59 @@ const CreateAccount = React.memo(() => {
 
     return (
         <Grid>
-            <Grid  container spacing={5}  >
+            <Grid className="signup-container"  >
                 <Grid className="signup-content-wrapper">
                     <Grid className="left-inner-content-add-create">
-                        <Grid container spacing={2}>
-                        <Grid  alignSelf={"center"}>
-                            <Typography className="left-plan-text" textAlign={"center"} variant="h3" lineHeight={2} >Create Your Account</Typography>
-                            <Typography className="left-description-text" textAlign={"center"} variant="h6" mb={2}>Join us and streamline your conference management today.</Typography>
+                        <Grid container spacing={2} className="mb-2">
+                            <Grid alignSelf={"center"}>
+                                <Typography className="left-plan-text" textAlign={"center"} variant="h3" lineHeight={2} >Create Your Account</Typography>
+                                <Typography className="left-description-text" textAlign={"center"} variant="h6" mb={2}>Join us and streamline your conference management today.</Typography>
+                            </Grid>
                         </Grid>
-                        </Grid>
-                       
+
                         <Box className={"form-wrapper"}>
                             <form onSubmit={handleSubmit(onSubmit)} className="form">
-                                <FormControl >
-                                    <Grid container spacing={2}>
+                                <FormControl className="">
+                                    <Grid container className='form-fields-container'>
                                         <Grid container className='w-full'>
                                             <CustomTextField
                                                 defaultValue={form2?.field_values?.fullName}
                                                 placeholder="Full Name"
-                                                label="Full Name *"
+                                                label="Full Name "
                                                 control={control}
                                                 name="fullName"
                                                 type="text"
-                                                rules={{ 
-                                                    required:{value:true,message:"Name is required"},
+                                                rules={{
+                                                    required: { value: true, message: "Name is required" },
                                                     pattern: {
                                                         value: /^(?!\s*$)(?!\s+$).+/,
-                                                    message: "Name cannot be only spaces"
-                                                },
-                                                 }}
+                                                        message: "Name cannot be only spaces"
+                                                    },
+                                                }}
                                             />
                                         </Grid>
                                         <Grid container className='w-full'>
                                             <CustomTextField
                                                 defaultValue={form2?.field_values?.lastName}
                                                 placeholder="Last Name"
-                                                label="Last Name *"
+                                                label="Last Name "
                                                 control={control}
                                                 name="lastName"
                                                 type="text"
-                                                rules={{ 
-                                                    required:{value:true,message:"Last Name is required"},
+                                                rules={{
+                                                    required: { value: true, message: "Last Name is required" },
                                                     pattern: {
                                                         value: /^(?!\s*$)(?!\s+$).+/,
-                                                    message: "Last name cannot be only spaces"
-                                                },
-                                                 }}
+                                                        message: "Last name cannot be only spaces"
+                                                    },
+                                                }}
                                             />
                                         </Grid>
                                         <Grid container className='w-full'>
                                             <CustomTextField
                                                 defaultValue={form2?.field_values?.email}
                                                 placeholder="Email"
-                                                label="Email *"
+                                                label="Email "
                                                 name="email"
                                                 type="email"
                                                 control={control}
@@ -99,7 +99,7 @@ const CreateAccount = React.memo(() => {
                                             <CustomTextField
                                                 defaultValue={form2?.field_values?.phoneNumber}
                                                 placeholder="Phone Number"
-                                                label="Phone Number *"
+                                                label="Phone Number "
                                                 control={control}
                                                 name="phoneNumber"
                                                 type="text"
@@ -110,15 +110,15 @@ const CreateAccount = React.memo(() => {
                                         </Grid>
                                     </Grid>
                                 </FormControl>
-                                <Grid container mb={2} className="w-full" >
+                                <Grid container mb={2} className="w-full pt-4" >
                                     <CustomButton
-                                    type="submit"
+                                        type="submit"
                                         className="add-organization-btn"
                                         label="Proceed to Company Details"
                                         variant="contained"
                                         color="primary"
                                         size="large"
-                                    
+
                                     />
                                 </Grid>
                             </form>

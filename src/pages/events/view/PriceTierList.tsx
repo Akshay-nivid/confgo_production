@@ -58,7 +58,7 @@ const PriceTierList: React.FC = () => {
 
       const attendeeTypeResponse = await POST({
         url: "participant/type/list",
-        body: { filters: { eventId: id } },
+        body: { filters: { eventId: id,isContributor: '0' } },
         id: "attendeeType",
       });
 
@@ -122,9 +122,10 @@ const PriceTierList: React.FC = () => {
       attendeeName: attendee.name,
       attendeeDescription: attendee.description,
       pricingTiers: mappedPricingTiers.filter(
-        (tier) => tier.id === attendee.id // Only include pricing tiers that match this attendee's ID
+        (tier) => tier.id === attendee.id 
       ),
     }));
+
     return { pricingTiers: mappedPricingTiers, attendees: mappedAttendees };
   }
 
@@ -159,7 +160,7 @@ const PriceTierList: React.FC = () => {
           onClick={handleOpen}
         />
       </Grid>
-      <Grid>
+      <Grid size={'grow'}>
         {/* Conditionally render the text or table based on data */}
         {!pricingTiers.length || !attendees.length ? (
           <>
