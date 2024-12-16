@@ -1,6 +1,7 @@
 
 
 .user-otp {
+  padding-top: 5rem;
    .content-container {
      max-width:33.33rem;
    }
@@ -46,6 +47,7 @@
          color: $clr_black;
          font-size: $p2;
          font-weight: $font-bold !important;
+         margin-left: .5rem;
        }
        .resend-otp-disabled{
         cursor: none; 

@@ -62,7 +62,16 @@ const userRoutes = [
       },
       {
         path: routes.userRegister(),
-        element: <UserRegister/>,
+        element: <UserRegister />,
+        
+      },
+      {
+        path: routes.userOtp(),
+        element: <UserOtp />,
+      },
+      {
+        path: routes.userSetPassword(),
+        element: <UserSetPassword />,
       },
     ]
   },
@@ -76,15 +85,6 @@ const userRoutes = [
         element: <ProgramSelection />,
       },
       
-      
-      {
-        path: routes.userOtp(),
-        element: <UserOtp />,
-      },
-      {
-        path: routes.userSetPassword(),
-        element: <UserSetPassword />,
-      },
       {
         path: routes.userSetPasswordSuccessful(),
         element: <UserSetpasswordSuccessful  />,
@@ -147,6 +147,7 @@ const router = createBrowserRouter([
   {
     path: routes.register(),
     element: <Register />,
+    
   },
   {
     path: routes.userForgotPassword(),

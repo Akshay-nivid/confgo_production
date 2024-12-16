@@ -19,8 +19,8 @@ import React from "react";
 import config from "../../../../config.json";
 import FileListModal from "@/components/FileUpload/FileListModal";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import GoogleMapPlacePicker from "../GoogleMapPlacePicker";
 import { validateEmail, validateMaxLength, validatePhoneNumber } from "@/Utils/Validation";
+import LocationSearch from "../LocationSearch";
 
 
 const baseUrl = config.api.url;
@@ -649,7 +649,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                 </Grid>
               </Grid>
               <CustomDrawer open={drawerOpen} type="right" children={
-                    <GoogleMapPlacePicker onClose={() => setDrawerOpen(false)}/>
+                    <LocationSearch onClose={()=>setDrawerOpen(false)}/>
                   } />
             </form>
             </FormProvider>

@@ -1,5 +1,6 @@
-
 .addon-property-item {
+
+
 
   .MuiCheckbox-root {
     svg {
@@ -36,6 +37,28 @@
 
 
 .selected-programs-main {
+
+
+  .mt_2 {
+    margin-top: 1.66rem !important;
+  }
+
+  .mb_1{
+   margin-bottom: 1rem !important;
+  }
+  .mb_2{
+    margin-bottom: 1.66rem !important;
+   }
+
+
+  .mt_3{
+    margin-top: 2.86rem !important;
+
+  }
+
+  .selected-program-text {
+    margin-bottom: 1.6rem;
+  }
 
   .main-header {
     &-title {
@@ -77,6 +100,7 @@
   .card-header {
     font-size: $h5 !important;
     font-weight: $font-semibold !important;
+    margin-bottom: 1.66rem !important;
   }
 
   .card-sub-header {
@@ -94,16 +118,24 @@
     border: .08rem solid $clr_gray_faded;
     border-radius: .7rem !important;
     padding: 1.5rem !important;
+    margin-bottom: 1.66rem !important;
+
   }
 
-  .time-chip {
-    &.MuiChip-root {
-      padding-inline: .2rem !important;
-      font-size: $p1 !important;
-      border: .1rem solid $clr_gray_faded !important;
-      background-color: transparent !important;
+  .time-chip-container {
+    margin-bottom: .86rem;
+    border-radius: 8rem;
+
+    .time-chip {
+      &.MuiChip-root {
+        padding-inline: .2rem !important;
+        font-size: $p1 !important;
+        border: .1rem solid $clr_gray_faded !important;
+        background-color: transparent !important;
+      }
     }
   }
+
 
   .price-chip {
     &.MuiChip-root {
@@ -117,8 +149,15 @@
     }
   }
 
+  .program-name {
+    margin-bottom: .45rem !important;
+    font-size: $h5 !important;
+    font-weight: $font-medium !important;
+  }
 
   .program-description {
+    font-size: $p3 !important;
+    font-weight: $font_normal !important;
     display: -webkit-box !important;
     -webkit-box-orient: vertical !important;
     overflow: hidden !important;
@@ -129,8 +168,10 @@
   }
 
 
+
   .program-list-item {
     width: max-content;
+    margin-top: 1.66rem !important;
 
     .MuiFormControl-root {
       width: 100%;
@@ -190,9 +231,16 @@
     display: flex;
     flex-direction: column;
 
+
     .addon-list-item {
       background-color: $clr_white !important;
 
+
+      .addon-name {
+        margin-bottom: .45rem;
+        font-size: $h5 !important;
+        font-weight: $font-medium !important;
+      }
     }
 
     .addon-list-item-wrapper {
@@ -242,6 +290,10 @@
     }
   }
 
+  .addon-prop-checkobox {
+    padding-block: .86rem !important;
+  }
+
   .subtotal-container {
     padding-left: 2.5rem;
     padding-right: 2.5rem;
@@ -253,6 +305,7 @@
       font-weight: $font_bold;
     }
   }
+
 
 
   .coupon-container {
@@ -276,6 +329,10 @@
   }
 
   .coupon-banner-container {
+    border: .0083rem solid $clr_green;
+    border-radius: .5rem;
+    padding: 1.66rem;
+    background-color: $clr_gray_faded;
     .coupon-code {
       font-size: $h6 !important;
       font-weight: $font-semibold !important;
@@ -322,6 +379,7 @@
     justify-content: center;
     align-items: center;
     column-gap: 0.8rem;
+    padding-block: 3rem;
 
     .back-btn {
       min-width: 8rem;
@@ -342,16 +400,27 @@
 
   &-1 {
 
+    .checkbox-container{
 
+      .MuiCheckbox-root {
+        
+        svg {
+         
+          background-color: $clr_charcoal_cyan !important;
+    
+        }
+      }
+    }
 
-    .addon-property-item  {
+    .addon-property-item {
       .MuiCheckbox-root {
         svg {
           fill: $clr_charcoal_cyan !important;
         }
-    
+
       }
     }
+
     .back-btn {
       border-color: $clr_charcoal_cyan;
       color: $clr_charcoal_cyan;
@@ -378,8 +447,8 @@
       }
     }
 
-     
-   
+
+
   }
 
 
@@ -388,14 +457,26 @@
 
   &-2 {
 
+    .checkbox-container{
 
+      .MuiCheckbox-root {
+        
+        svg {
+         
+          background-color: $clr_bright_mint_green !important;
     
-    .addon-property-item  {
+        }
+      }
+    }
+
+
+    .addon-property-item {
+
       .MuiCheckbox-root {
         svg {
           fill: $clr_bright_mint_green !important;
         }
-    
+
       }
     }
 
@@ -433,13 +514,13 @@
   &-3 {
 
 
-    
-    .addon-property-item  {
+
+    .addon-property-item {
       .MuiCheckbox-root {
         svg {
           fill: $clr_dark_blue !important;
         }
-    
+
       }
     }
 
@@ -462,7 +543,17 @@
 
     }
 
-    .program-list-item {
+    .checkbox-container {
+      .MuiCheckbox-root {
+        svg {
+          background-color: $clr_dark_blue !important;
+        }
+
+
+      }
+    }
+    
+    .checkbox-container{
       .MuiCheckbox-root {
         svg {
           background-color: $clr_dark_blue !important;
@@ -474,3 +565,50 @@
   }
 
 }
+
+
+// 
+
+.checkbox-container{
+  width: max-content;
+  margin-top: 2.66rem;
+  position: relative;
+      .add-text {
+        position: absolute;
+        color: white !important;
+        top: 50%;
+        right: 50%;
+        transform: translate(50%, -50%);
+        font-size: $p1 !important;
+        font-weight: $font-medium !important;
+      }
+
+  .MuiFormControl-root {
+    width: 100%;
+  }
+
+  .MuiFormControlLabel-root {
+    padding: 0 !important;
+    margin: 0 !important;
+
+    .MuiButtonBase-root {
+      padding: 0 !important;
+    }
+  }
+
+  .MuiCheckbox-root {
+    width: 100%;
+    max-width: 10rem;
+    svg {
+      fill: none !important;
+      border-radius: 0.5rem;
+      width: 100% !important;
+      height: 2.8rem !important;
+      padding-inline: 4rem;
+
+    }
+  }
+
+}
+
+

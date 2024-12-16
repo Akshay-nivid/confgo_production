@@ -149,7 +149,7 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
       }
     }
   return (
-    <Grid size={12} container className="otpcomponent__content-wrapper">
+    <Grid  size={12} container className="otpcomponent__content-wrapper">
       <Grid size={12} className="otpcomponent__header-wrapper">
         <Typography textAlign={'center'} className="otpcomponent__header-title">
           Verify Your Account
