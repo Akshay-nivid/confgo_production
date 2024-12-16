@@ -185,7 +185,7 @@ const handleRowClick=(id:string |number)=>{
           <CustomAutocomplete
             name="search"
             className="custom-user-search-field"
-            placeholder="Search by name"
+            placeholder="Search by Id,Name or Phone..."
             control={control}
             options={searchResults}
             getOptionLabel={(option: any) =>
