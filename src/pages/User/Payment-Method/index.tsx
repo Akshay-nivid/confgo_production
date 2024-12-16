@@ -62,22 +62,23 @@ const PaymentMethod = () => {
               <Typography className="info-text">Programs Total</Typography>
               <Typography className="info-text">$ {orderData?.programTotal}</Typography>
             </Box>
-            {/* <Box className="payment-bill-item">
-              <Typography className="info-text">Food Total</Typography>
-              <Typography className="info-text">$100</Typography>
-            </Box> */}
+            <Box className="payment-bill-item">
+              <Typography className="info-text">Addon Total</Typography>
+              <Typography className="info-text">$ {orderData?.addonTotal}</Typography>
+            </Box>
+            <Box className="payment-bill-item">
+              <Typography className="info-text">Tax</Typography>
+              <Typography className="info-text">$ {orderData?.tax}</Typography>
+            </Box>
+            <Box className="payment-bill-item">
+              <Typography className="info-text">Discount</Typography>
+              <Typography className="info-text">$ {orderData?.discountAmount}</Typography>
+            </Box>
+            <Box className="payment-bill-item">
+              <Typography className="info-text">Sub Total</Typography>
+              <Typography className="info-text">$ {orderData?.subTotal}</Typography>
+            </Box>
           </Box>
-          {/* <Box className="divider"></Box> */}
-          {/* <Box className="payment-bill-details">
-            <Box className="payment-bill-item">
-              <Typography className="info-text">Subtotal</Typography>
-              <Typography className="info-text">$720</Typography>
-            </Box>
-            <Box className="payment-bill-item">
-              <Typography className="info-text">Coupon Code Applied</Typography>
-              <Typography className="info-text">$100</Typography>
-            </Box>
-          </Box> */}
           <Box className="divider"></Box>
           <Box className="payment-grand-total-container">
             <Typography className="grand-total-info-text">
@@ -87,9 +88,6 @@ const PaymentMethod = () => {
           </Box>
         </Box>
       </Grid>
-      {/* <Grid size={12}>
-        <Typography>Apply Coupon</Typography>
-      </Grid> */}
       <Grid className="payment-method-options-container" size={12}>
         <Typography className="payment-method-options-header">
           Choose Payment Method
