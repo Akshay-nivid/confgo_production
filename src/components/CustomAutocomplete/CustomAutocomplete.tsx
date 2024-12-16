@@ -1,5 +1,5 @@
 import { Autocomplete, TextField, InputAdornment, IconButton, CircularProgress } from '@mui/material';
-import { Search } from '@mui/icons-material';
+import { Search, Clear } from '@mui/icons-material';
 import { Controller } from "react-hook-form";
 import { useState, useEffect } from "react";
 
@@ -8,12 +8,13 @@ interface ICustomAutocompleteProps<T> {
   options: T[];
   getOptionLabel: (option: T) => string;
   placeholder?: string;
-  control: any;
+  control?: any;
   rules?: any;
   style?: React.CSSProperties;
   className?: string;
   onSearch: (query: string) => void; // Prop for handling API search
   loading: boolean; // Prop to indicate if data is loading
+  clearable?: boolean; // Prop to make the input clearable
 }
 
 /**
@@ -29,7 +30,8 @@ const CustomAutocomplete = <T,>({
   rules,
   onSearch,
   loading,
-  onChange, 
+  clearable = true,  // Default to true, so the clear button is enabled by default
+  onChange,
   ...props
 }: ICustomAutocompleteProps<T> & { onChange?: (value: T | null) => void }) => {
   const [inputValue, setInputValue] = useState<string>("");
@@ -87,9 +89,20 @@ const CustomAutocomplete = <T,>({
                 endAdornment: (
                   <>
                     {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                    {/* Render the clear icon if the field is clearable */}
+                    {clearable && field.value && (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => field.onChange(null)} // Clear the value when clicked
+                          size="small"
+                        >
+                          <Clear />
+                        </IconButton>
+                      </InputAdornment>
+                    )}
                     {params.InputProps.endAdornment}
                   </>
-                ),         
+                ),
               }}
             />
           )}
