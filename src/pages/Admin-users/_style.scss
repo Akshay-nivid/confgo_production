@@ -1,0 +1,30 @@
+.admin-users{
+    background-color: $clr_white;
+    margin: 1rem;
+    &-header{
+        font-weight: $font_bold !important;
+        font-size: $h4 !important;
+    }
+    &-form-wrap {
+        width: 100%;
+        margin: 1rem;
+    }
+    &-form-gap{
+        margin-bottom: 2rem;
+    }
+    &-submit-btn-container{
+        margin-top: 3.583rem;
+        &-btn{
+            background-color: $clr_green !important;
+            width: 29.333rem;
+        }
+      
+    }
+    .custom-text-field {
+        margin-top: 0rem !important;
+    }
+    .select-input-label{
+        padding-top: 0rem !important;
+    }
+    
+}

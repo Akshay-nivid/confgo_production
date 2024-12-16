@@ -41,6 +41,13 @@ const sidebarItems = [
     exact: false,
   },
   {
+    path:routes.users(),
+    icon:CouponIcon,
+    label:'Users',
+    exact:false
+
+  },
+  {
     path: routes.calendar(),
     icon: CalenderIcon,
     label: 'Calendar',

@@ -51,6 +51,10 @@ import GoogleAuthProvider from "./pages/User/GoogleAuthProvider";
 import ProfileSettings from "./pages/dashboard/ProfileSettings";
 import AddPlan from "./pages/register/AddPlan";
 import PlanUpgrade from "./pages/planUpgrade/PlanUpgrade";
+import AdminUsersList from "./pages/Admin-users";
+import { LoadScript } from "@react-google-maps/api";
+import config from "../config.json";
+import CreateNewUsers from "./pages/Admin-users/CreateUsers";
 
 const userRoutes = [
   {
@@ -223,6 +227,14 @@ const router = createBrowserRouter([
         element: <CouponView/>,
       },
       {
+        path:routes.users(),
+        element:<AdminUsersList/>
+      },
+      {
+        path:routes.createNewUsers(),
+        element:<CreateNewUsers/>
+      },
+      {
         path: routes.calendar(),
         element: <CalendarRoute  id="company-calendar"/>,
       },
@@ -284,7 +296,10 @@ const router = createBrowserRouter([
 
 function App() {
   const snackBarInfo = useStore((state: any) => state.compData?.["snackBarInfo"]);
-
+    /**
+   *GOOGLE_API_KEY
+   */
+   const GOOGLE_API_KEY =config.google_api_key ; 
   return (
     <>
       {snackBarInfo?.open && (
