@@ -17,7 +17,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import apiClient from '@/Libs/Https/API-client';
 import { Logger } from '@/Utils/Logger';
 import { jwtDecode } from 'jwt-decode';
-import useStore from '@/Libs/store';
+import useStore, { clearDataById } from '@/Libs/store';
 import { purposeTypes } from '@/Utils/CommonBaseClass';
 
 
@@ -59,6 +59,8 @@ const UserRegister = (props: UserProps) => {
   const navigate = useNavigate();
   const POST = useStore((state: any) => state.POST);
   const setDataById = useStore((state: any) => state.setDataById);
+  const previousRoute = useStore((state: any) => state.compData?.previousRoute?.url) ?? '';
+
   /**
    * function to handle google login
    * @param {any} data - The data to be sent to the server
@@ -81,6 +83,8 @@ const UserRegister = (props: UserProps) => {
         setDataById('participantLogin', true)
         sessionStorage.setItem("token", response.data.data.token);
         setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
+        navigate(previousRoute)
+        clearDataById('previousRoute');
       }
     } catch (error: unknown) {
       Logger.error('Error in google login', error);

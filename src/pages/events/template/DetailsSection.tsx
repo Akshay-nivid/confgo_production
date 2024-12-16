@@ -52,8 +52,8 @@ const DetailsSection: React.FC<DetailsSectionProps> = React.memo(({ data, temp }
     const itemArray = [
         { icon: <LocationIcon />, label: 'Location', value: data?.venue?.address },
         { icon: <CalendarIcon />, label: 'Date', value: formatDateRange(data?.startTime, data?.endTime) },
-        { icon: <EmailIcon />, label: 'Email', value: data?.eventContacts[0]?.email || '' },
-        { icon: <PhoneIcon />, label: 'Phone', value: data?.eventContacts[0]?.phone || '' },
+        { icon: <EmailIcon />, label: 'Email', value:Array.isArray(data?.eventContacts) && data?.eventContacts[0]?.email || '' },
+        { icon: <PhoneIcon />, label: 'Phone', value:Array.isArray(data?.eventContacts) &&  data?.eventContacts[0]?.phone || '' },
 
     ]
      

@@ -45,6 +45,10 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
        navigate(routes.userLogin());
     }
 
+    const SignupFn = () => {
+        setDataById("previousRoute", { url: location.pathname });
+        navigate(routes.userRegister());
+    }
 
     /**
      * Function handles the logout functionality
@@ -61,9 +65,9 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
     }
 
 
-    useEffect(() => {
-        clearDataById('previousRoute')
-    }, [])
+    // useEffect(() => {
+    //     clearDataById('previousRoute')
+    // }, [])
 
 
     return (
@@ -83,8 +87,7 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
                     {getUserToken() ? <Grid className={`${classPrefix}-logout-button`}><span role='button' onClick={logoutFn}> Logout </span></Grid> :
                         <><Grid className={`${classPrefix}-login-button`}><span role='button' onClick={loginFn}> Login </span></Grid>
                             <Grid className={`${classPrefix}-button-border`}></Grid>
-                            <Grid className={`${classPrefix}-book-button`}><CustomButton label='Signup'
-                             onClick={() => navigate('/user/register')} 
+                            <Grid className={`${classPrefix}-book-button`}><CustomButton onClick={SignupFn} label='Signup' 
                              /></Grid></>}
                 </Grid>
             </Grid>

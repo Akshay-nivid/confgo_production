@@ -123,26 +123,6 @@ const ProgramCard = () => {
 
 
 
-/**
- * API call to get payment details for an event
- * @param {number} eventId - event id
- * @returns {void}
- */
-  const getPaymentDetails = () => {
-
-    POST({
-      url: 'participant/payment/details',
-      id: 'paymentDetails',
-      body: { eventId: eventId },
-      successCB: () => {
-
-       
-        
-    }})
-
-  }
-
-
   /**
    * method to handle submission of form, triggers add selected properties to cart api 
    * @param formData 
@@ -151,17 +131,17 @@ const ProgramCard = () => {
   function handleClickNextButton(formData: any) {
 
 
-    const isUserLoggedIn = getUserToken()
+    // const isUserLoggedIn = getUserToken()
 
 
-    if (!isUserLoggedIn) {
-      setDataById('defaultProgramData', { formData: formData })
-      setDataById('previousRoute', { url: { pathname: routes.programSelection() } })
-      navigate(routes.userLogin())
-      return
-    }
+    // if (!isUserLoggedIn) {
+    //   setDataById('defaultProgramData', { formData: formData })
+    //   setDataById('previousRoute', { url: { pathname: routes.programSelection() } })
+    //   navigate(routes.userLogin())
+    //   return
+    // }
 
-    getPaymentDetails()  // to check if user already registered for this event
+    
 
     setDataById('defaultProgramData', { formData: formData }) // storing form data for setting default values in next screen 
 
