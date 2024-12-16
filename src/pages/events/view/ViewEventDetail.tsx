@@ -371,7 +371,7 @@ const ViewEventDetail = () => {
             <TemplateCard eventData={eventFullData} onSubmitHandler={handleSubmitHandler}/>
           </TabPanel>
           <TabPanel value="7">
-            <FormBuilder />
+            <FormBuilder eventData={eventFullData}/>
           </TabPanel>
           <TabPanel value="8">
             <PriceTierList />
