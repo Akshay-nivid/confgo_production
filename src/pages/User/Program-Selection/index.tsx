@@ -2,7 +2,6 @@ import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid2";
 import ProgramCard from "./ProgramCard";
-import { useLayoutEffect } from "react";
 
 /**
  * User program selection page component
