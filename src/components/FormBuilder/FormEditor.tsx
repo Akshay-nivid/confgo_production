@@ -16,6 +16,7 @@ interface IFormEditor {
     participantType: string,
     participantData?: any;
     handleGenerateForm: (participantType: string) => void
+    eventData? :any
 }
 
 /**
@@ -32,8 +33,7 @@ interface IFormEditor {
  * @returns The FormEditor component
  */
 
-const FormEditor: React.FC<IFormEditor> = ({ participantType, participantData, handleGenerateForm }) => {
-
+const FormEditor: React.FC<IFormEditor> = ({ participantType, participantData, handleGenerateForm,eventData }) => {
 
     const formFieldsArray = useStore((state: any) => state?.compData?.["formFieldsArray"]) ?? {};
 
@@ -64,41 +64,48 @@ const FormEditor: React.FC<IFormEditor> = ({ participantType, participantData, h
 
     const handleCreateFormField = (formData: any, userType: string) => {
 
-
-        const newData = {
-            ...formData,
-            ...participantData,
-            participantType: participantType,
-            uuid: crypto.randomUUID(),
-            option: isFieldTypePresent(formData.fieldType) ? formData.option : undefined,
-        };
-
-
-        if (!formFieldsArray) {
-            setDataById('formFieldsArray', { [userType]: [formData] });
-            return;
-        }
-
-
-        const updatedFormFieldsArray = { ...formFieldsArray };  // Create a copy of formFieldsArray to avoid direct mutation
-
-
-        if (!updatedFormFieldsArray[userType]) {   // Initialize the userType array if it doesn't exist
-            updatedFormFieldsArray[userType] = [];
-        }
-
-        updatedFormFieldsArray[userType].push(newData);
-
-        setDataById('formFieldsArray', updatedFormFieldsArray);
-
-        reset({
-            title: "",
-            fieldType: "",
-            required: false,
-            option: [{ value: "" }],
-        });
-
-
+        if (eventData?.published) {
+            setDataById("snackBarInfo", {
+              open: true,
+              autoHideDuration: 2000,
+              severity: "error",
+              message: "Event is Already Published !",
+            });}
+            else{
+                const newData = {
+                    ...formData,
+                    ...participantData,
+                    participantType: participantType,
+                    uuid: crypto.randomUUID(),
+                    option: isFieldTypePresent(formData.fieldType) ? formData.option : undefined,
+                };
+        
+        
+                if (!formFieldsArray) {
+                    setDataById('formFieldsArray', { [userType]: [formData] });
+                    return;
+                }
+        
+        
+                const updatedFormFieldsArray = { ...formFieldsArray };  // Create a copy of formFieldsArray to avoid direct mutation
+        
+        
+                if (!updatedFormFieldsArray[userType]) {   // Initialize the userType array if it doesn't exist
+                    updatedFormFieldsArray[userType] = [];
+                }
+        
+                updatedFormFieldsArray[userType].push(newData);
+        
+                setDataById('formFieldsArray', updatedFormFieldsArray);
+        
+                reset({
+                    title: "",
+                    fieldType: "",
+                    required: false,
+                    option: [{ value: "" }],
+                });
+                
+            }
     };
 
 

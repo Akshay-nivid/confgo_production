@@ -213,7 +213,7 @@ const handleRowClick=(id:string |number)=>{
           dataTransformer={transformData}
           source={source}
           title="Event Partcipant List"
-          noRecordIcon={<NoUserList className="userdetail-niimage"/>}
+          noRecordIcon={<NoUserList className="userdetail-noimage"/>}
           hideFooterPagination={false}
           columns={columns}
           id="participant-list-datagrid"

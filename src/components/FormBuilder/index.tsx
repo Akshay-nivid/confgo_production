@@ -12,13 +12,15 @@ import  { useEffect } from 'react';
 import CustomButton from '../CustomButton/CustomButton';
 import { useLocation } from 'react-router-dom';
 
-
+interface FormBuilderProps {
+  eventData: any;
+}
 
 /**
  * Form Builder Component to creact custom form field
  *
  */
-const FormBuilder = () => {
+  const FormBuilder: React.FC<FormBuilderProps> = ({ eventData }) => { 
 
 
   const eventId = useLocation()?.pathname.split("/")[3];
@@ -70,17 +72,24 @@ const FormBuilder = () => {
     const isGeneric = participantType === GENERIC;
 
 
-
-
-    if (isGeneric && formFieldsArray[GENERIC].length === 0) {
+    if (eventData?.published) {
       setDataById("snackBarInfo", {
         open: true,
         autoHideDuration: 2000,
         severity: "error",
-        message: "Please add at least one field",
-      });
-      return
-    }
+        message: "Event is Already Published !",
+      });}
+      else{
+        if (isGeneric && formFieldsArray[GENERIC].length === 0) {
+          setDataById("snackBarInfo", {
+            open: true,
+            autoHideDuration: 2000,
+            severity: "error",
+            message: "Please add at least one field",
+          });
+          return
+        }
+      }
 
 
     let parsedData;
@@ -145,52 +154,59 @@ const FormBuilder = () => {
 
     const body = isGeneric ? formData : { eventId: parseInt(eventId), formData: formData }
 
-
-    if (formData && formData.length === 0) {
+    if (eventData?.published) {
       setDataById("snackBarInfo", {
         open: true,
         autoHideDuration: 2000,
         severity: "error",
-        message: "Please add at least one field",
-      });
-      return
-    }
-
-    POST({
-      url: "event/form",
-      body: body,
-      id: "dynamicGeneratedForm",
-      successCB: () => {
-
-        if (isGeneric) {
-          const { generic, ...specificFormFieldsArray } = formFieldsArray
-
-
-          const updatedSpecificFormFieldsArray = Object.keys(specificFormFieldsArray).reduce((acc: any, key: string) => {
-
-            acc[key] = [];
-            return acc;
-          }, {});
-
-
-          setDataById('formFieldsArray', { ...formFieldsArray, ...updatedSpecificFormFieldsArray });
-        } else {
-
-          setDataById('formFieldsArray', { ...formFieldsArray, generic:[] });
-          
+        message: "Event is Already Published !",
+      });}
+      else{
+        if (formData && formData.length === 0) {
+          setDataById("snackBarInfo", {
+            open: true,
+            autoHideDuration: 2000,
+            severity: "error",
+            message: "Please add at least one field",
+          });
+          return
         }
-
-        setDataById("snackBarInfo", {
-          open: true,
-          autoHideDuration: 2000,
-          severity: "success",
-          message: "Form generated successfully!",
+    
+        POST({
+          url: "event/form",
+          body: body,
+          id: "dynamicGeneratedForm",
+          successCB: () => {
+    
+            if (isGeneric) {
+              const { generic, ...specificFormFieldsArray } = formFieldsArray
+    
+    
+              const updatedSpecificFormFieldsArray = Object.keys(specificFormFieldsArray).reduce((acc: any, key: string) => {
+    
+                acc[key] = [];
+                return acc;
+              }, {});
+    
+    
+              setDataById('formFieldsArray', { ...formFieldsArray, ...updatedSpecificFormFieldsArray });
+            } else {
+    
+              setDataById('formFieldsArray', { ...formFieldsArray, generic:[] });
+              
+            }
+    
+            setDataById("snackBarInfo", {
+              open: true,
+              autoHideDuration: 2000,
+              severity: "success",
+              message: "Form generated successfully!",
+            });
+    
+          }
         });
-
+      } 
       }
-    });
-  }
-
 
   return (
     <Grid justifyContent={"center"} container className="form-builder layout">
@@ -209,7 +225,7 @@ const FormBuilder = () => {
             <Grid display={"flex"} className="grid-left" size={6}>
 
               <Box className="fields-data-container">
-                <FormFieldList participantType={"generic"} />
+                <FormFieldList participantType={"generic"} eventData={eventData}/>
 
               </Box>
 
@@ -222,7 +238,7 @@ const FormBuilder = () => {
               height={"100%"}
               paddingBlock={"2rem"}
             >
-              <FormEditor handleGenerateForm={handleClickGenerateForm} participantType="generic" participantData={{}} />
+              <FormEditor handleGenerateForm={handleClickGenerateForm} participantType="generic" participantData={{}} eventData={eventData}/>
 
             </Grid>
           </Grid>
@@ -238,7 +254,7 @@ const FormBuilder = () => {
                       <Grid size={12} container className="form-builder-title-container">
                         <Grid display={"flex"} className="grid-left" size={6}>
                           <Box className="fields-data-container">
-                            <FormFieldList participantType={user?.id} />
+                            <FormFieldList participantType={user?.id} eventData={eventData}/>
                           </Box>
                         </Grid>
                         <Grid
@@ -249,7 +265,7 @@ const FormBuilder = () => {
                           height={"100%"}
                           paddingBlock={"2rem"}
                         >
-                          <FormEditor handleGenerateForm={handleClickGenerateForm} participantType={user?.id} participantData={user} />
+                          <FormEditor handleGenerateForm={handleClickGenerateForm} participantType={user?.id} participantData={user} eventData={eventData}/>
                         </Grid>
                       </Grid>
                     </AccordionDetails>
