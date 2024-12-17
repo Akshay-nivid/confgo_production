@@ -1,12 +1,12 @@
 /**
  * Component displays the top menu section of the template
  */
-import useStore, { clearDataById, resetStore, setDataById } from '@/Libs/store';
+import useStore, { resetStore, setDataById } from '@/Libs/store';
 import { getUserToken, handleLogout } from '@/Utils/CommonBaseClass';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import routes from '@/router/routes';
 import Grid from '@mui/material/Grid2';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link, useLocation,useNavigate } from 'react-router-dom';
 import config from "../../../../config.json";
 
