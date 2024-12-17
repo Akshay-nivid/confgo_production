@@ -1,39 +1,76 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
+import useStore from "@/Libs/store";
+import routes from "@/router/routes";
 import { validateEmail, validateMaxLength, validatePhoneNumber, validateRequiredField } from "@/Utils/Validation";
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 const CreateNewUsers = () => {
     type FormData = {
-        name: string,
+        firstName: string,
+        lastName: string,
         role: any,
         email: string,
         phone: string
     }
+    const navigate = useNavigate();
+    const POST = useStore((state: any) => state.POST);
+    const setDataById = useStore((state: any) => state.setDataById);
     const { handleSubmit, control } = useForm<FormData>();
-    const onSubmit = () => {
-
+    const onSubmit = (data: FormData) => {
+        createUser(data);
     }
+    const createUser = async (data: FormData) => {
+        await POST({
+            url: 'user',
+            body: {
+                firstName: data.firstName,
+                lastName: data.firstName,
+                email: data.email,
+                phone: data.phone
+            },
+            id: 'create-admin-user',
+            successCB: (context: any) => {
+                if (context?.success) {
+                    navigate(routes.userSetPassword(), {
+                        state: {
+                            email: data.email,
+                            // phoneNumber: data.phone,
+                            // token: context?.data?.token?.token,
+                            userId: context?.data?.token?.userId,
+                            // purpose:purposeTypes?.SET_PASSWORD
+                        },
+                    });
+                    setDataById("resendOtp", { token: context?.data?.token?.token });
+                }
+            },
+            errorCB: (context: any) => {
+                setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
+            }
+        });
+    };
     const selectOptions = [
         { value: "volunteer", label: "Volunteer" },
         { value: 'member', label: 'Member' },
     ]
-    return <Grid container className='admin-users'>
+    return <Grid container className='admin-users' spacing={2}>
         <Grid size={12} >
             <Typography className="admin-users-header">Create New User</Typography>
         </Grid>
-        <Grid className="admin-users-form-wrap">
+        <div className="admin-users-form-wrap">
             <form onSubmit={handleSubmit(onSubmit)}>
-                <Grid container display={"flex"} size={12} justifyContent={"space-between"} spacing={2} alignItems={"center"}>
-                    <Grid className="admin-users-form-gap" size={{ xs: 12, sm: 6 }}>
+                <Grid container spacing={2}>
+                <Grid container display={"flex"} size={12} justifyContent={"space-between"} alignItems={"center"} spacing={2}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
                         <CustomTextField
                             placeholder="Full Name"
-                            label="Full Name "
+                            label="first Name "
                             control={control}
-                            name="name"
+                            name="firstName"
                             type="text"
                             rules={{
                                 required: { value: true, message: "Name is required" },
@@ -44,18 +81,24 @@ const CreateNewUsers = () => {
                             }}
                         />
                     </Grid>
-                    <Grid className="admin-users-form-gap" size={{ xs: 12, sm: 6 }}>
-                        <CustomSelect
-                         fullWidth
-                            name="role"
+                    <Grid size={{ xs: 12, sm: 6 }}>
+                        <CustomTextField
+                            placeholder="Last Name"
+                            label="Last Name "
                             control={control}
-                            label="Select Field Type"
-                            options={selectOptions}
-                            rules={{required:validateRequiredField({})}}
+                            name="lastName"
+                            type="text"
+                            rules={{
+                                required: { value: true, message: "Name is required" },
+                                pattern: {
+                                    value: /^(?!\s*$)(?!\s+$).+/,
+                                    message: "Name cannot be only spaces"
+                                },
+                            }}
                         />
                     </Grid>
                 </Grid>
-                <Grid container display={"flex"} size={12} justifyContent={"space-between"} spacing={2} alignItems={"center"}>
+                <Grid container display={"flex"} size={12} justifyContent={"space-between"} alignItems={"center"}>
                     <Grid size={{ xs: 12, sm: 6 }}>
                         <CustomTextField
                             control={control}
@@ -88,11 +131,24 @@ const CreateNewUsers = () => {
                         />
                     </Grid>
                 </Grid>
-                <Grid className="admin-users-submit-btn-container" display={"flex"}   size={12} justifyContent={"flex-end"}  alignItems={"center"} >                 
+                <Grid container display={"flex"} size={12} justifyContent={"space-between"} alignItems={"center"}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
+                        <CustomSelect
+                            fullWidth
+                            name="role"
+                            control={control}
+                            label="Select Field Type"
+                            options={selectOptions}
+                            rules={{ required: validateRequiredField({}) }}
+                        />
+                    </Grid>
+                </Grid>
+                <Grid className="admin-users-submit-btn-container" display={"flex"} size={12} justifyContent={"flex-end"} alignItems={"center"} >
                     <CustomButton type="submit" className="admin-users-submit-btn-container-btn" label="Submit" />
                 </Grid>
+                </Grid>
             </form>
-        </Grid>
+        </div>
     </Grid>
 
 }

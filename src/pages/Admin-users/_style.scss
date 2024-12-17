@@ -1,22 +1,25 @@
 .admin-users{
     background-color: $clr_white;
+    padding: 1rem;
     margin: 1rem;
+    border-radius: 0.5rem;
     &-header{
+        margin-left: 1rem !important;
         font-weight: $font_bold !important;
         font-size: $h4 !important;
     }
     &-form-wrap {
-        width: 100%;
-        margin: 1rem;
-    }
-    &-form-gap{
-        margin-bottom: 2rem;
+        width: 100% !important;
+        margin: 1rem !important;
     }
     &-submit-btn-container{
         margin-top: 3.583rem;
+
         &-btn{
             background-color: $clr_green !important;
             width: 29.333rem;
+            height: 3.75rem;
+            box-shadow: none !important;
         }
       
     }
