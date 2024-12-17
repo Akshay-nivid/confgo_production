@@ -186,9 +186,13 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
         successCB: async () => {
           await fetchAttendeeTypeList();
         },
-        errorCB: (error: any) => {
-          Logger.error("Failed to delete attendee type:", error);
-        },
+        errorCB: (context: any) => {
+          setDataById('snackBarInfo', {
+            open: true,
+            autoHideDuration: 2000,
+            severity: 'error',
+            message: context?.message,
+          });        },
       });
     } catch (error) {
       Logger.error("API call error on delete:", error);

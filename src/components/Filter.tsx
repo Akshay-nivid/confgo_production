@@ -309,7 +309,7 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
                                                         className='search-input'
                                                         label={item.label}
                                                         onChange={(e) => field.onChange(e.target.value)}>
-                                                        {item?.data?.map((option: any, index: any) => (
+                                                        {item?.data?.map((option: any) => (
                                                             <MenuItem
                                                                 value={option.value}
                                                             >{option.name}</MenuItem>

@@ -71,7 +71,7 @@ const Register = () => {
   };
   return (
     <Grid container className="register-main-container">
-      <Grid  justifyContent={'space-between'} direction={'column'}  className="grid-left" size={{ xs: 12, sm: 7 }} >
+      <Grid  justifyContent={'start'} direction={'column'}  className="grid-left" size={{ xs: 12, sm: 7 }} >
       {!isMobileScreen &&
         (pageSwitch.data === "CREATE_ACCOUNT_PAGE" || 
          pageSwitch.data === "ADD_ORGANIZATION_PAGE" || 

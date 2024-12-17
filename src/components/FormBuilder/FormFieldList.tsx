@@ -25,7 +25,12 @@ import DoneIcon from '@mui/icons-material/Done';
  * fields from the store are displayed and managed.
  */
 
-const FormFieldList = ({ participantType }: { participantType: string; }) => {
+interface FormBuilderProps {
+    eventData?: any;
+    participantType:string
+  }
+  
+const FormFieldList: React.FC<FormBuilderProps> = ({ participantType,eventData }) => {
 
     const [expanded, setExpanded] = useState<string | false>("");
 
@@ -53,16 +58,26 @@ const FormFieldList = ({ participantType }: { participantType: string; }) => {
      * @param {string} panel - panel name
      */
     function handleClickEditIcon(currentFieldData: any, panel: string) {
-        if (panel === expanded) {
-            return;
-        }
-        reset({
-            title: currentFieldData.title,
-            fieldType: currentFieldData.fieldType,
-            required: currentFieldData.required,
-            option: currentFieldData.option,
-        });
-        setExpanded(panel);
+        if (eventData?.published) {
+            setDataById("snackBarInfo", {
+              open: true,
+              autoHideDuration: 2000,
+              severity: "error",
+              message: "Event is Already Published !",
+            });}
+            else{
+                if (panel === expanded) {
+                    return;
+                }
+                reset({
+                    title: currentFieldData.title,
+                    fieldType: currentFieldData.fieldType,
+                    required: currentFieldData.required,
+                    option: currentFieldData.option,
+                });
+                setExpanded(panel);
+            }
+     
     }
 
 
@@ -71,10 +86,19 @@ const FormFieldList = ({ participantType }: { participantType: string; }) => {
      * @param {string} id - id of the field to be deleted
      */
     function handleClickDeleteIcon(id: string) {
+        if (eventData?.published) {
+            setDataById("snackBarInfo", {
+              open: true,
+              autoHideDuration: 2000,
+              severity: "error",
+              message: "Event is Already Published !",
+            });}
+            else{
         const updatedFormFields = { ...formFieldsArray };
         updatedFormFields[participantType] = updatedFormFields[participantType].filter((field: any) => field.uuid !== id);
         setDataById("formFieldsArray", { ...updatedFormFields });
     }
+}
 
 
     /**
