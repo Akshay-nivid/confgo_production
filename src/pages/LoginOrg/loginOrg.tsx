@@ -6,7 +6,6 @@ import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import routes from "@/router/routes";
 import useStore, { POST } from "@/Libs/store";
 import apiClient from "@/Libs/Https/API-client";
-import { SignUpFlowIcon } from "@/assets/svg";
 import { useIsMobileScreen } from "@/Utils/CommonBaseClass";
 
 

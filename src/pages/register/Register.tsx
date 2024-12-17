@@ -12,7 +12,6 @@ import routes from "@/router/routes";
 import { StepperBoxes } from "./StepperBox";
 import { useEffect } from "react";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { SignUpFlowIcon } from "@/assets/svg";
 import { useIsMobileScreen } from "@/Utils/CommonBaseClass";
 /*
  * Component used to register company for scheduling meting,metups etc
