@@ -562,8 +562,9 @@ const EventInfoCard: React.FC<any> = React.memo(
                           control={control}
                           name="venueName"
                           type="text"
-                          shrink={watch('venueName')!==''&&watch('venueName')!==undefined}
                           rules={{ required: watch("type") === "OFFLINE" }}
+                          shrink={watch('venueName')!==''&&watch('venueName')!==undefined?true:undefined}
+                          readOnly
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 12 }}>
@@ -572,8 +573,8 @@ const EventInfoCard: React.FC<any> = React.memo(
                           control={control}
                           name="address"
                           type="text"
-                          shrink={watch('address')!==''&&watch('address')!==undefined}
                           rules={{ required: watch("type") === "OFFLINE" }}
+                          shrink={watch('address')!==''&&watch('address')!==undefined?true:undefined}
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 12 }}>
@@ -582,7 +583,8 @@ const EventInfoCard: React.FC<any> = React.memo(
                           name="country"
                           control={control}
                           type="text"
-                          shrink={watch('country')!==''&&watch('country')!==undefined}
+                          shrink={watch('country')!==''&&watch('country')!==undefined?true:undefined}
+                          readOnly
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 12 }}>
@@ -591,7 +593,8 @@ const EventInfoCard: React.FC<any> = React.memo(
                             label="State"
                             control={control}
                             type="text"
-                            shrink={watch('country')!==''&&watch('country')!==undefined}
+                            shrink={watch('state')!==''&&watch('state')!==undefined?true:undefined}
+                            readOnly
                           />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 12 }}>
@@ -600,8 +603,9 @@ const EventInfoCard: React.FC<any> = React.memo(
                           control={control}
                           name="city"
                           type="text"
-                          shrink={watch('city')!==''&&watch('city')!==undefined}
                           rules={{ required: watch("eventClass") === "OFFLINE" }}
+                          shrink={watch('city')!==''&&watch('city')!==undefined?true:undefined}
+                          readOnly
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 12 }}>
@@ -610,7 +614,6 @@ const EventInfoCard: React.FC<any> = React.memo(
                           control={control}
                           name="postalCode"
                           type="text"
-                          shrink={watch('postalCode')!==''&&watch('postalCode')!==undefined}
                           rules={{
                             required: watch("type") === "OFFLINE",
                             pattern: {
@@ -618,6 +621,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                               message: "Enter a valid postal code (e.g., '12345', '12345-6789', or '123456')",
                             },
                           }}
+                          shrink={watch('postalCode')!==''&&watch('postalCode')!==undefined?true:undefined}
                         />
                       </Grid>
 

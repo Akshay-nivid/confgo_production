@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { Logger } from '@/Utils/Logger';
-import useStore from '@/Libs/store';
+import useStore, { clearDataById } from '@/Libs/store';
 import { registerComponent } from '@/Libs/DataHandler/dataHandler';
 import { ApiResponse } from '@/pages/LoginOrg/loginOrg';
 import apiClient from '@/Libs/Https/API-client';
@@ -84,6 +84,7 @@ const UserLogin = (props: UserProps) => {
           
           if (previousRoute) {
             navigate(previousRoute);
+            clearDataById('previousRoute');
           } else {
             navigate(routes.userHome());
           }
@@ -136,8 +137,12 @@ const UserLogin = (props: UserProps) => {
           sessionStorage.setItem('isUserLoggedIn', 'true');
           sessionStorage.setItem('ssoUser', 'true');
           setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
+          
           if (previousRoute) {
-            navigate(previousRoute?.pathname);
+            console.log(previousRoute)
+            navigate(previousRoute);
+            clearDataById('previousRoute');
+
             return
           }
           navigate(routes.userHome());
