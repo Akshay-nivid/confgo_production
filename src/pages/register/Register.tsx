@@ -70,8 +70,8 @@ const Register = () => {
     }
   };
   return (
-    <Grid container className="register-main-container">
-      <Grid  justifyContent={'start'} direction={'column'}  className="grid-left" size={{ xs: 12, sm: 7 }} >
+    <Grid container className="register-main-container overflow-hidden">
+      <Grid  justifyContent={'start'} direction={'column'}  className="grid-left " size={{ xs: 12, md: 7 }} >
       {!isMobileScreen &&
         (pageSwitch.data === "CREATE_ACCOUNT_PAGE" || 
          pageSwitch.data === "ADD_ORGANIZATION_PAGE" || 
@@ -126,7 +126,8 @@ const Register = () => {
         }
       </Grid>
       {!isMobileScreen && (<Grid container size={{ xs: 12, md: 5 }} className="grid-right">
-        <SignUpFlowIcon/>
+        <Typography className="grid-right-image-text">Unlock the Future of Conference <br/> Management – Join Us Today!</Typography>
+
       </Grid>)}
     </Grid>
   );

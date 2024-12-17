@@ -170,7 +170,7 @@ const LoginOrg = () => {
   return (
     <Box className="login-org-main-container">
       <Grid container className="grid-layout">
-        <Grid size={{ xs: 12, sm: 7 }} className="grid-left">
+        <Grid size={{ xs: 12, md: 7 }} className="grid-left">
           <Grid className="left-content-wrapper">
             <Grid className="left-inner-content">
               <Grid className="left-header-wrapper">
@@ -183,7 +183,7 @@ const LoginOrg = () => {
                 <form
                   noValidate
                   onSubmit={handleSubmit(onSubmit)}
-                  className="form"
+                  className="form w-full"
                 >
                   <CustomTextField
                     control={control}
@@ -226,8 +226,10 @@ const LoginOrg = () => {
             </Grid>
           </Grid>
         </Grid>
-       {isMobileScreen ? <></>: <Grid container size={{ xs: 12, md: 5 }} className="grid-right">
-          <SignUpFlowIcon />
+       {isMobileScreen ? <></>: <Grid container size={{ xs: 0, md: 5 }} className="grid-right">
+          {/* <SignUpFlowIcon /> */}
+          <Typography className="grid-right-image-text">Unlock the Future of Conference <br/> Management – Join Us Today!</Typography>
+
         </Grid>}
       </Grid>
     </Box>

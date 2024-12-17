@@ -1,13 +1,22 @@
 .login-org-main-container {
   height: 100vh;
   & .grid-layout {
+
     min-height: 100% !important;
     max-width: 100vw;
     margin-inline: auto;
     & .grid-right {
-      svg{
-        width: 100%;
-        height: auto;
+      position: relative;
+      background: url("../assets/svg/grid-img.svg") no-repeat;
+      background-size: cover;
+      .grid-right-image-text{
+        font-family: $font;
+        font-size: $h5;
+        font-weight: $font_semibold;
+        color: $clr_white;
+        position: absolute;
+        bottom: 9rem;
+        left: 4.167rem;
       }
     }
     & .grid-left {
@@ -20,6 +29,7 @@
       background-repeat: no-repeat;
       border-radius: 1.666rem;
       background-size: 40%;
+
 
       & .left-content-wrapper {
         height: 100% !important;
@@ -89,7 +99,7 @@
             line-height: 1.5rem;
             color: $clr_blue;
             height: 1.5rem; 
-            padding-top:0.625rem;
+            margin-top: 1.417rem;
             cursor: pointer;
           }
         }
