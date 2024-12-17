@@ -12,7 +12,7 @@ import Grid from "@mui/material/Grid2";
 import { formatDate, handleClickBackButton, handleGroupData, isAnyProgramSelectedForDate, processFormData, toggleProgramCheckboxesByDate } from "./programsHandlers";
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
-import { getUserToken } from "@/Utils/CommonBaseClass";
+// import { getUserToken } from "@/Utils/CommonBaseClass";
 import clsx from "clsx";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -128,19 +128,19 @@ const ProgramCard = () => {
  * @param {number} eventId - event id
  * @returns {void}
  */
-  const getPaymentDetails = () => {
+  // const getPaymentDetails = () => {
 
-    POST({
-      url: 'participant/payment/details',
-      id: 'paymentDetails',
-      body: { eventId: eventId },
-      successCB: () => {
+  //   POST({
+  //     url: 'participant/payment/details',
+  //     id: 'paymentDetails',
+  //     body: { eventId: eventId },
+  //     successCB: () => {
 
        
         
-    }})
+  //   }})
 
-  }
+  // }
 
 
   /**
@@ -151,17 +151,17 @@ const ProgramCard = () => {
   function handleClickNextButton(formData: any) {
 
 
-    const isUserLoggedIn = getUserToken()
+    // const isUserLoggedIn = getUserToken()
 
 
-    if (!isUserLoggedIn) {
-      setDataById('defaultProgramData', { formData: formData })
-      setDataById('previousRoute', { url: { pathname: routes.programSelection() } })
-      navigate(routes.userLogin())
-      return
-    }
+    // if (!isUserLoggedIn) {
+    //   setDataById('defaultProgramData', { formData: formData })
+    //   setDataById('previousRoute', { url: { pathname: routes.programSelection() } })
+    //   navigate(routes.userLogin())
+    //   return
+    // }
 
-    getPaymentDetails()  // to check if user already registered for this event
+    // getPaymentDetails()  // to check if user already registered for this event
 
     setDataById('defaultProgramData', { formData: formData }) // storing form data for setting default values in next screen 
 
