@@ -147,7 +147,7 @@ const SelectedPrograms = () => {
     if (!token) {
 
       navigate(routes.userLogin())
-      setDataById('previousRoute', { url: location })
+      setDataById('previousRoute', { url: location.pathname })
 
     }
 
