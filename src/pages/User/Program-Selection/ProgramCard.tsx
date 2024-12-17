@@ -129,17 +129,6 @@ const ProgramCard = () => {
    */
   function handleClickNextButton(formData: any) {
 
-
-    // const isUserLoggedIn = getUserToken()
-
-
-    // if (!isUserLoggedIn) {
-    //   setDataById('defaultProgramData', { formData: formData })
-    //   setDataById('previousRoute', { url: { pathname: routes.programSelection() } })
-    //   navigate(routes.userLogin())
-    //   return
-    // }
-
     
 
     setDataById('defaultProgramData', { formData: formData }) // storing form data for setting default values in next screen 
@@ -469,7 +458,7 @@ const ProgramCard = () => {
         ))}
       </Box>
       <Box className="navigation-button-container">
-        
+
         <CustomButton
           variant="outlined"
           className="back-button"

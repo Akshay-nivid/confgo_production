@@ -45,6 +45,9 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
        navigate(routes.userLogin());
     }
 
+    /**
+     * Function navigates to the signup page and stores the previous route in the store
+     */
     const SignupFn = () => {
         setDataById("previousRoute", { url: location.pathname });
         navigate(routes.userRegister());
@@ -64,10 +67,6 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
         });
     }
 
-
-    // useEffect(() => {
-    //     clearDataById('previousRoute')
-    // }, [])
 
 
     return (
