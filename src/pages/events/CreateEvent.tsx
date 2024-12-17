@@ -470,7 +470,7 @@ const CreateEvent: React.FC<EventProps> =
                             )}
                               <CustomButton
                             className="create-event-btn-container-select-btn"
-                            label="Choose Logo"
+                            label={selectedFile ? "Change Event Logo" : "Upload Event Logo"}
                             variant="outlined"
                             onClick={() => setModalOpen(true)}
                           />
