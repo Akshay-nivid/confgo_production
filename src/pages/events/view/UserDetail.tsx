@@ -14,6 +14,7 @@ import "./userdetail.scss";
 import React from "react";
 import { formatDateTimeRange } from "@/Utils/CommonBaseClass";
 import { CallingIcon, MailIcon } from "@/assets/svg";
+import UserAllDetail from "./userAllDetail";
 import config from "../../../../config.json";
 interface User {
   id: string;
@@ -39,6 +40,7 @@ interface Program {
 const UserDetail: React.FC = React.memo(() => {
   const { id } = useParams();
   const [user, setUser] = useState<User | null>(null);
+  const [userdetailData,setuserdetailData]=useState()
   const [programs, setPrograms] = useState<Program[]>([]);
   const baseUrl = config.api.url;
 
@@ -54,6 +56,7 @@ const UserDetail: React.FC = React.memo(() => {
       const response = await apiClient.get(`/participant/${id}`);
       if (response.data.status === "Success") {
         const data = response.data.data;
+        setuserdetailData(data)
 
         const userData = {
           id: data.details.user.id,
@@ -68,15 +71,15 @@ const UserDetail: React.FC = React.memo(() => {
         setUser(userData);
 
         const programData = data.programs
-        .filter((program: any) => program.event)
-        .map((program: any) => ({
-          id: program.event?.id,
-          name: program.event?.name, 
-          location: program.event?.venue?.city + "," + program.event?.venue?.country || "Unknown",
-          startTime: program.event?.startTime,
-          endTime: program.event?.endTime,
-          status: program.event?.statusId,
-          speaker: program.event?.speaker,
+          .filter((program: any) => program.event) // Filter out null or undefined events
+          .map((program: any) => ({
+            id: program.event?.id,
+            name: program.event?.name, 
+            location: program.event?.venue?.city + "," + program.event?.venue?.country || "Unknown",
+            startTime: program.event?.startTime,
+            endTime: program.event?.endTime,
+            status: program.event?.statusId,
+            speaker: program.event?.speaker,
         }));
         setPrograms(programData);
       }
@@ -164,8 +167,11 @@ const UserDetail: React.FC = React.memo(() => {
           </Grid>
         )))
         : (
-          null)}
+      <Typography>No programs registered.</Typography>)}
       </Grid>  
+      <Grid className="userdetails-alldetails">
+      <UserAllDetail userdetail={userdetailData}/>
+      </Grid>
     </Grid>
   );
 });

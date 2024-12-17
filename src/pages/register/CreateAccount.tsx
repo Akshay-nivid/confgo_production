@@ -8,21 +8,61 @@ import {
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { SubmitHandler, useForm } from "react-hook-form";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import useStore from "@/Libs/store";
+import useStore, { POST } from "@/Libs/store";
 import { emailRules, phoneRules } from "@/Utils/Validation";
+import { Logger } from "@/Utils/Logger";
 /*
  * funtional componet to render create form field
  */
 const CreateAccount = React.memo(() => {
     const { setDataById }: any = useStore();
     const form2 = useStore((state: any) => state?.compData?.['form2']) ?? [];
-    const { handleSubmit, control } = useForm<FormData>();
+    const { handleSubmit, control, setError, clearErrors } = useForm<FormData>();
     /*
      * function to handle form submission 
      */
     const onSubmit: SubmitHandler<FormData> = (data) => {
+      /**
+       * function to process response from api to check if the provided phone number or email 
+       * already exist and set error messages,
+       */
+      const successCB = (context: any) => {
+        clearErrors("phoneNumber");
+        clearErrors("email");
+        const { phoneExists, emailExists } = context?.data;
+
+        if (phoneExists) {
+          setError("phoneNumber", {
+            type: "manual",
+            message: "Account already exists with this phone number.",
+          });
+        }
+        if (emailExists) {
+          setError("email", {
+            type: "manual",
+            message: "Account already exists with this email.",
+          });
+        }
+        if (phoneExists || emailExists) {
+          return;
+        }
         setDataById('register', { data: 'ADD_ORGANIZATION_PAGE', field_values: data, step: 3 });
         setDataById('form2', { field_values: data });
+      };
+      try {
+        const req = {
+          email: data?.email,
+          phone: data?.phoneNumber
+        };
+        POST({
+          url: "/user/checkRegistration",
+          body: req,
+          id: "existing-user-check",
+          successCB: successCB,
+        });
+      } catch (error) {
+        Logger.error('Error during SignUp:', error);
+      }
     };
     /*
      * Form fields used in FormData

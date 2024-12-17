@@ -342,7 +342,7 @@ const ViewEventDetail = () => {
               <Tab label="Event Information" className="event-detail-tab-layout-item" value="1" />
               <Tab label="Event Contributors" className="event-detail-tab-layout-item" value="2" />
               <Tab label="Sessions" className="event-detail-tab-layout-item" value="3" />
-              <Tab label="Location" className="event-detail-tab-layout-item" value="4" />
+              { eventFullData?.venue && <Tab label="Location" className="event-detail-tab-layout-item" value="4" />}
               <Tab label="Users" className="event-detail-tab-layout-item" value="5" />
               <Tab label="Template" className="event-detail-tab-layout-item" value="6" />
               <Tab label="Custom Fields" className="event-detail-tab-layout-item" value="7" />
@@ -359,9 +359,11 @@ const ViewEventDetail = () => {
           <TabPanel value="3">
             <Sessions eventData={eventFullData} onSubmitHandler={handleSubmitHandler}/>
           </TabPanel>
+          { eventFullData?.venue &&
           <TabPanel value="4">
             <LocationCard data={eventFullData?.venue}/>
           </TabPanel>
+          }
           <TabPanel value="5">
             <UserListCard />
           </TabPanel>
@@ -369,7 +371,7 @@ const ViewEventDetail = () => {
             <TemplateCard eventData={eventFullData} onSubmitHandler={handleSubmitHandler}/>
           </TabPanel>
           <TabPanel value="7">
-            <FormBuilder />
+            <FormBuilder eventData={eventFullData}/>
           </TabPanel>
           <TabPanel value="8">
             <PriceTierList />

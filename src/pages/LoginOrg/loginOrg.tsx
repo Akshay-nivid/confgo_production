@@ -78,10 +78,11 @@ const LoginOrg = () => {
         url: 'auth/login',
         body,
         id: 'orgLogin',
-         successCB: (response) => {
-          
-         handleLoginSuccess(response?.data);
-          
+        successCB: (response) => {
+          handleLoginSuccess(response?.data);
+        },
+        errorCB: (error) => {
+          handleLoginError(error);
         }
       });
       // Handle success response
