@@ -114,7 +114,10 @@ const EventInfoCard: React.FC<any> = React.memo(
    */
   const onSubmit = async (data: any) => {
     // Format the date and time fields before update request.
-    const excludeKeys = ['slugName','city','address','venue','country','mapUrl','postalCode','state','status','templateId','template','eventPriceTiers','eventProgramSchedules','programs','addons','eventContacts'];
+   let excludeKeys = ['slugName','city','address','venue','country','mapUrl','postalCode','state','status','templateId','template','eventPriceTiers','eventProgramSchedules','programs','addons','eventContacts'];
+    if(data.url==null){
+      excludeKeys.push('url');
+    }
     const formattedData = {
       //remove unnessary fields
       ...Object.fromEntries(
@@ -611,7 +614,6 @@ const EventInfoCard: React.FC<any> = React.memo(
                           control={control}
                           name="postalCode"
                           type="text"
-                          readOnly
                           rules={{
                             required: watch("type") === "OFFLINE",
                             pattern: {
