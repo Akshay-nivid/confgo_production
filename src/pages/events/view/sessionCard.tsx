@@ -143,15 +143,16 @@ const SessionCard: React.FC<SessionCardProps> = ({
                   : item[field.field]}
               </Typography>
             )
-        ):<>
+        )
+        :<>
         <Grid container display="flex" justifyContent="flex-start">
-              <Typography className="event-sessions-session-card-speaker">{item['description']}</Typography>
+              <Typography className="event-sessions-session-card-speaker">{item?.description}</Typography>
         </Grid>
       </>
       }
       </div>
       {/* Delete Confirmation Modal */}
-      <CustomActionModal
+       <CustomActionModal
         icon={<WarningIcon className="unpublish-modal-icon"/>}
         header="Delete Session"
         subHeader="Are you sure you want to delete this session? This action cannot be undone."
