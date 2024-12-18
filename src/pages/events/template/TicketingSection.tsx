@@ -131,39 +131,41 @@ const TicketingSection = React.memo(
         return <Grid ref={ref} container size={{ xs: 12, sm: 12 }} className={`${classPrefix}`} justifyContent={'center'} alignItems={'center'} spacing={2} direction={'column'}>
             <Grid><Typography className={`${classPrefix}-title`}>Registration & Ticketing</Typography></Grid>
 
-            <Grid container spacing={2}>
+            <Grid className={'anim-container'} container spacing={2}>
                 {
                     Object.keys(amountCalculatedData)
                         .map((participantType: any) => {
 
-                            return <Grid size={{ xs: 12, sm: 6 }} key={participantType} className={`${classPrefix}-item-container`}>
-                                <Grid container justifyContent={'center'}>
-                                    <Typography className={`${classPrefix}-item-title`}>
-                                        {participantType}
-                                    </Typography>
-                                </Grid>
-                                <Grid className={`${classPrefix}-content-container`}>
-                                    {
-                                        amountCalculatedData[participantType]
-                                            .map((item: any) => {
-                                                const dateRange = formatDateRange(item.startDate, item.endDate);
-                                                return (
-                                                    <Grid container className={`${classPrefix}-sub-item-container`} justifyContent={'space-between'}>
-                                                        <Grid container direction={'column'}>
-                                                            <Grid><Typography className={`${classPrefix}-sub-item-name`}>{item.name}</Typography></Grid>
-                                                            <Grid><Typography className={`${classPrefix}-sub-item-date`}>{dateRange}</Typography></Grid>
-                                                        </Grid>
-                                                        <Grid container alignItems={'center'}>
-                                                            <Typography className={`${classPrefix}-sub-item-amount`}>₹{item.calculatedAmount.toFixed(2)}</Typography>
-                                                        </Grid>
-                                                    </Grid>
-                                                );
-                                            })
-                                    }
-                                </Grid>
-                                <Grid container justifyContent={'center'} alignItems={'flex-end'} className={`${classPrefix}-register-button-container`}><CustomButton onClick={() => handleClickRegister(amountCalculatedData[participantType]?.[0])} label="Register Now" className={`${classPrefix}-register-button`} /></Grid>
+                            return (
 
-                            </Grid>
+                                <Grid size={{ xs: 12, sm: 6 }} key={participantType} className={`${classPrefix}-item-container anim-item`}>
+                                    <Grid container justifyContent={'center'}>
+                                        <Typography className={`${classPrefix}-item-title`}>
+                                            {participantType}
+                                        </Typography>
+                                    </Grid>
+                                    <Grid className={`${classPrefix}-content-container`}>
+                                        {
+                                            amountCalculatedData[participantType]
+                                                .map((item: any) => {
+                                                    const dateRange = formatDateRange(item.startDate, item.endDate);
+                                                    return (
+                                                        <Grid container className={`${classPrefix}-sub-item-container`} justifyContent={'space-between'}>
+                                                            <Grid container direction={'column'}>
+                                                                <Grid><Typography className={`${classPrefix}-sub-item-name`}>{item.name}</Typography></Grid>
+                                                                <Grid><Typography className={`${classPrefix}-sub-item-date`}>{dateRange}</Typography></Grid>
+                                                            </Grid>
+                                                            <Grid container alignItems={'center'}>
+                                                                <Typography className={`${classPrefix}-sub-item-amount`}>₹{item.calculatedAmount.toFixed(2)}</Typography>
+                                                            </Grid>
+                                                        </Grid>
+                                                    );
+                                                })
+                                        }
+                                    </Grid>
+                                    <Grid container justifyContent={'center'} alignItems={'flex-end'} className={`${classPrefix}-register-button-container`}><CustomButton onClick={() => handleClickRegister(amountCalculatedData[participantType]?.[0])} label="Register Now" className={`${classPrefix}-register-button`} /></Grid>
+
+                                </Grid>)
                         })
                 }
             </Grid>

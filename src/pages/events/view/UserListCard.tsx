@@ -185,7 +185,7 @@ const handleRowClick=(id:string |number)=>{
           <CustomAutocomplete
             name="search"
             className="custom-user-search-field"
-            placeholder="Search by name"
+            placeholder="Search by Id,Name or Phone..."
             control={control}
             options={searchResults}
             getOptionLabel={(option: any) =>
@@ -213,7 +213,7 @@ const handleRowClick=(id:string |number)=>{
           dataTransformer={transformData}
           source={source}
           title="Event Partcipant List"
-          noRecordIcon={<NoUserList className="userdetail-niimage"/>}
+          noRecordIcon={<NoUserList className="userdetail-noimage"/>}
           hideFooterPagination={false}
           columns={columns}
           id="participant-list-datagrid"

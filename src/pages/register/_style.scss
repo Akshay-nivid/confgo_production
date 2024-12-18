@@ -16,15 +16,31 @@
       background-repeat: no-repeat;
       border-radius: 1.666rem;
       background-size: 40%;
+      display: flex;
+      overflow-y:auto;
+      scroll-behavior: smooth;
+      height: 100vh;
+      flex-direction: column;
+      // width: 100%;
+      &::-webkit-scrollbar{
+        display: none;
+      }
+     
+      .form-fields-container{
+        row-gap: 2.5rem;
+      }
+      
     }
+   
     & .login-label {
       font-weight: $font_bold !important;
       color: $clr_blue;
     }
     & .register-stepper{
       display: flex;
-      margin-bottom: 4rem;
+      margin-bottom: 2rem;
       &-text{
+        margin-bottom: 2.5rem;
         p{
           font-size: $p5 !important;
           font-weight: $font_medium;
@@ -32,10 +48,18 @@
       }
     }
     & .grid-right {
-        svg{
-          width: 100%;
-          height: auto;
-        }
+      background: url('../assets/svg/grid-img.svg') no-repeat;
+      background-size: cover;
+      position: relative;
+      .grid-right-image-text{
+       font-family: $font;
+       font-size: $h5;
+       font-weight: $font_semibold;
+       color: $clr_white;
+       position: absolute;
+       bottom: 9rem;
+       left: 4.167rem;
+     }
     }
     & .skip-button-payment-page {
       transform: translate(0rem, 1.25rem);
@@ -94,7 +118,6 @@
     & .left-description-text {
       font-size: $h6;
       color: $clr_sub_header;
-      font-weight: $font_normal;
     }
     & .left-plan-text{
       font-size: $h2;
@@ -220,6 +243,7 @@
 
 }
 
+
 .circularProgress {
   color: $clr_white;
   z-index: 1301; /* theme.zIndex.drawer + 1 is typically 1300 */
@@ -249,6 +273,11 @@
   font-family: $font !important;
 }
 
+.already-text{
+  font-size: $h6 !important;
+  font-weight: $font_bold;
+}
+
 // Mobile responsive class
 @media (max-width: 600px) {
         .signup-content-wrapper {
@@ -267,3 +296,4 @@
 .button-margin-bm{
   margin-bottom: 10% !important;
 }
+

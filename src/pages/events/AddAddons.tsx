@@ -83,7 +83,7 @@ const typeArray = [
 
 const AddAddOns: React.FC<ProgramProps> = React.memo(
   ({ formSubmit, onSubmitHandler, data, onSaveHandler ,onaddOnSubmitHandler,addOnOptions,eventData}) => {
-    const { handleSubmit, control, watch, setValue,resetField,setError} = useForm<FormData>({
+    const { handleSubmit, control, watch, setValue,resetField,setError,setFocus} = useForm<FormData>({
 
       defaultValues: {
         addOn: [
@@ -150,12 +150,37 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
         setValue("savedAddOns", data);
       }
     }, [data]);
-
+  
+/**
+ * This method ensures that the field with validation errors or requiring attention and Scrolls smoothly to that field
+ */
+    const scrollToError = (errorField: string) => {
+      const fieldElement = document.querySelector(`[name="${errorField}"]`);
+      if (fieldElement) {
+        fieldElement.scrollIntoView({ behavior: "smooth", block: "center" });
+        (fieldElement as HTMLElement).focus();
+      }
+    };   
+    
     /**
      * Method handles the saving of the programs
      */
     const handleSaveNewPrograms = () => {
-      handleSubmit(onSave)();
+      handleSubmit(onSave, (errors) => {
+        
+        // Check if addOn exists and is an array before forEach
+        if (errors.addOn && Array.isArray(errors.addOn)) {
+          errors.addOn.forEach((programError, index) => {
+            const firstErrorKey = Object.keys(programError ?? {})[0] as keyof FormData["addOn"][number] | undefined;
+    
+            if (firstErrorKey) {
+              const errorField = `addOn.${index}.${firstErrorKey}` as const;              
+              scrollToError(errorField);
+              setFocus(errorField as unknown as keyof FormData);
+            }
+          });
+        }
+      })();
     };
 
     /**
@@ -196,10 +221,9 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
           });
           return;
         }
-     
         const startDate = moment(eventData.startTime).startOf('day');
         const endDate = moment(eventData.endTime).startOf('day');
-        const differenceInDays = endDate.diff(startDate, 'days');
+        const differenceInDays = endDate.diff(startDate, 'days') + (startDate.isBefore(endDate) ? 1 : 0);
         if (parseInt(lastItem?.noOfDays) > differenceInDays) {
           setError(`addOn.${lastIndex}.noOfDays`, {
             type: 'manual',

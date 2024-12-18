@@ -19,8 +19,8 @@ import React from "react";
 import config from "../../../../config.json";
 import FileListModal from "@/components/FileUpload/FileListModal";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import GoogleMapPlacePicker from "../GoogleMapPlacePicker";
 import { validateEmail, validateMaxLength, validatePhoneNumber } from "@/Utils/Validation";
+import LocationSearch from "../LocationSearch";
 
 
 const baseUrl = config.api.url;
@@ -114,7 +114,10 @@ const EventInfoCard: React.FC<any> = React.memo(
    */
   const onSubmit = async (data: any) => {
     // Format the date and time fields before update request.
-    const excludeKeys = ['slugName','city','address','venue','country','mapUrl','postalCode','state','status','templateId','template','eventPriceTiers','eventProgramSchedules','programs','addons','eventContacts'];
+   let excludeKeys = ['slugName','city','address','venue','country','mapUrl','postalCode','state','status','templateId','template','eventPriceTiers','eventProgramSchedules','programs','addons','eventContacts'];
+    if(data.url==null){
+      excludeKeys.push('url');
+    }
     const formattedData = {
       //remove unnessary fields
       ...Object.fromEntries(
@@ -244,8 +247,11 @@ const EventInfoCard: React.FC<any> = React.memo(
           </IconButton>
         </Grid>
         </Grid>
-        {eventData?.assetId!=0&& <Grid size={0}>
-        </Grid>}
+         {eventData?.assetId ?
+         <Grid size={12}>
+       {/* <Grid size={0}>  */}
+        {/* {eventData?.assetId!=0&& <Grid size={0}>
+        </Grid>} */}
        {eventData?.assetId!=0&&<Grid size={{ xs: 12 }}>
         <Grid container flexDirection={"row"} direction={"row"}>
                         <Grid>
@@ -265,6 +271,8 @@ const EventInfoCard: React.FC<any> = React.memo(
                         </Grid>
                   </Grid>
         </Grid>} 
+        </Grid>
+         : null} 
         <Grid size={{ xs: 3 }}>
           <Typography className="event-information-subtitle">
              Name
@@ -560,6 +568,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                           name="venueName"
                           type="text"
                           rules={{ required: watch("type") === "OFFLINE" }}
+                          shrink={watch('venueName')!==''&&watch('venueName')!==undefined?true:undefined}
                           readOnly
                         />
                       </Grid>
@@ -570,6 +579,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                           name="address"
                           type="text"
                           rules={{ required: watch("type") === "OFFLINE" }}
+                          shrink={watch('address')!==''&&watch('address')!==undefined?true:undefined}
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 12 }}>
@@ -578,6 +588,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                           name="country"
                           control={control}
                           type="text"
+                          shrink={watch('country')!==''&&watch('country')!==undefined?true:undefined}
                           readOnly
                         />
                       </Grid>
@@ -587,6 +598,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                             label="State"
                             control={control}
                             type="text"
+                            shrink={watch('state')!==''&&watch('state')!==undefined?true:undefined}
                             readOnly
                           />
                       </Grid>
@@ -597,6 +609,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                           name="city"
                           type="text"
                           rules={{ required: watch("eventClass") === "OFFLINE" }}
+                          shrink={watch('city')!==''&&watch('city')!==undefined?true:undefined}
                           readOnly
                         />
                       </Grid>
@@ -606,7 +619,6 @@ const EventInfoCard: React.FC<any> = React.memo(
                           control={control}
                           name="postalCode"
                           type="text"
-                          readOnly
                           rules={{
                             required: watch("type") === "OFFLINE",
                             pattern: {
@@ -614,6 +626,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                               message: "Enter a valid postal code (e.g., '12345', '12345-6789', or '123456')",
                             },
                           }}
+                          shrink={watch('postalCode')!==''&&watch('postalCode')!==undefined?true:undefined}
                         />
                       </Grid>
 
@@ -649,7 +662,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                 </Grid>
               </Grid>
               <CustomDrawer open={drawerOpen} type="right" children={
-                    <GoogleMapPlacePicker onClose={() => setDrawerOpen(false)}/>
+                    <LocationSearch onClose={()=>setDrawerOpen(false)}/>
                   } />
             </form>
             </FormProvider>

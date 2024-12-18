@@ -79,7 +79,6 @@ const SessionCard: React.FC<SessionCardProps> = ({
   }, [item?.addonId, optionsData]); 
 
   const title = getNestedValue(item, titleField) || selectedLabel || "";
-
   return (
     <Grid
       size={{
@@ -131,7 +130,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
           {title}
         </Typography>
         {/* Dynamically render fields based on configuration */}
-        {fields.map(
+        {!hasAddOns?fields.map(
           (field, index) =>
             (item[field.field] !== undefined && item[field.field] !== null) && (
               <Typography
@@ -144,10 +143,16 @@ const SessionCard: React.FC<SessionCardProps> = ({
                   : item[field.field]}
               </Typography>
             )
-        )}
+        )
+        :<>
+        <Grid container display="flex" justifyContent="flex-start">
+              <Typography className="event-sessions-session-card-speaker">{item?.description}</Typography>
+        </Grid>
+      </>
+      }
       </div>
       {/* Delete Confirmation Modal */}
-      <CustomActionModal
+       <CustomActionModal
         icon={<WarningIcon className="unpublish-modal-icon"/>}
         header="Delete Session"
         subHeader="Are you sure you want to delete this session? This action cannot be undone."

@@ -14,6 +14,7 @@ import TicketingSection from './TicketingSection';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import LocationSection from './LocationSection';
+import RegisterBannerSection from './RegisterBannerSection';
 
 type TemplateViewProps = {
   temp: number | undefined;
@@ -113,8 +114,29 @@ const navigate = useNavigate();
       <AboutSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} ref={aboutRef}/>
       {(dataInfo?.data?.eventProgramSchedules?.length > 0 || slugInfo?.data?.eventProgramSchedules?.length > 0) && <EventContributorsSection temp={updatedTemp} data={dataInfo?.data?.eventProgramSchedules || slugInfo?.data?.eventProgramSchedules} ref={contributorsRef}/>}
       <ProgramSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} ref={programRef}/>
+      {
+        (dataInfo?.data?.venue || slugInfo?.data?.venue) ? (
+          <LocationSection
+            temp={updatedTemp}
+            data={dataInfo?.data || slugInfo?.data}
+            onScrollToTier={LocationRef}
+          />
+        ) : (
+          <RegisterBannerSection
+            temp={updatedTemp}
+            data={dataInfo?.data || slugInfo?.data}
+            onScrollToTier={()=>handleScrollTo(tierRef)}
+            />
+        )
+      }
       {(dataInfo?.data?.eventPriceTiers?.length > 0 || slugInfo?.data?.eventPriceTiers?.length > 0) && <TicketingSection ref={tierRef} temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} />}
-      <LocationSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} onScrollToTier={LocationRef}/>
+      {(dataInfo?.data?.venue || slugInfo?.data?.venue) &&
+        <RegisterBannerSection
+          temp={updatedTemp}
+          data={dataInfo?.data || slugInfo?.data}
+          onScrollToTier={()=>handleScrollTo(tierRef)}
+        />
+      }
       <FooterSection temp={updatedTemp} data={dataInfo?.data || slugInfo?.data} /></>}
   </Grid>
 });

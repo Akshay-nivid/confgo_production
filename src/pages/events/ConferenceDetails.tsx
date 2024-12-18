@@ -88,7 +88,7 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
             </Grid>
             {data?.event?.type !== 'ONLINE' && data?.event?.location && <Grid container size={{ xs: 12, sm: 12 }} spacing={2}>
                 <Grid className="custom-stepper-conference-details-content-date-icon"><LocationIcon /></Grid>
-                <Grid>{data?.event?.location}</Grid>
+                <Grid>{data?.event?.venueName}</Grid>
             </Grid>}
 			<Grid className='custom-stepper-parse'>{parse(data?.event?.description)}</Grid>
             <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper-conference-details-content-header-container" alignItems={'center'}>
@@ -118,7 +118,8 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
 							)}
 						</Grid>
 					{/* Date grouped Programs and Addons */}
-					{Object.keys(scheduledData)?.map((date: string) => (
+					{Object.keys(scheduledData)?.sort((a, b) => new Date(a).getTime() - new Date(b).getTime()) // Sort dates in ascending order
+					.map((date: string) => (
 						<Grid container direction="column" key={date} className="scheduled-programs-section">
 							<Grid
 								container

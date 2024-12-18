@@ -11,7 +11,7 @@ import { Logger } from "@/Utils/Logger";
 import {Typography} from "@mui/material"
 // import {EditButtonIcon} from "@/assets/svg";
  import axios from "axios";
-import { GoogleMap, LoadScript,Marker } from '@react-google-maps/api';
+import { GoogleMap,Marker } from '@react-google-maps/api';
 //const { AdvancedMarkerElement } = await google.maps.importLibrary("marker") as any;
 import config from "../../../../config.json";
 //import apiClient from "@/Libs/Https/API-client";
@@ -237,6 +237,10 @@ const LocationCard = ({ data }: LocationCardProps) => {
         </Grid> */}
         <Grid size={12} container>
         <Grid size={12}className="main-location-Grid-address">
+          <Typography className="main-location-Grid-address-title" >Venue</Typography> 
+          <Typography className="main-location-Grid-address-title-description">{data?.name} </Typography>
+        </Grid>
+        <Grid size={12}className="main-location-Grid-address">
           <Typography className="main-location-Grid-address-title" >Address Line</Typography> 
           <Typography className="main-location-Grid-address-title-description">{data?.address} </Typography>
         </Grid>
@@ -262,7 +266,7 @@ const LocationCard = ({ data }: LocationCardProps) => {
       {loading ? (
           <div>Loading...</div>
         ) : coordinates ? (
-          <LoadScript googleMapsApiKey={GOOGLE_API_KEY}>
+          <>
             <GoogleMap
               mapContainerStyle={{ width: '44.84rem', height: '14.59rem'}}
               center={coordinates}
@@ -271,7 +275,7 @@ const LocationCard = ({ data }: LocationCardProps) => {
               <Marker position={coordinates}
               />
             </GoogleMap>
-          </LoadScript>
+          </>
         ) : (
           <div>No map available</div>
         )}

@@ -1,9 +1,9 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Control, Controller } from "react-hook-form";
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 
 /**
  * CustomTimePicker Component
@@ -48,6 +48,7 @@ interface BasicTimePickerProps {
   placeholder: string;
   control: Control<any>;
   type: string;
+  defaultValue?:string;
 }
 
 const CustomTimePicker: React.FC<BasicTimePickerProps> = React.memo(({ 
@@ -55,9 +56,16 @@ const CustomTimePicker: React.FC<BasicTimePickerProps> = React.memo(({
   name,
   label, 
   className, 
-  ampm = true 
+  ampm = true ,
+  defaultValue
 }) => {
   const [value, setValue] = useState<Dayjs | null>(null);
+  useEffect(() => {
+    if (defaultValue) {
+      const parsedTime =  dayjs(defaultValue); 
+      setValue(parsedTime);
+    }
+  }, [defaultValue]);
 
   const memoizedTimePicker = useMemo(
     () => (

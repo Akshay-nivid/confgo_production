@@ -53,6 +53,7 @@ const PricingTable: React.FC<PricingTableProps> = ({
     new Map(pricingTiers.map((tier) => [tier.tierName, tier])).values()
   );
 
+
   return (
     <TableContainer
       component={Paper}
@@ -67,8 +68,11 @@ const PricingTable: React.FC<PricingTableProps> = ({
             {uniqueTiers.map((tier) => {
               return (
                 <TableCell className="pricing-table-table-header" key={tier.id}>
-                  {tier.tierName} <br />
-                  <small className="pricing-table-table-header">
+                 
+                  {tier.tierName}
+                  
+                  
+                  <small className="pricing-table-table-header date">
                     ({moment(tier.startDate).format("DD/MM/YYYY")}-{" "}
                     {moment(tier.endDate).format("DD/MM/YYYY")})
                   </small>
@@ -93,7 +97,7 @@ const PricingTable: React.FC<PricingTableProps> = ({
                         isListView
                           ? attendee.pricingTiers?.find(
                               (atTier) => atTier.tierName === tier.tierName
-                            )?.percentage || "0" // When isListView is true, use attendee-specific percentage or leave empty
+                            )?.percentage + " " + "%" || "0" // When isListView is true, use attendee-specific percentage or leave empty
                           : attendee.pricingTiers?.find(
                               (atTier) => atTier.tierName === tier.tierName
                             )?.percentage ||
