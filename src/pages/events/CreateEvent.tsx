@@ -93,7 +93,10 @@ const CreateEvent: React.FC<EventProps> =
       setEditorContent(value);
       setValue("description", value);
     };
-
+     
+/**
+ * This method ensures that the field with validation errors or requiring attention and Scrolls smoothly to that field
+ */
     const scrollToError = useCallback(() => {
       const errorFieldMap: { [key: string]: string } = {
         name: '[name="name"]',

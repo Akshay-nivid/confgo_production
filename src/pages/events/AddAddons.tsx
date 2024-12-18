@@ -150,7 +150,10 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
         setValue("savedAddOns", data);
       }
     }, [data]);
-
+  
+/**
+ * This method ensures that the field with validation errors or requiring attention and Scrolls smoothly to that field
+ */
     const scrollToError = (errorField: string) => {
       const fieldElement = document.querySelector(`[name="${errorField}"]`);
       if (fieldElement) {
@@ -165,7 +168,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
     const handleSaveNewPrograms = () => {
       handleSubmit(onSave, (errors) => {
         
-        // Check if programs exists and is an array before forEach
+        // Check if addOn exists and is an array before forEach
         if (errors.addOn && Array.isArray(errors.addOn)) {
           errors.addOn.forEach((programError, index) => {
             const firstErrorKey = Object.keys(programError ?? {})[0] as keyof FormData["addOn"][number] | undefined;

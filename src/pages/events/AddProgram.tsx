@@ -121,7 +121,9 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
       setValue("savedPrograms", data);
   }, [data]);
   
-
+/**
+ * This method ensures that the field with validation errors or requiring attention and Scrolls smoothly to that field
+ */
 const scrollToError = (errorField: string) => {
   const fieldElement = document.querySelector(`[name="${errorField}"]`);
   if (fieldElement) {
