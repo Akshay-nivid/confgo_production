@@ -33,6 +33,8 @@
             }
 
             &-login-button {
+              
+                margin-top: .8rem !important;
                 color: $clr_white;
                 font-size: $h6;
                 font-weight: $font_semibold;
@@ -61,6 +63,7 @@
 
             &-book-button {
                 button {
+                    padding: 1.25rem 2.5rem 1.25rem 2.5rem;
                     color: $clr_black;
                     background-color: $clr_soft_cyan;
                     text-transform: none;
@@ -246,8 +249,11 @@
 
             &-title1,
             &-title2 {
-                font-size: $h2 !important;
+                font-size: $h1 !important;
+                line-height: 5.08rem;
                 font-weight: $font_semibold !important;
+                color:$clr_charcoal_cyan;
+
             }
 
             &-sub-title {
@@ -262,6 +268,8 @@
                 font-weight: $font_bold !important;
                 text-transform: none !important;
                 margin-top: 1rem !important;
+                padding: 1.5rem 2.5rem 1.5rem 2.5rem;
+
             }
         }
 
@@ -323,16 +331,48 @@
             }
 
             &-item {
-                padding: 3rem 3rem 3rem 2rem;
+                padding: 0rem 3rem 0rem 2rem;
                 box-shadow: 0 0.3rem 1rem 0 $clr_light_black_shadow;
                 border-radius: 1rem;
-
+               
                 svg {
                     width: 2.5rem;
                     height: 2.5rem;
                 }
             }
-
+            &-box{
+                height: 20rem !important;
+                padding-left: 3.25rem ;
+                padding-top:3rem !important ;
+            }
+            &-index-box {
+                  background: #0D3336 !important;
+                  color: white !important;
+                  padding: 2.4167rem 0 0 2.1667rem; 
+              }
+              &-border-right{
+                border-right: 1.5px solid black;
+              }
+              &-icon{
+                svg {
+                  width: 4.1667rem !important;
+                  height: 4.1667rem !important;
+                  }
+              }
+              &-index-icon {
+                svg {
+                  width: 4.1667rem !important;
+                  height: 4.1667rem !important;
+                  rect {
+                    fill: $clr_soft_cyan ;  
+                  }
+                }
+              }
+            &-border-line{
+                width: 0.125rem;
+                height: 14.75rem;
+                background:$clr_background_gray;
+            }
             &-label {
                 font-size: $h6 !important;
                 font-weight: $font_normal !important;
@@ -414,9 +454,15 @@
 
 
     &-about {
+      
         &-1 {
-            padding: 3rem 6rem 3rem 6rem;
-
+            padding: 3rem 6rem 10rem 6rem;
+            background-image: url('/src/assets/svg/template-about.svg');
+                background-position: center; 
+                background-repeat: no-repeat;
+                background-size:20rem 40rem !important; 
+                background-size: cover;
+                margin-top:6.25rem; background-size: contain; 
             &-title {
                 font-size: $h2;
                 font-weight: $font_semibold;
@@ -428,8 +474,14 @@
             }
 
             &-content {
+      
+                text-align: c;
                 font-size: $h6;
                 font-weight: $font_medium;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+             
             }
         }
 
@@ -1082,4 +1134,6 @@
     }
 }
 
-// 
+
+
+
