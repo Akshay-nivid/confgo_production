@@ -218,10 +218,9 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
           });
           return;
         }
-     
         const startDate = moment(eventData.startTime).startOf('day');
         const endDate = moment(eventData.endTime).startOf('day');
-        const differenceInDays = endDate.diff(startDate, 'days');
+        const differenceInDays = endDate.diff(startDate, 'days') + (startDate.isBefore(endDate) ? 1 : 0);
         if (parseInt(lastItem?.noOfDays) > differenceInDays) {
           setError(`addOn.${lastIndex}.noOfDays`, {
             type: 'manual',

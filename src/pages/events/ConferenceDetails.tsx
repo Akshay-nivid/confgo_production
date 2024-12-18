@@ -118,7 +118,8 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
 							)}
 						</Grid>
 					{/* Date grouped Programs and Addons */}
-					{Object.keys(scheduledData)?.map((date: string) => (
+					{Object.keys(scheduledData)?.sort((a, b) => new Date(a).getTime() - new Date(b).getTime()) // Sort dates in ascending order
+					.map((date: string) => (
 						<Grid container direction="column" key={date} className="scheduled-programs-section">
 							<Grid
 								container

@@ -159,6 +159,7 @@ const SpeakerCard = (_eventData: any) => {
         body: {
           filters: {
             isContributor: 1,
+            eventId: id,
           }
         },
         id: "contributorTypeList",

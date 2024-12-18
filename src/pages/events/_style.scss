@@ -398,9 +398,10 @@
         }
 
         &-item {
-            padding: 0.5rem 0.98rem 0.5rem 1.8rem !important;
-
+            padding: 0.5rem 1.8rem 0.5rem 1.8rem !important;
+          
             &:first-of-type {
+              
                 padding: 2rem 1rem 2rem 2rem !important;
             }
         }
@@ -547,7 +548,7 @@
         }
 
         &-drawer-box {
-            max-width: 40rem;
+            width: 48rem;
             padding: 2rem;
             margin: 1rem;
 
@@ -849,7 +850,7 @@
     }
 
     &-custom-drawer {
-        max-width: 35rem !important;
+        width: 50rem !important;
     }
 
     &-edit-heading {
@@ -1385,7 +1386,7 @@
 
 .assigned-volunteer-main-container {
     padding: 1rem;
-    max-width: 38.25rem;
+    width: 50rem;
     margin-top: 2.1875rem;
 }
 

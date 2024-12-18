@@ -3,7 +3,7 @@
  * @author Nevin
  * used to reset the password for the admin user
  */
-import React from "react";
+import React, { useState } from "react";
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import "./mainProfile.scss";
@@ -27,12 +27,14 @@ const MainSecurity:React.FC<SecurityProps> = React.memo(({ passEmail }) => {
 
   const navigate = useNavigate();
   const detail = useStore((state: any) => state?.compData?.["company-user"]);
-  const email = detail?.email ? detail.email :passEmail
+  const email = detail?.email ? detail.email :passEmail;
+  const [isLoading, setIsLoading] = useState(false);
 /**
  *  Initiates the password reset process by sending the user's email to the forgotPassword
  * @param email
  */
   const handlePasswordReset = async () => {
+    setIsLoading(true);
     const body = { username: email, };
     const successCB = (context: any) => {  
         if (context?.data?.role?.roleName==="USER") {
@@ -43,6 +45,7 @@ const MainSecurity:React.FC<SecurityProps> = React.memo(({ passEmail }) => {
             setDataById("thankYouPageInfo",{type:"Submitted sucessfully"});
             navigate(routes.thankyou());
           }
+        setIsLoading(false);
     };
 
     POST({
@@ -100,6 +103,8 @@ const MainSecurity:React.FC<SecurityProps> = React.memo(({ passEmail }) => {
             label="Change Password"
             variant="contained"
             onClick={handlePasswordReset}
+            isLoading={isLoading}
+            disabled={isLoading}
           />
         </Grid>
       </Grid>

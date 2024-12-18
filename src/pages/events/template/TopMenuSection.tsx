@@ -1,12 +1,12 @@
 /**
  * Component displays the top menu section of the template
  */
-import useStore, { clearDataById, resetStore, setDataById } from '@/Libs/store';
+import useStore, { resetStore, setDataById } from '@/Libs/store';
 import { getUserToken, handleLogout } from '@/Utils/CommonBaseClass';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import routes from '@/router/routes';
 import Grid from '@mui/material/Grid2';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link, useLocation,useNavigate } from 'react-router-dom';
 import config from "../../../../config.json";
 
@@ -45,6 +45,13 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
        navigate(routes.userLogin());
     }
 
+    /**
+     * Function navigates to the signup page and stores the previous route in the store
+     */
+    const SignupFn = () => {
+        setDataById("previousRoute", { url: location.pathname });
+        navigate(routes.userRegister());
+    }
 
     /**
      * Function handles the logout functionality
@@ -60,10 +67,6 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
         });
     }
 
-
-    useEffect(() => {
-        clearDataById('previousRoute')
-    }, [])
 
 
     return (
@@ -83,8 +86,7 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
                     {getUserToken() ? <Grid className={`${classPrefix}-logout-button`}><span role='button' onClick={logoutFn}> Logout </span></Grid> :
                         <><Grid className={`${classPrefix}-login-button`}><span role='button' onClick={loginFn}> Login </span></Grid>
                             <Grid className={`${classPrefix}-button-border`}></Grid>
-                            <Grid className={`${classPrefix}-book-button`}><CustomButton label='Signup'
-                             onClick={() => navigate('/user/register')} 
+                            <Grid className={`${classPrefix}-book-button`}><CustomButton onClick={SignupFn} label='Signup' 
                              /></Grid></>}
                 </Grid>
             </Grid>
