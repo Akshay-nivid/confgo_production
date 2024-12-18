@@ -5,7 +5,7 @@ interface PrivateRouteProps {
   children: JSX.Element;
 }
 
-const PrivateRoutes: React.FC<PrivateRouteProps & { role: "COMPANY" | "USER" }> = ({ children, role }) => {
+const PrivateRoutes: React.FC<PrivateRouteProps & { role: "COMPANYADMIN" | "USER" }> = ({ children, role }) => {
   const isUserLoggedIn = sessionStorage.getItem("isUserLoggedIn") === "true";
   const userRole = sessionStorage.getItem("userLoggedInType");
   const token=sessionStorage.getItem("token");
@@ -16,7 +16,7 @@ const PrivateRoutes: React.FC<PrivateRouteProps & { role: "COMPANY" | "USER" }> 
 
   // Redirect to login if user is not logged in or has incorrect role
   if (!isUserLoggedIn || userRole !== role) {
-    const loginRoute = role === "COMPANY" ? "/organization/login" : "/user/login";
+    const loginRoute = role === "COMPANYADMIN" ? "/organization/login" : "/user/login";
     return <Navigate to={loginRoute} replace />;
   }
 
@@ -25,7 +25,7 @@ const PrivateRoutes: React.FC<PrivateRouteProps & { role: "COMPANY" | "USER" }> 
 };
 
 export const PrivateRouteCompany: React.FC<PrivateRouteProps> = ({ children }) => (
-  <PrivateRoutes role="COMPANY">{children}</PrivateRoutes>
+  <PrivateRoutes role="COMPANYADMIN">{children}</PrivateRoutes>
 );
 
 export const PrivateRouteUser: React.FC<PrivateRouteProps> = ({ children }) => (
