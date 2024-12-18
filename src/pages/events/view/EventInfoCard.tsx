@@ -244,8 +244,11 @@ const EventInfoCard: React.FC<any> = React.memo(
           </IconButton>
         </Grid>
         </Grid>
-        {eventData?.assetId!=0&& <Grid size={0}>
-        </Grid>}
+         {eventData?.assetId ?
+         <Grid size={12}>
+       {/* <Grid size={0}>  */}
+        {/* {eventData?.assetId!=0&& <Grid size={0}>
+        </Grid>} */}
        {eventData?.assetId!=0&&<Grid size={{ xs: 12 }}>
         <Grid container flexDirection={"row"} direction={"row"}>
                         <Grid>
@@ -265,6 +268,8 @@ const EventInfoCard: React.FC<any> = React.memo(
                         </Grid>
                   </Grid>
         </Grid>} 
+        </Grid>
+         : null} 
         <Grid size={{ xs: 3 }}>
           <Typography className="event-information-subtitle">
              Name

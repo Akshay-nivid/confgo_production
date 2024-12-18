@@ -83,7 +83,7 @@ const typeArray = [
 
 const AddAddOns: React.FC<ProgramProps> = React.memo(
   ({ formSubmit, onSubmitHandler, data, onSaveHandler ,onaddOnSubmitHandler,addOnOptions,eventData}) => {
-    const { handleSubmit, control, watch, setValue,resetField,setError} = useForm<FormData>({
+    const { handleSubmit, control, watch, setValue,resetField,setError,setFocus} = useForm<FormData>({
 
       defaultValues: {
         addOn: [
@@ -151,11 +151,33 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       }
     }, [data]);
 
+    const scrollToError = (errorField: string) => {
+      const fieldElement = document.querySelector(`[name="${errorField}"]`);
+      if (fieldElement) {
+        fieldElement.scrollIntoView({ behavior: "smooth", block: "center" });
+        (fieldElement as HTMLElement).focus();
+      }
+    };   
+    
     /**
      * Method handles the saving of the programs
      */
     const handleSaveNewPrograms = () => {
-      handleSubmit(onSave)();
+      handleSubmit(onSave, (errors) => {
+        
+        // Check if programs exists and is an array before forEach
+        if (errors.addOn && Array.isArray(errors.addOn)) {
+          errors.addOn.forEach((programError, index) => {
+            const firstErrorKey = Object.keys(programError ?? {})[0] as keyof FormData["addOn"][number] | undefined;
+    
+            if (firstErrorKey) {
+              const errorField = `addOn.${index}.${firstErrorKey}` as const;              
+              scrollToError(errorField);
+              setFocus(errorField as unknown as keyof FormData);
+            }
+          });
+        }
+      })();
     };
 
     /**

@@ -9,7 +9,7 @@ import FileListModal from "@/components/FileUpload/FileListModal";
 import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import moment from "moment";
-import React, { useEffect,useState } from "react";
+import React, { useCallback, useEffect,useState } from "react";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -94,10 +94,51 @@ const CreateEvent: React.FC<EventProps> =
       setValue("description", value);
     };
 
+    const scrollToError = useCallback(() => {
+      const errorFieldMap: { [key: string]: string } = {
+        name: '[name="name"]',
+        phone: '[name="phone"]',
+        email: '[name="email"]',
+        startTime: '[name="startTime"]',
+        endTime: '[name="endTime"]',
+        amount: '[name="amount"]',
+        url: '[name="url"]',
+        mapUrl: '[name="mapUrl"]',
+        venueName: '[name="venueName"]',
+        address: '[name="address"]',
+        country: '[name="country"]',
+        state: '[name="state"]',
+        city: '[name="city"]',
+        postalCode: '[name="postalCode"]',
+      };
+      const errorKeys = Object.keys(errors);
+
+      if (errorKeys.length > 0) {
+        const firstErrorKey = errorKeys[0];
+        const selector = errorFieldMap[firstErrorKey];
+
+        if (selector) {
+          const errorElement = document.querySelector(selector);
+
+          if (errorElement) {
+            errorElement.scrollIntoView({ behavior: "smooth", block: "center",});
+            // Try to focus on the first focusable element within the error element
+            const focusableElement = errorElement.querySelector("input, textarea") || errorElement;
+            if (focusableElement) {
+              (focusableElement as HTMLElement).focus();
+            }
+          }
+        }
+      }
+    }, [errors]);
+
     /**
      * Useeffect hook handles the form submission based on the formSubmit variable
      */
     useEffect(() => {
+      if(Object.keys(errors).length > 0){
+        scrollToError();
+      }
       if (formSubmit) {
         handleSubmit(onSubmit)();
       }
