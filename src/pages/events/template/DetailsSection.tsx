@@ -9,6 +9,7 @@ import CalendarIcon from '@/assets/svg/template1-calendar.svg';
 import EmailIcon from '@/assets/svg/template1-email.svg';
 import PhoneIcon from '@/assets/svg/template1-phone.svg';
 import moment from 'moment';
+import LinkIcon from '@/assets/svg/template1-url.svg';
 import { toTitleCase, truncateString } from '@/Utils/CommonBaseClass';
 
 type DetailsSectionProps = {
@@ -46,15 +47,24 @@ const DetailsSection: React.FC<DetailsSectionProps> = React.memo(({ data, temp }
         }
     };
 
-    // const companyEmail = sessionStorage.getItem('companyEmail');
-    // const companyPhone = sessionStorage.getItem('companyPhone');
-    const itemArray = [
-        { icon: <LocationIcon />, label: 'Location', value: data?.venue?.address },
-        { icon: <CalendarIcon />, label: 'Date', value: formatDateRange(data?.startTime, data?.endTime) },
-        { icon: <EmailIcon />, label: 'Email', value:Array.isArray(data?.eventContacts) && data?.eventContacts[0]?.email || '' },
-        { icon: <PhoneIcon />, label: 'Phone', value:Array.isArray(data?.eventContacts) &&  data?.eventContacts[0]?.phone || '' },
-
-    ]
+        //Create item array dynamically based on Event Class
+        const itemArray = [];
+        if (data?.eventClass === "ONLINE") {
+          itemArray.push({ icon: <LinkIcon />, label: "Website link", value: data?.url || "" });
+        } else {
+          itemArray.push({ icon: <LocationIcon />, label: "Location", value: data?.venue?.address || "" });
+        }
+        itemArray.push({
+          icon: <CalendarIcon />,
+          label: "Date",
+          value: formatDateRange(data?.startTime, data?.endTime),
+        });
+        itemArray.push({ icon: <EmailIcon />, label: "Email", value: data?.eventContacts[0]?.email || "" });
+        if (data?.eventClass === "HYBRID") {
+          itemArray.push({ icon: <LinkIcon />, label: "Website link", value: data?.url || "" });
+        } else {
+          itemArray.push({ icon: <PhoneIcon />, label: "Phone", value: data?.eventContacts[0]?.phone || "" });
+        }
      
     const CopyUrl=data?.venue?.mapUrl
     const [copied, setCopied] = useState(false);
