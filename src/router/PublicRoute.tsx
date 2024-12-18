@@ -11,7 +11,7 @@ const PublicRoute: React.FC<PublicRouteProps> = ({ children }) => {
 
   // Redirect to appropriate dashboard if the user is logged in
   if (isUserLoggedIn) {
-    const dashboardRoute = userRole === "COMPANY" ? "/dashboard" : "/user/dashboard";
+    const dashboardRoute = userRole === "COMPANYADMIN" ? "/dashboard" : "/user/dashboard";
     return <Navigate to={dashboardRoute} replace />;
   }
 

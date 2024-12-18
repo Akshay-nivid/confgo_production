@@ -4,6 +4,7 @@
   .grid-left {
     background-color: $clr_white;
 
+   
     .grid-left-image {
       background: url("/src/assets/svg/background-top.svg") no-repeat top;
       background-position: center -8.583rem !important;
@@ -36,6 +37,7 @@
         align-items: center;
         font-weight: $font_normal;
         color: $clr_sub_header;
+        margin-top: .3rem;
       }
 
       .forgot-password-form-grid {
@@ -43,11 +45,12 @@
         align-items: center;
         display: flex;
         flex-direction: column;
-        margin-top: 2.5rem;
+        margin-top: 3.34rem;
       }
 
       .button-reset-password {
-        margin-top: 2rem;
+        margin-top: 3.33rem;
+
         width: 100%;
         height: 3.75rem;
         border-radius: 0.3125rem 0 0 0;
@@ -59,10 +62,11 @@
         box-shadow: none;
         text-transform: none;
         font-size: $p2;
-      }
+      } 
 
       .button-back-to-login {
-        margin-top: 2rem;
+        margin-top: 2.25rem;
+
         font-size: $h6;
         font-weight: $font_medium;
         background-color: transparent;
@@ -74,10 +78,22 @@
   }
 
   .grid-right {
-    svg{
-      width: 100%;
-      height: auto;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    background: url("/src/assets/svg/grid-img.svg") !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    .grid-right-image-text{
+      font-family: $font;
+      font-size: $h5;
+      font-weight: $font_semibold;
+      color: $clr_white;
+      position: absolute;
+      bottom: 9rem;
+      left: 4.167rem;
     }
+    
   }
 }
 .Loader{

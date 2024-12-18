@@ -96,9 +96,12 @@ import SettingsDashBoardMobIcon from './SettingsDashBoarsmobIcon.svg';
 import UploadedFile from "./uploaded-file.svg";
 import NoUserList from "./no-user-list.svg";
 import UserCreateIcon from "../svg/user-icon.svg";
-
+import Arrow2Left from "./arrow2-left.svg"
+import GridImg from "./grid-img.svg"
 export {
   CalenderIcon,
+  GridImg,
+  Arrow2Left,
   EventIcon,
   DashboardIcon,
   CouponIcon,
