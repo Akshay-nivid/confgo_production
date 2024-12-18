@@ -17,7 +17,6 @@ import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CreateAddon from "../CreateAddon";
 import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
 import CustomTimePicker from "@/components/CustomTimePicker/CustomTimePicker";
-
 interface FormData {
   addonId: number;
   isPaid: "PAID" | "FREE";
@@ -56,7 +55,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
   const [selectedAddOnId, setSelectedAddOnId] = useState<string | number | null>(null);
   const [newAddOnView, setNewAddonView] = useState(false);
 
-  const { control, setValue, handleSubmit, watch, reset } = useForm<FormData>({
+  const { control, setValue, handleSubmit, watch, reset,setError } = useForm<FormData>({
     defaultValues: {
       isPaid: isEditing && selectedAddOn?.amount > 0 ? "PAID" : "FREE",
       startTime: selectedAddOn ? selectedAddOn.startTime : "",
@@ -164,25 +163,33 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
    * @param form data
    */
   const handleFormSubmit = (data: FieldValues) => {
-    const formattedData: any = {
-      eventId: Number(id),
-      addonId: Number(selectedAddOnId),
-      amount: data.amount,
-      description: data.description,
-      properties: Array.isArray(data.properties) && data.properties.length > 0
-        ? data.properties.map((property: any) => ({
-          name: property.propertyName,
-          amount: property.propertyAmount || 0,
-          description: "  ",
-          enabled: 1,
-        }))
-        : [],
-    };
-    if (data.dateRequired) {
-      formattedData.startTime = `${data.addonDate} ${data.startTime}`;
-      formattedData.endTime = `${data.addonDate} ${data.endTime}`;
+    if (!data.properties || data?.properties.length == 0) {
+      setError(`propertyName`, {
+        type: 'manual',
+        message: `Minimum one Addon property should be there`,
+      });
+      return;
+    } else {
+      const formattedData: any = {
+        eventId: Number(id),
+        addonId: Number(selectedAddOnId),
+        amount: data.amount,
+        description: data.description,
+        properties: Array.isArray(data.properties) && data.properties.length > 0
+          ? data.properties.map((property: any) => ({
+            name: property.propertyName,
+            amount: property.propertyAmount || 0,
+            description: "  ",
+            enabled: 1,
+          }))
+          : [],
+      };
+      if (data.dateRequired) {
+        formattedData.startTime = `${data.addonDate} ${data.startTime}`;
+        formattedData.endTime = `${data.addonDate} ${data.endTime}`;
+      }
+      onSubmit(formattedData);
     }
-    onSubmit(formattedData);
   };
   return (
     <Box sx={{ maxWidth: 600 }}>
@@ -238,6 +245,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
             </Grid>
             <Grid size={{ xs: 6 }}>
                <CustomTimePicker
+               defaultValue={selectedAddOn?.startTime}
                name="startTime"
                label="Start Time"
                placeholder="Start Time"
@@ -248,6 +256,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
             </Grid>
             <Grid size={{ xs: 6 }}>
             <CustomTimePicker
+               defaultValue={selectedAddOn?.endTime}
                name="endTime"
                label="End Time"
                placeholder="End Time"
@@ -258,9 +267,9 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
             </Grid>
           </>
         )}
-        <Grid size={{ xs: 12 }}>
+        {/* <Grid size={{ xs: 12 }}>
           <CustomTextField name="amount" placeholder="Price" control={control} type="number" requiredField={true} />
-        </Grid>
+        </Grid> */}
 
         <Grid size={{ xs: 12 }}>
           <Typography className="event-detail-speakers-card-contributor-header">Add Properties</Typography>
