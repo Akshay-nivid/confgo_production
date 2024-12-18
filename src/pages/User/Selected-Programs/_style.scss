@@ -83,7 +83,7 @@
     }
 
     &-content {
-      padding-inline: 2.5rem;
+      // padding-inline: 2.5rem;
       padding-block: 1.666rem;
     }
   }
@@ -348,7 +348,7 @@
   .grand-total-container {
     display: flex;
     justify-content: space-between;
-    padding-inline: 2.5rem;
+    // padding-inline: 2.5rem;
     background-color: $clr_gray_20_percent;
     margin-bottom: 4rem;
     border-radius: 0.88rem;
@@ -518,26 +518,26 @@
     .addon-property-item {
       .MuiCheckbox-root {
         svg {
-          fill: $clr_dark_blue !important;
+          fill: $clr_dark_navy_blue !important;
         }
 
       }
     }
 
     .back-btn {
-      border-color: $clr_dark_blue ;
-      color: $clr_dark_blue;
+      border-color: $clr_dark_navy_blue ;
+      color: $clr_dark_navy_blue;
     }
 
     .next-btn {
-      background-color: $clr_dark_blue;
+      background-color: $clr_dark_navy_blue;
     }
 
 
     .price-chip {
 
       &.MuiChip-root {
-        background-color: $clr_dark_blue !important;
+        background-color: $clr_dark_navy_blue !important;
         color: $clr_white !important;
       }
 
@@ -546,7 +546,7 @@
     .checkbox-container {
       .MuiCheckbox-root {
         svg {
-          background-color: $clr_dark_blue !important;
+          background-color: $clr_dark_navy_blue !important;
         }
 
 
@@ -556,7 +556,7 @@
     .checkbox-container{
       .MuiCheckbox-root {
         svg {
-          background-color: $clr_dark_blue !important;
+          background-color: $clr_dark_navy_blue !important;
         }
 
 
@@ -612,3 +612,6 @@
 }
 
 
+.selected-programs-main{
+  padding-inline: 2rem;
+}

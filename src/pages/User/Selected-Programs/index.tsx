@@ -557,9 +557,9 @@ const SelectedPrograms = () => {
                 Apply Coupons
               </Typography>
 
-              <Grid container columnSpacing={3}>
+              <Grid container rowSpacing={2} columnSpacing={3}>
 
-                <Grid size={8}>
+                <Grid size={{xs:12,md:8}}>
                   <CustomTextField
                     control={control}
                     name="coupon"
@@ -567,7 +567,7 @@ const SelectedPrograms = () => {
                   />
                 </Grid>
 
-                <Grid size={4}>
+                <Grid size={{xs:12,md:4}}>
                   <CustomButton
                     className="apply-coupon-button"
                     label="Apply Coupon"
