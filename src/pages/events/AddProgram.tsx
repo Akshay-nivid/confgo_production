@@ -56,7 +56,7 @@ const typeArray = [
 
 const AddProgram: React.FC<ProgramProps> = React.memo(
   ({ formSubmit, onSubmitHandler, data, onSaveHandler ,eventData}) => {
-    const { handleSubmit, control, watch, setValue,setError } = useForm<FormData>({
+    const { handleSubmit, control, watch, setValue,setError,setFocus } = useForm<FormData>({
       defaultValues: {
         programs: [
           {
@@ -121,13 +121,38 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
       setValue("savedPrograms", data);
   }, [data]);
   
+/**
+ * This method ensures that the field with validation errors or requiring attention and Scrolls smoothly to that field
+ */
+const scrollToError = (errorField: string) => {
+  const fieldElement = document.querySelector(`[name="${errorField}"]`);
+  if (fieldElement) {
+    fieldElement.scrollIntoView({ behavior: "smooth", block: "center" });
+    (fieldElement as HTMLElement).focus();
+  }
+};
+
 
     /**
      * Method handles the saving of the programs
      */
-    const handleSaveNewPrograms = () => {
-      handleSubmit(onSave)();
-    };
+  const handleSaveNewPrograms = () => {
+    handleSubmit(onSave, (errors) => {
+    // Check if programs exists and is an array before forEach
+    if (errors.programs && Array.isArray(errors.programs)) {
+      errors.programs.forEach((programError, index) => {
+        const firstErrorKey = Object.keys(programError ?? {})[0] as keyof FormData["programs"][number] | undefined;
+
+        if (firstErrorKey) {
+          const errorField = `programs.${index}.${firstErrorKey}` as const;
+          
+          scrollToError(errorField);
+          setFocus(errorField as unknown as keyof FormData);
+        }
+      });
+    }
+  })();
+};
 
     /**
      * Method handles the form submission

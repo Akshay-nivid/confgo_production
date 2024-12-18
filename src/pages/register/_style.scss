@@ -17,7 +17,15 @@
       border-radius: 1.666rem;
       background-size: 40%;
       display: flex;
+      overflow-y:auto;
+      scroll-behavior: smooth;
+      height: 100vh;
       flex-direction: column;
+      // width: 100%;
+      &::-webkit-scrollbar{
+        display: none;
+      }
+     
       .form-fields-container{
         row-gap: 2.5rem;
       }
@@ -40,10 +48,18 @@
       }
     }
     & .grid-right {
-        svg{
-          width: 100%;
-          height: auto;
-        }
+      background: url('../assets/svg/grid-img.svg') no-repeat;
+      background-size: cover;
+      position: relative;
+      .grid-right-image-text{
+       font-family: $font;
+       font-size: $h5;
+       font-weight: $font_semibold;
+       color: $clr_white;
+       position: absolute;
+       bottom: 9rem;
+       left: 4.167rem;
+     }
     }
     & .skip-button-payment-page {
       transform: translate(0rem, 1.25rem);
@@ -280,3 +296,4 @@
 .button-margin-bm{
   margin-bottom: 10% !important;
 }
+
