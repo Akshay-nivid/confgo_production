@@ -316,13 +316,16 @@ return (
         />
       ) : (
         <Grid size={1} className="main-account-profile-image connected" mb={0}>
-          {LogoprofileData?.companyName ? (
-            <Avatar className="main-user-profile main-user-profile-text">
-              {`${LogoprofileData?.companyName}`.toUpperCase()}
-            </Avatar>
-          ) : (
-            <Avatar></Avatar>
-          )}
+         {LogoprofileData?.companyName ? (
+           <Avatar className="main-user-profile main-user-profile-text">
+           {LogoprofileData.companyName
+            .split(' ')
+              .map(word => word[0].toUpperCase()) 
+                .join('')} 
+                  </Avatar>
+                      ) : (
+          <Avatar></Avatar>
+                    )}
         </Grid>
       )}
       <Grid container className="main-account-detail-grid connected" size={12}>

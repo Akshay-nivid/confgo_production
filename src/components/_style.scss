@@ -1270,3 +1270,8 @@
 
   
 }
+.border-error-input{
+  .custom-search-text-field {
+    border: 0.5px solid $clr_red !important;
+  }
+}

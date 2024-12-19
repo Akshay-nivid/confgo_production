@@ -5,18 +5,19 @@ import { ArrowDropDown } from '@mui/icons-material';
 import { SettingsIcon, LogoutIcon, AppThemeLogo } from '@/assets/svg';
 
 import Grid from '@mui/material/Grid2';
-import { resetStore, setDataById } from '@/Libs/store';
+import useStore, { resetStore, setDataById } from '@/Libs/store';
 import routes from '@/router/routes';
 import { useNavigate } from 'react-router-dom';
-
+import config from "../../../config.json";
 /**
  * component for appbar in dashboard
  * @returns
  */
 export default function LayoutAppbar() {
+  const baseUrl = config.api.url;  
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
-  const companyUserName = sessionStorage.getItem("companyUserName");
+  const companyUserName = sessionStorage.getItem("companyUserName"); 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -45,6 +46,10 @@ export default function LayoutAppbar() {
     resetStore();
     navigate(routes.home()); 
   };
+    /**
+   * zustand data:For get Admin profile picture
+   */
+  const profileImage = useStore((state: any) => state.compData?.["userDetails"]?.assetId);
   
   return (
     <Grid container className="appbar">
@@ -58,15 +63,27 @@ export default function LayoutAppbar() {
             <Typography className="avatar-subheader-text">Admin</Typography>
           </div>
           <div className="flex items-center gap-x-[2px]">
-            {companyUserName ? (
-            <Avatar className="appbars-group-avatar" >
-              {`${companyUserName[0]}${companyUserName[1]}`.toUpperCase()}
-              </Avatar>
-            ):(
-              <Avatar className="appbars-group-avatar">
-                U
-              </Avatar>
-            )}
+             {profileImage ? (
+                     <Avatar
+                       src={`${baseUrl}asset/${profileImage}`}
+                       className="appbars-group-avatar"
+                       alt="User Profile"
+                       variant="circular"
+                     />
+                   ) : (
+                     <Avatar className="main-user-profile main-user-profile-text">
+                       {companyUserName? (
+                                 <Avatar className="main-user-profile main-user-profile-text">
+                                 {companyUserName
+                                  .split(' ')
+                                    .map(word => word[0].toUpperCase()) 
+                                      .join('')} 
+                                        </Avatar>
+                                            ) : (
+                               <Avatar></Avatar>
+                                          )}
+                     </Avatar>
+                   )}
             <ArrowDropDown className="avatar-arrow-down" />
           </div>
         </div>
