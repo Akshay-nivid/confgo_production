@@ -210,6 +210,7 @@ const onSubmit = async (data: Profile) => {
         lastName: response.data?.data?.lastName,
         assetId: response.data?.data?.assetId,
       });
+     setDataById("profileImage",{item:response?.data?.data?.assetId})
       closeDrawer();
     }
     else{
