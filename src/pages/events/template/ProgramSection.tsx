@@ -52,13 +52,13 @@ const ProgramSection = React.memo(
         <Grid className={`${classPrefix}-title`}>Event Program Schedule</Grid>
 
         {Object.entries(groupedPrograms).map(([date, programs]: any, index: number) => (
-            <Grid container size={{ xs: 12, sm: 12 }} key={date} direction={'column'} justifyContent={'center'} alignItems={'center'} spacing={2}>
+            <Grid  container size={{ xs: 12, sm: 12 }} key={date} direction={'column'} justifyContent={'center'} alignItems={'center'} spacing={2}>
                 <Grid className={`${classPrefix}-item-day`}>
                     <Typography>{`Day ${String(index + 1).padStart(2, "0")} - ${moment(date).format("MMMM D, YYYY")}`}</Typography>
                 </Grid>
-                <Grid container spacing={2} direction={'column'} justifyContent={'center'} alignItems={'center'}>
+                <Grid size={12}  container spacing={2} direction={'column'} justifyContent={'center'} alignItems={'center'}>
                     {programs?.map((program: any) => (
-                        <Grid key={program.id} container className={`${classPrefix}-item-group-container`} direction={'row'}>
+                        <Grid size={12} key={program.id} container className={`${classPrefix}-item-group-container`} direction={'row'}>
 
                             <Grid container direction={'row'} justifyContent={'center'} alignItems={'center'} >
                                 <Grid container direction={'row'} justifyContent={'center'} alignItems={'center'} className={`${classPrefix}-item-time-container`}>

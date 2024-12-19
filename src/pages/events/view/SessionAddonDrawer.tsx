@@ -17,7 +17,9 @@ import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CreateAddon from "../CreateAddon";
 import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
 import CustomTimePicker from "@/components/CustomTimePicker/CustomTimePicker";
-
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import { snackBar } from "@/Libs/store";
+import { clear } from "console";
 interface FormData {
   addonId: number;
   isPaid: "PAID" | "FREE";
@@ -56,7 +58,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
   const [selectedAddOnId, setSelectedAddOnId] = useState<string | number | null>(null);
   const [newAddOnView, setNewAddonView] = useState(false);
 
-  const { control, setValue, handleSubmit, watch, reset } = useForm<FormData>({
+  const { control, setValue, handleSubmit, watch, reset, setError, clearErrors } = useForm<FormData>({
     defaultValues: {
       isPaid: isEditing && selectedAddOn?.amount > 0 ? "PAID" : "FREE",
       startTime: selectedAddOn ? selectedAddOn.startTime : "",
@@ -64,6 +66,8 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
       description: selectedAddOn ? selectedAddOn?.description : "",
       amount: selectedAddOn ? selectedAddOn.amount : "",
     },
+    mode: 'onSubmit',
+    reValidateMode: 'onChange'
   });
 
   /**
@@ -76,11 +80,24 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
   /**
    * Fetches and sets new add-on options created for the dropdown from the API.
    */
-  const onaddOnSubmitHandler =async () => {
+  const onaddOnSubmitHandler = async () => {
     await handleAddOnOptionsApiCall();
   };
 
   const isPaid = watch("isPaid");
+  const isAddon = watch("addonId");
+  const isDescription = watch("description");
+
+
+
+  const addonProperties = watch("properties");
+
+
+  const buttonDisbaled = !isAddon || !isDescription || addonProperties === undefined || addonProperties?.length === 0;
+
+  console.log(addonProperties);
+
+
   const { fields, remove, append } = useFieldArray({
     control,
     name: "properties",
@@ -148,22 +165,94 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
    * Adds a property to the properties array based on form inputs.
    */
   const handleAddProperty = () => {
-    const propertyName = watch("propertyName");
-    const propertyAmount = watch("propertyAmount");
+    // Collect current values
+    const propertyName = watch("propertyName")?.trim();
+    const propertyAmount = watch("propertyAmount")?.trim();
+    const isPaid = watch("isPaid");
+
+    // Reset previous errors
+    clearErrors(["propertyName", "propertyAmount"]);
+
+    // Validation object to track errors
+    const validationErrors: Record<string, { type: string; message: string }> = {};
+
+    // Validation logic
+    if (isPaid === "PAID") {
+      // For PAID properties, both name and amount are required
+      if (!propertyName) {
+        validationErrors.propertyName = {
+          type: "required",
+          message: "Property name is required"
+        };
+      }
+
+      if (!propertyAmount) {
+        validationErrors.propertyAmount = {
+          type: "required",
+          message: "Property amount is required"
+        };
+      }
+
+      // Additional amount validation for PAID properties
+      if (propertyAmount && isNaN(Number(propertyAmount))) {
+        validationErrors.propertyAmount = {
+          type: "pattern",
+          message: "Property amount must be a valid number"
+        };
+      }
+    } else if (isPaid === "FREE") {
+      // For FREE properties, only name is required
+      if (!propertyName) {
+        validationErrors.propertyName = {
+          type: "required",
+          message: "Property name is required"
+        };
+      }
+    }
+
+    // If there are validation errors, set them and stop
+    if (Object.keys(validationErrors).length > 0) {
+      Object.entries(validationErrors).forEach(([field, error]) => {
+        setError(field as any, {
+          type: error.type,
+          message: error.message
+        });
+      });
+      return;
+    }
 
     if (propertyName) {
       append({ propertyName, propertyAmount });
       setValue("propertyName", "");
       setValue("propertyAmount", "");
     }
-    setValue("isPaid","FREE")
+    setValue("isPaid", "FREE")
+
+    clearErrors();
   };
+
+
+
+  function handleCloseDrawer() {
+
+    if (isAddon || isDescription || addonProperties?.length > 0) {
+      snackBar({ severity: "error", message: "please complete the process" })
+
+      return
+    }
+
+
+    closeDrawer()
+  }
 
   /**
    * Formats the form data and passing it to the onSubmit handler.
    * @param form data
    */
   const handleFormSubmit = (data: FieldValues) => {
+
+    console.log(data)
+
     const formattedData: any = {
       eventId: Number(id),
       addonId: Number(selectedAddOnId),
@@ -186,12 +275,12 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
   };
   return (
     <Box sx={{ maxWidth: 600 }}>
-      <Grid container spacing={2} padding={2}>
-        <Grid container justifyContent="space-between" alignItems="center" size={{ xs: 12 }}>
+      <Grid container rowGap={3} columnSpacing={2} padding={2} className="pb-5 ">
+        <Grid container rowSpacing={4} justifyContent="space-between" alignItems="center" size={{ xs: 12 }}>
           <Typography className="event-detail-speakers-card-contributor-header">
             {isEditing ? "Edit Add-on" : "Add Add-on"}
           </Typography>
-          <IconButton onClick={closeDrawer}>
+          <IconButton onClick={handleCloseDrawer}>
             <CloseOutlined />
           </IconButton>
         </Grid>
@@ -237,38 +326,35 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
               <CustomTextField name="addonDate" placeholder="Add-on Date" control={control} type="date" />
             </Grid>
             <Grid size={{ xs: 6 }}>
-               <CustomTimePicker
-               name="startTime"
-               label="Start Time"
-               placeholder="Start Time"
-               control={control}
-               type="time"
-               ampm={true}
-                 />
+              <CustomTimePicker
+                name="startTime"
+                label="Start Time"
+                placeholder="Start Time"
+                control={control}
+                type="time"
+                ampm={true}
+              />
             </Grid>
             <Grid size={{ xs: 6 }}>
-            <CustomTimePicker
-               name="endTime"
-               label="End Time"
-               placeholder="End Time"
-               control={control}
-               type="time"
-               ampm={true}
-                     /> 
+              <CustomTimePicker
+                name="endTime"
+                label="End Time"
+                placeholder="End Time"
+                control={control}
+                type="time"
+                ampm={true}
+              />
             </Grid>
           </>
         )}
-        <Grid size={{ xs: 12 }}>
+        {/* <Grid size={{ xs: 12 }}>
           <CustomTextField name="amount" placeholder="Price" control={control} type="number" requiredField={true} />
-        </Grid>
+        </Grid> */}
 
         <Grid size={{ xs: 12 }}>
           <Typography className="event-detail-speakers-card-contributor-header">Add Properties</Typography>
         </Grid>
 
-        <Grid size={{ xs: 12 }}>
-          <CustomTextField name="propertyName" placeholder="PropertyName" control={control} requiredField={true} />
-        </Grid>
         <Grid size={{ xs: 12 }}>
           <CustomRadio
             name="isPaid"
@@ -279,48 +365,62 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
             control={control}
             row
           />
-        </Grid>
-        {isPaid === "PAID" && (
-          <Grid size={{ xs: 10 }}>
+        </Grid >
+        <Grid size={12} container className="border border-gray-100 w-full py-6 p-4 rounded-md " rowSpacing={2}>
+          <Grid size={{ xs: 6 }}>
+            <CustomTextField name="propertyName" placeholder="PropertyName" control={control} rules={{
+              validate: () => Array.isArray(addonProperties) && addonProperties.length > 0 || "Please add at least one property"
+            }} />
+          </Grid>
+
+
+          <Grid size={{ xs: 6 }}>
             <CustomTextField
+              prefixIcon={<AttachMoneyIcon />}
+              disabled={isPaid === "PAID" ? false : true}
               name="propertyAmount"
               placeholder="Price"
               control={control}
               type="number"
               rules={{
-                required: "Price is required",
-              }}            
+                required: {
+                  value: isPaid === "PAID" ? true : false,
+                  message: "Price is required",
+                },
+              }}
             />
           </Grid>
-        )}
 
-        <Grid ml={1} mt={1}>
-          <IconButton className="add-program-prop-add" onClick={handleAddProperty}>
+          <Grid size={12} mt={1}>
+            {/* <IconButton className="add-program-prop-add" onClick={handleAddProperty}>
             <AddIcon />
-          </IconButton>
+          </IconButton> */}
+            <CustomButton label="Add Property" startIcon={<AddIcon />} onClick={handleAddProperty} className="add-program-add-property-btn" />
+          </Grid>
+          {fields.length > 0 && (
+            <Grid size={{ xs: 12 }}>
+              <Grid container spacing={1}>
+                {fields.map((item, index) => (
+                  <Grid key={item.id}>
+                    <Chip
+                      className="add-program-chip-item"
+                      onDelete={() => remove(index)}
+                      label={`${item.propertyName} ${item.propertyAmount ? " - " + item.propertyAmount : ""}`}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </Grid>
+          )}
         </Grid>
 
-        {fields.length > 0 && (
-          <Grid size={{ xs: 12 }}>
-            <Grid container spacing={1}>
-              {fields.map((item, index) => (
-                <Grid key={item.id}>
-                  <Chip
-                    className="add-program-chip-item"
-                    onDelete={() => remove(index)}
-                    label={`${item.propertyName} ${item.propertyAmount ? " - " + item.propertyAmount : ""}`}
-                  />
-                </Grid>
-              ))}
-            </Grid>
-          </Grid>
-        )}
         <Grid size={{ xs: 12 }}>
-          <Grid container justifyContent="right">
+          <Grid container justifyContent="right" className="mb-5">
             <CustomButton
-              label="Submit"
+              label="Create Addon"
+              disabled={buttonDisbaled}
               onClick={handleSubmit(handleFormSubmit)}
-              className="event-sessions-edit-button"
+              className="event-sessions-edit-button "
             />
           </Grid>
         </Grid>
