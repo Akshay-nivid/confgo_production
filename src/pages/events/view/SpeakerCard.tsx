@@ -19,6 +19,7 @@ import AddIcon from "@mui/icons-material/Add";
 import config from "../../../../config.json";
 import CreateContributorType from "../CreateContributorType";
 import PersonIcon from '@mui/icons-material/Person';
+import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
 
 interface CustomFile {
   id: number;
@@ -52,9 +53,14 @@ interface EventParticipant {
   topic: string | null;
 }
 
+type TransformedData = {
+  id: number;
+  name: string;
+};
+
 const SpeakerCard = (_eventData: any) => {
   const { id } = useParams<Record<string, string | undefined>>();
-  const { handleSubmit, control, reset } = useForm<FormData>();
+  const { handleSubmit, control, reset, formState: { errors } } = useForm<FormData>();
   const [addContributeView, setAddContributeView] = useState(false);
   const [contributorType, setContributorType] = useState<ContributorType[]>();
   const [fileRequired, setFileRequired] = useState(false);
@@ -71,6 +77,21 @@ const SpeakerCard = (_eventData: any) => {
   const [modalOpen, setModalOpen] = useState(false);
   const baseUrl = config.api.url;
 	const [newTypeView, setNewTypeView] = useState(false);
+  const [searchResults, setSearchResults] = useState<TransformedData[]>([]);
+  const [loading, setLoading] = useState(false); // To indicate loading state for API
+
+  
+  /**
+   * Method transforms data to the autocomplete data format
+   * @param data : api response data
+   * @returns 
+   */
+  function transformUserData(data: any): TransformedData[] {
+    return data?.map((item: any) => ({
+      id: item.user?.id,
+      name: item.user?.firstName,
+    }));
+  }
   /**
    *function to handle close the modal
    */
@@ -100,12 +121,14 @@ const SpeakerCard = (_eventData: any) => {
       contributorName: "",
       contributorType: "",
       contributorDescription:"",
+      userInfo: ""
     });
     setAddContributeView(true);
     setEditConrtributorValue(null);
     clearDataById("contributorFields");
     }
   };
+
 
   /**
    * Handler for submitting the fetch new Types.This function is invoked after a new contributor type is created.
@@ -198,6 +221,7 @@ const SpeakerCard = (_eventData: any) => {
     contributorType: string;
     contributorName: string;
     contributorDescription: string;
+    userInfo: any;
   };
 
   /**
@@ -225,6 +249,7 @@ const SpeakerCard = (_eventData: any) => {
   const createContributor = async (formData: FormData) => {
     try {
       const requestBody = {
+        userId: formData.userInfo?.id,
         eventId: id,
         name: formData.contributorName,
         assetId: selectedFile?.id ?? null,
@@ -405,6 +430,32 @@ const SpeakerCard = (_eventData: any) => {
     setNewTypeView(false);
    reset()
   };
+
+   /**
+    *  Function to handle search API for autocomplete
+    */ 
+   const handleSearch = async (query: string) => {
+    setLoading(true);
+    try {
+      const req = {
+        filters: {
+          roleId: 6,
+          name: query
+        },
+      };
+      const response = await apiClient.post(`user/userRole/list`, req);
+      const { status, data } = processAPIResponse(response, "userRoleList");
+      if (status) {
+        setSearchResults(transformUserData(data));
+      }
+      // Update the options based on API response
+    } catch (error) {
+      Logger.error("Error fetching search results:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Grid
       className="event-detail-speakers-card"
@@ -531,6 +582,19 @@ const SpeakerCard = (_eventData: any) => {
               <Grid>
                 <form onSubmit={handleSubmit(onSubmit)}>
                   <Grid container spacing={4}>
+                    <Grid container size={{ xs: 12 }}>
+                      <CustomAutocomplete
+                        name="userInfo"
+                        className={errors['userInfo'] ?"custom-search-text-field event-detail-speakers-card-contributor-auto-complete border-error-input": "custom-search-text-field event-detail-speakers-card-contributor-auto-complete"}
+                        control={control}
+                        placeholder="Search User"
+                        options={searchResults} // Dynamic options based on API results
+                        getOptionLabel={(option: any) => option.name || ""} // Adjust based on your data structure
+                        onSearch={handleSearch} // Call the search function
+                        loading={loading}
+                        rules={{ required: true }}
+                      />
+                    </Grid>
                     <Grid container size={{ xs: 12 }}>
                       <CustomSelect
                         name="contributorType"

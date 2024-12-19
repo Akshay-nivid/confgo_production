@@ -115,9 +115,12 @@ const EventInfoCard: React.FC<any> = React.memo(
    */
   const onSubmit = async (data: any) => {
     // Format the date and time fields before update request.
-   let excludeKeys = ['slugName','city','address','venue','country','mapUrl','postalCode','state','status','templateId','template','eventPriceTiers','eventProgramSchedules','programs','addons','eventContacts'];
-    if(data.url==null){
+   let excludeKeys = ['slugName','city','address','venue','country','mapUrl','postalCode','state','status','templateId','template','eventPriceTiers','eventProgramSchedules','programs','addons','eventContacts','venueId','email','phone','venueName'];
+    if(data?.eventClass === "OFFLINE"){
       excludeKeys.push('url');
+    }
+    if(data?.eventClass === "ONLINE"){
+      excludeKeys.push('venueName');
     }
     const formattedData = {
       //remove unnessary fields
@@ -126,6 +129,7 @@ const EventInfoCard: React.FC<any> = React.memo(
       startTime: formatUTCDateTime(data.startTime),
       endTime: formatUTCDateTime(data.endTime),
       assetId: selectedFile?.id,
+      ...(data?.eventClass !== "ONLINE" ?{
       venue: {
         name: data?.venueName,
         mapUrl: data?.mapUrl,
@@ -134,7 +138,8 @@ const EventInfoCard: React.FC<any> = React.memo(
         state: data?.state,
         country: data?.country,
         postalCode: data?.postalCode,
-      },
+      }, }
+      : {}),
       contacts: [
         {
           phone: data?.phone,

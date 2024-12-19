@@ -90,7 +90,7 @@ const PersonalAndOrganisationDetails:React.FC<AccountSettingProps> = React.memo(
           lastName: data.user.lastName,
           phone: data.user.phone,
           email: data.user.email,
-          assetId: data.user.assetId || "",
+          assetId: data.user.assetId || null,
           isSsoUser:data?.isSsoUser,       
         };
         setCompId(data.id)        
@@ -102,7 +102,7 @@ const PersonalAndOrganisationDetails:React.FC<AccountSettingProps> = React.memo(
           companyPhone:data.phone,
           companyAddress:data.companyAddress,
           companyEmail:data.email,
-          assetId:data?.assetId || ""
+          assetId:data?.assetId || null
         }
         setLogoProfileData(OrganisationData); 
   
@@ -194,7 +194,7 @@ const onSubmit = async (data: Profile) => {
   try {
     const payload = {
       ...data,
-      assetId: drawerProfileImage || profileData?.assetId,
+      assetId: drawerProfileImage || profileData?.assetId || null,
     };
     const response = await apiClient.put(`/user`, payload);
     const { status, message } = processAPIResponse(response, "personalInformation");
@@ -316,13 +316,16 @@ return (
         />
       ) : (
         <Grid size={1} className="main-account-profile-image connected" mb={0}>
-          {LogoprofileData?.companyName ? (
-            <Avatar className="main-user-profile main-user-profile-text">
-              {`${LogoprofileData?.companyName}`.toUpperCase()}
-            </Avatar>
-          ) : (
-            <Avatar></Avatar>
-          )}
+         {LogoprofileData?.companyName ? (
+           <Avatar className="main-user-profile main-user-profile-text">
+           {LogoprofileData.companyName
+            .split(' ')
+              .map(word => word[0].toUpperCase()) 
+                .join('')} 
+                  </Avatar>
+                      ) : (
+          <Avatar></Avatar>
+                    )}
         </Grid>
       )}
       <Grid container className="main-account-detail-grid connected" size={12}>
