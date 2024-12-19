@@ -69,9 +69,9 @@ const VolunteerListCard = () => {
     return data.map((item: any) => {
       return {
         ...item,
-        id: item?.id,
-        name: item?.user?.firstName,
-        email: item?.user?.email,
+        id: item?.participant?.id,
+        name: item?.participant?.user?.firstName,
+        email: item?.participant?.user?.email,
         role: item?.role,
         phone: item?.phone,
         status: item?.status
@@ -237,7 +237,7 @@ const VolunteerListCard = () => {
           title="Volunteers"
           hideFooterPagination={false}
           columns={columns}
-          id="volunteer-list-datagrid"
+          id="volunteer-lists"
         />
       </Grid>
 

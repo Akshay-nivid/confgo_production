@@ -67,7 +67,7 @@ const AddOrganization = React.memo(() => {
             if (status) {
                 setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Registration Successfully and Please Complete Payment for Completion" });
                 setDataById('form3', { companyData: data });
-                setDataById('register', { data: 'PAYMENT_METHOD_PAGE' });
+                setDataById('register', { data: 'PAYMENT_METHOD_PAGE',step:4 });
                 setIsButtonDisabled(true); 
             }
             else{
