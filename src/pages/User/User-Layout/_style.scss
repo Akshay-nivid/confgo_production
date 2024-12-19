@@ -40,3 +40,14 @@
     height: 100vh;
     overflow: auto;
 }
+
+@media screen and (max-width: 600px) {
+    .user-layout{
+        .user-layout-content{
+            padding-inline: 0 !important;
+            .user-layout-card{
+                padding: 0 !important;
+            }
+        }
+    }
+}
