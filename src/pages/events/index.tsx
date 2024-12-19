@@ -355,12 +355,13 @@ const Events = () => {
         >
 
           <Grid>
+            {activeStep !== 0 &&
             <CustomButton
               className="custom-stepper-back-button"
               label="Back"
               onClick={handleBack}
               disabled={activeStep === 0}
-            />
+            />}
           </Grid>
           <Grid>
             {<CustomButton
