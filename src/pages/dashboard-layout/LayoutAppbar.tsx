@@ -11,7 +11,6 @@ import { useNavigate } from 'react-router-dom';
 import config from "../../../config.json";
 import apiClient from '@/Libs/Https/API-client';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';
-import { Logger } from '@/Utils/Logger';
 /**
  * component for appbar in dashboard
  * @returns
