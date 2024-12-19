@@ -10,6 +10,8 @@ import routes from '@/router/routes';
 import { useNavigate } from 'react-router-dom';
 import config from "../../../config.json";
 import apiClient from '@/Libs/Https/API-client';
+import { processAPIResponse } from '@/Utils/CommonBaseClass';
+import { Logger } from '@/Utils/Logger';
 /**
  * component for appbar in dashboard
  * @returns
@@ -47,16 +49,27 @@ export default function LayoutAppbar() {
     resetStore();
     navigate(routes.home()); 
   };
+
    /**
    * zustand data:For get user Details
    */
   useEffect(()=>{
     userDetails();
   },[])
+
+  /**
+   * Fetching user Details
+   */
   const userDetails=async()=>{
     const response= await apiClient.get(`/user`);
-    setDataById("profileImage",{item:response?.data?.data?.assetId})
+    const{data}=processAPIResponse(response,'');
+    if(data){
+      setDataById("profileImage",{item:data?.assetId});
+    }
   }
+  /**
+   * pictureId: from zustand store
+   */
   const pictureId=useStore((state: any) => state.compData?.["profileImage"]?.item);
   
   return (
