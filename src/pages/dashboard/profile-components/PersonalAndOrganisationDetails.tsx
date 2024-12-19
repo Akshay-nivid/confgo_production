@@ -90,7 +90,7 @@ const PersonalAndOrganisationDetails:React.FC<AccountSettingProps> = React.memo(
           lastName: data.user.lastName,
           phone: data.user.phone,
           email: data.user.email,
-          assetId: data.user.assetId || "",
+          assetId: data.user.assetId || null,
           isSsoUser:data?.isSsoUser,       
         };
         setCompId(data.id)        
@@ -102,7 +102,7 @@ const PersonalAndOrganisationDetails:React.FC<AccountSettingProps> = React.memo(
           companyPhone:data.phone,
           companyAddress:data.companyAddress,
           companyEmail:data.email,
-          assetId:data?.assetId || ""
+          assetId:data?.assetId || null
         }
         setLogoProfileData(OrganisationData); 
   
@@ -194,7 +194,7 @@ const onSubmit = async (data: Profile) => {
   try {
     const payload = {
       ...data,
-      assetId: drawerProfileImage || profileData?.assetId,
+      assetId: drawerProfileImage || profileData?.assetId || null,
     };
     const response = await apiClient.put(`/user`, payload);
     const { status, message } = processAPIResponse(response, "personalInformation");

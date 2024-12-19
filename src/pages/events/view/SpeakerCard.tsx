@@ -60,7 +60,7 @@ type TransformedData = {
 
 const SpeakerCard = (_eventData: any) => {
   const { id } = useParams<Record<string, string | undefined>>();
-  const { handleSubmit, control, reset, watch, formState: { errors } } = useForm<FormData>();
+  const { handleSubmit, control, reset, formState: { errors } } = useForm<FormData>();
   const [addContributeView, setAddContributeView] = useState(false);
   const [contributorType, setContributorType] = useState<ContributorType[]>();
   const [fileRequired, setFileRequired] = useState(false);
