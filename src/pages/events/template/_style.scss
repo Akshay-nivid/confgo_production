@@ -1196,6 +1196,11 @@
             &-3 {
                 &-container {
                     margin-inline: 2rem !important;
+                    // padding-inline: 2rem;
+                }
+
+                &-logo {
+                    padding-left: 0 !important;
                 }
                 
             }
@@ -1205,6 +1210,12 @@
                         background-color: $clr_charcoal_cyan !important;
                         padding-inline: 2rem !important;
                         padding-block: 3rem !important;
+                    }
+                    &-close-icon{
+                        position: absolute;
+                        right:3rem;
+                         top:3rem;
+                         font-size: 1.5rem  !important;
                     }
                 }
                 &-burger{
@@ -1230,6 +1241,12 @@
                         padding-inline: 2rem !important;
                         padding-block: 3rem !important;
                     }
+                    &-close-icon{
+                        position: absolute;
+                        right:3rem;
+                         top:3rem;
+                         font-size: 1.5rem  !important;
+                    }
                 }
                 &-burger{
                    font-size: 2.5rem  !important;
@@ -1253,6 +1270,12 @@
                         background-color: $clr_dark_navy_blue !important;
                         padding-inline: 2rem !important;
                         padding-block: 3rem !important;
+                    }
+                    &-close-icon{
+                        position: absolute;
+                        right:3rem;
+                         top:3rem;
+                         font-size: 1.5rem  !important;
                     }
                 }
                 &-burger{
@@ -1447,6 +1470,7 @@
             &-2,
             &-3 {
                 padding-inline: 2rem !important;
+                border-radius: 0 !important;
             }
         }
         &-footer {

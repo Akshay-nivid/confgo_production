@@ -9,9 +9,9 @@ import Grid from '@mui/material/Grid2';
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import config from "../../../../config.json";
-import { Box, Drawer } from '@mui/material';
+import {  Drawer } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { ClockIcon, CloseIcon } from '@/assets/svg';
+import {  CloseIcon } from '@/assets/svg';
 
 type TopMenuSectionProps = {
     data?: any;
@@ -144,7 +144,7 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
                 anchor="right"
                 open={drawerOpen}>
 
-                <CloseIcon onClick={handleCloseDrawer} className='absolute right-10 top-10 text-[1.5rem]' />
+                <CloseIcon onClick={handleCloseDrawer} className={`${classPrefix}-container-close-icon`} />
 
                 <Grid container flexDirection={'column'} height={'100vh'} className={`${classPrefix}-container-drawer`} >
                     
