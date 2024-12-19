@@ -233,6 +233,11 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
 
 
 
+  /**
+   * Handles closing the drawer.
+   * If the user has entered any values or has properties added, it will show an error message and not close the drawer.
+   * Otherwise, it will call the closeDrawer function to close the drawer.
+   */
   function handleCloseDrawer() {
 
     if (isAddon || isDescription || addonProperties?.length > 0) {
@@ -250,8 +255,6 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
    * @param form data
    */
   const handleFormSubmit = (data: FieldValues) => {
-
-    console.log(data)
 
     const formattedData: any = {
       eventId: Number(id),
