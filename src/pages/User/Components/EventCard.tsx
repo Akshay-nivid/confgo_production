@@ -43,7 +43,7 @@ const EventCard: React.FC<EventProps> = React.memo(({ eventFullData, datetitle, 
                 <Grid  className="event-card-status" container size={12}>
                     <Grid container size={12} className="content">
                         <Typography className="event-card-location">Status</Typography>
-                        <StatusComponent value={attendeeStatus.length==0 ? 7 : 8}  />
+                        <StatusComponent value={attendeeStatus.length==0 ? "7" : "8"}  />
                     </Grid>
                 </Grid>}
             {squareButton &&

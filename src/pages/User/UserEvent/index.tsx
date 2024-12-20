@@ -112,10 +112,6 @@ const MyEventScreen = () => {
       await POST({
         url: "event/registered/eventList",
         id: 'usersEvents',
-        successCB:(response:any)=>{
-         console.log(">>>>>>success",response);
-         
-        },
         errorCB: (context: any) => {
           setDataById("snackBarInfo", {
             open: true,
