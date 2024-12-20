@@ -58,7 +58,7 @@ const PriceTierList: React.FC = () => {
 
       const attendeeTypeResponse = await POST({
         url: "participant/type/list",
-        body: { filters: { eventId: id,isContributor: '0' } },
+        body: { filters: { eventId: id,isContributor: '0',exceptName:'General' } },
         id: "attendeeType",
       });
 
