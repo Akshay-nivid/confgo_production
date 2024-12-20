@@ -107,7 +107,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
   const fetchAttendeeTypeList = async () => {
     POST({
       url: "/participant/type/list",
-      body: { filters: { eventId: id ,isContributor: '0'} },
+      body: { filters: { eventId: id ,isContributor: '0', exceptName:'General'} },
       id: "attendeeTypeList",
       successCB: (context: any) => {
         if (context?.success) {

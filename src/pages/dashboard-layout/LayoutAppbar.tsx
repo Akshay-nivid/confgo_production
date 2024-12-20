@@ -3,12 +3,14 @@ import Typography from '@mui/material/Typography';
 import { Avatar, Divider, Menu, MenuItem } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 import { SettingsIcon, LogoutIcon, AppThemeLogo } from '@/assets/svg';
-
+import {useEffect} from "react";
 import Grid from '@mui/material/Grid2';
 import useStore, { resetStore, setDataById } from '@/Libs/store';
 import routes from '@/router/routes';
 import { useNavigate } from 'react-router-dom';
 import config from "../../../config.json";
+import apiClient from '@/Libs/Https/API-client';
+import { processAPIResponse } from '@/Utils/CommonBaseClass';
 /**
  * component for appbar in dashboard
  * @returns
@@ -46,10 +48,28 @@ export default function LayoutAppbar() {
     resetStore();
     navigate(routes.home()); 
   };
-    /**
-   * zustand data:For get Admin profile picture
+
+   /**
+   * zustand data:For get user Details
    */
-  const profileImage = useStore((state: any) => state.compData?.["userDetails"]?.assetId);
+  useEffect(()=>{
+    userDetails();
+  },[])
+
+  /**
+   * Fetching user Details
+   */
+  const userDetails=async()=>{
+    const response= await apiClient.get(`/user`);
+    const{data}=processAPIResponse(response,'');
+    if(data){
+      setDataById("profileImage",{item:data?.assetId});
+    }
+  }
+  /**
+   * pictureId: from zustand store
+   */
+  const pictureId=useStore((state: any) => state.compData?.["profileImage"]?.item);
   
   return (
     <Grid container className="appbar">
@@ -63,24 +83,24 @@ export default function LayoutAppbar() {
             <Typography className="avatar-subheader-text">Admin</Typography>
           </div>
           <div className="flex items-center gap-x-[2px]">
-             {profileImage ? (
+             {pictureId ? (
                      <Avatar
-                       src={`${baseUrl}asset/${profileImage}`}
+                       src={`${baseUrl}asset/${pictureId}`}
                        className="appbars-group-avatar"
                        alt="User Profile"
                        variant="circular"
                      />
                    ) : (
-                     <Avatar className="main-user-profile main-user-profile-text">
+                     <Avatar >
                        {companyUserName? (
-                                 <Avatar className="main-user-profile main-user-profile-text">
+                                 <Avatar className="appbars-group-avatar">
                                  {companyUserName
                                   .split(' ')
                                     .map(word => word[0].toUpperCase()) 
                                       .join('')} 
                                         </Avatar>
                                             ) : (
-                               <Avatar></Avatar>
+                                   <Avatar></Avatar>
                                           )}
                      </Avatar>
                    )}

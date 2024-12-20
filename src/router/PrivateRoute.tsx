@@ -14,7 +14,7 @@ const PrivateRoutes: React.FC<PrivateRouteProps & { role: "COMPANYADMIN" | "USER
     return <div>Loading...</div>;
   }
 
-  // Redirect to login if user is not logged in or has incorrect role
+  // Redirect to login if user is not loCOMPANYADMINgged in or has incorrect role
   if (!isUserLoggedIn || userRole !== role) {
     const loginRoute = role === "COMPANYADMIN" ? "/organization/login" : "/user/login";
     return <Navigate to={loginRoute} replace />;
