@@ -631,6 +631,7 @@ const SpeakerCard = (_eventData: any) => {
                         control={control}
                         rules={{ required: true }}
                         defaultValue={contributorFields?.designation}
+                        className={errors['contributorType']? "border-error-input": ""}
                         fullWidth
                       />
                     </Grid>
