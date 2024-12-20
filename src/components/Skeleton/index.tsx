@@ -1,6 +1,4 @@
 /*
-*@sarath
-Fx Skelton component 
 extends from the Material Skelton and 
 enhances for the airbase requirements
 */
