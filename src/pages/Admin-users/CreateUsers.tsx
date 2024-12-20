@@ -6,9 +6,25 @@ import routes from "@/router/routes";
 import { validateEmail, validateMaxLength, validatePhoneNumber, validateRequiredField } from "@/Utils/Validation";
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-
+interface Role{
+    value:number,
+    label:string
+}
+type RoleList = {
+    id: number;            
+    roleName: string;     
+    description: string;   
+    createdBy: string | null; 
+    createdOn: string;     
+    modifiedBy: string | null; 
+    modifiedOn: string;    
+  };
+/**
+* Component for creating new Company Users
+*/ 
 const CreateNewUsers = () => {
     type FormData = {
         firstName: string,
@@ -17,35 +33,74 @@ const CreateNewUsers = () => {
         email: string,
         phone: string
     }
+    /**
+    * useEffect fetch full role list
+    */
+    useEffect(() => {
+        getRoleList();
+    }, [])
     const navigate = useNavigate();
     const POST = useStore((state: any) => state.POST);
     const setDataById = useStore((state: any) => state.setDataById);
-    const { handleSubmit, control } = useForm<FormData>();
+    const { handleSubmit, control,reset } = useForm<FormData>();
+    const [roleList,setRoleList]=useState<Role []>([])
+    /**
+    * handle form submission 
+    */
     const onSubmit = (data: FormData) => {
         createUser(data);
     }
+    /**
+    * get full role list 
+    */
+    const getRoleList=async ()=>{
+        await POST({
+            url:'role/list',
+            body:{
+                    "offset": 0,
+                    "limit": 100,
+                    "sortBy": "id",
+                    "sortDirection": "DESC",
+            },
+            id:'user-role-list',
+            successCB: (context: any) => {
+                let roleData: Role[] = []; 
+                context.data.forEach((item: RoleList) => {
+                    if (item.id !== 1&&item.id!=4&&item.id!=3) {
+                        roleData.push({
+                            value: item.id,
+                            label: item.roleName
+                        });
+                    }
+                });
+                setRoleList(roleData);
+            }, 
+            errorCB: (context: any) => {
+                setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
+            }
+        });
+    }
+    /**
+    * handle create new user
+    */
     const createUser = async (data: FormData) => {
+        const companyId=sessionStorage.getItem('companyId');
         await POST({
             url: 'user',
             body: {
                 firstName: data.firstName,
                 lastName: data.firstName,
                 email: data.email,
-                phone: data.phone
+                phone: data.phone,
+                roleId:data.role,
+                companyId:companyId
             },
             id: 'create-admin-user',
             successCB: (context: any) => {
                 if (context?.success) {
-                    navigate(routes.userSetPassword(), {
-                        state: {
-                            email: data.email,
-                            // phoneNumber: data.phone,
-                            // token: context?.data?.token?.token,
-                            userId: context?.data?.token?.userId,
-                            // purpose:purposeTypes?.SET_PASSWORD
-                        },
-                    });
-                    setDataById("resendOtp", { token: context?.data?.token?.token });
+                    reset();
+                    setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:`Account Created Please check ${data.email}` });
+                    navigate(routes.users());
                 }
             },
             errorCB: (context: any) => {
@@ -53,10 +108,6 @@ const CreateNewUsers = () => {
             }
         });
     };
-    const selectOptions = [
-        { value: "volunteer", label: "Volunteer" },
-        { value: 'member', label: 'Member' },
-    ]
     return <Grid container className='admin-users' spacing={2}>
         <Grid size={12} >
             <Typography className="admin-users-header">Create New User</Typography>
@@ -138,7 +189,7 @@ const CreateNewUsers = () => {
                             name="role"
                             control={control}
                             label="Select Field Type"
-                            options={selectOptions}
+                            options={roleList}
                             rules={{ required: validateRequiredField({}) }}
                         />
                     </Grid>

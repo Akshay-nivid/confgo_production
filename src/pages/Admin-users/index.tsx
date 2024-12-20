@@ -23,17 +23,17 @@ const AdminUsersList=()=>{
     const [loading, setLoading] = useState(false); // To indicate loading state for API
   
     const { control } = useForm();
-      /**
-   * Fetches the participant list when the component mounts.
+  /**
+   * Fetches the userRole list when the component mounts.
    */
   useEffect(() => {
-    eventPartcipantList();
+    UserRoleList();
   }, []);
 
   /**
    * Function to set the initial request configuration for fetching participant data.
    */
-  const eventPartcipantList = useCallback(() => {
+  const UserRoleList = useCallback(() => {
     const req = {
       offset: 0,
       limit: 5,
@@ -43,8 +43,8 @@ const AdminUsersList=()=>{
     setSource({
       method: "POST",
       data: req,
-      url: `participant/list`,
-      listName: "eventPartcipantList",
+      url: `user/userRole/list`,
+      listName: "UserRoleList",
     });
     return;
   }, []);
@@ -59,11 +59,11 @@ const AdminUsersList=()=>{
     return data.map((item: any) => {
       return {
         ...item,
-        id: item?.participant?.id,
-        name: item?.participant?.user?.firstName, 
-        email: item?.participant?.user?.email, 
-        registrationType: item?.participant?.registrationType, 
-        createdOn: item?.participant?.createdOn
+        name: item?.user?.firstName, 
+        role:item?.role?.roleName,
+        email:item?.user?.email,
+        phone:item?.user?.phone,
+        status:item?.user?.statusId
       };
     });
   };
@@ -82,8 +82,8 @@ const AdminUsersList=()=>{
           ...newFilters,
         },
       },
-      url: `participant/list`,
-      listName: "participantList",
+      url: `user/userRole/list`,
+      listName: "newRoleFilter",
     });
     setFilters(newFilters);
   };
@@ -103,17 +103,17 @@ const AdminUsersList=()=>{
             id: selected.id,
           },
         },
-        url: `participant/list`,
-        listName: "participant-list-",
+        url: `user/userRole/list`,
+        listName: "newRole-1",
       });
     }
   };
 
-const handleRowClick=(id:string |number)=>{
-  navigate(routes.userdetail(id))
-}
+// const handleRowClick=(id:string |number)=>{
+//   navigate(routes.userdetail(id))
+// }
   /**
-   * Searches participants based on the query entered by the user.
+   * Searches users based on the query entered by the user.
    * @param query - The search query entered by the user
    */
   const handleSearch = async (query: string) => {
@@ -125,12 +125,12 @@ const handleRowClick=(id:string |number)=>{
         },
       };
       const response = await await apiClient.post(
-        `participant/list`,
+        `user/userRole/list'`,
         req
       );
       const { status, data } = await processAPIResponse(
         response,
-        "eventPartcipantList"
+        "UserRoleListSearch"
       );
       if (status) {
         setSearchResults(data);
@@ -148,23 +148,23 @@ const handleRowClick=(id:string |number)=>{
     { type: "default", field: "name", headerName: "Name", width: 200 },
     {
       type: "default",
-      field: "email",
-      headerName: "Email",
+      field: "role",
+      headerName: "Role",
       width: 200,
-    },
-    {
-      type: "dateField",
-      field: "createdOn",
-      headerName: "Registration Date & Time",
-      width: 250,
-      dateFormat: "DD-MM-YYYY hh:mm A",
     },
     {
       type: "default",
-      field: "registrationType",
-      headerName: "Registration Type",
-      width: 200,
+      field: "email",
+      headerName: "Email",
+      width: 180
     },
+    {
+      type: "default",
+      field: "phone",
+      headerName: "Phone No",
+      width: 180,
+    },
+    { type: "status", field: "statusId", headerName: "Status", width: 150 }
   ];
     return(
         <Grid container className="custom-list">
@@ -225,8 +225,8 @@ const handleRowClick=(id:string |number)=>{
             title="Event Partcipant List"
             hideFooterPagination={false}
             columns={columns}
-            id="participant-list-datagrid"
-            onRowClick={(params:any) => handleRowClick(params.id)}
+            id="data-role-list"
+            // onRowClick={(params:any) => handleRowClick(params.id)}
           />
         </Grid>
   

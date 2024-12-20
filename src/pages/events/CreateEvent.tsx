@@ -18,7 +18,7 @@ import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { validateEmail, validatePhoneNumber } from "@/Utils/Validation";
 import { validateMaxLength } from '@/Utils/Validation';
-import LocationSearch from "./LocationSearch";
+import GoogleMapPlacePicker from "./GoogleMapPlacePicker";
 
 type EventProps = {
   formSubmit: boolean;
@@ -559,7 +559,8 @@ const CreateEvent: React.FC<EventProps> =
                       </Grid>
                 </Grid>
                   <CustomDrawer open={drawerOpen} type="right" children={
-                    <LocationSearch onClose={()=>setDrawerOpen(false)} />
+                   <GoogleMapPlacePicker onClose={()=>setDrawerOpen(false)}/>
+                    // <LocationSearch onClose={()=>setDrawerOpen(false)} />
                   } />
               </form>
               </FormProvider>
