@@ -123,7 +123,7 @@ const SetPasswordComponent = () => {
               className="setpassword__input"
             />
           </Box>
-          <Box className="setpassword__input-container">
+          <Box className="setpassword__input-container confirmpasswordbox">
             <CustomTextField
               name="confirmPassword"
               type="password"
