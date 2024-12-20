@@ -281,11 +281,12 @@
         }
     }
 
-    &-prop-add {
-        border: solid 0.1rem $clr_green !important;
+    &-add-property-btn {
+        border: solid 0.14rem $clr_green !important;
         background-color: $clr_white !important;
         color: $clr_green !important;
-
+        box-shadow: none !important;
+        padding-inline: .8rem !important;
     }
 
     &-chip-item {
@@ -523,7 +524,6 @@
         &-btn-container {
             justify-content: center;
             align-items: center;
-
 
             &-photo-btn {
                 border: solid 0.05rem $clr_green !important;
@@ -983,6 +983,12 @@
         font-size: $h6 ;
         font-weight: $font_semibold !important;
         box-shadow: none;
+        &.Mui-disabled{
+            background: $clr_gray_faded !important;
+            color: $clr_gray_medium !important;
+            border: none !important;
+        }
+
     }
 
     &-add-button {
@@ -990,6 +996,7 @@
         border-radius: 1.68rem !important;
         color: $clr_green !important;
         font-weight: $font-semibold !important;
+      
     }
 }
 
