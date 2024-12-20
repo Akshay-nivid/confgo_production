@@ -6,6 +6,7 @@ enhances for the airbase requirements
 */
 import React from "react";
 import { Card, CardHeader, CardContent, Skeleton, SkeletonProps } from "@mui/material";
+import clsx from "clsx";
 
 //default skelton
 export const Skeletn: React.FC<SkeletonProps> = props => {
@@ -51,7 +52,7 @@ export const SkeletonList: React.FC<SkeletonProps> = props => {
     rows.push(i);
   }
   return (
-    <Card className={props.className ? props.className : "fx-skelton"} style={{'width': props.width || '100%' }}>
+    <Card className={clsx("fx-skelton", props?.className)} style={{'width': props.width || '100%' }}>
       <table width="100%">
         {/* card header 40px height */}
         <tr>

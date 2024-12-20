@@ -211,7 +211,10 @@
     border-color: $clr_red !important;
   }
 }
-
+.fx-skelton{
+  border-radius: $p2 !important;
+  border: 0rem !important;
+}
 //DataGrid css starts here
 .custom-data-grid {
   margin-top: 1rem;
