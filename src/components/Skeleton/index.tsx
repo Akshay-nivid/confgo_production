@@ -1,6 +1,5 @@
 /*
 extends from the Material Skelton and 
-enhances for the airbase requirements
 */
 import React from "react";
 import { Card, CardHeader, CardContent, Skeleton, SkeletonProps } from "@mui/material";
