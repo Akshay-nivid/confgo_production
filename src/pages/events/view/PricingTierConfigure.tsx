@@ -461,7 +461,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
             />
           </Grid>
           <Grid size={{ xs: 2 }} display="flex" alignItems="center">
-            <IconButton onClick={handleAddAttendeeType}>
+            <IconButton onClick={handleAddAttendeeType} className="registration-fee-list-button">
               <AddCircleIcon className="registration-fee-list-circle-add-icon" />
             </IconButton>
           </Grid>
