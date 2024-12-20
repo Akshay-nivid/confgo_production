@@ -46,6 +46,7 @@ const EventInfoCard: React.FC<any> = React.memo(
     setValue,
     watch,
     reset,
+    setError,
     formState: { errors },
   } = methods;
   const setDataById = useStore((state: any) => state.setDataById);
@@ -113,6 +114,18 @@ const EventInfoCard: React.FC<any> = React.memo(
    * @param data
    */
   const onSubmit = async (data: any) => {
+//checks the start tima and end time
+    const startTime = new Date(data.startTime);
+    const endTime = new Date(data.endTime);
+    if (startTime > endTime) {
+      console.log("lll")
+      setError(`startTime`, {
+        type: 'manual',
+        message: 'Start date cannot be greater than end date',
+      });
+      return
+    }
+
     // Format the date and time fields before update request.
    let excludeKeys = ['slugName','city','address','venue','country','mapUrl','postalCode','state','status','templateId','template','eventPriceTiers','eventProgramSchedules','programs','addons','eventContacts','venueId','email','phone','venueName'];
     if(data?.eventClass === "OFFLINE"){
@@ -484,16 +497,32 @@ const EventInfoCard: React.FC<any> = React.memo(
                   <CustomTextField
                     placeholder="Start Date"
                     control={control}
-                    name={"startTime"}
+                    name="startTime"
                     type="date"
+                    defaultValue={moment(new Date()).format("YYYY-MM-DD")}
+                    min={moment(new Date()).format("YYYY-MM-DD")}
+                    rules={{
+                      pattern: {
+                        value: /^\d{4}-\d{2}-\d{2}$/, 
+                        message: "Please enter a valid start start date (DD-MM-YYYY)"
+                      }
+                    }}
                   />
                 </Grid>
                 <Grid size={{ xs: 12 }}>
                   <CustomTextField
                     placeholder="End Date"
                     control={control}
-                    name={"endTime"}
+                    name="endTime"
                     type="date"
+                    defaultValue={moment(new Date()).format("YYYY-MM-DD")}
+                    min={moment(new Date()).format("YYYY-MM-DD")}
+                    rules={{
+                      pattern: {
+                        value: /^\d{4}-\d{2}-\d{2}$/,
+                        message: "Please enter a valid end date (DD-MM-YYYY)"
+                      }
+                    }}
                   />
                 </Grid>
                 <Grid size={{ xs: 12 }}>
