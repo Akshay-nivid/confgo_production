@@ -224,7 +224,7 @@ const CustomTextField = <T extends FieldValues>({
         </Typography>
       )}
 
-      <InputLabel shrink={shrink}  htmlFor={name} className="custom-input-label">
+      <InputLabel shrink={shrink}  htmlFor={name} className={clsx("custom-input-label", disabled && 'label-disabled')}>
          {label? label:placeholder}
      </InputLabel>
 
@@ -242,6 +242,7 @@ const CustomTextField = <T extends FieldValues>({
                 {...field}
                 {...props}
                 name={name}
+                disabled={disabled}
                 size={size}
                 error={!!error?.message}
                 id={name}

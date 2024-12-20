@@ -64,7 +64,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
     if (time.includes('T')) {
       // Handle ISO 8601 format (e.g., 2024-11-26T06:27:00.000Z)
       const date = new Date(time);
-      return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' , hour12: true});
+      return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' , hour12: true, timeZone: 'UTC'});
     } else {
       return moment(time, "HH:mm").format("h:mm A");
     }
