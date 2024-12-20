@@ -72,13 +72,15 @@ const CreateEvent: React.FC<EventProps> =
       setValue,
       watch,
       setError,
+      clearErrors,
       formState: { errors },
     } = methods;
  
   
 
-    const [editorContent, setEditorContent] = useState("");
-    const [selectedFile, setSelectedFile] = useState<any>(null);
+  const [editorContent, setEditorContent] = useState("");
+  const [submitted, setSubmitted] = useState(false); 
+  const [selectedFile, setSelectedFile] = useState<any>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const companyId = sessionStorage.getItem('companyId');
   const baseUrl = config.api.url;
@@ -92,14 +94,18 @@ const CreateEvent: React.FC<EventProps> =
     const handleChange = (value: any) => {
       setEditorContent(value);
       setValue("description", value);
+      if (value && value !== "<p><br></p>") {
+        clearErrors("description"); 
+      }
     };
-     
+    const isError = submitted && (editorContent === "" || editorContent === "<p><br></p>"); 
 /**
  * This method ensures that the field with validation errors or requiring attention and Scrolls smoothly to that field
  */
     const scrollToError = useCallback(() => {
       const errorFieldMap: { [key: string]: string } = {
         name: '[name="name"]',
+        description:  '#react-quill-description',
         phone: '[name="phone"]',
         email: '[name="email"]',
         startTime: '[name="startTime"]',
@@ -152,7 +158,15 @@ const CreateEvent: React.FC<EventProps> =
      * @param data
      */
     const onSubmit: SubmitHandler<FormData> = (data: any) => {
-      if(watch("description") === "<p><br></p>"){
+
+     // checks whether the description content is empty or not
+      if (editorContent === "" || editorContent === "<p><br></p>") {
+        setSubmitted(true); // Set submitted to true.
+        setError(`description`, {
+              type: 'manual',
+               message: 'description is required',
+             });
+        console.log("Editor content is empty!");
         return;
       }
       const startTime = new Date(data.startTime);
@@ -294,17 +308,13 @@ const CreateEvent: React.FC<EventProps> =
                   >
                    
                     <ReactQuill
-                      className={
-                        errors?.description ||
-                        watch("description") === "<p><br></p>"
-                          ? "create-event-description-error"
-                          : ""
-                      }
+                      className={isError ? "create-event-description-error" : ""}
                       value={editorContent}
                       onChange={handleChange}
                       theme="snow"
                       placeholder="Type your description here..."
                       modules={modules}
+                      id="react-quill-description"
                     />
                     {/* <CustomTextField
                       control={control}
