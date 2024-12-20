@@ -9,25 +9,42 @@ import Grid from "@mui/material/Grid2";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 import routes from "@/router/routes";
-import FilterModal from "@/components/CustomFilter/FilterModal";
 import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
+import { Filter } from "@/components/Filter";
+import useStore, { setDataById } from "@/Libs/store";
+
+interface Role{
+  value:number,
+  label:string
+}
+type RoleList = {
+  id: number;            
+  roleName: string;     
+  description: string;   
+  createdBy: string | null; 
+  createdOn: string;     
+  modifiedBy: string | null; 
+  modifiedOn: string;    
+};
+/**
+ * componet for showing full Admin created Company User List
+ */
 const AdminUsersList=()=>{
     const navigate = useNavigate();
-    const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
-    const [filters, setFilters] = useState();
     const [source, setSource] = useState<ISource | undefined>(undefined);
     const [loading, setLoading] = useState(false); // To indicate loading state for API
-  
+    const POST = useStore((state: any) => state.POST);
     const { control } = useForm();
+    const [roleList,setRoleList]=useState<Role []>([])
   /**
    * Fetches the userRole list when the component mounts.
    */
   useEffect(() => {
     UserRoleList();
+    getRoleList();
   }, []);
 
   /**
@@ -37,7 +54,6 @@ const AdminUsersList=()=>{
     const req = {
       offset: 0,
       limit: 5,
-      filters: filters,
     };
 
     setSource({
@@ -67,26 +83,37 @@ const AdminUsersList=()=>{
       };
     });
   };
-
   /**
-   * Updates the filters and source for the data grid when new filters are applied.
-   * @param newFilters - The new filters applied by the user
+   * fetching full role list 
    */
-  const handleApplyFilters = (newFilters: any) => {
-    setSource({
-      method: "POST",
-      data: {
-        offset: 0,
-        limit: 5,
-        filters: {
-          ...newFilters,
+  const getRoleList=async ()=>{
+    await POST({
+        url:'role/list',
+        body:{
+                "offset": 0,
+                "limit": 100,
+                "sortBy": "id",
+                "sortDirection": "DESC",
         },
-      },
-      url: `user/userRole/list`,
-      listName: "newRoleFilter",
+        id:'user-role-list',
+        successCB: (context: any) => {
+            let roleData: Role[] = []; 
+            context.data.forEach((item: RoleList) => {
+                if (![1,3,4].includes(item.id)) {
+                    roleData.push({
+                        value: item.id,
+                        label: item.roleName
+                    });
+                }
+            });
+            setRoleList(roleData);
+        }, 
+        errorCB: (context: any) => {
+            setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
+        }
     });
-    setFilters(newFilters);
-  };
+}
+
 
   /**
    * Updates the source for the data grid when an autocomplete selection is made.
@@ -166,6 +193,18 @@ const AdminUsersList=()=>{
     },
     { type: "status", field: "statusId", headerName: "Status", width: 150 }
   ];
+
+  const filterFields: any = [
+    {
+      type: 'select',
+      fieldName: 'roleId',
+      label: 'Role',
+      defaultValue:roleList&&roleList[0]?.value,
+      heading: 'Filter with Role Type',
+      options: roleList
+    }
+  ]
+  
     return(
         <Grid container className="custom-list">
             <Grid size={{ xs: 4 }}>
@@ -207,15 +246,7 @@ const AdminUsersList=()=>{
             }}
             // disabled={loading}
           />
-            <CustomButton
-              className="custom-list-filter-btn"
-              onClick={() => setIsFilterModalOpen(true)}
-              label="Filters"
-              startIcon={<TuneRoundedIcon />}
-              variant="contained"
-              color="primary"
-              size="large"
-            />
+           <Filter datagridId='data-role-list' fields={filterFields} />
           </Grid>
         </Grid>
         <Grid size={{ xs: 12 }}>
@@ -229,13 +260,6 @@ const AdminUsersList=()=>{
             // onRowClick={(params:any) => handleRowClick(params.id)}
           />
         </Grid>
-  
-        {/* Filter Modal */}
-        <FilterModal
-          open={isFilterModalOpen}
-          onClose={() => setIsFilterModalOpen(false)}
-          onApplyFilters={handleApplyFilters}
-        />
       </Grid>
     );
 

@@ -105,7 +105,7 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
     const handleClear = () => {
         reset();
         fields?.forEach((item: any) => {
-            setValue(item.fieldName, '')
+            setValue(item.fieldName, item?.defaultValue||'')
         })
 
         setDateTemplate('');
@@ -299,7 +299,7 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
                                         <Controller
                                             name={item.fieldName}
                                             control={control}
-                                            defaultValue={null}
+                                            defaultValue={item?.defaultValue}
                                             //  rules={{ required: false }}
                                             render={({ field }: any) => (
                                                 <FormControl fullWidth variant="outlined">
@@ -307,12 +307,12 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
                                                     <Select
                                                         value={field.value}
                                                         className='search-input'
-                                                        label={item.label}
+                                                        label={item?.label}
                                                         onChange={(e) => field.onChange(e.target.value)}>
-                                                        {item?.data?.map((option: any) => (
+                                                        {item?.options?.map((option: any) => (
                                                             <MenuItem
-                                                                value={option.value}
-                                                            >{option.name}</MenuItem>
+                                                                value={option?.value}
+                                                            >{option?.label}</MenuItem>
                                                         ))}
                                                     </Select>
                                                 </FormControl>
@@ -446,10 +446,10 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
                             ))}
 
                         </Grid>
-                        <Grid className="footer">
+                        <Grid container className="filter-drawer" justifyContent={"space-between"}>
                             <Grid >
                                 <CustomButton
-                                    className="clear-button"
+                                    className="filter-drawer-clear-button"
                                     label="Clear Filters"
                                     variant="contained"
                                     size="large"
@@ -469,7 +469,7 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
                             </Button> */}
                                 <CustomButton
                                     // className="custom-list-filter-submit-btn"
-                                    className="apply-button"
+                                    className="filter-drawer-apply-button"
                                     type="submit"
                                     label="Apply Filters"
                                     variant="contained"

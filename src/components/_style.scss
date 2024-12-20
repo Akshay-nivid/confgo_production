@@ -549,6 +549,14 @@
     margin: 0 auto;
     border-color: $clr_gray_medium;
   }
+  &-clear-button{
+    text-transform: none !important;
+    background-color: $clr_green !important;
+  }
+  &-apply-button{
+    text-transform: none !important;
+    background-color: $clr_green !important;
+  }
 }
 
 .footer {
