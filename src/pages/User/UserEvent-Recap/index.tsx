@@ -212,9 +212,9 @@ const EventRecap: React.FC = React.memo(() => {
           lines.forEach((line: any, index: any) => {
             pdf.text(line, pageWidth / 2, 65 + (index * 10)); // Increment Y position for each line
           });
-        //  const qrCodeTopRight = await QRCode.toDataURL(eventTicketData?.data?.ParticipantDetails?.qrCode);
+          const qrCodeTopRight = await QRCode.toDataURL(eventTicketData?.data?.ParticipantDetails?.qrCode);
           // Adjust QR code size to fit nicely on the ID card
-        //  pdf.addImage(qrCodeTopRight, 'PNG', (pageWidth/2)-20, currentYPosition + 75, 30, 30); // Position (60, 10), size 20x20 mm
+          pdf.addImage(qrCodeTopRight, 'PNG', (pageWidth/2)-20, currentYPosition + 75, 30, 30); // Position (60, 10), size 20x20 mm
           // Draw the line just below the text
     
           const startX = 5; // Start of the line (x1)
