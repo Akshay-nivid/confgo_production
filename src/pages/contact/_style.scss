@@ -110,6 +110,10 @@
                     outline: 0.0625rem solid $clr_gray_extra_light !important;
                 }
 
+                .contact-form-textarea::placeholder {
+                    color: $input_label; 
+                }
+
                 .contact-form-submit-button:disabled {
                     opacity: 0.6;
                     background: $clr_blue;
@@ -120,7 +124,7 @@
                 
                 .contact-form-submit-button {
                     max-width: 48.25rem;
-                    height: 2.8125rem;
+                    height: 3.75rem;
                     background: $clr_blue;
                     border-radius: 0.3125rem;
                     color: $clr_white;
@@ -157,7 +161,10 @@
                 .contact-form-phone-container.error-border {
                     border: 0.078rem solid  $clr_red !important;;
                 }
-
+                .contact-form-textfield{
+                    border:1px solid $clr_gray_extra_light !important;
+                    border-radius: 5px !important;
+                }
                 .contact-form-country-selector {
                     display: flex;
                     align-items: center;

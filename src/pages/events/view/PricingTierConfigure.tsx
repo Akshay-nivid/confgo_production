@@ -8,7 +8,7 @@ import CustomDatePicker from "@/components/CustomDatePicker/CustomDatePicker";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { CloseOutlined } from "@mui/icons-material";
 import PricingTable from "./PricingTable";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Logger } from "@/Utils/Logger";
 import useStore from "@/Libs/store";
@@ -82,6 +82,9 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
   const dataInfo = useStore((state: any) => state?.compData?.['pricingTierDetails']) ?? [];
   const PUT = useStore((state: any) => state.PUT);
   const clearDataById = useStore((state:any) => state?.clearDataById)
+  const [loading, setLoading] = useState(false);
+  const [chipLoading, setChipLoading] = useState(false);
+
 
   const {
     fields: pricingFields,
@@ -133,6 +136,8 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
    * @returns
    */
   const handleAddAttendeeType = async () => {
+    setLoading(true); // Disable button
+    console.log(loading)
     const isValid = await trigger(["attendeeName"]);
     if (isValid) {
       const attendeeName = getValues("attendeeName");
@@ -140,6 +145,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
       // Check if attendeeName is empty or not
       if (attendeeName.trim() === "") {
         Logger.warn("Attendee name is required!");
+        setLoading(false); // Re-enable button
         return; // Prevent appending if name is empty
       }
 
@@ -161,13 +167,17 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
             setValue("attendeeName", "");
             setValue("attendeeDescription", "");
           }
+          setLoading(false); // Re-enable button
         },
         errorCB: (context: any) => {
           Logger.error("Error adding new attendee type:", context?.message);
+          setLoading(false); // Re-enable button
         },
       });
     } else {
       Logger.warn("Validation failed for Attendee Name.");
+      setLoading(false); // Re-enable button
+
     }
   };
 
@@ -176,6 +186,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
    * @param index
    */
   const handleDeleteAttendeeType = async (index: any) => {
+    setChipLoading(true);
     const attendeeField = dataInfo?.attendeeFieldsData[index];
     const attendeeTypeId = attendeeField.id;
     try {
@@ -184,7 +195,13 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
         url: `/participant/type/${attendeeTypeId}`,
         method: "DELETE",
         successCB: async () => {
-          await fetchAttendeeTypeList();
+          try {
+            await fetchAttendeeTypeList(); // Ensure the list fetching completes
+          } catch (error) {
+            Logger.error("Error fetching attendee type list:", error);
+          } finally {
+            setChipLoading(false); // Set chip loading to false only after fetch completes
+          }
         },
         errorCB: (context: any) => {
           setDataById('snackBarInfo', {
@@ -192,10 +209,12 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
             autoHideDuration: 2000,
             severity: 'error',
             message: context?.message,
-          });        },
+          });
+        setChipLoading(false)        },
       });
     } catch (error) {
       Logger.error("API call error on delete:", error);
+      setChipLoading(false);
     }
   };
 
@@ -461,7 +480,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
             />
           </Grid>
           <Grid size={{ xs: 2 }} display="flex" alignItems="center">
-            <IconButton onClick={handleAddAttendeeType}>
+            <IconButton onClick={handleAddAttendeeType} disabled={loading}>
               <AddCircleIcon className="registration-fee-list-circle-add-icon" />
             </IconButton>
           </Grid>
@@ -473,7 +492,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
                     className="registration-fee-list-chip"
                     key={field.id}
                     label={`${field.attendeeName}`}
-                    onDelete={() => handleDeleteAttendeeType(index)}
+                    onDelete={() => chipLoading ? "" : handleDeleteAttendeeType(index)}
                     deleteIcon={<DeleteIcon />}
                   />
                 ) : null;

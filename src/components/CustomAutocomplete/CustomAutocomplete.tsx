@@ -1,5 +1,6 @@
 import { Autocomplete, TextField, InputAdornment, IconButton, CircularProgress } from '@mui/material';
-import { Search, Clear } from '@mui/icons-material';
+import {  Clear } from '@mui/icons-material';
+import Search from '../../assets/svg/Search.svg'
 import { Controller } from "react-hook-form";
 import { useState, useEffect } from "react";
 
