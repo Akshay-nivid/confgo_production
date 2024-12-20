@@ -102,24 +102,19 @@
 }
 .main-account-tabs {
     align-items: flex-start !important;
-    .css-q0nj0x-MuiButtonBase-root-MuiTab-root{
-        padding: 0rem !important;
-    }
     .css-1usuzwp-MuiButtonBase-root-MuiTab-root{
         margin-left:1rem !important;
     }
-    .css-15gx8z5-MuiButtonBase-root-MuiTab-root {
-        padding: 0rem !important;
-    }
-    .MuiTabs-indicator {
+     .MuiTabs-indicator {
         border-bottom: 0.167rem solid $clr_green !important;
       }
-      .css-1wxkzlj-MuiTabs-flexContainer{
+      .MuiTabs-flexContainer{
         border-bottom: 0.125rem solid $clr_tab_border_color
       }
       .css-1qltlow-MuiTabs-indicator{
         background-color: transparent;
       }
+    
       &-container{
         justify-content: flex-start;
         border-bottom: 0.1rem solid $clr_tab_border_color;

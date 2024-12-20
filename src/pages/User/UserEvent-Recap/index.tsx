@@ -24,15 +24,14 @@ const EventRecap: React.FC = React.memo(() => {
     const [loading, setLoading] = useState(false);
     const setDataById = useStore((state: any) => state.setDataById);
     const {eventId} = useLocation().state || {};
-    const GET = useStore((state: any) => state.GET);
     const [eventLoading, setEventLoading] = useState(true);
-    const eventData = useStore((state: any) => state?.compData?.["EventDetailsResponse"]?.[`event/${eventId}`]) ?? [];
+    const eventData = useStore((state: any) => state?.compData?.["attendedPrograms"]?.["event/registered/eventList"]?.data) ?? []
     const eventTicketData=useStore((state:any)=>state?.compData?.['eventTicketData']?.['participant/payment/details'])??[];
     const POST = useStore((state: any) => state.POST);
     const userDetails = useStore((state) => state?.compData?.["userDetails"]) ?? {};
     /**
     * Function to handle search API for autocomplete
-    */
+    */   
     const handleSearch = async (query: string) => {
         setLoading(true);
         try {
@@ -95,10 +94,15 @@ const EventRecap: React.FC = React.memo(() => {
     const EventDetails = async () => {
         setEventLoading(true);
         try {
-            await GET({
-                url:   `event/${eventId}`,
-                body: {},
-                id: 'EventDetailsResponse',
+            const filter={
+                filters:{
+                    id:eventId 
+               }
+            }
+               await POST({
+                   url:   `event/registered/eventList`,
+                   body: filter,
+                id: 'attendedPrograms',
                 errorCB: (context: any) => {
                   setDataById("snackBarInfo", {
                     open: true,
@@ -157,7 +161,7 @@ const EventRecap: React.FC = React.memo(() => {
           pdf.rect(0, 0, 85.60, 53.98, 'F'); // ID card dimensions
           pdf.setFont("helvetica", "bold");
           // Generate the QR code image URL
-          pdf.text(eventData?.data?.name?toTitleCase(eventData?.data?.name):"",horizontalPadding,currentYPosition+2)
+          pdf.text(eventData[0]?.name?toTitleCase(eventData[0]?.name):"",horizontalPadding,currentYPosition+2)
           pdf.setFontSize(10),
           pdf.setFont("helvetica", "normal");
           // pdf.setFont('Inter','',500)
@@ -187,15 +191,15 @@ const EventRecap: React.FC = React.memo(() => {
     pdf.setFont("helvetica", "bold");
     pdf.text('Event Name',horizontalPadding,45)
     pdf.setFont("helvetica", "normal");
-    pdf.text(eventData?.data?.name,pageWidth/2,45)
+    pdf.text(eventData[0]?.name,pageWidth/2,45)
     pdf.setFont("helvetica", "bold");
     pdf.text('Event Date',horizontalPadding,55)
     pdf.setFont("helvetica", "normal");
-    pdf.text(moment(eventData?.data?.startTime).format('MMMM D, YYYY'),pageWidth/2,55)
+    pdf.text(moment(eventData[0]?.startTime).format('MMMM D, YYYY'),pageWidth/2,55)
     pdf.setFont("helvetica", "bold");
     pdf.text('Location',horizontalPadding,65)
     pdf.setFont("helvetica", "normal");
-    const address = eventData?.data?.venue?.address +"," +eventData?.data?.venue?.city+","+eventData?.data?.venue?.state+","+ eventData?.data?.venue?.country+","+eventData?.data?.venue?.postalCode;
+    const address = eventData[0]?.venue?.address +"," +eventData[0]?.venue?.city+","+eventData[0]?.venue?.state+","+ eventData[0]?.venue?.country+","+eventData[0]?.venue?.postalCode;
     // Calculate the maximum width for the text
     const maxWidth = pageWidth/2;
     
@@ -208,9 +212,9 @@ const EventRecap: React.FC = React.memo(() => {
           lines.forEach((line: any, index: any) => {
             pdf.text(line, pageWidth / 2, 65 + (index * 10)); // Increment Y position for each line
           });
-          const qrCodeTopRight = await QRCode.toDataURL(eventTicketData?.data?.ParticipantDetails?.qrCode);
+        //  const qrCodeTopRight = await QRCode.toDataURL(eventTicketData?.data?.ParticipantDetails?.qrCode);
           // Adjust QR code size to fit nicely on the ID card
-          pdf.addImage(qrCodeTopRight, 'PNG', (pageWidth/2)-20, currentYPosition + 75, 30, 30); // Position (60, 10), size 20x20 mm
+        //  pdf.addImage(qrCodeTopRight, 'PNG', (pageWidth/2)-20, currentYPosition + 75, 30, 30); // Position (60, 10), size 20x20 mm
           // Draw the line just below the text
     
           const startX = 5; // Start of the line (x1)
@@ -261,6 +265,18 @@ const EventRecap: React.FC = React.memo(() => {
           console.error('Error loading image or generating PDF:', error);
         }
       }
+    
+      /**
+       * attended status
+       */
+      const attendeeStatus=eventData[0]?.participants[0]?.eventParticipants[0]?.event.attendees
+    
+      /**
+      * Event program details
+      */
+      const eventProgram=eventData[0]?.participants[0]?.eventParticipants;
+      
+
     return (
         <>
             {eventLoading ? (
@@ -289,7 +305,7 @@ const EventRecap: React.FC = React.memo(() => {
                         <Grid container size={12} className="event-recap-first-grid">
                             <Grid>
                                 <Typography className="event-recap-first-grid-text">
-                                    {eventData?.data?.name?toTitleCase(eventData?.data?.name):""}
+                                    {eventData[0]?.name?toTitleCase(eventData[0]?.name):""}
                                 </Typography>
                             </Grid>
                             <Grid> 
@@ -299,13 +315,13 @@ const EventRecap: React.FC = React.memo(() => {
                             </Grid>
                             <Grid size={12}>
                                 <Typography className="event-recap-first-grid-address" >
-                                {formatDateTimeRange({date:eventData?.data?.startTime,format:"MMMM D, YYYY"})}
+                                {formatDateTimeRange({date:eventData[0]?.startTime,format:"MMMM D, YYYY"})}
                                <span className="mx-2">|</span>
-                               {formatDateTimeRange({date:eventData?.data?.startTime,format:'h:mm A'})}-{formatDateTimeRange({date:eventData?.data?.endTime,format:'h:mm A'})}
+                               {formatDateTimeRange({date:eventData[0]?.startTime,format:'h:mm A'})}-{formatDateTimeRange({date:eventData[0]?.endTime,format:'h:mm A'})}
                                <span className="mx-2">
                                 |
                                </span>
-                               {eventData?.data?.venue.city + ", " + eventData?.data?.venue.address}
+                               {eventData[0]?.venue.city + ", " + eventData[0]?.venue.address}
                               
                                 </Typography>
                             </Grid>
@@ -327,24 +343,24 @@ const EventRecap: React.FC = React.memo(() => {
                                 Registered Programmes
                             </Typography>
                         </Grid>
-                        {eventData?.data?.programs.map((item: any) => {
+                        {eventProgram?.map((item: any) => {
                             return(
                             <Grid size={{lg:4,sm:12}} container  className="event-recap-second-grid-content">
                                  <Grid container size={12} className="daate_time " columnSpacing={8} > 
                                  <Grid   size={6}className="event-recap-second-grid-content-time">
-                                    <Typography className="event-recap-second-grid-content-time-text">{formatDateTimeRange({date:item.startTime,format:'h:mm A'})},{formatDateTimeRange({date:item.endTime,format:"h:mm A"})}</Typography>
+                                    <Typography className="event-recap-second-grid-content-time-text">{formatDateTimeRange({date:item.event?.startTime,format:'h:mm A'})},{formatDateTimeRange({date:item.endTime,format:"h:mm A"})}</Typography>
                                 </Grid>
                                 <Grid  className="event-recap-second-grid-content-status" >
                                     <Typography className="event-recap-second-grid-content-status-text">
-                                        <StatusComponent value={item?.statusId.toString()} />
+                                    <StatusComponent value={attendeeStatus.length==0 ? "7" : "8"}  />
                                     </Typography>
                                 </Grid>
                                 </Grid>
                                 <Grid className="event-recap-second-grid-content-title" size={12}>
-                                    <Typography className="event-recap-second-grid-content-title-text">{item.name?toTitleCase(item.name):""}</Typography>
+                                    <Typography className="event-recap-second-grid-content-title-text">{item.event?.name?toTitleCase(item.event?.name):""}</Typography>
                                 </Grid>
                                 <Grid className="event-recap-second-grid-content-location" size={12} >
-                                    <Typography className="event-recap-second-grid-content-location-text">Location:{eventData.data.venue.city + "," + eventData.data.venue.country}</Typography>
+                                    <Typography className="event-recap-second-grid-content-location-text">Location:{item?.event?.venue?.city + "," + item?.event?.venue?.country}</Typography>
                                 </Grid>
                                 <Grid className="event-recap-second-grid-content-speaker" size={12} >
                                     <Typography className="event-recap-second-grid-content-speaker-text">Speaker:swayer</Typography>
