@@ -66,7 +66,7 @@ const CreateNewUsers = () => {
             successCB: (context: any) => {
                 let roleData: Role[] = []; 
                 context.data.forEach((item: RoleList) => {
-                    if (item.id !== 1&&item.id!=4&&item.id!=3) {
+                    if (![1,3,4].includes(item.id)) {
                         roleData.push({
                             value: item.id,
                             label: item.roleName

@@ -560,7 +560,6 @@ const CreateEvent: React.FC<EventProps> =
                 </Grid>
                   <CustomDrawer open={drawerOpen} type="right" children={
                    <GoogleMapPlacePicker onClose={()=>setDrawerOpen(false)}/>
-                    // <LocationSearch onClose={()=>setDrawerOpen(false)} />
                   } />
               </form>
               </FormProvider>
