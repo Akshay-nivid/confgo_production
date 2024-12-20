@@ -231,6 +231,9 @@
     background-color: $clr_gray_medium;
   }
 
+  .MuiDataGrid-columnHeader:focus-within{
+    outline: none !important;
+  }
   .MuiDataGrid-virtualScrollerRenderZone {
     overflow: scroll !important;
     max-height: calc(var(--grid-height) - 5.7rem) !important;
