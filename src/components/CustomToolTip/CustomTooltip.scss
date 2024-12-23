@@ -4,19 +4,15 @@
   }
   .custom-tooltip-content {
     visibility: hidden;
-    opacity: 0;
-    background-color: #333;
-    color: #fff;
+    background-color: $clr_gray_dark_text;
+    color:$clr_white ;
     text-align: center;
     border-radius: 4px;
     padding: 5px;
     position: absolute;
-    top: 125%; 
     left: 50%;
     transform: translateX(-50%);
-    z-index: 10;
     white-space: nowrap;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
   }
   .custom-tooltip-wrapper:hover .custom-tooltip-content {
     visibility: visible;

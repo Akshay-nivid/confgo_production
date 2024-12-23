@@ -161,7 +161,7 @@ const EventRecap: React.FC = React.memo(() => {
           pdf.rect(0, 0, 85.60, 53.98, 'F'); // ID card dimensions
           pdf.setFont("helvetica", "bold");
           // Generate the QR code image URL
-          pdf.text(eventData[0]?.name?toTitleCase(eventData[0]?.name):"",horizontalPadding,currentYPosition+2)
+          pdf.text(eventData?.[0]?.name?toTitleCase(eventData[0]?.name):"",horizontalPadding,currentYPosition+2)
           pdf.setFontSize(10),
           pdf.setFont("helvetica", "normal");
           // pdf.setFont('Inter','',500)
@@ -191,15 +191,15 @@ const EventRecap: React.FC = React.memo(() => {
     pdf.setFont("helvetica", "bold");
     pdf.text('Event Name',horizontalPadding,45)
     pdf.setFont("helvetica", "normal");
-    pdf.text(eventData[0]?.name,pageWidth/2,45)
+    pdf.text(eventData?.[0]?.name,pageWidth/2,45)
     pdf.setFont("helvetica", "bold");
     pdf.text('Event Date',horizontalPadding,55)
     pdf.setFont("helvetica", "normal");
-    pdf.text(moment(eventData[0]?.startTime).format('MMMM D, YYYY'),pageWidth/2,55)
+    pdf.text(moment(eventData?.[0]?.startTime).format('MMMM D, YYYY'),pageWidth/2,55)
     pdf.setFont("helvetica", "bold");
     pdf.text('Location',horizontalPadding,65)
     pdf.setFont("helvetica", "normal");
-    const address = eventData[0]?.venue?.address +"," +eventData[0]?.venue?.city+","+eventData[0]?.venue?.state+","+ eventData[0]?.venue?.country+","+eventData[0]?.venue?.postalCode;
+    const address = eventData[0]?.venue?.address +"," +eventData?.[0]?.venue?.city+","+eventData?.[0]?.venue?.state+","+ eventData?.[0]?.venue?.country+","+eventData?.[0]?.venue?.postalCode;
     // Calculate the maximum width for the text
     const maxWidth = pageWidth/2;
     
@@ -274,7 +274,7 @@ const EventRecap: React.FC = React.memo(() => {
       /**
       * Event program details
       */
-      const eventProgram=eventData[0]?.participants[0]?.eventParticipants;
+      const eventProgram=eventData?.[0]?.participants?.[0]?.eventParticipants;
       
 
     return (
@@ -305,7 +305,7 @@ const EventRecap: React.FC = React.memo(() => {
                         <Grid container size={12} className="event-recap-first-grid">
                             <Grid>
                                 <Typography className="event-recap-first-grid-text">
-                                    {eventData[0]?.name?toTitleCase(eventData[0]?.name):""}
+                                    {eventData?.[0]?.name?toTitleCase(eventData?.[0]?.name):""}
                                 </Typography>
                             </Grid>
                             <Grid> 
@@ -315,13 +315,13 @@ const EventRecap: React.FC = React.memo(() => {
                             </Grid>
                             <Grid size={12}>
                                 <Typography className="event-recap-first-grid-address" >
-                                {formatDateTimeRange({date:eventData[0]?.startTime,format:"MMMM D, YYYY"})}
+                                {formatDateTimeRange({date:eventData?.[0]?.startTime,format:"MMMM D, YYYY"})}
                                <span className="mx-2">|</span>
-                               {formatDateTimeRange({date:eventData[0]?.startTime,format:'h:mm A'})}-{formatDateTimeRange({date:eventData[0]?.endTime,format:'h:mm A'})}
+                               {formatDateTimeRange({date:eventData?.[0]?.startTime,format:'h:mm A'})}-{formatDateTimeRange({date:eventData?.[0]?.endTime,format:'h:mm A'})}
                                <span className="mx-2">
                                 |
                                </span>
-                               {eventData[0]?.venue.city + ", " + eventData[0]?.venue.address}
+                               {eventData?.[0]?.venue?.city + ", " + eventData?.[0]?.venue?.address}
                               
                                 </Typography>
                             </Grid>
@@ -352,7 +352,7 @@ const EventRecap: React.FC = React.memo(() => {
                                 </Grid>
                                 <Grid  className="event-recap-second-grid-content-status" >
                                     <Typography className="event-recap-second-grid-content-status-text">
-                                    <StatusComponent value={attendeeStatus.length==0 ? "7" : "8"}  />
+                                    <StatusComponent value={attendeeStatus?.length==0 ? "7" : "8"}  />
                                     </Typography>
                                 </Grid>
                                 </Grid>
