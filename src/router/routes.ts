@@ -27,6 +27,7 @@ const routes = {
   SetPassword: () => "/setpassword",
   verifyEmail: () => `/verify-email/:token/:id`,
   verfiyForgotEmail:()=>`/change-password/:token/:id`,
+  verifyUserEmail:()=>`/verify-user/:token/:id`,
   user: () => "/user",
   participantHome: (slugName?: string) => `/participant/home/:${slugName}`,
   userLogin: () => "/user/login",
