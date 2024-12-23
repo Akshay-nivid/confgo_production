@@ -211,7 +211,10 @@
     border-color: $clr_red !important;
   }
 }
-
+.fx-skelton{
+  border-radius: $p2 !important;
+  border: 0rem !important;
+}
 //DataGrid css starts here
 .custom-data-grid {
   margin-top: 1rem;
@@ -231,6 +234,9 @@
     background-color: $clr_gray_medium;
   }
 
+  .MuiDataGrid-columnHeader:focus-within{
+    outline: none !important;
+  }
   .MuiDataGrid-virtualScrollerRenderZone {
     overflow: scroll !important;
     max-height: calc(var(--grid-height) - 5.7rem) !important;
@@ -548,6 +554,14 @@
     width: 100%;
     margin: 0 auto;
     border-color: $clr_gray_medium;
+  }
+  &-clear-button{
+    text-transform: none !important;
+    background-color: $clr_green !important;
+  }
+  &-apply-button{
+    text-transform: none !important;
+    background-color: $clr_green !important;
   }
 }
 
@@ -1290,6 +1304,7 @@
   
 }
 .border-error-input{
+  border: 0.5px solid $clr_red !important;
   .custom-search-text-field {
     border: 0.5px solid $clr_red !important;
   }

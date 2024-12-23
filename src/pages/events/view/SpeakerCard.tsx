@@ -60,7 +60,7 @@ type TransformedData = {
 
 const SpeakerCard = (_eventData: any) => {
   const { id } = useParams<Record<string, string | undefined>>();
-  const { handleSubmit, control, reset, formState: { errors } } = useForm<FormData>();
+  const { handleSubmit, control, reset, formState: { errors }, setValue } = useForm<FormData>();
   const [addContributeView, setAddContributeView] = useState(false);
   const [contributorType, setContributorType] = useState<ContributorType[]>();
   const [fileRequired, setFileRequired] = useState(false);
@@ -89,7 +89,8 @@ const SpeakerCard = (_eventData: any) => {
   function transformUserData(data: any): TransformedData[] {
     return data?.map((item: any) => ({
       id: item.user?.id,
-      name: item.user?.firstName,
+      name: `${item.user?.firstName} ${item.user?.lastName} (${item.user.email})`,
+      fullName: `${item.user?.firstName} ${item.user?.lastName}`
     }));
   }
   /**
@@ -456,6 +457,14 @@ const SpeakerCard = (_eventData: any) => {
     }
   };
 
+   /**
+    * Method handles the selection of the user
+    * @param selected : userId
+    */
+  const handleUserSelection = (selected: any) => {
+      selected && setValue('contributorName',selected?.fullName)
+  };
+
   return (
     <Grid
       className="event-detail-speakers-card"
@@ -572,8 +581,8 @@ const SpeakerCard = (_eventData: any) => {
               <Grid container justifyContent={"space-between"} mb={1}>
                 <Typography className="event-detail-speakers-card-contributor-header">
                   {editContributorValue != null
-                    ? "Edit Event Contributor"
-                    : "Create New Event Contributor"}
+                    ? "Edit Contributor"
+                    : "Create Contributor"}
                 </Typography>
                 <IconButton onClick={() => setAddContributeView(false)}>
                   <CloseIcon />
@@ -581,24 +590,37 @@ const SpeakerCard = (_eventData: any) => {
               </Grid>
               <Grid>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                  <Grid container spacing={4}>
-                    <Grid container size={{ xs: 12 }}>
+                  <Grid container spacing={2}>
+                    <Grid container size={{ xs: 12 }} pt={2}>
                       <CustomAutocomplete
                         name="userInfo"
                         className={errors['userInfo'] ?"custom-search-text-field event-detail-speakers-card-contributor-auto-complete border-error-input": "custom-search-text-field event-detail-speakers-card-contributor-auto-complete"}
                         control={control}
-                        placeholder="Search User"
+                        placeholder="Search Contributor User"
                         options={searchResults} // Dynamic options based on API results
                         getOptionLabel={(option: any) => option.name || ""} // Adjust based on your data structure
                         onSearch={handleSearch} // Call the search function
                         loading={loading}
                         rules={{ required: true }}
+                        onChange={handleUserSelection}
                       />
                     </Grid>
+                    <Grid size={{ xs: 12 }}>
+                        <CustomTextField
+                          defaultValue={contributorFields?.name}
+                          rules={{ required: true }}
+                          control={control}
+                          placeholder="Name"
+                          name="contributorName"
+                          label="Name"
+                          requiredField={true}
+                          readOnly={true}
+                        />
+                      </Grid>
                     <Grid container size={{ xs: 12 }}>
                       <CustomSelect
                         name="contributorType"
-                        label="Contributor Type"
+                        label="Designation"
                         options={contributorType ?? selectOptions}
                         optionClick={(value) => {
                           if (value === "other") {
@@ -609,35 +631,24 @@ const SpeakerCard = (_eventData: any) => {
                         control={control}
                         rules={{ required: true }}
                         defaultValue={contributorFields?.designation}
+                        className={errors['contributorType']? "border-error-input": ""}
                         fullWidth
                       />
                     </Grid>
-                    <Grid container size={{ xs: 12 }} spacing={4}>
-                      <Grid size={{ xs: 12 }}>
-                        <CustomTextField
-                          defaultValue={contributorFields?.name}
-                          rules={{ required: true }}
-                          control={control}
-                          placeholder="Contributor name"
-                          name="contributorName"
-                          label="Contributor name"
-                          requiredField={true}
-                        />
-                      </Grid>
+                      
                       <Grid container size={{ xs: 12 }}>
                         <CustomTextField
                           defaultValue={contributorFields?.description ?? ""}
                           rules={{ required: true }}
                           rows={4}
                           multiline={true}
-                          placeholder="Contributor Description"
+                          placeholder="Description"
                           control={control}
                           name="contributorDescription"
-                          label="Contributor Description"
+                          label="Description"
                           requiredField={true}
                         />
                       </Grid>
-                    </Grid>
 
                     <Grid></Grid>
                   </Grid>

@@ -1222,7 +1222,9 @@
         font-weight: $font_medium !important;
 
     }
-
+    &-button{
+        padding: 0 !important;
+    }
     &-circle-add-icon {
         border-radius: 2rem !important;
         height: 3.333rem !important;
