@@ -4,6 +4,7 @@ import { Typography } from '@mui/material';
 import StatusComponent from '@/components/Status/StatusComponent';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import { formatDateTimeRange, toTitleCase, truncateString } from '@/Utils/CommonBaseClass';
+import CustomTooltip from '@/components/CustomToolTip/CustomTooltip';
 
 interface EventProps {
     datetitle: string;
@@ -30,9 +31,11 @@ const EventCard: React.FC<EventProps> = React.memo(({ eventFullData, datetitle, 
                 <Typography textAlign={"center"} className="event-card-date-title" >Date: {formatDateTimeRange({ date: datetitle, format: 'MMMM D, YYYY' })}</Typography>
             </Grid>
             <Grid  container>
-            <Typography className="event-card-title" >
+            <CustomTooltip title={title}>
+                <Typography className="event-card-title" >
                 {truncateString(toTitleCase(title), 23, "Untitled")}
                 </Typography>
+               </CustomTooltip> 
             </Grid>
             <Grid container>
             <Typography className="event-card-location">

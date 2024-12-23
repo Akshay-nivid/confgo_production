@@ -11,6 +11,7 @@ import PhoneIcon from '@/assets/svg/template1-phone.svg';
 import moment from 'moment';
 import LinkIcon from '@/assets/svg/template1-url.svg';
 import { toTitleCase, truncateString } from '@/Utils/CommonBaseClass';
+import CustomTooltip from '@/components/CustomToolTip/CustomTooltip';
 
 type DetailsSectionProps = {
     data?: any;
@@ -99,8 +100,12 @@ const DetailsSection: React.FC<DetailsSectionProps> = React.memo(({ data, temp }
                                   : `${classPrefix}-icon`
                                    }>{item.icon} </Grid>
                                 <Grid><Typography className={`${classPrefix}-label`}>{item.label}</Typography></Grid>
-                                <Grid><Typography className={`${classPrefix}-value`} textAlign={temp === 2? 'center': 'left'}> {truncateString(toTitleCase(item.value),35, "Untitled")}
-                                    </Typography></Grid>
+                                <Grid>
+                                    <CustomTooltip title={item.value}>
+                                    <Typography className={`${classPrefix}-value`} textAlign={temp === 2? 'center': 'left'}> {truncateString(toTitleCase(item.value),35, "Untitled")}
+                                    </Typography>
+                                    </CustomTooltip>
+                                    </Grid>
                                     {index === 0 ? (<Grid className={`${classPrefix}-border-line`} />) : null}
                             </Grid>
                         })
