@@ -104,7 +104,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
       width: 200,
       dateFormat: "DD/MM/YYYY",
     },
-    { type: "status", field: "statusId", headerName: "Status", width: 150 }
+    { type: "status", field: "statusId", headerName: "Status", width: 150,sortable: false }
   ];
 
   /**

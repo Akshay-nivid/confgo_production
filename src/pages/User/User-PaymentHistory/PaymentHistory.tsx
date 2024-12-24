@@ -32,16 +32,17 @@ const PaymentHistory: React.FC = React.memo(() => {
       type: "status",
       field: "status",
       headerName: "Status",
-      width: 139
+      width: 139,
+      sortable: false,
     },
     {
       type: "custom",
       field: "Receipt",
       headerName: "Receipt",
       width: 167,
-
+      sortable: false,
     },
-    { type: "default", field: "PaymentMethod", headerName: "Payment Method", width: 208 },
+    { type: "default", field: "PaymentMethod", headerName: "Payment Method", width: 208,sortable: false, },
   ];
   /**
    * Transforms the raw data from the API to match the required format for the DataGrid component.
