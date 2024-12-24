@@ -439,7 +439,7 @@
             }
 
             &-item {
-                padding: 3rem 3rem 3rem 2rem;
+                padding: 0rem 3rem 0rem 2rem;
                 box-shadow: 0 0.3rem 1rem 0 $clr_light_black_shadow;
                 border-radius: 1rem;
 
@@ -454,6 +454,11 @@
                 font-weight: $font_normal !important;
             }
 
+            &-box{
+                height: 20rem !important;
+                padding-left: 3.25rem ;
+                padding-top:3rem !important ;
+            }
             &-index-box {
                 background: $clr_dark_navy_blue;
                 color:$clr_white ;

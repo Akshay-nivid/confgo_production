@@ -9,7 +9,7 @@ import apiClient from "@/Libs/Https/API-client";
 //import { NoEvent } from "@/assets/svg"
 import { Logger } from "@/Utils/Logger";
 import React from "react";
-import useStore, { GET, IStoreState } from '@/Libs/store';
+import useStore, {IStoreState } from '@/Libs/store';
 import routes from "@/router/routes";
 import { useNavigate } from "react-router-dom";
 import CustomModel from "@/components/CustomModel/CustomModel";
@@ -29,8 +29,8 @@ const MyEventScreen = () => {
   const POST = useStore((state: any) => state.POST);
   const setDataById = useStore((state: any) => state.setDataById);
   const navigate = useNavigate();
-  const events = useStore((state: IStoreState) => state?.compData.userEvents?.["participant/registered/events"]?.data?.Events) ?? []
-
+  const events = useStore((state: IStoreState) => state?.compData.usersEvents?.["event/registered/eventList"]?.data) ?? []
+  
   /**
    * model for view certificate
    */
@@ -109,9 +109,9 @@ const MyEventScreen = () => {
   const participantEventDetails = async () => {
     try {
       setLoading(true);
-      await GET({
-        url: "participant/registered/events",
-        id: 'userEvents',
+      await POST({
+        url: "event/registered/eventList",
+        id: 'usersEvents',
         errorCB: (context: any) => {
           setDataById("snackBarInfo", {
             open: true,
