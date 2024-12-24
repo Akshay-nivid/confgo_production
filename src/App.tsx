@@ -53,6 +53,7 @@ import AddPlan from "./pages/register/AddPlan";
 import PlanUpgrade from "./pages/planUpgrade/PlanUpgrade";
 import AdminUsersList from "./pages/Admin-users";
 import CreateNewUsers from "./pages/Admin-users/CreateUsers";
+import VerifyUSerMailPage from "./pages/Admin-users/VerfiyUserEmail";
 
 const userRoutes = [
   {
@@ -166,6 +167,10 @@ const router = createBrowserRouter([
   {
     path: routes.verifyEmail(),
     element: <VerifyMailPage  />,
+  },
+  {
+    path:routes.verifyUserEmail(),
+    element:<VerifyUSerMailPage/>
   },
   {
     path: routes.verfiyForgotEmail(),
