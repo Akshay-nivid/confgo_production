@@ -73,7 +73,7 @@ const VolunteerListCard = () => {
         name: item?.participant?.user?.firstName,
         email: item?.participant?.user?.email,
         role: item?.role,
-        phone: item?.phone,
+        phone: item?.participant?.user?.phone,
         status: item?.status
       };
     });
