@@ -24,7 +24,7 @@ const PaymentHistory: React.FC = React.memo(() => {
       type: "dateField",
       field: "Date",
       headerName: "Date",
-      width: 180,
+      width: 140,
       dateFormat: "DD/MM/YYYY",
     },
     { type: "default", field: "amount", headerName: "Amount", width: 130 },
@@ -32,16 +32,17 @@ const PaymentHistory: React.FC = React.memo(() => {
       type: "status",
       field: "status",
       headerName: "Status",
-      width: 139
+      width: 120,
+      sortable: false,
     },
     {
       type: "custom",
       field: "Receipt",
       headerName: "Receipt",
       width: 167,
-
+      sortable: false,
     },
-    { type: "default", field: "PaymentMethod", headerName: "Payment Method", width: 208 },
+    { type: "default", field: "PaymentMethod", headerName: "Payment Method", width: 208,sortable: false, },
   ];
   /**
    * Transforms the raw data from the API to match the required format for the DataGrid component.
@@ -59,7 +60,7 @@ const PaymentHistory: React.FC = React.memo(() => {
         status: item?.event?.statusId,
         createdOn: item?.createdOn,
         Receipt: <CustomButton label={"[Download]"} className="download-Receipt" />,
-        PaymentMethod: item.paymentMethodId
+        PaymentMethod: item.paymentMethod.handler
 
       };
     });

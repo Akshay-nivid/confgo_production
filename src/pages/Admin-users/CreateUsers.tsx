@@ -9,6 +9,7 @@ import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+
 interface Role{
     value:number,
     label:string
@@ -66,7 +67,7 @@ const CreateNewUsers = () => {
             successCB: (context: any) => {
                 let roleData: Role[] = []; 
                 context.data.forEach((item: RoleList) => {
-                    if (![1,3,4].includes(item.id)) {
+                    if (![1,3].includes(item.id)) {
                         roleData.push({
                             value: item.id,
                             label: item.roleName
@@ -89,7 +90,7 @@ const CreateNewUsers = () => {
             url: 'user',
             body: {
                 firstName: data.firstName,
-                lastName: data.firstName,
+                lastName: data.lastName,
                 email: data.email,
                 phone: data.phone,
                 roleId:data.role,
@@ -119,7 +120,7 @@ const CreateNewUsers = () => {
                     <Grid size={{ xs: 12, sm: 6 }}>
                         <CustomTextField
                             placeholder="Full Name"
-                            label="first Name "
+                            label="First Name "
                             control={control}
                             name="firstName"
                             type="text"
@@ -188,7 +189,7 @@ const CreateNewUsers = () => {
                             fullWidth
                             name="role"
                             control={control}
-                            label="Select Field Type"
+                            label="Role"
                             options={roleList}
                             rules={{ required: validateRequiredField({}) }}
                         />

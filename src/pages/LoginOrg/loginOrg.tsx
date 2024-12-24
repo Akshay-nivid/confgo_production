@@ -199,6 +199,7 @@ const LoginOrg = () => {
                     control={control}
                   />
                   <Button
+                    id="login-organisation-login-btn"
                     type="submit"
                     variant="contained"
                     className="w-full custom-button"
