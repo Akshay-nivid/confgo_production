@@ -32,7 +32,8 @@ const PaymentHistory: React.FC = React.memo(() => {
       type: "status",
       field: "status",
       headerName: "Status",
-      width: 120
+      width: 120,
+      sortable: false,
     },
     {
       type: "custom",
