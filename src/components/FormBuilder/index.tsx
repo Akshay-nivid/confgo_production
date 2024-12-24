@@ -48,7 +48,8 @@ interface FormBuilderProps {
       id: "participantTypeList",
       body: {
         filters: {
-          eventId: eventId
+          eventId: eventId,
+          isContributor:0
         }
       }
     })
