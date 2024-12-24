@@ -1,0 +1,21 @@
+.custom-tooltip-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+  .custom-tooltip-content {
+    visibility: hidden;
+    background-color: $clr_gray_dark_text;
+    color:$clr_white ;
+    text-align: center;
+    border-radius: 4px;
+    padding: 5px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+  .custom-tooltip-wrapper:hover .custom-tooltip-content {
+    visibility: visible;
+    opacity: 1;
+  }
+  

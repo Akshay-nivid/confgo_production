@@ -24,7 +24,7 @@ const PaymentHistory: React.FC = React.memo(() => {
       type: "dateField",
       field: "Date",
       headerName: "Date",
-      width: 180,
+      width: 140,
       dateFormat: "DD/MM/YYYY",
     },
     { type: "default", field: "amount", headerName: "Amount", width: 130 },
@@ -32,8 +32,7 @@ const PaymentHistory: React.FC = React.memo(() => {
       type: "status",
       field: "status",
       headerName: "Status",
-      width: 139,
-      sortable: false,
+      width: 120
     },
     {
       type: "custom",
@@ -60,7 +59,7 @@ const PaymentHistory: React.FC = React.memo(() => {
         status: item?.event?.statusId,
         createdOn: item?.createdOn,
         Receipt: <CustomButton label={"[Download]"} className="download-Receipt" />,
-        PaymentMethod: item.paymentMethodId
+        PaymentMethod: item.paymentMethod.handler
 
       };
     });
