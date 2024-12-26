@@ -1,5 +1,5 @@
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
-import { CircularProgress, IconButton, Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";

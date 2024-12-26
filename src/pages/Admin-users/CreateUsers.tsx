@@ -1,6 +1,7 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
+import FileListModal from "@/components/FileUpload/FileListModal";
 import useStore from "@/Libs/store";
 import routes from "@/router/routes";
 import { validateEmail, validateMaxLength, validatePhoneNumber, validateRequiredField } from "@/Utils/Validation";
@@ -9,6 +10,7 @@ import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import config from "../../../config.json";
 
 interface Role{
     value:number,
@@ -23,16 +25,26 @@ type RoleList = {
     modifiedBy: string | null; 
     modifiedOn: string;    
   };
+  interface CustomFile {
+    id: number;
+    name: string;
+    sourcePath: string;
+  }
 /**
 * Component for creating new Company Users
 */ 
 const CreateNewUsers = () => {
+    const [selectedFile, setSelectedFile] = useState<any>(null);
+    const [modalOpen, setModalOpen] = useState(false);
+    const baseUrl = config.api.url;
+    const companyId = sessionStorage.getItem('companyId');
     type FormData = {
         firstName: string,
         lastName: string,
         role: any,
         email: string,
-        phone: string
+        phone: string,
+        assetId:string|number
     }
     /**
     * useEffect fetch full role list
@@ -43,7 +55,7 @@ const CreateNewUsers = () => {
     const navigate = useNavigate();
     const POST = useStore((state: any) => state.POST);
     const setDataById = useStore((state: any) => state.setDataById);
-    const { handleSubmit, control,reset } = useForm<FormData>();
+    const { handleSubmit, control,reset,setValue } = useForm<FormData>();
     const [roleList,setRoleList]=useState<Role []>([])
     /**
     * handle form submission 
@@ -94,7 +106,8 @@ const CreateNewUsers = () => {
                 email: data.email,
                 phone: data.phone,
                 roleId:data.role,
-                companyId:companyId
+                companyId:companyId,
+                assestId:selectedFile?.id
             },
             id: 'create-admin-user',
             successCB: (context: any) => {
@@ -109,6 +122,12 @@ const CreateNewUsers = () => {
             }
         });
     };
+/**
+*function to handle clean file state
+*/
+  const handleFileDelete = () => {
+    setSelectedFile(null);
+  };
     return <Grid container className='admin-users' spacing={2}>
         <Grid size={12} >
             <Typography className="admin-users-header">Create New User</Typography>
@@ -194,7 +213,61 @@ const CreateNewUsers = () => {
                             rules={{ required: validateRequiredField({}) }}
                         />
                     </Grid>
-                </Grid>
+                    <Grid size={{xs:12,sm:6}}>
+                    <Grid
+                          className="create-event-btn-container"
+                          container
+                          justifyContent={"flex-start"}
+                          size={{ xs: 12, sm: 12 }}
+                          direction={'row'}
+                        >
+                          <Grid>
+                            {modalOpen && (
+                              <FileListModal
+                                open={modalOpen}
+                                handleClose={() => setModalOpen(false)}
+                                onSelectFile={(files: CustomFile[]) => {
+                                  // Automatically select the newly uploaded file if it exists
+                                  if (files && files.length > 0) {
+                                    setSelectedFile(files[0]); // Set only the first selected file
+                                    setValue('assetId',files[0]?.id);
+                                  }
+                                  setModalOpen(false);
+                                }}
+                                companyId={companyId}
+                                multipleSelect={false}
+                                imagesPerRow={4}
+                              />
+                            )}
+                          </Grid>
+                        </Grid>
+                            <Grid container direction={'row'} alignItems={'center'} justifyContent={"center"} alignContent={"center"}>
+                                {selectedFile && (
+                                    <Grid className="create-event-btn-container-img-box" >
+                                        <img
+                                            src={`${baseUrl}asset/${selectedFile.id}`}
+                                            alt={selectedFile.name}
+                                        />
+                                    </Grid>
+                                )}
+                                <CustomButton
+                                    className="create-event-btn-container-select-btn"
+                                    label={selectedFile ? "Change Avathar " : "Choose Avathar"}
+                                    variant="outlined"
+                                    onClick={() => setModalOpen(true)}
+                                />
+                                {selectedFile && (<Grid container spacing={1}>
+                                    <CustomButton
+                                        className="create-event-btn-container-delete-btn"
+                                        label="Delete"
+                                        variant="outlined"
+                                        onClick={handleFileDelete}
+                                    />
+                                </Grid>
+                                )}
+                            </Grid>
+                        </Grid>
+                    </Grid>
                 <Grid className="admin-users-submit-btn-container" display={"flex"} size={12} justifyContent={"flex-end"} alignItems={"center"} >
                     <CustomButton type="submit" className="admin-users-submit-btn-container-btn" label="Submit" />
                 </Grid>

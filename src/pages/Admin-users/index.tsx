@@ -59,7 +59,7 @@ const AdminUsersList=()=>{
       companyId:companyId,
       roleEnums: [
         "VOLUNTEER",
-        "SPONSER",
+        "SPEAKER",
         "REVIEWER"
     ]
     }
