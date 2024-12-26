@@ -45,6 +45,12 @@
     }
 
     &-container {
+        .custom-text-field {
+            margin-top: 0rem !important;
+        }
+        .select-input-label{
+            padding-top: 0rem !important;
+        }
         background-color: $clr_white;
     }
 
