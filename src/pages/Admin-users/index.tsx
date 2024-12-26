@@ -51,9 +51,18 @@ const AdminUsersList=()=>{
    * Function to set the initial request configuration for fetching participant data.
    */
   const UserRoleList = useCallback(() => {
+    const companyId=sessionStorage.getItem('companyId')
     const req = {
       offset: 0,
       limit: 5,
+    filters:{
+      companyId:companyId,
+      roleEnums: [
+        "VOLUNTEER",
+        "SPONSER",
+        "REVIEWER"
+    ]
+    }
     };
 
     setSource({
@@ -75,10 +84,10 @@ const AdminUsersList=()=>{
     return data.map((item: any) => {
       return {
         ...item,
-        name: item?.user?.firstName, 
-        role:item?.role?.roleName,
-        email:item?.user?.email,
-        phone:item?.user?.phone,
+        name: item?.firstName, 
+        role:item?.userRoles[0]?.role?.roleName,
+        email:item?.email,
+        phone:item?.phone,
         status:item?.user?.statusId
       };
     });
@@ -99,7 +108,7 @@ const AdminUsersList=()=>{
         successCB: (context: any) => {
             let roleData: Role[] = []; 
             context.data.forEach((item: RoleList) => {
-                if (![1,3,4].includes(item.id)) {
+                if (![1,3].includes(item.id)) {
                     roleData.push({
                         value: item.id,
                         label: item.roleName
@@ -120,6 +129,7 @@ const AdminUsersList=()=>{
    * @param selected - The selected item from the autocomplete list
    */
   const handleAutocompleteChange = (selected: any) => {
+    const companyId=sessionStorage.getItem('companyId')
     if (selected) {
       setSource({
         method: "POST",
@@ -128,6 +138,12 @@ const AdminUsersList=()=>{
           limit: 5,
           filters: {
             id: selected.id,
+            companyId:companyId,
+            roleEnums: [
+              "VOLUNTEER",
+              "SPONSER",
+              "REVIEWER"
+          ]
           },
         },
         url: `user/userRole/list`,

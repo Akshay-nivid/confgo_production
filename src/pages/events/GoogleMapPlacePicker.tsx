@@ -108,7 +108,7 @@ const GoogleMapPlacePicker = ({ onClose }: GooglePlacePickerProps) => {
           <CloseOutlined />
         </IconButton>
       </Grid>
-      <Grid size={12} justifyContent={"center"} >
+      <Grid size={12} justifyContent={"center"} id="event-location-search-field" >
         {/* Location choose google componet */}
         <ReactGooglePlacesAutocomplete
           selectProps={{
