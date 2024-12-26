@@ -3,6 +3,8 @@
 const routes = {
   home: () => "/",
   dashboard: () => "/dashboard",
+  reviewerHome: () => "/reviewer/home",
+  speakerHome: () => "/speaker/home",
   register: () => "/register",
   events: () => "/events",
   createEvent: () => "/events/create",
