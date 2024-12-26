@@ -185,7 +185,6 @@ const CreateEvent: React.FC<EventProps> =
               type: 'manual',
                message: 'description is required',
              });
-        console.log("Editor content is empty!");
         return;
       }
       const startTime = new Date(data.startTime);
@@ -283,14 +282,12 @@ const CreateEvent: React.FC<EventProps> =
           id:'specialty-list',
           successCB: (_context: any) => {
             let _speciality:any=[];
-            console.log(_context,'747547577')
             _context.data.forEach((item: any) => {
               _speciality.push({
                 value: item?.id,
                 label: item?.name
               })
             })
-            console.log(_speciality,'843483489')
             setspecialty(_speciality)
           }, 
           errorCB: (context: any) => {
