@@ -61,6 +61,13 @@ const UserLogin = (props: UserProps) => {
     navigate(routes.userForgotPassword());
   }
 
+  const roleToRouteMapper: any = {
+    COMPANYADMIN: routes.dashboard(),
+    USER: routes.userHome(),
+    REVIEWER: routes.reviewerHome(),
+    SPEAKER: routes.speakerHome(),
+  };
+
   /**
    *method to store login details
    */
@@ -76,7 +83,7 @@ const UserLogin = (props: UserProps) => {
     apiClient.setToken(data.token);
     setDataById('userDetails', data);
     setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
-    navigate(data?.userRole?.roleName === "USER" && previousRoute ? previousRoute : routes.userHome());
+    navigate(data?.userRole?.roleName === "USER" && previousRoute ? previousRoute : roleToRouteMapper[data?.userRole?.roleName]);
     clearDataById('previousRoute');
   };
 

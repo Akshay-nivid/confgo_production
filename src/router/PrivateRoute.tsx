@@ -5,12 +5,12 @@ interface PrivateRouteProps {
   children: JSX.Element;
 }
 
-const PrivateRoutes: React.FC<PrivateRouteProps & { role: "COMPANYADMIN" | "USER" }> = ({ children, role }) => {
+const PrivateRoutes: React.FC<PrivateRouteProps & { role: "COMPANYADMIN" | "USER" | "REVIEWER" | "SPEAKER" }> = ({ children, role }) => {
   const isUserLoggedIn = sessionStorage.getItem("isUserLoggedIn") === "true";
   const userRole = sessionStorage.getItem("userLoggedInType");
-  const token=sessionStorage.getItem("token");
+  const token = sessionStorage.getItem("token");
   // Wait until the states are checked
-  if ((isUserLoggedIn === null || userRole === null) && token!=null) {
+  if ((isUserLoggedIn === null || userRole === null) && token != null) {
     return <div>Loading...</div>;
   }
 
@@ -32,4 +32,12 @@ export const PrivateRouteUser: React.FC<PrivateRouteProps> = ({ children }) => (
   <PrivateRoutes role="USER">{children}</PrivateRoutes>
 );
 
-export default { PrivateRouteCompany, PrivateRouteUser };
+export const PrivateRouteReviewer: React.FC<PrivateRouteProps> = ({ children }) => (
+  <PrivateRoutes role="REVIEWER">{children}</PrivateRoutes>
+);
+
+export const PrivateRouteSpeaker: React.FC<PrivateRouteProps> = ({ children }) => (
+  <PrivateRoutes role="SPEAKER">{children}</PrivateRoutes>
+);
+
+export default { PrivateRouteCompany, PrivateRouteUser, PrivateRouteReviewer, PrivateRouteSpeaker };

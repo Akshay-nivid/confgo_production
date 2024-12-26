@@ -44,7 +44,7 @@ import UserEventRecap from "@/pages/User/UserEvent-Recap";
 import ChangeVerification from "@/pages/SetPassword/ChangePasswordVerification";
 import TemplateContainer from "@/pages/events/template/TemplateContainer";
 
-import { PrivateRouteCompany, PrivateRouteUser } from "./router/PrivateRoute";
+import { PrivateRouteCompany, PrivateRouteReviewer, PrivateRouteSpeaker, PrivateRouteUser } from "./router/PrivateRoute";
 import PublicRoute from "./router/PublicRoute";
 import UserDetail from "./pages/events/view/UserDetail";
 import GoogleAuthProvider from "./pages/User/GoogleAuthProvider";
@@ -54,6 +54,8 @@ import PlanUpgrade from "./pages/planUpgrade/PlanUpgrade";
 import AdminUsersList from "./pages/Admin-users";
 import CreateNewUsers from "./pages/Admin-users/CreateUsers";
 import VerifyUSerMailPage from "./pages/Admin-users/VerfiyUserEmail";
+import SpeakerHome from "./pages/Speaker/Home";
+import ReviewerHome from "./pages/Reviewer/Home";
 
 const userRoutes = [
   {
@@ -113,7 +115,7 @@ const userRoutes = [
   {
     element: (
       <PrivateRouteUser>
-        <UserDashboardLayout />
+        <UserDashboardLayout role='USER' />
       </PrivateRouteUser>
     ),
     children: [
@@ -142,6 +144,32 @@ const userRoutes = [
         element: <CalendarRoute  id="user-calendar"/>,
       },
     ],
+  },
+  {
+    element: (
+      <PrivateRouteSpeaker>
+        <UserDashboardLayout role='SPEAKER' />
+      </PrivateRouteSpeaker>
+    ),
+    children: [
+      {
+        path: routes.speakerHome(),
+        element: <SpeakerHome />,
+      },
+    ]
+  },
+  {
+    element: (
+      <PrivateRouteReviewer>
+        <UserDashboardLayout role='REVIEWER' />
+      </PrivateRouteReviewer>
+    ),
+    children: [
+      {
+        path: routes.reviewerHome(),
+        element: <ReviewerHome />,
+      },
+    ]
   },
 ];
 
