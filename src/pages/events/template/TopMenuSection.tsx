@@ -87,7 +87,6 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, classP
     }
 
 
-    console.log('testdata',data)
 
 
     return (
