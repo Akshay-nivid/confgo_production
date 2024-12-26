@@ -1033,9 +1033,15 @@
 
     &-location-Text {
         font-family: $font;
-        font-size: 1.5rem !important;
-        font-weight: $font_medium !important;
-        letter-spacing: 0.0187rem !important;
+        font-size: $h4 !important;
+        font-weight: $font_semibold !important;
+    }
+
+    &-edit-btn {
+        svg {
+            width: 2.5rem;
+            height: 2.5rem;
+        }
     }
 
     &-location-button {
