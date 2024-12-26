@@ -19,6 +19,7 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { validateEmail, validatePhoneNumber } from "@/Utils/Validation";
 import { validateMaxLength } from '@/Utils/Validation';
 import GoogleMapPlacePicker from "./GoogleMapPlacePicker";
+import useStore from "@/Libs/store";
 
 type EventProps = {
   formSubmit: boolean;
@@ -85,6 +86,15 @@ const CreateEvent: React.FC<EventProps> =
   const companyId = sessionStorage.getItem('companyId');
   const baseUrl = config.api.url;
   const [drawerOpen,setDrawerOpen]=useState(false);
+  const [isInitialRender, setIsInitialRender] = useState(true);
+
+    // Watch values from the form
+    const fields: ('mapUrl' | 'postalCode' | 'venueName' | 'city' | 'address')[] = ['mapUrl', 'postalCode', 'venueName', 'city','address'];
+    const mapUrl = watch('mapUrl');
+    const postalCode = watch('postalCode');
+    const venueName = watch('venueName');
+    const city = watch('city');
+    const address = watch('address');
 
 
     /**
@@ -181,8 +191,29 @@ const CreateEvent: React.FC<EventProps> =
         });
         return
       }
+    //store the dates to compare 
+      useStore.getState().setDataById("event-date", { startDate: startTime });
+      useStore.getState().setDataById("event-date", { endDate: endTime });
+
       onSubmitHandler && onSubmitHandler(data, "EVENT");
     };
+
+  /**
+   * it watches the location fields whether it is filled or not 
+   */
+  useEffect(() => {
+    if (isInitialRender) {
+      setIsInitialRender(false);
+      return;
+    }
+
+    fields.forEach((field) => {
+      const value = watch(field);
+      if (value) {
+        clearErrors(field);
+      }
+    });
+  }, [mapUrl, clearErrors, setError, errors, isInitialRender, postalCode, venueName, city,address]);
 
     /**
      * Useeffect hook set the form values based on the data
@@ -360,6 +391,7 @@ const CreateEvent: React.FC<EventProps> =
                       defaultValue={moment(new Date()).format("YYYY-MM-DD")}
                       min={moment(new Date()).format("YYYY-MM-DD")}
                       rules={{
+                        required:true,
                         pattern: {
                           value: /^\d{4}-\d{2}-\d{2}$/, 
                           message: "Please enter a valid start start date (DD-MM-YYYY)"
@@ -377,6 +409,7 @@ const CreateEvent: React.FC<EventProps> =
                       defaultValue={moment(new Date()).format("YYYY-MM-DD")}
                       min={moment(new Date()).format("YYYY-MM-DD")}
                       rules={{
+                        required:true,
                         pattern: {
                           value: /^\d{4}-\d{2}-\d{2}$/,
                           message: "Please enter a valid end date (DD-MM-YYYY)"

@@ -56,8 +56,8 @@ interface SessionDrawerContentProps {
       if (isEditing && selectedProgram) {
         setValue("name", selectedProgram.name);
         setValue("description", selectedProgram.description);
-        setValue("startTime", moment.utc(selectedProgram?.startTime).format("HH:mm"));
-        setValue("endTime", moment.utc(selectedProgram?.endTime).format("HH:mm"));
+        setValue("startTime", moment(selectedProgram?.startTime).format("HH:mm"));
+        setValue("endTime", moment(selectedProgram?.endTime).format("HH:mm"));
         setValue("isPaid", selectedProgram.amount > 0 ? "PAID" : "FREE");
         setValue("price", selectedProgram.amount);
         setValue('startDate', moment(selectedProgram?.startTime).format("YYYY-MM-DD"))
@@ -88,8 +88,8 @@ interface SessionDrawerContentProps {
    * formating the submit request
    */
     const handleSubmitRequest = (data: FieldValues) => {
-      const startDateTime = `${data.startDate}T${data.startTime}Z`;
-      const endDateTime = `${data.startDate}T${data.endTime}Z`;
+      const startDateTime = `${data.startDate}T${data.startTime}`;
+      const endDateTime = `${data.startDate}T${data.endTime}`;
 
       // Create the new transformed object
       const transformedProgram = {

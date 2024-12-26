@@ -9,7 +9,7 @@ import apiClient from "@/Libs/Https/API-client";
 //import { NoEvent } from "@/assets/svg"
 import { Logger } from "@/Utils/Logger";
 import React from "react";
-import useStore, { GET, IStoreState } from '@/Libs/store';
+import useStore, {IStoreState } from '@/Libs/store';
 import routes from "@/router/routes";
 import { useNavigate } from "react-router-dom";
 import CustomModel from "@/components/CustomModel/CustomModel";
@@ -17,6 +17,7 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { CloseOutlined } from "@mui/icons-material";
 import NoEvents from "../No-Event/NoEvent";
 import { IEvent } from "@/Libs/type";
+import { SkeletonList } from "@/components/Skeleton";
 
 
 /**
@@ -29,8 +30,7 @@ const MyEventScreen = () => {
   const POST = useStore((state: any) => state.POST);
   const setDataById = useStore((state: any) => state.setDataById);
   const navigate = useNavigate();
-  const events = useStore((state: IStoreState) => state?.compData.userEvents?.["participant/registered/events"]?.data?.Events) ?? []
-
+  const events = useStore((state: IStoreState) => state?.compData.usersEvents?.["event/registered/eventList"]?.data) ?? []
   /**
    * model for view certificate
    */
@@ -73,19 +73,18 @@ const MyEventScreen = () => {
  * @param selected
  */
   const handleAutocompleteChange = async (selected: any) => {
-   
     if (selected) {
       try {
         setLoading(true);
         await POST({
-          url: "event/list",
+          url: "event/registered/eventList",
           body: {
             offset: 0,
             sortBy: "id",
             sortDirection: "DESC",
             filters: {id: selected.id},
           },
-          id: 'userEvents',
+          id: 'usersEvents',
           errorCB: (context: any) => {
             setDataById("snackBarInfo", {
               open: true,
@@ -109,9 +108,9 @@ const MyEventScreen = () => {
   const participantEventDetails = async () => {
     try {
       setLoading(true);
-      await GET({
-        url: "participant/registered/events",
-        id: 'userEvents',
+      await POST({
+        url: "event/registered/eventList",
+        id: 'usersEvents',
         errorCB: (context: any) => {
           setDataById("snackBarInfo", {
             open: true,
@@ -178,13 +177,12 @@ const MyEventScreen = () => {
         </Grid>
       </Grid>
       {loading ? (
-        <CircularProgress />
+      <SkeletonList height={20} className="mt-4" />
       ):
       !loading && events?.length === 0  ? (
        <NoEvents/>
         ) : (
           <Grid container size={12} mt={2} spacing={2}>
-            
             {events?.map((event: IEvent, index:number) => (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
                 <EventCard
