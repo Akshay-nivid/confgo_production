@@ -14,14 +14,15 @@ import CustomTooltip from '@/components/CustomToolTip/CustomTooltip';
 
 type DetailsSectionProps = {
     data?: any;
-    classPrefix: string;
+    classPrefix?: string;
+    temp?: any;
 }
 
 
 /**
  * Component displays the details section of the template
  */
-const DetailsSection: React.FC<DetailsSectionProps> = React.memo(({ data, classPrefix }) => {
+const DetailsSection: React.FC<DetailsSectionProps> = React.memo(({ data, classPrefix, temp }) => {
     
 
    

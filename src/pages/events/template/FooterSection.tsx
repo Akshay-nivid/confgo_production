@@ -12,16 +12,15 @@ import { Link } from 'react-router-dom';
 
 type FooterSectionProps = {
     data?: any;
-    temp: number | undefined;
+    classPrefix?: string;
+    temp?: any;
 }
 
 
 /**
  * Component displays the footer section of the template
  */
-const FooterSection: React.FC<FooterSectionProps> = React.memo(({ temp }) => {
-
-    const classPrefix = `event-template-footer-${temp}`;
+const FooterSection: React.FC<FooterSectionProps> = React.memo(({ classPrefix }) => {
 
     return <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}`} spacing={1}>
         <Grid size={{ xs: 12, sm: 4 }} container justifyContent={'center'} alignItems={'center'} direction={'column'}>
