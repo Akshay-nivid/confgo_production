@@ -9,18 +9,17 @@ import ClockIcon from '@/assets/svg/template1-clock.svg';
 
 type ProgramSectionProps = {
     data?: any;
-    temp: number | undefined;
+    classPrefix?: string;
     ref?: any;
+    temp?: any;
 }
 
 /**
  * Component displays the program section of the template
  */
 const ProgramSection = React.memo(
-    React.forwardRef<HTMLDivElement, ProgramSectionProps>(({ data, temp }, ref) => {
+    React.forwardRef<HTMLDivElement, ProgramSectionProps>(({ data, classPrefix }, ref) => {
      
-
-    const classPrefix = `event-template-program-${temp}`;
 
     /**
      * Method groups the program based on date and sort based on time
