@@ -137,7 +137,6 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
    */
   const handleAddAttendeeType = async () => {
     setLoading(true); // Disable button
-    console.log(loading)
     const isValid = await trigger(["attendeeName"]);
     if (isValid) {
       const attendeeName = getValues("attendeeName");
