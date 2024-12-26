@@ -19,7 +19,9 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { validateEmail, validatePhoneNumber } from "@/Utils/Validation";
 import { validateMaxLength } from '@/Utils/Validation';
 import GoogleMapPlacePicker from "./GoogleMapPlacePicker";
-import useStore from "@/Libs/store";
+import useStore, { setDataById } from "@/Libs/store";
+import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
+import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
 
 type EventProps = {
   formSubmit: boolean;
@@ -46,10 +48,12 @@ type FormData = {
   postalCode: string;
   url: string;
   amount: string;
-  specialty: string;
+  specialtyId: string;
   assetId:number;
   phone: string;
   email: string;
+  isAbstract:boolean;
+  abstractDate:Date;
 };
 
 interface CustomFile {
@@ -63,7 +67,10 @@ const typeArray = [
   { label: "Online", value: "ONLINE" },
   { label: "Hybrid", value: "HYBRID" },
 ];
-
+interface Specialty{
+  value:number,
+  label:string
+}
 const CreateEvent: React.FC<EventProps> =
   ({ formSubmit, onSubmitHandler, data }) => {
     const methods = useForm<FormData>()
@@ -87,6 +94,8 @@ const CreateEvent: React.FC<EventProps> =
   const baseUrl = config.api.url;
   const [drawerOpen,setDrawerOpen]=useState(false);
   const [isInitialRender, setIsInitialRender] = useState(true);
+  const POST = useStore((state: any) => state.POST);
+  const [specialty,setspecialty]=useState<Specialty[]>([]);
 
     // Watch values from the form
     const fields: ('mapUrl' | 'postalCode' | 'venueName' | 'city' | 'address')[] = ['mapUrl', 'postalCode', 'venueName', 'city','address'];
@@ -257,6 +266,38 @@ const CreateEvent: React.FC<EventProps> =
     }
 },[])
 
+  /**
+   *useEffect get specialty
+   */
+   useEffect(() => {
+    getspecialty()
+},[])
+
+    /**
+    * get full specialty list 
+    */
+    const getspecialty=async ()=>{
+      await POST({
+          url:'specialty/list',
+          body:{},
+          id:'specialty-list',
+          successCB: (_context: any) => {
+            let _speciality:any=[];
+            console.log(_context,'747547577')
+            _context.data.forEach((item: any) => {
+              _speciality.push({
+                value: item?.id,
+                label: item?.name
+              })
+            })
+            console.log(_speciality,'843483489')
+            setspecialty(_speciality)
+          }, 
+          errorCB: (context: any) => {
+              setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
+          }
+      });
+  }
     return (
       <Box className="create-event-container">
         <Grid
@@ -417,7 +458,7 @@ const CreateEvent: React.FC<EventProps> =
                       }}
                     />
                   </Grid>
-                  <Grid size={{ xs: 12, sm: 12 }}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField
                       placeholder="Price"
                       control={control}
@@ -425,6 +466,45 @@ const CreateEvent: React.FC<EventProps> =
                       type="number"
                     />
                   </Grid>
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <CustomSelect
+                    fullWidth
+                    className="add-program-select"
+                    name="specialtyId"
+                    control={control}
+                    label="Specialty"
+                    options={specialty}
+                    />
+                  </Grid>
+                  {watch('specialtyId')=='1'&&
+                  <Grid size={{ xs: 12, sm: watch('isAbstract')?6:12 }}>
+                      <CustomSwitch
+                        className="add-program-switch-btn"
+                        buttonColor="success"
+                        label="Abstract Submission"
+                        name={`isAbstract`}
+                        control={control}
+                      />
+                  </Grid>}
+                  {watch('isAbstract')&& 
+                  <Grid size={{xs:12,sm:6}}>
+                    <CustomTextField
+                      placeholder="Abstract Submission Date"
+                      control={control}
+                      name="abstractDate"
+                      type="date"
+                      className="create-event"
+                      defaultValue={moment(new Date()).format("YYYY-MM-DD")}
+                      min={moment(new Date()).format("YYYY-MM-DD")}
+                      rules={{
+                        required:true,
+                        pattern: {
+                          value: /^\d{4}-\d{2}-\d{2}$/, 
+                          message: "Please enter a valid start start date (DD-MM-YYYY)"
+                        }
+                      }}
+                    />
+                  </Grid>}
                   {watch("type") !== "OFFLINE" && (
                     <Grid size={{ xs: 12, sm: 12 }}>
                       <CustomTextField
