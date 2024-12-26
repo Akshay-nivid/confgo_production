@@ -150,12 +150,6 @@ const SpeakerCard = (_eventData: any) => {
   };
 
 
-  /**
-   *function to handle clean file state
-   */
-  // const handleFileDelete = () => {
-  //   setSelectedFile(null);
-  // };
 
   type FormData = {
     contributorType: string;
@@ -164,13 +158,6 @@ const SpeakerCard = (_eventData: any) => {
     userInfo: any;
   };
 
-  /**
-   *select field options
-   */
-  // const selectOptions = [
-  //   { value: "other", label: "Other" },
-  //   { value: "guest", label: "Guest" },
-  // ];
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     if (!editContributorValue) {
@@ -178,7 +165,6 @@ const SpeakerCard = (_eventData: any) => {
     } else if (editContributorValue && contributorFields) {
       editContributor(data);
     } else {
-      // setFileRequired(true);
     }
   };
   /**
@@ -191,10 +177,6 @@ const SpeakerCard = (_eventData: any) => {
       const requestBody = {
         userId: formData.userInfo?.id,
         eventId: id,
-        // name: formData.contributorName,
-        // assetId: selectedFile?.id ?? null,
-        // designation: formData.contributorType,
-        // description: formData.contributorDescription,
         statusId: "1",
       };
       await POST({
@@ -278,10 +260,6 @@ const SpeakerCard = (_eventData: any) => {
       const requestBody = {
         eventId: id,
         userId: formData.userInfo?.id,
-        // name: formData.contributorName,
-        // assetId: selectedFile?.id ?? null,
-        // designation: formData.contributorType,
-        // description: formData.contributorDescription,
         statusId: "1",
       };
       const response = await apiClient.put(
@@ -328,21 +306,12 @@ const SpeakerCard = (_eventData: any) => {
         contributorType: item.designation,
         contributorDescription: item.description || "",
       });
-      // setSelectedFile(null);
     }
     else{
       reset()
     }
     setDataById("contributorFields", item);
     setEditConrtributorValue(item);
-
-    if (item?.assetId) {
-      // setSelectedFile({
-      //     id: item.assetId,
-      //     name:item?.name,
-
-      // });
-  }
     handleScreenViewChange();
     }
   };
