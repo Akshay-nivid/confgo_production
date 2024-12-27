@@ -1,0 +1,233 @@
+
+
+.program-main {
+
+  .main-header{
+    font-size: $h2;
+    font-weight: $font-semibold;
+    padding-bottom: 1rem;
+  }
+
+  .program-form {
+
+    padding-inline: 2rem;
+
+    .event-header-container {
+      background-color: $clr_gray_10_percent;
+      padding-left: 1rem;
+      padding-block: 1rem;
+      padding-right: 1rem;
+      // border-bottom: 0.08rem solid $clr_gray_faded;
+      margin-bottom: .2rem;
+
+      .event-header {
+        font-size: $h5 !important;
+        font-weight: $font_semibold;
+        margin-bottom: .5rem;
+      }
+
+      .event-description {
+        font-size: $p1 !important;
+        color: $clr_gray_dark_text;
+        margin-bottom: .5rem;
+      }
+
+      .event-date {
+        font-size: $p2 !important;
+        color: $clr_gray_dark_text;
+      }
+    }
+
+
+    .program-list-wrapper{
+      border: 0.083rem solid $clr_gray_faded;
+      border-radius: 0.6667rem;
+      padding: 1.66rem;
+      box-shadow:$clr_gray_30_percent 0rem 0.083rem .167rem 0;
+
+    }
+
+ 
+
+    .card-title {
+      max-width: 23ch !important;
+    }
+
+    .active {
+
+      &-1,
+      &-2,
+      &-3 {
+        color: $clr_white;
+      }
+
+      &-1 {
+        background-color: $clr_charcoal_cyan !important;
+        border: .15rem solid $clr_charcoal_cyan ;
+      }
+
+      &-2 {
+        background-color: $clr_bright_mint_green !important;
+        border: .15rem solid $clr_bright_mint_green ;
+      }
+
+      &-3 {
+        background-color: $clr_dark_navy_blue !important;
+        border: .15rem solid $clr_dark_navy_blue ;
+      }
+
+    }
+
+    .inactive {
+
+      &-1,
+      &-2,
+      &-3 {
+        background-color: $clr_white !important;
+      }
+
+      &-1 {
+        color: $clr_charcoal_cyan;
+        border: .15rem solid $clr_gray_faded ;
+      }
+
+      &-2 {
+        color: $clr_bright_mint_green;
+        border: .15rem solid $clr_dark_navy_blue ;
+      }
+
+      &-3 {
+        color: $clr_dark_navy_blue;
+        border: .15rem solid $clr_dark_navy_blue ;
+      }
+    }
+
+    .checked {
+      background-color: $clr_gray_10_percent !important;
+    }
+
+    // .un-checked {
+    //   background-color: $clr_white !important;
+    // }
+
+    .add-on-list-container {
+      margin-top: 2rem;
+    }
+
+    .tab-btn-container {
+      margin-bottom: 3rem;
+      border: .2rem solid $clr_gray_10_percent;
+      background-color: $clr_gray_10_percent ;
+
+      padding-block: .7rem;
+      border-radius: .5rem;
+      display: flex;
+      column-gap: 2rem;
+      width: 100%;
+
+      overflow-x: auto;
+      padding-inline: 1rem;
+
+      scrollbar-width: none;
+     
+      .tab-btn-inner-container {
+        display: flex;
+        align-items: center;
+        width: max-content;
+        margin-inline: auto;
+        column-gap: 2rem;
+      }
+
+
+      .tab-btn {
+        box-shadow: none !important;
+        font-size: 1.05rem;
+        min-width: 12rem;
+        white-space: nowrap;
+      }
+    }
+
+
+
+  }
+
+  .navigation-button-container {
+
+    &-1,
+    &-2,
+    &-3 {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      column-gap: 2rem;
+      margin-top: auto;
+      position: fixed;
+      bottom: 0;
+      //  padding-block: 2rem;
+      align-items: center;
+      height: 5rem;
+      background-color: $clr_white ;
+      left: 0;
+      right: 0;
+      border-top: 0.083rem solid $clr_gray_very_light !important;
+
+      .back-button {
+        min-width: 10rem !important;
+        height: 3rem;
+
+      }
+
+      .next-button {
+        min-width: 10rem !important;
+        height: 3rem;
+
+      }
+    }
+
+    &-1 {
+      .back-button {
+        border-color: $clr_charcoal_cyan;
+        color: $clr_charcoal_cyan;
+        min-width: 10rem;
+      }
+
+      .next-button {
+        background-color: $clr_charcoal_cyan;
+        color: $clr_white;
+        min-width: 10rem;
+
+      }
+    }
+
+    &-2 {
+      .back-button {
+        border-color: $clr_bright_mint_green;
+        color: $clr_bright_mint_green;
+      }
+
+      .next-button {
+        background-color: $clr_bright_mint_green;
+        color: $clr_white;
+      }
+    }
+
+    &-3 {
+      .back-button {
+        border-color: $clr_dark_navy_blue;
+        color: $clr_dark_navy_blue;
+      }
+
+      .next-button {
+        background-color: $clr_dark_navy_blue;
+        color: $clr_white;
+
+
+      }
+    }
+
+  }
+
+
+
+
+}

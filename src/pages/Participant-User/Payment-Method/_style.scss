@@ -1,5 +1,9 @@
 .payment-method {
-  max-width: 56rem;
+  max-width:max(600px, 50%);
+  margin-inline: auto;
+  border: 0.05rem solid $clr_gray_30_percent;
+  border-radius: 0.5rem;
+  padding-top: 1rem;
   .payment-method-header {
     font-size: $h2;
     font-weight: $font-bold;

@@ -17,6 +17,10 @@ import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
 import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Badge from "../Components/Badge";
+import { Dollar } from '@/assets/svg'
+import LocalTimeDate from "@/components/LocalTimeDate/LocalTimeDate";
+import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 
 /**
  * Compoennt used to render selected program
@@ -347,7 +351,7 @@ const SelectedPrograms = () => {
           </Typography>
 
           <Typography textAlign={"center"} className="main-header-description">
-            Review your selected programs and meals below.
+            Review your selected programs and addons below.
           </Typography>
 
         </Grid>
@@ -383,7 +387,7 @@ const SelectedPrograms = () => {
                           </Typography>
                         </Box>
 
-                        <Typography className="card-header">Program</Typography>
+                        {/* <Typography className="card-header">Program</Typography> */}
 
                       </Grid>
 
@@ -397,10 +401,11 @@ const SelectedPrograms = () => {
                               <Grid className="time-chip-container" size={12} width={"max-content"}>
                                 <Chip className="time-chip" size="medium" icon={<TimerOutlinedIcon />} label={moment(item?.startTime).format("h:mm A") + ' ' + '-' + ' ' + moment(item?.endTime).format("h:mm A")} />
                               </Grid>
+                              <Badge text="Program" type="program" />
 
-                              <Grid className="program-price">
+                              {/* <Grid className="program-price">
                                 <Chip className="price-chip" size="medium" icon={<AttachMoneyOutlinedIcon />} label={Math.trunc(item?.amount) === 0 ? "free" : `${item?.amount}`} />
-                              </Grid>
+                              </Grid> */}
 
                             </Grid>
 
@@ -412,6 +417,10 @@ const SelectedPrograms = () => {
                               </Typography>
                             </Grid>
 
+                            <Grid display={'flex'} alignItems={'center'} paddingTop={1} paddingBottom={2}>
+                              <Dollar className="money-icon" />
+                              <Typography fontSize={22} marginLeft={"-5px"} marginTop={"1px"} fontWeight={700}>{Math.trunc(Number(item?.amount)) === 0 ? "Free" : `${item?.amount}`}</Typography>
+                            </Grid>
 
                             <Grid size={12}>
 
@@ -445,7 +454,7 @@ const SelectedPrograms = () => {
                             return (
 
                               <Grid>
-                                {index === 0 && <Grid textAlign={'center'} size={12} className="card-header card-header-wrapper">Addon</Grid>}
+                                {/* {index === 0 && <Grid textAlign={'center'} size={12} className="card-header card-header-wrapper">Addon</Grid>} */}
                                 <Grid className="addon-list-item-wrapper" size={12} container key={addon?.eventAddon?.id}>
 
 
@@ -455,18 +464,19 @@ const SelectedPrograms = () => {
 
                                     <Grid size={12} container justifyContent={'space-between'}>
 
-                                      <Grid size={12} className="time-chip-container" width={"max-content"}>
-                                        <Chip className="time-chip" size="medium" icon={<TimerOutlinedIcon />} label={moment(addon?.startTime).format("h:mm A") + ' ' + '-' + ' ' + moment(addon?.endTime).format("h:mm A")} />
-                                      </Grid>
+                                      <Box className="addon-name">{addon?.addon?.name}</Box>
 
-                                      <Grid className="program-price">
-                                        <Chip className="price-chip" size="medium" icon={<AttachMoneyOutlinedIcon />} label={Math.trunc(addon?.amount) === 0 ? "free" : `${addon?.amount}`} />
-                                      </Grid>
+                                      <Badge text="Addon-on" type="addon" />
+
+                                      {/* <Grid size={12} className="time-chip-container" width={"max-content"}>
+                                        <Chip className="time-chip" size="medium" icon={<TimerOutlinedIcon />} label={moment(addon?.startTime).format("h:mm A") + ' ' + '-' + ' ' + moment(addon?.endTime).format("h:mm A")} />
+                                      </Grid> */}
+
+
 
                                     </Grid>
 
 
-                                    <Grid size={12} className="addon-name">{addon?.addon?.name}</Grid>
 
                                     <Grid size={12} >
                                       <Typography className="program-description">
@@ -474,13 +484,27 @@ const SelectedPrograms = () => {
                                       </Typography>
                                     </Grid>
 
+                                    <Box className="flex flex-col">
+                                      <Box marginTop={1} className="flex justify-center items-center  gap-x-2  py-1 w-max rounded-md text-gray-500">
+                                        <CalendarMonthOutlinedIcon />
+                                        <LocalTimeDate utcDateTime={addon?.startTime} format="MMMM D" timezone="auto" fallbackText="Not Available" />
+                                        <Typography>-</Typography>
+                                        <LocalTimeDate utcDateTime={addon?.endTime} format="MMMM D" timezone="auto" fallbackText="Not Available" />
+                                      </Box>
 
-
+                                      <Box marginTop={.5} className="flex justify-center items-center  gap-x-2  py-1 w-max rounded-md text-gray-500">
+                                        <TimerOutlinedIcon />
+                                        <Typography marginTop={0.3}>
+                                          {moment(addon?.startTime).format("h:mm A") + ' ' + '-' + ' ' + moment(addon?.endTime).format("h:mm A")}
+                                        </Typography>
+                                      </Box>
+                                    </Box>
                                     {/* <Grid size={6}>- ${addon?.amount}</Grid> */}
                                   </Grid>
 
-                                  {(addon?.eventAddonProperties[0] !== null && addon?.eventAddonProperties?.length > 0) && <Grid className='card-sub-header mt_2 mb_1'>Addon Prop :</Grid>}
+                                  {/* {(addon?.eventAddonProperties[0] !== null && addon?.eventAddonProperties?.length > 0) && <Grid className='card-sub-header mt_2 mb_1'>Addon Prop :</Grid>} */}
 
+                                  <div className="divider2"></div>
 
                                   {addon?.eventAddonProperties?.length > 0 && (
                                     <Grid container size={12} columnSpacing={2} className="add-on-prop-checkbox ">
@@ -489,11 +513,10 @@ const SelectedPrograms = () => {
 
                                         return property !== null && (
 
-                                          <Grid display={'flex'} alignItems={'center'} size={4} className='addon-property-item'>
+                                          <Grid display={'flex'} alignItems={'center'} size={4} className={`addon-property-checkbox-group-${templateId}`}>
                                             < CustomCheckbox
-                                              className="add-on-property"
+                                              className="addon-prop-checkbox"
                                               key={property?.id}
-                                              disabled={watch(currentAddon) === undefined || watch(currentAddon).length === 0}
                                               row={true}
                                               onChange={() => onCheckboxToggle()}
                                               control={control}
@@ -503,7 +526,16 @@ const SelectedPrograms = () => {
                                                 { label: '', value: property?.id },
                                               ]}
                                             />
-                                            <Typography className="add-on-property-name">{property?.name}-{property?.amount}</Typography>
+                                            {/* <Typography className="add-on-prop-label">{property?.name}-{property?.amount}</Typography> */}
+                                            <Box className="flex items-center w-full">
+                                              <Typography className="addon-prop-label">{property?.name}</Typography>
+                                              <Typography>-</Typography>
+                                              <Box className="flex items-center">
+                                                <Dollar className='addon-prop-money-icon' />
+                                                <Typography className="addon-prop-amount">{Math.trunc(Number(property?.amount)) === 0 ? "Free" : `${property?.amount}`}</Typography>
+                                              </Box>
+
+                                            </Box>
                                           </Grid>
 
                                         )
@@ -514,27 +546,7 @@ const SelectedPrograms = () => {
 
 
                                   )}
-                                  <Grid className="checkbox-container mt_3">
-                                    <CustomCheckbox
 
-                                      onChange={() => onAddonCheckboxToggle(`${formatDate(date)}-addon-${addon?.id}`)}
-                                      control={control}
-                                      className="add-on-list-item-checkbox cart-checkbox "
-                                      id={addon?.eventAddon?.id}
-                                      name={`${formatDate(date)}-addon-${addon?.id}`}
-                                      label={addon?.title}
-                                      setValue={setValue}
-                                      options={[
-                                        {
-                                          label: '',
-                                          value: addon?.id,
-                                        },
-                                      ]}
-                                    />
-                                    <Typography className="add-text">{watch(`${formatDate(date)}-addon-${addon?.id}`)?.includes(addon?.id) ? <> Remove <DeleteIcon /> </> : <> Add <AddIcon /> </>}</Typography>
-
-
-                                  </Grid>
                                 </Grid>
                               </Grid>
 
@@ -545,7 +557,7 @@ const SelectedPrograms = () => {
                     </Grid>
 
 
-                   
+
                   </Grid>}
               </>
             ))
@@ -553,13 +565,13 @@ const SelectedPrograms = () => {
           {!couponData?.data?.coupon?.code ?
             <Grid className="coupon-container">
 
-              <Typography className="coupon-header-text">
+              <Typography className="apply-coupon-header">
                 Apply Coupons
               </Typography>
 
               <Grid container rowSpacing={2} columnSpacing={3}>
 
-                <Grid size={{xs:12,md:8}}>
+                <Grid size={{ xs: 12, md: 8 }}>
                   <CustomTextField
                     control={control}
                     name="coupon"
@@ -567,7 +579,7 @@ const SelectedPrograms = () => {
                   />
                 </Grid>
 
-                <Grid size={{xs:12,md:4}}>
+                <Grid size={{ xs: 12, md: 4 }}>
                   <CustomButton
                     className="apply-coupon-button"
                     label="Apply Coupon"
@@ -603,7 +615,8 @@ const SelectedPrograms = () => {
             </Grid>
           }
 
-          <Grid container flexDirection={"column"} className="grand-total-container">
+
+          <Grid container flexDirection={"column"} className="bill-details-container">
 
             {couponData?.data?.coupon?.code && <Grid className="mb_2" container flexDirection={"row"} justifyContent={"space-between"}>
               <Typography className="sub-text">Coupon Applied</Typography>
@@ -634,16 +647,16 @@ const SelectedPrograms = () => {
             </Grid>
 
           </Grid>
-
-          <Grid className="navigation-btn-group-container">
+          <Box className="spacer"></Box>
+          <Grid className={`navigation-button-container-${templateId}`}>
             <CustomButton
-              className="back-btn"
+              className="back-button"
               label="Back"
               variant="outlined"
               onClick={() => navigate(routes.programSelection())}
             />
             <CustomButton
-              className="next-btn"
+              className="next-button"
               label="Next"
               isLoading={orderLoading || false}
               variant="contained"

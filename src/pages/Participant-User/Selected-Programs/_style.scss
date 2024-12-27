@@ -1,37 +1,126 @@
-.addon-property-item {
+.selected-programs-main {
+
+  width: 70%;
+  margin-inline: auto;
+
+  .divider2 {
+    height: .08rem;
+    width: 100%;
+    background-color: $clr_gray_30_percent;
+    margin-block: 1rem;
+
+  }
 
 
+  .bill-details-container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    display: flex;
+    justify-content: space-between;
+    padding-inline: 2rem;
+    background-color: $clr_gray_20_percent;
+    margin-bottom: 4rem;
+    border-radius: 0.88rem;
+    padding-block: 1.5rem;
 
-  .MuiCheckbox-root {
-    svg {
-      background-color: $clr_white;
-      border-radius: .51rem;
-      width: max-content !important;
-      height: 2rem !important;
-      padding: 0 !important;
+    .total-text {
+      font-weight: $font_semibold;
+      font-size: $h5;
+
+    }
+
+    .sub-text {
+      font-weight: $font_medium;
+      font-size: $p1;
+      color: $clr_sub_header;
+    }
+  }
+
+  .apply-coupon-header {
+    font-weight: $font_medium;
+    font-size: $p1;
+    margin-bottom: 1rem;
+  }
+
+
+  .navigation-button-container {
+
+    &-1,
+    &-2,
+    &-3 {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      column-gap: 2rem;
+      margin-top: auto;
+      position: fixed;
+      bottom: 0;
+      //  padding-block: 2rem;
+      align-items: center;
+      height: 5rem;
+      background-color: $clr_white ;
+      left: 0;
+      right: 0;
+      border-top: 0.083rem solid $clr_gray_very_light !important;
+      z-index: 100;
+
+      .back-button {
+        min-width: 10rem !important;
+        height: 3rem;
+
+      }
+
+      .next-button {
+        min-width: 10rem !important;
+        height: 3rem;
+
+      }
+    }
+
+    &-1 {
+      .back-button {
+        border-color: $clr_charcoal_cyan;
+        color: $clr_charcoal_cyan;
+        min-width: 10rem;
+      }
+
+      .next-button {
+        background-color: $clr_charcoal_cyan;
+        color: $clr_white;
+        min-width: 10rem;
+
+      }
+    }
+
+    &-2 {
+      .back-button {
+        border-color: $clr_bright_mint_green;
+        color: $clr_bright_mint_green;
+      }
+
+      .next-button {
+        background-color: $clr_bright_mint_green;
+        color: $clr_white;
+      }
+    }
+
+    &-3 {
+      .back-button {
+        border-color: $clr_dark_navy_blue;
+        color: $clr_dark_navy_blue;
+      }
+
+      .next-button {
+        background-color: $clr_dark_navy_blue;
+        color: $clr_white;
+
+
+      }
     }
 
   }
-
-  &.Mui-checked svg {
-    fill: $clr_charcoal_cyan !important;
-  }
-
-  .MuiFormControlLabel-root {
-    padding: 0 !important;
-    margin-right: 0 !important;
-  }
-
-  .MuiFormControlLabel-root.Mui-disabled svg {
-    fill: $clr_gray_faded !important;
-  }
-
-  .add-on-property-name {
-    font-size: $p1 !important;
-    font-weight: $font-medium !important;
-  }
 }
-
 
 
 
@@ -39,22 +128,9 @@
 .selected-programs-main {
 
 
-  .mt_2 {
-    margin-top: 1.66rem !important;
-  }
-
-  .mb_1{
-   margin-bottom: 1rem !important;
-  }
-  .mb_2{
-    margin-bottom: 1.66rem !important;
-   }
 
 
-  .mt_3{
-    margin-top: 2.86rem !important;
 
-  }
 
   .selected-program-text {
     margin-bottom: 1.6rem;
@@ -76,15 +152,17 @@
   }
 
   .selected-program-card {
+    padding-inline: 2rem;
+
     &-wrapper {
       background-color: $clr_gray_20_percent;
-      border-radius: 0.88rem;
+      // border-radius: 0.88rem;
       margin-inline: auto;
     }
 
     &-content {
-      // padding-inline: 2.5rem;
-      padding-block: 1.666rem;
+      padding-inline: 2rem;
+      padding-bottom: 2rem;
     }
   }
 
@@ -94,13 +172,12 @@
     border-radius: .5rem .5rem 0 0 !important;
     color: $clr_gray_dark_text !important;
     background-color: transparent !important;
-    border-bottom: .08rem solid $clr_gray_faded;
+    // border-bottom: .08rem solid $clr_gray_faded;
   }
 
   .card-header {
     font-size: $h5 !important;
     font-weight: $font-semibold !important;
-    margin-bottom: 1.66rem !important;
   }
 
   .card-sub-header {
@@ -115,7 +192,7 @@
 
   .program-list-container {
     background-color: $clr_white;
-    border: .08rem solid $clr_gray_faded;
+    // border: .08rem solid $clr_gray_faded;
     border-radius: .7rem !important;
     padding: 1.5rem !important;
     margin-bottom: 1.66rem !important;
@@ -333,6 +410,7 @@
     border-radius: .5rem;
     padding: 1.66rem;
     background-color: $clr_gray_faded;
+
     .coupon-code {
       font-size: $h6 !important;
       font-weight: $font-semibold !important;
@@ -345,27 +423,6 @@
 
   }
 
-  .grand-total-container {
-    display: flex;
-    justify-content: space-between;
-    // padding-inline: 2.5rem;
-    background-color: $clr_gray_20_percent;
-    margin-bottom: 4rem;
-    border-radius: 0.88rem;
-    padding-block: 1.5rem;
-
-    .total-text {
-      font-weight: $font_semibold;
-      font-size: $h5;
-
-    }
-
-    .sub-text {
-      font-weight: $font_medium;
-      font-size: $p1;
-      color: $clr_sub_header;
-    }
-  }
 
   .divider {
     height: 0.1rem;
@@ -400,14 +457,14 @@
 
   &-1 {
 
-    .checkbox-container{
+    .checkbox-container {
 
       .MuiCheckbox-root {
-        
+
         svg {
-         
+
           background-color: $clr_charcoal_cyan !important;
-    
+
         }
       }
     }
@@ -457,14 +514,14 @@
 
   &-2 {
 
-    .checkbox-container{
+    .checkbox-container {
 
       .MuiCheckbox-root {
-        
+
         svg {
-         
+
           background-color: $clr_bright_mint_green !important;
-    
+
         }
       }
     }
@@ -552,8 +609,8 @@
 
       }
     }
-    
-    .checkbox-container{
+
+    .checkbox-container {
       .MuiCheckbox-root {
         svg {
           background-color: $clr_dark_navy_blue !important;
@@ -564,24 +621,29 @@
     }
   }
 
+  .money-icon {
+
+    font-size: $h1 !important;
+    margin-left: -10px;
+  }
 }
 
 
 // 
 
-.checkbox-container{
+.checkbox-container {
   width: max-content;
-  margin-top: 2.66rem;
   position: relative;
-      .add-text {
-        position: absolute;
-        color: white !important;
-        top: 50%;
-        right: 50%;
-        transform: translate(50%, -50%);
-        font-size: $p1 !important;
-        font-weight: $font-medium !important;
-      }
+
+  .add-text {
+    position: absolute;
+    color: white !important;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+    font-size: $p1 !important;
+    font-weight: $font-medium !important;
+  }
 
   .MuiFormControl-root {
     width: 100%;
@@ -599,6 +661,7 @@
   .MuiCheckbox-root {
     width: 100%;
     max-width: 10rem;
+
     svg {
       fill: none !important;
       border-radius: 0.5rem;
@@ -612,6 +675,6 @@
 }
 
 
-.selected-programs-main{
+.selected-programs-main {
   padding-inline: 2rem;
 }

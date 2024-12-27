@@ -46,7 +46,9 @@ const PaymentMethod = () => {
     
     setDataById("previousRoute", {url: routes.userPaymentMethod()});
     navigate(routes.dynamicUserForm());
-   }
+  }
+  
+  
 
   return (
     <Grid container className="payment-method">

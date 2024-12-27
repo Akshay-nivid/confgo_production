@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, replace, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { Logger } from '@/Utils/Logger';
 import useStore, { clearDataById } from '@/Libs/store';
@@ -83,7 +83,7 @@ const UserLogin = (props: UserProps) => {
         if (success?.data?.userRole?.roleName === "USER") {
           
           if (previousRoute) {
-            navigate(previousRoute);
+            navigate(previousRoute,{replace: true});
             clearDataById('previousRoute');
           } else {
             navigate(routes.userHome());
@@ -91,7 +91,7 @@ const UserLogin = (props: UserProps) => {
 
         }
         else {
-          navigate(routes.dashboard());
+          navigate(routes.dashboard(),{replace: true});
         } 
         
       },
@@ -140,12 +140,12 @@ const UserLogin = (props: UserProps) => {
           
           if (previousRoute) {
             console.log(previousRoute)
-            navigate(previousRoute);
+            navigate(previousRoute,{replace: true});
             clearDataById('previousRoute');
 
             return
           }
-          navigate(routes.userHome());
+          navigate(routes.userHome(),{replace: true});
 
         }
       },

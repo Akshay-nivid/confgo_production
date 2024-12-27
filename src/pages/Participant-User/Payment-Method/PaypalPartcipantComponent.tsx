@@ -157,30 +157,49 @@ const PayPalParticipantButton: React.FC = () => {
 
     const paymentReferenceNumber = useStore((state: any) => state?.compData?.["paymentReferenceNumber"]?.value) ?? null
 
-
-
-
     const checkoutLoading = useStore((state: IStoreState) => state?.compData?.checkout?.checkout?.loading) ?? false
 
 
-    // const paypalLoading = useStore((state: any) => state?.compData?.["paypalLoading"]?.value) ?? false
 
     useEffect(() => {
         setDataById('paymentReferenceNumber', { value: orderData?.id + JSON.stringify(Date.now()) })
-    }, [])
+    }, [orderData.id])
 
 
+    useEffect(() => {
 
-    /**
-     * trigger an early return if orderData is undefined
-     */
-    if (!orderData?.id || !orderData?.finalPrice || orderData?.id === undefined || orderData?.finalPrice === undefined) {
 
-        navigate(routes.programSelection())
-        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: 'Could not find order. Please try again' })
-        return;
+        if (!orderData?.id || !orderData?.finalPrice || orderData?.id === undefined || orderData?.finalPrice === undefined) {
 
-    } 
+            navigate(routes.programSelection())
+            setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: 'Could not find order. Please try again' })
+            return;
+    
+        }
+        
+
+        if (orderData?.finalPrice === 0) {
+            const body = {
+                "orderId": orderData?.id,
+                "registrationType": "online"
+            }
+    
+            POST({
+                url: 'partcipant', id: 'participant', body, successCB: () => {
+                    snackBar({ severity: 'success', message: 'successfully registered' })
+                    navigate(routes.userEventRegistrationCompleted())
+                    return
+                }, errorCB: () => {
+                    snackBar({ severity: 'error', message: 'Something went wrong. Please try again' })
+                    navigate(routes.programSelection())
+                    return
+                 }
+            })
+        }
+
+    }, [orderData?.id,orderData.finalPrice])
+
+    
 
 
     /**
@@ -217,10 +236,10 @@ const PayPalParticipantButton: React.FC = () => {
             body: body,
             successCB: async (paymentResponse: IPaymentResponse) => {
 
-            
 
 
-               setDataById('checkout',{checkout:{loading:true}})
+
+                setDataById('checkout', { checkout: { loading: true } })
 
                 const paymentSuccessInfo: IPayPalOrder = await actions.order.capture();
 
@@ -246,12 +265,12 @@ const PayPalParticipantButton: React.FC = () => {
                         },
                         successCB: () => {
                             navigate(routes.userEventRegistrationCompleted())
-                        },errorCB: (errorResponse) => {
+                        }, errorCB: (errorResponse) => {
                             snackBar({ severity: 'error', message: errorResponse.message })
                         }
                     })
                 }
-            },errorCB: (errorResponse) => {
+            }, errorCB: (errorResponse) => {
                 snackBar({ severity: 'error', message: errorResponse.message })
             }
 
@@ -290,8 +309,8 @@ const PayPalParticipantButton: React.FC = () => {
     return (
         <Grid>
             {(checkoutLoading || paymentLoading) && <Backdrop open={true}>
-                        <CircularProgress color="inherit" />
-                    </Backdrop>}
+                <CircularProgress color="inherit" />
+            </Backdrop>}
             <PayPalScriptProvider options={initialOptions}>
                 <div ref={paypalButtonRef}>
                     <PayPalButtons
@@ -314,7 +333,7 @@ const PayPalParticipantButton: React.FC = () => {
                         onError={handleError}
 
                     />
-                    
+
                 </div>
 
             </PayPalScriptProvider>

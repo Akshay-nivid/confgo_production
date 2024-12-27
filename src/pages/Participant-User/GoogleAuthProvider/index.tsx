@@ -13,12 +13,12 @@ const GoogleAuthProvider = () => {
     return (
         <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID} >
             <Box className="auth">
-            <Box className=" user-layout-content">
-                <Box className="user-layout-card">
-                    <Outlet />
+                <Box className=" user-layout-content">
+                    <Box className="user-layout-card">
+                        <Outlet />
+                    </Box>
                 </Box>
-                </Box>
-                </Box>
+            </Box>
         </GoogleOAuthProvider >
 
     )

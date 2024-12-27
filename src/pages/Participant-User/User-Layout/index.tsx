@@ -14,7 +14,6 @@ const UserLayout = () => {
   
   return (
       <Box  className="user-layout">
-        {/* <NavBar /> */}
         <TopMenuSection temp={templateId?.id} />
         <Box className="user-layout-content">
           <Box className="user-layout-card">

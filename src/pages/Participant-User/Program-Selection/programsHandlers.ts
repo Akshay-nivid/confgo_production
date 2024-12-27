@@ -120,29 +120,29 @@ export const handleGroupData = ({ programs, addons, calculateTotal = false }: { 
 
 
 
-function sortObjectByKeyPriority(obj:any) {
+function sortObjectByKeyPriority(obj: any) {
   // Define the priority order for key types
   const priorityOrder = ['programs', 'addon', 'addonProp'];
 
   // Create a sorted array of keys based on the priority
   const sortedKeys = Object.keys(obj).sort((a, b) => {
-      // Find the matching priority type for each key
-      const aPriorityIndex = priorityOrder.findIndex(type => a.includes(type));
-      const bPriorityIndex = priorityOrder.findIndex(type => b.includes(type));
+    // Find the matching priority type for each key
+    const aPriorityIndex = priorityOrder.findIndex(type => a.includes(type));
+    const bPriorityIndex = priorityOrder.findIndex(type => b.includes(type));
 
-      // If priority types are different, sort by their priority
-      if (aPriorityIndex !== bPriorityIndex) {
-          return aPriorityIndex - bPriorityIndex;
-      }
+    // If priority types are different, sort by their priority
+    if (aPriorityIndex !== bPriorityIndex) {
+      return aPriorityIndex - bPriorityIndex;
+    }
 
-      // If priority types are the same, sort alphabetically
-      return a.localeCompare(b);
+    // If priority types are the same, sort alphabetically
+    return a.localeCompare(b);
   });
 
   // Create a new object with sorted keys
-  return sortedKeys.reduce((sorted:{[key: string]: any }, key) => {
-      sorted[key] = obj[key];
-      return sorted;
+  return sortedKeys.reduce((sorted: { [key: string]: any }, key) => {
+    sorted[key] = obj[key];
+    return sorted;
   }, {});
 }
 
@@ -169,7 +169,7 @@ function sortObjectByKeyPriority(obj:any) {
  * @param {any} id - The id of the event.
  * @returns {Object} - The processed data object.
  */
-export const processFormData = (formData: any, id: any,participantTypeId:string|number): { eventId: number; programIds: number[]; addons: any;} => {
+export const processFormData = (formData: any, id: any, participantTypeId: string | number): { eventId: number; programIds: number[]; addons: any; } => {
 
   let formattedData: any
 
@@ -178,7 +178,7 @@ export const processFormData = (formData: any, id: any,participantTypeId:string|
     formattedData = {
       eventId: parseInt(id) || null,
       programIds: [],
-      participantTypeId:participantTypeId
+      participantTypeId: participantTypeId
     }
 
   } else {
@@ -189,7 +189,7 @@ export const processFormData = (formData: any, id: any,participantTypeId:string|
     }
 
   }
-  
+
 
   const addonGroup: any = {}
 
@@ -207,43 +207,61 @@ export const processFormData = (formData: any, id: any,participantTypeId:string|
       return
     }
 
-    if (key.includes('-addon-') && value !== undefined) {
+    // if (key.includes('-addon-') && value !== undefined) {
 
-      const addonKey = key.split('-')[2]
+    //   const addonKey = key.split('-')[2]
 
 
 
-      if (value.length > 0) {
+    //   if (value.length > 0) {
 
-        addonGroup[addonKey] = {
-          addonId: parseInt(addonKey)
-        }
+    //     addonGroup[addonKey] = {
+    //       addonId: parseInt(addonKey)
+    //     }
 
-      }
+    //   }
 
-      // return
-    }
+    //   // return
+    // }
 
 
     if (key.includes('addonProp')) {
 
 
+      // { property?.id } -${ property?.name } -${ addon?.addonId }
+
+
+      if (value === undefined || value.length === 0) return
+
       const addonKey = parseInt(key.split('-')[2])
 
-      
-      if (addonGroup[addonKey]) {
+      addonGroup[addonKey] = {
 
-        
-
-        if (!addonGroup[addonKey].propertyIds) {
-          addonGroup[addonKey].propertyIds = []
-        }
-        if (value !== undefined) {
-          addonGroup[addonKey].propertyIds = [...value]
-
-        }
+        addonId: addonKey,
+        propertyIds: [...value]
 
       }
+
+
+
+
+
+      // if(!addonGroup[addonKey])
+
+
+      // if (addonGroup[addonKey]) {
+
+
+
+      //   if (!addonGroup[addonKey].propertyIds) {
+      //     addonGroup[addonKey].propertyIds = []
+      //   }
+      //   if (value !== undefined) {
+      //     addonGroup[addonKey].propertyIds = [...value]
+
+      //   }
+
+      // }
 
       return
     }
@@ -293,6 +311,7 @@ export function toggleProgramCheckboxesByDate(
 
   const formData = getValues();
 
+
   if (formData[key].length === 0 || formData[key] === undefined) {
 
 
@@ -306,7 +325,7 @@ export function toggleProgramCheckboxesByDate(
 
       }
     });
- 
+
   }
 
 }
@@ -322,6 +341,39 @@ export const handleClickBackButton = (slugName: string, navigate: (params: any) 
   } else {
 
     navigate(routes.userLogin());
-    
+
   }
 }
+
+
+
+/**
+ * Validates the addon form data. This function is called when the user
+ * submits the program selection form. It checks if the user has selected
+ * at least one program related to the addon they selected. If not, it
+ * throws an error message.
+ *
+ * @param {Object} formData - The form data object.
+ * @throws {Error} - If the user hasn't selected at least one program related
+ *   to the addon they selected.
+ */
+export const validateAddon = (formData:any) => {
+  Object.entries(formData).forEach(([key, value]) => {
+    // Check if the key corresponds to an addon property
+    if (key.includes('addonProp')) {
+      // Ensure the value is defined and is an array
+      if (Array.isArray(value) && value.length > 0) {
+        const [date] = key.split('-'); // Extract the date portion of the key
+        const programId = `${date}-programs`; // Construct the related program key
+
+        const programs = formData[programId];
+
+        if (!Array.isArray(programs) || programs.length === 0) {
+          throw new Error(
+            `Please select at least one program related to the addon you selected on ${date}.`
+          );
+        }
+      }
+    }
+  });
+};
