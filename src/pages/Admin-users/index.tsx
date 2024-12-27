@@ -39,6 +39,7 @@ const AdminUsersList=()=>{
     const POST = useStore((state: any) => state.POST);
     const { control } = useForm();
     const [roleList,setRoleList]=useState<Role []>([])
+    const companyId = sessionStorage.getItem('companyId');
   /**
    * Fetches the userRole list when the component mounts.
    */
@@ -54,6 +55,9 @@ const AdminUsersList=()=>{
     const req = {
       offset: 0,
       limit: 5,
+      filters: {
+        companyId
+       },
     };
 
     setSource({
@@ -75,10 +79,10 @@ const AdminUsersList=()=>{
     return data.map((item: any) => {
       return {
         ...item,
-        name: item?.user?.firstName, 
-        role:item?.role?.roleName,
-        email:item?.user?.email,
-        phone:item?.user?.phone,
+        name: item?.firstName, 
+        role:item?.userRoles?.[0]?.role?.roleName,
+        email:item?.email,
+        phone:item?.phone,
         status:item?.user?.statusId
       };
     });
