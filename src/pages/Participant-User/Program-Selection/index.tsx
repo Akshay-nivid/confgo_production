@@ -1,20 +1,15 @@
 
 import CustomButton from "@/components/CustomButton/CustomButton";
-import CustomCheckbox from "@/components/CustomCheckbox/CustomCheckbox";
 import useStore, { POST, GET, setDataById, IStoreState, snackBar } from "@/Libs/store";
 import routes from "@/router/routes";
-import { Backdrop, Box, Chip, CircularProgress, Typography } from "@mui/material";
+import { Backdrop, Box, CircularProgress, Typography } from "@mui/material";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Navigate, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
-import { formatDate, handleClickBackButton, handleGroupData, isAnyProgramSelectedForDate, processFormData, toggleProgramCheckboxesByDate, validateAddon } from "./programsHandlers";
-import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
-import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
+import {  handleClickBackButton, handleGroupData, processFormData, toggleProgramCheckboxesByDate, validateAddon } from "./programsHandlers";
 import clsx from "clsx";
-import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
 import AddonCard from "../Components/AddonCard";
 import Programcard from "../Components/Programcard";
 import parse from 'html-react-parser';
@@ -57,7 +52,7 @@ const ProgramSelection = () => {
   const navigate = useNavigate();
   const methods = useForm<any>({ defaultValues: {} });
 
-  const { control, handleSubmit, setValue, watch, getValues, reset } = methods
+  const { handleSubmit, setValue, getValues, reset } = methods
 
 
   const defaultFormData = useStore((state: any) => state?.compData?.["defaultProgramData"]?.formData) || undefined;
@@ -429,61 +424,3 @@ const ProgramSelection = () => {
 
 
 export default ProgramSelection;
-
-
-
-
-
-
-
-
-
-
-// <Grid columnSpacing={2} container key={program.id} className={clsx("program-list-container", watch(`${formatDate(date)}-programs`)?.includes(program?.id) ? 'checked' : 'un-checked')}>
-
-//   <Grid size={'grow'} container>
-
-//     <Grid size={12} borderRadius={10} width={"max-content"} className="mb-1">
-//       <Chip className="time-chip" size="medium" icon={<TimerOutlinedIcon />} label={moment(program?.startTime).format("h:mm A") + ' ' + '-' + ' ' + moment(program?.endTime).format("h:mm A")} />
-//     </Grid>
-
-//     <Grid size={12} className="mb-1 " >
-//       <Typography className="program-name">{program.name}</Typography>
-//     </Grid>
-
-//     <Grid size={12}  >
-//       <Typography className="program-description">
-//         {program.description}
-//       </Typography>
-//     </Grid>
-
-//     <Grid className=" program-checkbox-group ">
-//       <CustomCheckbox
-
-//         onChange={() => handleToggleProgramCheckbox(`${formatDate(date)}-programs`)}
-//         control={control}
-//         className="program-list-item-checkbox"
-//         id={program?.name}
-//         name={`${formatDate(date)}-programs`}
-//         setValue={setValue}
-//         options={[
-//           {
-//             label: '',
-//             value: program?.id,
-
-//           },
-//         ]}
-//       />
-//       <Typography className="add-text">{watch(`${formatDate(date)}-programs`)?.includes(program?.id) ? <> Remove <DeleteIcon /> </> : <> Add <AddIcon /> </>}</Typography>
-
-//     </Grid>
-
-
-//   </Grid>
-
-//   <Grid className="program-price">
-//     <Chip className="price-chip" size="medium" icon={<AttachMoneyOutlinedIcon />} label={Math.trunc(Number(program?.amount)) === 0 ? "Free" : `${program?.amount}`} />
-//   </Grid>
-
-//   <Grid className='pl-8' size={12}></Grid>
-// </Grid>

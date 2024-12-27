@@ -14,7 +14,6 @@ import { processFormData, formatDate } from "../Program-Selection/programsHandle
 import { EventRegistrationSuccessIcon } from "@/assets/svg";
 import CloseIcon from '@mui/icons-material/Close';
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
-import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Badge from "../Components/Badge";
@@ -246,23 +245,7 @@ const SelectedPrograms = () => {
    * 
    * @param key - The key of the checkbox in the format "date-addon-addonId".
    */
-  function onAddonCheckboxToggle(key: string) {
-
-    if (key.includes("addon")) {
-
-      const [date, _, id] = key.split("-")
-
-      setValue(`${date}-addonProp-${id}`, [])
-
-    }
-
-    const formData = getValues()
-    const body = processFormData(formData, eventId, participantTypeId)
-
-    handleAddAndGetCart(body, formData)
-    setDataById('defaultProgramData', { formData: formData })
-
-  }
+ 
 
   /**
    * Makes a call to edit cart API and then gets the cart data.
@@ -448,9 +431,8 @@ const SelectedPrograms = () => {
                       {data?.addons?.length > 0 && (
 
                         <Grid container rowSpacing={2} size={12} direction={'row'} className="add-on-list-container">
-                          {data.addons && data?.addons?.map((addon: any, index: number) => {
+                          {data.addons && data?.addons?.map((addon: any) => {
 
-                            const currentAddon = `${formatDate(date)}-addon-${addon?.id}`
                             return (
 
                               <Grid>

@@ -16,12 +16,12 @@ import { useFormContext } from 'react-hook-form';
 interface IProgramcardProps {
   templateId: number | null | undefined, onToggleAddonCheckBox: (param: string) => void, addon: any, date: string
 }
-const AddonCard = ({ templateId, onToggleAddonCheckBox, addon, date }: IProgramcardProps) => {
+const AddonCard = ({ templateId, addon, date }: IProgramcardProps) => {
 
 
   const methods = useFormContext();
 
-  const { control, setValue, watch } = methods
+  const { control, watch } = methods
 
   return (
     <Grid size={{ xs: 12, sm: 6, md: 4 }} className={clsx(`addon-card-${templateId}`, watch(`${formatDate(date)}-programs`)?.includes(addon?.id) ? '' : '')} >
