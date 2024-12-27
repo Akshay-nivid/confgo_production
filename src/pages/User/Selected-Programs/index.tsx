@@ -605,11 +605,6 @@ const SelectedPrograms = () => {
 
           <Grid container flexDirection={"column"} className="grand-total-container">
 
-            {couponData?.data?.coupon?.code && <Grid className="mb_2" container flexDirection={"row"} justifyContent={"space-between"}>
-              <Typography className="sub-text">Coupon Applied</Typography>
-              <Typography className="sub-text">$ {couponData.data?.discountAmount}</Typography>
-            </Grid>}
-
             <Grid container flexDirection={"row"} className="mb_2" justifyContent={"space-between"}>
               <Typography className="sub-text">Event amount</Typography>
               <Typography className="sub-text">$ {cartData?.data?.eventAmount}</Typography>
@@ -625,6 +620,16 @@ const SelectedPrograms = () => {
               <Typography className="sub-text">Addon amount</Typography>
               <Typography className="sub-text">$ {cartData?.data?.addonTotal}</Typography>
             </Grid>
+
+            {cartData?.data?.priceTierDiscount && <Grid container flexDirection={"row"} className="mb_2" justifyContent={"space-between"}>
+              <Typography className="sub-text">Tier Discount</Typography>
+              <Typography className="sub-text">$ {cartData?.data?.priceTierDiscount}</Typography>
+            </Grid>}
+
+            {couponData?.data?.coupon?.code && <Grid className="mb_2" container flexDirection={"row"} justifyContent={"space-between"}>
+              <Typography className="sub-text">Coupon Applied</Typography>
+              <Typography className="sub-text">$ {couponData.data?.discountAmount}</Typography>
+            </Grid>}
 
             <Grid className="divider mb_2" ></Grid>
 
