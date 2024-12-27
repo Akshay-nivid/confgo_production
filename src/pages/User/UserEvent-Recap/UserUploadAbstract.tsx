@@ -99,7 +99,7 @@ const UserUploadAbstract = ({ eventData }: any) => {
 
     return (
         < >
-            <Grid className="upload-abstract" size={12} sx={{ marginTop: '10px' }} container >
+            <Grid className="upload-abstract" size={12} container >
                 <Grid size={{ xs: 12, sm: 8 }} >
                     <Grid size={12}>
                         <Typography className="upload-abstract-header">Upload Abstract</Typography>
@@ -107,7 +107,7 @@ const UserUploadAbstract = ({ eventData }: any) => {
                     <Grid size={12} className="upload-abstract-gap-text">
                         <Typography className="upload-abstract-sub-header">Upload your abstracts to link them to the programme.</Typography>
                     </Grid>
-                    <Grid className="upload-abstract-event-container" container size={12} sx={{ paddingBottom: '66px' }}>
+                    <Grid className="upload-abstract-event-container" container size={12} >
                         <Grid className="upload-abstract-event-container-gap" container size={12}>
                             <Grid size={6}>
                                 <Typography className="upload-abstract-event-container-labelS"> Event Name</Typography>
