@@ -12,14 +12,14 @@ import { setDataById } from '@/Libs/store';
 
 type TicketingSectionProps = {
     data?: any;
-    temp: number | undefined;
+    temp?: number | undefined;
     ref: React.RefObject<HTMLDivElement>;
+    classPrefix?: any;
 }
 
 const TicketingSection = React.memo(
-    React.forwardRef<HTMLDivElement, TicketingSectionProps>(({ data, temp }, ref) => {
+    React.forwardRef<HTMLDivElement, TicketingSectionProps>(({ data, classPrefix }, ref) => {
 
-        const classPrefix = `event-template-ticketing-${temp}`;
         const navigate = useNavigate()
 
 

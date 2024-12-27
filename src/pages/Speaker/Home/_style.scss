@@ -1,0 +1,85 @@
+.speaker-home {
+    padding: 1rem 6.5rem 1rem 6.5rem;
+    &-banner {
+        &-container {
+            margin-top: 1rem;
+            background: url("/src/assets/svg/review-banner.svg") no-repeat bottom center;
+            min-height: 12.5rem;
+            background-size: cover;
+            overflow: hidden;
+            border-radius: 1rem;
+            padding-inline: 3rem;
+            padding-block: 3.33rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            //margin: 1rem 6.5rem 1rem 6.5rem;
+        }
+
+        &-title {
+            font-weight: $font-semibold !important;
+            font-size: $h3 !important;
+            color: $clr_white;
+        }
+
+        &-subtitle {
+            font-size: $h6 !important;
+            color: $clr_white;
+            font-weight: $font_normal !important;
+        }
+    }
+    &-left-section{
+        border-right: 1px solid $clr_light_border_grey;
+        &-title{
+            padding-top: 1rem;
+            font-size: $h5 !important;
+            font-weight: $font-semibold !important;
+        }
+        &-label {
+            font-size: $h6 !important;
+            font-weight: $font_medium !important;
+            color: $light_grey;
+        }
+        &-value {
+            font-size: $h6 !important;
+            font-weight: $font_semibold !important;
+        }
+    }
+    &-right-section {
+        .file-upload{
+            height: 25rem !important;
+        }
+        &-title{
+            font-size: $h6 !important;
+            font-weight: $font-semibold !important;
+        }
+        &-uploaded-container{
+            position: relative; 
+            border: 1px solid $clr_light_border_grey;
+            padding: 1rem;
+            border-radius: 0.65rem;
+            svg {
+                width: 2rem;
+                height: 2rem;
+            }
+            &-text {
+                padding-left: 1rem;
+                font-size: $h6 !important;
+                font-weight: $font_medium !important;
+            }
+            &-name {
+                padding-top: 0.5rem;
+                font-size: $h6 !important;
+                font-weight: $font-semibold !important;
+            }
+            &-remove-icon {
+                position: absolute;
+                top: -1rem; 
+                right: -1rem;
+                background-color: $clr_white; 
+                border-radius: 50%; 
+                cursor: pointer; 
+              }
+        }
+    }
+}

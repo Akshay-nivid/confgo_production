@@ -6,6 +6,7 @@ import { useDropzone, FileRejection, Accept } from "react-dropzone";
 import DeleteIcon from "@mui/icons-material/Close";
 import CustomButton from "../CustomButton/CustomButton";
 import clsx from "clsx";
+import DownloadIcon from "../../assets/svg/abstract-download.svg"
 
 interface Resolution {
   width: number | null;
@@ -23,6 +24,7 @@ interface FileUploadProps {
   width?: string | number;
   height?: string | number;
   className?: string;
+  isAbstract?: boolean;
 }
 
 /**
@@ -40,7 +42,8 @@ const FileUpload: React.FC<FileUploadProps> = ({
   trimClientSide = true,
   width = "30rem",
   height = "30rem",
- className
+ className,
+ isAbstract
 }) => {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -202,13 +205,20 @@ const FileUpload: React.FC<FileUploadProps> = ({
       style={{ width, height }}
       justifyContent={"flex-end"}
     >
-      <Grid {...getRootProps()} className="file-upload-dropzone" size={{ xs: 12 }}>
+      <Grid {...getRootProps()} className={isAbstract?"file-upload-dropzone file-upload-abstract-dropzone": "file-upload-dropzone"} size={{ xs: 12 }}>
         <input {...getInputProps()} />
         {selectedFiles.length === 0 && (
           <Grid>
             {isDragActive ? (
               <Typography>Drop the files here...</Typography>
             ) : (
+              isAbstract?
+              <Grid container className="file-upload-abstract" direction={'column'} justifyContent={'center'} alignItems={'center '}>
+                <Grid>< DownloadIcon /></Grid>
+                <Grid><Typography className="file-upload-abstract-title">Attach Abstract</Typography></Grid>
+                <Grid><Typography className="file-upload-abstract-sub-title">Choose a file(PDF, DOCX), Max file size: 10MB</Typography></Grid>
+              </Grid>
+              :
               <Typography>Drag & drop files here, or click to select files</Typography>
             )}
           </Grid>

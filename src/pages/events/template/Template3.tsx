@@ -82,9 +82,6 @@ const Template3: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     const classPrefix = 'event-template-template3';
 
 
-
-
-    const updatedTemp = data.templateId ?? 1;
     return <Grid container size={{ xs: 12, sm: 12 }}>
         <Grid container size={{ xs: 12, sm: 12 }} className={classPrefix}>
             <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-header`}>
@@ -161,7 +158,7 @@ const Template3: React.FC<TemplateViewProps> = React.memo(({ data }) => {
             )
         }
         {/* Ticketing section */}
-        {(data?.eventPriceTiers?.length > 0) && <TicketingSection ref={tierRef} temp={updatedTemp} data={data} />}
+        {(data?.eventPriceTiers?.length > 0) && <TicketingSection ref={tierRef} classPrefix={`${classPrefix}-ticketing`} data={data} />}
         {/* Register Banner section */}
         {(data?.venue) &&
             <RegisterBannerSection

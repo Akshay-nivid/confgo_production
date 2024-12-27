@@ -79,6 +79,7 @@ const UserLogin = (props: UserProps) => {
     sessionStorage.setItem('userLoggedInType', data?.userRole?.roleName);
     sessionStorage.setItem('isUserLoggedIn', 'true');
     sessionStorage.setItem('ssoUser', 'false');
+    sessionStorage.setItem('userRole', data?.userRole?.roleName);
     setDataById('participantLogin', true);
     apiClient.setToken(data.token);
     setDataById('userDetails', data);

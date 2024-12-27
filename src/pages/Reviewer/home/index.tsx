@@ -4,7 +4,6 @@ import {  Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import clsx from "clsx";
 import { useCallback, useEffect, useState } from "react";
-import ReviewerNavbar from "../ReviewerNavbar";
 
 /**
  * ReviewHome component renders the home page for the reviewer.
