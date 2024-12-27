@@ -23,7 +23,7 @@ const UserUploadAbstract = ({ eventData }: any) => {
     }, [])
     const [uploadFiles, setUploadFiles] = useState<any>();
     const uploadedAbstractData = useStore((state: any) => state?.compData?.["userUploadedAbstract"]?.["userAbstract/list"]?.data) ?? []
-    const uploadedAssetFile = useStore((state: any) => state?.compData?.['assetUpload']?.asset?.data) ?? []
+    // const uploadedAssetFile = useStore((state: any) => state?.compData?.['assetUpload']?.asset?.data) ?? []
    /**
    * function get uploaded user abstract data
    */
@@ -33,8 +33,11 @@ const UserUploadAbstract = ({ eventData }: any) => {
             await POST({
                 url: `userAbstract/list`,
                 body: {
+                    sortBy: "id",
+                    sortDirection: "DESC",
                     filters: {
                         userId: userId
+
                     }
                 },
                 id: 'userUploadedAbstract',
@@ -60,7 +63,7 @@ const UserUploadAbstract = ({ eventData }: any) => {
      * Image upload handles for file upload componet
      */
     const handleImageUpload = (uploadedFile: CustomFile) => {
-        setUploadFiles(uploadedFile?.id)
+        setUploadFiles(uploadedFile);
     };
 
     /** 
@@ -72,15 +75,15 @@ const UserUploadAbstract = ({ eventData }: any) => {
                 url: `userAbstract`,
                 body: {
                     eventId: eventData?.id,
-                    assetId: uploadFiles
+                    assetId: uploadFiles?.id
                 },
                 id: 'userUploadedAbstract',
-                successCB: (context: any) => {
+                successCB: (_context: any) => {
                     setDataById("snackBarInfo", {
                         open: true,
                         autoHideDuration: 2000,
                         severity: "sucess",
-                        message: context?.message,
+                        message: 'Abstract File Uploaded successfully',
                     });
                 },
                 errorCB: (context: any) => {
@@ -147,7 +150,7 @@ const UserUploadAbstract = ({ eventData }: any) => {
                                     <Typography className="upload-abstract-upload-container-box-header">Abstract</Typography>
                                 </Grid>
                                 <Grid className="upload-abstract-upload-container-box-gap">
-                                    <Typography className="upload-abstract-upload-container-box-fileName">{uploadedAssetFile?.name}</Typography>
+                                    <Typography className="upload-abstract-upload-container-box-fileName">{uploadFiles?.name||uploadedAbstractData[0]?.asset?.name}</Typography>
                                 </Grid>
                             </Grid>
                             <Grid container justifyContent={"flex-end"} size={8}>
