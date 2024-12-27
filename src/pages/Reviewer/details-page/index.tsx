@@ -6,7 +6,6 @@ import { Book, DowloadIcon, PdfIcon } from '@/assets/svg';
 import StatusComponent from '@/components/Status/StatusComponent';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import ReactQuill from 'react-quill';
-import ReviewerNavbar from "../ReviewerNavbar";
 
 /**
  * Reviewer component renders the details page for the reviewer.
