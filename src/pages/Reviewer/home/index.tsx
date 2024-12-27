@@ -127,7 +127,7 @@ const ReviewerHome = () => {
     return (
         <Box className="reviewer-main reviewer-home-main">
 
-            <ReviewerNavbar />
+            {/* <ReviewerNavbar /> */}
 
             <Grid container justifyContent={"center"}>
 

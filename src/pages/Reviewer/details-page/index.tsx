@@ -24,7 +24,7 @@ export default function Reviewer() {
     return (
         <Box className="reviewer-main">
 
-            <ReviewerNavbar />
+            {/* <ReviewerNavbar /> */}
 
             <Grid container columnSpacing={2}>
 

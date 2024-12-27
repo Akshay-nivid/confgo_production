@@ -191,7 +191,7 @@
         .program-money-icon {
 
             font-size: $h1 !important;
-            margin-left: -10px;
+            margin-left: -0.8667rem;
           }
         .card-title {
             font-size: $h6 !important;
@@ -379,4 +379,29 @@
         }
 
     }
+}
+
+
+.addon-badge,.program-badge {
+    border: 0.083rem solid  !important;
+    padding-inline: 0.6667rem !important;
+    font-weight:$font-medium !important;
+    border-radius:.3rem ;
+    margin-left: auto;
+    width: max-content;
+    height: max-content;
+}
+
+.program-badge{
+    background-color:$clr_sky_blue_light ;
+    border-color: $clr_sky_blue_dark   !important;
+}
+
+.addon-badge{
+    background-color: $clr_orange_light;
+    border-color:  $clr_orange_medium !important;
+}
+
+.badge-text{
+    font-weight: $font_medium !important;
 }

@@ -10,8 +10,8 @@ import clsx from 'clsx'
  */
 const Badge = ({text,type}:{text:string,type:"addon" | "program"}) => {
   return (
-    <Box className={clsx(type === "addon" ? "border border-orange-200 px-2 font-medium rounded-md ml-auto w-max bg-orange-100 h-max":"border border-sky-200 px-2 font-medium rounded-md ml-auto bg-sky-100 w-max h-max")}>
-        <Typography fontWeight={500}>{text}</Typography>
+    <Box className={clsx(type === "addon" ? "addon-badge ":"program-badge")}>
+        <Typography className='bage-text'>{text}</Typography>
       </Box>
   )
 }
