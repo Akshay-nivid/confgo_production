@@ -191,15 +191,7 @@ const userRoutes = [
 
 const router = createBrowserRouter([
   // Public routes
-  {
-    path: routes.reviewerHome(),
-    element: <ReviewerHome />,
-  },
-  {
-    element: <ReviewDetailsPage />,
-    path:routes.reviewDetails(":id"),
-  },
-  
+
   {
     path: routes.register(),
     element: <Register />,
