@@ -624,7 +624,7 @@
   .money-icon {
 
     font-size: $h1 !important;
-    margin-left: -10px;
+    margin-left: -0.866rem;
   }
 }
 
@@ -637,7 +637,7 @@
 
   .add-text {
     position: absolute;
-    color: white !important;
+    color: $clr_white !important;
     top: 50%;
     right: 50%;
     transform: translate(50%, -50%);

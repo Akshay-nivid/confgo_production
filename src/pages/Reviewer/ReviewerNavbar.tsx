@@ -1,6 +1,11 @@
 import Grid from "@mui/material/Grid2";
 import {Avatar, Typography} from '@mui/material';
 
+/**
+ * ReviewerNavbar component renders the top navigation bar for the reviewer
+ * It displays a logo and avatar
+ */
+
 const ReviewerNavbar = () => {
     return (
         <Grid container className="reviewer-nav-wrapper">

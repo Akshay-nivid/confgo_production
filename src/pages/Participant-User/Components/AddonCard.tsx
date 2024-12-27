@@ -16,6 +16,16 @@ import { useFormContext } from 'react-hook-form';
 interface IProgramcardProps {
   templateId: number | null | undefined, onToggleAddonCheckBox: (param: string) => void, addon: any, date: string
 }
+/**
+ * AddonCard component renders a single add-on event card with 
+ * basic information like name, description, date, time and price.
+ * It also renders a list of add-on properties with checkboxes
+ * to select desired properties. At the bottom of the component
+ * there is a checkbox to select/unselect the add-on.
+ * @param {IProgramcardProps} props - An object containing
+ * templateId, addon, date and onToggleAddonCheckBox function.
+ * @returns {JSX.Element} - A single add-on event card component.
+ */
 const AddonCard = ({ templateId, addon, date }: IProgramcardProps) => {
 
 

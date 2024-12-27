@@ -21,6 +21,20 @@ import ReviewerNavbar from "../ReviewerNavbar";
  */
 
 
+/**
+ * ReviewerHome component renders the home page for the reviewer.
+ * It displays a welcome banner, an abstracts summary, and tasks management
+ * for the Global Healthcare Innovations Summit 2024.
+ * 
+ * The component includes:
+ * - A logo and avatar in the navigation bar.
+ * - A welcome message for the reviewer.
+ * - A summary of abstracts with statistics on total, pending, reviewed,
+ *   approved, and rejected abstracts.
+ * - Tabs for different categories of abstracts.
+ * - A DataGrid for detailed information.
+ */
+
 const ReviewerHome = () => {
 
 

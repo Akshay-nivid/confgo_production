@@ -207,22 +207,6 @@ export const processFormData = (formData: any, id: any, participantTypeId: strin
       return
     }
 
-    // if (key.includes('-addon-') && value !== undefined) {
-
-    //   const addonKey = key.split('-')[2]
-
-
-
-    //   if (value.length > 0) {
-
-    //     addonGroup[addonKey] = {
-    //       addonId: parseInt(addonKey)
-    //     }
-
-    //   }
-
-    //   // return
-    // }
 
 
     if (key.includes('addonProp')) {
@@ -241,27 +225,6 @@ export const processFormData = (formData: any, id: any, participantTypeId: strin
         propertyIds: [...value]
 
       }
-
-
-
-
-
-      // if(!addonGroup[addonKey])
-
-
-      // if (addonGroup[addonKey]) {
-
-
-
-      //   if (!addonGroup[addonKey].propertyIds) {
-      //     addonGroup[addonKey].propertyIds = []
-      //   }
-      //   if (value !== undefined) {
-      //     addonGroup[addonKey].propertyIds = [...value]
-
-      //   }
-
-      // }
 
       return
     }

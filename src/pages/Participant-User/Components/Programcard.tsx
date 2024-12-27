@@ -17,6 +17,16 @@ interface IProgramcardProps {
     templateId:number | null | undefined, handleToggleProgramCheckbox:(param:string)=>void, program:any, date:string 
 }
 
+/**
+ * Programcard component renders a card for each program in the program list
+ * @param {IProgramcardProps} props 
+ * @param {number | null | undefined} props.templateId template id
+ * @param {Function} props.handleToggleProgramCheckbox function to toggle the program checkbox
+ * @param {object} props.program program object
+ * @param {string} props.date date string
+ * @returns {JSX.Element} Programcard component
+ */
+
 const Programcard = ({  templateId, handleToggleProgramCheckbox, program, date }:IProgramcardProps) => {
 
     const methods = useFormContext();
