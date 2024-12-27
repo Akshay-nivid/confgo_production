@@ -166,9 +166,6 @@ const UserDashboard: React.FC = React.memo(() => {
   function getPreviousDay(date: any) {
     return moment(date).subtract(1, 'days').format('YYYY-MM-DD');
   }
-  if (!isLoading && userCompletedEvents) {
-    console.log("User Completed Events:", userCompletedEvents);
-  }
   return (
     <Grid container size={12} className="dashboard" spacing={1}  >
       {/* left */}

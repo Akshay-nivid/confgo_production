@@ -3,6 +3,8 @@
 const routes = {
   home: () => "/",
   dashboard: () => "/dashboard",
+  reviewerHome: () => "/reviewer/home",
+  speakerHome: () => "/speaker/home",
   register: () => "/register",
   events: () => "/events",
   createEvent: () => "/events/create",
@@ -27,6 +29,7 @@ const routes = {
   SetPassword: () => "/setpassword",
   verifyEmail: () => `/verify-email/:token/:id`,
   verfiyForgotEmail:()=>`/change-password/:token/:id`,
+  verifyUserEmail:()=>`/verify-user/:token/:id`,
   user: () => "/user",
   participantHome: (slugName?: string) => `/participant/home/:${slugName}`,
   userLogin: () => "/user/login",

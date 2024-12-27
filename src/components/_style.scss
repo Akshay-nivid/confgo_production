@@ -758,10 +758,11 @@
   max-height: 4.2rem !important;
   min-width: 33rem !important;
   background-color: $clr_white !important;
-  color: $clr_gray_medium !important;
+  color: $clr_silver_gray !important;
   font-weight: $font_normal !important;
   font-size: $h6 !important;
-  border-radius: 0.5rem !important;
+  border-radius: 0.4167rem !important;
+  border-color:$clr_white !important;
   padding-left: 0rem !important;
 
   &-icon {

@@ -2,34 +2,21 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { Avatar, IconButton, Modal, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
-import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import { SubmitHandler, useForm } from "react-hook-form";
-import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { Logger } from "@/Utils/Logger";
 import { useParams } from "react-router-dom";
 import apiClient from "@/Libs/Https/API-client";
-import FileListModal from "@/components/FileUpload/FileListModal";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
-import DeleteIcon from "@mui/icons-material/Delete";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CloseIcon from "@mui/icons-material/Close";
 import { DeleteContributorIcon, EditContributorIcon } from "@/assets/svg";
 import useStore from "@/Libs/store";
 import AddIcon from "@mui/icons-material/Add";
 import config from "../../../../config.json";
-import CreateContributorType from "../CreateContributorType";
 import PersonIcon from '@mui/icons-material/Person';
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
 
-interface CustomFile {
-  id: number;
-  name: string;
 
-}
-interface ContributorType {
-  value: number | string;
-  label: string;
-}
 interface EventParticipant {
   id: number;
   eventId: number;
@@ -60,10 +47,8 @@ type TransformedData = {
 
 const SpeakerCard = (_eventData: any) => {
   const { id } = useParams<Record<string, string | undefined>>();
-  const { handleSubmit, control, reset, formState: { errors }, setValue } = useForm<FormData>();
+  const { handleSubmit, control, reset,watch, formState: { errors }, setValue } = useForm<FormData>();
   const [addContributeView, setAddContributeView] = useState(false);
-  const [contributorType, setContributorType] = useState<ContributorType[]>();
-  const [fileRequired, setFileRequired] = useState(false);
   const [contributorList, setContributorList] = useState([]);
   const [editContributorValue, setEditConrtributorValue] =
     useState<EventParticipant | null>();
@@ -73,12 +58,10 @@ const SpeakerCard = (_eventData: any) => {
   const clearDataById = useStore((state: any) => state?.clearDataById);
   const POST = useStore((state: any) => state.POST);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
-  const [selectedFile, setSelectedFile] = useState<CustomFile | null>(null);
-  const [modalOpen, setModalOpen] = useState(false);
   const baseUrl = config.api.url;
-	const [newTypeView, setNewTypeView] = useState(false);
   const [searchResults, setSearchResults] = useState<TransformedData[]>([]);
   const [loading, setLoading] = useState(false); // To indicate loading state for API
+  const [handleSelectedValue,setHandleSelectedValue]=useState<any>();
 
   
   /**
@@ -88,9 +71,10 @@ const SpeakerCard = (_eventData: any) => {
    */
   function transformUserData(data: any): TransformedData[] {
     return data?.map((item: any) => ({
-      id: item.user?.id,
-      name: `${item.user?.firstName} ${item.user?.lastName} (${item.user.email})`,
-      fullName: `${item.user?.firstName} ${item.user?.lastName}`
+      id: item?.id,
+      name: `${item?.firstName} ${item?.lastName} (${item?.email})`,
+      fullName: `${item?.firstName} ${item?.lastName}`,
+      ...item
     }));
   }
   /**
@@ -117,7 +101,6 @@ const SpeakerCard = (_eventData: any) => {
         message: "Event is Already Published !",
       });
     }else{
-    setSelectedFile(null)
     reset({
       contributorName: "",
       contributorType: "",
@@ -132,16 +115,9 @@ const SpeakerCard = (_eventData: any) => {
 
 
   /**
-   * Handler for submitting the fetch new Types.This function is invoked after a new contributor type is created.
-   */
-  const onTypeCreateSubmitHandler = async () => {
-    await fetchProgramTypes();
-  };
-  /**
    *useEffect to call Api when screen renders
    */
   useEffect(() => {
-    fetchProgramTypes();
     fetchProgramList();
   }, []);
 
@@ -156,7 +132,7 @@ const SpeakerCard = (_eventData: any) => {
         },
       };
       await POST({
-        url: "eventProgram/list",
+        url: "eventSpeaker/list",
         body: requestBody,
         id: "eventProgramList",
         successCB: (context: any) => {
@@ -173,50 +149,7 @@ const SpeakerCard = (_eventData: any) => {
     }
   };
 
-  /**
-   *fetch contributor type list
-   */
-  const fetchProgramTypes = async () => {
-    try {
-      await POST({
-        url: "participant/type/list",
-        body: {
-          filters: {
-            isContributor: 1,
-            eventId: id,
-          }
-        },
-        id: "contributorTypeList",
-        successCB: (context: any) => {
-          if (context?.success) {
-            const options = context?.data?.map((element: any) => ({
-              value: element.name,
-              label: element.name,
-            }));
-            const updatedOptionsData = [...options, { label: "Create New Contributors", value: "other" }];
-            setContributorType(updatedOptionsData);
 
-             // Reset the form field after updating options
-          reset({
-            contributorType: "" // Resets contributorType to an empty value
-          });
-          }
-        },
-        errorCB: (context: any) => {
-          Logger.error("SpeakerCard.tsx", context?.message);
-        },
-      });
-    } catch (error) {
-      Logger.error("SpeakerCard.tsx", error);
-    }
-  };
-
-  /**
-   *function to handle clean file state
-   */
-  const handleFileDelete = () => {
-    setSelectedFile(null);
-  };
 
   type FormData = {
     contributorType: string;
@@ -225,13 +158,6 @@ const SpeakerCard = (_eventData: any) => {
     userInfo: any;
   };
 
-  /**
-   *select field options
-   */
-  const selectOptions = [
-    { value: "other", label: "Other" },
-    { value: "guest", label: "Guest" },
-  ];
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     if (!editContributorValue) {
@@ -239,7 +165,6 @@ const SpeakerCard = (_eventData: any) => {
     } else if (editContributorValue && contributorFields) {
       editContributor(data);
     } else {
-      setFileRequired(true);
     }
   };
   /**
@@ -252,14 +177,10 @@ const SpeakerCard = (_eventData: any) => {
       const requestBody = {
         userId: formData.userInfo?.id,
         eventId: id,
-        name: formData.contributorName,
-        assetId: selectedFile?.id ?? null,
-        designation: formData.contributorType,
-        description: formData.contributorDescription,
         statusId: "1",
       };
       await POST({
-        url: "eventProgram/create",
+        url: "eventSpeaker/create",
         body: requestBody,
         id: "createContributor",
         successCB: (context: any) => {
@@ -300,7 +221,7 @@ const SpeakerCard = (_eventData: any) => {
   const deleteContributor = async (id: number) => {
     try {
       await POST({
-        url: `eventProgram/delete/${id}`,
+        url: `eventSpeaker/delete/${id}`,
         body: {},
         id: "deleteContributor",
         successCB: (context: any) => {
@@ -338,14 +259,11 @@ const SpeakerCard = (_eventData: any) => {
     try {
       const requestBody = {
         eventId: id,
-        name: formData.contributorName,
-        assetId: selectedFile?.id ?? null,
-        designation: formData.contributorType,
-        description: formData.contributorDescription,
+        userId: formData.userInfo?.id,
         statusId: "1",
       };
       const response = await apiClient.put(
-        `eventProgram/${contributorFields?.id}`,
+        `eventSpeaker/${contributorFields?.id}`,
         requestBody
       );
       const { status } = processAPIResponse(response, "editContribution");
@@ -388,21 +306,12 @@ const SpeakerCard = (_eventData: any) => {
         contributorType: item.designation,
         contributorDescription: item.description || "",
       });
-      setSelectedFile(null);
     }
     else{
       reset()
     }
     setDataById("contributorFields", item);
     setEditConrtributorValue(item);
-
-    if (item?.assetId) {
-      setSelectedFile({
-          id: item.assetId,
-          name:item?.name,
-
-      });
-  }
     handleScreenViewChange();
     }
   };
@@ -423,15 +332,6 @@ const SpeakerCard = (_eventData: any) => {
     setDeleteModal(true);
     }
   };
-  /**
-   * function to close the new type creation drawer
-   */
-  const handleDrawerClose = () => {
-    setAddContributeView(true);
-    setNewTypeView(false);
-   reset()
-  };
-
    /**
     *  Function to handle search API for autocomplete
     */ 
@@ -440,7 +340,7 @@ const SpeakerCard = (_eventData: any) => {
     try {
       const req = {
         filters: {
-          roleId: 6,
+          roleEnums: ['SPEAKER'],
           name: query
         },
       };
@@ -462,6 +362,7 @@ const SpeakerCard = (_eventData: any) => {
     * @param selected : userId
     */
   const handleUserSelection = (selected: any) => {
+      selected&&setHandleSelectedValue(selected);
       selected && setValue('contributorName',selected?.fullName)
   };
 
@@ -598,140 +499,34 @@ const SpeakerCard = (_eventData: any) => {
                         control={control}
                         placeholder="Search Contributor User"
                         options={searchResults} // Dynamic options based on API results
-                        getOptionLabel={(option: any) => option.name || ""} // Adjust based on your data structure
+                        getOptionLabel={(option: any) => option.name || ''} // Adjust based on your data structure
                         onSearch={handleSearch} // Call the search function
                         loading={loading}
                         rules={{ required: true }}
                         onChange={handleUserSelection}
                       />
                     </Grid>
-                    <Grid size={{ xs: 12 }}>
-                        <CustomTextField
-                          defaultValue={contributorFields?.name}
-                          rules={{ required: true }}
-                          control={control}
-                          placeholder="Name"
-                          name="contributorName"
-                          label="Name"
-                          requiredField={true}
-                          readOnly={true}
-                        />
-                      </Grid>
-                    <Grid container size={{ xs: 12 }}>
-                      <CustomSelect
-                        name="contributorType"
-                        label="Designation"
-                        options={contributorType ?? selectOptions}
-                        optionClick={(value) => {
-                          if (value === "other") {
-                            setNewTypeView(true);
-                            setAddContributeView(false);
-                          }
-                        }}
-                        control={control}
-                        rules={{ required: true }}
-                        defaultValue={contributorFields?.designation}
-                        className={errors['contributorType']? "border-error-input": ""}
-                        fullWidth
-                      />
+                   {handleSelectedValue && watch('contributorName')&& < >
+                    <Grid size={{xs:12,sm:6}}>
+                    <Typography className="event-detail-speakers-card-speaker-content">Name</Typography>
                     </Grid>
-                      
-                      <Grid container size={{ xs: 12 }}>
-                        <CustomTextField
-                          defaultValue={contributorFields?.description ?? ""}
-                          rules={{ required: true }}
-                          rows={4}
-                          multiline={true}
-                          placeholder="Description"
-                          control={control}
-                          name="contributorDescription"
-                          label="Description"
-                          requiredField={true}
-                        />
-                      </Grid>
-
-                    <Grid></Grid>
+                    <Grid size={{xs:12,sm:6}}>
+                    <Typography className="event-detail-speakers-card-speaker-content">{handleSelectedValue?.firstName}{" "}{handleSelectedValue?.lastName}</Typography>
+                    </Grid>
+                    <Grid size={{xs:12,sm:6}}>
+                    <Typography className="event-detail-speakers-card-speaker-content">Email</Typography>
+                    </Grid>
+                    <Grid size={{xs:12,sm:6}}>
+                    <Typography className="event-detail-speakers-card-speaker-content">{handleSelectedValue?.email}</Typography>
+                    </Grid>
+                    <Grid size={{xs:12,sm:6}}>
+                    <Typography className="event-detail-speakers-card-speaker-content">Phone</Typography>
+                    </Grid>
+                    <Grid size={{xs:12,sm:6}}>
+                    <Typography className="event-detail-speakers-card-speaker-content">{handleSelectedValue?.phone}</Typography>
+                    </Grid>
+                    </>}
                   </Grid>
-                  {/* Image Picker */}
-                  <Grid
-                    container
-                    className="event-detail-speakers-card-btn-container"
-                    alignItems="center"
-                    justifyContent="flex-start"
-                    flexDirection="row"
-                  >
-                    {/* Select Photo Button */}
-                    <Grid>
-                      {modalOpen && (
-                        <FileListModal
-                          open={modalOpen}
-                          handleClose={() => setModalOpen(false)}
-                          onSelectFile={(files: CustomFile[]) => {
-                            if (files && files.length > 0) {
-                              setSelectedFile(files[0]); // Set only the first selected file
-                            }
-                            setFileRequired(false);
-                            setModalOpen(false);
-                          }}
-                          companyId={_eventData.companyId}
-                          multipleSelect={false}
-                          imagesPerRow={4}
-                        />
-                      )}
-                      {fileRequired && (
-                        // <Typography className="event-detail-speakers-card-btn-container-photo-txt">
-                        //   Please Select an Image
-                        // </Typography>
-                      <Avatar>
-                        <PersonIcon />
-                      </Avatar>
-                      )}
-                    </Grid>
-
-                    {/* Selected Image Display */}
-                    {selectedFile ? (
-                      <Grid direction="column" alignItems="center">
-                        <img
-                          src={`${baseUrl}asset/${selectedFile.id}`}
-                          alt={selectedFile.name}
-                          className="event-detail-speakers-card-btn-container-selected-img"
-                          style={{ maxWidth: 100, maxHeight: 100 }}
-                        />
-                        <Grid
-                          container
-                          direction="column"
-                          alignItems="center"
-                          justifyContent="center"
-                        >
-                          {/* <Grid> */}
-                            <Typography variant="body2" align="center">
-                              {selectedFile.name}
-                            </Typography>
-                            <IconButton
-                              aria-label="delete"
-                              size="small"
-                              onClick={handleFileDelete}
-                            >
-                              <DeleteIcon fontSize="small" />
-                            </IconButton>
-                          {/* </Grid> */}
-                        </Grid>
-                      </Grid>
-                    ):(
-                      <Avatar className="event-detail-speakers-card-btn-container-selected-img">
-                        <PersonIcon className="event-detail-speakers-card-btn-container-selected-img-icon"/>
-                      </Avatar>
-                    )}
-                    <Grid  ml={2}>
-                      <CustomButton
-                        className="event-detail-speakers-card-btn-container-photo-btn"
-                        label="Select Photo"
-                        variant="outlined"
-                        onClick={() => setModalOpen(true)}
-                      />
-                    </Grid>
-                    
-                  </Grid >
                   <Grid container justifyContent="flex-end" alignItems="center" size={12}>
                     <CustomButton
                       className="event-detail-speakers-card-btn-container-submit-btn"
@@ -780,12 +575,6 @@ const SpeakerCard = (_eventData: any) => {
           </Grid>
         </Grid>
       </Modal>
-      <CustomDrawer
-        children={<CreateContributorType submitHandler={onTypeCreateSubmitHandler} closeDrawer={handleDrawerClose} />}
-        open={newTypeView}
-        type="right"
-        onClose={() => handleDrawerClose}
-      />
     </Grid>
   );
 };

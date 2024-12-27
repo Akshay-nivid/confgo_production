@@ -241,3 +241,25 @@ export const truncateString = (str: string | undefined, limit: number, fallback:
     if (!str) return fallback;
     return str.length > limit ? `${str.substring(0, limit)}...` : str;
 };
+
+/**
+ * Method transforms the start time and end time to November 20-25, 2024 like format
+ * @param startTime : start time
+ * @param endTime : end time
+ * @returns : November 20-25, 2024 like format
+ */
+export const formatDateRange = (startTime: string, endTime: string) => {
+  const start = moment(startTime);
+  const end = moment(endTime);
+
+  if (start.month() === end.month() && start.year() === end.year()) {
+    // Same month and year
+    return `${start.format('MMMM D')}-${end.format('D, YYYY')}`;
+  } else if (start.year() === end.year()) {
+    // Same year but different month
+    return `${start.format('MMMM D')}-${end.format('MMMM D, YYYY')}`;
+  } else {
+    // Different year
+    return `${start.format('MMMM D, YYYY')} - ${end.format('MMMM D, YYYY')}`;
+  }
+};
