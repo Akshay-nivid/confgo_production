@@ -1,0 +1,407 @@
+.event-card {
+    border: solid 0.1rem $clr_light_sky_blue;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    height: auto !important;
+
+    &-date-box {
+        font-weight: $font_semibold;
+        margin-top: 0.4rem;
+        padding: 0.2rem;
+        border-radius: 0.3rem !important;
+        max-width: 16rem;
+        background-color: $clr_orange_dark;
+        height: 2rem !important;
+        color: $clr_black;
+        text-align: center;
+    }
+
+    &-date-title {
+        font-size: $p6 !important;
+    }
+
+    &-title {
+        margin-top: 0.9375rem;
+        font-weight: $font_semibold !important;
+        font-size: $h5 !important;
+        font-family: $font;
+        padding-right: 0rem;
+        max-lines: 1;
+
+        // For medium devices between 1024px and 1182px
+        @media (min-width: 1024px) and (max-width: 1190px) {
+            font-size: $p1 !important; // Custom font size for this range
+        }
+
+        // For iPad Air resolution (820px width)
+        @media (min-width: 820px) and (max-width: 840px) {
+            font-size: $p2 !important; // Adjust font size for iPad Air
+        }
+
+        // For smaller screens (below 768px)
+        @media (max-width: 768px) {
+            font-size: $p6 !important; // Further reduce for small screens
+        }
+    }
+
+    &-location {
+        font-family: $font;
+        font-size: $p2 !important;
+        font-weight: $font_medium;
+        color: $clr_black;
+        text-align: padding-top;
+
+        // For medium devices between 1024px and 1182px
+        @media (min-width: 1024px) and (max-width: 1182px) {
+            font-size: $p3 !important; // Custom font size for this range
+        }
+    }
+
+    &-status {
+        font-family: $font;
+        font-size: $p2 !important;
+        font-weight: $font_normal !important;
+        line-height: 1.059rem;
+        margin-top: 0.9rem;
+        color: $clr_black;
+
+        .content {
+            display: flex;
+            align-items: center;
+        }
+
+        .status-componenet {
+            width: 8.8rem !important;
+            border-radius: 0.49875rem 0rem 0rem 0rem;
+        }
+    }
+
+    &-certificate {
+        margin-top: 1rem;
+
+        &-label {
+            font-weight: $font_medium !important;
+            font-size: $p2 !important;
+            color: $clr_blue;
+            cursor: pointer;
+
+            &-bar {
+                font-weight: $font_medium !important;
+                font-size: $p2 !important;
+                color: $clr_black;
+                cursor: pointer;
+            }
+        }
+    }
+
+    &-button {
+        margin-top: 1rem !important;
+        background-color: $clr_blue !important;
+        color: $clr_white !important;
+    }
+
+}
+
+
+
+
+
+.program-checkbox-group,
+.addon-checkbox-group {
+
+    &-1,
+    &-2,
+    &-3 {
+        padding: 0;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        position: relative;
+
+        .add-text {
+            color: $clr_bright_mint_green !important;
+            cursor: pointer;
+            pointer-events: none;
+            position: absolute;
+            color: $clr_white !important;
+            top: 50%;
+            right: 50%;
+            transform: translate(50%, -50%);
+            font-size: $p1 !important;
+            font-weight: $font-medium !important;
+            display: flex;
+            align-items: center;
+            column-gap: .5rem;
+        }
+
+        .MuiFormControl-root {
+            width: 100% !important;
+            border-radius: 0.5rem !important;
+
+            svg {
+                width: 0 !important;
+            }
+        }
+
+
+    }
+
+    &-1 {
+        .MuiFormControl-root {
+            background-color: $clr_charcoal_cyan !important;
+        }
+
+
+    }
+
+    &-2 {
+        .MuiFormControl-root {
+            background-color: $clr_bright_mint_green !important;
+        }
+    }
+
+    &-3 {
+        .MuiFormControl-root {
+            background-color: $clr_dark_navy_blue !important;
+        }
+    }
+}
+
+
+
+
+.program-card {
+
+    &-1,
+    &-2,
+    &-3 {
+        background-color: $clr_gray_10_percent !important;
+        border: 0.083rem solid $clr_gray_30_percent !important;
+        border-radius: .5rem !important;
+        padding: 1.667rem;
+        padding-bottom:4rem ;
+        padding-top: 1rem !important ;
+        position: relative !important;
+        box-shadow:$clr_gray_30_percent 0rem 0.083rem .167rem 0;
+
+        .program-descritption{
+            color: $clr_gray_dark_text !important;
+
+        }
+
+        .program-money-icon {
+
+            font-size: $h1 !important;
+            margin-left: -0.8667rem;
+          }
+        .card-title {
+            font-size: $h6 !important;
+            font-weight: $font_medium !important;
+            margin-bottom: 0.5rem !important;
+        }
+
+        .price-group{
+            padding-top: .667rem !important;
+            padding-bottom: 1.667rem !important;
+
+            .program-price{
+                font-size: $h4 !important;
+                margin-left: -.5rem !important;
+                font-weight: $font_bold !important;
+            }
+        }
+
+      
+        .program-checkbox-wrapper{
+            position: absolute;
+            left: 1.667rem;
+            right: 1.667rem;
+            bottom: 1rem;   
+
+            
+        }
+    }
+
+    &-1 {
+        overflow: hidden;
+
+
+
+    }
+   
+}
+
+.addon-card {
+
+    &-1,
+    &-2,
+    &-3 {
+        background-color: $clr_gray_10_percent !important;
+        border: 0.083rem solid $clr_gray_30_percent !important;
+        border-radius: .5rem !important;
+        padding-block: 1rem !important;
+        padding-inline: 1.667rem !important;
+        position: relative !important;
+        box-shadow:$clr_gray_30_percent 0rem 0.083rem .167rem 0;
+
+        .divider {
+            height: .08rem;
+            background-color: $clr_gray_30_percent;
+            margin-block: .5rem;
+            
+        }
+
+        .addon-name{
+            font-size: $h5 !important;
+            font-weight: $font_medium !important;
+            margin-bottom: 0.5rem !important;
+        }
+
+        .addon-description {
+            color: $clr_gray_dark_text !important;
+        }
+
+        
+        
+
+        .addon-property-list-container{
+            margin-top: .8667rem;
+        }
+
+
+    }
+    
+}
+
+.addon-property-checkbox-group {
+
+    &-1,
+    &-2,
+    &-3 {
+
+        .MuiFormControlLabel-root {
+            margin-right: 0 !important;
+        }
+
+        .addon-prop-label {
+            font-size: $p2 !important;
+            font-weight: $font-medium;
+            margin-right: .7rem;
+        }
+
+        .addon-prop-money-icon {
+            font-size: $h3 !important;
+            font-weight: $font-medium !important;
+            color: $clr_gray_dark_text !important;
+
+        }
+
+        .addon-prop-amount {
+            font-size: $h6 !important;
+            font-weight: $font-medium !important;
+            color: $clr_gray_dark_text !important;
+        }
+    }
+
+    &-1 {
+        .addon-prop-checkbox svg {
+            fill: $clr_charcoal_cyan !important
+        }
+
+        .addon-prop-label {
+            color: $clr_charcoal_cyan !important;
+
+        }
+
+    }
+
+    &-2 {
+        .addon-prop-checkbox svg {
+            fill: $clr_bright_mint_green!important
+        }
+
+        .addon-prop-label {
+            color: $clr_bright_mint_green !important;
+
+        }
+
+    }
+
+    &-3 {
+        .addon-prop-checkbox svg {
+            fill: $clr_dark_navy_blue !important
+        }
+
+        .addon-prop-label {
+            color: $clr_dark_navy_blue !important;
+
+        }
+
+    }
+
+    
+}
+
+
+.program-card,
+.addon-card {
+
+    &-1, &-2, &-3 {
+        .date-time-container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            column-gap: 0.667rem;
+            padding-block: 0.333rem;
+            width: max-content;
+            color: $clr_gray_dark_text !important;
+            margin-top: 0.833rem;
+        }
+
+        .time-container{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.1667rem;
+            padding-top: 0.0833rem;
+            padding-bottom: 0.0833rem;
+            width: max-content;
+            border-radius: 0.0833rem;
+            color:$clr_gray_dark_text !important;
+            margin-top: .8rem;
+            column-gap: 0.6rem;
+            margin-bottom: .3rem;
+
+            .addon-time{
+                margin-top: .18rem;
+            }
+
+            
+        }
+
+    }
+}
+
+
+.addon-badge,.program-badge {
+    border: 0.083rem solid  !important;
+    padding-inline: 0.6667rem !important;
+    font-weight:$font-medium !important;
+    border-radius:.3rem ;
+    margin-left: auto;
+    width: max-content;
+    height: max-content;
+}
+
+.program-badge{
+    background-color:$clr_sky_blue_light ;
+    border-color: $clr_sky_blue_dark   !important;
+}
+
+.addon-badge{
+    background-color: $clr_orange_light;
+    border-color:  $clr_orange_medium !important;
+}
+
+.badge-text{
+    font-weight: $font_medium !important;
+}
