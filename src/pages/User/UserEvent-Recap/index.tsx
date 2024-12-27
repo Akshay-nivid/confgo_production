@@ -1,5 +1,5 @@
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
-import { Button,Typography } from "@mui/material";
+import { Button,Tab,Tabs,Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -13,6 +13,7 @@ import QRCode from 'qrcode';
 import jsPDF from 'jspdf';
 import moment from "moment";
 import { SkeletonList } from "@/components/Skeleton";
+import UserUploadAbstract from "./UserUploadAbstract";
 
 /**
  * 
@@ -317,7 +318,15 @@ const EventRecap: React.FC = React.memo(() => {
           console.error('Error loading image or generating PDF:', error);
         }
       }
-    
+      const tabInfo = useStore((state: any) => state?.compData?.["eventTab"])
+    /**
+ * Handles the tab change event by updating the active tab index btw account-settings and security 
+ */
+const handleTabChange = (_: React.SyntheticEvent, newIndex: number) => {
+    setDataById("eventTab", { tabIndex: newIndex }); 
+  };
+
+  console.log(eventData![0]?.isAbstract,'88309490349009')
     return (
         <>
             {eventLoading ? (
@@ -377,12 +386,19 @@ const EventRecap: React.FC = React.memo(() => {
                             </Grid>
                         </Grid>
                     </Grid>
+                    <Grid  size={{ xs: 12, sm: 12 }}>
+                    <Tabs value={tabInfo?.tabIndex} className='my-event-tabs' onChange={handleTabChange}>
+                        <Tab label="Registered Programmes" className='account-tab-title account-tabs'></Tab>
+                        {eventData![0]?.isAbstract==1&& <Tab label="Upload Abstract" className="account-tab-title account-tabs"></Tab>}
+                    </Tabs>
+                    </Grid>
+                    {tabInfo?.tabIndex === 0 ? (
                     <Grid className="event-recap-second-grid"  container size={12}>
-                        <Grid size={12} >
+                        {/* <Grid size={12} >
                             <Typography className="event-recap-second-grid-text">
                                 Registered Programmes
                             </Typography>
-                        </Grid>
+                        </Grid> */}
 
                         {Program?.data.map((item: any) => {
                             return(
@@ -409,7 +425,8 @@ const EventRecap: React.FC = React.memo(() => {
                             </Grid>
                         )})}
 
-                    </Grid>
+                    </Grid>):<UserUploadAbstract eventData={eventData&&eventData![0]}/>
+                    }
 
                 </Grid>
             )}
