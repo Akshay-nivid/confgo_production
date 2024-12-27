@@ -10,16 +10,16 @@ import routes from '@/router/routes';
 
 type TitleSectionProps = {
     data?: any;
-    temp: number;
+    classPrefix?: string;
     onScrollToTier?: any;
+    temp?: any;
 }
 
 /**
  * Displays the title section
  */
-const TitleSection: React.FC<TitleSectionProps> = React.memo(({ data, temp,onScrollToTier }) => {
+const TitleSection: React.FC<TitleSectionProps> = React.memo(({ data, classPrefix,onScrollToTier }) => {
 
-    const classPrefix = `event-template-title-${temp}`;
     const navigate = useNavigate();
 
 
@@ -47,12 +47,10 @@ const TitleSection: React.FC<TitleSectionProps> = React.memo(({ data, temp,onScr
     }
 
 
-    return <Grid container className={`${classPrefix}`} direction={'column'} alignItems={temp === 2? 'center': 'flex-start'}>
+    return <>
         <Grid><Typography className={`${classPrefix}-title1`}>{data?.name}</Typography></Grid>
-        {/* <Grid><Typography className={`${classPrefix}-title2`}>Annual Conference 2024</Typography></Grid>
-        <Grid><Typography className={`${classPrefix}-sub-title`}>Uniting Expertise, Advance Anaesthesia Practices</Typography></Grid> */}
-        <Grid><CustomButton label="Register Now" className={`${classPrefix}-register-button`} onClick={(e)=>handleClickRegister(e)}/></Grid>
-    </Grid>
+        <Grid><CustomButton label="Register Now" className={`${classPrefix}-register-button`} onClick={(e) => handleClickRegister(e)} /></Grid>
+        </>
 });
 
 export default TitleSection;

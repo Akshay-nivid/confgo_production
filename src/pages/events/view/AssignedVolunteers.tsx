@@ -119,9 +119,9 @@ const AssignedVolunteers = ({ onClose, data }: AssignedVolunteersProps) => {
                         >
                             <CardContent className='assigned-volunteer-container-card'>
                                 <Typography variant="subtitle1" className='assigned-volunteer-name'>
-                                    {volunteer.user.firstName}
+                                    {volunteer.participant.user.firstName}
                                 </Typography>
-                                <Typography variant="body2" className='assigned-volunteer-phone'>{volunteer.user.phone}</Typography>
+                                <Typography variant="body2" className='assigned-volunteer-phone'>{volunteer.participant.user.phone}</Typography>
                             </CardContent>
                             <IconButton
                                 onClick={() => handleDelete(volunteer.id)}

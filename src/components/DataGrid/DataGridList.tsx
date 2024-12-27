@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import useStore from '../../Libs/store';
 import apiClient from '../../Libs/Https/API-client';
 import { processAPIResponse } from '../../Utils/CommonBaseClass';
-import { CircularProgress, MenuItem, Pagination, Select, Typography } from '@mui/material';
+import { MenuItem, Pagination, Select, Typography } from '@mui/material';
 import { Logger } from '../../Utils/Logger';
 import Grid from '@mui/material/Grid2';
 import StatusComponent from '../Status/StatusComponent';
@@ -11,6 +11,7 @@ import { NoRecords } from '../NoRecords/NoRecords';
 import { ISource } from '@/Libs/type';
 import moment from 'moment';
 import { NoEvent } from '@/assets/svg';
+import { SkeletonList } from '../Skeleton';
 
 type DefColumn = {
     type?: string;
@@ -30,9 +31,9 @@ type DataGridListProps = {
     title?: string
     onRowClick?: (params: any) => void;
     subNode?: string;
-    noRecordIcon?:React.ReactNode;
+    noRecordIcon?: React.ReactNode;
     noRecordTitle?: string;
-    noRecordSubtitle?:string;
+    noRecordSubtitle?: string;
     redirectTo?: () => string;
     btnName?: string;
     isTargetGrid?: boolean;
@@ -42,14 +43,14 @@ type DataGridListProps = {
  * Method used to render listing
  * @returns 
  */
-export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFooterPagination, source, dataTransformer, onRowClick, subNode, data,noRecordIcon,noRecordTitle,noRecordSubtitle,redirectTo,btnName,isTargetGrid}) => {
+export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFooterPagination, source, dataTransformer, onRowClick, subNode, data, noRecordIcon, noRecordTitle, noRecordSubtitle, redirectTo, btnName, isTargetGrid }) => {
     const setDataById = useStore((state: any) => state.setDataById)
     const dataInfo = useStore((state: any) => state?.compData?.[id]) ?? [];
     const prevPageRef = useRef<any>();
     const pageSize = dataInfo.source?.data?.limit || 5;
     const currentPage = dataInfo.currentPage || 1;
     const [loading, setLoading] = useState(false); // Added loading state
-    const noRecordImg = noRecordIcon || <NoEvent/>;
+    const noRecordImg = noRecordIcon || <NoEvent />;
     /**
      * Method used to find screen height and set datagrid height
      */
@@ -134,7 +135,7 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
                     cellClassName: 'default-label flex',
                     renderCell: (params: any) => {
                         const published = params.row.published
-                        return <StatusComponent className="data-grid-status" value={ published === true && params.value == 1 ? "6" : params.value } />;
+                        return <StatusComponent className="data-grid-status" value={published === true && params.value == 1 ? "6" : params.value} />;
                     }
                 };
             }
@@ -220,7 +221,7 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
     return (
         <Grid container className="custom-data-grid-grid" justifyContent={'center'}>
             {loading ? (
-                <CircularProgress />
+                <SkeletonList height={20} className="mt-4" />
             ) : dataInfo?.data && dataInfo?.data?.length > 0 ? (
                 <Grid className="w-full h-full flex flex-col">
                     <DataGrid
@@ -257,10 +258,8 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
                 </Grid>
             ) : (
                 <Grid container size={12} justifyContent={"center"} alignContent={"center"}>
-                     <NoRecords noRecordImage={noRecordImg} noRecordSubtitle={noRecordSubtitle} noRecordTitle={noRecordTitle} redirectTo={redirectTo} btnName={btnName}/>
-                     
+                    <NoRecords noRecordImage={noRecordImg} noRecordSubtitle={noRecordSubtitle} noRecordTitle={noRecordTitle} redirectTo={redirectTo} btnName={btnName} />
                 </Grid>
-               
             )}
         </Grid>
     );

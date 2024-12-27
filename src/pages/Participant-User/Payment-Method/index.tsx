@@ -73,12 +73,16 @@ const PaymentMethod = () => {
               <Typography className="info-text">$ {orderData?.tax}</Typography>
             </Box>
             <Box className="payment-bill-item">
-              <Typography className="info-text">Discount</Typography>
-              <Typography className="info-text">$ {orderData?.discountAmount}</Typography>
+              <Typography className="info-text">Tier Discount</Typography>
+              <Typography className="info-text">$ {orderData?.priceTierDiscount}</Typography>
             </Box>
             <Box className="payment-bill-item">
               <Typography className="info-text">Sub Total</Typography>
               <Typography className="info-text">$ {orderData?.subTotal}</Typography>
+            </Box>
+            <Box className="payment-bill-item">
+              <Typography className="info-text">Coupon Discount</Typography>
+              <Typography className="info-text">$ {orderData?.discountAmount}</Typography>
             </Box>
           </Box>
           <Box className="divider"></Box>

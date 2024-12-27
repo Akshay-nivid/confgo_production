@@ -7,17 +7,16 @@ import { MapIframe } from './MapIFrame';
 
 type LocationSectionProps = {
     data?: any;
-    temp: number;
+    classPrefix?: string;
     onScrollToTier?: any;
+    temp?: any;
 }
 
 /**
  * Displays the title section
  */
-const LocationSection: React.FC<LocationSectionProps> = React.memo(({ data, temp,onScrollToTier}) => {
+const LocationSection: React.FC<LocationSectionProps> = React.memo(({ data, classPrefix,onScrollToTier}) => {
 
-    const classPrefix = `event-template-location-${temp}`;
-   
 
     return <Grid container size={{ xs:12, sm:12 }} className={`${classPrefix}`} ref={onScrollToTier}>
        {data?.venue?.mapUrl? <MapIframe url={data?.venue?.mapUrl} />:

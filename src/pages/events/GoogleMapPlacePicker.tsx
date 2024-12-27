@@ -1,5 +1,4 @@
 import Grid from "@mui/material/Grid2";
-import config from "../../../config.json";
 import ReactGooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import { useState } from "react";
 import { IconButton, Typography } from "@mui/material";
@@ -21,7 +20,6 @@ type AddressComponent = {
 
 const GoogleMapPlacePicker = ({ onClose }: GooglePlacePickerProps) => {
   const { setValue } = useFormContext();
-  const GOOGLE_API_KEY = config?.google_api_key;
   const [selectedPlace, setSelectedPlace] = useState<any>();
   const [latLng, setLatLng] = useState<any>();
   const [address, setAddress] = useState<AddressComponent[]>();
@@ -110,10 +108,9 @@ const GoogleMapPlacePicker = ({ onClose }: GooglePlacePickerProps) => {
           <CloseOutlined />
         </IconButton>
       </Grid>
-      <Grid size={12} justifyContent={"center"} >
+      <Grid size={12} justifyContent={"center"} id="event-location-search-field" >
         {/* Location choose google componet */}
         <ReactGooglePlacesAutocomplete
-          apiKey={GOOGLE_API_KEY}
           selectProps={{
             value: selectedPlace,
             onChange: handlePlaceSelect,
@@ -123,8 +120,11 @@ const GoogleMapPlacePicker = ({ onClose }: GooglePlacePickerProps) => {
                   ...provided,
                   display: 'none',  // Hide the down arrow icon
                 }),
+                
               },
+              isClearable:true
           }}
+          
         />
       </Grid>
       <Grid container size={12} spacing={2} justifyContent={"flex-end"}>

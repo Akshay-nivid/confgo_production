@@ -4,6 +4,7 @@ import { Typography } from '@mui/material';
 import StatusComponent from '@/components/Status/StatusComponent';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import { formatDateTimeRange, toTitleCase, truncateString } from '@/Utils/CommonBaseClass';
+import CustomTooltip from '@/components/CustomToolTip/CustomTooltip';
 
 interface EventProps {
     datetitle: string;
@@ -23,15 +24,18 @@ interface EventProps {
  * user Dashboard eventCard component
  */
 const EventCard: React.FC<EventProps> = React.memo(({ eventFullData, datetitle, title, location, viewButton, buttonPress, squareButton, squareButtonLabels, onSquareButtonClick, Eventstatus }) => {
+   const attendeeStatus=eventFullData?.participants[0]?. eventParticipants[0]?.event.attendees
     return (
         <Grid container className="event-card" spacing={1} flexDirection={"column"}>
             <Grid container className="event-card-date-box" justifyContent={"center"}>
                 <Typography textAlign={"center"} className="event-card-date-title" >Date: {formatDateTimeRange({ date: datetitle, format: 'MMMM D, YYYY' })}</Typography>
             </Grid>
             <Grid  container>
-            <Typography className="event-card-title" >
+            <CustomTooltip title={title}>
+                <Typography className="event-card-title" >
                 {truncateString(toTitleCase(title), 23, "Untitled")}
                 </Typography>
+               </CustomTooltip> 
             </Grid>
             <Grid container>
             <Typography className="event-card-location">
@@ -39,10 +43,10 @@ const EventCard: React.FC<EventProps> = React.memo(({ eventFullData, datetitle, 
                  </Typography>
             </Grid>
             {Eventstatus &&
-                <Grid  className="event-card-status" container size={12}  >
+                <Grid  className="event-card-status" container size={12}>
                     <Grid container size={12} className="content">
                         <Typography className="event-card-location">Status</Typography>
-                        <StatusComponent value={eventFullData.statusId.toString()} className="status-componenet" />
+                        <StatusComponent value={attendeeStatus.length==0 ? "7" : "8"}  />
                     </Grid>
                 </Grid>}
             {squareButton &&

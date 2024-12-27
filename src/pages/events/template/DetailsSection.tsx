@@ -8,44 +8,24 @@ import LocationIcon from '@/assets/svg/template1-location.svg';
 import CalendarIcon from '@/assets/svg/template1-calendar.svg';
 import EmailIcon from '@/assets/svg/template1-email.svg';
 import PhoneIcon from '@/assets/svg/template1-phone.svg';
-import moment from 'moment';
 import LinkIcon from '@/assets/svg/template1-url.svg';
-import { toTitleCase, truncateString } from '@/Utils/CommonBaseClass';
+import { toTitleCase, truncateString, formatDateRange } from '@/Utils/CommonBaseClass';
+import CustomTooltip from '@/components/CustomToolTip/CustomTooltip';
 
 type DetailsSectionProps = {
     data?: any;
-    temp: number;
+    classPrefix?: string;
+    temp?: any;
 }
 
 
 /**
  * Component displays the details section of the template
  */
-const DetailsSection: React.FC<DetailsSectionProps> = React.memo(({ data, temp }) => {
+const DetailsSection: React.FC<DetailsSectionProps> = React.memo(({ data, classPrefix, temp }) => {
     
-    const classPrefix = `event-template-details-${temp}`;
 
-    /**
-     * Method transforms the start time and end time to November 20-25, 2024 like format
-     * @param startTime : start time
-     * @param endTime : end time
-     * @returns : November 20-25, 2024 like format
-     */
-    const formatDateRange = (startTime: string, endTime: string) => {
-        const start = moment(startTime);
-        const end = moment(endTime);
-
-        if (start.month() === end.month() && start.year() === end.year()) {
-            // Same month and year
-            return `${start.format('MMMM D')}-${end.format('D, YYYY')}`;
-        } else if (start.year() === end.year()) {
-            // Same year but different month
-            return `${start.format('MMMM D')}-${end.format('MMMM D, YYYY')}`;
-        } else {
-            // Different year
-            return `${start.format('MMMM D, YYYY')} - ${end.format('MMMM D, YYYY')}`;
-        }
-    };
+   
 
         //Create item array dynamically based on Event Class
         const itemArray = [];
@@ -99,8 +79,12 @@ const DetailsSection: React.FC<DetailsSectionProps> = React.memo(({ data, temp }
                                   : `${classPrefix}-icon`
                                    }>{item.icon} </Grid>
                                 <Grid><Typography className={`${classPrefix}-label`}>{item.label}</Typography></Grid>
-                                <Grid><Typography className={`${classPrefix}-value`} textAlign={temp === 2? 'center': 'left'}> {truncateString(toTitleCase(item.value),35, "Untitled")}
-                                    </Typography></Grid>
+                                <Grid>
+                                    <CustomTooltip title={item.value}>
+                                    <Typography className={`${classPrefix}-value`} textAlign={temp === 2? 'center': 'left'}> {truncateString(toTitleCase(item.value),35, "Untitled")}
+                                    </Typography>
+                                    </CustomTooltip>
+                                    </Grid>
                                     {index === 0 ? (<Grid className={`${classPrefix}-border-line`} />) : null}
                             </Grid>
                         })

@@ -1,23 +1,18 @@
 'use client'
 
 import Grid from "@mui/material/Grid2";
-import {Typography,Avatar,IconButton,Box, Rating} from '@mui/material';
+import { Typography, IconButton, Box, Rating } from '@mui/material';
 import { Book, DowloadIcon, PdfIcon } from '@/assets/svg';
 import StatusComponent from '@/components/Status/StatusComponent';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import ReactQuill from 'react-quill';
+import ReviewerNavbar from "../ReviewerNavbar";
 
 export default function Reviewer() {
     return (
         <Box className="reviewer-main">
-            <Grid container className="nav-wrapper">
 
-                <Grid className="reviewer-nav" size={11}>
-                    <h1>Logo</h1>
-                    <Avatar className='avatar' src="/placeholder.svg" />
-                </Grid>
-
-            </Grid>
+            <ReviewerNavbar />
 
             <Grid container columnSpacing={2}>
 
@@ -32,7 +27,7 @@ export default function Reviewer() {
                                     <Book />
                                     <Typography>Abstract</Typography>
                                 </Box>
-                                
+
                                 <IconButton>
                                     <DowloadIcon />
                                 </IconButton>
@@ -66,14 +61,14 @@ export default function Reviewer() {
 
                             <Box className="editor-container">
 
-                            <ReactQuill modules={{
+                                <ReactQuill modules={{
                                     toolbar: [['bold', 'italic', 'link']]
-                                }} 
+                                }}
                                     placeholder='Write a comment...'
                                 />
 
                             </Box>
-                            
+
                             <Box className="editor-btn-container">
                                 <Box className='editor'></Box>
                                 <CustomButton label='Submit' className='comment-btn' />
@@ -108,7 +103,7 @@ export default function Reviewer() {
                                 </Box>
                             </Box>
                         </Box>
-               
+
                     </Grid>
 
                 </Grid>

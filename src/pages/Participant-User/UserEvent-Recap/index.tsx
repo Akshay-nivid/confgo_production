@@ -1,11 +1,10 @@
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
-import { Button, CircularProgress, Typography } from "@mui/material";
+import { Button,Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Logger } from "@/Utils/Logger";
-import apiClient from "@/Libs/Https/API-client";
-import {formatDateTimeRange, processAPIResponse, toTitleCase } from "@/Utils/CommonBaseClass";
+import {formatDateTimeRange,toTitleCase } from "@/Utils/CommonBaseClass";
 import React from "react";
 import useStore from "@/Libs/store";
 import StatusComponent from "@/components/Status/StatusComponent";
@@ -13,7 +12,39 @@ import { useLocation } from "react-router-dom";
 import QRCode from 'qrcode';
 import jsPDF from 'jspdf';
 import moment from "moment";
+import { SkeletonList } from "@/components/Skeleton";
 
+/**
+ * 
+ */
+
+interface Event {
+    event:any,
+    abstractDate?: string | null;
+    amount: string;
+    assetId?: number | null;
+    attendees: Array<any>; // Adjust `any` to a more specific type if attendees have a structure
+    companyId: number;
+    description: string;
+    discount?: number | null;
+    endTime: string;
+    eventClass: string; // Example: "OFFLINE"
+    id: number;
+    interval?: number | null;
+    isAbstract?: boolean | null;
+    name: string;
+    parentId?: number | null;
+    published: boolean;
+    registrationDeadline?: string | null;
+    slugName?: string | null;
+    specialtyId?: number | null;
+    startTime: string;
+    statusId: number;
+    templateId?: number | null;
+    title?: string | null;
+    url?: string | null;
+
+  }
 
 /**
  * UpcomingEvent component renders a list of upcoming events and includes a search bar 
@@ -24,29 +55,42 @@ const EventRecap: React.FC = React.memo(() => {
     const [loading, setLoading] = useState(false);
     const setDataById = useStore((state: any) => state.setDataById);
     const {eventId} = useLocation().state || {};
-    const GET = useStore((state: any) => state.GET);
     const [eventLoading, setEventLoading] = useState(true);
-    const eventData = useStore((state: any) => state?.compData?.["EventDetailsResponse"]?.[`event/${eventId}`]) ?? [];
+    const eventData = useStore((state: any) => state?.compData?.["attendedPrograms"]?.["event/registered/eventList"]?.data) ?? []
     const eventTicketData=useStore((state:any)=>state?.compData?.['eventTicketData']?.['participant/payment/details'])??[];
     const POST = useStore((state: any) => state.POST);
     const userDetails = useStore((state) => state?.compData?.["userDetails"]) ?? {};
+    const Program=useStore((state:any)=>state?.compData?.['programs']);
+    
+     /**
+       * attended status
+       */
+     const attendeeStatus=eventData[0]?.participants[0]?.eventParticipants[0]?.event.attendees
+    
+     /**
+     * Event program details
+     */
+     const eventProgram=eventData?.[0]?.participants?.[0]?.eventParticipants;
     /**
     * Function to handle search API for autocomplete
-    */
+    */   
     const handleSearch = async (query: string) => {
         setLoading(true);
         try {
-            let req: any = {
-                filters: {
-                    name: query,
-                },
-            };
-            const response = await await apiClient.post(`event/list`, req);
-            const { status, data } = await processAPIResponse(response, "eventList");
-            if (status) {
+            // let req: any = {
+            //     filters: {
+            //         name: query,
+            //     },
+            // };
+            // const response = await await apiClient.post(`event/registered/eventList`, req);
+            // const { status, data } = await processAPIResponse(response, "eventList");
+            const filteredEvents = eventProgram.filter((item: any) =>
+                item.event?.name?.toLowerCase().includes(query.toLowerCase())
+            );
+            if (filteredEvents) {
+                const data = filteredEvents.map((item:Event)=>item.event)
                 setSearchResults(data);
             }
-
         } catch (error) {
             Logger.error(error, "EventList.tsx");
         } finally {
@@ -69,22 +113,26 @@ const EventRecap: React.FC = React.memo(() => {
     const handleAutocompleteChange = async (selected: any) => {
         if (selected) {
             try {
-                await POST({
-                  url: "event/list",
-                  body: {
-                    filters: {id: selected.id},
-                  },
-                  id: 'userLatestEvents',
-                  errorCB: (context: any) => {
-                    setDataById("snackBarInfo", {
-                      open: true,
-                      autoHideDuration: 2000,
-                      severity: "error",
-                      message: context?.message,
-                    });
-                  },
-                });
-              } catch (error) {
+                // await POST({
+                //   url: "event/list",
+                //   body: {
+                //     filters: {id: selected.id},
+                //   },
+                 // id: 'userLatestEvents',
+                 // errorCB: (context: any) => {
+                //     setDataById("snackBarInfo", {
+                //       open: true,
+                //       autoHideDuration: 2000,
+                //       severity: "error",
+                //       message: context?.message,
+                //     });
+                //   },
+                // });
+                const selectedData=eventProgram.find((program:any)=>program.event.id=== selected.id);
+                  if(selectedData){
+                    setDataById("programsNew",{data:[selectedData]})
+                  }
+                } catch (error) {
                 Logger.error("An error occurred:", error);
               }
         }
@@ -95,10 +143,18 @@ const EventRecap: React.FC = React.memo(() => {
     const EventDetails = async () => {
         setEventLoading(true);
         try {
-            await GET({
-                url:   `event/${eventId}`,
-                body: {},
-                id: 'EventDetailsResponse',
+            const filter={
+                filters:{
+                    id:eventId 
+               }
+            }
+               await POST({
+                   url:   `event/registered/eventList`,
+                   body: filter,
+                id: 'attendedPrograms',
+                successCB:(context:any)=>{
+                setDataById("programs",{data:context?.data[0]?.participants?.[0]?.eventParticipants})
+                },
                 errorCB: (context: any) => {
                   setDataById("snackBarInfo", {
                     open: true,
@@ -157,7 +213,7 @@ const EventRecap: React.FC = React.memo(() => {
           pdf.rect(0, 0, 85.60, 53.98, 'F'); // ID card dimensions
           pdf.setFont("helvetica", "bold");
           // Generate the QR code image URL
-          pdf.text(eventData?.data?.name?toTitleCase(eventData?.data?.name):"",horizontalPadding,currentYPosition+2)
+          pdf.text(eventData?.[0]?.name?toTitleCase(eventData[0]?.name):"",horizontalPadding,currentYPosition+2)
           pdf.setFontSize(10),
           pdf.setFont("helvetica", "normal");
           // pdf.setFont('Inter','',500)
@@ -187,15 +243,15 @@ const EventRecap: React.FC = React.memo(() => {
     pdf.setFont("helvetica", "bold");
     pdf.text('Event Name',horizontalPadding,45)
     pdf.setFont("helvetica", "normal");
-    pdf.text(eventData?.data?.name,pageWidth/2,45)
+    pdf.text(eventData?.[0]?.name,pageWidth/2,45)
     pdf.setFont("helvetica", "bold");
     pdf.text('Event Date',horizontalPadding,55)
     pdf.setFont("helvetica", "normal");
-    pdf.text(moment(eventData?.data?.startTime).format('MMMM D, YYYY'),pageWidth/2,55)
+    pdf.text(moment(eventData?.[0]?.startTime).format('MMMM D, YYYY'),pageWidth/2,55)
     pdf.setFont("helvetica", "bold");
     pdf.text('Location',horizontalPadding,65)
     pdf.setFont("helvetica", "normal");
-    const address = eventData?.data?.venue?.address +"," +eventData?.data?.venue?.city+","+eventData?.data?.venue?.state+","+ eventData?.data?.venue?.country+","+eventData?.data?.venue?.postalCode;
+    const address = eventData[0]?.venue?.address +"," +eventData?.[0]?.venue?.city+","+eventData?.[0]?.venue?.state+","+ eventData?.[0]?.venue?.country+","+eventData?.[0]?.venue?.postalCode;
     // Calculate the maximum width for the text
     const maxWidth = pageWidth/2;
     
@@ -261,10 +317,11 @@ const EventRecap: React.FC = React.memo(() => {
           console.error('Error loading image or generating PDF:', error);
         }
       }
+    
     return (
         <>
             {eventLoading ? (
-                <CircularProgress />
+                <SkeletonList height={20} className="mt-4" />
             ) : (
                 <Grid  className="event-recap" container spacing={1}>
                     <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} flexDirection={"row"}>
@@ -282,14 +339,14 @@ const EventRecap: React.FC = React.memo(() => {
                                 loading={loading}
                                 placeholder="Search"
                                 onChange={handleAutocompleteChange}
-                            />
+                                />
                         </Grid>
                     </Grid>
                     <Grid container>
                         <Grid container size={12} className="event-recap-first-grid">
                             <Grid>
                                 <Typography className="event-recap-first-grid-text">
-                                    {eventData?.data?.name?toTitleCase(eventData?.data?.name):""}
+                                    {eventData?.[0]?.name?toTitleCase(eventData?.[0]?.name):""}
                                 </Typography>
                             </Grid>
                             <Grid> 
@@ -299,14 +356,13 @@ const EventRecap: React.FC = React.memo(() => {
                             </Grid>
                             <Grid size={12}>
                                 <Typography className="event-recap-first-grid-address" >
-                                {formatDateTimeRange({date:eventData?.data?.startTime,format:"MMMM D, YYYY"})}
+                                {formatDateTimeRange({date:eventData?.[0]?.startTime,format:"MMMM D, YYYY"})}
                                <span className="mx-2">|</span>
-                               {formatDateTimeRange({date:eventData?.data?.startTime,format:'h:mm A'})}-{formatDateTimeRange({date:eventData?.data?.endTime,format:'h:mm A'})}
+                               {formatDateTimeRange({date:eventData?.[0]?.startTime,format:'h:mm A'})}-{formatDateTimeRange({date:eventData?.[0]?.endTime,format:'h:mm A'})}
                                <span className="mx-2">
                                 |
                                </span>
-                               {eventData?.data?.venue.city + ", " + eventData?.data?.venue.address}
-                              
+                               {eventData?.[0]?.venue?.city + ", " + eventData?.[0]?.venue?.address}
                                 </Typography>
                             </Grid>
                             <Grid size={12} className="event-recap-first-grid-buttons">
@@ -327,24 +383,25 @@ const EventRecap: React.FC = React.memo(() => {
                                 Registered Programmes
                             </Typography>
                         </Grid>
-                        {eventData?.data?.programs.map((item: any) => {
+
+                        {Program?.data.map((item: any) => {
                             return(
                             <Grid size={{lg:4,sm:12}} container  className="event-recap-second-grid-content">
                                  <Grid container size={12} className="daate_time " columnSpacing={8} > 
                                  <Grid   size={6}className="event-recap-second-grid-content-time">
-                                    <Typography className="event-recap-second-grid-content-time-text">{formatDateTimeRange({date:item.startTime,format:'h:mm A'})},{formatDateTimeRange({date:item.endTime,format:"h:mm A"})}</Typography>
+                                    <Typography className="event-recap-second-grid-content-time-text">{formatDateTimeRange({date:item.event?.startTime,format:'h:mm A'})},{formatDateTimeRange({date:item.endTime,format:"h:mm A"})}</Typography>
                                 </Grid>
                                 <Grid  className="event-recap-second-grid-content-status" >
                                     <Typography className="event-recap-second-grid-content-status-text">
-                                        <StatusComponent value={item?.statusId.toString()} />
+                                    <StatusComponent value={attendeeStatus?.length==0 ? "7" : "8"}  />
                                     </Typography>
                                 </Grid>
                                 </Grid>
                                 <Grid className="event-recap-second-grid-content-title" size={12}>
-                                    <Typography className="event-recap-second-grid-content-title-text">{item.name?toTitleCase(item.name):""}</Typography>
+                                <Typography className="event-recap-second-grid-content-title-text">{item.event?.name?toTitleCase(item.event?.name):""}</Typography> 
                                 </Grid>
                                 <Grid className="event-recap-second-grid-content-location" size={12} >
-                                    <Typography className="event-recap-second-grid-content-location-text">Location:{eventData.data.venue.city + "," + eventData.data.venue.country}</Typography>
+                                    <Typography className="event-recap-second-grid-content-location-text">Location:{item?.event?.venue?.city + "," + item?.event?.venue?.country}</Typography>
                                 </Grid>
                                 <Grid className="event-recap-second-grid-content-speaker" size={12} >
                                     <Typography className="event-recap-second-grid-content-speaker-text">Speaker:swayer</Typography>

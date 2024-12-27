@@ -18,7 +18,10 @@ import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { validateEmail, validatePhoneNumber } from "@/Utils/Validation";
 import { validateMaxLength } from '@/Utils/Validation';
-import LocationSearch from "./LocationSearch";
+import GoogleMapPlacePicker from "./GoogleMapPlacePicker";
+import useStore, { setDataById } from "@/Libs/store";
+import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
+import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
 
 type EventProps = {
   formSubmit: boolean;
@@ -45,10 +48,12 @@ type FormData = {
   postalCode: string;
   url: string;
   amount: string;
-  specialty: string;
+  specialtyId: string;
   assetId:number;
   phone: string;
   email: string;
+  isAbstract:boolean;
+  abstractDate:Date;
 };
 
 interface CustomFile {
@@ -62,7 +67,10 @@ const typeArray = [
   { label: "Online", value: "ONLINE" },
   { label: "Hybrid", value: "HYBRID" },
 ];
-
+interface Specialty{
+  value:number,
+  label:string
+}
 const CreateEvent: React.FC<EventProps> =
   ({ formSubmit, onSubmitHandler, data }) => {
     const methods = useForm<FormData>()
@@ -72,17 +80,30 @@ const CreateEvent: React.FC<EventProps> =
       setValue,
       watch,
       setError,
+      clearErrors,
       formState: { errors },
     } = methods;
  
   
 
-    const [editorContent, setEditorContent] = useState("");
-    const [selectedFile, setSelectedFile] = useState<any>(null);
+  const [editorContent, setEditorContent] = useState("");
+  const [submitted, setSubmitted] = useState(false); 
+  const [selectedFile, setSelectedFile] = useState<any>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const companyId = sessionStorage.getItem('companyId');
   const baseUrl = config.api.url;
   const [drawerOpen,setDrawerOpen]=useState(false);
+  const [isInitialRender, setIsInitialRender] = useState(true);
+  const POST = useStore((state: any) => state.POST);
+  const [specialty,setspecialty]=useState<Specialty[]>([]);
+
+    // Watch values from the form
+    const fields: ('mapUrl' | 'postalCode' | 'venueName' | 'city' | 'address')[] = ['mapUrl', 'postalCode', 'venueName', 'city','address'];
+    const mapUrl = watch('mapUrl');
+    const postalCode = watch('postalCode');
+    const venueName = watch('venueName');
+    const city = watch('city');
+    const address = watch('address');
 
 
     /**
@@ -92,14 +113,18 @@ const CreateEvent: React.FC<EventProps> =
     const handleChange = (value: any) => {
       setEditorContent(value);
       setValue("description", value);
+      if (value && value !== "<p><br></p>") {
+        clearErrors("description"); 
+      }
     };
-     
+    const isError = submitted && (editorContent === "" || editorContent === "<p><br></p>"); 
 /**
  * This method ensures that the field with validation errors or requiring attention and Scrolls smoothly to that field
  */
     const scrollToError = useCallback(() => {
       const errorFieldMap: { [key: string]: string } = {
         name: '[name="name"]',
+        description:  '#react-quill-description',
         phone: '[name="phone"]',
         email: '[name="email"]',
         startTime: '[name="startTime"]',
@@ -152,7 +177,14 @@ const CreateEvent: React.FC<EventProps> =
      * @param data
      */
     const onSubmit: SubmitHandler<FormData> = (data: any) => {
-      if(watch("description") === "<p><br></p>"){
+
+     // checks whether the description content is empty or not
+      if (editorContent === "" || editorContent === "<p><br></p>") {
+        setSubmitted(true); // Set submitted to true.
+        setError(`description`, {
+              type: 'manual',
+               message: 'description is required',
+             });
         return;
       }
       const startTime = new Date(data.startTime);
@@ -167,8 +199,29 @@ const CreateEvent: React.FC<EventProps> =
         });
         return
       }
+    //store the dates to compare 
+      useStore.getState().setDataById("event-date", { startDate: startTime });
+      useStore.getState().setDataById("event-date", { endDate: endTime });
+
       onSubmitHandler && onSubmitHandler(data, "EVENT");
     };
+
+  /**
+   * it watches the location fields whether it is filled or not 
+   */
+  useEffect(() => {
+    if (isInitialRender) {
+      setIsInitialRender(false);
+      return;
+    }
+
+    fields.forEach((field) => {
+      const value = watch(field);
+      if (value) {
+        clearErrors(field);
+      }
+    });
+  }, [mapUrl, clearErrors, setError, errors, isInitialRender, postalCode, venueName, city,address]);
 
     /**
      * Useeffect hook set the form values based on the data
@@ -212,6 +265,36 @@ const CreateEvent: React.FC<EventProps> =
     }
 },[])
 
+  /**
+   *useEffect get specialty
+   */
+   useEffect(() => {
+    getspecialty()
+},[])
+
+    /**
+    * get full specialty list 
+    */
+    const getspecialty=async ()=>{
+      await POST({
+          url:'specialty/list',
+          body:{},
+          id:'specialty-list',
+          successCB: (_context: any) => {
+            let _speciality:any=[];
+            _context.data.forEach((item: any) => {
+              _speciality.push({
+                value: item?.id,
+                label: item?.name
+              })
+            })
+            setspecialty(_speciality)
+          }, 
+          errorCB: (context: any) => {
+              setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
+          }
+      });
+  }
     return (
       <Box className="create-event-container">
         <Grid
@@ -294,17 +377,13 @@ const CreateEvent: React.FC<EventProps> =
                   >
                    
                     <ReactQuill
-                      className={
-                        errors?.description ||
-                        watch("description") === "<p><br></p>"
-                          ? "create-event-description-error"
-                          : ""
-                      }
+                      className={isError ? "create-event-description-error" : ""}
                       value={editorContent}
                       onChange={handleChange}
                       theme="snow"
                       placeholder="Type your description here..."
                       modules={modules}
+                      id="react-quill-description"
                     />
                     {/* <CustomTextField
                       control={control}
@@ -350,6 +429,7 @@ const CreateEvent: React.FC<EventProps> =
                       defaultValue={moment(new Date()).format("YYYY-MM-DD")}
                       min={moment(new Date()).format("YYYY-MM-DD")}
                       rules={{
+                        required:true,
                         pattern: {
                           value: /^\d{4}-\d{2}-\d{2}$/, 
                           message: "Please enter a valid start start date (DD-MM-YYYY)"
@@ -367,6 +447,7 @@ const CreateEvent: React.FC<EventProps> =
                       defaultValue={moment(new Date()).format("YYYY-MM-DD")}
                       min={moment(new Date()).format("YYYY-MM-DD")}
                       rules={{
+                        required:true,
                         pattern: {
                           value: /^\d{4}-\d{2}-\d{2}$/,
                           message: "Please enter a valid end date (DD-MM-YYYY)"
@@ -374,7 +455,7 @@ const CreateEvent: React.FC<EventProps> =
                       }}
                     />
                   </Grid>
-                  <Grid size={{ xs: 12, sm: 12 }}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField
                       placeholder="Price"
                       control={control}
@@ -382,6 +463,45 @@ const CreateEvent: React.FC<EventProps> =
                       type="number"
                     />
                   </Grid>
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <CustomSelect
+                    fullWidth
+                    className="add-program-select"
+                    name="specialtyId"
+                    control={control}
+                    label="Specialty"
+                    options={specialty}
+                    />
+                  </Grid>
+                  {watch('specialtyId')=='1'&&
+                  <Grid size={{ xs: 12, sm: watch('isAbstract')?6:12 }}>
+                      <CustomSwitch
+                        className="add-program-switch-btn"
+                        buttonColor="success"
+                        label="Abstract Submission"
+                        name={`isAbstract`}
+                        control={control}
+                      />
+                  </Grid>}
+                  {watch('isAbstract')&& 
+                  <Grid size={{xs:12,sm:6}}>
+                    <CustomTextField
+                      placeholder="Abstract Submission Date"
+                      control={control}
+                      name="abstractDate"
+                      type="date"
+                      className="create-event"
+                      defaultValue={moment(new Date()).format("YYYY-MM-DD")}
+                      min={moment(new Date()).format("YYYY-MM-DD")}
+                      rules={{
+                        required:true,
+                        pattern: {
+                          value: /^\d{4}-\d{2}-\d{2}$/, 
+                          message: "Please enter a valid start start date (DD-MM-YYYY)"
+                        }
+                      }}
+                    />
+                  </Grid>}
                   {watch("type") !== "OFFLINE" && (
                     <Grid size={{ xs: 12, sm: 12 }}>
                       <CustomTextField
@@ -559,7 +679,7 @@ const CreateEvent: React.FC<EventProps> =
                       </Grid>
                 </Grid>
                   <CustomDrawer open={drawerOpen} type="right" children={
-                    <LocationSearch onClose={()=>setDrawerOpen(false)} />
+                   <GoogleMapPlacePicker onClose={()=>setDrawerOpen(false)}/>
                   } />
               </form>
               </FormProvider>

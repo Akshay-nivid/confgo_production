@@ -56,22 +56,18 @@ import PlanUpgrade from "./pages/planUpgrade/PlanUpgrade";
 
 import ChangeVerification from "@/pages/SetPassword/ChangePasswordVerification";
 
-import { PrivateRouteCompany, PrivateRouteUser } from "./router/PrivateRoute";
+import { PrivateRouteCompany, PrivateRouteReviewer, PrivateRouteSpeaker, PrivateRouteUser } from "./router/PrivateRoute";
 import PublicRoute from "./router/PublicRoute";
 
-import ReviewDetailsPage from "./pages/reviewer/details-page";
-import ReviewHome from "./pages/reviewer/home";
+import ReviewerHome from "@/pages/Reviewer/home"
+import ReviewDetailsPage from "@/pages/Reviewer/details-page"
 
-const ReviewerRoutes = [
-  {
-    element: <ReviewDetailsPage />,
-    path:'/reviewer'
-  },
-  {
-    element: <ReviewHome />,
-    path:'/reviewer/home'
-  }
-]
+
+import AdminUsersList from "./pages/Admin-users";
+import CreateNewUsers from "./pages/Admin-users/CreateUsers";
+import VerifyUSerMailPage from "./pages/Admin-users/VerfiyUserEmail";
+import SpeakerHome from "./pages/Speaker/Home";
+
 
 const userRoutes = [
   {
@@ -131,7 +127,7 @@ const userRoutes = [
   {
     element: (
       <PrivateRouteUser>
-        <UserDashboardLayout />
+        <UserDashboardLayout role='USER' />
       </PrivateRouteUser>
     ),
     children: [
@@ -161,10 +157,49 @@ const userRoutes = [
       },
     ],
   },
+  {
+    element: (
+      <PrivateRouteSpeaker>
+        <UserDashboardLayout role='SPEAKER' />
+      </PrivateRouteSpeaker>
+    ),
+    children: [
+      {
+        path: routes.speakerHome(),
+        element: <SpeakerHome />,
+      },
+    ]
+  },
+  {
+    element: (
+      <PrivateRouteReviewer>
+        <UserDashboardLayout role='REVIEWER' />
+      </PrivateRouteReviewer>
+    ),
+    children: [
+      {
+        path: routes.reviewerHome(),
+        element: <ReviewerHome />,
+      },
+      {
+        element: <ReviewDetailsPage />,
+        path:routes.reviewDetails(":id"),
+      },
+    ]
+  },
 ];
 
 const router = createBrowserRouter([
   // Public routes
+  {
+    path: routes.reviewerHome(),
+    element: <ReviewerHome />,
+  },
+  {
+    element: <ReviewDetailsPage />,
+    path:routes.reviewDetails(":id"),
+  },
+  
   {
     path: routes.register(),
     element: <Register />,
@@ -185,6 +220,10 @@ const router = createBrowserRouter([
   {
     path: routes.verifyEmail(),
     element: <VerifyMailPage  />,
+  },
+  {
+    path:routes.verifyUserEmail(),
+    element:<VerifyUSerMailPage/>
   },
   {
     path: routes.verfiyForgotEmail(),
@@ -244,6 +283,14 @@ const router = createBrowserRouter([
         element: <CouponView/>,
       },
       {
+        path:routes.users(),
+        element:<AdminUsersList/>
+      },
+      {
+        path:routes.createNewUsers(),
+        element:<CreateNewUsers/>
+      },
+      {
         path: routes.calendar(),
         element: <CalendarRoute  id="company-calendar"/>,
       },
@@ -301,13 +348,13 @@ const router = createBrowserRouter([
     path: routes.participantHome(),
     element: <ParticipantHome />,
   },
-...ReviewerRoutes
+
+  
 
 ]);
 
 function App() {
   const snackBarInfo = useStore((state: any) => state.compData?.["snackBarInfo"]);
-
   return (
     <>
       {snackBarInfo?.open && (

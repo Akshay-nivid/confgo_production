@@ -14,6 +14,7 @@ import {
   CouponIcon,
   EventIcon,
   DashboardIcon,
+  UserCreateIcon,
 } from '@/assets/svg';
 import routes from '@/router/routes';
 
@@ -39,6 +40,13 @@ const sidebarItems = [
     icon: CouponIcon,
     label: 'Coupon',
     exact: false,
+  },
+  {
+    path:routes.users(),
+    icon:UserCreateIcon,
+    label:'Users',
+    exact:false
+
   },
   {
     path: routes.calendar(),

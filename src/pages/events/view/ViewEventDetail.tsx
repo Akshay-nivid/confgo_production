@@ -361,7 +361,7 @@ const ViewEventDetail = () => {
           </TabPanel>
           { eventFullData?.venue &&
           <TabPanel value="4">
-            <LocationCard data={eventFullData?.venue}/>
+            <LocationCard data={eventFullData?.venue} published={eventFullData?.published}  onSubmitHandler={handleSubmitHandler}/>
           </TabPanel>
           }
           <TabPanel value="5">

@@ -11,8 +11,9 @@ import PersonIcon from '@mui/icons-material/Person';
 
 type EventContributorsSectionProps = {
     data?: any;
-    temp: number | undefined;
+    classPrefix?: string;
     ref?: any;
+    temp?: any;
 }
 
 
@@ -20,11 +21,11 @@ type EventContributorsSectionProps = {
  * Method displays the event contributors section
  */
 const EventContributorsSection = React.memo(
-    React.forwardRef<HTMLDivElement, EventContributorsSectionProps>(({ data, temp }, ref) => {
+    React.forwardRef<HTMLDivElement, EventContributorsSectionProps>(({ data, classPrefix }, ref) => {
     
 
-    const classPrefix = `event-template-event-contributors-${temp}`;
-    const baseUrl = config.api.url;
+    const baseUrl = config.api.url; 
+
 
     return <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix} `} spacing={1} direction={'column'} justifyContent={'center'} alignItems={'center'} ref={ref}>
         <Grid className={`${classPrefix}-title`}>Meet Our Esteemed Event Contributors</Grid>

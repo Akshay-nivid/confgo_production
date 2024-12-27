@@ -58,6 +58,7 @@ export interface IParticipantOrder {
     finalPrice: string;
     programTotal: number;
     addonTotal: number;
+    priceTierDiscount: number;
   };
   loading: boolean; 
   success: boolean;

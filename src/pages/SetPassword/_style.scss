@@ -9,7 +9,7 @@
         background-position: center -7.5rem;
         background-repeat: no-repeat;
         background-size: 50%;
-        padding-top: 10rem;
+        padding-top: 4.375rem;
 
         .setpassword__content {
           max-width: 31.66rem;
@@ -171,8 +171,13 @@
 }
 
 .custom-button {
+  font-size: $p2 !important;
   text-transform:  none !important;
   box-shadow: none !important;
   background-color: $clr_blue !important;
   height: 3.3rem;
+  border-radius: 0.417rem !important;
+}
+.confirmpasswordbox{
+  margin-top: 1.5rem;
 }

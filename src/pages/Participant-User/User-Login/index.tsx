@@ -7,7 +7,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import { CredentialResponse, GoogleLogin } from '@react-oauth/google';
 import { useForm } from 'react-hook-form';
-import { Link, replace, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { Logger } from '@/Utils/Logger';
 import useStore, { clearDataById } from '@/Libs/store';
@@ -54,64 +54,63 @@ const UserLogin = (props: UserProps) => {
 
   const POST = useStore((state: any) => state.POST);
   const navigate = useNavigate();
-   /**
-   * function for set userTpype
-   */
+  /**
+  * function for set userTpype
+  */
   function handleClickForgetPassword() {
     navigate(routes.userForgotPassword());
   }
+
+  const roleToRouteMapper: any = {
+    COMPANYADMIN: routes.dashboard(),
+    USER: routes.userHome(),
+    REVIEWER: routes.reviewerHome(),
+    SPEAKER: routes.speakerHome(),
+  };
+
   /**
-   * function to handle login
+   *method to store login details
+   */
+  const storeDetails = (data: any) => {
+    sessionStorage.clear();
+    sessionStorage.setItem("token", data?.token);
+    sessionStorage.setItem("userToken", data?.token);
+    sessionStorage.setItem("userId", data?.id.toString());
+    sessionStorage.setItem('userLoggedInType', data?.userRole?.roleName);
+    sessionStorage.setItem('isUserLoggedIn', 'true');
+    sessionStorage.setItem('ssoUser', 'false');
+    setDataById('participantLogin', true);
+    apiClient.setToken(data.token);
+    setDataById('userDetails', data);
+    setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
+    navigate(data?.userRole?.roleName === "USER" && previousRoute ? previousRoute : roleToRouteMapper[data?.userRole?.roleName],{replace: true});
+    clearDataById('previousRoute');
+  };
+
+
+  /**
+   * Method used to handle login
+   * @param obj 
    */
   const handleLogin = async (obj: IUserLogin) => {
     await POST({
       url: 'auth/login',
       body: obj,
       id: props?.id,
-      successCB: (success: ApiResponse) => {
-        sessionStorage.clear();
-        sessionStorage.setItem("token", success.data?.token);
-        sessionStorage.setItem("userToken", success.data?.token);
-        sessionStorage.setItem("userId",success.data?.id.toString());
-        sessionStorage.setItem('userLoggedInType', success?.data?.userRole?.roleName);
-        sessionStorage.setItem('isUserLoggedIn', 'true');
-        sessionStorage.setItem('ssoUser', 'false');
-        setDataById('participantLogin', true);
-        apiClient.setToken(success.data.token);
-        setDataById('userDetails', success.data);
-        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
-        if (success?.data?.userRole?.roleName === "USER") {
-          
-          if (previousRoute) {
-            navigate(previousRoute,{replace: true});
-            clearDataById('previousRoute');
-          } else {
-            navigate(routes.userHome());
-          }
-
-        }
-        else {
-          navigate(routes.dashboard(),{replace: true});
-        } 
-        
+      successCB: (context: ApiResponse) => {
+        storeDetails(context?.data);
       },
       errorCB: (error: any) => {
-        setDataById("snackBarInfo", {
-          open: true,
-          autoHideDuration: 2000,
-          severity: "error",
-          message: error?.message,
-        });
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: error?.message });
       },
     });
   };
+
   /**
-   * function to handle google login
-   * @param {any}
+   * Method used to handle google login
+   * @param obj 
    */
   const googleSsoLogin = async (obj: GoogleUserData) => {
-
-
     const requestBody = {
       provider: "google",
       providerUserId: obj.sub ?? '',
@@ -120,34 +119,12 @@ const UserLogin = (props: UserProps) => {
       email: obj.email ?? '',
       ...(obj.phone_number ? { phone: obj.phone_number } : {})
     };
-
     await POST({
       url: 'auth/ssoLogin',
       body: requestBody,
       id: props?.id,
-      successCB: (context: any) => {
-        if (context?.success) {
-
-          sessionStorage.setItem("token", context.data?.token);
-          sessionStorage.setItem("userToken", context.data?.token);
-          setDataById('participantLogin', true);
-          apiClient.setToken(context.data.token);
-          setDataById('userDetails', context.data);
-          sessionStorage.setItem('userLoggedInType', context?.data?.userRole?.roleName);
-          sessionStorage.setItem('isUserLoggedIn', 'true');
-          sessionStorage.setItem('ssoUser', 'true');
-          setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
-          
-          if (previousRoute) {
-            console.log(previousRoute)
-            navigate(previousRoute,{replace: true});
-            clearDataById('previousRoute');
-
-            return
-          }
-          navigate(routes.userHome(),{replace: true});
-
-        }
+      successCB: (context: ApiResponse) => {
+        storeDetails(context?.data);
       },
       errorCB: (context: any) => {
         setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
@@ -156,7 +133,6 @@ const UserLogin = (props: UserProps) => {
   }
 
   return (
-
     <Grid
       justifyContent={'center'}
       alignItems={'center'}

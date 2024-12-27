@@ -10,17 +10,17 @@ import { Typography } from '@mui/material';
 
 type RegisterBannerSectionProps = {
   data?: any;
-  temp: number;
+  classPrefix?: string;
   onScrollToTier?: any;
+  temp?: any;
 }
 
 /**
  * Displays the Register Banner section
  */
-const RegisterBannerSection: React.FC<RegisterBannerSectionProps> = React.memo(({ data, temp, onScrollToTier }) => {
+const RegisterBannerSection: React.FC<RegisterBannerSectionProps> = React.memo(({ data, classPrefix, onScrollToTier }) => {
 
   const navigate = useNavigate();
-  const classPrefix = `event-template-register-banner-${temp}`;
   const eventPriceTiersPresent = data?.eventPriceTiers !== undefined && data?.eventPriceTiers !== null && data?.eventPriceTiers?.length > 0;
 
   /**
