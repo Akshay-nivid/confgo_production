@@ -1,0 +1,222 @@
+.reviewer-main {
+  
+
+    .layout-container {
+        margin-inline: auto;
+        height: calc(100vh - 7rem);
+        overflow: auto;
+        scrollbar-width: none !important;
+    }
+
+    .document-card {
+        border: 0.083rem solid $clr_gray_faded;
+        margin-top: 3.0833rem;
+        border-radius: 0.6667rem;
+        padding-inline: 1.5rem;
+        padding-top: 1rem;
+        padding-bottom: 1.5rem;
+
+        .eye-download-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            column-gap: 0.5rem;
+            margin-top: -.5rem;
+
+            button {
+                padding: .2rem;
+                border-radius: 0.5rem;
+                border: 0.083rem solid $clr_gray_30_percent;
+                background-color: $clr_gray_10_percent ;
+            }
+
+            svg {
+                font-size: 2rem;
+                color: $clr_gray_dark_text !important;
+
+
+            }
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            column-gap: 1.02rem;
+
+            p {
+                font-weight: $font-semibold;
+                font-size: $h6;
+            }
+
+            svg {
+                font-size: 1.5rem;
+
+            }
+        }
+
+        .file-container {
+            display: flex;
+            margin-top: 2rem;
+            column-gap: 1.02rem;
+            // box-shadow: 1px 1px 5px $clr_gray_30_percent;
+            cursor: pointer;
+            width: max-content;
+            padding: .7rem;
+            border-radius: 0.5rem;
+            border: 0.083rem solid $clr_gray_very_light;
+
+            svg {
+                font-size: 4rem;
+            }
+
+            .file-info {
+
+
+                .date {
+                    font-size: $p2;
+                    margin-bottom: .3rem;
+                }
+
+                .name {
+                    font-weight: $font-semibold;
+                    font-size: $h6;
+                }
+
+            }
+        }
+
+    }
+
+
+    .reviewer-message-container {
+        margin-top: 3rem;
+        border: 0.083rem solid $clr_gray_faded;
+        padding: 1.66rem;
+        border-radius: 0.6667rem;
+        margin-bottom: 3.33rem;
+
+
+
+        .reviewer-avatar-container {
+            display: flex;
+            align-items: center;
+            column-gap: 0.75rem;
+
+
+            .name {
+                font-weight: $font-semibold;
+                font-size: $p5;
+            }
+        }
+
+        .rating-container {
+            margin-top: 2rem;
+
+            .MuiRating-root {
+                font-size: 2.3rem !important;
+            }
+
+        }
+
+        .reviewer-message {
+            font-size: $h6;
+            margin-top: 2rem;
+        }
+
+        .divider {
+            width: 100%;
+            height: 0.083rem;
+            background-color: $clr_gray_faded !important;
+            margin-top: 0.833rem;
+        }
+
+        .editor-btn-container {
+            display: flex;
+            margin-top: 2.25rem;
+            align-items: center;
+            justify-content: space-between;
+
+            .comment-btn {
+                background-color: $clr_blue;
+                line-height: 2.25rem;
+                box-shadow: none;
+                min-width: 10rem !important;
+
+            }
+        }
+
+        .editor-container {
+            margin-top: 2rem;
+            box-shadow: 0.083rem 0.083rem 0.1667rem $clr_gray_20_percent;
+            border: .083rem solid $clr_gray_30_percent !important;
+            border-radius: .5rem;
+            padding-bottom: 1rem;
+            padding-inline: .5em;
+
+            .quill {
+                display: flex !important;
+                flex-direction: column-reverse !important;
+            }
+
+            .ql-toolbar {
+                border: none !important;
+                border-radius: .5rem;
+                padding-bottom: 0 !important;
+                padding-top: 1rem;
+
+            }
+
+            .ql-container {
+                border: none !important;
+                border-bottom: 0.083rem solid $clr_gray_faded !important;
+                margin: .5rem;
+                margin-top: 2rem;
+
+                margin-bottom: 0 !important;
+
+
+            }
+        }
+    }
+
+    .divider {
+        height: auto;
+        min-width: 0.083rem !important;
+        background-color: $clr_gray_faded !important;
+    }
+
+    .right-grid {
+        margin-top: 3.0833rem;
+
+        .abstract-name {
+            font-weight: $font-semibold;
+            font-size: $h6;
+            margin-bottom: 3.5rem;
+        }
+
+        .user-info-group {
+            display: flex;
+            align-items: center;
+
+            .title,
+            .value {
+                flex: 1;
+                font-weight: $font-semibold;
+                font-size: $p1;
+            }
+
+            .title {
+
+                color: $clr_gray_medium;
+            }
+
+        }
+
+        .user-info-container {
+            display: flex;
+            flex-direction: column;
+            row-gap: 2rem;
+        }
+
+    }
+}
