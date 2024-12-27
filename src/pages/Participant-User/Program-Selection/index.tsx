@@ -367,7 +367,7 @@ const ProgramSelection = () => {
 
                   <>
 
-                    <Grid container paddingBottom={"5rem"} rowSpacing={{ xs: 3 }} columnSpacing={3} >
+                    <Grid container className="program-addon-container" rowSpacing={{ xs: 3 }} columnSpacing={3} >
 
                       {programs?.programs?.map((program: IProgram, index: number) => (
 

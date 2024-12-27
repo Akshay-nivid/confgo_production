@@ -1,8 +1,6 @@
-
-
 .program-main {
 
-  .main-header{
+  .main-header {
     font-size: $h2;
     font-weight: $font-semibold;
     padding-bottom: 1rem;
@@ -39,18 +37,23 @@
     }
 
 
-    .program-list-wrapper{
+    .program-list-wrapper {
       border: 0.083rem solid $clr_gray_faded;
       border-radius: 0.6667rem;
       padding: 1.66rem;
-      box-shadow:$clr_gray_30_percent 0rem 0.083rem .167rem 0;
+      box-shadow: $clr_gray_30_percent 0rem 0.083rem .167rem 0;
 
     }
 
- 
+
 
     .card-title {
       max-width: 1.2778rem !important;
+    }
+
+    .program-addon-container {
+
+      padding-bottom: 5rem;
     }
 
     .active {
@@ -106,7 +109,7 @@
       background-color: $clr_gray_10_percent !important;
     }
 
-  
+
 
     .add-on-list-container {
       margin-top: 2rem;
@@ -127,7 +130,7 @@
       padding-inline: 1rem;
 
       scrollbar-width: none;
-     
+
       .tab-btn-inner-container {
         display: flex;
         align-items: center;

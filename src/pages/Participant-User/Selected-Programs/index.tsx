@@ -467,14 +467,14 @@ const SelectedPrograms = () => {
                                     </Grid>
 
                                     <Box className="flex flex-col">
-                                      <Box marginTop={1} className="flex justify-center items-center  gap-x-2  py-1 w-max rounded-md text-gray-500">
+                                      <Box marginTop={1} className="date-container" >
                                         <CalendarMonthOutlinedIcon />
                                         <LocalTimeDate utcDateTime={addon?.startTime} format="MMMM D" timezone="auto" fallbackText="Not Available" />
                                         <Typography>-</Typography>
                                         <LocalTimeDate utcDateTime={addon?.endTime} format="MMMM D" timezone="auto" fallbackText="Not Available" />
                                       </Box>
 
-                                      <Box marginTop={.5} className="flex justify-center items-center  gap-x-2  py-1 w-max rounded-md text-gray-500">
+                                      <Box marginTop={.5} className="time-container">
                                         <TimerOutlinedIcon />
                                         <Typography marginTop={0.3}>
                                           {moment(addon?.startTime).format("h:mm A") + ' ' + '-' + ' ' + moment(addon?.endTime).format("h:mm A")}

@@ -245,6 +245,27 @@
   }
 
 
+  .date-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: .0667rem;
+    padding-block: .333rem;
+    width: max-content;
+    color: $clr_gray_dark_text !important;
+    border-radius: .5rem;
+  }
+
+  .time-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    column-gap: .0667rem;
+    padding-block: .333rem;
+    width: max-content;
+    color: $clr_gray_dark_text !important;
+    border-radius: .5rem;
+  }
 
   .program-list-item {
     width: max-content;
