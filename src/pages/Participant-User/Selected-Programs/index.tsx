@@ -400,9 +400,9 @@ const SelectedPrograms = () => {
                               </Typography>
                             </Grid>
 
-                            <Grid display={'flex'} alignItems={'center'} paddingTop={1} paddingBottom={2}>
+                            <Grid display={'flex'} alignItems={'center'} className="program-price-container">
                               <Dollar className="money-icon" />
-                              <Typography fontSize={22} marginLeft={"-5px"} marginTop={"1px"} fontWeight={700}>{Math.trunc(Number(item?.amount)) === 0 ? "Free" : `${item?.amount}`}</Typography>
+                              <Typography className="program-price">{Math.trunc(Number(item?.amount)) === 0 ? "Free" : `${item?.amount}`}</Typography>
                             </Grid>
 
                             <Grid size={12}>

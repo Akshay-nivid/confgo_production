@@ -244,6 +244,16 @@
     color: $clr_gray_dark_text;
   }
 
+  .program-price-container{
+    padding-top: 0.8333rem !important;
+    padding-bottom: 1.667rem !important;
+  }
+  .program-price{
+    font-size: $h4 !important;
+    font-weight: $font-semibold !important;
+    margin-left: -0.45rem !important;
+    margin-top: 0.083rem !important;
+  }
 
   .date-container{
     display: flex;
@@ -256,6 +266,7 @@
     border-radius: .5rem;
   }
 
+
   .time-container{
     display: flex;
     justify-content: center;
@@ -266,6 +277,8 @@
     color: $clr_gray_dark_text !important;
     border-radius: .5rem;
   }
+
+
 
   .program-list-item {
     width: max-content;
