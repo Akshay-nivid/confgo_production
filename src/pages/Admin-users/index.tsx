@@ -39,7 +39,6 @@ const AdminUsersList=()=>{
     const POST = useStore((state: any) => state.POST);
     const { control } = useForm();
     const [roleList,setRoleList]=useState<Role []>([])
-    const companyId = sessionStorage.getItem('companyId');
   /**
    * Fetches the userRole list when the component mounts.
    */
