@@ -1,5 +1,5 @@
 /**
- * Component handles the first template
+ * Component handles the three template
  */
 import Grid from '@mui/material/Grid2';
 import React, { useRef, useState } from 'react';
@@ -12,7 +12,6 @@ import LocationSection from './LocationSection';
 import RegisterBannerSection from './RegisterBannerSection';
 import TopMenuSection from './TopMenuSection';
 import TitleSection from './TitleSection';
-// import Temp1PhotoIcon from '@/assets/png/template1-photo.png';
 import { formatDateRange, toTitleCase, truncateString } from '@/Utils/CommonBaseClass';
 import LocationIcon from '@/assets/svg/template1-location.svg';
 import CalendarIcon from '@/assets/svg/template1-calendar.svg';
@@ -164,13 +163,13 @@ const Template3: React.FC<TemplateViewProps> = React.memo(({ data }) => {
         {/* Ticketing section */}
         {(data?.eventPriceTiers?.length > 0) && <TicketingSection ref={tierRef} temp={updatedTemp} data={data} />}
         {/* Register Banner section */}
-        {/* {(data?.venue) &&
+        {(data?.venue) &&
             <RegisterBannerSection
                 classPrefix={`${classPrefix}-register-banner`}
                 data={data}
                 onScrollToTier={() => handleScrollTo(tierRef)}
             />
-        } */}
+        }
         {/* Footer section */}
         <FooterSection classPrefix={`${classPrefix}-footer`} data={data} />
     </Grid>
