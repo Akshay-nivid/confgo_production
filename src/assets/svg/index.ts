@@ -100,7 +100,7 @@ import Arrow2Left from "./arrow2-left.svg"
 import GridImg from "./grid-img.svg"
 import Dollar from "./dollar.svg"
 import Book from "./book.svg"
-import DowloadIcon from "./download.svg"
+import DowloadIcon from "./Download.svg"
 import PdfIcon from "./pdf.svg"
 export {
   CalenderIcon,
