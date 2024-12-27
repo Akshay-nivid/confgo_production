@@ -326,7 +326,6 @@ const handleTabChange = (_: React.SyntheticEvent, newIndex: number) => {
     setDataById("eventTab", { tabIndex: newIndex }); 
   };
 
-  console.log(eventData![0]?.isAbstract,'88309490349009')
     return (
         <>
             {eventLoading ? (

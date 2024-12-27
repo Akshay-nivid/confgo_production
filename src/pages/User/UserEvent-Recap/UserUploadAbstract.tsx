@@ -29,7 +29,6 @@ const UserUploadAbstract = ({ eventData }: any) => {
    */
     const getUploadedAbstract = async () => {
         const userId = sessionStorage.getItem('userId');
-        console.log()
         try {
             await POST({
                 url: `userAbstract/list`,
@@ -97,7 +96,7 @@ const UserUploadAbstract = ({ eventData }: any) => {
             Logger.error('UserUploadAbstract.tsx');
         }
     }
-    
+
     return (
         < >
             <Grid className="upload-abstract" size={12} sx={{ marginTop: '10px' }} container >
