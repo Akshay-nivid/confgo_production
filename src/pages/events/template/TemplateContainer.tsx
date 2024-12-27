@@ -8,6 +8,7 @@ import Template1 from './Template1';
 import useStore, { setDataById } from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import routes from '@/router/routes';
+import Template3 from './Template3';
 
 type TemplateContainerProps = {
     id?: number;
@@ -94,7 +95,8 @@ const fetchEventDetails = async () => {
         {(dataInfo?.data || slugInfo?.data) && <Grid container size={{ xs: 12, sm: 12 }} spacing={1}>
         <Grid container size={{ xs: 12, sm: 12 }} className="event-template">
             {/* <TemplateView temp={typeof id === 'number' ? id : Number(id) || 1} eventId={entityId} slug={slug}/> */}
-            {temp === 1 && <Template1 data={dataInfo?.data || slugInfo?.data}/>}
+            {temp === 1 && <Template1 data={dataInfo?.data || slugInfo?.data}/>},
+            {temp === 3 && <Template3 data={dataInfo?.data || slugInfo?.data}/>}
             </Grid>
         </Grid>}
     </Grid>

@@ -18,44 +18,56 @@ import useStore from "@/Libs/store";
 import CouponView from "@/pages/coupon/CouponView";
 import Contact from "@/pages/contact/contact";
 
-import UserLayout from "@/pages/User/User-Layout";
-import UserLogin from "@/pages/User/User-Login";
-import UserRegister from "@/pages/User/User-Register";
-import UserOtp from "@/pages/User/User-Otp";
-import UserSetPassword from "@/pages/User/User-Setpassword";
-import UserSetpasswordSuccessful from "@/pages/User/User-Setpassword-Successful";
-import Register from "@/pages/register/Register";
+import UserLayout from "@/pages/Participant-User/User-Layout";
+import UserLogin from "@/pages/Participant-User/User-Login";
+import UserRegister from "@/pages/Participant-User/User-Register";
+import UserOtp from "@/pages/Participant-User/User-Otp";
+import UserSetPassword from "@/pages/Participant-User/User-Setpassword";
+import UserSetpasswordSuccessful from "@/pages/Participant-User/User-Setpassword-Successful";
+import ProgramSelection from "./pages/Participant-User/Program-Selection";
+import SelectedPrograms from "@/pages/Participant-User/Selected-Programs";
+import PaymentMethod from "@/pages/Participant-User/Payment-Method";
+import RegistrationCompleted from "@/pages/Participant-User/Registration-Completed";
+import PaymentHistory from "@/pages/Participant-User/User-PaymentHistory/PaymentHistory";
+import DynamicUserForm from "./pages/Participant-User/Dynamic-form";
+import UserEventRecap from "@/pages/Participant-User/UserEvent-Recap";
+import MyEventScreen from "@/pages/Participant-User/UserEvent";
+import GoogleAuthProvider from "./pages/Participant-User/GoogleAuthProvider";
+
 import ParticipantHome from "@/pages/participant/Participant-Home";
-import ProgramSelection from "@/pages/User/Program-Selection";
-import SelectedPrograms from "@/pages/User/Selected-Programs";
-import PaymentMethod from "@/pages/User/Payment-Method";
-import RegistrationCompleted from "@/pages/User/Registration-Completed";
+
 import ViewEventDetail from "@/pages/events/view/ViewEventDetail";
 import EventList from "@/pages/events/EventList";
+import TemplateContainer from "@/pages/events/template/TemplateContainer";
+import UserDetail from "./pages/events/view/UserDetail";
+
+import Register from "@/pages/register/Register";
+import AddPlan from "./pages/register/AddPlan";
+
 import UserDashboardLayout from "@/pages/user-dashboard-layout";
 import UserDashboard from "@/pages/user-dashboard-layout/UserDashboard";
-import PaymentHistory from "@/pages/User/User-PaymentHistory/PaymentHistory";
-import DynamicUserForm from "@/pages/User/DynamicUserForm";
+
+import ProfileSettings from "./pages/dashboard/ProfileSettings";
+
 import ForgotPassword from "@/pages/ForgotPassword/ForgotPassword";
 import Thankyou from "@/pages/ThankYou/ThankYou";
-import MyEventScreen from "@/pages/User/UserEvent";
 import Account from "@/pages/User-Account-Settings/Account";
-import UserEventRecap from "@/pages/User/UserEvent-Recap";
+import PlanUpgrade from "./pages/planUpgrade/PlanUpgrade";
+
 import ChangeVerification from "@/pages/SetPassword/ChangePasswordVerification";
-import TemplateContainer from "@/pages/events/template/TemplateContainer";
 
 import { PrivateRouteCompany, PrivateRouteReviewer, PrivateRouteSpeaker, PrivateRouteUser } from "./router/PrivateRoute";
 import PublicRoute from "./router/PublicRoute";
-import UserDetail from "./pages/events/view/UserDetail";
-import GoogleAuthProvider from "./pages/User/GoogleAuthProvider";
-import ProfileSettings from "./pages/dashboard/ProfileSettings";
-import AddPlan from "./pages/register/AddPlan";
-import PlanUpgrade from "./pages/planUpgrade/PlanUpgrade";
+
+import ReviewerHome from "@/pages/Reviewer/home"
+import ReviewDetailsPage from "@/pages/Reviewer/details-page"
+
+
 import AdminUsersList from "./pages/Admin-users";
 import CreateNewUsers from "./pages/Admin-users/CreateUsers";
 import VerifyUSerMailPage from "./pages/Admin-users/VerfiyUserEmail";
 import SpeakerHome from "./pages/Speaker/Home";
-import ReviewerHome from "./pages/Reviewer/Home";
+
 
 const userRoutes = [
   {
@@ -169,12 +181,17 @@ const userRoutes = [
         path: routes.reviewerHome(),
         element: <ReviewerHome />,
       },
+      {
+        element: <ReviewDetailsPage />,
+        path:routes.reviewDetails(":id"),
+      },
     ]
   },
 ];
 
 const router = createBrowserRouter([
   // Public routes
+
   {
     path: routes.register(),
     element: <Register />,
@@ -323,6 +340,9 @@ const router = createBrowserRouter([
     path: routes.participantHome(),
     element: <ParticipantHome />,
   },
+
+  
+
 ]);
 
 function App() {

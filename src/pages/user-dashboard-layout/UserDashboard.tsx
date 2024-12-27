@@ -15,7 +15,7 @@ import DashboardEventCards from './DashboardEventCard';
 import NoCalenderData from './NoCalenderData';
 import NoDataCard from './NoDataCard';
 import { useIsMobileScreen } from '@/Utils/CommonBaseClass';
-import EventCard from '../User/Components/EventCard';
+import EventCard from '../Participant-User/Components/EventCard';
 
 export interface CalendarCardData {
   id: string;
