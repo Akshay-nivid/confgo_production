@@ -161,7 +161,7 @@ const Template3: React.FC<TemplateViewProps> = React.memo(({ data }) => {
             )
         }
         {/* Ticketing section */}
-        {(data?.eventPriceTiers?.length > 0) && <TicketingSection ref={tierRef} classPrefix={`${classPrefix}-ticketing`} data={data} />}
+        {(data?.eventPriceTiers?.length > 0) && <TicketingSection ref={tierRef} classPrefix={`${classPrefix}-ticketing`} data={data} temp={updatedTemp} />}
         {/* Register Banner section */}
         {(data?.venue) &&
             <RegisterBannerSection

@@ -85,7 +85,7 @@ const Template2: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     const updatedTemp = data.templateId ?? 1;
     return <Grid container size={{ xs: 12, sm: 12 }}>
         <Grid container size={{ xs: 12, sm: 12 }} className={classPrefix}>
-            <Grid bgcolor={"pink"} container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-header`}>
+            <Grid  container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-header`}>
                 {/* Top menu section */}
                 <TopMenuSection  classPrefix={`${classPrefix}-top-menu`} data={data} onScrollToProgram={() => handleScrollTo(programRef)} onScrollToAbout={() => handleScrollTo(aboutRef)} onScrollToContributors={() => handleScrollTo(contributorsRef)} onScrollToLocation={() => handleScrollTo(LocationRef)} />
                 <Grid  container size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} direction={'row'}>
@@ -152,7 +152,7 @@ const Template2: React.FC<TemplateViewProps> = React.memo(({ data }) => {
             )
         }
         {/* Ticketing section */}
-        {(data?.eventPriceTiers?.length > 0) && <TicketingSection ref={tierRef} temp={updatedTemp} data={data} />}
+        {(data?.eventPriceTiers?.length > 0) && <TicketingSection ref={tierRef} classPrefix={`${classPrefix}-ticketing`}  temp={updatedTemp} data={data} />}
         {/* Register Banner section */}
         {(data?.venue) &&
             <RegisterBannerSection
