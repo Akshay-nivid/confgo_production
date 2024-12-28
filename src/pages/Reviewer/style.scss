@@ -1,0 +1,11 @@
+.reviewer-nav-wrapper {
+    box-shadow: $clr_gray_faded  0rem 0rem .5rem 0rem, $clr_gray_faded 0rem 0rem 0.083rem 0rem !important;
+    min-height: 7rem;
+
+    .reviewer-nav {
+        margin-inline: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
