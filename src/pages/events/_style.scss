@@ -1503,3 +1503,53 @@
     line-height: 1.030625rem;
     margin-top: 0.5rem;
 }
+
+.assign-reviewer-drawer {
+  &-main {
+    min-width: 40rem !important;
+  }
+  &-header {
+    padding: 2rem;
+    justify-content: space-between;
+  }
+
+  &-title {
+    font-size: 1.5rem;
+    font-weight: $font_medium;
+    color: $clr_black;
+  }
+
+  &-content {
+    padding: 1.33rem;
+  }
+
+  &-list-item {
+    display: flex;
+    align-items: center;
+    padding: 1.5rem 0;
+
+    &:not(:last-child) {
+      border-bottom: 0.083rem solid $clr_bright_gray;
+    }
+  }
+
+  &-list-item-text {
+    margin-right: 1.5rem;
+
+    .MuiTypography-root {
+      font-size: 1rem;
+      color: #555;
+    }
+  }
+
+  &-assign-button {
+    font-weight: $font-medium;
+    background-color: $clr_green !important;
+  }
+
+  &-no-reviewers {
+    text-align: center;
+    color: $clr_gray_light;
+    margin-top: 1.67rem;
+  }
+}

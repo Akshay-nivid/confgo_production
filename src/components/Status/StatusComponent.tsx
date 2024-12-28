@@ -18,10 +18,14 @@ const StatusComponent: React.FC<AppBarProps> = ({ value ,className}) => {
     { id: "0", textColor: '#D6983A', cellColor: '#FFECDF' },
     { id: "1", textColor: '#0CAF60', cellColor: '#E7F7EF' },
     { id: "5", textColor: '#0CAF60', cellColor: '#E7F7EF' },
-    { id: ["2", "3","6"],  textColor: '#D32C2C', cellColor: '#FFE8EC'},
+    { id: "3", textColor: '#D32C2C', cellColor: '#FFE8EC' },
+    { id: "2", textColor: '#D32C2C', cellColor: '#FFE8EC' },
+    { id: "6", textColor: '#D32C2C', cellColor: '#FFE8EC' },
     { id: "4", textColor: '#2C3CD3', cellColor: '#E8EBFF' },
-    {id:"7", textColor: '#D32C2C', cellColor: '#FFE8EC'},
-    {id:"8", textColor: '#0CAF60', cellColor: '#E7F7EF'},
+    { id: "7", textColor: '#D32C2C', cellColor: '#FFE8EC' },
+    { id: "8", textColor: '#0CAF60', cellColor: '#E7F7EF' },
+    { id: "9", textColor: '#0CAF60', cellColor: '#E7F7EF' },
+    { id: "10", textColor: '#D32C2C', cellColor: '#FFE8EC' },
   ];
 
 /**
@@ -49,7 +53,11 @@ const StatusComponent: React.FC<AppBarProps> = ({ value ,className}) => {
           case "7":
         return "Not Attended";
       case "8":
-            return "Attended";    
+            return "Attended";  
+      case "9":
+        return "Approved";  
+      case "10":
+        return "Rejected";  
       default:
         return "Pending";
     }

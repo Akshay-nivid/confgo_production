@@ -255,9 +255,12 @@
        }
 
        &-btn {
-           height: 3rem !important;
+           height: 4.17rem !important;
            background-color: $clr_green !important;
            box-shadow: none !important;
+           text-transform: none !important;
+           font-size: $p2 !important;
+           font-weight: $font-medium;
        }
    }
     
