@@ -4,7 +4,6 @@
 import Grid from '@mui/material/Grid2';
 import React from 'react';
 import config from '../../../../config.json';
-import { truncateString } from '@/Utils/CommonBaseClass';
 import { Avatar } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 
