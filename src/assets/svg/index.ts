@@ -101,8 +101,16 @@ import GridImg from "./grid-img.svg"
 import BookIcon from "./Book.svg";
 import CloseCircle from "./Close_circle_black.svg";
 import UploadIcon from "./Upload.svg";
+import Dollar from "./dollar.svg"
+import Book from "./book.svg"
+import DowloadIcon from "./Download.svg"
+import PdfIcon from "./pdf.svg"
 export {
   CalenderIcon,
+  PdfIcon,
+  DowloadIcon,
+  Book,
+  Dollar,
   GridImg,
   Arrow2Left,
   EventIcon,

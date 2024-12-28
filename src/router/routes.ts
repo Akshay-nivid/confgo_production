@@ -4,6 +4,7 @@ const routes = {
   home: () => "/",
   dashboard: () => "/dashboard",
   reviewerHome: () => "/reviewer/home",
+  reviewDetails: (id: string | number) => `/reviewer/${id}`,
   speakerHome: () => "/speaker/home",
   register: () => "/register",
   events: () => "/events",

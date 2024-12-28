@@ -122,7 +122,7 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, classP
                                 {data?.venue?.mapUrl && <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToLocation(e) }}> Location </Link></Grid>}
                             </Grid>}
                             <Grid container spacing={2}>
-                                {getUserToken() ? <Grid className={`${classPrefix}-logout-button`}><span role='button' onClick={logoutFn}> Logout </span></Grid> :
+                                {getUserToken() ? <Grid className={`${classPrefix}-book-button`}><CustomButton label='Logout' onClick={logoutFn}/></Grid> :
                                     <><Grid className={`${classPrefix}-login-button`}><span role='button' onClick={loginFn}> Login </span></Grid>
                                         <Grid className={`${classPrefix}-button-border`}></Grid>
                                         <Grid className={`${classPrefix}-book-button`}><CustomButton onClick={SignupFn} label='Signup'
@@ -158,7 +158,7 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, classP
 
                     <Grid container spacing={2} flexDirection={'column'} marginTop={"auto"}>
                        
-                        {getUserToken() ? <Grid className={`${classPrefix}-logout-button`}><span role='button' onClick={logoutFn}> Logout </span></Grid> :
+                        {getUserToken() ? <Grid className={`${classPrefix}-book-button`}><CustomButton fullWidth label='Logout'  onClick={logoutFn}/></Grid> :
                             <><Grid className={`${classPrefix}-book-button login`}><CustomButton fullWidth onClick={loginFn} label='Login' /> </Grid>
                                 {/* <Grid className={`${classPrefix}-button-border`}></Grid> */}
                                 <Grid className={`${classPrefix}-book-button`}><CustomButton fullWidth onClick={SignupFn} label='Signup'

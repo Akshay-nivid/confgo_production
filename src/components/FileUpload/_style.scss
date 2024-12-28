@@ -223,4 +223,24 @@
   color: $clr_white !important;
   min-width: 10rem !important;
  }
+
+ &-abstract {
+    svg{
+        width: 2rem;
+        height: 2rem;
+    }
+    &-title{
+        font-size: $h6 !important;
+        font-weight: $font-semibold !important;
+        color: $clr_black !important;
+    }
+    &-sub-title{
+        font-size: $p2 !important;
+        font-weight: $font_medium !important;
+        color: $clr_black !important;
+    }
+    &-dropzone {
+        background-color: $clr_white !important;
+    }
+ }
 }
