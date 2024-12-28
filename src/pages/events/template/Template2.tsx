@@ -15,7 +15,6 @@ import { formatDateRange, toTitleCase, truncateString } from '@/Utils/CommonBase
 import LocationIcon from '@/assets/svg/template1-location.svg';
 import CalendarIcon from '@/assets/svg/template1-calendar.svg';
 import EmailIcon from '@/assets/svg/template1-email.svg';
-import PhoneIcon from '@/assets/svg/template1-phone.svg';
 import LinkIcon from '@/assets/svg/template1-url.svg';
 import { Button, Typography } from '@mui/material';
 import TitleSection from './TitleSection';
