@@ -81,7 +81,6 @@ const Template2: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     const classPrefix = 'event-template-template2';
 
 
-    const updatedTemp = data.templateId ?? 1;
     return <Grid container size={{ xs: 12, sm: 12 }}>
         <Grid container size={{ xs: 12, sm: 12 }} className={classPrefix}>
             <Grid  container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-header`}>
@@ -107,7 +106,7 @@ const Template2: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                     `${classPrefix}-details-icon`
                                             }>{item.icon} </Grid>
                                             <Grid><Typography className={`${classPrefix}-details-label`}>{item.label}</Typography></Grid>
-                                            <Grid><Typography className={`${classPrefix}-details-value`} textAlign={'left'}> {truncateString(toTitleCase(item.value), 35, "Untitled")}
+                                            <Grid><Typography className={`${classPrefix}-details-value`} textAlign={'left'} title={toTitleCase(item.value)}> {truncateString(toTitleCase(item.value), 25, "Untitled")}
                                             </Typography></Grid>
                 
                                         </Grid>
@@ -151,7 +150,7 @@ const Template2: React.FC<TemplateViewProps> = React.memo(({ data }) => {
             )
         }
         {/* Ticketing section */}
-        {(data?.eventPriceTiers?.length > 0) && <TicketingSection ref={tierRef} classPrefix={`${classPrefix}-ticketing`}  temp={updatedTemp} data={data} />}
+        {(data?.eventPriceTiers?.length > 0) && <TicketingSection ref={tierRef} classPrefix={`${classPrefix}-ticketing`}  data={data} />}
         {/* Register Banner section */}
         {(data?.venue) &&
             <RegisterBannerSection
