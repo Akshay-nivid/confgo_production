@@ -19,8 +19,8 @@ import EmailIcon from '@/assets/svg/template1-email.svg';
 import PhoneIcon from '@/assets/svg/template1-phone.svg';
 import LinkIcon from '@/assets/svg/template1-url.svg';
 import { Button, Typography } from '@mui/material';
-
 import Temp3PhotoIcon from '@/assets/png/template3-photo.png';
+import CustomTooltip from '@/components/CustomToolTip/CustomTooltip';
 
 type TemplateViewProps = {
     data: any;
@@ -84,7 +84,7 @@ const Template3: React.FC<TemplateViewProps> = React.memo(({ data }) => {
 
 
 
-    const updatedTemp = data.templateId ?? 1;
+    const updatedTemp = data.templateId ?? 3;
     return <Grid container size={{ xs: 12, sm: 12 }}>
         <Grid container size={{ xs: 12, sm: 12 }} className={classPrefix}>
             <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-header`}>
@@ -115,8 +115,8 @@ const Template3: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                     : `${classPrefix}-details-icon`
                                             }>{item.icon} </Grid>
                                             <Grid><Typography className={`${classPrefix}-details-label`}>{item.label}</Typography></Grid>
-                                            <Grid><Typography className={`${classPrefix}-details-value`} textAlign={'left'}> {truncateString(toTitleCase(item.value), 35, "Untitled")}
-                                            </Typography></Grid>
+                                            <Grid> <CustomTooltip title={item.value}><Typography className={`${classPrefix}-details-value`} textAlign={'left'}> {truncateString(toTitleCase(item.value), 35, "Untitled")}
+                                            </Typography></CustomTooltip></Grid>
                                             {index === 0 ? (<Grid className={`${classPrefix}-details-border-line`} />) : null}
                                         </Grid>
                                     })
