@@ -1529,7 +1529,7 @@
     padding: 1.5rem 0;
 
     &:not(:last-child) {
-      border-bottom: 1px solid $clr_bright_gray;
+      border-bottom: 0.083rem solid $clr_bright_gray;
     }
   }
 
