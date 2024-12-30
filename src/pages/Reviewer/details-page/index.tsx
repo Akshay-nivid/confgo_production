@@ -1,4 +1,3 @@
-'use client'
 
 import Grid from "@mui/material/Grid2";
 import { Typography, IconButton, Box, Rating } from '@mui/material';
@@ -11,7 +10,10 @@ import { useEffect, useState } from "react";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import moment from "moment";
-
+import { PUT, snackBar } from "@/Libs/store";
+import { useForm } from "react-hook-form";
+import useStore from "@/Libs/store";
+import { Edit } from "@mui/icons-material";
 /**
  * Reviewer component renders the details page for the reviewer.
  * It displays a navigation bar, an abstract summary, reviewer's message,
@@ -26,24 +28,38 @@ import moment from "moment";
  */
 const Reviewer = () => {
     const { id } = useParams<{ id: string }>(); // Retrieve the ID from URL parameters
-    const [dataResult,setData] = useState<Reviewer | null>(null); // Replace 'Coupon' with your actual coupon type
-    const [rating, setRating] = useState<number | null>(null); // Store rating
-    const [comment, setComment] = useState<string>('');
+    const [dataResult, setData] = useState<Reviewer | null>(null); // Store abstract data
+    const [disbaled, setDisabled] = useState<boolean>(false); // Store disabled state
+
+
+    const reviewData = useStore((state:any) => state.compData?.updateReviewDetails?.[`userAbstract/${id}`]);
+
+   
+    const form = useForm({
+        defaultValues: {
+            rating: 0,
+            comment: '',
+        }
+    });
+
     interface Reviewer {
-        asset?: {name: string;
-            createdOn:Date;
-            mimeType:string;
-            sourcePath:string;
+        asset?: {
+            id: number;
+            name: string;
+            createdOn: Date;
+            mimeType: string;
+            sourcePath: string;
 
 
         };  // Make asset optional in case it's not returned
-        user?: {firstName: string;
+        user?: {
+            firstName: string;
             lastName: string;
             email: string;
-          };
+        };
         isReviewed?: any;
-        status:any;
-}
+        status: any;
+    }
 
     /**
      * useEffect hook to handle the API call
@@ -52,40 +68,78 @@ const Reviewer = () => {
         fetchAbstractDetails();
     }, [id]);
 
-  /**
-   * Fetch Coupon Details
-   */
-  const fetchAbstractDetails = async () => {
-  
-      const response = await apiClient.get(`/userAbstract/${id}`); // Adjust the endpoint as needed
-      const { status, data } = await processAPIResponse(response, "Viewcoupon");
-      if (status) {
-        setData(data);
-      }
-   
-  };
+    /**
+     * Fetch Coupon Details
+     */
+    const fetchAbstractDetails = async () => {
 
-  const updateReviewDetails = async () => {
-    if (rating === null || comment.trim() === '') {
-      
-      return;
+        const response = await apiClient.get(`/userAbstract/${id}`); // Adjust the endpoint as needed
+        const { status, data } = await processAPIResponse(response, "Viewcoupon");
+        if (status) {
+
+            setDisabled(data?.isReviewed === 1);
+
+            form.reset({
+                rating: data?.rating,
+                comment: data?.comment
+            })
+
+            setData(data);
+        }
+
+    };
+
+    const updateReviewDetails = (data: any) => {
+
+
+
+        const { rating, comment } = data;
+
+
+
+        if (!rating || !comment || comment === '<p><br></p>') {
+            snackBar({ severity: 'error', message: 'Both rating and comment are required' });
+            return
+        }
+
+
+
+        const updatedFields = {
+            id,
+            rating,
+            comment,
+        };
+
+        PUT({
+            url: `userAbstract/${id}`,
+            body: updatedFields,    
+            id: 'updateReviewDetails',
+            successCB: () => {
+                snackBar({ severity: 'success', message: 'Review submitted successfully' });
+                fetchAbstractDetails();
+            },
+            errorCB: () => {
+                snackBar({ severity: 'error', message: 'Failed to submit review' });
+            }
+        })
+
+       
+    };
+
+    const handleQuillChange = (value: string) => {
+        form.setValue('comment', value);
+    };
+
+    const handleFileClick = () => {
+        const href = `https://api.confgo.com/api/asset/${dataResult?.asset?.id}`
+        window.open(href, '_blank')
+    };
+
+
+    function handleClickEditButton() {
+        setDisabled(false);
     }
 
-   
-    const updatedFields = {
-        id,
-        rating,
-        comment,
-      };
-      const response = await apiClient.put(`/userAbstract/${id}`, updatedFields); // Adjust the endpoint as needed
-      const { status } = await processAPIResponse(response, "Viewcoupon");
-
-      if (status) {
-        setTimeout(() => {
-          //navigate(routes.reviewDetails(id)); // Redirect after successful update
-        }, 1500);
-    }
-  };
     return (
         <Box className="reviewer-main">
 
@@ -105,7 +159,7 @@ const Reviewer = () => {
                                     <Typography>Abstract</Typography>
                                 </Box>
 
-                                <IconButton>
+                                <IconButton onClick={handleFileClick}>
                                     <DowloadIcon />
                                 </IconButton>
 
@@ -113,12 +167,12 @@ const Reviewer = () => {
 
 
 
-                            <Box className="file-container">
+                            <Box className="file-container" onClick={handleFileClick}>
 
                                 <PdfIcon />
                                 <Box className="file-info">
                                     <Typography className='date'>{moment(dataResult?.asset?.createdOn).format('MMMM D, YYYY')}</Typography>
-                                    <Typography className='name'>{dataResult?.asset?.name}</Typography>
+                                    <Typography className='name'>{dataResult?.asset?.name} </Typography>
                                 </Box>
 
                             </Box>
@@ -130,31 +184,45 @@ const Reviewer = () => {
                             <Box className="reviewer-avatar-container">
                                 {/* <Avatar className='avatar'>JD</Avatar> */}
                                 <Typography className='name'>Review</Typography>
+                               {dataResult?.isReviewed === 1 && <IconButton onClick={handleClickEditButton}>
+                                    <Edit />
+                                </IconButton>}
                             </Box>
 
-                            <Box className="rating-container">
-                                <Rating
-                                size="large"
-                                precision={0.5}
-                                value={rating}
-                                onChange={(_, newValue) => setRating(newValue)}
-                                />
-                            </Box>
+                            <form onSubmit={form.handleSubmit(updateReviewDetails)}>
+                                <Box className="rating-container">
+                                    <Rating
+                                        size="large"
+                                        disabled={reviewData?.loading || disbaled}
+                                        precision={1}
+                                        name="rating"
+                                        onChange={(_event, newValue) => {
+                                            if (newValue !== null) {
+                                                form.setValue('rating', newValue);
+                                            }
+                                        }}
+                                        max={5}
+                                        value={form.watch('rating')}
+                                    />
+                                </Box>
 
-                            <Box className="editor-container">
-                                <ReactQuill
-                                value={comment}
-                                onChange={setComment}
-                                modules={{
-                                    toolbar: [['bold', 'italic', 'link']],
-                                }}
-                                placeholder="Write a comment..."
-                                />
-                            </Box>
+                                <Box className="editor-container">
+                                    <ReactQuill
+                                        readOnly={reviewData?.loading || disbaled}
 
-              <Box className="editor-btn-container">
-                <CustomButton label="Submit" className="comment-btn" onClick={updateReviewDetails} />
-              </Box>
+                                        onChange={handleQuillChange}
+                                        modules={{
+                                            toolbar: [['bold', 'italic', 'link']],
+                                        }}
+                                        value={form.watch('comment')}
+                                        placeholder="Write a comment..."
+                                    />
+                                </Box>
+                                
+                                <Box className="editor-btn-container">
+                                    <CustomButton disabled={reviewData?.loading || disbaled} isLoading={reviewData?.loading} label="Submit" className="comment-btn" type="submit" />
+                                </Box>
+                            </form>
 
                         </Box>
 
@@ -181,7 +249,7 @@ const Reviewer = () => {
                             <Box className="user-info-group">
                                 <Typography className='title'>Status</Typography>
                                 <Box className="value">
-                                    <StatusComponent value={dataResult?.isReviewed} className='w-max' />
+                                    <StatusComponent value={dataResult?.isReviewed === 1 ? "4" : "0"} className='w-max' />
                                 </Box>
                             </Box>
                         </Box>
