@@ -91,6 +91,17 @@ const Reviewer = () => {
 
     };
 
+
+
+
+
+
+
+    /**
+     * Submits the review details to the API and updates the form state.
+     * Also handles the error and success responses
+     * @param {object} data - The data to be submitted
+     */
     const updateReviewDetails = (data: any) => {
 
 
@@ -134,7 +145,7 @@ const Reviewer = () => {
  */
 
     const handleQuillChange = (value: string) => {
-        form.setValue('comment', value);
+        form.setValue('comment', value); 
     };
 
     /**
