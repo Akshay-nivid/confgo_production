@@ -437,18 +437,18 @@ const SpeakerCard = (_eventData: any) => {
                             spacing={0.5}
                           >
                             <Grid>
-                              {item?.assetId ?(
+                              {item?.user?.assetId ?(
                               <img
                                 className="event-detail-speakers-card-list-row-img"
-                                src={`${baseUrl}asset/${item?.assetId}`}
-                                alt={item?.name}
+                                src={`${baseUrl}asset/${item?.user?.assetId}`}
+                                alt={item?.user?.firstName}
                               />):(
                                 <Avatar className="event-detail-speakers-card-list-row-no-img">
                                   <PersonIcon className="event-detail-speakers-card-list-row-no-img-icon"/>
                                 </Avatar>
                               )}
                               <Typography className="event-detail-speakers-card-list-row-name">
-                                {item?.name}
+                                {item?.user?.firstName}
                               </Typography>
                               <Typography className="event-detail-speakers-card-list-row-designation">
                                 {item?.designation}
