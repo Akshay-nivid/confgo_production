@@ -263,3 +263,16 @@ export const formatDateRange = (startTime: string, endTime: string) => {
     return `${start.format('MMMM D, YYYY')} - ${end.format('MMMM D, YYYY')}`;
   }
 };
+/**
+ * Method returns the file type from a file object
+ * @param fileObject : uploaded file object data
+ * @returns : file type
+ */
+export function extractFileType(fileObject: any) {
+  if (!fileObject || !fileObject.mimeType) {
+    throw new Error("Invalid file object or missing mimeType property");
+  }
+
+  const mimeTypeParts = fileObject.mimeType.split('/');
+  return mimeTypeParts.length > 1 ? mimeTypeParts[1] : null;
+}

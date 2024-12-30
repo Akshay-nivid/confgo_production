@@ -308,6 +308,75 @@
         &-location {
             padding: 2rem 7rem 5rem 7rem;
         }
+        &-ticketing {
+            padding: 2rem 2rem 8rem 2rem;
+
+            &-title {
+                font-size: $h2 !important;
+                font-weight: $font_semibold !important;
+                padding: 1rem;
+            }
+
+            &-item-container {
+                padding: 1rem 1rem 5rem 1rem;
+                border-radius: 1.83rem;
+                box-shadow: 0 0.08rem 1rem 0 $clr_dark_charcoal;
+                position: relative;
+                min-width: 50rem !important;
+            }
+
+            &-item-title {
+                padding: 0.5rem 1rem 0.5rem 1rem;
+                border: 0.083rem solid $clr_charcoal_blue;
+                border-radius: 4.1rem;
+                font-size: $h5 !important;
+                font-weight: $font-semibold !important;
+                text-align: center;
+                display: inline-block;
+            }
+
+            &-sub-item {
+                &-container {
+                    padding: 1rem;
+                }
+
+                &-name {
+                    font-size: $h5 !important;
+                    font-weight: $font-semibold !important;
+                }
+
+                &-date {
+                    font-size: $h6 !important;
+                    font-weight: $font_medium !important;
+                }
+
+                &-amount {
+                    font-size: $h2 !important;
+                    font-weight: $font_bold !important;
+                }
+            }
+
+            &-register-button {
+                background-color: $clr_charcoal_cyan !important;
+                border-radius: 0.83rem !important;
+                font-size: $h6 !important;
+                font-weight: $font_bold !important;
+                text-transform: none !important;
+                margin-top: 1rem !important;
+
+                &-container {
+                    position: absolute;
+                    bottom: 0;
+                    width: 100%;
+                    padding-bottom: 2rem;
+
+                }
+            }
+
+            &-content-container {
+                padding: 1rem;
+            }
+        }
         &-register-banner {
             padding: 2rem 8.3rem 5rem 8.3rem ;
             background: url("../assets/png/template1-register-banner.png") no-repeat center !important;
@@ -360,6 +429,821 @@
             }
         }
     }
+
+    &-template3 {
+     &-top-menu{
+        &-container {
+            background-color: $clr_dark_navy_blue;
+            padding: 1rem;
+            margin: 2rem 6rem 2rem 6rem;
+            border-radius: 1.25rem;
+        }
+
+        &-logo {
+            color: $clr_white;
+            font-size: $h2;
+            font-weight: $font_normal;
+            padding-left: 2rem;
+
+            &-img {
+                width: 4rem;
+            }
+        }
+
+        &-sub-item {
+            color: $clr_white;
+            font-size: $p2;
+            font-weight: $font_medium;
+        }
+
+        &-login-button {
+            color: $clr_white;
+            font-size: $h6;
+            font-weight: $font_semibold;
+            padding-top: 0.6rem;
+        }
+
+        &-logout-button {
+            font-size: $h6;
+            font-weight: $font_semibold;
+            border: 0.083rem solid $clr_white;
+            border-radius: 0.83rem;
+            height: 3.2rem;
+            width: 8rem;
+            background-color: $clr_white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: $clr_dark_blue;
+        }
+
+        &-button-border {
+            border-right: 0.083rem solid $clr_white;
+            margin: 0.5rem 0 0.5rem 0;
+        }
+
+        &-book-button {
+            button {
+                color: $clr_black;
+                background-color: $clr_white;
+                text-transform: none;
+                border-radius: 0.83rem;
+                font-size: $h6;
+                font-weight: $font_semibold;
+            }
+        }
+    }
+    &-register-banner {
+        padding: 2rem 8.3rem 5rem 8.3rem ;
+        background: url("../assets/png/template1-register-banner.png") no-repeat center !important;
+        height: 33rem ;
+        border-radius: 1.25rem;
+        margin-bottom: 4.17rem;
+        align-content: center !important;
+        justify-content: center !important;
+        background-size: cover !important;
+        margin: 1rem 7rem 1rem 7rem;
+        &-title{
+          text-align: center;
+          font-weight: $font_bold !important;
+          font-size: 2.833rem !important;
+          color: $clr_black !important;
+        }
+        &-subtitle{
+          text-align: center;
+          font-weight: $font_semibold !important;
+          font-size: $h5 !important;
+          color: $clr_black !important;
+          margin-top: 0.84rem !important;
+          margin-bottom: 2.5rem !important;
+        }
+        &-button{
+          justify-content: center;
+          background-color: $clr_black !important;
+          color: $clr_white !important;
+          padding: 1.25rem 2.167rem 1.25rem 2.167rem !important;
+          border-radius: 0.83rem !important;
+        }
+    }
+    &-title{
+        
+            padding: 1rem 1rem 1rem 5rem;
+
+            &-title1,
+            &-title2 {
+                font-size: $h1 !important;
+                font-weight: $font_semibold !important;
+                color: $clr_dark_navy_blue !important;
+            }
+
+            &-sub-title {
+                font-size: $h6 !important;
+                font-weight: $font_normal !important;
+            }
+
+            &-register-button {
+                background-color: $clr_dark_navy_blue !important;
+                border-radius: 0.83rem !important;
+                font-size: $h6 !important;
+                font-weight: $font_bold !important;
+                text-transform: none !important;
+                margin-top: 1rem !important;
+            }
+        }
+        &-header {
+            background-color: $clr_oxford_blue;
+
+            &-photo-container {
+                width: 51.6rem !important;
+            }
+
+            &-title-container {
+                padding: 1rem !important;
+            }
+        }
+        &-details {
+             &-container {
+                padding: 0 6rem 0 6rem;
+            }
+
+            &-item {
+                padding: 0rem 3rem 0rem 2rem;
+                box-shadow: 0 0.3rem 1rem 0 $clr_light_black_shadow;
+                border-radius: 1rem;
+               
+                svg {
+                    width: 2.5rem;
+                    height: 2.5rem;
+                }
+            }
+            &-box{
+                height: 20rem !important;
+                padding-left: 3.25rem ;
+                padding-top:3rem !important ;
+            }
+            &-index-box {
+                  background: $clr_dark_navy_blue;
+                  color:$clr_white ;
+                  padding: 2.4167rem 0 0 2.1667rem; 
+              }
+              &-border-right{
+                border-right: .12rem solid $clr_black;
+              }
+              &-icon{
+                svg {
+                  width: 4.1667rem !important;
+                  height: 4.1667rem !important;
+                  }
+              }
+              &-index-icon {
+                svg {
+                  width: 4.1667rem !important;
+                  height: 4.1667rem !important;
+                  rect {
+                    fill: $clr_white;  
+                  }
+                }
+              }
+            &-border-line{
+                width: 0.125rem;
+                height: 14.75rem;
+                background:$clr_background_gray;
+            }
+            &-label {
+                font-size: $h6 !important;
+                font-weight: $font_normal !important;
+            }
+
+            &-value {
+                font-size: $h5 !important;
+                font-weight: $font_medium !important;
+                word-wrap: break-word;
+                word-break: break-all;
+                white-space: normal;
+            }
+        }
+        &-about {
+            padding: 3rem 6rem 3rem 6rem;
+            &-title {
+                font-size: $h2;
+                font-weight: $font_semibold;
+            }
+
+            &-sub-title {
+                font-size: $h6;
+                font-weight: $font_normal;
+            }
+
+            &-content {
+                font-size: $h6;
+                font-weight: $font_medium;
+            }
+        
+        }
+        &-event-contributors {
+            background-color: $clr_dark_navy_blue;
+            padding: 2rem;
+
+            &-title {
+                font-size: $h2;
+                font-weight: $font_semibold;
+                color: $clr_white;
+            }
+
+            &-sub-title {
+                font-size: $h6;
+                font-weight: $font_normal;
+                color: $clr_white;
+            }
+
+            &-item {
+                &-group-container {
+                    padding: 3rem 6rem 3rem 6rem;
+                }
+
+                &-container {
+                    background-color: $clr_white;
+                    border-radius: 0.83rem;
+                    padding: 2rem;
+                }
+
+                &-name {
+                    font-size: $h5;
+                    font-weight: $font-semibold;
+                }
+
+                &-designation {
+                    font-size: $h6;
+                    font-weight: $font_medium;
+                }
+
+                &-topic {
+                    font-size: $h6;
+                    font-weight: $font_normal;
+                }
+            }
+        }
+        &-program {
+            padding: 3rem 6rem 3rem 6rem;
+
+            &-title {
+                font-size: $h2;
+                font-weight: $font-semibold;
+            }
+
+            &-item {
+                &-day {
+                    border: 0.167rem solid $clr_charcoal_cyan;
+                    border-radius: 0.83rem;
+                    padding: 1rem;
+                    margin-top: 0.6rem;
+
+                    p {
+                        font-size: $h6;
+                        font-weight: $font_bold;
+                        color: $clr_charcoal_cyan;
+                    }
+                }
+
+                &-group-container {
+                    border: 0.0011rem solid $clr_charcoal_cyan;
+                    width: 90rem;
+                    border-radius: 0.83rem;
+                    padding: 1rem;
+
+                    svg {
+                        width: 2.5rem;
+                        height: 2.5rem;
+                    }
+                }
+
+                &-time-container {
+                    border: 0.167rem solid $clr_black;
+                    border-radius: 0.83rem;
+                    padding: 0.5rem;
+
+                    p {
+                        font-size: $p2;
+                        font-weight: $font_bold;
+                        color: $clr_charcoal_cyan;
+                    }
+                }
+
+                &-name {
+                    font-size: $h5 !important;
+                    font-weight: $font_semibold !important;
+
+                    &-container {
+                        padding-left: 4rem;
+                    }
+                }
+
+                &-description {
+                    font-size: $h6 !important;
+                    font-weight: $font_medium !important;
+                }
+            }
+        }
+            &-location {
+                padding: 2rem 15rem 5rem 15rem;
+            }
+
+            &-ticketing {
+                padding: 2rem 2rem 8rem 2rem;
+
+            &-title {
+                font-size: $h2 !important;
+                font-weight: $font_semibold !important;
+                padding: 1rem;
+            }
+
+            &-item-container {
+                padding: 1rem 1rem 5rem 1rem;
+                border-radius: 1.83rem;
+                box-shadow: 0 0.08rem 1rem 0 $clr_dark_charcoal;
+                position: relative;
+                min-width: 50rem !important;
+            }
+
+            &-item-title {
+                padding: 0.5rem 1rem 0.5rem 1rem;
+                border: 0.083rem solid $clr_dark_navy_blue;
+                border-radius: 4.1rem;
+                font-size: $h5 !important;
+                font-weight: $font-semibold !important;
+                text-align: center;
+                display: inline-block;
+            }
+
+            &-sub-item {
+                &-container {
+                    padding: 1rem;
+                }
+
+                &-name {
+                    font-size: $h5 !important;
+                    font-weight: $font-semibold !important;
+                }
+
+                &-date {
+                    font-size: $h6 !important;
+                    font-weight: $font_medium !important;
+                }
+
+                &-amount {
+                    font-size: $h2 !important;
+                    font-weight: $font_bold !important;
+                }
+            }
+
+            &-register-button {
+                background-color: $clr_dark_navy_blue !important;
+                border-radius: 0.83rem !important;
+                font-size: $h6 !important;
+                font-weight: $font_bold !important;
+                text-transform: none !important;
+                margin-top: 1rem !important;
+
+                &-container {
+                    position: absolute;
+                    bottom: 0;
+                    width: 100%;
+                    padding-bottom: 2rem;
+
+                }
+            }
+
+            &-content-container {
+                padding: 1rem;
+            }
+            }
+        
+        
+            &-footer {
+                background-color: $clr_medium_black;
+            height: 18rem;
+            color: $clr_white;
+
+            &-logo {
+                svg {
+                    width: 10rem;
+                    height: 4rem;
+                }
+            }
+
+            &-social-media {
+                svg {
+                    width: 2rem;
+                    height: 2rem;
+                }
+            }
+            }
+        }
+    &-template2{
+        &-top-menu {
+            height: 5rem;
+            &-container {
+                padding: 1rem;
+                margin: 2rem 6rem 2rem 6rem;
+                border-radius: 1.25rem;
+                z-index: 1;
+                background-color: $clr_white;
+
+            }
+
+            &-logo {
+                font-size: $h2;
+                font-weight: $font_normal;
+                padding-left: 2rem;
+
+                &-img {
+                    width: 4rem;
+                }
+            }
+
+            &-sub-item {
+                font-size: $p2;
+                font-weight: $font_medium;
+            }
+
+            &-login-button {
+                font-size: $h6;
+                font-weight: $font_semibold;
+                padding-top: 0.6rem;
+            }
+
+            &-logout-button {
+                font-size: $h6;
+                font-weight: $font_semibold;
+                border: 0.083rem solid $clr_bright_mint_green;
+                border-radius: 0.83rem;
+                height: 3.2rem;
+                width: 8rem;
+                background-color: $clr_bright_mint_green;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: $clr_white;
+            }
+
+            &-button-border {
+                border-right: 0.083rem solid $clr_black;
+                margin: 0.5rem 0 0.5rem 0;
+            }
+
+            &-book-button {
+                button {
+                    color: $clr_white;
+                    background-color: $clr_bright_mint_green;
+                    text-transform: none;
+                    border-radius: 0.83rem;
+                    font-size: $h6;
+                    font-weight: $font_semibold;
+                }
+            } 
+        }
+        &-header {
+            background: url("../assets/png/template2-header.png") no-repeat center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            height: 60rem;
+
+            &-title-container {
+                padding: 1rem;
+            }
+        }
+        &-details {
+            margin-top: 21rem;
+             &-container {
+                padding: 0 6rem 0 6rem;
+            }
+
+            &-item {
+                box-shadow: 0 0.3rem 1rem 0 $clr_light_black_shadow;
+                border-radius: 1rem;
+               
+                svg {
+                    width: 2.5rem;
+                    height: 2.5rem;
+                }
+            }
+            &-index-box {
+                
+                  background: $clr_bright_mint_green ;
+                  color:$clr_white ;
+                  
+              }
+              &-border-right{
+                border-right: .12rem solid $clr_black;
+              }
+              &-icon{
+                svg {
+                  width: 4.1667rem !important;
+                  height: 4.1667rem !important;
+                  }
+              }
+            &-label {
+                font-size: $h6 !important;
+                font-weight: $font_normal !important;
+            }
+
+            &-value {
+                font-size: $h5 !important;
+                font-weight: $font_medium !important;
+                word-wrap: break-word;
+                word-break: break-all;
+                white-space: normal;
+            }   
+        }
+        &-about{
+            padding: 3rem 6rem 3rem 6rem;
+
+            &-title {
+                font-size: $h2;
+                font-weight: $font_semibold;
+            }
+
+            &-sub-title {
+                font-size: $h6;
+                font-weight: $font_normal;
+            }
+
+            &-content {
+                font-size: $h6;
+                font-weight: $font_medium;
+            }
+        }
+            &-location {
+
+                padding: 2rem 15rem 5rem 15rem;
+            }
+        &-program{
+            padding: 3rem 6rem 3rem 6rem;
+
+            &-title {
+                font-size: $h2;
+                font-weight: $font-semibold;
+            }
+
+            &-item {
+                &-day {
+                    border: 0.167rem solid $clr_charcoal_cyan;
+                    border-radius: 0.83rem;
+                    padding: 1rem;
+                    margin-top: 0.6rem;
+
+                    p {
+                        font-size: $h6;
+                        font-weight: $font_bold;
+                        color: $clr_charcoal_cyan;
+                    }
+                }
+
+                &-group-container {
+                    border: 0.117rem solid $clr_dark_navy_blue !important;
+                    width: 90rem;
+                    border-radius: 0.83rem;
+                    padding: 1rem;
+
+                    svg {
+                        width: 2.5rem;
+                        height: 2.5rem;
+                    }
+                }
+
+                &-time-container {
+                    border: 0.167rem solid $clr_black;
+                    border-radius: 0.83rem;
+                    padding: 0.5rem;
+
+                    p {
+                        font-size: $p2;
+                        font-weight: $font_bold;
+                        color: $clr_charcoal_cyan;
+                    }
+                }
+
+                &-name {
+                    font-size: $h5 !important;
+                    font-weight: $font_semibold !important;
+
+                    &-container {
+                        padding-left: 4rem;
+                    }
+                }
+
+                &-description {
+                    font-size: $h6 !important;
+                    font-weight: $font_medium !important;
+                }
+            }
+        }
+        &-title{
+            padding: 10rem 1rem 1rem 5rem;
+            width: 100%  !important;
+            &-title1,
+            &-title2 {
+                font-size: $h2 !important;
+                font-weight: $font_semibold !important;
+            }
+
+            &-sub-title {
+                font-size: $h6 !important;
+                font-weight: $font_normal !important;
+            }
+
+            &-register-button {
+                background-color: $clr_bright_mint_green !important;
+                border-radius: 0.83rem !important;
+                font-size: $h6 !important;
+                font-weight: $font_bold !important;
+                text-transform: none !important;
+                margin-top: 1rem !important;
+            }
+        }
+        &-about{
+            padding: 3rem 6rem 3rem 6rem;
+
+            &-title {
+                font-size: $h2;
+                font-weight: $font_semibold;
+            }
+
+            &-sub-title {
+                font-size: $h6;
+                font-weight: $font_normal;
+            }
+
+            &-content {
+                font-size: $h6;
+                font-weight: $font_medium;
+            }
+        }
+        &-event-contributors {
+            background-color: $clr_dark_charcoal_gray;
+            padding: 2rem;
+
+            &-title {
+                font-size: $h2;
+                font-weight: $font_semibold;
+                color: $clr_white;
+            }
+
+            &-sub-title {
+                font-size: $h6;
+                font-weight: $font_normal;
+                color: $clr_white;
+            }
+
+            &-item {
+                &-group-container {
+                    padding: 3rem 6rem 3rem 6rem;
+                }
+
+                &-container {
+                    background-color: $clr_white;
+                    border-radius: 0.83rem;
+                    padding: 2rem;
+                }
+
+                &-name {
+                    font-size: $h5;
+                    font-weight: $font-semibold;
+                }
+
+                &-designation {
+                    font-size: $h6;
+                    font-weight: $font_medium;
+                }
+
+                &-topic {
+                    font-size: $h6;
+                    font-weight: $font_normal;
+                }
+            }
+        }
+        &-register-banner{
+            padding: 2rem 8.3rem 5rem 8.3rem ;
+            background: url("../assets/png/template1-register-banner.png") no-repeat center !important;
+            height: 33rem ;
+            border-radius: 1.25rem;
+            margin-bottom: 4.17rem;
+            align-content: center !important;
+            justify-content: center !important;
+            &-title{
+              text-align: center;
+              font-weight: $font_bold !important;
+              font-size: 2.833rem !important;
+              color: $clr_black !important;
+            }
+            &-subtitle{
+              text-align: center;
+              font-weight: $font_semibold !important;
+              font-size: $h5 !important;
+              color: $clr_black !important;
+              margin-top: 0.84rem !important;
+              margin-bottom: 2.5rem !important;
+            }
+            &-button{
+              justify-content: center;
+              background-color: $clr_black !important;
+              color: $clr_white !important;
+              padding: 1.25rem 2.167rem 1.25rem 2.167rem !important;
+              border-radius: 0.83rem !important;
+            }
+        }
+        &-ticketing{
+            padding: 2rem 2rem 8rem 2rem;
+
+            &-title {
+                font-size: $h2 !important;
+                font-weight: $font_semibold !important;
+                padding: 1rem;
+            }
+
+            &-item-container {
+                padding: 1rem 1rem 5rem 1rem;
+                border-radius: 1.83rem;
+                box-shadow: 0 0.08rem 1rem 0 $clr_dark_charcoal;
+                position: relative;
+                min-width: 50rem !important;
+            }
+
+            &-item-title {
+                padding: 0.5rem 1rem 0.5rem 1rem;
+                border: 0.083rem solid $clr_charcoal_blue;
+                border-radius: 4.1rem;
+                font-size: $h5 !important;
+                font-weight: $font-semibold !important;
+                text-align: center;
+                display: inline-block;
+            }
+
+            &-sub-item {
+                &-container {
+                    padding: 1rem;
+                }
+
+                &-name {
+                    font-size: $h5 !important;
+                    font-weight: $font-semibold !important;
+                }
+
+                &-date {
+                    font-size: $h6 !important;
+                    font-weight: $font_medium !important;
+                }
+
+                &-amount {
+                    font-size: $h2 !important;
+                    font-weight: $font_bold !important;
+                }
+            }
+
+            &-register-button {
+                background-color: $clr_bright_mint_green !important;
+                border-radius: 0.83rem !important;
+                font-size: $h6 !important;
+                font-weight: $font_bold !important;
+                text-transform: none !important;
+                margin-top: 1rem !important;
+
+                &-container {
+                    position: absolute;
+                    bottom: 0;
+                    width: 100%;
+                    padding-bottom: 2rem;
+
+                }
+            }
+
+            &-content-container {
+                padding: 1rem;
+            }
+        }
+        &-footer{
+            background-color: $clr_medium_black;
+            height: 18rem;
+            color: $clr_white;
+
+            &-logo {
+                svg {
+                    width: 10rem;
+                    height: 4rem;
+                }
+            }
+
+            &-social-media {
+                svg {
+                    width: 2rem;
+                    height: 2rem;
+                }
+            }
+
+        }
+    }
+     
+    
 
     &-preview {
         pointer-events: none;
@@ -1243,7 +2127,7 @@
                 position: relative;
                 min-width: 50rem !important;
             }
-
+              
             &-item-title {
                 padding: 0.5rem 1rem 0.5rem 1rem;
                 border: 0.083rem solid $clr_charcoal_blue;

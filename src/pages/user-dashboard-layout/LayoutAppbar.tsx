@@ -26,6 +26,7 @@ interface LayoutAppbarProps {
 const LayoutAppbar: React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
+  const role = sessionStorage.getItem('userRole');
   /**
    * handle appbar open
    */
@@ -89,6 +90,7 @@ const LayoutAppbar: React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =
   const closeMenu = () => {
     setIsMenuOpen(false);
   };
+
 
 
   return (
@@ -162,14 +164,14 @@ const LayoutAppbar: React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =
 
           </MenuItem>
           <Divider />
-          <MenuItem className="menu-item-margin" onClick={handleProfileClick} >
+          {role !== 'SPEAKER' && <><MenuItem className="menu-item-margin" onClick={handleProfileClick} >
             <SettingsIcon   className="user-profile-menu-icon"/>
             <span className="menu-item-text">Profile</span>
           </MenuItem>
           <MenuItem className="" onClick={handleResetPassword}>
             <ResetPassword className="user-profile-menu-icon"  />
             <span className="menu-item-text">Change Password</span>
-          </MenuItem>
+          </MenuItem></>}
           <MenuItem className="" onClick={handleLogout}>
             <LogoutIcon className="user-profile-menu-icon" />
             <span className="menu-item-text text-danger">Logout</span>

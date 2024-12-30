@@ -4,7 +4,6 @@
 import Grid from '@mui/material/Grid2';
 import React from 'react';
 import config from '../../../../config.json';
-import { truncateString } from '@/Utils/CommonBaseClass';
 import { Avatar } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 
@@ -42,9 +41,9 @@ const EventContributorsSection = React.memo(
                             </Avatar>)}
                         </Grid>
                         <Grid container size={{ xs: 12, sm: 9 }} direction={'column'}>
-                            <Grid className={`${classPrefix}-item-name`}>{item.name}</Grid>
-                            <Grid className={`${classPrefix}-item-designation`}>{item.designation}</Grid>
-                            <Grid className={`${classPrefix}-item-topic`} title={item.description}>{truncateString(item.description,30, "")}</Grid>
+                            <Grid className={`${classPrefix}-item-name`}>{`${item.user?.firstName} ${item.user?.lastName}`}</Grid>
+                            {/* <Grid className={`${classPrefix}-item-designation`}>{item.designation}</Grid>
+                            <Grid className={`${classPrefix}-item-topic`} title={item.description}>{truncateString(item.description,30, "")}</Grid> */}
                         </Grid>
                     </Grid>
                 </Grid>

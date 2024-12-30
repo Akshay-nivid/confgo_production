@@ -8,10 +8,18 @@ import Template1 from './Template1';
 import useStore, { setDataById } from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import routes from '@/router/routes';
+import Template3 from './Template3';
+import Template2 from './Template2';
 
 type TemplateContainerProps = {
     id?: number;
 }
+
+const templates: any = {
+  1: Template1,
+  2: Template2,
+  3: Template3,
+};
 
 /**
  * Component handles the template creation
@@ -88,13 +96,24 @@ const fetchEventDetails = async () => {
     }
   }
 
+  /**
+   * Method returns the template id
+   * @param eventData : event details
+   * @param slugData : slug details
+   * @returns : template id
+   */
+  const findTemp = ( temp: any, slugData: any) => {
+    return slugData?.templateId || temp;
+  }
+
+  const SelectedTemplate = templates[findTemp(temp, slugInfo?.data)];
+
 
 
     return <Grid container size={{ xs: 12, sm: 12 }} className={`event-template${!slug ? " event-template-preview" : ""}`} spacing={1}>
         {(dataInfo?.data || slugInfo?.data) && <Grid container size={{ xs: 12, sm: 12 }} spacing={1}>
         <Grid container size={{ xs: 12, sm: 12 }} className="event-template">
-            {/* <TemplateView temp={typeof id === 'number' ? id : Number(id) || 1} eventId={entityId} slug={slug}/> */}
-            {temp === 1 && <Template1 data={dataInfo?.data || slugInfo?.data}/>}
+            {SelectedTemplate ? <SelectedTemplate data={dataInfo?.data || slugInfo?.data} /> : null}
             </Grid>
         </Grid>}
     </Grid>

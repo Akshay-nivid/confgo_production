@@ -31,6 +31,7 @@ import PriceTierList from "./PriceTierList";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
 import { PublishTickIcon, WarningIcon } from "@/assets/svg";
 import VolunteerListCard from "./VolunteerListCard";
+import AbstractListCard from "./AbstractListCard";
 
 
 
@@ -343,11 +344,12 @@ const ViewEventDetail = () => {
               <Tab label="Event Contributors" className="event-detail-tab-layout-item" value="2" />
               <Tab label="Sessions" className="event-detail-tab-layout-item" value="3" />
               { eventFullData?.venue && <Tab label="Location" className="event-detail-tab-layout-item" value="4" />}
-              <Tab label="Users" className="event-detail-tab-layout-item" value="5" />
+              <Tab label="Users" className="event-detail-tab-layout-item" value="5" />              
               <Tab label="Template" className="event-detail-tab-layout-item" value="6" />
               <Tab label="Custom Fields" className="event-detail-tab-layout-item" value="7" />
               <Tab label='Settings' className="event-detail-tab-layout-item" value="8" />
               <Tab label='Volunteers' className="event-detail-tab-layout-item" value="9"/>
+              <Tab label="Abstracts" className="event-detail-tab-layout-item" value="10" />
             </TabList>
           </Grid>
           <TabPanel value="1">
@@ -378,6 +380,9 @@ const ViewEventDetail = () => {
           </TabPanel>
           <TabPanel value="9">
             <VolunteerListCard />
+          </TabPanel>
+          <TabPanel value="10">
+            <AbstractListCard />
           </TabPanel>
         </TabContext>
       </Grid>
