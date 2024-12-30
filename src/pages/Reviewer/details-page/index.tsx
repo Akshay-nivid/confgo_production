@@ -68,8 +68,10 @@ const Reviewer = () => {
         fetchAbstractDetails();
     }, [id]);
 
+    
     /**
-     * Fetch Coupon Details
+     * Fetches the abstract details from the API, updates the form state
+     * and disables the form if the abstract is already reviewed.
      */
     const fetchAbstractDetails = async () => {
 
@@ -126,16 +128,28 @@ const Reviewer = () => {
        
     };
 
+/**
+ * Updates the form's 'comment' field with the given value.
+ * @param value - The content to be set as the comment in the form.
+ */
+
     const handleQuillChange = (value: string) => {
         form.setValue('comment', value);
     };
 
+    /**
+     * Opens the abstract's file in a new tab.
+     * If the abstract doesn't have a file, does nothing.
+     */
     const handleFileClick = () => {
         const href = `https://api.confgo.com/api/asset/${dataResult?.asset?.id}`
         window.open(href, '_blank')
     };
 
 
+/**
+ * Enables the form for editing by setting the 'disabled' state to false.
+ */
     function handleClickEditButton() {
         setDisabled(false);
     }

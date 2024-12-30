@@ -8,34 +8,10 @@ import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";
 import useStore from '@/Libs/store';
 
-/**
- * ReviewHome component renders the home page for the reviewer.
- * It displays a welcome banner, an abstracts summary, and tasks management
- * for the Global Healthcare Innovations Summit 2024.
- * 
- * The component includes:
- * - A logo and avatar in the navigation bar.
- * - A welcome message for the reviewer.
- * - A summary of abstracts with statistics on total, pending, reviewed,
- *   approved, and rejected abstracts.
- * - Tabs for different categories of abstracts.
- * - A DataGrid for detailed information.
- */
 
 
-/**
- * ReviewerHome component renders the home page for the reviewer.
- * It displays a welcome banner, an abstracts summary, and tasks management
- * for the Global Healthcare Innovations Summit 2024.
- * 
- * The component includes:
- * - A logo and avatar in the navigation bar.
- * - A welcome message for the reviewer.
- * - A summary of abstracts with statistics on total, pending, reviewed,
- *   approved, and rejected abstracts.
- * - Tabs for different categories of abstracts.
- * - A DataGrid for detailed information.
- */
+
+
 
 interface IDataListItem {
     id: number;
@@ -51,6 +27,21 @@ interface IDataListItem {
         name: string;
     };
 }
+
+/**
+ * ReviewerHome component renders the home page for the reviewer.
+ * It displays a welcome banner, an abstracts summary, and tasks management
+ * for the Global Healthcare Innovations Summit 2024.
+ * The component includes:
+ * - A logo and avatar in the navigation bar.
+ * - A welcome message for the reviewer.
+ * - A summary of abstracts with statistics on total, pending, reviewed,
+ *   approved, and rejected abstracts.
+ * - Tabs for different categories of abstracts.
+ * - A DataGrid for detailed information.
+ * @returns {JSX.Element} The ReviewerHome component.
+ * @constructor
+ */
 
 const ReviewerHome = () => {
     const navigate = useNavigate();
@@ -111,6 +102,11 @@ const ReviewerHome = () => {
         return;
     }, []);
     
+    /**
+     * Transforms the raw data from the API to match the required format for the DataGrid component.
+     * @param data - The raw data from API response
+     * @returns Transformed data for DataGrid
+     */
     const transformData = (data:any) => {
         setAbstractList(data || []);
         return data.map((item:any) => ({
@@ -152,13 +148,19 @@ const summaryData = [
     },
 ];
 
+
+/**
+ * Handles the click event on the summary tabs.
+ * @param {number} index - The index of the tab to be selected.
+ */
     const handleClick = (index: number) => {
         setCurrentTab(index)
     }
+/**
+ * Navigates to the review details page when a row is clicked in the DataGrid.
+ * @param {number|string} id - The ID of the abstract to view.
+ */
 
-    /**
-     * Row click navigation
-    */
     const handleRowClick = (id: number | string) => {
         navigate(routes.reviewDetails(id));
     };
