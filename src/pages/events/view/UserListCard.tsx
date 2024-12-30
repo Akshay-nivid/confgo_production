@@ -86,6 +86,7 @@ const UserListCard = () => {
         limit: 5,
         filters: {
           ...newFilters,
+          eventId:filters
         },
       },
       url: `participant/list`,
