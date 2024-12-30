@@ -224,7 +224,10 @@ const Events = () => {
           phone: event?.phone,
           email: event?.email 
         }
-      ]
+      ],
+      specialtyId:event?.specialtyId,
+      isAbstract:event?.isAbstract?1:0,
+      abstractDate:event?.abstractDate
     };
 
     // Handle URL and Venue logic

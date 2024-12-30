@@ -15,21 +15,21 @@ import {  CloseIcon } from '@/assets/svg';
 
 type TopMenuSectionProps = {
     data?: any;
-    temp: number | undefined;
+    classPrefix?: string;
     onScrollToProgram?: any;
     onScrollToAbout?: any;
     onScrollToContributors?: any;
     onScrollToLocation?: any;
+    temp?: any;
 }
 
 
 /**
  * Component displays the top menu section of the template
  */
-const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, onScrollToProgram, onScrollToAbout, onScrollToContributors, onScrollToLocation }) => {
+const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, classPrefix, onScrollToProgram, onScrollToAbout, onScrollToContributors, onScrollToLocation }) => {
 
     const [drawerOpen, setDrawerOpen] = React.useState(false);
-    const classPrefix = `event-template-top-menu-${temp}`;
     const navigate = useNavigate();
     const location = useLocation();
     const baseUrl = config.api.url;
@@ -38,7 +38,6 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
 
 
     const isMobileScreen = useIsMobileScreen();
-
 
     /**
      * Opens the drawer component
@@ -89,6 +88,7 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
 
 
 
+
     return (
         <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}`}>
             <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} alignItems={'center'} className={`${classPrefix}-container`}>
@@ -117,12 +117,12 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
                             /> : <Grid></Grid>}</Grid>
                             {location.pathname.startsWith('/event-link') && <Grid container spacing={2}>
                                 <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToAbout(e) }}> About </Link></Grid>
-                                <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToContributors(e) }}> Contributors </Link></Grid>
+                                {data?.eventSpeakers?.length > 0 && <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToContributors(e) }}> Contributors </Link></Grid>}
                                 <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToProgram(e) }}> Programs </Link></Grid>
-                                <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToLocation(e) }}> Location </Link></Grid>
+                                {data?.venue?.mapUrl && <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToLocation(e) }}> Location </Link></Grid>}
                             </Grid>}
                             <Grid container spacing={2}>
-                                {getUserToken() ? <Grid className={`${classPrefix}-logout-button`}><span role='button' onClick={logoutFn}> Logout </span></Grid> :
+                                {getUserToken() ? <Grid className={`${classPrefix}-book-button`}><CustomButton label='Logout' onClick={logoutFn}/></Grid> :
                                     <><Grid className={`${classPrefix}-login-button`}><span role='button' onClick={loginFn}> Login </span></Grid>
                                         <Grid className={`${classPrefix}-button-border`}></Grid>
                                         <Grid className={`${classPrefix}-book-button`}><CustomButton onClick={SignupFn} label='Signup'
@@ -158,7 +158,7 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, temp, 
 
                     <Grid container spacing={2} flexDirection={'column'} marginTop={"auto"}>
                        
-                        {getUserToken() ? <Grid className={`${classPrefix}-logout-button`}><span role='button' onClick={logoutFn}> Logout </span></Grid> :
+                        {getUserToken() ? <Grid className={`${classPrefix}-book-button`}><CustomButton fullWidth label='Logout'  onClick={logoutFn}/></Grid> :
                             <><Grid className={`${classPrefix}-book-button login`}><CustomButton fullWidth onClick={loginFn} label='Login' /> </Grid>
                                 {/* <Grid className={`${classPrefix}-button-border`}></Grid> */}
                                 <Grid className={`${classPrefix}-book-button`}><CustomButton fullWidth onClick={SignupFn} label='Signup'

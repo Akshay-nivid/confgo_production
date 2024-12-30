@@ -1,0 +1,97 @@
+.payment-method {
+  max-width:max(50rem, 50%);
+  margin-inline: auto;
+  border: 0.05rem solid $clr_gray_30_percent;
+  border-radius: 0.5rem;
+  padding-top: 1rem;
+  .payment-method-header {
+    font-size: $h2;
+    font-weight: $font-bold;
+    text-align: center;
+  }
+  .payment-bill-details-container {
+    margin-block: 1.5rem;
+    padding-block: 1.8rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 1.66rem;
+    .payment-bill-details {
+      display: flex;
+      flex-direction: column;
+      row-gap: 1rem;
+      .payment-bill-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-inline: 1.66rem;
+
+        .info-text {
+          font-size: $p2;
+          font-weight: $font_medium;
+        }
+      }
+    }
+    .payment-grand-total-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-inline: 1.66rem;
+      .grand-total-info-text {
+        font-size: $h6;
+        font-weight: $font_semibold;
+      }
+    }
+  }
+  .divider {
+    height: 0.05rem;
+    background-color: $clr_gray_very_light;
+    width: 100%;
+  }
+  .payment-method-options-container {
+    // padding-inline: 1.66rem;
+    margin-block: 3rem;
+    .payment-method-options-header {
+      font-size: $p1;
+      font-weight: $font_medium;
+      margin-bottom: 2rem;
+      padding-inline: 1.66rem;
+    }
+  }
+  .payment-method-buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    row-gap: 1.66rem;
+    .pay-button {
+      min-width: 60%;
+      background-color: $clr_black;
+    }
+    .back-button {
+      color: $clr_black;
+      font-weight: $font_semibold;
+    }
+  }
+  .payment-method-list {
+    .payment-method-list-item {
+      box-shadow: none !important;
+      //   border-bottom: 0.12rem solid $clr_gray_very_light !important;
+      //   border-radius: 0 !important;
+      padding-inline: 1rem;
+    }
+    .item-accordio-summary {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      p {
+        margin-block: auto;
+      }
+
+      .payment-method-icon {
+        height: 100%;
+        width: 3.5rem;
+        margin-right: 2rem;
+      }
+    }
+  }
+}

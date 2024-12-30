@@ -4,15 +4,15 @@
 import Grid from '@mui/material/Grid2';
 import React from 'react';
 import config from '../../../../config.json';
-import { truncateString } from '@/Utils/CommonBaseClass';
 import { Avatar } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 
 
 type EventContributorsSectionProps = {
     data?: any;
-    temp: number | undefined;
+    classPrefix?: string;
     ref?: any;
+    temp?: any;
 }
 
 
@@ -20,11 +20,11 @@ type EventContributorsSectionProps = {
  * Method displays the event contributors section
  */
 const EventContributorsSection = React.memo(
-    React.forwardRef<HTMLDivElement, EventContributorsSectionProps>(({ data, temp }, ref) => {
+    React.forwardRef<HTMLDivElement, EventContributorsSectionProps>(({ data, classPrefix }, ref) => {
     
 
-    const classPrefix = `event-template-event-contributors-${temp}`;
-    const baseUrl = config.api.url;
+    const baseUrl = config.api.url; 
+
 
     return <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix} `} spacing={1} direction={'column'} justifyContent={'center'} alignItems={'center'} ref={ref}>
         <Grid className={`${classPrefix}-title`}>Meet Our Esteemed Event Contributors</Grid>
@@ -41,9 +41,9 @@ const EventContributorsSection = React.memo(
                             </Avatar>)}
                         </Grid>
                         <Grid container size={{ xs: 12, sm: 9 }} direction={'column'}>
-                            <Grid className={`${classPrefix}-item-name`}>{item.name}</Grid>
-                            <Grid className={`${classPrefix}-item-designation`}>{item.designation}</Grid>
-                            <Grid className={`${classPrefix}-item-topic`} title={item.description}>{truncateString(item.description,30, "")}</Grid>
+                            <Grid className={`${classPrefix}-item-name`}>{`${item.user?.firstName} ${item.user?.lastName}`}</Grid>
+                            {/* <Grid className={`${classPrefix}-item-designation`}>{item.designation}</Grid>
+                            <Grid className={`${classPrefix}-item-topic`} title={item.description}>{truncateString(item.description,30, "")}</Grid> */}
                         </Grid>
                     </Grid>
                 </Grid>
