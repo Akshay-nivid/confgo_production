@@ -14,6 +14,8 @@ import { Logger } from "@/Utils/Logger";
 import { useParams } from "react-router-dom";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import AssignedVolunteers from "./AssignedVolunteers";
+import { IconButton } from "@mui/material";
+import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
 
 
 /**
@@ -23,12 +25,11 @@ const VolunteerListCard = () => {
   const { id } = useParams();
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
-  const [filters, setFilters] = useState({ eventId: id });
+  // const [filters, setFilters] = useState({ });
   const [source, setSource] = useState<ISource | undefined>(undefined);
   const [loading, setLoading] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const closeOrganisationDrawer = () => setDrawerOpen(false);
-  const [data, setData] = useState([]);
 
 
   const { control } = useForm();
@@ -46,17 +47,39 @@ const VolunteerListCard = () => {
     const req = {
       offset: 0,
       limit: 5,
-      filters: filters,
+      filters:{
+      eventId:id,
+      statusId:1
+      }
     };
 
     setSource({
       method: "POST",
       data: req,
-      url: `participant/list`,
-      listName: "eventPartcipantList",
+      url: `user/volunteerEvent/list`,
+      listName: "volunteerList",
     });
     return;
   }, []);
+
+  const volunteerListData = useCallback(async () => {
+    const req = {
+      offset: 0,
+      limit: 100,
+      filters: {
+        eventId: id,
+        statusId: 1,
+      },
+    };
+
+    try {
+      // API call
+      
+      await apiClient.post(`user/volunteerEvent/list`, req);
+    } catch (error) {
+      Logger.error("VolunteerListCard.tsx - Error fetching volunteer data", error);
+    }
+  }, [id]);
 
   /**
    * Transforms the raw data from the API to match the required format for the DataGrid component.
@@ -65,16 +88,14 @@ const VolunteerListCard = () => {
    */
   const transformData = (data: any) => {
     if (!data) return [];
-    setData(data)
     return data.map((item: any) => {
       return {
         ...item,
-        id: item?.participant?.id,
-        name: item?.participant?.user?.firstName,
-        email: item?.participant?.user?.email,
-        role: item?.role,
-        phone: item?.participant?.user?.phone,
-        status: item?.status
+        id: item?.id,
+        name: `${item?.user?.firstName} ${item?.user?.lastName}`,
+        email: item?.user?.email,
+        phone: item?.user?.phone,
+        status: item?.statusId
       };
     });
   };
@@ -93,10 +114,10 @@ const VolunteerListCard = () => {
           ...newFilters,
         },
       },
-      url: `participant/list`,
+      url: `user/volunteerEvent/list`,
       listName: "participantList",
     });
-    setFilters(newFilters);
+    // setFilters(newFilters);
   };
 
   /**
@@ -111,10 +132,12 @@ const VolunteerListCard = () => {
           offset: 0,
           limit: 5,
           filters: {
-            id: selected.id,
+            statusId:1,
+            eventId:id,
+            userId: selected?.user?.id,
           },
         },
-        url: `participant/list`,
+        url: `user/volunteerEvent/list`,
         listName: "participant-list-",
       });
     }
@@ -130,11 +153,13 @@ const VolunteerListCard = () => {
     try {
       let req = {
         filters: {
+          eventId:id,
+          statusId:1,
           name: query,
         },
       };
       const response = await await apiClient.post(
-        `participant/list`,
+        `user/volunteerEvent/list`,
         req
       );
       const { status, data } = await processAPIResponse(
@@ -157,15 +182,9 @@ const VolunteerListCard = () => {
     { type: "default", field: "name", headerName: "Name", width: 200 },
     {
       type: "default",
-      field: "role",
-      headerName: "Role",
-      width: 200,
-    },
-    {
-      type: "default",
       field: "email",
       headerName: "Email",
-      width: 200,
+      width: 250,
     },
     {
       type: "default",
@@ -177,13 +196,39 @@ const VolunteerListCard = () => {
       type: "status",
       field: "status",
       headerName: "Status",
-      width: 200,
+      width: 150,
     },
+    {
+      type:"default",
+      field:"Action",
+      headerName: "Action",
+      width:100,
+      renderCell: (params: any) => (
+        <IconButton
+          onClick={() => handleDelete(params.row.id)}
+        >
+          <DeleteIcon />
+        </IconButton>
+      ),
+    }
   ];
 
   const onClose = () => {
     closeOrganisationDrawer();
   }
+
+  /**
+   * For deleting the assigned volunteer from the list
+   */
+  const handleDelete = async(volunteerId: number) => {
+    try{     
+        await apiClient.delete(`user/volunteerEvent/${volunteerId}`)
+        volunteerList();
+
+    } catch (error) {
+        Logger.error(error,"AssignedVolunteers.tsx");
+    }
+};
 
   return (
     <Grid container>
@@ -202,7 +247,7 @@ const VolunteerListCard = () => {
             control={control}
             options={searchResults}
             getOptionLabel={(option: any) =>
-              option.user?.firstName || ""
+              option?.user?.firstName || ""
             }
             onSearch={handleSearch}
             loading={loading}
@@ -212,7 +257,10 @@ const VolunteerListCard = () => {
         <Grid container spacing={2}>
           <CustomButton
             className="custom-green-btn"
-            onClick={() => setDrawerOpen(true)}
+            onClick={() => {
+              setDrawerOpen(true);
+              volunteerListData(); // Call the additional function
+            }}
             label="Assign"
             startIcon={<AddIcon />}
             size="large"
@@ -247,8 +295,8 @@ const VolunteerListCard = () => {
         onApplyFilters={handleApplyFilters}
       />
       <CustomDrawer open={drawerOpen} type="right">
-        <AssignedVolunteers data={data} onClose={onClose} />
-
+        <AssignedVolunteers onClose={onClose}   volunteerList={volunteerList} 
+ />
       </CustomDrawer>
     </Grid>
   );
