@@ -62,24 +62,6 @@ const VolunteerListCard = () => {
     return;
   }, []);
 
-  const volunteerListData = useCallback(async () => {
-    const req = {
-      offset: 0,
-      limit: 100,
-      filters: {
-        eventId: id,
-        statusId: 1,
-      },
-    };
-
-    try {
-      // API call
-      
-      await apiClient.post(`user/volunteerEvent/list`, req);
-    } catch (error) {
-      Logger.error("VolunteerListCard.tsx - Error fetching volunteer data", error);
-    }
-  }, [id]);
 
   /**
    * Transforms the raw data from the API to match the required format for the DataGrid component.
@@ -259,7 +241,6 @@ const VolunteerListCard = () => {
             className="custom-green-btn"
             onClick={() => {
               setDrawerOpen(true);
-              volunteerListData(); // Call the additional function
             }}
             label="Assign"
             startIcon={<AddIcon />}
