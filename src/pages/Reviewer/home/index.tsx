@@ -4,6 +4,9 @@ import {  Box, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import clsx from "clsx";
 import { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import routes from "@/router/routes";
+import useStore from '@/Libs/store';
 
 /**
  * ReviewHome component renders the home page for the reviewer.
@@ -34,18 +37,35 @@ import { useCallback, useEffect, useState } from "react";
  * - A DataGrid for detailed information.
  */
 
-const ReviewerHome = () => {
+interface IDataListItem {
+    id: number;
+    eventClass: string;
+    eventName: string;
+    isReviewed: number;
+    status: number;
+    createdOn: string;
+    startTime: string;
+    statusId: number;
+    event: {
+        eventClass: string;
+        name: string;
+    };
+}
 
+const ReviewerHome = () => {
+    const navigate = useNavigate();
+    const userDetails = useStore((state) => state?.compData?.["userDetails"]) ?? {};
 
     const [source, setSource] = useState<ISource | undefined>(undefined);
 
+    const [dataList, setAbstractList] = useState<IDataListItem[]>([]);
     const [currentTab, setCurrentTab] = useState(0);
 
     const columns = [
         { type: "default", field: "id", headerName: "ID", width: 150 },
         {
             type: "default",
-            field: "name",
+            field: "eventName",
             headerName: "Event Name",
             width: 200,
         },
@@ -71,12 +91,14 @@ const ReviewerHome = () => {
         abstractList();
     }, [])
 
+    
     const abstractList = useCallback(() => {
         const req = {
             offset: 0,
             limit: 5,
             sortBy: "id",
             sortDirection: "DESC",
+            filters:{reviewerId:userDetails.id}
 
         };
 
@@ -88,40 +110,58 @@ const ReviewerHome = () => {
         });
         return;
     }, []);
+    
+    const transformData = (data:any) => {
+        setAbstractList(data || []);
+        return data.map((item:any) => ({
+            ...item,
+            eventClass: item.event?.eventClass,
+            eventName: item.event?.name, 
+        }));
+    };
+
 
     const tabs = ["Total Abstracts", "Pending for Review", "Reviewed Abstracts", "Approved", "Rejected"]
 
-    const summaryData = [{
+
+const summaryData = [
+    {
         id: 1,
         title: "Total Abstracts",
-        value: 100
-    }, {
-
+        value: dataList.length,
+    },
+    {
         id: 2,
         title: "Pending for Review",
-        value: 10
+        value: dataList.filter(item => item.isReviewed === 0).length,
     },
     {
         id: 3,
         title: "Reviewed Abstracts",
-        value: 10
+        value: dataList.filter(item => item.isReviewed === 1).length,
     },
     {
         id: 4,
         title: "Approved",
-        value: 10
+        value: dataList.filter(item => item.isReviewed === 1 && item.statusId === 1).length,
     },
     {
         id: 5,
         title: "Rejected",
-        value: 10
-    }
-
-    ]
+        value: dataList.filter(item => item.isReviewed === 1 && item.statusId === 2).length, 
+    },
+];
 
     const handleClick = (index: number) => {
         setCurrentTab(index)
     }
+
+    /**
+     * Row click navigation
+    */
+    const handleRowClick = (id: number | string) => {
+        navigate(routes.reviewDetails(id));
+    };
 
     return (
         <Box className="reviewer-main reviewer-home-main">
@@ -131,7 +171,7 @@ const ReviewerHome = () => {
             <Grid container justifyContent={"center"}>
 
                 <Grid size={11} className="banner-container">
-                    <Typography className="banner-title">Welcome, Dr. Emily Carter! 👋</Typography>
+                    <Typography className="banner-title">Welcome, {userDetails?.firstName} {userDetails?.lastName}! 👋</Typography>
                     <Typography className="banner-subtitle">Manage your tasks for Global Healthcare Innovations Summit 2024.</Typography>
                 </Grid>
 
@@ -171,11 +211,12 @@ const ReviewerHome = () => {
                         <DataGridList
                             columns={columns}
                             source={source}
+                            dataTransformer={transformData}
                             id="reviewer-datagrid"
-
                             title="Event"
                             noRecordSubtitle="No abstracts found"
                             hideFooterPagination={false}
+                            onRowClick={(params: any) => handleRowClick(params.id)}
                         />
                     </Box>
 
