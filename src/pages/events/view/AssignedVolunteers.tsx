@@ -9,26 +9,55 @@ import { Logger } from '@/Utils/Logger';
 // import { ISource } from '@/Libs/type';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import { CloseOutlined } from '@mui/icons-material';
+import { useParams } from 'react-router-dom';
+import { setDataById } from '@/Libs/store';
 
 interface AssignedVolunteersProps {
     onClose: () => void;
-    data: any[];
+    volunteerList: () => void;
 }
-const AssignedVolunteers = ({ onClose, data }: AssignedVolunteersProps) => {
+const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps) => {
     const { control } = useForm();
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
     // const [source, setSource] = useState<ISource | undefined>(undefined);
-    const volunteers: any[] = data;
+    const [assignedVolunteers, setAssignedVolunteers] = useState<any[]>([]);
+    const { id } = useParams()
 
-    const handleDelete = (_id: number) => {
+    /**
+     * Function to assign the volunteers which are selected, the selected volunteers are passing in an array
+     */
+    const handleSubmit = async () => {
+        try {
+            const userIds = assignedVolunteers?.map(volunteer => volunteer.user?.id);
+                const req = {
+                        userIds: userIds,
+                        eventId: id
+                };
+                const response = await apiClient.post(`user/assignEvent`, req);
 
+                if (response.data.status === "success") {
+                    setDataById("snackBarInfo", {
+                        open: true,
+                        autoHideDuration: 2000,
+                        severity: "success",
+                        message: "Volunteer successfully assigned",
+                      });
+                    onClose();
+                    volunteerList();
+                } else {
+                    setDataById("snackBarInfo", {
+                        open: true,
+                        autoHideDuration: 2000,
+                        severity: "error",
+                        message: "Failed to assign volunteeres",
+                      });
+                }
+
+            } catch (error) {
+                Logger.error("AssignedVolunteers.tsx", error);
+            }
     };
-
-    // const handleSubmit = () => {
-
-    // };
-
     /**
   * Searches participants based on the query entered by the user.
   * @param query - The search query entered by the user
@@ -36,13 +65,14 @@ const AssignedVolunteers = ({ onClose, data }: AssignedVolunteersProps) => {
     const handleSearch = async (query: string) => {
         setLoading(true);
         try {
-            let req = {
+            let req: any = {
                 filters: {
-                    name: query,
+                    roleEnums: ["VOLUNTEER"],
+                     name: query,
                 },
             };
             const response = await await apiClient.post(
-                `participant/list`,
+                `user/userRole/list`,
                 req
             );
             const { status, data } = await processAPIResponse(
@@ -63,21 +93,15 @@ const AssignedVolunteers = ({ onClose, data }: AssignedVolunteersProps) => {
  * Updates the source for the data grid when an autocomplete selection is made.
  * @param selected - The selected item from the autocomplete list
  */
-    const handleAutocompleteChange = (selected: any) => {
-        if (selected) {
-            // setSource({
-            //     method: "POST",
-            //     data: {
-            //         offset: 0,
-            //         limit: 5,
-            //         filters: {
-            //             id: selected.id,
-            //         },
-            //     },
-            //     url: `participant/list`,
-            //     listName: "participant-list-",
-            // });
-        }
+    const handleAutocompleteChange = async (selected: any) => {
+
+            if (selected) {
+                setAssignedVolunteers((prev: any) => [...prev,{user:selected}]);
+            }
+    };
+
+    const handleDelete = (id: string) => {
+        setAssignedVolunteers((prev) => prev.filter((volunteer) => volunteer.user.id !== id));
     };
    
     return (
@@ -100,7 +124,7 @@ const AssignedVolunteers = ({ onClose, data }: AssignedVolunteersProps) => {
                     placeholder="Search by ID, Name or Phone ..."
                     control={control}
                     options={searchResults}
-                    getOptionLabel={(option: any) => option.user?.firstName || ""}
+                    getOptionLabel={(option: any) => option?.firstName || ""}
                     onSearch={handleSearch}
                     loading={loading}
                     onChange={handleAutocompleteChange}
@@ -111,7 +135,7 @@ const AssignedVolunteers = ({ onClose, data }: AssignedVolunteersProps) => {
             </Typography>
 
             <Grid container spacing={2} className='assigned-volunteer-container-style'>
-                {volunteers?.map((volunteer) => (
+                {assignedVolunteers?.map((volunteer) =>  (
                     <Grid item xs={12} key={volunteer.id}>
                         <Card
                             variant="outlined"
@@ -119,12 +143,12 @@ const AssignedVolunteers = ({ onClose, data }: AssignedVolunteersProps) => {
                         >
                             <CardContent className='assigned-volunteer-container-card'>
                                 <Typography variant="subtitle1" className='assigned-volunteer-name'>
-                                    {volunteer.participant.user.firstName}
+                                    {`${volunteer?.user?.firstName} ${volunteer?.user?.lastName}`}
                                 </Typography>
-                                <Typography variant="body2" className='assigned-volunteer-phone'>{volunteer.participant.user.phone}</Typography>
+                                <Typography variant="body2" className='assigned-volunteer-phone'>{volunteer?.user?.phone}</Typography>
                             </CardContent>
                             <IconButton
-                                onClick={() => handleDelete(volunteer.id)}
+                                onClick={() => handleDelete(volunteer?.user?.id)}
                                 className='assigned-volunteer-delete-icon'
                             >
                                 <DeleteIcon />
@@ -133,13 +157,15 @@ const AssignedVolunteers = ({ onClose, data }: AssignedVolunteersProps) => {
                     </Grid>
                 ))}
             </Grid>
-            <div className='assigned-volunteer-button-container'>
+            <div className='assigned-volunteer-button-container'>     
                 <CustomButton
                     className="assigned-volunteer-button"
                     label="Submit"
                     variant="contained"
                     size="medium"
                     type="submit"
+                    onClick={handleSubmit}
+                    disabled={assignedVolunteers.length === 0 ? true:false}
                 />
             </div>
         </div>
