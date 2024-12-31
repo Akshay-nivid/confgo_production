@@ -23,6 +23,7 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
     // const [source, setSource] = useState<ISource | undefined>(undefined);
     const [assignedVolunteers, setAssignedVolunteers] = useState<any[]>([]);
     const { id } = useParams()
+    const companyId = sessionStorage.getItem('companyId')
 
     /**
      * Function to assign the volunteers which are selected, the selected volunteers are passing in an array
@@ -32,7 +33,8 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
             const userIds = assignedVolunteers?.map(volunteer => volunteer.user?.id);
                 const req = {
                         userIds: userIds,
-                        eventId: id
+                        eventId: id,
+                        companyId: companyId,
                 };
                 const response = await apiClient.post(`user/assignEvent`, req);
 
@@ -69,6 +71,7 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
                 filters: {
                     roleEnums: ["VOLUNTEER"],
                      name: query,
+                     companyId: companyId,
                 },
             };
             const response = await await apiClient.post(

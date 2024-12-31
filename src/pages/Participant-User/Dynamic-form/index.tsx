@@ -69,7 +69,19 @@ const DynamicUserForm = () => {
 
   const previousRoute = useStore((state: IStoreState) => state?.compData?.["previousRoute"]?.url) ?? null
 
-  const filteredFormData = dynamicFormData?.data?.filter((item: FormField) => item.participantTypeId === participantTypeId || item.metadata.participantType === "generic") ?? []
+  const anyMatchParticipantTypeId = dynamicFormData?.data?.some(
+    (item: FormField) => item.participantTypeId === participantTypeId
+  );
+
+  const filteredFormData = dynamicFormData?.data?.filter((item: FormField) => {
+    console.log(item, "item");
+    if (anyMatchParticipantTypeId) {
+      // If any participantTypeId matches, filter only by participantTypeId
+      return item.participantTypeId === participantTypeId;
+    }
+    // Otherwise, include items with generic participantType
+    return item.metadata.participantType === "generic";
+  }) ?? [];
 
 
   /**
