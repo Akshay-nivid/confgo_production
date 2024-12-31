@@ -8,7 +8,6 @@ import CustomButton from "../CustomButton/CustomButton";
 import clsx from "clsx";
 import DownloadIcon from "../../assets/svg/abstract-download.svg"
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
-import { PdfIcon } from "@/assets/svg";
 
 interface Resolution {
   width: number | null;

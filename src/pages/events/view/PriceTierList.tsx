@@ -1,5 +1,5 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
-import { CircularProgress, circularProgressClasses, Typography } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import PricingTierConfigure from "./PricingTierConfigure";
 import { useEffect, useMemo, useState } from "react";
