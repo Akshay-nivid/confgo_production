@@ -74,7 +74,6 @@ const DynamicUserForm = () => {
   );
 
   const filteredFormData = dynamicFormData?.data?.filter((item: FormField) => {
-    console.log(item, "item");
     if (anyMatchParticipantTypeId) {
       // If any participantTypeId matches, filter only by participantTypeId
       return item.participantTypeId === participantTypeId;
