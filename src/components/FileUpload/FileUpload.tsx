@@ -7,6 +7,7 @@ import DeleteIcon from "@mui/icons-material/Close";
 import CustomButton from "../CustomButton/CustomButton";
 import clsx from "clsx";
 import DownloadIcon from "../../assets/svg/abstract-download.svg"
+import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 
 interface Resolution {
   width: number | null;
@@ -34,7 +35,7 @@ interface FileUploadProps {
  */
 const FileUpload: React.FC<FileUploadProps> = ({
   allowDrop = true,
-  acceptedFiles = ["image/jpeg", "image/png"],
+  acceptedFiles = ["image/jpeg", "image/png","application/pdf"],
   canSelectMultiple = false,
   maxSize = 1 * 1024 * 1024,
   resolution = { width: null, height: null },
@@ -52,7 +53,6 @@ const FileUpload: React.FC<FileUploadProps> = ({
   const POST = useStore((state: any) => state.POST);
 
   const loading = useStore((state:any)=>state.compData?.["assetUpload"]?.["asset"]?.loading)
-
   /**
    * Trims the image to the specified resolution.
    * @param file - The image file to be trimmed.
@@ -89,6 +89,8 @@ const FileUpload: React.FC<FileUploadProps> = ({
       img.onerror = () => reject(new Error("Unable to load image"));
     });
   };
+
+  const isPdf = acceptedFiles.some(file => file === 'application/pdf');
 
   /**
    * Handles file drop event and processes the dropped files.
@@ -228,7 +230,10 @@ const FileUpload: React.FC<FileUploadProps> = ({
         <Grid className="file-upload-preview" justifyContent={"center"}>
           {previewUrls.map((url, index) => (
             <Grid key={index} className="file-upload-preview-item">
-              <img src={url} alt={`preview ${index}`} />
+              {isPdf ? (
+                 <PictureAsPdfIcon className="file-upload-preview-item-pdf"/>):(
+              <img src={url} alt={`preview ${index}`} />)
+}
               {/* Display the file name */}
 
               <IconButton

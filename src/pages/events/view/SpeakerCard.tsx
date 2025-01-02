@@ -195,12 +195,12 @@ const SpeakerCard = (_eventData: any) => {
             });
           }
         },
-        errorCB: (context: any) => {
+        errorCB: () => {
           setDataById("snackBarInfo", {
             open: true,
             autoHideDuration: 2000,
             severity: "error",
-            message: context?.message,
+            message: "This speaker is already assigned to the event.",
           });
         },
       });
