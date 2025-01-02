@@ -1,94 +1,153 @@
-/**
- * Component renders the calendar
- */
-import moment from "moment";
-import { Calendar, View, momentLocalizer } from "react-big-calendar";
+import React, { useState } from "react";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
 import Grid from "@mui/material/Grid2";
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-import { useState } from "react";
+import { Typography } from "@mui/material";
+import CustomTooltip from "../CustomToolTip/CustomTooltip";
+import LocalTimeDate from "../LocalTimeDate/LocalTimeDate";
+import { truncateString } from "@/Utils/CommonBaseClass";
 
-interface calendarProps {
-    id?: string;
-    events: any;
-    onSelectEvent?: any;
-    onNavigate?: any;
-    defaultDate?: any;
+interface CalendarProps {
+  id?: string;
+  events: Array<{
+    id: string;
+    title: string;
+    start: string;
+    end?: string;
+    allDay?: boolean;
+    programs: any
+  }>;
+  programs: Array<{
+    id: string;
+    title: string;
+    start: string;
+    end?: string;
+    allDay?: boolean;
+    programs: any
+  }>;
+  // Array of event objects
+  onSelectEvent?: (event: any) => void;
+  onNavigate?: (dateInfo: any) => void;
+  defaultDate?: Date;
+
 }
+/**
+* CustomCalendar Component
+*
+* This component provides a customizable calendar interface using FullCalendar,
+* integrated with Material-UI for additional layout and styling.
+* 
+* **Features:**
+* - Displays events and programs dynamically.
+* - Handles event clicks, date navigation, and custom rendering of events.
+* - Offers a responsive interface with support for different calendar views:
+*   - Monthly view (`dayGridMonth`)
+*   - Weekly view (`timeGridWeek`)
+*   - Daily view (`timeGridDay`)
+*   - Yearly view (`dayGridYear`)
+* - Integrates a color palette for dynamic event styling.
+*
+*/
 
-export const CustomCalendar: React.FC<calendarProps> = ({ id, events, onSelectEvent, onNavigate, defaultDate }) => {
+export const CustomCalendar: React.FC<CalendarProps> = ({
+  id,
+  events = [],
+  programs = [],
+  onSelectEvent,
+  onNavigate,
+  defaultDate,
+}) => {
+  const [selectedDate, setSelectedDate] = useState<Date>(defaultDate || new Date());
+  const [currentView, setCurrentView] = useState<string>("dayGridMonth");
+  /**
+   * Define colors for events
+   */
+  const colorPalette = [
+    { bg: "#29CC390D", text: "#4D5E80", border: "#29CC39" },
+    { bg: "#33BFFF0D", text: "#4D5E80", border: "#33BFFF" },
+    { bg: "#FF66330D", text: "#4D5E80", border: "#FF6633" },
+    { bg: "#FFFACD", text: "#4D5E80", border: "#FFCB33" },
+    { bg: "#8833FF0D", text: "#4D5E80", border: "#8833FF" },
+    { bg: "#2EE6CA0D", text: "#4D5E80", border: "#E62E7B" },
+  ];
 
-    const localizer = momentLocalizer(moment);
-    const [selectedDate, setSelectedDate] = useState<Date>(new Date()); 
-  
-    /**
-     * Method calculates the start date and end date based on the selected date and view
-     * @param date : selected date
-     * @param view : month | week | day | agenda
-     */
-    const calculateDateRange = (date: Date, view: View) => {
-      let startDate: Date;
-      let endDate: Date;
-  
-      switch (view) {
-        case 'month':
-          startDate = moment(date).startOf('month').toDate();
-          endDate = moment(date).endOf('month').toDate();
-          break;
-        case 'week':
-          startDate = moment(date).startOf('week').toDate();
-          endDate = moment(date).endOf('week').toDate();
-          break;
-        case 'day':
-          startDate = moment(date).startOf('day').toDate();
-          endDate = moment(date).endOf('day').toDate();
-          break;
-        case 'agenda':
-          startDate = moment(date).startOf('week').toDate();
-          endDate = moment(date).add(1, 'month').endOf('week').toDate();
-          break;
-        default:
-          startDate = date;
-          endDate = date;
-      }
-  
-      const dateObj = {
-        startDate: moment(startDate).format('YYYY-MM-DD'),
-        endDate:  moment(endDate).format('YYYY-MM-DD')
-      }
-      onNavigate && onNavigate(dateObj)
-    };
-  
-    /**
-     * Method handles the navigation events
-     * @param date : selected events
-     * @param view : selected view
-     */
-    const handleNavigate = (date: Date, view: View) => {
-      setSelectedDate(date); // Update the selected date
-      calculateDateRange(date, view);
-    };
-  
-    /**
-     * Method handles the view change events
-     * @param view : month | week | day | agenda
-     */
-    const handleViewChange = (view: View) => {
-      calculateDateRange(selectedDate, view); // Use selected date for the new view
-    };
-  
-  
+  /**
+   * Method handles navigation between dates
+   */
+  const handleDateChange = (dateInfo: any) => {
+    setSelectedDate(new Date(dateInfo.start));
+    onNavigate && onNavigate(dateInfo);
+    //  setCurrentView(dateInfo?.view?.type);
+  };
+
+  /**
+   * Method handles event click
+   */
+  const handleEventClick = (info: any) => {
+    onSelectEvent && onSelectEvent(info.event);
+  };
+
+  /**
+   * Custom function to render event details with dynamic styles
+   */
+  const renderEventContent = (eventInfo: any) => {
+    const eventId = eventInfo.event.id;
+    const colorIndex = eventId % colorPalette.length; // Cycle through colors
+    const { bg, text, border } = colorPalette[colorIndex];
+    const truncatedTitle = truncateString(eventInfo.event.title, 15, "");
+
     return (
-        <Grid id={id}><Calendar
-        localizer={localizer}
-        events={events}
-        startAccessor="start"
-        endAccessor="end"
-        onNavigate={handleNavigate}
-        onView={handleViewChange}
-        onSelectEvent={(e) => onSelectEvent && onSelectEvent(e)}
-        defaultDate={defaultDate}
-        views={['month', 'week', 'day', 'agenda']}
-      /></Grid>
-    )
+      <Grid
+        container
+        style={{
+          width: '100%',
+          height: "auto",
+          backgroundColor: bg,
+          color: text,
+          border: `0.0833rem solid ${border}`,
+          borderRadius: "0.41rem",
+          display: 'grid',
+          gridTemplateColumns: 'repeat(7, 1fr)',
+        }}
+      >
+        <Grid>
+          <CustomTooltip title={eventInfo.event.title}>
+            {(currentView === "timeGridWeek" || currentView === "timeGridDay") &&
+              <Typography>
+                <LocalTimeDate
+                  utcDateTime={eventInfo.event.start}
+                  format="MMMM D, YYYY"
+                />
+              </Typography>
+            }
+            <Typography variant="body1" component="strong">
+              {truncatedTitle}
+            </Typography>
+          </CustomTooltip>
+        </Grid> </Grid>
+    );
+  };
 
-}
+  return (
+    <Grid id={id}>
+      <FullCalendar
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+        initialView="dayGridMonth" // Default view (month view)
+        events={currentView === "dayGridMonth" || currentView === "dayGridYear" ? events : programs}
+        viewDidMount={(viewInfo: any) => setCurrentView(viewInfo.view.type)}
+        dateClick={(info: any) => setSelectedDate(new Date(info.date))}
+        eventClick={handleEventClick}
+        datesSet={handleDateChange}
+        headerToolbar={{
+          left: "prev,next today",
+          center: "title",
+          right: "dayGridYear,dayGridMonth,timeGridWeek,timeGridDay",
+        }}
+        initialDate={selectedDate}
+        eventContent={renderEventContent}
+      />
+    </Grid>
+  );
+};

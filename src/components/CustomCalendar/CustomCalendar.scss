@@ -1,0 +1,20 @@
+
+.fc-daygrid-event, .fc-timegrid-event {
+    border: none !important; 
+    color: inherit; 
+  }
+  .fc-event-title {
+    color: inherit !important;
+  }
+   .fc-v-event {
+    background-color: transparent !important;
+  }
+  .fc-event-main{
+  background-color:transparent !important;
+  }
+  .fc-event {
+    &.fc-daygrid-event{
+      background-color: transparent !important;
+    }
+  }
+  
