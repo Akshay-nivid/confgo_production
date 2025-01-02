@@ -203,7 +203,7 @@ const Events = () => {
         ...(properties.length !== 0 && {
           properties: properties?.map(({ propertyId, propertyName, propertyAmount, ...rest }: any) => ({
             name: propertyName,
-            amount: propertyAmount??"0",
+            amount: propertyAmount? Number(propertyAmount) : 0,
             ...rest
           })),
         }),
