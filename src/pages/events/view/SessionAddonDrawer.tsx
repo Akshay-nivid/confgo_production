@@ -17,7 +17,6 @@ import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CreateAddon from "../CreateAddon";
 import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
 import CustomTimePicker from "@/components/CustomTimePicker/CustomTimePicker";
-import { snackBar } from "@/Libs/store";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 interface FormData {
@@ -128,14 +127,6 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
    */
 
   function handleCloseDrawer() {
-
-    if (isAddon || isDescription || addonProperties?.length > 0) {
-      snackBar({ severity: "error", message: "please complete the process" })
-
-      return
-    }
-
-
     closeDrawer()
   }
 
