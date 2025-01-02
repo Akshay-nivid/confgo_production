@@ -84,6 +84,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
   const clearDataById = useStore((state:any) => state?.clearDataById)
   const [loading, setLoading] = useState(false);
   const [chipLoading, setChipLoading] = useState(false);
+  const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 
   const {
@@ -196,6 +197,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
         successCB: async () => {
           try {
             await fetchAttendeeTypeList(); // Ensure the list fetching completes
+            await delay(2000)
           } catch (error) {
             Logger.error("Error fetching attendee type list:", error);
           } finally {

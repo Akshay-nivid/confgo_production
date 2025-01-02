@@ -1,5 +1,5 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
-import { Typography } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import PricingTierConfigure from "./PricingTierConfigure";
 import { useEffect, useMemo, useState } from "react";
@@ -143,6 +143,12 @@ const PriceTierList: React.FC = () => {
   [JSON.stringify(attendees), JSON.stringify(pricingTiers)])
 
   return (
+    <>
+     {_loading ? (
+      <Grid container justifyContent="center" alignItems="center" style={{ minHeight: '50vh' }}>
+        <CircularProgress />
+      </Grid>
+    ) : (
     <Grid container spacing={3} className="event-sessions-sessions-container">
       <Grid
         size={{ xs: 12 }}
@@ -198,6 +204,8 @@ const PriceTierList: React.FC = () => {
         children={<PricingTierConfigure closeDrawer={closeDrawer} hasPricingTiers={pricingTiers.length > 0 && attendees.length > 0} />}
       />
     </Grid>
+    )}
+    </>
   );
 };
 

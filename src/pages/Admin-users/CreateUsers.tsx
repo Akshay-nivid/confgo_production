@@ -107,7 +107,7 @@ const CreateNewUsers = () => {
                 phone: data.phone,
                 roleId:data.role,
                 companyId:companyId,
-                assestId:selectedFile?.id
+                assetId:selectedFile?.id
             },
             id: 'create-admin-user',
             successCB: (context: any) => {

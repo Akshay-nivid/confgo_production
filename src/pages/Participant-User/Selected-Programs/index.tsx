@@ -151,7 +151,7 @@ const SelectedPrograms = () => {
 
       navigate(routes.userLogin())
       setDataById('previousRoute', { url: location.pathname })
-
+      return;
     }
 
 
