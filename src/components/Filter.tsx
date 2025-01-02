@@ -88,7 +88,7 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
             const { status, data, message } = processAPIResponse(response, source.listName);
             if (status) {
                 const pagination = response?.data?.pagination; 
-                setDataById(datagridId, { source: source, data: dataTransformer ? dataTransformer(data) : data, count: data?.count,pagination: pagination});
+                setDataById(datagridId, { source, data: dataTransformer ? dataTransformer(data) : data, count: data?.count,pagination,});
             }
             else {
                 setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message })
