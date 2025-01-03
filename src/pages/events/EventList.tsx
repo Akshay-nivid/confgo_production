@@ -182,7 +182,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
                 onChange={handleAutocompleteChange}
               />
             </Grid>
-            <Grid container spacing={2}>
+            <Grid container spacing={2} id ="event-create-new-event">
               <CustomButton
                 className="event-list-create-btn"
                 label="Create New Event"
