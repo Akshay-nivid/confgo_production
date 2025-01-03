@@ -37,35 +37,52 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
 		*/
 		const combinedData = data?.program?.concat(data?.addOns || []).reduce((acc:any, item:any) => {
 			const isAddon = !!item.addonId;
-			let date = '';
+			let dateTime = '';
 			
-			if (item.startDate) {
-				date = moment(item.startDate, ['YYYY-MM-DD', 'DD/MM/YYYY']).format("YYYY-MM-DD");
+			// Combine startDate and startTime to create a full datetime object
+			if (item.startDate && item.startTime) {
+				dateTime = moment(item.startDate + ' ' + item.startTime, ['YYYY-MM-DD HH:mm', 'DD/MM/YYYY HH:mm']).format('YYYY-MM-DD HH:mm');
 			}
-			else if (item.date) {
-				date = moment(item.date).format("YYYY-MM-DD");
+			else if (item.date && item.startTime) {
+				dateTime = moment(item.date + ' ' + item.startTime, ['YYYY-MM-DD HH:mm', 'DD/MM/YYYY HH:mm']).format('YYYY-MM-DD HH:mm');
 			}
-			// Skip invalid items: 
-			if (!date || (isAddon && !item.addonId) || (!item.name && !item.addonId)) {
+			
+			// Skip invalid items
+			if (!dateTime || (isAddon && !item.addonId) || (!item.name && !item.addonId)) {
 				return acc;  // Do not add to accumulator if invalid
 			}
+			// Group by startDate
+			const startDate = moment(item.startDate).format("YYYY-MM-DD");
 			// Separate addOns with `dateRequired: false`
 			if (isAddon && item.dateRequired === false) {
 				// Create 'withoutDateRequired' array if it doesn't exist
 				if (!acc.general) {
 					acc.general = [];
 				}
-				acc.general.push({ ...item, isAddon });
+				acc.general.push({ ...item, isAddon, dateTime });
 			} else {
 				// Initialize the group for this date if it doesn't exist
-				if (!acc[date]) {
-					acc[date] = [];
+				if (!acc[startDate]) {
+					acc[startDate] = [];
 				}
+				
 				// Add the item to the group for this date
-				acc[date].push({ ...item, isAddon });
+				acc[startDate].push({ ...item, isAddon, dateTime });
 			}
 			return acc;
 		}, {});		
+		// Sorting function by startTime within each startDate group
+		Object.keys(combinedData).reduce((sortedAcc: any, date: any) => {
+			const items = combinedData[date];
+			
+			// Sort items by startTime
+			const sortedItems = items.sort((a: any, b: any) => {
+				return moment(a.dateTime, 'YYYY-MM-DD HH:mm').isBefore(moment(b.dateTime, 'YYYY-MM-DD HH:mm')) ? -1 : 1;
+			});
+		
+			sortedAcc[date] = sortedItems;
+			return sortedAcc;
+		}, {});	
 
 		/**
 		 * Separate general addons without dates from combinedData

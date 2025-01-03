@@ -270,7 +270,7 @@ export const formatDateRange = (startTime: string, endTime: string) => {
  */
 export function extractFileType(fileObject: any) {
   if (!fileObject || !fileObject.mimeType) {
-    throw new Error("Invalid file object or missing mimeType property");
+    return;
   }
 
   const mimeTypeParts = fileObject.mimeType.split('/');

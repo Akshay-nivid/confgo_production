@@ -1,4 +1,4 @@
-import { setDataById } from "@/Libs/store";
+import { GET, setDataById } from "@/Libs/store";
 import { validateRequiredField } from "@/Utils/Validation";
 import { Box, Typography, IconButton } from "@mui/material";
 import useStore from "@/Libs/store";
@@ -11,6 +11,8 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { isFieldTypePresent, selectOptions } from "./programHandlers";
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import CustomButton from "../CustomButton/CustomButton";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 interface IFormEditor {
     participantType: string,
@@ -37,6 +39,7 @@ const FormEditor: React.FC<IFormEditor> = ({ participantType, participantData, h
 
     const formFieldsArray = useStore((state: any) => state?.compData?.["formFieldsArray"]) ?? {};
 
+  const eventId = useLocation()?.pathname.split("/")[3];
 
     const { handleSubmit, control, watch, reset } = useForm({
         defaultValues: {
@@ -82,7 +85,11 @@ const FormEditor: React.FC<IFormEditor> = ({ participantType, participantData, h
         
         
                 if (!formFieldsArray) {
-                    setDataById('formFieldsArray', { [userType]: [formData] });
+                    setDataById("formFieldsArray", {
+                        [eventId]: {
+                          [userType]: [newData],
+                        },
+                      });
                     return;
                 }
         
@@ -90,11 +97,11 @@ const FormEditor: React.FC<IFormEditor> = ({ participantType, participantData, h
                 const updatedFormFieldsArray = { ...formFieldsArray };  // Create a copy of formFieldsArray to avoid direct mutation
         
         
-                if (!updatedFormFieldsArray[userType]) {   // Initialize the userType array if it doesn't exist
-                    updatedFormFieldsArray[userType] = [];
+                if (!updatedFormFieldsArray[eventId][userType]) {   // Initialize the userType array if it doesn't exist
+                    updatedFormFieldsArray[eventId][userType] = [];
                 }
         
-                updatedFormFieldsArray[userType].push(newData);
+                updatedFormFieldsArray?.[eventId]?.[userType].push(newData);
         
                 setDataById('formFieldsArray', updatedFormFieldsArray);
         
@@ -108,8 +115,52 @@ const FormEditor: React.FC<IFormEditor> = ({ participantType, participantData, h
             }
     };
 
+/**
+ * data are stored in formfieldarrays inorder to show them
+ */
+  useEffect(() => {
+    GET({
+      url: `event/form/${eventId}`,
+      id: 'formBuilder',
+      successCB: (response: any) => {
+        const groupedFields: Record<string, any[]> = {}; 
+        let genericFields: any[] = [];
+        response?.data?.map((data: any) => {
+          const metadata = JSON.parse(data.metadata || '{}');
+          const participantType = metadata.participantType;
+          const fieldData = {
+            title: metadata.title,
+            fieldType: metadata.fieldType,
+            required: metadata.required,
+            option: metadata.option,
+            participantType:metadata.participantType,
+            uuid:metadata.uuid
+          };
+          if (participantType === "generic") {
+            // Collect generic fields
+            genericFields.push(fieldData);
+            return null; 
+          } else {
+            // Group by participantType
+            if (!groupedFields[participantType]) {
+              groupedFields[participantType] = [];
+            }
+            groupedFields[participantType].push(fieldData);
+          }
+        });
 
-
+        // Combine generic fields and grouped fields
+        const formFieldsArray = {
+            [eventId]: {
+              ...(genericFields.length > 0 && { generic: genericFields }),
+              ...groupedFields,
+            },
+          };
+  
+        setDataById("formFieldsArray", formFieldsArray);
+      },
+    });
+}, [eventId]);
 
     return (
 

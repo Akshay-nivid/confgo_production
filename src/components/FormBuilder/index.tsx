@@ -81,7 +81,7 @@ interface FormBuilderProps {
         message: "Event is Already Published !",
       });}
       else{
-        if (isGeneric && formFieldsArray[GENERIC].length === 0) {
+        if (isGeneric && formFieldsArray?.[eventId]?.[GENERIC]?.length === 0) {
           setDataById("snackBarInfo", {
             open: true,
             autoHideDuration: 2000,
@@ -97,9 +97,9 @@ interface FormBuilderProps {
     let formData;
     if (isGeneric) {
 
-      if (formFieldsArray[GENERIC].length === 0) return;
+      if (formFieldsArray?.[eventId]?.[GENERIC]?.length === 0) return;
 
-      parsedData = formFieldsArray[GENERIC].map(
+      parsedData = formFieldsArray?.[eventId]?.[GENERIC].map(  
         (field: any) => {
           return {
             name: field.uuid,
@@ -121,8 +121,7 @@ interface FormBuilderProps {
 
 
     if (!isGeneric) {
-      formData = Object.entries(formFieldsArray)
-
+      formData = Object.entries(formFieldsArray?.[eventId])    
         .filter(([key]) => key !== GENERIC)
 
         .reduce<{ participantTypeId: number; data: { name: String; metadata: string; }[] }[]>((acc, [key, value]) => {

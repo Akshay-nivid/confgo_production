@@ -313,6 +313,7 @@ const EventRecap: React.FC = React.memo(() => {
           pdf.setFont("helvetica", "normal");
           pdf.text(eventTicketData?.data?.PaymentDetails?.paymentReferenceNumber, pageWidth / 2, 155);
           pdf.save('my-ticket.pdf'); 
+          setDataById('snackBarInfo', { open: true, autoHideDuration: 3000, severity: 'success', message: "Your ticket has been successfully downloaded" });
           
         } catch (error) {
           console.error('Error loading image or generating PDF:', error);

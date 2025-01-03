@@ -70,7 +70,7 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
         let req: any = {
             ...dataGridInfo?.source?.data,
         };
-        req.filters = formattedData;
+        req.filters = {...dataGridInfo?.source?.data.filters,...formattedData };
 
         req['start'] = 0;
         let dataSource: any = { ...dataGridInfo?.source }
@@ -87,7 +87,8 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
             const response = await apiClient.post(source.url, source.data);
             const { status, data, message } = processAPIResponse(response, source.listName);
             if (status) {
-                setDataById(datagridId, { source: source, data: dataTransformer ? dataTransformer(data) : data, count: data?.count });
+                const pagination = response?.data?.pagination; 
+                setDataById(datagridId, { source, data: dataTransformer ? dataTransformer(data) : data, count: data?.count,pagination,});
             }
             else {
                 setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message })
