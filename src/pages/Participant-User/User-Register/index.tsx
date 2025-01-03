@@ -3,9 +3,7 @@ import CustomTextField from '@/components/CustomTextfield/CustomTextField';
 import routes from '@/router/routes';
 import {
   validateEmail,
-  validateMaxLength,
   validateMinLength,
-  validatePhoneNumber,
   validateRequiredField,
 } from '@/Utils/Validation';
 import { Typography } from '@mui/material';
@@ -178,18 +176,18 @@ const UserRegister = (props: UserProps) => {
               <CustomTextField
                 control={control}
                 name="phone"
-                placeholder="Phone Number"
+                placeholder="Phone Numbesssr"
                 label="Phone Number"
-                type="phone"
+                type="number"
                 rules={{
                   required: validateRequiredField({
                     fieldName: 'Phone Number',
                   }),
-                  pattern: validatePhoneNumber({}),
-                  maxLength: validateMaxLength({
-                    maxLength: 10,
-                    fieldName: 'Phone Number',
-                  }),
+                  // pattern: validatePhoneNumber({}),
+                  // maxLength: validateMaxLength({
+                  //   maxLength: 10,
+                  //   fieldName: 'Phone Number',
+                  // }),
                 }}
               />
             </Box>
