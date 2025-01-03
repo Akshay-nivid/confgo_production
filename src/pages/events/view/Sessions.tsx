@@ -279,7 +279,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
         alignItems="center"
       >
         <Typography variant="h3" className="event-detail-event-info-card-title">
-          Event Sessions
+          Sessions
         </Typography>
 				<Grid>
 					<CustomButton

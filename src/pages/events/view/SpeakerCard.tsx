@@ -62,7 +62,7 @@ const SpeakerCard = (_eventData: any) => {
   const [searchResults, setSearchResults] = useState<TransformedData[]>([]);
   const [loading, setLoading] = useState(false); // To indicate loading state for API
   const [handleSelectedValue,setHandleSelectedValue]=useState<any>();
-
+  const companyId = sessionStorage.getItem("companyId")
   
   /**
    * Method transforms data to the autocomplete data format
@@ -341,7 +341,8 @@ const SpeakerCard = (_eventData: any) => {
       const req = {
         filters: {
           roleEnums: ['SPEAKER'],
-          name: query
+          name: query,
+          companyId: companyId,
         },
       };
       const response = await apiClient.post(`user/userRole/list`, req);
@@ -388,7 +389,7 @@ const SpeakerCard = (_eventData: any) => {
             >
               <Grid>
                 <Typography className="event-detail-speakers-card-speaker-header">
-                  Event Contributors{" "}
+                  Speakers
                 </Typography>
               </Grid>
               <Grid>
@@ -406,7 +407,7 @@ const SpeakerCard = (_eventData: any) => {
               variant="h6"
               className="event-detail-speakers-card-speaker-content"
             >
-              Event Contributors allows you to easily add and manage key
+              Speakers allows you to easily add and manage key
               participants in your event, such as speakers, sponsors
             </Typography>
             <Typography
