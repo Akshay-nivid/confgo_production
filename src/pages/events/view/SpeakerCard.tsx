@@ -389,7 +389,7 @@ const SpeakerCard = (_eventData: any) => {
             >
               <Grid>
                 <Typography className="event-detail-speakers-card-speaker-header">
-                  Event Contributors{" "}
+                  Speakers
                 </Typography>
               </Grid>
               <Grid>
@@ -407,7 +407,7 @@ const SpeakerCard = (_eventData: any) => {
               variant="h6"
               className="event-detail-speakers-card-speaker-content"
             >
-              Event Contributors allows you to easily add and manage key
+              Speakers allows you to easily add and manage key
               participants in your event, such as speakers, sponsors
             </Typography>
             <Typography
