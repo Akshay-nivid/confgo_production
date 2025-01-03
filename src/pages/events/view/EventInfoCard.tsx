@@ -294,7 +294,7 @@ const EventInfoCard: React.FC<any> = React.memo(
             variant="h3"
             className="event-detail-event-info-card-title"
           >
-            Event Information
+            Basic Info
           </Typography>
         </Grid>
         <Grid>

@@ -98,7 +98,7 @@ import NoUserList from "./no-user-list.svg";
 import UserCreateIcon from "../svg/user-icon.svg";
 import Arrow2Left from "./arrow2-left.svg"
 import GridImg from "./grid-img.svg"
-import BookIcon from "./Book.svg";
+import BookIcon from "./book.svg";
 import CloseCircle from "./Close_circle_black.svg";
 import UploadIcon from "./Upload.svg";
 import Dollar from "./dollar.svg"

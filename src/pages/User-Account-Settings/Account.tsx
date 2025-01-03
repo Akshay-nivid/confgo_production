@@ -35,7 +35,7 @@ const handleTabChange = (_: React.SyntheticEvent, newIndex: number) => {
         Account Settings
       </Typography>
       <Grid container direction={"column"} size={{ xs: 12, sm: 12 }}>
-      <Tabs value={0} className='account-tabs' onChange={handleTabChange} >
+      <Tabs value={tabInfo?.tabIndex} className='account-tabs' onChange={handleTabChange} >
         <Tab label="Personal Information" className='account-tab-title account-tabs' value={0}/>
         <Tab label="Security" className="account-tab-title account-tabs" value={1}/>
       </Tabs>
