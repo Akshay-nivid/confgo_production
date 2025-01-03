@@ -176,9 +176,10 @@ const UserRegister = (props: UserProps) => {
               <CustomTextField
                 control={control}
                 name="phone"
-                placeholder="Phone Numbesssr"
+                placeholder="Phone Number"
                 label="Phone Number"
                 type="phone"
+                isNumeric={true}
                 rules={{
                   required: validateRequiredField({
                     fieldName: 'Phone Number',
