@@ -340,8 +340,8 @@ const ViewEventDetail = () => {
         <TabContext value={value}>
         <Grid container direction={"column"} size={{ xs: 12, sm: 12 }} >
             <TabList className="event-detail-tab-layout" onChange={handleChange} aria-label="lab API tabs example">
-              <Tab label="Event Information" className="event-detail-tab-layout-item" value="1" />
-              <Tab label="Event Contributors" className="event-detail-tab-layout-item" value="2" />
+              <Tab label="Basic Info" className="event-detail-tab-layout-item" value="1" />
+              <Tab label="Speakers" className="event-detail-tab-layout-item" value="2" />
               <Tab label="Sessions" className="event-detail-tab-layout-item" value="3" />
               { eventFullData?.venue && <Tab label="Location" className="event-detail-tab-layout-item" value="4" />}
               <Tab label="Users" className="event-detail-tab-layout-item" value="5" />              
