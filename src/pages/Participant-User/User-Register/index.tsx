@@ -178,7 +178,7 @@ const UserRegister = (props: UserProps) => {
                 name="phone"
                 placeholder="Phone Numbesssr"
                 label="Phone Number"
-                type="number"
+                type="phone"
                 rules={{
                   required: validateRequiredField({
                     fieldName: 'Phone Number',
