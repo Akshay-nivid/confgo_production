@@ -9,7 +9,7 @@ import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CloseIcon from "@mui/icons-material/Close";
-import { DeleteContributorIcon, EditContributorIcon } from "@/assets/svg";
+import { DeleteContributorIcon } from "@/assets/svg";
 import useStore from "@/Libs/store";
 import AddIcon from "@mui/icons-material/Add";
 import config from "../../../../config.json";
@@ -86,9 +86,9 @@ const SpeakerCard = (_eventData: any) => {
   /**
    *function to handle open Drawer Edit
    */
-  const handleScreenViewChange = () => {
-    setAddContributeView(true);
-  };
+  // const handleScreenViewChange = () => {
+  //   setAddContributeView(true);
+  // };
   /**
    *function to handle open Drawer Create
    */
@@ -291,30 +291,30 @@ const SpeakerCard = (_eventData: any) => {
    * function handles edit contributor form fields
    * @param item
    */
-  const handleContributorEdit = (item: EventParticipant) => {
-    if(_eventData?.eventData?.published){
-      setDataById("snackBarInfo", {
-        open: true,
-        autoHideDuration: 2000,
-        severity: "error",
-        message: "Event is Already Published !",
-      });
-    }else{
-      if (item?.name ) {
-      reset({
-        contributorName: item.name,
-        contributorType: item.designation,
-        contributorDescription: item.description || "",
-      });
-    }
-    else{
-      reset()
-    }
-    setDataById("contributorFields", item);
-    setEditConrtributorValue(item);
-    handleScreenViewChange();
-    }
-  };
+  // const handleContributorEdit = (item: EventParticipant) => {
+  //   if(_eventData?.eventData?.published){
+  //     setDataById("snackBarInfo", {
+  //       open: true,
+  //       autoHideDuration: 2000,
+  //       severity: "error",
+  //       message: "Event is Already Published !",
+  //     });
+  //   }else{
+  //     if (item?.name ) {
+  //     reset({
+  //       contributorName: item.name,
+  //       contributorType: item.designation,
+  //       contributorDescription: item.description || "",
+  //     });
+  //   }
+  //   else{
+  //     reset()
+  //   }
+  //   setDataById("contributorFields", item);
+  //   setEditConrtributorValue(item);
+  //   handleScreenViewChange();
+  //   }
+  // };
   /**
    * function handles delete contributor form fields
    * @param item
@@ -458,11 +458,11 @@ const SpeakerCard = (_eventData: any) => {
                                 display={"flex"}
                                 className="event-detail-speakers-card-list-row-box"
                               >
-                                <Grid
+                                {/* <Grid
                                   onClick={() => handleContributorEdit(item)}
                                 >
                                   <EditContributorIcon className="event-detail-speakers-card-list-row-box-icon" />
-                                </Grid>
+                                </Grid> */}
                                 <Grid onClick={() => handleDeleteModal(item)}>
                                   <DeleteContributorIcon className="event-detail-speakers-card-list-row-box-icon" />
                                 </Grid>
