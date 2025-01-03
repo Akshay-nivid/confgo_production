@@ -118,7 +118,7 @@ export const CustomCalendar: React.FC<CalendarProps> = ({
               <Typography>
                 <LocalTimeDate
                   utcDateTime={eventInfo.event.start}
-                  format="MMMM D, YYYY"
+                  format="h:mm A" // For 12-hour format with AM/PM
                 />
               </Typography>
             }

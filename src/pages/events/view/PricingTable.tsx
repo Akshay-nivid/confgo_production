@@ -8,6 +8,7 @@ import {
   TableRow,
   Paper,
   TextField,
+  Typography,
 } from "@mui/material";
 import { Controller } from "react-hook-form";
 import moment from "moment";
@@ -88,7 +89,17 @@ const PricingTable: React.FC<PricingTableProps> = ({
                 {attendee.attendeeName}
               </TableCell>
               {uniqueTiers.map((tier) => { 
-                return (
+                return isListView ? (
+                    <TableCell key={`${attendee.id}-${tier.id}`}>
+                        <Typography className="pricing-table-table-input-text-col">
+                          {attendee.pricingTiers?.find(
+                            (atTier) => atTier.tierName === tier.tierName
+                          )?.percentage +
+                            " " +
+                            "%" || "0"}
+                        </Typography>
+                    </TableCell>
+                  ) : (
                   <TableCell key={`${attendee.id}-${tier.id}`}>
                     <Controller
                       name={`attendees.${attendeeIndex}.pricingTiers.${tier.tierName}.percentage`}
