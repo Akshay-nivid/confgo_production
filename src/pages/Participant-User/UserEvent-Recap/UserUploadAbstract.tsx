@@ -43,7 +43,6 @@ const UserUploadAbstract = ({ eventData }: any) => {
         successCB: context => {
           setUploadFiles(context.data[0]?.assetId);
           setDisabled(context.data[0]?.assetId ? true : false);
-          console.log('context', context);
         },
         errorCB: (context: any) => {
           snackBar({
@@ -61,7 +60,6 @@ const UserUploadAbstract = ({ eventData }: any) => {
    * useEffect to get uploaded userAbstract data
    */
   useEffect(() => {
-    console.log(eventData?.id, 'klklklk');
 
     getUploadedAbstract();
   }, [eventData?.id]);
@@ -148,9 +146,7 @@ const UserUploadAbstract = ({ eventData }: any) => {
                   </Typography>
                 </Grid>
               </Grid>
-              {/* <Grid container justifyContent={"flex-end"} size={8}>
-                                <CustomButton label="Submit file" onClick={uploadUserAbstract} />
-                            </Grid> */}
+             
             </Grid>
           )}
           {uploadedAbstractData.length != 0 && uploadedAbstractData[0].comments != null && (
@@ -171,16 +167,7 @@ const UserUploadAbstract = ({ eventData }: any) => {
         </Grid>
         {/* right section  */}
         <Grid size={{ xs: 12, sm: 4 }} className="right-grid">
-          {/* <Grid container className="upload-abstract-upload-box" justifyContent={"center"} flexDirection={"column"} alignContent={"center"}> */}
-          {/* <Grid alignSelf={"center"}>
-                            <UploadIcon />
-                        </Grid>
-                        <Grid alignSelf={"center"} className="upload-abstract-upload-box-gap">
-                            <Typography className="upload-abstract-upload-box-header">Attach Abstract</Typography>
-                        </Grid>
-                        <Grid alignSelf={"center"} className="upload-abstract-upload-box-gap">
-                            <Typography>Choose a file (PDF, DOCX), Max file size: 50MB. </Typography>
-                        </Grid> */}
+        
           <Box>
             {disabled ? (
               <></>

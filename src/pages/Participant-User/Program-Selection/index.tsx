@@ -249,7 +249,6 @@ const ProgramSelection = () => {
 
     const formData = getValues()
 
-    console.log(formData, 'formData')
 
     const [date, _, id] = key.split("-")
 
@@ -260,16 +259,7 @@ const ProgramSelection = () => {
       return
     }
 
-
-
-
-
-    console.log(addonProps, 'addonProps')
-
     const inputKey = `${date}-addonProp-${id}`
-
-
-
 
     if (inputKey in formData) {
       const updateFormData = { ...formData, [inputKey]: undefined }
