@@ -75,14 +75,14 @@ const DashboardEventCards: React.FC<DashboardEventCardProps> = React.memo(({ eve
                         Location
                     </Typography>
                     <Tooltip
-                        title={`${event?.venue.address}, ${event?.venue.city}`}
+                        title={`${event?.venue?.address}, ${event?.venue?.city}`}
                         arrow
                         placement="top"
                     >
                         <Typography className="dashboard-left-profile-card-block-content">
-                            {`${event?.venue.address}, ${event?.venue.city}`.length > 35
-                                ? `${`${event?.venue.address}, ${event?.venue.city}`.substring(0, 35)}...`
-                                : `${event?.venue.address}, ${event?.venue.city}`}
+                            {`${event?.venue?.address}, ${event?.venue?.city}`.length > 35
+                                ? `${`${event?.venue?.address}, ${event?.venue?.city}`.substring(0, 35)}...`
+                                : `${event?.venue?.address}, ${event?.venue?.city}`}
                         </Typography>
                     </Tooltip>
                 </Grid>

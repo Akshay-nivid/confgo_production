@@ -23,6 +23,8 @@ const UserUploadAbstract = ({ eventData }: any) => {
     }, [])
     const [uploadFiles, setUploadFiles] = useState<any>();
     const uploadedAbstractData = useStore((state: any) => state?.compData?.["userUploadedAbstract"]?.["userAbstract/list"]?.data) ?? []
+    const EventId = useStore((state:any)=>state.compData?.["programs"]?.data?.[0]?.event?.parentId)
+
     // const uploadedAssetFile = useStore((state: any) => state?.compData?.['assetUpload']?.asset?.data) ?? []
    /**
    * function get uploaded user abstract data
@@ -36,8 +38,8 @@ const UserUploadAbstract = ({ eventData }: any) => {
                     sortBy: "id",
                     sortDirection: "DESC",
                     filters: {
-                        userId: userId
-
+                        userId: userId,
+                        eventId: EventId
                     }
                 },
                 id: 'userUploadedAbstract',
