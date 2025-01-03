@@ -145,7 +145,7 @@ const LayoutAppbar: React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =
           className="user-profile-menu"
           >
           <MenuItem className="" >
-          <Grid size={1} className="appbars-group-img" mb={0}>
+          <Grid size={1} className="appbars-group-img img-space" mb={0}>
             {userDetails?.firstName && userDetails?.lastName ? (
               <Avatar className="appbars-group-avatar" >
                 {`${userDetails.firstName[0]}${userDetails.lastName[0]}`.toUpperCase()}

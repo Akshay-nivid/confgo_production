@@ -102,6 +102,7 @@ const ViewEventDetail = () => {
   const [link, setLink] = useState('');
   const [errorMessage, setErrorMessage] = useState('')
   const [openModal,setOpenModal]=useState(false);
+  const [datass,setdatass]=useState()
 
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	// Functions to open and close the drawer.
@@ -125,6 +126,7 @@ const ViewEventDetail = () => {
   useEffect(() => {
     setErrorMessage('')
     getEventDetails();
+    eventPartcipantList();
   }, [])
 
   /**
@@ -145,6 +147,25 @@ const ViewEventDetail = () => {
     }
   }
 
+
+  /**
+   *function to  get Event participant list
+   */
+  const eventPartcipantList = async () => {
+    try {
+      const req = {
+        filters:{ eventId: id}
+       
+      };
+      const response = await apiClient.post(`participant/list`,req);
+      const { status, data } = await processAPIResponse(response, 'eventData');
+      if (status) {   
+        setdatass(data.length)
+      }
+    } catch (error) {
+      Logger.error('ViewEventDetail', error);
+    }
+  }
 
   /**
    *function to  get Event detail
@@ -187,7 +208,12 @@ const ViewEventDetail = () => {
    * Mehod handles the publish/unpublish using the modal
    */
   const handlePublishUnPublish = () => {
-    setOpenModal(!openModal);
+    if (datass !=0 && eventFullData?.published){
+      handlePublish(eventFullData?.published)
+    }
+    else{
+      setOpenModal(!openModal);
+    }
   }
   /**
    * Mehod handles the publish/unpublish of the event
@@ -282,7 +308,7 @@ const ViewEventDetail = () => {
               </Grid>
               <Grid>
                 {eventFullData?.statusId &&
-                  <Grid ml={2}> <StatusComponent value={eventFullData?.statusId.toString()} /></Grid>}
+                  <Grid ml={2}> <StatusComponent value={eventFullData?.statusId ==1 && eventFullData?.published ? "6" : eventFullData?.statusId.toString()} /></Grid>}
               </Grid>
             </Grid>
             <Grid container spacing={2}>

@@ -1194,6 +1194,12 @@
                 border: none;
             }
         }
+        &-col{
+            font-size: $h6 !important;
+            padding: 0.25rem 0;
+            font-weight: $font-semibold !important;
+            text-align: center;
+        }
 
     }
 

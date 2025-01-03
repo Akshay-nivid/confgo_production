@@ -128,11 +128,16 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
       }
       const successCB = (response: any) => {
         onSubmitHandler();
+        if (type === "program") {
+          setPrograms((prevPrograms:any) => prevPrograms.filter((prog:any) => prog.id !== id));
+        } else if (type === "addon") {
+          setPrograms((prevAddons:any) => prevAddons.filter((addon:any) => addon.id !== id));
+        }  
         setDataById("snackBarInfo", {
           open: true,
           autoHideDuration: 2000,
           severity: "success",
-          message: response?.message,
+          message: response?.message || "Deleted successfully" ,
         });
         Logger.info("Deleting program/addon successful:", response?.data);
       };
