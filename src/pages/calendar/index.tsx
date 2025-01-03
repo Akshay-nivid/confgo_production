@@ -115,7 +115,7 @@ interface calendarProps {
   *  Transforms API response data into calendar format for admin.
   */
   const programs = dataInfo?.data?.flatMap((event: any) => 
-    event.events.map((program: any) => ({
+    event?.events?.map((program: any) => ({
         id:program.id,
         title: program.name,
          start: new Date(program.startTime),
