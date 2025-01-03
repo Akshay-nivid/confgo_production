@@ -41,8 +41,8 @@ const FileUpload: React.FC<FileUploadProps> = ({
   resolution = { width: null, height: null },
   onSubmit,
   trimClientSide = true,
-  width = "30rem",
-  height = "30rem",
+  // width = "30rem",
+  // height = "30rem",
  className,
  isAbstract
 }) => {
@@ -204,7 +204,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
     <Grid
       className={clsx("file-upload", className)}
       container
-      style={{ width, height }}
+      // style={{ width, height }}
       justifyContent={"flex-end"}
     >
       <Grid {...getRootProps()} className={isAbstract?"file-upload-dropzone file-upload-abstract-dropzone": "file-upload-dropzone"} size={{ xs: 12 }}>
@@ -220,8 +220,11 @@ const FileUpload: React.FC<FileUploadProps> = ({
                 <Grid><Typography className="file-upload-abstract-title">Attach Abstract</Typography></Grid>
                 <Grid><Typography className="file-upload-abstract-sub-title">Choose a file(PDF, DOCX), Max file size: 10MB</Typography></Grid>
               </Grid>
-              :
-              <Typography>Drag & drop files here, or click to select files</Typography>
+              :<>
+              <Typography className="upload-dropzone-text">Drag & drop or click here to upload.</Typography>
+              <Typography className="upload-dropzone-subtext">Choose a file to upload, Max file size: 1MB.</Typography>
+              <Typography className="upload-dropzone-subtext">Recommended ratio: 16:9 for best fit</Typography>
+              </>
             )}
           </Grid>
         )}

@@ -399,7 +399,7 @@ const CreateEvent: React.FC<EventProps> =
                       placeholder="Phone"
                       control={control}
                       name="phone"
-                      type="phone"
+                      type="number"
                       rules={{
                         required: 'Phone is required',
                         pattern: validatePhoneNumber({})

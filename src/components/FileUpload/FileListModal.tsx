@@ -1,11 +1,12 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   Modal,
   Box,
   CircularProgress,
-  Autocomplete,
-  TextField,
+  // Autocomplete,
+  // TextField,
   Button,
+  Typography,
 } from "@mui/material";
 import apiClient from "@/Libs/Https/API-client";
 import { Logger } from "@/Utils/Logger";
@@ -58,9 +59,9 @@ const FileListModal: React.FC<FileListModalProps> = ({
   const [files, setFiles] = useState<CustomFile[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<CustomFile[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [searchTerm, setSearchTerm] = useState<string>("");
-  const delayTime = useRef<number | undefined>(undefined);
-  const [autocompleteOptions, setAutocompleteOptions] = useState<string[]>([]);
+  // const [searchTerm, setSearchTerm] = useState<string>("");
+  // const delayTime = useRef<number | undefined>(undefined);
+  // const [autocompleteOptions, setAutocompleteOptions] = useState<string[]>([]);
   const [uploadModalOpen, setUploadModalOpen] = useState(false); // State to control FileUpload modal
 
 /*
@@ -75,7 +76,7 @@ const FileListModal: React.FC<FileListModalProps> = ({
         const { data } = response.data;
         if (Array.isArray(data)) {
           setFiles(data);
-          setAutocompleteOptions(data.map((file: CustomFile) => file.name));
+          // setAutocompleteOptions(data.map((file: CustomFile) => file.name));
         } else {
           setFiles([]);
         }
@@ -99,15 +100,15 @@ const FileListModal: React.FC<FileListModalProps> = ({
  * Handle search term changes in the Autocomplete input
   @param _event ,value
  */ 
-  const handleSearchChange = (_event: React.ChangeEvent<{}>, value: string) => {
-    setSearchTerm(value);
-    if (delayTime.current) {
-      clearTimeout(delayTime.current);
-    }
-    delayTime.current = window.setTimeout(() => {
-      fetchFiles(value);
-    }, 1000);
-  };
+  // const handleSearchChange = (_event: React.ChangeEvent<{}>, value: string) => {
+  //   setSearchTerm(value);
+  //   if (delayTime.current) {
+  //     clearTimeout(delayTime.current);
+  //   }
+  //   delayTime.current = window.setTimeout(() => {
+  //     fetchFiles(value);
+  //   }, 1000);
+  // };
 
  /*
  * Handle file selection 
@@ -148,10 +149,13 @@ const FileListModal: React.FC<FileListModalProps> = ({
 	return (
     <Modal open={open} onClose={handleClose} aria-labelledby="modal-title" className="modal">
       <Box className="modal-container">
-        <Box className="modal-content">
+        <Box className="modal-content" >
+        <Grid >
         <Grid className="modal-close-icon" container justifyContent={"flex-end"} onClick={handleClose}>
           <CloseIcon/>
         </Grid>
+        <FileUpload acceptedFiles={["image/jpeg", "image/png",]} resolution={{ width: 200, height: 200 }} onSubmit={handleUploadSuccess}/>
+{/* 
           <Autocomplete
             limitTags={2}
             freeSolo
@@ -162,12 +166,14 @@ const FileListModal: React.FC<FileListModalProps> = ({
             renderInput={(params) => (
               <TextField {...params} label="Search by name" variant="outlined" fullWidth className="modal-search-input" />
             )}
-          />
+          /> */}
           {loading ? (
             <Box display="flex" justifyContent="center" mt={2}>
               <CircularProgress />
             </Box>
           ) : (
+            <Grid>
+            <Typography className="modal-image-saved-assests">Saved Assets</Typography>
             <Box className="modal-image-list">
               <ImageListDisplay
                 files={files}
@@ -177,22 +183,24 @@ const FileListModal: React.FC<FileListModalProps> = ({
                 imagesPerRow={imagesPerRow}
               />
             </Box>
+            </Grid>
           )}
           {multipleSelect && (
             <Button variant="contained" color="primary" fullWidth className="modal-confirm-button" onClick={handleConfirmSelection}>
               Confirm Selection
             </Button>
           )}
-
+{/* 
           <Button variant="outlined" color="secondary" fullWidth className="modal-upload-button" onClick={() => setUploadModalOpen(true)}>
             Upload New File
-          </Button>
+          </Button> */}
           {/* FileUpload Modal */}
           <Modal open={uploadModalOpen} onClose={() => setUploadModalOpen(false)}>
             <Box className="modal-upload-container">
               <FileUpload acceptedFiles={["image/jpeg", "image/png",]} resolution={{ width: 200, height: 200 }} onSubmit={handleUploadSuccess}/>
             </Box>
           </Modal>
+          </Grid>
         </Box>
       </Box>
     </Modal>
