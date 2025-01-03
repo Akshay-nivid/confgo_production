@@ -1,183 +1,178 @@
-import { BookIcon, CloseCircle } from "@/assets/svg";
-import CustomButton from "@/components/CustomButton/CustomButton";
-import FileUpload from "@/components/FileUpload/FileUpload";
-import StatusComponent from "@/components/Status/StatusComponent";
-import useStore, { POST, setDataById } from "@/Libs/store";
-import { Logger } from "@/Utils/Logger";
-import { Avatar, Rating, Typography } from "@mui/material";
-import Grid from "@mui/material/Grid2";
-import { useEffect, useState } from "react";
+import { BookIcon, BookWhite, CloseBoxWhite, EditBoxWhite, TicBoxWhite } from '@/assets/svg';
+import FileUpload from '@/components/FileUpload/FileUpload';
+import StatusComponent from '@/components/Status/StatusComponent';
+import useStore, { POST, PUT, setDataById, snackBar } from '@/Libs/store';
+import { Edit } from '@mui/icons-material';
+
+import { Avatar, Box, IconButton, Rating, Typography } from '@mui/material';
+import Grid from '@mui/material/Grid2';
+import clsx from 'clsx';
+import moment from 'moment';
+import { useEffect, useState } from 'react';
+
 interface CustomFile {
-    id: number;
-    name: string;
+  id: number;
+  name: string;
 }
 /**
  * componet used to upload the abstract file
  */
 const UserUploadAbstract = ({ eventData }: any) => {
-/**
- * useEffect to get uploaded userAbstract data
- */
-    useEffect(() => {
-        getUploadedAbstract();
-    }, [])
-    const [uploadFiles, setUploadFiles] = useState<any>();
-    const uploadedAbstractData = useStore((state: any) => state?.compData?.["userUploadedAbstract"]?.["userAbstract/list"]?.data) ?? []
-    const EventId = useStore((state:any)=>state.compData?.["programs"]?.data?.[0]?.event?.parentId)
+  const [uploadFiles, setUploadFiles] = useState<any>();
+  const uploadedAbstractData = useStore((state: any) => state?.compData?.['fetchUserAbstract']?.['userAbstract/list']?.data) ?? [];
 
-    // const uploadedAssetFile = useStore((state: any) => state?.compData?.['assetUpload']?.asset?.data) ?? []
-   /**
+  const [disabled, setDisabled] = useState(false);
+
+  /**
    * function get uploaded user abstract data
    */
-    const getUploadedAbstract = async () => {
-        const userId = sessionStorage.getItem('userId');
-        try {
-            await POST({
-                url: `userAbstract/list`,
-                body: {
-                    sortBy: "id",
-                    sortDirection: "DESC",
-                    filters: {
-                        userId: userId,
-                        eventId: EventId
-                    }
-                },
-                id: 'userUploadedAbstract',
-                successCB: (context: any) => {
-                    setUploadFiles(context.data[0]?.assetId)
-                },
-                errorCB: (context: any) => {
-                    setDataById("snackBarInfo", {
-                        open: true,
-                        autoHideDuration: 2000,
-                        severity: "error",
-                        message: context?.message,
-                    });
-                },
-            });
-
-        } catch (e) {
-            Logger.error('UserUploadAbstract.tsx');
-        }
+  const getUploadedAbstract = async () => {
+    try {
+      const userId = sessionStorage.getItem('userId');
+      POST({
+        id: 'fetchUserAbstract',
+        url: `userAbstract/list`,
+        body: {
+          sortBy: 'id',
+          sortDirection: 'DESC',
+          filters: {
+            userId: userId,
+            eventId: eventData?.id,
+          },
+        },
+        successCB: context => {
+          setUploadFiles(context.data[0]?.assetId);
+          setDisabled(context.data[0]?.assetId ? true : false);
+          console.log('context', context);
+        },
+        errorCB: (context: any) => {
+          snackBar({
+            severity: 'error',
+            message: context.message || 'Something went wrong',
+          });
+        },
+      });
+    } catch (e) {
+      snackBar({ severity: 'error', message: 'Something went wrong' });
     }
+  };
 
-    /** 
-     * Image upload handles for file upload componet
-     */
-    const handleImageUpload = (uploadedFile: CustomFile) => {
-        setUploadFiles(uploadedFile);
+  /**
+   * useEffect to get uploaded userAbstract data
+   */
+  useEffect(() => {
+    console.log(eventData?.id, 'klklklk');
+
+    getUploadedAbstract();
+  }, [eventData?.id]);
+
+  /**
+   * Image upload handles for file upload componet
+   */
+  const handleImageUpload = (uploadedFile: CustomFile) => {
+    const isUpdate = uploadedAbstractData?.[0]?.id;
+    const requestConfig = {
+      url: isUpdate ? `userAbstract/${uploadedAbstractData[0].id}` : 'userAbstract',
+      id: 'userUploadedAbstract',
+      body: {
+        eventId: eventData?.id,
+        assetId: uploadedFile?.id,
+      },
+      successCB: () => {
+        snackBar({
+          severity: 'success',
+          message: 'Abstract File Uploaded successfully',
+        });
+        getUploadedAbstract();
+      },
+      errorCB: (context: any) => {
+        setDataById('snackBarInfo', {
+          open: true,
+          autoHideDuration: 2000,
+          severity: 'error',
+          message: context?.message,
+        });
+      },
     };
 
-    /** 
-     * Upload user Abstract data
-     */
-    const uploadUserAbstract = async () => {
-        try {
-            await POST({
-                url: `userAbstract`,
-                body: {
-                    eventId: eventData?.id,
-                    assetId: uploadFiles?.id
-                },
-                id: 'userUploadedAbstract',
-                successCB: (_context: any) => {
-                    setDataById("snackBarInfo", {
-                        open: true,
-                        autoHideDuration: 2000,
-                        severity: "sucess",
-                        message: 'Abstract File Uploaded successfully',
-                    });
-                },
-                errorCB: (context: any) => {
-                    setDataById("snackBarInfo", {
-                        open: true,
-                        autoHideDuration: 2000,
-                        severity: "error",
-                        message: context?.message,
-                    });
-                },
-            });
-        } catch (e) {
-            Logger.error('UserUploadAbstract.tsx');
-        }
-    }
+    (isUpdate ? PUT : POST)(requestConfig);
+  };
 
-    return (
-        < >
-            <Grid className="upload-abstract" size={12} container >
-                <Grid size={{ xs: 12, sm: 8 }} >
-                    <Grid size={12}>
-                        <Typography className="upload-abstract-header">Upload Abstract</Typography>
-                    </Grid>
-                    <Grid size={12} className="upload-abstract-gap-text">
-                        <Typography className="upload-abstract-sub-header">Upload your abstracts to link them to the programme.</Typography>
-                    </Grid>
-                    <Grid className="upload-abstract-event-container" container size={12} >
-                        <Grid className="upload-abstract-event-container-gap" container size={12}>
-                            <Grid size={6}>
-                                <Typography className="upload-abstract-event-container-labelS"> Event Name</Typography>
-                            </Grid>
-                            <Grid size={6}>
-                                <Typography className="upload-abstract-event-container-labelE">{eventData?.name}</Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid container size={12} className='upload-abstract-event-container-gap'>
-                            <Grid size={6}>
-                                <Typography className="upload-abstract-event-container-labelS">Deadline</Typography>
-                            </Grid>
-                            <Grid size={6}>
-                                <Typography className="upload-abstract-event-container-labelE">{eventData?.abstractDate}</Typography>
-                            </Grid>
-                        </Grid>
-                        <Grid container size={12} className='upload-abstract-event-container-gap'>
-                            <Grid size={6}>
-                                <Typography className="upload-abstract-event-container-labelS">Status</Typography>
-                            </Grid>
-                            <Grid size={3}>
-                                <StatusComponent value={eventData?.statusId} />
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    {uploadFiles != null &&
-                        <Grid className="upload-abstract-upload-container" size={12} >
-                            <Typography className="upload-abstract-header">Upload Abstract</Typography>
-                            <Grid className="upload-abstract-upload-container-box" size={8} sx={{ position: 'relative' }} >
-                                <Grid onClick={() => setUploadFiles(null)} sx={{ position: 'absolute', top: -10, right: -6 }}>
-                                    <CloseCircle />
-                                </Grid>
-                                <Grid>
-                                    <BookIcon />
-                                </Grid>
-                                <Grid className="upload-abstract-upload-container-box-gap">
-                                    <Typography className="upload-abstract-upload-container-box-header">Abstract</Typography>
-                                </Grid>
-                                <Grid className="upload-abstract-upload-container-box-gap">
-                                    <Typography className="upload-abstract-upload-container-box-fileName">{uploadFiles?.name||uploadedAbstractData[0]?.asset?.name}</Typography>
-                                </Grid>
-                            </Grid>
-                            <Grid container justifyContent={"flex-end"} size={8}>
-                                <CustomButton label="Submit file" onClick={uploadUserAbstract} />
-                            </Grid>
-                        </Grid>}
-                    {uploadedAbstractData.length != 0 && uploadedAbstractData[0].comments != null &&
-                        <Grid className="upload-abstract-comments-container" size={12}>
-                            <Typography className="upload-abstract-comments-container-header">Comments</Typography>
-                            <Grid container className="upload-abstract-comments-container-gap" size={4} alignItems={"center"} spacing={1}>
-                                <Avatar sx={{ bgcolor: 'skyblue' }}>N</Avatar>
-                                <Typography className="upload-abstract-comments-container-header">uploadedAbstractData[0]?.reviewerId</Typography>
-                            </Grid>
-                            <Grid className="upload-abstract-comments-container-gap15">
-                                <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly />
-                            </Grid>
-                            <Grid className="upload-abstract-comments-container-gap15">
-                                <Typography className="upload-abstract-comments-container-subText">uploadedAbstractData[0]?.comments</Typography>
-                            </Grid>
-                        </Grid>}
+  const statusArray = [
+    {
+      status: uploadedAbstractData?.[0]?.asset?.id ? 'uploaded' : 'default',
+      title: 'Uploaded',
+      desc: uploadedAbstractData?.[0]?.asset?.modifiedOn,
+    },
+    {
+      status: uploadedAbstractData?.[0]?.reviewer ? 'reviewing' : 'default',
+      title: 'Reviewing',
+      desc: '',
+    },
+
+    {
+      status: uploadedAbstractData?.[0]?.statusId === 1 ? 'approved' : uploadedAbstractData?.[0]?.statusId === 0 ? 'rejected' : 'default',
+      title: uploadedAbstractData?.[0]?.statusId === 1 ? 'Approved' : uploadedAbstractData?.[0]?.statusId === 0 ? 'Rejected' : 'Reviewing on process',
+      desc: '',
+    },
+  ];
+
+  return (
+    <>
+      <Grid className="upload-abstract" size={12} container>
+        <Grid size={{ xs: 12, sm: 8 }} className="left-grid border-r ">
+          <HeaderSection />
+          <EventInfo eventData={eventData} />
+
+          {uploadFiles != null && (
+            <Grid className="upload-abstract-upload-container padding-x-20" size={12}>
+              <Typography className="upload-abstract-header">Upload Abstract</Typography>
+              <Grid className="upload-abstract-upload-container-box" size={8} sx={{ position: 'relative' }}>
+                <Grid display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
+                  <BookIcon />
+                  <IconButton
+                    className="edit-icon"
+                    onClick={() => {
+                      setDisabled(false);
+                    }}
+                  >
+                    <Edit />
+                  </IconButton>
                 </Grid>
-                {/* right section  */}
-                <Grid size={{ xs: 12, sm: 4 }}>
-                    {/* <Grid container className="upload-abstract-upload-box" justifyContent={"center"} flexDirection={"column"} alignContent={"center"}> */}
-                    {/* <Grid alignSelf={"center"}>
+                <Grid className="upload-abstract-upload-container-box-gap">
+                  <Typography className="upload-abstract-upload-container-box-header">Abstract</Typography>
+                </Grid>
+                <Grid className="upload-abstract-upload-container-box-gap">
+                  <Typography className="upload-abstract-upload-container-box-fileName">
+                    {uploadFiles?.name || uploadedAbstractData[0]?.asset?.name || uploadedAbstractData[0]?.asset?.mimeType}{' '}
+                  </Typography>
+                </Grid>
+              </Grid>
+              {/* <Grid container justifyContent={"flex-end"} size={8}>
+                                <CustomButton label="Submit file" onClick={uploadUserAbstract} />
+                            </Grid> */}
+            </Grid>
+          )}
+          {uploadedAbstractData.length != 0 && uploadedAbstractData[0].comments != null && (
+            <Grid className="upload-abstract-comments-container border-bottom-blue padding-x-20" size={12}>
+              <Typography className="upload-abstract-comments-container-header ">Comments</Typography>
+              <Grid container className="upload-abstract-comments-container-gap" size={12} alignItems={'center'} spacing={1}>
+                <Avatar sx={{ bgcolor: 'skyblue' }}>N</Avatar>
+                <Typography className="upload-abstract-comments-container-header">{uploadedAbstractData[0]?.reviewerId}</Typography>
+              </Grid>
+              <Grid className="upload-abstract-comments-container-gap15">
+                <Rating name="half-rating-read" size="large" readOnly />
+              </Grid>
+              <Grid className="upload-abstract-comments-container-gap15">
+                <Typography className="upload-abstract-comments-container-subText">{uploadedAbstractData[0]?.comments}</Typography>
+              </Grid>
+            </Grid>
+          )}
+        </Grid>
+        {/* right section  */}
+        <Grid size={{ xs: 12, sm: 4 }} className="right-grid">
+          {/* <Grid container className="upload-abstract-upload-box" justifyContent={"center"} flexDirection={"column"} alignContent={"center"}> */}
+          {/* <Grid alignSelf={"center"}>
                             <UploadIcon />
                         </Grid>
                         <Grid alignSelf={"center"} className="upload-abstract-upload-box-gap">
@@ -186,19 +181,156 @@ const UserUploadAbstract = ({ eventData }: any) => {
                         <Grid alignSelf={"center"} className="upload-abstract-upload-box-gap">
                             <Typography>Choose a file (PDF, DOCX), Max file size: 50MB. </Typography>
                         </Grid> */}
-                    <FileUpload
-                        className="upload-abstract-upload-box"
-                        acceptedFiles={["application/pdf",]}
-                        trimClientSide={false}
-                        resolution={{ width: 200, height: 200 }}
-                        onSubmit={handleImageUpload}
-                    />
-                    {/* </Grid> */}
-                </Grid>
-            </Grid>
-        </>
-    );
+          <Box>
+            {disabled ? (
+              <></>
+            ) : (
+              <FileUpload
+                className="upload-abstract-upload-box"
+                acceptedFiles={['application/pdf']}
+                trimClientSide={false}
+                resolution={{ width: 200, height: 200 }}
+                onSubmit={handleImageUpload}
+                disabled={disabled}
+              />
+            )}
+          </Box>
 
-}
+          <Typography className="status-bar-text">Status Bar</Typography>
+          <Box>
+            {statusArray.map((item, index) => {
+              return (
+                <Box className="flex gap-x-4 ">
+                  <Box className="flex flex-col items-center gap-y-3 w-max">
+                    <StatusAvatar status={item.status as 'uploaded' | 'reviewing' | 'approved' | 'rejected' | 'default'} />
+                    {index != statusArray.length - 1 && <VerticalLine />}
+                  </Box>
+                  <Title title={item.title} desc={item.desc} />
+                </Box>
+              );
+            })}
+          </Box>
+        </Grid>
+      </Grid>
+    </>
+  );
+};
 
 export default UserUploadAbstract;
+
+/**
+ * EventInfo displays event information: name, deadline, and status.
+ * @param {{ eventData: any }} props
+ * @prop {any} eventData - event data
+ * @returns {JSX.Element} a box with event information
+ */
+const EventInfo = ({ eventData }: { eventData: any }) => {
+  return (
+    <Box className="border-bottom-blue">
+      <Grid className="upload-abstract-event-container padding-x-20" container size={12}>
+        <Grid className="upload-abstract-event-container-gap" container size={12}>
+          <Grid size={6}>
+            <Typography className="upload-abstract-event-container-labelS"> Event Name</Typography>
+          </Grid>
+          <Grid size={6}>
+            <Typography className="upload-abstract-event-container-labelE">{eventData?.name}</Typography>
+          </Grid>
+        </Grid>
+        <Grid container size={12} className="upload-abstract-event-container-gap">
+          <Grid size={6}>
+            <Typography className="upload-abstract-event-container-labelS">Deadline</Typography>
+          </Grid>
+          <Grid size={6}>
+            <Typography className="upload-abstract-event-container-labelE">{eventData?.abstractDate}</Typography>
+          </Grid>
+        </Grid>
+        <Grid container size={12} className="upload-abstract-event-container-gap">
+          <Grid size={6}>
+            <Typography className="upload-abstract-event-container-labelS">Status</Typography>
+          </Grid>
+          <Grid size={3}>
+            <StatusComponent value={eventData?.statusId} />
+          </Grid>
+        </Grid>
+      </Grid>
+    </Box>
+  );
+};
+
+/**
+ * HeaderSection component
+ *
+ * This component renders the header section of the user upload abstract page, which includes the title and subtitle text.
+ */
+const HeaderSection = () => {
+  return (
+    <Grid size={12} container className="padding-x-20 header-section-container">
+      <Grid size={12}>
+        <Typography className="upload-abstract-header">Upload Abstract</Typography>
+      </Grid>
+      <Grid size={12} className="upload-abstract-gap-text">
+        <Typography className="upload-abstract-sub-header">Upload your abstracts to link them to the programme.</Typography>
+      </Grid>
+    </Grid>
+  );
+};
+
+/**
+ * Displays a status avatar with a different icon based on the status provided.
+ * The supported statuses are:
+ *  - uploaded: <BookWhite />
+ *  - reviewing: <EditBoxWhite />
+ *  - approved: <TicBoxWhite />
+ *  - rejected: <CloseBoxWhite />
+ *  - default: <></> (empty string)
+ * @param {{ status: 'uploaded' | 'reviewing' | 'approved' | 'rejected' | 'default' }} props
+ * @returns {ReactElement}
+ */
+const StatusAvatar = ({ status }: { status: 'uploaded' | 'reviewing' | 'approved' | 'rejected' | 'default' }) => {
+  const statusList = {
+    uploaded: {
+      icon: <BookWhite />,
+    },
+    reviewing: {
+      icon: <EditBoxWhite />,
+    },
+    approved: {
+      icon: <TicBoxWhite />,
+    },
+    rejected: {
+      icon: <CloseBoxWhite />,
+    },
+    default: {
+      icon: '',
+    },
+  };
+
+  return <Avatar className={clsx('status-avatar', status)}>{statusList[status].icon}</Avatar>;
+};
+
+/**
+ * A vertical line divider component.
+ * @returns {JSX.Element} A rendered vertical line divider.
+ */
+const VerticalLine = () => {
+  return <Box className="vertical-line"></Box>;
+};
+
+/**
+ * Renders a title section with an optional description.
+ * If a description is provided, it displays the description
+ * with a 'Uploaded on' prefix and formats the date using 'Do MMMM YYYY'.
+ *
+ * @param {Object} props - Component properties.
+ * @param {string} props.title - The main title to display.
+ * @param {string} [props.desc] - Optional description with a date to be formatted.
+ */
+
+const Title = ({ title, desc }: { title: string; desc?: string }) => {
+  return (
+    <Box className="">
+      <Typography className="stepper-title">{title}</Typography>
+      {desc && <Typography className="stepper-desc">Uploaded on : {moment.utc(desc).format('Do MMMM YYYY')}</Typography>}
+    </Box>
+  );
+};
