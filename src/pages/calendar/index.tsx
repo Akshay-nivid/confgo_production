@@ -22,7 +22,7 @@ interface calendarProps {
   const location = useLocation(); 
   const containsUserCalendar = location.pathname.indexOf('user/calendar') !== -1;
   const dataInfotUser = useStore((state: IStoreState) => state?.compData?.['eventList']?.["event/registered/eventList"]);
-  const UserProgram=useStore((state:any)=>state?.compData?.['programs']);
+  const UserProgram=useStore((state:any)=>state?.compData?.['programs']); 
   /**
    * Useeffect hook clears the state data while unmounting
    */
@@ -111,12 +111,11 @@ interface calendarProps {
       description: event.description || "No Description",
     }));
   }
-  
  /**
   *  Transforms API response data into calendar format for admin.
   */
   const programs = dataInfo?.data?.flatMap((event: any) => 
-    event.programs.map((program: any) => ({
+    event?.events?.map((program: any) => ({
         id:program.id,
         title: program.name,
          start: new Date(program.startTime),

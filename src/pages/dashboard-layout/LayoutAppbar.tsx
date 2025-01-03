@@ -19,7 +19,7 @@ export default function LayoutAppbar() {
   const baseUrl = config.api.url;  
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
-  const companyUserName = sessionStorage.getItem("companyUserName"); 
+  const companyUserName = sessionStorage.getItem("companyUserName") || sessionStorage.getItem("name"); 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
