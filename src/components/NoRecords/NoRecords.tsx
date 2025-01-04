@@ -34,7 +34,7 @@ export const NoRecords: React.FC<NoRecordsProps> = ({noRecordImage,noRecordTitle
             className="no-record-container"
             size={{ xs: 12 }}
         >
-            <Grid  className='no-record-image' width={"20rem"} >{noRecordImage}</Grid>
+            <Grid  className='no-record-image'>{noRecordImage}</Grid>
             <Grid size={6} container direction="column" alignItems="center" alignContent="center">
                 <Typography  className="no-record-title">
                   {noRecordTitle ? noRecordTitle : "No Records Available"}
