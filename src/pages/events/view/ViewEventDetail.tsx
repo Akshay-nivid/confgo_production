@@ -90,6 +90,7 @@ interface Addon {
   venueId: number;
   published: boolean;
   slugName: string;
+  specialtyId:number;
 }
 
 const ViewEventDetail = () => {
@@ -118,7 +119,7 @@ const ViewEventDetail = () => {
     setTabValue(newValue);
   };
   
-
+console.log(eventFullData,"huhuhu")
 
   /**
    * Useeffect hook initializes the parameter and handles the get event api call
@@ -375,7 +376,8 @@ const ViewEventDetail = () => {
               <Tab label="Custom Fields" className="event-detail-tab-layout-item" value="7" />
               <Tab label='Settings' className="event-detail-tab-layout-item" value="8" />
               <Tab label='Volunteers' className="event-detail-tab-layout-item" value="9"/>
-              <Tab label="Abstracts" className="event-detail-tab-layout-item" value="10" />
+             
+              {eventFullData?.specialtyId===1 &&<Tab label="Abstracts" className="event-detail-tab-layout-item" value="10" />}
             </TabList>
           </Grid>
           <TabPanel value="1">
@@ -407,9 +409,10 @@ const ViewEventDetail = () => {
           <TabPanel value="9">
             <VolunteerListCard />
           </TabPanel>
+          {eventFullData?.specialtyId===1&&
           <TabPanel value="10">
             <AbstractListCard />
-          </TabPanel>
+          </TabPanel>}
         </TabContext>
       </Grid>
     </Grid>
