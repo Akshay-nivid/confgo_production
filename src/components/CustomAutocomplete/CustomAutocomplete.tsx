@@ -94,7 +94,10 @@ const CustomAutocomplete = <T,>({
                     {clearable && field.value && (
                       <InputAdornment position="end">
                         <IconButton
-                          onClick={() => field.onChange(null)} // Clear the value when clicked
+                          onClick={() => {
+                            field.onChange(" "); // Clear the value when clicked
+                            if (onChange) { onChange(" "); } // Call the onChange callback with empty string
+                          }}
                           size="small"
                         >
                           <Clear />
