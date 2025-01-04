@@ -9,7 +9,7 @@ import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CloseIcon from "@mui/icons-material/Close";
-import { DeleteContributorIcon, EditContributorIcon } from "@/assets/svg";
+import { DeleteContributorIcon } from "@/assets/svg";
 import useStore from "@/Libs/store";
 import AddIcon from "@mui/icons-material/Add";
 import config from "../../../../config.json";
@@ -62,7 +62,7 @@ const SpeakerCard = (_eventData: any) => {
   const [searchResults, setSearchResults] = useState<TransformedData[]>([]);
   const [loading, setLoading] = useState(false); // To indicate loading state for API
   const [handleSelectedValue,setHandleSelectedValue]=useState<any>();
-
+  const companyId = sessionStorage.getItem("companyId")
   
   /**
    * Method transforms data to the autocomplete data format
@@ -86,9 +86,9 @@ const SpeakerCard = (_eventData: any) => {
   /**
    *function to handle open Drawer Edit
    */
-  const handleScreenViewChange = () => {
-    setAddContributeView(true);
-  };
+  // const handleScreenViewChange = () => {
+  //   setAddContributeView(true);
+  // };
   /**
    *function to handle open Drawer Create
    */
@@ -195,12 +195,12 @@ const SpeakerCard = (_eventData: any) => {
             });
           }
         },
-        errorCB: (context: any) => {
+        errorCB: () => {
           setDataById("snackBarInfo", {
             open: true,
             autoHideDuration: 2000,
             severity: "error",
-            message: context?.message,
+            message: "This speaker is already assigned to the event.",
           });
         },
       });
@@ -291,30 +291,30 @@ const SpeakerCard = (_eventData: any) => {
    * function handles edit contributor form fields
    * @param item
    */
-  const handleContributorEdit = (item: EventParticipant) => {
-    if(_eventData?.eventData?.published){
-      setDataById("snackBarInfo", {
-        open: true,
-        autoHideDuration: 2000,
-        severity: "error",
-        message: "Event is Already Published !",
-      });
-    }else{
-      if (item?.name ) {
-      reset({
-        contributorName: item.name,
-        contributorType: item.designation,
-        contributorDescription: item.description || "",
-      });
-    }
-    else{
-      reset()
-    }
-    setDataById("contributorFields", item);
-    setEditConrtributorValue(item);
-    handleScreenViewChange();
-    }
-  };
+  // const handleContributorEdit = (item: EventParticipant) => {
+  //   if(_eventData?.eventData?.published){
+  //     setDataById("snackBarInfo", {
+  //       open: true,
+  //       autoHideDuration: 2000,
+  //       severity: "error",
+  //       message: "Event is Already Published !",
+  //     });
+  //   }else{
+  //     if (item?.name ) {
+  //     reset({
+  //       contributorName: item.name,
+  //       contributorType: item.designation,
+  //       contributorDescription: item.description || "",
+  //     });
+  //   }
+  //   else{
+  //     reset()
+  //   }
+  //   setDataById("contributorFields", item);
+  //   setEditConrtributorValue(item);
+  //   handleScreenViewChange();
+  //   }
+  // };
   /**
    * function handles delete contributor form fields
    * @param item
@@ -341,7 +341,8 @@ const SpeakerCard = (_eventData: any) => {
       const req = {
         filters: {
           roleEnums: ['SPEAKER'],
-          name: query
+          name: query,
+          companyId: companyId,
         },
       };
       const response = await apiClient.post(`user/userRole/list`, req);
@@ -388,7 +389,7 @@ const SpeakerCard = (_eventData: any) => {
             >
               <Grid>
                 <Typography className="event-detail-speakers-card-speaker-header">
-                  Event Contributors{" "}
+                  Speakers
                 </Typography>
               </Grid>
               <Grid>
@@ -406,7 +407,7 @@ const SpeakerCard = (_eventData: any) => {
               variant="h6"
               className="event-detail-speakers-card-speaker-content"
             >
-              Event Contributors allows you to easily add and manage key
+              Speakers allows you to easily add and manage key
               participants in your event, such as speakers, sponsors
             </Typography>
             <Typography
@@ -437,18 +438,18 @@ const SpeakerCard = (_eventData: any) => {
                             spacing={0.5}
                           >
                             <Grid>
-                              {item?.assetId ?(
+                              {item?.user?.assetId ?(
                               <img
                                 className="event-detail-speakers-card-list-row-img"
-                                src={`${baseUrl}asset/${item?.assetId}`}
-                                alt={item?.name}
+                                src={`${baseUrl}asset/${item?.user?.assetId}`}
+                                alt={item?.user?.firstName}
                               />):(
                                 <Avatar className="event-detail-speakers-card-list-row-no-img">
                                   <PersonIcon className="event-detail-speakers-card-list-row-no-img-icon"/>
                                 </Avatar>
                               )}
                               <Typography className="event-detail-speakers-card-list-row-name">
-                                {item?.name}
+                                {item?.user?.firstName}
                               </Typography>
                               <Typography className="event-detail-speakers-card-list-row-designation">
                                 {item?.designation}
@@ -457,11 +458,11 @@ const SpeakerCard = (_eventData: any) => {
                                 display={"flex"}
                                 className="event-detail-speakers-card-list-row-box"
                               >
-                                <Grid
+                                {/* <Grid
                                   onClick={() => handleContributorEdit(item)}
                                 >
                                   <EditContributorIcon className="event-detail-speakers-card-list-row-box-icon" />
-                                </Grid>
+                                </Grid> */}
                                 <Grid onClick={() => handleDeleteModal(item)}>
                                   <DeleteContributorIcon className="event-detail-speakers-card-list-row-box-icon" />
                                 </Grid>

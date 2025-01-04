@@ -102,6 +102,7 @@ const ViewEventDetail = () => {
   const [link, setLink] = useState('');
   const [errorMessage, setErrorMessage] = useState('')
   const [openModal,setOpenModal]=useState(false);
+  const [datass,setdatass]=useState()
 
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	// Functions to open and close the drawer.
@@ -125,6 +126,7 @@ const ViewEventDetail = () => {
   useEffect(() => {
     setErrorMessage('')
     getEventDetails();
+    eventPartcipantList();
   }, [])
 
   /**
@@ -145,6 +147,25 @@ const ViewEventDetail = () => {
     }
   }
 
+
+  /**
+   *function to  get Event participant list
+   */
+  const eventPartcipantList = async () => {
+    try {
+      const req = {
+        filters:{ eventId: id}
+       
+      };
+      const response = await apiClient.post(`participant/list`,req);
+      const { status, data } = await processAPIResponse(response, 'eventData');
+      if (status) {   
+        setdatass(data.length)
+      }
+    } catch (error) {
+      Logger.error('ViewEventDetail', error);
+    }
+  }
 
   /**
    *function to  get Event detail
@@ -187,7 +208,12 @@ const ViewEventDetail = () => {
    * Mehod handles the publish/unpublish using the modal
    */
   const handlePublishUnPublish = () => {
-    setOpenModal(!openModal);
+    if (datass !=0 && eventFullData?.published){
+      handlePublish(eventFullData?.published)
+    }
+    else{
+      setOpenModal(!openModal);
+    }
   }
   /**
    * Mehod handles the publish/unpublish of the event
@@ -282,7 +308,7 @@ const ViewEventDetail = () => {
               </Grid>
               <Grid>
                 {eventFullData?.statusId &&
-                  <Grid ml={2}> <StatusComponent value={eventFullData?.statusId.toString()} /></Grid>}
+                  <Grid ml={2}> <StatusComponent value={eventFullData?.statusId ==1 && eventFullData?.published ? "6" : eventFullData?.statusId.toString()} /></Grid>}
               </Grid>
             </Grid>
             <Grid container spacing={2}>
@@ -340,8 +366,8 @@ const ViewEventDetail = () => {
         <TabContext value={value}>
         <Grid container direction={"column"} size={{ xs: 12, sm: 12 }} >
             <TabList className="event-detail-tab-layout" onChange={handleChange} aria-label="lab API tabs example">
-              <Tab label="Event Information" className="event-detail-tab-layout-item" value="1" />
-              <Tab label="Event Contributors" className="event-detail-tab-layout-item" value="2" />
+              <Tab label="Basic Info" className="event-detail-tab-layout-item" value="1" />
+              <Tab label="Speakers" className="event-detail-tab-layout-item" value="2" />
               <Tab label="Sessions" className="event-detail-tab-layout-item" value="3" />
               { eventFullData?.venue && <Tab label="Location" className="event-detail-tab-layout-item" value="4" />}
               <Tab label="Users" className="event-detail-tab-layout-item" value="5" />              

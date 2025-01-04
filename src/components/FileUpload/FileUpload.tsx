@@ -1,12 +1,12 @@
-import useStore from "@/Libs/store";
-import { Typography, IconButton } from "@mui/material";
-import Grid from "@mui/material/Grid2";
-import React, { useCallback, useState } from "react";
-import { useDropzone, FileRejection, Accept } from "react-dropzone";
-import DeleteIcon from "@mui/icons-material/Close";
-import CustomButton from "../CustomButton/CustomButton";
-import clsx from "clsx";
-import DownloadIcon from "../../assets/svg/abstract-download.svg"
+import useStore from '@/Libs/store';
+import { Typography, IconButton } from '@mui/material';
+import Grid from '@mui/material/Grid2';
+import React, { useCallback, useState } from 'react';
+import { useDropzone, FileRejection, Accept } from 'react-dropzone';
+import DeleteIcon from '@mui/icons-material/Close';
+import CustomButton from '../CustomButton/CustomButton';
+import clsx from 'clsx';
+import DownloadIcon from '../../assets/svg/abstract-download.svg';
 
 interface Resolution {
   width: number | null;
@@ -25,6 +25,7 @@ interface FileUploadProps {
   height?: string | number;
   className?: string;
   isAbstract?: boolean;
+  disabled?: boolean;
 }
 
 /**
@@ -34,16 +35,17 @@ interface FileUploadProps {
  */
 const FileUpload: React.FC<FileUploadProps> = ({
   allowDrop = true,
-  acceptedFiles = ["image/jpeg", "image/png"],
+  acceptedFiles = ['image/jpeg', 'image/png'],
   canSelectMultiple = false,
   maxSize = 1 * 1024 * 1024,
   resolution = { width: null, height: null },
   onSubmit,
   trimClientSide = true,
-  width = "30rem",
-  height = "30rem",
- className,
- isAbstract
+  width = '30rem',
+  height = '30rem',
+  className,
+  isAbstract,
+  disabled = false,
 }) => {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -51,7 +53,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
   const setDataById = useStore((state: any) => state.setDataById);
   const POST = useStore((state: any) => state.POST);
 
-  const loading = useStore((state:any)=>state.compData?.["assetUpload"]?.["asset"]?.loading)
+  const loading = useStore((state: any) => state.compData?.['assetUpload']?.['asset']?.loading);
 
   /**
    * Trims the image to the specified resolution.
@@ -64,29 +66,29 @@ const FileUpload: React.FC<FileUploadProps> = ({
       img.src = URL.createObjectURL(file);
 
       img.onload = () => {
-        const canvas = document.createElement("canvas");
+        const canvas = document.createElement('canvas');
         const targetWidth = resolution.width || img.width;
         const targetHeight = resolution.height || img.height;
 
         canvas.width = targetWidth;
         canvas.height = targetHeight;
 
-        const ctx = canvas.getContext("2d");
+        const ctx = canvas.getContext('2d');
         if (ctx) {
           ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
-          canvas.toBlob((blob) => {
+          canvas.toBlob(blob => {
             if (blob) {
               resolve(new File([blob], file.name, { type: file.type }));
             } else {
-              reject(new Error("Error creating resized image"));
+              reject(new Error('Error creating resized image'));
             }
           }, file.type);
         } else {
-          reject(new Error("Canvas context error"));
+          reject(new Error('Canvas context error'));
         }
       };
 
-      img.onerror = () => reject(new Error("Unable to load image"));
+      img.onerror = () => reject(new Error('Unable to load image'));
     });
   };
 
@@ -105,7 +107,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
       // Process accepted files, resizing if necessary
       await Promise.all(
-        acceptedFiles.map(async (file) => {
+        acceptedFiles.map(async file => {
           if (trimClientSide && resolution.width && resolution.height) {
             try {
               const trimmedFile = await trimImageResolution(file);
@@ -125,29 +127,26 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
       // Process rejected files and store rejection messages
       fileRejections.forEach(({ file, errors }) => {
-        const errorMessages = errors.map((e) => {
+        const errorMessages = errors.map(e => {
           // Check if error is related to file size
-          if (e.code === "file-too-large") {
+          if (e.code === 'file-too-large') {
             // Convert the maxSize to MB for the message
             const maxSizeInMB = (maxSize / (1024 * 1024)).toFixed(2); // Convert to MB with 2 decimal points
             return `File "${file.name}" exceeds the maximum size of ${maxSizeInMB} MB`;
           }
           return e.message;
         });
-        rejectionMsgs.push(errorMessages.join(", "));
+        rejectionMsgs.push(errorMessages.join(', '));
       });
 
-      setPreviewUrls(validFiles.map((file) => URL.createObjectURL(file)));
+      setPreviewUrls(validFiles.map(file => URL.createObjectURL(file)));
       setSelectedFiles(validFiles);
       setRejectionMessages(rejectionMsgs); // Set rejection messages
     },
     [allowDrop, resolution, trimClientSide]
   );
 
-  const accept: Accept =
-    acceptedFiles.length > 0
-      ? Object.fromEntries(acceptedFiles.map((type) => [type, []]))
-      : {};
+  const accept: Accept = acceptedFiles.length > 0 ? Object.fromEntries(acceptedFiles.map(type => [type, []])) : {};
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
@@ -156,33 +155,33 @@ const FileUpload: React.FC<FileUploadProps> = ({
     maxSize,
   });
 
- /**
-  * Handles the form submission to upload the selected files.
-  */
- const handleSubmit = async () => {
-  const formData = new FormData();
-  selectedFiles.forEach((file) => formData.append("file", file));
+  /**
+   * Handles the form submission to upload the selected files.
+   */
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    selectedFiles.forEach(file => formData.append('file', file));
 
     await POST({
-      url: "asset",
+      url: 'asset',
       body: formData,
-      id: "assetUpload",
+      id: 'assetUpload',
       successCB: (response: any) => {
         setSelectedFiles([]);
         setPreviewUrls([]);
-        setDataById("snackBarInfo", {
+        setDataById('snackBarInfo', {
           open: true,
           autoHideDuration: 2000,
-          severity: "success",
-          message: "File uploaded successfully!",
+          severity: 'success',
+          message: 'File uploaded successfully!',
         });
         onSubmit && onSubmit(response?.data);
       },
       errorCB: (error: any) => {
-        setDataById("snackBarInfo", {
+        setDataById('snackBarInfo', {
           open: true,
           autoHideDuration: 2000,
-          severity: "error",
+          severity: 'error',
           message: error.message,
         });
       },
@@ -194,57 +193,52 @@ const FileUpload: React.FC<FileUploadProps> = ({
    * @param index - The index of the file to be removed.
    */
   const handleRemoveFile = (index: number) => {
-    setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
-    setPreviewUrls((prev) => prev.filter((_, i) => i !== index));
+    setSelectedFiles(prev => prev.filter((_, i) => i !== index));
+    setPreviewUrls(prev => prev.filter((_, i) => i !== index));
   };
 
   return (
-    <Grid
-      className={clsx("file-upload", className)}
-      container
-      style={{ width, height }}
-      justifyContent={"flex-end"}
-    >
-      <Grid {...getRootProps()} className={isAbstract?"file-upload-dropzone file-upload-abstract-dropzone": "file-upload-dropzone"} size={{ xs: 12 }}>
-        <input {...getInputProps()} />
+    <Grid className={clsx('file-upload', className)} container style={{ width, height }} justifyContent={'flex-end'}>
+      <Grid {...getRootProps()} className={isAbstract ? 'file-upload-dropzone file-upload-abstract-dropzone' : 'file-upload-dropzone'} size={{ xs: 12 }}>
+        <input {...getInputProps()} disabled={disabled} />
         {selectedFiles.length === 0 && (
           <Grid>
             {isDragActive ? (
               <Typography>Drop the files here...</Typography>
-            ) : (
-              isAbstract?
+            ) : isAbstract ? (
               <Grid container className="file-upload-abstract" direction={'column'} justifyContent={'center'} alignItems={'center '}>
-                <Grid>< DownloadIcon /></Grid>
-                <Grid><Typography className="file-upload-abstract-title">Attach Abstract</Typography></Grid>
-                <Grid><Typography className="file-upload-abstract-sub-title">Choose a file(PDF, DOCX), Max file size: 10MB</Typography></Grid>
+                <Grid>
+                  <DownloadIcon />
+                </Grid>
+                <Grid>
+                  <Typography className="file-upload-abstract-title">Attach Abstract</Typography>
+                </Grid>
+                <Grid>
+                  <Typography className="file-upload-abstract-sub-title">Choose a file(PDF, DOCX), Max file size: 10MB</Typography>
+                </Grid>
               </Grid>
-              :
+            ) : (
               <Typography>Drag & drop files here, or click to select files</Typography>
             )}
           </Grid>
         )}
 
         {/* File previews with remove button and upload progress */}
-        <Grid className="file-upload-preview" justifyContent={"center"}>
+        <Grid className="file-upload-preview" justifyContent={'center'}>
           {previewUrls.map((url, index) => (
             <Grid key={index} className="file-upload-preview-item">
               <img src={url} alt={`preview ${index}`} />
               {/* Display the file name */}
 
               <IconButton
-                onClick={(event) => {
+                onClick={event => {
                   event.stopPropagation(); // Prevent file manager from opening
                   handleRemoveFile(index); // Your existing function to remove the file
                 }}
               >
                 <DeleteIcon />
               </IconButton>
-              <Typography
-                className="file-upload-preview-item-name"
-                variant="body2"
-                align="center"
-                title={selectedFiles[index]?.name}
-              >
+              <Typography className="file-upload-preview-item-name" variant="body2" align="center" title={selectedFiles[index]?.name}>
                 {selectedFiles[index]?.name}
               </Typography>
             </Grid>
@@ -265,14 +259,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
       {/* Show submit button only if files are selected */}
       {selectedFiles.length > 0 && (
         <Grid>
-          <CustomButton
-            variant="contained"
-            color="primary"
-            onClick={handleSubmit}
-            label="Upload"
-            isLoading={loading}
-            className="file-upload-button"
-          />
+          <CustomButton variant="contained" color="primary" onClick={handleSubmit} label="Upload" isLoading={loading} className="file-upload-button" />
         </Grid>
       )}
     </Grid>

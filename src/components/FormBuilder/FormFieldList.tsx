@@ -11,6 +11,7 @@ import EditIcon from "@/assets/svg/edit-program-icon.svg";
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import CustomSwitch from "../CustomSwitch/CustomSwitch";
 import DoneIcon from '@mui/icons-material/Done';
+import { useLocation } from "react-router-dom";
 /**
  * FormFieldList component renders a list of form fields for a specific 
  * participant type. It allows for editing, deleting, and updating form 
@@ -31,12 +32,13 @@ interface FormBuilderProps {
   }
   
 const FormFieldList: React.FC<FormBuilderProps> = ({ participantType,eventData }) => {
+    const eventId = useLocation()?.pathname.split("/")[3];
 
     const [expanded, setExpanded] = useState<string | false>("");
 
     const formFieldsArray = useStore((state) => state?.compData?.["formFieldsArray"]) ?? {};
 
-    const Data = formFieldsArray?.[participantType] ? formFieldsArray?.[participantType] : [];
+    const Data = formFieldsArray?.[eventId]?.[participantType] || [];
 
     const {
         control,
@@ -95,8 +97,14 @@ const FormFieldList: React.FC<FormBuilderProps> = ({ participantType,eventData }
             });}
             else{
         const updatedFormFields = { ...formFieldsArray };
-        updatedFormFields[participantType] = updatedFormFields[participantType].filter((field: any) => field.uuid !== id);
-        setDataById("formFieldsArray", { ...updatedFormFields });
+        updatedFormFields[eventId][participantType] = updatedFormFields?.[eventId]?.[participantType].filter((field: any) => field.uuid !== id);
+        setDataById("formFieldsArray", {
+            ...formFieldsArray,
+            [eventId]: {
+              ...formFieldsArray[eventId],
+              [participantType]: updatedFormFields[eventId][participantType],
+            },
+          });
     }
 }
 
@@ -119,7 +127,7 @@ const FormFieldList: React.FC<FormBuilderProps> = ({ participantType,eventData }
 
         const updatedFormFields = { ...formFieldsArray };
 
-        updatedFormFields[participantType] = updatedFormFields[participantType].map((field: any) => {
+        updatedFormFields[eventId][participantType] = updatedFormFields?.[eventId]?.[participantType].map((field: any) => {
             if (field.uuid === id) {
                 return {
                     ...field,
@@ -151,7 +159,7 @@ const FormFieldList: React.FC<FormBuilderProps> = ({ participantType,eventData }
                     </Typography>
                 </Box>
             ) : <>
-                {formFieldsArray?.[participantType] && formFieldsArray?.[participantType].map((field: any) => {
+                {formFieldsArray?.[eventId]?.[participantType] && formFieldsArray?.[eventId]?.[participantType].map((field: any) => {
                     return (
                         <Box key={field.uuid} className="field-accordion-card">
                             <Accordion className="field-accordion" expanded={expanded === field.uuid}>

@@ -189,6 +189,10 @@
    padding: 0.5rem; /* Add padding for spacing */
    background-color: $background;
 
+   &-pdf{
+    align-self: self-start !important;
+   }
+
    .img {
     object-fit: cover;
     border-radius: 0.25rem;

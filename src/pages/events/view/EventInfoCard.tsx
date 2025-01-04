@@ -294,7 +294,7 @@ const EventInfoCard: React.FC<any> = React.memo(
             variant="h3"
             className="event-detail-event-info-card-title"
           >
-            Event Information
+            Basic Info
           </Typography>
         </Grid>
         <Grid>
@@ -443,7 +443,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                             {selectedFile &&(
                               <Grid className="create-event-btn-container-img-box" >
                                 <img
-                                  src={selectedFile?.id?`${baseUrl}asset/${selectedFile?.id}`:`${baseUrl}asset/${eventData?.assestId}`}
+                                  src={selectedFile?.id?`${baseUrl}asset/${selectedFile?.id}`:`${baseUrl}asset/${eventData?.assetId}`}
                                   alt={selectedFile?.name}
                                 />
                               </Grid>
