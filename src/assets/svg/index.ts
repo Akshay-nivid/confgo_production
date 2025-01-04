@@ -106,8 +106,8 @@ import Book from './presentation-book.svg';
 import DowloadIcon from './Download.svg';
 import PdfIcon from './pdf.svg';
 import BookWhite from './book-white-new.svg';
-import EditBoxWhite from './edit-box-white.svg';
-import TicBoxWhite from './tic-box-white.svg';
+import EditBoxWhite from './edit-box-white-new.svg';
+import TicBoxWhite from './tic-box-white-new.svg';
 import CloseBoxWhite from './close-box-white.svg';
 
 export {
