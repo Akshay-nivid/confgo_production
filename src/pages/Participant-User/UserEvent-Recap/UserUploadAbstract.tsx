@@ -9,6 +9,7 @@ import Grid from '@mui/material/Grid2';
 import clsx from 'clsx';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
+import config from '../../../../config.json';
 
 interface CustomFile {
   id: number;
@@ -22,7 +23,7 @@ const UserUploadAbstract = ({ eventData }: any) => {
   const uploadedAbstractData = useStore((state: any) => state?.compData?.['fetchUserAbstract']?.['userAbstract/list']?.data) ?? [];
 
   const [disabled, setDisabled] = useState(false);
-
+  const baseUrl = config.api.url;
   /**
    * function get uploaded user abstract data
    */
@@ -117,7 +118,7 @@ const UserUploadAbstract = ({ eventData }: any) => {
 
 
   const handleFileClick = () => {
-    const href = `https://api.confgo.com/api/asset/${uploadFiles}`;
+    const href = `${baseUrl}asset/${uploadFiles}`;
      window.open(href, '_blank');
   };
 
