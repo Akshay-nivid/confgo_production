@@ -499,7 +499,7 @@ const CreateEvent: React.FC<EventProps> =
                         control={control}
                       />
                   </Grid>}
-                  {watch('isAbstract')&& 
+                  {watch('isAbstract') && watch('specialtyId')=='1'&&
                   <Grid size={{xs:12,sm:6}}>
                     <CustomTextField
                       placeholder="Abstract Submission Date"
