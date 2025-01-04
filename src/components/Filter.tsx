@@ -116,11 +116,13 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
     const setTodaysDate = () => {
         const currentDate = dayjs(); // Get the current date using dayjs
         setValue("startTime", currentDate);
+        setValue("endTime", currentDate);
         setDateTemplate('Today');
     };
     const setYesterDaysDate = () => {
         const yesterday = dayjs().subtract(1, "day");
         setValue("startTime", yesterday);
+        setValue("endTime", yesterday);
         setDateTemplate('Yesterday');
     };
 
