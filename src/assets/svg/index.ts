@@ -105,6 +105,8 @@ import Dollar from "./dollar.svg"
 import Book from "./book.svg"
 import DowloadIcon from "./Download.svg"
 import PdfIcon from "./pdf.svg"
+import AccordionArrowIcon from "./AccordionArrowIcon.svg";
+import AccordionAddIcon from "./AccordionAddIcon.svg";
 export {
   CalenderIcon,
   PdfIcon,
@@ -212,5 +214,7 @@ export {
   UserCreateIcon,
   BookIcon,
   CloseCircle,
-  UploadIcon
+  UploadIcon,
+  AccordionArrowIcon,
+  AccordionAddIcon
 };
