@@ -389,6 +389,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
             closeDrawer={closeDrawer}
             eventStartTime={eventData?.startTime}
             eventEndTime={eventData?.endTime}
+            eventData={eventData}
           />
         }
       />
