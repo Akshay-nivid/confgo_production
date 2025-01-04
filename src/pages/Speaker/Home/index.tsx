@@ -21,7 +21,7 @@ const SpeakerHome: React.FC<any> = () => {
 
     const [uploadedFile, setUploadedFile] = useState<any>()
     const speakerData = useStore((state: any) => state?.compData?.["speakerData"]?.["eventSpeaker/list"]?.data)?.[0] ?? [];
-    const speakerUserId = sessionStorage.getItem("userId");
+    const speakerUserId = useStore((state: any) => state.compData?.["participantUserData"])?.id;
     const speakerName = sessionStorage.getItem("name");
     const baseURL = config.api.url;
 
@@ -30,22 +30,24 @@ const SpeakerHome: React.FC<any> = () => {
      * Useeffect hook handles the api call for getting speaker details
      */
     useEffect(() => {
-        POST({
-            url: `eventSpeaker/list`,
-            id: "speakerData",
-            body: {
-                filters: {
-                    userId: speakerUserId
-                }
-            },
-            successCB: (response: any) => {
-                if (response?.data?.[0]?.speakerFileId) {
-                    setUploadedFile(response?.data?.[0]?.speakerFile);
-                }
-
-            },
-        })
-    }, [])
+        if(speakerUserId){
+            POST({
+                url: `eventSpeaker/list`,
+                id: "speakerData",
+                body: {
+                    filters: {
+                        userId: speakerUserId
+                    }
+                },
+                successCB: (response: any) => {
+                    if (response?.data?.[0]?.speakerFileId) {
+                        setUploadedFile(response?.data?.[0]?.speakerFile);
+                    }
+    
+                },
+            })
+        }
+    }, [speakerUserId])
 
     /** 
  * image upload function for profile image
