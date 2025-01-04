@@ -119,7 +119,6 @@ const ViewEventDetail = () => {
     setTabValue(newValue);
   };
   
-console.log(eventFullData,"huhuhu")
 
   /**
    * Useeffect hook initializes the parameter and handles the get event api call
