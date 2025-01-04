@@ -4,6 +4,8 @@
 }
 .main-account-grid{ 
     background-color: $clr_white;
+    overflow-y: auto;
+    height: 100% !important;
 }
 .main-account-profile-grid{
     margin-top: 1rem !important;;
