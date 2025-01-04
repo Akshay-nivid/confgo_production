@@ -29,7 +29,7 @@ const UserUploadAbstract = ({ eventData }: any) => {
   const getUploadedAbstract = async () => {
     try {
       const userId = sessionStorage.getItem('userId');
-      POST({
+      await POST({
         id: 'fetchUserAbstract',
         url: `userAbstract/list`,
         body: {
@@ -115,6 +115,12 @@ const UserUploadAbstract = ({ eventData }: any) => {
     },
   ];
 
+
+  const handleFileClick = () => {
+    const href = `https://api.confgo.com/api/asset/${uploadFiles}`;
+     window.open(href, '_blank');
+  };
+
   return (
     <>
       <Grid className="upload-abstract" size={12} container>
@@ -127,7 +133,12 @@ const UserUploadAbstract = ({ eventData }: any) => {
               <Typography className="upload-abstract-header">Upload Abstract</Typography>
               <Grid className="upload-abstract-upload-container-box" size={8} sx={{ position: 'relative' }}>
                 <Grid display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
+                  <IconButton
+                    onClick={() => {
+                      handleFileClick();
+                    }}>
                   <BookIcon />
+                  </IconButton>
                   <IconButton
                     className="edit-icon"
                     onClick={() => {
