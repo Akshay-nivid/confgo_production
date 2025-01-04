@@ -483,7 +483,7 @@ const CreateEvent: React.FC<EventProps> =
                         control={control}
                       />
                   </Grid>}
-                  {watch('isAbstract')&& 
+                  {watch('isAbstract') && watch('specialtyId')=='1'&&
                   <Grid size={{xs:12,sm:6}}>
                     <CustomTextField
                       placeholder="Abstract Submission Date"
@@ -521,7 +521,8 @@ const CreateEvent: React.FC<EventProps> =
 
                   {watch("type") !== "ONLINE" && (
                     <>
-                    <Grid size={12} container justifyContent={"flex-start"} alignItems={"center"}>
+                    <Grid size={12} container justifyContent={"flex-start"} alignItems={"center"} id = "create-event-location-button"
+                    >
                       <CustomButton
                       className="create-event-choose-map"
                         label="Choose Location"

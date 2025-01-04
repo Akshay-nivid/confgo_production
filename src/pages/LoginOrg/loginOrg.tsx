@@ -7,6 +7,7 @@ import routes from "@/router/routes";
 import useStore, { POST } from "@/Libs/store";
 import apiClient from "@/Libs/Https/API-client";
 import { useIsMobileScreen } from "@/Utils/CommonBaseClass";
+import { roleToRouteMapper } from "../Participant-User/User-Login";
 
 
 /**
@@ -28,7 +29,7 @@ export interface ApiResponse {
       roleName: string;
     };
     subscriptionStatus: string;
-    acceptedTerms:number;
+    acceptedTerms: number;
     companyId: any;
     phone: string;
   };
@@ -53,9 +54,9 @@ const LoginOrg = () => {
   /**
    * function used to handle form submission
    */
-    const handleClickForgetPassword=()=>{
-      navigate(routes.organisationForgotPassword())
-      }
+  const handleClickForgetPassword = () => {
+    navigate(routes.organisationForgotPassword())
+  }
 
   const onSubmit: SubmitHandler<FormData> = (data) => {
     LoginOrg(data);
@@ -73,7 +74,7 @@ const LoginOrg = () => {
 
     try {
       // Send the login request
-       POST({
+      POST({
         url: 'auth/login',
         body,
         id: 'orgLogin',
@@ -96,56 +97,34 @@ const LoginOrg = () => {
    * @param data - The response data from the API.
    */
   const handleLoginSuccess = async (data: ApiResponse['data']) => {
-    const { userRole, token, firstName, lastName, subscriptionStatus, companyId, email, phone,acceptedTerms,id } = data;
+    const { userRole, token, firstName, lastName, subscriptionStatus, companyId, email, phone, acceptedTerms, id } = data;
 
-    // Clear previous session data
     sessionStorage.clear();
-
-    // Store common session information
     sessionStorage.setItem('isUserLoggedIn', 'true');
     sessionStorage.setItem('userLoggedInType', userRole?.roleName);
     sessionStorage.setItem('token', token);
     sessionStorage.setItem('ssoUser', 'false');
-    // Set organization-specific details in global state
-    setDataById('orgDetails', { loggedIn: true });
-
+    sessionStorage.setItem('userId', id?.toString());
     // Set the authentication token for API client
     apiClient.setToken(token);
-
-
-
     // Check if the user is of type "COMPANY"
     if (userRole?.roleName === "COMPANYADMIN") {
       // Store specific session details for company users'
       sessionStorage.setItem('companyUserName', `${firstName} ${lastName || ''}`);
       sessionStorage.setItem('subscriptionStatus', subscriptionStatus);
-      sessionStorage.setItem('userId',id?.toString());
-      sessionStorage.setItem('acceptedTerms',acceptedTerms.toString());
+      sessionStorage.setItem('acceptedTerms', acceptedTerms.toString());
       sessionStorage.setItem('companyId', companyId);
       sessionStorage.setItem('companyEmail', email);
       sessionStorage.setItem('companyPhone', phone);
-          // Show success notification
-    setDataById("snackBarInfo", {
-      open: true,
-      autoHideDuration: 2000,
-      severity: "success",
-      message: "Login successful",
-    });
-      // Redirect to the company dashboard
-      navigate(routes.dashboard());
-    } else if(userRole?.roleName === "USER"){
-      sessionStorage.setItem('isUserLoggedIn', 'false'); 
-      //Redirect to user login
-      navigate(routes.userLogin());
-    } else {
-      sessionStorage.setItem('isUserLoggedIn', 'false'); 
-    setDataById("snackBarInfo", {
-      open: true,
-      autoHideDuration: 2000,
-      severity: "error",
-      message: "Invalid username or password",
-    });
+      // Show success notification
+      setDataById("snackBarInfo", { open: true, autoHideDuration: 2000, severity: "success", message: "Login successful" });
     }
+    else {
+      setDataById('userDetails', data);
+      sessionStorage.setItem('name', `${firstName} ${lastName || ''}`);
+      setDataById('participantLogin', true);
+    }
+    navigate(roleToRouteMapper[userRole?.roleName], { replace: true });
   };
 
   /**
@@ -158,12 +137,7 @@ const LoginOrg = () => {
     const errorMessage = error?.message || "An error occurred during login";
 
     // Display error notification
-    setDataById("snackBarInfo", {
-      open: true,
-      autoHideDuration: 2000,
-      severity: "error",
-      message: errorMessage,
-    });
+    setDataById("snackBarInfo", { open: true, autoHideDuration: 2000, severity: "error", message: errorMessage });
   };
 
   return (
@@ -226,10 +200,9 @@ const LoginOrg = () => {
             </Grid>
           </Grid>
         </Grid>
-       {isMobileScreen ? <></>: <Grid container size={{ xs: 0, md: 5 }} className="grid-right">
+        {isMobileScreen ? <></> : <Grid container size={{ xs: 0, md: 5 }} className="grid-right">
           {/* <SignUpFlowIcon /> */}
-          <Typography className="grid-right-image-text">Unlock the Future of Conference <br/> Management – Join Us Today!</Typography>
-
+          <Typography className="grid-right-image-text">Unlock the Future of Conference <br /> Management – Join Us Today!</Typography>
         </Grid>}
       </Grid>
     </Box>

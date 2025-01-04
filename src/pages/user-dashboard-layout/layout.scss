@@ -6,6 +6,7 @@
   color: $clr_red !important;
 }
 
+
 .user-layout-container {
   display: flex;
   flex-direction: column;
@@ -317,7 +318,6 @@
       
     }
     &-avatar {
-      margin-left: 0.3rem;
       background-color: $soft-cyan !important;
       color: $clr_white;
       font-size: $h4;
@@ -337,7 +337,6 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
       border-top-left-radius: 0.8rem;
       border-bottom-left-radius: 0.8rem;
 
@@ -370,6 +369,9 @@
       font-size: 1.7rem !important;
     }
   }
+}
+.img-space{
+  margin-right: 1.5rem !important;
 }
 
 .appbars-responsive{
@@ -798,9 +800,9 @@
 
   & .menu-item-text {
     font-size: 1.125rem;
-    margin-left: 0.75rem;
+    margin-left: 1rem;
     font-weight: $font_medium;
-    color:$clr_black !important; 
+    color:$clr_black; 
     font-family:$font;
     font-size:$p2;
     font-weight:$font_semibold;

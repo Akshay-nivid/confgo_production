@@ -115,7 +115,7 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, classP
                                 className={`${classPrefix}-logo-img`}
                                 src={`${baseUrl}asset/${data?.assetId ?? slugInfo?.assetId ?? ''}`}
                             /> : <Grid></Grid>}</Grid>
-                            {location.pathname.startsWith('/event-link') && <Grid container spacing={2}>
+                            {location.pathname.startsWith('/event-link') && <Grid container spacing={4}>
                                 <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToAbout(e) }}> About </Link></Grid>
                                 {data?.eventSpeakers?.length > 0 && <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToContributors(e) }}> Contributors </Link></Grid>}
                                 <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToProgram(e) }}> Programs </Link></Grid>

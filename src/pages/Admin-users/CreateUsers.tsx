@@ -4,7 +4,7 @@ import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import FileListModal from "@/components/FileUpload/FileListModal";
 import useStore from "@/Libs/store";
 import routes from "@/router/routes";
-import { validateEmail, validateMaxLength, validatePhoneNumber, validateRequiredField } from "@/Utils/Validation";
+import { validateEmail, validateRequiredField } from "@/Utils/Validation";
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
@@ -193,11 +193,11 @@ const CreateNewUsers = () => {
                                 required: validateRequiredField({
                                     fieldName: 'Phone Number',
                                 }),
-                                pattern: validatePhoneNumber({}),
-                                maxLength: validateMaxLength({
-                                    maxLength: 10,
-                                    fieldName: 'Phone Number',
-                                }),
+                                // pattern: validatePhoneNumber({}),
+                                // maxLength: validateMaxLength({
+                                //     maxLength: 10,
+                                //     fieldName: 'Phone Number',
+                                // }),
                             }}
                         />
                     </Grid>

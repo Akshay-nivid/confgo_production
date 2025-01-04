@@ -156,7 +156,7 @@ const TicketingSection = React.memo(
                                                                 <Grid><Typography className={`${classPrefix}-sub-item-date`}>{dateRange}</Typography></Grid>
                                                             </Grid>
                                                             <Grid container alignItems={'center'}>
-                                                                <Typography className={`${classPrefix}-sub-item-amount`}>₹{item.calculatedAmount.toFixed(2)}</Typography>
+                                                                <Typography className={`${classPrefix}-sub-item-amount`}>{parseFloat(item?.percentage)}% OFF</Typography>
                                                             </Grid>
                                                         </Grid>
                                                     );

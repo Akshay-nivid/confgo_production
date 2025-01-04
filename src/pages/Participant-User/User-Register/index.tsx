@@ -3,9 +3,7 @@ import CustomTextField from '@/components/CustomTextfield/CustomTextField';
 import routes from '@/router/routes';
 import {
   validateEmail,
-  validateMaxLength,
   validateMinLength,
-  validatePhoneNumber,
   validateRequiredField,
 } from '@/Utils/Validation';
 import { Typography } from '@mui/material';
@@ -181,15 +179,16 @@ const UserRegister = (props: UserProps) => {
                 placeholder="Phone Number"
                 label="Phone Number"
                 type="phone"
+                isNumeric={true}
                 rules={{
                   required: validateRequiredField({
                     fieldName: 'Phone Number',
                   }),
-                  pattern: validatePhoneNumber({}),
-                  maxLength: validateMaxLength({
-                    maxLength: 10,
-                    fieldName: 'Phone Number',
-                  }),
+                  // pattern: validatePhoneNumber({}),
+                  // maxLength: validateMaxLength({
+                  //   maxLength: 10,
+                  //   fieldName: 'Phone Number',
+                  // }),
                 }}
               />
             </Box>

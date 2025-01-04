@@ -91,6 +91,7 @@ interface Addon {
   venueId: number;
   published: boolean;
   slugName: string;
+  specialtyId:number;
 }
 
 const ViewEventDetail = () => {
@@ -103,6 +104,7 @@ const ViewEventDetail = () => {
   const [link, setLink] = useState('');
   const [errorMessage, setErrorMessage] = useState('')
   const [openModal,setOpenModal]=useState(false);
+  const [datass,setdatass]=useState()
 
 	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 	// Functions to open and close the drawer.
@@ -125,13 +127,13 @@ const ViewEventDetail = () => {
   console.log(">>>>>>>>>.abstarctValue",abstarctValue);
   
 
-
   /**
    * Useeffect hook initializes the parameter and handles the get event api call
    */
   useEffect(() => {
     setErrorMessage('')
     getEventDetails();
+    eventPartcipantList();
   }, [])
 
   /**
@@ -152,6 +154,25 @@ const ViewEventDetail = () => {
     }
   }
 
+
+  /**
+   *function to  get Event participant list
+   */
+  const eventPartcipantList = async () => {
+    try {
+      const req = {
+        filters:{ eventId: id}
+       
+      };
+      const response = await apiClient.post(`participant/list`,req);
+      const { status, data } = await processAPIResponse(response, 'eventData');
+      if (status) {   
+        setdatass(data.length)
+      }
+    } catch (error) {
+      Logger.error('ViewEventDetail', error);
+    }
+  }
 
   /**
    *function to  get Event detail
@@ -194,7 +215,12 @@ const ViewEventDetail = () => {
    * Mehod handles the publish/unpublish using the modal
    */
   const handlePublishUnPublish = () => {
-    setOpenModal(!openModal);
+    if (datass !=0 && eventFullData?.published){
+      handlePublish(eventFullData?.published)
+    }
+    else{
+      setOpenModal(!openModal);
+    }
   }
   /**
    * Mehod handles the publish/unpublish of the event
@@ -289,7 +315,7 @@ const ViewEventDetail = () => {
               </Grid>
               <Grid>
                 {eventFullData?.statusId &&
-                  <Grid ml={2}> <StatusComponent value={eventFullData?.statusId.toString()} /></Grid>}
+                  <Grid ml={2}> <StatusComponent value={eventFullData?.statusId ==1 && eventFullData?.published ? "6" : eventFullData?.statusId.toString()} /></Grid>}
               </Grid>
             </Grid>
             <Grid container spacing={2}>
@@ -351,12 +377,13 @@ const ViewEventDetail = () => {
               <Tab label="Team&Role" className="event-detail-tab-layout-item" value="2" />
               <Tab label="Sessions" className="event-detail-tab-layout-item" value="3" />
               { eventFullData?.venue && <Tab label="Location" className="event-detail-tab-layout-item" value="4" />}
-              <Tab label="Users" className="event-detail-tab-layout-item" value="5" />              
+              <Tab label="Participants" className="event-detail-tab-layout-item" value="5" />              
               <Tab label="Template" className="event-detail-tab-layout-item" value="6" />
               <Tab label="Custom Fields" className="event-detail-tab-layout-item" value="7" />
               <Tab label='Settings' className="event-detail-tab-layout-item" value="8" />
               <Tab label='Volunteers' className="event-detail-tab-layout-item" value="9"/>
-              <Tab label="Abstracts" className="event-detail-tab-layout-item" value="10" />
+             
+              {eventFullData?.specialtyId===1 &&<Tab label="Abstracts" className="event-detail-tab-layout-item" value="10" />}
             </TabList>
           </Grid>
           <TabPanel value="1">
@@ -388,9 +415,10 @@ const ViewEventDetail = () => {
           <TabPanel value="9">
             <VolunteerListCard />
           </TabPanel>
+          {eventFullData?.specialtyId===1&&
           <TabPanel value="10">
             <AbstractListCard />
-          </TabPanel>
+          </TabPanel>}
         </TabContext>
       </Grid>
     </Grid>

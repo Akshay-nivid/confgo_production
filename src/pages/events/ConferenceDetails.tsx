@@ -52,7 +52,7 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
 				return acc;  // Do not add to accumulator if invalid
 			}
 			// Group by startDate
-			const startDate = moment(item.startDate).format("YYYY-MM-DD");
+			const startDate = moment(item.startDate||item.date).format("YYYY-MM-DD");
 			// Separate addOns with `dateRequired: false`
 			if (isAddon && item.dateRequired === false) {
 				// Create 'withoutDateRequired' array if it doesn't exist

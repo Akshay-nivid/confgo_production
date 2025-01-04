@@ -9,7 +9,7 @@ import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CloseIcon from "@mui/icons-material/Close";
-import { DeleteContributorIcon, EditContributorIcon } from "@/assets/svg";
+import { DeleteContributorIcon, UploadedFile } from "@/assets/svg";
 import useStore from "@/Libs/store";
 import AddIcon from "@mui/icons-material/Add";
 import config from "../../../../config.json";
@@ -77,6 +77,14 @@ const SpeakerCard = (_eventData: any) => {
       ...item
     }));
   }
+   /**
+     * Method handles the document download functionality
+     * @param id : document id
+     */
+   const handleDownload = (id: any) => {
+    const href = `${baseUrl}asset/${id}`
+    window.open(href, '_blank')
+};
   /**
    *function to handle close the modal
    */
@@ -86,9 +94,9 @@ const SpeakerCard = (_eventData: any) => {
   /**
    *function to handle open Drawer Edit
    */
-  const handleScreenViewChange = () => {
-    setAddContributeView(true);
-  };
+  // const handleScreenViewChange = () => {
+  //   setAddContributeView(true);
+  // };
   /**
    *function to handle open Drawer Create
    */
@@ -291,30 +299,30 @@ const SpeakerCard = (_eventData: any) => {
    * function handles edit contributor form fields
    * @param item
    */
-  const handleContributorEdit = (item: EventParticipant) => {
-    if(_eventData?.eventData?.published){
-      setDataById("snackBarInfo", {
-        open: true,
-        autoHideDuration: 2000,
-        severity: "error",
-        message: "Event is Already Published !",
-      });
-    }else{
-      if (item?.name ) {
-      reset({
-        contributorName: item.name,
-        contributorType: item.designation,
-        contributorDescription: item.description || "",
-      });
-    }
-    else{
-      reset()
-    }
-    setDataById("contributorFields", item);
-    setEditConrtributorValue(item);
-    handleScreenViewChange();
-    }
-  };
+  // const handleContributorEdit = (item: EventParticipant) => {
+  //   if(_eventData?.eventData?.published){
+  //     setDataById("snackBarInfo", {
+  //       open: true,
+  //       autoHideDuration: 2000,
+  //       severity: "error",
+  //       message: "Event is Already Published !",
+  //     });
+  //   }else{
+  //     if (item?.name ) {
+  //     reset({
+  //       contributorName: item.name,
+  //       contributorType: item.designation,
+  //       contributorDescription: item.description || "",
+  //     });
+  //   }
+  //   else{
+  //     reset()
+  //   }
+  //   setDataById("contributorFields", item);
+  //   setEditConrtributorValue(item);
+  //   handleScreenViewChange();
+  //   }
+  // };
   /**
    * function handles delete contributor form fields
    * @param item
@@ -426,53 +434,64 @@ const SpeakerCard = (_eventData: any) => {
           justifyContent={"center"}
           alignContent={"center"}
         >
-                  <Grid container flexDirection={"row"} direction={"row"}>
-                    {contributorList?.map((item: any) => {
-                      return (
-                        <Grid>
-                          <Grid
-                            container
-                            className="event-detail-speakers-card-list-row-container"
-                            key={item?.id}
-                            alignItems={"flex-start"}
-                            spacing={0.5}
-                          >
-                            <Grid>
-                              {item?.user?.assetId ?(
-                              <img
-                                className="event-detail-speakers-card-list-row-img"
-                                src={`${baseUrl}asset/${item?.user?.assetId}`}
-                                alt={item?.user?.firstName}
-                              />):(
-                                <Avatar className="event-detail-speakers-card-list-row-no-img">
-                                  <PersonIcon className="event-detail-speakers-card-list-row-no-img-icon"/>
-                                </Avatar>
-                              )}
-                              <Typography className="event-detail-speakers-card-list-row-name">
-                                {item?.user?.firstName}
-                              </Typography>
-                              <Typography className="event-detail-speakers-card-list-row-designation">
-                                {item?.designation}
-                              </Typography>
-                              <Grid
-                                display={"flex"}
-                                className="event-detail-speakers-card-list-row-box"
-                              >
-                                <Grid
+          <Grid container flexDirection={"row"} direction={"row"}>
+            {contributorList?.map((item: any) => {
+              return (
+                <Grid>
+                  <Grid
+                    container
+                    className="event-detail-speakers-card-list-row-container"
+                    key={item?.id}
+                    alignItems={"flex-start"}
+                    spacing={0.5}
+                  >
+                    <Grid>
+                      {item?.user?.assetId ? (
+                        <img
+                          className="event-detail-speakers-card-list-row-img"
+                          src={`${baseUrl}asset/${item?.user?.assetId}`}
+                          alt={item?.user?.firstName}
+                        />
+                      ) : (
+                        <Avatar className="event-detail-speakers-card-list-row-no-img">
+                          <PersonIcon className="event-detail-speakers-card-list-row-no-img-icon" />
+                        </Avatar>
+                      )}
+                      <Typography className="event-detail-speakers-card-list-row-name">
+                        {item?.user?.firstName}
+                      </Typography>
+                      <Typography className="event-detail-speakers-card-list-row-designation">
+                        {item?.designation}
+                      </Typography>
+                                   {/* <Grid
                                   onClick={() => handleContributorEdit(item)}
                                 >
                                   <EditContributorIcon className="event-detail-speakers-card-list-row-box-icon" />
-                                </Grid>
-                                <Grid onClick={() => handleDeleteModal(item)}>
-                                  <DeleteContributorIcon className="event-detail-speakers-card-list-row-box-icon" />
-                                </Grid>
-                              </Grid>
-                            </Grid>
+                                </Grid> */}
+
+                      <Grid
+                        display={"flex"}
+                        className="event-detail-speakers-card-list-row-box"
+                      >
+                        {item.speakerFileId && (
+                          <Grid
+                            onClick={() => handleDownload(item.speakerFileId)}
+                          >
+                            <UploadedFile className="event-detail-speakers-card-list-row-box-icon" />
                           </Grid>
+                        )}
+
+                        <Grid></Grid>
+                        <Grid onClick={() => handleDeleteModal(item)}>
+                          <DeleteContributorIcon className="event-detail-speakers-card-list-row-box-icon" />
                         </Grid>
-                      );
-                    })}
+                      </Grid>
+                    </Grid>
                   </Grid>
+                </Grid>
+              );
+            })}
+          </Grid>
         </Grid>
         {/* Drawer */}
         <CustomDrawer

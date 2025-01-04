@@ -9,7 +9,7 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { SubmitHandler, useForm } from "react-hook-form";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import useStore, { POST } from "@/Libs/store";
-import { emailRules, phoneRules } from "@/Utils/Validation";
+import { emailRules } from "@/Utils/Validation";
 import { Logger } from "@/Utils/Logger";
 /*
  * funtional componet to render create form field
@@ -143,7 +143,7 @@ const CreateAccount = React.memo(() => {
                                                 control={control}
                                                 name="phoneNumber"
                                                 type="text"
-                                                rules={phoneRules}
+                                                // rules={phoneRules}
                                                 isNumeric={true}
                                                 max={10}
                                             />
