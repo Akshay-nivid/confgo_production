@@ -80,6 +80,8 @@ const ProgramSection = React.memo(
                                 <Grid>
                                     <Typography className={`${classPrefix}-item-name`}>{program.name}</Typography>
                                 </Grid>
+                            </Grid>
+                            <Grid container direction={'column'} className={`${classPrefix}-item-description-container`} >
                                 <Grid>
                                     <Typography className={`${classPrefix}-item-description`}>{program.description}</Typography>
                                 </Grid>
