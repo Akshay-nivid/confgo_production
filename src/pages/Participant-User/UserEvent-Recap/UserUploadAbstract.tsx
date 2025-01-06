@@ -1,4 +1,4 @@
-import { BookIcon, BookWhite, CloseBoxWhite, EditBoxWhite, TicBoxWhite } from '@/assets/svg';
+import { BookIcon, BookWhite, CloseBoxWhite, DownloadCertsIcon, EditBoxWhite, TicBoxWhite } from '@/assets/svg';
 import FileUpload from '@/components/FileUpload/FileUpload';
 import StatusComponent from '@/components/Status/StatusComponent';
 import useStore, { POST, PUT, setDataById, snackBar } from '@/Libs/store';
@@ -9,6 +9,7 @@ import clsx from 'clsx';
 import HTMLReactParser from 'html-react-parser/lib/index';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
+import config from '../../../../config.json';
 
 interface CustomFile {
     id: number;
@@ -22,6 +23,8 @@ const UserUploadAbstract = ({ eventData }: any) => {
     const uploadedAbstractData = useStore((state: any) => state?.compData?.['fetchUserAbstract']?.['userAbstract/list']?.data) ?? [];
 
     const [disabled, setDisabled] = useState(false);
+
+  const baseUrl = config.api.url;
 
     /**
      * function get uploaded user abstract data
@@ -60,7 +63,7 @@ const UserUploadAbstract = ({ eventData }: any) => {
      * useEffect to get uploaded userAbstract data
      */
     useEffect(() => {
-
+       
         getUploadedAbstract();
     }, [eventData?.id]);
 
@@ -117,6 +120,11 @@ const UserUploadAbstract = ({ eventData }: any) => {
         },
     ];
 
+    const handleFileClick = () => {
+        const href = `${baseUrl}asset/${uploadFiles}`;
+         window.open(href, '_blank');
+      };
+
     return (
         <>
             <Grid className="upload-abstract" size={12} container>
@@ -130,14 +138,24 @@ const UserUploadAbstract = ({ eventData }: any) => {
                             <Grid className="upload-abstract-upload-container-box" size={8} sx={{ position: 'relative' }}>
                                 <Grid display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
                                     <BookIcon />
-                                   {!uploadedAbstractData[0]?.reviewer &&  <IconButton
+                                    <Box display={'flex'} alignItems={'center'} columnGap={1}>
+                                        {/* <CustomButton variant='text' label="View"/> */}
+                                        <IconButton onClick={handleFileClick}>
+                                        <DownloadCertsIcon />
+
+                                        </IconButton>
+                                    {!uploadedAbstractData[0]?.reviewer &&
+                                        <IconButton
                                         className="edit-icon"
                                         onClick={() => {
                                             setDisabled(false);
                                         }}
                                     >
-                                        <Edit />
-                                    </IconButton>}
+                                        <Edit className='h-1 w-1' />
+                                        </IconButton>
+                                        }
+
+                                        </Box>
                                 </Grid>
                                 <Grid className="upload-abstract-upload-container-box-gap">
                                     <Typography className="upload-abstract-upload-container-box-header">Abstract</Typography>

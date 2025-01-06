@@ -88,8 +88,8 @@ const Template2: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                 <TopMenuSection  classPrefix={`${classPrefix}-top-menu`} data={data} onScrollToProgram={() => handleScrollTo(programRef)} onScrollToAbout={() => handleScrollTo(aboutRef)} onScrollToContributors={() => handleScrollTo(contributorsRef)} onScrollToLocation={() => handleScrollTo(LocationRef)} />
                 <Grid  container size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} direction={'row'}>
                   
-                    <Grid   container className={`${classPrefix}-title-container`} size={{ xs: 12, sm: 6,lg:12 }} alignItems={'center'}>
-                        <Grid  container direction={'column'} alignItems={'center'} justifyContent={"center"} className={`${classPrefix}-title`}>
+                    <Grid   container className={`${classPrefix}-title-container`} size={{ xs: 12, sm: 6,lg:12 }} >
+                        <Grid  container direction={'column'} alignItems={'center'}  className={`${classPrefix}-title`}>
                             <TitleSection onScrollToTier={() => handleScrollTo(tierRef)} classPrefix={`${classPrefix}-title`} data={data} />
                         </Grid>
                     </Grid> 
@@ -113,13 +113,13 @@ const Template2: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                     })
 
                                 }
-                                {CopyUrl && data.eventClass !== 'OFFLINE' && (
+                                {/* {CopyUrl && data.eventClass !== 'OFFLINE' && (
                                     <Grid container size={{ xs: 1 }} justifyContent="center" direction="column" >
                                         <Button onClick={copyToClipboard} variant="outlined" color="primary">
                                             {copied ? "Copied!" : "Copy URL"}
                                         </Button>
                                     </Grid>
-                                )}
+                                )} */}
 
                             </Grid>
                         </Grid></Grid>

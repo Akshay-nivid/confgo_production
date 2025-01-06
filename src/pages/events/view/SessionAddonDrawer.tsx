@@ -41,6 +41,7 @@ interface SessionAddonDrawerProps {
   selectedAddOn: any;
   onSubmit: (data: FieldValues) => void;
   closeDrawer: () => void;
+  eventData: any;
 }
 
 /**
@@ -51,7 +52,7 @@ interface SessionAddonDrawerProps {
  * @param onSubmit - Callback to handle form submission
  * @param closeDrawer - Callback to close the drawer
  */
-const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, selectedAddOn, onSubmit, closeDrawer }) => {
+const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, selectedAddOn, onSubmit, closeDrawer, eventData }) => {
   const { id } = useParams();
   const [addOnOptions, setAddOnOptions] = useState<{ label: string; value: string | number }[]>([]);
   const [selectedAddOnId, setSelectedAddOnId] = useState<string | number | null>(null);
@@ -319,7 +320,9 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
         {watch("dateRequired") && (
           <>
             <Grid size={{ xs: 12 }}>
-              <CustomTextField name="addonDate" placeholder="Add-on Date" control={control} type="date" />
+              <CustomTextField name="addonDate" placeholder="Add-on Date" control={control} type="date" 
+                min={moment(eventData?.startTime).format("YYYY-MM-DD")}
+                 max={moment(eventData?.endTime).format("YYYY-MM-DD")}/>
             </Grid>
             <Grid size={{ xs: 6 }}>
               <CustomTimePicker

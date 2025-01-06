@@ -266,7 +266,7 @@
         }
 
         .edit-icon{
-            background-color: $clr_gray_20_percent !important;
+            // background-color: $clr_gray_20_percent !important;
 
         }
 
@@ -332,8 +332,8 @@
             padding-right:1.5rem;
             border-radius: 0.75rem;
             svg{
-                width: 1.667rem !important;
-                height: 1.667rem !important;
+                width: 1.5rem !important;
+                height: 1.5rem !important;
             }
             &-header{
                 font-size: $h6 !important;

@@ -56,19 +56,31 @@ const SessionCard: React.FC<SessionCardProps> = ({
   };
 
   /**
-   * Check the formate of the satetime and according to it convert to hh:mm format
+   * Check the formate of the satetime and according to it convert to hh:mm format and add the current time with 5.30 hrs
    * @param time 
    * @returns 
    */
-  function formatTime(time: string): string {
-    if (time.includes('T')) {
-      // Handle ISO 8601 format (e.g., 2024-11-26T06:27:00.000Z)
-      const date = new Date(time);
-      return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' , hour12: true, timeZone: 'UTC'});
-    } else {
-      return moment(time, "HH:mm").format("h:mm A");
-    }
+function formatTime(time: string): string {
+  if (time.includes('T')) {
+    // Handle ISO 8601 format (e.g., 2024-11-26T06:27:00.000Z)
+    const date = new Date(time);
+
+    // Add 5:30 hours
+    date.setHours(date.getHours() + 5);
+    date.setMinutes(date.getMinutes() + 30);
+
+    return date.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+      timeZone: 'UTC', // Optionally, use a fixed time zone like 'Asia/Kolkata'
+    });
+  } else {
+    // Handle non-ISO formats with Moment.js
+    const adjustedMoment = moment(time, "HH:mm").add(5, 'hours').add(30, 'minutes');
+    return adjustedMoment.format("h:mm A");
   }
+}
 
   /**
   * render the selected addon property label from it's value using useMemo

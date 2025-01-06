@@ -4,6 +4,8 @@
 }
 .main-account-grid{ 
     background-color: $clr_white;
+    overflow-y: auto;
+    height: 100% !important;
 }
 .main-account-profile-grid{
     margin-top: 1rem !important;;
@@ -96,7 +98,7 @@
     border: 0.083rem solid $clr_gray_dark !important;
 }
 .main-account-settings-main-title{
-    padding: 1rem;
+    padding: 1rem !important;
     font-size: $h4 !important;
     font-weight: $font_bold  !important;
 }

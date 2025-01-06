@@ -90,6 +90,7 @@ interface Addon {
   venueId: number;
   published: boolean;
   slugName: string;
+  specialtyId:number;
 }
 
 const ViewEventDetail = () => {
@@ -118,7 +119,6 @@ const ViewEventDetail = () => {
     setTabValue(newValue);
   };
   
-
 
   /**
    * Useeffect hook initializes the parameter and handles the get event api call
@@ -370,12 +370,13 @@ const ViewEventDetail = () => {
               <Tab label="Speakers" className="event-detail-tab-layout-item" value="2" />
               <Tab label="Sessions" className="event-detail-tab-layout-item" value="3" />
               { eventFullData?.venue && <Tab label="Location" className="event-detail-tab-layout-item" value="4" />}
-              <Tab label="Users" className="event-detail-tab-layout-item" value="5" />              
+              <Tab label="Participants" className="event-detail-tab-layout-item" value="5" />              
               <Tab label="Template" className="event-detail-tab-layout-item" value="6" />
               <Tab label="Custom Fields" className="event-detail-tab-layout-item" value="7" />
               <Tab label='Settings' className="event-detail-tab-layout-item" value="8" />
               <Tab label='Volunteers' className="event-detail-tab-layout-item" value="9"/>
-              <Tab label="Abstracts" className="event-detail-tab-layout-item" value="10" />
+             
+              {eventFullData?.specialtyId===1 &&<Tab label="Abstracts" className="event-detail-tab-layout-item" value="10" />}
             </TabList>
           </Grid>
           <TabPanel value="1">
@@ -407,9 +408,10 @@ const ViewEventDetail = () => {
           <TabPanel value="9">
             <VolunteerListCard />
           </TabPanel>
+          {eventFullData?.specialtyId===1&&
           <TabPanel value="10">
             <AbstractListCard />
-          </TabPanel>
+          </TabPanel>}
         </TabContext>
       </Grid>
     </Grid>

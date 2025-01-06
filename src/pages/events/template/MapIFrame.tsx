@@ -29,7 +29,7 @@ export const MapIframe = ({ url }: { url: string }) => {
         className="edit-location-container-edit-map"
         src={`https://www.google.com/maps?q=${coordinates.lat},${coordinates.lng}&z=15&output=embed`}
         loading="lazy"
-        style={{ width: "100%", height: "400px", border: "0" }}
+        style={{ width: "100%", height: "400px", border: "0" ,borderRadius:"1.7rem"}}
       />
     );
   };
