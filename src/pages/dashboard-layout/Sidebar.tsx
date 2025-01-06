@@ -26,24 +26,28 @@ const sidebarItems = [
   {
     path: routes.dashboard(),
     icon: DashboardIcon,
+    id:'sidebar-dashboard-button',
     label: 'Dashboard',
     exact: true,
   },
   {
     path: routes.events(),
     icon: EventIcon,
+    id:'sidebar-event-button',
     label: 'Events',
     exact: false,
   },
   {
     path: routes.coupon(),
     icon: CouponIcon,
+    id: 'sidebar-coupon-button',
     label: 'Coupon',
     exact: false,
   },
   {
     path:routes.users(),
     icon:UserCreateIcon,
+    id:'sidebar-user-button',
     label:'Users',
     exact:false
 
@@ -51,6 +55,7 @@ const sidebarItems = [
   {
     path: routes.calendar(),
     icon: CalenderIcon,
+    id:'sidebar-calender-button',
     label: 'Calendar',
     exact: false,
   },
@@ -82,7 +87,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
             const isActive = isActiveLink(item.path, item.exact);
 
             return (
-              <NavLink to={item.path} key={item.path}>
+              <NavLink to={item.path} key={item.path} id={item.id}>
                 <ListItem>
                   <ListItemButton>
                     <item.icon
