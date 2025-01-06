@@ -42,7 +42,9 @@ type FormData = {
 };
 type ProgramProps = {
   formSubmit: boolean;
+  formDraftSubmit: boolean;
   onSubmitHandler: (event: any, type: string) => void;
+  onDraftSubmitHandler: (event: any, type: string) => void;
   onSaveHandler: (event: any, type: string) => void;
   data: any;
   addOnOptions?: any;
@@ -56,7 +58,7 @@ const typeArray = [
 
 
 const AddProgram: React.FC<ProgramProps> = React.memo(
-  ({ formSubmit, onSubmitHandler, data, onSaveHandler ,eventData}) => {
+  ({ formSubmit, formDraftSubmit, onSubmitHandler, onDraftSubmitHandler, data, onSaveHandler ,eventData}) => {
     const { handleSubmit, control, watch, setValue,setError,setFocus } = useForm<FormData>({
       defaultValues: {
         programs: [
@@ -103,6 +105,17 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
           onSubmitHandler(data?.savedPrograms, "PROGRAM");
       }
   }, [formSubmit]);
+
+  /**
+     * Useeffect hook submits the form based on the formDraftSubmit variable
+     */
+  useEffect(() => {
+    if (!formDraftSubmit) return; // Short-circuit if formDraftSubmit is false
+    console.log('testprogramwatch',watch())
+    if (onDraftSubmitHandler) {
+        onDraftSubmitHandler(watch()?.savedPrograms, "PROGRAM");
+    }
+}, [formDraftSubmit]);
   
 
     /**

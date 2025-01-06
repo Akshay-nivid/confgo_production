@@ -15,7 +15,7 @@ interface NoRecordsProps {
  * No Record Found 
  * @author Neethu
  */
-export const NoRecords: React.FC<NoRecordsProps> = ({noRecordImage,noRecordTitle,noRecordSubtitle,redirectTo,btnName}) => {
+export const NoRecords: React.FC<NoRecordsProps> = ({noRecordTitle,noRecordSubtitle,redirectTo,btnName}) => {
     const navigate = useNavigate()
     /**
      * function to navigate to desired route from datagridlist
