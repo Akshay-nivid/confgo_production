@@ -22,7 +22,7 @@ import { CloseOutlined } from "@mui/icons-material";
 interface AssignReviewerDrawerProps {
   open: boolean;
   onClose: () => void;
-  abstractId: number|number[] | null;
+  abstractId: number[] | null;
   companyId: string | null;
   onSuccess: () => void;
 }

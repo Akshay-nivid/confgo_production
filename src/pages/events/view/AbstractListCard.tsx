@@ -70,7 +70,7 @@ const AbstractListCard = () => {
    * previews the selected id to confirm
    */
   const handleassign = (abstractId: number) => {
-    setselectedAbstractId([abstractId]);
+    setselectedAbstractId(Array.isArray(abstractId) ? abstractId : [abstractId]); // Ensure flat array.
     setisPopUp(true);
   };
 
@@ -162,7 +162,7 @@ const AbstractListCard = () => {
             label="Assign"
             startIcon={<AddIcon />}
             size="large"
-            onClick={() => handleassign((selectedAbstractId) ? selectedAbstractId[0] : 0)}
+            onClick={() => handleassign(selectedId ? selectedId : 0)}
           />  
 
           <CustomButton
