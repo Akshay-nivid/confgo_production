@@ -70,7 +70,6 @@ const AbstractListCard = () => {
    * previews the selected id to confirm
    */
   const handleassign = (abstractId: number) => {
-    console.log("abstractId",abstractId)
     setselectedAbstractId([abstractId]);
     setisPopUp(true);
   };
@@ -163,7 +162,7 @@ const AbstractListCard = () => {
             label="Assign"
             startIcon={<AddIcon />}
             size="large"
-            onClick={() => handleassign((selectedAbstractId) ? selectedAbstractId[0] : 0)}
+            onClick={() => handleassign((selectedId) ? selectedId[0] : 0)}
           />  
 
           <CustomButton
