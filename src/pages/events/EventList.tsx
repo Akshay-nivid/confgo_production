@@ -209,7 +209,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
           columns={columns}
           id="event-datagrid"
           noRecordIcon={<NoEventIcon className="event-list-no-events-icon" />}
-          noRecordSubtitle="You haven’t registered for any events yet. Explore upcoming events and secure your spot today!"
+          noRecordSubtitle="It looks like you haven't created any events yet.Start by setting up your first conference or meeting."
           redirectTo={() => routes.createEvent()} // define the route
           btnName="Create New Event" //define the label of btn
         />
