@@ -2,7 +2,7 @@
  * Component handles the second template
  */
 import Grid from '@mui/material/Grid2';
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import AboutSection from './AboutSection';
 import ProgramSection from './ProgramSection';
 import EventContributorsSection from './EventContributorsSection';
@@ -16,7 +16,7 @@ import LocationIcon from '@/assets/svg/template1-location.svg';
 import CalendarIcon from '@/assets/svg/template1-calendar.svg';
 import EmailIcon from '@/assets/svg/template1-email.svg';
 import LinkIcon from '@/assets/svg/template1-url.svg';
-import { Button, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import TitleSection from './TitleSection';
 
 
@@ -32,7 +32,7 @@ const Template2: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     const programRef = useRef(null);
     const tierRef = useRef(null);
     const LocationRef = useRef(null);
-    const [copied, setCopied] = useState(false);
+    // const [copied, setCopied] = useState(false);
 
     //Create item array dynamically based on Event Class
     const itemArray = [];
@@ -54,20 +54,20 @@ const Template2: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     //     itemArray.push({ icon: <PhoneIcon />, label: "Phone", value: data?.eventContacts[0]?.phone || "" });
     // }
 
-    const CopyUrl = data?.venue?.mapUrl
+    // const CopyUrl = data?.venue?.mapUrl
 
     /**
     * Method to copy the URL to clipboard
     */
-    const copyToClipboard = () => {
-        const url = data?.venue?.mapUrl;
-        if (url) {
-            navigator.clipboard.writeText(url).then(() => {
-                setCopied(true); // Indicate that the URL was copied
-                setTimeout(() => setCopied(false), 3000); // Reset copied state after 2 seconds
-            });
-        }
-    };
+    // const copyToClipboard = () => {
+    //     const url = data?.venue?.mapUrl;
+    //     if (url) {
+    //         navigator.clipboard.writeText(url).then(() => {
+    //             setCopied(true); // Indicate that the URL was copied
+    //             setTimeout(() => setCopied(false), 3000); // Reset copied state after 2 seconds
+    //         });
+    //     }
+    // };
     /**
      * Method handles the scroll functionality based on click event
      * @param ref : event reference
