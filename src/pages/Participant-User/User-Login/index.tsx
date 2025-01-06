@@ -83,6 +83,7 @@ const UserLogin = (props: UserProps) => {
     sessionStorage.setItem('name', `${data?.firstName} ${data?.lastName}`);
     setDataById('participantUserData', data);
     setDataById('participantLogin', true);
+    setDataById('participantUserData', data);
     apiClient.setToken(data.token);
     setDataById('userDetails', data);
     setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });

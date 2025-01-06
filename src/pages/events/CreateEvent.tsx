@@ -537,7 +537,8 @@ const CreateEvent: React.FC<EventProps> =
 
                   {watch("type") !== "ONLINE" && (
                     <>
-                    <Grid size={12} container justifyContent={"flex-start"} alignItems={"center"}>
+                    <Grid size={12} container justifyContent={"flex-start"} alignItems={"center"} id = "create-event-location-button"
+                    >
                       <CustomButton
                       className="create-event-choose-map"
                         label="Choose Location"
