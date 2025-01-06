@@ -173,7 +173,9 @@ const FileListModal: React.FC<FileListModalProps> = ({
             </Box>
           ) : (
             <Grid>
-            <Typography className="modal-image-saved-assests">Saved Assets</Typography>
+            { files && files.length > 0 ? (
+              <Typography className="modal-image-saved-assests">Saved Assets</Typography>
+            ) : null }
             <Box className="modal-image-list">
               <ImageListDisplay
                 files={files}

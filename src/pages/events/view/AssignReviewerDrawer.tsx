@@ -22,7 +22,7 @@ import { CloseOutlined } from "@mui/icons-material";
 interface AssignReviewerDrawerProps {
   open: boolean;
   onClose: () => void;
-  abstractId: number | null;
+  abstractId: number|number[] | null;
   companyId: string | null;
   onSuccess: () => void;
 }
@@ -78,10 +78,10 @@ const AssignReviewerDrawer: React.FC<AssignReviewerDrawerProps> = ({
     if (!abstractId) return;
     try {
       const req = {
-        abstractId,
+        abstracts:abstractId,
         reviewerId,
       };
-      const response = await apiClient.put(`/userAbstract/${abstractId}`, req);
+      const response = await apiClient.post(`/userAbstract/assign`, req);
       const { status } = await processAPIResponse(response, "reviewer-assignment");
       if (status) {
         setDataById("snackBarInfo", {
