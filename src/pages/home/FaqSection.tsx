@@ -41,8 +41,11 @@ const FaqSection = () => {
           </Typography>
         </Grid>
         <Grid size={12} className="faq-section__cards">
-          {faqDetails.map((item:DataProps) => (
-            <CustomAccordion key={item.title} data={item}/>
+          {faqDetails?.map((item: DataProps, index) => (
+            <>
+              <CustomAccordion key={item.title} data={item} />
+              {faqDetails?.length - 1 !== index && <div className="underline"></div>}
+            </>
           ))}
         </Grid>
       </Grid>

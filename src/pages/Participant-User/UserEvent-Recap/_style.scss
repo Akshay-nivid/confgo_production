@@ -39,7 +39,7 @@
             background-color: $clr_red_danger;
         }
         &.reviewing{
-            background-color: $clr_status_bar;
+            background-color:$clr_orange_dark;
         }
         &.default{
             background-color: transparent;
@@ -350,6 +350,7 @@
     }
     &-comments-container{
         padding-top: 2.5rem;
+        padding-bottom:6rem ;
        
         &-header{
             font-size: $p6 !important;
@@ -364,6 +365,10 @@
         &-subText{
             font-weight: $font_normal !important;
             color: $clr_charcoal_gray !important;
+        }
+
+        .MuiRating-root {
+            font-size: 2.5rem !important;
         }
 
     }

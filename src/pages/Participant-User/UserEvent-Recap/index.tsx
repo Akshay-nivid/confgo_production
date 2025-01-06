@@ -325,7 +325,10 @@ const EventRecap: React.FC = React.memo(() => {
       console.error('Error loading image or generating PDF:', error);
     }
   };
-  const tabInfo = useStore((state: any) => state?.compData?.['eventTab']) || 0;
+  const tabInfo = useStore((state: any) => state?.compData?.['eventTab'])?.tabIndex || 0;
+
+
+
   /**
    * Handles the tab change event by updating the active tab index btw account-settings and security
    */
@@ -397,13 +400,13 @@ const EventRecap: React.FC = React.memo(() => {
             </Grid>
           </Grid>
           <Grid size={{ xs: 12, sm: 8 }}>
-            <Tabs value={tabInfo?.tabIndex} className="my-event-tabs" onChange={handleTabChange}>
+            <Tabs value={tabInfo} className="my-event-tabs" onChange={handleTabChange}>
               <Tab label="Registered Programmes" className="account-tab-title account-tabs"></Tab>
-              {eventData![0]?.isAbstract == 1 && <Tab label="Upload Abstract" className="account-tab-title account-tabs"></Tab>}
+              {eventData![0]?.isAbstract === 1 && <Tab label="Upload Abstract" className="account-tab-title account-tabs"></Tab>}
             </Tabs>
           </Grid>
           <Grid size={{ xs: 12, sm: 4 }} className="border-bottom "></Grid>
-          {tabInfo?.tabIndex === 0 ? (
+          {tabInfo === 0 ? (
             <Mapper
               MapperData={Program?.data}
               component={RegisteredProgramCard}
