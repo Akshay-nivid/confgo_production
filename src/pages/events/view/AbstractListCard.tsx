@@ -162,7 +162,7 @@ const AbstractListCard = () => {
             label="Assign"
             startIcon={<AddIcon />}
             size="large"
-            onClick={() => handleassign((selectedId) ? selectedId[0] : 0)}
+            onClick={() => handleassign((selectedAbstractId) ? selectedAbstractId[0] : 0)}
           />  
 
           <CustomButton
