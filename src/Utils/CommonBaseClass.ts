@@ -284,7 +284,6 @@ export function extractFileType(fileObject: any) {
 export function convertLocalToUTC(localTime:any, format = 'YYYY-MM-DD') {
   const localMoment = moment(localTime);
 
-
   // Convert to UTC and return formatted date
   const utcTime = localMoment.utc();
   return utcTime.format(format);

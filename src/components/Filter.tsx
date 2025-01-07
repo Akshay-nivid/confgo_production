@@ -10,8 +10,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-dayjs.extend(utc);
 import CustomButton from './CustomButton/CustomButton';
 import EventFilterIcon from '@/assets/svg/EventFilterIcon.svg';
 import CustomDrawer from './CustomDrawer/CustomDrawer';
@@ -63,7 +61,7 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
     const onSubmit = (data: any) => {
         const formattedData = Object.keys(data).reduce((acc: any, key: string) => {
             if (data[key] && typeof data[key] === 'object' && dayjs(data[key]).isValid()) {
-                acc[key] = convertLocalToUTC(acc[key]);
+                acc[key] =convertLocalToUTC( dayjs(data[key]).format('YYYY-MM-DD'));
             } else {
                 acc[key] = data[key];
             }
@@ -79,6 +77,8 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
         let dataSource: any = { ...dataGridInfo?.source }
         dataSource.data = checkValueIsNotEmpty(req);
         handleApiCall(dataSource, dataGridInfo?.dataTransformer)
+
+        handleClear();
     }
 
     /**
@@ -111,7 +111,8 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
         fields?.forEach((item: any) => {
             setValue(item.fieldName, item?.defaultValue||'')
         })
-
+        setValue("startTime", ''); // Clear startTime
+        setValue("endTime", '');
         setDateTemplate('');
         setSelectedTile('');
     }

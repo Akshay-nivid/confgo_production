@@ -44,7 +44,7 @@ interface SessionDrawerContentProps {
         endTime: selectedProgram ? selectedProgram.endTime : (eventEndTime ? eventEndTime:""),
         name: selectedProgram ? selectedProgram.name : "",
         description: selectedProgram ? selectedProgram.description : "",
-        totalSeat: selectedProgram ? selectedProgram?.eventParticipantEntries[0]?.totalSeat : "",
+        totalSeat: selectedProgram ? selectedProgram?.eventParticipantEntries?.[0]?.totalSeat : "",
         price: selectedProgram ? selectedProgram.amount : "",
         startDate:selectedProgram ? selectedProgram.startTime : (eventStartTime ? eventStartTime:"")
       },
