@@ -22,10 +22,11 @@ const StatusComponent: React.FC<AppBarProps> = ({ value ,className}) => {
     { id: "2", textColor: '#D32C2C', cellColor: '#FFE8EC' },
     { id: "6", textColor: '#D32C2C', cellColor: '#FFE8EC' },
     { id: "4", textColor: '#2C3CD3', cellColor: '#E8EBFF' },
-    { id: "7", textColor: '#D32C2C', cellColor: '#FFE8EC' },
+    { id: "7", textColor: '#2C3CD3', cellColor: '#E8EBFF' },
     { id: "8", textColor: '#0CAF60', cellColor: '#E7F7EF' },
     { id: "9", textColor: '#0CAF60', cellColor: '#E7F7EF' },
     { id: "10", textColor: '#D32C2C', cellColor: '#FFE8EC' },
+    { id: "11", textColor: '#D32C2C', cellColor: '#FFE8EC' },
   ];
 
 /**
@@ -58,8 +59,10 @@ const StatusComponent: React.FC<AppBarProps> = ({ value ,className}) => {
             return "Attended";  
       case "9":
         return "Approved";  
-      case "10":
-        return "Rejected";  
+        case "10":
+          return "Rejected"; 
+        case "11":
+            return "Expired";  
       default:
         return "Pending";
     }
