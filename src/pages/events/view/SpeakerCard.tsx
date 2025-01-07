@@ -1,5 +1,5 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
-import { Avatar, IconButton, Modal, Typography } from "@mui/material";
+import {IconButton, Modal, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -12,7 +12,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import {NoCouponDataSvg } from "@/assets/svg";
 import useStore from "@/Libs/store";
 import AddIcon from "@mui/icons-material/Add";
-import config from "../../../../config.json";
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
 import { ISource } from "@/Libs/type";
 import { DataGridList } from "@/components/DataGrid/DataGridList";
@@ -57,7 +56,6 @@ const SpeakerCard = (_eventData: any) => {
   const clearDataById = useStore((state: any) => state?.clearDataById);
   const POST = useStore((state: any) => state.POST);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
-  const baseUrl = config.api.url;
   const [searchResults, setSearchResults] = useState<TransformedData[]>([]);
   const [loading, setLoading] = useState(false);
   const [handleSelectedValue,setHandleSelectedValue]=useState<any>();

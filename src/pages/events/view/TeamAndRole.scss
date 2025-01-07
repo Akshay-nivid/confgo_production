@@ -11,6 +11,11 @@
     &-box{
             box-shadow: none !important;
             border: 0.0833rem solid $clr_gray_very_light;
-
+    }
+    &-icon{
+        svg{
+            width:1.9167rem;
+            height: 1.9167rem;
+        }
     }
 }

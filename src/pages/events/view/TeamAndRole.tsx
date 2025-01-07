@@ -2,7 +2,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/
 import Grid from "@mui/material/Grid2";
 import SepekerCard from "./SpeakerCard";
 import VolunteerListCard from "./VolunteerListCard";
-import { AccordionArrowIcon } from "@/assets/svg";
+import { AccordionAddIcon, AccordionArrowIcon } from "@/assets/svg";
 import AbstractReviewer from "./AbstactReviewerListCard";
 const TeamAndRole=(data:any)=>{
     return(
@@ -10,9 +10,10 @@ const TeamAndRole=(data:any)=>{
       <Grid size={12}>
         <Accordion  className="accordion-container-box">
         <AccordionSummary
-          expandIcon={<AccordionArrowIcon width={20} height={20}  />}
+          expandIcon={data?.eventData?.id?<AccordionArrowIcon />:<AccordionAddIcon/>}
           aria-controls="panel1-content"
           id="panel1-header"
+          className="accordion-container-icon" 
         >
           <Typography className="accordion-container-heading">Event Contributor</Typography>
         </AccordionSummary>
@@ -26,9 +27,10 @@ const TeamAndRole=(data:any)=>{
       <Grid size={12}>
       <Accordion className="accordion-container-box">
         <AccordionSummary
-          expandIcon={<AccordionArrowIcon width={20} height={20} />}
+         expandIcon={data?.eventData?.id?<AccordionArrowIcon />:<AccordionAddIcon/>}
           aria-controls="panel2-content"
           id="panel2-header"
+           className="accordion-container-icon"
         >
           <Typography className="accordion-container-heading">Abstracts Reviewer</Typography>
         </AccordionSummary>
@@ -41,9 +43,10 @@ const TeamAndRole=(data:any)=>{
       <Grid size={12}>
       <Accordion  className="accordion-container-box">
         <AccordionSummary
-          expandIcon={<AccordionArrowIcon width={20} height={20} />}
+          expandIcon={data?.eventData?.id?<AccordionArrowIcon />:<AccordionAddIcon/>}
           aria-controls="panel2-content"
           id="panel2-header"
+          className="accordion-container-icon"
         >
           <Typography className="accordion-container-heading">Event Volunteer</Typography>
         </AccordionSummary>
