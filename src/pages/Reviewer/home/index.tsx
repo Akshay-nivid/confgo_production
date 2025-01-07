@@ -3,10 +3,10 @@ import { ISource } from '@/Libs/type';
 import { Box, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import clsx from 'clsx';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
-import useStore from '@/Libs/store';
+import useStore, { setDataById } from '@/Libs/store';
 import CustomAutocomplete from '@/components/CustomAutocomplete/CustomAutocomplete';
 import { useForm } from 'react-hook-form';
 
@@ -134,6 +134,9 @@ const ReviewerHome = () => {
     });
   }, [currentTab,refreshKey]);
 
+  useEffect(() => { 
+    setDataById('abstractSummaryData',{data:abstractList})
+  },[])
 
 
   /**

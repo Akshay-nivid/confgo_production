@@ -1,8 +1,6 @@
-import CustomAutocomplete from '@/components/CustomAutocomplete/CustomAutocomplete';
 import { Button, Tab, Tabs, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { Logger } from '@/Utils/Logger';
 import { formatDateTimeRange, toTitleCase } from '@/Utils/CommonBaseClass';
 import React from 'react';
@@ -20,40 +18,37 @@ import { Mapper } from '@/components/Mapper/Mapper';
  *
  */
 
-interface Event {
-  event: any;
-  abstractDate?: string | null;
-  amount: string;
-  assetId?: number | null;
-  attendees: Array<any>; // Adjust `any` to a more specific type if attendees have a structure
-  companyId: number;
-  description: string;
-  discount?: number | null;
-  endTime: string;
-  eventClass: string; // Example: "OFFLINE"
-  id: number;
-  interval?: number | null;
-  isAbstract?: boolean | null;
-  name: string;
-  parentId?: number | null;
-  published: boolean;
-  registrationDeadline?: string | null;
-  slugName?: string | null;
-  specialtyId?: number | null;
-  startTime: string;
-  statusId: number;
-  templateId?: number | null;
-  title?: string | null;
-  url?: string | null;
-}
+// interface Event {
+//   event: any;
+//   abstractDate?: string | null;
+//   amount: string;
+//   assetId?: number | null;
+//   attendees: Array<any>; // Adjust `any` to a more specific type if attendees have a structure
+//   companyId: number;
+//   description: string;
+//   discount?: number | null;
+//   endTime: string;
+//   eventClass: string; // Example: "OFFLINE"
+//   id: number;
+//   interval?: number | null;
+//   isAbstract?: boolean | null;
+//   name: string;
+//   parentId?: number | null;
+//   published: boolean;
+//   registrationDeadline?: string | null;
+//   slugName?: string | null;
+//   specialtyId?: number | null;
+//   startTime: string;
+//   statusId: number;
+//   templateId?: number | null;
+//   title?: string | null;
+//   url?: string | null;
+// }
 
 /**
  * UpcomingEvent component renders a list of upcoming events and includes a search bar
  */
 const EventRecap: React.FC = React.memo(() => {
-  const { control } = useForm();
-  const [searchResults, setSearchResults] = useState([]);
-  const [loading, setLoading] = useState(false);
   const setDataById = useStore((state: any) => state.setDataById);
   const { eventId } = useLocation().state || {};
   const [eventLoading, setEventLoading] = useState(true);
@@ -68,34 +63,7 @@ const EventRecap: React.FC = React.memo(() => {
    */
   const attendeeStatus = eventData[0]?.participants[0]?.eventParticipants[0]?.event.attendees;
 
-  /**
-   * Event program details
-   */
-  const eventProgram = eventData?.[0]?.participants?.[0]?.eventParticipants;
-  /**
-   * Function to handle search API for autocomplete
-   */
-  const handleSearch = async (query: string) => {
-    setLoading(true);
-    try {
-      // let req: any = {
-      //     filters: {
-      //         name: query,
-      //     },
-      // };
-      // const response = await await apiClient.post(`event/registered/eventList`, req);
-      // const { status, data } = await processAPIResponse(response, "eventList");
-      const filteredEvents = eventProgram.filter((item: any) => item.event?.name?.toLowerCase().includes(query.toLowerCase()));
-      if (filteredEvents) {
-        const data = filteredEvents.map((item: Event) => item.event);
-        setSearchResults(data);
-      }
-    } catch (error) {
-      Logger.error(error, 'EventList.tsx');
-    } finally {
-      setLoading(false);
-    }
-  };
+  
   /**
    * Fetch event details when the component mounts
    */
@@ -104,38 +72,7 @@ const EventRecap: React.FC = React.memo(() => {
     eventTicketDataApi();
   }, []);
 
-  /**
-   * Function to handle search API for autocomplete
-   *  New handler for when an event is selected from autocomplete
-   * @param selected
-   */
-  const handleAutocompleteChange = async (selected: any) => {
-    if (selected) {
-      try {
-        // await POST({
-        //   url: "event/list",
-        //   body: {
-        //     filters: {id: selected.id},
-        //   },
-        // id: 'userLatestEvents',
-        // errorCB: (context: any) => {
-        //     setDataById("snackBarInfo", {
-        //       open: true,
-        //       autoHideDuration: 2000,
-        //       severity: "error",
-        //       message: context?.message,
-        //     });
-        //   },
-        // });
-        const selectedData = eventProgram.find((program: any) => program.event.id === selected.id);
-        if (selectedData) {
-          setDataById('programsNew', { data: [selectedData] });
-        }
-      } catch (error) {
-        Logger.error('An error occurred:', error);
-      }
-    }
-  };
+
   /**
    * get evenet details
    */

@@ -1,4 +1,4 @@
-import { BookIcon, BookWhite, CloseBoxWhite, DownloadCertsIcon, EditBoxWhite, TicBoxWhite } from '@/assets/svg';
+import { BookIcon, BookWhite, CloseBoxWhite, EditBoxWhite, TicBoxWhite } from '@/assets/svg';
 import FileUpload from '@/components/FileUpload/FileUpload';
 import StatusComponent from '@/components/Status/StatusComponent';
 import useStore, { POST, PUT, setDataById, snackBar } from '@/Libs/store';
