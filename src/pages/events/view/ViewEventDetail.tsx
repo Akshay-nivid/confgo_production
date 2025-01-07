@@ -29,7 +29,6 @@ import ShareInvitationDrawer from "./ShareInvitationDrawer";
 import PriceTierList from "./PriceTierList";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
 import { PublishTickIcon, WarningIcon } from "@/assets/svg";
-import VolunteerListCard from "./VolunteerListCard";
 import AbstractListCard from "./AbstractListCard";
 import TeamAndRole from "./TeamAndRole";
 
@@ -409,9 +408,9 @@ const ViewEventDetail = () => {
           <TabPanel value="8">
             <PriceTierList />
           </TabPanel>
-          <TabPanel value="">
-            {/* <VolunteerListCard /> */}
-          </TabPanel>
+          {/* <TabPanel value="9">
+            <VolunteerListCard />
+          </TabPanel> */}
           {eventFullData?.specialtyId===1&&
           <TabPanel value="10">
             <AbstractListCard />
