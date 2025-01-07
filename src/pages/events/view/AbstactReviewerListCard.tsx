@@ -11,7 +11,7 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { DataGridList } from "@/components/DataGrid/DataGridList";
 import FilterModal from "@/components/CustomFilter/FilterModal";
 import { NoUserList } from "@/assets/svg";
-import { Button } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import { setDataById } from "@/Libs/store";
 
 
@@ -19,13 +19,13 @@ const AbstractReviewer = () => {
   const { id } = useParams();
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [source, setSource] = useState<any>({});
- 
+  const companyId = sessionStorage.getItem("companyId");
   /**
    * Fetches the initial abstract list when the component is mounted.
    */
   useEffect(() => {
     userAbstractList();
-  
+
   }, []);
   /**
    * Fetch Abstract List
@@ -37,13 +37,18 @@ const AbstractReviewer = () => {
     const req = {
       offset: 0,
       limit: 5,
-      filters: { eventId: id },
+      filters: {
+        companyId: companyId,
+        roleEnums: [
+          "REVIEWER"
+        ]
+      },
     };
     setSource({
       method: "POST",
       data: req,
-      url: `userAbstract/list`,
-      listName: "userAbstractList",
+      url: `user/userRole/list`,
+      listName: "userReviewerList",
     });
   }, [id]);
 
@@ -57,58 +62,44 @@ const AbstractReviewer = () => {
     if (!data) return [];
     return data.map((item: any) => ({
       id: item?.id,
-      name: item?.asset?.name,
-      email: item?.userAbstract?.user?.email,
-      createdOn: item?.createdOn,
-      status: item?.statusId === 1 ? 9
-            : item?.statusId === 2 ? 10 
-            : 3,
-      userName: item?.user?.firstName,
-      reviewer: item?.reviewer?.firstName ? (item?.reviewer?.firstName) : ("Not Assigned"),
-      Action: <Button onClick={()=>handleAssign(item?.reviewer?.id)}>Assign</Button>
+      role: item?.userRoles[0]?.role?.roleName,
+      name: item?.firstName,
+      email: item?.email,
+      phone: item?.phone,
     }));
   };
   /**
    * 
    * @param id 
    */
-  const handleAssign=(id:any)=>{
-  setDataById("tabValue",{value:'10'});
-  setDataById("abstarctId",{id:id});
+  const handleAssign = (id: any) => {
+    setDataById("tabValue", { value: '10' });
+    setDataById("abstarctId", { id: id });
   }
- 
+
   const columns = [
-    { type: "default", field: "id", headerName: "ID", width: 140 },
-    { type: "default", field: "userName", headerName: "Uploaded By", width: 160 },
-    { type: "dateField", field: "createdOn", headerName: "Submitted On", width: 190},
-    { type: "default", field: "name", headerName: "Abstract File", width: 170 },
-    { type: "default", field: "reviewer", headerName: "Reviewer", width: 180 },
-    { type: "status", field: "status", headerName: "Review Status", width: 175 },
+    { type: "default", field: "id", headerName: "ID", width: 160 },
+    { type: "default", field: "role", headerName: "Role", width: 200 },
+    { type: "default", field: "name", headerName: "Name", width: 200 },
+    { type: "default", field: "email", headerName: "email", width: 200 },
+    { type: "default", field: "phone", headerName: "phone", width: 200 },
     {
-      type:"custom",
-      field:"Action",
+      type: "default",
+      field: "Action",
       headerName: "Action",
-      width:100,
-     
+      width: 160,
+      renderCell: (params: any) => (
+        <Button
+          onClick={() => handleAssign(params.row.id)}
+        >Assign
+        </Button>
+      ),
     }
+
   ];
 
   return (
     <Grid container>
-      <Grid container size={{ xs: 12 }} className="user-list-card" spacing={2} justifyContent="flex-end">
-        <Grid container spacing={2}>
-          <CustomButton
-            className="custom-list-filter-btn"
-            onClick={() => setIsFilterModalOpen(true)}
-            label="Filters"
-            startIcon={<TuneRoundedIcon />}
-            variant="contained"
-            color="primary"
-            size="large"
-          />
-        </Grid>
-      </Grid>
-
       <Grid size={{ xs: 12 }}>
         <DataGridList
           dataTransformer={transformData}
@@ -117,10 +108,9 @@ const AbstractReviewer = () => {
           noRecordIcon={<NoUserList className="userdetail-noimage" />}
           hideFooterPagination={false}
           columns={columns}
-          id="userAbstract-list-datagrid"
-          />
+          id="userAbstract-list-datagrids"
+        />
       </Grid>
-
       <FilterModal
         open={isFilterModalOpen}
         onClose={() => setIsFilterModalOpen(false)}

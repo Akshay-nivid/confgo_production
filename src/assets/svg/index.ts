@@ -93,25 +93,24 @@ import MyEventsMobIcon from './MyEventsMobIcon.svg';
 import paymentHistoryMobIcon from './PaymentHistoryMobIcon.svg';
 import CalenderEventMobIcon from './CalenderEventMobIcon.svg';
 import SettingsDashBoardMobIcon from './SettingsDashBoarsmobIcon.svg';
-import UploadedFile from "./uploaded-file.svg";
-import NoUserList from "./no-user-list.svg";
-import UserCreateIcon from "../svg/user-icon.svg";
-import Arrow2Left from "./arrow2-left.svg"
-import GridImg from "./grid-img.svg"
-import BookIcon from "./book.svg";
-import CloseCircle from "./Close_circle_black.svg";
-import UploadIcon from "./Upload.svg";
-import Dollar from "./dollar.svg"
-import Book from "./book.svg"
-import DowloadIcon from "./Download.svg"
-import PdfIcon from "./pdf.svg"
-import AccordionArrowIcon from "./AccordionArrowIcon.svg";
-import AccordionAddIcon from "./AccordionAddIcon.svg";
+import UploadedFile from './uploaded-file.svg';
+import NoUserList from './no-user-list.svg';
+import UserCreateIcon from '../svg/user-icon.svg';
+import Arrow2Left from './arrow2-left.svg';
+import GridImg from './grid-img.svg';
+import BookIcon from './presentation-book.svg';
+import CloseCircle from './Close_circle_black.svg';
+import UploadIcon from './Upload.svg';
+import Dollar from './dollar.svg';
+import Book from './presentation-book.svg';
+import DowloadIcon from './Download.svg';
+import PdfIcon from './pdf.svg';
 import BookWhite from './book-white-new.svg';
 import EditBoxWhite from './edit-box-white-new.svg';
 import TicBoxWhite from './tic-box-white-new.svg';
 import CloseBoxWhite from './close-box-white.svg';
-
+import AccordionArrowIcon from "./AccordionArrowIcon.svg";
+import AccordionAddIcon from "./AccordionAddIcon.svg";
 export {
   CalenderIcon,
   EditBoxWhite,

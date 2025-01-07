@@ -4,6 +4,13 @@
         font:$font !important ;
         font-size:$p5 !important ;
         font-weight: $font_medium;
+        inline-size: 1.75rem;
+        width: auto;
         
+    }
+    &-box{
+            box-shadow: none !important;
+            border: 0.0833rem solid $clr_gray_very_light;
+
     }
 }

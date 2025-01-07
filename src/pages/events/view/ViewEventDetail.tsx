@@ -6,7 +6,6 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import EventInfoCard from "./EventInfoCard";
-import SepekerCard from "./SpeakerCard";
 import Sessions from "./Sessions";
 import LocationCard from "./LocationCard";
 import UserListCard from "./UserListCard";
@@ -124,8 +123,6 @@ const ViewEventDetail = () => {
    * 
    */
   const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.value) ?? '1';
-  console.log(">>>>>>>>>.abstarctValue",abstarctValue);
-  
 
   /**
    * Useeffect hook initializes the parameter and handles the get event api call

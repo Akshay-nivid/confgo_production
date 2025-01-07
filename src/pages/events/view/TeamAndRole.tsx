@@ -8,7 +8,7 @@ const TeamAndRole=(data:any)=>{
     return(
      <Grid className="accordion-container" container spacing={3}>
       <Grid size={12}>
-        <Accordion>
+        <Accordion  className="accordion-container-box">
         <AccordionSummary
           expandIcon={<AccordionArrowIcon width={20} height={20}  />}
           aria-controls="panel1-content"
@@ -16,13 +16,15 @@ const TeamAndRole=(data:any)=>{
         >
           <Typography className="accordion-container-heading">Event Contributor</Typography>
         </AccordionSummary>
+        {data?.eventData?.id&&
         <AccordionDetails>
           <SepekerCard eventData={data}/>
-        </AccordionDetails>
+        </AccordionDetails>}
       </Accordion>
       </Grid>
+      {data?.eventData?.specialtyId===1&&
       <Grid size={12}>
-      <Accordion>
+      <Accordion className="accordion-container-box">
         <AccordionSummary
           expandIcon={<AccordionArrowIcon width={20} height={20} />}
           aria-controls="panel2-content"
@@ -30,13 +32,14 @@ const TeamAndRole=(data:any)=>{
         >
           <Typography className="accordion-container-heading">Abstracts Reviewer</Typography>
         </AccordionSummary>
+      
         <AccordionDetails>
           <AbstractReviewer /> 
         </AccordionDetails>
       </Accordion>
-      </Grid>
+      </Grid>}
       <Grid size={12}>
-      <Accordion>
+      <Accordion  className="accordion-container-box">
         <AccordionSummary
           expandIcon={<AccordionArrowIcon width={20} height={20} />}
           aria-controls="panel2-content"
