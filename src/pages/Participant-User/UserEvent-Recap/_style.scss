@@ -39,7 +39,7 @@
             background-color: $clr_red_danger;
         }
         &.reviewing{
-            background-color: $clr_status_bar;
+            background-color:$clr_orange_dark;
         }
         &.default{
             background-color: transparent;
@@ -266,7 +266,7 @@
         }
 
         .edit-icon{
-            background-color: $clr_gray_20_percent !important;
+            // background-color: $clr_gray_20_percent !important;
 
         }
 
@@ -332,8 +332,8 @@
             padding-right:1.5rem;
             border-radius: 0.75rem;
             svg{
-                width: 1.667rem !important;
-                height: 1.667rem !important;
+                width: 1.5rem !important;
+                height: 1.5rem !important;
             }
             &-header{
                 font-size: $h6 !important;
@@ -350,6 +350,7 @@
     }
     &-comments-container{
         padding-top: 2.5rem;
+        padding-bottom:6rem ;
        
         &-header{
             font-size: $p6 !important;
@@ -364,6 +365,10 @@
         &-subText{
             font-weight: $font_normal !important;
             color: $clr_charcoal_gray !important;
+        }
+
+        .MuiRating-root {
+            font-size: 2.5rem !important;
         }
 
     }

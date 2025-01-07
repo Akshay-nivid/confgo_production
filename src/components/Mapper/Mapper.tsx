@@ -118,13 +118,13 @@ function MapperComponent<T>({
   }
 
   // Render empty state
-  if (!isLoading && (!MapperData || MapperData.length === 0) && EmptyComponent) {
+  if (!isLoading && (!MapperData || MapperData?.length === 0) && EmptyComponent) {
     return <EmptyComponent />;
   }
 
   // Memoize the mapped items
   const items = useMemo(
-    () => limitedData.map((item, index) => <Component key={keyExtractor(item, index)} item={item} index={index} helperData={helperData} />),
+    () => limitedData?.map((item, index) => <Component key={keyExtractor(item, index)} item={item} index={index} helperData={helperData} />),
     [limitedData, Component, keyExtractor]
   );
 

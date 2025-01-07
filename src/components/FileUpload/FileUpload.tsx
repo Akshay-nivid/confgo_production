@@ -53,7 +53,9 @@ const FileUpload: React.FC<FileUploadProps> = ({
   const setDataById = useStore((state: any) => state.setDataById);
   const POST = useStore((state: any) => state.POST);
 
-  const loading = useStore((state: any) => state.compData?.['assetUpload']?.['asset']?.loading);
+  const assetUploadLoading = useStore((state: any) => state.compData?.['assetUpload']?.['asset']?.loading);
+
+  // const loading = useStore((state: any) => state.compData?.['assetUpload']?.['asset']?.loading);
 
   /**
    * Trims the image to the specified resolution.
@@ -265,7 +267,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
       {/* Show submit button only if files are selected */}
       {selectedFiles.length > 0 && (
         <Grid>
-          <CustomButton variant="contained" color="primary" onClick={handleSubmit} label="Upload" isLoading={loading} className="file-upload-button" />
+          <CustomButton variant="contained" color="primary" onClick={handleSubmit} disabled={assetUploadLoading} label="Upload" isLoading={assetUploadLoading} className="file-upload-button" />
         </Grid>
       )}
     </Grid>

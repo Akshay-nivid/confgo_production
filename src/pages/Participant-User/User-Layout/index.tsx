@@ -10,11 +10,11 @@ import useStore from '@/Libs/store';
  */
 const UserLayout = () => {
 
-  const templateId = useStore((state: any) => state.compData?.["templateId"])
+  const templateId = useStore((state: any) => state.compData?.["templateId"]?.id)
   
   return (
       <Box  className="user-layout">
-        <TopMenuSection temp={templateId?.id} />
+        <TopMenuSection classPrefix={`template${templateId}`} />
         <Box className="user-layout-content">
           <Box className="user-layout-card">
             <Outlet />
