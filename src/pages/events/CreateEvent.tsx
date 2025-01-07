@@ -25,8 +25,13 @@ import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
 
 type EventProps = {
   formSubmit: boolean;
+  formDraftSubmit: boolean;
   onSubmitHandler: (
     event: React.FormEvent<HTMLFormElement>,
+    type: string
+  ) => void;
+  onDraftSubmitHandler: (
+    event: any,
     type: string
   ) => void;
   data: any;
@@ -72,7 +77,7 @@ interface Specialty{
   label:string
 }
 const CreateEvent: React.FC<EventProps> =
-  ({ formSubmit, onSubmitHandler, data }) => {
+  ({ formSubmit, formDraftSubmit, onSubmitHandler, onDraftSubmitHandler, data }) => {
     const methods = useForm<FormData>()
     const {
       handleSubmit,
@@ -171,6 +176,15 @@ const CreateEvent: React.FC<EventProps> =
         handleSubmit(onSubmit)();
       }
     }, [formSubmit]);
+
+    /**
+     * Useeffect hook handles the form submission based on the formSubmit variable
+     */
+    useEffect(() => {
+      if (formDraftSubmit) {
+        onDraftSubmitHandler && onDraftSubmitHandler(watch(), "EVENT");
+      }
+    }, [formDraftSubmit]);
 
     /**
      * Method handles the form submission
@@ -471,6 +485,7 @@ const CreateEvent: React.FC<EventProps> =
                     control={control}
                     label="Specialty"
                     options={specialty}
+                    onChange={() => setValue('isAbstract',false)}
                     />
                   </Grid>
                   {watch('specialtyId')=='1'&&
