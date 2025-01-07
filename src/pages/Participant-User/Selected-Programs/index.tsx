@@ -382,7 +382,7 @@ const SelectedPrograms = () => {
                             <Grid size={12} container justifyContent={'space-between'}>
 
                               <Grid className="time-chip-container" size={12} width={"max-content"}>
-                                <Chip className="time-chip" size="medium" icon={<TimerOutlinedIcon />} label={moment(item?.startTime).format("h:mm A") + ' ' + '-' + ' ' + moment(item?.endTime).format("h:mm A")} />
+                                 <Chip className="time-chip" size="medium" icon={<TimerOutlinedIcon />} label={moment(item?.startTime).format("h:mm A") + ' ' + '-' + ' ' + moment(item?.endTime).format("h:mm A")} />
                               </Grid>
                               <Badge text="Program" type="program" />
 

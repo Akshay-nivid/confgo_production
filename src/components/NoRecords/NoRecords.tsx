@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid2';
 import CustomButton from '../CustomButton/CustomButton';
 import { useNavigate } from 'react-router-dom';
 import AddIcon from "@mui/icons-material/Add";
-
+import { NoEvent as NoUserIcon } from "@/assets/svg";
 interface NoRecordsProps {
     noRecordImage: React.ReactNode;
     noRecordTitle?: string;
@@ -15,7 +15,7 @@ interface NoRecordsProps {
  * No Record Found 
  * @author Neethu
  */
-export const NoRecords: React.FC<NoRecordsProps> = ({noRecordImage,noRecordTitle,noRecordSubtitle,redirectTo,btnName}) => {
+export const NoRecords: React.FC<NoRecordsProps> = ({noRecordTitle,noRecordSubtitle,redirectTo,btnName}) => {
     const navigate = useNavigate()
     /**
      * function to navigate to desired route from datagridlist
@@ -34,7 +34,7 @@ export const NoRecords: React.FC<NoRecordsProps> = ({noRecordImage,noRecordTitle
             className="no-record-container"
             size={{ xs: 12 }}
         >
-            <Grid  className='no-record-image'>{noRecordImage}</Grid>
+            <NoUserIcon className="no-event-svg" />
             <Grid size={6} container direction="column" alignItems="center" alignContent="center">
                 <Typography  className="no-record-title">
                   {noRecordTitle ? noRecordTitle : "No Records Available"}

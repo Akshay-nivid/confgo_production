@@ -842,9 +842,12 @@
             }
             }
         }
+
+
+
     &-template2{
         &-top-menu {
-            height: 5rem;
+            height: 1rem;
             &-container {
                 padding: 1rem;
                 margin: 2rem 6rem 2rem 6rem;
@@ -873,6 +876,7 @@
                 font-size: $h6;
                 font-weight: $font_semibold;
                 padding-top: 0.6rem;
+                box-shadow: none !important;
             }
 
             &-logout-button {
@@ -887,6 +891,7 @@
                 justify-content: center;
                 align-items: center;
                 color: $clr_white;
+                box-shadow: none !important;
             }
 
             &-button-border {
@@ -902,6 +907,7 @@
                     border-radius: 0.83rem;
                     font-size: $h6;
                     font-weight: $font_semibold;
+                    box-shadow: none !important;
                 }
             } 
         }
@@ -909,21 +915,19 @@
             background: url("../assets/png/template2-header.png") no-repeat center;
             background-size: cover;
             background-repeat: no-repeat;
-            height: 60rem;
-
-            &-title-container {
-                padding: 1rem;
-            }
+            height: 67rem;
+           
+          
         }
         &-details {
-            margin-top: 21rem;
              &-container {
-                padding: 0 6rem 0 6rem;
+                padding: 25rem 6rem 0 6rem;
             }
 
             &-item {
                 box-shadow: 0 0.3rem 1rem 0 $clr_light_black_shadow;
                 border-radius: 1rem;
+               
                
                 svg {
                     width: 2.5rem;
@@ -933,7 +937,7 @@
             &-index-box {
                 
                   background: $clr_bright_mint_green ;
-                  color:$clr_white ;
+                  color:$clr_black ;
                   
               }
               &-border-right{
@@ -977,8 +981,8 @@
             }
         }
             &-location {
-
-                padding: 2rem 15rem 5rem 15rem;
+                padding: 2rem 12rem 5rem 12rem;
+                border-radius: 10rem;
             }
         &-program{
             padding: 3rem 6rem 3rem 6rem;
@@ -1003,9 +1007,9 @@
                 }
 
                 &-group-container {
-                    border: 0.117rem solid $clr_dark_navy_blue !important;
+                     border-bottom: 0.117rem solid $clr_dark_navy_blue !important;
                     width: 90rem;
-                    border-radius: 0.83rem;
+                    // border-radius: 0.83rem;
                     padding: 1rem;
 
                     svg {
@@ -1015,9 +1019,8 @@
                 }
 
                 &-time-container {
-                    border: 0.167rem solid $clr_black;
-                    border-radius: 0.83rem;
                     padding: 0.5rem;
+                    width: 35rem;
 
                     p {
                         font-size: $p2;
@@ -1032,6 +1035,7 @@
 
                     &-container {
                         padding-left: 4rem;
+                        width: 40rem;
                     }
                 }
 
@@ -1042,7 +1046,7 @@
             }
         }
         &-title{
-            padding: 10rem 1rem 1rem 5rem;
+           
             width: 100%  !important;
             &-title1,
             &-title2 {
@@ -1062,6 +1066,7 @@
                 font-weight: $font_bold !important;
                 text-transform: none !important;
                 margin-top: 1rem !important;
+                box-shadow: none !important;
             }
         }
         &-about{
@@ -1153,6 +1158,7 @@
               color: $clr_white !important;
               padding: 1.25rem 2.167rem 1.25rem 2.167rem !important;
               border-radius: 0.83rem !important;
+              box-shadow: none !important;
             }
         }
         &-ticketing{
@@ -1210,6 +1216,7 @@
                 font-weight: $font_bold !important;
                 text-transform: none !important;
                 margin-top: 1rem !important;
+                box-shadow: none !important;
 
                 &-container {
                     position: absolute;

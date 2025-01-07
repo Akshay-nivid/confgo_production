@@ -24,7 +24,7 @@ export const PlanCard: React.FC<PlanCardProps> = ({ data, type }) => {
   const planMapper: Record<string, React.ReactNode> = {
     "BASIC_PLAN": <BasicPlainIcon />,
     "STANDARD_PLAN": <StandardPlanIcon />,
-    "PROP_LAN": <ProPlanIcon />
+    "PRO_PLAN": <ProPlanIcon />
   }
 
   const mode = useStore((state) => state?.compData?.planMode?.mode);
