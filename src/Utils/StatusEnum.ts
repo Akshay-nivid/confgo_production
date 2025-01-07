@@ -13,5 +13,6 @@ export const StatusEnum = {
     INACTIVE: 2,
     PENDING: 3,
     COMPLETED: 4,
-    DRAFTED: 5
+    DRAFTED: 5,
+    DELETED: 6
 }
