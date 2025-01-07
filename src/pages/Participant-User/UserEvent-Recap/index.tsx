@@ -325,7 +325,10 @@ const EventRecap: React.FC = React.memo(() => {
       console.error('Error loading image or generating PDF:', error);
     }
   };
-  const tabInfo = useStore((state: any) => state?.compData?.['eventTab']) || 0;
+  const tabInfo = useStore((state: any) => state?.compData?.['eventTab'])?.tabIndex || 0;
+
+
+
   /**
    * Handles the tab change event by updating the active tab index btw account-settings and security
    */
@@ -343,19 +346,7 @@ const EventRecap: React.FC = React.memo(() => {
             <Grid size={{ xs: 12, sm: 6, md: 6 }}>
               <Typography className="event-recap-header">My Events</Typography>
             </Grid>
-            <Grid size={{ xs: 12, sm: 5, md: 5 }}>
-              <CustomAutocomplete
-                name="search"
-                className="custom-search-event-text-field"
-                control={control}
-                options={searchResults}
-                getOptionLabel={(option: any) => option.name || ''}
-                onSearch={handleSearch}
-                loading={loading}
-                placeholder="Search"
-                onChange={handleAutocompleteChange}
-              />
-            </Grid>
+           
           </Grid>
           <Grid container className="padding-x-20 event-info">
             <Grid container size={12} columnSpacing={2} className="event-recap-first-grid">
@@ -397,13 +388,13 @@ const EventRecap: React.FC = React.memo(() => {
             </Grid>
           </Grid>
           <Grid size={{ xs: 12, sm: 8 }}>
-            <Tabs value={tabInfo?.tabIndex} className="my-event-tabs" onChange={handleTabChange}>
+            <Tabs value={tabInfo} className="my-event-tabs" onChange={handleTabChange}>
               <Tab label="Registered Programmes" className="account-tab-title account-tabs"></Tab>
-              {eventData![0]?.isAbstract == 1 && <Tab label="Upload Abstract" className="account-tab-title account-tabs"></Tab>}
+              {eventData![0]?.isAbstract === 1 && <Tab label="Upload Abstract" className="account-tab-title account-tabs"></Tab>}
             </Tabs>
           </Grid>
           <Grid size={{ xs: 12, sm: 4 }} className="border-bottom "></Grid>
-          {tabInfo?.tabIndex === 0 ? (
+          {tabInfo === 0 ? (
             <Mapper
               MapperData={Program?.data}
               component={RegisteredProgramCard}

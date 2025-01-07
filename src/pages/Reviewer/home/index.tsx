@@ -7,6 +7,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import useStore from '@/Libs/store';
+import CustomAutocomplete from '@/components/CustomAutocomplete/CustomAutocomplete';
+import { useForm } from 'react-hook-form';
 
 interface IDataListItem {
   id: number;
@@ -39,13 +41,30 @@ interface IDataListItem {
  */
 
 const ReviewerHome = () => {
+
+  const TABS = {
+    TOTAL_ABSTRACTS: 'Total Abstracts',
+    PENDING_FOR_REVIEW: 'Pending for Review',
+    REVIEWED_ABSTRACTS: 'Reviewed Abstracts',
+    APPROVED: 'Approved',
+    REJECTED: 'Rejected',
+  }
+
+  const form = useForm();
   const navigate = useNavigate();
   const userDetails = useStore(state => state?.compData?.['userDetails']) ?? {};
 
   const [source, setSource] = useState<ISource | undefined>(undefined);
 
   const [dataList, setAbstractList] = useState<IDataListItem[]>([]);
-  const [currentTab, setCurrentTab] = useState(1);
+  const [currentTab, setCurrentTab] = useState(TABS.TOTAL_ABSTRACTS);
+
+  const [refreshKey, setRefreshKey] = useState(0); 
+
+  const abstractList = useStore(state => state?.compData?.['reviewer-datagrid']?.data) ?? [];
+
+
+  const [currectEventId,setCurrectEventId] = useState<number | null>(null)
 
   const columns = [
     { type: 'default', field: 'id', headerName: 'ID', width: 150 },
@@ -80,16 +99,31 @@ const ReviewerHome = () => {
   ];
 
   useEffect(() => {
-    abstractList();
-  }, []);
 
-  const abstractList = useCallback(() => {
+    const getStatusId = () => {
+
+      switch (currentTab) {
+        case TABS.TOTAL_ABSTRACTS:
+          return {}
+        case TABS.PENDING_FOR_REVIEW:
+          return { isReviewed: 0 }
+        case TABS.REVIEWED_ABSTRACTS:
+          return { isReviewed: 1 }
+        case TABS.APPROVED:
+          return { statusId: 1 }
+        case TABS.REJECTED:
+          return { statusId: 2 }
+      }
+    }
+
+    const isEventId = currectEventId ? { eventId: currectEventId } : {}
+
     const req = {
       offset: 0,
       limit: 5,
       sortBy: 'id',
       sortDirection: 'DESC',
-      filters: { reviewerId: userDetails.id },
+      filters: { reviewerId: userDetails.id, ...getStatusId(), ...isEventId },
     };
 
     setSource({
@@ -98,47 +132,28 @@ const ReviewerHome = () => {
       url: `userAbstract/list`,
       listName: 'abstractList',
     });
-    return;
-  }, []);
+  }, [currentTab,refreshKey]);
+
+
 
   /**
    * Transforms the raw data from the API to match the required format for the DataGrid component.
    * @param data - The raw data from API response
    * @returns Transformed data for DataGrid
    */
-  const transformData = useCallback(
+  const transformData =
     (data: IDataListItem[] = []) => {
       setAbstractList(data);
 
-      const transformedData = data.map(item => ({
+      return data.map(item => ({
         ...item,
         eventClass: item.event?.eventClass,
         eventName: item.event?.name,
       }));
-          
-         
 
-      switch (currentTab) {
-        case 1:
-          return transformedData;
-        case 2:
-          return transformedData.filter(item => item.statusId === 4); // 4-assigned
-        case 3:
-          return transformedData.filter(item => item.statusId === 2 || item.isReviewed === 1);  
-        case 4:
-          return transformedData.filter(item => item.statusId === 1 ); // 1 - approved 
-        case 5:
-          return transformedData.filter(item => item.statusId === 2 ); // 2 - rejected
-        default:
-          return [];
-      }
-    },
-    [currentTab]
-  );
+    }
 
-  const tabs = ['Total Abstracts', 'Pending for Review', 'Reviewed Abstracts', 'Approved', 'Rejected'];
-
-  const summaryData = [
+  const summaryData: { id: number; title: 'Total Abstracts' | 'Pending for Review' | 'Reviewed Abstracts' | 'Approved' | 'Rejected'; value: number }[] = [
     {
       id: 1,
       title: 'Total Abstracts',
@@ -170,8 +185,8 @@ const ReviewerHome = () => {
    * Handles the click event on the summary tabs.
    * @param {number} index - The index of the tab to be selected.
    */
-  const handleClick = (index: number) => {
-    setCurrentTab(index);
+  const handleClick = (tab: 'Total Abstracts' | 'Pending for Review' | 'Reviewed Abstracts' | 'Approved' | 'Rejected') => {
+    setCurrentTab(tab);
   };
   /**
    * Navigates to the review details page when a row is clicked in the DataGrid.
@@ -182,9 +197,38 @@ const ReviewerHome = () => {
     navigate(routes.reviewDetails(id));
   };
 
+
+  const [eventAbstarctList, setEventAbstractList] = useState<any>([])
+
+  /**
+   * Searches the list of abstracts by event name and updates the state with the filtered results.
+   * @param {string} query - The search query to filter the abstracts by.
+   */
+  function onSearch(query: string) {
+
+    const filteredData = abstractList.filter((item: any) => item.eventName.toLowerCase().includes(query.toLowerCase()));
+
+    setEventAbstractList(filteredData);
+
+  }
+
+  /**
+   * Handles the change event on the event selector dropdown.
+   * Updates the current event ID and sets the current tab to the total abstracts tab.
+   * @param {object} data - The event data selected from the dropdown.
+   */
+  function handleOnChange(data: any) {
+    
+    setCurrectEventId(data.eventId)
+  
+    setRefreshKey(prev=>prev+1)
+
+
+  }
+  
+
   return (
     <Box className="reviewer-main reviewer-home-main">
-      {/* <ReviewerNavbar /> */}
 
       <Grid container justifyContent={'center'}>
         <Grid size={11} className="banner-container">
@@ -195,7 +239,22 @@ const ReviewerHome = () => {
         </Grid>
 
         <Grid size={11} className="abstracts-summary-container">
-          <Typography className="abstracts-summary-title">Abstracts Summary</Typography>
+          <Box className="search-container">
+            <Typography className="abstracts-summary-title">Abstracts Summary</Typography>
+
+            <CustomAutocomplete
+              name="search"
+              className="search-input w-full max-w-xl ml-auto"
+              control={form.control}
+              options={eventAbstarctList}
+              getOptionLabel={(option: any) => option.eventName || ''}
+              onSearch={onSearch}
+              loading={false}
+              placeholder="Search events"
+              onChange={handleOnChange}
+              
+            />
+          </Box>
 
           <Box className="abstracts-summary-content">
             {summaryData.map((item: (typeof summaryData)[0], index: number) => {
@@ -209,15 +268,17 @@ const ReviewerHome = () => {
           </Box>
 
           <Box className="review-tabs">
-            {tabs.map((tab, index) => {
-              return <TabButton onclick={() => handleClick(index+1)} key={index} text={tab} active={index + 1 === currentTab} />;
+            {summaryData.map((tab, index) => {
+              return <TabButton onclick={() => handleClick(tab.title)} key={index} text={tab.title} active={tab.title === currentTab} />;
             })}
+
           </Box>
 
           <Box className="data-grid-container">
+
+
             <DataGridList
               columns={columns}
-              key={currentTab}
               source={source}
               dataTransformer={transformData}
               id="reviewer-datagrid"
