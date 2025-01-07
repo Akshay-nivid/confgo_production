@@ -105,18 +105,18 @@ const UserUploadAbstract = ({ eventData }: any) => {
         {
             status: uploadedAbstractData?.[0]?.asset?.id ? 'uploaded' : 'default',
             title: 'Uploaded',
-            desc: uploadedAbstractData?.[0]?.asset?.modifiedOn,
+            desc: [`Uploaded on : ${moment.utc(uploadedAbstractData?.[0]?.asset?.modifiedOn).format('Do MMMM YYYY')}`],
         },
         {
             status: uploadedAbstractData?.[0]?.reviewer ? 'reviewing' : 'default',
             title: 'Reviewing',
-            desc: '',
+            desc: [`Reviewed by : ${uploadedAbstractData?.[0]?.reviewer?.firstName + ' ' + uploadedAbstractData?.[0]?.reviewer?.lastName}`],
         },
 
         {
             status: uploadedAbstractData?.[0]?.statusId === 1 ? 'approved' : uploadedAbstractData?.[0]?.statusId === 0 ? 'rejected' : 'default',
             title: uploadedAbstractData?.[0]?.statusId === 1 ? 'Approved' : uploadedAbstractData?.[0]?.statusId === 0 ? 'Rejected' : 'Reviewing on process',
-            desc: '',
+            desc: [''],
         },
     ];
 
@@ -133,21 +133,17 @@ const UserUploadAbstract = ({ eventData }: any) => {
                     <EventInfo eventData={eventData} />
 
                     {uploadFiles != null && (
-                        <Grid className="upload-abstract-upload-container padding-x-20" size={12}>
+                        <Grid className="upload-abstract-upload-container padding-x-20 " size={12}>
                             <Typography className="upload-abstract-header">Upload Abstract</Typography>
-                            <Grid className="upload-abstract-upload-container-box" size={8} sx={{ position: 'relative' }}>
+                            <Grid onClick={() => handleFileClick()}  className="upload-abstract-upload-container-box cursor-pointer" size={8} sx={{ position: 'relative' }}>
                                 <Grid display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
                                     <BookIcon />
                                     <Box display={'flex'} alignItems={'center'} columnGap={1}>
-                                        {/* <CustomButton variant='text' label="View"/> */}
-                                        <IconButton onClick={handleFileClick}>
-                                        <DownloadCertsIcon />
-
-                                        </IconButton>
                                     {!uploadedAbstractData[0]?.reviewer &&
                                         <IconButton
                                         className="edit-icon"
-                                        onClick={() => {
+                                                onClick={(e) => {
+                                            e.stopPropagation();
                                             setDisabled(false);
                                         }}
                                     >
@@ -169,18 +165,18 @@ const UserUploadAbstract = ({ eventData }: any) => {
 
                         </Grid>
                     )}
-                    {uploadedAbstractData?.length !== 0 && uploadedAbstractData[0]?.comments !== null && (
+                    {uploadedAbstractData?.length !== 0 && uploadedAbstractData[0]?.isReviewed === 1 && (
                         <Grid className="upload-abstract-comments-container border-bottom-blue padding-x-20" size={12}>
                             <Typography className="upload-abstract-comments-container-header ">Comment</Typography>
                             <Grid container className="upload-abstract-comments-container-gap" size={12} alignItems={'center'} spacing={1}>
-                                <Avatar sx={{ bgcolor: 'skyblue' }}>N</Avatar>
+                                <Avatar>{uploadedAbstractData[0]?.reviewer?.firstName[0] + ' ' + uploadedAbstractData[0]?.reviewer?.lastName[0]}</Avatar>
                                 <Typography className="upload-abstract-comments-container-header">{uploadedAbstractData[0]?.reviewer?.firstName + ' ' + uploadedAbstractData[0]?.reviewer?.lastName}</Typography>
                             </Grid>
                             <Grid className="upload-abstract-comments-container-gap15">
                                 <Rating defaultValue={uploadedAbstractData[0]?.rating} name="half-rating-read" size="large" readOnly />
                             </Grid>
                             <Grid className="upload-abstract-comments-container-gap15">
-                                <Typography className="upload-abstract-comments-container-subText">{HTMLReactParser(uploadedAbstractData[0]?.comment)}</Typography>
+                                <Typography className="upload-abstract-comments-container-subText">{HTMLReactParser(uploadedAbstractData[0]?.comment || '')}</Typography>
                                 {/* <LocalTimeDate utcDateTime={uploadedAbstractData[0]?.modifiedOn} format='' /> */}
                             </Grid>
                         </Grid>
@@ -334,11 +330,12 @@ const VerticalLine = () => {
  * @param {string} [props.desc] - Optional description with a date to be formatted.
  */
 
-const Title = ({ title, desc }: { title: string; desc?: string }) => {
+const Title = ({ title, desc }: { title: string; desc?: string[] }) => {
     return (
         <Box className="">
             <Typography className="stepper-title">{title}</Typography>
-            {desc && <Typography className="stepper-desc">Uploaded on : {moment.utc(desc).format('Do MMMM YYYY')}</Typography>}
+            {/* {desc && <Typography className="stepper-desc">{desc}</Typography>} */}
+            {desc && desc.length > 0 && desc.map(item=><Typography className="stepper-desc">{item}</Typography>) }
         </Box>
     );
 };

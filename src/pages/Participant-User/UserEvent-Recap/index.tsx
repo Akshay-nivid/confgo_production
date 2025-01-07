@@ -346,19 +346,7 @@ const EventRecap: React.FC = React.memo(() => {
             <Grid size={{ xs: 12, sm: 6, md: 6 }}>
               <Typography className="event-recap-header">My Events</Typography>
             </Grid>
-            <Grid size={{ xs: 12, sm: 5, md: 5 }}>
-              <CustomAutocomplete
-                name="search"
-                className="custom-search-event-text-field"
-                control={control}
-                options={searchResults}
-                getOptionLabel={(option: any) => option.name || ''}
-                onSearch={handleSearch}
-                loading={loading}
-                placeholder="Search"
-                onChange={handleAutocompleteChange}
-              />
-            </Grid>
+           
           </Grid>
           <Grid container className="padding-x-20 event-info">
             <Grid container size={12} columnSpacing={2} className="event-recap-first-grid">
