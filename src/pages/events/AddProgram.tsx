@@ -111,7 +111,6 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
      */
   useEffect(() => {
     if (!formDraftSubmit) return; // Short-circuit if formDraftSubmit is false
-    console.log('testprogramwatch',watch())
     if (onDraftSubmitHandler) {
         onDraftSubmitHandler(watch()?.savedPrograms, "PROGRAM");
     }

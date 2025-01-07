@@ -86,6 +86,7 @@ const Events = () => {
 
 
 
+
   /**
    * Useeffect hook handles the api call for getting event status, add options and get event data
    */
@@ -111,7 +112,9 @@ const Events = () => {
    */
   useEffect(() => {
     eventInfo && setFormData(transformEventData(eventInfo))
-  },[eventInfo])
+    eventInfo && setFormDraftData(transformEventData(eventInfo))
+  }, [eventInfo])
+
 
    /**
    * Method handles the api call for getting event details
@@ -171,6 +174,7 @@ const Events = () => {
       setDraftStatusId(draftStatusId)
     }
   }
+
 
   /**
    * Method handles the api call for getting add on options
@@ -304,14 +308,12 @@ const Events = () => {
           email: event?.email 
         }
       ],
-      specialtyId:event?.specialtyId,
       isAbstract:event?.isAbstract?1:0,
-      abstractDate:event?.abstractDate
+      abstractDate:event?.abstractDate,
+      isDraft: draft? true: false
     };
-    if(draft){
-      req['isDraft'] = true;
-      id && (req['draftId'] = id)
-    }
+    event?.specialtyId && (req['specialtyId'] = event?.specialtyId)
+    id && (req['draftId'] = id)
 
     // Handle URL and Venue logic
     if ( event?.type === 'ONLINE') {
@@ -324,8 +326,13 @@ const Events = () => {
         city: event?.city,
         state: event?.state,
         country: event?.country,
-        postalCode: event?.postalCode,
+        ...(event?.postalCode ? { postalCode: event.postalCode } : {}),
       };
+      const allNull = Object.values(req['venue']).every((value) => (value === undefined || value === null));
+
+      if (allNull) {
+        req['venue'] = null;
+      }
       if ( event?.type !== 'OFFLINE') {
         req['url'] = event?.url;
       }
@@ -500,7 +507,6 @@ const Events = () => {
             noOfDays: ""
         }))
     };
-    if(transformedData?.program?.length > 0){
       transformedData?.program.push({
         name: "",
         description: "",
@@ -512,9 +518,7 @@ const Events = () => {
         amount: "",
         // totalSeat:""
       },)
-    }
 
-    if(transformedData?.addOns?.length > 0){
       transformedData?.addOns.push({
           name: "",
           description: "",
@@ -529,7 +533,6 @@ const Events = () => {
           addonType:"PAID",
           noOfDays:""
       })
-    }
 
     return transformedData;
 }
@@ -538,7 +541,7 @@ const Events = () => {
 
 
   return (
-    <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper">
+    ((id && formData?.event) || !id) && <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper">
       <Grid size={{ xs: 12, sm: 12 }} justifyItems={'center'} className="custom-stepper-main">
         <CustomStepper
           steps={steps}

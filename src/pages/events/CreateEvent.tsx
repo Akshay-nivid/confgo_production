@@ -182,7 +182,6 @@ const CreateEvent: React.FC<EventProps> =
      */
     useEffect(() => {
       if (formDraftSubmit) {
-        console.log('testwatch',watch())
         onDraftSubmitHandler && onDraftSubmitHandler(watch(), "EVENT");
       }
     }, [formDraftSubmit]);
