@@ -49,6 +49,8 @@ const StatusComponent: React.FC<AppBarProps> = ({ value ,className}) => {
         return "Pending";
       case "4":
         return "Complete";
+      case "5":
+        return "Drafted";
       case "6":
         return "Published";
           case "7":

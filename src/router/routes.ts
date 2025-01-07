@@ -9,6 +9,7 @@ const routes = {
   register: () => "/register",
   events: () => "/events",
   createEvent: () => "/events/create",
+  editDraftEvent: (id: string | number) => `/events/create/${id}`,
   userForgotPassword: () => "/user/forgot-password",
   organisationForgotPassword: () => "/organisation/forgot-password",
   thankyou: () => "/thankyou",

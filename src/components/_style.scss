@@ -854,9 +854,22 @@
   }
 
   &-back-button {
+    margin-left: 4rem !important;
+    height: 3.2rem !important;
+    color: $clr_black !important;
+    background-color: $clr_white !important;
+    text-transform: none !important;
+    font-size: $p1 !important;
+    font-weight: $font_semibold !important;
+    margin-top: 2rem !important;
+    margin-bottom: 4rem !important;
+    box-shadow: none !important;
+  }
+
+  &-save-as-draft-button {
     margin: auto !important;
     display: block !important;
-    width: 7rem !important;
+    width: 14rem !important;
     height: 3.2rem !important;
     border: 2px solid $clr_green !important;
     color: $clr_green !important;

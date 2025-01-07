@@ -255,6 +255,10 @@ const router = createBrowserRouter([
         element: <Events  />,
       },
       {
+        path: routes.editDraftEvent(":id"),
+        element: <Events  />,
+      },
+      {
         path: routes.events(),
         element: <EventList  />,
       },
