@@ -73,7 +73,7 @@
                 white-space: nowrap;
                 cursor: pointer;
                 padding-bottom: 1rem;
-                transition: all  .4s;
+                transition: all .4s;
                 border-bottom: 0.2rem solid transparent;
 
 
@@ -93,12 +93,26 @@
 
             }
         }
+        .search-container {
+            margin-left: auto;
+            // padding: .5rem;
+            display: flex;
+            align-items: center;
+
+            .search-input {
+                border-color: $clr_gray_faded !important;
+                border-radius: .5rem;
+            }
+        }
+
 
         .data-grid-container {
             margin-top: 3.0833rem;
             border: 0.083rem solid $clr_gray_faded;
             border-radius: .5rem;
             margin-bottom: 2rem;
+
+            
         }
     }
 }
