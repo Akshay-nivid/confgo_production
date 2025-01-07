@@ -1,5 +1,5 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
-import { Avatar, IconButton, Modal, Typography } from "@mui/material";
+import {IconButton, Modal, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -9,13 +9,13 @@ import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CloseIcon from "@mui/icons-material/Close";
-import { DeleteContributorIcon, UploadedFile } from "@/assets/svg";
+import {NoCouponDataSvg } from "@/assets/svg";
 import useStore from "@/Libs/store";
 import AddIcon from "@mui/icons-material/Add";
-import config from "../../../../config.json";
-import PersonIcon from '@mui/icons-material/Person';
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
-
+import { ISource } from "@/Libs/type";
+import { DataGridList } from "@/components/DataGrid/DataGridList";
+import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
 
 interface EventParticipant {
   id: number;
@@ -49,21 +49,18 @@ const SpeakerCard = (_eventData: any) => {
   const { id } = useParams<Record<string, string | undefined>>();
   const { handleSubmit, control, reset,watch, formState: { errors }, setValue } = useForm<FormData>();
   const [addContributeView, setAddContributeView] = useState(false);
-  const [contributorList, setContributorList] = useState([]);
   const [editContributorValue, setEditConrtributorValue] =
     useState<EventParticipant | null>();
-  const contributorFields =
-    useStore((state: any) => state?.compData?.["contributorFields"]) ?? [];
+  const contributorFields = useStore((state: any) => state?.compData?.["contributorFields"]) ?? [];    
   const setDataById = useStore((state: any) => state.setDataById);
   const clearDataById = useStore((state: any) => state?.clearDataById);
   const POST = useStore((state: any) => state.POST);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
-  const baseUrl = config.api.url;
   const [searchResults, setSearchResults] = useState<TransformedData[]>([]);
-  const [loading, setLoading] = useState(false); // To indicate loading state for API
+  const [loading, setLoading] = useState(false);
   const [handleSelectedValue,setHandleSelectedValue]=useState<any>();
   const companyId = sessionStorage.getItem("companyId")
-  
+   const [source, setSource] = useState<ISource | undefined>(undefined);
   /**
    * Method transforms data to the autocomplete data format
    * @param data : api response data
@@ -77,14 +74,14 @@ const SpeakerCard = (_eventData: any) => {
       ...item
     }));
   }
-   /**
-     * Method handles the document download functionality
-     * @param id : document id
-     */
-   const handleDownload = (id: any) => {
-    const href = `${baseUrl}asset/${id}`
-    window.open(href, '_blank')
-};
+//    /**
+//      * Method handles the document download functionality
+//      * @param id : document id
+//      */
+//    const handleDownload = (id: any) => {
+//     const href = `${baseUrl}asset/${id}`
+//     window.open(href, '_blank')
+// };
   /**
    *function to handle close the modal
    */
@@ -135,30 +132,26 @@ const SpeakerCard = (_eventData: any) => {
   const fetchProgramList = async () => {
     try {
       const requestBody = {
+        offset: 0,
+        limit: 5,
         filters: {
-          eventId: _eventData?.eventData?.id,
+          eventId: _eventData?.eventData?.eventData?.id,
         },
       };
-      await POST({
-        url: "eventSpeaker/list",
-        body: requestBody,
-        id: "eventProgramList",
-        successCB: (context: any) => {
-          if (context?.success) {
-            setContributorList(context.data);
-          }
-        },
-        errorCB: (context: any) => {
-          Logger.error("SpeakerCard.tsx", context?.message);
-        },
+      setSource({
+         method:"POST",
+         data:requestBody,
+         url: "eventSpeaker/list",
+         listName: "speakerList",
+        
+
       });
-    } catch (error) {
+      return;
+    }
+    catch (error) {
       Logger.error("SpeakerCard.tsx", error);
     }
   };
-
-
-
   type FormData = {
     contributorType: string;
     contributorName: string;
@@ -296,34 +289,6 @@ const SpeakerCard = (_eventData: any) => {
   };
 
   /**
-   * function handles edit contributor form fields
-   * @param item
-   */
-  // const handleContributorEdit = (item: EventParticipant) => {
-  //   if(_eventData?.eventData?.published){
-  //     setDataById("snackBarInfo", {
-  //       open: true,
-  //       autoHideDuration: 2000,
-  //       severity: "error",
-  //       message: "Event is Already Published !",
-  //     });
-  //   }else{
-  //     if (item?.name ) {
-  //     reset({
-  //       contributorName: item.name,
-  //       contributorType: item.designation,
-  //       contributorDescription: item.description || "",
-  //     });
-  //   }
-  //   else{
-  //     reset()
-  //   }
-  //   setDataById("contributorFields", item);
-  //   setEditConrtributorValue(item);
-  //   handleScreenViewChange();
-  //   }
-  // };
-  /**
    * function handles delete contributor form fields
    * @param item
    */
@@ -336,7 +301,7 @@ const SpeakerCard = (_eventData: any) => {
         message: "Event is Already Published !",
       });
     }else{
-    setDataById("contributorFields", item);
+    setDataById("contributorFields", {id:item});
     setDeleteModal(true);
     }
   };
@@ -375,6 +340,62 @@ const SpeakerCard = (_eventData: any) => {
       selected && setValue('contributorName',selected?.fullName)
   };
 
+   // Column configuration for the DataGrid component
+   const columns = [
+    { type: "default", field: "id", headerName: "ID", width: 150 },
+    { type: "default", field: "name", headerName: "Name", width: 200 },
+    {
+      type: "default",
+      field: "email",
+      headerName: "Email",
+      width: 250,
+    },
+    {
+      type: "default",
+      field: "phone",
+      headerName: "Phone No",
+      width: 200,
+    },
+    {
+      type: "status",
+      field: "status",
+      headerName: "Status",
+      width: 150,
+    },
+    
+    {
+      type:"default",
+      field:"Action",
+      headerName: "Action",
+      width:100,
+      renderCell: (params: any) => (
+        <IconButton
+          onClick={() => handleDeleteModal(params.row.id)}
+        >
+          <DeleteIcon />
+        </IconButton>
+      ),
+    }
+  ];
+  /**
+   * Transforms the raw data from the API to match the required format for the DataGrid component.
+   * @param data - The raw data from API response
+   * @returns Transformed data for DataGrid
+   */
+  const transformData = (data: any) => {
+    if (!data) return [];
+    return data.map((item: any) => {
+      return {
+        ...item,
+        id: item?.id,
+        name: `${item?.user?.firstName} ${item?.user?.lastName}`,
+        email: item?.user?.email,
+        phone: item?.user?.phone,
+        status: item?.statusId,
+        Action: <DeleteIcon onClick={()=>handleDeleteModal(item?.user?.id)} />
+      };
+    });
+  };
   return (
     <Grid
       className="event-detail-speakers-card"
@@ -427,71 +448,24 @@ const SpeakerCard = (_eventData: any) => {
             </Typography>
           </Grid>
         </Grid>
-        {/* Contributor List */}
         <Grid
           className="event-detail-speakers-card-list-row"
           container
           justifyContent={"center"}
           alignContent={"center"}
         >
-          <Grid container flexDirection={"row"} direction={"row"}>
-            {contributorList?.map((item: any) => {
-              return (
-                <Grid>
-                  <Grid
-                    container
-                    className="event-detail-speakers-card-list-row-container"
-                    key={item?.id}
-                    alignItems={"flex-start"}
-                    spacing={0.5}
-                  >
-                    <Grid>
-                      {item?.user?.assetId ? (
-                        <img
-                          className="event-detail-speakers-card-list-row-img"
-                          src={`${baseUrl}asset/${item?.user?.assetId}`}
-                          alt={item?.user?.firstName}
-                        />
-                      ) : (
-                        <Avatar className="event-detail-speakers-card-list-row-no-img">
-                          <PersonIcon className="event-detail-speakers-card-list-row-no-img-icon" />
-                        </Avatar>
-                      )}
-                      <Typography className="event-detail-speakers-card-list-row-name">
-                        {item?.user?.firstName}
-                      </Typography>
-                      <Typography className="event-detail-speakers-card-list-row-designation">
-                        {item?.designation}
-                      </Typography>
-                                   {/* <Grid
-                                  onClick={() => handleContributorEdit(item)}
-                                >
-                                  <EditContributorIcon className="event-detail-speakers-card-list-row-box-icon" />
-                                </Grid> */}
-
-                      <Grid
-                        display={"flex"}
-                        className="event-detail-speakers-card-list-row-box"
-                      >
-                        {item.speakerFileId && (
-                          <Grid
-                            onClick={() => handleDownload(item.speakerFileId)}
-                          >
-                            <UploadedFile className="event-detail-speakers-card-list-row-box-icon" />
-                          </Grid>
-                        )}
-
-                        <Grid></Grid>
-                        <Grid onClick={() => handleDeleteModal(item)}>
-                          <DeleteContributorIcon className="event-detail-speakers-card-list-row-box-icon" />
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              );
-            })}
-          </Grid>
+        <Grid size={{ xs: 12 }}>
+        <DataGridList
+           dataTransformer={transformData}
+          source={source}
+          title="Volunteers"
+          hideFooterPagination={false}
+          columns={columns}
+          id="speaker-lists"
+          noRecordIcon={<NoCouponDataSvg className="no-coupon-icon"/>}
+          noRecordSubtitle="cIt looks like you haven't created any volunteer yet."
+        />
+      </Grid>
         </Grid>
         {/* Drawer */}
         <CustomDrawer

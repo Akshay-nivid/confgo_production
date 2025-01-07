@@ -1,0 +1,21 @@
+.accordion-container{
+    &-heading{
+        color:$clr_black ;
+        font:$font !important ;
+        font-size:$p5 !important ;
+        font-weight: $font_medium;
+        inline-size: 1.75rem;
+        width: auto;
+        
+    }
+    &-box{
+            box-shadow: none !important;
+            border: 0.0833rem solid $clr_gray_very_light;
+    }
+    &-icon{
+        svg{
+            width:1.9167rem;
+            height: 1.9167rem;
+        }
+    }
+}
