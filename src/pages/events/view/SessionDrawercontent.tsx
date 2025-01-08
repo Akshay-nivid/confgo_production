@@ -44,6 +44,7 @@ interface SessionDrawerContentProps {
         endTime: selectedProgram ? selectedProgram.endTime : (eventEndTime ? eventEndTime:""),
         name: selectedProgram ? selectedProgram.name : "",
         description: selectedProgram ? selectedProgram.description : "",
+        totalSeat: selectedProgram ? selectedProgram?.eventParticipantEntries?.[0]?.totalSeat : "",
         price: selectedProgram ? selectedProgram.amount : "",
         startDate:selectedProgram ? selectedProgram.startTime : (eventStartTime ? eventStartTime:"")
       },
@@ -58,6 +59,7 @@ interface SessionDrawerContentProps {
       if (isEditing && selectedProgram) {
         setValue("name", selectedProgram.name);
         setValue("description", selectedProgram.description);
+        setValue("totalSeat", selectedProgram?.totalSeat);
         setValue("startTime", moment(selectedProgram?.startTime).format("HH:mm"));
         setValue("endTime", moment(selectedProgram?.endTime).format("HH:mm"));
         setValue("isPaid", selectedProgram.amount > 0 ? "PAID" : "FREE");
@@ -71,6 +73,7 @@ interface SessionDrawerContentProps {
           startDate:moment(eventStartTime).format("YYYY-MM-DD"),
           name: "",
           description: "",
+          totalSeat: "",
           price: "",
         });
       }
@@ -99,6 +102,7 @@ interface SessionDrawerContentProps {
         name: data.name,
         description: data.description,
         price: data.price,
+        totalSeat: data.totalSeat,
         startTime: startDateTime,
         endTime: endDateTime
       };
@@ -134,6 +138,14 @@ interface SessionDrawerContentProps {
               placeholder="Description"
               control={control}
               rules={{required:"Description is required"}}
+            />
+          </Grid>
+          <Grid size={{xs:12}}>
+            <CustomTextField
+              name="totalSeat"
+              placeholder="Total Seats"
+              control={control}
+              type="number"
             />
           </Grid>
           <Grid size={12}>

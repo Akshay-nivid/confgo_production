@@ -299,3 +299,15 @@ export const findEventStatus = (data: any) => {
       }
   }
 }
+
+/**
+ * Function to convert local time to UTC time
+ * @returns 
+ */
+export function convertLocalToUTC(localTime:any, format = 'YYYY-MM-DD') {
+  const localMoment = moment(localTime);
+
+  // Convert to UTC and return formatted date
+  const utcTime = localMoment.utc();
+  return utcTime.format(format);
+}

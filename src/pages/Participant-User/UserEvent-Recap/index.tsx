@@ -299,7 +299,10 @@ const EventRecap: React.FC = React.memo(() => {
                 <Typography className="event-recap-first-grid-address">
                   {formatDateTimeRange({
                     date: eventData?.[0]?.startTime,
-                    format: 'MMMM D, YYYY',
+                    format: 'MMM D, YYYY',
+                  })}-{formatDateTimeRange({
+                    date: eventData?.[0]?.endTime,
+                    format: 'MMM D, YYYY',
                   })}
                   <span className="mx-2">|</span>
                   {formatDateTimeRange({
@@ -371,8 +374,8 @@ const RegisteredProgramCard = ({ item, helperData }: { item: any; helperData?: a
             {formatDateTimeRange({
               date: item.event?.startTime,
               format: 'h:mm A',
-            })}
-            ,{formatDateTimeRange({ date: item.endTime, format: 'h:mm A' })}
+            })}-
+            {formatDateTimeRange({ date: item?.event?.endTime, format: 'h:mm A' })}
           </Typography>
         </Grid>
         <Grid className="event-recap-second-grid-content-status">
@@ -389,9 +392,6 @@ const RegisteredProgramCard = ({ item, helperData }: { item: any; helperData?: a
           Location:
           {item?.event?.venue?.city + ',' + item?.event?.venue?.country}
         </Typography>
-      </Grid>
-      <Grid className="event-recap-second-grid-content-speaker" size={12}>
-        <Typography className="event-recap-second-grid-content-speaker-text">Speaker:swayer</Typography>
       </Grid>
     </Grid>
   );
