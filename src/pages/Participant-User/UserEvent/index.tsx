@@ -6,12 +6,9 @@ import { useForm } from "react-hook-form";
 import EventCard from "../Components/EventCard";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import apiClient from "@/Libs/Https/API-client";
-//import { NoEvent } from "@/assets/svg"
 import { Logger } from "@/Utils/Logger";
 import React from "react";
 import useStore, {IStoreState } from '@/Libs/store';
-import routes from "@/router/routes";
-import { useNavigate } from "react-router-dom";
 import CustomModel from "@/components/CustomModel/CustomModel";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { CloseOutlined } from "@mui/icons-material";
@@ -29,7 +26,6 @@ const MyEventScreen = () => {
   const [loading, setLoading] = useState(false);
   const POST = useStore((state: any) => state.POST);
   const setDataById = useStore((state: any) => state.setDataById);
-  const navigate = useNavigate();
   const events = useStore((state: IStoreState) => state?.compData.usersEvents?.["event/registered/eventList"]?.data) ?? []
   /**
    * model for view certificate

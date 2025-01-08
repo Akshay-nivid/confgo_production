@@ -14,7 +14,7 @@ interface TimeProps {
     endTime: string;
   }
 interface EventProps {
-    id:number;
+    id?:number;
     datetitle: TimeProps;
     title?: string|undefined;
     location?: string;
@@ -41,7 +41,14 @@ const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetit
    const today = moment().startOf('day'); 
    const endDate = moment(datetitle?.endTime); 
    const isEndDatePast = endDate.isBefore(today, 'day');
-
+   /**
+   * Handles event propagation
+   */
+    const propogation = (e:any) => {
+      e.stopPropagation();
+      onSquareButtonClick && onSquareButtonClick(0);
+    };
+   
    
     return (
         <Grid container className="event-card" spacing={1} flexDirection={"column"} onClick={()=>navigate(routes.userEventRecap(),{state:{eventId:id}})}>
@@ -51,7 +58,7 @@ const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetit
             <Grid  container>
             <CustomTooltip title={title}>
                 <Typography className="event-card-title" >
-                {truncateString(toTitleCase(title), 23, "Untitled")}x
+                {truncateString(toTitleCase(title), 23, "Untitled")}
                 </Typography>
                </CustomTooltip> 
             </Grid>
@@ -70,7 +77,7 @@ const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetit
                 </Grid>}
             {squareButton &&
                 <Grid className="event-card-certificate" container display={"flex"}>
-                    <Typography onClick={(e) =>{   e.stopPropagation(); onSquareButtonClick && onSquareButtonClick(0)}} className='event-card-certificate-label'>
+                    <Typography onClick={propogation} className='event-card-certificate-label'>
                     <u>[{squareButtonLabels[0]}]</u>
                         </Typography>
                 </Grid>}
