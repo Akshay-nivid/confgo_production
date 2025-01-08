@@ -33,7 +33,7 @@ const AbstractListCard = () => {
   const [abstractData, setabstractData] = useState<any[]>([]); 
   const [selectedId,setSelectedId] =useState()
   const [selectedRows, setSelectedRows] = useState<any[]>([]);
-  const ReviewerId = useStore((state:any)=>state?.compData?.["abstarctId"].id)
+  const ReviewerId = useStore((state:any)=>state?.compData?.["abstarctId"]?.id)
 
   /**
    * Fetches the initial abstract list when the component is mounted.
