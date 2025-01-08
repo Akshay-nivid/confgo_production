@@ -41,8 +41,8 @@ const FileUpload: React.FC<FileUploadProps> = ({
   resolution = { width: null, height: null },
   onSubmit,
   trimClientSide = true,
-  width = '30rem',
-  height = '30rem',
+  // width = '30rem',
+  // height = '30rem',
   className,
   isAbstract,
   disabled = false,
@@ -200,7 +200,9 @@ const FileUpload: React.FC<FileUploadProps> = ({
   };
 
   return (
-    <Grid className={clsx('file-upload', className)} container style={{ width, height }} justifyContent={'flex-end'}>
+    <Grid className={clsx('file-upload', className)} container 
+    // style={{ width, height }} 
+    justifyContent={'flex-end'}>
       <Grid {...getRootProps()} className={isAbstract ? 'file-upload-dropzone file-upload-abstract-dropzone' : 'file-upload-dropzone'} size={{ xs: 12 }}>
         <input {...getInputProps()} disabled={disabled} />
         {selectedFiles.length === 0 && (
@@ -220,7 +222,11 @@ const FileUpload: React.FC<FileUploadProps> = ({
                 </Grid>
               </Grid>
             ) : (
-              <Typography>Drag & drop files here, or click to select files</Typography>
+              <>
+              <Typography className="upload-dropzone-text">Drag & drop or click here to upload.</Typography>
+              <Typography className="upload-dropzone-subtext">Choose a file to upload, Max file size: 1MB.</Typography>
+              <Typography className="upload-dropzone-subtext">Recommended ratio: 16:9 for best fit</Typography>
+              </>
             )}
           </Grid>
         )}

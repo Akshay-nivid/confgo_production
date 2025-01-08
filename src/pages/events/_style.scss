@@ -1559,3 +1559,42 @@
     margin-top: 1.67rem;
   }
 }
+
+.abstract-modal-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed; 
+    width: 100vw; 
+    height: 100vh; 
+    backdrop-filter: blur(0.1rem); 
+  }
+  
+  .abstract-modal {
+    background-color: $clr_white; 
+    padding: 2rem;
+    border-radius: 0.5rem; 
+    width: 50rem;
+    max-width: 90%; 
+    max-height: 50rem; 
+    overflow-y: auto;
+    position: relative;
+  }
+  .abstract-selected{
+    border: 0.083rem solid $clr_gray_medium;
+    padding: 1.333rem;
+    border-radius: 0.5rem;
+    margin-bottom: 2rem;
+    align-items: center;    
+  }
+.view-abstract{
+    background-color: transparent !important;
+    color:$clr_blue;
+    font-size: $p2;
+    font-weight: $font_medium;
+}
+.abstract-green-btn{
+    background-color: $clr_green !important;
+    color: white !important;
+    box-shadow: none !important;
+}

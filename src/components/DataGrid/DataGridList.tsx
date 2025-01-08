@@ -37,13 +37,15 @@ type DataGridListProps = {
     redirectTo?: () => string;
     btnName?: string;
     isTargetGrid?: boolean;
+    checkboxSelection?:boolean;
+    onRowSelectionModelChange?:(params: any) => void;
 };
 
 /**
  * Method used to render listing
  * @returns 
  */
-export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFooterPagination, source, dataTransformer, onRowClick, subNode, data, noRecordIcon, noRecordTitle, noRecordSubtitle, redirectTo, btnName, isTargetGrid }) => {
+export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFooterPagination, source, dataTransformer, onRowClick, subNode, data, noRecordIcon, noRecordTitle, noRecordSubtitle, redirectTo, btnName, isTargetGrid,checkboxSelection,onRowSelectionModelChange }) => {
     const setDataById = useStore((state: any) => state.setDataById)
     const dataInfo = useStore((state: any) => state?.compData?.[id]) ?? [];
     const prevPageRef = useRef<any>();
@@ -254,6 +256,8 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
                                 className: 'custom-pagination'
                             }
                         }}
+                        checkboxSelection={checkboxSelection}
+                        onRowSelectionModelChange={onRowSelectionModelChange}
                     />
                 </Grid>
             ) : (
