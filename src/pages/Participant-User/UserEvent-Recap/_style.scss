@@ -63,6 +63,13 @@
     .stepper-title{
         font-weight: $font_semibold;
         font-size: $p1;
+       
+    }
+    .stepper-desc{
+        font-family: $font;
+        font-size: $p3;
+        color:$clr_field;
+        white-space: pre-wrap;
     }
     &-header {
         font-weight: $font-bold !important;

@@ -110,13 +110,23 @@ const UserUploadAbstract = ({ eventData }: any) => {
         {
             status: uploadedAbstractData?.[0]?.reviewer ? 'reviewing' : 'default',
             title: 'Reviewing',
-            desc: [`Reviewed by : ${uploadedAbstractData?.[0]?.reviewer?.firstName + ' ' + uploadedAbstractData?.[0]?.reviewer?.lastName}`],
-        },
+            desc: [
+                `Reviewed by: ${
+                  uploadedAbstractData?.[0]?.reviewer?.firstName || ''
+                }${
+                  uploadedAbstractData?.[0]?.reviewer?.lastName || ''
+                } \nSubmitted on: ${
+                 moment.utc( uploadedAbstractData?.[0]?.modifiedOn ).format('Do MMM YYYY')|| 'N/A'
+                }`,
+              ], 
+            },
 
         {
-            status: uploadedAbstractData?.[0]?.statusId === 1 ? 'approved' : uploadedAbstractData?.[0]?.statusId === 0 ? 'rejected' : 'default',
-            title: uploadedAbstractData?.[0]?.statusId === 1 ? 'Approved' : uploadedAbstractData?.[0]?.statusId === 0 ? 'Rejected' : 'Reviewing on process',
-            desc: [''],
+            status: uploadedAbstractData?.[0]?.statusId === 1 ? 'approved' : uploadedAbstractData?.[0]?.statusId === 2 ? 'rejected' : 'default',
+            title: uploadedAbstractData?.[0]?.statusId === 1 ? 'Approved' : uploadedAbstractData?.[0]?.statusId === 2 ? 'Rejected' : 'Reviewing on process',
+            desc: [`submitted by : ${
+                moment.utc( uploadedAbstractData?.[0]?.modifiedOn ).format('Do MMM YYYY')|| 'N/A'
+            }`],
         },
     ];
 
