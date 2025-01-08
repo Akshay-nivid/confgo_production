@@ -145,10 +145,10 @@ const Events = () => {
 
       const req = createFormRequest(formDraftData, true)
       const response = await apiClient.post('event', req);
-      const { status,  message } = await processAPIResponse(response, 'event-status');
+      const { status, data, message } = await processAPIResponse(response, 'event-status');
       if (status) {
         setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:message});
-        navigate(routes.events());
+        navigate(routes.editDraftEvent(data?.id))
       }
       else {
         setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:message});
