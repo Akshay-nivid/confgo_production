@@ -158,6 +158,17 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
       });
     }
   };
+
+  /**
+   * Method handles the dynamic creation of the class name based on the row data
+   * @param item : row data
+   * @returns : class name
+   */
+  const getRowClassName = (item: any) => {
+    return item.row?.statusId === StatusEnum.DRAFTED ? 'event-list-row-drafted' : '';
+  };
+  
+
   return (
     <Grid container className="custom-list">
       <Grid size={{ xs: 4 }}>
@@ -213,6 +224,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
           noRecordSubtitle="It looks like you haven't created any events yet.Start by setting up your first conference or meeting."
           redirectTo={() => routes.createEvent()} // define the route
           btnName="Create New Event" //define the label of btn
+          getRowClassName={getRowClassName}
         />
       </Grid>
       {hideAction && view && (
