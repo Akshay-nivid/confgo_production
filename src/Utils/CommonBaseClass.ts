@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { useMediaQuery } from "react-responsive";
+import { StatusEnum } from './StatusEnum';
 
 /**
  * Process the API response to extract status and message.
@@ -275,6 +276,28 @@ export function extractFileType(fileObject: any) {
 
   const mimeTypeParts = fileObject.mimeType.split('/');
   return mimeTypeParts.length > 1 ? mimeTypeParts[1] : null;
+}
+/**
+ * Determines the status of an event based on its properties.
+ *
+ * @param {any} data - The event data object containing details such as `published`, `statusId`, and `eventEndTime`.
+ * @returns {string} - A string representing the event status:
+ *   - "6" if the event is published.
+ *   - "4" if the event status is ACTIVE and the event's end time is in the future.
+ *   - "3" for all other cases.
+ */
+export const findEventStatus = (data: any) => {
+  if(data.published){
+      return "6";
+  }
+  else{
+      if((data.statusId === StatusEnum.ACTIVE) && (new Date(data.eventEndTime) > new Date())){
+          return "4";
+      }
+      else{
+          return "3";
+      }
+  }
 }
 
 /**
