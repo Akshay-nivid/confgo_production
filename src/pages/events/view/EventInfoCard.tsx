@@ -449,7 +449,7 @@ const EventInfoCard: React.FC<any> = React.memo(
             alignItems="center"
           >
             <Typography className="event-information-edit-heading">
-              Edit Event Information
+              Edit Basic Info
             </Typography>
             <IconButton onClick={closeDrawer}>
               <CloseOutlined />

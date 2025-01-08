@@ -6,7 +6,6 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import EventInfoCard from "./EventInfoCard";
-import SepekerCard from "./SpeakerCard";
 import Sessions from "./Sessions";
 import LocationCard from "./LocationCard";
 import UserListCard from "./UserListCard";
@@ -30,8 +29,8 @@ import ShareInvitationDrawer from "./ShareInvitationDrawer";
 import PriceTierList from "./PriceTierList";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
 import { PublishTickIcon, WarningIcon } from "@/assets/svg";
-import VolunteerListCard from "./VolunteerListCard";
 import AbstractListCard from "./AbstractListCard";
+import TeamAndRole from "./TeamAndRole";
 
 
 
@@ -95,7 +94,7 @@ interface Addon {
 
 const ViewEventDetail = () => {
 
-  const [value, setTabValue] = React.useState('1');
+  //const [value, setTabValue] = React.useState('1');
   const { setDataById }: any = useStore();
   const { setValue, control, watch} = useForm<any>();
   const {id } = useParams<Record<string, string | undefined>>();
@@ -116,9 +115,13 @@ const ViewEventDetail = () => {
    * @param newValue : new value to be assigned to tab
    */
   const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
-    setTabValue(newValue);
+   // setTabValue(newValue);
+    setDataById("tabValue",{value:newValue});
   };
-  
+  /**
+   * 
+   */
+  const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.value) ?? '1';
 
   /**
    * Useeffect hook initializes the parameter and handles the get event api call
@@ -363,18 +366,18 @@ const ViewEventDetail = () => {
         </Grid>
       </Grid>
       <Grid container direction={"column"} size={{ xs: 12, sm: 12 }} className="event-detail-tab-layout-container">
-        <TabContext value={value}>
+        <TabContext value={abstarctValue}>
         <Grid container direction={"column"} size={{ xs: 12, sm: 12 }} >
             <TabList className="event-detail-tab-layout" onChange={handleChange} aria-label="lab API tabs example">
               <Tab label="Basic Info" className="event-detail-tab-layout-item" value="1" />
-              <Tab label="Speakers" className="event-detail-tab-layout-item" value="2" />
+              <Tab label="Team&Role" className="event-detail-tab-layout-item" value="2" />
               <Tab label="Sessions" className="event-detail-tab-layout-item" value="3" />
               { eventFullData?.venue && <Tab label="Location" className="event-detail-tab-layout-item" value="4" />}
               <Tab label="Participants" className="event-detail-tab-layout-item" value="5" />              
               <Tab label="Template" className="event-detail-tab-layout-item" value="6" />
               <Tab label="Custom Fields" className="event-detail-tab-layout-item" value="7" />
               <Tab label='Settings' className="event-detail-tab-layout-item" value="8" />
-              <Tab label='Volunteers' className="event-detail-tab-layout-item" value="9"/>
+              {/* <Tab label='Volunteers' className="event-detail-tab-layout-item" value="9"/> */}
              
               {eventFullData?.specialtyId===1 &&<Tab label="Abstracts" className="event-detail-tab-layout-item" value="10" />}
             </TabList>
@@ -383,7 +386,7 @@ const ViewEventDetail = () => {
             <EventInfoCard eventData={eventFullData} onSubmitHandler={handleSubmitHandler}/>
           </TabPanel>
           <TabPanel value="2">
-            <SepekerCard eventData={eventFullData} />
+            <TeamAndRole eventData={eventFullData} />
           </TabPanel>
           <TabPanel value="3">
             <Sessions eventData={eventFullData} onSubmitHandler={handleSubmitHandler}/>
@@ -405,9 +408,9 @@ const ViewEventDetail = () => {
           <TabPanel value="8">
             <PriceTierList />
           </TabPanel>
-          <TabPanel value="9">
+          {/* <TabPanel value="9">
             <VolunteerListCard />
-          </TabPanel>
+          </TabPanel> */}
           {eventFullData?.specialtyId===1&&
           <TabPanel value="10">
             <AbstractListCard />

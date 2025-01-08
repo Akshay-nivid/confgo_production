@@ -1,6 +1,6 @@
 .main-account-title{
     font-weight: $font_semibold !important;
-    font-size: $h5 !important;
+    font-size: $h6 !important;
 }
 .main-account-grid{ 
     background-color: $clr_white;
@@ -70,12 +70,13 @@
 .main-account-drawer-text{
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 1.33rem !important;
+
 }
-.close{
-     margin-bottom:2.2rem !important;
-}
+
 .main-account-drawer-textfield{
     margin-bottom: 2rem !important;
+
 }
 .main-user-details{
     margin-top: 2rem !important;
@@ -86,12 +87,10 @@
     align-items: center;
     .main-user-submit-btn{
         width: 10.25rem;
-        height: 3.83rem;
-        font-family:$font_bold;
         font-size:$h6;
         font-weight:$font_semibold; 
-        line-height: 1.5rem;
         box-shadow:none !important;
+        text-transform: none !important;
     }
 }
 .main-outline{
@@ -208,3 +207,10 @@
 .main-user-submit-btn{
     background-color: $clr_green  !important;
 }
+
+
+    .edit-organisation-text,.edit-personal-text{
+        font-size: $h5 !important;
+        font-weight: $font_semibold !important;
+    }
+   

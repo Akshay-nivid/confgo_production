@@ -192,7 +192,7 @@ const MyEventScreen = () => {
                   viewEventRecap={true}
                   squareButton={true}
                   viewButton={false}
-                  datetitle={event.startTime}
+                  datetitle={{ startTime: event?.startTime, endTime: event?.endTime }}
                   title={event?.name}
                   location={`${event?.venue?.city}, ${event?.venue?.country}`}
                   buttonPress={handleButtonPress}

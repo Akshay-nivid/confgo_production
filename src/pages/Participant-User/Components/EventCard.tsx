@@ -5,9 +5,14 @@ import StatusComponent from '@/components/Status/StatusComponent';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import { formatDateTimeRange, toTitleCase, truncateString } from '@/Utils/CommonBaseClass';
 import CustomTooltip from '@/components/CustomToolTip/CustomTooltip';
+import moment from 'moment';
 
+interface TimeProps {
+    startTime: string;
+    endTime: string;
+  }
 interface EventProps {
-    datetitle: string;
+    datetitle: TimeProps;
     title?: string|undefined;
     location?: string;
     eventFullData: any;
@@ -25,10 +30,19 @@ interface EventProps {
  */
 const EventCard: React.FC<EventProps> = React.memo(({ eventFullData, datetitle, title, location, viewButton, buttonPress, squareButton, squareButtonLabels, onSquareButtonClick, Eventstatus }) => {
    const attendeeStatus=eventFullData?.participants[0]?. eventParticipants[0]?.event.attendees
+  
+   /**
+    * Compares the given end date (`datetitle?.endTime`) with today's date.
+   */
+   const today = moment().startOf('day'); 
+   const endDate = moment(datetitle?.endTime); 
+   const isEndDatePast = endDate.isBefore(today, 'day');
+
+   
     return (
         <Grid container className="event-card" spacing={1} flexDirection={"column"}>
             <Grid container className="event-card-date-box" justifyContent={"center"}>
-                <Typography textAlign={"center"} className="event-card-date-title" >Date: {formatDateTimeRange({ date: datetitle, format: 'MMMM D, YYYY' })}</Typography>
+                <Typography textAlign={"center"} className="event-card-date-title" >Date: {formatDateTimeRange({ date: datetitle?.startTime, format: 'MMM D' })+"-"+ formatDateTimeRange({ date: datetitle?.endTime, format: 'MMM D' })}</Typography>
             </Grid>
             <Grid  container>
             <CustomTooltip title={title}>
@@ -46,7 +60,8 @@ const EventCard: React.FC<EventProps> = React.memo(({ eventFullData, datetitle, 
                 <Grid  className="event-card-status" container size={12}>
                     <Grid container size={12} className="content">
                         <Typography className="event-card-location">Status</Typography>
-                        <StatusComponent value={attendeeStatus.length==0 ? "7" : "8"}  />
+                        {isEndDatePast? <StatusComponent value="11"/>:
+                        <StatusComponent value={attendeeStatus.length==0 ? "7" : "8"}  />}
                     </Grid>
                 </Grid>}
             {squareButton &&
