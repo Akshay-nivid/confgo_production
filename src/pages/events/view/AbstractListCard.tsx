@@ -12,14 +12,22 @@ import { DataGridList } from "@/components/DataGrid/DataGridList";
 import FilterModal from "@/components/CustomFilter/FilterModal";
 import { NoUserList } from "@/assets/svg";
 import AssignReviewerDrawer from "./AssignReviewerDrawer";
+import AddIcon from '@mui/icons-material/Add';
+import { Box, IconButton, Modal, Typography } from "@mui/material";
+import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
+import { CloseOutlined } from "@mui/icons-material";
 
 const AbstractListCard = () => {
   const { id } = useParams();
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [selectedAbstractId, setSelectedAbstractId] = useState<number | null>(null);
+  const [selectedAbstractId, setselectedAbstractId] = useState<number[] | null>(null);
   const [source, setSource] = useState<any>({});
   const companyId = sessionStorage.getItem("companyId");
+  const [isPopUp, setisPopUp] = useState(false);
+  const [abstractData, setabstractData] = useState<any[]>([]); 
+  const [selectedId,setSelectedId] =useState()
+  const [selectedRows, setSelectedRows] = useState<any[]>([]);
 
   /**
    * Fetches the initial abstract list when the component is mounted.
@@ -49,11 +57,29 @@ const AbstractListCard = () => {
   }, [id]);
 
   /**
+   * handles the preview of abstract to review
+   */
+  const handleAbstractClick = (id: number) => {
+    const result=abstractData.find((row: any) => row.id === id)
+    const assestId = result?.assetId
+    const href = `https://api.confgo.com/api/asset/${assestId}`;
+    window.open(href, '_blank');
+  };
+
+  /**
+   * previews the selected id to confirm
+   */
+  const handleassign = (abstractId: number) => {
+    setselectedAbstractId(Array.isArray(abstractId) ? abstractId : [abstractId]); // Ensure flat array.
+    setisPopUp(true);
+  };
+
+  /**
    * Opens the reviewer assignment drawer for the selected abstract.
    * @param {number} abstractId - The ID of the selected abstract.
    */
-  const handleRowClick = (abstractId: number) => {
-    setSelectedAbstractId(abstractId);
+  const handleconfirm = () => {
+    setisPopUp(false);
     setIsDrawerOpen(true);
   };
 
@@ -72,6 +98,7 @@ const AbstractListCard = () => {
    * @returns {Array} Transformed data for the DataGrid.
    */
   const transformData = (data: any) => {
+    setabstractData(data)
     if (!data) return [];
     return data.map((item: any) => ({
       id: item?.id,
@@ -90,15 +117,54 @@ const AbstractListCard = () => {
     { type: "default", field: "id", headerName: "ID", width: 150 },
     { type: "default", field: "userName", headerName: "Uploaded By", width: 200 },
     { type: "dateField", field: "createdOn", headerName: "Submitted On", width: 200 },
-    { type: "default", field: "name", headerName: "Abstract File", width: 200 },
+    { 
+      type: "default", 
+      field: "name", 
+      headerName: "Abstract File", 
+      width: 200,
+      renderCell: (params:any) => (
+        <div onClick={() => handleAbstractClick(params.id)} className="view-abstract">
+          {params.value}
+        </div>
+      ),
+    },
     { type: "default", field: "reviewer", headerName: "Reviewer", width: 180 },
     { type: "status", field: "status", headerName: "Review Status", width: 175 },
   ];
+
+  /**
+   * handles the multi selection 
+   */
+  const handleSelectionChange = (newSelection: any) => {
+    setSelectedId(newSelection)
+    const selectedRowData = newSelection.map((selectedId: number) => {
+      return abstractData.find((row: any) => row.id === selectedId);
+    });
+    setSelectedRows(selectedRowData);
+  };
+
+/**
+ * handles the delete function
+ */
+  const handleDelete = (id: number) => {
+    const updatedRows = selectedRows.filter((row: any) => row.id !== id);
+    setSelectedRows(updatedRows);
+    const ids = updatedRows.map((item: any) => item.id); 
+    setselectedAbstractId(ids);
+  };
 
   return (
     <Grid container>
       <Grid container size={{ xs: 12 }} className="user-list-card" spacing={2} justifyContent="flex-end">
         <Grid container spacing={2}>
+          <CustomButton
+            className="abstract-green-btn"
+            label="Assign"
+            startIcon={<AddIcon />}
+            size="large"
+            onClick={() => handleassign(selectedId ? selectedId : 0)}
+          />  
+
           <CustomButton
             className="custom-list-filter-btn"
             onClick={() => setIsFilterModalOpen(true)}
@@ -120,7 +186,8 @@ const AbstractListCard = () => {
           hideFooterPagination={false}
           columns={columns}
           id="userAbstract-list-datagrid"
-          onRowClick={(params: any) => handleRowClick(params.id)}
+          checkboxSelection={true}
+          onRowSelectionModelChange={handleSelectionChange}
         />
       </Grid>
 
@@ -137,6 +204,67 @@ const AbstractListCard = () => {
         onClose={() => setIsFilterModalOpen(false)}
         onApplyFilters={() => { }}
       />
+
+    <Modal open={isPopUp}>
+      <>
+      <Box className="abstract-modal-container">
+        <Box className="abstract-modal">
+          <Grid container justifyContent="flex-end">
+            <IconButton onClick={()=>setisPopUp(false)}>
+              <CloseOutlined />
+            </IconButton>
+          </Grid>
+          <Typography variant="h6" mb={3} textAlign="center">
+            Selected User Abstract List
+          </Typography>
+
+          <Grid container spacing={2} mb={2} ml={2}>
+            <Grid size={{xs:12,md:3}}>
+              <Typography variant="subtitle2">ID</Typography>
+            </Grid>
+            <Grid size={{xs:12,md:3}}>
+              <Typography variant="subtitle2">Name</Typography>
+            </Grid>
+            <Grid size={{xs:12,md:3}}>
+              <Typography variant="subtitle2">Abstract</Typography>
+            </Grid>
+            <Grid size={{xs:12,md:3}}>
+              <Typography variant="subtitle2">Action</Typography>
+            </Grid>
+          </Grid>
+
+          {selectedRows.map((item: any, index: number) => (
+            <Grid container spacing={2} className="abstract-selected" key={index}>
+              <Grid size={{xs:12,md:3}}>
+                <Typography>{item.id}</Typography>
+              </Grid>
+              <Grid size={{xs:12,md:3}}>
+                <Typography>{item.user?.firstName}</Typography>
+              </Grid>
+              <Grid size={{xs:12,md:3}}>
+                <Typography>{item.asset?.name}</Typography>
+              </Grid>
+              <Grid size={{xs:12,md:3}}>
+                <IconButton onClick={() => handleDelete(item.id)}>
+                  <DeleteIcon />
+                </IconButton>
+              </Grid>
+            </Grid>
+          ))}
+
+            <Grid container justifyContent="flex-end" mt={3}>
+              {selectedId !=null && (
+                <CustomButton
+                  label="Confirm"
+                  className="abstract-green-btn"
+                  onClick={handleconfirm}
+                />
+              )}
+            </Grid>
+        </Box>
+        </Box>
+      </>
+    </Modal>
     </Grid>
   );
 };
