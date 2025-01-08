@@ -6,6 +6,7 @@ const routes = {
   reviewerHome: () => "/reviewer/home",
   reviewDetails: (id: string | number) => `/reviewer/${id}`,
   speakerHome: () => "/speaker/home",
+  speakerDetails: (id: string | number) => `/speaker/event/${id}`,
   register: () => "/register",
   events: () => "/events",
   createEvent: () => "/events/create",
