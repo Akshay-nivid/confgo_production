@@ -16,6 +16,11 @@ import AddIcon from '@mui/icons-material/Add';
 import { Box, IconButton, Modal, Typography } from "@mui/material";
 import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
 import { CloseOutlined } from "@mui/icons-material";
+import { setDataById } from "@/Libs/store";
+import useStore from "@/Libs/store";
+import apiClient from "@/Libs/Https/API-client";
+import { processAPIResponse } from "@/Utils/CommonBaseClass";
+import { Logger } from "@/Utils/Logger";
 
 const AbstractListCard = () => {
   const { id } = useParams();
@@ -28,6 +33,7 @@ const AbstractListCard = () => {
   const [abstractData, setabstractData] = useState<any[]>([]); 
   const [selectedId,setSelectedId] =useState()
   const [selectedRows, setSelectedRows] = useState<any[]>([]);
+  const ReviewerId = useStore((state:any)=>state?.compData?.["abstarctId"].id)
 
   /**
    * Fetches the initial abstract list when the component is mounted.
@@ -80,7 +86,47 @@ const AbstractListCard = () => {
    */
   const handleconfirm = () => {
     setisPopUp(false);
-    setIsDrawerOpen(true);
+    if (ReviewerId !=null){
+      assignReviewer(ReviewerId)
+      setDataById("abstarctId", { id: null });    
+    }
+    else{
+      setIsDrawerOpen(true);
+    }
+  };
+
+ /**
+  * Assigns the selected reviewer from AbstractReviewer to the selected abstract.
+  * Displays a success or error message based on the API response.
+  */
+  const assignReviewer = async (reviewerId: number) => {
+    if (!selectedAbstractId) return;
+    try {
+      const req = {
+        abstracts:selectedAbstractId,
+        reviewerId:reviewerId,
+      };
+      const response = await apiClient.post(`/userAbstract/assign`, req);
+      const { status } = await processAPIResponse(response, "reviewer-assignment");
+      if (status) {
+        setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "success",
+          message: "Reviewer Assigned",
+        });
+      }
+      else {
+        setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "error",
+          message: "Failed to assign reviewer",
+        });
+      }
+    } catch (error) {
+      Logger.error("Error assigning reviewer:", error);
+    }
   };
 
   /**
