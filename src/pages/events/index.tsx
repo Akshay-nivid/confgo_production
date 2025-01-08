@@ -611,7 +611,7 @@ const Events = () => {
           <Grid container justifyContent={'right'}>
           <Grid>
             {activeStep <= 2 &&<CustomButton
-              className="custom-stepper-save-as-draft-button"
+              className={`custom-stepper-save-as-draft-button ${activeStep === 1 && !(formData?.program?.[0]?.name || formData?.program?.[0]?.addonId) ? 'disabled-button' : ''}`}
               label="Save as Draft"
               onClick={handleSaveAsDraft}
             />}
