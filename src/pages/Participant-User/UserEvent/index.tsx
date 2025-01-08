@@ -130,7 +130,7 @@ const MyEventScreen = () => {
   /**
     * Labels for the square buttons on each event card
     */
-  const squareButtonLabels: string[] = ["View Certificate", "Event Recap"];
+  const squareButtonLabels: string[] = ["View Certificate"];
   /**
     * Function to handle button presses on the event cards.
     */
@@ -140,25 +140,12 @@ const MyEventScreen = () => {
     * @param index  Function to handle the event selection from the autocomplete input.
     * It updates the API request configuration based on the selected event.
     */
-  const handleSquareButtonClick = (index: number, eventId: number) => {
-    /**
-     * You can add specific logic based on the index here.
-     */
-    if (index === 0) {
+  const handleSquareButtonClick = () => {
       setOpen(true);
-    } else if (index === 1) { 
-         eventRecap(eventId);
-    }
   };
-  /**
-   * component for show the events details
-   */
-  const eventRecap=(eventId: number)=>{
-    navigate(routes.userEventRecap(),{state:{eventId:eventId}});
-  }
   return (
     <Grid className="my-event" spacing={1} container >
-      <Grid container  size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} flexDirection={"row"}>
+      <Grid container  size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} flexDirection={"row"} >
         <Grid size={{ xs: 5 }} alignContent={"center"} container>
           <Typography className="my-event-header">My Events</Typography>
         </Grid>
@@ -197,7 +184,8 @@ const MyEventScreen = () => {
                   location={`${event?.venue?.city}, ${event?.venue?.country}`}
                   buttonPress={handleButtonPress}
                   squareButtonLabels={squareButtonLabels}
-                  onSquareButtonClick={(btnIndex: number) => handleSquareButtonClick(btnIndex, event.id)}
+                  id={event.id}
+                  onSquareButtonClick={(_btnIndex: number) => handleSquareButtonClick()}
                 />
               </Grid>
             ))}

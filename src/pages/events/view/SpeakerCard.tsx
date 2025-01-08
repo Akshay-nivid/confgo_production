@@ -453,17 +453,19 @@ const SpeakerCard = (_eventData: any) => {
           container
           justifyContent={"center"}
           alignContent={"center"}
+          size={{ xs: 12 }}
+          
         >
         <Grid size={{ xs: 12 }}>
         <DataGridList
            dataTransformer={transformData}
           source={source}
-          title="Volunteers"
+          title="Speekers"
           hideFooterPagination={false}
           columns={columns}
           id="speaker-lists"
           noRecordIcon={<NoCouponDataSvg className="no-coupon-icon"/>}
-          noRecordSubtitle="cIt looks like you haven't created any volunteer yet."
+          noRecordSubtitle="cIt looks like you haven't created any Speaker yet."
         />
       </Grid>
         </Grid>
