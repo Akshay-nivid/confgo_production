@@ -25,6 +25,7 @@ const steps = [
 interface Program {
   name: string;
   description: string;
+  totalSeat: string;
   startDate: string;  
   endDate: string;    
   startTime: string;  

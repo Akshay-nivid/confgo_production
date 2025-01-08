@@ -4,16 +4,19 @@ import Grid from "@mui/material/Grid2";
 import { Controller, useForm } from 'react-hook-form';
 import useStore from '@/Libs/store';
 import apiClient from '@/Libs/Https/API-client';
-import { processAPIResponse } from '@/Utils/CommonBaseClass';
+import { convertLocalToUTC, processAPIResponse } from '@/Utils/CommonBaseClass';
 import { Logger } from '@/Utils/Logger';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+dayjs.extend(utc);
 import CustomButton from './CustomButton/CustomButton';
 import EventFilterIcon from '@/assets/svg/EventFilterIcon.svg';
 import CustomDrawer from './CustomDrawer/CustomDrawer';
 import { CloseOutlined } from '@mui/icons-material';
+import moment from 'moment';
 
 type FilterProps = {
     datagridId: string;
@@ -60,7 +63,7 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
     const onSubmit = (data: any) => {
         const formattedData = Object.keys(data).reduce((acc: any, key: string) => {
             if (data[key] && typeof data[key] === 'object' && dayjs(data[key]).isValid()) {
-                acc[key] = dayjs(data[key]).format('YYYY-MM-DD');
+                acc[key] = convertLocalToUTC(acc[key]);
             } else {
                 acc[key] = data[key];
             }
@@ -112,10 +115,10 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
         setDateTemplate('');
         setSelectedTile('');
     }
-
+    
     const setTodaysDate = () => {
-        const currentDate = dayjs(); // Get the current date using dayjs
-        setValue("startTime", currentDate);
+        const currentDate = moment(); // Get the current local date and time
+        setValue("startTime",currentDate);
         setValue("endTime", currentDate);
         setDateTemplate('Today');
     };

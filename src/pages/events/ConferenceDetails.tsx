@@ -83,7 +83,6 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
 			sortedAcc[date] = sortedItems;
 			return sortedAcc;
 		}, {});	
-
 		/**
 		 * Separate general addons without dates from combinedData
 		 */
@@ -124,6 +123,7 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
 															titleField="name"
 															fields={[
 																	{ label: "Description", field: "description" },
+																	{ label: "Total Seats", field: "totalSeat" },
 															]}
 															hasAddOns={true}
 															startTimeField=''
@@ -157,7 +157,8 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
 										titleField="name"
 										fields={
 											[
-												{ label: "Description", field: "description" },
+												{ label: "Descriptions", field: "description" },
+												{label: "Total Seats", field: "totalSeat"},
 											]
 										}
 										startTimeField="startTime"
