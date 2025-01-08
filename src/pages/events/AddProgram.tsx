@@ -67,7 +67,6 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
           {
             name: "",
             description: "",
-            totalSeat: "",
             startDate:moment(eventData?.startTime).format("YYYY-MM-DD"),
             endDate:moment(eventData?.startTime).format("YYYY-MM-DD"),
             startTime: moment(new Date()).format("HH:mm"),
