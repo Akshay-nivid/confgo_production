@@ -6,10 +6,11 @@ import QRCode from "qrcode";
 import { Logger } from "@/Utils/Logger";
 
 interface QRCodeDisplayProps {
-  value: string; // The QR code value provided by the parent component
+  value: string; 
+  className?: string;
 }
 
-const QRCodeDisplay: React.FC<QRCodeDisplayProps> = ({ value }) => {
+const QRCodeDisplay: React.FC<QRCodeDisplayProps> = ({ value, className }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
@@ -22,7 +23,7 @@ const QRCodeDisplay: React.FC<QRCodeDisplayProps> = ({ value }) => {
   }, [value]);
 
   return (
-    <div style={{ textAlign: "center"}}>
+    <div style={{ textAlign: "center"}} className={className}>
       {value ? (
         <canvas ref={canvasRef} />
       ) : (
