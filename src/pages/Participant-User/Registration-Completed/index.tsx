@@ -54,7 +54,7 @@ const RegistrationCompleted = () => {
         display={"flex"}
         justifyContent={"center"}
       >
-        <QRCodeDisplay value={regData?.participant?.qrCode} />
+        <QRCodeDisplay value={regData?.participant?.qrCode} className="qr-code-display-section"/>
       </Grid>
 
       <Grid size={12}>
