@@ -158,6 +158,24 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
       });
     }
   };
+
+  /**
+   * Transforms the raw data from the API to match the required format for the DataGrid component.
+   * @param data - The raw data from API response
+   * @returns Transformed data for DataGrid
+   */
+  const transformData = (data: any) => {
+    if (!data) return [];
+    return data.map((item: any) => ({
+      id: item?.id,
+      name: item?.name,
+      eventClass: item?.eventClass,
+      createdOn: item?.createdOn,
+      startTime:item?.startTime,
+      statusId: item?.published === true && item?.statusId == 1 ? 6 : item?.statusId,
+    }));
+  };
+
   return (
     <Grid container className="custom-list">
       <Grid size={{ xs: 4 }}>
@@ -203,6 +221,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
       </Grid>
       <Grid size={{ xs: 12 }}>
         <DataGridList
+         dataTransformer={transformData}
           source={source}
           onRowClick={(params: any) => handleRowClick(params.id, params.row)}
           title="Event"
