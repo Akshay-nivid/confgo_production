@@ -162,8 +162,8 @@ const MyEventScreen = () => {
       {loading ? (
       <SkeletonList height={20} className="mt-4" />
       ):
-      !loading && events?.length === 0  ? (
-       <NoEvents/>
+      !loading && events?.length !== 0  ? (
+       <NoEvents description="You haven’t registered for any events yet. Explore upcoming events and secure your spot today!"  title="No Events Found"/>
         ) : (
           <Grid container size={12} mt={2} spacing={2}>
             {events?.map((event: IEvent, index:number) => (

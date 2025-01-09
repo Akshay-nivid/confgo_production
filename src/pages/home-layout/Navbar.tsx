@@ -44,7 +44,7 @@ const Navbar = () => {
                 <Link className={getLinkClassName(routes.contact())} to={routes.contact()}>
                   Contact us
                 </Link>
-                <Divider className={`nav-divider ${theme.color}`} />
+                <Divider  />
                 <Link className={getLinkClassName(routes.loginOrg())} to={routes.loginOrg()}>
                   Login
                 </Link>
