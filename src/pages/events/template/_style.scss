@@ -104,9 +104,6 @@
         &-header {
             background: url("../assets/png/template1-header.png") no-repeat center;
             background-size: cover;
-            background-repeat: no-repeat;
-            height: 59rem !important;
-            margin-bottom: 10rem;
 
             &-photo-container {
                 width: 51.6rem !important;
@@ -121,7 +118,6 @@
 
             &-container {
                 padding: 0 6rem 0 6rem;
-                // margin-top: -90px;
             }
 
             &-item {
