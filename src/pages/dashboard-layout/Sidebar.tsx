@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
 import {
@@ -17,6 +17,7 @@ import {
   UserCreateIcon,
 } from '@/assets/svg';
 import routes from '@/router/routes';
+import { clearDataById } from '@/Libs/store';
 
 interface SidebarProps {
   open: boolean;
@@ -66,6 +67,12 @@ const sidebarItems = [
  * @returns
  */
 const Sidebar: React.FC<SidebarProps> = ({ open }) => {
+  /**
+   * clear the tabValue deafult value is one
+   */
+  useEffect(()=>{
+     clearDataById("tabValue");
+  });
   const location = useLocation();
   const isActiveLink = (path: string, exact: boolean) => {
     const isActive = exact
