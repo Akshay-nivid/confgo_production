@@ -83,4 +83,9 @@
               }
         }
     }
+    &-list-status{
+        .data-grid-status{
+            margin-top: 0.8rem !important;
+        }
+    }
 }

@@ -16,6 +16,7 @@ import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import AssignedVolunteers from "./AssignedVolunteers";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
+import { NoCouponDataSvg } from "@/assets/svg";
 
 
 /**
@@ -140,7 +141,7 @@ const VolunteerListCard = () => {
           name: query,
         },
       };
-      const response = await await apiClient.post(
+      const response =  await apiClient.post(
         `user/volunteerEvent/list`,
         req
       );
@@ -267,6 +268,8 @@ const VolunteerListCard = () => {
           hideFooterPagination={false}
           columns={columns}
           id="volunteer-lists"
+          noRecordIcon={<NoCouponDataSvg className="no-coupon-icon"/>}
+          noRecordSubtitle="cIt looks like you haven't created any volunteer yet."
         />
       </Grid>
 

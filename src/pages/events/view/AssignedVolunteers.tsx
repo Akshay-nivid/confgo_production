@@ -67,13 +67,18 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
     const handleSearch = async (query: string) => {
         setLoading(true);
         try {
-            let req: any = {
-                filters: {
-                    roleEnums: ["VOLUNTEER"],
-                     name: query,
-                     companyId: companyId,
-                },
+            const filters: any = {
+                roleEnums: ["VOLUNTEER"],
+                companyId: companyId,
             };
+    
+           if (/^\d+$/.test(query)) {
+                filters.phone = query; 
+            } else {
+                filters.name = query;
+            }
+    
+            const req: any = { filters };
             const response = await await apiClient.post(
                 `user/userRole/list`,
                 req
@@ -127,7 +132,15 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
                     placeholder="Search by ID, Name or Phone ..."
                     control={control}
                     options={searchResults}
-                    getOptionLabel={(option: any) => option?.firstName || ""}
+                    getOptionLabel={(option: any) => {
+                        const name = option?.firstName || '';
+                        const email = option?.email || '';
+                        const phone = option?.phone || '';
+                        if (!name && !email && !phone) {
+                            return '';
+                        }
+                        return `${name} ${email ? `(${email})` : ''}, ${phone ? phone : ''}`;
+                    }}                   
                     onSearch={handleSearch}
                     loading={loading}
                     onChange={handleAutocompleteChange}

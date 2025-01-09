@@ -22,6 +22,8 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { validateEmail, validateMaxLength, validatePhoneNumber } from "@/Utils/Validation";
 import GoogleMapPlacePicker from "../GoogleMapPlacePicker";
 import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
+import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
+import { WarningIcon } from "@/assets/svg";
 
 
 const baseUrl = config.api.url;
@@ -71,6 +73,8 @@ const EventInfoCard: React.FC<any> = React.memo(
   const [selectedFile, setSelectedFile] = useState<any>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const companyId = sessionStorage.getItem('companyId');
+  const [isWarning, setIsWarning] = useState(false);
+  const [SubmitData, setSubmitData] = useState();
     /**
    *useEffect get specialty
    */
@@ -145,12 +149,15 @@ const EventInfoCard: React.FC<any> = React.memo(
   };
 
   /**
-   * Form submission handler that sends the updated event data to the API.
-   * @param data
+   * handles to show warning if dates are changed
    */
-  const onSubmit = async (data: any) => {
-//checks the start tima and end time
+  const onEditSubmit= (data:any)=>{
+    //checks the start tima and end time
+    const EventStart = new Date(eventData?.startTime)
+    const EventEnd = new Date(eventData?.endTime)
+
     const startTime = new Date(data.startTime);
+    setSubmitData(data)
     const endTime = new Date(data.endTime);
     if (startTime > endTime) {
       setError(`startTime`, {
@@ -159,7 +166,21 @@ const EventInfoCard: React.FC<any> = React.memo(
       });
       return
     }
+    { 
+      if( EventStart.getTime() != startTime.getTime() || EventEnd.getTime() !=endTime.getTime()){
+        setIsWarning(true)
+      }else{
+        onSubmit(data)
+      } 
+     }  
+  }
 
+  /**
+   * Form submission handler that sends the updated event data to the API.
+   * @param data
+   */
+  const onSubmit = async (data: any) => {
+    setIsWarning(false)
     // Format the date and time fields before update request.
    let excludeKeys = ['slugName','city','address','venue','country','mapUrl','postalCode','state','status','templateId','template','eventPriceTiers','eventProgramSchedules','programs','addons','eventContacts','venueId','email','phone','venueName'];
     if(data?.eventClass === "OFFLINE"){
@@ -428,7 +449,7 @@ const EventInfoCard: React.FC<any> = React.memo(
             alignItems="center"
           >
             <Typography className="event-information-edit-heading">
-              Edit Event Information
+              Edit Basic Info
             </Typography>
             <IconButton onClick={closeDrawer}>
               <CloseOutlined />
@@ -436,7 +457,7 @@ const EventInfoCard: React.FC<any> = React.memo(
           </Grid>
           <Grid size={{ xs: 12 }} mt={2}>
           <FormProvider {...methods}>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onEditSubmit)}>
               <Grid container spacing={2} direction="column">
               <Grid size={{ xs: 12, sm: 12 }} direction={'row'} container flexDirection={"row"}>
                             <Grid container direction={'row'} alignItems={'center'} justifyContent={"center"} alignContent={"center"}>
@@ -779,6 +800,18 @@ const EventInfoCard: React.FC<any> = React.memo(
           </Grid>
         </Grid>
       </CustomDrawer>
+      <CustomActionModal
+        icon={<WarningIcon className="unpublish-modal-icon" />}
+        open={isWarning}
+        onClose={() => setIsWarning(false)}
+        cancelLabel="Cancel"
+        cancelAction={() => setIsWarning(false)}
+        header="Warning"
+        subHeader="Changing the event date may require updating the program dates associated with this event."
+        submitAction={() => onSubmit(SubmitData)}
+        submitLabel="Done"
+        modalClassName="unpublish-modal"
+      />
     </Grid>
   );
 });

@@ -123,6 +123,7 @@ const LoginOrg = () => {
       setDataById('userDetails', data);
       sessionStorage.setItem('name', `${firstName} ${lastName || ''}`);
       setDataById('participantLogin', true);
+      setDataById('participantUserData', data);
     }
     navigate(roleToRouteMapper[userRole?.roleName], { replace: true });
   };

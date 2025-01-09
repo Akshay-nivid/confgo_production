@@ -67,7 +67,9 @@ type FormData = {
 };
 type ProgramProps = {
   formSubmit: boolean;
+  formDraftSubmit: boolean;
   onSubmitHandler: (event: any, type: string) => void;
+  onDraftSubmitHandler: (event: any, type: string) => void;
   onSaveHandler: (event: any, type: string) => void;
   data: any;
   addOnOptions?: any;
@@ -82,7 +84,7 @@ const typeArray = [
 
 
 const AddAddOns: React.FC<ProgramProps> = React.memo(
-  ({ formSubmit, onSubmitHandler, data, onSaveHandler ,onaddOnSubmitHandler,addOnOptions,eventData}) => {
+  ({ formSubmit, formDraftSubmit, onSubmitHandler, onDraftSubmitHandler, data, onSaveHandler ,onaddOnSubmitHandler,addOnOptions,eventData}) => {
     const { handleSubmit, control, watch, setValue,resetField,setError,setFocus} = useForm<FormData>({
 
       defaultValues: {
@@ -132,6 +134,17 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
         onSubmitHandler && onSubmitHandler(data?.savedAddOns, "ADDS");
       }
     }, [formSubmit]);
+
+    
+    /**
+     * Useeffect hook submits the form based on the formDraftSubmit variable
+     */
+    useEffect(() => {
+      if (!formDraftSubmit) return; // Short-circuit if formDraftSubmit is false
+      if (onDraftSubmitHandler) {
+        onDraftSubmitHandler(watch()?.savedAddOns, "ADDS");
+      }
+    }, [formDraftSubmit]);
 
     /**
      * Method handles the form submission

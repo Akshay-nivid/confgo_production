@@ -67,6 +67,7 @@ import AdminUsersList from "./pages/Admin-users";
 import CreateNewUsers from "./pages/Admin-users/CreateUsers";
 import VerifyUSerMailPage from "./pages/Admin-users/VerfiyUserEmail";
 import SpeakerHome from "./pages/Speaker/Home";
+import SpeakersEventDetails from "./pages/Speaker/Home/SpeakersEventDetails";
 
 
 const userRoutes = [
@@ -168,6 +169,10 @@ const userRoutes = [
         path: routes.speakerHome(),
         element: <SpeakerHome />,
       },
+      {
+        path: routes.speakerDetails(":id"),
+        element: <SpeakersEventDetails />,
+      },
     ]
   },
   {
@@ -252,6 +257,10 @@ const router = createBrowserRouter([
       },
       {
         path: routes.createEvent(),
+        element: <Events  />,
+      },
+      {
+        path: routes.editDraftEvent(":id"),
         element: <Events  />,
       },
       {
