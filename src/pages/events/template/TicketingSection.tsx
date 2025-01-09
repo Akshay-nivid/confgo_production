@@ -131,7 +131,7 @@ const TicketingSection = React.memo(
         return <Grid ref={ref} container size={{ xs: 12, sm: 12 }} className={`${classPrefix}`} justifyContent={'center'} alignItems={'center'} spacing={2} direction={'column'}>
             <Grid><Typography className={`${classPrefix}-title`}>Registration & Ticketing</Typography></Grid>
 
-            <Grid className={'anim-container'} container spacing={2}>
+            <Grid className={`${classPrefix}-anim-container`} container spacing={2} justifyContent={'center'} alignContent={'center'}>
                 {
                     Object.keys(amountCalculatedData)
                         .map((participantType: any) => {
