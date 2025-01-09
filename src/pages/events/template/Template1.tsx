@@ -24,7 +24,7 @@ import TimeComponent from './TimeComponent';
 import TitleComponent from './TitleComponent';
 import DescriptionComponent from './DescriptionComponent';
 import CustomButton from '@/components/CustomButton/CustomButton';
-import ClockIcon from '@/assets/svg/template1-clock.svg';
+import ClockIcon from '@/assets/svg/template1-clock-white.svg';
 
 
 type TemplateViewProps = {
