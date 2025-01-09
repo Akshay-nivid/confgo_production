@@ -12,7 +12,7 @@ import RegisterBannerSection from './RegisterBannerSection';
 import TopMenuSection from './TopMenuSection';
 import TitleSection from './TitleSection';
 import Temp1PhotoIcon from '@/assets/png/template1-photo.png';
-import { formatDateRange, toTitleCase, truncateString } from '@/Utils/CommonBaseClass';
+import { formatDateRange, groupByDate, toTitleCase, truncateString } from '@/Utils/CommonBaseClass';
 import LocationIcon from '@/assets/svg/template1-location.svg';
 import CalendarIcon from '@/assets/svg/template1-calendar.svg';
 import EmailIcon from '@/assets/svg/template1-email.svg';
@@ -85,20 +85,6 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     };
 
     const [selectedDate, setSelectedDate] = useState<string>('');
-
-    // Function to group items by date and sort by start time
-    const groupByDate = (items: any[]) => {
-      const sortedItems = [...items].sort((a, b) =>
-        moment(a.startTime).valueOf() - moment(b.startTime).valueOf()
-      );
-    
-      return sortedItems.reduce((acc: any, item: any) => {
-        const date = moment(item.startTime).format('YYYY-MM-DD');
-        if (!acc[date]) acc[date] = [];
-        acc[date].push(item);
-        return acc;
-      }, {});
-    };
     
     // Group and sort `programs` and `addons` by date
     const groupedPrograms = useMemo(() => groupByDate(data.programs), [data.programs]);
@@ -111,12 +97,12 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     
       // Add type to distinguish between programs and addons
       const combined = [
-        ...programs.map((program:any) => ({ ...program, type: 'program' })),
-        ...addons.map((addon:any) => ({ ...addon, type: 'addon' })),
+        ...programs?.map((program:any) => ({ ...program, type: 'program' })),
+        ...addons?.map((addon:any) => ({ ...addon, type: 'addon' })),
       ];
     
       // Sort by start time
-      return combined.sort((a, b) => moment(a.startTime).valueOf() - moment(b.startTime).valueOf());
+      return combined?.sort((a, b) => moment(a.startTime).valueOf() - moment(b.startTime).valueOf());
     }, [groupedPrograms, groupedAddons, selectedDate]);
     
     // Set default selected date
@@ -157,7 +143,7 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                             index === 2
                                                 ? `${classPrefix}-details-index-box`
                                                 : `${classPrefix}-details-box`
-                                        } container size={{ xs: 12, sm: 3 }} direction={'column'} justifyContent={'flex-start'} alignItems={'flex-start'} columnGap={"2rem"}>
+                                        } container size={{ xs: 12, sm: 12, md: 6, lg:3   }} direction={'column'} justifyContent={'flex-start'} alignItems={'flex-start'} columnGap={"2rem"}>
                                             <Grid className={
                                                 index === 2
                                                     ? `${classPrefix}-details-index-icon`
@@ -196,12 +182,12 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
         <Grid container size={{ xs: 12, sm: 12 }} spacing={2} mb={10} ref={programRef}>
           <Grid size={{xs:12}} justifyContent={'center'} mt={{xs:2,sm:4}}><Typography className={`${classPrefix}-program-schedule-heading`}>Conference Program Schedule</Typography></Grid>
           <Grid container size={{xs:12}} justifyContent={'center'} alignItems="center" mb={{xs:2,sm:3}}>
-            <Box className={`${classPrefix}-program-schedule-date`}>Event Start Date : {moment(data?.startTime).format('DD, MM, YYYY')}</Box>
+            <Box className={`${classPrefix}-program-schedule-date`}>Event Start Date : {moment(data?.startTime)?.format('DD, MM, YYYY')}</Box>
           </Grid>
           <Grid className={`${classPrefix}-program-tabs-container`}>
             <Box className={`${classPrefix}-program-tabs-box`}>
               <Grid className={`${classPrefix}-program-tabs-list`} size={{ xs: 12, sm: 12 }}>
-                {Object.keys(groupedPrograms).map((date, index) => (
+                {Object.keys(groupedPrograms)?.map((date, index) => (
                   <CustomButton
                     key={index}
                     onClick={(event) => handleTabChange(event, date)}
@@ -213,9 +199,9 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
             </Box>
           </Grid>
           <Grid container spacing={3} className={`${classPrefix}-program-content-container`} mt={2} direction="column" alignContent={'center'} size={{ xs: 12, sm: 12 }}>
-            {combinedAndSortedItems.map((item: any, index: number) => (
+            {combinedAndSortedItems?.map((item: any, index: number) => (
               <Grid size={{ xs: 11 }} justifyContent={'center'}  pl={{xs:2,md:4}} p={2} key={index} 
-                className={`${classPrefix}-program-content-item ${item.type === 'program' ? `${classPrefix}-program-content-item-program` : `${classPrefix}-program-content-item-addon`}`}
+                className={`${classPrefix}-program-content-item ${item?.type === 'program' ? `${classPrefix}-program-content-item-program` : `${classPrefix}-program-content-item-addon`}`}
               >
                 <Grid container alignItems="center" spacing={3}>
                   {/* Time Block */}
@@ -225,8 +211,8 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                     </Grid>
                     <Grid size={{ xs: 10 }}>
                       <TimeComponent
-                        startTime={item.startTime}
-                        endTime={item.endTime}
+                        startTime={item?.startTime}
+                        endTime={item?.endTime}
                         classPrefix={`${classPrefix}-program-content-time-value`}
                       />
                     </Grid>
@@ -234,11 +220,11 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                   {/* Content Block */}
                   <Grid size={{ xs: 9 }} className={`${classPrefix}-program-content-details-${item.type === 'program' ? 'program' : 'addon'}`}>
                     <TitleComponent
-                      title={item.type === 'program' ? item.name : item.addon.name}
+                      title={item?.type === 'program' ? item?.name : item?.addon?.name}
                       classPrefix={`${classPrefix}-program-content-title`}
                     />
                     <DescriptionComponent
-                      description={item.description}
+                      description={item?.description}
                       classPrefix={`${classPrefix}-program-content-description`}
                     />
                   </Grid>

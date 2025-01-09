@@ -1,3 +1,8 @@
+/**
+ * TimeComponent
+ * component that formats and displays a time range (start time to end time). 
+ * The component determine if the start and end times fall on the same day and adjusts the display format.
+ */
 import React from 'react';
 import { Typography } from '@mui/material';
 import moment from 'moment';

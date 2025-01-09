@@ -311,3 +311,20 @@ export function convertLocalToUTC(localTime:any, format = 'YYYY-MM-DD') {
   const utcTime = localMoment.utc();
   return utcTime.format(format);
 }
+
+/**
+ * A function that groups an array of items by their start date. 
+ * Items are first sorted by their `startTime` in ascending order, 
+ * then grouped by the formatted start date (`YYYY-MM-DD`).
+ * @param - items : An array of objects, each containing a `startTime` property.
+ */
+export const groupByDate = (items: any[]): Record<string, any[]> => {
+  const sortedItems = [...items].sort((a, b) => moment(a.startTime).valueOf() - moment(b.startTime).valueOf());
+
+  return sortedItems.reduce((acc: Record<string, any[]>, item: any) => {
+    const date = moment(item.startTime).format("YYYY-MM-DD");
+    if (!acc[date]) acc[date] = [];
+    acc[date].push(item);
+    return acc;
+  }, {});
+};

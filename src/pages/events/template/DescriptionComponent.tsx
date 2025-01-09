@@ -1,3 +1,10 @@
+/**
+ * DescriptionComponent
+ * component to display a description with a custom class prefix for styling.
+ * Props:
+ * - `description` (string): The description text to display.
+ * - `classPrefix` (string): The CSS class prefix for styling.
+ */
 import React from 'react';
 import { Typography } from '@mui/material';
 
