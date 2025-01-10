@@ -139,7 +139,6 @@ const ProgramSelection = () => {
    */
   function handleClickNextButton(formData: any) {
 
-    console.log(formData, 'formData');
 
     try {
 
