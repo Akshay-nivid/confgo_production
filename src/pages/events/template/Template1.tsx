@@ -139,11 +139,9 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                             <Grid size={{ xs: 12, sm: 12 }} container className={`${classPrefix}-details-item`} spacing={1}>
                                 {
                                     itemArray?.map((item: any, index: number) => {
-                                        return <Grid className={
-                                            index === 2
-                                                ? `${classPrefix}-details-index-box`
-                                                : `${classPrefix}-details-box`
-                                        } container size={{ xs: 12, sm: 12, md: 6, lg:3   }} direction={'column'} justifyContent={'flex-start'} alignItems={'flex-start'} columnGap={"2rem"}>
+                                        return <Grid className={`${classPrefix}-details-box ${
+                                          index === 2 ? `${classPrefix}-details-index-box` : ""
+                                        } ${index === 0 ? `${classPrefix}-details-border-line` : ""}`} container size={{ xs: 12, sm: 12, md: 6, lg:3   }} direction={'column'} justifyContent={'flex-start'} alignItems={'flex-start'} columnGap={"2rem"}>
                                             <Grid className={
                                                 index === 2
                                                     ? `${classPrefix}-details-index-icon`
@@ -152,7 +150,6 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                             <Grid><Typography className={`${classPrefix}-details-label`}>{item.label}</Typography></Grid>
                                             <Grid><Typography className={`${classPrefix}-details-value`} textAlign={'left'}> {truncateString(toTitleCase(item.value), 35, "Untitled")}
                                             </Typography></Grid>
-                                            {index === 0 ? (<Grid className={`${classPrefix}-details-border-line`} />) : null}
                                         </Grid>
                                     })
 
