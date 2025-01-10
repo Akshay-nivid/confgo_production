@@ -421,7 +421,7 @@ const SpeakerCard = (_eventData: any) => {
                   Speakers
                 </Typography>
               </Grid>
-              <Grid height={"100%"}>
+              <Grid>
                 <CustomButton
                   className="custom-green-btn"
                   label="ASSIGN"
@@ -429,7 +429,7 @@ const SpeakerCard = (_eventData: any) => {
                   startIcon={<AddIcon />}
                   size="large"
                 />
-                
+
               </Grid>
             </Grid>
             <Grid container mt={2}></Grid>
