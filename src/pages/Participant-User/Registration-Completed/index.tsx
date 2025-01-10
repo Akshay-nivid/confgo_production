@@ -14,7 +14,7 @@ const RegistrationCompleted = () => {
   const finalPrice = useStore((state: any) => state?.compData?.["finalPrice"]?.value)
   const slugName = useStore((state: any) => state?.compData?.["slugName"]?.value)
   const orderData = useStore((state: IStoreState) => state?.compData?.["order"]?.["order"]?.data) || null
-  const isCheckout = useStore((state: IStoreState) => state?.compData?.checkout?.checkout) || false 
+  const isCheckout = useStore((state: IStoreState) => state?.compData?.cartCheckout?.checkout) || false 
   const couponData = useStore((state: IStoreState) => state?.compData?.["couponData"]?.['coupon/applyCoupon']?.data) ?? null
 
 
@@ -22,7 +22,12 @@ const RegistrationCompleted = () => {
   if (isCheckout === false) {
 
     if (!slugName) {
-      return <Navigate to={routes.userLogin()} />;
+
+      const token = sessionStorage.getItem("token")
+      if (!token) {
+        return <Navigate to={routes.userLogin()} />;
+      }
+      return <Navigate to={routes.userHome()} />;
     }
     return <Navigate to={routes.eventExternalLink(slugName)} />
   }

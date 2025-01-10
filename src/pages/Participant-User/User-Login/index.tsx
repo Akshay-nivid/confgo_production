@@ -81,6 +81,7 @@ const UserLogin = (props: UserProps) => {
     sessionStorage.setItem('isUserLoggedIn', 'true');
     sessionStorage.setItem('userRole', data?.userRole?.roleName);
     sessionStorage.setItem('name', `${data?.firstName} ${data?.lastName}`);
+    sessionStorage.setItem('cartId',data?.cartId)
     setDataById('participantLogin', true);
     setDataById('participantUserData', data);
     apiClient.setToken(data.token);

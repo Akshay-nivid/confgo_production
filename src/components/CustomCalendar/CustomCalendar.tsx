@@ -10,6 +10,7 @@ import LocalTimeDate from "../LocalTimeDate/LocalTimeDate";
 import { truncateString } from "@/Utils/CommonBaseClass";
 import multiMonthPlugin from '@fullcalendar/multimonth'
 
+
 interface CalendarProps {
   id?: string;
   events: Array<{
@@ -100,15 +101,23 @@ export const CustomCalendar: React.FC<CalendarProps> = ({
     const truncatedTitle = truncateString(eventInfo.event.title, 15, "");
 
     const getEventStyles = (bg: string, text: string, border: string) => ({
-      textAlign: "center",
-      paddingLeft: ".5rem",
+      textAlign: "start",
+      // paddingLeft: ".5rem",
+      paddingInline: ".5rem",
+      width:"max-content",
       fontWeight: "700",
       backgroundColor: bg,
       color: text,
       border: `0.2rem solid ${border}`,
-      borderRadius: "0.91rem",
-      display: "grid",
-      gridTemplateColumns: "repeat(7, 1fr)",
+      borderRadius: "0.4rem",
+      minHeight: "3rem",
+      // display: "grid",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      marginBottom: "1rem",
+      marginInline: "0.5rem",
+      // gridTemplateColumns: "repeat(7, 1fr)",
     });
   
     return (
@@ -117,7 +126,7 @@ export const CustomCalendar: React.FC<CalendarProps> = ({
         container
         style={{
           ...getEventStyles(bg, text, border), 
-          textAlign: "center",
+          textAlign: "start",
         }}
       >
         <Grid justifyContent={"center"} alignContent={"center"}>
@@ -141,39 +150,66 @@ export const CustomCalendar: React.FC<CalendarProps> = ({
               </Typography>
             }
             <Grid >
-            <Typography className="calendar-titles">
-              {truncatedTitle}
-            </Typography></Grid>
+            <Typography className="calendar-titles flex whitespace-normal text-wrap">
+                {/* {truncatedTitle} */}
+              {  eventInfo.event.title}
+              </Typography>
+            </Grid>
           </CustomTooltip>
         </Grid> </Grid>
     );
   };
  
  return (
-    <Grid id={id}>
-      <FullCalendar
+    <Grid id={id} className="calendar-wrapper">
+     <FullCalendar
+      
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin,multiMonthPlugin]}
         initialView="dayGridMonth" 
         events={currentView === "dayGridMonth" || currentView === "dayGridYear" ? events : programs}
         viewDidMount={(viewInfo: any) => setCurrentView(viewInfo.view.type)}
         dateClick={(info: any) => setSelectedDate(new Date(info.date))}
         eventClick={handleEventClick}
-        datesSet={handleDateChange}
+       datesSet={handleDateChange}
+       multiMonthMaxColumns={2} 
+       dayMaxEvents={1}
+       dayMaxEventRows={1}
+       
         headerToolbar={{
           left: "prev,next today",
           center: "title",
-          right: "dayGridYear,dayGridMonth,timeGridWeek,timeGridDay",
-        }}
-        views={{
-          multiMonthYear: {
-            type: "multiMonth",
-            duration: { months: 12 }, // Display 12 months
-            buttonText: "Year", // Custom button text
-          },
-        }}
+          right: "multiMonthFourMonth,dayGridMonth,timeGridWeek,timeGridDay",
+       }}
+       views={{
+          multiMonthFourMonth: {
+            
+            type: 'multiMonth',
+            duration: { months: 12 },
+           buttonText: 'year',  
+            dayMaxEventRows: 1,
+         },
+         timeGridWeek: {
+          dayMaxEventRows: 1,
+           eventMaxStack: 1,
+          allDayText: 'week'
+         },
+         timeGridDay: {
+          dayMaxEventRows: 12,
+           eventMaxStack: 1,
+          allDayText: 'Day'
+         },
+       }}
+       dayHeaderFormat={{ weekday: currentView === 'dayGridMonth'?'long':'short' }}
+       
+      
         initialDate={selectedDate}
         eventContent={renderEventContent}
       />
     </Grid>
   );
 };
+
+
+
+
+

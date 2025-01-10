@@ -8,13 +8,14 @@ import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Navigate, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
-import {  handleClickBackButton, handleGroupData, processFormData, toggleProgramCheckboxesByDate, validateAddon } from "./programsHandlers";
+import { handleClickBackButton, handleGroupData, processFormData, toggleProgramCheckboxesByDate, validateAddon, validateAddonWithNoProp, validatePrograms } from "./programsHandlers";
 import clsx from "clsx";
 import AddonCard from "../Components/AddonCard";
 import Programcard from "../Components/Programcard";
 import parse from 'html-react-parser';
 import LocalTimeDate from "@/components/LocalTimeDate/LocalTimeDate";
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+import { getUserCart } from "@/pages/events/template/programHandler";
 
 
 export interface IProgram {
@@ -79,6 +80,7 @@ const ProgramSelection = () => {
 
   const [currentTab, setCurrentTab] = useState(0);
 
+  const formattedCartData = useStore((state: any) => state?.compData?.formatedCartDat?.formatedData) || null;
 
   /**
     * Method used to call event details Api
@@ -127,6 +129,9 @@ const ProgramSelection = () => {
 
 
 
+  function handleNavigate() {
+    navigate(routes.selectedPrograms())
+}
 
   /**
    * method to handle submission of form, triggers add selected properties to cart api 
@@ -135,106 +140,113 @@ const ProgramSelection = () => {
    */
   function handleClickNextButton(formData: any) {
 
+    console.log(formData, 'formData');
 
     try {
+
       validateAddon(formData)
+
       setDataById('defaultProgramData', { formData: formData }) // storing form data for setting default values in next screen 
 
 
-    const body = processFormData(formData, eventId, participantTypeId) // processing form data to match cart api body format
+      const body = processFormData(formData, eventId, participantTypeId) // processing form data to match cart api body format
 
-    const selectedPrograms = body.programIds || null;
+      const selectedPrograms = body.programIds || null;
 
 
-    if (selectedPrograms.length === 0 || selectedPrograms === undefined || !selectedPrograms) {
+      validatePrograms(selectedPrograms)
 
-      setDataById("snackBarInfo", {
-        open: true,
-        autoHideDuration: 2000,
-        severity: "error",
-        message: 'Please select at least one program and addon property',
+
+      validateAddonWithNoProp(body?.addons)
+
+
+// if (selectedPrograms.length === 0 || selectedPrograms === undefined || !selectedPrograms) {
+
+      //   setDataById("snackBarInfo", {
+      //     open: true,
+      //     autoHideDuration: 2000,
+      //     severity: "error",
+      //     message: 'Please select at least one program and addon property',
+      //   })
+
+      //   return
+      // }
+
+      // const addonsWithNoAddonProp = body?.addons && body?.addons.some((addon: any) => {
+
+      //   return addon?.propertyIds !== undefined && addon?.propertyIds?.length === 0
+
+      // })
+
+
+      // if (addonsWithNoAddonProp) {
+      //   setDataById("snackBarInfo", {
+      //     open: true,
+      //     autoHideDuration: 2000,
+      //     severity: "error",
+      //     message: 'Please select at least one property for each selected addon.',
+      //   });
+      //   return;
+      // }
+
+      POST({
+        url: 'cart',
+        body: body,
+        id: 'addToCart',
+
+        successCB: (data: any) => {
+
+          const cartID = data?.data?.id
+
+          getUserCart({helperFn: handleNavigate,cartID:cartID}) 
+
+          // GET({
+          //   url: `cart/${cartID}`,
+          //   id: 'getCart',
+          //   successCB: (response: any) => {
+
+          //     const formatedData = handleGroupData({
+          //       addons: response?.data?.addons,
+          //       programs: response?.data?.programs,
+          //       calculateTotal: true
+          //     })
+
+          //     setDataById("finalPrice", { value: response?.data?.cart?.finalPrice })
+
+          //     setDataById("formatedCartData", { formatedData: formatedData }) // storing data after formatting for mapping in ui
+
+          //     navigate(routes.selectedPrograms());
+
+          //   },
+          //   errorCB: (error: any) => {
+
+          //     setDataById("snackBarInfo", {
+          //       open: true,
+          //       autoHideDuration: 2000,
+          //       severity: "error",
+          //       message: error?.message || 'something went wrong',
+          //     })
+
+          //   }
+          // })
+
+        },
+        errorCB: (error: any) => {
+
+          setDataById("snackBarInfo", {
+            open: true,
+            autoHideDuration: 2000,
+            severity: "error",
+            message: error?.message,
+          });
+
+        }
       })
-
-      return
-    }
-
-
-    const addonsWithNoAddonProp = body?.addons && body?.addons.some((addon: any) => {
-
-      return addon?.propertyIds !== undefined && addon?.propertyIds?.length === 0
-
-    })
-
-
-    if (addonsWithNoAddonProp) {
-      setDataById("snackBarInfo", {
-        open: true,
-        autoHideDuration: 2000,
-        severity: "error",
-        message: 'Please select at least one property for each selected addon.',
-      });
-      return;
-    }
-
-    POST({
-      url: 'cart',
-      body: body,
-      id: 'addToCart',
-
-      successCB: (data: any) => {
-
-        const cartID = data?.data?.id
-
-        GET({
-          url: `cart/${cartID}`,
-          id: 'getCart',
-          successCB: (response: any) => {
-
-            const formatedData = handleGroupData({
-              addons: response?.data?.addons,
-              programs: response?.data?.programs,
-              calculateTotal: true
-            })
-
-            setDataById("finalPrice", { value: response?.data?.cart?.finalPrice })
-
-            setDataById("formatedCartData", { formatedData: formatedData }) // storing data after formatting for mapping in ui
-
-            navigate(routes.selectedPrograms());
-
-          },
-          errorCB: (error: any) => {
-
-            setDataById("snackBarInfo", {
-              open: true,
-              autoHideDuration: 2000,
-              severity: "error",
-              message: error?.message || 'something went wrong',
-            })
-
-          }
-        })
-
-      },
-      errorCB: (error: any) => {
-
-        setDataById("snackBarInfo", {
-          open: true,
-          autoHideDuration: 2000,
-          severity: "error",
-          message: error?.message,
-        });
-
-      }
-    })
     } catch (e: any) {
 
       snackBar({ severity: "error", message: e?.message || "pleas", autoHideDuration: 3000 })
     }
 
-
-
-    
   }
 
 
@@ -368,7 +380,7 @@ const ProgramSelection = () => {
 
                       {programs.addons?.map((addon: any) => {
 
-                       
+
 
                         return (
                           <>
