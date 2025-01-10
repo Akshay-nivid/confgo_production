@@ -4,8 +4,8 @@ import EditIcon from "@/assets/svg/event-edit.svg";
 import AddIcon from "../../../assets/svg/event-addon-icon.svg"; // Importing the icon to display next to the start time
 import Grid from "@mui/material/Grid2";
 import { DeleteContributorIcon, WarningIcon} from "@/assets/svg";
-import moment from "moment";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
+import { getLocalTimeDate } from "@/Utils/CommonBaseClass";
 
 interface FieldConfig {
   label: string;
@@ -21,6 +21,7 @@ interface SessionCardProps {
   endTimeField: string;
   hasAddOns?: boolean;
   optionsData?:[];
+  timeCorrection?: boolean;
   onDeleteClick?: (item: any) => void;
 }
 
@@ -41,6 +42,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
   endTimeField,
   hasAddOns = false,
   optionsData,
+  timeCorrection,
   onDeleteClick,
 }) => {
 
@@ -55,32 +57,6 @@ const SessionCard: React.FC<SessionCardProps> = ({
     return path.split('.').reduce((acc, key) => acc?.[key], obj);
   };
 
-  /**
-   * Check the formate of the satetime and according to it convert to hh:mm format and add the current time with 5.30 hrs
-   * @param time 
-   * @returns 
-   */
-function formatTime(time: string): string {
-  if (time.includes('T')) {
-    // Handle ISO 8601 format (e.g., 2024-11-26T06:27:00.000Z)
-    const date = new Date(time);
-
-    // Add 5:30 hours
-    date.setHours(date.getHours() + 5);
-    date.setMinutes(date.getMinutes() + 30);
-
-    return date.toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: true,
-      timeZone: 'UTC', // Optionally, use a fixed time zone like 'Asia/Kolkata'
-    });
-  } else {
-    // Handle non-ISO formats with Moment.js
-    const adjustedMoment = moment(time, "HH:mm").add(5, 'hours').add(30, 'minutes');
-    return adjustedMoment.format("h:mm A");
-  }
-}
 
   /**
   * render the selected addon property label from it's value using useMemo
@@ -109,8 +85,8 @@ function formatTime(time: string): string {
               {hasAddOns && (
                 <AddIcon fontSize="small"  />
               )}
-              {item[startTimeField]&&item[endTimeField]?<><span>{formatTime(item[startTimeField])}</span>
-              <span>{formatTime(item[endTimeField])}</span></>:<span>General Addon</span>}
+              {item[startTimeField]&&item[endTimeField]?<><span>{timeCorrection ? getLocalTimeDate(item[startTimeField]) : item[startTimeField]}</span>
+              <span>{timeCorrection ? getLocalTimeDate(item[endTimeField]) : item[endTimeField]}</span></>:<span>General Addon</span>}
             </Box>
           </Typography>
         </div>
