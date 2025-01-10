@@ -122,7 +122,7 @@ const VolunteerListCard = () => {
         `user/volunteerEvent/list`,
         req
       );
-      const { status, data } = await processAPIResponse(
+      const { status, data } = processAPIResponse(
         response,
         "eventPartcipantList"
       );

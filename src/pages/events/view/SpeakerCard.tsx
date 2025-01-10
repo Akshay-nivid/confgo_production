@@ -192,7 +192,7 @@ const SpeakerCard = (_eventData: any) => {
               open: true,
               autoHideDuration: 2000,
               severity: "success",
-              message: "Contributor Added Successfully",
+              message: "Speaker Added Successfully",
             });
           }
         },
@@ -423,12 +423,14 @@ const SpeakerCard = (_eventData: any) => {
               </Grid>
               <Grid>
                 <CustomButton
-                  className="event-detail-speakers-card-speaker-add-button"
+                  className="event-detail-speakers-card-speaker-assign-button"
                   variant="outlined"
-                  label="Add"
+                  label="Assign"
                   onClick={handleDrawerOpen}
                   startIcon={<AddIcon />}
+                  size="large"
                 />
+
               </Grid>
             </Grid>
             <Grid container mt={2}></Grid>

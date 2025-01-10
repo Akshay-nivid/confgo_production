@@ -49,6 +49,8 @@ interface BasicTimePickerProps {
   control: Control<any>;
   type: string;
   defaultValue?:string;
+  onValueChange?: (hasChanged: boolean, value: string | null) => void; // Callback to inform about changes
+
 }
 
 const CustomTimePicker: React.FC<BasicTimePickerProps> = React.memo(({ 
@@ -57,15 +59,29 @@ const CustomTimePicker: React.FC<BasicTimePickerProps> = React.memo(({
   label, 
   className, 
   ampm = true ,
-  defaultValue
+  defaultValue,
+  onValueChange,
 }) => {
   const [value, setValue] = useState<Dayjs | null>(null);
+
   useEffect(() => {
     if (defaultValue) {
-      const parsedTime =  dayjs(defaultValue); 
-      setValue(parsedTime);
+      const format = ampm ? "hh:mm A" : "HH:mm"; // Use appropriate format
+      const parsedTime = dayjs(defaultValue, format); // Parse with format
+      setValue(parsedTime.isValid() ? parsedTime : null); // Ensure validity
     }
-  }, [defaultValue]);
+  }, [defaultValue, ampm]);
+
+  //Checking the default value changed or not
+  const handleChange = (newValue: Dayjs | null) => {
+    const formattedTime = newValue?.format("HH:mm") || null; // Format the time or set null
+    setValue(newValue);
+
+    // Notify parent about the change
+    if (onValueChange) {
+      onValueChange(formattedTime !== defaultValue, formattedTime);
+    }
+  };
 
   const memoizedTimePicker = useMemo(
     () => (
@@ -80,6 +96,7 @@ const CustomTimePicker: React.FC<BasicTimePickerProps> = React.memo(({
           onChange={(newValue: Dayjs | null) =>{
             const formattedTime = newValue?.format("HH:mm"); 
             field.onChange(formattedTime)
+            handleChange(newValue); 
              setValue(newValue)}}
              value={value}
           ampm={ampm}

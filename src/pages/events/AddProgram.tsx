@@ -562,7 +562,7 @@ let eventEndDateObj = new Date(eventEndDate)
                                     <CustomButton
                                       className="add-program-save-btn"
                                       onClick={handleSaveNewPrograms}
-                                      label="Save"
+                                      label={(watch("savedPrograms")?.length > 0 && watch("savedPrograms")?.[0]?.name) ? "Add More": "Add Program"}
                                       variant="contained"
                                       size="large"
                                     />

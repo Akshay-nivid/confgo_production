@@ -101,7 +101,7 @@ const RegistrationCompleted = () => {
           label="Back to Home"
           className="back-to-home-btn"
           onClick={() => {
-            navigate(routes.userHome(), { replace: true });
+            navigate(routes.userHome());
           }}
         />
       </Grid>

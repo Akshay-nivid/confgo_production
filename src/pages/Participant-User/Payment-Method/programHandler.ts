@@ -1,4 +1,5 @@
 import  { POST, setDataById } from "@/Libs/store";
+import { Logger } from "@/Utils/Logger";
 
 /**
  * Handles the processing of the cart for the user.
@@ -17,7 +18,10 @@ export function handleCartProcessing({ helperFn,grandTotal,orderId,eventId }: {g
     try {
 
 
-        if (!orderId || !eventId || orderId === undefined || eventId === undefined || !grandTotal || grandTotal === undefined) throw new Error('Either order id, grand total or event id is missing')
+        if (!orderId || !eventId || orderId === undefined || eventId === undefined || !grandTotal || grandTotal === undefined) {
+          Logger.error('Either order id, grand total or event id is missing')
+          return
+        }
 
 
         if (parseFloat(grandTotal) === 0 ) {
@@ -39,22 +43,23 @@ export function handleCartProcessing({ helperFn,grandTotal,orderId,eventId }: {g
                 id: 'cartCheckout',
                 body: body,
                 successCB: (context: any) => {
-                    console.log(context,'checkout data')
                     helperFn('/user/event-registration-completed')
                     setDataById('registrationCompleteData', context?.data)
 
                 },
                 errorCB: (error) => {
-                    console.log(error)
+                    Logger.error(error)
                 }
             })
 
+        }else{
+            helperFn('/user/payment')
         }
-        helperFn('/user/payment')
 
 
     } catch (error) {
-        console.log(error)
+        Logger.error(error)
+
     }
 
 
