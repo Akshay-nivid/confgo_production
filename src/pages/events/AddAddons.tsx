@@ -650,7 +650,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     <CustomButton
                                       className="add-program-save-btn"
                                       onClick={handleSaveNewPrograms}
-                                      label="Save"
+                                      label={(watch("savedAddOns")?.length > 0 && watch("savedAddOns")?.[0]?.addonId) ? "Add More": "Add"}
                                       variant="contained"
                                       size="large"
                                     />
