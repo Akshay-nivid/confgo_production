@@ -10,7 +10,7 @@ import moment from "moment";
 import { useFieldArray } from "react-hook-form";
 import AddIcon from "@mui/icons-material/Add";
 import apiClient from "@/Libs/Https/API-client";
-import { processAPIResponse } from "@/Utils/CommonBaseClass";
+import { getLocalTimeDate, processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import { useParams } from "react-router-dom";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
@@ -88,8 +88,8 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
   const addonProperties = watch("properties");
 
   const buttonDisbaled = !isAddon || !isDescription || addonProperties === undefined || addonProperties?.length === 0;
-
-
+  const [endTimeChanged, setEndTimeChanged] = useState(false);
+  const [startTimeChanged, setStartTimeChanged] = useState(false);
   const { fields, remove, append } = useFieldArray({
     control,
     name: "properties",
@@ -139,8 +139,8 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
       setSelectedAddOnId(selectedAddOn?.addon?.id);
       setValue("description", selectedAddOn?.description);
       setValue("addonDate", moment(selectedAddOn?.startTime).format("YYYY-MM-DD"));
-      setValue("startTime", moment.utc(selectedAddOn?.startTime).format("HH:mm A"));
-      setValue("endTime", moment.utc(selectedAddOn?.endTime).format("HH:mm A"));
+      setValue("startTime", startTimeChanged ? moment.utc(selectedAddOn?.startTime).format("HH:mm A") : getLocalTimeDate(selectedAddOn?.startTime));
+      setValue("endTime", endTimeChanged? moment.utc(selectedAddOn?.endTime).format("HH:mm A") : getLocalTimeDate(selectedAddOn?.endTime));
       setValue("isPaid", selectedAddOn.amount > 0 ? "PAID" : "FREE");
       setValue("amount", selectedAddOn.amount);
       setValue("dateRequired", !!selectedAddOn?.endTime);
@@ -332,7 +332,10 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
                 control={control}
                 type="time"
                 ampm={true}
-                defaultValue={moment.utc(selectedAddOn?.startTime).format("HH:mm A")}
+                defaultValue={getLocalTimeDate(selectedAddOn?.startTime)}
+                onValueChange={() => {
+                  setStartTimeChanged(true)
+                }}
                 />
             </Grid>
             <Grid size={{ xs: 6 }}>
@@ -343,7 +346,10 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
                 control={control}
                 type="time"
                 ampm={true}
-                defaultValue={moment.utc(selectedAddOn?.endTime).format("HH:mm A")}
+                defaultValue={getLocalTimeDate(selectedAddOn?.endTime)}
+                onValueChange={() => {
+                  setEndTimeChanged(true)
+                }}
               />
             </Grid>
           </>
