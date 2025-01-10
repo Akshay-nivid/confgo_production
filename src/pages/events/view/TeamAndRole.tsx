@@ -43,7 +43,7 @@ const TeamAndRole=(data:any)=>{
         </AccordionDetails>}
       </Accordion>
       </Grid>
-      {data?.eventData?.specialtyId===1&&
+      {data?.eventData?.isAbstract===1&&
       <Grid size={12}>
       <Accordion className="accordion-container-box">
         <AccordionSummary
@@ -59,7 +59,8 @@ const TeamAndRole=(data:any)=>{
           <AbstractReviewer /> 
         </AccordionDetails>
       </Accordion>
-      </Grid>}
+      </Grid>
+       } 
       <Grid size={12}>
       <Accordion  className="accordion-container-box">
         <AccordionSummary

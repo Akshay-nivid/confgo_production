@@ -5,7 +5,7 @@
  */
 
 import { useCallback, useEffect, useState } from "react";
-import { Typography,Avatar } from "@mui/material";
+import { Typography,Avatar, Divider } from "@mui/material";
 import { useParams } from "react-router-dom";
 import apiClient from "@/Libs/Https/API-client";
 import Grid from "@mui/material/Grid2";
@@ -43,7 +43,7 @@ const UserDetail: React.FC = React.memo(() => {
   const [userdetailData,setuserdetailData]=useState()
   const [programs, setPrograms] = useState<Program[]>([]);
   const baseUrl = config.api.url;
-
+  const [mode,setMode]=useState<any>('')
   useEffect(() => {
     eventParticipantList();
   }, [id]);
@@ -55,27 +55,31 @@ const UserDetail: React.FC = React.memo(() => {
     try {
       const response = await apiClient.get(`/participant/${id}`);
       if (response.data.status === "Success") {
-        const data = response.data.data;
-        setuserdetailData(data)
+        
+        const data = response?.data?.data;
+        const eventMode=data?.details?.event;
+        
+        setMode(eventMode);  
+        setuserdetailData(data);
 
         const userData = {
-          id: data.details.user.id,
-          firstName: data.details.user.firstName,
-          lastName: data.details.user.lastName,
-          phone: data.details.user.phone,
-          email: data.details.user.email,
-          statusId: data.details.user.statusId,
-          assetId : data.details.user.assetId,
-          roleName :data.programs?.[0]?.roleName
+          id: data?.details?.user?.id,
+          firstName: data?.details?.user?.firstName,
+          lastName: data?.details?.user?.lastName,
+          phone: data?.details?.user?.phone,
+          email: data?.details?.user?.email,
+          statusId: data?.details?.user?.statusId,
+          assetId: data?.details?.user?.assetId,
+          roleName: data?.programs?.[0]?.roleName,
         };
-        setUser(userData);
 
-        const programData = data.programs
-          .filter((program: any) => program.event) // Filter out null or undefined events
+        setUser(userData);
+        const programData = data?.programs
+          .filter((program: any) => program.event)
           .map((program: any) => ({
-            id: program.event?.id,
+            id: program.event?.id,  
             name: program.event?.name, 
-            location: program.event?.venue?.city + "," + program.event?.venue?.country || "Unknown",
+            location: program.event?.venue? `${program.event.venue.city},${program.event.venue.country}`:'Unknown',
             startTime: program.event?.startTime,
             endTime: program.event?.endTime,
             status: program.event?.statusId,
@@ -108,7 +112,6 @@ const UserDetail: React.FC = React.memo(() => {
           </Avatar>
         )}
       </Grid>
-  
       {/* User Info Section */}
       <Grid>
         {/* Name and Status */}
@@ -137,6 +140,9 @@ const UserDetail: React.FC = React.memo(() => {
             <Typography className="userdetail-data">{user.email}</Typography>
           </Grid>
         </Grid>
+        <Grid className="userdetail-divider">
+        <Divider  />
+        </Grid>
       {/* Registered Programs Section */}
       <Typography variant="h6" className="userdetail-data-title">
         Registered Programmes
@@ -148,21 +154,20 @@ const UserDetail: React.FC = React.memo(() => {
             <Grid className="userdetail-event-card">
               <Grid container direction="row" className="userdetail-time-status">
                 <Typography className="userdetail-time" variant="subtitle2">
-                  {formatDateTimeRange({ date: program.startTime,format: "h:mm A",})}-{formatDateTimeRange({ date: program.endTime,format: "h:mm A",})}
+                  {formatDateTimeRange({ date: program?.startTime,format: "h:mm A",})}-{formatDateTimeRange({ date: program.endTime,format: "h:mm A",})}
                 </Typography>
                 {program.status && (
-                  <StatusComponent className="user-status" value={program.status}/>
+                  <StatusComponent className="user-status" value={program?.status}/>
                 )}
               </Grid>
               <Typography variant="h6" className="userdetail-name">
-                {program.name}
+                {program?.name}
               </Typography>
-              <Typography variant="body2" className="userdetail-card-data">
-                Location: {program.location}
-              </Typography>
-              <Typography variant="body2" className="userdetail-card-data">
-                Speaker: {program.speaker}
-              </Typography>
+             {mode?.eventClass ==="OFFLINE"?(<Typography variant="body2" className="userdetail-card-data">
+                Location: {program?.location}
+              </Typography>):(
+                <Typography>URL:{mode?.url}</Typography>) }
+             
             </Grid>
           </Grid>
         )))

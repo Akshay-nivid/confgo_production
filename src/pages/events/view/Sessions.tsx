@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid2";
 import moment from "moment";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
-import { useState, Key } from "react";
+import { useState, Key, useEffect } from "react";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { Logger } from "@/Utils/Logger";
 import SessionDrawerContent from "./SessionDrawercontent";
@@ -37,6 +37,13 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
   const POST = useStore((state) => state.POST);
   const PUT = useStore((state) => state.PUT);
   const setDataById = useStore((state) => state.setDataById);
+
+  //fetch the details from eventData
+  useEffect(() => {
+    if (eventData?.programs) {
+      setPrograms(eventData.programs);
+    }
+  }, [eventData?.programs]);
   /**
    * Function used at while adding
    */
@@ -67,7 +74,6 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
       setDataById('sessions', {drawerOpen:true, isEditing:false, isAddon:true, showPriceField:false})
     }
 };
-
 
   const closeDrawer = () => setDataById('sessions', {drawerOpen: false});
   /**
@@ -306,6 +312,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
                 <SessionCard
                   key={index}
                   item={item}
+                  timeCorrection={true}
                   onEditClick={handleEditClick}
                   onDeleteClick={handleDeleteClick}
                   titleField={item.addon && item.addon.name ? "addon.name" : "name"}
@@ -350,6 +357,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
       <SessionCard
         key={index}
         item={item}
+        timeCorrection={true}
         hasAddOns={item.addon ? true : false}
         onEditClick={handleEditClick}
         onDeleteClick={handleDeleteClick}

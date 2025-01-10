@@ -10,14 +10,15 @@ import { DataGridList } from "@/components/DataGrid/DataGridList";
 import FilterModal from "@/components/CustomFilter/FilterModal";
 import { NoUserList } from "@/assets/svg";
 import { Button} from "@mui/material";
-import { setDataById } from "@/Libs/store";
+import useStore, { setDataById } from "@/Libs/store";
 
 
 const AbstractReviewer = () => {
   const { id } = useParams();
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [source, setSource] = useState<any>({});
-  const companyId = sessionStorage.getItem("companyId");
+  const adminCompanyId=useStore((state:any)=>state.compData?.['adminCompanyId']?.companyId);
+  
   /**
    * Fetches the initial abstract list when the component is mounted.
    */
@@ -36,7 +37,7 @@ const AbstractReviewer = () => {
       offset: 0,
       limit: 5,
       filters: {
-        companyId: companyId,
+        companyId: adminCompanyId,
         roleEnums: [
           "REVIEWER"
         ]

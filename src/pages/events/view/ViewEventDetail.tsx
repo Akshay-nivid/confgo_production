@@ -90,6 +90,7 @@ interface Addon {
   published: boolean;
   slugName: string;
   specialtyId:number;
+  isAbstract:number;
 }
 
 const ViewEventDetail = () => {
@@ -262,7 +263,7 @@ const ViewEventDetail = () => {
       eventId: id
     }
     const response = await apiClient.post('event/slug/isAvailable', req);
-    const { status, data } = await processAPIResponse(response, 'link-availablility');
+    const { status, data } = processAPIResponse(response, 'link-availablility');
     if (status) {
       setErrorMessage(data === false ? 'Url already exist. Please enter a different url.' : '')
     }
@@ -379,7 +380,7 @@ const ViewEventDetail = () => {
               <Tab label='Settings' className="event-detail-tab-layout-item" value="8" />
               {/* <Tab label='Volunteers' className="event-detail-tab-layout-item" value="9"/> */}
              
-              {eventFullData?.specialtyId===1 &&<Tab label="Abstracts" className="event-detail-tab-layout-item" value="10" />}
+              {eventFullData?.isAbstract===1 &&<Tab label="Abstracts" className="event-detail-tab-layout-item" value="10" />}
             </TabList>
           </Grid>
           <TabPanel value="1">
@@ -411,7 +412,7 @@ const ViewEventDetail = () => {
           {/* <TabPanel value="9">
             <VolunteerListCard />
           </TabPanel> */}
-          {eventFullData?.specialtyId===1&&
+          {eventFullData?.isAbstract===1&&
           <TabPanel value="10">
             <AbstractListCard />
           </TabPanel>}
