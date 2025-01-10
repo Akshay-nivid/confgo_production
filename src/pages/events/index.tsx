@@ -147,7 +147,7 @@ const Events = () => {
       const response = await apiClient.post('event', req);
       const { status, data, message } = await processAPIResponse(response, 'event-status');
       if (status) {
-        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:message});
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:`Event draft saved successfully!`});
         navigate(routes.editDraftEvent(data?.id))
       }
       else {

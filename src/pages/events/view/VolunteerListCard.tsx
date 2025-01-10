@@ -3,13 +3,11 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { ISource } from "@/Libs/type";
 import Grid from "@mui/material/Grid2";
 import { useCallback, useEffect, useState } from "react";
-import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 import AddIcon from '@mui/icons-material/Add';
 import { useForm } from "react-hook-form";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import { DataGridList } from "@/components/DataGrid/DataGridList";
-import FilterModal from "@/components/CustomFilter/FilterModal";
 import { Logger } from "@/Utils/Logger";
 import { useParams } from "react-router-dom";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
@@ -24,7 +22,6 @@ import { NoCouponDataSvg } from "@/assets/svg";
  */
 const VolunteerListCard = () => {
   const { id } = useParams();
-  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   // const [filters, setFilters] = useState({ });
   const [source, setSource] = useState<ISource | undefined>(undefined);
@@ -84,26 +81,6 @@ const VolunteerListCard = () => {
   };
 
   /**
-   * Updates the filters and source for the data grid when new filters are applied.
-   * @param newFilters - The new filters applied by the user
-   */
-  const handleApplyFilters = (newFilters: any) => {
-    setSource({
-      method: "POST",
-      data: {
-        offset: 0,
-        limit: 5,
-        filters: {
-          ...newFilters,
-        },
-      },
-      url: `user/volunteerEvent/list`,
-      listName: "participantList",
-    });
-    // setFilters(newFilters);
-  };
-
-  /**
    * Updates the source for the data grid when an autocomplete selection is made.
    * @param selected - The selected item from the autocomplete list
    */
@@ -121,7 +98,7 @@ const VolunteerListCard = () => {
           },
         },
         url: `user/volunteerEvent/list`,
-        listName: "participant-list-",
+        listName: "eventVolunteerList",
       });
     }
   };
@@ -248,17 +225,6 @@ const VolunteerListCard = () => {
             size="large"
           />
         </Grid>
-        <Grid container spacing={2}>
-          <CustomButton
-            className="custom-list-filter-btn"
-            onClick={() => setIsFilterModalOpen(true)}
-            label="Filters"
-            startIcon={<TuneRoundedIcon />}
-            variant="contained"
-            color="primary"
-            size="large"
-          />
-        </Grid>
       </Grid>
       <Grid size={{ xs: 12 }}>
         <DataGridList
@@ -273,11 +239,6 @@ const VolunteerListCard = () => {
         />
       </Grid>
 
-      <FilterModal
-        open={isFilterModalOpen}
-        onClose={() => setIsFilterModalOpen(false)}
-        onApplyFilters={handleApplyFilters}
-      />
       <CustomDrawer open={drawerOpen} type="right">
         <AssignedVolunteers onClose={onClose}   volunteerList={volunteerList} 
  />
