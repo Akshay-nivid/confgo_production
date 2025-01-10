@@ -156,14 +156,16 @@ const handleOrganisationImageUpload =(uploadedFiles: CustomFile)=>{
 /** function to submit logo */
 const onLogoSubmit = async (newdata: Company) => {
   try {
-    const payload = {
+    let payload:any = {
       companyName: newdata.companyName || LogoprofileData?.companyName || "", 
       companyPhone: newdata.companyPhone || LogoprofileData?.companyPhone || "",
       companyAddress: newdata.companyAddress || LogoprofileData?.companyAddress || "", 
       companyEmail: newdata.companyEmail || LogoprofileData?.companyEmail || "",
-      assetId: drawerLogoImage || LogoprofileData?.assetId
     };
 
+  if(drawerLogoImage || LogoprofileData?.assetId){
+       payload["assetId"] = drawerLogoImage || LogoprofileData?.assetId ;
+  }
     // Send the payload to the server for updating the company details
     const response = await apiClient.put(`/company/${compId}`, payload);
     const { status,message } = processAPIResponse(response, "personalInformation");
@@ -433,7 +435,7 @@ return (
       <Grid container className="main-account-drawer">
         <Grid size={12} container className="main-account-drawer-text">
           <Typography className="edit-organisation-text">
-            Edit Organisation Detailsssss
+            Edit Organisation Details
           </Typography>
           <IconButton onClick={closeOrganisationDrawer}>
             <CloseOutlined />
