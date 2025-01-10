@@ -19,18 +19,18 @@ const RegistrationCompleted = () => {
   const couponData = useStore((state: IStoreState) => state?.compData?.["couponData"]?.['coupon/applyCoupon']?.data) ?? null
   const regData = useStore((state: IStoreState) => state?.compData?.registrationCompleteData) || null
   
-  if (isCheckout === false) {
+  // if (isCheckout === false) {
 
-    if (!slugName) {
+  //   if (!slugName) {
 
-      const token = sessionStorage.getItem("token")
-      if (!token) {
-        return <Navigate to={routes.userLogin()} />;
-      }
-      return <Navigate to={routes.userHome()} />;
-    }
-    return <Navigate to={routes.eventExternalLink(slugName)} />
-  }
+  //     const token = sessionStorage.getItem("token")
+  //     if (!token) {
+  //       return <Navigate to={routes.userLogin()} />;
+  //     }
+  //     return <Navigate to={routes.userHome()} />;
+  //   }
+  //   return <Navigate to={routes.eventExternalLink(slugName)} />
+  // }
 
   return (
     <Grid container className="event-registration-completed">
