@@ -283,7 +283,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
         </Typography>
 				<Grid>
 					<CustomButton
-							className="event-detail-speakers-card-speaker-add-button"
+							className="event-sessions-sessions-container-add-addon-button"
 							variant="outlined"
 							label=" + Add Add-ons"
 							onClick={handleAddOnClick}
