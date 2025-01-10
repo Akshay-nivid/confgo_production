@@ -17,7 +17,7 @@ const AbstractReviewer = () => {
   const { id } = useParams();
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [source, setSource] = useState<any>({});
-  const AdminCompanyId=useStore((state:any)=>state.compData?.['AdminCompanyId']?.companyId);
+  const adminCompanyId=useStore((state:any)=>state.compData?.['adminCompanyId']?.companyId);
   
   /**
    * Fetches the initial abstract list when the component is mounted.
@@ -37,7 +37,7 @@ const AbstractReviewer = () => {
       offset: 0,
       limit: 5,
       filters: {
-        companyId: AdminCompanyId,
+        companyId: adminCompanyId,
         roleEnums: [
           "REVIEWER"
         ]

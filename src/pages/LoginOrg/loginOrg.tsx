@@ -114,7 +114,7 @@ const LoginOrg = () => {
       sessionStorage.setItem('subscriptionStatus', subscriptionStatus);
       sessionStorage.setItem('acceptedTerms', acceptedTerms.toString());
       sessionStorage.setItem('companyId', companyId);
-      setDataById("AdminCompanyId",{companyId});
+      setDataById("adminCompanyId",{companyId});
       sessionStorage.setItem('companyEmail', email);
       sessionStorage.setItem('companyPhone', phone);
       // Show success notification

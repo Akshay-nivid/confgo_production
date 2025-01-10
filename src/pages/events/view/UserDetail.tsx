@@ -43,8 +43,7 @@ const UserDetail: React.FC = React.memo(() => {
   const [userdetailData,setuserdetailData]=useState()
   const [programs, setPrograms] = useState<Program[]>([]);
   const baseUrl = config.api.url;
-  const [mode,setMode]=useState('')
-  const [url,setUrl]=useState('');
+  const [mode,setMode]=useState<any>('')
   useEffect(() => {
     eventParticipantList();
   }, [id]);
@@ -57,27 +56,25 @@ const UserDetail: React.FC = React.memo(() => {
       const response = await apiClient.get(`/participant/${id}`);
       if (response.data.status === "Success") {
         
-        const data = response.data.data;
-        const eventMode=response.data.data?.details?.event?.eventClass;
-        const userUrl=response.data.data?.details?.event?.url;
-
-        setUrl(userUrl);
-        setMode(eventMode);       
+        const data = response?.data?.data;
+        const eventMode=data?.details?.event;
+        
+        setMode(eventMode);  
         setuserdetailData(data);
 
         const userData = {
-          id: data.details.user.id,
-          firstName: data.details.user.firstName,
-          lastName: data.details.user.lastName,
-          phone: data.details.user.phone,
-          email: data.details.user.email,
-          statusId: data.details.user.statusId,
-          assetId : data.details.user.assetId,
-          roleName :data.programs?.[0]?.roleName
+          id: data?.details?.user?.id,
+          firstName: data?.details?.user?.firstName,
+          lastName: data?.details?.user?.lastName,
+          phone: data?.details?.user?.phone,
+          email: data?.details?.user?.email,
+          statusId: data?.details?.user?.statusId,
+          assetId: data?.details?.user?.assetId,
+          roleName: data?.programs?.[0]?.roleName,
         };
 
         setUser(userData);
-        const programData = data.programs
+        const programData = data?.programs
           .filter((program: any) => program.event)
           .map((program: any) => ({
             id: program.event?.id,  
@@ -166,10 +163,10 @@ const UserDetail: React.FC = React.memo(() => {
               <Typography variant="h6" className="userdetail-name">
                 {program?.name}
               </Typography>
-             {mode==="OFFLINE"?(<Typography variant="body2" className="userdetail-card-data">
+             {mode?.eventClass ==="OFFLINE"?(<Typography variant="body2" className="userdetail-card-data">
                 Location: {program?.location}
               </Typography>):(
-                <Typography>URL:{url}</Typography>) }
+                <Typography>URL:{mode?.url}</Typography>) }
              
             </Grid>
           </Grid>
