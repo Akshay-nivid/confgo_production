@@ -27,7 +27,7 @@ const steps = [
 interface Program {
   name: string;
   description: string;
-  totalSeat: string;
+  totalSeat?: string;
   startDate: string;  
   endDate: string;    
   startTime: string;  
@@ -254,14 +254,15 @@ const Events = () => {
     const program = programs?.filter((item: Program) => item.name!='');
     const addOn = addOns?.filter((item: Addons) => item.addonId!='');
     //tranform program fields
-    const transformProgram = program?.map(({type,addOnId, startDate, startTime, endDate, endTime,amount, ...item }: Program) => {
+    const transformProgram = program?.map(({type,addOnId, startDate, startTime, endDate, endTime,amount,totalSeat, ...item }: Program) => {
       // Combine startDate and startTime
       const startDateTime = `${startDate}T${startTime}`;
       
       // Combine endDate and endTime
       const endDateTime = `${endDate}T${endTime}`;
       return {
-        ...item,               
+        ...item,  
+        totalSeat: totalSeat && totalSeat !== "" ? totalSeat : undefined,             
         startTime:startDateTime,         
         endTime:endDateTime,
         statusId: draft? draftStatusId: statusId,
