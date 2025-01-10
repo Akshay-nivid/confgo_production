@@ -52,7 +52,7 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
 				return acc;  // Do not add to accumulator if invalid
 			}
 			// Group by startDate
-			const startDate = moment(item.startDate).format("YYYY-MM-DD");
+			const startDate = moment(item.startDate||item.date).format("YYYY-MM-DD");
 			// Separate addOns with `dateRequired: false`
 			if (isAddon && item.dateRequired === false) {
 				// Create 'withoutDateRequired' array if it doesn't exist
@@ -83,7 +83,6 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
 			sortedAcc[date] = sortedItems;
 			return sortedAcc;
 		}, {});	
-
 		/**
 		 * Separate general addons without dates from combinedData
 		 */
@@ -124,6 +123,7 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
 															titleField="name"
 															fields={[
 																	{ label: "Description", field: "description" },
+																	{ label: "Total Seats", field: "totalSeat" },
 															]}
 															hasAddOns={true}
 															startTimeField=''
@@ -157,7 +157,8 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
 										titleField="name"
 										fields={
 											[
-												{ label: "Description", field: "description" },
+												{ label: "Descriptions", field: "description" },
+												{label: "Total Seats", field: "totalSeat"},
 											]
 										}
 										startTimeField="startTime"

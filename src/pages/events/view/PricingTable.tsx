@@ -92,11 +92,9 @@ const PricingTable: React.FC<PricingTableProps> = ({
                 return isListView ? (
                     <TableCell key={`${attendee.id}-${tier.id}`}>
                         <Typography className="pricing-table-table-input-text-col">
-                          {attendee.pricingTiers?.find(
-                            (atTier) => atTier.tierName === tier.tierName
-                          )?.percentage +
-                            " " +
-                            "%" || "0"}
+                        {attendee.pricingTiers?.find(
+                         (atTier) => atTier.tierName.trim().toLowerCase() === tier.tierName.trim().toLowerCase()
+                        )?.percentage || tier.percentage || "0"}%
                         </Typography>
                     </TableCell>
                   ) : (

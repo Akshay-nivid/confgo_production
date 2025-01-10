@@ -9,7 +9,7 @@
     padding: 1.5rem;  
 }
 .account-margin{
-    margin-left: 1.5rem !important;
+    margin-left: 1rem !important;
 }
 .account-profile-grid{
     margin-top: 1rem !important;;
@@ -84,8 +84,11 @@
 .account-drawer-textfield{
     font-family: $font !important;
     font-weight: $font_semibold !important;
-    font-size: $h2 !important;
-    margin-bottom: 2rem !important;
+    font-size: $h5 !important;
+    margin-bottom: 1rem !important;
+}
+.settings-close{
+    margin-bottom: 1rem !important;
 }
 .account-connected-img{
     width: 3.75rem;
@@ -167,6 +170,7 @@
     box-shadow: none !important;
     padding: 1rem 3rem !important;
     background: $clr_blue !important;
+    text-transform: none !important;
 
 }
  
@@ -182,6 +186,7 @@
     border-radius :0.4167rem !important;
     padding: 0.5rem 1.5rem !important;
     box-shadow: none !important;
+    text-transform: none !important; 
 }  
 .account-google{
     display: flex;

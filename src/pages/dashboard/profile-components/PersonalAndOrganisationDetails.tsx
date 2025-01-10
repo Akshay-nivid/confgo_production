@@ -370,8 +370,8 @@ return (
 
     <CustomDrawer open={isDrawerOpen} type="right">
       <Grid container className="main-account-drawer">
-        <Grid size={12} container className="main-account-drawer-text">
-          <Typography className="main-account-title account-drawer-textfield">
+        <Grid size={12} display={'flex'} justifyContent={'space-between'} alignItems={'center'} container className="main-account-drawer-text">
+          <Typography className="edit-personal-text">
             Edit Personal Details
           </Typography>
           <IconButton onClick={closeDrawer} className="close">
@@ -432,8 +432,8 @@ return (
     <CustomDrawer open={organsisationDrawer} type="right">
       <Grid container className="main-account-drawer">
         <Grid size={12} container className="main-account-drawer-text">
-          <Typography className="main-account-title account-drawer-textfield">
-            Edit Organisation Details
+          <Typography className="edit-organisation-text">
+            Edit Organisation Detailsssss
           </Typography>
           <IconButton onClick={closeOrganisationDrawer}>
             <CloseOutlined />

@@ -10,6 +10,7 @@ import StatusComponent from "@/components/Status/StatusComponent";
 import "./userdetail.scss";
 import React from "react";
 import { formatDateTimeRange } from "@/Utils/CommonBaseClass";
+import NoEvents from "../../Participant-User/No-Event/NoEvent"
 
 interface DetailProps {
   userdetail: any;
@@ -58,7 +59,7 @@ const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => {
               Personal Details
             </Typography>
           </Grid>
-          {cleanedFormData.map((data: any, index: any) => (
+          {cleanedFormData.length !==0?cleanedFormData.map((data: any, index: any) => (
         <Grid key={index}>
           {Object.entries(data).map(([key, value]) => (
               <Grid container key={index}>
@@ -71,7 +72,11 @@ const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => {
           </Grid>
           ))}
         </Grid>
-      ))}
+      ))
+    :
+    <NoEvents description="No personal details  found" />
+    }
+
   </Grid>
       ) : tabValue === 2 ? (
         <Grid container direction="column" className="all-details-attendance-grid" spacing={2}>

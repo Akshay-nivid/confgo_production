@@ -5,7 +5,7 @@ import moment from "moment-timezone";
 import { Logger } from '@/Utils/Logger';
 
 interface LocalTimeDateProps extends Omit<TypographyProps, 'children'> {
-  utcDateTime: Date | string | number | null;
+  utcDateTime: Date | string | number | null | undefined; 
   format?: string;
   timezone?: string;
   fallbackText?: string;

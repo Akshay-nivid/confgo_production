@@ -1,4 +1,6 @@
 .event-registration-completed {
+  width: max(70%, 40rem);
+  margin-inline: auto;
   .registration-completed-icon {
     height: 8rem;
     width: 10rem;
@@ -8,7 +10,7 @@
     font-size: $h2;
   }
   .sub-header-container {
-    max-width: 2.7778rem;
+    max-width: 30rem;
     margin-inline: auto;
     margin-bottom: 2rem;
     .sub-header {
@@ -31,6 +33,10 @@
       height: 10rem;
       width: 10rem;
     }
+  }
+  .qr-code-display-section{
+    border: 0.2rem solid $clr_black;
+    border-radius: 0.2rem;
   }
   .payment-bill-details-container {
     margin-block: 1rem;

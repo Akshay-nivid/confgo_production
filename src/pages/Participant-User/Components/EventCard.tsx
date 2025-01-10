@@ -5,9 +5,17 @@ import StatusComponent from '@/components/Status/StatusComponent';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import { formatDateTimeRange, toTitleCase, truncateString } from '@/Utils/CommonBaseClass';
 import CustomTooltip from '@/components/CustomToolTip/CustomTooltip';
+import moment from 'moment';
+import routes from '@/router/routes';
+import { useNavigate } from 'react-router';
 
+interface TimeProps {
+    startTime: string;
+    endTime: string;
+  }
 interface EventProps {
-    datetitle: string;
+    id?:number;
+    datetitle: TimeProps;
     title?: string|undefined;
     location?: string;
     eventFullData: any;
@@ -23,12 +31,29 @@ interface EventProps {
 /**
  * user Dashboard eventCard component
  */
-const EventCard: React.FC<EventProps> = React.memo(({ eventFullData, datetitle, title, location, viewButton, buttonPress, squareButton, squareButtonLabels, onSquareButtonClick, Eventstatus }) => {
+const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetitle, title, location, viewButton, buttonPress, squareButton, squareButtonLabels, onSquareButtonClick, Eventstatus }) => {
    const attendeeStatus=eventFullData?.participants[0]?. eventParticipants[0]?.event.attendees
+    const navigate = useNavigate();
+  
+   /**
+    * Compares the given end date (`datetitle?.endTime`) with today's date.
+   */
+   const today = moment().startOf('day'); 
+   const endDate = moment(datetitle?.endTime); 
+   const isEndDatePast = endDate.isBefore(today, 'day');
+   /**
+   * Handles event propagation
+   */
+    const propogation = (e:any) => {
+      e.stopPropagation();
+      onSquareButtonClick && onSquareButtonClick(0);
+    };
+   
+   
     return (
-        <Grid container className="event-card" spacing={1} flexDirection={"column"}>
+        <Grid container className="event-card" spacing={1} flexDirection={"column"} onClick={()=>navigate(routes.userEventRecap(),{state:{eventId:id}})}>
             <Grid container className="event-card-date-box" justifyContent={"center"}>
-                <Typography textAlign={"center"} className="event-card-date-title" >Date: {formatDateTimeRange({ date: datetitle, format: 'MMMM D, YYYY' })}</Typography>
+                <Typography textAlign={"center"} className="event-card-date-title" >Date: {formatDateTimeRange({ date: datetitle?.startTime, format: 'MMM D' })+"-"+ formatDateTimeRange({ date: datetitle?.endTime, format: 'MMM D' })}</Typography>
             </Grid>
             <Grid  container>
             <CustomTooltip title={title}>
@@ -46,20 +71,15 @@ const EventCard: React.FC<EventProps> = React.memo(({ eventFullData, datetitle, 
                 <Grid  className="event-card-status" container size={12}>
                     <Grid container size={12} className="content">
                         <Typography className="event-card-location">Status</Typography>
-                        <StatusComponent value={attendeeStatus.length==0 ? "7" : "8"}  />
+                        {isEndDatePast? <StatusComponent value="11"/>:
+                        <StatusComponent value={attendeeStatus.length==0 ? "7" : "8"}  />}
                     </Grid>
                 </Grid>}
             {squareButton &&
                 <Grid className="event-card-certificate" container display={"flex"}>
-                    {squareButtonLabels.length > 1 ? <><Typography onClick={() => onSquareButtonClick && onSquareButtonClick(0)} className='event-card-certificate-label'><u>
-                        [{squareButtonLabels[0]}]
-                        </u></Typography>
-                        <Typography className='event-card-certificate-label-bar'>|</Typography>
-                        <Typography className='event-card-certificate-label' onClick={() => onSquareButtonClick && onSquareButtonClick(1)}><u>
-                             [{squareButtonLabels[1]}]</u></Typography>
-                    </> : <Typography className='event-card-certificate-label' onClick={() => onSquareButtonClick && onSquareButtonClick(0)}>
-                        [{squareButtonLabels[0]}]
-                    </Typography>}
+                    <Typography onClick={propogation} className='event-card-certificate-label'>
+                    <u>[{squareButtonLabels[0]}]</u>
+                        </Typography>
                 </Grid>}
             {viewButton &&
                 <Grid size={{ xs: 6 }}>

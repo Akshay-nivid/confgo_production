@@ -151,7 +151,9 @@
     text-transform: none !important;
     color: $clr_blue !important;
     font-size: $p2 !important;
+    box-shadow: none !important;
 
+    
     svg {
       path {
         fill: $clr_blue;
@@ -160,7 +162,7 @@
   }
 
   &__button:hover {
-    background-color: $clr_blue;
+    background-color: $clr_blue !important;
     color: $clr_white !important;
 
     svg {

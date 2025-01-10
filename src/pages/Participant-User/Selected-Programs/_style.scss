@@ -1,6 +1,6 @@
 .selected-programs-main {
 
-  width: 70%;
+  width: max(70%, 40rem);
   margin-inline: auto;
 
   .divider2 {
@@ -711,4 +711,15 @@
 
 .selected-programs-main {
   padding-inline: 2rem;
+}
+
+
+@media screen and (max-width: 768px) {
+
+  .selected-programs-main {
+    width: 100% !important;
+  }
+  .selected-program-card{
+    padding-inline: 0  !important;
+  }
 }

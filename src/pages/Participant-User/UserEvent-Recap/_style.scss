@@ -1,10 +1,80 @@
 .event-recap {
     margin-top: 2rem;
-    margin-left: 1.5rem;
-    margin-right: 6.2rem;
+    // margin-left: 1.5rem;
+    // margin-right: 6.2rem;
+
+    .padding-x-20{
+        padding-inline: 1.67rem;
+    }
+    
+    .event-info{
+        margin-bottom: 3.42rem;
+    }
+
+    .border-bottom{
+        border-bottom: 0.14rem solid $clr_tab_border_color !important;
+    }
+
+    .border-bottom-blue{
+        border-bottom: 0.083rem solid $clr_border_sky_blue_light !important;
+    }
+
+    .status-bar-text{
+        font-weight: $font_semibold;
+        font-size: $p1;
+    }
+
+    .status-avatar{
+        width: 2.5rem !important;
+        height: 2.5rem !important;
+
+        &.uploaded{
+        background-color: $clr_blue;
+
+        }
+        &.approved{
+            background-color: $clr_green !important; 
+        }
+        &.rejected{
+            background-color: $clr_red_danger;
+        }
+        &.reviewing{
+            background-color:$clr_orange_dark;
+        }
+        &.default{
+            background-color: transparent;
+            border: 0.2rem solid $clr_tab_border_color;
+        }
+
+        svg{
+            width: 1.8rem !important;
+            height: 1.8rem !important;
+        }
+    }
+
+    .vertical-line{
+        min-height: 5.83rem;
+        min-width: 0.2rem;
+        max-width: 0.2rem;
+        background-color: $clr_tab_border_color;
+        margin-bottom: 1rem;
+    }
+
+    .stepper-title{
+        font-weight: $font_semibold;
+        font-size: $p1;
+       
+    }
+    .stepper-desc{
+        font-family: $font;
+        font-size: $p3;
+        color:$clr_field;
+        white-space: pre-wrap;
+    }
     &-header {
         font-weight: $font-bold !important;
         font-size: $h4 !important;
+
     }
     &-no-event {
         display: flex;
@@ -161,6 +231,8 @@
 .my-event-tabs{
     margin: 0 !important;
     align-items: flex-start !important;
+    border-right:0.083rem solid $clr_border_sky_blue_light !important;
+    // margin-bottom: 3rem !important;
     .MuiTabs-indicator {
         // padding-left: 0.2rem !important;
         justify-self: center !important;
@@ -188,8 +260,42 @@
         color: $clr_black !important;
     }
 }
+
+
 .upload-abstract{
     margin: 0 !important;
+
+    .left-grid{
+        border-right: 0.083rem solid $clr_border_sky_blue_light !important;
+
+        .header-section-container{
+            padding-top: 3rem;
+        }
+
+        .edit-icon{
+            // background-color: $clr_gray_20_percent !important;
+
+        }
+
+    }
+
+
+    .right-grid{
+        // border-top: 0.083rem solid $clr_border_sky_blue_light !important;
+        padding-top: 3rem;
+        padding-inline: 2.83rem;
+        display: flex;
+        flex-direction: column;
+        row-gap: 2rem;
+
+        button{
+            margin-top: -6rem !important;
+            background-color: $clr_blue !important;
+            box-shadow: none !important;
+            line-height: 2rem;
+        }
+    }
+
     &-header{
         font-weight: $font_semibold !important;
         font-size: $p5 !important;
@@ -227,14 +333,14 @@
             margin-bottom: 3.667rem;
             margin-top: 2.917rem;
             border:solid 0.083rem $clr_light_border_grey !important;
-            padding-top: 1.667rem;
+            padding-top: 1.2rem;
             padding-bottom: 1.667rem;
             padding-left: 1.5rem;
             padding-right:1.5rem;
             border-radius: 0.75rem;
             svg{
-                width: 1.667rem !important;
-                height: 1.667rem !important;
+                width: 1.5rem !important;
+                height: 1.5rem !important;
             }
             &-header{
                 font-size: $h6 !important;
@@ -251,6 +357,8 @@
     }
     &-comments-container{
         padding-top: 2.5rem;
+        padding-bottom:6rem ;
+       
         &-header{
             font-size: $p6 !important;
             font-weight: $font-medium !important;
@@ -266,18 +374,31 @@
             color: $clr_charcoal_gray !important;
         }
 
+        .MuiRating-root {
+            font-size: 2.5rem !important;
+        }
+
     }
     &-upload-box{
+
+        .file-upload{
+            width: 100% !important;
+            height: max-content !important;
+        }
         .file-upload-dropzone{
            border: none !important;
            background-color: transparent !important;
+           
         }
-        margin-left: 2.083rem;
-        border: .2rem dashed $clr_gray_extra_light;
+        // margin-left: 2.083rem;
+         border: .2rem dashed $clr_gray_extra_light;
+
             padding-top: 6.333rem;
             padding-bottom: 6.333rem;
             padding-left: 1.625rem;
             padding-right: 1.625rem;
+            height: 19.33rem !important;
+             width: 100% !important;
             svg{
                 width: 1.667rem !important;
                 height: 1.667rem !important;
@@ -293,4 +414,15 @@
 
 
 
+}
+.upload-dropzone-text{
+    color: $clr_black !important;
+    font-size: $h6 !important;
+    font-weight: $font_semibold !important;
+}
+.upload-dropzone-subtext{
+    color: $clr_field !important;
+    font-size: $p2 !important;
+    font-weight: $font_medium !important;
+    justify-content: center !important;
 }

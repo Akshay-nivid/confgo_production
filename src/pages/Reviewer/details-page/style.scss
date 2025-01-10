@@ -128,6 +128,7 @@
 
             .MuiRating-root {
                 font-size: 2.3rem !important;
+                opacity: 1;
             }
 
         }
@@ -148,8 +149,20 @@
             display: flex;
             margin-top: 2.25rem;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-end;
+            column-gap: 2rem;
 
+            .reject-btn {
+                background-color: $clr_red_danger;
+                line-height: 2.25rem;
+                box-shadow: none;
+                min-width: 10rem !important;
+
+                &.Mui-disabled {
+                    color: $clr_white !important;
+                    background-color: $clr_gray_faded;
+                }
+            }
             .comment-btn {
                 background-color: $clr_blue;
                 line-height: 2.25rem;

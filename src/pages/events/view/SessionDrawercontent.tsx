@@ -18,6 +18,7 @@ interface SessionDrawerContentProps {
     isAddon: boolean; 
     eventEndTime:any;
     eventStartTime:any;
+    eventData:any
   }
   
   const SessionDrawerContent: React.FC<SessionDrawerContentProps> = ({
@@ -28,6 +29,7 @@ interface SessionDrawerContentProps {
     onSubmit,
     closeDrawer,
     isAddon, // Destructuring the isAddon prop
+    eventData
   }) => {
     const {
       control,
@@ -42,8 +44,10 @@ interface SessionDrawerContentProps {
         endTime: selectedProgram ? selectedProgram.endTime : (eventEndTime ? eventEndTime:""),
         name: selectedProgram ? selectedProgram.name : "",
         description: selectedProgram ? selectedProgram.description : "",
+        totalSeat: selectedProgram ? selectedProgram?.eventParticipantEntries?.[0]?.totalSeat : null,
         price: selectedProgram ? selectedProgram.amount : "",
-        startDate:selectedProgram ? selectedProgram.startTime : (eventStartTime ? eventStartTime:"")
+        startDate:selectedProgram ? selectedProgram.startTime : (eventStartTime ? eventStartTime:""),
+        endDate:selectedProgram ? selectedProgram.endTime : (eventEndTime ? eventEndTime:""),
       },
     });
     
@@ -56,19 +60,23 @@ interface SessionDrawerContentProps {
       if (isEditing && selectedProgram) {
         setValue("name", selectedProgram.name);
         setValue("description", selectedProgram.description);
+        setValue("totalSeat", selectedProgram?.totalSeat);
         setValue("startTime", moment(selectedProgram?.startTime).format("HH:mm"));
         setValue("endTime", moment(selectedProgram?.endTime).format("HH:mm"));
         setValue("isPaid", selectedProgram.amount > 0 ? "PAID" : "FREE");
         setValue("price", selectedProgram.amount);
         setValue('startDate', moment(selectedProgram?.startTime).format("YYYY-MM-DD"))
+        setValue('endDate', moment(selectedProgram?.endTime).format("YYYY-MM-DD"))
       } else {
         reset({
           isPaid: "FREE",
           startTime: moment(eventStartTime).format("HH:mm"),
           endTime: moment(eventStartTime).format("HH:mm"),
           startDate:moment(eventStartTime).format("YYYY-MM-DD"),
+          endDate:moment(eventStartTime).format("YYYY-MM-DD"),
           name: "",
           description: "",
+          totalSeat: "",
           price: "",
         });
       }
@@ -82,14 +90,14 @@ interface SessionDrawerContentProps {
       }, [isPaid, setValue]);
   
 		if(isAddon){
-				return <SessionAddonDrawer closeDrawer={closeDrawer} isEditing={isEditing} selectedAddOn={selectedProgram} onSubmit={onSubmit}/>
+				return <SessionAddonDrawer closeDrawer={closeDrawer} isEditing={isEditing} selectedAddOn={selectedProgram} onSubmit={onSubmit} eventData={eventData} />
 		}  
   /**
    * formating the submit request
    */
     const handleSubmitRequest = (data: FieldValues) => {
       const startDateTime = `${data.startDate}T${data.startTime}`;
-      const endDateTime = `${data.startDate}T${data.endTime}`;
+      const endDateTime = `${data.endDate}T${data.endTime}`;
 
       // Create the new transformed object
       const transformedProgram = {
@@ -97,6 +105,7 @@ interface SessionDrawerContentProps {
         name: data.name,
         description: data.description,
         price: data.price,
+        ...(data.totalSeat ? { totalSeat: data.totalSeat } : {}),
         startTime: startDateTime,
         endTime: endDateTime
       };
@@ -134,10 +143,18 @@ interface SessionDrawerContentProps {
               rules={{required:"Description is required"}}
             />
           </Grid>
+          <Grid size={{xs:12}}>
+            <CustomTextField
+              name="totalSeat"
+              placeholder="Total Seats"
+              control={control}
+              type="number"
+            />
+          </Grid>
           <Grid size={12}>
           <CustomTextField
               name="startDate"
-              label="Program Date"
+              label="Start Date"
               placeholder="Program Date"
               control={control}
               defaultValue={moment(eventStartTime).format("YYYY-MM-DD")} 
@@ -147,6 +164,20 @@ interface SessionDrawerContentProps {
               requiredField={true}
             />
           </Grid>
+          <Grid size={12}>
+          <CustomTextField
+              name="endDate"
+              label="End Date"
+              placeholder="Program Date"
+              control={control}
+              defaultValue={moment(eventStartTime).format("YYYY-MM-DD")} 
+              min={moment(eventStartTime).format("YYYY-MM-DD")} 
+              max={moment(eventEndTime).format("YYYY-MM-DD")}
+              type="date"
+              requiredField={true}
+            />
+          </Grid>
+  
   
           <Grid container size={{xs:12}} justifyContent={"space-between"}>
 <Grid size={6}>

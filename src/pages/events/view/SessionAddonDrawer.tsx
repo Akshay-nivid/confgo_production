@@ -41,6 +41,7 @@ interface SessionAddonDrawerProps {
   selectedAddOn: any;
   onSubmit: (data: FieldValues) => void;
   closeDrawer: () => void;
+  eventData: any;
 }
 
 /**
@@ -51,7 +52,7 @@ interface SessionAddonDrawerProps {
  * @param onSubmit - Callback to handle form submission
  * @param closeDrawer - Callback to close the drawer
  */
-const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, selectedAddOn, onSubmit, closeDrawer }) => {
+const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, selectedAddOn, onSubmit, closeDrawer, eventData }) => {
   const { id } = useParams();
   const [addOnOptions, setAddOnOptions] = useState<{ label: string; value: string | number }[]>([]);
   const [selectedAddOnId, setSelectedAddOnId] = useState<string | number | null>(null);
@@ -138,8 +139,8 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
       setSelectedAddOnId(selectedAddOn?.addon?.id);
       setValue("description", selectedAddOn?.description);
       setValue("addonDate", moment(selectedAddOn?.startTime).format("YYYY-MM-DD"));
-      setValue("startTime", moment.utc(selectedAddOn?.startTime).format("HH:mm"));
-      setValue("endTime", moment.utc(selectedAddOn?.endTime).format("HH:mm"));
+      setValue("startTime", moment.utc(selectedAddOn?.startTime).format("HH:mm A"));
+      setValue("endTime", moment.utc(selectedAddOn?.endTime).format("HH:mm A"));
       setValue("isPaid", selectedAddOn.amount > 0 ? "PAID" : "FREE");
       setValue("amount", selectedAddOn.amount);
       setValue("dateRequired", !!selectedAddOn?.endTime);
@@ -262,8 +263,8 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
           : [],
       };
       if (data.dateRequired) {
-        formattedData.startTime = `${data.addonDate} ${data.startTime}`;
-        formattedData.endTime = `${data.addonDate} ${data.endTime}`;
+        formattedData.startTime = `${data.addonDate} ${moment(data.startTime, ["hh:mm A"]).format("HH:mm")}`;
+        formattedData.endTime = `${data.addonDate} ${moment(data.endTime, ["hh:mm A"]).format("HH:mm")}`;
       }
       onSubmit(formattedData);
     }
@@ -319,7 +320,9 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
         {watch("dateRequired") && (
           <>
             <Grid size={{ xs: 12 }}>
-              <CustomTextField name="addonDate" placeholder="Add-on Date" control={control} type="date" />
+              <CustomTextField name="addonDate" placeholder="Add-on Date" control={control} type="date" 
+                min={moment(eventData?.startTime).format("YYYY-MM-DD")}
+                 max={moment(eventData?.endTime).format("YYYY-MM-DD")}/>
             </Grid>
             <Grid size={{ xs: 6 }}>
               <CustomTimePicker
@@ -329,7 +332,8 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
                 control={control}
                 type="time"
                 ampm={true}
-              />
+                defaultValue={moment.utc(selectedAddOn?.startTime).format("HH:mm A")}
+                />
             </Grid>
             <Grid size={{ xs: 6 }}>
               <CustomTimePicker
@@ -339,6 +343,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
                 control={control}
                 type="time"
                 ampm={true}
+                defaultValue={moment.utc(selectedAddOn?.endTime).format("HH:mm A")}
               />
             </Grid>
           </>

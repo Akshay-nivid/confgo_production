@@ -6,12 +6,9 @@ import { useForm } from "react-hook-form";
 import EventCard from "../Components/EventCard";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import apiClient from "@/Libs/Https/API-client";
-//import { NoEvent } from "@/assets/svg"
 import { Logger } from "@/Utils/Logger";
 import React from "react";
 import useStore, {IStoreState } from '@/Libs/store';
-import routes from "@/router/routes";
-import { useNavigate } from "react-router-dom";
 import CustomModel from "@/components/CustomModel/CustomModel";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { CloseOutlined } from "@mui/icons-material";
@@ -29,7 +26,6 @@ const MyEventScreen = () => {
   const [loading, setLoading] = useState(false);
   const POST = useStore((state: any) => state.POST);
   const setDataById = useStore((state: any) => state.setDataById);
-  const navigate = useNavigate();
   const events = useStore((state: IStoreState) => state?.compData.usersEvents?.["event/registered/eventList"]?.data) ?? []
   /**
    * model for view certificate
@@ -130,7 +126,7 @@ const MyEventScreen = () => {
   /**
     * Labels for the square buttons on each event card
     */
-  const squareButtonLabels: string[] = ["View Certificate", "Event Recap"];
+  const squareButtonLabels: string[] = ["View Certificate"];
   /**
     * Function to handle button presses on the event cards.
     */
@@ -140,25 +136,12 @@ const MyEventScreen = () => {
     * @param index  Function to handle the event selection from the autocomplete input.
     * It updates the API request configuration based on the selected event.
     */
-  const handleSquareButtonClick = (index: number, eventId: number) => {
-    /**
-     * You can add specific logic based on the index here.
-     */
-    if (index === 0) {
+  const handleSquareButtonClick = () => {
       setOpen(true);
-    } else if (index === 1) { 
-         eventRecap(eventId);
-    }
   };
-  /**
-   * component for show the events details
-   */
-  const eventRecap=(eventId: number)=>{
-    navigate(routes.userEventRecap(),{state:{eventId:eventId}});
-  }
   return (
     <Grid className="my-event" spacing={1} container >
-      <Grid container  size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} flexDirection={"row"}>
+      <Grid container  size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} flexDirection={"row"} >
         <Grid size={{ xs: 5 }} alignContent={"center"} container>
           <Typography className="my-event-header">My Events</Typography>
         </Grid>
@@ -180,7 +163,7 @@ const MyEventScreen = () => {
       <SkeletonList height={20} className="mt-4" />
       ):
       !loading && events?.length === 0  ? (
-       <NoEvents/>
+       <NoEvents description="You haven’t registered for any events yet. Explore upcoming events and secure your spot today!"  title="No Events Found"/>
         ) : (
           <Grid container size={12} mt={2} spacing={2}>
             {events?.map((event: IEvent, index:number) => (
@@ -192,12 +175,13 @@ const MyEventScreen = () => {
                   viewEventRecap={true}
                   squareButton={true}
                   viewButton={false}
-                  datetitle={event.startTime}
+                  datetitle={{ startTime: event?.startTime, endTime: event?.endTime }}
                   title={event?.name}
                   location={`${event?.venue?.city}, ${event?.venue?.country}`}
                   buttonPress={handleButtonPress}
                   squareButtonLabels={squareButtonLabels}
-                  onSquareButtonClick={(btnIndex: number) => handleSquareButtonClick(btnIndex, event.id)}
+                  id={event.id}
+                  onSquareButtonClick={(_btnIndex: number) => handleSquareButtonClick()}
                 />
               </Grid>
             ))}

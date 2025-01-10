@@ -25,8 +25,13 @@ import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
 
 type EventProps = {
   formSubmit: boolean;
+  formDraftSubmit: boolean;
   onSubmitHandler: (
     event: React.FormEvent<HTMLFormElement>,
+    type: string
+  ) => void;
+  onDraftSubmitHandler: (
+    event: any,
     type: string
   ) => void;
   data: any;
@@ -72,7 +77,7 @@ interface Specialty{
   label:string
 }
 const CreateEvent: React.FC<EventProps> =
-  ({ formSubmit, onSubmitHandler, data }) => {
+  ({ formSubmit, formDraftSubmit, onSubmitHandler, onDraftSubmitHandler, data }) => {
     const methods = useForm<FormData>()
     const {
       handleSubmit,
@@ -171,6 +176,15 @@ const CreateEvent: React.FC<EventProps> =
         handleSubmit(onSubmit)();
       }
     }, [formSubmit]);
+
+    /**
+     * Useeffect hook handles the form submission based on the formSubmit variable
+     */
+    useEffect(() => {
+      if (formDraftSubmit) {
+        onDraftSubmitHandler && onDraftSubmitHandler(watch(), "EVENT");
+      }
+    }, [formDraftSubmit]);
 
     /**
      * Method handles the form submission
@@ -399,7 +413,7 @@ const CreateEvent: React.FC<EventProps> =
                       placeholder="Phone"
                       control={control}
                       name="phone"
-                      type="phone"
+                      type="number"
                       rules={{
                         required: 'Phone is required',
                         pattern: validatePhoneNumber({})
@@ -471,6 +485,7 @@ const CreateEvent: React.FC<EventProps> =
                     control={control}
                     label="Specialty"
                     options={specialty}
+                    onChange={() => setValue('isAbstract',false)}
                     />
                   </Grid>
                   {watch('specialtyId')=='1'&&
@@ -483,7 +498,7 @@ const CreateEvent: React.FC<EventProps> =
                         control={control}
                       />
                   </Grid>}
-                  {watch('isAbstract')&& 
+                  {watch('isAbstract') && watch('specialtyId')=='1'&&
                   <Grid size={{xs:12,sm:6}}>
                     <CustomTextField
                       placeholder="Abstract Submission Date"
@@ -521,7 +536,8 @@ const CreateEvent: React.FC<EventProps> =
 
                   {watch("type") !== "ONLINE" && (
                     <>
-                    <Grid size={12} container justifyContent={"flex-start"} alignItems={"center"}>
+                    <Grid size={12} container justifyContent={"flex-start"} alignItems={"center"} id = "create-event-location-button"
+                    >
                       <CustomButton
                       className="create-event-choose-map"
                         label="Choose Location"

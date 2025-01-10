@@ -76,11 +76,14 @@ const UserLogin = (props: UserProps) => {
     sessionStorage.clear();
     sessionStorage.setItem("token", data?.token);
     sessionStorage.setItem("userToken", data?.token);
-    sessionStorage.setItem("userId", data?.id.toString());
+    sessionStorage.setItem("userId", data?.id?.toString());
     sessionStorage.setItem('userLoggedInType', data?.userRole?.roleName);
     sessionStorage.setItem('isUserLoggedIn', 'true');
     sessionStorage.setItem('userRole', data?.userRole?.roleName);
     sessionStorage.setItem('name', `${data?.firstName} ${data?.lastName}`);
+    sessionStorage.setItem('cartId',data?.cartId)
+    setDataById('participantLogin', true);
+    setDataById('participantUserData', data);
     setDataById('participantLogin', true);
     apiClient.setToken(data.token);
     setDataById('userDetails', data);
