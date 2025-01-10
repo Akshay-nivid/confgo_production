@@ -179,7 +179,6 @@ const SelectedPrograms = () => {
     POST({
       url: "order", id: "order", body: body, successCB: (orderResponse: any) => {
         
-        console.log(orderResponse?.data)
 
         GET({
           url: `event/form/${eventId}`, id: "dynamicFormData", successCB: (dynamicFormResponseData: any) => {

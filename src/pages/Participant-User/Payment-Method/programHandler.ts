@@ -1,4 +1,5 @@
 import  { POST, setDataById } from "@/Libs/store";
+import { Logger } from "@/Utils/Logger";
 
 /**
  * Handles the processing of the cart for the user.
@@ -39,13 +40,12 @@ export function handleCartProcessing({ helperFn,grandTotal,orderId,eventId }: {g
                 id: 'cartCheckout',
                 body: body,
                 successCB: (context: any) => {
-                    console.log(context,'checkout data')
                     helperFn('/user/event-registration-completed')
                     setDataById('registrationCompleteData', context?.data)
 
                 },
                 errorCB: (error) => {
-                    console.log(error)
+                    Logger.error(error)
                 }
             })
 
@@ -54,7 +54,8 @@ export function handleCartProcessing({ helperFn,grandTotal,orderId,eventId }: {g
 
 
     } catch (error) {
-        console.log(error)
+        Logger.error(error)
+
     }
 
 
