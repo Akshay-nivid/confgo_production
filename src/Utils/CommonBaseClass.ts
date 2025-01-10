@@ -311,3 +311,46 @@ export function convertLocalToUTC(localTime:any, format = 'YYYY-MM-DD') {
   const utcTime = localMoment.utc();
   return utcTime.format(format);
 }
+
+/**
+ * Function to convert the time from utc to local 
+ * @param utcDateTime 
+ * @param format 
+ * @param timezone 
+ * @param fallbackText 
+ * @returns 
+ */
+export function getLocalTimeDate(
+  utcDateTime :any,
+  format = "hh:mm A",
+  timezone = "auto",
+  fallbackText = "Not Available",
+)  {
+  if (utcDateTime == null) {
+  
+    return fallbackText;
+  }
+
+    // Normalize input to ensure proper parsing
+    const normalizedInput =
+      typeof utcDateTime === "string" ? utcDateTime.trim() : utcDateTime;
+
+    // Detect or use specified timezone
+    const detectedTimezone =
+      timezone === "auto" ? moment.tz.guess() : timezone;
+
+    // Parse UTC time with explicit UTC parsing
+    const utcMoment = moment.utc(normalizedInput);
+
+    // Validate the moment object
+    if (!utcMoment.isValid()) {
+      throw new Error("Invalid date parsing");
+    }
+
+    // Convert to local time
+    const localMoment = utcMoment.tz(detectedTimezone);
+
+        
+    return localMoment.format(format);
+
+}
