@@ -80,7 +80,6 @@ const ProgramSelection = () => {
 
   const [currentTab, setCurrentTab] = useState(0);
 
-  const formattedCartData = useStore((state: any) => state?.compData?.formatedCartDat?.formatedData) || null;
 
   /**
     * Method used to call event details Api

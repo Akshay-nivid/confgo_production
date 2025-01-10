@@ -9,7 +9,6 @@ import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
 import useStore, { clearDataById, GET, IStoreState, POST, snackBar } from "@/Libs/store";
 import routes from "@/router/routes";
-import { handleGroupData } from "../Program-Selection/programsHandlers";
 import { processFormData, formatDate } from "../Program-Selection/programsHandlers";
 import { EventRegistrationSuccessIcon } from "@/assets/svg";
 import CloseIcon from '@mui/icons-material/Close';
@@ -159,6 +158,7 @@ const SelectedPrograms = () => {
 
 
     const token = sessionStorage.getItem("userId")
+
     if (!token) {
       setDataById('previousRoute', { url: location.pathname })
       navigate(routes.userLogin())
@@ -268,34 +268,6 @@ const SelectedPrograms = () => {
       id: 'addToCart',
 
       successCB: () => {
-        // GET({
-        //   url: `cart/${cartId}`,
-        //   id: 'getCart',
-        //   successCB: (response: any) => {
-
-        //     setDataById("finalPrice", { value: response?.data?.cart?.finalPrice })
-
-        //     const formatedData = handleGroupData({
-        //       addons: response?.data?.addons,
-        //       programs: response?.data?.programs,
-        //       calculateTotal: true
-        //     })
-
-        //     setDataById("formatedCartData", { formatedData: formatedData })
-
-           
-
-        //   },
-        //   errorCB: (error: any) => {
-        //     setDataById("snackBarInfo", {
-        //       open: true,
-        //       autoHideDuration: 2000,
-        //       severity: "error",
-        //       message: error?.message || 'something went wrong',
-        //     })
-
-        //   }
-        // })
 
         getUserCart({
           helperFn: () => {

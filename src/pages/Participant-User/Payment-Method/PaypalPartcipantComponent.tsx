@@ -3,7 +3,7 @@ import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import Grid from '@mui/material/Grid2';
 import useStore, { IStoreState, POST, snackBar } from '@/Libs/store';
 import { setDataById } from '@/Libs/store';
-import { Navigate, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import { Backdrop, CircularProgress } from '@mui/material';
 
@@ -260,8 +260,10 @@ const PayPalParticipantButton: React.FC = () => {
                             metadata: JSON.stringify(paymentSuccessInfo),
                             amount: paymentSuccessInfo?.purchase_units?.[0]?.amount?.value || orderData?.finalPrice,
                         },
-                        successCB: () => {
+                        successCB: (context:any) => {
                             navigate(routes.userEventRegistrationCompleted())
+                            setDataById('registrationCompleteData', context?.data)
+                            
                         }, errorCB: (errorResponse) => {
                             snackBar({ severity: 'error', message: errorResponse?.message })
                         }

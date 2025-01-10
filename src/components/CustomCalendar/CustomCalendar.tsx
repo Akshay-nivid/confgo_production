@@ -7,7 +7,7 @@ import Grid from "@mui/material/Grid2";
 import { Typography } from "@mui/material";
 import CustomTooltip from "../CustomToolTip/CustomTooltip";
 import LocalTimeDate from "../LocalTimeDate/LocalTimeDate";
-import { truncateString } from "@/Utils/CommonBaseClass";
+// import { truncateString } from "@/Utils/CommonBaseClass";
 import multiMonthPlugin from '@fullcalendar/multimonth'
 
 
@@ -98,7 +98,7 @@ export const CustomCalendar: React.FC<CalendarProps> = ({
     const eventId = eventInfo.event.id;
     const colorIndex = eventId % colorPalette.length; 
     const { bg, text, border } = colorPalette[colorIndex];
-    const truncatedTitle = truncateString(eventInfo.event.title, 15, "");
+    // const truncatedTitle = truncateString(eventInfo.event.title, 15, "");
 
     const getEventStyles = (bg: string, text: string, border: string) => ({
       textAlign: "start",

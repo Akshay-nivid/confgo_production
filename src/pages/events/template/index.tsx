@@ -5,12 +5,11 @@ import Grid from '@mui/material/Grid2';
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Template1 from './Template1';
-import useStore, { NonPersistedKeys, setDataById, setNonPersistedDataById } from '@/Libs/store';
+import useStore, { setDataById } from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import routes from '@/router/routes';
 import Template3 from './Template3';
 import Template2 from './Template2';
-import { getUserCart } from './programHandler';
 
 type TemplateContainerProps = {
     id?: number;
