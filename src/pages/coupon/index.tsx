@@ -32,7 +32,7 @@ const Coupon = () => {
   const [filters, setFilters] = useState<FilterType>({});
   const [source, setSource] = useState<ISource | undefined>(undefined);
   const [loading, setLoading] = useState(false); // To indicate loading state for API
-
+  const [dataLength, setDataLength] = useState(0);
   const { control } = useForm();
   /**
    * Useeffect hook handles the api call
@@ -148,6 +148,24 @@ const Coupon = () => {
       });
     }
   };
+
+   /**
+   * Transforms the raw data from the API to match the required format for the DataGrid component.
+   * @param data - The raw data from API response
+   * @returns Transformed data for DataGrid
+   */
+  const transformData = (data: any) => {
+    setDataLength(data?.length)
+    if (!data) return [];
+    return data.map((item: any) => ({
+      id: item?.id,
+      name: item?.name,
+      discountType: item?.discountType,
+      endDate: item?.endDate,
+      code:item?.code,
+    }));
+  };
+
   return (
     <Grid container className="custom-list">
       <Grid size={{ xs: 4 }}>
@@ -159,17 +177,19 @@ const Coupon = () => {
       {/* Buttons for 'Create New Coupon' and 'Filters' */}
       <Grid container size={{ xs: 8 }} spacing={2} justifyContent="flex-end">
         <Grid container>
+          { dataLength > 0 &&
           <CustomAutocomplete
-            name="search"
-            className="custom-search-text-field"
-            control={control}
-            placeholder="Search Coupon Name"
-            options={searchResults} // Dynamic options based on API results
-            getOptionLabel={(option: any) => option.name || ""} // Adjust based on your data structure
-            onSearch={handleSearch} // Call the search function
-            loading={loading}
-            onChange={handleAutocompleteChange}
-          />
+          name="search"
+          className="custom-search-text-field"
+          control={control}
+          placeholder="Search Coupon Name"
+          options={searchResults} // Dynamic options based on API results
+          getOptionLabel={(option: any) => option.name || ""} // Adjust based on your data structure
+          onSearch={handleSearch} // Call the search function
+          loading={loading}
+          onChange={handleAutocompleteChange}
+        />}
+          
         </Grid>
         <Grid container spacing={2}>
           <CustomButton
@@ -197,6 +217,7 @@ const Coupon = () => {
       </Grid>
       <Grid size={{ xs: 12 }}>
         <DataGridList
+          dataTransformer={transformData}
           source={source}
           onRowClick={(params: any) => handleRowClick(params.id)}
           title="Coupon"

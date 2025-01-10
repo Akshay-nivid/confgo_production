@@ -27,8 +27,10 @@ import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined
 const SelectedPrograms = () => {
 
 
+  const userToken = sessionStorage.getItem("userToken");
+
   const navigate = useNavigate();
-  const location = useLocation()
+  const location = useLocation();
 
 
   const selectedPrograms = useStore((state: IStoreState) => state?.compData?.["formatedCartData"]?.["formatedData"]) ?? null;
@@ -202,7 +204,14 @@ const SelectedPrograms = () => {
         })
 
 
-      }, errorCB: () => { }
+      }, errorCB: (error: any) => {
+        setDataById('snackBarInfo', {
+          open: true,
+          autoHideDuration: 2000,
+          severity: 'error',
+          message: error.message,
+        });
+       }
     })
 
 
@@ -544,10 +553,11 @@ const SelectedPrograms = () => {
               </>
             ))
           }
-          {!couponData?.data?.coupon?.code ?
+          {userToken&&(
+          !couponData?.data?.coupon?.code ?(
             <Grid className="coupon-container">
 
-              <Typography className="apply-coupon-header">
+             <Typography className="apply-coupon-header">
                 Apply Coupons
               </Typography>
 
@@ -575,8 +585,8 @@ const SelectedPrograms = () => {
 
               </Grid>
 
-            </Grid> :
-
+            </Grid>
+               ) :(
 
             <Grid display={'flex'} justifyContent={'space-between'} size={12} className="coupon-banner-container  ">
 
@@ -595,8 +605,8 @@ const SelectedPrograms = () => {
               </IconButton>
 
             </Grid>
-          }
-
+           )
+          )}
 
           <Grid container flexDirection={"column"} className="bill-details-container">
 

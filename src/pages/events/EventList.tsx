@@ -158,6 +158,34 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
       });
     }
   };
+
+    /**
+     *  Transforms the raw data from the API to match the required format for the DataGrid component.
+    * @param data - The raw data from API response
+    * @returns Transformed data for DataGrid
+    */
+   const transformData = (data: any) => {
+     if (!data) return [];
+     return data.map((item: any) => ({
+       id: item?.id,
+       name: item?.name,
+       eventClass: item?.eventClass,
+       createdOn: item?.createdOn,
+       startTime:item?.startTime,
+       statusId: item?.published === true && item?.statusId == 1 ? 6 : item?.statusId,
+     }));
+   };
+
+  /**
+   * Method handles the dynamic creation of the class name based on the row data
+   * @param item : row data
+   * @returns : class name
+   */
+  const getRowClassName = (item: any) => {
+    return item.row?.statusId === StatusEnum.DRAFTED ? 'event-list-row-drafted' : '';
+  };
+  
+
   return (
     <Grid container className="custom-list">
       <Grid size={{ xs: 4 }}>
@@ -203,6 +231,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
       </Grid>
       <Grid size={{ xs: 12 }}>
         <DataGridList
+          dataTransformer={transformData}
           source={source}
           onRowClick={(params: any) => handleRowClick(params.id, params.row)}
           title="Event"
@@ -213,6 +242,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
           noRecordSubtitle="It looks like you haven't created any events yet.Start by setting up your first conference or meeting."
           redirectTo={() => routes.createEvent()} // define the route
           btnName="Create New Event" //define the label of btn
+          getRowClassName={getRowClassName}
         />
       </Grid>
       {hideAction && view && (
