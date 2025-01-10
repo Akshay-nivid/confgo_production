@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { useMediaQuery } from "react-responsive";
 import { StatusEnum } from './StatusEnum';
+import momentTimeZone from 'moment-timezone';
 
 /**
  * Process the API response to extract status and message.
@@ -370,4 +371,31 @@ export const groupByDate = (items: any[]): Record<string, any[]> => {
     acc[date].push(item);
     return acc;
   }, {});
+};
+
+/**
+ * Convert UTC date/time to the user's current time zone
+ * @param utcDateStr - The date/time in UTC format
+ * @param format - Optional format string
+ * @returns Converted date/time as a string
+ */
+export const convertUTCToUserTimeZone = (
+  utcDateStr: string | number | Date,
+  format?: string
+): string => {
+  // Get the user's current time zone
+  const userTimeZone = momentTimeZone.tz.guess();
+
+  // Create a moment object from the UTC input
+  const dateInUTC = momentTimeZone.utc(utcDateStr);
+
+  // Convert the date to the user's current time zone
+  const dateInUserTimeZone = dateInUTC.tz(userTimeZone);
+
+  // Format the date based on the provided format or use a default
+  if (format) {
+    return dateInUserTimeZone.format(format);
+  } else {
+    return dateInUserTimeZone.format('DD/MM/YYYY, hh:mm A');
+  }
 };
