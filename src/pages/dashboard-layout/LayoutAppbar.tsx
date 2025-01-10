@@ -96,7 +96,7 @@ export default function LayoutAppbar() {
                                  <Avatar className="appbars-group-avatar">
                                  {companyUserName
                                   .split(' ')
-                                    .map(word => word[0].toUpperCase()) 
+                                    .map(word => word?.[0]?.toUpperCase()) 
                                       .join('')} 
                                         </Avatar>
                                             ) : (
