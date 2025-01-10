@@ -29,7 +29,6 @@ import ShareInvitationDrawer from "./ShareInvitationDrawer";
 import PriceTierList from "./PriceTierList";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
 import { PublishTickIcon, WarningIcon } from "@/assets/svg";
-import VolunteerListCard from "./VolunteerListCard";
 import AbstractListCard from "./AbstractListCard";
 import TeamAndRole from "./TeamAndRole";
 
@@ -378,7 +377,7 @@ const ViewEventDetail = () => {
               <Tab label="Template" className="event-detail-tab-layout-item" value="6" />
               <Tab label="Custom Fields" className="event-detail-tab-layout-item" value="7" />
               <Tab label='Settings' className="event-detail-tab-layout-item" value="8" />
-              <Tab label='Volunteers' className="event-detail-tab-layout-item" value="9"/>
+              {/* <Tab label='Volunteers' className="event-detail-tab-layout-item" value="9"/> */}
              
               {eventFullData?.specialtyId===1 &&<Tab label="Abstracts" className="event-detail-tab-layout-item" value="10" />}
             </TabList>
@@ -409,9 +408,9 @@ const ViewEventDetail = () => {
           <TabPanel value="8">
             <PriceTierList />
           </TabPanel>
-          <TabPanel value="9">
+          {/* <TabPanel value="9">
             <VolunteerListCard />
-          </TabPanel>
+          </TabPanel> */}
           {eventFullData?.specialtyId===1&&
           <TabPanel value="10">
             <AbstractListCard />

@@ -15,6 +15,7 @@ import { Logger } from "@/Utils/Logger";
 import React from "react";
 import { NoEvent as NoEventIcon } from "@/assets/svg";
 import { Filter } from "@/components/Filter";
+import { StatusEnum } from "@/Utils/StatusEnum";
 interface EventListProps {
   hideAction?: boolean;
   view?:any
@@ -110,8 +111,8 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
   /**
    * Row click navigation
    */
-  const handleRowClick = (id: number | string) => {
-    navigate(routes.viewEvent(id));
+  const handleRowClick = (id: number | string, data: any) => {
+    data.statusId === StatusEnum.DRAFTED ? navigate(routes.editDraftEvent(id)): navigate(routes.viewEvent(id))
   };
   /**
    * Function to handle search API for autocomplete
@@ -157,6 +158,34 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
       });
     }
   };
+
+    /**
+     *  Transforms the raw data from the API to match the required format for the DataGrid component.
+    * @param data - The raw data from API response
+    * @returns Transformed data for DataGrid
+    */
+   const transformData = (data: any) => {
+     if (!data) return [];
+     return data.map((item: any) => ({
+       id: item?.id,
+       name: item?.name,
+       eventClass: item?.eventClass,
+       createdOn: item?.createdOn,
+       startTime:item?.startTime,
+       statusId: item?.published === true && item?.statusId == 1 ? 6 : item?.statusId,
+     }));
+   };
+
+  /**
+   * Method handles the dynamic creation of the class name based on the row data
+   * @param item : row data
+   * @returns : class name
+   */
+  const getRowClassName = (item: any) => {
+    return item.row?.statusId === StatusEnum.DRAFTED ? 'event-list-row-drafted' : '';
+  };
+  
+
   return (
     <Grid container className="custom-list">
       <Grid size={{ xs: 4 }}>
@@ -202,16 +231,18 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
       </Grid>
       <Grid size={{ xs: 12 }}>
         <DataGridList
+          dataTransformer={transformData}
           source={source}
-          onRowClick={(params: any) => handleRowClick(params.id)}
+          onRowClick={(params: any) => handleRowClick(params.id, params.row)}
           title="Event"
           hideFooterPagination={hideAction ? true : false}
           columns={columns}
           id="event-datagrid"
           noRecordIcon={<NoEventIcon className="event-list-no-events-icon" />}
-          noRecordSubtitle="You haven’t registered for any events yet. Explore upcoming events and secure your spot today!"
+          noRecordSubtitle="It looks like you haven't created any events yet.Start by setting up your first conference or meeting."
           redirectTo={() => routes.createEvent()} // define the route
           btnName="Create New Event" //define the label of btn
+          getRowClassName={getRowClassName}
         />
       </Grid>
       {hideAction && view && (

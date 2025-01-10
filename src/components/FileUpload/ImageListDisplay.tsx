@@ -46,7 +46,7 @@ const ImageListDisplay: React.FC<ImageListDisplayProps> = ({
   return (
     <Grid container>
       <Grid size={{xs:12}}>
-        <ImageList cols={imagesPerRow} gap={20} rowHeight={70} className="image-list">
+        <ImageList cols={imagesPerRow} gap={20} className="image-list">
           {files.map((file) => (
             <ImageListItem key={file.id} onClick={() => handleFileSelect(file)} className="image-list-item">
               <img
@@ -56,7 +56,7 @@ const ImageListDisplay: React.FC<ImageListDisplayProps> = ({
                 className="image-list-image"
               />
               <ImageListItemBar
-                title={file.name}
+                // title={file.name}
                 actionIcon={
                   multipleSelect ? (
                     <Checkbox

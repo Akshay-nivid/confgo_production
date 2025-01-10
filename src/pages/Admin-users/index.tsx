@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
 import { Filter } from "@/components/Filter";
 import useStore, { setDataById } from "@/Libs/store";
+import { NoUserList } from "@/assets/svg";
 
 interface Role{
   value:number,
@@ -274,6 +275,8 @@ const AdminUsersList=()=>{
             columns={columns}
             id="data-role-list"
             // onRowClick={(params:any) => handleRowClick(params.id)}
+            noRecordIcon={<NoUserList className="userdetail-noimage"/>}
+            noRecordSubtitle="It's looks like you haven't created any users yet."
           />
         </Grid>
       </Grid>

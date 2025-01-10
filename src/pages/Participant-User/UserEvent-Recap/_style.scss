@@ -63,6 +63,13 @@
     .stepper-title{
         font-weight: $font_semibold;
         font-size: $p1;
+       
+    }
+    .stepper-desc{
+        font-family: $font;
+        font-size: $p3;
+        color:$clr_field;
+        white-space: pre-wrap;
     }
     &-header {
         font-weight: $font-bold !important;
@@ -407,4 +414,15 @@
 
 
 
+}
+.upload-dropzone-text{
+    color: $clr_black !important;
+    font-size: $h6 !important;
+    font-weight: $font_semibold !important;
+}
+.upload-dropzone-subtext{
+    color: $clr_field !important;
+    font-size: $p2 !important;
+    font-weight: $font_medium !important;
+    justify-content: center !important;
 }

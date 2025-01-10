@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { useMediaQuery } from "react-responsive";
+import { StatusEnum } from './StatusEnum';
 
 /**
  * Process the API response to extract status and message.
@@ -276,3 +277,54 @@ export function extractFileType(fileObject: any) {
   const mimeTypeParts = fileObject.mimeType.split('/');
   return mimeTypeParts.length > 1 ? mimeTypeParts[1] : null;
 }
+/**
+ * Determines the status of an event based on its properties.
+ *
+ * @param {any} data - The event data object containing details such as `published`, `statusId`, and `eventEndTime`.
+ * @returns {string} - A string representing the event status:
+ *   - "6" if the event is published.
+ *   - "4" if the event status is ACTIVE and the event's end time is in the future.
+ *   - "3" for all other cases.
+ */
+export const findEventStatus = (data: any) => {
+  if(data.published){
+      return "6";
+  }
+  else{
+      if((data.statusId === StatusEnum.ACTIVE) && (new Date(data.eventEndTime) > new Date())){
+          return "4";
+      }
+      else{
+          return "3";
+      }
+  }
+}
+
+/**
+ * Function to convert local time to UTC time
+ * @returns 
+ */
+export function convertLocalToUTC(localTime:any, format = 'YYYY-MM-DD') {
+  const localMoment = moment(localTime);
+
+  // Convert to UTC and return formatted date
+  const utcTime = localMoment.utc();
+  return utcTime.format(format);
+}
+
+/**
+ * A function that groups an array of items by their start date. 
+ * Items are first sorted by their `startTime` in ascending order, 
+ * then grouped by the formatted start date (`YYYY-MM-DD`).
+ * @param - items : An array of objects, each containing a `startTime` property.
+ */
+export const groupByDate = (items: any[]): Record<string, any[]> => {
+  const sortedItems = [...items].sort((a, b) => moment(a.startTime).valueOf() - moment(b.startTime).valueOf());
+
+  return sortedItems.reduce((acc: Record<string, any[]>, item: any) => {
+    const date = moment(item.startTime).format("YYYY-MM-DD");
+    if (!acc[date]) acc[date] = [];
+    acc[date].push(item);
+    return acc;
+  }, {});
+};

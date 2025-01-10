@@ -19,6 +19,7 @@ type FormData = {
   programs: {
     name: string;
     description: string;
+    totalSeat: string;
     startDate:string;
     endDate:string;
     startTime: string;
@@ -31,6 +32,7 @@ type FormData = {
     id?: string;
     name: string;
     description: string;
+    totalSeat: string;
     startDate:string;
     endDate:string;
     startTime: string;
@@ -42,7 +44,9 @@ type FormData = {
 };
 type ProgramProps = {
   formSubmit: boolean;
+  formDraftSubmit: boolean;
   onSubmitHandler: (event: any, type: string) => void;
+  onDraftSubmitHandler: (event: any, type: string) => void;
   onSaveHandler: (event: any, type: string) => void;
   data: any;
   addOnOptions?: any;
@@ -56,7 +60,7 @@ const typeArray = [
 
 
 const AddProgram: React.FC<ProgramProps> = React.memo(
-  ({ formSubmit, onSubmitHandler, data, onSaveHandler ,eventData}) => {
+  ({ formSubmit, formDraftSubmit, onSubmitHandler, onDraftSubmitHandler, data, onSaveHandler ,eventData}) => {
     const { handleSubmit, control, watch, setValue,setError,setFocus } = useForm<FormData>({
       defaultValues: {
         programs: [
@@ -103,6 +107,16 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
           onSubmitHandler(data?.savedPrograms, "PROGRAM");
       }
   }, [formSubmit]);
+
+  /**
+     * Useeffect hook submits the form based on the formDraftSubmit variable
+     */
+  useEffect(() => {
+    if (!formDraftSubmit) return; // Short-circuit if formDraftSubmit is false
+    if (onDraftSubmitHandler) {
+        onDraftSubmitHandler(watch()?.savedPrograms, "PROGRAM");
+    }
+}, [formDraftSubmit]);
   
 
     /**
@@ -203,6 +217,7 @@ let eventEndDateObj = new Date(eventEndDate)
         const newProgram = {
           name: "",
           description: "",
+          totalSeat: "",
           startDate:moment(eventData?.startTime).format("YYYY-MM-DD"),
           endDate:moment(eventData?.startTime).format("YYYY-MM-DD"),
           startTime: moment().format("HH:mm"),
@@ -267,6 +282,7 @@ let eventEndDateObj = new Date(eventEndDate)
           append({
             name: "",
             description: "",
+            totalSeat: "",
             startDate:moment().format("YYYY-MM-DD"),
             endDate:moment().format("YYYY-MM-DD"),
             startTime: moment(new Date()).format("HH:mm"),
@@ -278,6 +294,7 @@ let eventEndDateObj = new Date(eventEndDate)
           saveProgram.push({
             name: "",
             description: "",
+            totalSeat: "",
             startDate:moment().format("YYYY-MM-DD"),
             endDate:moment().format("YYYY-MM-DD"),
             startTime: moment(new Date()).format("HH:mm"),
@@ -358,6 +375,14 @@ let eventEndDateObj = new Date(eventEndDate)
                                     rules={{ required: true }}
                                     multiline={true}
                                     rows={10}
+                                  />
+                                </Grid>
+                                <Grid size={{ xs: 12, sm: 12 }}>
+                                  <CustomTextField
+                                    placeholder="Total Seats"
+                                    control={control}
+                                    name={`programs.${index}.totalSeat`}
+                                    type="number"
                                   />
                                 </Grid>
                                 <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"} container spacing={2}>
@@ -526,14 +551,6 @@ let eventEndDateObj = new Date(eventEndDate)
                                     />
                                   </Grid>
                                 )}
-                                {/* <Grid size={{ xs: 12, sm: 6 }}>
-                                    <CustomTextField
-                                      placeholder="Total seat"
-                                      control={control}
-                                      name={`programs.${index}.totalSeat`}
-                                      type="number"
-                                    />
-                                  </Grid> */}
                                 <Grid
                                   container
                                   direction={"row"}
