@@ -78,13 +78,11 @@ const UserDetail: React.FC = React.memo(() => {
 
         setUser(userData);
         const programData = data.programs
-          .filter((program: any) => program.event) // Filter out null or undefined events
+          .filter((program: any) => program.event)
           .map((program: any) => ({
             id: program.event?.id,  
             name: program.event?.name, 
-            location: program.event?.venue
-            ? `${program.event.venue.city}, ${program.event.venue.country}`
-            : "online",
+            location: program.event?.venue? `${program.event.venue.city},${program.event.venue.country}`:'Unknown',
             startTime: program.event?.startTime,
             endTime: program.event?.endTime,
             status: program.event?.statusId,
