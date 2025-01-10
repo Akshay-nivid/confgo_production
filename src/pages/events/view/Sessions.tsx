@@ -38,9 +38,12 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
   const PUT = useStore((state) => state.PUT);
   const setDataById = useStore((state) => state.setDataById);
 
-  useEffect(()=>{
-    setPrograms(eventData?.programs)
-  },[eventData?.programs])
+  //fetch the details from eventData
+  useEffect(() => {
+    if (eventData?.programs) {
+      setPrograms(eventData.programs);
+    }
+  }, [eventData?.programs]);
   /**
    * Function used at while adding
    */

@@ -72,6 +72,7 @@ const CustomTimePicker: React.FC<BasicTimePickerProps> = React.memo(({
     }
   }, [defaultValue, ampm]);
 
+  //Checking the default value changed or not
   const handleChange = (newValue: Dayjs | null) => {
     const formattedTime = newValue?.format("HH:mm") || null; // Format the time or set null
     setValue(newValue);
