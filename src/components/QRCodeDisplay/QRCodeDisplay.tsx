@@ -23,13 +23,9 @@ const QRCodeDisplay: React.FC<QRCodeDisplayProps> = ({ value, className }) => {
   }, [value]);
 
   return (
-    <div style={{ textAlign: "center"}} className={className}>
-      {value ? (
+    value ? <div style={{ textAlign: "center"}} className={className}>
         <canvas ref={canvasRef} />
-      ) : (
-        <p>No QR code value provided</p>
-      )}
-    </div>
+    </div> : null
   );
 };
 

@@ -204,7 +204,14 @@ const SelectedPrograms = () => {
         })
 
 
-      }, errorCB: () => { }
+      }, errorCB: (error: any) => {
+        setDataById('snackBarInfo', {
+          open: true,
+          autoHideDuration: 2000,
+          severity: 'error',
+          message: error.message,
+        });
+       }
     })
 
 
