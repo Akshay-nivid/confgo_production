@@ -131,8 +131,8 @@
             }
             &-box{
                 height: 20rem !important;
-                padding-left: 3.25rem ;
-                padding-top:3rem !important ;
+                padding-left: 2.42rem ;
+                padding-top:2.16rem !important ;
             }
             &-index-box {
                   background: $clr_charcoal_cyan ;
@@ -158,9 +158,8 @@
                 }
               }
             &-border-line{
-                width: 0.125rem;
-                height: 14.75rem;
-                background:$clr_background_gray;
+              padding-right: 2rem;
+              border-right: 0.083rem solid $clr_border_light_grey;
             }
             &-label {
                 font-size: $h6 !important;
