@@ -38,7 +38,7 @@ import ParticipantHome from "@/pages/participant/Participant-Home";
 
 import ViewEventDetail from "@/pages/events/view/ViewEventDetail";
 import EventList from "@/pages/events/EventList";
-import TemplateContainer from "@/pages/events/template/TemplateContainer";
+import TemplateContainer from "@/pages/events/template";
 import UserDetail from "./pages/events/view/UserDetail";
 
 import Register from "@/pages/register/Register";

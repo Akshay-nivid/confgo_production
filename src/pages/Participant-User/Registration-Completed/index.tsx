@@ -1,12 +1,13 @@
 import Grid from "@mui/material/Grid2";
-import { EventRegistrationSuccessIcon, QrIcon } from "@/assets/svg";
+import { EventRegistrationSuccessIcon } from "@/assets/svg";
 import { Box, Typography } from "@mui/material";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import useStore, { IStoreState } from "@/Libs/store";
 import routes from "@/router/routes";
 import { useNavigate } from "react-router-dom";
-
 import { Navigate } from "react-router-dom";
+import QRCodeDisplay from "@/components/QRCodeDisplay/QRCodeDisplay";
+
 const RegistrationCompleted = () => {
 
   const navigate = useNavigate();
@@ -14,15 +15,19 @@ const RegistrationCompleted = () => {
   const finalPrice = useStore((state: any) => state?.compData?.["finalPrice"]?.value)
   const slugName = useStore((state: any) => state?.compData?.["slugName"]?.value)
   const orderData = useStore((state: IStoreState) => state?.compData?.["order"]?.["order"]?.data) || null
-  const isCheckout = useStore((state: IStoreState) => state?.compData?.checkout?.checkout) || false 
+  const isCheckout = useStore((state: IStoreState) => state?.compData?.cartCheckout?.checkout) || false 
   const couponData = useStore((state: IStoreState) => state?.compData?.["couponData"]?.['coupon/applyCoupon']?.data) ?? null
-
-
-
+  const regData = useStore((state: IStoreState) => state?.compData?.registrationCompleteData) || null
+  
   if (isCheckout === false) {
 
     if (!slugName) {
-      return <Navigate to={routes.userLogin()} />;
+
+      const token = sessionStorage.getItem("token")
+      if (!token) {
+        return <Navigate to={routes.userLogin()} />;
+      }
+      return <Navigate to={routes.userHome()} />;
     }
     return <Navigate to={routes.eventExternalLink(slugName)} />
   }
@@ -42,7 +47,7 @@ const RegistrationCompleted = () => {
         justifyContent={"center"}
       >
         <Typography className="sub-header">
-          You're officially registered for the Tech Innovators Summit 2024!
+          {`You're officially registered for the ${regData?.event?.name ?? ''}!`}
         </Typography>
       </Grid>
       <Grid size={12} display={"flex"} justifyContent={"center"}>
@@ -54,7 +59,7 @@ const RegistrationCompleted = () => {
         display={"flex"}
         justifyContent={"center"}
       >
-        <QrIcon className="qr-icon" />
+        <QRCodeDisplay value={regData?.participant?.qrCode} className="qr-code-display-section"/>
       </Grid>
 
       <Grid size={12}>
