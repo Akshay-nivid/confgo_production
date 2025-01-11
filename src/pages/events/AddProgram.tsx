@@ -411,6 +411,24 @@ let eventEndDateObj = new Date(eventEndDate)
                                     defaultValue={moment().format("HH:mm")}
                                     rules={{
                                       required: true,
+                                      validate: (value) => {
+                                        if (
+                                          typeof value === "string" &&
+                                          value
+                                        ) {
+                                          const today = moment(new Date()).format("YYYY-MM-DD") 
+                                          const startDate = moment(eventData.startTime).format("YYYY-MM-DD");
+                                          if(startDate == today) {
+                                            //check if time is greater than current time
+                                            const now = moment(new Date()).format("HH:mm");
+                                            if(value < now) {
+                                              return (
+                                                 "Start Time cannot be in the past"
+                                               );
+                                            }
+                                          }
+                                        }
+                                      }
                                     }}
                                   />
                                   </Grid>
@@ -465,6 +483,24 @@ let eventEndDateObj = new Date(eventEndDate)
                                     defaultValue={moment().format("HH:mm")}
                                     rules={{
                                       required: true,
+                                      validate: (value) => {
+                                        if (
+                                          typeof value === "string" &&
+                                          value
+                                        ) {
+                                          const today = moment(new Date()).format("YYYY-MM-DD") 
+                                          const endDate = moment(eventData.endTime).format("YYYY-MM-DD");
+                                          if(endDate == today) {
+                                            //check if time is greater than current time
+                                            const now = moment(new Date()).format("HH:mm");
+                                            if(value < now) {
+                                              return (
+                                                 "End Time cannot be in the past"
+                                               );
+                                            }
+                                          }
+                                        }
+                                      }
                                     }}
                                   />
                                   </Grid>
