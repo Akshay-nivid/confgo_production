@@ -7,6 +7,7 @@ import DeleteIcon from '@mui/icons-material/Close';
 import CustomButton from '../CustomButton/CustomButton';
 import clsx from 'clsx';
 import DownloadIcon from '../../assets/svg/abstract-download.svg';
+import { PdfIcon } from '@/assets/svg';
 
 interface Resolution {
   width: number | null;
@@ -198,6 +199,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
     setSelectedFiles(prev => prev.filter((_, i) => i !== index));
     setPreviewUrls(prev => prev.filter((_, i) => i !== index));
   };
+  const isPDF = (file: File) => file.type === 'application/pdf';
 
   return (
     <Grid className={clsx('file-upload', className)} container 
@@ -233,24 +235,31 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
         {/* File previews with remove button and upload progress */}
         <Grid className="file-upload-preview" justifyContent={'center'}>
-          {previewUrls.map((url, index) => (
-            <Grid key={index} className="file-upload-preview-item">
-              <img src={url} alt={`preview ${index}`} />
-              {/* Display the file name */}
+          {previewUrls.map((url, index) => {
+            const file = selectedFiles[index];
+            const isFilePDF = isPDF(file);
+            return (
+              <Grid key={index} className="file-upload-preview-item">
+                {isFilePDF ? (
+                  <PdfIcon className='file-upload-preview-item-pdf'/> 
+                ) : (
+                  <img src={url} alt={`preview ${index}`} />
+                )}
 
-              <IconButton
-                onClick={event => {
-                  event.stopPropagation(); // Prevent file manager from opening
-                  handleRemoveFile(index); // Your existing function to remove the file
-                }}
-              >
-                <DeleteIcon />
-              </IconButton>
-              <Typography className="file-upload-preview-item-name" variant="body2" align="center" title={selectedFiles[index]?.name}>
-                {selectedFiles[index]?.name}
-              </Typography>
-            </Grid>
-          ))}
+                <IconButton
+                  onClick={event => {
+                    event.stopPropagation();
+                    handleRemoveFile(index); // Remove file
+                  }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+                <Typography className="file-upload-preview-item-name" variant="body2" align="center" title={file.name}>
+                  {file.name}
+                </Typography>
+              </Grid>
+            );
+          })}
         </Grid>
         {/* Display rejection messages */}
         {rejectionMessages.length > 0 && (
