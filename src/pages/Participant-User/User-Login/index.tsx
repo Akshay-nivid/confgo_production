@@ -104,6 +104,9 @@ const UserLogin = (props: UserProps) => {
       id: props?.id,
       successCB: (context: ApiResponse) => {
         storeDetails(context?.data);
+         setDataById("adminCompanyId",{companyId:context?.data?.companyId});
+         sessionStorage.setItem('token', context?.data?.token);
+        
         sessionStorage.setItem('ssoUser', 'false');
 
       },
