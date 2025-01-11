@@ -73,6 +73,11 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
         };
         req.filters = {...dataGridInfo?.source?.data.filters,...formattedData };
 
+        // Ensure roleEnum is excluded if roleId is set
+        if (req.filters.roleId) {
+            delete req.filters.roleEnums;
+        }
+
         req['start'] = 0;
         let dataSource: any = { ...dataGridInfo?.source }
         dataSource.data = checkValueIsNotEmpty(req);
@@ -483,7 +488,7 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
                                     size="large"
                                     disabled={isSubmitting}
                                     fullWidth
-                                //onClick={handleApplyFilters}
+                                    //onClick={handleApplyFilters}
                                 />
                             </Grid>
                         </Grid>

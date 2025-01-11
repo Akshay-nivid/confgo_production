@@ -189,7 +189,7 @@ const EventInfoCard: React.FC<any> = React.memo(
     if(data?.eventClass === "ONLINE"){
       excludeKeys.push('venueName');
     }
-    if(data?.specialtyId!='1'){
+    if(data?.specialtyId != '1' || !data.isAbstract){
       excludeKeys.push('abstractDate');
     }
     const formattedData = {
@@ -199,7 +199,7 @@ const EventInfoCard: React.FC<any> = React.memo(
       startTime: formatUTCDateTime(data.startTime),
       endTime: formatUTCDateTime(data.endTime),
       assetId: selectedFile?.id,
-      isAbstract:data?.specialtyId!='1'?0:1,
+      isAbstract:(data?.specialtyId !='1' || !data.isAbstract)? 0 : 1,
       ...(data?.eventClass !== "ONLINE" ?{
       venue: {
         name: data?.venueName,
@@ -218,7 +218,6 @@ const EventInfoCard: React.FC<any> = React.memo(
         }
       ],
     }
-
     const response = await apiClient.put(`event/update/${id}`, formattedData);
     const { status, message } = await processAPIResponse(
       response,
@@ -635,7 +634,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                         control={control}
                       />
                   </Grid>}
-                  {watch('specialtyId')=='1'&&watch('isAbstract')&& 
+                  {watch('specialtyId')=='1'&& watch('isAbstract') == true && 
                   <Grid size={{xs:12}}>
                     <CustomTextField
                       placeholder="Abstract Submission Date"
