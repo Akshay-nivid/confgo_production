@@ -186,7 +186,7 @@ const LayoutAppbar: React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =
             <SettingsIcon   className="user-profile-menu-icon"/>
             <span className="menu-item-text">Profile</span>
           </MenuItem>
-          <MenuItem className="" onClick={handleResetPassword}>
+          <MenuItem className="user-dash-space-fix" onClick={handleResetPassword}>
             <ResetPassword className="user-profile-menu-icon"  />
             <span className="menu-item-text">Change Password</span>
           </MenuItem></>}
