@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Logger } from "@/Utils/Logger";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
@@ -16,6 +16,7 @@ import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomple
 import { ISource } from "@/Libs/type";
 import { DataGridList } from "@/components/DataGrid/DataGridList";
 import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
+import routes from "@/router/routes";
 
 interface EventParticipant {
   id: number;
@@ -60,7 +61,8 @@ const SpeakerCard = (_eventData: any) => {
   const [loading, setLoading] = useState(false);
   const [handleSelectedValue,setHandleSelectedValue]=useState<any>();
   const companyId = sessionStorage.getItem("companyId")
-   const [source, setSource] = useState<ISource | undefined>(undefined);
+  const [source, setSource] = useState<ISource | undefined>(undefined);
+   const navigate = useNavigate();
   /**
    * Method transforms data to the autocomplete data format
    * @param data : api response data
@@ -396,6 +398,14 @@ const SpeakerCard = (_eventData: any) => {
       };
     });
   };
+
+  /**
+   * drawer create speaker button
+   */ 
+  const createNewSpeaker=(speaker:any)=>{
+    navigate(routes.createNewUsers(),{state:{data:speaker}});
+  };
+
   return (
     <Grid
       className="event-detail-speakers-card"
@@ -455,7 +465,7 @@ const SpeakerCard = (_eventData: any) => {
           justifyContent={"center"}
           alignContent={"center"}
           size={{ xs: 12 }}
-          
+        
         >
         <Grid size={{ xs: 12 }}>
         <DataGridList
@@ -524,14 +534,26 @@ const SpeakerCard = (_eventData: any) => {
                     </Grid>
                     </>}
                   </Grid>
-                  <Grid container justifyContent="flex-end" alignItems="center" size={12}>
+                  <Grid container justifyContent="flex-end" alignItems="center" size={3}>
                     <CustomButton
                       className="event-detail-speakers-card-btn-container-submit-btn"
                       label="Submit"
                       variant="contained"
                       type="submit"
                     />
-                  </Grid>   
+                     
+
+                     <Grid container justifyContent="flex-end" alignItems="center" size={3}>
+                    <CustomButton
+                      className="event-detail-speakers-card-btn-container-submit-btn"
+                      label="Create Speaker"
+                      variant="contained"
+                       onClick={()=>createNewSpeaker("speaker")}
+                    />
+                    
+                  </Grid>  
+                  </Grid>  
+
                 </form>
               </Grid>
             </Grid>
