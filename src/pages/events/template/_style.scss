@@ -99,6 +99,7 @@
                 text-transform: none !important;
                 margin-top: 1rem !important;
                 padding: 1.5rem 2.5rem 1.5rem 2.5rem !important;
+                box-shadow: none !important;
             }
         }
         &-header {
@@ -392,6 +393,7 @@
               margin-top: 3.33rem !important;
               margin-bottom: 0.83rem !important;
               width: 90% !important;
+              box-shadow: none !important;
             }
             &-item-container:nth-child(odd) .event-template-template1-ticketing-register-button {
               background-color: $clr_charcoal_cyan !important;
@@ -469,6 +471,7 @@
               color: $clr_white !important;
               padding: 1.25rem 2.167rem 1.25rem 2.167rem !important;
               border-radius: 0.83rem !important;
+              box-shadow: none !important;
             }
         }
         &-footer {

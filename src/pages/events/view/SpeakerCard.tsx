@@ -433,8 +433,9 @@ const SpeakerCard = (_eventData: any) => {
               </Grid>
               <Grid>
                 <CustomButton
-                  className="custom-green-btn"
-                  label="ASSIGN"
+                  className="event-detail-speakers-card-speaker-assign-button"
+                  variant="outlined"
+                  label="Assign"
                   onClick={handleDrawerOpen}
                   startIcon={<AddIcon />}
                   size="large"

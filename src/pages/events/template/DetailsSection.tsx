@@ -2,8 +2,8 @@
  * Component displays the details section of the template
  */
 import Grid from '@mui/material/Grid2';
-import React, { useState } from 'react';
-import { Button, Typography } from '@mui/material';
+import React from 'react';
+import {Typography } from '@mui/material';
 import LocationIcon from '@/assets/svg/template1-location.svg';
 import CalendarIcon from '@/assets/svg/template1-calendar.svg';
 import EmailIcon from '@/assets/svg/template1-email.svg';
@@ -46,20 +46,6 @@ const DetailsSection: React.FC<DetailsSectionProps> = React.memo(({ data, classP
           itemArray.push({ icon: <PhoneIcon />, label: "Phone", value: data?.eventContacts[0]?.phone || "" });
         }
      
-    const CopyUrl=data?.venue?.mapUrl
-    const [copied, setCopied] = useState(false);
-    /**
-     * Method to copy the URL to clipboard
-      */ 
-    const copyToClipboard = () => {
-        const url = data?.venue?.mapUrl;
-        if (url) {
-            navigator.clipboard.writeText(url).then(() => {
-                setCopied(true); // Indicate that the URL was copied
-                setTimeout(() => setCopied(false), 3000); // Reset copied state after 2 seconds
-            });
-        }
-    };
 
 
     return (
@@ -90,14 +76,6 @@ const DetailsSection: React.FC<DetailsSectionProps> = React.memo(({ data, classP
                         })
                         
                     }
-                    {CopyUrl && data.eventClass!=='OFFLINE' && (
-                        <Grid container size={{ xs: 1 }} justifyContent="center" direction="column" >
-                            <Button onClick={copyToClipboard} variant="outlined" color="primary">
-                                {copied ? "Copied!" : "Copy URL"}
-                            </Button>
-                        </Grid>
-                    )}
-                 
                 </Grid>
             </Grid></Grid>)
                                       

@@ -160,7 +160,7 @@ const PriceTierList: React.FC = () => {
           Settings
         </Typography>
         <CustomButton
-          className="event-detail-speakers-card-speaker-add-button"
+          className="event-sessions-sessions-container-add-addon-button"
           variant="outlined"
           label="Configure"
           onClick={handleOpen}
