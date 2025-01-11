@@ -383,6 +383,13 @@ let eventEndDateObj = new Date(eventEndDate)
                                     control={control}
                                     name={`programs.${index}.totalSeat`}
                                     type="number"
+                                    rules={{
+                                      pattern: {
+                                      value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
+                                        message:
+                                          "Enter a valid number",
+                                      }
+                                    }}
                                   />
                                 </Grid>
                                 <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"} container spacing={2}>
