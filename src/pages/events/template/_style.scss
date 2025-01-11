@@ -3,6 +3,9 @@
     background-color: $clr_white;
 
     &-template1 {
+      &-bg{
+        background-color: $clr_light_slate_gray;
+      }
         &-top-menu {
         
                 &-container {
@@ -25,8 +28,8 @@
         
                 &-sub-item {
                     color: $clr_white;
-                    font-size: $p2;
-                    font-weight: $font_medium;
+                    font-size: $h6;
+                    font-weight: $font_normal;
                 }
         
                 &-login-button {
@@ -34,7 +37,7 @@
                     margin-top: .8rem !important;
                     color: $clr_white;
                     font-size: $h6;
-                    font-weight: $font_semibold;
+                    font-weight: $font_bold;
                     padding-top: 0.6rem;
                 }
         
@@ -66,7 +69,7 @@
                         text-transform: none;
                         border-radius: 0.83rem;
                         font-size: $h6;
-                        font-weight: $font_semibold;
+                        font-weight: $font_bold;
                         height: 4.167rem;
                     }
                 }
@@ -76,9 +79,9 @@
 
             &-title1,
             &-title2 {
-                font-size: $h1 !important;
+                font-size: 3.5rem !important;
                 line-height: 5.08rem;
-                font-weight: $font_semibold !important;
+                font-weight: $font_bold !important;
                 color:$clr_charcoal_cyan;
 
             }
@@ -96,14 +99,12 @@
                 text-transform: none !important;
                 margin-top: 1rem !important;
                 padding: 1.5rem 2.5rem 1.5rem 2.5rem !important;
+                box-shadow: none !important;
             }
         }
         &-header {
             background: url("../assets/png/template1-header.png") no-repeat center;
             background-size: cover;
-            background-repeat: no-repeat;
-            height: 59rem !important;
-            margin-bottom: 10rem;
 
             &-photo-container {
                 width: 51.6rem !important;
@@ -118,11 +119,9 @@
 
             &-container {
                 padding: 0 6rem 0 6rem;
-                // margin-top: -90px;
             }
 
             &-item {
-                padding: 0rem 3rem 0rem 2rem;
                 box-shadow: 0 0.3rem 1rem 0 $clr_light_black_shadow;
                 border-radius: 1rem;
                
@@ -133,8 +132,8 @@
             }
             &-box{
                 height: 20rem !important;
-                padding-left: 3.25rem ;
-                padding-top:3rem !important ;
+                padding-left: 2.42rem ;
+                padding-top:2.16rem !important ;
             }
             &-index-box {
                   background: $clr_charcoal_cyan ;
@@ -160,9 +159,8 @@
                 }
               }
             &-border-line{
-                width: 0.125rem;
-                height: 14.75rem;
-                background:$clr_background_gray;
+              padding-right: 2rem;
+              border-right: 0.083rem solid $clr_border_light_grey;
             }
             &-label {
                 font-size: $h6 !important;
@@ -186,12 +184,14 @@
                 background-size: cover;
                 margin-top:6.25rem; background-size: contain; 
             &-title {
-                font-size: $h2;
-                font-weight: $font_semibold;
+                text-align: center;
+                font-size: $h1;
+                font-weight: $font_bold;
+                line-height: 3.91rem; 
             }
 
             &-sub-title {
-                font-size: $h6;
+                font-size: $h5; 
                 font-weight: $font_normal;
             }
 
@@ -209,9 +209,11 @@
             padding-top: 8rem;
 
             &-title {
-                font-size: $h2;
-                font-weight: $font_semibold;
+                font-size: 3.75rem;
+                font-weight: $font_bold;
                 color: $clr_white;
+                line-height: 3.91rem;
+                text-align: center;
             }
 
             &-sub-title {
@@ -232,8 +234,9 @@
                 }
 
                 &-name {
-                    font-size: $h5;
-                    font-weight: $font-semibold;
+                    font-size: $h4;
+                    font-weight: $font-normal;
+                    line-height: 2.58rem;
                 }
 
                 &-designation {
@@ -247,66 +250,108 @@
                 }
             }
         }
-        &-program {
-            padding: 6rem 6rem 3rem 6rem;
+        &-program-schedule{
+          &-heading{
+            font-size: $h1 !important;
+            font-weight: $font_bold !important;
+            text-align: center !important;
+          }
+          &-date{
+            width: 24.33rem;
+            padding: 0.83rem !important;
+            background-color: $clr_charcoal_cyan !important;
+            border-radius: 0.6rem;
+            color: $clr_white;
+            font-weight: $font-normal;
+            font-size: $p5;
+            text-align: center;
+          }
+        }
+        &-program-tabs {
+          &-container {
+            margin: auto;
+            text-align: center;
+          }
+        
+          &-box {
+            display: flex;
+            justify-content: center;
+            padding: 0.83rem;
+            background-color: $clr_background_light_gray;
+            border-radius: 0.83rem;
+          }
+        
+          &-list {
+            display: flex;
+            gap: 0.83rem;
+          }
+        
+          &-tab {
+            background-color: $clr_white !important;
+            color: $clr_black !important; 
+            border: 0.083rem solid $clr_charcoal_cyan !important;
+            border-radius: 0.5rem !important;
+            box-shadow: none !important;
+            width: 10.58rem;
+            padding: 1rem 0.83rem 1rem 0.83rem !important;
+            font-weight: $font-bold !important;
+            font-size: $h6 !important;
+          }
+        
+          &-tab-active {
+            background-color: $clr_charcoal_cyan  !important;
+            color: $clr_white !important;
+          }
+        }
 
-            &-title {
-                font-size: $h2;
-                font-weight: $font-semibold;
+        &-program-content {
+        
+          &-item {
+            border-radius: 0.83rem;
+            background-color: $clr_white;
+        
+            &-addon {
+              background-color: $clr_background_light_gray;
             }
-
-            &-item {
-                &-day {
-                    border: 0.167rem solid $clr_charcoal_cyan;
-                    border-radius: 0.83rem;
-                    padding: 1rem;
-                    margin-top: 0.6rem;
-
-                    p {
-                        font-size: $h6;
-                        font-weight: $font_bold;
-                        color: $clr_charcoal_cyan;
-                    }
-                }
-
-                &-group-container {
-                    border: 0.0.417rem solid $clr_charcoal_cyan;
-                    width: 90rem;
-                    border-radius: 0.83rem;
-                    padding: 1rem;
-
-                    svg {
-                        width: 2.5rem;
-                        height: 2.5rem;
-                    }
-                }
-
-                &-time-container {
-                    border: 0.167rem solid $clr_black;
-                    border-radius: 0.83rem;
-                    padding: 0.5rem;
-
-                    p {
-                        font-size: $p2;
-                        font-weight: $font_bold;
-                        color: $clr_charcoal_cyan;
-                    }
-                }
-
-                &-name {
-                    font-size: $h5 !important;
-                    font-weight: $font_semibold !important;
-
-                    &-container {
-                        padding-left: 4rem;
-                    }
-                }
-
-                &-description {
-                    font-size: $h6 !important;
-                    font-weight: $font_medium !important;
-                }
+          }
+        
+          &-time {
+            width: 17.91rem !important;
+            background-color: $clr_charcoal_cyan;
+            color: $clr_white !important;
+            padding: 1rem 1.25rem 1rem 1.25rem !important;
+            border-radius: 0.83rem;
+            &-icon{
+              fill: $clr_white;
+              width: 2rem;
+              height: 2rem;
             }
+            &-value{
+              font-weight: $font-semibold !important;
+              font-size: $p2 !important;
+              line-height: 1.5rem;
+            }
+          }
+        
+          &-details{
+            &-program{
+              border-left: 0.083rem solid $clr_background_gray;
+              padding-left: 2rem;
+            }
+            &-addon{
+              border-left: 0.083rem solid $clr_deep_cyan_green;
+              padding-left: 2rem;
+            }
+          }
+          &-title {
+            font-weight: $font-normal !important;
+            font-size: 2.25rem !important;
+          }
+        
+          &-description {
+            font-weight: $font-normal;
+            font-size: 1.42rem !important;
+          }
         }
         &-location {
             padding: 2rem 7rem 5rem 7rem;
@@ -314,34 +359,71 @@
         &-ticketing {
             padding: 2rem 2rem 8rem 2rem;
 
+            &-anim-container{
+              gap: 3.33rem !important;
+              width: 100%;
+            }
+
             &-title {
-                font-size: $h2 !important;
-                font-weight: $font_semibold !important;
-                padding: 1rem;
+                font-size: $h1 !important;
+                font-weight: $font_bold !important;
+                margin-bottom: 2.5rem !important;
             }
 
             &-item-container {
-                padding: 1rem 1rem 5rem 1rem;
+              padding: 2rem;
+                max-width: 40.67rem !important;
                 border-radius: 1.83rem;
                 box-shadow: 0 0.08rem 1rem 0 $clr_dark_charcoal;
-                position: relative;
-                min-width: 50rem !important;
+                &:nth-child(odd) {
+                  background-color: $clr_white;
+                }
+              
+                &:nth-child(even) {
+                  background-color: $clr_charcoal_cyan;
+                  color: $clr_white;
+                }
+            }
+
+            &-register-button {
+              border-radius: 0.83rem !important;
+              font-size: 1.83rem !important;
+              font-weight: $font_normal !important;
+              text-transform: none !important;
+              margin-top: 3.33rem !important;
+              margin-bottom: 0.83rem !important;
+              width: 90% !important;
+              box-shadow: none !important;
+            }
+            &-item-container:nth-child(odd) .event-template-template1-ticketing-register-button {
+              background-color: $clr_charcoal_cyan !important;
+            }
+            
+            &-item-container:nth-child(even) .event-template-template1-ticketing-register-button {
+                background-color: $clr_white !important;
+                color: $clr_charcoal_cyan !important;
             }
 
             &-item-title {
-                padding: 0.5rem 1rem 0.5rem 1rem;
-                border: 0.083rem solid $clr_charcoal_blue;
-                border-radius: 4.1rem;
-                font-size: $h5 !important;
-                font-weight: $font-semibold !important;
-                text-align: center;
-                display: inline-block;
+                font-size: 2.91rem !important;
+                font-weight: $font-bold !important;
+                width: 34rem;
+                margin-bottom: 3rem !important;
+                margin-top: 0.83rem !important;
+            }
+
+            &-content{
+              &-container{
+                margin: auto;
+                width: 90%;
+                gap:3.67rem;
+                display: flex;
+                flex-direction: column;
+              }
             }
 
             &-sub-item {
-                &-container {
-                    padding: 1rem;
-                }
+
 
                 &-name {
                     font-size: $h5 !important;
@@ -358,30 +440,9 @@
                     font-weight: $font_bold !important;
                 }
             }
-
-            &-register-button {
-                background-color: $clr_charcoal_cyan !important;
-                border-radius: 0.83rem !important;
-                font-size: $h6 !important;
-                font-weight: $font_bold !important;
-                text-transform: none !important;
-                margin-top: 1rem !important;
-
-                &-container {
-                    position: absolute;
-                    bottom: 0;
-                    width: 100%;
-                    padding-bottom: 2rem;
-
-                }
-            }
-
-            &-content-container {
-                padding: 1rem;
-            }
         }
         &-register-banner {
-            padding: 2rem 8.3rem 5rem 8.3rem ;
+            // padding: 2rem 8.3rem 5rem 8.3rem ;
             background: url("../assets/png/template1-register-banner.png") no-repeat center !important;
             height: 33rem ;
             border-radius: 1.25rem;
@@ -410,6 +471,7 @@
               color: $clr_white !important;
               padding: 1.25rem 2.167rem 1.25rem 2.167rem !important;
               border-radius: 0.83rem !important;
+              box-shadow: none !important;
             }
         }
         &-footer {

@@ -34,7 +34,11 @@ const TemplateContainer: React.FC<TemplateContainerProps> = React.memo(({ }) => 
     const slugInfo = useStore((state: any) => state?.compData?.['slugEventDetails']?.[`event/slug/${slug}`]) ?? [];
     const clearDataById = useStore((state: any) => state?.clearDataById);
     const navigate = useNavigate();
+    // const isIntialGetCartCalled = useStore(state=>state?.nonPersistedData[NonPersistedKeys.INITIAL_GET_CART]?.value)
 
+  // const cartId = useStore(state => state.compData?.userDetails?.userCart?.id) || null; 
+    
+  
     /**
   * Useeffect hook handles the api call for fetching event details
   */
@@ -47,6 +51,35 @@ const TemplateContainer: React.FC<TemplateContainerProps> = React.memo(({ }) => 
     }
 
   }, [])
+
+
+  // function handleNavigateToCart() {
+  //   navigate(routes.programSelection());
+  // }
+
+  // check if user is logged in or not. if logged in call cart api and get the cart data
+  // useEffect(() => {
+   
+  //   const userToken = sessionStorage.getItem('token')
+  //   const userRole = sessionStorage.getItem('userRole')
+
+
+  //   if (userToken && userRole === 'USER') { 
+
+  //     if(isIntialGetCartCalled) return // return if cart api is called for the first time
+
+  //     if (cartId) {
+
+  //       getUserCart({ helperFn: handleNavigateToCart, cartID: cartId }) 
+  //       setNonPersistedDataById('intialGetCart',{ value: true })
+  //      }
+
+
+  //   }
+
+  //   return 
+    
+  // },[])
 
   useEffect(() => () => {
     clearDataById('templateEventDetails');

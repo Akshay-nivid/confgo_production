@@ -27,7 +27,7 @@ const steps = [
 interface Program {
   name: string;
   description: string;
-  totalSeat: string;
+  totalSeat?: string;
   startDate: string;  
   endDate: string;    
   startTime: string;  
@@ -147,7 +147,7 @@ const Events = () => {
       const response = await apiClient.post('event', req);
       const { status, data, message } = await processAPIResponse(response, 'event-status');
       if (status) {
-        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:message});
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:`Event draft saved successfully!`});
         navigate(routes.editDraftEvent(data?.id))
       }
       else {
@@ -254,14 +254,15 @@ const Events = () => {
     const program = programs?.filter((item: Program) => item.name!='');
     const addOn = addOns?.filter((item: Addons) => item.addonId!='');
     //tranform program fields
-    const transformProgram = program?.map(({type,addOnId, startDate, startTime, endDate, endTime,amount, ...item }: Program) => {
+    const transformProgram = program?.map(({type,addOnId, startDate, startTime, endDate, endTime,amount,totalSeat, ...item }: Program) => {
       // Combine startDate and startTime
       const startDateTime = `${startDate}T${startTime}`;
       
       // Combine endDate and endTime
       const endDateTime = `${endDate}T${endTime}`;
       return {
-        ...item,               
+        ...item,  
+        totalSeat: totalSeat && totalSeat !== "" ? totalSeat : undefined,             
         startTime:startDateTime,         
         endTime:endDateTime,
         statusId: draft? draftStatusId: statusId,
@@ -542,7 +543,7 @@ const Events = () => {
 
 
   return (
-    ((id && formData?.event) || !id) && <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper">
+    ((id && (formData?.event || formDraftData?.event)) || !id) && <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper">
       <Grid size={{ xs: 12, sm: 12 }} justifyItems={'center'} className="custom-stepper-main">
         <CustomStepper
           steps={steps}

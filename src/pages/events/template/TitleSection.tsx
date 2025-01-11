@@ -7,6 +7,7 @@ import React from 'react';
 import { Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
+import { snackBar } from '@/Libs/store';
 
 type TitleSectionProps = {
     data?: any;
@@ -33,6 +34,16 @@ const TitleSection: React.FC<TitleSectionProps> = React.memo(({ data, classPrefi
     function handleClickRegister(e: any) {
         
         e.preventDefault();
+
+        const userToken = sessionStorage.getItem('token')
+        const userRole = sessionStorage.getItem('userRole') 
+
+
+        // admin user is perevented from navigating to cart
+        if (userToken && userRole !== 'USER') {
+            snackBar({ severity: 'error', message: 'please login using participant credentials' })
+            return
+        } 
 
         if (eventPriceTiersPresent) {
             

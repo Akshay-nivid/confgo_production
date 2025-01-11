@@ -1,43 +1,183 @@
+.fc-daygrid-event,
+.fc-timegrid-event {
+  border: none !important;
+  color: inherit;
+}
 
-.fc-daygrid-event, .fc-timegrid-event {
-    border: none !important; 
-    color: inherit; 
-  }
-  .fc-event-title {
-    color: inherit !important;
-  }
-   .fc-v-event {
-    margin-top: 0.2rem !important;
+.fc-event-title {
+  color: inherit !important;
+}
+
+.fc-v-event {
+  margin-top: 0.2rem !important;
+  background-color: transparent !important;
+}
+
+.fc-event-main {
+  background-color: transparent !important;
+}
+
+.fc-event {
+  &.fc-daygrid-event {
     background-color: transparent !important;
   }
-  .fc-event-main{
-  background-color:transparent !important;
-  }
-  .fc-event {
-    &.fc-daygrid-event{
-      background-color: transparent !important;
-    }
-  }
+}
+
 .fc-toolbar-title {
   font-weight: bold;
   font-size: $p6;
   color: $clr_gray_dark_text;
 }
-.calendar-time{
-color: $clr_white;
-font-weight: $font_extramaxbold !important;
-font-family: Inter;
-font-size: $p2 ;
-line-height: 1.6483rem; 
-text-align: center;
-display: flex;
-justify-content: center;
-padding: 0.1rem !important;
+
+.calendar-time {
+  color: $clr_white;
+  font-weight: $font_extramaxbold !important;
+  font-family: Inter;
+  font-size: $p2 ;
+  line-height: 1.6483rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  padding: 0.1rem !important;
 }
 
-.calendar-titles{
- font-weight: $font_bold !important;
- font-size: $p3 !important;
- color: $text_primary_dark ;
-width: 10rem !important;
+.calendar-titles {
+  font-weight: $font_bold !important;
+  font-size: $p3 !important;
+  color: $text_primary_dark ;
+  width: 10rem !important;
 }
+
+
+
+
+
+.fc-timegrid-slot {
+
+  height: 4rem !important;
+}
+
+.calendar-container {
+  padding: 0 !important;
+}
+
+
+
+.calendar-wrapper {
+  padding: 0 !important;
+
+
+  .fc-scrollgrid {
+    border-left: none !important;
+  
+  }
+  
+  
+  
+  .fc-scrollgrid-section-liquid>td {
+    border: none !important;
+  }
+  
+  .fc-theme-standard td{
+    border-color: #EEEFF2 !important;
+    border-width: .17rem !important;
+  }
+  .fc-theme-standard th{
+    border-color: #EEEFF2 !important;
+    border-width: .17rem !important;
+  }
+  
+  
+  .fc-theme-standard .fc-scrollgrid{
+    border: none !important;
+  }
+
+  .fc-toolbar{
+  margin-block: 2.66rem !important;
+  padding-inline:2.66rem !important ;
+  }
+
+  .fc-toolbar-chunk {
+    display: flex !important;
+    column-gap: 1rem !important;
+
+    button {
+      background-color: $clr_white !important;
+      color: #B3B3B3 !important;
+      margin-inline: 1rem;
+      border-width: .17rem;
+      border-radius: 0.37rem !important;
+      border-color: #EEEFF2;
+      font-weight: $font_bold !important;
+      font-size: $p3 !important;
+      height:3.33rem !important;
+      min-width: 4.5rem ;
+      padding-inline: 1.5rem;
+
+      &:hover {
+        border-color: #EEEFF2 !important;
+      }
+
+    }
+
+    .fc-button-active {
+      color: #404040 !important;
+      border-color: #EEEFF2 !important;
+      box-shadow: none !important;
+      border-width: .17rem;
+
+    }
+
+    .fc-toolbar-title {
+      font-size: $p3 !important;
+      font-weight: $font_bold !important;
+    }
+  }
+
+  .fc-toolbar-chunk:nth-child(1) {
+    .fc-today-button {
+      color: #404040 !important;
+      border-color: #EEEFF2 !important;
+    }
+  }
+
+  .fc-dayGridMonth-view {
+    
+
+
+
+    .fc-daygrid-day-number {
+      font-weight: $font_bold !important;
+      font-size: $h5 !important;
+      color: #404040 !important;
+    }
+
+    .fc-daygrid-day-frame {
+      max-height: 4rem !important;
+      overflow: hidden;
+    }
+
+    .fc-col-header-cell {
+      position: relative !important;
+      height: 4rem;
+
+      .fc-col-header-cell-cushion {
+        position: absolute !important;
+        top: 50% !important;
+        left: 50% !important;
+        transform: translate(-50%, -50%) !important;
+        font-weight: $font_bold !important;
+        font-size: $p2 !important;
+        color: #404040 !important;
+      }
+
+    }
+
+  }
+
+  .fc-multimonth-month{
+    width: 100% !important;
+  }
+
+}
+

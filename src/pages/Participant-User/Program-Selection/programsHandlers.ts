@@ -1,4 +1,5 @@
 
+import { setDataById } from "@/Libs/store";
 import routes from "@/router/routes";
 import moment from "moment";
 import { UseFormSetValue, UseFormGetValues } from "react-hook-form";
@@ -340,3 +341,49 @@ export const validateAddon = (formData:any) => {
     }
   });
 };
+
+
+
+/**
+ * Validates if the user has selected at least one program and addon property.
+ * If not, it shows an error message.
+ * @param {Array} programs - The programs selected by the user.
+ * @returns {void}
+ */
+export const  validatePrograms=(programs: any) =>{
+  
+  if (programs.length === 0 || programs === undefined || !programs) {
+
+    setDataById("snackBarInfo", {
+      open: true,
+      autoHideDuration: 2000,
+      severity: "error",
+      message: 'Please select at least one program and addon property',
+    })
+
+    return
+  }
+  
+}
+
+
+export const  validateAddonWithNoProp = (addons:any)=> {
+  
+  const addonsWithNoAddonProp = addons && addons.some((addon: any) => {
+
+    return addon?.propertyIds !== undefined && addon?.propertyIds?.length === 0
+
+  })
+
+
+   if (addonsWithNoAddonProp) {
+        setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "error",
+          message: 'Please select at least one property for each selected addon.',
+        });
+        return;
+      }
+
+}

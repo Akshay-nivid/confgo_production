@@ -503,14 +503,15 @@
             color: $clr_gray_light;
         }
 
-        &-speaker-add-button {
-            border: solid 0.1rem $clr_green !important;
-            border-radius: 1.68rem !important;
-            color: $clr_green !important;
+        &-speaker-assign-button {
+            color: $clr_white !important;
+            background-color: $clr_green !important;
             font-weight: $font-semibold !important;
             font-size: $p1 !important;
+            border-radius: 0.42rem !important;
+            padding: 1rem 1.75rem !important;
             text-transform: none !important;
-        }
+          }
 
         &-contributor-back-label {
             font-size: $h6 !important;
@@ -897,7 +898,8 @@
         max-width: 100%;
         margin: 0 auto;
 
-        &-add-program-button {
+        &-add{
+          &-program-button {
             background-color: $clr_green !important;
             border-radius: 1.68rem !important;
             color: $clr_white !important;
@@ -905,6 +907,15 @@
             font-weight: $font-semibold !important;
             font-size: $p1 !important;
             text-transform: none !important;
+          }
+          &-addon-button {
+              border: solid 0.1rem $clr_green !important;
+              border-radius: 1.68rem !important;
+              color: $clr_green !important;
+              font-weight: $font-semibold !important;
+              font-size: $p1 !important;
+              text-transform: none !important;
+          }
         }
     }
 
@@ -1317,8 +1328,13 @@
 }
 
 .custom-green-btn {
+    color: $clr_white !important;
     background-color: $clr_green !important;
-    color: white !important;
+    font-weight: $font-semibold !important;
+    font-size: $p1 !important;
+    text-transform: none !important;
+    border-radius: 0.42rem !important;
+    padding: 1rem 1.75rem !important;
 }
 
 

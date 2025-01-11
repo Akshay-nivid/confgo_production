@@ -81,6 +81,8 @@ const UserLogin = (props: UserProps) => {
     sessionStorage.setItem('isUserLoggedIn', 'true');
     sessionStorage.setItem('userRole', data?.userRole?.roleName);
     sessionStorage.setItem('name', `${data?.firstName} ${data?.lastName}`);
+    sessionStorage.setItem('cartId',data?.cartId)
+    setDataById('participantLogin', true);
     setDataById('participantUserData', data);
     setDataById('participantLogin', true);
     apiClient.setToken(data.token);
@@ -102,6 +104,9 @@ const UserLogin = (props: UserProps) => {
       id: props?.id,
       successCB: (context: ApiResponse) => {
         storeDetails(context?.data);
+         setDataById("adminCompanyId",{companyId:context?.data?.companyId});
+         sessionStorage.setItem('token', context?.data?.token);
+        
         sessionStorage.setItem('ssoUser', 'false');
 
       },
