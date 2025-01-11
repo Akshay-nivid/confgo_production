@@ -37,7 +37,7 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
 
     const [dateTemplate, setDateTemplate] = useState(String); // To store the selected date template : Today/Yesterday
     const [selectedTile, setSelectedTile] = useState(String); // To store the selected date template : Today/Yesterday
-
+      
     const handleClose = () => {
         setIsFilterModalOpen(false);
     };
@@ -129,6 +129,58 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
         setValue("endTime", yesterday);
         setDateTemplate('Yesterday');
     };
+    const setCurrentWeek = () => {
+        const startOfWeek = dayjs().startOf('week'); 
+        const endOfWeek = dayjs().endOf('week'); 
+    
+        setValue("startTime", startOfWeek);
+        setValue("endTime", endOfWeek);
+        setDateTemplate("This Week");
+    };
+
+    const setCurrentMonth = () => {
+        const startOfMonth = dayjs().startOf('month'); 
+        const endOfMonth = dayjs().endOf('month');    
+    
+        setValue("startTime", startOfMonth);
+        setValue("endTime", endOfMonth);
+        setDateTemplate("This Month");
+    };
+
+    const setLastMonth = () => {
+        const startOfLastMonth = dayjs().subtract(1, "month").startOf('month');
+        const endOfLastMonth = dayjs().subtract(1, "month").endOf('month');
+    
+        setValue("startTime", startOfLastMonth);
+        setValue("endTime", endOfLastMonth);
+        setDateTemplate("Last Month");
+    };
+
+    const setCurrentYear = () => {
+        const startOfYear = dayjs().startOf('year');
+        const endOfYear = dayjs().endOf('year'); 
+    
+        setValue("startTime", startOfYear);
+        setValue("endTime", endOfYear);
+        setDateTemplate("This Year");
+    };
+
+    const setLastYear = () => {
+        const startOfLastYear = dayjs().subtract(1, "year").startOf('year'); 
+        const endOfLastYear = dayjs().subtract(1, "year").endOf('year'); 
+    
+        setValue("startTime", startOfLastYear);
+        setValue("endTime", endOfLastYear);
+        setDateTemplate("Last Year");
+    };
+
+     const handleClick = (item: any, option: any) => {
+    setSelectedTile((prevState: any) => {
+      const updatedState = { ...prevState, [item.fieldName]: option.value };
+      return updatedState;
+    });
+   setValue(item.fieldName, option.value);
+  };
 
     /**
      * on click the calender shows a date range
@@ -282,6 +334,51 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
                                                         Yesterday
                                                     </Button>
                                                 </Grid>
+                                                <Grid size={{ xs: 3 }}
+                                                    sx={{ cursor: 'pointer' }}
+                                                    className={(dateTemplate == 'This Week') ? "filter-drawer-card-template-selected" : "filter-drawer-card-template"}>
+                                                    <Button
+                                                        type="button"
+                                                        onClick={setCurrentWeek}>
+                                                        This week
+                                                    </Button>
+                                                </Grid>
+                                                <Grid size={{ xs: 3 }}
+                                                    sx={{ cursor: 'pointer' }}
+                                                    className={(dateTemplate == 'This Month') ? "filter-drawer-card-template-selected" : "filter-drawer-card-template"}>
+                                                    <Button
+                                                        type="button"
+                                                        onClick={setCurrentMonth}>
+                                                        This month
+                                                    </Button>
+                                                </Grid>
+                                                <Grid size={{ xs: 3 }}
+                                                    sx={{ cursor: 'pointer' }}
+                                                    className={(dateTemplate == 'Last Month') ? "filter-drawer-card-template-selected" : "filter-drawer-card-template"}>
+                                                    <Button
+                                                        type="button"
+                                                        onClick={setLastMonth}>
+                                                        Last month
+                                                    </Button>
+                                                </Grid>
+                                                <Grid size={{ xs: 3 }}
+                                                    sx={{ cursor: 'pointer' }}
+                                                    className={(dateTemplate == 'This Year') ? "filter-drawer-card-template-selected" : "filter-drawer-card-template"}>
+                                                    <Button
+                                                        type="button"
+                                                        onClick={setCurrentYear}>
+                                                        This year
+                                                    </Button>
+                                                </Grid>
+                                                <Grid size={{ xs: 3 }}
+                                                    sx={{ cursor: 'pointer' }}
+                                                    className={(dateTemplate == 'Last Year') ? "filter-drawer-card-template-selected" : "filter-drawer-card-template"}>
+                                                    <Button
+                                                        type="button"
+                                                        onClick={setLastYear}>
+                                                        Last year
+                                                    </Button>
+                                                </Grid>
                                             </Grid>
                                             <hr className="seperator" ></hr>
                                         </Grid>
@@ -291,10 +388,11 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
                                             {item.options.map((option: any) => (
                                                 <Grid size={{ xs: 3 }}
                                                     sx={{ cursor: 'pointer' }}
-                                                    className={(selectedTile == option.value) ? "filter-drawer-card-template-selected" : "filter-drawer-card-template"}>
+                                                    key={option.value}
+                                                    className={selectedTile[item.fieldName] === option.value ? "filter-drawer-card-template-selected" : "filter-drawer-card-template"}>
                                                     <Button
                                                         type="button"
-                                                        onClick={() => { setValue(item.fieldName, option.value); setSelectedTile(option.value); }}>
+                                                        onClick={() => handleClick(item,option)}>
                                                         {option.label}
                                                     </Button>
                                                 </Grid>
