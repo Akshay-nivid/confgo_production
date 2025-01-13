@@ -166,7 +166,7 @@ const CreateNewUsers = () => {
     useEffect(()=>{
     if(role){
         reset({
-            ...getValues(),
+            ...getValues(),            
            ...( role === "SPEAKER" && {role:5})
         });
     }
