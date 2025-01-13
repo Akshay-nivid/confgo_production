@@ -47,16 +47,14 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
                       });
                     onClose();
                     volunteerList();
-                } else {
-                    setDataById("snackBarInfo", {
-                        open: true,
-                        autoHideDuration: 2000,
-                        severity: "error",
-                        message: "Failed to assign volunteeres",
-                      });
                 }
-
             } catch (error) {
+                setDataById("snackBarInfo", {
+                    open: true,
+                    autoHideDuration: 2000,
+                    severity: "error",
+                    message: "volunteer already assigned",
+                  });
                 Logger.error("AssignedVolunteers.tsx", error);
             }
     };
@@ -98,14 +96,31 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
     };
 
     /**
- * Updates the source for the data grid when an autocomplete selection is made.
- * @param selected - The selected item from the autocomplete list
- */
+    * Updates the source for the data grid when an autocomplete selection is made.
+    * @param selected - The selected item from the autocomplete list
+    */
     const handleAutocompleteChange = async (selected: any) => {
-
+  
             if (selected) {
-                setAssignedVolunteers((prev: any) => [...prev,{user:selected}]);
+                setAssignedVolunteers((prev: any) => {
+                    const isAlreadyAssigned = prev.some(
+                        (volunteer: any) => volunteer.user?.id === selected.id
+                    );
+                    if (!isAlreadyAssigned) {
+                        const updatedVolunteers = [...prev, { user: selected }];
+                        return updatedVolunteers;
+                    } else {
+                        setDataById("snackBarInfo", {
+                            open: true,
+                            autoHideDuration: 2000,
+                            severity: "error",
+                            message: "volunteer already Selected",
+                          });
+                        return prev;
+                    }
+                });
             }
+     
     };
 
     const handleDelete = (id: string) => {

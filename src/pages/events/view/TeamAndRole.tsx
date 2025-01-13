@@ -45,7 +45,9 @@ const TeamAndRole=(data:any)=>{
       </Grid>
       {data?.eventData?.isAbstract===1&&
       <Grid size={12}>
-      <Accordion className="accordion-container-box">
+      <Accordion className="accordion-container-box"
+        expanded={expanded === "panel2-header"} 
+        onChange={handleChange("panel2-header")}>
         <AccordionSummary
          expandIcon={data?.eventData?.id?<AccordionArrowIcon />:<AccordionAddIcon/>}
           aria-controls="panel2-content"
@@ -62,7 +64,9 @@ const TeamAndRole=(data:any)=>{
       </Grid>
        } 
       <Grid size={12}>
-      <Accordion  className="accordion-container-box">
+      <Accordion  className="accordion-container-box"
+        expanded={expanded === "panel3-header"} 
+        onChange={handleChange("panel3-header")}>
         <AccordionSummary
           expandIcon={data?.eventData?.id?<AccordionArrowIcon />:<AccordionAddIcon/>}
           aria-controls="panel2-content"

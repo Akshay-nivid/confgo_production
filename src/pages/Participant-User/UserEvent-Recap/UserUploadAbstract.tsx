@@ -200,7 +200,6 @@ const UserUploadAbstract = ({ eventData }: any) => {
                             <></>
                         ) : (
                             <FileUpload
-                                className="upload-abstract-upload-box"
                                 acceptedFiles={['application/pdf']}
                                 trimClientSide={false}
                                 resolution={{ width: 200, height: 200 }}

@@ -475,6 +475,13 @@ const CreateEvent: React.FC<EventProps> =
                       control={control}
                       name="amount"
                       type="number"
+                      rules={{
+                        pattern: {
+                        value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
+                          message:
+                            "Enter a valid price (up to 2 decimal places & Zero not accepted)price up to 1Crore",
+                        }
+                      }}
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 6 }}>

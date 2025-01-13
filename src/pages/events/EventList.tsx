@@ -28,7 +28,7 @@ interface EventListProps {
 const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => {
   const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState([]);
-  let filters = { requestDate: '', eventClass: '' };
+  let filters = { requestDate: '', eventClass: '',statusId:'' };
   const [source, setSource] = useState<ISource | undefined>(undefined);
   const [loading, setLoading] = useState(false); // To indicate loading state for API
 
@@ -67,12 +67,19 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
     { label: "Hybrid", value: "HYBRID" },
   ];
 
+  const statusArray = [
+    { label: "Completed", value: "COMPLETED" },
+    { label: "Ongoing", value: "ONGOING" },
+    { label: "Published", value: "PUBLISHED" },
+    { label: "Pending", value: "PENDING" },
+  ];
+
   const filterFields: any = [
     {
       type: 'date',
       fieldName: 'startTime',
-      label: 'Start Date',
-      heading: 'Filter with Start Date'
+      label: 'Today',
+      heading: 'Filter with Request Date'
     },
     {
       type: 'tiles',
@@ -80,6 +87,13 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
       label: 'Event Type',
       heading: 'Filter with Event Type',
       options: EventTypeArray
+    },
+    {
+      type: 'tiles',
+      fieldName: 'statusId',
+      label: 'Status',
+      heading: 'Filter with Status',
+      options: statusArray
     }
   ]
   const columns = [

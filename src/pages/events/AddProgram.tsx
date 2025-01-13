@@ -383,6 +383,13 @@ let eventEndDateObj = new Date(eventEndDate)
                                     control={control}
                                     name={`programs.${index}.totalSeat`}
                                     type="number"
+                                    rules={{
+                                      pattern: {
+                                      value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
+                                        message:
+                                          "Enter a valid number",
+                                      }
+                                    }}
                                   />
                                 </Grid>
                                 <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"} container spacing={2}>
@@ -411,6 +418,24 @@ let eventEndDateObj = new Date(eventEndDate)
                                     defaultValue={moment().format("HH:mm")}
                                     rules={{
                                       required: true,
+                                      validate: (value) => {
+                                        if (
+                                          typeof value === "string" &&
+                                          value
+                                        ) {
+                                          const today = moment(new Date()).format("YYYY-MM-DD") 
+                                          const startDate = moment(eventData.startTime).format("YYYY-MM-DD");
+                                          if(startDate == today) {
+                                            //check if time is greater than current time
+                                            const now = moment(new Date()).format("HH:mm");
+                                            if(value < now) {
+                                              return (
+                                                 "Start Time cannot be in the past"
+                                               );
+                                            }
+                                          }
+                                        }
+                                      }
                                     }}
                                   />
                                   </Grid>
@@ -465,6 +490,24 @@ let eventEndDateObj = new Date(eventEndDate)
                                     defaultValue={moment().format("HH:mm")}
                                     rules={{
                                       required: true,
+                                      validate: (value) => {
+                                        if (
+                                          typeof value === "string" &&
+                                          value
+                                        ) {
+                                          const today = moment(new Date()).format("YYYY-MM-DD") 
+                                          const endDate = moment(eventData.endTime).format("YYYY-MM-DD");
+                                          if(endDate == today) {
+                                            //check if time is greater than current time
+                                            const now = moment(new Date()).format("HH:mm");
+                                            if(value < now) {
+                                              return (
+                                                 "End Time cannot be in the past"
+                                               );
+                                            }
+                                          }
+                                        }
+                                      }
                                     }}
                                   />
                                   </Grid>

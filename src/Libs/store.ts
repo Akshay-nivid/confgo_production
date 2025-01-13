@@ -10,7 +10,7 @@ import { ICartData, ICartResponse, IParticipantCoupon, IParticipantOrder, IUserE
 */
 interface CompData {
     [key: string]: any;
-
+    adminCompanyId?:{companyId:number};
     couponData?: { ["coupon/applyCoupon"]: IParticipantCoupon };
     order?: { order: IParticipantOrder };
     previousRoute?: { url: string };
