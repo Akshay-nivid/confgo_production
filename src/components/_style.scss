@@ -522,7 +522,7 @@
     margin-bottom: 0.5rem !important;
   }
   &-card-template {
-    padding: 0.2rem;
+    padding: 0.1rem;
     background-color: $clr_gray_very_light;
     text-align: center;
     border-radius: 5px;
@@ -535,7 +535,6 @@
     }
   }
   &-card-template-selected {
-    padding: 0.2rem;
     border: 0.15rem solid;
     border-color: $clr_green !important;;
     background-color: $clr_gray_very_light;

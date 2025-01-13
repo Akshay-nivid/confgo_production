@@ -70,7 +70,6 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
       }
       const response = await apiClient.post(`user/details`, requestBody)
       if (response.data.status === 'success') {
-        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:'Registration Successfully' })
         setDataById('userDataRegister', { data:{userId:userDetails.data.userId,token:userDetails.data.token,email:response.data.data.email,phone:response.data.data.phone,tokenType:userDetails?.data?.tokenType==="FORGOT_PASSWORD_OTP"?"RESET_PASSWORD_OTP":userDetails?.data?.tokenType} });
         getOtp(response.data.data.phone);
         setUserData(response.data.data);
@@ -96,7 +95,6 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
       }
       const response = await apiClient.post(`token/otp`, requestBody)
       if (response.data.status === 'success') {
-        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:"OTP sent successfully" })
         setOtpData(
           {otp:response.data.data.otp,token:response.data.data.token,type:response.data.data.type}
         )
