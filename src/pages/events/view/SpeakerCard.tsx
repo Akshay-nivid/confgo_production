@@ -46,7 +46,7 @@ type TransformedData = {
   name: string;
 };
 
-const SpeakerCard = (_eventData: any) => {
+const SpeakerCard = (eventData: any) => {
   const { id } = useParams<Record<string, string | undefined>>();
   const { handleSubmit, control, reset,watch, formState: { errors }, setValue } = useForm<FormData>();
   const [addContributeView, setAddContributeView] = useState(false);
@@ -76,31 +76,19 @@ const SpeakerCard = (_eventData: any) => {
       ...item
     }));
   }
-//    /**
-//      * Method handles the document download functionality
-//      * @param id : document id
-//      */
-//    const handleDownload = (id: any) => {
-//     const href = `${baseUrl}asset/${id}`
-//     window.open(href, '_blank')
-// };
+
   /**
    *function to handle close the modal
    */
   const handleCloseDeleteModal = () => {
     setDeleteModal(false);
   };
-  /**
-   *function to handle open Drawer Edit
-   */
-  // const handleScreenViewChange = () => {
-  //   setAddContributeView(true);
-  // };
+ 
   /**
    *function to handle open Drawer Create
    */
   const handleDrawerOpen = () => {
-    if(_eventData?.eventData?.published){
+    if(eventData?.eventData?.published){
       setDataById("snackBarInfo", {
         open: true,
         autoHideDuration: 2000,
@@ -137,7 +125,7 @@ const SpeakerCard = (_eventData: any) => {
         offset: 0,
         limit: 5,
         filters: {
-          eventId: _eventData?.eventData?.eventData?.id,
+          eventId: eventData?.eventData?.eventData?.id,
         },
       };
       setSource({
@@ -295,7 +283,7 @@ const SpeakerCard = (_eventData: any) => {
    * @param item
    */
   const handleDeleteModal = (item: EventParticipant) => {
-    if(_eventData?.eventData?.published){
+    if(eventData?.eventData?.published){
       setDataById("snackBarInfo", {
         open: true,
         autoHideDuration: 2000,
@@ -403,7 +391,8 @@ const SpeakerCard = (_eventData: any) => {
    * drawer create speaker button
    */ 
   const createNewSpeaker=(speaker:any)=>{
-    navigate(routes.createNewUsers(),{state:{data:speaker}});
+    navigate(routes.createNewUsers(),{state:{data:speaker,eventId:eventData?.eventData?.eventData?.id}});
+
   };
 
   return (
@@ -544,12 +533,12 @@ const SpeakerCard = (_eventData: any) => {
                     />
                      
 
-                     <Grid container justifyContent="flex-end" alignItems="center" size={3}>
+                     <Grid container justifyContent="flex-end" alignItems="center" size={3} width={"max-content"}>
                     <CustomButton
                       className="event-detail-speakers-card-btn-container-submit-btn"
                       label="Create Speaker"
                       variant="contained"
-                       onClick={()=>createNewSpeaker("speaker")}
+                       onClick={()=>createNewSpeaker("SPEAKER")}
                     />
                     
                   </Grid>  
