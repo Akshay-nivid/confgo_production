@@ -36,6 +36,7 @@ interface SessionDrawerContentProps {
       setValue,
       handleSubmit,
       watch,
+      setError,
       reset,
     } = useForm({
       defaultValues: {
@@ -99,6 +100,16 @@ interface SessionDrawerContentProps {
       const startDateTime = `${data.startDate}T${data.startTime}`;
       const endDateTime = `${data.endDate}T${data.endTime}`;
 
+      const startDate = `${data.startDate}`;
+      const endDate = `${data.endDate}`
+
+      if (startDate > endDate) {
+        setError(`startDate`, {
+          type: 'manual',
+          message: 'Start date cannot be greater than end date',
+        });
+        return
+      }
       // Create the new transformed object
       const transformedProgram = {
         isPaid: data.isPaid,
@@ -149,6 +160,13 @@ interface SessionDrawerContentProps {
               placeholder="Total Seats"
               control={control}
               type="number"
+              rules={{
+                pattern: {
+                value: /^(?!-)(0|[1-9]\d{0,7})$/,
+                  message:
+                    "Enter a positive whole number",
+                }
+              }}
             />
           </Grid>
           <Grid size={12}>
@@ -224,6 +242,14 @@ interface SessionDrawerContentProps {
                 control={control}
                 type="number"
                 requiredField={true}
+                rules={{
+                  required: "Price is required",
+                  pattern: {
+                  value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
+                    message:
+                      "Enter a valid price (up to 2 decimal places & Zero not accepted)price up to 1Crore",
+                  }
+                }}
               />
             </Grid>
           )}
