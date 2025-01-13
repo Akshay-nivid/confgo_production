@@ -165,12 +165,10 @@ const CreateNewUsers = () => {
    */
     useEffect(()=>{
     if(role){
-        console.log('use effect run',getValues())
         reset({
             ...getValues(),
            ...( role === "SPEAKER" && {role:5})
-        })
-
+        });
     }
     },[]);
     /**
