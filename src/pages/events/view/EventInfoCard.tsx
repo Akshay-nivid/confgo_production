@@ -220,7 +220,6 @@ const EventInfoCard: React.FC<any> = React.memo(
         }
       ],
     }
-
     const response = await apiClient.put(`event/update/${id}`, formattedData);
     const { status, message } = await processAPIResponse(
       response,
@@ -637,7 +636,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                         control={control}
                       />
                   </Grid>}
-                  {watch('specialtyId')=='1'&&watch('isAbstract')&& 
+                  {watch('specialtyId')=='1'&& watch('isAbstract') == true && 
                   <Grid size={{xs:12}}>
                     <CustomTextField
                       placeholder="Abstract Submission Date"
