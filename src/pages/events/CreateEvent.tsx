@@ -1,7 +1,7 @@
 /**
  * CreateEvent handles the event creation first screen
  */
-import { setFormValues } from "@/Utils/CommonBaseClass";
+import { formatUTCDateTime, setFormValues } from "@/Utils/CommonBaseClass";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
@@ -201,8 +201,11 @@ const CreateEvent: React.FC<EventProps> =
              });
         return;
       }
-      const startTime = new Date(data.startTime);
-      const endTime = new Date(data.endTime);
+      const formattedEndTime = `${data.endTime.split('T')[0]}T23:59`;
+      const formattedStartTime=`${data.startTime.split('T')[0]}T00:00`;
+
+      const startTime = formatUTCDateTime(formattedStartTime);
+      const endTime = formatUTCDateTime(formattedEndTime);
       if(selectedFile){
         setValue('assetId',selectedFile[0]?.id) 
       }
@@ -217,7 +220,13 @@ const CreateEvent: React.FC<EventProps> =
       useStore.getState().setDataById("event-date", { startDate: startTime });
       useStore.getState().setDataById("event-date", { endDate: endTime });
 
-      onSubmitHandler && onSubmitHandler(data, "EVENT");
+      const formattedEventData = {
+              ...data,
+              startTime:startTime,
+              endTime: endTime,
+            };
+
+      onSubmitHandler && onSubmitHandler(formattedEventData, "EVENT");
     };
 
   /**
@@ -446,7 +455,7 @@ const CreateEvent: React.FC<EventProps> =
                         required:true,
                         pattern: {
                           value: /^\d{4}-\d{2}-\d{2}$/, 
-                          message: "Please enter a valid start start date (DD-MM-YYYY)"
+                          message: "Please enter a valid start date (DD-MM-YYYY)"
                         }
                       }}
                     />
@@ -512,7 +521,7 @@ const CreateEvent: React.FC<EventProps> =
                         required:true,
                         pattern: {
                           value: /^\d{4}-\d{2}-\d{2}$/, 
-                          message: "Please enter a valid start start date (DD-MM-YYYY)"
+                          message: "Please enter a valid start date (DD-MM-YYYY)"
                         }
                       }}
                     />
