@@ -74,6 +74,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
         ],
       },
     });
+  const tierStartDate = watch("tierStartDate");
 
   const { id } = useParams<{ id: string }>();
   const POST = useStore((state: any) => state.POST);
@@ -533,7 +534,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
               placeholder="End Date"
               name="tierEndDate"
               control={control}
-              min={moment().format("YYYY-MM-DD")}
+              min={tierStartDate}
               rules={{ required: "End Date is required" }}
               label="End Date"
               requiredField
