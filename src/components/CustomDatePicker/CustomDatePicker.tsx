@@ -50,9 +50,9 @@ const CustomDatePicker = <T extends FieldValues>({
           rules={{
               ...rules,
               validate: (value) => {
-                  const selectedDate = new Date(value);
+                  const selectedDate:any = new Date(value);
                   const minDate = new Date(min);
-                  const maxDate = new Date(min).setFullYear(minDate.getFullYear() + 2);
+                  const maxDate:any = new Date(min).setFullYear(minDate.getFullYear() + 2);
 
                   if (selectedDate < minDate) {
                       return `Date must not be earlier than ${moment(min).format("DD-MM-YYYY")}`;

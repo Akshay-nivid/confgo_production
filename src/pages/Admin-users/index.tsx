@@ -169,7 +169,7 @@ const AdminUsersList=()=>{
         },
       };
       const response = await await apiClient.post(
-        `user/userRole/list'`,
+        `user/userRole/list`,
         req
       );
       const { status, data } = await processAPIResponse(
