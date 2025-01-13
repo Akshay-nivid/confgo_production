@@ -1,7 +1,7 @@
 /**
  * CreateEvent handles the event creation first screen
  */
-import { formatUTCDateTime, setFormValues } from "@/Utils/CommonBaseClass";
+import { setFormValues } from "@/Utils/CommonBaseClass";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
@@ -201,11 +201,8 @@ const CreateEvent: React.FC<EventProps> =
              });
         return;
       }
-      const formattedEndTime = `${data.endTime.split('T')[0]}T23:59`;
-      const formattedStartTime=`${data.startTime.split('T')[0]}T00:00`;
-
-      const startTime = formatUTCDateTime(formattedStartTime);
-      const endTime = formatUTCDateTime(formattedEndTime);
+      const startTime = new Date(data.startTime);
+      const endTime = new Date(data.endTime);
       if(selectedFile){
         setValue('assetId',selectedFile[0]?.id) 
       }
@@ -220,13 +217,7 @@ const CreateEvent: React.FC<EventProps> =
       useStore.getState().setDataById("event-date", { startDate: startTime });
       useStore.getState().setDataById("event-date", { endDate: endTime });
 
-      const formattedEventData = {
-              ...data,
-              startTime:startTime,
-              endTime: endTime,
-            };
-
-      onSubmitHandler && onSubmitHandler(formattedEventData, "EVENT");
+      onSubmitHandler && onSubmitHandler(data, "EVENT");
     };
 
   /**
