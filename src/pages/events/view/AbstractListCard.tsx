@@ -13,7 +13,7 @@ import FilterModal from "@/components/CustomFilter/FilterModal";
 import { NoUserList } from "@/assets/svg";
 import AssignReviewerDrawer from "./AssignReviewerDrawer";
 import AddIcon from '@mui/icons-material/Add';
-import { Box, IconButton, Modal, Typography } from "@mui/material";
+import { Box, Button, IconButton, Modal, Typography } from "@mui/material";
 import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
 import { CloseOutlined } from "@mui/icons-material";
 import { setDataById } from "@/Libs/store";
@@ -31,7 +31,7 @@ const AbstractListCard = () => {
   const companyId = sessionStorage.getItem("companyId");
   const [isPopUp, setisPopUp] = useState(false);
   const [abstractData, setabstractData] = useState<any[]>([]); 
-  const [selectedId,setSelectedId] =useState()
+  const [selectedId,setSelectedId] =useState<number | null>(null)
   const [selectedRows, setSelectedRows] = useState<any[]>([]);
   const ReviewerId = useStore((state:any)=>state?.compData?.["abstarctId"]?.id)
 
@@ -75,9 +75,14 @@ const AbstractListCard = () => {
   /**
    * previews the selected id to confirm
    */
-  const handleassign = (abstractId: number) => {
+  const handleassign = (abstractId: number|null) => {
+  if(abstractId == null ||  (Array.isArray(abstractId) && abstractId.length === 0)){
+    setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "Please select at least one abstract to assign." })
+  }
+  else{
     setselectedAbstractId(Array.isArray(abstractId) ? abstractId : [abstractId]); // Ensure flat array.
     setisPopUp(true);
+  }
   };
 
   /**
@@ -109,12 +114,15 @@ const AbstractListCard = () => {
       const response = await apiClient.post(`/userAbstract/assign`, req);
       const { status } = await processAPIResponse(response, "reviewer-assignment");
       if (status) {
+        setselectedAbstractId(null);
+        setSelectedId(null)
         setDataById("snackBarInfo", {
           open: true,
           autoHideDuration: 2000,
           severity: "success",
           message: "Reviewer Assigned",
         });
+       userAbstractList();
       }
       else {
         setDataById("snackBarInfo", {
@@ -135,6 +143,8 @@ const AbstractListCard = () => {
   const handleAssignSuccess = () => {
     setIsDrawerOpen(false);
     userAbstractList();
+    setselectedAbstractId(null);
+    setSelectedId(null) 
   };
 
   /**
@@ -169,12 +179,18 @@ const AbstractListCard = () => {
       headerName: "Abstract File", 
       width: 200,
       renderCell: (params:any) => (
-        <div onClick={() => handleAbstractClick(params.id)} className="view-abstract">
+        <Button onClick={() => handleAbstractClick(params.id)} className="view-abstract">
           {params.value}
-        </div>
+        </Button>
       ),
     },
-    { type: "default", field: "reviewer", headerName: "Reviewer", width: 180 },
+    { type: "default", field: "reviewer", headerName: "Reviewer", width: 180 , renderCell: (params: any) => {
+      return (
+          <div className={params.value==='Not Assigned' ? "not-assigned" : "reviewer-abstract"}>
+              {params.value}
+          </div>
+      );
+  }},
     { type: "status", field: "status", headerName: "Review Status", width: 175 },
   ];
 
@@ -208,7 +224,7 @@ const AbstractListCard = () => {
             label="Assign"
             startIcon={<AddIcon />}
             size="large"
-            onClick={() => handleassign(selectedId ? selectedId : 0)}
+            onClick={() => handleassign(selectedId ? selectedId : null )}
           />  
 
           <CustomButton
@@ -234,6 +250,7 @@ const AbstractListCard = () => {
           id="userAbstract-list-datagrid"
           checkboxSelection={true}
           onRowSelectionModelChange={handleSelectionChange}
+          isRowSelectable={(params:any) => !params.row.reviewer || params.row.reviewer === "Not Assigned"}
         />
       </Grid>
 

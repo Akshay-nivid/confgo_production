@@ -61,7 +61,7 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
     const onSubmit = (data: any) => {
         const formattedData = Object.keys(data).reduce((acc: any, key: string) => {
             if (data[key] && typeof data[key] === 'object' && dayjs(data[key]).isValid()) {
-                acc[key] =convertLocalToUTC( dayjs(data[key]).format('YYYY-MM-DD'));
+                acc[key] = convertLocalToUTC(dayjs(data[key]).format('YYYY-MM-DD'));
             } else {
                 acc[key] = data[key];
             }
@@ -71,7 +71,7 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
         let req: any = {
             ...dataGridInfo?.source?.data,
         };
-        req.filters = {...dataGridInfo?.source?.data.filters,...formattedData };
+        req.filters = { ...dataGridInfo?.source?.data.filters, ...formattedData };
 
         req['start'] = 0;
         let dataSource: any = { ...dataGridInfo?.source }
@@ -90,8 +90,8 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
             const response = await apiClient.post(source.url, source.data);
             const { status, data, message } = processAPIResponse(response, source.listName);
             if (status) {
-                const pagination = response?.data?.pagination; 
-                setDataById(datagridId, { source, data: dataTransformer ? dataTransformer(data) : data, count: data?.count,pagination,});
+                const pagination = response?.data?.pagination;
+                setDataById(datagridId, { source, data: dataTransformer ? dataTransformer(data) : data, count: data?.count, pagination, });
             }
             else {
                 setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message })
@@ -109,25 +109,111 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
     const handleClear = () => {
         reset();
         fields?.forEach((item: any) => {
-            setValue(item.fieldName, item?.defaultValue||'')
+            setValue(item.fieldName, item?.defaultValue || '')
         })
         setValue("startTime", ''); // Clear startTime
         setValue("endTime", '');
         setDateTemplate('');
         setSelectedTile('');
     }
-    
+
     const setTodaysDate = () => {
-        const currentDate = moment(); // Get the current local date and time
-        setValue("startTime",currentDate);
+        const currentDate = moment(); 
+        setValue("startTime", currentDate);
         setValue("endTime", currentDate);
         setDateTemplate('Today');
     };
+
     const setYesterDaysDate = () => {
         const yesterday = dayjs().subtract(1, "day");
         setValue("startTime", yesterday);
         setValue("endTime", yesterday);
         setDateTemplate('Yesterday');
+    };
+
+    /**
+     * Sets the date range for "Current Week" by calculating the start and end dates of the current week.
+     * Updates the form values for "startOfWeek" and "endOfWeek" with the calculated dates.
+     * Also updates the date template label to "This Week".
+     */
+    const setCurrentWeek = () => {
+        const startOfWeek = dayjs().startOf('week');
+        const endOfWeek = dayjs().endOf('week');
+
+        setValue("startTime", startOfWeek);
+        setValue("endTime", endOfWeek);
+        setDateTemplate("This Week");
+    };
+
+    /**
+     * Sets the date range for "Current Month" by calculating the start and end dates of the current month.
+     * Updates the form values for "startOfMonth" and "endOfMonth" with the calculated dates.
+     * Also updates the date template label to "This Month".
+     */
+    const setCurrentMonth = () => {
+        const startOfMonth = dayjs().startOf('month');
+        const endOfMonth = dayjs().endOf('month');
+
+        setValue("startTime", startOfMonth);
+        setValue("endTime", endOfMonth);
+        setDateTemplate("This Month");
+    };
+
+    /**
+     * Sets the date range for "Last Month" by calculating the start and end dates of the previous month.
+     * Updates the form values for "startOfLastMonth" and "endOfLastMonth" with the calculated dates.
+     * Also updates the date template label to "Last Month".
+     */
+    const setLastMonth = () => {
+        const startOfLastMonth = dayjs().subtract(1, "month").startOf('month');
+        const endOfLastMonth = dayjs().subtract(1, "month").endOf('month');
+
+        setValue("startTime", startOfLastMonth);
+        setValue("endTime", endOfLastMonth);
+        setDateTemplate("Last Month");
+    };
+
+    /**
+     * Sets the date range for "Current Year" by calculating the start and end dates of the current year.
+     * Updates the form values for "startOfYear" and "endOfYear" with the calculated dates.
+     * Also updates the date template label to "This Year".
+     */
+    const setCurrentYear = () => {
+        const startOfYear = dayjs().startOf('year');
+        const endOfYear = dayjs().endOf('year');
+
+        setValue("startTime", startOfYear);
+        setValue("endTime", endOfYear);
+        setDateTemplate("This Year");
+    };
+
+    /**
+     * Sets the date range for "Last Year" by calculating the start and end dates of the previous year.
+     * Updates the form values for "startTime" and "endTime" with the calculated dates.
+     * Also updates the date template label to "Last Year".
+     */
+    const setLastYear = () => {
+        const startOfLastYear = dayjs().subtract(1, "year").startOf('year');
+        const endOfLastYear = dayjs().subtract(1, "year").endOf('year');
+
+        setValue("startTime", startOfLastYear);
+        setValue("endTime", endOfLastYear);
+        setDateTemplate("Last Year");
+    };
+
+    /**
+     * Handles the click event when a filter option is selected.
+     * Updates the `selectedTile` state and triggers form value update.
+     * 
+     * @param item - The filter item object that contains details like `fieldName` and `options`.
+     * @param option - The option that was selected (includes `value` and `label`).
+     */
+    const handleClick = (item: any, option: any) => {
+        setSelectedTile((prevState: any) => {
+            const updatedState = { ...prevState, [item.fieldName]: option.value };
+            return updatedState;
+        });
+        setValue(item.fieldName, option.value);
     };
 
     /**
@@ -282,6 +368,51 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
                                                         Yesterday
                                                     </Button>
                                                 </Grid>
+                                                <Grid size={{ xs: 3 }}
+                                                    sx={{ cursor: 'pointer' }}
+                                                    className={(dateTemplate == 'This Week') ? "filter-drawer-card-template-selected" : "filter-drawer-card-template"}>
+                                                    <Button
+                                                        type="button"
+                                                        onClick={setCurrentWeek}>
+                                                        This week
+                                                    </Button>
+                                                </Grid>
+                                                <Grid size={{ xs: 3 }}
+                                                    sx={{ cursor: 'pointer' }}
+                                                    className={(dateTemplate == 'This Month') ? "filter-drawer-card-template-selected" : "filter-drawer-card-template"}>
+                                                    <Button
+                                                        type="button"
+                                                        onClick={setCurrentMonth}>
+                                                        This month
+                                                    </Button>
+                                                </Grid>
+                                                <Grid size={{ xs: 3 }}
+                                                    sx={{ cursor: 'pointer' }}
+                                                    className={(dateTemplate == 'Last Month') ? "filter-drawer-card-template-selected" : "filter-drawer-card-template"}>
+                                                    <Button
+                                                        type="button"
+                                                        onClick={setLastMonth}>
+                                                        Last month
+                                                    </Button>
+                                                </Grid>
+                                                <Grid size={{ xs: 3 }}
+                                                    sx={{ cursor: 'pointer' }}
+                                                    className={(dateTemplate == 'This Year') ? "filter-drawer-card-template-selected" : "filter-drawer-card-template"}>
+                                                    <Button
+                                                        type="button"
+                                                        onClick={setCurrentYear}>
+                                                        This year
+                                                    </Button>
+                                                </Grid>
+                                                <Grid size={{ xs: 3 }}
+                                                    sx={{ cursor: 'pointer' }}
+                                                    className={(dateTemplate == 'Last Year') ? "filter-drawer-card-template-selected" : "filter-drawer-card-template"}>
+                                                    <Button
+                                                        type="button"
+                                                        onClick={setLastYear}>
+                                                        Last year
+                                                    </Button>
+                                                </Grid>
                                             </Grid>
                                             <hr className="seperator" ></hr>
                                         </Grid>
@@ -291,10 +422,11 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
                                             {item.options.map((option: any) => (
                                                 <Grid size={{ xs: 3 }}
                                                     sx={{ cursor: 'pointer' }}
-                                                    className={(selectedTile == option.value) ? "filter-drawer-card-template-selected" : "filter-drawer-card-template"}>
+                                                    key={option.value}
+                                                    className={selectedTile[item.fieldName] === option.value ? "filter-drawer-card-template-selected" : "filter-drawer-card-template"}>
                                                     <Button
                                                         type="button"
-                                                        onClick={() => { setValue(item.fieldName, option.value); setSelectedTile(option.value); }}>
+                                                        onClick={() => handleClick(item, option)}>
                                                         {option.label}
                                                     </Button>
                                                 </Grid>

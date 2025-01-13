@@ -153,12 +153,12 @@ const EventInfoCard: React.FC<any> = React.memo(
    */
   const onEditSubmit= (data:any)=>{
     //checks the start tima and end time
-    const EventStart = new Date(eventData?.startTime)
-    const EventEnd = new Date(eventData?.endTime)
+    const EventStart= moment(eventData?.startTime).format("MMM D, YYYY")
+    const EventEnd = moment(eventData?.endTime).format("MMM D, YYYY")
 
-    const startTime = new Date(data.startTime);
+    const startTime = moment(data?.startTime).format("MMM D, YYYY");
     setSubmitData(data)
-    const endTime = new Date(data.endTime);
+    const endTime = moment(data?.endTime).format("MMM D, YYYY")
     if (startTime > endTime) {
       setError(`startTime`, {
         type: 'manual',
@@ -167,7 +167,7 @@ const EventInfoCard: React.FC<any> = React.memo(
       return
     }
     { 
-      if( EventStart.getTime() != startTime.getTime() || EventEnd.getTime() !=endTime.getTime()){
+      if( EventStart != startTime || EventEnd != endTime){
         setIsWarning(true)
       }else{
         onSubmit(data)
@@ -180,6 +180,8 @@ const EventInfoCard: React.FC<any> = React.memo(
    * @param data
    */
   const onSubmit = async (data: any) => {
+  const formattedEndTime = `${data.endTime.split('T')[0]}T23:59`;
+  const formattedStartTime=`${data.startTime.split('T')[0]}T00:00`;
     setIsWarning(false)
     // Format the date and time fields before update request.
    let excludeKeys = ['slugName','city','address','venue','country','mapUrl','postalCode','state','status','templateId','template','eventPriceTiers','eventProgramSchedules','programs','addons','eventContacts','venueId','email','phone','venueName'];
@@ -189,17 +191,17 @@ const EventInfoCard: React.FC<any> = React.memo(
     if(data?.eventClass === "ONLINE"){
       excludeKeys.push('venueName');
     }
-    if(data?.specialtyId!='1'){
+    if(data?.specialtyId!='1' || data?.isAbstract !=true){
       excludeKeys.push('abstractDate');
     }
     const formattedData = {
       //remove unnessary fields
       ...Object.fromEntries(
         Object.entries(data).filter(([key]) => !excludeKeys.includes(key))),
-      startTime: formatUTCDateTime(data.startTime),
-      endTime: formatUTCDateTime(data.endTime),
+      startTime: formatUTCDateTime(formattedStartTime),
+      endTime: formatUTCDateTime(formattedEndTime),
       assetId: selectedFile?.id,
-      isAbstract:data?.specialtyId!='1'?0:1,
+      isAbstract: data.isAbstract==true ? 1 : 0,
       ...(data?.eventClass !== "ONLINE" ?{
       venue: {
         name: data?.venueName,
@@ -563,7 +565,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                     rules={{
                       pattern: {
                         value: /^\d{4}-\d{2}-\d{2}$/, 
-                        message: "Please enter a valid start start date (DD-MM-YYYY)"
+                        message: "Please enter a valid start date (DD-MM-YYYY)"
                       }
                     }}
                   />
@@ -649,7 +651,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                         required:true,
                         pattern: {
                           value: /^\d{4}-\d{2}-\d{2}$/, 
-                          message: "Please enter a valid start start date (DD-MM-YYYY)"
+                          message: "Please enter a valid start date (DD-MM-YYYY)"
                         }
                       }}
                     />
@@ -700,7 +702,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                           type="text"
                           rules={{ required: watch("type") === "OFFLINE" }}
                           shrink={watch('venueName')!==''&&watch('venueName')!==undefined?true:undefined}
-                          readOnly
+                          // readOnly
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 12 }}>

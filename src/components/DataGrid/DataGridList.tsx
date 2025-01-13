@@ -40,13 +40,14 @@ type DataGridListProps = {
     checkboxSelection?:boolean;
     onRowSelectionModelChange?:(params: any) => void;
     getRowClassName?: any;
+    isRowSelectable?:any
 };
 
 /**
  * Method used to render listing
  * @returns 
  */
-export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFooterPagination, source, dataTransformer, onRowClick, subNode, data, noRecordIcon, noRecordTitle, noRecordSubtitle, redirectTo, btnName, isTargetGrid,checkboxSelection,onRowSelectionModelChange, getRowClassName }) => {
+export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFooterPagination, source, dataTransformer, onRowClick, subNode, data, noRecordIcon, noRecordTitle, noRecordSubtitle, redirectTo, btnName, isTargetGrid,checkboxSelection,onRowSelectionModelChange, getRowClassName,isRowSelectable }) => {
     const setDataById = useStore((state: any) => state.setDataById)
     const dataInfo = useStore((state: any) => state?.compData?.[id]) ?? [];
     const prevPageRef = useRef<any>();
@@ -258,6 +259,8 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
                         }}
                         checkboxSelection={checkboxSelection}
                         onRowSelectionModelChange={onRowSelectionModelChange}
+                        isRowSelectable={isRowSelectable} // Add row-level checkbox control
+
                     />
                 </Grid>
             ) : (
