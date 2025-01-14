@@ -11,7 +11,7 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { SubmitHandler, useForm } from "react-hook-form";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import useStore from "@/Libs/store";
-import { emailRules, phoneRules } from "@/Utils/Validation";
+import { emailRules } from "@/Utils/Validation";
 import { processAPIResponse} from "@/Utils/CommonBaseClass";
 import apiClient from "@/Libs/Https/API-client";
 
