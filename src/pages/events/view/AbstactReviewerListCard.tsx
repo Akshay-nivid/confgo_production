@@ -61,7 +61,6 @@ const AbstractReviewer = () => {
     if (!data) return [];
     return data.map((item: any) => ({
       id: item?.id,
-      role: item?.userRoles[0]?.role?.roleName,
       name: item?.firstName,
       email: item?.email,
       phone: item?.phone,
@@ -78,7 +77,6 @@ const AbstractReviewer = () => {
 
   const columns = [
     { type: "default", field: "id", headerName: "ID", width: 160 },
-    { type: "default", field: "role", headerName: "Role", width: 200 },
     { type: "default", field: "name", headerName: "Name", width: 200 },
     { type: "default", field: "email", headerName: "email", width: 200 },
     { type: "default", field: "phone", headerName: "phone", width: 200 },
