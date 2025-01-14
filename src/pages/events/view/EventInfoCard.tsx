@@ -440,29 +440,7 @@ const EventInfoCard: React.FC<any> = React.memo(
           </Typography>
         </Grid>
 
-        {eventData?.isAbstract===1&&(
-          <>
-       <Grid size={{ xs: 3 }}>
-          <Typography className="event-information-subtitle">
-           Abstracts
-          </Typography>
-        </Grid>
-        <Grid size={{ xs: 9 }}>
-          <Typography className="event-information-content">
-           yes
-          </Typography>
-        </Grid>
-        <Grid size={{ xs: 3 }}>
-          <Typography className="event-information-subtitle">
-           Abstracts Submission Date
-          </Typography>
-        </Grid>
-        <Grid size={{ xs: 9 }}>
-          <Typography className="event-information-content">
-           {eventData?.abstractDate}
-          </Typography>
-        </Grid>
-        </>)}
+        
 
         <Grid size={{ xs: 3 }}>
           <Typography className="event-information-subtitle">
@@ -474,6 +452,32 @@ const EventInfoCard: React.FC<any> = React.memo(
             {eventData?.speciality?.name}
           </Typography>
         </Grid>
+       
+       <Grid size={{ xs: 3 }}>
+          <Typography className="event-information-subtitle">
+           Abstracts Required
+          </Typography>
+        </Grid>
+        <Grid size={{ xs: 9 }}>
+          <Typography className="event-information-content">
+           {eventData?.isAbstract===1? 'Yes': 'No'}
+          </Typography>
+        </Grid>
+        {eventData?.isAbstract===1&&(
+          <>
+        <Grid size={{ xs: 3 }}>
+          <Typography className="event-information-subtitle">
+           Abstracts Submission Date
+          </Typography>
+        </Grid>
+        <Grid size={{ xs: 9 }}>
+          <Typography className="event-information-content">
+           {moment(eventData?.abstractDate).format(
+              "MMM D, YYYY"
+            )}
+          </Typography>
+        </Grid>
+        </>)}
         {eventData?.eventClass === "ONLINE" && (
         <>
          <Grid size={{ xs: 3 }}>
