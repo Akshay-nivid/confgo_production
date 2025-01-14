@@ -18,7 +18,6 @@ import ReactQuill from "react-quill";
 import React from "react";
 import config from "../../../../config.json";
 import FileListModal from "@/components/FileUpload/FileListModal";
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { validateEmail, validateMaxLength, validatePhoneNumber } from "@/Utils/Validation";
 import GoogleMapPlacePicker from "../GoogleMapPlacePicker";
 import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
