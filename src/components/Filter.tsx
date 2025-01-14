@@ -283,9 +283,9 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
                                     )}
                                     {item.type === 'dateRange' && (
                                         <Grid container spacing={2}>
-                                            <Grid >
+                                            <Grid size={{ xs: 12 }}>
                                                 <Controller
-                                                    name="from_date"
+                                                    name="startDate"
                                                     control={control}
                                                     defaultValue={null}
                                                     render={({ field }) => (
@@ -305,9 +305,9 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
                                                     )}
                                                 />
                                             </Grid>
-                                            <Grid >
+                                            <Grid size={{ xs: 12 }}>
                                                 <Controller
-                                                    name="to_date"
+                                                    name="endDate"
                                                     control={control}
                                                     defaultValue={null}
                                                     render={({ field }) => (
