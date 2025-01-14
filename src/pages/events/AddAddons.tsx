@@ -671,11 +671,12 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
               direction={"column"}
               className="add-program-display-container"
               size={{ xs: 12, sm: 4 }}
-              spacing={2}
+              // spacing={2}
               key='add-program-display-container'
             >
              <Grid container className="add-program-display-container-box">
                <Typography variant="h6">Saved Add-Ons</Typography>
+               </Grid>
               {watch("savedAddOns")?.map(
                 (field, index) =>
                   field.addonId&&
@@ -684,21 +685,20 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                     <Grid
                       key={field.id}
                       container
+                      alignItems="center"
                       className="add-program-display-item"
                       alignContent={"center"}
                       size={{ xs: 12, sm: 12 }}
                     >
-                      <Grid size={{ xs: 8, sm: 8 }} >
+                      <Grid size={{ xs: 8, sm: 9 }} >
                         <Grid container size={{ xs: 12, sm: 12 }} direction={'column'}>
-                          <Grid>
-                            {addOnOptions?.find((option: any) => option?.value === field?.addonId)?.label || 'Unknown'}
-                          </Grid>
-                        <Grid>{field.description}</Grid>    
+                        <Grid size={{ xs: 12 }}><Typography className="text-p2 font-700 truncate-text"> {addOnOptions?.find((option: any) => option?.value === field?.addonId)?.label || 'Unknown'}</Typography> </Grid>
+                        <Grid size={{ xs: 12}}><Typography className="truncate-text">{field.description}</Typography></Grid>    
                         </Grid>
                                             
                       </Grid>
 
-                      <Grid size={{ xs: 4, sm: 4 }}>
+                      <Grid size={{ xs: 4, sm: 3 }}>
                         <IconButton onClick={() => handleEdit(index)}>
                           <EditIcon />
                         </IconButton>
@@ -709,7 +709,6 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                     </Grid>
                   )
               )}
-            </Grid>
             </Grid>}
           </Grid>
         </Grid>
