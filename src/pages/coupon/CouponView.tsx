@@ -21,12 +21,14 @@ import SaveIcon from "@mui/icons-material/Save";
 import CustomSnackbar from "@/components/CustomSnackbar/CustomSnackbar";
 import routes from "@/router/routes";
 import useStore from '@/Libs/store'
+import { validateMaxLength, validateMinLength } from "@/Utils/Validation";
 
 /**
  * Coupon Details Page
  * @author Neethu
  */
 const CouponView: React.FC = () => {
+  const { handleSubmit,getValues, control,reset,watch} = useForm<any>();
   const { id } = useParams<{ id: string }>(); // Retrieve the ID from URL parameters
   const [coupon, setCoupon] = useState<Coupon | null>(null); // Replace 'Coupon' with your actual coupon type
   const [loading, setLoading] = useState(true); // State for loading
@@ -45,13 +47,14 @@ const CouponView: React.FC = () => {
     maxDiscountValue: number;
     minPurchaseValue: number;
   }
+  const [ViewStartDate,setViewStartDate]=useState<string>()
+  const [ViewEndDate,setViewEndDate]=useState<string>()
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">(
     "success"
   );
   const navigate = useNavigate();
-  const { control, reset, getValues,watch } = useForm();
   /**
    * useEffect hook to handle the API call
    */
@@ -75,6 +78,8 @@ const CouponView: React.FC = () => {
           startDate: moment(data.startDate).format("YYYY-MM-DD"),
           endDate: moment(data.endDate).format("YYYY-MM-DD"),
         });
+        setViewStartDate(moment(data.startDate).format("YYYY-MM-DD"))
+        setViewEndDate( moment(data.endDate).format("YYYY-MM-DD"))       
       }
     } catch (err) {
       setError("Failed to fetch coupon details."); // Handle error appropriately
@@ -131,6 +136,7 @@ const CouponView: React.FC = () => {
         const response = await apiClient.put(`/coupon/${id}`, updatedFields); // Only send updated fields
         const { status } = await processAPIResponse(response, "Viewcoupon");
         if (status) {
+          setEditable(false);
           setSnackbarOpen(true);
           setSnackbarMessage("Coupon Updated Successfully");
           setSnackbarSeverity("success");
@@ -231,7 +237,7 @@ const CouponView: React.FC = () => {
                 </Typography>
               </Grid>
               <Grid size={{ xs: 12, sm: 12 }} className="create-coupon-form">
-                <form>
+                <form onSubmit={handleSubmit(()=>updateCouponDetails())}>
                   <Grid
                     container
                     spacing={2}
@@ -244,7 +250,7 @@ const CouponView: React.FC = () => {
                         placeholder="Coupon Name"
                         control={control}
                         defaultValue={coupon?.name}
-                        requiredField
+                        rules={{ required: "Coupon Name is required" }}
                         disabled={!editable}
                         readOnly={!editable}
                       />
@@ -255,7 +261,11 @@ const CouponView: React.FC = () => {
                         placeholder="Coupon Code"
                         control={control}
                         defaultValue={coupon?.code}
-                        rules={{ required: "Coupon Code is required" }}
+                        rules={{
+                          required:{value:true,message:"Coupon Code is required"},
+                          minLength: validateMinLength({minLength: 6, fieldName: "Coupon Code"}),
+                          maxLength: validateMaxLength({maxLength: 8, fieldName: "Coupon Code"}),
+                        }}
                         requiredField
                         disabled={!editable}
                         readOnly={!editable}
@@ -290,7 +300,7 @@ const CouponView: React.FC = () => {
                         placeholder="Start Date"
                         name="startDate"
                         control={control}
-                        defaultValue={coupon?.startDate}
+                        defaultValue={ViewStartDate}
                         min={moment().format("YYYY-MM-DD")}
                         rules={{ required: "Start Date is required" }}
                         label="Start Date"
@@ -302,7 +312,7 @@ const CouponView: React.FC = () => {
                       <CustomDatePicker
                         placeholder="Expiry Date"
                         name="endDate"
-                        defaultValue={coupon?.endDate}
+                        defaultValue={ViewEndDate}
                         control={control}
                         min={moment().format("YYYY-MM-DD")}
                         rules={{ required: "Expiry Date is required" }}
@@ -369,10 +379,6 @@ const CouponView: React.FC = () => {
                         size="large"
                         type="submit"
                         startIcon={<SaveIcon />}
-                        onClick={() => {
-                          updateCouponDetails();
-                          setEditable(false);
-                        }}
                       />
                        <CustomButton
                         className="custom-list-save-btn custom-list-restore-btn"
