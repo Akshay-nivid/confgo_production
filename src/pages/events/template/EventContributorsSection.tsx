@@ -4,9 +4,7 @@
 import Grid from '@mui/material/Grid2';
 import React from 'react';
 import config from '../../../../config.json';
-import { Avatar } from '@mui/material';
-import PersonIcon from '@mui/icons-material/Person';
-
+import NoProfilePicture from "../../../assets/svg/NoProfilePicture.svg";
 
 type EventContributorsSectionProps = {
     data?: any;
@@ -30,17 +28,17 @@ const EventContributorsSection = React.memo(
         <Grid className={`${classPrefix}-title`}>Meet Our Esteemed Speakers</Grid>
         <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-item-group-container anim-container`} justifyContent={'center'} alignItems={'center'} spacing={4}>
             {data?.map((item: any) => {
-                return <Grid size={{ xs: 12, sm: 6 }} container direction={'row'} className={`${classPrefix}-item-container slide-right`} spacing={2}>
-                    <Grid size={{ xs: 12, sm: 12 }} container direction={'row'}>
-                        <Grid size={{ xs: 12, sm: 3 }}>
+                return <Grid size={{ xs: 12, sm: 6 }} container direction={'row'} className={`${classPrefix}-item-container `} spacing={2}>
+                    <Grid size={{ xs: 12, sm: 12 }} container direction={'row'} className={`${classPrefix}-item-container-speaker-card `}>
+                        <Grid  className={`${classPrefix}-item-container-speaker-card-image-container `}>
                             {item?.user?.assetId ? (<img
                                 src={`${baseUrl}asset/${item?.user?.assetId}`}
                                 alt={item.name}
-                            />):(<Avatar>
-                              <PersonIcon/>
-                            </Avatar>)}
+                            />):(
+                            <NoProfilePicture/>
+                        )}
                         </Grid>
-                        <Grid container size={{ xs: 12, sm: 9 }} direction={'column'} justifyContent={'center'}>
+                        <Grid container  direction={'column'} justifyContent={'center'}>
                             <Grid className={`${classPrefix}-item-name`}>{`${item.user?.firstName} ${item.user?.lastName}`}</Grid>
                             {/* <Grid className={`${classPrefix}-item-designation`}>{item.designation}</Grid>
                             <Grid className={`${classPrefix}-item-topic`} title={item.description}>{truncateString(item.description,30, "")}</Grid> */}
