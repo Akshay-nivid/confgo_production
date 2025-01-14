@@ -34,21 +34,21 @@ const TeamAndRole=()=>{
         expanded={expanded === "panel1-header"} 
         onChange={handleChange("panel1-header")}>
         <AccordionSummary
-          expandIcon={speakerData.length!==0?<AccordionArrowIcon />:<AccordionAddIcon/>}
+          expandIcon={speakerData?.length!==0?<AccordionArrowIcon />:<AccordionAddIcon/>}
           aria-controls="panel1-content"
           id="panel1-header"
           className="accordion-container-icon" 
         >
           <Typography className="accordion-container-heading">Speaker</Typography>
         </AccordionSummary>
-        {TeamAndRoleData.id&&
+        {TeamAndRoleData?.id&&
         <AccordionDetails>
           <SepekerCard  eventData={TeamAndRoleData} />
         </AccordionDetails>
          }
       </Accordion>
       </Grid>
-      {TeamAndRoleData.isAbstract===1&&
+      {TeamAndRoleData?.isAbstract===1&&
       <Grid size={12}>
       <Accordion className="accordion-container-box"
         expanded={expanded === "panel2-header"} 

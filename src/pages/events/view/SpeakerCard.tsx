@@ -479,7 +479,7 @@ const SpeakerCard = (eventData: any) => {
               <Grid container justifyContent={"space-between"} mb={1}>
                 <Typography className="event-detail-speakers-card-contributor-header">
                   {editContributorValue != null
-                    ? "Edit Contributor"
+                    ? "Edit Speaker"
                     : "Create Speaker"}
                 </Typography>
                 <IconButton onClick={() => setAddContributeView(false)}>
