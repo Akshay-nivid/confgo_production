@@ -138,7 +138,7 @@ const AddOrganization = React.memo(() => {
                                                 name="organizationPhone"
                                                 type="text"
                                                 control={control}
-                                                rules={phoneRules}
+                                                //rules={phoneRules}
                                                 isNumeric={true}
                                                 max={10}
                                             />
