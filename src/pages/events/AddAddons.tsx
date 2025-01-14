@@ -671,7 +671,6 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
               direction={"column"}
               className="add-program-display-container"
               size={{ xs: 12, sm: 4 }}
-              // spacing={2}
               key='add-program-display-container'
             >
              <Grid container className="add-program-display-container-box">
