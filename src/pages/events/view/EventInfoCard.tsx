@@ -440,7 +440,7 @@ const EventInfoCard: React.FC<any> = React.memo(
           </Typography>
         </Grid>
 
-        {eventData?.isAbstract===1?(
+        {eventData?.isAbstract===1&&(
           <>
        <Grid size={{ xs: 3 }}>
           <Typography className="event-information-subtitle">
@@ -454,7 +454,7 @@ const EventInfoCard: React.FC<any> = React.memo(
         </Grid>
         <Grid size={{ xs: 3 }}>
           <Typography className="event-information-subtitle">
-           Abstracts Date
+           Abstracts Submission Date
           </Typography>
         </Grid>
         <Grid size={{ xs: 9 }}>
@@ -462,19 +462,7 @@ const EventInfoCard: React.FC<any> = React.memo(
            {eventData?.abstractDate}
           </Typography>
         </Grid>
-        </>):(
-          <>
-           <Grid size={{ xs: 3 }}>
-           <Typography className="event-information-subtitle">
-              Abstracts
-           </Typography>
-         </Grid>
-         <Grid size={{ xs: 9 }}>
-           <Typography className="event-information-content">
-             No
-           </Typography>
-         </Grid>
-         </>)}
+        </>)}
 
         <Grid size={{ xs: 3 }}>
           <Typography className="event-information-subtitle">
