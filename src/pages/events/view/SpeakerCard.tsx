@@ -46,7 +46,7 @@ type TransformedData = {
   name: string;
 };
 
-const SpeakerCard = (eventData: any) => {
+const SpeakerCard = (eventData: any) => { 
   const { id } = useParams<Record<string, string | undefined>>();
   const { handleSubmit, control, reset,watch, formState: { errors }, setValue } = useForm<FormData>();
   const [addContributeView, setAddContributeView] = useState(false);
@@ -62,7 +62,7 @@ const SpeakerCard = (eventData: any) => {
   const [handleSelectedValue,setHandleSelectedValue]=useState<any>();
   const companyId = sessionStorage.getItem("companyId")
   const [source, setSource] = useState<ISource | undefined>(undefined);
-   const navigate = useNavigate();
+  const navigate = useNavigate();
   /**
    * Method transforms data to the autocomplete data format
    * @param data : api response data
@@ -125,7 +125,7 @@ const SpeakerCard = (eventData: any) => {
         offset: 0,
         limit: 5,
         filters: {
-          eventId: eventData?.eventData?.eventData?.id,
+          eventId: eventData?.eventData?.id,
         },
       };
       setSource({
@@ -133,7 +133,7 @@ const SpeakerCard = (eventData: any) => {
          data:requestBody,
          url: "eventSpeaker/list",
          listName: "speakerList",
-        
+
 
       });
       return;
@@ -391,7 +391,7 @@ const SpeakerCard = (eventData: any) => {
    * drawer create speaker button
    */ 
   const createNewSpeaker=(speaker:any)=>{
-    navigate(routes.createNewUsers(),{state:{data:speaker,eventId:eventData?.eventData?.eventData?.id}});
+    navigate(routes.createNewUsers(),{state:{data:speaker,eventId:eventData?.eventData?.id}});
 
   };
 
@@ -479,8 +479,8 @@ const SpeakerCard = (eventData: any) => {
               <Grid container justifyContent={"space-between"} mb={1}>
                 <Typography className="event-detail-speakers-card-contributor-header">
                   {editContributorValue != null
-                    ? "Edit Contributor"
-                    : "Create Contributor"}
+                    ? "Edit Speaker"
+                    : "Create Speaker"}
                 </Typography>
                 <IconButton onClick={() => setAddContributeView(false)}>
                   <CloseIcon />
@@ -524,20 +524,19 @@ const SpeakerCard = (eventData: any) => {
                     </Grid>
                     </>}
                   </Grid>
-                  <Grid container justifyContent="flex-end" alignItems="center" size={3}>
-                    <CustomButton
+                  <Grid container justifyContent="flex-end" alignItems="center" size={12}  >
+                  <Grid>  <CustomButton
                       className="event-detail-speakers-card-btn-container-submit-btn"
                       label="Submit"
                       variant="contained"
                       type="submit"
                     />
-                     
+                    </Grid>
 
-                     <Grid container justifyContent="flex-end" alignItems="center" size={3} width={"max-content"}>
+                     <Grid container size={12} justifyContent="flex-end" className="mt-3">
                     <CustomButton
-                      className="event-detail-speakers-card-btn-container-submit-btn"
-                      label="Create Speaker"
-                      variant="contained"
+                      label="Create Speaker user"
+                      variant="text"
                        onClick={()=>createNewSpeaker("SPEAKER")}
                     />
                     

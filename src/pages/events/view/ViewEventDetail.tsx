@@ -200,11 +200,11 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
   const getEventDetails = async () => {
     try {
       const response = await apiClient.get(`event/${id}`);
-      const { status, data } = await processAPIResponse(response, 'eventData');
+      const { status, data } =  processAPIResponse(response, 'eventData');
       if (status) {
-        setEventFullData(data)
+        setEventFullData(data);
+        setDataById("TeamAndRoleData",{data});
         if(data.published){
-          
           setValue('event', data.slugName? `event-link/${data.slugName}`: '')
           setLink(data);
         }
@@ -394,7 +394,7 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
         <Grid container direction={"column"} size={{ xs: 12, sm: 12 }} >
             <TabList className="event-detail-tab-layout" onChange={handleChange} aria-label="lab API tabs example">
               <Tab label="Basic Info" className="event-detail-tab-layout-item" value="1" />
-              <Tab label="Team&Role" className="event-detail-tab-layout-item" value="2" />
+              <Tab label="Team & Role" className="event-detail-tab-layout-item" value="2" />
               <Tab label="Sessions" className="event-detail-tab-layout-item" value="3" />
               { eventFullData?.venue && <Tab label="Location" className="event-detail-tab-layout-item" value="4" />}
               <Tab label="Participants" className="event-detail-tab-layout-item" value="5" />              
@@ -410,7 +410,7 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
             <EventInfoCard eventData={eventFullData} onSubmitHandler={handleSubmitHandler}/>
           </TabPanel>
           <TabPanel value="2">
-            <TeamAndRole eventData={eventFullData} />
+            <TeamAndRole/>
           </TabPanel>
           <TabPanel value="3">
             <Sessions eventData={eventFullData} onSubmitHandler={handleSubmitHandler}/>
