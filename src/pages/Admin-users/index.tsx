@@ -15,10 +15,11 @@ import AddIcon from "@mui/icons-material/Add";
 import { Filter } from "@/components/Filter";
 import useStore, { setDataById } from "@/Libs/store";
 import { NoUserList } from "@/assets/svg";
+import { options } from "@fullcalendar/core/preact.js";
 
 interface Role{
   value:number,
-  label:string
+  name:string
 }
 type RoleList = {
   id: number;            
@@ -112,7 +113,7 @@ const AdminUsersList=()=>{
                 if (![1,3].includes(item.id)) {
                     roleData.push({
                         value: item.id,
-                        label: item.roleName
+                        name: item.roleName
                     });
                 }
             });
@@ -213,16 +214,14 @@ const AdminUsersList=()=>{
 
   const filterFields: any = [
     {
-      type: 'select',
-      fieldName: 'roleId',
-      label: 'Role',
-      defaultValue:roleList&&roleList[0]?.value,
+      type: 'checkBox',
+      fieldName: 'roleEnums',
+      // defaultValue: roleList?.map(role => role.value) || [],
       heading: 'Filter with Role Type',
-      options: roleList
+      data: roleList,
     }
   ]
-  
-    return(
+  return(
         <Grid container className="custom-list">
             <Grid size={{ xs: 4 }}>
                 <Typography className="custom-list-list-title" gutterBottom>
