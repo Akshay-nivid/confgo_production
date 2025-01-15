@@ -20,7 +20,7 @@ const TemplateCard = (data: any) => {
   const PUT = useStore((state: any) => state.PUT);
   const templateInfo = useStore((state: any) => state?.compData?.['templateList']?.[`template/list`]?.data) ?? [];
   const templates = [Template1, Template2, Template3];
-  const setDataById = useStore((state: any) => state.setDataById);
+  //const setDataById = useStore((state: any) => state.setDataById);
 
 
   /**
@@ -91,12 +91,6 @@ const TemplateCard = (data: any) => {
         successCB: (context: any) => {
           if (context?.success) {
             data?.onSubmitHandler && data?.onSubmitHandler();
-            setDataById("snackBarInfo", {
-              open: true,
-              autoHideDuration: 2000,
-              severity: "success",
-              message: "Theme applied successfully!",
-            });
 
           }
         },

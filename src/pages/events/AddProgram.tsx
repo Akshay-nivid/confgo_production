@@ -13,7 +13,7 @@ import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import moment from "moment";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
 import { WarningIcon } from "@/assets/svg";
-import useStore from "@/Libs/store";
+//import useStore from "@/Libs/store";
 
 type FormData = {
   programs: {
@@ -85,9 +85,9 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
     const [programIndex, setProgramIndex] = useState<any>();
     const [editMode, setEditMode] = useState(false);
     const [openModal,setOpenModal]=useState(false);
-    const eventDate = useStore((state: any) => state?.compData?.["event-date"]);
-    const eventStartDate= eventDate.startDate
-    const eventEndDate= eventDate.endDate
+    //const eventDate = useStore((state: any) => state?.compData?.["event-date"]);
+   // const eventStartDate= eventDate.startDate
+    //const eventEndDate= eventDate.endDate
 
     /**
      * Useeffect hook updates the programIndex value based on the savedPrograms dependency
@@ -155,12 +155,14 @@ const scrollToError = (errorField: string) => {
      * Method handles the saving of the programs
      */
   const handleSaveNewPrograms = () => {
+         // handleSubmit(onSave)();
+
     handleSubmit(onSave, (errors) => {
     // Check if programs exists and is an array before forEach
     if (errors.programs && Array.isArray(errors.programs)) {
       errors.programs.forEach((programError, index) => {
         const firstErrorKey = Object.keys(programError ?? {})[0] as keyof FormData["programs"][number] | undefined;
-
+ 
         if (firstErrorKey) {
           const errorField = `programs.${index}.${firstErrorKey}` as const;
           
@@ -190,27 +192,27 @@ const scrollToError = (errorField: string) => {
         return
       }
 // Ensure dates are valid Date objects
-let eventStartDateObj = new Date(eventStartDate);
-let startDateObj = new Date(startDate);
-let endDateObj = new Date(endDate);
-let eventEndDateObj = new Date(eventEndDate)
+// let eventStartDateObj = new Date(eventStartDate);
+// let startDateObj = new Date(startDate);
+// let endDateObj = new Date(endDate);
+// let eventEndDateObj = new Date(eventEndDate)
 
     // Perform the comparison
-    if (startDateObj.getTime() < eventStartDateObj.getTime() || startDateObj.getTime() > eventEndDateObj.getTime()) {
-      setError(`programs.${lastIndex}.startDate`, {
-        type: 'manual',
-        message: 'Start date should be within event Dates',
-      });
-      return
-    } 
+    // if (startDateObj.getTime() < eventStartDateObj.getTime() || startDateObj.getTime() > eventEndDateObj.getTime()) {
+    //   setError(`programs.${lastIndex}.startDate`, {
+    //     type: 'manual',
+    //     message: 'Start date should be within event Dates',
+    //   });
+    //   return
+    // } 
 
-    if (endDateObj.getTime() > eventEndDateObj.getTime()) {
-      setError(`programs.${lastIndex}.endDate`, {
-        type: 'manual',
-        message: 'End date should be within event Dates',
-      });
-      return
-    } 
+    // if (endDateObj.getTime() > eventEndDateObj.getTime()) {
+    //   setError(`programs.${lastIndex}.endDate`, {
+    //     type: 'manual',
+    //     message: 'End date should be within event Dates',
+    //   });
+    //   return
+    // } 
       const newPrograms = [...programs];
       // Handle saving logic based on `editMode`
       if (!editMode) {
@@ -385,7 +387,7 @@ let eventEndDateObj = new Date(eventEndDate)
                                     type="number"
                                     rules={{
                                       pattern: {
-                                      value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
+                                      value: /^(0?[1-9]|[1-9]\d{0,7})$/,
                                         message:
                                           "Enter a valid number",
                                       }

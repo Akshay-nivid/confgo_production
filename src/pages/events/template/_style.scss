@@ -225,12 +225,23 @@
             &-item {
                 &-group-container {
                     padding: 3.5rem 8.3rem 8rem 8.3rem;
+
                 }
 
                 &-container {
                     background-color: $clr_white;
                     border-radius: 0.83rem;
                     padding: 2rem;
+                    &-speaker-card{
+                        &-image-container{
+                                width: 8.33rem !important;
+                                height: 8.33rem !important;
+                                img,svg{
+                                 width: 100% ;
+                                 height: 100%;
+                                }
+                            }
+                        }
                 }
 
                 &-name {
@@ -1153,6 +1164,7 @@
             background-color: $clr_dark_charcoal_gray;
             padding: 2rem;
 
+
             &-title {
                 font-size: $h2;
                 font-weight: $font_semibold;
@@ -1174,6 +1186,16 @@
                     background-color: $clr_white;
                     border-radius: 0.83rem;
                     padding: 2rem;
+                    &-speaker-card{
+                        &-image-container{
+                                width:  8.33rem !important;
+                                height:  8.33rem;
+                                img,svg{
+                                 width: 100% ;
+                                 height: 100%;
+                                }
+                            }
+                        }
                 }
 
                 &-name {
@@ -1238,6 +1260,8 @@
                 box-shadow: 0 0.08rem 1rem 0 $clr_dark_charcoal;
                 position: relative;
                 min-width: 50rem !important;
+                
+                
             }
 
             &-item-title {
@@ -2584,7 +2608,7 @@
                     }
                 }
             }
-            &-2{
+            &-3{
                 &-container{
                     &-drawer{
                         background-color: $clr_dark_navy_blue !important;
