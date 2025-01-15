@@ -192,10 +192,20 @@ const Events = () => {
 
   /*
    * The function sets the active step of the stepper.
+   * step number : 0,1,2,3
    */
   const handleStepChange = (step: number) => {
+  
+    const isEventValid = !!formData?.event;
+    const isProgramValid = !!formData?.program?.[0]?.name && formData?.program?.length > 0;
+  
+    if ((step === 1 && !isEventValid) || ((step === 2 || step === 3) && (!isEventValid || !isProgramValid))) {
+      return;
+    }
+  
     setActiveStep(step);
   };
+  
 
   /*
    * The handleNext function is used to move the stepper to the next step.

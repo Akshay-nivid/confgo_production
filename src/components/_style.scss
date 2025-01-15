@@ -799,7 +799,10 @@
 
   &-container {
     width: 54.08rem !important;
-    pointer-events: none;
+
+   .MuiIconButton-root:hover {
+    background-color: transparent !important;
+   }
 
     .MuiStepLabel-label {
       font-size: $p2 !important;
