@@ -911,6 +911,8 @@
         font-weight: $font_semibold !important;
         font-size: $h5 !important;
         padding-left: 1.5rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       &-header-container {
