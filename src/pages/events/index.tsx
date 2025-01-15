@@ -9,7 +9,7 @@ import CreateEvent from './CreateEvent';
 import AddProgram from './AddProgram';
 import ConferenceDetails from './ConferenceDetails';
 import apiClient from '@/Libs/Https/API-client';
-import { processAPIResponse } from '@/Utils/CommonBaseClass';
+import { formatUTCDateTime, processAPIResponse } from '@/Utils/CommonBaseClass';
 import { Logger } from '@/Utils/Logger';
 import { useNavigate, useParams } from 'react-router-dom';
 import routes from '@/router/routes';
@@ -249,6 +249,11 @@ const Events = () => {
    */
   const createFormRequest = (data: any, draft?: boolean) => {
     const event = data?.event;
+    const EventStart = `${event?.startTime}T00:00`
+    const EventEnd = `${event?.endTime}T23:59`
+    const EventStartTime= formatUTCDateTime(EventStart)
+    const EventEndTime= formatUTCDateTime(EventEnd)
+
     const programs = data?.program || [];
     const addOns=data?.addOns||[];
     const program = programs?.filter((item: Program) => item.name!='');
@@ -263,8 +268,8 @@ const Events = () => {
       return {
         ...item,  
         totalSeat: totalSeat && totalSeat !== "" ? totalSeat : undefined,             
-        startTime:startDateTime,         
-        endTime:endDateTime,
+        startTime: formatUTCDateTime(startDateTime),         
+        endTime: formatUTCDateTime(endDateTime),
         statusId: draft? draftStatusId: statusId,
         amount:amount?amount:"0"
 
@@ -283,8 +288,8 @@ const Events = () => {
       return {
         ...item,
         amount:amount?amount:"0",
-        ...(combinedStartDateTime && { startTime: combinedStartDateTime }),
-        ...(combinedEndDateTime&&{ endTime:combinedEndDateTime}),
+        ...(combinedStartDateTime && { startTime: formatUTCDateTime(combinedStartDateTime) }),
+        ...(combinedEndDateTime&&{ endTime:formatUTCDateTime(combinedEndDateTime)}),
         ...(properties.length !== 0 && {
           properties: properties?.map(({ propertyId, propertyName, propertyAmount, ...rest }: any) => ({
             name: propertyName,
@@ -298,8 +303,8 @@ const Events = () => {
     let req: any = {
       name: event?.name,
       description: event?.description,
-      startTime: event?.startTime,
-      endTime: event?.endTime,
+      startTime: EventStartTime,
+      endTime: EventEndTime,
       statusId: draft? draftStatusId: statusId,
       amount: event?.amount || 0,
       eventClass: event?.type,
@@ -615,6 +620,7 @@ const Events = () => {
             {activeStep <= 2 &&<CustomButton
               className={`custom-stepper-save-as-draft-button ${activeStep === 1 && !(formData?.program?.[0]?.name || formData?.program?.[0]?.addonId) ? 'disabled-button' : ''}`}
               label="Save as Draft"
+              disabled={activeStep === 1 && !(formData?.program?.[0]?.name || formData?.program?.[0]?.addonId)}
               onClick={handleSaveAsDraft}
             />}
           </Grid>

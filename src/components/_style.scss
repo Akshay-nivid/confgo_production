@@ -500,9 +500,11 @@
   }
 
   &-restore-btn {
+    border: 0.083rem solid $clr_green !important;
     background-color: $clr_white !important;
     color: $clr_green !important;
     margin-left: 1rem !important;
+    margin-right: 1rem !important;
   }
 
 }

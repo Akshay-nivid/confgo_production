@@ -1,4 +1,5 @@
-import { Grid, Card, CardContent, Typography, IconButton, Box } from '@mui/material';
+import { Card, CardContent, Typography, IconButton, Box } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import CustomAutocomplete from '@/components/CustomAutocomplete/CustomAutocomplete';
 import { useForm } from 'react-hook-form';
@@ -6,7 +7,6 @@ import { useState } from 'react';
 import apiClient from '@/Libs/Https/API-client';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';
 import { Logger } from '@/Utils/Logger';
-// import { ISource } from '@/Libs/type';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import { CloseOutlined } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
@@ -47,16 +47,14 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
                       });
                     onClose();
                     volunteerList();
-                } else {
-                    setDataById("snackBarInfo", {
-                        open: true,
-                        autoHideDuration: 2000,
-                        severity: "error",
-                        message: "Failed to assign volunteeres",
-                      });
                 }
-
             } catch (error) {
+                setDataById("snackBarInfo", {
+                    open: true,
+                    autoHideDuration: 2000,
+                    severity: "error",
+                    message: "volunteer already assigned",
+                  });
                 Logger.error("AssignedVolunteers.tsx", error);
             }
     };
@@ -98,14 +96,31 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
     };
 
     /**
- * Updates the source for the data grid when an autocomplete selection is made.
- * @param selected - The selected item from the autocomplete list
- */
+    * Updates the source for the data grid when an autocomplete selection is made.
+    * @param selected - The selected item from the autocomplete list
+    */
     const handleAutocompleteChange = async (selected: any) => {
-
+  
             if (selected) {
-                setAssignedVolunteers((prev: any) => [...prev,{user:selected}]);
+                setAssignedVolunteers((prev: any) => {
+                    const isAlreadyAssigned = prev.some(
+                        (volunteer: any) => volunteer.user?.id === selected.id
+                    );
+                    if (!isAlreadyAssigned) {
+                        const updatedVolunteers = [...prev, { user: selected }];
+                        return updatedVolunteers;
+                    } else {
+                        setDataById("snackBarInfo", {
+                            open: true,
+                            autoHideDuration: 2000,
+                            severity: "error",
+                            message: "volunteer already Selected",
+                          });
+                        return prev;
+                    }
+                });
             }
+     
     };
 
     const handleDelete = (id: string) => {
@@ -120,9 +135,9 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
                 <Typography className='assigned-volunteer-main-label'>
                     Assign Volunteers
                 </Typography>
-                <IconButton>
-                    <CloseOutlined onClick={onClose} />
-                </IconButton>
+                <IconButton onClick={onClose} >
+                    <CloseOutlined />
+                </IconButton> 
             </Box>
 
             <Grid container className='assigned-volunteer-search'>
@@ -146,13 +161,14 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
                     onChange={handleAutocompleteChange}
                 />
             </Grid>
-            <Typography gutterBottom className='assigned-volunteer-label'>
+
+           {assignedVolunteers.length>0 &&(<Typography gutterBottom className='assigned-volunteer-label'>
                 Assigned Volunteers
-            </Typography>
+            </Typography>)}
 
             <Grid container spacing={2} className='assigned-volunteer-container-style'>
                 {assignedVolunteers?.map((volunteer) =>  (
-                    <Grid item xs={12} key={volunteer.id}>
+                    <Grid size={12} key={volunteer.id}>
                         <Card
                             variant="outlined"
                             className='assigned-volunteer-card'

@@ -12,7 +12,7 @@ import UserListCard from "./UserListCard";
 import TemplateCard from "./TemplateCard";
 import { Logger } from "@/Utils/Logger";
 import apiClient from "@/Libs/Https/API-client";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import FormBuilder from "@/components/FormBuilder";
 import StatusComponent from "@/components/Status/StatusComponent";
@@ -89,47 +89,68 @@ interface Addon {
   venueId: number;
   published: boolean;
   slugName: string;
-  specialtyId:number;
-  isAbstract:number;
+  specialtyId: number;
+  isAbstract: number;
 }
 
 const ViewEventDetail = () => {
 
   //const [value, setTabValue] = React.useState('1');
   const { setDataById }: any = useStore();
-  const { setValue, control, watch} = useForm<any>();
-  const {id } = useParams<Record<string, string | undefined>>();
-  const [eventFullData,setEventFullData]=useState<Addon>();
+  const { setValue, control, watch } = useForm<any>();
+  const { id } = useParams<Record<string, string | undefined>>();
+  const [eventFullData, setEventFullData] = useState<Addon>();
   const [link, setLink] = useState('');
   const [errorMessage, setErrorMessage] = useState('')
-  const [openModal,setOpenModal]=useState(false);
-  const [datass,setdatass]=useState()
+  const [openModal, setOpenModal] = useState(false);
+  const [datass, setdatass] = useState()
 
-	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-	// Functions to open and close the drawer.
-	const openDrawer = () => setIsDrawerOpen(true);
-	const closeDrawer = () => setIsDrawerOpen(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  /**
+   *  Functions to open and close the drawer. 
+  */
+
+  const openDrawer = () => setIsDrawerOpen(true);
+  const closeDrawer = () => setIsDrawerOpen(false);
+
+  const {state} = useLocation() || {};
+  
   /**
    * Method handles the click event for the tab
    * @param _event : event parameter
    * @param newValue : new value to be assigned to tab
    */
+
   const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
-   // setTabValue(newValue);
-    setDataById("tabValue",{value:newValue});
+    // setTabValue(newValue);
+    setDataById("tabValue", { value: newValue });
   };
-  /**
-   * 
+
+   /**
+    * set tab value
    */
-  const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.value) ?? '1';
+const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.value)  ?? '1'
+  
+   /**
+    * Sets the tab value based on the initial state if 'tabId' is defined.
+    * This effect runs only once after the initial render.
+   */
+
+   useEffect(() => {
+     if (state?.tabId) {
+       setDataById('tabValue', { value: state?.tabId })
+     }
+   }, [])
 
   /**
    * Useeffect hook initializes the parameter and handles the get event api call
    */
   useEffect(() => {
     setErrorMessage('')
+
     getEventDetails();
+
     eventPartcipantList();
   }, [])
 
@@ -158,12 +179,14 @@ const ViewEventDetail = () => {
   const eventPartcipantList = async () => {
     try {
       const req = {
-        filters:{ eventId: id}
-       
+
+        filters: { eventId: id }
+
       };
-      const response = await apiClient.post(`participant/list`,req);
+      const response = await apiClient.post(`participant/list`, req);
       const { status, data } = await processAPIResponse(response, 'eventData');
-      if (status) {   
+      
+      if (status) {
         setdatass(data.length)
       }
     } catch (error) {
@@ -177,11 +200,11 @@ const ViewEventDetail = () => {
   const getEventDetails = async () => {
     try {
       const response = await apiClient.get(`event/${id}`);
-      const { status, data } = await processAPIResponse(response, 'eventData');
+      const { status, data } =  processAPIResponse(response, 'eventData');
       if (status) {
-        setEventFullData(data)
+        setEventFullData(data);
+        setDataById("TeamAndRoleData",{data});
         if(data.published){
-          
           setValue('event', data.slugName? `event-link/${data.slugName}`: '')
           setLink(data);
         }
@@ -371,7 +394,7 @@ const ViewEventDetail = () => {
         <Grid container direction={"column"} size={{ xs: 12, sm: 12 }} >
             <TabList className="event-detail-tab-layout" onChange={handleChange} aria-label="lab API tabs example">
               <Tab label="Basic Info" className="event-detail-tab-layout-item" value="1" />
-              <Tab label="Team&Role" className="event-detail-tab-layout-item" value="2" />
+              <Tab label="Team & Role" className="event-detail-tab-layout-item" value="2" />
               <Tab label="Sessions" className="event-detail-tab-layout-item" value="3" />
               { eventFullData?.venue && <Tab label="Location" className="event-detail-tab-layout-item" value="4" />}
               <Tab label="Participants" className="event-detail-tab-layout-item" value="5" />              
@@ -387,7 +410,7 @@ const ViewEventDetail = () => {
             <EventInfoCard eventData={eventFullData} onSubmitHandler={handleSubmitHandler}/>
           </TabPanel>
           <TabPanel value="2">
-            <TeamAndRole eventData={eventFullData} />
+            <TeamAndRole/>
           </TabPanel>
           <TabPanel value="3">
             <Sessions eventData={eventFullData} onSubmitHandler={handleSubmitHandler}/>

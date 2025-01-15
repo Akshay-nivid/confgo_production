@@ -5,6 +5,7 @@ import VolunteerListCard from "./VolunteerListCard";
 import { AccordionAddIcon, AccordionArrowIcon } from "@/assets/svg";
 import AbstractReviewer from "./AbstactReviewerListCard";
 import React from "react";
+import useStore from "@/Libs/store";
 
 /**
  * TeamAndRole Component
@@ -17,7 +18,10 @@ import React from "react";
  * - data (any): Contains event details, including `eventData.id` and `eventData.specialtyId`.
  */
 
-const TeamAndRole=(data:any)=>{
+const TeamAndRole=()=>{
+  const speakerData = useStore((state: any) => state?.compData?.["speaker-lists"]?.data) ?? []; 
+  const TeamAndRoleData =useStore((state:any)=> state?.compData?.['TeamAndRoleData']?.data)?? [];
+
   const [expanded, setExpanded] = React.useState<string | false>("panel1-header"); 
   const handleChange = (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
   setExpanded(isExpanded ? panel : false);
@@ -30,26 +34,27 @@ const TeamAndRole=(data:any)=>{
         expanded={expanded === "panel1-header"} 
         onChange={handleChange("panel1-header")}>
         <AccordionSummary
-          expandIcon={data?.eventData?.id?<AccordionArrowIcon />:<AccordionAddIcon/>}
+          expandIcon={speakerData?.length!==0?<AccordionArrowIcon />:<AccordionAddIcon/>}
           aria-controls="panel1-content"
           id="panel1-header"
           className="accordion-container-icon" 
         >
           <Typography className="accordion-container-heading">Speaker</Typography>
         </AccordionSummary>
-        {data?.eventData?.id&&
+        {TeamAndRoleData?.id&&
         <AccordionDetails>
-          <SepekerCard eventData={data}/>
-        </AccordionDetails>}
+          <SepekerCard  eventData={TeamAndRoleData} />
+        </AccordionDetails>
+         }
       </Accordion>
       </Grid>
-      {data?.eventData?.isAbstract===1&&
+      {TeamAndRoleData?.isAbstract===1&&
       <Grid size={12}>
       <Accordion className="accordion-container-box"
         expanded={expanded === "panel2-header"} 
         onChange={handleChange("panel2-header")}>
         <AccordionSummary
-         expandIcon={data?.eventData?.id?<AccordionArrowIcon />:<AccordionAddIcon/>}
+       expandIcon={<AccordionAddIcon />}
           aria-controls="panel2-content"
           id="panel2-header"
            className="accordion-container-icon"
@@ -68,7 +73,7 @@ const TeamAndRole=(data:any)=>{
         expanded={expanded === "panel3-header"} 
         onChange={handleChange("panel3-header")}>
         <AccordionSummary
-          expandIcon={data?.eventData?.id?<AccordionArrowIcon />:<AccordionAddIcon/>}
+          expandIcon={<AccordionAddIcon/>}
           aria-controls="panel2-content"
           id="panel2-header"
           className="accordion-container-icon"
@@ -76,7 +81,7 @@ const TeamAndRole=(data:any)=>{
           <Typography className="accordion-container-heading">Volunteer</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <VolunteerListCard/>
+          <VolunteerListCard />
         </AccordionDetails>
       </Accordion>
       </Grid>

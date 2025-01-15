@@ -9,9 +9,9 @@ import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import config from "../../../config.json";
-
+import {useLocation} from "react-router-dom";
 interface Role{
     value:number,
     label:string
@@ -34,6 +34,7 @@ type RoleList = {
 * Component for creating new Company Users
 */ 
 const CreateNewUsers = () => {
+    const {data:role,eventId} = useLocation().state||'';
     const [selectedFile, setSelectedFile] = useState<any>(null);
     const [modalOpen, setModalOpen] = useState(false);
     const baseUrl = config.api.url;
@@ -55,7 +56,7 @@ const CreateNewUsers = () => {
     const navigate = useNavigate();
     const POST = useStore((state: any) => state.POST);
     const setDataById = useStore((state: any) => state.setDataById);
-    const { handleSubmit, control,reset,setValue } = useForm<FormData>();
+    const { handleSubmit, control,reset,setValue,getValues} = useForm<FormData>();
     const [roleList,setRoleList]=useState<Role []>([])
     /**
     * handle form submission 
@@ -86,7 +87,7 @@ const CreateNewUsers = () => {
                         });
                     }
                 });
-                setRoleList(roleData);
+                setRoleList(roleData);                
             }, 
             errorCB: (context: any) => {
                 setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
@@ -114,6 +115,42 @@ const CreateNewUsers = () => {
                 if (context?.success) {
                     reset();
                     setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:`Account Created Please check ${data.email}` });
+
+                    if(eventId){
+                        const requestBody = {
+                            userId: context.data?.token?.userId,
+                            eventId: eventId,
+                            statusId: "1",
+                          };
+                           POST({
+                            url: "eventSpeaker/create",
+                            body: requestBody,
+                            id: "createContributor",
+                            successCB: (context: any) => {
+                              if (context?.success) {
+
+                                setDataById("snackBarInfo", {
+                                  open: true,
+                                  autoHideDuration: 2000,
+                                  severity: "success",
+                                  message: "Speaker Assign Successfully",
+                                });
+            
+                                navigate(`/events/detail/${eventId}`,{state:{tabId:"2"}});
+                            
+                              }
+                            },
+                            errorCB: () => {
+                              setDataById("snackBarInfo", {
+                                open: true,
+                                autoHideDuration: 2000,
+                                severity: "error",
+                                message: "Speaker Assigned Successfully",
+                              });
+                            },
+                          });
+                        }   
+
                     navigate(routes.users());
                 }
             },
@@ -122,9 +159,21 @@ const CreateNewUsers = () => {
             }
         });
     };
-/**
-*function to handle clean file state
-*/
+
+   /**
+   * Defaultly set the role value in the form state
+   */
+    useEffect(()=>{
+    if(role){
+        reset({
+            ...getValues(),            
+           ...( role === "SPEAKER" && {role:5})
+        });
+    }
+    },[]);
+    /**
+     *function to handle clean file state
+     */
   const handleFileDelete = () => {
     setSelectedFile(null);
   };
@@ -204,14 +253,15 @@ const CreateNewUsers = () => {
                 </Grid>
                 <Grid container display={"flex"} size={12} justifyContent={"space-between"} alignItems={"center"}>
                     <Grid size={{ xs: 12, sm: 6 }}>
-                        <CustomSelect
+                        { roleList.length > 0 &&<CustomSelect
                             fullWidth
                             name="role"
                             control={control}
+                            defaultValue={role ? 5 : ''}
                             label="Role"
                             options={roleList}
                             rules={{ required: validateRequiredField({}) }}
-                        />
+                        />}
                     </Grid>
                     <Grid size={{xs:12,sm:6}}>
                     <Grid
