@@ -155,9 +155,11 @@ const EventInfoCard: React.FC<any> = React.memo(
     const EventEnd = moment(eventData?.endTime).format("MMM D, YYYY")
 
     const startTime = moment(data?.startTime).format("MMM D, YYYY");
+    const startTimes = moment(data?.startTime);
+    const endTimes = moment(data?.endTime);
     setSubmitData(data)
     const endTime = moment(data?.endTime).format("MMM D, YYYY")
-    if (startTime > endTime) {
+    if (startTimes.isAfter(endTimes)) {
       setError(`startTime`, {
         type: 'manual',
         message: 'Start date cannot be greater than end date',
