@@ -361,7 +361,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       }
 
       //check if propertyAmount is valid 
-      if (!propertyAmount&&propertyType === "PAID" && !/^(0|[1-9]\d*)(\.\d{1,2})?$/.test(propertyAmount)) {
+      if (propertyType === "PAID" && !/^(0|[1-9]\d*)(\.\d{1,2})?$/.test(propertyAmount)) {
          setError(`addOn.${index}.propertyAmount`, {
           type: 'manual',
           message: 'Enter a valid price (up to 2 decimal places)',
