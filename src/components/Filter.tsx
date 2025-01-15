@@ -67,7 +67,6 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
             }
             return acc;
         }, {});
-
         let req: any = {
             ...dataGridInfo?.source?.data,
         };

@@ -218,11 +218,10 @@ const AdminUsersList=()=>{
       label: 'Role',
       defaultValue:roleList&&roleList[0]?.value,
       heading: 'Filter with Role Type',
-      options: roleList
+      options: roleList,
     }
   ]
-  
-    return(
+  return(
         <Grid container className="custom-list">
             <Grid size={{ xs: 4 }}>
                 <Typography className="custom-list-list-title" gutterBottom>
