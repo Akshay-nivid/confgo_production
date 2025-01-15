@@ -385,7 +385,7 @@ let eventEndDateObj = new Date(eventEndDate)
                                     type="number"
                                     rules={{
                                       pattern: {
-                                      value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
+                                      value: /^(0?[1-9]|[1-9]\d{0,7})$/,
                                         message:
                                           "Enter a valid number",
                                       }

@@ -162,7 +162,7 @@ interface SessionDrawerContentProps {
               type="number"
               rules={{
                 pattern: {
-                value: /^(?!-)(0|[1-9]\d{0,7})$/,
+                value: /^(0?[1-9]|[1-9]\d{0,7})$/,
                   message:
                     "Enter a positive whole number",
                 }

@@ -91,12 +91,6 @@ const TemplateCard = (data: any) => {
         successCB: (context: any) => {
           if (context?.success) {
             data?.onSubmitHandler && data?.onSubmitHandler();
-            setDataById("snackBarInfo", {
-              open: true,
-              autoHideDuration: 2000,
-              severity: "success",
-              message: "Theme applied successfully!",
-            });
 
           }
         },
