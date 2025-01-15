@@ -626,7 +626,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                         className="add-program-prop-add"
                                         onClick={()=>addProperty(index)}
                                       >
-                                        <AddIcon />
+                                        <AddIcon className="addicon"/>
                                       </IconButton>
                                     </Grid>
                                   </Grid>

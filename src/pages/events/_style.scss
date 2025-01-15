@@ -151,6 +151,14 @@
 }
 
 .add-program {
+    &-prop-add{
+        svg{
+            width: 2rem !important;
+            height: 2rem !important;
+            border-radius: .2rem;
+            background: $clr_light_grayish_blue !important;
+        }
+    }
     &-container {
         background-color: $clr_white;
         padding-left: 1rem;

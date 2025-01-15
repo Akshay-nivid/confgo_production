@@ -111,6 +111,7 @@ import TicBoxWhite from './tic-box-white-new.svg';
 import CloseBoxWhite from './close-box-white.svg';
 import AccordionArrowIcon from "./AccordionArrowIcon.svg";
 import AccordionAddIcon from "./AccordionAddIcon.svg";
+import NoProfilePicture from "./NoProfilePicture.svg";
 export {
   CalenderIcon,
   EditBoxWhite,
@@ -224,5 +225,6 @@ export {
   CloseCircle,
   UploadIcon,
   AccordionArrowIcon,
-  AccordionAddIcon
+  AccordionAddIcon,
+  NoProfilePicture
 };
