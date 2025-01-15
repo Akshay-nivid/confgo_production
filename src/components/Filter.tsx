@@ -67,16 +67,15 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
             }
             return acc;
         }, {});
-        console.log('onSubmit triggered with data:', data);
         let req: any = {
             ...dataGridInfo?.source?.data,
         };
         req.filters = { ...dataGridInfo?.source?.data.filters, ...formattedData };
 
         // Ensure roleEnum is excluded if roleId is set
-        // if (req.filters.roleId) {
-        //     delete req.filters.roleEnums;
-        // }
+        if (req.filters.roleId) {
+            delete req.filters.roleEnums;
+        }
 
         req['start'] = 0;
         let dataSource: any = { ...dataGridInfo?.source }

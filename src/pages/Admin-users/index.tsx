@@ -19,7 +19,7 @@ import { options } from "@fullcalendar/core/preact.js";
 
 interface Role{
   value:number,
-  name:string
+  label:string
 }
 type RoleList = {
   id: number;            
@@ -113,7 +113,7 @@ const AdminUsersList=()=>{
                 if (![1,3].includes(item.id)) {
                     roleData.push({
                         value: item.id,
-                        name: item.roleName
+                        label: item.roleName
                     });
                 }
             });
@@ -214,11 +214,12 @@ const AdminUsersList=()=>{
 
   const filterFields: any = [
     {
-      type: 'checkBox',
-      fieldName: 'roleEnums',
-      // defaultValue: roleList?.map(role => role.value) || [],
+      type: 'select',
+      fieldName: 'roleId',
+      label: 'Role',
+      defaultValue:roleList&&roleList[0]?.value,
       heading: 'Filter with Role Type',
-      data: roleList,
+      options: roleList,
     }
   ]
   return(
