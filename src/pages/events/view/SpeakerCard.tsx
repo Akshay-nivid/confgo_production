@@ -488,11 +488,11 @@ const SpeakerCard = (eventData: any) => {
               </Grid>
               <Grid>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                  <Grid container spacing={2}>
+                  <Grid container spacing={2} className="speaker-search-grid">
                     <Grid container size={{ xs: 12 }} pt={2}>
                       <CustomAutocomplete
                         name="userInfo"
-                        className={errors['userInfo'] ?"custom-search-text-field event-detail-speakers-card-contributor-auto-complete border-error-input": "custom-search-text-field event-detail-speakers-card-contributor-auto-complete"}
+                        className={errors['userInfo'] ?"custom-search-text-field event-detail-speakers-card-contributor-auto-complete border-error-input": "custom-search-text-field event-detail-speakers-card-contributor-auto-complete border-speaker"}
                         control={control}
                         placeholder="Search Contributor User"
                         options={searchResults} // Dynamic options based on API results
