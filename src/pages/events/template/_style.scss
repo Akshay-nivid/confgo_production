@@ -76,6 +76,16 @@
             }
         }
 
+        .title-container {
+            
+            width: 85ch;
+            white-space: wrap;
+            overflow: hidden;
+
+           
+        }
+        
+
         &-title {
             padding: 1rem 1rem 1rem 6rem;
 
@@ -85,7 +95,8 @@
                 line-height: 5.08rem;
                 font-weight: $font_bold !important;
                 color: $clr_charcoal_cyan;
-
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
             &-sub-title {
@@ -3014,5 +3025,5 @@
         margin-inline: auto !important;
     }
 
-    
+
 }
