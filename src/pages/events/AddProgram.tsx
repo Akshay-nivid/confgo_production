@@ -628,10 +628,10 @@ const scrollToError = (errorField: string) => {
                       </Grid>
 
                       <Grid container size={{ xs: 4, sm: 3 }} justifyContent={'center'}>
-                        <IconButton onClick={() => handleEdit(index)}>
+                        <IconButton key={`${index}-edit-program`} onClick={() => handleEdit(index)}>
                           <EditIcon />
                         </IconButton>
-                        <IconButton onClick={() => handleDeleteConfirmbox(index)}>
+                        <IconButton key={`${index}-delete-program`} onClick={() => handleDeleteConfirmbox(index)}>
                           <DeleteIcon />
                         </IconButton>
                       </Grid>
@@ -643,7 +643,7 @@ const scrollToError = (errorField: string) => {
                         cancelAction={() => setOpenModal(false)}
                         header="Delete Program?"
                         subHeader="Are you sure you want to delete this program? This action cannot be undone"
-                        submitAction={() => handleDelete(index)}
+                        submitAction={() => handleDelete(programIndex)} 
                         submitLabel="Delete"
                         modalClassName="publish-modal"
                       />
