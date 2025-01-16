@@ -131,26 +131,6 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
 }, [formDraftSubmit]);
   
 
-    /**
-     * useEffect to reset the form fields when the drawer is opened in add mode.
-     */
-    useEffect(() => {
-      if (!editMode) {
-        setValue("programs", [
-          {
-            name: "",
-            description: "",
-            totalSeat: "",
-            startDate: moment(eventData?.startTime).format("YYYY-MM-DD"),
-            endDate: moment(eventData?.startTime).format("YYYY-MM-DD"),
-            startTime: moment().format("HH:mm"),
-            endTime: moment().format("HH:mm"),
-            type: "PAID",
-            amount: "",
-          },
-        ]);
-      }
-    }, [editMode]);
 
     /**
      * Method handles the form submission
@@ -528,7 +508,7 @@ const scrollToError = (errorField: string) => {
                             />
                           </Grid>
                           {watch(`programs.${index}.type`) === "PAID" && (
-                            <Grid size={{ xs: 12, sm: 6 }}>
+                            <Grid size={{ xs: 12, sm: 12 }}>
                               <CustomTextField
                                 placeholder="Price"
                                 control={control}
