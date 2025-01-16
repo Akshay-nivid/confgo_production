@@ -297,9 +297,9 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
 
       // Trigger the save handler with the current programs
       onSaveHandler && onSaveHandler(newPrograms,'addOns');
-      handleDrawerClosing();
       // Exit edit mode
       setEditMode(false);
+      handleDrawerClosing();
      
     };
 
@@ -374,24 +374,6 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
         });
         return;
       }
-      // Check if the propertyName exceeds 50 characters
-      if (propertyName.length > 100) {
-        setError(`addOn.${index}.propertyName`, {
-          type: 'manual',
-          message: 'property name cannot exceed 100 characters.',
-        });
-        return;
-      }
-
-      //check if propertyAmount is valid 
-      if (propertyType === "PAID" && !/^(0|[1-9]\d*)(\.\d{1,2})?$/.test(propertyAmount)) {
-         setError(`addOn.${index}.propertyAmount`, {
-          type: 'manual',
-          message: 'Enter a valid price (up to 2 decimal places)',
-        });
-        return;
-      }
-
     // Check if propertyAmount not and propertyType is PAID
       if (!propertyAmount&&propertyType === "PAID") {  
         setError(`addOn.${index}.propertyAmount`, {
@@ -705,7 +687,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     <CustomButton
                                       className="add-program-save-btn"
                                       onClick={handleDrawerClosing}
-                                      label="Cancel"
+                                      label="Cansel"
                                       variant="contained"
                                       size="large"
                                     />
@@ -738,7 +720,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
               </Box>
             </Grid>
             <Grid  size={12 }container justifyContent={"center"} alignItems={"center"}>
-            {watch("savedAddOns")?.length>=1&&<Grid
+            <Grid
               container
               direction={"column"}
               className="add-program-display-container"
@@ -748,13 +730,11 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
              <Grid  container className="add-program-display-container-box" >
                <Typography variant="h6">Saved Add-Ons</Typography>
                </Grid>
-               <Grid className="add-program-saved-addons">
-                
-              {watch("savedAddOns")?.map(
-                (field, index) =>
-                  field.addonId &&
-           
-                
+               <Grid minHeight={"20rem"}>
+               {watch("savedAddOns")?.length >= 1 ? (
+               watch("savedAddOns")?.map(
+               (field, index) =>
+                field.addonId && (
                     <Grid
                       key={field.id}
                       container
@@ -780,11 +760,10 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                         </IconButton>
                       </Grid>
                     </Grid>
-                
-                
-              )} 
-              {watch("savedAddOns")?.length===1&&
-                  <Grid 
+                   )
+                  )
+                  ) : (
+                <Grid 
                   display={"flex"}
                    className="add-program-NOaddon" 
                     justifyContent={"center"} 
@@ -798,10 +777,11 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                      <Typography className="title">No Add-ons Added Yet</Typography>
                      <Typography className="description">Start creating your first Add-on to bring your event to life!</Typography>
                       </Grid>
-              }
+              )
+            }
               </Grid>
               
-            </Grid>}
+            </Grid>
            </Grid>
           </Grid>
         </Grid>
