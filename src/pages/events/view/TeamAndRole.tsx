@@ -56,7 +56,7 @@ const TeamAndRole=()=>{
         expanded={expanded === "panel2-header"} 
         onChange={handleChange("panel2-header")}>
         <AccordionSummary
-       expandIcon={abstractReviewerData.length!==0 ?<AccordionArrowIcon/>:<AccordionAddIcon />}
+       expandIcon={abstractReviewerData?.length!==0 ?<AccordionArrowIcon/>:<AccordionAddIcon />}
           aria-controls="panel2-content"
           id="panel2-header"
            className="accordion-container-icon"
@@ -75,7 +75,7 @@ const TeamAndRole=()=>{
         expanded={expanded === "panel3-header"} 
         onChange={handleChange("panel3-header")}>
         <AccordionSummary
-          expandIcon={volunteerListsDta.length?<AccordionArrowIcon/>:<AccordionAddIcon/>}
+          expandIcon={volunteerListsDta?.length?<AccordionArrowIcon/>:<AccordionAddIcon/>}
           aria-controls="panel2-content"
           id="panel2-header"
           className="accordion-container-icon"

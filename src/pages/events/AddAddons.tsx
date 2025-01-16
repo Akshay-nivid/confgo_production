@@ -119,11 +119,17 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
 
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-    const handleDrawerOpen = () => {
+     /**
+     * craete addon drawer open 
+     */
+     const handleDrawerOpen = () => {
       setIsDrawerOpen(true); 
     };
   
-    const HandleDrawerClose = () => {
+    /**
+     * craete addon drawer close 
+     */
+    const handleDrawerClosing = () => {
       setIsDrawerOpen(false); 
     };
 
@@ -291,7 +297,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
 
       // Trigger the save handler with the current programs
       onSaveHandler && onSaveHandler(newPrograms,'addOns');
-      HandleDrawerClose();
+      handleDrawerClosing();
       // Exit edit mode
       setEditMode(false);
      
@@ -482,7 +488,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                           <Grid size={6}>
                           <Typography className="event-information-edit-heading">Add Ons</Typography></Grid>
                           <Grid justifyContent={"flex-end"} container  size={6}>
-                           <Button onClick={HandleDrawerClose} className="add-program-drawer-close">
+                           <Button onClick={handleDrawerClosing} className="add-program-drawer-close">
                                     <CloseOutlined />
                                   </Button></Grid>
                         </Grid>
@@ -698,7 +704,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                   <Grid>
                                     <CustomButton
                                       className="add-program-save-btn"
-                                      onClick={HandleDrawerClose}
+                                      onClick={handleDrawerClosing}
                                       label="Cancel"
                                       variant="contained"
                                       size="large"
@@ -744,7 +750,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                </Grid>
                <Grid className="add-program-saved-addons">
                 
-              {watch("savedAddOns").map(
+              {watch("savedAddOns")?.map(
                 (field, index) =>
                   field.addonId &&
            
@@ -777,7 +783,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                 
                 
               )} 
-              {watch("savedAddOns").length===1&&
+              {watch("savedAddOns")?.length===1&&
                   <Grid 
                   display={"flex"}
                    className="add-program-NOaddon" 
@@ -800,7 +806,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
           </Grid>
         </Grid>
         <Grid size={5} marginInline={"auto"} maxHeight={"max-content"} display={"flex"} className="mt-2"  justifyContent={"center"} alignItems={"center"} >
-            <CustomButton className="add-program-Addon-btn"   label="Create Add Ons"  onClick={handleDrawerOpen} ></CustomButton>
+            <CustomButton className="add-program-addon-btn"   label="Create Add Ons"  onClick={handleDrawerOpen} ></CustomButton>
             </Grid>
 
         <CustomDrawer
