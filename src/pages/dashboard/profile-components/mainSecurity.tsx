@@ -42,7 +42,7 @@ const MainSecurity:React.FC<SecurityProps> = React.memo(({ passEmail }) => {
         setDataById("resendOtp",{token: context?.data?.token?.token});  
         }   
         else {
-            setDataById("thankYouPageInfo",{type:"Submitted sucessfully"});
+            setDataById("thankYouPageInfo", { type:"A password reset email has been sent to your registered email. Please check your inbox and follow the instructions."});
             navigate(routes.thankyou());
           }
         setIsLoading(false);

@@ -12,6 +12,7 @@ import EditIcon from "@/assets/svg/edit-program-icon.svg";
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import moment from "moment";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
+import useStore from "@/Libs/store";
 import { NoProgramIcon, WarningIcon } from "@/assets/svg";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import { CloseOutlined } from "@mui/icons-material";
@@ -85,7 +86,10 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
     });
     const [programIndex, setProgramIndex] = useState<any>();
     const [editMode, setEditMode] = useState(false);
-    const [openModal, setOpenModal] = useState(false);
+    const [openModal,setOpenModal]=useState(false);
+    const eventDate = useStore((state: any) => state?.compData?.["event-date"]);
+    const eventStartDate= eventDate.startDate
+    const eventEndDate= eventDate.endDate
     const [drawerOpen, setDrawerOpen] = useState(false);
 
     /**
@@ -219,6 +223,55 @@ const scrollToError = (errorField: string) => {
         });
         return
       }
+    // Ensure dates are valid Date objects
+    let selectedDate =programs?.[programIndex]?.startDate
+    let eventStartDateObj = new Date(eventStartDate);
+    let startDateObj = new Date(selectedDate);
+    let endDateObj = new Date(programs?.[programIndex]?.endDate);
+    let eventEndDateObj = new Date(eventEndDate)
+
+      // Perform the comparison of dates
+      if (startDateObj.getTime() < eventStartDateObj.getTime() || startDateObj.getTime() > eventEndDateObj.getTime()) {
+        setError(`programs.${programIndex}.startDate`, {
+          type: 'manual',
+          message: 'Start date should be within event Dates',
+        });
+        return
+      } 
+  
+      if (endDateObj.getTime() > eventEndDateObj.getTime()) {
+        setError(`programs.${programIndex}.endDate`, {
+          type: 'manual',
+          message: 'End date should be within event Dates',
+        });
+        return
+      }   
+
+    const today = moment(new Date()).format("YYYY-MM-DD") 
+    let selectedStartTime = programs?.[programIndex]?.startTime;
+    let selectedEndTime = programs?.[programIndex]?.endTime;
+
+    //check if time is greater than current time if selected date is today
+    if(selectedDate == today) {
+    const now = moment(new Date()).format("HH:mm");
+    if(selectedStartTime < now) {
+      setError(`programs.${programIndex}.startTime`, {
+        type: 'manual',
+        message: 'Start time cannot be in the past',
+      });
+      return
+      }
+    }
+    //check if selected end time is greater than selected start time
+    if(selectedEndTime < selectedStartTime) {
+      setError(`programs.${programIndex}.endTime`, {
+        type: 'manual',
+        message: 'End time must be greater than start time',
+      });
+      return
+      }
+
+  
       const newPrograms = [...programs];
       // Handle saving logic based on `editMode`
       if (!editMode) {
@@ -411,24 +464,6 @@ const scrollToError = (errorField: string) => {
                                 defaultValue={moment().format("HH:mm")}
                                 rules={{
                                   required: true,
-                                  validate: (value) => {
-                                    if (
-                                      typeof value === "string" &&
-                                      value
-                                    ) {
-                                      const today = moment(new Date()).format("YYYY-MM-DD")
-                                      const startDate = moment(eventData.startTime).format("YYYY-MM-DD");
-                                      if (startDate == today) {
-                                        //check if time is greater than current time
-                                        const now = moment(new Date()).format("HH:mm");
-                                        if (value < now) {
-                                          return (
-                                            "Start Time cannot be in the past"
-                                          );
-                                        }
-                                      }
-                                    }
-                                  }
                                 }}
                               />
                             </Grid>

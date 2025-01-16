@@ -960,8 +960,6 @@
         border-radius: $p3;
         padding: 1rem;
         flex: 1 1 calc(30% - .375rem);
-        max-width: calc(30% - .125rem);
-        min-width: 11.25rem;
         box-sizing: border-box;
         height: 11rem;
 
@@ -1466,6 +1464,7 @@
     padding: 1rem;
     width: 50rem;
     margin-top: 2.1875rem;
+    margin-right: 1rem;
 }
 
 .assigned-volunteer-container {
@@ -1483,7 +1482,7 @@
 
 .assigned-volunteer-search-field {
     width: 100% !important;
-    max-width: 37.5rem;
+    max-width: 46rem;
 }
 
 .assigned-volunteer-card {
