@@ -49,6 +49,9 @@ const PaymentHistory: React.FC = React.memo(() => {
     { type: "default", field: "PaymentMethod", headerName: "Payment Method", width: 208,sortable: false, },
   ];
 
+  /**
+   * Function used to get the details of payment by passing the id in filter
+   */
   const paymentDetail = useCallback(async (paymentid: string | number |undefined) => {
     try {
       const filter = {
@@ -67,6 +70,9 @@ const PaymentHistory: React.FC = React.memo(() => {
     } 
   }, []);
 
+  /**
+   * Function used to generate the pdf
+   */
   const handlePdfGenerate = useCallback(async (paymentDetailId: string | number | undefined) => {
     try {
     const paymentDetails = await paymentDetail(paymentDetailId); // Fetch specific details
