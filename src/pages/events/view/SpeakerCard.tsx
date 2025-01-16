@@ -466,7 +466,7 @@ const SpeakerCard = (eventData: any) => {
           columns={columns}
           id="speaker-lists"
           noRecordIcon={<NoCouponDataSvg className="no-coupon-icon"/>}
-          noRecordSubtitle="cIt looks like you haven't created any Speaker yet."
+          noRecordSubtitle="It looks like you haven't created any speakers yet."
         />
       </Grid>
         </Grid>
