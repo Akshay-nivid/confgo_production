@@ -125,12 +125,23 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
      const handleDrawerOpen = () => {
       setIsDrawerOpen(true); 
     };
+
+    /**
+     * Method handles the add on creation
+     */
+    const handleCreateAddons = () => {
+      const savedAddOns = watch("savedAddOns");
+      setProgramIndex(savedAddOns?.length ? savedAddOns.length - 1 : 0);
+      setEditMode(false);
+      handleDrawerOpen(); // Open the drawer for the new program
+    }
   
     /**
      * craete addon drawer close 
      */
     const handleDrawerClosing = () => {
       setIsDrawerOpen(false); 
+      setValue('addOn',watch('savedAddOns'))
     };
 
     /**
@@ -449,6 +460,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       setAddonView(false)
       resetField(`addOn.${0}.addonId`,{});
     }
+
     return (
       <Box className="add-program-container">
         <Grid container className="">
@@ -804,7 +816,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
           </Grid>
         </Grid>
         <Grid size={5} marginInline={"auto"} maxHeight={"max-content"} display={"flex"} className="mt-2"  justifyContent={"center"} alignItems={"center"} >
-            <CustomButton className="add-program-addon-btn"   label="Create Add Ons"  onClick={handleDrawerOpen} ></CustomButton>
+            <CustomButton className="add-program-addon-btn"   label="Create Add Ons"  onClick={handleCreateAddons} ></CustomButton>
             </Grid>
 
         <CustomDrawer
