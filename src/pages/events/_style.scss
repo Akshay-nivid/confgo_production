@@ -151,14 +151,60 @@
 }
 
 .add-program {
-    &-prop-add{
+    &-addon-btn{
+        width: 100% !important;
+        line-height: 1.5rem;
+        background: $clr_green !important;
+        font-weight: $font-bold;
+        text-transform: none !important;
+        font-size: $p2 !important;
+         
+    }
+    &-drawer{
+        width: 40rem !important;
+        height: 30rem;
+        padding-inline:2rem;
+        &-heading{
+            font-size: $h3 !important;
+            font-weight: $font-bold;
+            padding-top: 1rem;
+        }
+    }
+   &-saved-addons{
+    min-height: 20rem !important;
+   }
+    &-NOaddon{
+
+        min-height:18rem ;
         svg{
+            width: 7.5rem;
+            height:  6.231rem;
+        }
+        .title{
+           padding-top: 2.083rem;
+           font-family: $font;
+           font-size:$h5  ;
+           font-weight: $font-bold;
+            color: $clr_black ;
+            line-height: 2.064rem;
+        }
+        .description{
+            font-family: $font;
+            font-size: $p2;
+            font-weight: $font_normal;
+            line-height: 1.7rem;
+            color: $clr_gray_dark_text;
+        }
+    }
+    &-prop-add {
+        svg {
             width: 2rem !important;
             height: 2rem !important;
             border-radius: .2rem;
             background: $clr_light_grayish_blue !important;
         }
     }
+
     &-container {
         background-color: $clr_white;
         padding-left: 1rem;
@@ -192,8 +238,13 @@
     }
 
     &-display-container {
+        padding: 1rem !important;
+        padding-right: 1rem !important;
         border: 0.092rem solid $clr_gray_very_light;
         border-radius: 0.625rem;
+        max-height: 30rem;
+        overflow-y: auto;
+        min-height: 27rem !important;
     }
 
     &-display-items {
@@ -591,13 +642,14 @@
             }
 
             &-selected-img {
-              width: 5rem !important;
-              height: 5rem !important;
-              border-radius: 0% !important;
-              &-icon{
                 width: 5rem !important;
                 height: 5rem !important;
-              }
+                border-radius: 0% !important;
+
+                &-icon {
+                    width: 5rem !important;
+                    height: 5rem !important;
+                }
             }
         }
 
@@ -615,7 +667,7 @@
             overflow-wrap: anywhere;
             overflow-x: auto;
 
-        &-designation {
+            &-designation {
                 color: $clr_grayish_blue;
                 font-weight: $font_medium !important;
                 font-size: $p2 !important;
@@ -655,17 +707,18 @@
                 margin-right: 0.833rem;
                 margin-bottom: 1rem;
             }
+
             &-no-img {
-              width: 16.563rem !important;
-              height: 16.875rem !important;
-              border-radius: 0.5rem !important;
-              margin-right: 0.833rem !important;
-              margin-bottom: 1rem !important;
-    
-              &-icon {
                 width: 16.563rem !important;
                 height: 16.875rem !important;
-              }
+                border-radius: 0.5rem !important;
+                margin-right: 0.833rem !important;
+                margin-bottom: 1rem !important;
+
+                &-icon {
+                    width: 16.563rem !important;
+                    height: 16.875rem !important;
+                }
             }
 
             &-name {
@@ -941,24 +994,25 @@
         max-width: 100%;
         margin: 0 auto;
 
-        &-add{
-          &-program-button {
-            background-color: $clr_green !important;
-            border-radius: 1.68rem !important;
-            color: $clr_white !important;
-            margin-left: 0.5rem !important;
-            font-weight: $font-semibold !important;
-            font-size: $p1 !important;
-            text-transform: none !important;
-          }
-          &-addon-button {
-              border: solid 0.1rem $clr_green !important;
-              border-radius: 1.68rem !important;
-              color: $clr_green !important;
-              font-weight: $font-semibold !important;
-              font-size: $p1 !important;
-              text-transform: none !important;
-          }
+        &-add {
+            &-program-button {
+                background-color: $clr_green !important;
+                border-radius: 1.68rem !important;
+                color: $clr_white !important;
+                margin-left: 0.5rem !important;
+                font-weight: $font-semibold !important;
+                font-size: $p1 !important;
+                text-transform: none !important;
+            }
+
+            &-addon-button {
+                border: solid 0.1rem $clr_green !important;
+                border-radius: 1.68rem !important;
+                color: $clr_green !important;
+                font-weight: $font-semibold !important;
+                font-size: $p1 !important;
+                text-transform: none !important;
+            }
         }
     }
 
@@ -1041,7 +1095,8 @@
         font-size: $h6 ;
         font-weight: $font_semibold !important;
         box-shadow: none;
-        &.Mui-disabled{
+
+        &.Mui-disabled {
             background: $clr_gray_faded !important;
             color: $clr_gray_medium !important;
             border: none !important;
@@ -1054,7 +1109,7 @@
         border-radius: 1.68rem !important;
         color: $clr_green !important;
         font-weight: $font-semibold !important;
-      
+
     }
 }
 
@@ -1224,8 +1279,8 @@
         justify-content: center;
         margin-top: .8rem;
     }
-    
-    &-table-input-text{
+
+    &-table-input-text {
         input {
             font-size: $h6;
             padding: 0.25rem 0;
@@ -1246,7 +1301,8 @@
                 border: none;
             }
         }
-        &-col{
+
+        &-col {
             font-size: $h6 !important;
             padding: 0.25rem 0;
             font-weight: $font-semibold !important;
@@ -1292,9 +1348,11 @@
         font-weight: $font_medium !important;
 
     }
-    &-button{
+
+    &-button {
         padding: 0 !important;
     }
+
     &-circle-add-icon {
         border-radius: 2rem !important;
         height: 3.333rem !important;
@@ -1306,16 +1364,17 @@
         justify-content: space-between;
         align-items: center;
     }
-    &-submit-button{
-            background-color: $clr_green !important;
-            color: $clr_white !important;
-            min-width: 8rem !important;
-            border: .16rem solid $clr_green !important;
-            text-transform: none ;
-            font-size: $h6 ;
-            font-weight: $font_semibold !important;
-            box-shadow: none ;
-            margin-bottom: 1rem !important;
+
+    &-submit-button {
+        background-color: $clr_green !important;
+        color: $clr_white !important;
+        min-width: 8rem !important;
+        border: .16rem solid $clr_green !important;
+        text-transform: none;
+        font-size: $h6 ;
+        font-weight: $font_semibold !important;
+        box-shadow: none;
+        margin-bottom: 1rem !important;
     }
 
 }
@@ -1407,6 +1466,7 @@
         box-shadow: none !important;
         font-weight: $font_normal !important;
     }
+
     &-filter-submit-btn {
         max-height: 4rem;
         background-color: $clr_green !important;
@@ -1415,12 +1475,13 @@
         box-shadow: none !important;
         font-size: $p2 !important;
         font-weight: $font_normal !important;
-      }
+    }
+
     &-no-events-icon {
-      height: 13.83rem;
-      width: 13.83rem;
-  }
-  
+        height: 13.83rem;
+        width: 13.83rem;
+    }
+
 }
 
 .settings-attendee {
@@ -1570,96 +1631,102 @@
 }
 
 .assign-reviewer-drawer {
-  &-main {
-    min-width: 40rem !important;
-  }
-  &-header {
-    padding: 2rem;
-    justify-content: space-between;
-  }
-
-  &-title {
-    font-size: 1.5rem;
-    font-weight: $font_medium;
-    color: $clr_black;
-  }
-
-  &-content {
-    padding: 1.33rem;
-  }
-
-  &-list-item {
-    display: flex;
-    align-items: center;
-    padding: 1.5rem 0;
-
-    &:not(:last-child) {
-      border-bottom: 0.083rem solid $clr_bright_gray;
+    &-main {
+        min-width: 40rem !important;
     }
-  }
 
-  &-list-item-text {
-    margin-right: 1.5rem;
-
-    .MuiTypography-root {
-      font-size: 1rem;
-      color: #555;
+    &-header {
+        padding: 2rem;
+        justify-content: space-between;
     }
-  }
 
-  &-assign-button {
-    font-weight: $font-medium;
-    background-color: $clr_green !important;
-  }
+    &-title {
+        font-size: 1.5rem;
+        font-weight: $font_medium;
+        color: $clr_black;
+    }
 
-  &-no-reviewers {
-    text-align: center;
-    color: $clr_gray_light;
-    margin-top: 1.67rem;
-  }
+    &-content {
+        padding: 1.33rem;
+    }
+
+    &-list-item {
+        display: flex;
+        align-items: center;
+        padding: 1.5rem 0;
+
+        &:not(:last-child) {
+            border-bottom: 0.083rem solid $clr_bright_gray;
+        }
+    }
+
+    &-list-item-text {
+        margin-right: 1.5rem;
+
+        .MuiTypography-root {
+            font-size: 1rem;
+            color: #555;
+        }
+    }
+
+    &-assign-button {
+        font-weight: $font-medium;
+        background-color: $clr_green !important;
+    }
+
+    &-no-reviewers {
+        text-align: center;
+        color: $clr_gray_light;
+        margin-top: 1.67rem;
+    }
 }
 
 .abstract-modal-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: fixed; 
-    width: 100vw; 
-    height: 100vh; 
-    backdrop-filter: blur(0.1rem); 
-  }
-  
-  .abstract-modal {
-    background-color: $clr_white; 
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(0.1rem);
+}
+
+.abstract-modal {
+    background-color: $clr_white;
     padding: 2rem;
-    border-radius: 0.5rem; 
+    border-radius: 0.5rem;
     width: 50rem;
-    max-width: 90%; 
-    max-height: 50rem; 
+    max-width: 90%;
+    max-height: 50rem;
     overflow-y: auto;
     position: relative;
-  }
-  .abstract-selected{
+}
+
+.abstract-selected {
     border: 0.083rem solid $clr_gray_medium;
     padding: 1.333rem;
     border-radius: 0.5rem;
     margin-bottom: 2rem;
-    align-items: center;    
-  }
-.view-abstract{
+    align-items: center;
+}
+
+.view-abstract {
     background-color: transparent !important;
-    color:$clr_blue !important;
+    color: $clr_blue !important;
     font-size: $p2 !important;
     font-weight: $font_medium !important;
 }
-.not-assigned{
+
+.not-assigned {
     color: $clr_medium_red;
 }
-.abstract-green-btn{
+
+.abstract-green-btn {
     background-color: $clr_green !important;
     color: white !important;
     box-shadow: none !important;
 }
-.event-list-row-drafted{
+
+.event-list-row-drafted {
     background-color: $clr_gray_faded !important;
 }

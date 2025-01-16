@@ -572,7 +572,7 @@ const scrollToError = (errorField: string) => {
             p={3}
             justifyContent={'center'}
           >
-        {watch("savedPrograms")?.length > 0 ? (
+        {watch("savedPrograms")?.length > 1 ? (
           <Grid size={{ xs: 12, sm: 12 }}>
             <Grid size={{ xs: 12, sm: 12 }}>
               <Typography textAlign={"start"} className="add-program-display-title">

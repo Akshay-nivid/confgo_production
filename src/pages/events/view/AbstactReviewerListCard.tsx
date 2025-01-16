@@ -105,7 +105,7 @@ const AbstractReviewer = () => {
           noRecordIcon={<NoUserList className="userdetail-noimage" />}
           hideFooterPagination={false}
           columns={columns}
-          id="userAbstract-list-datagrids"
+          id="AbstractReviewer-list"
         />
       </Grid>
       <FilterModal

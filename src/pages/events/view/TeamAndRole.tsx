@@ -20,7 +20,9 @@ import useStore from "@/Libs/store";
 
 const TeamAndRole=()=>{
   const speakerData = useStore((state: any) => state?.compData?.["speaker-lists"]?.data) ?? []; 
-  const TeamAndRoleData =useStore((state:any)=> state?.compData?.['TeamAndRoleData']?.data)?? [];
+  const abstractReviewerData= useStore((state:any)=>state?.compData?.['AbstractReviewer-list']?.data) ?? [];
+  const volunteerListsDta=useStore((state:any)=>state?.compData?.['volunteer-lists']?.data) ?? [];
+  const TeamAndRoleData =useStore((state:any)=> state?.compData?.['TeamAndRoleData']?.data) ?? [];
 
   const [expanded, setExpanded] = React.useState<string | false>("panel1-header"); 
   const handleChange = (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -54,7 +56,7 @@ const TeamAndRole=()=>{
         expanded={expanded === "panel2-header"} 
         onChange={handleChange("panel2-header")}>
         <AccordionSummary
-       expandIcon={<AccordionAddIcon />}
+       expandIcon={abstractReviewerData?.length!==0 ?<AccordionArrowIcon/>:<AccordionAddIcon />}
           aria-controls="panel2-content"
           id="panel2-header"
            className="accordion-container-icon"
@@ -73,7 +75,7 @@ const TeamAndRole=()=>{
         expanded={expanded === "panel3-header"} 
         onChange={handleChange("panel3-header")}>
         <AccordionSummary
-          expandIcon={<AccordionAddIcon/>}
+          expandIcon={volunteerListsDta?.length?<AccordionArrowIcon/>:<AccordionAddIcon/>}
           aria-controls="panel2-content"
           id="panel2-header"
           className="accordion-container-icon"
