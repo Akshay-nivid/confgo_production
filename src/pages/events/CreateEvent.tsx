@@ -16,7 +16,7 @@ import "react-quill/dist/quill.snow.css";
 import config from "../../../config.json";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import { validateEmail, validatePhoneNumber } from "@/Utils/Validation";
+import { validateEmail } from "@/Utils/Validation";
 import { validateMaxLength } from '@/Utils/Validation';
 import GoogleMapPlacePicker from "./GoogleMapPlacePicker";
 import useStore, { setDataById } from "@/Libs/store";

@@ -98,6 +98,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
     const closeDrawer = () => {
       setDrawerOpen(false);
       setEditMode(false);
+      setValue('programs',watch('savedPrograms'))
     };
 
 
@@ -163,6 +164,15 @@ const scrollToError = (errorField: string) => {
   }
 };
 
+/**
+ * handle add program button click
+ */
+const handleAddProgram = () => {
+  const savedPrograms = watch("savedPrograms");
+  setProgramIndex(savedPrograms?.length ? savedPrograms.length - 1 : 0);
+  setEditMode(false);
+  setDrawerOpen(true); // Open the drawer for the new program
+};
 
     /**
      * Method handles the saving of the programs
@@ -650,7 +660,7 @@ const scrollToError = (errorField: string) => {
           >
             <CustomButton
               className="add-program-save-btn"
-              onClick={() => { setDrawerOpen(true); setEditMode(false) }}
+              onClick={handleAddProgram}
               label="Add Program"
               variant="contained"
               size="large"
