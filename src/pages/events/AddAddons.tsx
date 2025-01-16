@@ -376,10 +376,10 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       }
       
       // Check if the propertyName exceeds 50 characters
-      if (propertyName.length > 100) {
+      if (propertyName.length > 50) {
         setError(`addOn.${index}.propertyName`, {
           type: 'manual',
-          message: 'property name cannot exceed 100 characters.',
+          message: 'property name cannot exceed 50 characters.',
         });
         return;
       }
