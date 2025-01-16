@@ -487,7 +487,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                       <Grid container  className="add-program-drawer">
                         <Grid size={12} container flexDirection={"row"} >
                           <Grid size={6}>
-                          <Typography className="event-information-edit-heading">Add Ons</Typography></Grid>
+                          <Typography className="event-information-edit-heading" mb={2}>Add Ons</Typography></Grid>
                           <Grid justifyContent={"flex-end"} container  size={6}>
                            <Button onClick={handleDrawerClosing} className="add-program-drawer-close">
                                     <CloseOutlined />
@@ -700,13 +700,12 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                   justifyContent="right"
                                   alignItems="center"
                                   size={{ xs: 12, sm: 12 }}
-                                  spacing={5}
                                 >
                                   <Grid>
                                     <CustomButton
                                       className="add-program-save-btn"
                                       onClick={handleDrawerClosing}
-                                      label="Cansel"
+                                      label="Cancel"
                                       variant="contained"
                                       size="large"
                                     />
@@ -750,7 +749,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                <Typography variant="h6">Saved Add-Ons</Typography>
                </Grid>
                <Grid minHeight={"20rem"}>
-               {watch("savedAddOns")?.length >= 1 ? (
+               {(watch("savedAddOns")?.length > 0 && watch("savedAddOns")?.[0]?.addonId) ? (
                watch("savedAddOns")?.map(
                (field, index) =>
                 field.addonId && (
