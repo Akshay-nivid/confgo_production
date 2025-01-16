@@ -368,6 +368,24 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
         });
         return;
       }
+      // Check if the propertyName exceeds 50 characters
+      if (propertyName.length > 100) {
+        setError(`addOn.${index}.propertyName`, {
+          type: 'manual',
+          message: 'property name cannot exceed 100 characters.',
+        });
+        return;
+      }
+
+      //check if propertyAmount is valid 
+      if (propertyType === "PAID" && !/^(0|[1-9]\d*)(\.\d{1,2})?$/.test(propertyAmount)) {
+         setError(`addOn.${index}.propertyAmount`, {
+          type: 'manual',
+          message: 'Enter a valid price (up to 2 decimal places)',
+        });
+        return;
+      }
+
     // Check if propertyAmount not and propertyType is PAID
       if (!propertyAmount&&propertyType === "PAID") {  
         setError(`addOn.${index}.propertyAmount`, {
@@ -640,7 +658,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                           placeholder="Price"
                                           control={control}
                                           name={`addOn.${index}.propertyAmount`}
-                                          type="text"
+                                          type="Number"
                                           rules={{
                                             pattern: {
                                               value: /^(0|[1-9]\d*)(\.\d{1,2})?$/,

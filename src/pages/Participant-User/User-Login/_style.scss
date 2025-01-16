@@ -105,3 +105,37 @@
   }
 
 }
+
+
+
+@media (max-width: 600px) {
+  .user-layout {
+    &-content {
+    padding: 0 !important;
+      
+    }
+    &-card {
+      padding-inline: 0 !important;
+
+  }
+}
+  .enduser-login{
+    .content-container{
+      padding: 0 !important;
+    }
+
+    .sso-header-container{
+      padding-inline: 1rem !important;
+    }
+    .sso-container{
+      padding-inline: 1rem !important;
+    }
+    .sso-container > div{
+      width: 100%;
+    }
+    .sso-container [role=button]{
+      padding-block: 2rem !important;
+    }
+  }
+
+}
