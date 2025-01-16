@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, TextField, FormControlLabel, FormControl, InputLabel, Select, MenuItem, Checkbox, FormGroup, Typography, RadioGroup, Radio, IconButton } from '@mui/material';
 import Grid from "@mui/material/Grid2";
 import { Controller, useForm } from 'react-hook-form';
@@ -38,9 +38,27 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
     const [dateTemplate, setDateTemplate] = useState(String); // To store the selected date template : Today/Yesterday
     const [selectedTile, setSelectedTile] = useState(String); // To store the selected date template : Today/Yesterday
 
+    /**
+     * Useeffect hook populates the initial value from the datagrid request
+     */
+    useEffect(() => {
+        if(dataGridInfo?.source?.data?.filters){
+            const filterObj = {...dataGridInfo?.source?.data?.filters};
+            for(let i in filterObj){
+                fields?.map((item: any) => {
+                    if(item.type === 'checkBox'){
+                        setValue(item.fieldName,filterObj[i])
+                    }
+                })
+            }
+        }
+    },[dataGridInfo?.source?.data?.filters])
+
     const handleClose = () => {
         setIsFilterModalOpen(false);
     };
+
+    
 
     /**
      * Method to check value is not empty
@@ -82,8 +100,6 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
         let dataSource: any = { ...dataGridInfo?.source }
         dataSource.data = checkValueIsNotEmpty(req);
         handleApiCall(dataSource, dataGridInfo?.dataTransformer)
-
-        handleClear();
     }
 
     /**
@@ -481,11 +497,11 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
                                                                     control={
                                                                         <Checkbox
                                                                             id={`${option.name}-${option.value}`}
-                                                                            checked={field.value.includes(option.value)}
+                                                                            checked={field.value?.includes(option.value)}
                                                                             onChange={(e) => {
                                                                                 const newValue = e.target.checked
                                                                                     ? [...field.value, option.value]
-                                                                                    : field.value.filter((value: any) => value !== option.value);
+                                                                                    : field.value?.filter((value: any) => value !== option.value);
                                                                                 field.onChange(newValue);
                                                                             }}
                                                                         />
