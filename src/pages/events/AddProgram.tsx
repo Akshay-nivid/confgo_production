@@ -590,7 +590,6 @@ const scrollToError = (errorField: string) => {
             mt={{ xs: 2, sm: 4 }}
             sx={{ height: { xs: 200, sm: 300, md: 400 } }}
             p={3}
-            alignContent={'center'}
             justifyContent={'center'}
           >
         {watch("savedPrograms")?.length > 0 ? (
@@ -652,19 +651,22 @@ const scrollToError = (errorField: string) => {
               )}
             </Grid>
           </Grid>) : (
-            <Grid>
-              <Grid size={{ xs: 12 }} justifyItems={'center'}>
-                <NoProgramIcon width={90} height={90}/>
-                <Typography>No Programs Added Yet</Typography>
-                <Typography>Start creating your first program to bring your event to life!</Typography>
+            <Grid container alignSelf={'center'} justifyContent={'center'}>
+              <Grid container size={{ xs: 12,sm: 8 }} alignSelf={'center'} justifyContent={'center'} spacing={3}>
+                <Grid>
+                  <NoProgramIcon width={90} height={90}/>
+                </Grid>
+                <Grid>
+                  <Typography className="add-program-empty-title">No Programs Added Yet</Typography>
+                  <Typography className="add-program-empty-subtitle">Start creating your first program to bring your event to life!</Typography>
+                </Grid>
               </Grid>
             </Grid>
         )}
           <Grid
             container
             size={{ xs: 12,sm: 8 }}
-            justifyContent={'center'}
-            alignItems={'center'}
+            alignSelf={'end'}
           >
             <CustomButton
               className="add-program-save-btn"

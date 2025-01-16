@@ -76,9 +76,24 @@ const Coupon = () => {
     }
   ];
 
+  const DiscountTypeArray = [
+    { label: "flat", value: "flat" },
+    { label: "percentage", value: "percentage" },
+  ];
+  
   const filterFields: any = [
     {
-      type: 'dateRange',
+      type: 'date',
+      fieldName: 'startTime',
+      label: 'Today',
+      heading: 'Filter with Date'
+    },
+    {
+      type: 'tiles',
+      fieldName: 'discountType',
+      label: 'Discount Type',
+      heading: 'Filter with Discount Type',
+      options: DiscountTypeArray
     },
   ]
 

@@ -353,6 +353,18 @@
             background-position: right 0.1 center;
         }
     }
+    &-empty{
+      &-title{
+        font-weight: $font-bold !important;
+        font-size: $h6 !important;
+        text-align: center;
+      }
+      &-subtitle{
+        font-weight: $font_normal !important;
+        font-size: $p2 !important;
+        text-align: center;
+      }
+    }
 }
 
 
