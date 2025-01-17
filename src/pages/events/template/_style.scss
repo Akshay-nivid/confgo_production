@@ -77,14 +77,22 @@
         }
 
         .title-container {
-            
-            width: 85ch;
-            white-space: wrap;
-            overflow: hidden;
+            min-width:90%;
+            white-space: normal; /* Allows text wrapping */
+            overflow: hidden; /* Ensures content doesn't overflow the container */
+            text-overflow: ellipsis; /* Adds ellipsis when content overflows */
+            line-break: anywhere; /* Enables line breaking for long text */
+          }
+          
+          .title-container .hero-header {
+            display: -webkit-box; /* Enables the flexbox container for the text */
+            -webkit-box-orient: vertical; /* Required for line clamping */
+            overflow: hidden; /* Ensures content beyond the specified lines is hidden */
+            -webkit-line-clamp: 2; /* Limits the content to 2 lines */
+            line-clamp: 2; /* Fallback for non-WebKit browsers, but requires a polyfill */
+            // max-width: 100%; /* Ensures it doesn't overflow the parent container */
+          }
 
-           
-        }
-        
 
         &-title {
             padding: 1rem 1rem 1rem 6rem;
@@ -95,8 +103,7 @@
                 line-height: 5.08rem;
                 font-weight: $font_bold !important;
                 color: $clr_charcoal_cyan;
-                overflow: hidden;
-                text-overflow: ellipsis;
+
             }
 
             &-sub-title {

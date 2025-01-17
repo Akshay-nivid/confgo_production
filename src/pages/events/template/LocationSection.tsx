@@ -18,7 +18,7 @@ type LocationSectionProps = {
 const LocationSection: React.FC<LocationSectionProps> = React.memo(({ data, classPrefix,onScrollToTier}) => {
 
 
-    return <Grid container size={{ xs:12, sm:12 }} className={`${classPrefix}`} ref={onScrollToTier}>
+    return <Grid id={"Location"} container size={{ xs:12, sm:12 }} className={`${classPrefix}`} ref={onScrollToTier}>
        {data?.venue?.mapUrl? <MapIframe url={data?.venue?.mapUrl} />:
         <Grid>No map available</Grid>
 

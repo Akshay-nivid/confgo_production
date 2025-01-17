@@ -24,7 +24,7 @@ const EventContributorsSection = React.memo(
     const baseUrl = config.api.url; 
 
 
-    return <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix} `} spacing={1} direction={'column'} justifyContent={'center'} alignItems={'center'} ref={ref}>
+    return <Grid id={'Contributors'} container size={{ xs: 12, sm: 12 }} className={`${classPrefix} `} spacing={1} direction={'column'} justifyContent={'center'} alignItems={'center'} ref={ref}>
         <Grid className={`${classPrefix}-title`}>Meet Our Esteemed Speakers</Grid>
         <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-item-group-container anim-container`} justifyContent={'center'} alignItems={'center'} spacing={4}>
             {data?.map((item: any) => {
