@@ -471,7 +471,6 @@ const Events = () => {
     // Helper function to format time
     const formatTime = (dateString: any) => moment(dateString).format().split("T")[1].slice(0, 5);
 
-   console.log("data.programs",data)
     const transformedData = {
         event: {
             type: data.eventClass,
