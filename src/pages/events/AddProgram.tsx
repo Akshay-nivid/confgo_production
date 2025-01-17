@@ -98,6 +98,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
     const closeDrawer = () => {
       setDrawerOpen(false);
       setEditMode(false);
+      setValue('programs',watch('savedPrograms'))
     };
 
 
@@ -131,26 +132,6 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
 }, [formDraftSubmit]);
   
 
-    /**
-     * useEffect to reset the form fields when the drawer is opened in add mode.
-     */
-    useEffect(() => {
-      if (!editMode) {
-        setValue("programs", [
-          {
-            name: "",
-            description: "",
-            totalSeat: "",
-            startDate: moment(eventData?.startTime).format("YYYY-MM-DD"),
-            endDate: moment(eventData?.startTime).format("YYYY-MM-DD"),
-            startTime: moment().format("HH:mm"),
-            endTime: moment().format("HH:mm"),
-            type: "PAID",
-            amount: "",
-          },
-        ]);
-      }
-    }, [editMode]);
 
     /**
      * Method handles the form submission
@@ -183,6 +164,15 @@ const scrollToError = (errorField: string) => {
   }
 };
 
+/**
+ * handle add program button click
+ */
+const handleAddProgram = () => {
+  const savedPrograms = watch("savedPrograms");
+  setProgramIndex(savedPrograms?.length ? savedPrograms.length - 1 : 0);
+  setEditMode(false);
+  setDrawerOpen(true); // Open the drawer for the new program
+};
 
     /**
      * Method handles the saving of the programs
@@ -539,7 +529,7 @@ const scrollToError = (errorField: string) => {
                             />
                           </Grid>
                           {watch(`programs.${index}.type`) === "PAID" && (
-                            <Grid size={{ xs: 12, sm: 6 }}>
+                            <Grid size={{ xs: 12, sm: 12 }}>
                               <CustomTextField
                                 placeholder="Price"
                                 control={control}
@@ -601,10 +591,9 @@ const scrollToError = (errorField: string) => {
             mt={{ xs: 2, sm: 4 }}
             sx={{ height: { xs: 200, sm: 300, md: 400 } }}
             p={3}
-            alignContent={'center'}
             justifyContent={'center'}
           >
-        {watch("savedPrograms")?.length > 0 ? (
+        {watch("savedPrograms")?.length > 1 ? (
           <Grid size={{ xs: 12, sm: 12 }}>
             <Grid size={{ xs: 12, sm: 12 }}>
               <Typography textAlign={"start"} className="add-program-display-title">
@@ -639,10 +628,10 @@ const scrollToError = (errorField: string) => {
                       </Grid>
 
                       <Grid container size={{ xs: 4, sm: 3 }} justifyContent={'center'}>
-                        <IconButton onClick={() => handleEdit(index)}>
+                        <IconButton key={`${index}-edit-program`} onClick={() => handleEdit(index)}>
                           <EditIcon />
                         </IconButton>
-                        <IconButton onClick={() => handleDeleteConfirmbox(index)}>
+                        <IconButton key={`${index}-delete-program`} onClick={() => handleDeleteConfirmbox(index)}>
                           <DeleteIcon />
                         </IconButton>
                       </Grid>
@@ -654,7 +643,7 @@ const scrollToError = (errorField: string) => {
                         cancelAction={() => setOpenModal(false)}
                         header="Delete Program?"
                         subHeader="Are you sure you want to delete this program? This action cannot be undone"
-                        submitAction={() => handleDelete(index)}
+                        submitAction={() => handleDelete(programIndex)} 
                         submitLabel="Delete"
                         modalClassName="publish-modal"
                       />
@@ -663,23 +652,26 @@ const scrollToError = (errorField: string) => {
               )}
             </Grid>
           </Grid>) : (
-            <Grid>
-              <Grid size={{ xs: 12 }} justifyItems={'center'}>
-                <NoProgramIcon width={90} height={90}/>
-                <Typography>No Programs Added Yet</Typography>
-                <Typography>Start creating your first program to bring your event to life!</Typography>
+            <Grid container alignSelf={'center'} justifyContent={'center'}>
+              <Grid container size={{ xs: 12,sm: 8 }} alignSelf={'center'} justifyContent={'center'} spacing={3}>
+                <Grid>
+                  <NoProgramIcon width={90} height={90}/>
+                </Grid>
+                <Grid>
+                  <Typography className="add-program-empty-title">No Programs Added Yet</Typography>
+                  <Typography className="add-program-empty-subtitle">Start creating your first program to bring your event to life!</Typography>
+                </Grid>
               </Grid>
             </Grid>
         )}
           <Grid
             container
             size={{ xs: 12,sm: 8 }}
-            justifyContent={'center'}
-            alignItems={'center'}
+            alignSelf={'end'}
           >
             <CustomButton
               className="add-program-save-btn"
-              onClick={() => { setDrawerOpen(true); setEditMode(false) }}
+              onClick={handleAddProgram}
               label="Add Program"
               variant="contained"
               size="large"
