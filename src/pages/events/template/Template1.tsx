@@ -176,7 +176,7 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
         {/* Event Contributors section */}
         {(data?.eventSpeakers?.length > 0) && <EventContributorsSection classPrefix={`${classPrefix}-event-contributors`} data={data?.eventSpeakers} ref={contributorsRef} />}
         {/* Program section */}
-        <Grid container size={{ xs: 12, sm: 12 }} spacing={2} mb={10} ref={programRef}>
+        <Grid id={"Program"} container size={{ xs: 12, sm: 12 }} spacing={2} mb={10} ref={programRef}>
           <Grid size={{xs:12}} justifyContent={'center'} mt={{xs:2,sm:4}}><Typography className={`${classPrefix}-program-schedule-heading`}>Conference Program Schedule</Typography></Grid>
           <Grid container size={{xs:12}} justifyContent={'center'} alignItems="center" mb={{xs:2,sm:3}}>
             <Box className={`${classPrefix}-program-schedule-date`}>Event Start Date : {moment(data?.startTime)?.format('DD, MM, YYYY')}</Box>

@@ -47,7 +47,7 @@ const ProgramSection = React.memo(
 
     const groupedPrograms = groupProgramsByDate(data?.programs);
 
-    return <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}`} spacing={1} direction={'column'} justifyContent={'center'} alignItems={'center'} ref={ref}>
+    return <Grid id="Program" container size={{ xs: 12, sm: 12 }} className={`${classPrefix}`} spacing={1} direction={'column'} justifyContent={'center'} alignItems={'center'} ref={ref}>
         <Grid className={`${classPrefix}-title`}>Event Program Schedule</Grid>
 
         {Object.entries(groupedPrograms).map(([date, programs]: any, index: number) => (
