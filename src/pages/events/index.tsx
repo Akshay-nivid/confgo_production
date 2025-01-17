@@ -491,10 +491,10 @@ const Events = () => {
             city: data.venue?.city || null, // Example city
             postalCode: data.venue?.postalCode || null, // Example postal code
             description: data.description || "",
-            abstractDate:data.abstractDate || null,
+            ...(data.assetId && data.assetId != 0 ? { assetId: data.assetId } : {}),// Conditionally add assetId
+            ...(data.abstractDate ? { abstractDate: data.abstractDate } : {}), // Conditionally add abstractDate
             isAbstract:data.isAbstract || false,
-            assetId:data.assetId || null,
-            speciality:data.speciality || null
+            ...(data.speciality ? { speciality: data.speciality } : {}),
         },
         program: data.programs?.map((program: any) => ({
             name: program.name || "",
