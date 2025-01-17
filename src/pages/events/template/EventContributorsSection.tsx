@@ -41,7 +41,7 @@ const EventContributorsSection = React.memo(
                         )}
                             
                         </Grid>
-                        <Grid container  direction={'column'} paddingTop={'1rem'}>
+                        <Grid container  direction={'column'} >
                             <Grid className={`${classPrefix}-item-name name`}>{`${item.user?.firstName} ${item.user?.lastName}`}</Grid>
                             {/* <Grid className={`${classPrefix}-item-designation`}>{item.designation}</Grid>
                             <Grid className={`${classPrefix}-item-topic`} title={item.description}>{truncateString(item.description,30, "")}</Grid> */}
