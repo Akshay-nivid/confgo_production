@@ -422,7 +422,7 @@ const handleAddProgram = () => {
                               rules={{
                                 pattern: {
                                   value: /^(0|[1-9]\d{0,7})$/,
-                                  message: "Enter a valid number (e.g., 0, 123, 123.45)",
+                                  message: "Enter a valid number (e.g., 0, 123, 27)",
                                 },
                               }}
                             />
