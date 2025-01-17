@@ -31,8 +31,8 @@ const MyEventScreen = () => {
   /**
   *  events shown on screen descending order of date
   */
- const validEvents = events.filter((event: any) => event.startTime && !isNaN(new Date(event.startTime).getTime()));
-  const sortedData = [...validEvents].sort((a: any, b: any) => {
+ const validEvents = events?.filter((event: any) => event.startTime && !isNaN(new Date(event.startTime).getTime()));
+  const sortedData = [...validEvents]?.sort((a: any, b: any) => {
     const dateA = new Date(a.startTime).getTime();
     const dateB = new Date(b.startTime).getTime();
     return dateB - dateA;
