@@ -27,6 +27,17 @@ const MyEventScreen = () => {
   const POST = useStore((state: any) => state.POST);
   const setDataById = useStore((state: any) => state.setDataById);
   const events = useStore((state: IStoreState) => state?.compData.usersEvents?.["event/registered/eventList"]?.data) ?? []
+
+  /**
+  *  events shown on screen descending order of date
+  */
+ const validEvents = events.filter((event: any) => event.startTime && !isNaN(new Date(event.startTime).getTime()));
+  const sortedData = [...validEvents].sort((a: any, b: any) => {
+    const dateA = new Date(a.startTime).getTime();
+    const dateB = new Date(b.startTime).getTime();
+    return dateB - dateA;
+  });
+ 
   /**
    * model for view certificate
    */
@@ -166,7 +177,7 @@ const MyEventScreen = () => {
        <NoEvents description="You haven’t registered for any events yet. Explore upcoming events and secure your spot today!"  title="No Events Found"/>
         ) : (
           <Grid container size={12} mt={2} spacing={2}>
-            {events?.map((event: IEvent, index:number) => (
+            {sortedData?.map((event: IEvent, index:number) => (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
                 <EventCard
                   eventFullData={event}

@@ -421,10 +421,9 @@ const handleAddProgram = () => {
                               type="number"
                               rules={{
                                 pattern: {
-                                  value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
-                                  message:
-                                    "Enter a valid number",
-                                }
+                                  value: /^(0|[1-9]\d{0,7})$/,
+                                  message: "Enter a valid number (e.g., 0, 123, 123.45)",
+                                },
                               }}
                             />
                           </Grid>
