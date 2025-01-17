@@ -236,7 +236,7 @@ const FormEditor: React.FC<IFormEditor> = ({ participantType, participantData, h
                                         justifyContent={"flex-end"}
                                         alignItems={"center"}
                                     >
-                                        {fields.length > 0 ? (
+                                        {fields.length > 1 ? (
                                             <IconButton>
                                                 <DeleteIcon onClick={() => remove(index)} className="" />
 
