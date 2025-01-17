@@ -161,7 +161,7 @@ const TicketingSection = React.memo(
                                             amountCalculatedData[participantType]
                                                 .map((item: any) => {
                                                     const dateRange = formatDateRange(item.startDate, item.endDate);
-                                                    return (
+                                                    return parseFloat(item?.percentage) > 0 ? (
                                                         <Grid container className={`${classPrefix}-sub-item-container`} justifyContent={'space-between'}>
                                                             <Grid container direction={'column'}>
                                                                 <Grid><Typography className={`${classPrefix}-sub-item-name`}>{item.name}</Typography></Grid>
@@ -171,7 +171,7 @@ const TicketingSection = React.memo(
                                                                 <Typography className={`${classPrefix}-sub-item-amount`}>{parseFloat(item?.percentage)}% OFF</Typography>
                                                             </Grid>
                                                         </Grid>
-                                                    );
+                                                    ):<></>;
                                                 })
                                         }
                                     </Grid>

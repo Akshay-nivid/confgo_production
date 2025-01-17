@@ -88,8 +88,8 @@
             display: -webkit-box; /* Enables the flexbox container for the text */
             -webkit-box-orient: vertical; /* Required for line clamping */
             overflow: hidden; /* Ensures content beyond the specified lines is hidden */
-            -webkit-line-clamp: 2; /* Limits the content to 2 lines */
-            line-clamp: 2; /* Fallback for non-WebKit browsers, but requires a polyfill */
+            -webkit-line-clamp: 3; /* Limits the content to 2 lines */
+            line-clamp: 3; /* Fallback for non-WebKit browsers, but requires a polyfill */
             // max-width: 100%; /* Ensures it doesn't overflow the parent container */
           }
 
@@ -3033,4 +3033,39 @@
     }
 
 
+}
+
+
+.card-image-container{
+    background-color: $clr_gray_10_percent;
+    contain: content;
+    max-width: 12rem;
+    width: 12rem;
+
+    flex-wrap: nowrap !important;
+
+    img{
+        object-fit: cover;
+        aspect-ratio: 1;
+    }
+    .name{
+        max-width: 90%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap
+    }
+}
+
+@media screen and (max-width: 768px) {
+    
+    .card-image-container{
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: center !important;
+
+    }
+    .name{
+        display: block !important;
+    }
 }

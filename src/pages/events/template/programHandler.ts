@@ -12,12 +12,9 @@ export const getUserCart = ({ helperFn, cartID }: { helperFn: () => void, cartID
 
     try {
 
-
-
         const cartId = cartID ? cartID : sessionStorage.getItem('cartId')
 
         if (!cartId || cartId === undefined) return
-
 
         GET({
             url: `cart/${cartId}`,
@@ -52,8 +49,8 @@ export const getUserCart = ({ helperFn, cartID }: { helperFn: () => void, cartID
         })
 
 
-    } catch (error) {
-        snackBar({ severity: 'error', message: 'something went wrong' })
+    } catch (error:any) {
+        snackBar({ severity: 'error', message:error?.message ||  'something went wrong' })
     }
 
 }

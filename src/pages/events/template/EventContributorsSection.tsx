@@ -28,18 +28,21 @@ const EventContributorsSection = React.memo(
         <Grid className={`${classPrefix}-title`}>Meet Our Esteemed Speakers</Grid>
         <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-item-group-container anim-container`} justifyContent={'center'} alignItems={'center'} spacing={4}>
             {data?.map((item: any) => {
-                return <Grid size={{ xs: 12, sm: 6 }} container direction={'row'} className={`${classPrefix}-item-container `} spacing={2}>
-                    <Grid size={{ xs: 12, sm: 12 }} container direction={'row'} className={`${classPrefix}-item-container-speaker-card `}>
-                        <Grid  className={`${classPrefix}-item-container-speaker-card-image-container `}>
+                return <Grid alignSelf={'stretch'}  size={{ xs: 12, sm: 6 }} container direction={'row'} className={`${classPrefix}-item-container `} spacing={2}>
+                    <Grid   size={{ xs: 12, sm: 12 }} container direction={'row'} className={`${classPrefix}-item-container-speaker-card `}>
+                        <Grid overflow={'hidden'}  className={`${classPrefix}-item-container-speaker-card-image-container card-image-container `}>
                             {item?.user?.assetId ? (<img
+                                height={'100%'}
+                                width={'100%'}
                                 src={`${baseUrl}asset/${item?.user?.assetId}`}
                                 alt={item.name}
                             />):(
-                            <NoProfilePicture/>
+                                    <NoProfilePicture className='h-full w-full'/>
                         )}
+                            
                         </Grid>
-                        <Grid container  direction={'column'} justifyContent={'center'}>
-                            <Grid className={`${classPrefix}-item-name`}>{`${item.user?.firstName} ${item.user?.lastName}`}</Grid>
+                        <Grid container  direction={'column'} paddingTop={'1rem'}>
+                            <Grid className={`${classPrefix}-item-name name`}>{`${item.user?.firstName} ${item.user?.lastName}`}</Grid>
                             {/* <Grid className={`${classPrefix}-item-designation`}>{item.designation}</Grid>
                             <Grid className={`${classPrefix}-item-topic`} title={item.description}>{truncateString(item.description,30, "")}</Grid> */}
                         </Grid>

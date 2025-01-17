@@ -4,7 +4,7 @@
 import CustomButton from '@/components/CustomButton/CustomButton';
 import Grid from '@mui/material/Grid2';
 import React from 'react';
-import { Typography } from '@mui/material';
+import { Tooltip, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import { snackBar } from '@/Libs/store';
@@ -47,6 +47,10 @@ const TitleSection: React.FC<TitleSectionProps> = React.memo(({ data, classPrefi
             return
         }
 
+
+
+
+
         if (eventPriceTiersPresent) {
 
             if (onScrollToTier) {
@@ -62,7 +66,9 @@ const TitleSection: React.FC<TitleSectionProps> = React.memo(({ data, classPrefi
 
     return <>
         <Grid className={`title-container`}>
-            <Typography className={`${classPrefix}-title1 hero-header`}> {data?.name}</Typography>
+            <Tooltip title={data?.name}>
+                <Typography className={`${classPrefix}-title1 hero-header`}> {data?.name}</Typography>
+            </Tooltip>
         </Grid>
 
         <Grid>
