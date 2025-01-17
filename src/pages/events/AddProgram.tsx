@@ -514,6 +514,12 @@ const handleAddProgram = () => {
                               options={typeArray}
                               row={true}
                               value={"PAID"}
+                              onChange={(e) => {
+                                const newType = e.target.value;
+                                if (newType === "FREE") {
+                                  setValue(`programs.${index}.amount`, "");
+                                }
+                              }}
                             />
                           </Grid>
                           {watch(`programs.${index}.type`) === "PAID" && (
