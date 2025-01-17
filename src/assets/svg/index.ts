@@ -112,6 +112,8 @@ import CloseBoxWhite from './close-box-white.svg';
 import AccordionArrowIcon from "./AccordionArrowIcon.svg";
 import AccordionAddIcon from "./AccordionAddIcon.svg";
 import NoProfilePicture from "./NoProfilePicture.svg";
+import NoAddons from "./No Addons.svg";
+import NoProgramIcon from "./no-program-icon.svg"
 export {
   CalenderIcon,
   EditBoxWhite,
@@ -226,5 +228,7 @@ export {
   UploadIcon,
   AccordionArrowIcon,
   AccordionAddIcon,
-  NoProfilePicture
+  NoProfilePicture,
+  NoAddons,
+  NoProgramIcon,
 };

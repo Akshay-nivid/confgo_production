@@ -100,8 +100,7 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
     * @param selected - The selected item from the autocomplete list
     */
     const handleAutocompleteChange = async (selected: any) => {
-  
-            if (selected) {
+            if (selected?.id) {
                 setAssignedVolunteers((prev: any) => {
                     const isAlreadyAssigned = prev.some(
                         (volunteer: any) => volunteer.user?.id === selected.id

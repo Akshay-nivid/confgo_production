@@ -82,10 +82,6 @@ const UserUploadAbstract = ({ eventData }: any) => {
                 assetId: uploadedFile?.id,
             },
             successCB: () => {
-                snackBar({
-                    severity: 'success',
-                    message: 'Abstract File Uploaded successfully',
-                });
                 getUploadedAbstract();
             },
             errorCB: (context: any) => {
