@@ -225,6 +225,7 @@ const scrollToError = (errorField: string) => {
       }
     // Ensure dates are valid Date objects
     let selectedDate =programs?.[programIndex]?.startDate
+    let selectedEndDate =programs?.[programIndex]?.endDate
     let eventStartDateObj = new Date(eventStartDate);
     let startDateObj = new Date(selectedDate);
     let endDateObj = new Date(programs?.[programIndex]?.endDate);
@@ -262,11 +263,21 @@ const scrollToError = (errorField: string) => {
       return
       }
     }
-    //check if selected end time is greater than selected start time
-    if(selectedEndTime < selectedStartTime) {
-      setError(`programs.${programIndex}.endTime`, {
+    //check if selected end time is greater than selected start time is start and end dates are equal
+    if(selectedEndDate == selectedDate){
+      if(selectedEndTime < selectedStartTime) {
+        setError(`programs.${programIndex}.endTime`, {
+          type: 'manual',
+          message: 'End time must be greater than start time',
+        });
+        return
+        }
+    }
+    //check if end date is greater than start date
+    if(selectedEndDate < selectedDate){
+      setError(`programs.${programIndex}.startDate`, {
         type: 'manual',
-        message: 'End time must be greater than start time',
+        message: 'Start Date must be earlier than End date',
       });
       return
       }

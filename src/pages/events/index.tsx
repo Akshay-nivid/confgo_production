@@ -467,10 +467,11 @@ const Events = () => {
    */
   const transformEventData = (data: any) => {
     // Helper function to format date
-    const formatDate = (dateString: any) => new Date(dateString).toISOString().split("T")[0];
+    const formatDate = (dateString: any) => moment(dateString).format("YYYY-MM-DD")
     // Helper function to format time
-    const formatTime = (dateString: any) => new Date(dateString).toISOString().split("T")[1].slice(0, 5);
+    const formatTime = (dateString: any) => moment(dateString).format().split("T")[1].slice(0, 5);
 
+   console.log("data.programs",data)
     const transformedData = {
         event: {
             type: data.eventClass,
@@ -489,7 +490,11 @@ const Events = () => {
             state: data.venue?.state || null, // Example state
             city: data.venue?.city || null, // Example city
             postalCode: data.venue?.postalCode || null, // Example postal code
-            description: data.description || ""
+            description: data.description || "",
+            abstractDate:data.abstractDate || null,
+            isAbstract:data.isAbstract || false,
+            assetId:data.assetId || null,
+            speciality:data.speciality || null
         },
         program: data.programs?.map((program: any) => ({
             name: program.name || "",

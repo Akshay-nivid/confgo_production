@@ -492,6 +492,7 @@ const CreateEvent: React.FC<EventProps> =
                     control={control}
                     label="Specialty"
                     options={specialty}
+                    defaultValue={data?.speciality?.name}
                     onChange={() => setValue('isAbstract',false)}
                     />
                   </Grid>
