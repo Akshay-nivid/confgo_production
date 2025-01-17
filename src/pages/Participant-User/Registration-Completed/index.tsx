@@ -19,6 +19,7 @@ const RegistrationCompleted = () => {
   const couponData = useStore((state: IStoreState) => state?.compData?.["couponData"]?.['coupon/applyCoupon']?.data) ?? null
   const regData = useStore((state: IStoreState) => state?.compData?.registrationCompleteData) || null
   
+  const eventAmount = useStore((state: IStoreState) => state?.compData?.["eventData"]?.[`event/${regData?.event?.id}`]?.data?.amount) || null
   // if (isCheckout === false) {
 
   //   if (!slugName) {
@@ -65,10 +66,16 @@ const RegistrationCompleted = () => {
       <Grid size={12}>
         <Box className="payment-bill-details-container">
           <Box className="payment-bill-details">
+          <Box className="payment-bill-item">
+              <Typography className="info-text">Event Total</Typography>
+              <Typography className="info-text">${eventAmount ?? 0}</Typography>
+            </Box>
+
             <Box className="payment-bill-item">
               <Typography className="info-text">Programs Total</Typography>
               <Typography className="info-text">${orderData?.programTotal ?? 0}</Typography>
             </Box>
+            
             <Box className="payment-bill-item">
               <Typography className="info-text">Food Total</Typography>
               <Typography className="info-text">${orderData?.addonTotal ?? 0}</Typography>
