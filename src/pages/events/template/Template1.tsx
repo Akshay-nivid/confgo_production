@@ -61,6 +61,7 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     }
 
     const CopyUrl = data?.venue?.mapUrl
+    let generalAddsOn = data?.addons?.filter((item: { startTime: any; endTime: any; }) => !item.startTime || !item.endTime);
 
     /**
     * Method to copy the URL to clipboard
@@ -194,6 +195,38 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                 ))}
               </Grid>
             </Box>
+          </Grid>
+          <Grid container spacing={3} className={`${classPrefix}-program-content-container`} mt={2} direction="column" alignContent={'center'} size={{ xs: 12, sm: 12 }}>
+            {generalAddsOn?.map((item: any, index: number) => (
+              <Grid size={{ xs: 11 }} justifyContent={'center'}  pl={{xs:2,md:4}} p={2} key={index} 
+                className={`${classPrefix}-program-content-item ${item?.type === 'program' ? `${classPrefix}-program-content-item-program` : `${classPrefix}-program-content-item-addon`}`}
+              >
+                <Grid container alignItems="center" spacing={3}>
+                  {/* Time Block */}
+                  <Grid size={{ xs: 2 }} container direction="row" alignItems="center" justifyContent="start" className={`${classPrefix}-program-content-time`} >
+                    <Grid size={{ xs: 2 }}>
+                      {/* <ClockIcon className={`${classPrefix}-program-content-time-icon`} /> */}
+                    </Grid>
+                    <Grid size={{ xs: 10 }}>
+                    <Typography variant='h6'>
+                      {'General Addons'}
+                    </Typography>
+                    </Grid>
+                  </Grid>
+                  {/* Content Block */}
+                  <Grid size={{ xs: 9 }} className={`${classPrefix}-program-content-details-${item.type === 'program' ? 'program' : 'addon'}`}>
+                    <TitleComponent
+                      title={item?.type === 'program' ? item?.name : item?.addon?.name}
+                      classPrefix={`${classPrefix}-program-content-title`}
+                    />
+                    <DescriptionComponent
+                      description={item?.description}
+                      classPrefix={`${classPrefix}-program-content-description`}
+                    />
+                  </Grid>
+                </Grid>
+              </Grid>
+            ))}
           </Grid>
           <Grid container spacing={3} className={`${classPrefix}-program-content-container`} mt={2} direction="column" alignContent={'center'} size={{ xs: 12, sm: 12 }}>
             {combinedAndSortedItems?.map((item: any, index: number) => (

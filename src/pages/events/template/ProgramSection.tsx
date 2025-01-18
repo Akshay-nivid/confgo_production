@@ -44,6 +44,7 @@ const ProgramSection = React.memo(
 
         return grouped;
     };
+    let generalAddsOn = data?.addons?.filter((item: { startTime: any; endTime: any; }) => !item.startTime || !item.endTime);
 
     const groupedPrograms = groupProgramsByDate(data?.programs);
 
@@ -56,6 +57,31 @@ const ProgramSection = React.memo(
                     <Typography>{`Day ${String(index + 1).padStart(2, "0")} - ${moment(date).format("MMMM D, YYYY")}`}</Typography>
                 </Grid>
                 <Grid size={12}  container spacing={2} direction={'column'} justifyContent={'center'} alignItems={'center'}>
+                {generalAddsOn?.map((program: any) => (
+                        <Grid size={12} key={program.id} container className={`${classPrefix}-item-group-container`} direction={'row'}>
+
+                            <Grid container direction={'row'} justifyContent={'center'} alignItems={'center'} >
+                                <Grid container direction={'row'} justifyContent={'center'} alignItems={'center'} className={`${classPrefix}-item-time-container`}>
+                                    {/* <Grid><ClockIcon /></Grid> */}
+                                    <Grid>
+                                        <Typography>
+                                           General Addons
+                                        </Typography>
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            <Grid container direction={'column'} className={`${classPrefix}-item-name-container`} >
+                                <Grid>
+                                    <Typography className={`${classPrefix}-item-name`}>{program?.addon?.name}</Typography>
+                                </Grid>
+                            </Grid>
+                            <Grid container direction={'column'} className={`${classPrefix}-item-description-container`} >
+                                <Grid>
+                                    <Typography className={`${classPrefix}-item-description`}>{program.description}</Typography>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    ))}
                     {programs?.map((program: any) => (
                         <Grid size={12} key={program.id} container className={`${classPrefix}-item-group-container`} direction={'row'}>
 
