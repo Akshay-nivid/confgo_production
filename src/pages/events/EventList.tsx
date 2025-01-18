@@ -196,7 +196,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
    * @returns : class name
    */
   const getRowClassName = (item: any) => {
-    return item.row?.statusId === StatusEnum.DRAFTED ? 'event-list-row-drafted' : '';
+    return item.row?.statusId === StatusEnum.DRAFTED ? '' : '';
   };
   
 
