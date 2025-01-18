@@ -11,6 +11,7 @@ import { NoPayment } from "@/assets/svg";
 import jsPDF from "jspdf";
 import { POST } from "@/Libs/store";
 import moment from "moment";
+import StatusComponent from "@/components/Status/StatusComponent";
 
 
 /**
@@ -33,7 +34,7 @@ const PaymentHistory: React.FC = React.memo(() => {
     },
     { type: "default", field: "amount", headerName: "Amount", width: 130 },
     {
-      type: "status",
+      type: "custom",
       field: "status",
       headerName: "Status",
       width: 120,
@@ -216,7 +217,7 @@ const PaymentHistory: React.FC = React.memo(() => {
         name: item?.event?.name,
         Date: item.createdOn,
         amount: item?.amount,
-        status: item?.event?.statusId,
+        status: <Grid  className="payment-history-container-status" size={12} > <StatusComponent  value={item?.state ==="COMPLETED"?'12':"3"}  /> </Grid> ,
         createdOn: item?.createdOn,
         Receipt: <CustomButton label={"[Download]"} className="download-Receipt" onClick={() => {
           handlePdfGenerate(item.id);
