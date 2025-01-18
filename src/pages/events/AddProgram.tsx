@@ -432,10 +432,9 @@ const handleAddProgram = () => {
                               type="number"
                               rules={{
                                 pattern: {
-                                  value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
-                                  message:
-                                    "Enter a valid number",
-                                }
+                                  value: /^(0|[1-9]\d{0,7})$/,
+                                  message: "Enter a valid number (e.g., 0, 123, 27)",
+                                },
                               }}
                             />
                           </Grid>
@@ -526,6 +525,12 @@ const handleAddProgram = () => {
                               options={typeArray}
                               row={true}
                               value={"PAID"}
+                              onChange={(e) => {
+                                const newType = e.target.value;
+                                if (newType === "FREE") {
+                                  setValue(`programs.${index}.amount`, "");
+                                }
+                              }}
                             />
                           </Grid>
                           {watch(`programs.${index}.type`) === "PAID" && (

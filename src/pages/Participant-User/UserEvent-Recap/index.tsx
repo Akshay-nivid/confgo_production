@@ -315,7 +315,8 @@ const EventRecap: React.FC = React.memo(() => {
                     format: 'h:mm A',
                   })}
                   <span className="mx-2">|</span>
-                  {eventData?.[0]?.venue?.city + ', ' + eventData?.[0]?.venue?.address}
+                  {eventData?.[0]?.eventClass === "OFFLINE" ? 
+                  `${eventData?.[0]?.venue?.city}, ${eventData?.[0]?.venue?.address}`:eventData?.[0]?.eventClass}
                 </Typography>
               </Grid>
               <Grid size={12} className="event-recap-first-grid-buttons">
@@ -389,8 +390,11 @@ const RegisteredProgramCard = ({ item, helperData }: { item: any; helperData?: a
       </Grid>
       <Grid className="event-recap-second-grid-content-location" size={12}>
         <Typography className="event-recap-second-grid-content-location-text">
-          Location:
-          {item?.event?.venue?.city + ',' + item?.event?.venue?.country}
+          {item.event?.eventClass==="OFFLINE"?(
+          <>
+          Location:{item?.event?.venue?.city + ',' + item?.event?.venue?.country}
+          </>
+          ):(<>Mode:{item.event?.eventClass}</>)}
         </Typography>
       </Grid>
     </Grid>
