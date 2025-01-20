@@ -88,8 +88,8 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
     const [editMode, setEditMode] = useState(false);
     const [openModal,setOpenModal]=useState(false);
     const eventDate = useStore((state: any) => state?.compData?.["event-date"]);
-    const eventStartDate= eventDate.startDate
-    const eventEndDate= eventDate.endDate
+    const eventStartDate= eventDate?.startDate;
+    const eventEndDate= eventDate?.endDate;
     const [drawerOpen, setDrawerOpen] = useState(false);
 
     /**
@@ -145,13 +145,36 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
    
 
     /**
-     * Useeffect hook set the field based on the data
+     * useEffect to format program start and end dates based on the event's start time.
+     * it ensures that each programs 'startDate' and 'endDate' are not earlier than event's startTime.
+     * If they are, the program dates are updated to match event's startTime.
+     * form state ('programs' and 'savedPrograms') will be updated with formatted data.
      */
     useEffect(() => {
-      if (!data) return; // Early exit if data is undefined or null
-      setValue("programs", data);
-      setValue("savedPrograms", data);
-  }, [data]);
+      if (!data) return;
+      if (!eventData?.startTime) return;
+      const formattedData = data.map((item: any) => {
+        const eventStartDate = moment(eventData.startTime);
+        const itemStartDate = moment(item.startDate);
+        const itemEndDate = moment(item.endDate);
+        
+        // Check if startDate or endDate is earlier than eventData.startTime
+        return {
+          ...item,
+          startDate: itemStartDate.isBefore(eventStartDate)
+            ? eventStartDate.format("YYYY-MM-DD")
+            : itemStartDate.format("YYYY-MM-DD"),
+          endDate: itemEndDate.isBefore(eventStartDate)
+            ? eventStartDate.format("YYYY-MM-DD")
+            : itemEndDate.format("YYYY-MM-DD"),
+        };
+      });
+    
+      // Update the form values with the validated and formatted data
+      setValue("programs", formattedData);
+      setValue("savedPrograms", formattedData);
+
+      }, [data, eventData?.startTime, setValue]);
   
 /**
  * This method ensures that the field with validation errors or requiring attention and Scrolls smoothly to that field
@@ -215,6 +238,7 @@ const handleAddProgram = () => {
       }
     // Ensure dates are valid Date objects
     let selectedDate =programs?.[programIndex]?.startDate
+    let selectedEndDate =programs?.[programIndex]?.endDate
     let eventStartDateObj = new Date(eventStartDate);
     let startDateObj = new Date(selectedDate);
     let endDateObj = new Date(programs?.[programIndex]?.endDate);
@@ -252,11 +276,21 @@ const handleAddProgram = () => {
       return
       }
     }
-    //check if selected end time is greater than selected start time
-    if(selectedEndTime < selectedStartTime) {
-      setError(`programs.${programIndex}.endTime`, {
+    //check if selected end time is greater than selected start time is start and end dates are equal
+    if(selectedEndDate == selectedDate){
+      if(selectedEndTime < selectedStartTime) {
+        setError(`programs.${programIndex}.endTime`, {
+          type: 'manual',
+          message: 'End time must be greater than start time',
+        });
+        return
+        }
+    }
+    //check if end date is greater than start date
+    if(selectedEndDate < selectedDate){
+      setError(`programs.${programIndex}.startDate`, {
         type: 'manual',
-        message: 'End time must be greater than start time',
+        message: 'Start Date must be earlier than End date',
       });
       return
       }
@@ -421,10 +455,9 @@ const handleAddProgram = () => {
                               type="number"
                               rules={{
                                 pattern: {
-                                  value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
-                                  message:
-                                    "Enter a valid number",
-                                }
+                                  value: /^(0|[1-9]\d{0,7})$/,
+                                  message: "Enter a valid number (e.g., 0, 123, 27)",
+                                },
                               }}
                             />
                           </Grid>
@@ -515,6 +548,12 @@ const handleAddProgram = () => {
                               options={typeArray}
                               row={true}
                               value={"PAID"}
+                              onChange={(e) => {
+                                const newType = e.target.value;
+                                if (newType === "FREE") {
+                                  setValue(`programs.${index}.amount`, "");
+                                }
+                              }}
                             />
                           </Grid>
                           {watch(`programs.${index}.type`) === "PAID" && (
@@ -617,10 +656,10 @@ const handleAddProgram = () => {
                       </Grid>
 
                       <Grid container size={{ xs: 4, sm: 3 }} justifyContent={'center'}>
-                        <IconButton onClick={() => handleEdit(index)}>
+                        <IconButton key={`${index}-edit-program`} onClick={() => handleEdit(index)}>
                           <EditIcon />
                         </IconButton>
-                        <IconButton onClick={() => handleDeleteConfirmbox(index)}>
+                        <IconButton key={`${index}-delete-program`} onClick={() => handleDeleteConfirmbox(index)}>
                           <DeleteIcon />
                         </IconButton>
                       </Grid>
@@ -632,7 +671,7 @@ const handleAddProgram = () => {
                         cancelAction={() => setOpenModal(false)}
                         header="Delete Program?"
                         subHeader="Are you sure you want to delete this program? This action cannot be undone"
-                        submitAction={() => handleDelete(index)}
+                        submitAction={() => handleDelete(programIndex)} 
                         submitLabel="Delete"
                         modalClassName="publish-modal"
                       />

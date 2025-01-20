@@ -17,7 +17,7 @@ const StatusComponent: React.FC<AppBarProps> = ({ value ,className}) => {
   const statusValues: any = [
     { id: "0", textColor: '#D6983A', cellColor: '#FFECDF' },
     { id: "1", textColor: '#0CAF60', cellColor: '#E7F7EF' },
-    { id: "5", textColor: '#0CAF60', cellColor: '#E7F7EF' },
+    { id: "5", textColor: '#232323', cellColor: '#B6B6B6' },
     { id: "3", textColor: '#D32C2C', cellColor: '#FFE8EC' },
     { id: "2", textColor: '#D32C2C', cellColor: '#FFE8EC' },
     { id: "6", textColor: '#D32C2C', cellColor: '#FFE8EC' },
@@ -27,6 +27,7 @@ const StatusComponent: React.FC<AppBarProps> = ({ value ,className}) => {
     { id: "9", textColor: '#0CAF60', cellColor: '#E7F7EF' },
     { id: "10", textColor: '#D32C2C', cellColor: '#FFE8EC' },
     { id: "11", textColor: '#D32C2C', cellColor: '#FFE8EC' },
+    { id: "12", textColor: '#D6983A', cellColor: '#FFECDF' }, 
   ];
 
 /**
@@ -63,6 +64,8 @@ const StatusComponent: React.FC<AppBarProps> = ({ value ,className}) => {
           return "Rejected"; 
         case "11":
             return "Expired";  
+            case "12":
+              return "Paid";      
       default:
         return "Pending";
     }

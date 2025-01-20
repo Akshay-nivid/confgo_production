@@ -32,23 +32,26 @@ const PaymentMethod = () => {
   const [expanded, setExpanded] = useState<string | false>("panel1");
 
   const orderData = useStore((state: IStoreState) => state.compData?.order?.order?.data)
+
+  const eventId = useStore(state => state?.compData?.["eventSelected"]?.id)
   
+  const eventAmount = useStore((state: IStoreState) => state?.compData?.["eventData"]?.[`event/${eventId}`]?.data?.amount) || null
 
   const handleChange =
     (panel: string) => (_: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
-  
+
   const navigate = useNavigate()
 
 
   const handleClickBackButton = () => {
-    
-    setDataById("previousRoute", {url: routes.userPaymentMethod()});
+
+    setDataById("previousRoute", { url: routes.userPaymentMethod() });
     navigate(routes.dynamicUserForm());
   }
-  
-  
+
+
 
   return (
     <Grid container className="payment-method">
@@ -60,6 +63,12 @@ const PaymentMethod = () => {
       <Grid size={12}>
         <Box className="payment-bill-details-container">
           <Box className="payment-bill-details">
+
+            <Box className="payment-bill-item">
+              <Typography className="info-text">Event Total</Typography>
+              <Typography className="info-text">$ {eventAmount}</Typography>
+            </Box>
+
             <Box className="payment-bill-item">
               <Typography className="info-text">Programs Total</Typography>
               <Typography className="info-text">$ {orderData?.programTotal}</Typography>
@@ -76,10 +85,10 @@ const PaymentMethod = () => {
               <Typography className="info-text">Tier Discount</Typography>
               <Typography className="info-text">$ {orderData?.priceTierDiscount}</Typography>
             </Box>
-            <Box className="payment-bill-item">
+            {/* <Box className="payment-bill-item">
               <Typography className="info-text">Sub Total</Typography>
               <Typography className="info-text">$ {orderData?.subTotal}</Typography>
-            </Box>
+            </Box> */}
             <Box className="payment-bill-item">
               <Typography className="info-text">Coupon Discount</Typography>
               <Typography className="info-text">$ {orderData?.discountAmount}</Typography>
@@ -99,7 +108,7 @@ const PaymentMethod = () => {
           Choose Payment Method
         </Typography>
         <Box className="payment-method-list">
-        <Accordion
+          <Accordion
             expanded={expanded === "panel1"}
             defaultExpanded={true}
             onChange={handleChange("panel1")}
@@ -138,7 +147,7 @@ const PaymentMethod = () => {
               </Typography>
             </AccordionDetails>
           </Accordion> */}
-          
+
           {/* 2 */}
           {/* <Accordion
             expanded={expanded === "panel2"}

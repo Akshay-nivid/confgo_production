@@ -65,7 +65,7 @@
 
         &-error {
             .ql-snow {
-                border: 1px solid $clr_red !important;
+                border: 0.0625rem solid $clr_red !important;
             }
         }
     }
@@ -106,7 +106,7 @@
         }
 
         &-image-container {
-            border: 1px solid $clr_bright_gray;
+            border: 0.0625rem solid $clr_bright_gray;
             padding: 1rem;
             border-radius: 0.5rem;
         }
@@ -126,7 +126,7 @@
         background-color: $clr_white !important;
         color: $clr_green !important;
         min-width: 10rem !important;
-        border: 1px solid $clr_green !important;
+        border: 0.0625rem solid $clr_green !important;
         text-transform: none !important;
         font-size: $h6 !important;
         font-weight: $font_semibold !important;
@@ -226,7 +226,7 @@
     &-display-item {
         height: 4.5rem;
         padding: 1rem 0.1rem 1rem 1rem !important;
-        margin-bottom: 1.05rem !important;
+         margin-bottom: 1.05rem !important;
         border: 0.092rem solid $clr_gray_very_light !important;
         border-radius: 0.41rem !important;
     }
@@ -266,7 +266,7 @@
         color: $clr_green !important;
         width: 7rem !important;
         height: 3.2rem !important;
-        border: 1px solid $clr_green !important;
+        border: 0.0625rem solid $clr_green !important;
         text-transform: none !important;
         font-size: $p1 !important;
         font-weight: $font_semibold !important;
@@ -570,7 +570,7 @@
 
         &-event-link {
             background-color: $clr_bright_gray;
-            border: 1px solid white
+            border: 0.0625rem solid white
         }
     }
 
@@ -979,7 +979,7 @@
         background-color: $clr_white ;
         color: $clr_green !important;
         min-width: 8rem !important;
-        border: 1px solid $clr_green !important;
+        border: 0.0625rem solid $clr_green !important;
         text-transform: none;
         font-size: $h6 ;
         font-weight: $font_semibold !important;
@@ -1725,6 +1725,282 @@
     background-color: $clr_green !important;
     color: white !important;
     box-shadow: none !important;
+}
+
+.add-addons {
+    &-addon-btn{
+        width: 100% !important;
+        line-height: 1.5rem;
+        background: $clr_green !important;
+        font-weight: $font-bold;
+        text-transform: none !important;
+        font-size: $p2 !important;
+         
+    }
+    &-drawer{
+        width: 40rem !important;
+        height: 30rem;
+        padding-inline:2rem;
+        &-heading{
+            font-size: $h3 !important;
+            font-weight: $font-bold;
+            padding-top: 1rem;
+        }
+    }
+   &-saved-addons{
+    min-height: 20rem !important;
+   }
+    &-NOaddon{
+
+        min-height:18rem ;
+        svg{
+            width: 7.5rem;
+            height:  6.231rem;
+        }
+        .title{
+           padding-top: 2.083rem;
+           font-family: $font;
+           font-size:$h5  ;
+           font-weight: $font-bold;
+            color: $clr_black ;
+            line-height: 2.064rem;
+        }
+        .description{
+            font-family: $font;
+            font-size: $p2;
+            font-weight: $font_normal;
+            line-height: 1.7rem;
+            color: $clr_gray_dark_text;
+        }
+    }
+    &-prop-add {
+        svg {
+            width: 2rem !important;
+            height: 2rem !important;
+            border-radius: .2rem;
+            background: $clr_light_grayish_blue !important;
+        }
+    }
+
+    &-container {
+        background-color: $clr_white;
+        padding-left: 1rem;
+        width: 100%;
+    }
+
+    &-next-btn {
+        background-color: $clr_green !important;
+        color: $clr_white !important;
+        min-width: 15rem !important;
+    }
+
+    &-back-btn {
+        background-color: $clr_white !important;
+        color: $clr_green !important;
+        min-width: 15rem !important;
+    }
+
+    &-display-item {
+        height: 4.5rem;
+        // padding: 1rem 0.1rem 1rem 1rem !important;
+        //  margin-bottom: 1.05rem !important;
+        border: 0.092rem solid $clr_gray_very_light !important;
+        border-radius: 0.41rem !important;
+        &-name{
+            color: $clr_field !important;
+            padding-inline: 1rem;
+            font-family: $font !important;
+            font-size: $p2 !important; 
+            font-weight: $font-semibold !important;  
+        }
+        &-description{
+            padding-inline: 1rem;
+            color: $clr_field !important;
+            line-height: 1.252rem !important;
+            font-family: $font !important;
+            font-size: $p3 !important; 
+            font-weight: $font-normal !important;
+        }
+    }
+
+    &-display-title {
+        font-weight: $font_medium !important;
+        font-size: $h5 !important;
+        color: $clr_black;
+    }
+
+    &-display-container {
+        border: 0.092rem solid $clr_gray_very_light;
+        border-radius: 0.625rem;
+        overflow-y: auto;
+        &-details{
+         min-height: 10rem ;
+         max-height:20rem ;
+        }
+        &-heading{
+             padding-block: 1.2rem !important;
+            font-family: Inter;
+            font-size: $h5 !important; 
+            font-weight: $font_semibold !important; 
+        }
+    }
+
+     &-display-items {
+        overflow-y: auto;
+        scrollbar-width: none;
+        max-height: 20rem;
+    }
+
+    &-title {
+        text-align: center !important;
+        font-weight: $font_bold !important;
+        font-size: $h3 !important;
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+
+    &-add-btn {
+        background-color: $clr_white !important;
+        color: $clr_green !important;
+        width: 7rem !important;
+        height: 3.2rem !important;
+        border: 0.0625rem solid $clr_green !important;
+        text-transform: none !important;
+        font-size: $p1 !important;
+        font-weight: $font_semibold !important;
+        box-shadow: none !important;
+        border-radius: 2.25rem !important;
+    }
+    &-drawer{
+        width: 35rem;
+      &-heading{
+        font-weight: $font_semibold !important;
+        font-size: $h5 !important;
+      }
+      &-btn{
+        &-cancel{
+          background-color: $clr_white !important;
+          border-color: $clr_green !important;
+          color: $clr_green !important;
+          min-width: 7rem !important;
+          height: 3.2rem !important;
+          text-transform: none !important;
+          font-size: $p1 !important;
+          font-weight: $font_semibold !important;
+          box-shadow: none !important;
+        }
+        &-save{
+          background-color: $clr_green !important;
+          color: $clr_white !important;
+          min-width: 7rem !important;
+          height: 3.2rem !important;
+          text-transform: none !important;
+          font-size: $p1 !important;
+          font-weight: $font_semibold !important;
+          box-shadow: none !important;
+        }
+      }
+    }
+    &-form-spacing {
+        padding-top: 0.9rem;
+    }
+
+    &-form-container {
+        padding-right: 1rem !important;
+    }
+
+    &-add-ons-title {
+        font-weight: $font_normal !important;
+        font-size: $h6 !important;
+    }
+
+    &-save-btn {
+        background-color: $clr_green !important;
+        color: $clr_white !important;
+        width: 100%;
+        height: 3.2rem !important;
+        text-transform: none !important;
+        font-size: $p1 !important;
+        font-weight: $font_semibold !important;
+        box-shadow: none !important;
+    }
+
+    &-addons-grid {
+        padding-bottom: 1rem;
+    }
+
+    &-radio-btn {
+        .Mui-checked {
+            color: $clr_green !important;
+
+            ~.MuiFormControlLabel-label {
+                color: $clr_field !important;
+            }
+        }
+
+        .MuiRadio-root:not(.Mui-checked) {
+            color: $clr_gray_medium !important; // Define light color
+
+            // Style for the label of unchecked radio
+            ~.MuiFormControlLabel-label {
+                color: $clr_gray_medium !important; // Light color for label
+            }
+        }
+    }
+
+    &-switch-btn {
+        .Mui-checked {
+            color: $clr_green !important;
+        }
+
+        .MuiFormControlLabel-label {
+            font-size: $p2 !important;
+        }
+    }
+
+    &-check-btn {
+        svg {
+            width: 1.6rem;
+            height: 1.6rem;
+            fill: $clr_green ;
+        }
+    }
+
+    &-add-property-btn {
+        border: solid 0.14rem $clr_green !important;
+        background-color: $clr_white !important;
+        color: $clr_green !important;
+        box-shadow: none !important;
+        padding-inline: .8rem !important;
+    }
+
+    &-chip-item {
+        font-size: $p3 !important;
+        background-color: $clr_green_light !important;
+        border: solid 0.1rem $clr_green !important;
+
+        svg {
+            fill: transparent !important;
+            background: url('/src/assets/svg/Close_circle-red.svg') !important;
+        }
+    }
+
+    &-warning-msg {
+        color: $clr_gray_dark !important;
+
+        :hover {
+            color: $clr_red !important;
+        }
+    }
+
+    &-select {
+        svg {
+            fill: transparent !important;
+            background: url('/src/assets/svg/To-Down.svg') no-repeat right center;
+            margin-right: 0.5rem !important;
+            background-position: right 0.1 center;
+        }
+    }
 }
 
 .event-list-row-drafted {
