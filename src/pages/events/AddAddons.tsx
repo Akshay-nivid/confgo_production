@@ -712,7 +712,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     <CustomButton
                                       className="add-addons-save-btn"
                                       onClick={handleDrawerClosing}
-                                      label="Cansel"
+                                      label="Cancel"
                                       variant="contained"
                                       size="large"
                                     />
