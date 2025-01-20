@@ -88,8 +88,8 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
     const [editMode, setEditMode] = useState(false);
     const [openModal,setOpenModal]=useState(false);
     const eventDate = useStore((state: any) => state?.compData?.["event-date"]);
-    const eventStartDate= eventDate.startDate
-    const eventEndDate= eventDate.endDate
+    const eventStartDate= eventDate?.startDate;
+    const eventEndDate= eventDate?.endDate;
     const [drawerOpen, setDrawerOpen] = useState(false);
 
     /**
