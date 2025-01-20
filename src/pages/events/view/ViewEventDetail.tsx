@@ -204,13 +204,13 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
       if (status) {
         setEventFullData(data);
         setDataById("TeamAndRoleData",{data});
-        if(data.published){
-          setValue('event', data.slugName? `event-link/${data.slugName}`: '')
+        if (data.published) {
+          setValue('event', data.slugName ? `event-link/${data.slugName}` : '');
           setLink(data);
+        } else {
+          data.slugName ? setValue('eventLink', data.slugName) : handleLinkGenerationApiCall();
         }
-        else{
-          handleLinkGenerationApiCall();
-        }
+        
       }
     } catch (error) {
       Logger.error('ViewEventDetail', error);
@@ -258,7 +258,6 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
       setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: message });
       setErrorMessage('')
       getEventDetails();
-      published && handleLinkGenerationApiCall();
       setOpenModal(false);
     }
     else {
