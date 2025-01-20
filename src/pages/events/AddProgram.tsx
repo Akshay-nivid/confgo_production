@@ -145,13 +145,36 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
    
 
     /**
-     * Useeffect hook set the field based on the data
+     * useEffect to format program start and end dates based on the event's start time.
+     * it ensures that each programs 'startDate' and 'endDate' are not earlier than event's startTime.
+     * If they are, the program dates are updated to match event's startTime.
+     * form state ('programs' and 'savedPrograms') will be updated with formatted data.
      */
     useEffect(() => {
-      if (!data) return; // Early exit if data is undefined or null
-      setValue("programs", data);
-      setValue("savedPrograms", data);
-  }, [data]);
+      if (!data) return;
+      if (!eventData?.startTime) return;
+      const formattedData = data.map((item: any) => {
+        const eventStartDate = moment(eventData.startTime);
+        const itemStartDate = moment(item.startDate);
+        const itemEndDate = moment(item.endDate);
+        
+        // Check if startDate or endDate is earlier than eventData.startTime
+        return {
+          ...item,
+          startDate: itemStartDate.isBefore(eventStartDate)
+            ? eventStartDate.format("YYYY-MM-DD")
+            : itemStartDate.format("YYYY-MM-DD"),
+          endDate: itemEndDate.isBefore(eventStartDate)
+            ? eventStartDate.format("YYYY-MM-DD")
+            : itemEndDate.format("YYYY-MM-DD"),
+        };
+      });
+    
+      // Update the form values with the validated and formatted data
+      setValue("programs", formattedData);
+      setValue("savedPrograms", formattedData);
+
+      }, [data, eventData?.startTime, setValue]);
   
 /**
  * This method ensures that the field with validation errors or requiring attention and Scrolls smoothly to that field

@@ -17,7 +17,7 @@ const StatusComponent: React.FC<AppBarProps> = ({ value ,className}) => {
   const statusValues: any = [
     { id: "0", textColor: '#D6983A', cellColor: '#FFECDF' },
     { id: "1", textColor: '#0CAF60', cellColor: '#E7F7EF' },
-    { id: "5", textColor: '#0CAF60', cellColor: '#E7F7EF' },
+    { id: "5", textColor: '#232323', cellColor: '#B6B6B6' },
     { id: "3", textColor: '#D32C2C', cellColor: '#FFE8EC' },
     { id: "2", textColor: '#D32C2C', cellColor: '#FFE8EC' },
     { id: "6", textColor: '#D32C2C', cellColor: '#FFE8EC' },
