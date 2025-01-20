@@ -9,7 +9,7 @@ import React from 'react';
 import useStore from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import { CalendarCard } from '../dashboard/CalendarCard';
-import moment from 'moment';
+// import moment from 'moment';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import DashboardEventCards from './DashboardEventCard';
 import NoCalenderData from './NoCalenderData';
@@ -41,9 +41,11 @@ const UserDashboard: React.FC = React.memo(() => {
    */
   const userDetails = useStore((state) => state?.compData?.["userDetails"]) ?? {};
   const eventAndUserCount = useStore((state: any) => state?.compData?.["eventAndUserCount"]?.['dashboard/eventAndUserCount']) ?? [];
-  const userCompletedEvents = useStore((state: any) => state?.compData?.["userCompletedEvents"]?.['event/list']) ?? [];
+  const userCompletedEvents = useStore((state: any) => state?.compData?.["userCompletedEvents"]?.['participant/list']) ?? [];
   const userEvents = useStore((state: any) => state?.compData?.["userLatestEvents"]) ?? [];
   const isMobileView = useIsMobileScreen()
+  const userId = sessionStorage.getItem('userId');
+  const firstCheckedIn = userCompletedEvents.data?.find((event: { checkedIn: any; }) => event.checkedIn) || null;
  
   /**
   * Useeffect hook handles the api call 
@@ -133,13 +135,13 @@ const UserDashboard: React.FC = React.memo(() => {
     try {
       setIsLoading(true);
        POST({
-        url: "event/list",
-        body: {
+        url: "participant/list",
+         body: {
           offset: 0,
           sortBy: "id",
           sortDirection: "DESC",
           filters: {
-            "endTime": getPreviousDay(new Date())
+            userId:userId
           },
         },
         id: 'userCompletedEvents',
@@ -153,18 +155,12 @@ const UserDashboard: React.FC = React.memo(() => {
         },
       });
     } catch (error) {
-      Logger.error("An error occurred on event/list:", error);
+      Logger.error("An error occurred on participant/list:", error);
 
     }
     finally {
       setIsLoading(false);
     }
-  }
-  /**
-   * Function to get the previous day of a given date
-   */
-  function getPreviousDay(date: any) {
-    return moment(date).subtract(1, 'days').format('YYYY-MM-DD');
   }
   return (
     <Grid container size={12} className="dashboard" spacing={1}  >
@@ -239,7 +235,7 @@ const UserDashboard: React.FC = React.memo(() => {
               <EventCard Eventstatus={true} datetitle={userCompletedEvents?.data[0]?.startTime} eventFullData={userCompletedEvents?.data[0]} squareButtonLabels={[]} title={userCompletedEvents?.data[0]?.name} location={`${userCompletedEvents?.data[0]?.venue?.address}, ${userCompletedEvents?.data[0]?.venue?.city}`} />
             ) : (
         
-              <DashboardEventCards event={userCompletedEvents?.data[0]} />
+              <DashboardEventCards event={firstCheckedIn?.participant?.event} />
             )
           ):
           (
