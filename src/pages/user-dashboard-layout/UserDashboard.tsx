@@ -45,11 +45,7 @@ const UserDashboard: React.FC = React.memo(() => {
   const userEvents = useStore((state: any) => state?.compData?.["userLatestEvents"]) ?? [];
   const isMobileView = useIsMobileScreen()
   const userId = sessionStorage.getItem('userId');
-  console.log("userCompletedEvents",userCompletedEvents)
-
   const firstCheckedIn = userCompletedEvents.data?.find((event: { checkedIn: any; }) => event.checkedIn) || null;
-
-console.log("First Checked In Event:", firstCheckedIn);
  
   /**
   * Useeffect hook handles the api call 
@@ -166,12 +162,6 @@ console.log("First Checked In Event:", firstCheckedIn);
       setIsLoading(false);
     }
   }
-  // /**
-  //  * Function to get the previous day of a given date
-  //  */
-  // function getPreviousDay(date: any) {
-  //   return moment(date).subtract(1, 'days').format('YYYY-MM-DD');
-  // }
   return (
     <Grid container size={12} className="dashboard" spacing={1}  >
       {/* left */}
