@@ -56,13 +56,14 @@ const ReviewerHome = () => {
 
   const [source, setSource] = useState<ISource | undefined>(undefined);
 
-  const [dataList, setAbstractList] = useState<IDataListItem[]>([]);
+  // const [dataList, setAbstractList] = useState<IDataListItem[]>([]);
   const [currentTab, setCurrentTab] = useState(TABS.TOTAL_ABSTRACTS);
 
   const [refreshKey, setRefreshKey] = useState(0); 
 
   const abstractList = useStore(state => state?.compData?.['reviewer-datagrid']?.data) ?? [];
 
+  const abstractSummaryData = useStore<IDataListItem[]>(state => state?.compData?.['abstractSummaryData']?.data) || [];
 
   const [currectEventId,setCurrectEventId] = useState<number | null>(null)
 
@@ -132,12 +133,32 @@ const ReviewerHome = () => {
       url: `userAbstract/list`,
       listName: 'abstractList',
     });
-  }, [currentTab,refreshKey]);
+  }, [currentTab, refreshKey]);
+  
 
   useEffect(() => { 
-    setDataById('abstractSummaryData',{data:abstractList})
+    setDataById('abstractSummaryData', { data: abstractList })
+    
   },[])
 
+
+  /**
+   * Maps the statusId received from the API to the statusId used in the front-end.
+   * @param statusId - The statusId received from the API.
+   * @returns The mapped statusId used in the front-end.
+   */
+  function convertStatusId(statusId: number) {
+    switch (statusId) {
+      case 1: 
+        return 9
+      case 2: 
+        return 10
+      case 4:
+        return 3
+      default:
+        return 3
+  }
+}
 
   /**
    * Transforms the raw data from the API to match the required format for the DataGrid component.
@@ -146,12 +167,13 @@ const ReviewerHome = () => {
    */
   const transformData =
     (data: IDataListItem[] = []) => {
-      setAbstractList(data);
+      // setAbstractList(data);
 
       return data.map(item => ({
         ...item,
         eventClass: item.event?.eventClass,
         eventName: item.event?.name,
+        statusId:convertStatusId(item?.statusId)
       }));
 
     }
@@ -160,27 +182,27 @@ const ReviewerHome = () => {
     {
       id: 1,
       title: 'Total Abstracts',
-      value: dataList.length,
+      value: abstractSummaryData?.length,
     },
     {
       id: 2,
       title: 'Pending for Review',
-      value: dataList.filter(item => item.isReviewed === 0).length,
+      value: abstractSummaryData?.filter(item => item?.statusId === 3).length,
     },
     {
       id: 3,
       title: 'Reviewed Abstracts',
-      value: dataList.filter(item => item.isReviewed === 1).length,
+      value: abstractSummaryData?.filter(item => item?.isReviewed === 1).length,
     },
     {
       id: 4,
       title: 'Approved',
-      value: dataList.filter(item => item.isReviewed === 1 && item.statusId === 1).length,
+      value: abstractSummaryData?.filter(item => item?.statusId === 9).length,
     },
     {
       id: 5,
       title: 'Rejected',
-      value: dataList.filter(item => item.isReviewed === 1 && item.statusId === 2).length,
+      value: abstractSummaryData?.filter(item =>item?.statusId === 10).length,
     },
   ];
 
@@ -328,3 +350,7 @@ const SummaryCard = ({ title, value }: { title: string; value: number }) => {
     </Box>
   );
 };
+
+
+
+
