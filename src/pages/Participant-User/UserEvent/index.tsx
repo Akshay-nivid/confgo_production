@@ -27,7 +27,7 @@ const MyEventScreen = () => {
   const POST = useStore((state: any) => state.POST);
   const setDataById = useStore((state: any) => state.setDataById);
   const events = useStore((state: IStoreState) => state?.compData.usersEvents?.["event/registered/eventList"]?.data) ?? []
-
+  const dataLength =useStore((state: IStoreState) => state?.compData.usersEvents?.["event/registered/eventList"]?.data?.length) //seperate variable because even if there is data the page first shows no event component first 
   /**
   *  events shown on screen descending order of date
   */
@@ -173,7 +173,7 @@ const MyEventScreen = () => {
       {loading ? (
       <SkeletonList height={20} className="mt-4" />
       ):
-      !loading && events?.length === 0  ? (
+      !loading && dataLength === 0  ? (
        <NoEvents description="You haven’t registered for any events yet. Explore upcoming events and secure your spot today!"  title="No Events Found"/>
         ) : (
           <Grid container size={12} mt={2} spacing={2}>

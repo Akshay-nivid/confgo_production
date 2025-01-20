@@ -503,7 +503,8 @@ const Events = () => {
             startTime: formatTime(program.startTime),
             endTime: formatTime(program.endTime),
             type: program.amount === "0.00" ? "FREE" : "PAID",
-            amount: program.amount || ""
+            amount: program.amount || "",
+            totalSeat: program ? program?.eventParticipantEntries?.[0]?.totalSeat : null,
         })),
         addOns: data.addons?.map((addon: any) => ({
             name: addon.addon?.name || "",
