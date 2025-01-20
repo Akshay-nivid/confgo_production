@@ -23,6 +23,7 @@ interface DashboardEventCardProps {
         published: boolean;
         slugName: string | null;
         registrationDeadline: string | null;
+        url:string;
         venue: {
             id: number;
             name: string;
@@ -72,8 +73,13 @@ const DashboardEventCards: React.FC<DashboardEventCardProps> = React.memo(({ eve
                 </Grid>
                 <Grid size={4}>
                     <Typography className="dashboard-left-profile-card-block-title">
-                        Location
+                    { event?.eventClass =="ONLINE" ? "URL" : "Location"}
                     </Typography>
+                    { event?.eventClass =="ONLINE" ? (
+                    <Typography className="dashboard-left-profile-card-block-content">
+                        {event?.url}
+                    </Typography>
+                    ) : (
                     <Tooltip
                         title={`${event?.venue?.address}, ${event?.venue?.city}`}
                         arrow
@@ -85,6 +91,7 @@ const DashboardEventCards: React.FC<DashboardEventCardProps> = React.memo(({ eve
                                 : `${event?.venue?.address}, ${event?.venue?.city}`}
                         </Typography>
                     </Tooltip>
+                    )}       
                 </Grid>
             </Grid>
         </Grid>
