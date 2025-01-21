@@ -26,10 +26,6 @@ interface IDataListItem {
   };
 }
 
-interface summaryData {
-
-
-}
 
 /**
  * ReviewerHome component renders the home page for the reviewer.
