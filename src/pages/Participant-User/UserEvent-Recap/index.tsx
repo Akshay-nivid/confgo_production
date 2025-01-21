@@ -1,4 +1,4 @@
-import { Button, Tab, Tabs, Typography } from '@mui/material';
+import { Button, Tab, Tabs, Typography, Box } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useEffect, useState } from 'react';
 import { Logger } from '@/Utils/Logger';
@@ -13,6 +13,7 @@ import moment from 'moment';
 import { SkeletonList } from '@/components/Skeleton';
 import UserUploadAbstract from './UserUploadAbstract';
 import { Mapper } from '@/components/Mapper/Mapper';
+import DateRangeIcon from "@mui/icons-material/DateRange";
 
 /**
  *
@@ -56,7 +57,7 @@ const EventRecap: React.FC = React.memo(() => {
   const eventTicketData = useStore((state: any) => state?.compData?.['eventTicketData']?.['participant/payment/details']) ?? [];
   const POST = useStore((state: any) => state.POST);
   const userDetails = useStore(state => state?.compData?.['userDetails']) ?? {};
-  const Program = useStore((state: any) => state?.compData?.['programs']);
+  const Program = useStore((state: any) => state?.compData?.['programs']?.data) ?? [];
 
   /**
    * attended status
@@ -264,6 +265,30 @@ const EventRecap: React.FC = React.memo(() => {
   };
   const tabInfo = useStore((state: any) => state?.compData?.['eventTab'])?.tabIndex || 0;
 
+/***
+ * combines the programes from same date
+ */
+  const combinedItems = [
+    ...Program?.map((item:any) => ({
+      ...item,
+      startTime: item?.event?.startTime || null,
+    })),
+  ].sort((a, b) => moment(a.startTime).diff(moment(b.startTime)));
+  
+ const groupedData = combinedItems.reduce((acc, program) => {
+    const date = moment(program?.endTime).isValid()
+      ? moment(program?.startTime).format("YYYY-MM-DD")
+      : "Invalid Date";
+
+    if (date === "Invalid Date") {
+      if (!acc.invalid) acc.invalid = [];
+      acc.invalid.push(program);
+    } else {
+      if (!acc[date]) acc[date] = [];
+      acc[date].push(program);
+    }
+    return acc;
+  }, {});
 
 
   /**
@@ -336,16 +361,33 @@ const EventRecap: React.FC = React.memo(() => {
           </Grid>
           <Grid size={{ xs: 12, sm: 4 }} className="border-bottom "></Grid>
           {tabInfo === 0 ? (
-            <Mapper
-              MapperData={Program?.data}
-              component={RegisteredProgramCard}
-              helperData={attendeeStatus}
-              WrapperComponent={({ children }) => (
-                <Grid columnSpacing={2} rowSpacing={2} className="event-recap-second-grid padding-x-20 pb-8" container size={12}>
-                  {children}
-                </Grid>
-              )}
-            />
+            Object.keys(groupedData)
+            .filter((date) => date !== "Invalid date")
+            .map((date) => (
+              <Grid size={12} key={date}>
+                {/* Date Header */}
+                <Box className="event-sessions-date-header" display="flex" alignItems="center">
+                  <DateRangeIcon sx={{ mr: 1 }} />
+                  <Typography variant="h6">
+                    {moment(date).format("MMMM D YYYY")}
+                  </Typography>
+                </Box>     
+               <Grid container spacing={2} className="event-sessions-session-list">
+                {Array.isArray(groupedData[date]) && (
+                <Mapper
+                  MapperData={groupedData[date]}
+                  component={RegisteredProgramCard}
+                  helperData={attendeeStatus}
+                  WrapperComponent={({ children }) => (
+                    <Grid columnSpacing={2} rowSpacing={2} className="event-recap-second-grid padding-x-20 pb-8" container size={12}>
+                      {children}
+                    </Grid>
+                  )}
+                />
+                )}
+               </Grid>
+              </Grid>
+          ))
           ) : (
             <UserUploadAbstract eventData={eventData && eventData![0]} />
           )}
@@ -368,8 +410,9 @@ export default EventRecap;
 
 const RegisteredProgramCard = ({ item, helperData }: { item: any; helperData?: any }) => {
   return (
-    <Grid size={{ lg: 4, sm: 12 }} rowSpacing={1} container className="event-recap-second-grid-content">
-      <Grid container size={12} className="daate_time " columnSpacing={8}>
+    <>
+    {item?.event && <Grid size={{ lg: 4, sm: 12 }} rowSpacing={1} container className="event-recap-second-grid-content">
+    <Grid container size={12} className="daate_time " columnSpacing={8}>
         <Grid size={6} className="event-recap-second-grid-content-time">
           <Typography className="event-recap-second-grid-content-time-text">
             {formatDateTimeRange({
@@ -398,5 +441,7 @@ const RegisteredProgramCard = ({ item, helperData }: { item: any; helperData?: a
         </Typography>
       </Grid>
     </Grid>
+    }
+   </>
   );
 };

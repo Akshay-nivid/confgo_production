@@ -467,9 +467,9 @@ const Events = () => {
    */
   const transformEventData = (data: any) => {
     // Helper function to format date
-    const formatDate = (dateString: any) => new Date(dateString).toISOString().split("T")[0];
+    const formatDate = (dateString: any) => moment(dateString).format("YYYY-MM-DD")
     // Helper function to format time
-    const formatTime = (dateString: any) => new Date(dateString).toISOString().split("T")[1].slice(0, 5);
+    const formatTime = (dateString: any) => moment(dateString).format().split("T")[1].slice(0, 5);
 
     const transformedData = {
         event: {
@@ -489,7 +489,11 @@ const Events = () => {
             state: data.venue?.state || null, // Example state
             city: data.venue?.city || null, // Example city
             postalCode: data.venue?.postalCode || null, // Example postal code
-            description: data.description || ""
+            description: data.description || "",
+            ...(data.assetId && data.assetId != 0 ? { assetId: data.assetId } : {}),// Conditionally add assetId
+            ...(data.abstractDate ? { abstractDate: data.abstractDate } : {}), // Conditionally add abstractDate
+            isAbstract:data.isAbstract || false,
+            ...(data.speciality ? { speciality: data.speciality } : {}),
         },
         program: data.programs?.map((program: any) => ({
             name: program.name || "",
@@ -499,7 +503,8 @@ const Events = () => {
             startTime: formatTime(program.startTime),
             endTime: formatTime(program.endTime),
             type: program.amount === "0.00" ? "FREE" : "PAID",
-            amount: program.amount || ""
+            amount: program.amount || "",
+            totalSeat: program ? program?.eventParticipantEntries?.[0]?.totalSeat : null,
         })),
         addOns: data.addons?.map((addon: any) => ({
             name: addon.addon?.name || "",

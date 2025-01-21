@@ -24,6 +24,7 @@ interface IPayment {
     amount: number;
     eventId: number;
     paymentReferenceNumber: string;
+    orderId: string;
 }
 
 interface IPaymentResponse {
@@ -227,7 +228,8 @@ const PayPalParticipantButton: React.FC = () => {
             "metadata": '{}',
             "amount": orderData?.finalPrice,
             "eventId": eventId,
-            "paymentReferenceNumber": paymentReferenceNumber
+            "paymentReferenceNumber": paymentReferenceNumber,
+            "orderId": orderData.id
         }
 
         POST({

@@ -182,7 +182,7 @@ const LayoutAppbar: React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =
 
           </MenuItem>
           <Divider />
-          {role !== 'SPEAKER' && <><MenuItem className="menu-item-margin" onClick={handleProfileClick} >
+          {role !== 'SPEAKER' && role !== 'REVIEWER' &&<><MenuItem className="menu-item-margin" onClick={handleProfileClick} >
             <SettingsIcon   className="user-profile-menu-icon"/>
             <span className="menu-item-text">Profile</span>
           </MenuItem>
