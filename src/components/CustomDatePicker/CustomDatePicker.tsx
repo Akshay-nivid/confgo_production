@@ -1,5 +1,6 @@
 import { FormControl, TextField, FormHelperText, Typography } from "@mui/material";
 import { Control, Controller, FieldValues, Path, RegisterOptions } from "react-hook-form";
+import moment from "moment";
 import { clsx } from "clsx";
 
 interface ICustomDatePickerProps<T extends FieldValues> {
@@ -46,7 +47,20 @@ const CustomDatePicker = <T extends FieldValues>({
           name={name}
           defaultValue={defaultValue}
           control={control}
-          rules={rules}
+          rules={{
+              ...rules,
+              validate: (value) => {
+                  const selectedDate:any = new Date(value);
+                  const minDate = new Date(min);
+                  const maxDate:any = new Date(min).setFullYear(minDate.getFullYear() + 2);
+
+                  if (selectedDate < minDate) {
+                      return `Date must not be earlier than ${moment(min).format("DD-MM-YYYY")}`;
+                  } else if (selectedDate > maxDate) {
+                      return `Date must be within 2 years from ${moment(min).format("DD-MM-YYYY")}`;
+                  }
+              }
+              }}
           render={({ field, fieldState: { error } }) => (
             <>
               <TextField

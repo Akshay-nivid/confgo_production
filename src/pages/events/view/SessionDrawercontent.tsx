@@ -36,6 +36,7 @@ interface SessionDrawerContentProps {
       setValue,
       handleSubmit,
       watch,
+      setError,
       reset,
     } = useForm({
       defaultValues: {
@@ -99,6 +100,47 @@ interface SessionDrawerContentProps {
       const startDateTime = `${data.startDate}T${data.startTime}`;
       const endDateTime = `${data.endDate}T${data.endTime}`;
 
+      const startDate = `${data.startDate}`;
+      const endDate = `${data.endDate}`
+
+      const startDates = moment(startDate)
+      const endDates = moment(endDate);
+      if (startDate > endDate) {
+        setError(`startDate`, {
+          type: 'manual',
+          message: 'Start date cannot be greater than end date',
+        });
+        return
+      }
+
+      const currentDate = moment().startOf("day"); // Today's date (time set to 00:00)
+      const currentTime = moment(); // Current date and time
+          
+      // If the program starts today, validate the start time
+      if (startDates.isSame(currentDate, 'day')) {
+        const selectedStartTime = moment(startDateTime, "YYYY-MM-DDTHH:mm");
+        if (selectedStartTime.isBefore(currentTime)) {
+            setError(`startTime`, {
+                type: 'manual',
+                message: 'Start time cannot be earlier than the current time for today.',
+            });
+            return;
+        }
+    }
+
+    // If the start date and end date are the same, check startTime vs endTim
+    if (startDates.isSame(endDates, 'day')) {
+      const selectedStartTime = moment(startDateTime, "YYYY-MM-DDTHH:mm");
+      const selectedEndTime = moment(endDateTime, "YYYY-MM-DDTHH:mm");
+
+      if (selectedEndTime.isBefore(selectedStartTime)) {
+          setError(`endTime`, {
+              type: 'manual',
+              message: 'End time cannot be earlier than start time when the start and end dates are the same.',
+          });
+          return;
+      }
+  }
       // Create the new transformed object
       const transformedProgram = {
         isPaid: data.isPaid,
@@ -149,6 +191,13 @@ interface SessionDrawerContentProps {
               placeholder="Total Seats"
               control={control}
               type="number"
+              rules={{
+                pattern: {
+                value: /^(0?[1-9]|[1-9]\d{0,7})$/,
+                  message:
+                    "Enter a positive whole number",
+                }
+              }}
             />
           </Grid>
           <Grid size={12}>
@@ -224,6 +273,14 @@ interface SessionDrawerContentProps {
                 control={control}
                 type="number"
                 requiredField={true}
+                rules={{
+                  required: "Price is required",
+                  pattern: {
+                  value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
+                    message:
+                      "Enter a valid price (up to 2 decimal places & Zero not accepted)price up to 1Crore",
+                  }
+                }}
               />
             </Grid>
           )}

@@ -9,6 +9,7 @@ import { Logger } from "@/Utils/Logger";
 import SessionDrawerContent from "./SessionDrawercontent";
 import SessionCard from "./sessionCard";
 import useStore from "@/Libs/store";
+import { formatUTCDateTime } from "@/Utils/CommonBaseClass";
 interface SessionsProps {
   eventData: any;
   onSubmitHandler: () => void;
@@ -185,6 +186,8 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
       ...data,
       programType: data.programType,
       isPaid: data.isPaid,
+      ...(data.startTime ? {startTime:formatUTCDateTime(data.startTime) } : {}), // Conditionally add abstractDate
+      ...(data.endTime ? {endTime:formatUTCDateTime(data.endTime) } : {}), // Conditionally add abstractDate
       ...(isEditing ? {} : { parentEventId: parentId }), // Include parentId only when adding a new program
     };
 

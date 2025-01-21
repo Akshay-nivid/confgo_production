@@ -12,8 +12,10 @@ import EditIcon from "@/assets/svg/edit-program-icon.svg";
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import moment from "moment";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
-import { WarningIcon } from "@/assets/svg";
 import useStore from "@/Libs/store";
+import { NoProgramIcon, WarningIcon } from "@/assets/svg";
+import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
+import { CloseOutlined } from "@mui/icons-material";
 
 type FormData = {
   programs: {
@@ -86,8 +88,19 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
     const [editMode, setEditMode] = useState(false);
     const [openModal,setOpenModal]=useState(false);
     const eventDate = useStore((state: any) => state?.compData?.["event-date"]);
-    const eventStartDate= eventDate.startDate
-    const eventEndDate= eventDate.endDate
+    const eventStartDate= eventDate?.startDate;
+    const eventEndDate= eventDate?.endDate;
+    const [drawerOpen, setDrawerOpen] = useState(false);
+
+    /**
+     * function to close the drawer
+     */
+    const closeDrawer = () => {
+      setDrawerOpen(false);
+      setEditMode(false);
+      setValue('programs',watch('savedPrograms'))
+    };
+
 
     /**
      * Useeffect hook updates the programIndex value based on the savedPrograms dependency
@@ -119,6 +132,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
 }, [formDraftSubmit]);
   
 
+
     /**
      * Method handles the form submission
      * @param data : form data
@@ -131,13 +145,36 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
    
 
     /**
-     * Useeffect hook set the field based on the data
+     * useEffect to format program start and end dates based on the event's start time.
+     * it ensures that each programs 'startDate' and 'endDate' are not earlier than event's startTime.
+     * If they are, the program dates are updated to match event's startTime.
+     * form state ('programs' and 'savedPrograms') will be updated with formatted data.
      */
     useEffect(() => {
-      if (!data) return; // Early exit if data is undefined or null
-      setValue("programs", data);
-      setValue("savedPrograms", data);
-  }, [data]);
+      if (!data) return;
+      if (!eventData?.startTime) return;
+      const formattedData = data.map((item: any) => {
+        const eventStartDate = moment(eventData.startTime);
+        const itemStartDate = moment(item.startDate);
+        const itemEndDate = moment(item.endDate);
+        
+        // Check if startDate or endDate is earlier than eventData.startTime
+        return {
+          ...item,
+          startDate: itemStartDate.isBefore(eventStartDate)
+            ? eventStartDate.format("YYYY-MM-DD")
+            : itemStartDate.format("YYYY-MM-DD"),
+          endDate: itemEndDate.isBefore(eventStartDate)
+            ? eventStartDate.format("YYYY-MM-DD")
+            : itemEndDate.format("YYYY-MM-DD"),
+        };
+      });
+    
+      // Update the form values with the validated and formatted data
+      setValue("programs", formattedData);
+      setValue("savedPrograms", formattedData);
+
+      }, [data, eventData?.startTime, setValue]);
   
 /**
  * This method ensures that the field with validation errors or requiring attention and Scrolls smoothly to that field
@@ -150,17 +187,27 @@ const scrollToError = (errorField: string) => {
   }
 };
 
+/**
+ * handle add program button click
+ */
+const handleAddProgram = () => {
+  const savedPrograms = watch("savedPrograms");
+  setProgramIndex(savedPrograms?.length ? savedPrograms.length - 1 : 0);
+  setEditMode(false);
+  setDrawerOpen(true); // Open the drawer for the new program
+};
 
     /**
      * Method handles the saving of the programs
      */
   const handleSaveNewPrograms = () => {
+         // handleSubmit(onSave)();
     handleSubmit(onSave, (errors) => {
     // Check if programs exists and is an array before forEach
     if (errors.programs && Array.isArray(errors.programs)) {
       errors.programs.forEach((programError, index) => {
         const firstErrorKey = Object.keys(programError ?? {})[0] as keyof FormData["programs"][number] | undefined;
-
+ 
         if (firstErrorKey) {
           const errorField = `programs.${index}.${firstErrorKey}` as const;
           
@@ -189,28 +236,66 @@ const scrollToError = (errorField: string) => {
         });
         return
       }
-// Ensure dates are valid Date objects
-let eventStartDateObj = new Date(eventStartDate);
-let startDateObj = new Date(startDate);
-let endDateObj = new Date(endDate);
-let eventEndDateObj = new Date(eventEndDate)
+    // Ensure dates are valid Date objects
+    let selectedDate =programs?.[programIndex]?.startDate
+    let selectedEndDate =programs?.[programIndex]?.endDate
+    let eventStartDateObj = new Date(eventStartDate);
+    let startDateObj = new Date(selectedDate);
+    let endDateObj = new Date(programs?.[programIndex]?.endDate);
+    let eventEndDateObj = new Date(eventEndDate)
 
-    // Perform the comparison
-    if (startDateObj.getTime() < eventStartDateObj.getTime() || startDateObj.getTime() > eventEndDateObj.getTime()) {
-      setError(`programs.${lastIndex}.startDate`, {
+      // Perform the comparison of dates
+      if (startDateObj.getTime() < eventStartDateObj.getTime() || startDateObj.getTime() > eventEndDateObj.getTime()) {
+        setError(`programs.${programIndex}.startDate`, {
+          type: 'manual',
+          message: 'Start date should be within event Dates',
+        });
+        return
+      } 
+  
+      if (endDateObj.getTime() > eventEndDateObj.getTime()) {
+        setError(`programs.${programIndex}.endDate`, {
+          type: 'manual',
+          message: 'End date should be within event Dates',
+        });
+        return
+      }   
+
+    const today = moment(new Date()).format("YYYY-MM-DD") 
+    let selectedStartTime = programs?.[programIndex]?.startTime;
+    let selectedEndTime = programs?.[programIndex]?.endTime;
+
+    //check if time is greater than current time if selected date is today
+    if(selectedDate == today) {
+    const now = moment(new Date()).format("HH:mm");
+    if(selectedStartTime < now) {
+      setError(`programs.${programIndex}.startTime`, {
         type: 'manual',
-        message: 'Start date should be within event Dates',
+        message: 'Start time cannot be in the past',
       });
       return
-    } 
-
-    if (endDateObj.getTime() > eventEndDateObj.getTime()) {
-      setError(`programs.${lastIndex}.endDate`, {
+      }
+    }
+    //check if selected end time is greater than selected start time is start and end dates are equal
+    if(selectedEndDate == selectedDate){
+      if(selectedEndTime < selectedStartTime) {
+        setError(`programs.${programIndex}.endTime`, {
+          type: 'manual',
+          message: 'End time must be greater than start time',
+        });
+        return
+        }
+    }
+    //check if end date is greater than start date
+    if(selectedEndDate < selectedDate){
+      setError(`programs.${programIndex}.startDate`, {
         type: 'manual',
-        message: 'End date should be within event Dates',
+        message: 'Start Date must be earlier than End date',
       });
       return
-    } 
+      }
+
+  
       const newPrograms = [...programs];
       // Handle saving logic based on `editMode`
       if (!editMode) {
@@ -240,6 +325,8 @@ let eventEndDateObj = new Date(eventEndDate)
       // Trigger the save handler with the current programs
       onSaveHandler && onSaveHandler(newPrograms,'program');
 
+      closeDrawer();
+
       // Exit edit mode
       setEditMode(false);
     };
@@ -251,18 +338,19 @@ let eventEndDateObj = new Date(eventEndDate)
      */
     const handleEdit = (index: number) => {
       setEditMode(true);
+      setDrawerOpen(true);
       setValue("programs", watch("savedPrograms"));
       setProgramIndex(index);
     };
 
-/**
+    /**
      * opens the custom action model to show warning
      */
-    const handleDeleteConfirmbox =(index: number) =>{
+    const handleDeleteConfirmbox = (index: number) => {
       setOpenModal(true)
       setProgramIndex(index);
     }
-    
+
     /**
      * Method handles the deletion of the program
      * @param index : index of the program to delete
@@ -283,311 +371,259 @@ let eventEndDateObj = new Date(eventEndDate)
             name: "",
             description: "",
             totalSeat: "",
-            startDate:moment().format("YYYY-MM-DD"),
-            endDate:moment().format("YYYY-MM-DD"),
+            startDate: moment().format("YYYY-MM-DD"),
+            endDate: moment().format("YYYY-MM-DD"),
             startTime: moment(new Date()).format("HH:mm"),
-            endTime:moment(new Date()).format("HH:mm"),
+            endTime: moment(new Date()).format("HH:mm"),
             type: "PAID",
             amount: "",
-            // totalSeat:"",
           });
           saveProgram.push({
             name: "",
             description: "",
             totalSeat: "",
-            startDate:moment().format("YYYY-MM-DD"),
-            endDate:moment().format("YYYY-MM-DD"),
+            startDate: moment().format("YYYY-MM-DD"),
+            endDate: moment().format("YYYY-MM-DD"),
             startTime: moment(new Date()).format("HH:mm"),
-            endTime:moment(new Date()).format("HH:mm"),
+            endTime: moment(new Date()).format("HH:mm"),
             type: "PAID",
             amount: "",
-            // totalSeat:"",
           });
         } else {
           setProgramIndex(programsCopy.length);
         }
       }
-      onSaveHandler && onSaveHandler(saveProgram,'program');
+      onSaveHandler && onSaveHandler(saveProgram, 'program');
     };
 
 
 
     return (
-      <Box className="add-program-container">
-        <Grid container className="">
-          <Grid
-            container
-            size={{ xs: 12, sm: 12 }}
-            direction={"row"}
-            className=""
-            gap={1}
-          >
+      <Grid container className="add-program-container" justifyContent={'center'} spacing={4}>
+        <CustomDrawer open={drawerOpen} type="right">
+          <Grid container spacing={2} padding={2} className="add-program-drawer">
             <Grid
-              size={{ xs: 12, sm: 7 }}
-              className="add-program-form-container"
-              ml={6}
-            >
-              <Box className="add-program-form-spacing">
-                <Box className="">
-                  <Grid
-                    container
-                    justifyContent={"space-between"}
-                    alignItems={"center"}
-                  >
-                    <Grid>
-                      <Typography
-                        textAlign={"start"}
-                        variant="h3"
-                        lineHeight={2}
-                        className="add-program-title"
-                      >
-                        Add Program
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                  <Box className={"form-wrapper1"}>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                      {fields.map((field, index) => {
-                        if (index === programIndex) {
-                          return (
-                            <Box key={field.id} mb={2}>
-                              <Grid
-                                container
-                                size={{ xs: 12, sm: 12 }}
-                                spacing={2}
-                              >
-
-                                <Grid size={{ xs: 12, sm: 12 }}>
-                                  <CustomTextField
-                                    placeholder="Program Name"
-                                    control={control}
-                                    name={`programs.${index}.name`}
-                                    type="text"
-                                    rules={{ required: true }}
-                                  />
-                                </Grid>
-                                <Grid size={{ xs: 12, sm: 12 }}>
-                                  <CustomTextField
-                                    placeholder="Program Description"
-                                    control={control}
-                                    name={`programs.${index}.description`}
-                                    type="text"
-                                    rules={{ required: true }}
-                                    multiline={true}
-                                    rows={10}
-                                  />
-                                </Grid>
-                                <Grid size={{ xs: 12, sm: 12 }}>
-                                  <CustomTextField
-                                    placeholder="Total Seats"
-                                    control={control}
-                                    name={`programs.${index}.totalSeat`}
-                                    type="number"
-                                  />
-                                </Grid>
-                                <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"} container spacing={2}>
-                                  <Grid size={{xs:12,sm:6}}>
-                                  <CustomTextField
-                                    placeholder="Start Date"
-                                    className="create-event"
-                                    control={control}
-                                    name={`programs.${index}.startDate`}
-                                    type="date"
-                                    defaultValue={moment(eventData?.startTime).format("YYYY-MM-DD")}
-                                    min={moment(eventData?.startTime).format("YYYY-MM-DD")}
-                                    max={moment(eventData?.endTime).format("YYYY-MM-DD")}
-                                    rules={{
-                                      required: true
-                                    }}
-                                  />
-                                  </Grid>
-                                  <Grid size={{xs:12,sm:6}}>
-                                   <CustomTextField
-                                    className="create-event"
-                                    placeholder="Start Time"
-                                    control={control}
-                                    name={`programs.${index}.startTime`}
-                                    type="time"
-                                    defaultValue={moment().format("HH:mm")}
-                                    rules={{
-                                      required: true,
-                                    }}
-                                  />
-                                  </Grid>
-                                  {/* <Grid size={{xs:12,sm:4}}>
-                                    <CustomTextField
-                                    placeholder="End Time"
-                                    control={control}
-                                    name={`programs.${index}.startDateEndTime`}
-                                    type="time"
-                                    defaultValue={moment().format("HH:mm")}
-                                    rules={{
-                                      required: true,
-                                    }}
-                                  />
-                                  </Grid> */}
-                                </Grid>
-                                <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"} container spacing={2}>
-                                  <Grid size={{xs:12,sm:6}}>
-                                  <CustomTextField
-                                    placeholder="End Date"
-                                    className="create-event"
-                                    control={control}
-                                    name={`programs.${index}.endDate`}
-                                    type="date"
-                                    defaultValue={moment(eventData?.startTime).format("YYYY-MM-DD")}
-                                    min={moment(eventData?.startTime).format("YYYY-MM-DD")}
-                                    max={moment(eventData?.endTime).format("YYYY-MM-DD")}
-                                    rules={{
-                                      required: true
-                                    }}
-                                  />
-                                  </Grid>
-                                  {/* <Grid size={{xs:12,sm:4}}>
-                                   <CustomTextField
-                                    placeholder="Start Time"
-                                    control={control}
-                                    name={`programs.${index}.startDateStartTime`}
-                                    type="time"
-                                    defaultValue={moment().format("HH:mm")}
-                                    rules={{
-                                      required: true,
-                                    }}
-                                  />
-                                  </Grid> */}
-                                  <Grid size={{xs:12,sm:6}}>
-                                    <CustomTextField
-                                    placeholder="End Time"
-                                    className="create-event"
-                                    control={control}
-                                    name={`programs.${index}.endTime`}
-                                    type="time"
-                                    defaultValue={moment().format("HH:mm")}
-                                    rules={{
-                                      required: true,
-                                    }}
-                                  />
-                                  </Grid>
-                                  {/* <CustomTextField
-                                    placeholder="Start Date & Time"
-                                    control={control}
-                                    name={`programs.${index}.startTime`}
-                                    type="datetime-local"
-                                    min={moment().format("YYYY-MM-DDTHH:mm")}
-                                    maxDate={eventData?.endTime}
-                                    rules={{
-                                      required: true,
-                                      validate: (value) => {
-                                        if (
-                                          typeof value === "string" &&
-                                          value
-                                        ) {
-                                          const selectedDate = new Date(value);
-                                          const now = new Date();
-                                          now.setHours(0, 0, 0, 0);
-                                          return (
-                                            selectedDate >= now ||
-                                            "Start Date cannot be in the past"
-                                          );
-                                        }
-                                        return "Invalid date";
-                                      },
-                                    }}
-                                  /> */}
-                                </Grid>
-                                <Grid size={{ xs: 12, sm: 6 }}>
-                                  {/* <CustomTextField
-                                    placeholder="End Date & Time"
-                                    control={control}
-                                    name={`programs.${index}.endTime`}
-                                    type="datetime-local"
-                                    min={moment().format("YYYY-MM-DDTHH:mm")}
-                                    rules={{
-                                      required: true,
-                                      validate: (value) => {
-                                        if (
-                                          typeof value === "string" &&
-                                          value 
-                                        ) {
-                                          const selectedDate = new Date(value);
-                                          const now = new Date();
-                                          now.setHours(0, 0, 0, 0);
-                                          return (
-                                            selectedDate >= now ||
-                                            "End Date cannot be in the past"
-                                          );
-                                        }
-                                        return "Invalid date";
-                                      },
-                                    }}
-                                  /> */}
-                                </Grid>
-                                <Grid size={{ xs: 12, sm: 12 }}>
-                                  <CustomRadio
-                                    className="add-program-radio-btn"
-                                    control={control}
-                                    name={`programs.${index}.type`}
-                                    label=""
-                                    options={typeArray}
-                                    row={true}
-                                    value={"PAID"}
-                                  />
-                                </Grid>
-                                {watch(`programs.${index}.type`) === "PAID" && (
-                                  <Grid size={{ xs: 12, sm: 6 }}>
-                                    <CustomTextField
-                                      placeholder="Price"
-                                      control={control}
-                                      name={`programs.${index}.amount`}
-                                      type="number"
-                                      rules={{
-                                        required: "Price is required",
-                                        pattern: {
-                                        value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
-                                          message:
-                                            "Enter a valid price (up to 2 decimal places & Zero not accepted)price up to 1Crore",
-                                        }
-                                      }}
-                                    />
-                                  </Grid>
-                                )}
-                                <Grid
-                                  container
-                                  direction={"row"}
-                                  justifyContent="right"
-                                  alignItems="center"
-                                  size={{ xs: 12, sm: 12 }}
-                                >
-                                  <Grid>
-                                    <CustomButton
-                                      className="add-program-save-btn"
-                                      onClick={handleSaveNewPrograms}
-                                      label={(watch("savedPrograms")?.length > 0 && watch("savedPrograms")?.[0]?.name) ? "Add More": "Add Program"}
-                                      variant="contained"
-                                      size="large"
-                                    />
-                                  </Grid>
-                                </Grid>
-                              </Grid>
-                            </Box>
-                          );
-                        }
-                      })}
-                    </form>
-                  </Box>
-                </Box>
-              </Box>
-            </Grid>
-            {watch("savedPrograms")?.length > 0 &&
-            <Grid
+              size={{ xs: 12 }}
               container
-              direction={"column"}
-              className="add-program-display-container"
-              size={{ xs: 12, sm: 4 }}
-              spacing={2}
-              key='add-program-display-container'
+              justifyContent="space-between"
+              alignItems="center"
             >
-            <Grid>
+              <Typography className="add-program-drawer-heading">
+                Add Program
+              </Typography>
+              <IconButton onClick={closeDrawer}>
+                <CloseOutlined />
+              </IconButton>
+            </Grid>
+            <Box className={"add-program-form-wrapper1"}>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                {fields.map((field, index) => {
+                  if (index === programIndex) {
+                    return (
+                      <Box key={field.id} mb={2}>
+                        <Grid
+                          container
+                          size={{ xs: 12, sm: 12 }}
+                          spacing={2}
+                        >
+
+                          <Grid size={{ xs: 12, sm: 12 }}>
+                            <CustomTextField
+                              placeholder="Program Name"
+                              control={control}
+                              name={`programs.${index}.name`}
+                              type="text"
+                              rules={{ required: true }}
+                            />
+                          </Grid>
+                          <Grid size={{ xs: 12, sm: 12 }}>
+                            <CustomTextField
+                              placeholder="Program Description"
+                              control={control}
+                              name={`programs.${index}.description`}
+                              type="text"
+                              rules={{ required: true }}
+                              multiline={true}
+                              rows={10}
+                            />
+                          </Grid>
+                          <Grid size={{ xs: 12, sm: 12 }}>
+                            <CustomTextField
+                              placeholder="Total Seats"
+                              control={control}
+                              name={`programs.${index}.totalSeat`}
+                              type="number"
+                              rules={{
+                                pattern: {
+                                  value: /^(0|[1-9]\d{0,7})$/,
+                                  message: "Enter a valid number (e.g., 0, 123, 27)",
+                                },
+                              }}
+                            />
+                          </Grid>
+                          <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"} container spacing={2}>
+                            <Grid size={{ xs: 12, sm: 6 }}>
+                              <CustomTextField
+                                placeholder="Start Date"
+                                className="create-event"
+                                control={control}
+                                name={`programs.${index}.startDate`}
+                                type="date"
+                                defaultValue={moment(eventData?.startTime).format("YYYY-MM-DD")}
+                                min={moment(eventData?.startTime).format("YYYY-MM-DD")}
+                                max={moment(eventData?.endTime).format("YYYY-MM-DD")}
+                                rules={{
+                                  required: true
+                                }}
+                              />
+                            </Grid>
+                            <Grid size={{ xs: 12, sm: 6 }}>
+                              <CustomTextField
+                                className="create-event"
+                                placeholder="Start Time"
+                                control={control}
+                                name={`programs.${index}.startTime`}
+                                type="time"
+                                defaultValue={moment().format("HH:mm")}
+                                rules={{
+                                  required: true,
+                                }}
+                              />
+                            </Grid>
+                          </Grid>
+                          <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"} container spacing={2}>
+                            <Grid size={{ xs: 12, sm: 6 }}>
+                              <CustomTextField
+                                placeholder="End Date"
+                                className="create-event"
+                                control={control}
+                                name={`programs.${index}.endDate`}
+                                type="date"
+                                defaultValue={moment(eventData?.startTime).format("YYYY-MM-DD")}
+                                min={moment(eventData?.startTime).format("YYYY-MM-DD")}
+                                max={moment(eventData?.endTime).format("YYYY-MM-DD")}
+                                rules={{
+                                  required: true
+                                }}
+                              />
+                            </Grid>
+                            <Grid size={{ xs: 12, sm: 6 }}>
+                              <CustomTextField
+                                placeholder="End Time"
+                                className="create-event"
+                                control={control}
+                                name={`programs.${index}.endTime`}
+                                type="time"
+                                defaultValue={moment().format("HH:mm")}
+                                rules={{
+                                  required: true,
+                                  validate: (value) => {
+                                    if (
+                                      typeof value === "string" &&
+                                      value
+                                    ) {
+                                      const today = moment(new Date()).format("YYYY-MM-DD")
+                                      const endDate = moment(eventData.endTime).format("YYYY-MM-DD");
+                                      if (endDate == today) {
+                                        //check if time is greater than current time
+                                        const now = moment(new Date()).format("HH:mm");
+                                        if (value < now) {
+                                          return (
+                                            "End Time cannot be in the past"
+                                          );
+                                        }
+                                      }
+                                    }
+                                  }
+                                }}
+                              />
+                            </Grid>
+                          </Grid>
+                          <Grid size={{ xs: 12, sm: 12 }}>
+                            <CustomRadio
+                              className="add-program-radio-btn"
+                              control={control}
+                              name={`programs.${index}.type`}
+                              label=""
+                              options={typeArray}
+                              row={true}
+                              value={"PAID"}
+                              onChange={(e) => {
+                                const newType = e.target.value;
+                                if (newType === "FREE") {
+                                  setValue(`programs.${index}.amount`, "");
+                                }
+                              }}
+                            />
+                          </Grid>
+                          {watch(`programs.${index}.type`) === "PAID" && (
+                            <Grid size={{ xs: 12, sm: 12 }}>
+                              <CustomTextField
+                                placeholder="Price"
+                                control={control}
+                                name={`programs.${index}.amount`}
+                                type="number"
+                                rules={{
+                                  required: "Price is required",
+                                  pattern: {
+                                    value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
+                                    message:
+                                      "Enter a valid price (up to 2 decimal places & Zero not accepted)price up to 1Crore",
+                                  }
+                                }}
+                              />
+                            </Grid>
+                          )}
+                          <Grid
+                            container
+                            direction={"row"}
+                            justifyContent="right"
+                            alignItems="center"
+                            size={{ xs: 12, sm: 12 }}
+                          >
+                            <Grid>
+                              <CustomButton
+                                className="add-program-drawer-btn-cancel"
+                                label="Cancel"
+                                variant="outlined"
+                                size="large"
+                                onClick={closeDrawer}
+                              />
+                            </Grid>
+                            <Grid>
+                              <CustomButton
+                                className="add-program-drawer-btn-save"
+                                onClick={handleSaveNewPrograms}
+                                label={"Save"}
+                                variant="contained"
+                                size="large"
+                              />
+                            </Grid>
+                          </Grid>
+                        </Grid>
+                      </Box>
+                    );
+                  }
+                })}
+              </form>
+            </Box>
+          </Grid>
+        </CustomDrawer>
+        <Grid
+            container
+            direction={"row"}
+            className="add-program-display-container"
+            size={{ xs: 12, sm: 7 }}
+            spacing={2}
+            key='add-program-display-container'
+            mt={{ xs: 2, sm: 4 }}
+            sx={{ height: { xs: 200, sm: 300, md: 400 } }}
+            p={3}
+            justifyContent={'center'}
+          >
+        {watch("savedPrograms")?.length > 1 ? (
+          <Grid size={{ xs: 12, sm: 12 }}>
+            <Grid size={{ xs: 12, sm: 12 }}>
               <Typography textAlign={"start"} className="add-program-display-title">
                 Saved Programs
               </Typography>
@@ -597,6 +633,7 @@ let eventEndDateObj = new Date(eventEndDate)
               className="add-program-display-items"
               alignItems="flex-start"
               justifyContent="flex-start"
+              mt={{xs:1,sm:3}}
             >
               {watch("savedPrograms")?.map(
                 (field, index) =>
@@ -605,24 +642,24 @@ let eventEndDateObj = new Date(eventEndDate)
                     <Grid
                       key={field.id}
                       container
-                      alignItems="center"
+                      alignItems="flex-start"
                       className="add-program-display-item"
                       alignContent={"center"}
                       size={{ xs: 12 }}
                     >
                       <Grid size={{ xs: 8, sm: 9 }} >
                         <Grid container size={{ xs: 12 }} direction={'column'}>
-                        <Grid size={{ xs: 12 }}><Typography className="text-p2 font-700 truncate-text" title={field.name}>{field.name}</Typography> </Grid>
-                        <Grid size={{ xs: 12}}><Typography className="truncate-text" title={field.description} >{field.description}</Typography></Grid>    
+                          <Grid size={{ xs: 12 }}><Typography className="text-p2 font-700 truncate-text" title={field.name}>{field.name}</Typography> </Grid>
+                          <Grid size={{ xs: 12 }}><Typography className="truncate-text" title={field.description} >{field.description}</Typography></Grid>
                         </Grid>
-                                            
+
                       </Grid>
 
-                      <Grid size={{ xs: 4, sm: 3 }}>
-                        <IconButton onClick={() => handleEdit(index)}>
+                      <Grid container size={{ xs: 4, sm: 3 }} justifyContent={'center'}>
+                        <IconButton key={`${index}-edit-program`} onClick={() => handleEdit(index)}>
                           <EditIcon />
                         </IconButton>
-                        <IconButton onClick={() => handleDeleteConfirmbox(index)}>
+                        <IconButton key={`${index}-delete-program`} onClick={() => handleDeleteConfirmbox(index)}>
                           <DeleteIcon />
                         </IconButton>
                       </Grid>
@@ -634,18 +671,42 @@ let eventEndDateObj = new Date(eventEndDate)
                         cancelAction={() => setOpenModal(false)}
                         header="Delete Program?"
                         subHeader="Are you sure you want to delete this program? This action cannot be undone"
-                        submitAction={() => handleDelete(index)}
+                        submitAction={() => handleDelete(programIndex)} 
                         submitLabel="Delete"
                         modalClassName="publish-modal"
                       />
                     </Grid>
                   )
               )}
-							</Grid>
-            </Grid>}
+            </Grid>
+          </Grid>) : (
+            <Grid container alignSelf={'center'} justifyContent={'center'}>
+              <Grid container size={{ xs: 12,sm: 8 }} alignSelf={'center'} justifyContent={'center'} spacing={3}>
+                <Grid>
+                  <NoProgramIcon width={90} height={90}/>
+                </Grid>
+                <Grid>
+                  <Typography className="add-program-empty-title">No Programs Added Yet</Typography>
+                  <Typography className="add-program-empty-subtitle">Start creating your first program to bring your event to life!</Typography>
+                </Grid>
+              </Grid>
+            </Grid>
+        )}
+          <Grid
+            container
+            size={{ xs: 12,sm: 8 }}
+            alignSelf={'end'}
+          >
+            <CustomButton
+              className="add-program-save-btn"
+              onClick={handleAddProgram}
+              label="Add Program"
+              variant="contained"
+              size="large"
+            />
           </Grid>
         </Grid>
-      </Box>
+      </Grid>
     );
   }
 );

@@ -9,7 +9,7 @@ import CreateEvent from './CreateEvent';
 import AddProgram from './AddProgram';
 import ConferenceDetails from './ConferenceDetails';
 import apiClient from '@/Libs/Https/API-client';
-import { processAPIResponse } from '@/Utils/CommonBaseClass';
+import { formatUTCDateTime, processAPIResponse } from '@/Utils/CommonBaseClass';
 import { Logger } from '@/Utils/Logger';
 import { useNavigate, useParams } from 'react-router-dom';
 import routes from '@/router/routes';
@@ -192,10 +192,20 @@ const Events = () => {
 
   /*
    * The function sets the active step of the stepper.
+   * step number : 0,1,2,3
    */
   const handleStepChange = (step: number) => {
+  
+    const isEventValid = !!formData?.event;
+    const isProgramValid = !!formData?.program?.[0]?.name && formData?.program?.length > 0;
+  
+    if ((step === 1 && !isEventValid) || ((step === 2 || step === 3) && (!isEventValid || !isProgramValid))) {
+      return;
+    }
+  
     setActiveStep(step);
   };
+  
 
   /*
    * The handleNext function is used to move the stepper to the next step.
@@ -249,6 +259,11 @@ const Events = () => {
    */
   const createFormRequest = (data: any, draft?: boolean) => {
     const event = data?.event;
+    const EventStart = `${event?.startTime}T00:00`
+    const EventEnd = `${event?.endTime}T23:59`
+    const EventStartTime= formatUTCDateTime(EventStart)
+    const EventEndTime= formatUTCDateTime(EventEnd)
+
     const programs = data?.program || [];
     const addOns=data?.addOns||[];
     const program = programs?.filter((item: Program) => item.name!='');
@@ -263,8 +278,8 @@ const Events = () => {
       return {
         ...item,  
         totalSeat: totalSeat && totalSeat !== "" ? totalSeat : undefined,             
-        startTime:startDateTime,         
-        endTime:endDateTime,
+        startTime: formatUTCDateTime(startDateTime),         
+        endTime: formatUTCDateTime(endDateTime),
         statusId: draft? draftStatusId: statusId,
         amount:amount?amount:"0"
 
@@ -283,8 +298,8 @@ const Events = () => {
       return {
         ...item,
         amount:amount?amount:"0",
-        ...(combinedStartDateTime && { startTime: combinedStartDateTime }),
-        ...(combinedEndDateTime&&{ endTime:combinedEndDateTime}),
+        ...(combinedStartDateTime && { startTime: formatUTCDateTime(combinedStartDateTime) }),
+        ...(combinedEndDateTime&&{ endTime:formatUTCDateTime(combinedEndDateTime)}),
         ...(properties.length !== 0 && {
           properties: properties?.map(({ propertyId, propertyName, propertyAmount, ...rest }: any) => ({
             name: propertyName,
@@ -298,8 +313,8 @@ const Events = () => {
     let req: any = {
       name: event?.name,
       description: event?.description,
-      startTime: event?.startTime,
-      endTime: event?.endTime,
+      startTime: EventStartTime,
+      endTime: EventEndTime,
       statusId: draft? draftStatusId: statusId,
       amount: event?.amount || 0,
       eventClass: event?.type,
@@ -452,9 +467,9 @@ const Events = () => {
    */
   const transformEventData = (data: any) => {
     // Helper function to format date
-    const formatDate = (dateString: any) => new Date(dateString).toISOString().split("T")[0];
+    const formatDate = (dateString: any) => moment(dateString).format("YYYY-MM-DD")
     // Helper function to format time
-    const formatTime = (dateString: any) => new Date(dateString).toISOString().split("T")[1].slice(0, 5);
+    const formatTime = (dateString: any) => moment(dateString).format().split("T")[1].slice(0, 5);
 
     const transformedData = {
         event: {
@@ -474,7 +489,11 @@ const Events = () => {
             state: data.venue?.state || null, // Example state
             city: data.venue?.city || null, // Example city
             postalCode: data.venue?.postalCode || null, // Example postal code
-            description: data.description || ""
+            description: data.description || "",
+            ...(data.assetId && data.assetId != 0 ? { assetId: data.assetId } : {}),// Conditionally add assetId
+            ...(data.abstractDate ? { abstractDate: data.abstractDate } : {}), // Conditionally add abstractDate
+            isAbstract:data.isAbstract || false,
+            ...(data.speciality ? { speciality: data.speciality } : {}),
         },
         program: data.programs?.map((program: any) => ({
             name: program.name || "",
@@ -484,7 +503,8 @@ const Events = () => {
             startTime: formatTime(program.startTime),
             endTime: formatTime(program.endTime),
             type: program.amount === "0.00" ? "FREE" : "PAID",
-            amount: program.amount || ""
+            amount: program.amount || "",
+            totalSeat: program ? program?.eventParticipantEntries?.[0]?.totalSeat : null,
         })),
         addOns: data.addons?.map((addon: any) => ({
             name: addon.addon?.name || "",
@@ -615,6 +635,7 @@ const Events = () => {
             {activeStep <= 2 &&<CustomButton
               className={`custom-stepper-save-as-draft-button ${activeStep === 1 && !(formData?.program?.[0]?.name || formData?.program?.[0]?.addonId) ? 'disabled-button' : ''}`}
               label="Save as Draft"
+              disabled={activeStep === 1 && !(formData?.program?.[0]?.name || formData?.program?.[0]?.addonId)}
               onClick={handleSaveAsDraft}
             />}
           </Grid>

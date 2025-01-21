@@ -61,7 +61,6 @@ const AbstractReviewer = () => {
     if (!data) return [];
     return data.map((item: any) => ({
       id: item?.id,
-      role: item?.userRoles[0]?.role?.roleName,
       name: item?.firstName,
       email: item?.email,
       phone: item?.phone,
@@ -77,16 +76,15 @@ const AbstractReviewer = () => {
   }
 
   const columns = [
-    { type: "default", field: "id", headerName: "ID", width: 160 },
-    { type: "default", field: "role", headerName: "Role", width: 200 },
-    { type: "default", field: "name", headerName: "Name", width: 200 },
-    { type: "default", field: "email", headerName: "email", width: 200 },
+    { type: "default", field: "id", headerName: "ID", width: 200 },
+    { type: "default", field: "name", headerName: "Name", width: 250 },
+    { type: "default", field: "email", headerName: "email", width: 250 },
     { type: "default", field: "phone", headerName: "phone", width: 200 },
     {
       type: "default",
       field: "Action",
       headerName: "Action",
-      width: 160,
+      width: 150,
       renderCell: (params: any) => (
         <Button
           onClick={() => handleAssign(params.row.id)}
@@ -107,7 +105,7 @@ const AbstractReviewer = () => {
           noRecordIcon={<NoUserList className="userdetail-noimage" />}
           hideFooterPagination={false}
           columns={columns}
-          id="userAbstract-list-datagrids"
+          id="AbstractReviewer-list"
         />
       </Grid>
       <FilterModal

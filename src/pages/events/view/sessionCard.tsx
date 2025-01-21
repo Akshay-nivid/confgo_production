@@ -76,8 +76,8 @@ const SessionCard: React.FC<SessionCardProps> = ({
       }}
       className="event-sessions-session-card"
     >
-      <div className="event-sessions-session-card-header">
-        <div className="event-sessions-session-card-time">
+      <Grid size={{xs:12}} className="event-sessions-session-card-header">
+        <Grid  className="event-sessions-session-card-time">
           {/* Conditionally render the Add icon next to the start time */}
 
           <Typography variant="subtitle2">
@@ -89,7 +89,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
               <span>{timeCorrection ? getLocalTimeDate(item[endTimeField]) : item[endTimeField]}</span></>:<span>General Addon</span>}
             </Box>
           </Typography>
-        </div>
+        </Grid>
         <Grid>
         {onEditClick && (
         <IconButton
@@ -110,9 +110,9 @@ const SessionCard: React.FC<SessionCardProps> = ({
             </IconButton>
           )}
         </Grid>
-      </div>
+      </Grid>
 
-      <div className="session-details">
+      <Grid size={{xs:12}} className="session-details">
         {/* Render title */}
         <Typography variant="h6" className="event-detail-sessions-card-header">
           {title}
@@ -120,7 +120,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
         {/* Dynamically render fields based on configuration */}
         {!hasAddOns?fields.map(
           (field, index) =>
-            (item[field.field] !== undefined && item[field.field] !== null) && (
+            (item[field.field] !== undefined && item[field.field] !== null && item[field.field]!="") && (
               <Typography
                 key={index}
                 className="event-sessions-session-card-speaker"
@@ -138,7 +138,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
         </Grid>
       </>
       }
-      </div>
+      </Grid>
       {/* Delete Confirmation Modal */}
        <CustomActionModal
         icon={<WarningIcon className="unpublish-modal-icon"/>}

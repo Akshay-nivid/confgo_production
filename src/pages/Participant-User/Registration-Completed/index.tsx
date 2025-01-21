@@ -5,7 +5,7 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import useStore, { IStoreState } from "@/Libs/store";
 import routes from "@/router/routes";
 import { useNavigate } from "react-router-dom";
-import { Navigate } from "react-router-dom";
+//import { Navigate } from "react-router-dom";
 import QRCodeDisplay from "@/components/QRCodeDisplay/QRCodeDisplay";
 
 const RegistrationCompleted = () => {
@@ -13,24 +13,25 @@ const RegistrationCompleted = () => {
   const navigate = useNavigate();
 
   const finalPrice = useStore((state: any) => state?.compData?.["finalPrice"]?.value)
-  const slugName = useStore((state: any) => state?.compData?.["slugName"]?.value)
+  //const slugName = useStore((state: any) => state?.compData?.["slugName"]?.value)
   const orderData = useStore((state: IStoreState) => state?.compData?.["order"]?.["order"]?.data) || null
-  const isCheckout = useStore((state: IStoreState) => state?.compData?.cartCheckout?.checkout) || false 
+  //const isCheckout = useStore((state: IStoreState) => state?.compData?.cartCheckout?.checkout) || false 
   const couponData = useStore((state: IStoreState) => state?.compData?.["couponData"]?.['coupon/applyCoupon']?.data) ?? null
   const regData = useStore((state: IStoreState) => state?.compData?.registrationCompleteData) || null
   
-  if (isCheckout === false) {
+  const eventAmount = useStore((state: IStoreState) => state?.compData?.["eventData"]?.[`event/${regData?.event?.id}`]?.data?.amount) || null
+  // if (isCheckout === false) {
 
-    if (!slugName) {
+  //   if (!slugName) {
 
-      const token = sessionStorage.getItem("token")
-      if (!token) {
-        return <Navigate to={routes.userLogin()} />;
-      }
-      return <Navigate to={routes.userHome()} />;
-    }
-    return <Navigate to={routes.eventExternalLink(slugName)} />
-  }
+  //     const token = sessionStorage.getItem("token")
+  //     if (!token) {
+  //       return <Navigate to={routes.userLogin()} />;
+  //     }
+  //     return <Navigate to={routes.userHome()} />;
+  //   }
+  //   return <Navigate to={routes.eventExternalLink(slugName)} />
+  // }
 
   return (
     <Grid container className="event-registration-completed">
@@ -65,10 +66,16 @@ const RegistrationCompleted = () => {
       <Grid size={12}>
         <Box className="payment-bill-details-container">
           <Box className="payment-bill-details">
+          <Box className="payment-bill-item">
+              <Typography className="info-text">Event Total</Typography>
+              <Typography className="info-text">${eventAmount ?? 0}</Typography>
+            </Box>
+
             <Box className="payment-bill-item">
               <Typography className="info-text">Programs Total</Typography>
               <Typography className="info-text">${orderData?.programTotal ?? 0}</Typography>
             </Box>
+            
             <Box className="payment-bill-item">
               <Typography className="info-text">Food Total</Typography>
               <Typography className="info-text">${orderData?.addonTotal ?? 0}</Typography>

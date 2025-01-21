@@ -16,7 +16,7 @@ import "react-quill/dist/quill.snow.css";
 import config from "../../../config.json";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import { validateEmail, validatePhoneNumber } from "@/Utils/Validation";
+import { validateEmail } from "@/Utils/Validation";
 import { validateMaxLength } from '@/Utils/Validation';
 import GoogleMapPlacePicker from "./GoogleMapPlacePicker";
 import useStore, { setDataById } from "@/Libs/store";
@@ -413,11 +413,12 @@ const CreateEvent: React.FC<EventProps> =
                       placeholder="Phone"
                       control={control}
                       name="phone"
-                      type="number"
-                      rules={{
+                      type="text"
+                      isNumeric={true}
+                       rules={{
                         required: 'Phone is required',
-                        pattern: validatePhoneNumber({})
-                      }}
+                      //   pattern: validatePhoneNumber({})
+                       }}
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 6 }}>
@@ -446,7 +447,7 @@ const CreateEvent: React.FC<EventProps> =
                         required:true,
                         pattern: {
                           value: /^\d{4}-\d{2}-\d{2}$/, 
-                          message: "Please enter a valid start start date (DD-MM-YYYY)"
+                          message: "Please enter a valid start date (DD-MM-YYYY)"
                         }
                       }}
                     />
@@ -475,6 +476,13 @@ const CreateEvent: React.FC<EventProps> =
                       control={control}
                       name="amount"
                       type="number"
+                      rules={{
+                        pattern: {
+                        value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
+                          message:
+                            "Enter a valid price (up to 2 decimal places & Zero not accepted)price up to 1Crore",
+                        }
+                      }}
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 6 }}>
@@ -485,6 +493,7 @@ const CreateEvent: React.FC<EventProps> =
                     control={control}
                     label="Specialty"
                     options={specialty}
+                    defaultValue={data?.speciality?.name}
                     onChange={() => setValue('isAbstract',false)}
                     />
                   </Grid>
@@ -512,7 +521,7 @@ const CreateEvent: React.FC<EventProps> =
                         required:true,
                         pattern: {
                           value: /^\d{4}-\d{2}-\d{2}$/, 
-                          message: "Please enter a valid start start date (DD-MM-YYYY)"
+                          message: "Please enter a valid start date (DD-MM-YYYY)"
                         }
                       }}
                     />

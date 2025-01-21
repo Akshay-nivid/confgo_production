@@ -41,7 +41,12 @@ const CustomAutocomplete = <T,>({
     if (inputValue.length >= 3) {
       onSearch(inputValue);
     }
+    else if(inputValue.length === 0){
+      onSearch('');
+      setInputValue('');
+    }
   }, [inputValue]);
+
 
   return (
     <Controller
@@ -67,7 +72,14 @@ const CustomAutocomplete = <T,>({
             }
           }}
           inputValue={inputValue}
-          onInputChange={(_, newInputValue) => setInputValue(newInputValue)}
+          onInputChange={(_, newInputValue) => {
+            if (newInputValue === "") {
+              // Clear field value when the input is manually cleared
+              field.onChange(null);
+              if (onChange) {   onChange(" " as T); } 
+            }
+            setInputValue(newInputValue)
+          }}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -93,10 +105,10 @@ const CustomAutocomplete = <T,>({
                     {/* Render the clear icon if the field is clearable */}
                     {clearable && field.value && (
                       <InputAdornment position="end">
-                        <IconButton
+                        <IconButton 
                           onClick={() => {
                             field.onChange(" " as T );; // Clear the value when clicked
-                            // if (onChange) {   onChange(" " as T); } // Call the onChange callback with empty string
+                             if (onChange) {   onChange(" " as T); } // Call the onChange callback with empty string
                           }}
                           size="small"
                         >

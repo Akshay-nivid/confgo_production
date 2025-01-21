@@ -5,7 +5,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
-import { IconButton, Tooltip, Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import { CloseOutlined } from "@mui/icons-material";
 import apiClient from "@/Libs/Https/API-client";
 import { useParams } from "react-router-dom";
@@ -18,7 +18,6 @@ import ReactQuill from "react-quill";
 import React from "react";
 import config from "../../../../config.json";
 import FileListModal from "@/components/FileUpload/FileListModal";
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { validateEmail, validateMaxLength, validatePhoneNumber } from "@/Utils/Validation";
 import GoogleMapPlacePicker from "../GoogleMapPlacePicker";
 import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
@@ -57,8 +56,7 @@ const EventInfoCard: React.FC<any> = React.memo(
     setError,
     formState: { errors },
   } = methods;
-  const setDataById = useStore((state: any) => state.setDataById);
-
+  const setDataById = useStore((state: any) => state.setDataById)
   // const { control, handleSubmit, reset, formState: { errors }, watch, setValue } = useForm<any>();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [specialty,setspecialty]=useState<Specialty[]>([]);
@@ -125,7 +123,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                 label: item?.name
               })
             })
-            setspecialty(_speciality)
+            setspecialty(_speciality);
           }, 
           errorCB: (context: any) => {
               setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
@@ -153,13 +151,15 @@ const EventInfoCard: React.FC<any> = React.memo(
    */
   const onEditSubmit= (data:any)=>{
     //checks the start tima and end time
-    const EventStart = new Date(eventData?.startTime)
-    const EventEnd = new Date(eventData?.endTime)
+    const EventStart= moment(eventData?.startTime).format("MMM D, YYYY")
+    const EventEnd = moment(eventData?.endTime).format("MMM D, YYYY")
 
-    const startTime = new Date(data.startTime);
+    const startTime = moment(data?.startTime).format("MMM D, YYYY");
+    const startTimes = moment(data?.startTime);
+    const endTimes = moment(data?.endTime);
     setSubmitData(data)
-    const endTime = new Date(data.endTime);
-    if (startTime > endTime) {
+    const endTime = moment(data?.endTime).format("MMM D, YYYY")
+    if (startTimes.isAfter(endTimes)) {
       setError(`startTime`, {
         type: 'manual',
         message: 'Start date cannot be greater than end date',
@@ -167,7 +167,7 @@ const EventInfoCard: React.FC<any> = React.memo(
       return
     }
     { 
-      if( EventStart.getTime() != startTime.getTime() || EventEnd.getTime() !=endTime.getTime()){
+      if( EventStart != startTime || EventEnd != endTime){
         setIsWarning(true)
       }else{
         onSubmit(data)
@@ -180,6 +180,8 @@ const EventInfoCard: React.FC<any> = React.memo(
    * @param data
    */
   const onSubmit = async (data: any) => {
+  const formattedEndTime = `${data.endTime.split('T')[0]}T23:59`;
+  const formattedStartTime=`${data.startTime.split('T')[0]}T00:00`;
     setIsWarning(false)
     // Format the date and time fields before update request.
    let excludeKeys = ['slugName','city','address','venue','country','mapUrl','postalCode','state','status','templateId','template','eventPriceTiers','eventProgramSchedules','programs','addons','eventContacts','venueId','email','phone','venueName'];
@@ -189,17 +191,17 @@ const EventInfoCard: React.FC<any> = React.memo(
     if(data?.eventClass === "ONLINE"){
       excludeKeys.push('venueName');
     }
-    if(data?.specialtyId!='1'){
+    if(data?.specialtyId!='1' || data?.isAbstract !=true){
       excludeKeys.push('abstractDate');
     }
     const formattedData = {
       //remove unnessary fields
       ...Object.fromEntries(
         Object.entries(data).filter(([key]) => !excludeKeys.includes(key))),
-      startTime: formatUTCDateTime(data.startTime),
-      endTime: formatUTCDateTime(data.endTime),
+      startTime: formatUTCDateTime(formattedStartTime),
+      endTime: formatUTCDateTime(formattedEndTime),
       assetId: selectedFile?.id,
-      isAbstract:data?.specialtyId!='1'?0:1,
+      isAbstract: data.isAbstract==true ? 1 : 0,
       ...(data?.eventClass !== "ONLINE" ?{
       venue: {
         name: data?.venueName,
@@ -218,7 +220,6 @@ const EventInfoCard: React.FC<any> = React.memo(
         }
       ],
     }
-
     const response = await apiClient.put(`event/update/${id}`, formattedData);
     const { status, message } = await processAPIResponse(
       response,
@@ -302,6 +303,7 @@ const EventInfoCard: React.FC<any> = React.memo(
         ['bold', 'italic', 'underline'],
       ]
     };
+
   return (
     <Grid container className="event-detail-event-info-card" spacing={2}>
       <Grid
@@ -439,6 +441,58 @@ const EventInfoCard: React.FC<any> = React.memo(
             {eventData?.eventContacts?.[0]?.email}
           </Typography>
         </Grid>
+
+        
+
+        <Grid size={{ xs: 3 }}>
+          <Typography className="event-information-subtitle">
+          Specialty
+          </Typography>
+        </Grid>
+        <Grid size={{ xs: 9 }}>
+          <Typography className="event-information-content">
+            {eventData?.speciality?.name}
+          </Typography>
+        </Grid>
+       
+       <Grid size={{ xs: 3 }}>
+          <Typography className="event-information-subtitle">
+           Abstracts Required
+          </Typography>
+        </Grid>
+        <Grid size={{ xs: 9 }}>
+          <Typography className="event-information-content">
+           {eventData?.isAbstract===1? 'Yes': 'No'}
+          </Typography>
+        </Grid>
+        {eventData?.isAbstract===1&&(
+          <>
+        <Grid size={{ xs: 3 }}>
+          <Typography className="event-information-subtitle">
+           Abstracts Submission Date
+          </Typography>
+        </Grid>
+        <Grid size={{ xs: 9 }}>
+          <Typography className="event-information-content">
+           {moment(eventData?.abstractDate).format(
+              "MMM D, YYYY"
+            )}
+          </Typography>
+        </Grid>
+        </>)}
+        {eventData?.eventClass === "ONLINE" && (
+        <>
+         <Grid size={{ xs: 3 }}>
+            <Typography className="event-information-subtitle">URL</Typography>
+        </Grid>
+        <Grid size={{ xs: 3 }}>
+            <Typography className="event-information-content">
+                {eventData?.url}
+            </Typography>
+        </Grid>
+    </>
+)}
+
       {/* Drawer Component */}
       <CustomDrawer open={isDrawerOpen} type="right">
         <Grid container spacing={2} padding={2} className="event-information-custom-drawer">
@@ -563,7 +617,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                     rules={{
                       pattern: {
                         value: /^\d{4}-\d{2}-\d{2}$/, 
-                        message: "Please enter a valid start start date (DD-MM-YYYY)"
+                        message: "Please enter a valid start date (DD-MM-YYYY)"
                       }
                     }}
                   />
@@ -635,7 +689,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                         control={control}
                       />
                   </Grid>}
-                  {watch('specialtyId')=='1'&&watch('isAbstract')&& 
+                  {watch('specialtyId')=='1'&& watch('isAbstract') == true && 
                   <Grid size={{xs:12}}>
                     <CustomTextField
                       placeholder="Abstract Submission Date"
@@ -649,7 +703,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                         required:true,
                         pattern: {
                           value: /^\d{4}-\d{2}-\d{2}$/, 
-                          message: "Please enter a valid start start date (DD-MM-YYYY)"
+                          message: "Please enter a valid start date (DD-MM-YYYY)"
                         }
                       }}
                     />
@@ -665,105 +719,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                       />  
                     </Grid>
                   )}
-                 {watch("eventClass") !== "ONLINE" && (
-                    <>
-                     <Grid size={12} container justifyContent={"flex-start"} alignItems={"center"}>
-                      <CustomButton
-                      className="create-event-choose-map"
-                        label="Choose Location"
-                        onClick={()=>setDrawerOpen(true)}
-                        />
-                          <Tooltip title="Location details fills up on once choose desired location" arrow>
-                            <IconButton className="add-program-warning-msg"
-                            >
-                              <ErrorOutlineIcon />
-                            </IconButton>
-                          </Tooltip>
-                        </Grid>
-                      <Grid size={{ xs: 12, sm: 12 }}>
-                        <CustomTextField
-                          placeholder="Location URL (must be a Google Maps link with latitude and longitude)"
-                          control={control}
-                          name="mapUrl" 
-                          type="text" 
-                          rules={{
-                            required: false,                                
-                          }}
-                          readOnly
-                        />
-                      </Grid>
-                      <Grid size={{ xs: 12, sm: 12 }}>
-                        <CustomTextField
-                          placeholder="Venue Name"
-                          control={control}
-                          name="venueName"
-                          type="text"
-                          rules={{ required: watch("type") === "OFFLINE" }}
-                          shrink={watch('venueName')!==''&&watch('venueName')!==undefined?true:undefined}
-                          readOnly
-                        />
-                      </Grid>
-                      <Grid size={{ xs: 12, sm: 12 }}>
-                        <CustomTextField
-                          placeholder="Address"
-                          control={control}
-                          name="address"
-                          type="text"
-                          rules={{ required: watch("type") === "OFFLINE" }}
-                          shrink={watch('address')!==''&&watch('address')!==undefined?true:undefined}
-                        />
-                      </Grid>
-                      <Grid size={{ xs: 12, sm: 12 }}>
-                      <CustomTextField
-                          placeholder="Country"
-                          name="country"
-                          control={control}
-                          type="text"
-                          shrink={watch('country')!==''&&watch('country')!==undefined?true:undefined}
-                          readOnly
-                        />
-                      </Grid>
-                      <Grid size={{ xs: 12, sm: 12 }}>
-                         <CustomTextField
-                            name="state"
-                            label="State"
-                            control={control}
-                            type="text"
-                            shrink={watch('state')!==''&&watch('state')!==undefined?true:undefined}
-                            readOnly
-                          />
-                      </Grid>
-                      <Grid size={{ xs: 12, sm: 12 }}>
-                        <CustomTextField
-                          placeholder="City"
-                          control={control}
-                          name="city"
-                          type="text"
-                          rules={{ required: watch("eventClass") === "OFFLINE" }}
-                          shrink={watch('city')!==''&&watch('city')!==undefined?true:undefined}
-                          readOnly
-                        />
-                      </Grid>
-                      <Grid size={{ xs: 12, sm: 12 }}>
-                        <CustomTextField
-                          placeholder="Pin Code"
-                          control={control}
-                          name="postalCode"
-                          type="text"
-                          rules={{
-                            required: watch("type") === "OFFLINE",
-                            pattern: {
-                              value: /(^\d{5}(-\d{4})?$)|(^\d{6}$)/,
-                              message: "Enter a valid postal code (e.g., '12345', '12345-6789', or '123456')",
-                            },
-                          }}
-                          shrink={watch('postalCode')!==''&&watch('postalCode')!==undefined?true:undefined}
-                        />
-                      </Grid>
-
-                    </>
-                  )}
-                
+                                
                 <Grid size={{ xs: 12 }} mt={2}>
                   <Grid
                     container

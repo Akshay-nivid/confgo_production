@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Logger } from "@/Utils/Logger";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
@@ -16,6 +16,7 @@ import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomple
 import { ISource } from "@/Libs/type";
 import { DataGridList } from "@/components/DataGrid/DataGridList";
 import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
+import routes from "@/router/routes";
 
 interface EventParticipant {
   id: number;
@@ -45,7 +46,7 @@ type TransformedData = {
   name: string;
 };
 
-const SpeakerCard = (_eventData: any) => {
+const SpeakerCard = (eventData: any) => { 
   const { id } = useParams<Record<string, string | undefined>>();
   const { handleSubmit, control, reset,watch, formState: { errors }, setValue } = useForm<FormData>();
   const [addContributeView, setAddContributeView] = useState(false);
@@ -60,7 +61,8 @@ const SpeakerCard = (_eventData: any) => {
   const [loading, setLoading] = useState(false);
   const [handleSelectedValue,setHandleSelectedValue]=useState<any>();
   const companyId = sessionStorage.getItem("companyId")
-   const [source, setSource] = useState<ISource | undefined>(undefined);
+  const [source, setSource] = useState<ISource | undefined>(undefined);
+  const navigate = useNavigate();
   /**
    * Method transforms data to the autocomplete data format
    * @param data : api response data
@@ -74,31 +76,19 @@ const SpeakerCard = (_eventData: any) => {
       ...item
     }));
   }
-//    /**
-//      * Method handles the document download functionality
-//      * @param id : document id
-//      */
-//    const handleDownload = (id: any) => {
-//     const href = `${baseUrl}asset/${id}`
-//     window.open(href, '_blank')
-// };
+
   /**
    *function to handle close the modal
    */
   const handleCloseDeleteModal = () => {
     setDeleteModal(false);
   };
-  /**
-   *function to handle open Drawer Edit
-   */
-  // const handleScreenViewChange = () => {
-  //   setAddContributeView(true);
-  // };
+ 
   /**
    *function to handle open Drawer Create
    */
   const handleDrawerOpen = () => {
-    if(_eventData?.eventData?.published){
+    if(eventData?.eventData?.published){
       setDataById("snackBarInfo", {
         open: true,
         autoHideDuration: 2000,
@@ -135,7 +125,7 @@ const SpeakerCard = (_eventData: any) => {
         offset: 0,
         limit: 5,
         filters: {
-          eventId: _eventData?.eventData?.eventData?.id,
+          eventId: eventData?.eventData?.id,
         },
       };
       setSource({
@@ -143,7 +133,7 @@ const SpeakerCard = (_eventData: any) => {
          data:requestBody,
          url: "eventSpeaker/list",
          listName: "speakerList",
-        
+
 
       });
       return;
@@ -293,7 +283,7 @@ const SpeakerCard = (_eventData: any) => {
    * @param item
    */
   const handleDeleteModal = (item: EventParticipant) => {
-    if(_eventData?.eventData?.published){
+    if(eventData?.eventData?.published){
       setDataById("snackBarInfo", {
         open: true,
         autoHideDuration: 2000,
@@ -396,6 +386,15 @@ const SpeakerCard = (_eventData: any) => {
       };
     });
   };
+
+  /**
+   * drawer create speaker button
+   */ 
+  const createNewSpeaker=(speaker:any)=>{
+    navigate(routes.createNewUsers(),{state:{data:speaker,eventId:eventData?.eventData?.id}});
+
+  };
+
   return (
     <Grid
       className="event-detail-speakers-card"
@@ -456,7 +455,7 @@ const SpeakerCard = (_eventData: any) => {
           justifyContent={"center"}
           alignContent={"center"}
           size={{ xs: 12 }}
-          
+        
         >
         <Grid size={{ xs: 12 }}>
         <DataGridList
@@ -467,7 +466,7 @@ const SpeakerCard = (_eventData: any) => {
           columns={columns}
           id="speaker-lists"
           noRecordIcon={<NoCouponDataSvg className="no-coupon-icon"/>}
-          noRecordSubtitle="cIt looks like you haven't created any Speaker yet."
+          noRecordSubtitle="It looks like you haven't created any speakers yet."
         />
       </Grid>
         </Grid>
@@ -480,8 +479,8 @@ const SpeakerCard = (_eventData: any) => {
               <Grid container justifyContent={"space-between"} mb={1}>
                 <Typography className="event-detail-speakers-card-contributor-header">
                   {editContributorValue != null
-                    ? "Edit Contributor"
-                    : "Create Contributor"}
+                    ? "Edit Speaker"
+                    : "Create Speaker"}
                 </Typography>
                 <IconButton onClick={() => setAddContributeView(false)}>
                   <CloseIcon />
@@ -489,11 +488,11 @@ const SpeakerCard = (_eventData: any) => {
               </Grid>
               <Grid>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                  <Grid container spacing={2}>
+                  <Grid container spacing={2} className="speaker-search-grid">
                     <Grid container size={{ xs: 12 }} pt={2}>
                       <CustomAutocomplete
                         name="userInfo"
-                        className={errors['userInfo'] ?"custom-search-text-field event-detail-speakers-card-contributor-auto-complete border-error-input": "custom-search-text-field event-detail-speakers-card-contributor-auto-complete"}
+                        className={errors['userInfo'] ?"custom-search-text-field event-detail-speakers-card-contributor-auto-complete border-error-input": "custom-search-text-field event-detail-speakers-card-contributor-auto-complete border-speaker"}
                         control={control}
                         placeholder="Search Contributor User"
                         options={searchResults} // Dynamic options based on API results
@@ -525,14 +524,25 @@ const SpeakerCard = (_eventData: any) => {
                     </Grid>
                     </>}
                   </Grid>
-                  <Grid container justifyContent="flex-end" alignItems="center" size={12}>
-                    <CustomButton
+                  <Grid container justifyContent="flex-end" alignItems="center" size={12}  >
+                  <Grid>  <CustomButton
                       className="event-detail-speakers-card-btn-container-submit-btn"
                       label="Submit"
                       variant="contained"
                       type="submit"
                     />
-                  </Grid>   
+                    </Grid>
+
+                     <Grid container size={12} justifyContent="flex-end" className="mt-3">
+                    <CustomButton
+                      label="Create Speaker user"
+                      variant="text"
+                       onClick={()=>createNewSpeaker("SPEAKER")}
+                    />
+                    
+                  </Grid>  
+                  </Grid>  
+
                 </form>
               </Grid>
             </Grid>

@@ -33,6 +33,11 @@
     }
   }
 
+  .file-upload-title{
+    font-size: $h6;
+    font-weight: $font_semibold;
+  }
+
   .file-upload-wrapper{
   background-color: $clr_gray_20_percent !important;
   width: 100% !important;

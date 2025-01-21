@@ -82,10 +82,6 @@ const UserUploadAbstract = ({ eventData }: any) => {
                 assetId: uploadedFile?.id,
             },
             successCB: () => {
-                snackBar({
-                    severity: 'success',
-                    message: 'Abstract File Uploaded successfully',
-                });
                 getUploadedAbstract();
             },
             errorCB: (context: any) => {
@@ -200,7 +196,6 @@ const UserUploadAbstract = ({ eventData }: any) => {
                             <></>
                         ) : (
                             <FileUpload
-                                className="upload-abstract-upload-box"
                                 acceptedFiles={['application/pdf']}
                                 trimClientSide={false}
                                 resolution={{ width: 200, height: 200 }}

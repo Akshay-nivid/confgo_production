@@ -28,7 +28,7 @@ interface EventListProps {
 const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => {
   const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState([]);
-  let filters = { requestDate: '', eventClass: '' };
+  let filters = { requestDate: '', eventClass: '',statusId:'' };
   const [source, setSource] = useState<ISource | undefined>(undefined);
   const [loading, setLoading] = useState(false); // To indicate loading state for API
 
@@ -67,12 +67,19 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
     { label: "Hybrid", value: "HYBRID" },
   ];
 
+  const statusArray = [
+    { label: "Completed", value: "COMPLETED" },
+    { label: "Ongoing", value: "ONGOING" },
+    { label: "Published", value: "PUBLISHED" },
+    { label: "Pending", value: "PENDING" },
+  ];
+
   const filterFields: any = [
     {
       type: 'date',
       fieldName: 'startTime',
-      label: 'Start Date',
-      heading: 'Filter with Start Date'
+      label: 'Today',
+      heading: 'Filter with Request Date'
     },
     {
       type: 'tiles',
@@ -80,6 +87,13 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
       label: 'Event Type',
       heading: 'Filter with Event Type',
       options: EventTypeArray
+    },
+    {
+      type: 'tiles',
+      fieldName: 'statusId',
+      label: 'Status',
+      heading: 'Filter with Status',
+      options: statusArray
     }
   ]
   const columns = [
@@ -176,15 +190,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
      }));
    };
 
-  /**
-   * Method handles the dynamic creation of the class name based on the row data
-   * @param item : row data
-   * @returns : class name
-   */
-  const getRowClassName = (item: any) => {
-    return item.row?.statusId === StatusEnum.DRAFTED ? 'event-list-row-drafted' : '';
-  };
-  
+ 
 
   return (
     <Grid container className="custom-list">
@@ -242,7 +248,6 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
           noRecordSubtitle="It looks like you haven't created any events yet.Start by setting up your first conference or meeting."
           redirectTo={() => routes.createEvent()} // define the route
           btnName="Create New Event" //define the label of btn
-          getRowClassName={getRowClassName}
         />
       </Grid>
       {hideAction && view && (

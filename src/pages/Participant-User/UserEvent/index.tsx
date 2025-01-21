@@ -27,6 +27,17 @@ const MyEventScreen = () => {
   const POST = useStore((state: any) => state.POST);
   const setDataById = useStore((state: any) => state.setDataById);
   const events = useStore((state: IStoreState) => state?.compData.usersEvents?.["event/registered/eventList"]?.data) ?? []
+  const dataLength =useStore((state: IStoreState) => state?.compData.usersEvents?.["event/registered/eventList"]?.data?.length) //seperate variable because even if there is data the page first shows no event component first 
+  /**
+  *  events shown on screen descending order of date
+  */
+ const validEvents = events?.filter((event: any) => event.startTime && !isNaN(new Date(event.startTime).getTime()));
+  const sortedData = [...validEvents]?.sort((a: any, b: any) => {
+    const dateA = new Date(a.startTime).getTime();
+    const dateB = new Date(b.startTime).getTime();
+    return dateB - dateA;
+  });
+ 
   /**
    * model for view certificate
    */
@@ -162,11 +173,11 @@ const MyEventScreen = () => {
       {loading ? (
       <SkeletonList height={20} className="mt-4" />
       ):
-      !loading && events?.length === 0  ? (
+      !loading && dataLength === 0  ? (
        <NoEvents description="You haven’t registered for any events yet. Explore upcoming events and secure your spot today!"  title="No Events Found"/>
         ) : (
           <Grid container size={12} mt={2} spacing={2}>
-            {events?.map((event: IEvent, index:number) => (
+            {sortedData?.map((event: IEvent, index:number) => (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
                 <EventCard
                   eventFullData={event}

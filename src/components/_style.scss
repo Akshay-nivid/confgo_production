@@ -500,9 +500,11 @@
   }
 
   &-restore-btn {
+    border: 0.083rem solid $clr_green !important;
     background-color: $clr_white !important;
     color: $clr_green !important;
     margin-left: 1rem !important;
+    margin-right: 1rem !important;
   }
 
 }
@@ -522,7 +524,7 @@
     margin-bottom: 0.5rem !important;
   }
   &-card-template {
-    padding: 0.2rem;
+    padding: 0.1rem;
     background-color: $clr_gray_very_light;
     text-align: center;
     border-radius: 5px;
@@ -535,7 +537,6 @@
     }
   }
   &-card-template-selected {
-    padding: 0.2rem;
     border: 0.15rem solid;
     border-color: $clr_green !important;;
     background-color: $clr_gray_very_light;
@@ -558,10 +559,12 @@
   &-clear-button{
     text-transform: none !important;
     background-color: $clr_green !important;
+    box-shadow: none !important;
   }
   &-apply-button{
     text-transform: none !important;
     background-color: $clr_green !important;
+    box-shadow: none !important;
   }
 }
 
@@ -798,7 +801,10 @@
 
   &-container {
     width: 54.08rem !important;
-    pointer-events: none;
+
+   .MuiIconButton-root:hover {
+    background-color: transparent !important;
+   }
 
     .MuiStepLabel-label {
       font-size: $p2 !important;
@@ -910,6 +916,8 @@
         font-weight: $font_semibold !important;
         font-size: $h5 !important;
         padding-left: 1.5rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       &-header-container {
@@ -1323,4 +1331,11 @@
   .custom-search-text-field {
     border: 0.5px solid $clr_red !important;
   }
+}
+.speaker-search-grid{
+  margin-bottom: 2rem;
+}
+.border-speaker{
+  background-color: $clr_gray_20_percent !important;
+  border: 0.0667rem solid $clr_light_border_grey !important;
 }

@@ -4,7 +4,7 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import { Box, Chip, IconButton, Tooltip, Typography } from "@mui/material";
+import { Box, Button, Chip, IconButton, Tooltip, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler, useFieldArray} from "react-hook-form";
@@ -19,6 +19,8 @@ import CreateAddon from "./CreateAddon";
 import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
 import { validateRequiredField } from "@/Utils/Validation";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import { CloseOutlined } from "@mui/icons-material";
+import { NoAddons } from "@/assets/svg";
 
 type FormData = {
   addOn: {
@@ -114,6 +116,34 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
     const [programIndex, setProgramIndex] = useState<any>();
     const [editMode, setEditMode] = useState(false);
     const [addOnView,setAddonView]=useState(false);
+
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+     /**
+     * craete addon drawer open 
+     */
+     const handleDrawerOpen = () => {
+      setIsDrawerOpen(true); 
+    };
+
+    /**
+     * Method handles the add on creation
+     */
+    const handleCreateAddons = () => {
+      const savedAddOns = watch("savedAddOns");
+      setProgramIndex(savedAddOns?.length ? savedAddOns.length - 1 : 0);
+      setEditMode(false);
+      handleDrawerOpen(); // Open the drawer for the new program
+    }
+  
+    /**
+     * craete addon drawer close 
+     */
+    const handleDrawerClosing = () => {
+      setIsDrawerOpen(false); 
+      setValue('addOn',watch('savedAddOns'))
+    };
+
     /**
      * Useeffect hook updates the programIndex value based on the savedAddOns dependency
      */
@@ -179,8 +209,9 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
      * Method handles the saving of the programs
      */
     const handleSaveNewPrograms = () => {
-      handleSubmit(onSave, (errors) => {
-        
+
+      handleSubmit(onSave,
+        (errors) => {
         // Check if addOn exists and is an array before forEach
         if (errors.addOn && Array.isArray(errors.addOn)) {
           errors.addOn.forEach((programError, index) => {
@@ -193,7 +224,9 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
             }
           });
         }
-      })();
+      }
+    )();
+    
     };
 
     /**
@@ -275,9 +308,10 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
 
       // Trigger the save handler with the current programs
       onSaveHandler && onSaveHandler(newPrograms,'addOns');
-
       // Exit edit mode
       setEditMode(false);
+      handleDrawerClosing();
+     
     };
 
 
@@ -351,6 +385,25 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
         });
         return;
       }
+      
+      // Check if the propertyName exceeds 50 characters
+      if (propertyName.length > 50) {
+        setError(`addOn.${index}.propertyName`, {
+          type: 'manual',
+          message: 'property name cannot exceed 50 characters.',
+        });
+        return;
+      }
+
+      //check if propertyAmount is valid 
+      if (propertyType === "PAID" && !/^(0|[1-9]\d*)(\.\d{1,2})?$/.test(propertyAmount)) {
+         setError(`addOn.${index}.propertyAmount`, {
+          type: 'manual',
+          message: 'Enter a valid price (up to 2 decimal places)',
+        });
+        return;
+      }
+      
     // Check if propertyAmount not and propertyType is PAID
       if (!propertyAmount&&propertyType === "PAID") {  
         setError(`addOn.${index}.propertyAmount`, {
@@ -407,39 +460,48 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       setAddonView(false)
       resetField(`addOn.${0}.addonId`,{});
     }
+
     return (
-      <Box className="add-program-container">
-        <Grid container className="">
+      <Box className="add-addons-container">
           <Grid
             container
             size={{ xs: 12, sm: 12 }}
             direction={"row"}
             className=""
+           
           >
             <Grid
-              size={{ xs: 12, sm: 7 }}
+              size={12}
               ml={6}
-              className="add-program-form-container"
-            >
-              <Box className="add-program-form-spacing">
-                <Box className="">
-                  <Grid
-                    container
+              className="add-addons-form-container"
+              container
                     justifyContent={"space-between"}
                     alignItems={"center"}
-                  >
+              
+            >
                     <Grid>
                       <Typography
                         textAlign={"start"}
                         variant="h3"
                         lineHeight={2}
-                        className="add-program-title"
+                        className="add-addons-title"
                       >
                         Add Ons
                       </Typography>
                     </Grid>
-                  </Grid>
                   <Box className={"form-wrapper1"}>
+                     {isDrawerOpen && (
+                    <CustomDrawer  open={true} type={"right"}>
+                      <Grid container  className="add-addons-drawer">
+                        <Grid size={12} container flexDirection={"row"} >
+                          <Grid size={6}>
+                          <Typography className="event-information-edit-heading" mb={2}>Add Ons</Typography></Grid>
+                          <Grid justifyContent={"flex-end"} container  size={6}>
+                           <Button onClick={handleDrawerClosing} className="add-addons-drawer-close">
+                                    <CloseOutlined />
+                                  </Button></Grid>
+                        </Grid>
+                       
                     <form id="addOnform" onSubmit={handleSubmit(onSubmit)}>
                       {fields.map((field, index) => {
                         if (index === programIndex) {
@@ -447,13 +509,14 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                             <Box key={field.id} mb={2}>
                               <Grid
                                 container
-                                size={{ xs: 12, sm: 12 }}
+                                marginLeft={"auto"}
+                                size={12}
                                 alignItems={"center"}
                                 spacing={2}
                               >
                                 <Grid size={{ xs: 12, sm: 12 }}>
                                   <CustomSelect
-                                  className="add-program-select"
+                                  className="add-addons-select"
                                   rules={{required:validateRequiredField({})}}
                                     optionClick={(value) => {
                                       if (value === 'other') {
@@ -479,7 +542,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                 </Grid>
                                 <Grid size={{xs:12,sm:12}}>
                                   <CustomSwitch
-                                  className="add-program-switch-btn"
+                                  className="add-addons-switch-btn"
                                   buttonColor="success"
                                   label="Date & Time"
                                   name={`addOn.${index}.dateRequired`}
@@ -534,7 +597,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                   <Grid size={{ xs: 12, sm: 6 }}>
                                     <Grid container display={"flex"} alignItems={"center"}>
                                     <CustomCheckbox
-                                    className="add-program-check-btn"
+                                    className="add-addons-check-btn"
                                       options={[{ label: 'Repeat', value: 'YES' }]}
                                       control={control}
                                       name={`addOn.${index}.repeat`}
@@ -543,7 +606,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                       }}
                                     />
                                       <Tooltip title="No of Days once Saved can't be edited" arrow>
-                                        <IconButton className="add-program-warning-msg"
+                                        <IconButton className="add-addons-warning-msg"
                                         >
                                           <ErrorOutlineIcon />
                                         </IconButton>
@@ -573,14 +636,14 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                       textAlign={"start"}
                                       variant="h5"
                                       lineHeight={2}
-                                      className="add-program-addon-property-header"
+                                      className="add-addons-addon-property-header"
                                     >
                                       Add Property
                                     </Typography>
                                   </Grid>
                                   <Grid>
                                     <CustomRadio
-                                      className="add-program-radio-btn"
+                                      className="add-addons-radio-btn"
                                       control={control}
                                       name={`addOn.${index}.type`}
                                       label=""
@@ -600,7 +663,6 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                       control={control}
                                       name={`addOn.${index}.propertyName`}
                                       type="text"
-                                      // rules={{ required: true }}
                                     />
                                   </Grid>
                                   <Grid size={{ xs: 12, sm:watch(`addOn.${index}.type`) === "PAID"?6: 1 }} display={"flex"} >
@@ -610,7 +672,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                           placeholder="Price"
                                           control={control}
                                           name={`addOn.${index}.propertyAmount`}
-                                          type="text"
+                                          type="Number"
                                           rules={{
                                             pattern: {
                                               value: /^(0|[1-9]\d*)(\.\d{1,2})?$/,
@@ -623,10 +685,10 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     )}
                                     <Grid ml={1} mt={1}>
                                       <IconButton
-                                        className="add-program-prop-add"
+                                        className="add-addons-prop-add"
                                         onClick={()=>addProperty(index)}
                                       >
-                                        <AddIcon />
+                                        <AddIcon className="addicon"/>
                                       </IconButton>
                                     </Grid>
                                   </Grid>
@@ -635,7 +697,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                   <Typography variant="h6">Properties</Typography>
                                   <Grid container spacing={1}>
                                   {watch(`addOn.${index}.properties`)?.map((item,index)=>{
-                                    return  <Chip className="add-program-chip-item" onDelete={()=>deleteChip(item,index)} key={index+"chip"} label={`${item.propertyName} ${item?.propertyAmount ? "- $" + item.propertyAmount : ""}`}/> 
+                                    return  <Chip className="add-addons-chip-item" onDelete={()=>deleteChip(item,index)} key={index+"chip"} label={`${item.propertyName} ${item?.propertyAmount ? "- $" + item.propertyAmount : ""}`}/> 
                                   })}
                                   </Grid>
                                 </Grid>}
@@ -648,9 +710,18 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                 >
                                   <Grid>
                                     <CustomButton
-                                      className="add-program-save-btn"
+                                      className="add-addons-save-btn"
+                                      onClick={handleDrawerClosing}
+                                      label="Cancel"
+                                      variant="contained"
+                                      size="large"
+                                    />
+                                  </Grid>
+                                  <Grid>
+                                    <CustomButton
+                                      className="add-addons-save-btn"
                                       onClick={handleSaveNewPrograms}
-                                      label={(watch("savedAddOns")?.length > 0 && watch("savedAddOns")?.[0]?.addonId) ? "Add More": "Add"}
+                                      label="Save"
                                       variant="contained"
                                       size="large"
                                     />
@@ -662,57 +733,85 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                         }
                       })}
                     </form>
+                    
+                    </Grid>
+                    </CustomDrawer>
+                    
+                    )
+                    }
+                    
                   </Box>
-                </Box>
-              </Box>
             </Grid>
-            {watch("savedAddOns")?.length>=1&&<Grid
+            <Grid  size={12 }container justifyContent={"center"} alignItems={"center"}>
+          
+            <Grid
               container
-              direction={"column"}
-              className="add-program-display-container"
-              size={{ xs: 12, sm: 4 }}
-              spacing={2}
-              key='add-program-display-container'
+              flexDirection={"column"}
+              className="add-addons-display-container"
+              size={6}
+              key='add-addons-display-container'
+              alignItems={"center"}
+
             >
-             <Grid container className="add-program-display-container-box">
-               <Typography variant="h6">Saved Add-Ons</Typography>
-              {watch("savedAddOns")?.map(
-                (field, index) =>
-                  field.addonId&&
+            <Grid  className="add-addons-display-container-box" container  justifyContent={"flex-start"} size={11} >
+               <Typography  className="add-addons-display-container-heading" >Saved Add-Ons</Typography> 
+              </Grid>
            
-                 (
+            <Grid   size={11} className="add-addons-display-container-details" alignItems={"center"}>
+               {(watch("savedAddOns")?.length > 0 && watch("savedAddOns")?.[0]?.addonId) ? (
+               watch("savedAddOns")?.map(
+               (field, index) =>
+                field.addonId && (
                     <Grid
                       key={field.id}
                       container
-                      className="add-program-display-item"
+                      alignItems="center"
+                      className="add-addons-display-item"
                       alignContent={"center"}
-                      size={{ xs: 12, sm: 12 }}
+                      size={{ xs: 12, sm: 12 }} 
                     >
-                      <Grid size={{ xs: 8, sm: 8 }} >
-                        <Grid container size={{ xs: 12, sm: 12 }} direction={'column'}>
-                          <Grid>
-                            {addOnOptions?.find((option: any) => option?.value === field?.addonId)?.label || 'Unknown'}
-                          </Grid>
-                        <Grid>{field.description}</Grid>    
-                        </Grid>
-                                            
+                      <Grid size={{ xs: 8, sm: 9 }} direction={'column'}>
+                        <Grid size={{ xs: 12 }}><Typography  className="add-addons-display-item-name"> {addOnOptions?.find((option: any) => option?.value === field?.addonId)?.label || 'Unknown'}</Typography> </Grid>
+                        <Grid size={{ xs: 12}}><Typography className="add-addons-display-item-description">{field.description}</Typography></Grid>               
                       </Grid>
 
-                      <Grid size={{ xs: 4, sm: 4 }}>
+                      <Grid size={{ xs: 4, sm: 3 }}  container justifyContent={"flex-end"}>
                         <IconButton onClick={() => handleEdit(index)}>
-                          <EditIcon />
+                          <EditIcon onClick={handleDrawerOpen} />
                         </IconButton>
                         <IconButton onClick={() => handleDelete(index)}>
                           <DeleteIcon />
                         </IconButton>
                       </Grid>
                     </Grid>
+                   )
                   )
-              )}
+                  ) : (
+                <Grid 
+                  display={"flex"}
+                   className="add-addons-NOaddon" 
+                    justifyContent={"center"} 
+                    alignItems={"center"}
+                    flexDirection={"column"}
+                    size={12}
+                    >
+                     <Grid size={12} display={"flex"} justifyContent={"center"} alignItems={"center"} >
+                     <NoAddons/>
+                     </Grid>
+                     <Typography className="title">No Add-ons Added Yet</Typography>
+                     <Typography className="description">Start creating your first Add-on to bring your event to life!</Typography>
+                      </Grid>
+              )
+            }
+              </Grid>
+              
             </Grid>
-            </Grid>}
+
+           </Grid>
           </Grid>
-        </Grid>
+          <Grid size={5} marginInline={"auto"} maxHeight={"max-content"} display={"flex"} className="mt-2"  justifyContent={"center"} alignItems={"center"} >
+            <CustomButton className="add-addons-addon-btn"   label="Create Add Ons"  onClick={handleCreateAddons} ></CustomButton>
+            </Grid>
 
         <CustomDrawer
         children={<CreateAddon submitHandler={onaddOnSubmitHandler} closeDrawer={handleDrawerClose} />}

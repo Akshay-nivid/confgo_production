@@ -65,7 +65,7 @@
 
         &-error {
             .ql-snow {
-                border: 1px solid $clr_red !important;
+                border: 0.0625rem solid $clr_red !important;
             }
         }
     }
@@ -106,7 +106,7 @@
         }
 
         &-image-container {
-            border: 1px solid $clr_bright_gray;
+            border: 0.0625rem solid $clr_bright_gray;
             padding: 1rem;
             border-radius: 0.5rem;
         }
@@ -126,7 +126,7 @@
         background-color: $clr_white !important;
         color: $clr_green !important;
         min-width: 10rem !important;
-        border: 1px solid $clr_green !important;
+        border: 0.0625rem solid $clr_green !important;
         text-transform: none !important;
         font-size: $h6 !important;
         font-weight: $font_semibold !important;
@@ -151,6 +151,60 @@
 }
 
 .add-program {
+    &-addon-btn{
+        width: 100% !important;
+        line-height: 1.5rem;
+        background: $clr_green !important;
+        font-weight: $font-bold;
+        text-transform: none !important;
+        font-size: $p2 !important;
+         
+    }
+    &-drawer{
+        width: 40rem !important;
+        height: 30rem;
+        padding-inline:2rem;
+        &-heading{
+            font-size: $h3 !important;
+            font-weight: $font-bold;
+            padding-top: 1rem;
+        }
+    }
+   &-saved-addons{
+    min-height: 20rem !important;
+   }
+    &-NOaddon{
+
+        min-height:18rem ;
+        svg{
+            width: 7.5rem;
+            height:  6.231rem;
+        }
+        .title{
+           padding-top: 2.083rem;
+           font-family: $font;
+           font-size:$h5  ;
+           font-weight: $font-bold;
+            color: $clr_black ;
+            line-height: 2.064rem;
+        }
+        .description{
+            font-family: $font;
+            font-size: $p2;
+            font-weight: $font_normal;
+            line-height: 1.7rem;
+            color: $clr_gray_dark_text;
+        }
+    }
+    &-prop-add {
+        svg {
+            width: 2rem !important;
+            height: 2rem !important;
+            border-radius: .2rem;
+            background: $clr_light_grayish_blue !important;
+        }
+    }
+
     &-container {
         background-color: $clr_white;
         padding-left: 1rem;
@@ -172,7 +226,7 @@
     &-display-item {
         height: 4.5rem;
         padding: 1rem 0.1rem 1rem 1rem !important;
-        margin-bottom: 1.05rem !important;
+         margin-bottom: 1.05rem !important;
         border: 0.092rem solid $clr_gray_very_light !important;
         border-radius: 0.41rem !important;
     }
@@ -185,19 +239,18 @@
 
     &-display-container {
         padding: 1rem !important;
-
         padding-right: 1rem !important;
-        margin-top: 6rem;
         border: 0.092rem solid $clr_gray_very_light;
         border-radius: 0.625rem;
         max-height: 30rem;
         overflow-y: auto;
+        min-height: 27rem !important;
     }
 
     &-display-items {
         overflow-y: auto;
         scrollbar-width: none;
-        max-height: calc(30rem - 7rem);
+        max-height: 20rem;
     }
 
     &-title {
@@ -213,14 +266,43 @@
         color: $clr_green !important;
         width: 7rem !important;
         height: 3.2rem !important;
-        border: 1px solid $clr_green !important;
+        border: 0.0625rem solid $clr_green !important;
         text-transform: none !important;
         font-size: $p1 !important;
         font-weight: $font_semibold !important;
         box-shadow: none !important;
         border-radius: 2.25rem !important;
     }
-
+    &-drawer{
+      width: 35rem;
+      &-heading{
+        font-weight: $font_semibold !important;
+        font-size: $h5 !important;
+      }
+      &-btn{
+        &-cancel{
+          background-color: $clr_white !important;
+          border-color: $clr_green !important;
+          color: $clr_green !important;
+          min-width: 7rem !important;
+          height: 3.2rem !important;
+          text-transform: none !important;
+          font-size: $p1 !important;
+          font-weight: $font_semibold !important;
+          box-shadow: none !important;
+        }
+        &-save{
+          background-color: $clr_green !important;
+          color: $clr_white !important;
+          min-width: 7rem !important;
+          height: 3.2rem !important;
+          text-transform: none !important;
+          font-size: $p1 !important;
+          font-weight: $font_semibold !important;
+          box-shadow: none !important;
+        }
+      }
+    }
     &-form-spacing {
         padding-top: 0.9rem;
     }
@@ -238,7 +320,7 @@
     &-save-btn {
         background-color: $clr_green !important;
         color: $clr_white !important;
-        min-width: 7rem !important;
+        width: 100%;
         height: 3.2rem !important;
         text-transform: none !important;
         font-size: $p1 !important;
@@ -321,6 +403,18 @@
             margin-right: 0.5rem !important;
             background-position: right 0.1 center;
         }
+    }
+    &-empty{
+      &-title{
+        font-weight: $font-bold !important;
+        font-size: $h6 !important;
+        text-align: center;
+      }
+      &-subtitle{
+        font-weight: $font_normal !important;
+        font-size: $p2 !important;
+        text-align: center;
+      }
     }
 }
 
@@ -476,7 +570,7 @@
 
         &-event-link {
             background-color: $clr_bright_gray;
-            border: 1px solid white
+            border: 0.0625rem solid white
         }
     }
 
@@ -548,13 +642,14 @@
             }
 
             &-selected-img {
-              width: 5rem !important;
-              height: 5rem !important;
-              border-radius: 0% !important;
-              &-icon{
                 width: 5rem !important;
                 height: 5rem !important;
-              }
+                border-radius: 0% !important;
+
+                &-icon {
+                    width: 5rem !important;
+                    height: 5rem !important;
+                }
             }
         }
 
@@ -572,7 +667,7 @@
             overflow-wrap: anywhere;
             overflow-x: auto;
 
-        &-designation {
+            &-designation {
                 color: $clr_grayish_blue;
                 font-weight: $font_medium !important;
                 font-size: $p2 !important;
@@ -612,17 +707,18 @@
                 margin-right: 0.833rem;
                 margin-bottom: 1rem;
             }
+
             &-no-img {
-              width: 16.563rem !important;
-              height: 16.875rem !important;
-              border-radius: 0.5rem !important;
-              margin-right: 0.833rem !important;
-              margin-bottom: 1rem !important;
-    
-              &-icon {
                 width: 16.563rem !important;
                 height: 16.875rem !important;
-              }
+                border-radius: 0.5rem !important;
+                margin-right: 0.833rem !important;
+                margin-bottom: 1rem !important;
+
+                &-icon {
+                    width: 16.563rem !important;
+                    height: 16.875rem !important;
+                }
             }
 
             &-name {
@@ -883,7 +979,7 @@
         background-color: $clr_white ;
         color: $clr_green !important;
         min-width: 8rem !important;
-        border: 1px solid $clr_green !important;
+        border: 0.0625rem solid $clr_green !important;
         text-transform: none;
         font-size: $h6 ;
         font-weight: $font_semibold !important;
@@ -898,24 +994,25 @@
         max-width: 100%;
         margin: 0 auto;
 
-        &-add{
-          &-program-button {
-            background-color: $clr_green !important;
-            border-radius: 1.68rem !important;
-            color: $clr_white !important;
-            margin-left: 0.5rem !important;
-            font-weight: $font-semibold !important;
-            font-size: $p1 !important;
-            text-transform: none !important;
-          }
-          &-addon-button {
-              border: solid 0.1rem $clr_green !important;
-              border-radius: 1.68rem !important;
-              color: $clr_green !important;
-              font-weight: $font-semibold !important;
-              font-size: $p1 !important;
-              text-transform: none !important;
-          }
+        &-add {
+            &-program-button {
+                background-color: $clr_green !important;
+                border-radius: 1.68rem !important;
+                color: $clr_white !important;
+                margin-left: 0.5rem !important;
+                font-weight: $font-semibold !important;
+                font-size: $p1 !important;
+                text-transform: none !important;
+            }
+
+            &-addon-button {
+                border: solid 0.1rem $clr_green !important;
+                border-radius: 1.68rem !important;
+                color: $clr_green !important;
+                font-weight: $font-semibold !important;
+                font-size: $p1 !important;
+                text-transform: none !important;
+            }
         }
     }
 
@@ -929,8 +1026,6 @@
         border-radius: $p3;
         padding: 1rem;
         flex: 1 1 calc(30% - .375rem);
-        max-width: calc(30% - .125rem);
-        min-width: 11.25rem;
         box-sizing: border-box;
         height: 11rem;
 
@@ -1000,7 +1095,8 @@
         font-size: $h6 ;
         font-weight: $font_semibold !important;
         box-shadow: none;
-        &.Mui-disabled{
+
+        &.Mui-disabled {
             background: $clr_gray_faded !important;
             color: $clr_gray_medium !important;
             border: none !important;
@@ -1013,7 +1109,7 @@
         border-radius: 1.68rem !important;
         color: $clr_green !important;
         font-weight: $font-semibold !important;
-      
+
     }
 }
 
@@ -1183,8 +1279,8 @@
         justify-content: center;
         margin-top: .8rem;
     }
-    
-    &-table-input-text{
+
+    &-table-input-text {
         input {
             font-size: $h6;
             padding: 0.25rem 0;
@@ -1205,7 +1301,8 @@
                 border: none;
             }
         }
-        &-col{
+
+        &-col {
             font-size: $h6 !important;
             padding: 0.25rem 0;
             font-weight: $font-semibold !important;
@@ -1251,9 +1348,11 @@
         font-weight: $font_medium !important;
 
     }
-    &-button{
+
+    &-button {
         padding: 0 !important;
     }
+
     &-circle-add-icon {
         border-radius: 2rem !important;
         height: 3.333rem !important;
@@ -1265,16 +1364,17 @@
         justify-content: space-between;
         align-items: center;
     }
-    &-submit-button{
-            background-color: $clr_green !important;
-            color: $clr_white !important;
-            min-width: 8rem !important;
-            border: .16rem solid $clr_green !important;
-            text-transform: none ;
-            font-size: $h6 ;
-            font-weight: $font_semibold !important;
-            box-shadow: none ;
-            margin-bottom: 1rem !important;
+
+    &-submit-button {
+        background-color: $clr_green !important;
+        color: $clr_white !important;
+        min-width: 8rem !important;
+        border: .16rem solid $clr_green !important;
+        text-transform: none;
+        font-size: $h6 ;
+        font-weight: $font_semibold !important;
+        box-shadow: none;
+        margin-bottom: 1rem !important;
     }
 
 }
@@ -1366,6 +1466,7 @@
         box-shadow: none !important;
         font-weight: $font_normal !important;
     }
+
     &-filter-submit-btn {
         max-height: 4rem;
         background-color: $clr_green !important;
@@ -1374,12 +1475,13 @@
         box-shadow: none !important;
         font-size: $p2 !important;
         font-weight: $font_normal !important;
-      }
+    }
+
     &-no-events-icon {
-      height: 13.83rem;
-      width: 13.83rem;
-  }
-  
+        height: 13.83rem;
+        width: 13.83rem;
+    }
+
 }
 
 .settings-attendee {
@@ -1435,6 +1537,7 @@
     padding: 1rem;
     width: 50rem;
     margin-top: 2.1875rem;
+    margin-right: 1rem;
 }
 
 .assigned-volunteer-container {
@@ -1452,7 +1555,7 @@
 
 .assigned-volunteer-search-field {
     width: 100% !important;
-    max-width: 37.5rem;
+    max-width: 46rem;
 }
 
 .assigned-volunteer-card {
@@ -1528,93 +1631,374 @@
 }
 
 .assign-reviewer-drawer {
-  &-main {
-    min-width: 40rem !important;
-  }
-  &-header {
-    padding: 2rem;
-    justify-content: space-between;
-  }
-
-  &-title {
-    font-size: 1.5rem;
-    font-weight: $font_medium;
-    color: $clr_black;
-  }
-
-  &-content {
-    padding: 1.33rem;
-  }
-
-  &-list-item {
-    display: flex;
-    align-items: center;
-    padding: 1.5rem 0;
-
-    &:not(:last-child) {
-      border-bottom: 0.083rem solid $clr_bright_gray;
+    &-main {
+        min-width: 40rem !important;
     }
-  }
 
-  &-list-item-text {
-    margin-right: 1.5rem;
-
-    .MuiTypography-root {
-      font-size: 1rem;
-      color: #555;
+    &-header {
+        padding: 2rem;
+        justify-content: space-between;
     }
-  }
 
-  &-assign-button {
-    font-weight: $font-medium;
-    background-color: $clr_green !important;
-  }
+    &-title {
+        font-size: 1.5rem;
+        font-weight: $font_medium;
+        color: $clr_black;
+    }
 
-  &-no-reviewers {
-    text-align: center;
-    color: $clr_gray_light;
-    margin-top: 1.67rem;
-  }
+    &-content {
+        padding: 1.33rem;
+    }
+
+    &-list-item {
+        display: flex;
+        align-items: center;
+        padding: 1.5rem 0;
+
+        &:not(:last-child) {
+            border-bottom: 0.083rem solid $clr_bright_gray;
+        }
+    }
+
+    &-list-item-text {
+        margin-right: 1.5rem;
+
+        .MuiTypography-root {
+            font-size: 1rem;
+            color: #555;
+        }
+    }
+
+    &-assign-button {
+        font-weight: $font-medium;
+        background-color: $clr_green !important;
+    }
+
+    &-no-reviewers {
+        text-align: center;
+        color: $clr_gray_light;
+        margin-top: 1.67rem;
+    }
 }
 
 .abstract-modal-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: fixed; 
-    width: 100vw; 
-    height: 100vh; 
-    backdrop-filter: blur(0.1rem); 
-  }
-  
-  .abstract-modal {
-    background-color: $clr_white; 
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(0.1rem);
+}
+
+.abstract-modal {
+    background-color: $clr_white;
     padding: 2rem;
-    border-radius: 0.5rem; 
+    border-radius: 0.5rem;
     width: 50rem;
-    max-width: 90%; 
-    max-height: 50rem; 
+    max-width: 90%;
+    max-height: 50rem;
     overflow-y: auto;
     position: relative;
-  }
-  .abstract-selected{
+}
+
+.abstract-selected {
     border: 0.083rem solid $clr_gray_medium;
     padding: 1.333rem;
     border-radius: 0.5rem;
     margin-bottom: 2rem;
-    align-items: center;    
-  }
-.view-abstract{
-    background-color: transparent !important;
-    color:$clr_blue;
-    font-size: $p2;
-    font-weight: $font_medium;
+    align-items: center;
 }
-.abstract-green-btn{
+
+.view-abstract {
+    background-color: transparent !important;
+    color: $clr_blue !important;
+    font-size: $p2 !important;
+    font-weight: $font_medium !important;
+}
+
+.not-assigned {
+    color: $clr_medium_red;
+}
+
+.abstract-green-btn {
     background-color: $clr_green !important;
     color: white !important;
     box-shadow: none !important;
 }
-.event-list-row-drafted{
-    background-color: $clr_gray_faded !important;
+
+.add-addons {
+    &-addon-btn{
+        width: 100% !important;
+        line-height: 1.5rem;
+        background: $clr_green !important;
+        font-weight: $font-bold;
+        text-transform: none !important;
+        font-size: $p2 !important;
+         
+    }
+    &-drawer{
+        width: 40rem !important;
+        height: 30rem;
+        padding-inline:2rem;
+        &-heading{
+            font-size: $h3 !important;
+            font-weight: $font-bold;
+            padding-top: 1rem;
+        }
+    }
+   &-saved-addons{
+    min-height: 20rem !important;
+   }
+    &-NOaddon{
+
+        min-height:18rem ;
+        svg{
+            width: 7.5rem;
+            height:  6.231rem;
+        }
+        .title{
+           padding-top: 2.083rem;
+           font-family: $font;
+           font-size:$h5  ;
+           font-weight: $font-bold;
+            color: $clr_black ;
+            line-height: 2.064rem;
+        }
+        .description{
+            font-family: $font;
+            font-size: $p2;
+            font-weight: $font_normal;
+            line-height: 1.7rem;
+            color: $clr_gray_dark_text;
+        }
+    }
+    &-prop-add {
+        svg {
+            width: 2rem !important;
+            height: 2rem !important;
+            border-radius: .2rem;
+            background: $clr_light_grayish_blue !important;
+        }
+    }
+
+    &-container {
+        background-color: $clr_white;
+        padding-left: 1rem;
+        width: 100%;
+    }
+
+    &-next-btn {
+        background-color: $clr_green !important;
+        color: $clr_white !important;
+        min-width: 15rem !important;
+    }
+
+    &-back-btn {
+        background-color: $clr_white !important;
+        color: $clr_green !important;
+        min-width: 15rem !important;
+    }
+
+    &-display-item {
+        height: 4.5rem;
+        // padding: 1rem 0.1rem 1rem 1rem !important;
+        //  margin-bottom: 1.05rem !important;
+        border: 0.092rem solid $clr_gray_very_light !important;
+        border-radius: 0.41rem !important;
+        &-name{
+            color: $clr_field !important;
+            padding-inline: 1rem;
+            font-family: $font !important;
+            font-size: $p2 !important; 
+            font-weight: $font-semibold !important;  
+        }
+        &-description{
+            padding-inline: 1rem;
+            color: $clr_field !important;
+            line-height: 1.252rem !important;
+            font-family: $font !important;
+            font-size: $p3 !important; 
+            font-weight: $font-normal !important;
+        }
+    }
+
+    &-display-title {
+        font-weight: $font_medium !important;
+        font-size: $h5 !important;
+        color: $clr_black;
+    }
+
+    &-display-container {
+        border: 0.092rem solid $clr_gray_very_light;
+        border-radius: 0.625rem;
+        overflow-y: auto;
+        &-details{
+         min-height: 10rem ;
+         max-height:20rem ;
+        }
+        &-heading{
+             padding-block: 1.2rem !important;
+            font-family: Inter;
+            font-size: $h5 !important; 
+            font-weight: $font_semibold !important; 
+        }
+    }
+
+     &-display-items {
+        overflow-y: auto;
+        scrollbar-width: none;
+        max-height: 20rem;
+    }
+
+    &-title {
+        text-align: center !important;
+        font-weight: $font_bold !important;
+        font-size: $h3 !important;
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+
+    &-add-btn {
+        background-color: $clr_white !important;
+        color: $clr_green !important;
+        width: 7rem !important;
+        height: 3.2rem !important;
+        border: 0.0625rem solid $clr_green !important;
+        text-transform: none !important;
+        font-size: $p1 !important;
+        font-weight: $font_semibold !important;
+        box-shadow: none !important;
+        border-radius: 2.25rem !important;
+    }
+    &-drawer{
+        width: 35rem;
+      &-heading{
+        font-weight: $font_semibold !important;
+        font-size: $h5 !important;
+      }
+      &-btn{
+        &-cancel{
+          background-color: $clr_white !important;
+          border-color: $clr_green !important;
+          color: $clr_green !important;
+          min-width: 7rem !important;
+          height: 3.2rem !important;
+          text-transform: none !important;
+          font-size: $p1 !important;
+          font-weight: $font_semibold !important;
+          box-shadow: none !important;
+        }
+        &-save{
+          background-color: $clr_green !important;
+          color: $clr_white !important;
+          min-width: 7rem !important;
+          height: 3.2rem !important;
+          text-transform: none !important;
+          font-size: $p1 !important;
+          font-weight: $font_semibold !important;
+          box-shadow: none !important;
+        }
+      }
+    }
+    &-form-spacing {
+        padding-top: 0.9rem;
+    }
+
+    &-form-container {
+        padding-right: 1rem !important;
+    }
+
+    &-add-ons-title {
+        font-weight: $font_normal !important;
+        font-size: $h6 !important;
+    }
+
+    &-save-btn {
+        background-color: $clr_green !important;
+        color: $clr_white !important;
+        width: 100%;
+        height: 3.2rem !important;
+        text-transform: none !important;
+        font-size: $p1 !important;
+        font-weight: $font_semibold !important;
+        box-shadow: none !important;
+    }
+
+    &-addons-grid {
+        padding-bottom: 1rem;
+    }
+
+    &-radio-btn {
+        .Mui-checked {
+            color: $clr_green !important;
+
+            ~.MuiFormControlLabel-label {
+                color: $clr_field !important;
+            }
+        }
+
+        .MuiRadio-root:not(.Mui-checked) {
+            color: $clr_gray_medium !important; // Define light color
+
+            // Style for the label of unchecked radio
+            ~.MuiFormControlLabel-label {
+                color: $clr_gray_medium !important; // Light color for label
+            }
+        }
+    }
+
+    &-switch-btn {
+        .Mui-checked {
+            color: $clr_green !important;
+        }
+
+        .MuiFormControlLabel-label {
+            font-size: $p2 !important;
+        }
+    }
+
+    &-check-btn {
+        svg {
+            width: 1.6rem;
+            height: 1.6rem;
+            fill: $clr_green ;
+        }
+    }
+
+    &-add-property-btn {
+        border: solid 0.14rem $clr_green !important;
+        background-color: $clr_white !important;
+        color: $clr_green !important;
+        box-shadow: none !important;
+        padding-inline: .8rem !important;
+    }
+
+    &-chip-item {
+        font-size: $p3 !important;
+        background-color: $clr_green_light !important;
+        border: solid 0.1rem $clr_green !important;
+
+        svg {
+            fill: transparent !important;
+            background: url('/src/assets/svg/Close_circle-red.svg') !important;
+        }
+    }
+
+    &-warning-msg {
+        color: $clr_gray_dark !important;
+
+        :hover {
+            color: $clr_red !important;
+        }
+    }
+
+    &-select {
+        svg {
+            fill: transparent !important;
+            background: url('/src/assets/svg/To-Down.svg') no-repeat right center;
+            margin-right: 0.5rem !important;
+            background-position: right 0.1 center;
+        }
+    }
 }

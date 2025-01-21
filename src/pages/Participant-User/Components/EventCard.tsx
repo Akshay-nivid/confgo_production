@@ -32,7 +32,7 @@ interface EventProps {
  * user Dashboard eventCard component
  */
 const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetitle, title, location, viewButton, buttonPress, squareButton, squareButtonLabels, onSquareButtonClick, Eventstatus }) => {
-   const attendeeStatus=eventFullData?.participants[0]?. eventParticipants[0]?.event.attendees
+   const attendeeStatus=eventFullData?.participants[0]?. eventParticipants[0]?.event?.attendees
     const navigate = useNavigate();
   
    /**
@@ -72,7 +72,7 @@ const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetit
                     <Grid container size={12} className="content">
                         <Typography className="event-card-location">Status</Typography>
                         {isEndDatePast? <StatusComponent value="11"/>:
-                        <StatusComponent value={attendeeStatus.length==0 ? "7" : "8"}  />}
+                        <StatusComponent value={attendeeStatus?.length==0 ? "7" : "8"}  />}
                     </Grid>
                 </Grid>}
             {squareButton &&
