@@ -1,0 +1,103 @@
+
+/* Container Styling */
+.container {
+    margin-top: 4rem;
+    color: $clr_black;
+  
+    @media (max-width: 768px) {
+      margin-top: 2.5rem;
+    }
+  }
+  
+  /* Page Title */
+  .title {
+    text-align: center;
+    color: $clr_black;
+    font-size: $h4;
+    margin-bottom: 2.5rem;
+  
+    @media (max-width: 768px) {
+      font-size: $p5;
+    }
+  }
+  
+  /* Introduction Text */
+  .introduction {
+    margin-bottom: 2.5rem;
+    line-height: 1.8;
+    font-size: $p3;
+    color: $input_label;
+  
+    strong {
+      color: $clr_black;
+    }
+  }
+  
+  /* Step-by-Step Instructions */
+  .steps {
+    margin-bottom: 2.5rem;
+  
+    h6 {
+      margin-bottom: 0.8rem;
+      font-weight:$font_semibold;
+      font-size: $p6;
+    }
+  
+    ol {
+      margin-left: 2.5rem;
+  
+      li {
+        margin-bottom: 0.8rem;
+        font-size: $p3;
+  
+        @media (max-width: 768px) {
+          font-size: $p3;
+        }
+      }
+    }
+  }
+  
+  /* Important Note */
+  .important-note {
+    font-size: $p3;
+    color: $input_label;
+    margin-bottom: 20px;
+  
+    strong {
+      color: $clr_black;
+    }
+  }
+  
+  /* Support Contact */
+  .contact {
+    margin-bottom: 2.5rem;
+    font-size: $p3;
+  
+    a {
+      color: $clr_blue;
+      text-decoration: none;
+  
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  
+  /* Back to Home Button */
+  .button-container {
+    text-align: center;
+  
+    .home-button {
+      background-color: #007bff;
+      color: white;
+      padding: 0.8rem 1.8rem;
+      border-radius: 0.45rem;
+      font-size: $p3;
+      text-transform: none;
+  
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+  
