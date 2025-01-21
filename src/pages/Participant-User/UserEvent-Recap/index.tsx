@@ -62,7 +62,7 @@ const EventRecap: React.FC = React.memo(() => {
   /**
    * attended status
    */
-  const attendeeStatus = eventData[0]?.participants[0]?.eventParticipants[0]?.event.attendees;
+  const attendeeStatus = eventData[0]?.participants[0]?.eventParticipants[0]?.event?.attendees;
 
   
   /**
