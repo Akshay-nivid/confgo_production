@@ -2,6 +2,10 @@ import React from 'react';
 import { Container, Typography, Button } from '@mui/material';
 import Grid from "@mui/material/Grid2";
 
+/**
+ * Component used to show delete account steps in congo user app
+ * @returns 
+ */
 export const AccountDeletionPage: React.FC<any> = () => {
     return (
         <Container maxWidth="md" className="container">
