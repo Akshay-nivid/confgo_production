@@ -184,10 +184,10 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
     }
     const programData = {
       ...data,
-      startTime:formatUTCDateTime(data.startTime),
-      endTime:formatUTCDateTime(data.endTime),
       programType: data.programType,
       isPaid: data.isPaid,
+      ...(data.startTime ? {startTime:formatUTCDateTime(data.startTime) } : {}), // Conditionally add abstractDate
+      ...(data.endTime ? {endTime:formatUTCDateTime(data.endTime) } : {}), // Conditionally add abstractDate
       ...(isEditing ? {} : { parentEventId: parentId }), // Include parentId only when adding a new program
     };
 
