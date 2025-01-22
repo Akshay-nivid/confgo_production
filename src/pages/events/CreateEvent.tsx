@@ -22,6 +22,7 @@ import GoogleMapPlacePicker from "./GoogleMapPlacePicker";
 import useStore, { setDataById } from "@/Libs/store";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
+import confgo  from "../../../config.json"
 
 type EventProps = {
   formSubmit: boolean;
@@ -101,7 +102,7 @@ const CreateEvent: React.FC<EventProps> =
   const [isInitialRender, setIsInitialRender] = useState(true);
   const POST = useStore((state: any) => state.POST);
   const [specialty,setspecialty]=useState<Specialty[]>([]);
-
+  const currency=confgo.currency;
     // Watch values from the form
     const fields: ('mapUrl' | 'postalCode' | 'venueName' | 'city' | 'address')[] = ['mapUrl', 'postalCode', 'venueName', 'city','address'];
     const mapUrl = watch('mapUrl');
@@ -473,7 +474,7 @@ const CreateEvent: React.FC<EventProps> =
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField
                       placeholder="Price"
-                       prefix="$"
+                       prefix={currency}
                       control={control}
                       name="amount"
                       type="number"

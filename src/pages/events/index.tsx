@@ -479,7 +479,7 @@ const Events = () => {
             email: data.eventContacts?.[0]?.email || "",
             startTime: formatDate(data.startTime),
             endTime: formatDate(data.endTime),
-            amount: data.amount==="0.00"?'':data.amount || "0",
+            amount:data.amount && data.amount !== "0.00" ? data.amount : "",
             specialtyId: data.specialtyId || null,
             url: data.url || null,
             mapUrl: data.venue?.mapUrl || null, // Example map URL

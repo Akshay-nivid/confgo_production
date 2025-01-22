@@ -12,6 +12,7 @@ import jsPDF from "jspdf";
 import { POST } from "@/Libs/store";
 import moment from "moment";
 import StatusComponent from "@/components/Status/StatusComponent";
+import confgo  from "../../../../config.json"
 
 
 /**
@@ -20,6 +21,7 @@ import StatusComponent from "@/components/Status/StatusComponent";
 const PaymentHistory: React.FC = React.memo(() => {
   const [isLoading, setIsLoading] = useState(false);
   const [source, setSource] = useState<ISource | undefined>(undefined);
+  const currency=confgo.currency
   /**
    *  * `columns` defines the structure of each column in the DataGridList component.
    */
@@ -32,7 +34,7 @@ const PaymentHistory: React.FC = React.memo(() => {
       width: 140,
       dateFormat: "DD/MM/YYYY",
     },
-    { type: "default", field: "amount",prefix:"$", headerName: "Amount", width: 130 },
+    { type: "default", field: "amount",prefix:`${currency}`, headerName: "Amount", width: 130 },
     {
       type: "custom",
       field: "status",

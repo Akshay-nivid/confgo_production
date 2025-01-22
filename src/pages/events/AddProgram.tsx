@@ -16,6 +16,7 @@ import useStore from "@/Libs/store";
 import { NoProgramIcon, WarningIcon } from "@/assets/svg";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import { CloseOutlined } from "@mui/icons-material";
+import confgo  from "../../../config.json"
 
 type FormData = {
   programs: {
@@ -91,7 +92,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
     const eventStartDate= eventDate?.startDate;
     const eventEndDate= eventDate?.endDate;
     const [drawerOpen, setDrawerOpen] = useState(false);
-
+    const currency=confgo.currency;
     /**
      * function to close the drawer
      */
@@ -560,7 +561,7 @@ const handleAddProgram = () => {
                             <Grid size={{ xs: 12, sm: 12 }}>
                               <CustomTextField
                                 placeholder="Price"
-                                prefix="$"
+                                prefix={currency}
                                 control={control}
                                 name={`programs.${index}.amount`}
                                 type="number"

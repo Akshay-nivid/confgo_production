@@ -417,7 +417,7 @@ const EventInfoCard: React.FC<any> = React.memo(
         </Grid>
         <Grid size={{ xs: 9 }}>
           <Typography className="event-information-content">
-            {eventData?.amount}{currency}
+          {currency}{eventData?.amount}
           </Typography>
         </Grid>
       </Grid>
