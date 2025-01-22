@@ -1,6 +1,7 @@
 
 
 const routes = {
+  deleteAccount: () => "/delete-account",
   home: () => "/",
   dashboard: () => "/dashboard",
   reviewerHome: () => "/reviewer/home",
