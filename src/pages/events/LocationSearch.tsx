@@ -162,7 +162,7 @@ const LocationSearch = ({ onClose }: GooglePlacePickerProps) => {
           variant="h3"
           className="event-detail-event-info-card-title"
         >
-          Choose Location
+          Choose Venue
         </Typography>
       <IconButton onClick={onClose}>
         <CloseOutlined />
