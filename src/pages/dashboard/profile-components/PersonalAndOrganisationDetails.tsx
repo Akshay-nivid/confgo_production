@@ -383,16 +383,21 @@ return (
         <Grid size={12} className="main-connected">
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container direction="row" alignItems="center">
-              <Avatar
-                className="main-user-profile"
-                src={
-                  drawerProfileImage
-                    ? `${baseUrl}asset/${drawerProfileImage}`
-                    : `${baseUrl}asset/${profileData?.assetId}`
-                }
-                alt="User Profile"
-                variant="circular"
-              />
+              {profileData?.assetId || drawerProfileImage != null ? (
+                  <Avatar
+                    src={drawerProfileImage
+                      ? `${baseUrl}asset/${drawerProfileImage}`
+                      : `${baseUrl}asset/${profileData?.assetId}`
+                  }
+                    className="main-user-profile"
+                    alt="User Profile"
+                    variant="circular"
+                  />
+                ) : (
+                  <Avatar className="main-user-profile main-user-profile-text">
+                    {`${profileData?.firstName[0]}${profileData?.lastName[0]}`.toUpperCase()}
+                  </Avatar>
+                )}
               <Button
                 className="main-user-profile-upload-btn"
                 onClick={openmodal}
@@ -444,16 +449,31 @@ return (
         <Grid size={12} className="main-connected">
           <form onSubmit={handleSubmit(onLogoSubmit)}>
             <Grid container direction="row" alignItems="center">
-              <Avatar
-                className="main-user-profile"
-                src={
-                  drawerLogoImage
-                    ? `${baseUrl}asset/${drawerLogoImage}`
-                    : `${baseUrl}asset/${LogoprofileData?.assetId}`
-                }
-                alt="User Profile"
-                variant="circular"
-              />
+            {LogoprofileData?.assetId || drawerLogoImage != null ? (
+                  <Avatar
+                    className="main-user-profile"
+                    src={
+                      drawerLogoImage
+                        ? `${baseUrl}asset/${drawerLogoImage}`
+                        : `${baseUrl}asset/${LogoprofileData?.assetId}`
+                    }
+                    alt="User Profile"
+                    variant="circular"
+                  />
+                ) : (
+                  <>
+                    {LogoprofileData?.companyName ? (
+                      <Avatar className="main-user-profile main-user-profile-text">
+                        {LogoprofileData.companyName
+                          .split(" ")
+                          .map((word) => word[0].toUpperCase())
+                          .join("")}
+                      </Avatar>
+                    ) : (
+                      <Avatar></Avatar>
+                    )}
+                  </>
+                )}
               <Button
                 className="main-user-profile-upload-btn"
                 onClick={openLogomodal}
