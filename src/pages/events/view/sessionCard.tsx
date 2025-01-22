@@ -179,7 +179,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
       <Grid className="card-content" minHeight={"10rem"} size={12} onClick={handleSquareButtonClick}>
        <Grid container size={12}>
         <Typography className="card-content-day">
-            Day One
+            Day
         </Typography>
        </Grid>
 
@@ -254,7 +254,8 @@ const SessionCard: React.FC<SessionCardProps> = ({
                 <Grid maxWidth={"max-content"} container alignItems={"center"} className="date-box" > 
 
                    <Typography className="date-box-content">
-                    April 10 2024 9:30 AM - 10:30 AM
+                   {item[startTimeField]&&item[endTimeField]?<><span>{timeCorrection ? getLocalTimeDate(item[startTimeField]) : item[startTimeField]}</span> - 
+                   <span>{timeCorrection ? getLocalTimeDate(item[endTimeField]) : item[endTimeField]}</span></>:<span>General Addon</span>}
                    </Typography>
                 </Grid>
 
