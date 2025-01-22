@@ -10,7 +10,7 @@ import moment from "moment";
 import { useFieldArray } from "react-hook-form";
 import AddIcon from "@mui/icons-material/Add";
 import apiClient from "@/Libs/Https/API-client";
-import { convertUTCToUserTimeZone, getLocalTimeDate, processAPIResponse } from "@/Utils/CommonBaseClass";
+import {convertUTCToUserTimeZone, getLocalTimeDate, processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import { useParams } from "react-router-dom";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
@@ -19,7 +19,7 @@ import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
 import CustomTimePicker from "@/components/CustomTimePicker/CustomTimePicker";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CustomCheckbox from "@/components/CustomCheckbox/CustomCheckbox";
-import { POST } from "@/Libs/store";
+import { POST, setDataById } from "@/Libs/store";
 
 interface FormData {
   addonId: number;
@@ -304,35 +304,51 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
       } else {
         // If no looping is required, generate just one formattedData
         const formattedData: any = {
-          // eventId: Number(id),
           addonId: Number(selectedAddOnId),
-          // amount: data.amount,
           description: data.description,
           properties: Array.isArray(data.properties) && data.properties.length > 0
             ? data.properties.map((property: any) => ({
               name: property.propertyName,
               amount: property.propertyAmount || 0,
               description: "  ",
-              // enabled: 1,
             }))
             : [],
         };
 
         if (data.dateRequired) {
-          formattedData.startTime = `${data.addonDate} ${moment(data.startTime, ["hh:mm A"]).format("HH:mm")}`;
-          formattedData.endTime = `${data.addonDate} ${moment(data.endTime, ["hh:mm A"]).format("HH:mm")}`;
+          formattedData.startTime = `${data.addonDate} ${convertUTCToUserTimeZone(data.addonDate+" "+data.startTime,"HH:mm")}`;
+          formattedData.endTime = `${data.addonDate} ${convertUTCToUserTimeZone(data.addonDate+" "+data.endTime,"HH:mm")}`;
+          console.log( formattedData.startTime,'start', formattedData.endTime,'endTime')
         }
         formattedDataArray.push(formattedData);
+        
       }
-      if (isEditing) {
-        onSubmit(formattedDataArray);
+      if (isEditing) {      
+        const baseFormattedData: any = {
+          eventId: Number(id),
+          addonId: Number(selectedAddOnId),
+          startTime:`${data.addonDate} ${data?.startTime} `,
+          endTime:`${data.addonDate} ${data?.endTime}`,
+          description: data.description,
+          properties: Array.isArray(data.properties) && data.properties.length > 0
+            ? data.properties.map((property: any) => ({
+              name: property.propertyName,
+              amount: property.propertyAmount || 0,
+              description: "  ",
+            }))
+            : [],
+        };
+        onSubmit(baseFormattedData);
       } else {
         addonCreateSubmit(formattedDataArray);
       }
     }
   };
 
-
+  /**
+   * addon create request handles repeat addon create
+   * @param form data
+   */
   const addonCreateSubmit = (data: any) => {
     const request = {
       eventId: Number(id),
@@ -345,10 +361,20 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
       successCB: (_context) => {
         closeDrawer();
         onSubmitHandler();
-
+        setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "success",
+          message: "Success",
+        });
       },
-      errorCB: (_context) => {
-
+      errorCB: (error: any) => {
+        setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "error",
+          message: error.message,
+        });
       },
     })
   }
