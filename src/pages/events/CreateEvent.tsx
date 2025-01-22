@@ -473,6 +473,7 @@ const CreateEvent: React.FC<EventProps> =
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField
                       placeholder="Price"
+                       prefix="$"
                       control={control}
                       name="amount"
                       type="number"

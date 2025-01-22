@@ -337,6 +337,7 @@ const CouponView: React.FC = () => {
                       <CustomTextField
                         name="maxDiscountValue"
                         placeholder="Maximum Discount Amount"
+                        prefix="$"
                         control={control}
                         defaultValue={coupon?.maxDiscountValue}
                         type="number"
@@ -348,6 +349,7 @@ const CouponView: React.FC = () => {
                     <Grid size={{ xs: 12, sm: 12 }}>
                       <CustomTextField
                         name="minPurchaseValue"
+                        prefix="$"
                         placeholder="Minimum Purchase Amount"
                         control={control}
                         type="number"
