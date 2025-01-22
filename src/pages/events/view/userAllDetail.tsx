@@ -21,6 +21,7 @@ import signature from "../../../assets/png/signature.png"
 import { Logger } from "@/Utils/Logger";
 import  CloseIcon  from "../../../assets/svg/CloseModal.svg";
 import DownloadModal from "../../../assets/svg/DownloadModal.svg"
+import confgo  from "../../../../config.json"
 
 interface DetailProps {
   userdetail: any;
@@ -43,6 +44,7 @@ const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => {
   const [certificatePdfUrl, setCertificatePdfUrl] = useState('');
 
 
+  const currency=confgo.currency;
   //stores the customform data
   const cleanedFormData = userdetail.formData.map((item:any) => {
     const parsedResponse = JSON.parse(item.response);
@@ -647,7 +649,7 @@ const handleDownloadPdf = () => {
           <Typography className="all-details-data-title">Total Amount</Typography>
           </Grid>
           <Grid size={8}>
-          <Typography className="all-details-data">{PaymentDetails.amount}</Typography>
+          <Typography className="all-details-data">{currency}{PaymentDetails.amount}</Typography>
           </Grid>
       </Grid>
       <Grid container>

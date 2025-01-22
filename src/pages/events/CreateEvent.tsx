@@ -22,6 +22,7 @@ import GoogleMapPlacePicker from "./GoogleMapPlacePicker";
 import useStore, { setDataById } from "@/Libs/store";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
+import confgo  from "../../../config.json"
 
 type EventProps = {
   formSubmit: boolean;
@@ -101,7 +102,7 @@ const CreateEvent: React.FC<EventProps> =
   const [isInitialRender, setIsInitialRender] = useState(true);
   const POST = useStore((state: any) => state.POST);
   const [specialty,setspecialty]=useState<Specialty[]>([]);
-
+  const currency=confgo.currency;
     // Watch values from the form
     const fields: ('mapUrl' | 'postalCode' | 'venueName' | 'city' | 'address')[] = ['mapUrl', 'postalCode', 'venueName', 'city','address'];
     const mapUrl = watch('mapUrl');
@@ -430,10 +431,10 @@ const CreateEvent: React.FC<EventProps> =
                       name="phone"
                       type="text"
                       isNumeric={true}
-                      // rules={{
-                      //   required: 'Phone is required',
+                       rules={{
+                        required: 'Phone is required',
                       //   pattern: validatePhoneNumber({})
-                      // }}
+                       }}
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 6 }}>
@@ -488,6 +489,7 @@ const CreateEvent: React.FC<EventProps> =
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField
                       placeholder="Price"
+                       prefix={currency}
                       control={control}
                       name="amount"
                       type="number"
@@ -564,7 +566,7 @@ const CreateEvent: React.FC<EventProps> =
                     >
                       <CustomButton
                       className="create-event-choose-map"
-                        label="Choose Location"
+                        label="Choose Venue"
                         onClick={()=>setDrawerOpen(true)}
                         />
                           <Tooltip title="Location details fills up on once choose desired location" arrow>
@@ -581,7 +583,7 @@ const CreateEvent: React.FC<EventProps> =
                         mb={0}
                       >
                         <CustomTextField
-                          placeholder="Location URL (must be a Google Maps link with latitude and longitude)"
+                          placeholder="Venue URL (must be a Google Maps link with latitude and longitude)"
                           control={control}
                           name="mapUrl" 
                           type="text" 
