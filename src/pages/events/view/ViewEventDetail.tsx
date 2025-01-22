@@ -394,7 +394,7 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
             <TabList className="event-detail-tab-layout" onChange={handleChange} aria-label="lab API tabs example">
               <Tab label="Basic Info" className="event-detail-tab-layout-item" value="1" />
               <Tab label="Team & Role" className="event-detail-tab-layout-item" value="2" />
-              <Tab label="Programme&Add-ons" className="event-detail-tab-layout-item" value="3" />
+              <Tab label="Sessions" className="event-detail-tab-layout-item" value="3" />
               { eventFullData?.venue && <Tab label="Location" className="event-detail-tab-layout-item" value="4" />}
               <Tab label="Participants" className="event-detail-tab-layout-item" value="5" />              
               <Tab label="Template" className="event-detail-tab-layout-item" value="6" />
