@@ -32,7 +32,7 @@ const PaymentHistory: React.FC = React.memo(() => {
       width: 140,
       dateFormat: "DD/MM/YYYY",
     },
-    { type: "default", field: "amount", headerName: "Amount", width: 130 },
+    { type: "default", field: "amount",prefix:"$", headerName: "Amount", width: 130 },
     {
       type: "custom",
       field: "status",
