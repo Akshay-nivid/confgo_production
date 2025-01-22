@@ -147,7 +147,6 @@
     &-choose-map {
         background-color: $clr_green !important;
         box-shadow: none !important;
-        text-transform: none !important;
     }
 }
 
@@ -1021,31 +1020,93 @@
         justify-content: flex-start;
     }
 
-    &-session-card {
-        background: $clr_white;
-        border: 0.03rem solid $clr_light_blue;
-        border-radius: $p3;
-        padding: 1rem;
-        flex: 1 1 calc(30% - .375rem);
-        box-sizing: border-box;
-        height: 11rem;
-
-        &-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+    &-session-card {    
+        background: $background ;
+        border: 0.03rem solid $clr_gray_very_light;
+        border-radius:0.5rem;
+        display: flex;
+        padding-inline: 1rem;
+        padding-block: 1rem;
+       .card-header{
+        .svg-icon {
+            width: 1.6667rem;
+            height: 1.6667rem;
+          }
+         &-tag{
+            font-family: $font;
+            font-size: $p2;
+            font-weight: $font-semibold;
+            line-height: 20.4px;
+            padding-left: 0.625rem;
+         } 
+         &-menu{
+            button{
+                min-width: max-content !important;
+                padding-inline: 0 !important;
+            }
+            &-content{
+                background-color:transparent;
+                color: #000; 
+                min-width: 8rem; 
+                padding: 10px;
+                position: absolute; 
+                transform: none; 
+                white-space: normal;
+                margin-left: 20rem;
+                margin-top: 1rem ;
+            }
         }
+       }
+       .card-content{
+        margin-top: 1rem;
+        background-color: $clr_white;
+        padding-left:1rem ;
+        padding-right: 0.6667rem;
+        border-radius: 0.5rem;
 
-        &-time {
-            background-color: $clr_green_light;
+        &-day{
+            font-size: 13px;
+            font-weight: $font_semibold;
+            font-family: $font;
+            padding-top: 1rem;
+            line-height: 1.52rem;
+            color: $clr_green;
+        }
+        &-heading{
+            font-size: $p2;
+            font-weight: $font_semibold;
+            font-family: $font;
+            padding-top: 0.75rem;
+            line-height: 1.52rem;
+        }
+        &-description{
+            font-size: $p2;
+            font-weight: $font_medium;
+            font-family: $font;
+            padding-top: 0.5rem;
+            line-height: 1.52rem;
+            color: $clr_text_gray;
+            white-space: normal;
+        }
+        &-devider{
+            margin-left: -1rem ;
+            margin-right: -0.7rem ;
+        }
+        &-timeBox{
+            background-color:$clr_green_light;
             color: $clr_black;
             padding: 0.25rem 0.5rem;
             border-radius: 0.25rem;
             font-size: $p2 !important;
             font-weight: $font_semibold !important;
-            margin-bottom: $p3;
+            width: max-content;
+            margin-bottom: 0.5rem; 
+            .time{
+            font-size: $p2 !important;
+            font-weight: $font_semibold !important; 
         }
-
+        } 
+       }
         &-details {
             display: relative;
             flex-direction: column;
@@ -1071,6 +1132,7 @@
 
         }
     }
+    
 
     &-date-header {
         display: relative;
@@ -1112,6 +1174,7 @@
 }
 
 .main-location-Grid {
+    margin-top: 3rem;
     &-address {
         display: flex;
         flex-direction: row;
@@ -2001,6 +2064,65 @@
     }
 }
 
+.event-list-row-drafted {
+    background-color: $clr_gray_faded !important;
+}
+
+.uploaded-container{
+    position: relative;
+    border: 1px solid $clr_light_border_grey;
+    padding: 1rem;
+    width:20rem;
+    border-radius: 0.65rem;
+    svg {
+        width: 2rem;
+        height: 2rem;
+    }
+    &-text {
+        font-size: $p1 !important;
+        font-weight: $font_medium !important;
+    }
+    &-name {
+        padding-top: 0.0rem;
+        font-size: $h6 !important;
+        font-weight: $font-semibold !important;
+        cursor: pointer; 
+    }
+}
+
+.modal-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 33.33rem;
+    height: 33.33rem;
+    background-color: white;
+    border-radius: .66rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    
+
+
+    &-close-icon{
+        justify-self: flex-end;
+        cursor: pointer;
+        align-self: flex-end;
+        margin-bottom: 1rem;
+        width: $h5;
+        height: $h5;
+
+    }
+
+    &-img{
+        width:100%;
+        height:90%;
+    }
+  }
 .event-sessions-program-modal{
     height: 100vh;
     display: flex;
