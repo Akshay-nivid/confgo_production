@@ -22,6 +22,7 @@ import CustomSnackbar from "@/components/CustomSnackbar/CustomSnackbar";
 import routes from "@/router/routes";
 import useStore from '@/Libs/store'
 import { validateMaxLength, validateMinLength } from "@/Utils/Validation";
+import confgo  from "../../../config.json"
 
 /**
  * Coupon Details Page
@@ -35,6 +36,7 @@ const CouponView: React.FC = () => {
   const [error, setError] = useState<string | null>(null); // State for error message
   const [editable, setEditable] = useState<boolean | null>(false); // State for error message
   const setDataById = useStore((state: any) => state.setDataById);
+  const currency=confgo.currency;
   interface Coupon {
     name: string;
     description: string;
@@ -337,6 +339,7 @@ const CouponView: React.FC = () => {
                       <CustomTextField
                         name="maxDiscountValue"
                         placeholder="Maximum Discount Amount"
+                        prefix={currency}
                         control={control}
                         defaultValue={coupon?.maxDiscountValue}
                         type="number"
@@ -348,6 +351,7 @@ const CouponView: React.FC = () => {
                     <Grid size={{ xs: 12, sm: 12 }}>
                       <CustomTextField
                         name="minPurchaseValue"
+                        prefix={currency}
                         placeholder="Minimum Purchase Amount"
                         control={control}
                         type="number"

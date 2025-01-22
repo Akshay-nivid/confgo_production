@@ -145,7 +145,8 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
             if (item.type === 'default') {
                 return {
                     ...item,
-                    cellClassName: 'default-label'
+                    cellClassName: 'default-label',
+                    renderCell: (params: { value: any }) => <div>{item.prefix? `${item.prefix} ${params.value}`: params.value}</div>
                 };
             } else if (item.type === 'dateField') {
                 return {

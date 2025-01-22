@@ -23,10 +23,10 @@ import GoogleMapPlacePicker from "../GoogleMapPlacePicker";
 import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
 import { WarningIcon } from "@/assets/svg";
-
+import confgo  from "../../../../config.json"
 
 const baseUrl = config.api.url;
-
+const currency=confgo.currency;
 interface CustomFile {
   id: number;
   name: string;
@@ -417,7 +417,7 @@ const EventInfoCard: React.FC<any> = React.memo(
         </Grid>
         <Grid size={{ xs: 9 }}>
           <Typography className="event-information-content">
-            {eventData?.amount}
+          {currency}{eventData?.amount}
           </Typography>
         </Grid>
       </Grid>

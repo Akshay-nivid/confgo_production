@@ -459,7 +459,7 @@ const onSubmit = async (data:any) => {
               <Grid size={12} container justifyContent={"flex-start"} alignItems={"center"}>
               <CustomButton
                       className="create-event-choose-map"
-                        label="Choose Location"
+                        label="Choose Venue"
                         onClick={()=>setDrawerOpen(true)}
                         />
                         <Tooltip title="Location details fills up on once choose desired location" arrow>

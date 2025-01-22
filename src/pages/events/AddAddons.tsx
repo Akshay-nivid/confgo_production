@@ -21,6 +21,7 @@ import { validateRequiredField } from "@/Utils/Validation";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { CloseOutlined } from "@mui/icons-material";
 import { NoAddons } from "@/assets/svg";
+import confgo  from "../../../config.json"
 
 type FormData = {
   addOn: {
@@ -116,7 +117,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
     const [programIndex, setProgramIndex] = useState<any>();
     const [editMode, setEditMode] = useState(false);
     const [addOnView,setAddonView]=useState(false);
-
+    const currency=confgo.currency;
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
      /**
@@ -670,6 +671,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                       <Grid size={{ xs: 12, sm: 12 }}>
                                         <CustomTextField
                                           placeholder="Price"
+                                          prefix={currency}
                                           control={control}
                                           name={`addOn.${index}.propertyAmount`}
                                           type="Number"
