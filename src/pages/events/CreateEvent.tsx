@@ -415,10 +415,10 @@ const CreateEvent: React.FC<EventProps> =
                       name="phone"
                       type="text"
                       isNumeric={true}
-                      // rules={{
-                      //   required: 'Phone is required',
+                       rules={{
+                        required: 'Phone is required',
                       //   pattern: validatePhoneNumber({})
-                      // }}
+                       }}
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 6 }}>

@@ -212,9 +212,9 @@ const UserDashboard: React.FC = React.memo(() => {
     <Grid size={isMobileView ? {xs:6} :{xs:12, sm:6, md: 4 }}>
       <DashboardCardItem
         onClick={() => navigate("/user/payment-history")}
-        count={eventAndUserCount?.data?.currentEventCount ?? 0}
+        count={eventAndUserCount?.data?.totalAmountPaid ?? 0}
         icon={PaymentDashboardIcon}
-        title="Pending Payments"
+        title="Total Amount Paid"
         className={isMobileView ? "dashboard-left-profile-dashboard-session" :""}
       />
     </Grid>
