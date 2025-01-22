@@ -399,7 +399,7 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
               <Tab label="Participants" className="event-detail-tab-layout-item" value="5" />              
               <Tab label="Template" className="event-detail-tab-layout-item" value="6" />
               <Tab label="Custom Fields" className="event-detail-tab-layout-item" value="7" />
-              <Tab label='Settings' className="event-detail-tab-layout-item" value="8" />
+              <Tab label='Configurations' className="event-detail-tab-layout-item" value="8" />
               {/* <Tab label='Volunteers' className="event-detail-tab-layout-item" value="9"/> */}
              
               {eventFullData?.isAbstract===1 &&<Tab label="Abstracts" className="event-detail-tab-layout-item" value="10" />}

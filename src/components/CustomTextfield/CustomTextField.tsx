@@ -24,6 +24,7 @@ import InfoIcon from '@mui/icons-material/Info';
 interface ICustomTextFieldProps<T extends FieldValues> {
   prefixIconButton?: React.ReactNode;
   prefixIcon?: React.ReactNode;
+  prefix?:string;
   suffixIconButton?: React.ReactNode;
   suffixIconSecondButton?: React.ReactNode;
   suffixIcon?: React.ReactNode;
@@ -128,7 +129,11 @@ const CustomTextField = <T extends FieldValues>({
         <InputAdornment position="start">{props.prefixIcon}</InputAdornment>
       );
     }
-
+     if (props.prefix) {
+      propsObj.startAdornment = <InputAdornment position="start">
+          {props.prefix}
+      </InputAdornment>
+    }
     if (props.suffixIconButton) {
       propsObj.endAdornment = (
         <InputAdornment position="end">
