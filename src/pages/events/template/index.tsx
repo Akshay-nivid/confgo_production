@@ -49,6 +49,7 @@ const TemplateContainer: React.FC<TemplateContainerProps> = React.memo(({ }) => 
   useEffect(() => {
     if (entityId) {
       fetchEventDetails();
+      setpublish(true);
     }
     else if (slug) {
       fetchEventDetailsFromSlug()
