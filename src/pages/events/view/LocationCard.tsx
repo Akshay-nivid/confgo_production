@@ -22,27 +22,18 @@ import { CloseOutlined } from "@mui/icons-material";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import { FormProvider, useForm } from "react-hook-form";
-import LocationSearch from "../LocationSearch";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import apiClient from "@/Libs/Https/API-client";
 import { useParams } from "react-router-dom";
+import GoogleMapPlacePicker from "../GoogleMapPlacePicker";
 //import apiClient from "@/Libs/Https/API-client";
 //import { State } from "country-state-city";
- interface Venue {
-  id: number;
-  name: string;
-  address: string;
-  city: string;
-  state: string;
-  mapUrl:string;
-  postalCode:string;
-  country:string
-}
+
 /**
  * Interface for props
  */
 interface LocationCardProps{
-  data?: Venue;
+  eventData?: any;
   published?: boolean;
   onSubmitHandler?: any;
 }
@@ -58,9 +49,9 @@ interface Coordinates {
 /**
  * Component to list the location on a map
  */
-const LocationCard = ({ data, published, onSubmitHandler }: LocationCardProps) => { 
-
-  const [countryName, setCountryName] = useState<any>(data?.country);
+const LocationCard = ({ eventData, published, onSubmitHandler }: LocationCardProps) => { 
+const data = eventData?.venue;
+  const [_countryName, setCountryName] = useState<any>(data?.country);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const methods = useForm<any>();
   const {
@@ -134,7 +125,7 @@ const LocationCard = ({ data, published, onSubmitHandler }: LocationCardProps) =
    */
   useEffect(() => {
     getLocation();
-  }, []);
+  }, [data]);
 
   /**
    * Fetch the current location and update state
@@ -308,6 +299,10 @@ const restore = () => {
  */
 const onSubmit = async (data:any) => {
     const formattedData = {
+      contacts: [{
+        phone: eventData?.eventContacts?.[0]?.phone, 
+        email: eventData?.eventContacts?.[0]?.email
+      }],
       venue:{
         name: data?.venueName,
         mapUrl: data?.mapUrl,
@@ -350,7 +345,7 @@ const onSubmit = async (data:any) => {
       <Grid container size={{xs: 12}} alignItems="center">
         <Grid>
         <Typography className="main-location-Grid-location-Text">
-          Location
+          Venue Details
         </Typography>
         </Grid>
          <Grid >
@@ -382,7 +377,7 @@ const onSubmit = async (data:any) => {
         </Grid>
         <Grid size={12}className="main-location-Grid-address">
           <Typography className="main-location-Grid-address-title" >Country</Typography> 
-          <Typography className="main-location-Grid-address-title-description">{countryName}  </Typography>
+          <Typography className="main-location-Grid-address-title-description">{data?.country}  </Typography>
         </Grid>
        </Grid>
       </Grid>
@@ -450,7 +445,7 @@ const onSubmit = async (data:any) => {
             alignItems="center"
           >
             <Typography className="event-information-edit-heading">
-              Edit Location
+              Edit Venue
             </Typography>
             <IconButton onClick={closeDrawer}>
               <CloseOutlined />
@@ -587,7 +582,7 @@ const onSubmit = async (data:any) => {
                         
               </Grid>
               <CustomDrawer open={drawerOpen} type="right" children={
-                    <LocationSearch onClose={()=>setDrawerOpen(false)}/>
+                   <GoogleMapPlacePicker onClose={()=>setDrawerOpen(false)}/>
                   } />
               </form>
             

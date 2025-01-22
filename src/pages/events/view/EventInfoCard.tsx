@@ -589,6 +589,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                     label="Event Type"
                     control={control}
                     options={eventTypeOptions}
+                    disabled
                   />
                 </Grid>
                 <Grid size={{ xs: 12 }}>
