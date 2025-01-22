@@ -301,8 +301,6 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
           // Add the formatted data to the array
           formattedDataArray.push(newAddon); // This ensures you're adding to an array, not an object
         }
-        // After the loop, formattedDataArray will contain the correct structure
-        console.log(JSON.stringify(formattedDataArray), 'huhuhhuhuhuh');
       } else {
         // If no looping is required, generate just one formattedData
         const formattedData: any = {
