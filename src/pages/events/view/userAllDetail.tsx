@@ -11,6 +11,7 @@ import "./userdetail.scss";
 import React from "react";
 import { formatDateTimeRange } from "@/Utils/CommonBaseClass";
 import NoEvents from "../../Participant-User/No-Event/NoEvent"
+import confgo  from "../../../../config.json"
 
 interface DetailProps {
   userdetail: any;
@@ -21,7 +22,7 @@ interface DetailProps {
  */
 const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => { 
   const [tabValue, setTabValue] = useState(1); // Default to tab 1
-
+  const currency=confgo.currency;
   //stores the customform data
   const cleanedFormData = userdetail.formData.map((item:any) => {
     const parsedResponse = JSON.parse(item.response);
@@ -98,7 +99,7 @@ const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => {
           <Typography className="all-details-data-title">Total Amount</Typography>
           </Grid>
           <Grid size={8}>
-          <Typography className="all-details-data">{PaymentDetails.amount}</Typography>
+          <Typography className="all-details-data">{currency}{PaymentDetails.amount}</Typography>
           </Grid>
       </Grid>
       <Grid container>
