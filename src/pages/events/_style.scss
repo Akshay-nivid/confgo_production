@@ -1021,17 +1021,13 @@
     }
 
     &-session-card {    
-        background: rgb(218, 210, 210) ;
+        background: $background ;
         border: 0.03rem solid $clr_gray_very_light;
-        // border-radius: $p3;
+        border-radius:0.5rem;
         display: flex;
-        // gap: 0;
-         padding-inline: 1rem;
-        // flex: 1 1 calc(30% - .375rem);
-        // box-sizing: border-box;
-        //  min-height: 11rem;
+        padding-inline: 1rem;
+        padding-block: 1rem;
        .card-header{
-        margin-top: 1rem;
         .svg-icon {
             width: 1.6667rem;
             height: 1.6667rem;
@@ -1043,43 +1039,75 @@
             line-height: 20.4px;
             padding-left: 0.625rem;
          } 
+         &-menu{
+            button{
+                min-width: max-content !important;
+                padding-inline: 0 !important;
+            }
+            &-content{
+                background-color:transparent;
+                color: #000; 
+                min-width: 8rem; 
+                padding: 10px;
+                position: absolute; 
+                transform: none; 
+                white-space: normal;
+                margin-left: 20rem;
+                margin-top: 1rem ;
+            }
+        }
        }
        .card-content{
         margin-top: 1rem;
         background-color: $clr_white;
         padding-left:1rem ;
         padding-right: 0.6667rem;
+        border-radius: 0.5rem;
+
         &-day{
             font-size: 13px;
             font-weight: $font_semibold;
             font-family: $font;
             padding-top: 1rem;
             line-height: 1.52rem;
+            color: $clr_green;
         }
         &-heading{
-            font-size: 13px;
+            font-size: $p2;
             font-weight: $font_semibold;
             font-family: $font;
-            padding-top: 1rem;
+            padding-top: 0.75rem;
             line-height: 1.52rem;
         }
-       }
-        // &-header {
-        //     display: flex;
-        //     justify-content: space-between;
-        //     align-items: center;
-        // }
-
-        &-time {
-            background-color: $clr_green_light;
+        &-description{
+            font-size: $p2;
+            font-weight: $font_medium;
+            font-family: $font;
+            padding-top: 0.5rem;
+            line-height: 1.52rem;
+            color: $clr_text_gray;
+            white-space: normal;
+              
+        }
+        &-devider{
+            margin-left: -1rem ;
+            margin-right: -0.7rem ;
+        }
+        &-timeBox{
+            background-color:$clr_green_light;
             color: $clr_black;
             padding: 0.25rem 0.5rem;
             border-radius: 0.25rem;
             font-size: $p2 !important;
             font-weight: $font_semibold !important;
-            margin-bottom: $p3;
+            width: max-content;
+            margin-bottom: 0.5rem; 
+            .time{
+            font-size: $p2 !important;
+            font-weight: $font_semibold !important; 
         }
-
+        } 
+       }
         &-details {
             display: relative;
             flex-direction: column;
@@ -1099,11 +1127,8 @@
             font-size: $p2 !important;
             margin-bottom: .12rem;
             white-space: nowrap;
-            /* Prevents wrapping */
             overflow: hidden;
-            /* Hides overflowed text */
             text-overflow: ellipsis;
-            /* Shows ellipsis for truncated text */
             max-width: 100%;
 
         }
@@ -1300,7 +1325,7 @@
             text-align: center;
             font-size: 0.95rem;
             color: $clr_dark_brown;
-            border: .0625rem solid $clr_light_white; // Adds border to each cell for clear column separation
+            border: .0625rem solid $clr_light_white;
         }
     }
 
@@ -1324,7 +1349,7 @@
         }
 
         .MuiOutlinedInput-notchedOutline {
-            border: none; // Removes the border from the input field
+            border: none;
         }
 
         .MuiInputBase-root {
