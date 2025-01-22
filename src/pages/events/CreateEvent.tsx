@@ -204,6 +204,13 @@ const CreateEvent: React.FC<EventProps> =
       }
       const startTime = new Date(data.startTime);
       const endTime = new Date(data.endTime);
+      const today = new Date();
+
+       // Remove time portion for date-only comparison
+      today.setHours(0, 0, 0, 0);
+      startTime.setHours(0, 0, 0, 0);
+      endTime.setHours(0, 0, 0, 0);
+
       if(selectedFile){
         setValue('assetId',selectedFile[0]?.id) 
       }
@@ -213,6 +220,14 @@ const CreateEvent: React.FC<EventProps> =
           message: 'Start date cannot be greater than end date',
         });
         return
+      }
+
+      if (startTime < today) {
+        setError('startTime', {
+          type: 'manual',
+          message: 'Dates cannot be in the past',
+        });
+        return;
       }
     //store the dates to compare 
       useStore.getState().setDataById("event-date", { startDate: startTime });
