@@ -670,6 +670,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                       <Grid size={{ xs: 12, sm: 12 }}>
                                         <CustomTextField
                                           placeholder="Price"
+                                          prefix="$"
                                           control={control}
                                           name={`addOn.${index}.propertyAmount`}
                                           type="Number"

@@ -560,6 +560,7 @@ const handleAddProgram = () => {
                             <Grid size={{ xs: 12, sm: 12 }}>
                               <CustomTextField
                                 placeholder="Price"
+                                prefix="$"
                                 control={control}
                                 name={`programs.${index}.amount`}
                                 type="number"
