@@ -46,7 +46,7 @@ const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => {
 
   const currency=confgo.currency;
   //stores the customform data
-  const cleanedFormData = userdetail.formData.map((item:any) => {
+  const cleanedFormData = userdetail?.formData?.map((item:any) => {
     const parsedResponse = JSON.parse(item.response);
     delete parsedResponse.fieldType; // Remove the fieldType key
     return parsedResponse; // Return the cleaned object
@@ -54,7 +54,7 @@ const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => {
 
   // Extracting the array dynamically, regardless of key name  
   let files: any[] = []; ;
-  cleanedFormData.forEach((dataItem: any) => {
+  cleanedFormData?.forEach((dataItem: any) => {
     const dynamicKeyData = Object.values(dataItem)[0]; // Extract the first key's value (array of files)
     if (Array.isArray(dynamicKeyData)) {
       files = [...files, ...dynamicKeyData]; // Add all files to the 'files' array
@@ -750,7 +750,7 @@ const handleDownloadPdf = () => {
         </button>
       </Grid>
     )}
-    {userdetail.payment.id &&(
+    {userdetail?.payment?.id &&(
       <Grid >
        <button
         style={{
@@ -771,7 +771,7 @@ const handleDownloadPdf = () => {
     </Grid>
    
     )}
-    {userdetail.attendanceDetails?.attendedPrograms?.[0]?.id&&(
+    {userdetail?.attendanceDetails?.attendedPrograms?.[0]?.id&&(
       <Grid >
        <button
         style={{
