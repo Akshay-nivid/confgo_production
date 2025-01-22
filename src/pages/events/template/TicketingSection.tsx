@@ -121,6 +121,23 @@ const TicketingSection = React.memo(
 
             const userToken = sessionStorage.getItem('token')
 
+
+            const endDate = new Date(data?.endTime);
+
+
+            const isEventEnded = endDate < new Date()
+
+
+
+            if (isEventEnded) {
+                snackBar({ severity: 'error', message: "The event has ended." })
+                return
+            }
+
+
+
+
+
             // admin user is perevented from navigating to cart
             if (userToken && userRole !== 'USER') {
                 snackBar({ severity: 'error', message: 'please login using participant credentials' })
@@ -171,7 +188,7 @@ const TicketingSection = React.memo(
                                                                 <Typography className={`${classPrefix}-sub-item-amount`}>{parseFloat(item?.percentage)}% OFF</Typography>
                                                             </Grid>
                                                         </Grid>
-                                                    ):<></>;
+                                                    ) : <></>;
                                                 })
                                         }
                                     </Grid>

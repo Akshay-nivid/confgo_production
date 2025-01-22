@@ -41,6 +41,19 @@ const TitleSection: React.FC<TitleSectionProps> = React.memo(({ data, classPrefi
         const userRole = sessionStorage.getItem('userRole')
 
 
+        const endDate = new Date(data?.endTime);
+
+
+        const isEventEnded = endDate < new Date() 
+        
+
+
+        if (isEventEnded) {
+            snackBar({ severity: 'error', message: "The event has ended." })
+            return
+        }
+
+
         // admin user is perevented from navigating to cart
         if (userToken && userRole !== 'USER') {
             snackBar({ severity: 'error', message: 'please login using participant credentials' })

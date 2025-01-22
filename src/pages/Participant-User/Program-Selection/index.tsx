@@ -242,7 +242,7 @@ const ProgramSelection = () => {
       })
     } catch (e: any) {
 
-      snackBar({ severity: "error", message: e?.message || "pleas", autoHideDuration: 3000 })
+      snackBar({ severity: "error", message: e?.message || "something went wrong", autoHideDuration: 3000 })
     }
 
   }
