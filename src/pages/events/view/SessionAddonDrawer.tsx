@@ -10,7 +10,7 @@ import moment from "moment";
 import { useFieldArray } from "react-hook-form";
 import AddIcon from "@mui/icons-material/Add";
 import apiClient from "@/Libs/Https/API-client";
-import { getLocalTimeDate, processAPIResponse } from "@/Utils/CommonBaseClass";
+import { convertUTCToUserTimeZone, getLocalTimeDate, processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import { useParams } from "react-router-dom";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
@@ -295,8 +295,8 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
           const date = currentDate.toISOString().split('T')[0]; // Format the date
 
           // Update startTime and endTime with the new date
-          newAddon.startTime = `${date} ${moment(newAddon.startTime).format("HH:mm")}`;
-          newAddon.endTime = `${date} ${moment(newAddon.endTime).format("HH:mm")}`;
+          newAddon.startTime = `${date} ${convertUTCToUserTimeZone(newAddon.startTime,"HH:mm")}`;
+          newAddon.endTime = `${date} ${convertUTCToUserTimeZone(newAddon.endTime,"HH:mm")}`;
 
           // Add the formatted data to the array
           formattedDataArray.push(newAddon); // This ensures you're adding to an array, not an object
