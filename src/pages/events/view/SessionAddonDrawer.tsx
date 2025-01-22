@@ -10,7 +10,7 @@ import moment from "moment";
 import { useFieldArray } from "react-hook-form";
 import AddIcon from "@mui/icons-material/Add";
 import apiClient from "@/Libs/Https/API-client";
-import {convertUTCToUserTimeZone, getLocalTimeDate, processAPIResponse } from "@/Utils/CommonBaseClass";
+import {convertUTCToUserTimeZone, formatUTCDateTime, getLocalTimeDate, processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import { useParams } from "react-router-dom";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
@@ -281,8 +281,8 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
         };
 
         if (data.dateRequired) {
-          baseFormattedData.startTime = `${data.addonDate} ${moment(data.startTime, ["hh:mm A"]).format("HH:mm")}`;
-          baseFormattedData.endTime = `${data.addonDate} ${moment(data.endTime, ["hh:mm A"]).format("HH:mm")}`;
+          baseFormattedData.startTime = `${data.addonDate} ${data.startTime}`;
+          baseFormattedData.endTime = `${data.addonDate} ${data.endTime}`;
         }
 
         // Loop through the number of days
@@ -295,8 +295,8 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
           const date = currentDate.toISOString().split('T')[0]; // Format the date
 
           // Update startTime and endTime with the new date
-          newAddon.startTime = `${date} ${convertUTCToUserTimeZone(newAddon.startTime,"HH:mm")}`;
-          newAddon.endTime = `${date} ${convertUTCToUserTimeZone(newAddon.endTime,"HH:mm")}`;
+          newAddon.startTime = `${date} ${formatUTCDateTime(newAddon.startTime,"HH:mm")}`;
+          newAddon.endTime = `${date} ${formatUTCDateTime(newAddon.endTime,"HH:mm")}`;
 
           // Add the formatted data to the array
           formattedDataArray.push(newAddon); // This ensures you're adding to an array, not an object
@@ -318,7 +318,6 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
         if (data.dateRequired) {
           formattedData.startTime = `${data.addonDate} ${convertUTCToUserTimeZone(data.addonDate+" "+data.startTime,"HH:mm")}`;
           formattedData.endTime = `${data.addonDate} ${convertUTCToUserTimeZone(data.addonDate+" "+data.endTime,"HH:mm")}`;
-          console.log( formattedData.startTime,'start', formattedData.endTime,'endTime')
         }
         formattedDataArray.push(formattedData);
         
