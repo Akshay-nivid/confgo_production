@@ -1020,94 +1020,31 @@
         justify-content: flex-start;
     }
 
-    &-session-card {    
-        background: $background ;
-        border: 0.03rem solid $clr_gray_very_light;
-        border-radius:0.5rem;
-        display: flex;
-        padding-inline: 1rem;
-        padding-block: 1rem;
-       .card-header{
-        .svg-icon {
-            width: 1.6667rem;
-            height: 1.6667rem;
-          }
-         &-tag{
-            font-family: $font;
-            font-size: $p2;
-            font-weight: $font-semibold;
-            line-height: 20.4px;
-            padding-left: 0.625rem;
-         } 
-         &-menu{
-            button{
-                min-width: max-content !important;
-                padding-inline: 0 !important;
-            }
-            &-content{
-                background-color:transparent;
-                color: #000; 
-                min-width: 8rem; 
-                padding: 10px;
-                position: absolute; 
-                transform: none; 
-                white-space: normal;
-                margin-left: 20rem;
-                margin-top: 1rem ;
-            }
-        }
-       }
-       .card-content{
-        margin-top: 1rem;
-        background-color: $clr_white;
-        padding-left:1rem ;
-        padding-right: 0.6667rem;
-        border-radius: 0.5rem;
+    &-session-card {
+        background: $clr_white;
+        border: 0.03rem solid $clr_light_blue;
+        border-radius: $p3;
+        padding: 1rem;
+        flex: 1 1 calc(30% - .375rem);
+        box-sizing: border-box;
+        height: 11rem;
 
-        &-day{
-            font-size: 13px;
-            font-weight: $font_semibold;
-            font-family: $font;
-            padding-top: 1rem;
-            line-height: 1.52rem;
-            color: $clr_green;
+        &-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        &-heading{
-            font-size: $p2;
-            font-weight: $font_semibold;
-            font-family: $font;
-            padding-top: 0.75rem;
-            line-height: 1.52rem;
-        }
-        &-description{
-            font-size: $p2;
-            font-weight: $font_medium;
-            font-family: $font;
-            padding-top: 0.5rem;
-            line-height: 1.52rem;
-            color: $clr_text_gray;
-            white-space: normal;
-              
-        }
-        &-devider{
-            margin-left: -1rem ;
-            margin-right: -0.7rem ;
-        }
-        &-timeBox{
-            background-color:$clr_green_light;
+
+        &-time {
+            background-color: $clr_green_light;
             color: $clr_black;
             padding: 0.25rem 0.5rem;
             border-radius: 0.25rem;
             font-size: $p2 !important;
             font-weight: $font_semibold !important;
-            width: max-content;
-            margin-bottom: 0.5rem; 
-            .time{
-            font-size: $p2 !important;
-            font-weight: $font_semibold !important; 
+            margin-bottom: $p3;
         }
-        } 
-       }
+
         &-details {
             display: relative;
             flex-direction: column;
