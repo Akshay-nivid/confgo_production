@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Navigate, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
-import { fetchEventDetailsFn, handleClickBackButton, handleGroupData, processFormData, toggleProgramCheckboxesByDate, validateAddon, validateAddonWithNoProp, validatePrograms } from "./programsHandlers";
+import {  handleClickBackButton, handleGroupData, processFormData, toggleProgramCheckboxesByDate, validateAddon, validateAddonWithNoProp, validatePrograms } from "./programsHandlers";
 import clsx from "clsx";
 import AddonCard from "../Components/AddonCard";
 import Programcard from "../Components/Programcard";

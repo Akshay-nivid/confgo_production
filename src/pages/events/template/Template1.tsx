@@ -129,9 +129,9 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
       }
     }, [groupedPrograms]);
     
-    const handleTabChange = (_event: React.MouseEvent<Element>, newValue: string) => {
-      setSelectedDate(newValue);
-    };
+    // const handleTabChange = (_event: React.MouseEvent<Element>, newValue: string) => {
+    //   setSelectedDate(newValue);
+    // };
 
      /**
      * Opens the drawer component

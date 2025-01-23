@@ -1,11 +1,10 @@
-import CustomModal from '@/components/CustomModel/CustomModel'
 import Box from '@mui/material/Box/Box'
 import './style.scss'
 import { Close } from '@mui/icons-material'
 import { Avatar, IconButton } from '@mui/material'
 import Modal from '@mui/material/Modal';
-import useStore, { setDataById, setNonPersistedDataById } from '@/Libs/store'
-import { formatUTCDateTime, getLocalTimeDate } from '@/Utils/CommonBaseClass'
+import useStore, {  setNonPersistedDataById } from '@/Libs/store'
+import {  getLocalTimeDate } from '@/Utils/CommonBaseClass'
 import moment from 'moment'
 
 const ProgramDetailsModal = () => {
