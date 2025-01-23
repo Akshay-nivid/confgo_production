@@ -303,6 +303,15 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
           setProgramIndex(addOn?.length || 0);
         }
       } else {
+        const editLastItem = addOn[addOn.length - 2];
+        const editLastIndex = addOn.length - 2;
+        if (editLastItem.properties && editLastItem.properties.length== 0){
+          setError(`addOn.${editLastIndex}.propertyName`, {
+            type: 'manual',
+            message: `Minimum one Addon property should be there`,
+          });
+          return;
+        }
         // If in `editMode`, just update the program index
         setProgramIndex(addOn?.length ? addOn.length - 1 : 0);
       }
@@ -657,7 +666,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     />
                                   </Grid>
                                 </Grid>
-                                <Grid container display={"flex"} justifyContent={"space-between"} size={{xs:12,sm:12}} alignItems={"center"}>
+                                <Grid container size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"} spacing={2}>
                                   <Grid size={{ xs: 12, sm:watch(`addOn.${index}.type`) === "PAID"?6:11}}>
                                     <CustomTextField
                                       placeholder="Property Name"

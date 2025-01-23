@@ -23,6 +23,9 @@ import GoogleMapPlacePicker from "../GoogleMapPlacePicker";
 import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
 import { WarningIcon } from "@/assets/svg";
+import {truncateString } from "@/Utils/CommonBaseClass";
+import Tooltip from '@mui/material/Tooltip';
+
 import confgo  from "../../../../config.json"
 
 const baseUrl = config.api.url;
@@ -358,9 +361,11 @@ const EventInfoCard: React.FC<any> = React.memo(
           </Typography>
         </Grid>
         <Grid size={{ xs: 9 }}>
+          <Tooltip classes={{ tooltip: 'custom-tooltip'}} title={eventData?.name || 'No name available'} placement="top">
           <Typography className="event-information-content">
-            {eventData?.name}
-          </Typography>
+          {truncateString(eventData?.name, 20)}
+         </Typography>
+         </Tooltip>
         </Grid>
 
         <Grid size={{ xs: 3 }}>
@@ -443,17 +448,21 @@ const EventInfoCard: React.FC<any> = React.memo(
         </Grid>
 
         
-
-        <Grid size={{ xs: 3 }}>
-          <Typography className="event-information-subtitle">
-          Specialty
-          </Typography>
-        </Grid>
-        <Grid size={{ xs: 9 }}>
-          <Typography className="event-information-content">
-            {eventData?.speciality?.name}
-          </Typography>
-        </Grid>
+        { eventData?.speciality && (
+        <>
+          <Grid size={{ xs: 3 }}>
+            <Typography className="event-information-subtitle">
+              Specialty
+            </Typography>
+          </Grid>
+          <Grid size={{ xs: 9 }}>
+            <Typography className="event-information-content">
+              {eventData?.speciality?.name}
+            </Typography>
+          </Grid>
+        </>
+      )}
+        
        
        <Grid size={{ xs: 3 }}>
           <Typography className="event-information-subtitle">
@@ -589,6 +598,7 @@ const EventInfoCard: React.FC<any> = React.memo(
                     label="Event Type"
                     control={control}
                     options={eventTypeOptions}
+                    disabled
                   />
                 </Grid>
                 <Grid size={{ xs: 12 }}>

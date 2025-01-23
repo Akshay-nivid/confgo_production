@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import { Typography } from '@mui/material';
+import { snackBar } from '@/Libs/store';
 
 type RegisterBannerSectionProps = {
   data?: any;
@@ -23,12 +24,38 @@ const RegisterBannerSection: React.FC<RegisterBannerSectionProps> = React.memo((
   const navigate = useNavigate();
   const eventPriceTiersPresent = data?.eventPriceTiers !== undefined && data?.eventPriceTiers !== null && data?.eventPriceTiers?.length > 0;
 
+
   /**
    * Handles the click event for the register button
    * @param e The event details
    */
   function handleClickRegister(e: any) {
     e.preventDefault();
+
+    const userToken = sessionStorage.getItem('token')
+            const userRole = sessionStorage.getItem('userRole')
+    
+    
+            const startData = new Date(data?.startDate);
+
+
+            const isEventEnded = startData < new Date() 
+    
+    
+            if (isEventEnded) {
+                snackBar({ severity: 'error', message: "The event has ended." })
+                return
+            }
+    
+    
+            // admin user is perevented from navigating to cart
+            if (userToken && userRole !== 'USER') {
+                snackBar({ severity: 'error', message: 'please login using participant credentials' })
+                return
+            }
+    
+    
+
     if (eventPriceTiersPresent) {
       if (onScrollToTier) {
         onScrollToTier(e)

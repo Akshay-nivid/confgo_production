@@ -394,6 +394,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
         type="right"
         children={
           <SessionDrawerContent
+          submitHandler={onSubmitHandler}
             isEditing={isEditing}
             isAddon={isAddon}
             selectedProgram={selectedProgram}
