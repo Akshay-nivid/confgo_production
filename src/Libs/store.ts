@@ -24,24 +24,9 @@ interface CompData {
     userEvents?: { ["participant/registered/events"]: IUserEvents }
 }
 
-export const NonPersistedKeys = {
-    INITIAL_GET_CART: 'intialGetCart',
-} as const;
 
 
 
-export type NonPersistedKey = typeof NonPersistedKeys[keyof typeof NonPersistedKeys];
-
-export type NonPersistedDataShape = {
-    [NonPersistedKeys.INITIAL_GET_CART]: {
-        value: boolean;
-    };
-};
-
-interface NonPersistedData {
-    [NonPersistedKeys.INITIAL_GET_CART]?: NonPersistedDataShape[typeof NonPersistedKeys.INITIAL_GET_CART];
-    // Add other mappings here
-}
 
 type ApiRequestOptions = {
     url: string;
@@ -50,6 +35,15 @@ type ApiRequestOptions = {
     successCB?: (context: any) => void;
     errorCB?: (context: any) => void;
 };
+
+interface NonPersistedData {
+    [key: string]: any;
+    checkUserPaymentinitialFetchDone: { value: boolean };
+    isProgramDetailsModelOpen: { value: boolean },
+    programDetails:{value:any}
+
+
+}
 
 
 export interface IStoreState {
@@ -60,9 +54,9 @@ export interface IStoreState {
     clearDataById: (id: string) => void;
     setUserInfo: (data: any) => void;
     resetStore: () => void;
-    setNonPersistedDataById: <K extends NonPersistedKey>(
-        id: K,
-        data: NonPersistedDataShape[K]
+    setNonPersistedDataById:(
+        id: string,
+        data: any
     ) => void;
     POST: (params: ApiRequestOptions) => void;
     GET: (params: ApiRequestOptions) => Promise<{ status: boolean; data: any; message: string }>;
@@ -97,7 +91,9 @@ const useStore = create<IStoreState>()(
             compData: {},
             userInfo: {},
             nonPersistedData: {
-                intialGetCart: { value: false },
+                checkUserPaymentinitialFetchDone: { value: false },
+                isProgramDetailsModelOpen: { value: false },
+                programDetails:{value:null}
             },
             /**
              * Method to set data in global state using id
@@ -123,9 +119,9 @@ const useStore = create<IStoreState>()(
              * @param id :id
              * @param data :data
              */
-            setNonPersistedDataById: <K extends NonPersistedKey>(
-                id: K,
-                data: Partial<NonPersistedDataShape[K]>
+            setNonPersistedDataById: (
+                id: string,
+                data: any,
             ) => {
                 set((state) => ({
                     nonPersistedData: {
@@ -133,7 +129,7 @@ const useStore = create<IStoreState>()(
                         [id]: {
                             ...(state.nonPersistedData[id] || {}),
                             ...data
-                        } as NonPersistedDataShape[K]
+                        }
                     },
                 }));
             },
