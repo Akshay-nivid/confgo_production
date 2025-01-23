@@ -27,10 +27,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { CloseIcon } from '@/assets/svg';
 import { Drawer } from '@mui/material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import useStore, { resetStore, setDataById, snackBar } from '@/Libs/store';
+import useStore, { resetStore, setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store';
 import routes from '@/router/routes';
 import parse from 'html-react-parser';
 import TimerCounterComp from './TemplateTimer/TimerCounterComp';
+import ProgramDetailsModal from './_components/ProgramDetailsModal';
 
 
 
@@ -140,9 +141,9 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
       }
     }, [groupedPrograms]);
     
-    const handleTabChange = (_event: React.MouseEvent<Element>, newValue: string) => {
-      setSelectedDate(newValue);
-    };
+    // const handleTabChange = (_event: React.MouseEvent<Element>, newValue: string) => {
+    //   setSelectedDate(newValue);
+    // };
 
      /**
      * Opens the drawer component
@@ -277,6 +278,13 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     navigate(routes.programSelection())
   }
 
+    
+  function handleProgramCardClick(item:any) {
+    
+    setNonPersistedDataById('isProgramDetailsModelOpen', { value: true })
+    setNonPersistedDataById('programDetails', { value: item })
+
+  }
     
     const classPrefix = 'event-template-template1';
 
@@ -445,27 +453,26 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
           <Grid className={`${classPrefix}-program-tabs-container`}>
             <Box className={`${classPrefix}-program-tabs-box`}>
               <Grid className={`${classPrefix}-program-tabs-list`} size={{ xs: 12, sm: 12 }}>
-                {Object.keys(groupedPrograms)?.map((date, index) => (
+                {/* {Object.keys(groupedPrograms)?.map((date, index) => (
                   <CustomButton
                     key={index}
                     onClick={(event) => handleTabChange(event, date)}
                     className={`${classPrefix}-program-tabs-tab ${selectedDate === date ? `${classPrefix}-program-tabs-tab-active` : ``}`}
                     label={` Day ${index + 1}`}
                   />
-                ))}
+                ))} */}
               </Grid>
             </Box>
           </Grid>
-          <Grid container spacing={3} className={`${classPrefix}-program-content-container`} mt={2} direction="column" alignContent={'center'} size={{ xs: 12, sm: 12 }}>
+          <Grid  container spacing={3} className={`${classPrefix}-program-content-container`} mt={2} direction="column" alignContent={'center'} size={{ xs: 12, sm: 12 }}>
             {generalAddsOn?.map((item: any, index: number) => (
-              <Grid size={{ xs: 11 }} justifyContent={'center'}  pl={{xs:2,md:4}} p={2} key={index} 
+              <Grid  size={{ xs: 11 }} justifyContent={'center'}  pl={{xs:2,md:4}} p={2} key={index} 
                 className={`${classPrefix}-program-content-item ${item?.type === 'program' ? `${classPrefix}-program-content-item-program` : `${classPrefix}-program-content-item-addon`}`}
               >
+                
                 <Grid container alignItems="center" spacing={3}>
-                  {/* Time Block */}
                   <Grid size={{ xs: 2 }} container direction="row" alignItems="center" justifyContent="start" className={`${classPrefix}-program-content-time`} >
                     <Grid size={{ xs: 2 }}>
-                      {/* <ClockIcon className={`${classPrefix}-program-content-time-icon`} /> */}
                     </Grid>
                     <Grid size={{ xs: 10 }}>
                     <Typography variant='h6'>
@@ -473,7 +480,6 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                     </Typography>
                     </Grid>
                   </Grid>
-                  {/* Content Block */}
                   <Grid size={{ xs: 9 }} className={`${classPrefix}-program-content-details-${item.type === 'program' ? 'program' : 'addon'}`}>
                     <TitleComponent
                       title={item?.type === 'program' ? item?.name : item?.addon?.name}
@@ -490,11 +496,10 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
           </Grid>
           <Grid container spacing={3} className={`${classPrefix}-program-content-container`} mt={2} direction="column" alignContent={'center'} size={{ xs: 12, sm: 12 }}>
             {combinedAndSortedItems?.map((item: any, index: number) => (
-              <Grid size={{ xs: 11 }} justifyContent={'center'}  pl={{xs:2,md:4}} p={2} key={index} 
+              <Grid  onClick={() => handleProgramCardClick(item)} size={{ xs: 11 }} justifyContent={'center'}  pl={{xs:2,md:4}} p={2} key={index} 
                 className={`${classPrefix}-program-content-item ${item?.type === 'program' ? `${classPrefix}-program-content-item-program` : `${classPrefix}-program-content-item-addon`}`}
               >
                 <Grid container alignItems="center" spacing={3}>
-                  {/* Time Block */}
                   <Grid size={{ xs: 2 }} container direction="row" alignItems="center" justifyContent="start" className={`${classPrefix}-program-content-time`} >
                     <Grid size={{ xs: 2 }}>
                       <ClockIcon className={`${classPrefix}-program-content-time-icon`} />
@@ -507,7 +512,6 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                       />
                     </Grid>
                   </Grid>
-                  {/* Content Block */}
                   <Grid size={{ xs: 9 }} className={`${classPrefix}-program-content-details-${item.type === 'program' ? 'program' : 'addon'}`}>
                     <TitleComponent
                       title={item?.type === 'program' ? item?.name : item?.addon?.name}
@@ -521,6 +525,7 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                 </Grid>
               </Grid>
             ))}
+          <ProgramDetailsModal/>
           </Grid>
         </Grid>
         {
