@@ -1,6 +1,6 @@
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import SepekerCard from "./SpeakerCard";
+// import SepekerCard from "./SpeakerCard";
 import VolunteerListCard from "./VolunteerListCard";
 import { AccordionAddIcon, AccordionArrowIcon } from "@/assets/svg";
 import AbstractReviewer from "./AbstactReviewerListCard";
@@ -19,19 +19,19 @@ import useStore from "@/Libs/store";
  */
 
 const TeamAndRole=()=>{
-  const speakerData = useStore((state: any) => state?.compData?.["speaker-lists"]?.data) ?? []; 
+  // const speakerData = useStore((state: any) => state?.compData?.["speaker-lists"]?.data) ?? []; 
   const abstractReviewerData= useStore((state:any)=>state?.compData?.['AbstractReviewer-list']?.data) ?? [];
   const volunteerListsDta=useStore((state:any)=>state?.compData?.['volunteer-lists']?.data) ?? [];
   const TeamAndRoleData =useStore((state:any)=> state?.compData?.['TeamAndRoleData']?.data) ?? [];
 
-  const [expanded, setExpanded] = React.useState<string | false>("panel1-header"); 
+  const [expanded, setExpanded] = React.useState<string | false>("panel2-header"); 
   const handleChange = (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
   setExpanded(isExpanded ? panel : false);
   };
 
     return(
      <Grid className="accordion-container" container spacing={3}>
-      <Grid size={12}>
+      {/* <Grid size={12}>
         <Accordion   className="accordion-container-box"
         expanded={expanded === "panel1-header"} 
         onChange={handleChange("panel1-header")}>
@@ -49,7 +49,7 @@ const TeamAndRole=()=>{
         </AccordionDetails>
          }
       </Accordion>
-      </Grid>
+      </Grid> */}
       {TeamAndRoleData?.isAbstract===1&&
       <Grid size={12}>
       <Accordion className="accordion-container-box"

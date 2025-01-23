@@ -657,7 +657,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     />
                                   </Grid>
                                 </Grid>
-                                <Grid container display={"flex"} justifyContent={"space-between"} size={{xs:12,sm:12}} alignItems={"center"}>
+                                <Grid container size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"} spacing={2}>
                                   <Grid size={{ xs: 12, sm:watch(`addOn.${index}.type`) === "PAID"?6:11}}>
                                     <CustomTextField
                                       placeholder="Property Name"
