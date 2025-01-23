@@ -19,6 +19,7 @@ interface SessionDrawerContentProps {
     eventEndTime:any;
     eventStartTime:any;
     eventData:any
+    submitHandler:()=>void;
   }
   
   const SessionDrawerContent: React.FC<SessionDrawerContentProps> = ({
@@ -29,7 +30,8 @@ interface SessionDrawerContentProps {
     onSubmit,
     closeDrawer,
     isAddon, // Destructuring the isAddon prop
-    eventData
+    eventData,
+    submitHandler
   }) => {
     const {
       control,
@@ -91,7 +93,7 @@ interface SessionDrawerContentProps {
       }, [isPaid, setValue]);
   
 		if(isAddon){
-				return <SessionAddonDrawer closeDrawer={closeDrawer} isEditing={isEditing} selectedAddOn={selectedProgram} onSubmit={onSubmit} eventData={eventData} />
+				return <SessionAddonDrawer closeDrawer={closeDrawer} isEditing={isEditing} selectedAddOn={selectedProgram} onSubmit={onSubmit} eventData={eventData}  onSubmitHandler={submitHandler} />
 		}  
   /**
    * formating the submit request

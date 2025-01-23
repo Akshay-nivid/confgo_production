@@ -34,13 +34,13 @@ const boxArray = [
         id: 1,
         icon: <CallIcon className='contact-page-icon' ></CallIcon>,
         label: 'Call us',
-        info: '0497 2701371'
+        info: '+1 (414) 559-4745'
     },
     {
         id: 2,
         icon: <LocatioIcon className='contact-page-icon' ></LocatioIcon>,
         label: 'Visit us',
-        info: 'Torch Club 18'
+        info: '6737 W Washington St.Suite 3265, West Allis, WI 53214'
     }, {
         id: 3,
         icon: <MessageIcon className='contact-page-icon'></MessageIcon>,
