@@ -116,8 +116,8 @@ const NewSpeakerDrawer :React.FC<NewSpeakerDrawerProps> = ({ onSuccess, closeDra
               onSuccess && onSuccess();
               closeDrawer();              
             },
-            errorCB: () => {
-                setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "error createing speaker" });
+            errorCB: (context: any) => {
+                setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:context?.message || "error creating speaker" });
             }
         });
     };
