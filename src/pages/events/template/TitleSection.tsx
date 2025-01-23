@@ -41,10 +41,10 @@ const TitleSection: React.FC<TitleSectionProps> = React.memo(({ data, classPrefi
         const userRole = sessionStorage.getItem('userRole')
 
 
-        const endDate = new Date(data?.endTime);
+        const startData = new Date(data?.startDate);
 
 
-        const isEventEnded = endDate < new Date() 
+        const isEventEnded = startData < new Date() 
         
 
 

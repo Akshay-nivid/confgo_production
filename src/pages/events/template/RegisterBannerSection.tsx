@@ -36,11 +36,10 @@ const RegisterBannerSection: React.FC<RegisterBannerSectionProps> = React.memo((
             const userRole = sessionStorage.getItem('userRole')
     
     
-            const endDate = new Date(data?.endTime);
-    
-    
-            const isEventEnded = endDate < new Date() 
-            
+            const startData = new Date(data?.startDate);
+
+
+            const isEventEnded = startData < new Date() 
     
     
             if (isEventEnded) {

@@ -2120,11 +2120,13 @@
             }
 
             &-item {
+
                 &-day {
                     border: 0.167rem solid $clr_charcoal_cyan;
                     border-radius: 0.83rem;
                     padding: 1rem;
                     margin-top: 0.6rem;
+
 
                     p {
                         font-size: $h6;
@@ -2701,7 +2703,6 @@
 
             &-program {
 
-
                 padding: 3rem 2rem !important;
 
                 &-title {
@@ -2713,11 +2714,13 @@
                     justify-content: center !important;
                     align-items: center;
 
+
                     &-day {
                         border: 0.167rem solid $clr_charcoal_cyan;
                         border-radius: 0.83rem;
                         padding: 1rem;
                         margin-top: 0.6rem;
+
 
                         p {
                             font-size: $h6;
@@ -2736,7 +2739,6 @@
                         align-items: center;
                         border: 0.1rem solid $clr_gray_20_percent;
                         margin-bottom: 1rem;
-
                         svg {
                             width: 2.5rem;
                             height: 2.5rem;
@@ -3084,5 +3086,14 @@
     .name{
         display: block !important;
         margin-top: 1rem;
+    }
+}
+
+.event-template-template1-program-content-item {
+    transition: all 0.3s ease;
+
+    cursor: pointer;
+    &:hover{
+        box-shadow: 0rem 0.417rem 1.667rem 0rem $clr_black_shadow;
     }
 }

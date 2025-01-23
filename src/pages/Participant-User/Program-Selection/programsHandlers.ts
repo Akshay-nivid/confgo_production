@@ -1,4 +1,5 @@
 
+import apiClient from "@/Libs/Https/API-client";
 import { setDataById } from "@/Libs/store";
 import routes from "@/router/routes";
 import moment from "moment";
@@ -387,3 +388,33 @@ export const  validateAddonWithNoProp = (addons:any)=> {
       }
 
 }
+
+
+
+
+/**
+ * function to fetch event details
+ * @param eventId
+ * 
+ */
+
+export const fetchEventDetailsFn = async (eventId: number | undefined|null) => {
+  
+  if(!eventId) return
+
+  try {
+
+
+    const response = await apiClient.get(`event/${eventId}`)
+
+    // const 
+    console.log(response,'response')
+    
+  } catch (error) {
+
+    console.log(error,'error')
+
+    
+  }
+
+ }

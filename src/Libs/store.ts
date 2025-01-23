@@ -38,7 +38,11 @@ type ApiRequestOptions = {
 
 interface NonPersistedData {
     [key: string]: any;
-    checkUserPaymentinitialFetchDone:{value:false}
+    checkUserPaymentinitialFetchDone: { value: boolean };
+    isProgramDetailsModelOpen: { value: boolean },
+    programDetails:{value:any}
+
+
 }
 
 
@@ -88,6 +92,8 @@ const useStore = create<IStoreState>()(
             userInfo: {},
             nonPersistedData: {
                 checkUserPaymentinitialFetchDone: { value: false },
+                isProgramDetailsModelOpen: { value: false },
+                programDetails:{value:null}
             },
             /**
              * Method to set data in global state using id

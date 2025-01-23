@@ -27,7 +27,10 @@ const UserLayout = () => {
   const payedUser = useStore(state => state.compData?.payedUser) || {}
 
 
-
+/**
+ * Fetches participant data and checks if user has already paid for the event.
+ * Runs on component mount or update.
+ */
 
   useEffect(() => {
     

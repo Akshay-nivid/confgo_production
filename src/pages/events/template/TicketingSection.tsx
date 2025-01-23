@@ -121,11 +121,10 @@ const TicketingSection = React.memo(
 
             const userToken = sessionStorage.getItem('token')
 
+            const startData = new Date(data?.startDate);
 
-            const endDate = new Date(data?.endTime);
 
-
-            const isEventEnded = endDate < new Date()
+            const isEventEnded = startData < new Date() 
 
 
 
