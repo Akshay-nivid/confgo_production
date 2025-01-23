@@ -13,7 +13,7 @@ import TemplateCard from "./TemplateCard";
 import { Logger } from "@/Utils/Logger";
 import apiClient from "@/Libs/Https/API-client";
 import { useLocation, useParams } from "react-router-dom";
-import { processAPIResponse } from "@/Utils/CommonBaseClass";
+import { processAPIResponse, truncateString } from "@/Utils/CommonBaseClass";
 import FormBuilder from "@/components/FormBuilder";
 import StatusComponent from "@/components/Status/StatusComponent";
 import CustomButton from "@/components/CustomButton/CustomButton";
@@ -31,6 +31,7 @@ import CustomActionModal from "@/components/CustomActionModal/CustomActionModal"
 import { PublishTickIcon, WarningIcon } from "@/assets/svg";
 import AbstractListCard from "./AbstractListCard";
 import TeamAndRole from "./TeamAndRole";
+import Tooltip from '@mui/material/Tooltip';
 
 
 
@@ -327,14 +328,18 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
       className="event-detail-card" >
       <Grid size={{ xs: 12, sm: 12 }} flexDirection={"column"} >
         <Grid className="event-detail-header" size={{ xs: 12, sm: 12 }} >
-          <Grid container justifyContent={'space-between'} alignItems={"center"}>
+          <Grid container justifyContent={'space-between'} >
             <Grid container>
               <Grid >
-                <Typography variant="h4" className="event-detail-header-title">{eventFullData?.name}</Typography>
+              <Tooltip classes={{ tooltip: 'custom-tooltip'}} title={eventFullData?.name || 'No name available'} placement="top">
+              <Typography variant="h4" className="event-detail-header-title">
+               {truncateString(eventFullData?.name, 20)}
+              </Typography>
+              </Tooltip>
               </Grid>
               <Grid>
                 {eventFullData?.statusId &&
-                  <Grid ml={2}> <StatusComponent value={eventFullData?.statusId ==1 && eventFullData?.published ? "6" : eventFullData?.statusId.toString()} /></Grid>}
+                  <Grid sx={{ml:2}}><StatusComponent value={eventFullData?.statusId ==1 && eventFullData?.published ? "6" : eventFullData?.statusId.toString()} /></Grid>}
               </Grid>
             </Grid>
             <Grid container spacing={2}>

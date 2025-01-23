@@ -303,3 +303,10 @@
        } 
 }
 
+.custom-tooltip {
+    background-color: white !important; /* White background */
+    color: $clr_black !important;           /* Black text */
+    font-size: $p3 !important;        /* Increase font size */
+    border: 1px solid #ccc;            /* Optional border */
+    padding: 10px;                     /* Add padding */
+  }
