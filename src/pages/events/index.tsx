@@ -24,6 +24,12 @@ const steps = [
   { label: 'Add Ons', description: '' },
   { label: 'Confirm', description: '' },
 ];
+type Speaker = {
+  speakerId?: string;
+  speakerFullName?: string;
+  speakerAssetId?: string;
+  designation: string;
+}
 interface Program {
   name: string;
   description: string;
@@ -35,6 +41,12 @@ interface Program {
   type: 'PAID' | 'FREE'|''; 
   amount: number; 
   addOnId:number;   
+  speakers: Speaker[];
+  speakerAssetId:string;
+  designation:string;
+  speakerFullName:string;
+  speakerId:string;
+  speakerSelection:string;
 }
 interface Property {
   propertyId: string;
@@ -269,7 +281,13 @@ const Events = () => {
     const program = programs?.filter((item: Program) => item.name!='');
     const addOn = addOns?.filter((item: Addons) => item.addonId!='');
     //tranform program fields
-    const transformProgram = program?.map(({type,addOnId, startDate, startTime, endDate, endTime,amount,totalSeat, ...item }: Program) => {
+    const transformProgram = program?.map(({ type, addOnId, startDate, startTime, endDate, endTime, amount, totalSeat, 
+      speakers, 
+      speakerAssetId,
+      designation,
+      speakerFullName,
+      speakerId,
+      speakerSelection, ...item }: Program) => {
       // Combine startDate and startTime
       const startDateTime = `${startDate}T${startTime}`;
       
@@ -281,8 +299,13 @@ const Events = () => {
         startTime: formatUTCDateTime(startDateTime),         
         endTime: formatUTCDateTime(endDateTime),
         statusId: draft? draftStatusId: statusId,
-        amount:amount?amount:"0"
-
+        amount: amount ? amount : "0",
+        ...(speakers.length !== 0 && {
+          speaker: speakers?.map(({ speakerId, designation }: any) => ({
+            speakerId,
+            designation
+          })),
+        }),
       };
     });
     //tranform addOnData
@@ -469,7 +492,7 @@ const Events = () => {
     // Helper function to format date
     const formatDate = (dateString: any) => moment(dateString).format("YYYY-MM-DD")
     // Helper function to format time
-    const formatTime = (dateString: any) => moment(dateString).format().split("T")[1].slice(0, 5);
+    const formatTime = (dateString: any) => moment(dateString)?.format()?.split("T")[1]?.slice(0, 5);
 
     const transformedData = {
         event: {
@@ -505,6 +528,12 @@ const Events = () => {
             type: program.amount === "0.00" ? "FREE" : "PAID",
             amount: program.amount || "",
             totalSeat: program ? program?.eventParticipantEntries?.[0]?.totalSeat : null,
+            speakers: program?.eventSpeakers?.map((speaker: any) => ({
+              speakerId: speaker?.userId,
+              speakerFullName: `${speaker?.user?.firstName} ${speaker?.user?.lastName}`,
+              speakerAssetId: speaker.user.assetId,
+              designation: speaker.designation || null,
+            })) || [],
         })),
         addOns: data.addons?.map((addon: any) => ({
             name: addon.addon?.name || "",
@@ -538,7 +567,8 @@ const Events = () => {
         endTime:moment(new Date()).format("HH:mm"),
         type: "PAID",
         amount: "",
-        // totalSeat:""
+        totalSeat:"",
+        speakers: [],
       },)
 
       transformedData?.addOns.push({
