@@ -117,7 +117,7 @@ interface SessionDrawerContentProps {
         setValue("price", selectedProgram.amount);
         setValue('startDate', moment(selectedProgram?.startTime).format("YYYY-MM-DD"))
         setValue('endDate', moment(selectedProgram?.endTime).format("YYYY-MM-DD"))
-        const speakers = selectedProgram.eventSpeakers.map((speaker: any) => ({
+        const speakers = selectedProgram?.eventSpeakers?.map((speaker: any) => ({
           speakerId: speaker?.userId,
           speakerName: `${speaker?.user?.firstName} ${speaker?.user?.lastName}`,
           speakerDesignation: speaker?.speakerBios?.[0]?.designation,
