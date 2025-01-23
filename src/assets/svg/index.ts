@@ -113,7 +113,10 @@ import AccordionArrowIcon from "./AccordionArrowIcon.svg";
 import AccordionAddIcon from "./AccordionAddIcon.svg";
 import NoProfilePicture from "./NoProfilePicture.svg";
 import NoAddons from "./No Addons.svg";
-import NoProgramIcon from "./no-program-icon.svg"
+import NoProgramIcon from "./no-program-icon.svg";
+import ProgramIcon from "./programIcon.svg";
+import AddOnIcon from "./addOnIcon.svg";
+import VectorMenu from "./Vector-menu.svg";
 export {
   CalenderIcon,
   EditBoxWhite,
@@ -231,4 +234,7 @@ export {
   NoProfilePicture,
   NoAddons,
   NoProgramIcon,
+  ProgramIcon,
+  AddOnIcon,
+  VectorMenu
 };

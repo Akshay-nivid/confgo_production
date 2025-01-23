@@ -22,12 +22,14 @@ import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomple
 import config from "../../../config.json";
 import { truncateString } from "@/Utils/CommonBaseClass";
 import NewSpeakerDrawer from "./NewSpeakerDrawer";
+import confgo  from "../../../config.json"
 type Speaker = {
   speakerId?: string;
   speakerFullName?: string;
   speakerAssetId?: string;
   designation: string;
 }
+
 type FormData = {
   programs: {
     name: string;
@@ -130,6 +132,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
     const [showSpeakerSection, setShowSpeakerSection] = useState(false);
     const baseUrl = config.api.url;
     const [newSpeakerDrawerOpen, setNewSpeakerDrawerOpen] = useState(false);
+    const currency=confgo.currency;
 
     /**
      * Method transforms data to the autocomplete data format
@@ -746,6 +749,7 @@ const handleAddProgram = () => {
                             <Grid size={{ xs: 12, sm: 12 }}>
                               <CustomTextField
                                 placeholder="Price"
+                                prefix={currency}
                                 control={control}
                                 name={`programs.${index}.amount`}
                                 type="number"

@@ -77,7 +77,7 @@ const Footer = () => {
                           CALL US
                         </Typography>
                         <Typography className="footer-contact-value">
-                          0497 2701371
+                        +1 (414) 559-4745
                         </Typography>
                       </Grid>
                       {isMobileScreen && <Grid size={4} className="footer-contact-block">
@@ -93,8 +93,7 @@ const Footer = () => {
                           VISIT US
                         </Typography>
                         <Typography className="footer-contact-value">
-                          Torch Club 18 Waverly Pl, <br /> New York, NY
-                          10003, USA
+                        6737 W Washington St.Suite 3265, <br />West Allis, WI 53214
                         </Typography>
                       </Grid>
                     </Grid>
