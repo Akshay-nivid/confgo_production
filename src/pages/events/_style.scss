@@ -290,6 +290,7 @@
           font-size: $p1 !important;
           font-weight: $font_semibold !important;
           box-shadow: none !important;
+          width: 100% !important;
         }
         &-save{
           background-color: $clr_green !important;
@@ -301,6 +302,19 @@
           font-weight: $font_semibold !important;
           box-shadow: none !important;
         }
+      }
+      &-speaker-option-btn{
+        background-color: $clr_light_grey !important;
+        color: $clr_black !important;
+        font-weight: $font-semibold !important;
+        font-size: $p2 !important;
+        border: none !important;
+        border-radius: 0.416rem !important;
+        text-transform: none !important;
+      }
+      &-new-speaker-link{
+        color: $clr_greenish_blue !important;
+        text-decoration: underline !important;
       }
     }
     &-form-spacing {
@@ -414,6 +428,24 @@
         font-weight: $font_normal !important;
         font-size: $p2 !important;
         text-align: center;
+      }
+    }
+    &-speaker-section{
+      border: 0.083rem solid $clr_gray_very_light;
+      border-radius: 0.5rem;
+      &-card{
+        &-item{
+          border: 0.083rem solid $clr_gray_very_light !important;
+          border-radius: 0.5rem !important;  
+          &-title{
+            font-weight: $font_semibold !important;
+            font-size: $p3 !important;
+          }        
+          &-subtitle{
+            font-weight: $font_normal !important;
+            font-size: $p3 !important;
+          }
+        }
       }
     }
 }
