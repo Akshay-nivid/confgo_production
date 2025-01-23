@@ -3,9 +3,12 @@ import './style.scss'
 import { Close } from '@mui/icons-material'
 import { Avatar, IconButton } from '@mui/material'
 import Modal from '@mui/material/Modal';
-import useStore, {  setNonPersistedDataById } from '@/Libs/store'
-import {  getLocalTimeDate } from '@/Utils/CommonBaseClass'
+import useStore, { setNonPersistedDataById } from '@/Libs/store'
+import { getLocalTimeDate } from '@/Utils/CommonBaseClass'
 import moment from 'moment'
+import { useEffect } from 'react';
+import config from '../../../../../config.json'
+
 
 const ProgramDetailsModal = () => {
 
@@ -18,15 +21,20 @@ const ProgramDetailsModal = () => {
         setNonPersistedDataById('programDetails', { value: null })
     }
 
-    console.log(programDetails)
-   
     const isSameMonth = moment(programDetails?.startTime).format("M") === moment(programDetails?.startTime).format("M")
 
     const isSameDay = moment(programDetails?.startTime).format("D") === moment(programDetails?.startTime).format("D")
 
-    console.log(isSameDay)
 
-    
+/**
+ * to clear modal data on un mount
+ */
+    useEffect(() => {
+
+        return ()=> setNonPersistedDataById('programDetails', { value: null })
+        
+    },[])
+
     function handleDate() {
         if (isSameMonth && isSameDay) {
             return `${getLocalTimeDate(programDetails?.startTime, "MMMM DD YYYY h:mm A")} - ${getLocalTimeDate(programDetails?.endTime, "h:mm A")}`
@@ -34,7 +42,11 @@ const ProgramDetailsModal = () => {
             return `${getLocalTimeDate(programDetails?.startTime, "MMMM DD YYYY h:mm A")} - ${getLocalTimeDate(programDetails?.endTime, "MMMM DD YYYY h:mm A")}`
         }
     }
-        
+
+
+
+
+
     return (
         <div>
             <Modal
@@ -50,21 +62,33 @@ const ProgramDetailsModal = () => {
                         </Box>
                         <Box className="content-date-container">
                             <p>
-                               {handleDate()}
+                                {handleDate()}
                             </p>
                         </Box>
                         <Box className="content-description-container">
                             <p>{programDetails?.description || 'Unknown Description'}</p>
                         </Box>
-                        <Box className="content-speaker-container">
-                            <p className='content-speaker-container-header'>Speakers</p>
-                            <Box className="content-speaker-container-speaker-list">
-                                <Avatar className='content-speaker-container-speaker-list-avatar' />
-                                <Avatar className='content-speaker-container-speaker-list-avatar' />
-                                <Avatar className='content-speaker-container-speaker-list-avatar' />
-                                <Avatar className='content-speaker-container-speaker-list-avatar' />
+                        {programDetails?.eventSpeakers?.length > 0 ?
+                            <Box className="content-speaker-container">
+                                <p className='content-speaker-container-header'>Speakers</p>
+                                <Box className="content-speaker-container-speaker-list">
+                                    {
+                                        programDetails?.eventSpeakers.map((speaker: any) => {
+                                            return (
+                                         
+                                                <Avatar src={config.api.url + speaker?.user?.assetId} key={speaker.id} className='content-speaker-container-speaker-list-avatar' >
+                                                    {speaker?.user?.firstName[0]}
+                                                    {speaker?.user?.lastName[0]}
+                                                </Avatar>
+                                                
+                                            )
+                                        })
+                                    }
+                                </Box>
                             </Box>
-                        </Box>
+                            :
+                            <></>
+                        }
                     </Box>
                 </Box>
             </Modal>
