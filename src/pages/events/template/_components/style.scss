@@ -1,0 +1,70 @@
+.program-details-modal {
+    .content {
+        padding-inline: 1.5rem;
+        padding-block: 1.5rem;
+        background-color: $clr_white !important;
+        border-radius: .5rem;
+        max-width: 60rem;
+        min-width: 40rem;
+
+
+        &-header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            column-gap: 6rem;
+
+            &-header {
+                font-size: $p5 ;
+                font-weight: $font_semibold;
+            }
+
+            &-close {
+                margin-top: .2rem;
+            }
+        }
+
+        &-date-container {
+
+            background-color: $clr_green_light !important;
+            width: max-content;
+            padding-inline: .55rem;
+            padding-block: .4rem;
+            border: 0.083rem solid $clr_green_border;
+            border-radius: 0.4rem;
+            font-size: $p2 ;
+            font-weight: $font_medium;
+            margin-bottom: 2rem;
+
+
+        }
+
+        &-description-container {
+            margin-bottom: 3rem;
+            font-size: $p1 ;
+            font-weight: $font_normal;
+            letter-spacing: .03rem;
+            line-height: 2rem;
+        }
+
+        &-speaker-container {
+
+            &-header {
+                margin-bottom: 1.66rem;
+                font-size: $p2;
+                font-weight: $font_semibold;
+            }
+            &-speaker-list{
+                display: flex;
+                column-gap: 1rem;
+
+                &-avatar{
+                   height: 4.17rem;
+                   width: 4.17rem;
+                }
+            }
+        }
+
+    }
+}

@@ -4,7 +4,7 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Avatar, Box, IconButton, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
@@ -12,10 +12,23 @@ import EditIcon from "@/assets/svg/edit-program-icon.svg";
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import moment from "moment";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
-import useStore from "@/Libs/store";
+import useStore, { POST, setDataById } from "@/Libs/store";
 import { NoProgramIcon, WarningIcon } from "@/assets/svg";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import { CloseOutlined } from "@mui/icons-material";
+import { Logger } from "@/Utils/Logger";
+import { Speaker } from '@mui/icons-material';
+import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
+import config from "../../../config.json";
+import { truncateString } from "@/Utils/CommonBaseClass";
+import NewSpeakerDrawer from "./NewSpeakerDrawer";
+import confgo  from "../../../config.json"
+type Speaker = {
+  speakerId?: string;
+  speakerFullName?: string;
+  speakerAssetId?: string;
+  designation: string;
+}
 
 type FormData = {
   programs: {
@@ -28,7 +41,17 @@ type FormData = {
     endTime:string;
     type: string;
     amount: string;
-    // totalSeat:string; //for future development changes
+    speakers?: {
+      speakerId?: string;
+      speakerFullName?: string;
+      speakerAssetId?: string;
+      designation: string;
+    }[];
+    speakerId?: string;
+    speakerFullName?: string;
+    speakerAssetId?: string;
+    designation?: string;
+    speakerSelection?: string;
   }[];
   savedPrograms: {
     id?: string;
@@ -41,7 +64,17 @@ type FormData = {
     endTime:string;
     type: string;
     amount: string;
-    // totalSeat:string;
+    speakers?: {
+      speakerId?: string;
+      speakerFullName?: string;
+      speakerAssetId?: string;
+      designation: string;
+    }[];
+    speakerId?: string;
+    speakerFullName?: string;
+    speakerAssetId?: string;
+    designation?: string;
+    speakerSelection?: string;
   }[];
 };
 type ProgramProps = {
@@ -63,7 +96,7 @@ const typeArray = [
 
 const AddProgram: React.FC<ProgramProps> = React.memo(
   ({ formSubmit, formDraftSubmit, onSubmitHandler, onDraftSubmitHandler, data, onSaveHandler ,eventData}) => {
-    const { handleSubmit, control, watch, setValue,setError,setFocus } = useForm<FormData>({
+    const { handleSubmit, control, watch, setValue,setError,setFocus,resetField } = useForm<FormData>({
       defaultValues: {
         programs: [
           {
@@ -75,7 +108,8 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
             endTime:moment(new Date()).format("HH:mm"),
             type: "PAID",
             amount: "",
-            // totalSeat:""
+            totalSeat:"",
+            speakers:[]
           },
         ],
       },
@@ -84,6 +118,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
       control,
       name: "programs",
     });
+
     const [programIndex, setProgramIndex] = useState<any>();
     const [editMode, setEditMode] = useState(false);
     const [openModal,setOpenModal]=useState(false);
@@ -91,14 +126,63 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
     const eventStartDate= eventDate?.startDate;
     const eventEndDate= eventDate?.endDate;
     const [drawerOpen, setDrawerOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const companyId = sessionStorage.getItem("companyId")
+    const [searchResults, setSearchResults] = useState<Speaker[]>([]);
+    const [showSpeakerSection, setShowSpeakerSection] = useState(false);
+    const baseUrl = config.api.url;
+    const [newSpeakerDrawerOpen, setNewSpeakerDrawerOpen] = useState(false);
+    const currency=confgo.currency;
 
     /**
-     * function to close the drawer
+     * Method transforms data to the autocomplete data format
+     * @param data : api response data
+     * @returns 
+     */
+    function transformUserData(data: any): Speaker[] {
+      return data?.map((item: any) => ({
+        speakerId: item?.id,
+        speakerFullName: `${item?.firstName} ${item?.lastName}`,
+        speakerAssetId: item?.assetId,
+        ...item
+      }));
+    }
+
+    /**
+     *  Function to handle search API for user role autocomplete 
+     */ 
+    const handleSearch = async (query: string) => {
+      setLoading(true);
+      await POST({
+        url: "user/userRole/list",
+        id: "userRoleList",
+        body: {
+          filters: {
+            roleEnums: ['SPEAKER'],
+            name: query,
+            companyId: companyId,
+          },
+          limit:30
+        },
+        successCB: (context: any) => {
+          setSearchResults(transformUserData(context?.data))
+          setLoading(false);
+        },
+        errorCB: (context: any) => {
+          Logger.error("Error fetching search results:", context?.message);
+          setLoading(false);
+        }
+      })
+    };
+
+    /**
+     * function to close the add program drawer
      */
     const closeDrawer = () => {
       setDrawerOpen(false);
       setEditMode(false);
       setValue('programs',watch('savedPrograms'))
+      setShowSpeakerSection(false)
     };
 
 
@@ -156,8 +240,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
       const formattedData = data.map((item: any) => {
         const eventStartDate = moment(eventData.startTime);
         const itemStartDate = moment(item.startDate);
-        const itemEndDate = moment(item.endDate);
-        
+        const itemEndDate = moment(item.endDate);        
         // Check if startDate or endDate is earlier than eventData.startTime
         return {
           ...item,
@@ -169,7 +252,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
             : itemEndDate.format("YYYY-MM-DD"),
         };
       });
-    
+           
       // Update the form values with the validated and formatted data
       setValue("programs", formattedData);
       setValue("savedPrograms", formattedData);
@@ -309,7 +392,11 @@ const handleAddProgram = () => {
           endTime:moment().format("HH:mm"),
           type: "PAID",
           amount: "",
-          // totalSeat:"",
+          speakers: [],
+          speakerId: "",
+          speakerFullName: "",
+          speakerAssetId: "",
+          designation: "",
         };
         newPrograms.push(newProgram);
 
@@ -326,6 +413,7 @@ const handleAddProgram = () => {
       onSaveHandler && onSaveHandler(newPrograms,'program');
 
       closeDrawer();
+      setShowSpeakerSection(false)
 
       // Exit edit mode
       setEditMode(false);
@@ -341,6 +429,9 @@ const handleAddProgram = () => {
       setDrawerOpen(true);
       setValue("programs", watch("savedPrograms"));
       setProgramIndex(index);
+      if(watch(`programs.${index}.speakers`)){
+        setShowSpeakerSection(true)
+      }
     };
 
     /**
@@ -377,6 +468,11 @@ const handleAddProgram = () => {
             endTime: moment(new Date()).format("HH:mm"),
             type: "PAID",
             amount: "",
+            speakers: [{speakerId:"", speakerFullName: "", designation: "",speakerAssetId: "" }],
+            speakerId: "",
+            speakerFullName: "",
+            speakerAssetId: "",
+            designation: "",
           });
           saveProgram.push({
             name: "",
@@ -388,6 +484,11 @@ const handleAddProgram = () => {
             endTime: moment(new Date()).format("HH:mm"),
             type: "PAID",
             amount: "",
+            speakers: [{speakerId:"", speakerFullName: "", designation: "",speakerAssetId: "" }],
+            speakerId: "",
+            speakerFullName: "",
+            speakerAssetId: "",
+            designation: "",
           });
         } else {
           setProgramIndex(programsCopy.length);
@@ -395,6 +496,94 @@ const handleAddProgram = () => {
       }
       onSaveHandler && onSaveHandler(saveProgram, 'program');
     };
+
+
+    /**
+     * Adds a new speaker to the specified program's speakers array.
+     * fetches the current form values for the specified program (using `index`), 
+     * prepares a new speaker object using the form values, and adds it to the `speakers` array
+     * After adding the speaker, the form fields related to the speaker are reset for the next input.
+     * @param {number} index - The index of the program which the speaker is to be added.
+     */
+    const addSpeaker = (index: number) => {
+      const values = watch();
+      
+      const speakerId = values.programs[index].speakerId;
+      const speakerFullName = values.programs[index].speakerFullName;
+      const speakerAssetId = values.programs[index].speakerAssetId;
+      const designation = values.programs[index].designation;
+      const speakerSelection = values.programs[index].speakerSelection;
+
+
+      if (!speakerSelection) {
+        setError(`programs.${index}.speakerSelection`, {
+          type: 'manual',
+          message: 'please select a speaker',
+        });
+        return;
+      }
+      if (!designation) {
+        setError(`programs.${index}.designation`, {
+          type: 'manual',
+          message: 'Designation is required',
+        });
+        return;
+      }
+
+      const newSpeaker = {
+        speakerId,
+        speakerFullName,
+        speakerAssetId,
+        designation,
+      };
+      // Get current programs list and update the speakers array for the selected program index
+      const updatedPrograms = [...values.programs];
+      if (!updatedPrograms[index].speakers) {
+        updatedPrograms[index].speakers = [];
+      }    
+      // Filter out empty or undefined speakers
+      updatedPrograms[index].speakers = updatedPrograms[index].speakers?.filter(
+        speaker => speaker.speakerId
+      );
+      // Check if a speaker with the same ID already exists
+      const isDuplicate = updatedPrograms[index].speakers.some(
+        (speaker) => speaker.speakerId === newSpeaker.speakerId
+      );
+      if (isDuplicate) {
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "speaker is already added" })
+        return;
+      }
+      
+      // Add the new speaker to the speakers array
+      updatedPrograms[index].speakers.push({ ...newSpeaker });
+      setValue("programs", updatedPrograms);
+    
+      resetField(`programs.${index}.speakerId`);
+      resetField(`programs.${index}.speakerAssetId`);
+      resetField(`programs.${index}.designation`);
+      resetField(`programs.${index}.speakerFullName`);
+      resetField(`programs.${index}.speakerSelection`);
+    }; 
+
+    /**
+     * Removes a speaker from the specified program's speakers array.
+     * This function filters out the speaker with the matching `speakerId` from the `speakers` array of the program (by `item.speakerId`).
+     * @param {object} item - The speaker object that needs to be removed.
+     * @param {number} _index - The index of the program in the programs array .
+     */
+    const removeSpeaker = (item: any, _index: number) => {
+      const values = watch();
+      const updatedPrograms = values.programs.map((program) => {
+        const updatedSpeakers = program.speakers?.filter(
+          (speaker) => speaker?.speakerId !== item?.speakerId
+        ) || [];
+        return {
+          ...program,
+          speakers: updatedSpeakers,
+        };
+      });
+      setValue('programs', updatedPrograms);
+    };    
 
 
 
@@ -560,6 +749,7 @@ const handleAddProgram = () => {
                             <Grid size={{ xs: 12, sm: 12 }}>
                               <CustomTextField
                                 placeholder="Price"
+                                prefix={currency}
                                 control={control}
                                 name={`programs.${index}.amount`}
                                 type="number"
@@ -573,6 +763,107 @@ const handleAddProgram = () => {
                                 }}
                               />
                             </Grid>
+                          )}
+                          {!showSpeakerSection ? (
+                            <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'center'}>
+                              <CustomButton
+                                className="add-program-drawer-speaker-option-btn"
+                                label="Assign Speakers for this Program?"
+                                variant="outlined"
+                                size="large"
+                                type="button"
+                                onClick={() => setShowSpeakerSection(true)}
+                              />
+                            </Grid>
+                          ) : (
+                            <Grid container size={{ xs: 12, sm: 12 }} p={{ xs: 1, sm: 2 }} className="add-program-speaker-section">
+                                {/* speaker add section */}
+                                <Grid
+                                  size={{ xs: 12 }}
+                                  container
+                                  justifyContent="space-between"
+                                  alignItems="center"
+                                >
+                                  <Typography className="add-program-drawer-heading">
+                                    Assign Speakers
+                                  </Typography>
+                                  <IconButton onClick={() => setShowSpeakerSection(false)}>
+                                    <CloseOutlined />
+                                  </IconButton>
+                                </Grid>{/*end of speaker header section */}
+                                <Grid size={{ xs: 12}}>
+                                  <CustomAutocomplete
+                                    name={`programs.${index}.speakerSelection`}
+                                    control={control}
+                                    placeholder="Search Speaker"
+                                    options={searchResults}
+                                    getOptionLabel={(option: any) => option.speakerFullName || ""}
+                                    onSearch={handleSearch}
+                                    loading={loading}
+                                    onChange={(selectedOption)=>{
+                                      setValue(`programs.${index}.speakerId`,selectedOption?.speakerId)
+                                      setValue(`programs.${index}.speakerAssetId`,selectedOption?.speakerAssetId)
+                                      setValue(`programs.${index}.speakerFullName`,selectedOption?.speakerFullName)
+                                    }}
+                                  />
+                                </Grid>
+                                <Grid container className="add-program-drawer-new-speaker-link" justifyContent={'end'} onClick={() => setNewSpeakerDrawerOpen(true)} size={{xs:12}}>
+                                  <Typography className="cursor-container" variant="h6">Create New Speaker ?</Typography>
+                                </Grid>
+                                <Grid size={{ xs: 12}}>
+                                  <CustomTextField
+                                    placeholder="Designation"
+                                    control={control}
+                                    name={`programs.${index}.designation`}
+                                    type="text"
+                                  />
+                                </Grid>
+                                <Grid size={{xs:12}} >
+                                  <CustomButton
+                                    className="add-program-drawer-btn-cancel"
+                                    label="Assign Speaker"
+                                    variant="outlined"
+                                    size="large"
+                                    onClick={()=>addSpeaker(index)}
+                                  />
+                                </Grid>
+                                  {watch(`programs.${index}.speakers`)?.length !== 0 && (
+                                    <Grid container flexDirection={"column"} className="add-program-speaker-section-card-container" size={{xs:12}}>
+                                      <Grid container spacing={1}>
+                                        {watch(`programs.${index}.speakers`)?.map((item, speakerIndex) => {
+                                          return (
+                                            <Grid size={{xs:12}} key={speakerIndex + "grid"} container alignItems="center" className="add-program-speaker-section-card-item" p={1}>
+                                              <Grid size={{xs:2}} justifyItems={'center'}> 
+                                                <Avatar
+                                                  alt={item.speakerFullName}
+                                                  src={item?.speakerAssetId
+                                                    ? `${baseUrl}asset/${item?.speakerAssetId}`
+                                                    : ""}
+                                                />
+                                              </Grid>
+                                              <Grid size={{xs:8}} justifyItems={'start'}>
+                                                <Typography className="add-program-speaker-section-card-item-title">
+                                                  {item.speakerFullName}
+                                                </Typography>
+                                                <Typography className="add-program-speaker-section-card-item-subtitle">
+                                                  { truncateString(item?.designation,35)}
+                                                </Typography>
+                                              </Grid>
+                                              <Grid size={{xs:2}} justifyItems={'center'}>
+                                                <IconButton
+                                                  onClick={() => removeSpeaker(item,index)} // Handle removal logic
+                                                  sx={{ padding: 1 }}
+                                                >
+                                                  <DeleteIcon />
+                                                </IconButton>
+                                              </Grid>
+                                            </Grid>
+                                          );
+                                        })}
+                                      </Grid>
+                                    </Grid>
+                                  )}
+                            </Grid>// end of add speaker section
                           )}
                           <Grid
                             container
@@ -705,6 +996,14 @@ const handleAddProgram = () => {
               size="large"
             />
           </Grid>
+        </Grid>
+        {/* Drawer to create a new Speaker */}
+        <Grid >
+          <CustomDrawer
+            children={<NewSpeakerDrawer onSuccess={()=>{handleSearch("")}} closeDrawer={()=>setNewSpeakerDrawerOpen(false)}/>}
+            open={newSpeakerDrawerOpen} 
+            type="right"
+          />
         </Grid>
       </Grid>
     );
