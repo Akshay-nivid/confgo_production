@@ -532,7 +532,7 @@ const Events = () => {
               speakerId: speaker?.userId,
               speakerFullName: `${speaker?.user?.firstName} ${speaker?.user?.lastName}`,
               speakerAssetId: speaker?.user?.assetId,
-              designation: speaker?.designation || " ",
+              designation: speaker?.speakerBios?.[0]?.designation || " ",
             })) || [],
         })),
         addOns: data.addons?.map((addon: any) => ({
