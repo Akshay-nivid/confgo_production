@@ -25,7 +25,7 @@ const ProgramDetailsModal = () => {
 
     const isSameDay = moment(programDetails?.startTime).format("D") === moment(programDetails?.startTime).format("D")
 
-
+console.log(programDetails)
 /**
  * to clear modal data on un mount
  */
@@ -42,7 +42,6 @@ const ProgramDetailsModal = () => {
             return `${getLocalTimeDate(programDetails?.startTime, "MMMM DD YYYY h:mm A")} - ${getLocalTimeDate(programDetails?.endTime, "MMMM DD YYYY h:mm A")}`
         }
     }
-
 
 
 
@@ -75,11 +74,53 @@ const ProgramDetailsModal = () => {
                                     {
                                         programDetails?.eventSpeakers.map((speaker: any) => {
                                             return (
-                                         
-                                                <Avatar src={config.api.url + speaker?.user?.assetId} key={speaker.id} className='content-speaker-container-speaker-list-avatar' >
+                                         <>
+                                          <Avatar src={config.api.url+"asset/"+speaker?.user?.assetId} key={speaker.id} className='content-speaker-container-speaker-list-avatar' >
                                                     {speaker?.user?.firstName[0]}
                                                     {speaker?.user?.lastName[0]}
-                                                </Avatar>
+                                                </Avatar> <Avatar src={config.api.url+"asset/"+speaker?.user?.assetId} key={speaker.id} className='content-speaker-container-speaker-list-avatar' >
+                                                    {speaker?.user?.firstName[0]}
+                                                    {speaker?.user?.lastName[0]}
+                                                </Avatar> <Avatar src={config.api.url+"asset/"+speaker?.user?.assetId} key={speaker.id} className='content-speaker-container-speaker-list-avatar' >
+                                                    {speaker?.user?.firstName[0]}
+                                                    {speaker?.user?.lastName[0]}
+                                                </Avatar> <Avatar src={config.api.url+"asset/"+speaker?.user?.assetId} key={speaker.id} className='content-speaker-container-speaker-list-avatar' >
+                                                    {speaker?.user?.firstName[0]}
+                                                    {speaker?.user?.lastName[0]}
+                                                </Avatar> <Avatar src={config.api.url+"asset/"+speaker?.user?.assetId} key={speaker.id} className='content-speaker-container-speaker-list-avatar' >
+                                                    {speaker?.user?.firstName[0]}
+                                                    {speaker?.user?.lastName[0]}
+                                                </Avatar> <Avatar src={config.api.url+"asset/"+speaker?.user?.assetId} key={speaker.id} className='content-speaker-container-speaker-list-avatar' >
+                                                    {speaker?.user?.firstName[0]}
+                                                    {speaker?.user?.lastName[0]}
+                                                </Avatar> <Avatar src={config.api.url+"asset/"+speaker?.user?.assetId} key={speaker.id} className='content-speaker-container-speaker-list-avatar' >
+                                                    {speaker?.user?.firstName[0]}
+                                                    {speaker?.user?.lastName[0]}
+                                                </Avatar> <Avatar src={config.api.url+"asset/"+speaker?.user?.assetId} key={speaker.id} className='content-speaker-container-speaker-list-avatar' >
+                                                    {speaker?.user?.firstName[0]}
+                                                    {speaker?.user?.lastName[0]}
+                                                </Avatar> <Avatar src={config.api.url+"asset/"+speaker?.user?.assetId} key={speaker.id} className='content-speaker-container-speaker-list-avatar' >
+                                                    {speaker?.user?.firstName[0]}
+                                                    {speaker?.user?.lastName[0]}
+                                                </Avatar> <Avatar src={config.api.url+"asset/"+speaker?.user?.assetId} key={speaker.id} className='content-speaker-container-speaker-list-avatar' >
+                                                    {speaker?.user?.firstName[0]}
+                                                    {speaker?.user?.lastName[0]}
+                                                    </Avatar>
+                                                    <Avatar src={config.api.url+"asset/"+speaker?.user?.assetId} key={speaker.id} className='content-speaker-container-speaker-list-avatar' >
+                                                    {speaker?.user?.firstName[0]}
+                                                    {speaker?.user?.lastName[0]}
+                                                    </Avatar><Avatar src={config.api.url+"asset/"+speaker?.user?.assetId} key={speaker.id} className='content-speaker-container-speaker-list-avatar' >
+                                                    {speaker?.user?.firstName[0]}
+                                                    {speaker?.user?.lastName[0]}
+                                                    </Avatar><Avatar src={config.api.url+"asset/"+speaker?.user?.assetId} key={speaker.id} className='content-speaker-container-speaker-list-avatar' >
+                                                    {speaker?.user?.firstName[0]}
+                                                    {speaker?.user?.lastName[0]}
+                                                    </Avatar><Avatar src={config.api.url+"asset/"+speaker?.user?.assetId} key={speaker.id} className='content-speaker-container-speaker-list-avatar' >
+                                                    {speaker?.user?.firstName[0]}
+                                                    {speaker?.user?.lastName[0]}
+                                                    </Avatar>
+                                         </>
+                                               
                                                 
                                             )
                                         })

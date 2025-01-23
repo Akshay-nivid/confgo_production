@@ -58,6 +58,8 @@
             &-speaker-list{
                 display: flex;
                 column-gap: 1rem;
+                flex-wrap: wrap;
+                row-gap: 1.5rem;
 
                 &-avatar{
                    height: 4.17rem;
