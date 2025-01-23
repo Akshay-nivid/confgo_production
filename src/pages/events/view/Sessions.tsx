@@ -340,7 +340,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
       {/* Render valid date items */}
       {Object.keys(groupedData)
         .filter((date) => date !== "invalid")
-        .map((date) => (
+        .map((date,idx) => (
           <Grid size={{ xs: 12 }} key={date}>
             <Box
               className="event-sessions-date-header"
@@ -355,10 +355,11 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
 
             <Grid container spacing={2} className="event-sessions-session-list">
 						{groupedData[date].map(
-  (item: { addon: { name: any } }, index: Key | null | undefined) => {
+           (item: { addon: { name: any } }, index: Key | null | undefined) => {
     return (
       <SessionCard
         key={index}
+        index={idx + 1}
         item={item}
         timeCorrection={true}
         hasAddOns={item.addon ? true : false}
