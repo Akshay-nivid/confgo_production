@@ -15,13 +15,20 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import config from "../../../config.json";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { validateEmail } from "@/Utils/Validation";
 import { validateMaxLength } from '@/Utils/Validation';
 import GoogleMapPlacePicker from "./GoogleMapPlacePicker";
 import useStore, { setDataById } from "@/Libs/store";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
+import PublicOffOutlinedIcon from '@mui/icons-material/PublicOffOutlined';
+import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
+import RssFeedOutlinedIcon from '@mui/icons-material/RssFeedOutlined';
+import UploadLogo from '../../assets/svg/uploadLogo.svg'
+import { Close } from "@mui/icons-material";
+import UploadedIcon from '../../assets/svg/CreateEventimageIcon.svg'; // Replace with your actual UploadedIcon
+import CustomDateTimePicker from "@/components/CustomDateTimePicker/CustomDateTimePicker";
+
 
 type EventProps = {
   formSubmit: boolean;
@@ -68,9 +75,9 @@ interface CustomFile {
 }
 
 const typeArray = [
-  { label: "Offline", value: "OFFLINE" },
-  { label: "Online", value: "ONLINE" },
-  { label: "Hybrid", value: "HYBRID" },
+  { label: "Offline", value: "OFFLINE", icon:<PublicOffOutlinedIcon/> },
+  { label: "Online", value: "ONLINE", icon:<PublicOutlinedIcon/> },
+  { label: "Hybrid", value: "HYBRID", icon:<RssFeedOutlinedIcon/> },
 ];
 interface Specialty{
   value:number,
@@ -101,6 +108,8 @@ const CreateEvent: React.FC<EventProps> =
   const [isInitialRender, setIsInitialRender] = useState(true);
   const POST = useStore((state: any) => state.POST);
   const [specialty,setspecialty]=useState<Specialty[]>([]);
+  const [isPlacePickerOpen, setPlacePickerOpen] = useState(false);
+
 
     // Watch values from the form
     const fields: ('mapUrl' | 'postalCode' | 'venueName' | 'city' | 'address')[] = ['mapUrl', 'postalCode', 'venueName', 'city','address'];
@@ -205,10 +214,8 @@ const CreateEvent: React.FC<EventProps> =
       const endTime = new Date(data.endTime);
       const today = new Date();
 
-       // Remove time portion for date-only comparison
-      today.setHours(0, 0, 0, 0);
-      startTime.setHours(0, 0, 0, 0);
-      endTime.setHours(0, 0, 0, 0);
+console.log(startTime,"sta")
+console.log(today,"today")
 
       if(selectedFile){
         setValue('assetId',selectedFile[0]?.id) 
@@ -324,6 +331,21 @@ const CreateEvent: React.FC<EventProps> =
           }
       });
   }
+
+   /**
+   * Open the Google Place Picker
+   */
+   const handleTextFieldClick = () => {
+    setPlacePickerOpen(true);
+  };
+
+
+    /**
+   * Handle closing the Google Place Picker
+   */
+    const handlePlacePickerClose = () => {
+      setPlacePickerOpen(false);
+    };
     return (
       <Box className="create-event-container">
         <Grid
@@ -336,12 +358,17 @@ const CreateEvent: React.FC<EventProps> =
           <Grid size={{ xs: 12, sm: 12 }} container m={8}>
             <Grid>
               <Typography
-                textAlign={"center"}
                 variant="h3"
                 lineHeight={2}
                 className="create-event-title"
               >
-                Create New Event
+                Event Details
+              </Typography>
+              <Typography
+                variant="h5"
+                className="create-event-title-sub"
+              >
+                Provide the essential information for your event to get started.
               </Typography>
             </Grid>
             <Grid>
@@ -353,7 +380,7 @@ const CreateEvent: React.FC<EventProps> =
                   alignItems={"center"}
                   justifyContent={"center"}
                 >
-                  <Grid size={{ xs: 12, sm: 12 }}>
+                  {/* <Grid size={{ xs: 12, sm: 12 }}>
                     <CustomRadio
                       className="add-program-radio-btn"
                       control={control}
@@ -363,9 +390,10 @@ const CreateEvent: React.FC<EventProps> =
                       row={true}
                       value={"OFFLINE"}
                     />
-                  </Grid>
-                  <Grid size={{ xs: 12, sm: 12 }}>
-                    <CustomTextField
+                  </Grid> */}
+                  <Grid container spacing={2} size={{xs:12}}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <CustomTextField                      
                       className="add-program-text-Field"
                       placeholder="Event Name"
                       control={control}
@@ -379,134 +407,13 @@ const CreateEvent: React.FC<EventProps> =
                         }),
                       }} 
                       />
-                  </Grid>
-                  {/* <Grid size={{ xs: 12, sm: 6 }}>
-                    <CustomTextField
-                      placeholder="Specialty"
-                      control={control}
-                      name="specialty"
-                      type="text"
-                      rules={{ required: true }}
-                      info={true}
-                      infoContent={'test message'}
-                    />
-                  </Grid> */}
-                  <Grid size={{ xs: 12, sm: 12 }}>
-                    <Typography
-                      variant="h3"
-                      className="create-event-description"
-                    >
-                      Event Description
-                    </Typography>
-                  </Grid>
-                  <Grid
-                    size={{ xs: 12, sm: 12 }}
-                    mb={0}
-                    className="create-event-description"
-                  >
-                   
-                    <ReactQuill
-                      className={isError ? "create-event-description-error" : ""}
-                      value={editorContent}
-                      onChange={handleChange}
-                      theme="snow"
-                      placeholder="Type your description here..."
-                      modules={modules}
-                      id="react-quill-description"
-                    />
-                    {/* <CustomTextField
-                      control={control}
-                      name="description"
-                      type="hidden"
-                      rules={{ required: true }}
-                    />
-                    /> */}
-                  </Grid>
-                  <Grid size={{ xs: 12, sm: 6 }}>
-                    <CustomTextField
-                      className="add-program-text-Field"
-                      placeholder="Phone"
-                      control={control}
-                      name="phone"
-                      type="text"
-                      isNumeric={true}
-                      // rules={{
-                      //   required: 'Phone is required',
-                      //   pattern: validatePhoneNumber({})
-                      // }}
-                    />
-                  </Grid>
-                  <Grid size={{ xs: 12, sm: 6 }}>
-                    <CustomTextField
-                      className="add-program-text-Field"
-                      placeholder="Email"
-                      control={control}
-                      name="email"
-                      type="email"
-                      rules={{
-                        required: 'Email is required',
-                        pattern: validateEmail({})
-                      }}
-                    />
-                  </Grid>
-                  <Grid size={{ xs: 12, sm: 6 }}>
-                    <CustomTextField
-                      placeholder="Start Date"
-                      control={control}
-                      name="startTime"
-                      type="date"
-                      className="create-event"
-                      defaultValue={moment(new Date()).format("YYYY-MM-DD")}
-                      min={moment(new Date()).format("YYYY-MM-DD")}
-                      rules={{
-                        required:true,
-                        pattern: {
-                          value: /^\d{4}-\d{2}-\d{2}$/, 
-                          message: "Please enter a valid start date (DD-MM-YYYY)"
-                        }
-                      }}
-                    />
-                  </Grid>
-                  <Grid size={{ xs: 12, sm: 6 }}>
-                    <CustomTextField
-                      placeholder="End Date"
-                      className="create-event"
-                      control={control}
-                      name="endTime"
-                      type="date"
-                      defaultValue={moment(new Date()).format("YYYY-MM-DD")}
-                      min={moment(new Date()).format("YYYY-MM-DD")}
-                      rules={{
-                        required:true,
-                        pattern: {
-                          value: /^\d{4}-\d{2}-\d{2}$/,
-                          message: "Please enter a valid end date (DD-MM-YYYY)"
-                        }
-                      }}
-                    />
-                  </Grid>
-                  <Grid size={{ xs: 12, sm: 6 }}>
-                    <CustomTextField
-                      placeholder="Price"
-                      control={control}
-                      name="amount"
-                      type="number"
-                      rules={{
-                        pattern: {
-                        value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
-                          message:
-                            "Enter a valid price (up to 2 decimal places & Zero not accepted)price up to 1Crore",
-                        }
-                      }}
-                    />
-                  </Grid>
-                  <Grid size={{ xs: 12, sm: 6 }}>
+                      </Grid>
+                      <Grid size={{ xs: 12, sm:6 }}>
                     <CustomSelect
-                    fullWidth
                     className="add-program-select"
                     name="specialtyId"
                     control={control}
-                    label="Specialty"
+                    label="Category"
                     options={specialty}
                     defaultValue={data?.speciality?.name}
                     onChange={() => setValue('isAbstract',false)}
@@ -541,6 +448,72 @@ const CreateEvent: React.FC<EventProps> =
                       }}
                     />
                   </Grid>}
+                  </Grid>
+
+              
+                  <Grid
+                    size={{ xs: 12, sm: 12 }}
+                    mb={0}
+                    className="create-event-description"
+                  >
+                   
+                    <ReactQuill
+                      className={isError ? "create-event-description-error" : ""}
+                      value={editorContent}
+                      onChange={handleChange}
+                      theme="snow"
+                      placeholder="Event Description"
+                      modules={modules}
+                      id="react-quill-description"
+                    />
+                    {/* <CustomTextField
+                      control={control}
+                      name="description"
+                      type="hidden"
+                      rules={{ required: true }}
+                    />
+                    /> */}
+                  </Grid>
+
+                  <Grid size={{xs:12}}>
+                    <Typography
+                      variant="h3"
+                      className="create-event-title"
+                    >
+                    Event Type and Location
+                    </Typography>
+                  </Grid>
+                  <Grid width={'100%'}  container display='flex' justifyContent='space-between' spacing={2}>
+  <Box className="parent"  >
+    <CustomRadio
+      className="create-event-radio-btn "
+      control={control}
+      name="type"
+      label=""
+      options={typeArray}
+      row={true} // Horizontal layout
+      labelPlacement="start"
+      value={"OFFLINE"}
+    />
+  </Box>
+</Grid>
+                  {watch("type") !== "ONLINE" && (
+                  <Grid size={{ xs: 12, sm:12 }}>      
+                        <CustomTextField
+                          placeholder="Address"
+                          control={control}
+                          name="address"
+                          readOnly={true}
+                          shrink={watch('address')!==''&&watch('address')!==undefined?true:undefined}
+                          type="text"
+                          onClick={handleTextFieldClick} // Open the place picker on click
+                          rules={{ required: watch("type") === "OFFLINE" }}
+                        />  
+                         {isPlacePickerOpen && (
+        <GoogleMapPlacePicker onClose={handlePlacePickerClose} />
+      )}                   
+                  </Grid>
+                  )}
                   {watch("type") !== "OFFLINE" && (
                     <Grid size={{ xs: 12, sm: 12 }}>
                       <CustomTextField
@@ -557,8 +530,224 @@ const CreateEvent: React.FC<EventProps> =
                       )}
                     </Grid>
                   )}
+                   <Grid size={{xs:12}}>
+                    <Typography
+                      variant="h3"
+                      className="create-event-title"
+                    >
+                    Event Time
+                    </Typography>
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <CustomDateTimePicker
+                      placeholder="Start Date"
+                      control={control}
+                      name="startTime"
+                      rules={{
+                        required:true,
+                        pattern: {
+                          // value: /^\d{4}-\d{2}-\d{2}\s([01][0-9]|2[0-3]):[0-5][0-9]$/,
+                          // message: "Please enter a valid start date (DD-MM-YYYY hh:mm A)"
+                        }
+                      }}
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <CustomDateTimePicker
+                      placeholder="End Date"
+                      control={control}
+                      name="endTime"
+                      rules={{
+                        required:true,
+                        pattern: {
+                          // value: /^\d{4}-\d{2}-\d{2}\s([01][0-9]|2[0-3]):[0-5][0-9]$/,
+                          message: "Please enter a valid end date (DD-MM-YYYY)"
+                        }
+                      }}
+                    />
+                  </Grid>
+                  <Grid size={{xs:12}}>
+                    <Typography
+                      variant="h3"
+                      className="create-event-title"
+                    >
+                    Event Price
+                    </Typography>
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: 12 }}>
+                    <CustomTextField
+                      placeholder="Price"
+                      control={control}
+                      name="amount"
+                      type="number"
+                      rules={{
+                        pattern: {
+                        value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
+                          message:
+                            "Enter a valid price (up to 2 decimal places & Zero not accepted)price up to 1Crore",
+                        }
+                      }}
+                    />
+                  </Grid>
+                  <Grid size={{xs:12}}>
+                    <Typography
+                      variant="h3"
+                      className="create-event-title"
+                    >
+                    Event Logo
+                    </Typography>
+                  </Grid>
+                  {selectedFile ? (
+          <>
+                            <Grid container size={{ xs: 12 }}>
 
-                  {watch("type") !== "ONLINE" && (
+            <Grid className="create-event-uploaded-card" direction="column">
+
+      {/* Close Button */}
+      <IconButton
+        onClick={handleFileDelete}
+        className="create-event-uploaded-card-close-icon"
+      >
+        <Close fontSize="small" />
+      </IconButton>
+
+      <Grid container direction="row" alignItems="left" justifyItems='center' spacing={1}>
+        <UploadedIcon />
+        <Typography className="uploaded-container-text">
+          {selectedFile.name}
+        </Typography>
+      </Grid>
+
+    
+    </Grid>
+    </Grid>
+          </>
+        ) : (
+          <>
+                  <Grid container size={{ xs: 12 }}>
+                  <Grid size={{xs:12}}
+        container 
+        alignItems="center" 
+        justifyContent="center" 
+        className="create-event-upload-box-container"
+        
+      >
+       
+          <Grid >
+            <button onClick={() => setModalOpen(true)} className="create-event-upload-box-container-button">
+            <UploadLogo className="create-event-upload-box-container-button-text"/>
+  
+            <Typography className="create-event-upload-box-container-button-text"> Upload Logo</Typography>
+            <Typography variant="body2">
+              Choose a file to upload, Max file size: 5MB.<br />
+              Recommended ratio: 16:9 for best fit
+            </Typography>
+            </button>
+          </Grid>
+        
+      </Grid>
+
+      {modalOpen && (
+        <FileListModal
+          open={modalOpen}
+          handleClose={() => setModalOpen(false)}
+          onSelectFile={(files) => {
+            if (files && files.length > 0) {
+              setSelectedFile(files[0]);
+            }
+            setModalOpen(false);
+          }}
+          companyId={companyId}
+          multipleSelect={false}
+          imagesPerRow={4}
+        />
+      )}
+                  </Grid>
+                  </>
+                  )}
+                    <Grid size={{xs:12}}>
+                    <Typography
+                      variant="h3"
+                      className="create-event-title"
+                    >
+                      Contact Informations
+                    </Typography>
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <CustomTextField
+                      className="add-program-text-Field"
+                      placeholder="Phone"
+                      control={control}
+                      name="phone"
+                      type="text"
+                      isNumeric={true}
+                      // rules={{
+                      //   required: 'Phone is required',
+                      //   pattern: validatePhoneNumber({})
+                      // }}
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <CustomTextField
+                      className="add-program-text-Field"
+                      placeholder="Email"
+                      control={control}
+                      name="email"
+                      type="email"
+                      rules={{
+                        required: 'Email is required',
+                        pattern: validateEmail({})
+                      }}
+                    />
+                  </Grid>
+                
+                  
+                  {/* <Grid size={{ xs: 12, sm: 6 }}>
+                    <CustomTextField
+                      placeholder="Price"
+                      control={control}
+                      name="amount"
+                      type="number"
+                      rules={{
+                        pattern: {
+                        value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
+                          message:
+                            "Enter a valid price (up to 2 decimal places & Zero not accepted)price up to 1Crore",
+                        }
+                      }}
+                    />
+                  </Grid> */}
+                  {/* <Grid size={{ xs: 12, sm: 6 }}>
+                    <CustomSelect
+                    fullWidth
+                    className="add-program-select"
+                    name="specialtyId"
+                    control={control}
+                    label="Specialty"
+                    options={specialty}
+                    defaultValue={data?.speciality?.name}
+                    onChange={() => setValue('isAbstract',false)}
+                    />
+                  </Grid> */}
+                  
+                  {/* {watch("type") !== "OFFLINE" && (
+                    <Grid size={{ xs: 12, sm: 12 }}>
+                      <CustomTextField
+                        placeholder="Url"
+                        control={control}
+                        name="url"
+                        type="text"
+                        rules={{ required: watch("type") === "ONLINE" }}
+                      />
+                      {errors.url && (
+                        <Typography color="error" variant="body2">
+                          {errors.url.message}
+                        </Typography>
+                      )}
+                    </Grid>
+                  )} */}
+
+                  {/* {watch("type") !== "ONLINE" && (
                     <>
                     <Grid size={12} container justifyContent={"flex-start"} alignItems={"center"} id = "create-event-location-button"
                     >
@@ -661,62 +850,7 @@ const CreateEvent: React.FC<EventProps> =
                       </Grid>
 
                     </>
-                  )}
-                            <Grid size={{ xs: 12, sm: 12 }} direction={'row'} container flexDirection={"row"} spacing={2}>
-                            <Grid container direction={'row'} alignItems={'center'} justifyContent={"center"} alignContent={"center"}>
-                            {selectedFile && (
-                              <Grid className="create-event-btn-container-img-box" >
-                                <img
-                                  src={`${baseUrl}asset/${selectedFile.id}`}
-                                  alt={selectedFile.name}
-                                />
-                              </Grid>
-                            )}
-                              <CustomButton
-                            className="create-event-btn-container-select-btn"
-                            label={selectedFile ? "Change Event Logo" : "Upload Event Logo"}
-                            variant="outlined"
-                            onClick={() => setModalOpen(true)}
-                          />
-                              {selectedFile && ( <Grid container spacing={1}>
-
-                                <CustomButton
-                                className="create-event-btn-container-delete-btn"
-                                label="Delete"
-                                variant="outlined"
-                                onClick={handleFileDelete}
-                                />
-                              </Grid>
-                              )}
-                            </Grid>                   
-                        <Grid
-                          className="create-event-btn-container"
-                          container
-                          justifyContent={"flex-start"}
-                          size={{ xs: 12, sm: 12 }}
-                          direction={'row'}
-                        >
-                          <Grid>
-                            {modalOpen && (
-                              <FileListModal
-                                open={modalOpen}
-                                handleClose={() => setModalOpen(false)}
-                                onSelectFile={(files: CustomFile[]) => {
-                                  // Automatically select the newly uploaded file if it exists
-                                  if (files && files.length > 0) {
-                                    setSelectedFile(files[0]); // Set only the first selected file
-                                    setValue('assetId',files[0]?.id);
-                                  }
-                                  setModalOpen(false);
-                                }}
-                                companyId={companyId}
-                                multipleSelect={false}
-                                imagesPerRow={4}
-                              />
-                            )}
-                          </Grid>
-                        </Grid>
-                      </Grid>
+                  )} */}
                 </Grid>
                   <CustomDrawer open={drawerOpen} type="right" children={
                    <GoogleMapPlacePicker onClose={()=>setDrawerOpen(false)}/>

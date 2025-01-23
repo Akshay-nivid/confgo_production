@@ -42,6 +42,9 @@ const GoogleMapPlacePicker = ({ onClose }: GooglePlacePickerProps) => {
                     setLatLng({ lat: lat(), lng: lng() });
                     const addressComponents = results[0].address_components;
                     setAddress(addressComponents);
+
+                    handlePlaceSubmit();
+
                 }
             });
         }
@@ -96,18 +99,7 @@ const GoogleMapPlacePicker = ({ onClose }: GooglePlacePickerProps) => {
         }
     };
   return (
-    <Grid container className="create-event-map-drawer" spacing={2}>
-      <Grid container size={12} justifyContent={"space-between"}>
-      <Typography
-            variant="h3"
-            className="event-detail-event-info-card-title"
-          >
-            Choose Location
-          </Typography>
-        <IconButton onClick={onClose}>
-          <CloseOutlined />
-        </IconButton>
-      </Grid>
+    <Grid container  spacing={1}>
       <Grid size={12} justifyContent={"center"} id="event-location-search-field" >
         {/* Location choose google componet */}
         <ReactGooglePlacesAutocomplete

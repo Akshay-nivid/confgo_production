@@ -60,7 +60,7 @@
         max-width: 91.5rem;
 
         .ql-container {
-            min-height: 15rem;
+            min-height: 7.66rem;
         }
 
         &-error {
@@ -122,6 +122,30 @@
         box-shadow: none !important;
     }
 
+    &-upload-box-container {
+        width: 100%;
+        border: 1px dashed #ccc;
+        position: relative;
+        border-radius: $p4;
+        height:12.58rem;
+      
+
+      &-button {
+        display: flex; // Flexbox for centering within the button
+          flex-direction: column; // Stack logo and text vertically
+          align-items: center;// Center items horizontally
+          justify-content: center; // Center items vertically
+          border: "none";// Remove default button border
+          cursor: "pointer"; // Add pointer cursor
+          gap:.5rem;
+
+          &-text{
+            font-weight: $font_semibold !important;
+            font-size: $h6 !important;
+          }
+      }
+
+    }
     &-back-btn {
         background-color: $clr_white !important;
         color: $clr_green !important;
@@ -135,7 +159,76 @@
 
     &-title {
         font-weight: $font_bold !important;
-        font-size: $h3 !important;
+        font-size: $h5 !important;
+    }
+
+    &-title-sub {
+        font-weight:$font_normal !important;
+        font-size: $p2 !important;
+        color: $clr_field;
+    }
+
+    &-uploaded-card{
+        position: relative;
+        display: flex !important;
+        align-items: flex-start !important;
+        border: 1px solid $clr_light_white_gray;
+        padding: 1rem;
+        width:20rem;
+        height: 5rem;
+        border-radius: 0.65rem;
+        svg {
+            width: 2rem;
+            height: 2rem;
+        }
+
+        &-close-icon{
+            position: absolute !important;
+            top: -8px !important;
+            right: -8px !important;
+            background-color: $clr_black !important;
+            color: $clr_white !important;
+            font-size: 16px;
+            width: $h5 !important;
+            height: $h5 !important;
+            z-index: 10 !important;
+        }
+    }
+
+    &-radio-btn {
+        .single{
+            height: 3.75rem;
+            border-radius: 5px;
+            display: flex;
+            padding-left:5px; ;
+            justify-content: space-between !important;
+            border: 1px solid $clr_gray_medium; 
+
+            .labelIcon{
+                display: flex;
+                gap: 1rem;  // Add space between icon and label
+            }
+        }
+        .Mui-checked {
+            color: $clr_green !important;
+
+            ~.MuiFormControlLabel-label {
+                color: $clr_green !important;
+            }
+            .single {
+                border: 1px solid $clr_green !important;
+              }
+        }
+
+        .MuiRadio-root:not(.Mui-checked) {
+            color: $clr_gray_medium !important; // Define light color
+
+            // Style for the label of unchecked radio
+            ~.MuiFormControlLabel-label {
+                color: $clr_gray_medium !important; // Light color for label
+            }
+        }
+
     }
 
     &-map-drawer {
@@ -2060,5 +2153,27 @@
     &-img{
         width:100%;
         height:90%;
+    }
+  }
+
+
+
+  .parent{
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    fieldset{
+        width: 100%;
+    }
+    fieldset > div {
+        display: flex !important;
+        column-gap: 1rem !important;
+        flex-wrap: nowrap !important;
+    }
+    label{
+        flex: 1 !important;
+         margin-left: 0 !important;
+         margin-right: 0 !important;
+
     }
   }
