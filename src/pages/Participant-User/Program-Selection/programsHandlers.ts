@@ -405,7 +405,7 @@ export const fetchEventDetailsFn = async (eventId: number | undefined|null) => {
   try {
 
 
-    const response = await apiClient.get(`event/${eventId}`)
+   // const response = await apiClient.get(`event/${eventId}`)
 
     // const 
     
