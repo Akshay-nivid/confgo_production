@@ -443,17 +443,21 @@ const EventInfoCard: React.FC<any> = React.memo(
         </Grid>
 
         
-
-        <Grid size={{ xs: 3 }}>
-          <Typography className="event-information-subtitle">
-          Specialty
-          </Typography>
-        </Grid>
-        <Grid size={{ xs: 9 }}>
-          <Typography className="event-information-content">
-            {eventData?.speciality?.name}
-          </Typography>
-        </Grid>
+        { eventData?.speciality && (
+        <>
+          <Grid size={{ xs: 3 }}>
+            <Typography className="event-information-subtitle">
+              Specialty
+            </Typography>
+          </Grid>
+          <Grid size={{ xs: 9 }}>
+            <Typography className="event-information-content">
+              {eventData?.speciality?.name}
+            </Typography>
+          </Grid>
+        </>
+      )}
+        
        
        <Grid size={{ xs: 3 }}>
           <Typography className="event-information-subtitle">
