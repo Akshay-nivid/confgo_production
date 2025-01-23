@@ -204,13 +204,13 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
       if (status) {
         setEventFullData(data);
         setDataById("TeamAndRoleData",{data});
-        if(data.published){
-          setValue('event', data.slugName? `event-link/${data.slugName}`: '')
+        if (data.published) {
+          setValue('event', data.slugName ? `event-link/${data.slugName}` : '');
           setLink(data);
+        } else {
+          data.slugName ? setValue('eventLink', data.slugName) : handleLinkGenerationApiCall();
         }
-        else{
-          handleLinkGenerationApiCall();
-        }
+        
       }
     } catch (error) {
       Logger.error('ViewEventDetail', error);
@@ -258,7 +258,6 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
       setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: message });
       setErrorMessage('')
       getEventDetails();
-      published && handleLinkGenerationApiCall();
       setOpenModal(false);
     }
     else {
@@ -396,11 +395,11 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
               <Tab label="Basic Info" className="event-detail-tab-layout-item" value="1" />
               <Tab label="Team & Role" className="event-detail-tab-layout-item" value="2" />
               <Tab label="Sessions" className="event-detail-tab-layout-item" value="3" />
-              { eventFullData?.venue && <Tab label="Location" className="event-detail-tab-layout-item" value="4" />}
+              {/* { eventFullData?.venue && <Tab label="Location" className="event-detail-tab-layout-item" value="4" />} */}
               <Tab label="Participants" className="event-detail-tab-layout-item" value="5" />              
               <Tab label="Template" className="event-detail-tab-layout-item" value="6" />
               <Tab label="Custom Fields" className="event-detail-tab-layout-item" value="7" />
-              <Tab label='Settings' className="event-detail-tab-layout-item" value="8" />
+              <Tab label='Configurations' className="event-detail-tab-layout-item" value="8" />
               {/* <Tab label='Volunteers' className="event-detail-tab-layout-item" value="9"/> */}
              
               {eventFullData?.isAbstract===1 &&<Tab label="Abstracts" className="event-detail-tab-layout-item" value="10" />}
@@ -408,6 +407,9 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
           </Grid>
           <TabPanel value="1">
             <EventInfoCard eventData={eventFullData} onSubmitHandler={handleSubmitHandler}/>
+            { eventFullData?.eventClass !="ONLINE" &&
+            <LocationCard eventData={eventFullData} published={eventFullData?.published}  onSubmitHandler={handleSubmitHandler}/>
+          }
           </TabPanel>
           <TabPanel value="2">
             <TeamAndRole/>
@@ -415,11 +417,11 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
           <TabPanel value="3">
             <Sessions eventData={eventFullData} onSubmitHandler={handleSubmitHandler}/>
           </TabPanel>
-          { eventFullData?.venue &&
+          {/* { eventFullData?.venue &&
           <TabPanel value="4">
             <LocationCard data={eventFullData?.venue} published={eventFullData?.published}  onSubmitHandler={handleSubmitHandler}/>
           </TabPanel>
-          }
+          } */}
           <TabPanel value="5">
             <UserListCard />
           </TabPanel>

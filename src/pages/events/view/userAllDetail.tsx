@@ -21,6 +21,7 @@ import signature from "../../../assets/png/signature.png"
 import { Logger } from "@/Utils/Logger";
 import  CloseIcon  from "../../../assets/svg/CloseModal.svg";
 import DownloadModal from "../../../assets/svg/DownloadModal.svg"
+import confgo  from "../../../../config.json"
 
 interface DetailProps {
   userdetail: any;
@@ -43,8 +44,9 @@ const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => {
   const [certificatePdfUrl, setCertificatePdfUrl] = useState('');
 
 
+  const currency=confgo.currency;
   //stores the customform data
-  const cleanedFormData = userdetail.formData.map((item:any) => {
+  const cleanedFormData = userdetail?.formData?.map((item:any) => {
     const parsedResponse = JSON.parse(item.response);
     delete parsedResponse.fieldType; // Remove the fieldType key
     return parsedResponse; // Return the cleaned object
@@ -52,7 +54,7 @@ const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => {
 
   // Extracting the array dynamically, regardless of key name  
   let files: any[] = []; ;
-  cleanedFormData.forEach((dataItem: any) => {
+  cleanedFormData?.forEach((dataItem: any) => {
     const dynamicKeyData = Object.values(dataItem)[0]; // Extract the first key's value (array of files)
     if (Array.isArray(dynamicKeyData)) {
       files = [...files, ...dynamicKeyData]; // Add all files to the 'files' array
@@ -647,7 +649,7 @@ const handleDownloadPdf = () => {
           <Typography className="all-details-data-title">Total Amount</Typography>
           </Grid>
           <Grid size={8}>
-          <Typography className="all-details-data">{PaymentDetails.amount}</Typography>
+          <Typography className="all-details-data">{currency}{PaymentDetails.amount}</Typography>
           </Grid>
       </Grid>
       <Grid container>
@@ -748,7 +750,7 @@ const handleDownloadPdf = () => {
         </button>
       </Grid>
     )}
-    {userdetail.payment.id &&(
+    {userdetail?.payment?.id &&(
       <Grid >
        <button
         style={{
@@ -769,7 +771,7 @@ const handleDownloadPdf = () => {
     </Grid>
    
     )}
-    {userdetail.attendanceDetails?.attendedPrograms?.[0]?.id&&(
+    {userdetail?.attendanceDetails?.attendedPrograms?.[0]?.id&&(
       <Grid >
        <button
         style={{

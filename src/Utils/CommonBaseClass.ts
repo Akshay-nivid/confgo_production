@@ -144,7 +144,7 @@ export function formatDateTimeRange({date,format}:IDateTimeRangeParams){
 return  moment.utc(date).local().format(format);
 }
 
-export function formatUTCDateTime(dateString: string) {
+export function formatUTCDateTime(dateString: string, format: string = '') {
   if (!dateString) {
     return '';
   }
@@ -157,10 +157,27 @@ export function formatUTCDateTime(dateString: string) {
   const hours = String(date.getUTCHours()).padStart(2, "0");
   const minutes = String(date.getUTCMinutes()).padStart(2, "0");
 
-  // Format to desired output
-  const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;
+  // Default format
+  const defaultFormattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+  // If no format is provided, return default format
+  if (!format) {
+    return defaultFormattedDate;
+  }
+
+  // Handle custom formats
+  let formattedDate = format;
+
+  // Replace placeholders with actual date components
+  formattedDate = formattedDate.replace('YYYY', year.toString());
+  formattedDate = formattedDate.replace('MM', month);
+  formattedDate = formattedDate.replace('DD', day);
+  formattedDate = formattedDate.replace('HH', hours);
+  formattedDate = formattedDate.replace('mm', minutes);
+
   return formattedDate;
 }
+
 
 /**
  * Method used to convert text to camelcase

@@ -161,7 +161,7 @@ const AbstractListCard = () => {
       name: item?.asset?.name,
       email: item?.userAbstract?.user?.email,
       createdOn: item?.createdOn,
-      status: item?.statusId === 1 ? 9
+      status:(item?.statusId === 4 && item?.reviewerId != null) ? 13 : item?.statusId === 1 ? 9
             : item?.statusId === 2 ? 10 
             : 3,
       reviewer: item?.reviewer?.firstName ? (item?.reviewer?.firstName) : ("Not Assigned"),

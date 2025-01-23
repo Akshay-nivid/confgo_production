@@ -67,11 +67,11 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
         label: "Date",
         value: formatDateRange(data?.startTime, data?.endTime),
     });
-    itemArray.push({ icon: <EmailIcon />, label: "Email", value: data?.eventContacts[0]?.email || "" });
+    itemArray.push({ icon: <EmailIcon />, label: "Email", value: data?.eventContacts?.[0]?.email || "" });
     if (data?.eventClass === "HYBRID") {
         itemArray.push({ icon: <LinkIcon />, label: "Website link", value: data?.url || "" });
     } else {
-        itemArray.push({ icon: <PhoneIcon />, label: "Phone", value: data?.eventContacts[0]?.phone || "" });
+        itemArray.push({ icon: <PhoneIcon />, label: "Phone", value: data?.eventContacts?.[0]?.phone || "" });
     }
 
     const CopyUrl = data?.venue?.mapUrl

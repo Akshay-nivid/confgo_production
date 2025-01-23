@@ -34,11 +34,11 @@ const FooterSection: React.FC<FooterSectionProps> = React.memo(({ classPrefix })
         <Grid size={{ xs: 12, sm: 1 }}></Grid>
         <Grid size={{ xs: 12, sm: 3 }} container justifyContent={'center'} direction={'column'}>
             <Grid container direction={'row'} size={{ xs: 12, sm: 12}}>
-                <Grid size={{ xs: 6, sm: 6}}>Torch club 18 waverly</Grid>
-                <Grid size={{ xs: 6, sm: 6}}>04072701371</Grid>
+                <Grid size={{ xs: 6, sm: 6}}>6737 W Washington St.Suite </Grid>
+                <Grid size={{ xs: 6, sm: 6}}>+1 (414) 559-4745</Grid>
             </Grid>
             <Grid container direction={'row'} size={{ xs: 12, sm: 12 }}>
-                <Grid  size={{ xs: 6, sm: 6}}>Newyork, NY 10003, USA</Grid>
+                <Grid  size={{ xs: 6, sm: 6}}>3265 West Allis, WI 53214</Grid>
                 <Grid  size={{ xs: 6, sm: 6}}>support@config.co</Grid>
             </Grid>
         </Grid>
