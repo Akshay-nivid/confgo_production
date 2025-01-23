@@ -21,7 +21,6 @@ interface CustomFile {
 const UserUploadAbstract = ({ eventData }: any) => {
     const [uploadFiles, setUploadFiles] = useState<any>();
     const uploadedAbstractData = useStore((state: any) => state?.compData?.['fetchUserAbstract']?.['userAbstract/list']?.data) ?? [];
-
     const [disabled, setDisabled] = useState(false);
 
   const baseUrl = config.api.url;
@@ -100,31 +99,42 @@ const UserUploadAbstract = ({ eventData }: any) => {
     const statusArray = [
         {
             status: uploadedAbstractData?.[0]?.asset?.id ? 'uploaded' : 'default',
-            title: 'Uploaded',
-            desc: [`Uploaded on : ${moment.utc(uploadedAbstractData?.[0]?.asset?.modifiedOn).format('Do MMMM YYYY')}`],
+            title: uploadedAbstractData?.[0]?.asset?.id ? 'uploaded' : 'Abstracts Not Uploaded',
+            desc: uploadedAbstractData?.[0]?.asset?.modifiedOn
+            ? [`Uploaded on : ${moment.utc(uploadedAbstractData[0].asset.modifiedOn).format('Do MMM YYYY')}`]
+            : []
         },
         {
             status: uploadedAbstractData?.[0]?.reviewer ? 'reviewing' : 'default',
-            title: 'Reviewing',
+            title:  uploadedAbstractData?.[0]?.reviewer ? 'Reviewing' : 'Pending',
             desc: [
-                `Reviewed by: ${
-                  uploadedAbstractData?.[0]?.reviewer?.firstName || ''
-                }${
-                  uploadedAbstractData?.[0]?.reviewer?.lastName || ''
-                } \nSubmitted on: ${
-                 moment.utc( uploadedAbstractData?.[0]?.modifiedOn ).format('Do MMM YYYY')|| 'N/A'
-                }`,
+                uploadedAbstractData?.[0]?.reviewer?.firstName || uploadedAbstractData?.[0]?.reviewer?.lastName || uploadedAbstractData?.[0]?.modifiedOn
+                  ? `Reviewed by: ${
+                      uploadedAbstractData?.[0]?.reviewer?.firstName || ''
+                    } ${
+                      uploadedAbstractData?.[0]?.reviewer?.lastName || ''
+                    }`
+                  : []
               ], 
             },
-
-        {
-            status: uploadedAbstractData?.[0]?.statusId === 1 ? 'approved' : uploadedAbstractData?.[0]?.statusId === 2 ? 'rejected' : 'default',
-            title: uploadedAbstractData?.[0]?.statusId === 1 ? 'Approved' : uploadedAbstractData?.[0]?.statusId === 2 ? 'Rejected' : 'Reviewing on process',
-            desc: [`submitted by : ${
-                moment.utc( uploadedAbstractData?.[0]?.modifiedOn ).format('Do MMM YYYY')|| 'N/A'
-            }`],
-        },
-    ];
+           {
+           status: uploadedAbstractData?.[0]?.statusId === 1 
+            ? 'Approved' 
+             : uploadedAbstractData?.[0]?.statusId === 2 
+            ? 'rejected' 
+            : 'default',
+    
+           title: uploadedAbstractData?.[0]?.statusId === 1 
+           ? 'Approved' 
+           : uploadedAbstractData?.[0]?.statusId === 2 
+           ? 'Rejected' 
+           : 'Reviewing on process',
+    
+           desc: (uploadedAbstractData?.[0]?.statusId === 1 || uploadedAbstractData?.[0]?.statusId === 2|| uploadedAbstractData?.[0]?.statusId === 4) 
+           ? [`Submitted by : ${moment.utc(uploadedAbstractData[0].modifiedOn).format('Do MMM YYYY')}`] 
+           : []
+             }
+           ];
 
     const handleFileClick = () => {
         const href = `${baseUrl}asset/${uploadFiles}`;
@@ -218,7 +228,7 @@ const UserUploadAbstract = ({ eventData }: any) => {
                                 </Box>
                             );
                         })}
-                    </Box>
+                    </Box> 
                 </Grid>
             </Grid>
         </>
@@ -335,12 +345,12 @@ const VerticalLine = () => {
  * @param {string} [props.desc] - Optional description with a date to be formatted.
  */
 
-const Title = ({ title, desc }: { title: string; desc?: string[] }) => {
+const Title = ({ title, desc }: { title: string ; desc?: any }) => {
     return (
         <Box className="">
             <Typography className="stepper-title">{title}</Typography>
             {/* {desc && <Typography className="stepper-desc">{desc}</Typography>} */}
-            {desc && desc.length > 0 && desc.map(item=><Typography className="stepper-desc">{item}</Typography>) }
+            {desc && desc.length > 0 && desc.map((item:any)=><Typography className="stepper-desc">{item}</Typography>) }
         </Box>
     );
 };

@@ -157,7 +157,7 @@ const PriceTierList: React.FC = () => {
         alignItems="center"
       >
         <Typography variant="h3" className="event-detail-event-info-card-title">
-          Settings
+          Configurations
         </Typography>
         <CustomButton
           className="event-sessions-sessions-container-add-addon-button"

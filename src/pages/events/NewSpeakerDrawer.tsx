@@ -1,17 +1,15 @@
+/** Component to create a new speaker User */
 import CustomButton from "@/components/CustomButton/CustomButton";
-import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import FileListModal from "@/components/FileUpload/FileListModal";
 import useStore from "@/Libs/store";
-import routes from "@/router/routes";
 import { validateEmail, validateRequiredField } from "@/Utils/Validation";
-import { Typography } from "@mui/material";
+import { IconButton, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate} from "react-router-dom";
 import config from "../../../config.json";
-import {useLocation} from "react-router-dom";
+import { CloseOutlined } from "@mui/icons-material";
 interface Role{
     value:number,
     label:string
@@ -30,11 +28,14 @@ type RoleList = {
     name: string;
     sourcePath: string;
   }
+  interface NewSpeakerDrawerProps {
+    onSuccess?: () => void;
+    closeDrawer: () => void;
+  }
 /**
 * Component for creating new Company Users
 */ 
-const CreateNewUsers = () => {
-    const {data:role,eventId} = useLocation().state||'';
+const NewSpeakerDrawer :React.FC<NewSpeakerDrawerProps> = ({ onSuccess, closeDrawer}) =>{
     const [selectedFile, setSelectedFile] = useState<any>(null);
     const [modalOpen, setModalOpen] = useState(false);
     const baseUrl = config.api.url;
@@ -53,10 +54,9 @@ const CreateNewUsers = () => {
     useEffect(() => {
         getRoleList();
     }, [])
-    const navigate = useNavigate();
     const POST = useStore((state: any) => state.POST);
     const setDataById = useStore((state: any) => state.setDataById);
-    const { handleSubmit, control,reset,setValue,getValues} = useForm<FormData>();
+    const { handleSubmit, control,setValue} = useForm<FormData>();
     const [roleList,setRoleList]=useState<Role []>([])
     /**
     * handle form submission 
@@ -80,7 +80,7 @@ const CreateNewUsers = () => {
             successCB: (context: any) => {
                 let roleData: Role[] = []; 
                 context.data.forEach((item: RoleList) => {
-                    if (![1,2,3].includes(item.id)) {
+                    if (![1,3].includes(item.id)) {
                         roleData.push({
                             value: item.id,
                             label: item.roleName
@@ -106,86 +106,47 @@ const CreateNewUsers = () => {
                 lastName: data.lastName,
                 email: data.email,
                 phone: data.phone,
-                roleId:data.role,
+                roleId: roleList.find((item) => item.label === 'SPEAKER')?.value || null,
                 companyId:companyId,
                 assetId:selectedFile?.id
             },
             id: 'create-admin-user',
-            successCB: (context: any) => {
-                if (context?.success) {
-                    reset();
-                    setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:`Account Created Please check ${data.email}` });
-
-                    if(eventId){
-                        const requestBody = {
-                            userId: context.data?.token?.userId,
-                            eventId: eventId,
-                            statusId: "1",
-                          };
-                           POST({
-                            url: "eventSpeaker/create",
-                            body: requestBody,
-                            id: "createContributor",
-                            successCB: (context: any) => {
-                              if (context?.success) {
-
-                                setDataById("snackBarInfo", {
-                                  open: true,
-                                  autoHideDuration: 2000,
-                                  severity: "success",
-                                  message: "Speaker Assign Successfully",
-                                });
-            
-                                navigate(`/events/detail/${eventId}`,{state:{tabId:"2"}});
-                            
-                              }
-                            },
-                            errorCB: () => {
-                              setDataById("snackBarInfo", {
-                                open: true,
-                                autoHideDuration: 2000,
-                                severity: "error",
-                                message: "Speaker Assigned Successfully",
-                              });
-                            },
-                          });
-                        }   
-
-                    navigate(routes.users());
-                }
+            successCB: (context: any) => { 
+              setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: context?.message });
+              onSuccess && onSuccess();
+              closeDrawer();              
             },
-            errorCB: (context: any) => {
-                setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
+            errorCB: () => {
+                setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "error createing speaker" });
             }
         });
     };
 
-   /**
-   * Defaultly set the role value in the form state
-   */
-    useEffect(()=>{
-    if(role){
-        reset({
-            ...getValues(),            
-           ...( role === "SPEAKER" && {role:5})
-        });
-    }
-    },[]);
     /**
      *function to handle clean file state
      */
   const handleFileDelete = () => {
     setSelectedFile(null);
   };
-    return <Grid container className='admin-users' spacing={2}>
-        <Grid size={12} >
-            <Typography className="admin-users-header">Create New User</Typography>
-        </Grid>
+    return <Grid container className='add-program-drawer' spacing={2}>
+      <Grid
+        size={{ xs: 12 }}
+        container
+        justifyContent="space-between"
+        alignItems="center"
+      >
+        <Typography className="add-program-drawer-heading">
+          Create New Speaker
+        </Typography>
+        <IconButton onClick={closeDrawer}>
+          <CloseOutlined />
+        </IconButton>
+      </Grid>
         <div className="admin-users-form-wrap">
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Grid container spacing={2}>
                 <Grid container display={"flex"} size={12} justifyContent={"space-between"} alignItems={"center"} spacing={2}>
-                    <Grid size={{ xs: 12, sm: 6 }}>
+                    <Grid size={{ xs: 12, sm: 12 }}>
                         <CustomTextField
                             placeholder="Full Name"
                             label="First Name "
@@ -201,7 +162,7 @@ const CreateNewUsers = () => {
                             }}
                         />
                     </Grid>
-                    <Grid size={{ xs: 12, sm: 6 }}>
+                    <Grid size={{ xs: 12, sm: 12 }}>
                         <CustomTextField
                             placeholder="Last Name"
                             label="Last Name "
@@ -219,7 +180,7 @@ const CreateNewUsers = () => {
                     </Grid>
                 </Grid>
                 <Grid container display={"flex"} size={12} justifyContent={"space-between"} alignItems={"center"}>
-                    <Grid size={{ xs: 12, sm: 6 }}>
+                    <Grid size={{ xs: 12, sm: 12 }}>
                         <CustomTextField
                             control={control}
                             name="email"
@@ -231,7 +192,7 @@ const CreateNewUsers = () => {
                             }}
                         />
                     </Grid>
-                    <Grid size={{ xs: 12, sm: 6 }}>
+                    <Grid size={{ xs: 12, sm: 12 }}>
                         <CustomTextField
                             control={control}
                             name="phone"
@@ -242,28 +203,12 @@ const CreateNewUsers = () => {
                                 required: validateRequiredField({
                                     fieldName: 'Phone Number',
                                 }),
-                                // pattern: validatePhoneNumber({}),
-                                // maxLength: validateMaxLength({
-                                //     maxLength: 10,
-                                //     fieldName: 'Phone Number',
-                                // }),
                             }}
                         />
                     </Grid>
                 </Grid>
                 <Grid container display={"flex"} size={12} justifyContent={"space-between"} alignItems={"center"}>
-                    <Grid size={{ xs: 12, sm: 6 }}>
-                        { roleList.length > 0 &&<CustomSelect
-                            fullWidth
-                            name="role"
-                            control={control}
-                            defaultValue={role ? 5 : ''}
-                            label="Role"
-                            options={roleList}
-                            rules={{ required: validateRequiredField({}) }}
-                        />}
-                    </Grid>
-                    <Grid size={{xs:12,sm:6}}>
+                    <Grid size={{xs:12,sm:12}}>
                     <Grid
                           className="create-event-btn-container"
                           container
@@ -318,7 +263,7 @@ const CreateNewUsers = () => {
                             </Grid>
                         </Grid>
                     </Grid>
-                <Grid className="admin-users-submit-btn-container" display={"flex"} size={12} justifyContent={"flex-end"} alignItems={"center"} >
+                <Grid className="admin-users-submit-btn-container" display={"flex"} size={12} justifyContent={"center"} alignItems={"center"} >
                     <CustomButton type="submit" className="admin-users-submit-btn-container-btn" label="Submit" />
                 </Grid>
                 </Grid>
@@ -327,4 +272,4 @@ const CreateNewUsers = () => {
     </Grid>
 
 }
-export default CreateNewUsers;
+export default NewSpeakerDrawer;
