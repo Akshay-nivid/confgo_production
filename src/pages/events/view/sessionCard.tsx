@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Typography, IconButton, Divider,Button, Menu } from "@mui/material";
+import { Typography, IconButton, Divider,Button, Menu, Avatar, Box } from "@mui/material";
 import EditIcon from "@/assets/svg/event-edit.svg";
 import Grid from "@mui/material/Grid2";
 import { DeleteContributorIcon, WarningIcon} from "@/assets/svg";
@@ -12,13 +12,14 @@ import AddOnIcon from "../../../assets/svg/addOnIcon.svg";
 import ProgramIcon from "../../../assets/svg/programIcon.svg";
 import {VectorMenu} from "@/assets/svg";
 import SpeakerDetailsToolTip from "./ToolTipSpeaker/SpeakerDetailsToolTip";
-
+import config from "../../../../config.json"
 interface FieldConfig {
   label: string;
   field: string;
   format?: (value: any) => string;
 }
 interface SessionCardProps {
+  index?: any;
   item: any;
   onEditClick?: (item: any) => void;
   titleField: string;
@@ -40,6 +41,7 @@ interface AddOnOptions{
  * Component for listing data in a card format, dynamically rendering fields based on item type
  */
 const SessionCard: React.FC<SessionCardProps> = ({
+  index,
   item,
   onEditClick,
   titleField,
@@ -99,7 +101,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
     */
       const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
        const opens = Boolean(anchorEl);
-     
+       const baseUrl = config.api.url;  
        const handleClicked = (event: React.MouseEvent<HTMLButtonElement>) => {
          setAnchorEl(event.currentTarget);
        };
@@ -177,11 +179,16 @@ const SessionCard: React.FC<SessionCardProps> = ({
 
       </Grid>
       <Grid className="card-content" minHeight={"10rem"} size={12} onClick={handleSquareButtonClick}>
-       <Grid container size={12}>
+      {!hasAddOns && (
+              <>
+         <Grid container size={12}>
         <Typography className="card-content-day">
-            Day
+       {item && (` Day ${index}`)}
         </Typography>
        </Grid>
+       </>
+      )}
+
 
        <Grid container size={12}>
         <Typography className="card-content-heading">
@@ -198,22 +205,49 @@ const SessionCard: React.FC<SessionCardProps> = ({
        <Grid className="card-content-devider">
         <Divider/>
        </Grid>
-       
-       <Grid className="card-content-heading" minHeight={"5rem"}>
-        <Typography>
-           speaker img
-        </Typography>
-       </Grid>
+      
+      
+       {!hasAddOns && (
+       <>
+        <Grid className="card-content-heading" minHeight={"5rem"}>
+           <Grid>
+                   <Typography className="speaker-box-heading">
+                   Speakers  
+                   </Typography>
+            </Grid>
+                <Grid className="card-content-heading"  gap={1}minHeight="5rem" display={"flex"}direction={"column"} >
+                   {item?.eventSpeakers?.map((speaker: any, index: number) => (
+                    <Grid key={index} display="flex" alignItems="center" gap={1}>
+                        {speaker?.user?.assetId ? (
+                      <Avatar
+                         src={`${baseUrl}asset/${speaker?.user?.assetId}`}
+          
+                            alt={`${speaker.name || "User Profile"}`}
+                              variant="circular"
+                        />
+                        ) : (
+                          //className="main-user-profile main-user-profile-text"
+                     <Avatar className="session-speaker-avatar">
+                    {`${speaker?.user?.firstName[0]}${speaker?.user?.lastName[0]}`}
+                    </Avatar>
+                   )}
+     
+                    </Grid>
+                        ))}
+                    </Grid>
+                    </Grid>
+                       </>
+                        )}
       
 
-       <Grid className="card-content-timeBox" minHeight={"2rem"} >
-        <Typography className="time" >
-        {item[startTimeField]&&item[endTimeField]?<><span>{timeCorrection ? getLocalTimeDate(item[startTimeField]) : item[startTimeField]}</span> - 
-              <span>{timeCorrection ? getLocalTimeDate(item[endTimeField]) : item[endTimeField]}</span></>:<span>General Addon</span>}
+         <Grid className="card-content-timeBox" >
+         <Typography className="time" >
+                  {item[startTimeField]&&item[endTimeField]?<><span>{timeCorrection ? getLocalTimeDate(item[startTimeField]) : item[startTimeField]}</span> - 
+                  <span>{timeCorrection ? getLocalTimeDate(item[endTimeField]) : item[endTimeField]}</span></>:<span>General Addon</span>}
         </Typography>
-       </Grid>
+        </Grid>
 
-      </Grid>
+        </Grid>
 
       </Grid>
      
@@ -231,6 +265,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
           setDeleteModalOpen(false);
           onDeleteClick?.(item);
         }}
+
         />
         {/* program Details Modal */}
         <CustomModel
@@ -266,26 +301,61 @@ const SessionCard: React.FC<SessionCardProps> = ({
                    </Typography>
                 </Grid>
                
-               <Grid className="speaker-box" size={12} minHeight={"5rem"}>
+                {!hasAddOns && (
+                <>
+               <Grid className="speaker-box" size={12} minHeight={"5rem"} >
                    
                    <Typography className="speaker-box-heading">
                    Speakers  
                    </Typography>
           
-                   <SpeakerDetailsToolTip  className="speaker-box-toolTip" title={<>
-                    <img src="" alt="Speaker Img" /></>} > 
-                   <Grid direction={"column"} display={"flex"} size={12} >
-                    <Grid size={2} >
-                    Image
-                    </Grid>
-                    <Grid size={10} bgcolor={"lightgray"}>
-                    description
-                    </Grid>
-                    </Grid>
-                  </SpeakerDetailsToolTip>
+                   <Grid className="card-content-heading"  gap={1}minHeight="5rem" display={"flex"}direction={"column"} >
+         {item?.eventSpeakers?.map((speaker: any, index: number) => (
+          <Grid key={index} display="flex" alignItems="center" gap={1} >
+                <SpeakerDetailsToolTip  className="speaker-box-toolTip" title={<>
+                {speaker?.user?.assetId ? (
+                <Avatar
+                  src={`${baseUrl}asset/${speaker?.user?.assetId}`}
+                    // className="main-user-profile"
+                    alt={`${speaker.name || "User Profile"}`}
+                     variant="circular"
+                      />
+                       ) : (
+                         
+                  <Avatar  className="session-speaker-modal-avatar">
+                  {`${speaker?.user?.firstName[0]}${speaker?.user?.lastName[0]}`}
+               </Avatar>
+         )}
+        </>} > 
+               <Grid direction={"column"} display={"flex"} size={12} >
+                 <Grid size={2}>
+                   {speaker?.user?.assetId ? (
+                     <Avatar
+                       src={`${baseUrl}asset/${speaker?.user?.assetId}`}
+                       // className="main-user-profile"
+                       alt={`${speaker.name || "User Profile"}`}
+                       variant="circular"
+                     />
+                   ) : (
+                     <Avatar  className="session-speaker-modal-avatar">
+                       {`${speaker?.user?.firstName[0]}${speaker?.user?.lastName[0]}`}
+                     </Avatar>
+                   )}
+                 </Grid>
+                 <Grid size={10} marginInline={"2rem"}>
 
-
+                  <Typography className="modal-speaker-name">{`${speaker?.user?.firstName}${speaker?.user?.lastName}` }</Typography>
+                  <Typography className="modal-speaker-name-designation">{speaker?.speakerBios?.designation}</Typography>
+      
+                 </Grid>
                </Grid>
+             </SpeakerDetailsToolTip>
+           </Grid>
+         ))}
+                    </Grid>
+                  </Grid>
+                </>
+              )}
 
          </Grid>
 

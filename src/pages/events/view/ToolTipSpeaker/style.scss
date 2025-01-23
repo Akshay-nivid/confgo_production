@@ -8,11 +8,11 @@
         clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
         transform: rotate(180deg); 
         position: absolute;
-        top: -160%;
-        left: 7%;
+        top: -80%;
+        left: 18%;
         visibility: hidden;
         transform-origin: center; 
-        transform: translateX(-50%) rotate(180deg);
+        transform: translateX(-10%) rotate(180deg);
         
       }
   
@@ -21,12 +21,12 @@
     background-color:$clr_black;
     color: $clr_white;
     border-radius: 4px;
-    padding: 5px;
+    padding:1rem;
     position: absolute;
-    left: -10%;
+    left:-260%;
     width: 20rem;
     height: 10rem;
-    transform: translateY(-130%);
+    transform: translateY(-150%);
     white-space: nowrap;
     border-radius: 0.5rem;
   }
