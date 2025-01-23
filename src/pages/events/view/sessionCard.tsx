@@ -15,6 +15,7 @@ import SpeakerDetailsToolTip from "./ToolTipSpeaker/SpeakerDetailsToolTip";
 import config from "../../../../config.json"
 interface FieldConfig {
   label: string;
+  
   field: string;
   format?: (value: any) => string;
 }
