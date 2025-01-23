@@ -9,7 +9,7 @@ import TicketingSection from './TicketingSection';
 import LocationSection from './LocationSection';
 import RegisterBannerSection from './RegisterBannerSection';
 import Temp1PhotoIcon from '@/assets/png/template1-photo.png';
-import { formatDateRange, getUserToken, groupByDate, handleLogout, toTitleCase, truncateString, useIsMobileOrTabletScreen } from '@/Utils/CommonBaseClass';
+import { formatDateRange, getLocalTimeDate, getUserToken, groupByDate, handleLogout, toTitleCase, truncateString, useIsMobileOrTabletScreen } from '@/Utils/CommonBaseClass';
 import LocationIcon from '@/assets/svg/template1-location.svg';
 import CalendarIcon from '@/assets/svg/template1-calendar.svg';
 import EmailIcon from '@/assets/svg/template1-email.svg';
@@ -30,6 +30,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useStore, { resetStore, setDataById, snackBar } from '@/Libs/store';
 import routes from '@/router/routes';
 import parse from 'html-react-parser';
+import TimerCounterComp from './TemplateTimer/TimerCounterComp';
 
 
 
@@ -53,7 +54,18 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     const baseUrl = config.api.url;
     const slugName = useStore((state: any) => state?.compData?.["slugName"]?.value) || '';
     const slugInfo = useStore((state: any) => state?.compData?.['slugEventDetails']?.[`event/slug/${slugName}`]?.data) ?? [];
-
+    const [day, setDay] = useState<string>('');
+    const [hour, setHour] = useState<string>('');
+    const [minute, setMinute] = useState<string>('');
+    const [second, setSecond] = useState<string>('');
+  
+    // Callback function to receive the updated time values from TimerCounterComp
+    const handleTimeUpdate = (day: string, hour: string, minute: string, second: string) => {
+      setDay(day);
+      setHour(hour);
+      setMinute(minute);
+      setSecond(second);
+    };
 
     //Create item array dynamically based on Event Class
     const itemArray = [];
@@ -266,7 +278,6 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
   }
 
     
-    
     const classPrefix = 'event-template-template1';
 
     return <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-bg`}>
@@ -320,7 +331,7 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
 
               <Grid container flexDirection={'column'} height={'100vh'} className={`${classPrefix}-top-menu-container-drawer`} >
 
-
+               
                 <Grid container flexDirection={'column'} rowSpacing={4}>
                   <Grid className={`${classPrefix}-top-menu-sub-item`}><Link to={'#'} onClick={() => handleLinkClick('About')}> About </Link></Grid>
                   {data?.eventSpeakers?.length > 0 && <Grid className={`${classPrefix}-top-menu-sub-item`}><Link to={'#'} onClick={() => handleLinkClick('Contributors')}> Contributors </Link></Grid>}
@@ -362,6 +373,7 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                 </Grid>
               </Grid>
             </Grid>
+
                     {/* Title section ends here */}
                     <Grid className={`${classPrefix}-header-photo-container`} size={{ xs: 12, sm: 6 }}><img src={Temp1PhotoIcon} alt="Template 1 Photo" /></Grid>
                     {/* Details section */}
@@ -395,12 +407,27 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
 
                             </Grid>
                         </Grid></Grid>
-
                 </Grid>
             </Grid>
         </Grid>
-
-
+      {/* Event count down component */}
+      <Grid className="template1-countdown"  spacing={2} container justifyContent={"center"} >
+        <Grid className="template1-countdown-container" container size={6} justifyContent={"center"} spacing={2}>
+          <TimerCounterComp
+          customStyles="template1-countdown"
+            targetDate={getLocalTimeDate(data.startTime, 'YYYY-MM-DD HH:mm:ss')}
+            onTimeUpdate={handleTimeUpdate}
+          >
+            <Typography className='template1-countdown-headerText'>Time Remaining</Typography>
+            <Grid spacing={10} container size={12} justifyContent="center" alignItems="center" direction="row" className="template1-countdown-timerTypo">
+              <Box maxWidth={70}><span className='template1-countdown-timerDigit'>{day}</span><span>Days</span></Box>
+              <Box maxWidth={70}><span className='template1-countdown-timerDigit'>{hour}</span><span> Hours</span></Box>
+              <Box maxWidth={70}><span className='template1-countdown-timerDigit'>{minute}</span><span>Minutes</span></Box>
+              <Box maxWidth={70}><span className='template1-countdown-timerDigit'>{second}</span><span>Seconds</span></Box>
+            </Grid>
+          </TimerCounterComp>
+        </Grid>
+      </Grid>
         {/* About section */}
       <Grid id="About" container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-about`} justifyContent={'center'} alignItems={'center'} spacing={2} direction={'column'} ref={aboutRef}>
         <Grid textAlign={{ xs: 'center', sm: 'center' }} className={`${classPrefix}-about-title`}>{`Welcome to the   ${truncateString(data?.name, 18, "Untitled")}`}</Grid>
