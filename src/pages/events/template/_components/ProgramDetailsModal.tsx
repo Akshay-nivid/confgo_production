@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box/Box'
 import './style.scss'
 import { Close } from '@mui/icons-material'
-import { Avatar, Button, IconButton, Tooltip } from '@mui/material'
+import { Avatar, IconButton, Tooltip } from '@mui/material'
 import Modal from '@mui/material/Modal';
 import useStore, { setNonPersistedDataById } from '@/Libs/store'
 import { getLocalTimeDate } from '@/Utils/CommonBaseClass'
@@ -42,7 +42,7 @@ const ProgramDetailsModal = () => {
             return `${getLocalTimeDate(programDetails?.startTime, "MMMM DD YYYY h:mm A")} - ${getLocalTimeDate(programDetails?.endTime, "h:mm A")}`
 
         } else if (isSameMonth && !isSameDay) {
-            
+
             return `${getLocalTimeDate(programDetails?.startTime, "MMMM DD YYYY h:mm A")} - ${getLocalTimeDate(programDetails?.endTime, "MMMM DD YYYY h:mm A")}`
         }
     }
@@ -76,7 +76,7 @@ const ProgramDetailsModal = () => {
                                 <p className='content-speaker-container-header'>Speakers</p>
                                 <Box className="content-speaker-container-speaker-list">
                                     {
-                                        programDetails?.eventSpeakers.map((speaker: any, idx: number) => {
+                                        programDetails?.eventSpeakers.map((speaker: any) => {
                                             return (
 
                                                 <Box className="tooltip-avatar">

@@ -1,19 +1,19 @@
 import { Avatar, Box } from '@mui/material'
 import config from '../../../../../config.json'
 
-type User = {
-    acceptedTerms: boolean | null;
-    assetId: number;
-    email: string;
-    firstName: string;
-    id: number;
-    isSsoUser: boolean;
-    lastName: string;
-    phone: string;
-    phoneVerified: boolean;
-    ssoMetadata: any | null; 
-    statusId: number;
-  };
+// type User = {
+//     acceptedTerms: boolean | null;
+//     assetId: number;
+//     email: string;
+//     firstName: string;
+//     id: number;
+//     isSsoUser: boolean;
+//     lastName: string;
+//     phone: string;
+//     phoneVerified: boolean;
+//     ssoMetadata: any | null; 
+//     statusId: number;
+//   };
   
 const ModalToolTip = ({ data }: { data: any }) => {
   return (

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Typography, IconButton, Divider,Button, Menu, Avatar, Box } from "@mui/material";
+import { Typography, IconButton, Divider,Button, Menu, Avatar } from "@mui/material";
 import EditIcon from "@/assets/svg/event-edit.svg";
 import Grid from "@mui/material/Grid2";
 import { DeleteContributorIcon, WarningIcon} from "@/assets/svg";
