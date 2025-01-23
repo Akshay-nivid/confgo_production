@@ -9,7 +9,7 @@ import CalendarIcon from '@/assets/svg/template1-calendar.svg';
 import EmailIcon from '@/assets/svg/template1-email.svg';
 import PhoneIcon from '@/assets/svg/template1-phone.svg';
 import LinkIcon from '@/assets/svg/template1-url.svg';
-import { toTitleCase, truncateString, formatDateRange } from '@/Utils/CommonBaseClass';
+import {  formatDateRange, toTitleCase, truncateString } from '@/Utils/CommonBaseClass';
 import CustomTooltip from '@/components/CustomToolTip/CustomTooltip';
 
 type DetailsSectionProps = {
