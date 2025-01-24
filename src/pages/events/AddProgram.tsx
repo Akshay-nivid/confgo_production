@@ -326,6 +326,7 @@ const handleAddProgram = () => {
     let startDateObj = new Date(selectedDate);
     let endDateObj = new Date(programs?.[programIndex]?.endDate);
     let eventEndDateObj = new Date(eventEndDate)
+    eventEndDateObj.setHours(23, 59, 59, 999);
 
       // Perform the comparison of dates
       if (startDateObj.getTime() < eventStartDateObj.getTime() || startDateObj.getTime() > eventEndDateObj.setHours(11,59,59,0)) {
