@@ -230,7 +230,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
                  <Grid className="card-content-heading"  gap={1}minHeight="5rem" display={"flex"}direction={"column"}>
                 
                    {item?.eventSpeakers?.map((speaker: any, index: number) => (
-                    <Grid key={index} display="flex" alignItems="center" gap={1}>
+                    index < 5 && <Grid key={index} display="flex" alignItems="center" gap={1}>
                         {speaker?.user?.assetId ? (
                       <Avatar
                          src={`${baseUrl}asset/${speaker?.user?.assetId}`}
@@ -247,6 +247,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
      
                     </Grid>
                         ))}
+                       {item?.eventSpeakers?.length >= 5 &&  <Grid container justifyContent={'flex-end'} alignItems={'center'}>{`...`}</Grid>}
                     </Grid>
                     </Grid>
                        </>
