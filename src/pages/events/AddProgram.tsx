@@ -27,7 +27,7 @@ type Speaker = {
   speakerId?: string;
   speakerFullName?: string;
   speakerAssetId?: string;
-  designation: string;
+  designation?: string;
 }
 
 type FormData = {
@@ -45,7 +45,7 @@ type FormData = {
       speakerId?: string;
       speakerFullName?: string;
       speakerAssetId?: string;
-      designation: string;
+      designation?: string;
     }[];
     speakerId?: string;
     speakerFullName?: string;
@@ -68,7 +68,7 @@ type FormData = {
       speakerId?: string;
       speakerFullName?: string;
       speakerAssetId?: string;
-      designation: string;
+      designation?: string;
     }[];
     speakerId?: string;
     speakerFullName?: string;
@@ -144,6 +144,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
         speakerId: item?.id,
         speakerFullName: `${item?.firstName} ${item?.lastName}`,
         speakerAssetId: item?.assetId,
+        designation: item?.designation,
         ...item
       }));
     }
@@ -523,13 +524,13 @@ const handleAddProgram = () => {
         });
         return;
       }
-      if (!designation) {
-        setError(`programs.${index}.designation`, {
-          type: 'manual',
-          message: 'Designation is required',
-        });
-        return;
-      }
+      // if (!designation) {
+      //   setError(`programs.${index}.designation`, {
+      //     type: 'manual',
+      //     message: 'Designation is required',
+      //   });
+      //   return;
+      // }
 
       const newSpeaker = {
         speakerId,
@@ -806,20 +807,21 @@ const handleAddProgram = () => {
                                       setValue(`programs.${index}.speakerId`,selectedOption?.speakerId)
                                       setValue(`programs.${index}.speakerAssetId`,selectedOption?.speakerAssetId)
                                       setValue(`programs.${index}.speakerFullName`,selectedOption?.speakerFullName)
+                                      setValue(`programs.${index}.designation`,selectedOption?.designation)
                                     }}
                                   />
                                 </Grid>
                                 <Grid container className="add-program-drawer-new-speaker-link" justifyContent={'end'} onClick={() => setNewSpeakerDrawerOpen(true)} size={{xs:12}}>
                                   <Typography className="cursor-container" variant="h6">Create New Speaker ?</Typography>
                                 </Grid>
-                                <Grid size={{ xs: 12}}>
+                                {/* <Grid size={{ xs: 12}}>
                                   <CustomTextField
                                     placeholder="Designation"
                                     control={control}
                                     name={`programs.${index}.designation`}
                                     type="text"
                                   />
-                                </Grid>
+                                </Grid> */}
                                 <Grid size={{xs:12}} >
                                   <CustomButton
                                     className="add-program-drawer-btn-cancel"

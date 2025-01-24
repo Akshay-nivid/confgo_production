@@ -31,12 +31,12 @@ interface FormData {
   speakerId?: string;
   speakerName?: string;
   speakerAssetId?: string;
-  speakerDesignation:string;
+  speakerDesignation?:string;
   speakers: {
     speakerId?: string;
     speakerName?: string;
     speakerAssetId?: string;
-    speakerDesignation:string;
+    speakerDesignation?:string;
   }[];
   speakerSelection?:string;
 }
@@ -44,7 +44,7 @@ type Speaker = {
   speakerId?: string;
   speakerName?: string;
   speakerAssetId?: string;
-  speakerDesignation: string;
+  speakerDesignation?: string;
 }
 interface SessionDrawerContentProps {
     isEditing: boolean;
@@ -122,7 +122,7 @@ interface SessionDrawerContentProps {
         const speakers = selectedProgram?.eventSpeakers?.map((speaker: any) => ({
           speakerId: speaker?.userId,
           speakerName: `${speaker?.user?.firstName} ${speaker?.user?.lastName}`,
-          speakerDesignation: speaker?.speakerBios?.[0]?.designation,
+          speakerDesignation: speaker?.user?.designation,
           speakerAssetId:speaker?.user?.assetId,
         }));
         setValue("speakers", speakers);
@@ -225,7 +225,6 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
       // Map speakers to the desired format
       const newAddedSpeakers = data?.speakers?.map((speaker: any) => ({
         speakerId: speaker?.speakerId,
-        designation: speaker?.speakerDesignation || ' ',
       }));
 
        const speakers = removeExistingSpeakers(newAddedSpeakers, existingSpeakers);
@@ -301,6 +300,7 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
         speakerId: item?.id,
         speakerName: `${item?.firstName} ${item?.lastName}`,
         speakerAssetId: item?.assetId,
+        speakerDesignation:item?.designation,
         ...item
       }));
     }
@@ -357,10 +357,10 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
         setError(`speakerSelection`, { type: "manual", message: "Please select a speaker" });
         return;
       }
-      if (!speakerDesignation) {
-        setError(`speakerDesignation`, { type: "manual", message: "Designation is required" });
-        return;
-      }
+      // if (!speakerDesignation) {
+      //   setError(`speakerDesignation`, { type: "manual", message: "Designation is required" });
+      //   return;
+      // }
         // Append speaker to the speakers field
       append({
         speakerId,
@@ -547,17 +547,18 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
                     setValue(`speakerId`, selectedOption?.speakerId)
                     setValue(`speakerAssetId`, selectedOption?.speakerAssetId)
                     setValue(`speakerName`, selectedOption?.speakerName)
+                    setValue(`speakerDesignation`, selectedOption?.speakerDesignation)
                   }}
                 />
               </Grid>
-              <Grid size={{ xs: 12 }}>
+              {/* <Grid size={{ xs: 12 }}>
                 <CustomTextField
                   placeholder="Designation"
                   control={control}
                   name={`speakerDesignation`}
                   type="text"
                 />
-              </Grid>
+              </Grid> */}
               <Grid size={{ xs: 12 }} >
                 <CustomButton
                   className="add-program-drawer-btn-cancel"
