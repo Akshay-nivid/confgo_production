@@ -245,5 +245,19 @@
             background-color: $clr_background_gray; // Same color as your previous border-right
         }
     }
+    &-details{
+        &-name{
+            font-size: $h4 !important;
+            font-weight: $font_semibold !important;
+        }
+        &-designation{
+            font-size: $h5 !important;
+            font-weight: $font_semibold !important;
+        }
+        &-descripion{
+            font-size: $h6 !important;
+            font-weight: $font_medium !important;
+        }
+    }
     
 }

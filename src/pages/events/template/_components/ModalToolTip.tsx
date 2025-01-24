@@ -20,8 +20,8 @@ const ModalToolTip = ({ data }: { data: any }) => {
       <div className='modal-tooltip'>
           <Avatar src={config.api.url + "asset/" + data?.user?.assetId}></Avatar>
           <Box>
-              <p className='modal-tooltip-name'>{data?.userInfo?.firstName} {data?.user?.lastName}</p>
-              <p className='modal-tooltip-designation'>{data?.speakerBios?.[0]?.designation || ''}</p>                  
+              <p className='modal-tooltip-name'>{data?.user?.firstName} {data?.user?.lastName}</p>
+              <p className='modal-tooltip-designation'>{data?.user?.designation || ''}</p>                  
           </Box>
     </div>
   )

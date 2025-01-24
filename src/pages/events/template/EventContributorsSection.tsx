@@ -7,6 +7,7 @@ import config from '../../../../config.json';
 import NoProfilePicture from "../../../assets/svg/NoProfilePicture.svg";
 import { setNonPersistedDataById } from '@/Libs/store';
 import SpeakerDetailsModal from './_components/SpeakerDetailsModal';
+import { truncateString } from '@/Utils/CommonBaseClass';
 
 type EventContributorsSectionProps = {
     data?: any;
@@ -78,8 +79,8 @@ const EventContributorsSection = React.memo(
                         </Grid>
                         <Grid container  direction={'column'} >
                             <Grid className={`${classPrefix}-item-name name`}>{`${item.user?.firstName} ${item.user?.lastName}`}</Grid>
-                            {/* <Grid className={`${classPrefix}-item-designation`}>{item.designation}</Grid>
-                            <Grid className={`${classPrefix}-item-topic`} title={item.description}>{truncateString(item.description,30, "")}</Grid> */}
+                            <Grid className={`${classPrefix}-item-designation`}>{item.user?.designation}</Grid>
+                            <Grid className={`${classPrefix}-item-topic`} title={item.user?.userDescription}>{truncateString(item.user?.userDescription,40, "")}</Grid>
                         </Grid>
                     </Grid>
                 </Grid>

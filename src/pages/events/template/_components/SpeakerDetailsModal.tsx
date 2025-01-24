@@ -69,24 +69,26 @@ const SpeakerDetailsModal = () => {
 
     return (
         <div>
-            <Modal
+           {speakerInfo?.[0] &&  <Modal
                 open={isModal}
             >
                 <Box className="min-h-screen w-full flex justify-center items-center speaker-details-modal">
                     <Box className="speaker-details-modal-content">
-                        <Grid container justifyContent={'space-between'}>
-                            <Grid>
-                                <Grid justifyItems={'center'} className="speaker-details-modal-avatar">
-                                    <Avatar
-                                        alt={speakerInfo?.[0]?.user?.firstName}
-                                        src={speakerInfo?.[0]?.user?.assetId
-                                            ? `${baseUrl}asset/${speakerInfo?.[0]?.user?.assetId}`
-                                            : ""}
-                                    />
-                                </Grid>
-                            </Grid>
-                            <Grid className="speaker-details-modal-header-container" container alignItems={'flex-end'} justifyContent={'flex-end'}>
-
+                        <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'space-between'}>
+                                    <Grid justifyItems={'center'} className="speaker-details-modal-avatar" size={{ xs: 2, sm: 2 }}>
+                                        <Avatar
+                                            alt={speakerInfo?.[0]?.user?.firstName}
+                                            src={speakerInfo?.[0]?.user?.assetId
+                                                ? `${baseUrl}asset/${speakerInfo?.[0]?.user?.assetId}`
+                                                : ""}
+                                        />
+                                    </Grid>
+                                    <Grid size={{ xs: 9, sm: 9 }}  direction={'column'}>
+                                    <Grid><Typography className="speaker-details-modal-details-name">{`${speakerInfo?.[0]?.user?.firstName} ${speakerInfo?.[0]?.user?.lastName}`}</Typography></Grid>
+                                        <Grid><Typography className="speaker-details-modal-details-designation">{speakerInfo?.[0]?.user?.designation}</Typography></Grid>
+                                        <Grid><Typography className="speaker-details-modal-details-descripion">{speakerInfo?.[0]?.user?.userDescription}</Typography></Grid>
+                                    </Grid>
+                            <Grid size={{ xs: 1, sm: 1 }}>
                                 <IconButton onClick={handleCloseModal} className='content-header-container-close' >
                                     <Close />
                                 </IconButton>
@@ -120,7 +122,7 @@ const SpeakerDetailsModal = () => {
 
                     </Box>
                 </Box>
-            </Modal>
+            </Modal>}
         </div>
     )
 }
