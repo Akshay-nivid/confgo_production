@@ -320,11 +320,12 @@ const handleAddProgram = () => {
         return
       }
     // Ensure dates are valid Date objects
-    let selectedDate =programs?.[programIndex]?.startDate
-    let selectedEndDate =programs?.[programIndex]?.endDate
-    let eventStartDateObj = new Date(eventStartDate);
-    let startDateObj = new Date(selectedDate);
-    let endDateObj = new Date(programs?.[programIndex]?.endDate);
+    let selectedDate = programs?.[programIndex]?.startDate
+    let selectedEndDate = programs?.[programIndex]?.endDate
+    let formattedStartDate = moment(selectedDate)?.format('YYYY-MM-DD');
+    let formattedeventStartDate = moment(eventStartDate)?.format('YYYY-MM-DD');
+    let formattedeventeventEndDate = moment(eventEndDate)?.format('YYYY-MM-DD');
+    let formattedeventendDate = moment(programs?.[programIndex]?.endDate).format('YYYY-MM-DD');
     let eventEndDateObj = new Date(eventEndDate)
     eventEndDateObj.setHours(23, 59, 59, 999);
 
