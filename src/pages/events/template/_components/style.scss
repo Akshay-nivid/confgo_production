@@ -55,16 +55,72 @@
                 font-size: $p2;
                 font-weight: $font_semibold;
             }
-            &-speaker-list{
+
+            &-speaker-list {
                 display: flex;
                 column-gap: 1rem;
+                flex-wrap: wrap;
+                row-gap: 1.5rem;
 
-                &-avatar{
-                   height: 4.17rem;
-                   width: 4.17rem;
+                &-avatar {
+                    height: 4.17rem;
+                    width: 4.17rem;
                 }
             }
         }
 
+        .modal-tooltip-container {
+            position: absolute;
+            top: -320%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
     }
+
+
+}
+
+
+
+.MuiTooltip-tooltip {
+    background: $clr_black !important;
+    position: relative !important;
+
+    .modal-tooltip-name {
+        font-size: $h6 !important;
+        margin-top: -0.2rem;
+
+    }
+
+    .modal-tooltip-designation {
+        font-size: $p3 !important;
+    }
+
+
+}
+
+.MuiTooltip-arrow {
+    color: $clr_black !important;
+    width: 12% !important;
+    height:12% !important;
+    top: 100%;
+    left: -.3rem !important;
+}
+
+.modal-tooltip {
+    padding-block: 1.3rem;
+    padding-inline: 1rem;
+    min-height: 11.92rem;
+    min-width: 24rem;
+    background-color: $clr_black;
+    display: flex;
+    column-gap: 0.83rem;
+    position: relative;
+    color: $clr_white;
+    border-radius: .4rem;
+
+
+
+
 }

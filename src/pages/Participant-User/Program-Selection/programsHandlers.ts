@@ -397,21 +397,19 @@ export const  validateAddonWithNoProp = (addons:any)=> {
  * 
  */
 
-export const fetchEventDetailsFn = async (eventId: number | undefined|null) => {
+// export const fetchEventDetailsFn = async (eventId: number | undefined|null) => {
   
-  if(!eventId) return
+//   if(!eventId) return
 
-  try {
+//   try {
 
-
-   // const response = await apiClient.get(`event/${eventId}`)
-
-    // const 
-    
-  } catch (error) {
 
 
     
-  }
+//   } catch (error) {
 
- }
+
+    
+//   }
+
+//  }
