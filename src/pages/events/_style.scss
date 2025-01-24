@@ -1085,7 +1085,7 @@
             }
             &-content{
                 background-color:transparent!important;
-                color: #000;  
+                color: $clr_black;  
                 padding: 10px;
                 position: absolute; 
                 transform: none; 
@@ -1118,6 +1118,7 @@
             font-family: $font;
             padding-top: 0.75rem;
             line-height: 1.52rem;
+            // min-height: 5rem;
         }
         &-description{
             font-size: $p2;

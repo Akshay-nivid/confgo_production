@@ -226,7 +226,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
       
        {!hasAddOns&&item?.eventSpeakers[0]?.user && (
        <>
-        <Grid className="card-content-heading" minHeight={"5rem"}>
+        <Grid className="card-content-heading" >
                  <Grid className="card-content-heading"  gap={1}minHeight="5rem" display={"flex"}direction={"column"}>
                 
                    {item?.eventSpeakers?.map((speaker: any, index: number) => (
