@@ -2,7 +2,6 @@ import { useForm, useFieldArray } from "react-hook-form";
 import Grid from "@mui/material/Grid2";
 import { Box, Chip, IconButton, Typography } from "@mui/material";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import AddCircleIcon from "../../../assets/svg/CircleAddIcon.svg";
 import DeleteIcon from "../../../assets/svg/Close_circle.svg";
 import CustomDatePicker from "@/components/CustomDatePicker/CustomDatePicker";
 import CustomButton from "@/components/CustomButton/CustomButton";
@@ -13,6 +12,8 @@ import { useParams } from "react-router-dom";
 import { Logger } from "@/Utils/Logger";
 import useStore from "@/Libs/store";
 import moment from "moment";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 // import { watch } from "fs";
 
 interface Attendee {
@@ -81,11 +82,14 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
   const DELETE = useStore((state: any) => state.DELETE);
   const setDataById = useStore((state: any) => state.setDataById);
   const dataInfo = useStore((state: any) => state?.compData?.['pricingTierDetails']) ?? [];
+  const pageSwitch =useStore((state: any) => state?.compData?.["eventSetiing"]) ?? '';
   const PUT = useStore((state: any) => state.PUT);
   const clearDataById = useStore((state:any) => state?.clearDataById)
   const [loading, setLoading] = useState(false);
   const [chipLoading, setChipLoading] = useState(false);
   const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+
 
 
   const {
@@ -102,9 +106,74 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
    * To get the all the Attendee types matching with the eventid
    */
   useEffect(() => {
+    pageSwitchFn();
     fetchAttendeeTypeList();
     fetchPricingTierList();
   }, []);
+
+  const pageSwitchFn=()=>{
+    setDataById('eventSetiing', { data: 'AttendeeType', step: 1 });
+  }
+
+  /**
+   * To handle form back in each forms
+   */
+  const handleBack = () => {
+    switch (pageSwitch.data) {
+      case 'AttendeeType':
+        setDataById('eventSetiing', { data: 'AttendeeType', step: 1 });
+        break;
+
+      case 'PricingTier':
+        setDataById('eventSetiing', { data: 'AttendeeType', step: 1 });
+        break;
+
+      case 'FeeStrcture':
+        setDataById('eventSetiing', { data: 'PricingTier', step: 2 });
+        break;
+
+      default:
+        setDataById('eventSetiing', { data: 'AttendeeType', step: 1 });
+        break;
+    }
+  };
+  /**
+   * To handle form Next button in each forms
+   */
+  const handleNext = async() => {
+    switch (pageSwitch.data) {
+      case 'AttendeeType':
+        if (dataInfo?.attendeeFieldsData.length==0) {
+          // Check if attendeeName is empty or not
+            setDataById('snackBarInfo', {
+              open: true,
+              autoHideDuration: 2000,
+              severity: 'error',
+              message: "Please save atleast one attendee type",
+            });
+        } else{
+          setDataById('eventSetiing', { data: 'PricingTier', step: 2 });
+        }
+        break;
+
+      case 'PricingTier':
+        if(uniquePricingFields.length==0){
+            // Check if attendeeName is empty or not
+            setDataById('snackBarInfo', {
+              open: true,
+              autoHideDuration: 2000,
+              severity: 'error',
+              message: "Please save atleast one Price tier",
+            });
+        }else{
+          setDataById('eventSetiing', { data: 'FeeStrcture', step: 1 });
+        }
+        break;
+      default:
+        setDataById('eventSetiing', { data: 'AttendeeType', step: 1 });
+        break;
+    }
+  };
 
   /**
    * Used to fetch the already having attendee type name
@@ -181,7 +250,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
 
     }
   };
-
+  
   /**
    * Function to delete the Attendee types
    * @param index
@@ -458,141 +527,179 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
         </IconButton>
       </Grid>
       <Box sx={{ maxWidth: 600 }}>
-        <Grid container spacing={2} sx={{ px: 3, pt: 2 }}>
-          <Grid size={{ xs: 12 }}>
-            <Typography className="registration-fee-list-sub-heading">
-              Configure Attendee Type
-            </Typography>
-          </Grid>
-          <Grid size={{ xs: 5 }}>
-            <CustomTextField
-              name="attendeeName"
-              control={control}
-              label="Attendee Type Name"
-              placeholder="Attendee Type Name"
-              rules={{ required: "Attendee Name is required" }}
-            />
-          </Grid>
-          <Grid size={{ xs: 5 }}>
-            <CustomTextField
-              name="attendeeDescription"
-              control={control}
-              label="Description (Optional)"
-              placeholder="Description (Optional)"
-            />
-          </Grid>
-          <Grid size={{ xs: 2 }} display="flex" alignItems="center">
-            <IconButton onClick={handleAddAttendeeType} className="registration-fee-list-button" disabled={loading}>
-              <AddCircleIcon className="registration-fee-list-circle-add-icon" />
-            </IconButton>
-          </Grid>
-          <Grid size={{ xs: 12 }}>
-            <Box display="flex" flexWrap="wrap" gap={1}>
-              {dataInfo?.attendeeFieldsData?.map((field: any, index: number) => {
-                return field.attendeeName.trim() ? (
-                  <Chip
-                    className="registration-fee-list-chip"
-                    key={field.id}
-                    label={`${field.attendeeName}`}
-                    onDelete={() => chipLoading ? "" : handleDeleteAttendeeType(index)}
-                    deleteIcon={<DeleteIcon />}
-                  />
-                ) : null;
-              })}
-            </Box>
-          </Grid>
-
-          <Grid size={{ xs: 12 }}>
-            <Typography className="registration-fee-list-sub-heading">
-              Configure Pricing Tiers
-            </Typography>
-          </Grid>
-
-          <Grid size={{ xs: 5 }}>
-            <CustomTextField
-              name="tierName"
-              control={control}
-              label="Tier Name"
-              placeholder="Tier Name"
-              rules={{ required: "Tier Name is required" }}
-            />
-          </Grid>
-
-          <Grid size={{ xs: 5 }}>
-            <CustomDatePicker
-              placeholder="Start Date"
-              name="tierStartDate"
-              control={control}
-              min={moment().format("YYYY-MM-DD")}
-              rules={{ required: "Start Date is required" }}
-              label="Start Date"
-              requiredField
-            />
-          </Grid>
-          <Grid size={{ xs: 5 }}>
-            <CustomDatePicker
-              placeholder="End Date"
-              name="tierEndDate"
-              control={control}
-              min={tierStartDate}
-              rules={{ required: "End Date is required" }}
-              label="End Date"
-              requiredField
-            />
-          </Grid>
-          <Grid size={{ xs: 2 }} display="flex" alignItems="center">
-            <IconButton color="primary" onClick={handleAddPricingTier}>
-              <AddCircleIcon className="registration-fee-list-circle-add-icon" />
-            </IconButton>
-          </Grid>
-          <Grid size={{ xs: 12 }}>
-            <Box display="flex" flexWrap="wrap" gap={1}>
-              {uniquePricingFields.map((field, index) => {
-                return field.tierName.trim() ? (
-                  <Chip
-                    className="registration-fee-list-chip"
-                    key={field.id}
-                    label={`${field.tierName}`}
-                    onDelete={() => removePricing(index)}
-                    deleteIcon={<DeleteIcon />}
-                  />
-                ) : null;
-              })}
-            </Box>
-          </Grid>
-        </Grid>
-        <Grid container padding={3} paddingBottom={0} paddingTop={1}>
-          <Grid>
-            <Typography className="registration-fee-list-sub-heading">
-              Registration Fee Structure
-            </Typography>
-          </Grid>
-          {nonEmptyAttendees?.length > 0 && dataInfo && processedData && (
-            <PricingTable
-              pricingTiers={nonEmptyPricingTiers}
-              attendees={processedData?.attendees}
-              control={control}
-              getValues={getValues}
-              setValue={setValue}
-              watch={watch}
-              payLoad={dataInfo?.pricingData}
-              onSubmitData={handlePricingDataSubmit}
-            />
-          )}
-        </Grid>
-        <Grid
+        {/* add attendee type form */}
+        {pageSwitch == '' || pageSwitch.data == 'AttendeeType' ? <></> : <Grid
           container
-          direction="column"
-          justifyContent="flex-end"
-          alignItems="flex-end"
-          paddingRight={3}
-          style={{ minHeight: "10vh" }}
+          alignItems={"center"}
+          display="flex"
+          className="registration-fee-list"
+          onClick={handleBack}
+          justifyContent={"start"}
         >
-          <CustomButton
-            label="Submit"
-            onClick={() => onSubmit()}
-            className="registration-fee-list-submit-button"
-          />
+          <ArrowBackIcon />
+          <Typography variant="h6">Back</Typography>
+        </Grid>}
+        <Grid container spacing={2} sx={{ px: 3, pt: 2 }}>
+          {pageSwitch == '' || pageSwitch.data == 'AttendeeType' ? <>
+            <Grid container alignItems={"center"} columnSpacing={2} size={{ xs: 12 }} display={"flex"} justifyContent={"center"}>
+              <Typography className="registration-fee-list-sub-heading">
+                Configure Attendee Type
+              </Typography>
+            </Grid>
+            <Grid container spacing={2} size={{ xs: 6 }}>
+              <CustomTextField
+                name="attendeeName"
+                control={control}
+                label="Attendee Type Name"
+                placeholder="Attendee Type Name"
+                rules={{ required: "Attendee Name is required" }}
+              />
+            </Grid>
+            <Grid container spacing={2} size={{ xs: 6 }}>
+              <CustomTextField
+                name="attendeeDescription"
+                control={control}
+                label="Description (Optional)"
+                placeholder="Description (Optional)"
+              />
+            </Grid>
+            <Grid size={{ xs: 12 }} >
+              <CustomButton
+                disabled={loading}
+                className="add-program-drawer-btn-cancel"
+                label="Create New Attendee Type"
+                variant="outlined"
+                size="large"
+                onClick={handleAddAttendeeType}
+              />
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <Box display="flex" flexWrap="wrap" gap={1}>
+                {dataInfo?.attendeeFieldsData?.map((field: any, index: number) => {
+                  return field.attendeeName.trim() ? (
+                    <Chip
+                      className="registration-fee-list-chip"
+                      key={field.id}
+                      label={`${field.attendeeName}`}
+                      onDelete={() => chipLoading ? "" : handleDeleteAttendeeType(index)}
+                      deleteIcon={<DeleteIcon />}
+                    />
+                  ) : null;
+                })}
+              </Box>
+            </Grid>
+            <Grid container justifyContent={"flex-end"} size={12}>
+
+              <CustomButton className="registration-fee-list-submit-button" label="Next" onClick={handleNext} />
+            </Grid>
+            <Box className="registration-fee-list-decription-helper" display={"flex"} justifyContent={"center"} alignItems={"flex-start"} mr={1}><InfoOutlinedIcon style={{ marginRight: 2 }} /><Typography className="registration-fee-list-decription-helper-text">Attendee types refer to the different categories or groups of individuals who will attend the event.</Typography></Box>
+          </> : <></>}
+          {/* add price tier form */}
+          {pageSwitch.data == 'PricingTier' && <>
+            <Grid container alignItems={"center"} columnSpacing={2} size={{ xs: 12 }} display={"flex"} justifyContent={"center"}>
+              <Typography className="registration-fee-list-sub-heading">
+                Configure Pricing Tiers
+              </Typography>
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <CustomTextField
+                name="tierName"
+                control={control}
+                label="Tier Name"
+                placeholder="Tier Name"
+                rules={{ required: "Tier Name is required" }}
+              />
+            </Grid>
+            <Grid size={{ xs: 6 }}>
+              <CustomDatePicker
+                placeholder="Start Date"
+                name="tierStartDate"
+                control={control}
+                min={moment().format("YYYY-MM-DD")}
+                rules={{ required: "Start Date is required" }}
+                label="Start Date"
+                requiredField
+              />
+            </Grid>
+            <Grid size={{ xs: 6 }}>
+              <CustomDatePicker
+                placeholder="End Date"
+                name="tierEndDate"
+                control={control}
+                min={tierStartDate}
+                rules={{ required: "End Date is required" }}
+                label="End Date"
+                requiredField
+              />
+            </Grid>
+            <Grid size={{ xs: 12 }} >
+              <CustomButton
+                disabled={loading}
+                className="add-program-drawer-btn-cancel"
+                label="Create New Pricing Tier"
+                variant="outlined"
+                size="large"
+                onClick={handleAddPricingTier}
+              />
+            </Grid>
+            <Grid size={{ xs: 12 }}>
+              <Box display="flex" flexWrap="wrap" gap={1}>
+                {uniquePricingFields.map((field, index) => {
+                  return field.tierName.trim() ? (
+                    <Chip
+                      className="registration-fee-list-chip"
+                      key={field.id}
+                      label={`${field.tierName}`}
+                      onDelete={() => removePricing(index)}
+                      deleteIcon={<DeleteIcon />}
+                    />
+                  ) : null;
+                })}
+              </Box>
+              <Grid container justifyContent={"flex-end"} size={12}>
+                <CustomButton className="registration-fee-list-submit-button" label="Next" onClick={handleNext} />
+              </Grid>
+              <Box className="registration-fee-list-decription-helper" display={"flex"} justifyContent={"center"} alignItems={"flex-start"} mr={1}><InfoOutlinedIcon style={{ marginRight: 2 }} /><Typography className="registration-fee-list-decription-helper-text">Create different price tiers based on varying time durations, with specific start and end dates for each tier.</Typography></Box>
+            </Grid>
+          </>}
+           {/* discount table form */}
+          {pageSwitch.data == 'FeeStrcture' && <>
+            <Grid size={12} container paddingBottom={0} paddingTop={1}>
+              <Grid container alignItems={"center"} columnSpacing={2} size={{ xs: 12 }} display={"flex"} justifyContent={"center"}>
+                <Typography className="registration-fee-list-sub-heading">
+                  Registration Fee Structure
+                </Typography>
+              </Grid>
+              {nonEmptyAttendees?.length > 0 && dataInfo && processedData && (
+                <PricingTable
+                  pricingTiers={nonEmptyPricingTiers}
+                  attendees={processedData?.attendees}
+                  control={control}
+                  getValues={getValues}
+                  setValue={setValue}
+                  watch={watch}
+                  payLoad={dataInfo?.pricingData}
+                  onSubmitData={handlePricingDataSubmit}
+                />
+              )}
+            </Grid>
+            <Grid
+              container
+              direction="column"
+              justifyContent="flex-end"
+              alignItems="flex-end"
+              paddingInline={3}
+              style={{ minHeight: "10vh" }}
+              size={12}
+            >
+              <CustomButton
+                label="Submit"
+                onClick={() => onSubmit()}
+                className="registration-fee-list-submit-button"
+              />
+            </Grid>
+            <Box className="registration-fee-list-decription-helper" display={"flex"} justifyContent={"center"} alignItems={"flex-start"} mr={1}><InfoOutlinedIcon style={{ marginRight: 2 }} /><Typography className="registration-fee-list-decription-helper-text">Add the attendee type discount percentages for each tier, with the default set to zero for each tier, based on the attendee type.</Typography></Box>
+          </>}
         </Grid>
       </Box>
     </form>
