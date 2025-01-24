@@ -93,6 +93,7 @@ interface SessionDrawerContentProps {
     
     const isPaid = watch("isPaid");
     const [showSpeakerSection, setShowSpeakerSection] = useState(false);
+    const [existingSpeakers, setExistingSpeakers] = useState<any>();
     const [loading, setLoading] = useState(false);
     const companyId = sessionStorage.getItem("companyId")
     const [searchResults, setSearchResults] = useState<Speaker[]>([]);
@@ -125,6 +126,7 @@ interface SessionDrawerContentProps {
           speakerAssetId:speaker?.user?.assetId,
         }));
         setValue("speakers", speakers);
+        setExistingSpeakers(speakers);
         setShowSpeakerSection(speakers?.length > 0)
 
         } else {
@@ -156,6 +158,22 @@ interface SessionDrawerContentProps {
 		if(isAddon){
 				return <SessionAddonDrawer closeDrawer={closeDrawer} isEditing={isEditing} selectedAddOn={selectedProgram} onSubmit={onSubmit} eventData={eventData}  onSubmitHandler={submitHandler} />
 		}  
+
+  /**
+ * Filters out speakers from the `speakers` array whose `speakerId` exists in the `existingSpeakers` array.
+ *
+ * @param {Array} speakers - The array of speaker objects to filter.
+ * @param {Array} existingSpeakers - The array of existing speaker objects with `speakerId`s to exclude.
+ * @returns {Array} A new array of speakers excluding those with `speakerId`s found in `existingSpeakers`.
+ */
+function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
+  // Create a Set of speakerIds from the existingSpeakers array for fast lookup
+  const existingSpeakerIds = new Set(existingSpeakers.map((speaker: any) => speaker.speakerId));
+
+  // Filter out speakers whose speakerId exists in the Set
+  return speakers.filter((speaker: any) => !existingSpeakerIds.has(speaker.speakerId));
+}
+
   /**
    * formating the submit request
    */
@@ -205,10 +223,12 @@ interface SessionDrawerContentProps {
       }
   }
       // Map speakers to the desired format
-      const speakers = data?.speakers?.map((speaker: any) => ({
+      const newAddedSpeakers = data?.speakers?.map((speaker: any) => ({
         speakerId: speaker?.speakerId,
         designation: speaker?.speakerDesignation || ' ',
       }));
+
+       const speakers = removeExistingSpeakers(newAddedSpeakers, existingSpeakers);
 
       // Create the new transformed object
       const transformedProgram = {

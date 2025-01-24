@@ -1081,11 +1081,11 @@
             button{
                 min-width: max-content !important;
                 padding-inline: 0 !important;
+                
             }
             &-content{
-                background-color:transparent;
-                color: #000; 
-                min-width: 8rem; 
+                background-color:transparent!important;
+                color: $clr_black;  
                 padding: 10px;
                 position: absolute; 
                 transform: none; 
@@ -1102,7 +1102,8 @@
         padding-right: 0.6667rem;
         border-radius: 0.5rem;
         cursor: pointer;
-
+        min-height: 16rem !important;
+         
         &-day{
             font-size: 13px;
             font-weight:$font_medium;
@@ -1117,6 +1118,7 @@
             font-family: $font;
             padding-top: 0.75rem;
             line-height: 1.52rem;
+            // min-height: 5rem;
         }
         &-description{
             font-size: $p2;
@@ -1196,6 +1198,7 @@
         font-size: $h6 ;
         font-weight: $font_semibold !important;
         box-shadow: none;
+        text-transform: none !important;
 
         &.Mui-disabled {
             background: $clr_gray_faded !important;
@@ -1417,6 +1420,7 @@
 }
 
 .registration-fee-list {
+    padding: 1.333rem !important;
     &-heading {
         font-weight: $font_semibold !important;
         font-size: $h5 !important;
@@ -1424,7 +1428,7 @@
     }
 
     &-sub-heading {
-        font-weight: $font_normal !important;
+        font-weight: $font_medium !important;
         font-size: $h6 !important;
     }
 
@@ -1477,7 +1481,19 @@
         font-weight: $font_semibold !important;
         box-shadow: none;
         margin-bottom: 1rem !important;
+        text-transform: none !important;
     }
+    &-decription-helper{
+        background-color: $clr_orange_light;
+        border-radius: 0.3rem;
+        margin: 0.5rem;
+        padding: 0.2rem;
+        &-text{
+            font-size: $p3 !important;
+            font-weight: $font-normal !important;
+        }
+    }
+
 
 }
 

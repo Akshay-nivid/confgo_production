@@ -67,7 +67,6 @@ const SessionCard: React.FC<SessionCardProps> = ({
     return path.split('.').reduce((acc, key) => acc?.[key], obj);
   };
 
-
   /**
   * render the selected addon property label from it's value using useMemo
   */
@@ -117,23 +116,23 @@ const SessionCard: React.FC<SessionCardProps> = ({
       md: 3,
     }} flexDirection={"row"}
     >
-      <Grid size={12} container className="event-sessions-session-card">
-      <Grid container size={12} minHeight={"max-content"} className="card-header" >
+      <Grid size={12} container className="event-sessions-session-card"  >
+      <Grid container size={12} className="card-header">
         <Grid size={11} container>
       {hasAddOns ? (
        <>
       <AddOnIcon className="svg-icon"/>
-      <Grid container alignItems={"center"}><Typography className="card-header-tag">Add-On</Typography></Grid>
+      <Grid container ><Typography className="card-header-tag">Add-On</Typography></Grid>
       </>
       ):(
       <>
       <ProgramIcon  className="svg-icon"/>
-      <Grid container alignItems={"center"}> <Typography className="card-header-tag">Programs</Typography></Grid>
+      <Grid container > <Typography className="card-header-tag">Programs</Typography></Grid>
       </>
        )}
       </Grid>
      {onDeleteClick && onEditClick &&(
-       <Grid  size={1}container justifyContent={"flex-end"} className="card-header-menu">
+       <Grid  size={1} justifyContent={"flex-end"} className="card-header-menu">
         <Button
           className=""
           aria-controls={opens ? 'basic-menu' : undefined}
@@ -151,7 +150,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
                 MenuListProps={{
                   'aria-labelledby': 'basic-button',
                 }}
-              >
+              > 
       <Grid className="card-header-menu-content">
         {onEditClick && (
           <IconButton
@@ -179,9 +178,9 @@ const SessionCard: React.FC<SessionCardProps> = ({
         </Menu>
 
       </Grid>
-      <Grid className="card-content" minHeight={"10rem"} size={12} onClick={handleSquareButtonClick}>
+      <Grid className="card-content"    size={12} onClick={handleSquareButtonClick}>
       {!hasAddOns && (
-              <>
+          <>
          <Grid container size={12}>
         <Typography className="card-content-day">
         {item && (` Day - ${moment(item?.startDate).format('dddd')}`)}
@@ -206,19 +205,32 @@ const SessionCard: React.FC<SessionCardProps> = ({
        <Grid className="card-content-devider">
         <Divider/>
        </Grid>
+
       
-      
-       {!hasAddOns && (
-       <>
-        <Grid className="card-content-heading" minHeight={"5rem"}>
-           <Grid>
-                   <Typography className="speaker-box-heading">
-                   Speakers  
-                   </Typography>
+      {hasAddOns && item?.eventAddonProperties && (
+         item?.eventAddonProperties.map((props: any) => (
+          <Grid container size={12} key={props.id}> 
+          <Grid display={"flex"} direction={"column"}>
+            <Typography className="card-content-description" >
+            {`Items: ${props.name}`}-
+            {`Price: ${props.amount}`}
+          </Typography>
             </Grid>
-                <Grid className="card-content-heading"  gap={1}minHeight="5rem" display={"flex"}direction={"column"} >
+          
+         </Grid>
+         ))
+       )}
+
+       {/* </Grid> */}
+      
+      
+       {!hasAddOns&&item?.eventSpeakers?.[0]?.user && (
+       <>
+        <Grid className="card-content-heading" >
+                 <Grid className="card-content-heading"  gap={1}minHeight="5rem" display={"flex"}direction={"column"}>
+                
                    {item?.eventSpeakers?.map((speaker: any, index: number) => (
-                    <Grid key={index} display="flex" alignItems="center" gap={1}>
+                    index < 5 && <Grid key={index} display="flex" alignItems="center" gap={1}>
                         {speaker?.user?.assetId ? (
                       <Avatar
                          src={`${baseUrl}asset/${speaker?.user?.assetId}`}
@@ -229,12 +241,13 @@ const SessionCard: React.FC<SessionCardProps> = ({
                         ) : (
                           //className="main-user-profile main-user-profile-text"
                      <Avatar className="session-speaker-avatar">
-                    {`${speaker?.user?.firstName[0]}${speaker?.user?.lastName[0]}`}
+                    {`${speaker?.user?.firstName?.[0]}${speaker?.user?.lastName?.[0]}`}
                     </Avatar>
                    )}
      
                     </Grid>
                         ))}
+                       {item?.eventSpeakers?.length >= 5 &&  <Grid container justifyContent={'flex-end'} alignItems={'center'}>{`...`}</Grid>}
                     </Grid>
                     </Grid>
                        </>
@@ -324,7 +337,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
                        ) : (
                          
                   <Avatar  className="session-speaker-modal-avatar">
-                  {`${speaker?.user?.firstName[0]}${speaker?.user?.lastName[0]}`}
+                  {`${speaker?.user?.firstName?.[0]}${speaker?.user?.lastName?.[0]}`}
                </Avatar>
          )}
         </>} > 
@@ -339,7 +352,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
                      />
                    ) : (
                      <Avatar  className="session-speaker-modal-avatar">
-                       {`${speaker?.user?.firstName[0]}${speaker?.user?.lastName[0]}`}
+                       {`${speaker?.user?.firstName?.[0]}${speaker?.user?.lastName?.[0]}`}
                      </Avatar>
                    )}
                  </Grid>
