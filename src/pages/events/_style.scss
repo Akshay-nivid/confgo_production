@@ -1081,11 +1081,11 @@
             button{
                 min-width: max-content !important;
                 padding-inline: 0 !important;
+                
             }
             &-content{
-                background-color:transparent;
-                color: #000; 
-                min-width: 8rem; 
+                background-color:transparent!important;
+                color: #000;  
                 padding: 10px;
                 position: absolute; 
                 transform: none; 
@@ -1102,7 +1102,8 @@
         padding-right: 0.6667rem;
         border-radius: 0.5rem;
         cursor: pointer;
-
+        min-height: 16rem !important;
+         
         &-day{
             font-size: 13px;
             font-weight:$font_medium;
