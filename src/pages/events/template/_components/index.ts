@@ -1,3 +1,3 @@
 import ProgramDetailsModal from "./ProgramDetailsModal";
-
-export { ProgramDetailsModal };
+import ModalToolTip from "./ModalToolTip";
+export { ProgramDetailsModal,ModalToolTip };

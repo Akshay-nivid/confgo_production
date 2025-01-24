@@ -1,15 +1,51 @@
-import { Typography, IconButton, Box } from "@mui/material";
+import { Typography, IconButton, Box, Avatar } from "@mui/material";
 import { CloseOutlined } from "@mui/icons-material";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import Grid from "@mui/material/Grid2";
-import { useForm, FieldValues } from "react-hook-form";
-import { useEffect } from "react";
+import { useForm, FieldValues, useFieldArray } from "react-hook-form";
+import { useEffect, useState } from "react";
 import moment from "moment";
 import SessionAddonDrawer from "./SessionAddonDrawer";
+import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
+import { POST } from "@/Libs/store";
+import { Logger } from "@/Utils/Logger";
+import { truncateString } from "@/Utils/CommonBaseClass";
+import config from "../../../../config.json";
+import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 
 
+
+interface FormData {
+  isPaid: "PAID" | "FREE";
+  startTime: string;
+  endTime: string;
+  name: string
+  description: string;
+  amount: string;
+  totalSeat: string;
+  price: string;
+  startDate: string;
+  endDate: string
+  speakerId?: string;
+  speakerName?: string;
+  speakerAssetId?: string;
+  speakerDesignation:string;
+  speakers: {
+    speakerId?: string;
+    speakerName?: string;
+    speakerAssetId?: string;
+    speakerDesignation:string;
+  }[];
+  speakerSelection?:string;
+}
+type Speaker = {
+  speakerId?: string;
+  speakerName?: string;
+  speakerAssetId?: string;
+  speakerDesignation: string;
+}
 interface SessionDrawerContentProps {
     isEditing: boolean;
     selectedProgram: any;
@@ -40,7 +76,8 @@ interface SessionDrawerContentProps {
       watch,
       setError,
       reset,
-    } = useForm({
+      clearErrors,
+    } = useForm<FormData>({
       defaultValues: {
         isPaid: isEditing && selectedProgram?.amount > 0 ? "PAID" : "FREE", 
         startTime: selectedProgram ? selectedProgram.startTime : (eventStartTime ? eventStartTime:""),
@@ -55,6 +92,16 @@ interface SessionDrawerContentProps {
     });
     
     const isPaid = watch("isPaid");
+    const [showSpeakerSection, setShowSpeakerSection] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const companyId = sessionStorage.getItem("companyId")
+    const [searchResults, setSearchResults] = useState<Speaker[]>([]);
+    const baseUrl = config.api.url;
+    const {append } = useFieldArray({
+      control,
+      name: "speakers",
+    });
+
   
   /**
    * Used to set value into the field if its edit and reset if it's add
@@ -70,7 +117,16 @@ interface SessionDrawerContentProps {
         setValue("price", selectedProgram.amount);
         setValue('startDate', moment(selectedProgram?.startTime).format("YYYY-MM-DD"))
         setValue('endDate', moment(selectedProgram?.endTime).format("YYYY-MM-DD"))
-      } else {
+        const speakers = selectedProgram?.eventSpeakers?.map((speaker: any) => ({
+          speakerId: speaker?.userId,
+          speakerName: `${speaker?.user?.firstName} ${speaker?.user?.lastName}`,
+          speakerDesignation: speaker?.speakerBios?.[0]?.designation,
+          speakerAssetId:speaker?.user?.assetId,
+        }));
+        setValue("speakers", speakers);
+        setShowSpeakerSection(speakers?.length > 0)
+
+        } else {
         reset({
           isPaid: "FREE",
           startTime: moment(eventStartTime).format("HH:mm"),
@@ -81,6 +137,10 @@ interface SessionDrawerContentProps {
           description: "",
           totalSeat: "",
           price: "",
+          speakerId: "",
+          speakerAssetId: "",
+          speakerDesignation: "",
+          speakerName:"",
         });
       }
     }, [isEditing, selectedProgram, reset, setValue]);
@@ -89,7 +149,7 @@ interface SessionDrawerContentProps {
    * making the field price 0 if free
    */
     useEffect(() => {
-        if (isPaid === "FREE") setValue("price", 0);
+        if (isPaid === "FREE") setValue("price", "0");
       }, [isPaid, setValue]);
   
 		if(isAddon){
@@ -143,6 +203,12 @@ interface SessionDrawerContentProps {
           return;
       }
   }
+      // Map speakers to the desired format
+      const speakers = data?.speakers?.map((speaker: any) => ({
+        speakerId: speaker?.speakerId,
+        designation: speaker?.speakerDesignation || ' ',
+      }));
+
       // Create the new transformed object
       const transformedProgram = {
         isPaid: data.isPaid,
@@ -151,12 +217,143 @@ interface SessionDrawerContentProps {
         price: data.price,
         ...(data.totalSeat ? { totalSeat: data.totalSeat } : {}),
         startTime: startDateTime,
-        endTime: endDateTime
+        endTime: endDateTime,
+        speakers,
       };
       onSubmit(transformedProgram);
 
 
     }
+
+    /**
+     * @param speaker function to remove a speaker from program
+     * if the speaker data is from api  then it removes the speaker from state 
+     * else calls the api to delete speaker
+     */
+    const removeSpeaker = (speaker: Speaker) => {
+      const speakers = watch('speakers');
+    
+      // Check if the speaker is part of the original data (selectedProgram) using userId
+      const isExistingSpeaker = selectedProgram?.eventSpeakers?.some(
+        (existingSpeaker: any) => existingSpeaker?.userId === speaker?.speakerId
+      );
+    
+      if (isExistingSpeaker) {
+        // If the speaker is from the original program data, call the API to remove it
+        const speakerToRemove = selectedProgram?.eventSpeakers?.find(
+          (existingSpeaker: any) => existingSpeaker?.userId === speaker?.speakerId
+        );
+    
+        if (speakerToRemove) {
+          const speakerId = speakerToRemove?.id; // Use `id` for deletion
+    
+          POST({
+            url: `eventSpeaker/delete/${speakerId}`, // Your API endpoint to remove a speaker
+            id: "removeSpeaker",
+            body: { },
+            successCB: (context: any) => {
+              Logger.info("Speaker removed successfully", context);
+              // Proceed to remove from the field array once the API call is successful
+              const updatedSpeakers = speakers.filter((s: Speaker) => s.speakerId !== speaker.speakerId);
+              setValue('speakers', updatedSpeakers); // Update form data after successful API call
+            },
+            errorCB: (context: any) => {
+              Logger.error("Error removing speaker", context);
+            }
+          });
+        }
+      } else {
+        // If the speaker is newly added, just remove it from the field array
+        const updatedSpeakers = speakers?.filter((s: Speaker) => s?.speakerId !== speaker?.speakerId);
+        setValue('speakers', updatedSpeakers); // Update form data to remove the speaker
+      }
+    };
+       
+    /**
+     * Method transforms data to the autocomplete data format
+     * @param data : api response data
+     * @returns 
+     */
+    function transformUserData(data: any): Speaker[] {
+      return data?.map((item: any) => ({
+        speakerId: item?.id,
+        speakerName: `${item?.firstName} ${item?.lastName}`,
+        speakerAssetId: item?.assetId,
+        ...item
+      }));
+    }
+    /**
+     *  Function to handle search API for user role autocomplete
+     */
+    const handleSearch = async (query: string) => {
+      setLoading(true);
+      await POST({
+        url: "user/userRole/list",
+        id: "userRoleList",
+        body: {
+          filters: {
+            roleEnums: ['SPEAKER'],
+            name: query,
+            companyId: companyId,
+          },
+          limit: 30
+        },
+        successCB: (context: any) => {
+          setSearchResults(transformUserData(context?.data))
+          setLoading(false);
+        },
+        errorCB: (context: any) => {
+          Logger.error("Error fetching search results:", context?.message);
+          setLoading(false);
+        }
+      })
+    };
+
+    /**
+     * Adds a new speaker to the program's speakers array.
+     */
+    const addSpeaker = () => {
+      const values = watch();
+
+      const speakerId = values?.speakerId;
+      const speakerName = values?.speakerName;
+      const speakerAssetId = values?.speakerAssetId;
+      const speakerDesignation = values?.speakerDesignation;
+    
+      // Check if the speaker is part of the original data (selectedProgram) using userId
+      const isExistingSpeaker = selectedProgram?.eventSpeakers?.some(
+        (existingSpeaker: any) => existingSpeaker?.userId === speakerId
+      );
+      if(isExistingSpeaker){
+        setError(`speakerSelection`, { type: "manual", message: "Speaker Already assigned. please select another speaker" });
+        return;
+      }
+    
+      if (!speakerId) {
+        setError(`speakerSelection`, { type: "manual", message: "Please select a speaker" });
+        return;
+      }
+      if (!speakerDesignation) {
+        setError(`speakerDesignation`, { type: "manual", message: "Designation is required" });
+        return;
+      }
+        // Append speaker to the speakers field
+      append({
+        speakerId,
+        speakerName,
+        speakerAssetId,
+        speakerDesignation,
+      });
+      clearErrors();
+      
+        // Reset the speaker form fields
+      setValue("speakerId", "");
+      setValue("speakerName", "");
+      setValue("speakerAssetId", "");
+      setValue("speakerDesignation", "");
+      
+    };
+    
     return (
       <Box sx={{ maxWidth: 600 }}>
         <Grid container spacing={2} padding={2}>
@@ -286,7 +483,102 @@ interface SessionDrawerContentProps {
               />
             </Grid>
           )}
-  
+          {!showSpeakerSection ? (
+            <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'center'}>
+              <CustomButton
+                className="add-program-drawer-speaker-option-btn"
+                label="Assign Speakers for this Program?"
+                variant="outlined"
+                size="large"
+                type="button"
+                onClick={() => setShowSpeakerSection(true)}
+              />
+            </Grid>
+          ) : (
+            <Grid container size={{ xs: 12, sm: 12 }} p={{ xs: 1, sm: 2 }} className="add-program-speaker-section">
+              {/* speaker add section */}
+              <Grid
+                size={{ xs: 12 }}
+                container
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Typography className="add-program-drawer-heading">
+                  Assign Speakers
+                </Typography>
+                <IconButton onClick={() => setShowSpeakerSection(false)}>
+                  <CloseOutlined />
+                </IconButton>
+              </Grid>{/*end of speaker header section */}
+              <Grid size={{ xs: 12 }}>
+                <CustomAutocomplete
+                  name={`speakerSelection`}
+                  control={control}
+                  placeholder="Search Speaker"
+                  options={searchResults}
+                  getOptionLabel={(option: any) => option?.speakerName || ""}
+                  onSearch={handleSearch}
+                  loading={loading}
+                  onChange={(selectedOption) => {
+                    setValue(`speakerId`, selectedOption?.speakerId)
+                    setValue(`speakerAssetId`, selectedOption?.speakerAssetId)
+                    setValue(`speakerName`, selectedOption?.speakerName)
+                  }}
+                />
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <CustomTextField
+                  placeholder="Designation"
+                  control={control}
+                  name={`speakerDesignation`}
+                  type="text"
+                />
+              </Grid>
+              <Grid size={{ xs: 12 }} >
+                <CustomButton
+                  className="add-program-drawer-btn-cancel"
+                  label="Assign Speaker"
+                  variant="outlined"
+                  size="large"
+                  onClick={addSpeaker}
+                />
+              </Grid>
+              {watch(`speakers`)?.length !== 0 && (
+                <Grid container flexDirection={"column"} className="add-program-speaker-section-card-container" size={{ xs: 12 }}>
+                  <Grid container spacing={1}>
+                    {watch(`speakers`)?.map((item, speakerIndex) => {
+                      return (
+                        <Grid size={{ xs: 12 }} key={speakerIndex + "grid"} container alignItems="center" className="add-program-speaker-section-card-item" p={1}>
+                          <Grid size={{ xs: 2 }} justifyItems={'center'}>
+                            <Avatar
+                              alt={item?.speakerName}
+                              src={item?.speakerAssetId
+                                ? `${baseUrl}asset/${item?.speakerAssetId}`
+                                : ""}
+                            />
+                          </Grid>
+                          <Grid size={{ xs: 8 }} justifyItems={'start'}>
+                            <Typography className="add-program-speaker-section-card-item-title">
+                              {item?.speakerName}
+                            </Typography>
+                            <Typography className="add-program-speaker-section-card-item-subtitle">
+                              {truncateString(item?.speakerDesignation, 35)}
+                            </Typography>
+                          </Grid>
+                          <Grid size={{ xs: 2 }} justifyItems={'center'}>
+                            <IconButton onClick={() => removeSpeaker(item)}>
+                              <DeleteIcon />
+                            </IconButton>
+                          </Grid>
+                        </Grid>
+                      );
+                    })}
+                  </Grid>
+                </Grid>
+              )}
+            </Grid>// end of add speaker section
+          )}
+
           <Grid size={{xs:12}}>
             <Grid container justifyContent="right">
               <CustomButton
