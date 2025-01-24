@@ -419,19 +419,40 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
             </Grid>
         </Grid>
       {/* Event count down component */}
-      <Grid className="template1-countdown"  spacing={2} container justifyContent={"center"} >
-        <Grid className="template1-countdown-container" container size={6} justifyContent={"center"} spacing={2}>
+      <Grid className="template1-countdown" spacing={2} container justifyContent={"center"} >
+        <Grid className="template1-countdown-container" size={12} justifyContent={"center"} spacing={2}>
           <TimerCounterComp
-          customStyles="template1-countdown"
+            //  customStyles="template1-countdown"
             targetDate={getLocalTimeDate(data.startTime, 'YYYY-MM-DD HH:mm:ss')}
             onTimeUpdate={handleTimeUpdate}
           >
-            <Typography className='template1-countdown-headerText'>Time Remaining</Typography>
-            <Grid spacing={10} container size={12} justifyContent="center" alignItems="center" direction="row" className="template1-countdown-timerTypo">
-              <Box maxWidth={70}><span className='template1-countdown-timerDigit'>{day}</span><span>Days</span></Box>
-              <Box maxWidth={70}><span className='template1-countdown-timerDigit'>{hour}</span><span> Hours</span></Box>
-              <Box maxWidth={70}><span className='template1-countdown-timerDigit'>{minute}</span><span>Minutes</span></Box>
-              <Box maxWidth={70}><span className='template1-countdown-timerDigit'>{second}</span><span>Seconds</span></Box>
+            <Typography textAlign={"center"} className='template1-countdown-headerText'>Time Remaining</Typography>
+            <Grid container size={12} justifyContent="center" alignItems="center" direction="row" display={"flex"}>
+              <Grid size={2} />
+              <Grid size={2}>
+                <Box display="flex" flexDirection="row" alignItems="baseline" justifyContent="center" className="template1-countdown-timerTypo">
+                  <Typography textAlign={"center"} variant="h4" className='template1-countdown-timerDigit'>{day}</Typography>
+                  <Typography textAlign={"center"}>Days</Typography>
+                </Box>
+              </Grid>
+              <Grid size={2}>
+                <Box display="flex" flexDirection="row" alignItems="baseline" justifyContent="center" className="template1-countdown-timerTypo">
+                  <Typography variant="h4" className='template1-countdown-timerDigit'>{hour}</Typography>
+                  <Typography>Hours</Typography>
+                </Box>
+              </Grid>
+              <Grid size={2}>
+                <Box display="flex" flexDirection="row" alignItems="baseline" justifyContent="center" className="template1-countdown-timerTypo">
+                  <Typography variant="h4" className='template1-countdown-timerDigit'>{minute}</Typography>
+                  <Typography>Minutes</Typography>
+                </Box>
+              </Grid>
+              <Grid size={2}>
+                <Box display="flex" flexDirection="row" alignItems="baseline" justifyContent="center" className="template1-countdown-timerTypo">
+                  <Typography variant="h4" className='template1-countdown-timerDigit'>{second}</Typography>
+                  <Typography>Seconds</Typography>
+                </Box>
+              </Grid>
             </Grid>
           </TimerCounterComp>
         </Grid>
