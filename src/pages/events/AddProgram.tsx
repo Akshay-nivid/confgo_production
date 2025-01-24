@@ -328,7 +328,7 @@ const handleAddProgram = () => {
     let eventEndDateObj = new Date(eventEndDate)
 
       // Perform the comparison of dates
-      if (startDateObj.getTime() < eventStartDateObj.getTime() || startDateObj.getTime() > eventEndDateObj.getTime()) {
+      if (startDateObj.getTime() < eventStartDateObj.getTime() || startDateObj.getTime() > eventEndDateObj.setHours(11,59,59,0)) {
         setError(`programs.${programIndex}.startDate`, {
           type: 'manual',
           message: 'Start date should be within event Dates',
