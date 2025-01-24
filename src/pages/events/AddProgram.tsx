@@ -320,23 +320,22 @@ const handleAddProgram = () => {
         return
       }
     // Ensure dates are valid Date objects
-    let selectedDate =programs?.[programIndex]?.startDate
-    let selectedEndDate =programs?.[programIndex]?.endDate
-    let eventStartDateObj = new Date(eventStartDate);
-    let startDateObj = new Date(selectedDate);
-    let endDateObj = new Date(programs?.[programIndex]?.endDate);
-    let eventEndDateObj = new Date(eventEndDate)
+    let selectedDate = programs?.[programIndex]?.startDate
+    let selectedEndDate = programs?.[programIndex]?.endDate
+    let formattedStartDate = moment(selectedDate)?.format('YYYY-MM-DD');
+    let formattedeventStartDate = moment(eventStartDate)?.format('YYYY-MM-DD');
+    let formattedeventeventEndDate = moment(eventEndDate)?.format('YYYY-MM-DD');
+    let formattedeventendDate = moment(programs?.[programIndex]?.endDate).format('YYYY-MM-DD');
 
       // Perform the comparison of dates
-      if (startDateObj.getTime() < eventStartDateObj.getTime() || startDateObj.getTime() > eventEndDateObj.getTime()) {
+      if (formattedStartDate < formattedeventStartDate || formattedStartDate > formattedeventeventEndDate) {
         setError(`programs.${programIndex}.startDate`, {
           type: 'manual',
           message: 'Start date should be within event Dates',
         });
         return
       } 
-  
-      if (endDateObj.getTime() > eventEndDateObj.getTime()) {
+      if (formattedeventendDate > formattedeventeventEndDate) {
         setError(`programs.${programIndex}.endDate`, {
           type: 'manual',
           message: 'End date should be within event Dates',
@@ -571,17 +570,18 @@ const handleAddProgram = () => {
      * @param {object} item - The speaker object that needs to be removed.
      * @param {number} _index - The index of the program in the programs array .
      */
-    const removeSpeaker = (item: any, _index: number) => {
+    const removeSpeaker = (item: any, index: number) => {
+      // Retrieve current form values
       const values = watch();
-      const updatedPrograms = values.programs.map((program) => {
-        const updatedSpeakers = program.speakers?.filter(
-          (speaker) => speaker?.speakerId !== item?.speakerId
-        ) || [];
-        return {
-          ...program,
-          speakers: updatedSpeakers,
-        };
-      });
+    
+      // Update only the specific program at the provided index
+      const updatedPrograms = [...values.programs];
+      const updatedSpeakers = updatedPrograms[index].speakers?.filter(
+        (speaker) => speaker?.speakerId !== item?.speakerId
+      ) || [];
+      updatedPrograms[index].speakers = updatedSpeakers;
+    
+      // Set the updated programs back to the form
       setValue('programs', updatedPrograms);
     };    
 

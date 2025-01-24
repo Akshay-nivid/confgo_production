@@ -96,6 +96,7 @@ interface SessionDrawerContentProps {
     const [loading, setLoading] = useState(false);
     const companyId = sessionStorage.getItem("companyId")
     const [searchResults, setSearchResults] = useState<Speaker[]>([]);
+    const [delspeaker,setDelSpeaker]=useState<any>([])
     const baseUrl = config.api.url;
     const {append } = useFieldArray({
       control,
@@ -232,6 +233,7 @@ interface SessionDrawerContentProps {
      */
     const removeSpeaker = (speaker: Speaker) => {
       const speakers = watch('speakers');
+      setDelSpeaker([...delspeaker,speaker.speakerId])
     
       // Check if the speaker is part of the original data (selectedProgram) using userId
       const isExistingSpeaker = selectedProgram?.eventSpeakers?.some(
@@ -319,9 +321,11 @@ interface SessionDrawerContentProps {
       const speakerName = values?.speakerName;
       const speakerAssetId = values?.speakerAssetId;
       const speakerDesignation = values?.speakerDesignation;
-    
+      const updatedEventSpeakers = selectedProgram?.eventSpeakers?.filter(
+        (existingSpeaker: any) => !delspeaker.includes(existingSpeaker?.userId)
+      );
       // Check if the speaker is part of the original data (selectedProgram) using userId
-      const isExistingSpeaker = selectedProgram?.eventSpeakers?.some(
+      const isExistingSpeaker = updatedEventSpeakers?.some(
         (existingSpeaker: any) => existingSpeaker?.userId === speakerId
       );
       if(isExistingSpeaker){
