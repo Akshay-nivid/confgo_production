@@ -13,6 +13,7 @@ import ProgramIcon from "../../../assets/svg/programIcon.svg";
 import {VectorMenu} from "@/assets/svg";
 import SpeakerDetailsToolTip from "./ToolTipSpeaker/SpeakerDetailsToolTip";
 import config from "../../../../config.json"
+import moment from "moment";
 interface FieldConfig {
   label: string;
   
@@ -42,7 +43,6 @@ interface AddOnOptions{
  * Component for listing data in a card format, dynamically rendering fields based on item type
  */
 const SessionCard: React.FC<SessionCardProps> = ({
-  index,
   item,
   onEditClick,
   titleField,
@@ -183,7 +183,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
           <>
          <Grid container size={12}>
         <Typography className="card-content-day">
-       {item && (` Day ${index}`)}
+        {item && (` Day - ${moment(item?.startDate).format('dddd')}`)}
         </Typography>
        </Grid>
        </>
