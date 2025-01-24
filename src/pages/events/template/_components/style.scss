@@ -124,3 +124,126 @@
 
 
 }
+.speaker-details-modal {
+    height: 100%;
+    overflow-y: auto !important; 
+    display: flex;
+    flex-direction: column;
+    &-content{
+        flex-grow: 1; // Ensure the content wrapper expands properly
+        overflow-y: auto; // Enable scrolling for the content area
+        max-width: 80rem;
+        min-width: 60rem;
+        padding-inline: 1.5rem;
+            padding-block: 1.5rem;
+            background-color: $clr_white !important;
+            border-radius: .5rem;
+    }
+
+    &-header-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 2rem;
+                column-gap: 6rem;
+    
+                &-header {
+                    font-size: $p5 ;
+                    font-weight: $font_semibold;
+                }
+    
+                &-close {
+                    margin-top: .2rem;
+                }
+            }
+
+    &-avatar {
+        .MuiAvatar-root{
+            width: 5rem;
+            height: 5rem;
+        }
+        
+    }
+    &-title{
+        font-size: $h5 !important;
+        font-weight: $font_semibold !important;
+    }
+
+    &-day{
+        font-size: $p3 !important;
+        font-weight: $font_semibold !important;
+    }
+
+    &-date{
+        font-size: $h5 !important;
+        font-weight: $font_semibold !important;
+    }
+    &-icon {
+        padding: 0.3rem;
+        svg{
+            
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+       
+    }
+    &-time{
+        padding-left: 0.3rem;
+        font-size: $p2 !important;
+        font-weight: $font_semibold !important;
+        color: $clr_dim_gray !important;
+    }
+    &-sub-title{
+        font-size: $p5 !important;
+        font-weight: $font_medium !important;
+    }
+    &-text{
+        font-size: $p3 !important;
+        font-weight: $font_small !important;
+        color: $clr_neutral_gray !important;
+    }
+    &-main-container {
+        padding: 1rem;
+    }
+    &-item-container {
+        padding: 3rem 1rem 3rem 1rem;
+        border-bottom: 1px solid $clr_background_gray;
+    }
+    &-day-container {
+        position: relative; // Ensure positioning is enabled for the pseudo-element.
+        
+        // Remove the default border
+        border-right: none;
+    
+        // Add a centered vertical line
+        &::after {
+            content: ''; 
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%; // Center the line horizontally in the container.
+            transform: translateX(-50%); // Adjust the position to align the center accurately.
+            width: 1px; // Line width for border
+            background-color: $clr_background_gray; // Same color as your previous border-right
+        }
+    }
+    &-time-container {
+        position: relative; // Ensure positioning is enabled for the pseudo-element.
+        
+        // Remove the default border
+        border-right: none;
+    
+        // Add a centered vertical line
+        &::after {
+            content: ''; 
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 90%; // Center the line horizontally in the container.
+            transform: translateX(-50%); // Adjust the position to align the center accurately.
+            width: 1px; // Line width for border
+            background-color: $clr_background_gray; // Same color as your previous border-right
+        }
+    }
+    
+}
