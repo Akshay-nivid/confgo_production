@@ -198,7 +198,14 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
         : `/event/update/${selectedProgramId}`  // Program update URL
       : isAddon
         ? `/event/addon/add`                    // Add-on create URL
-        : `/event/program/add`;                 // Program create URL        
+        : `/event/program/add`;                 // Program create URL      
+        const message = isEditing
+        ? isAddon && selectedProgramId
+          ? 'Addon Updated Successfully!'   // Add-on update URL
+          : 'Program Updated Successfully!'  // Program update URL
+        : isAddon
+          ? 'Addon Created Successfully!'                    // Add-on create URL
+          : 'Program Created Successfully!' 
       
         const successCB = (response: any) => {
           onSubmitHandler();
@@ -219,7 +226,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
             open: true,
             autoHideDuration: 2000,
             severity: "success",
-            message: "Success",
+            message: message
           });
           Logger.info("Operation successful:", response.data);
         };

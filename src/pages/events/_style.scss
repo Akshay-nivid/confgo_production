@@ -1198,6 +1198,7 @@
         font-size: $h6 ;
         font-weight: $font_semibold !important;
         box-shadow: none;
+        text-transform: none !important;
 
         &.Mui-disabled {
             background: $clr_gray_faded !important;
