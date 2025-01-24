@@ -528,7 +528,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
       </Grid>
       <Box sx={{ maxWidth: 600 }}>
         {/* add attendee type form */}
-        {pageSwitch == '' || pageSwitch.data == 'AttendeeType' ? <></> : <Grid
+        {pageSwitch == '' || pageSwitch?.data == 'AttendeeType' ? <></> : <Grid
           container
           alignItems={"center"}
           display="flex"
@@ -595,7 +595,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
             <Box className="registration-fee-list-decription-helper" display={"flex"} justifyContent={"center"} alignItems={"flex-start"} mr={1}><InfoOutlinedIcon style={{ marginRight: 2 }} /><Typography className="registration-fee-list-decription-helper-text">Attendee types refer to the different categories or groups of individuals who will attend the event.</Typography></Box>
           </> : <></>}
           {/* add price tier form */}
-          {pageSwitch.data == 'PricingTier' && <>
+          {pageSwitch?.data == 'PricingTier' && <>
             <Grid container alignItems={"center"} columnSpacing={2} size={{ xs: 12 }} display={"flex"} justifyContent={"center"}>
               <Typography className="registration-fee-list-sub-heading">
                 Configure Pricing Tiers
@@ -644,7 +644,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
             </Grid>
             <Grid size={{ xs: 12 }}>
               <Box display="flex" flexWrap="wrap" gap={1}>
-                {uniquePricingFields.map((field, index) => {
+                {uniquePricingFields?.map((field, index) => {
                   return field.tierName.trim() ? (
                     <Chip
                       className="registration-fee-list-chip"
@@ -663,7 +663,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
             </Grid>
           </>}
            {/* discount table form */}
-          {pageSwitch.data == 'FeeStrcture' && <>
+          {pageSwitch?.data == 'FeeStrcture' && <>
             <Grid size={12} container paddingBottom={0} paddingTop={1}>
               <Grid container alignItems={"center"} columnSpacing={2} size={{ xs: 12 }} display={"flex"} justifyContent={"center"}>
                 <Typography className="registration-fee-list-sub-heading">
