@@ -224,7 +224,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
        {/* </Grid> */}
       
       
-       {!hasAddOns&&item?.eventSpeakers[0]?.user && (
+       {!hasAddOns&&item?.eventSpeakers?.[0]?.user && (
        <>
         <Grid className="card-content-heading" >
                  <Grid className="card-content-heading"  gap={1}minHeight="5rem" display={"flex"}direction={"column"}>
@@ -241,7 +241,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
                         ) : (
                           //className="main-user-profile main-user-profile-text"
                      <Avatar className="session-speaker-avatar">
-                    {`${speaker?.user?.firstName[0]}${speaker?.user?.lastName[0]}`}
+                    {`${speaker?.user?.firstName?.[0]}${speaker?.user?.lastName?.[0]}`}
                     </Avatar>
                    )}
      
@@ -337,7 +337,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
                        ) : (
                          
                   <Avatar  className="session-speaker-modal-avatar">
-                  {`${speaker?.user?.firstName[0]}${speaker?.user?.lastName[0]}`}
+                  {`${speaker?.user?.firstName?.[0]}${speaker?.user?.lastName?.[0]}`}
                </Avatar>
          )}
         </>} > 
@@ -352,7 +352,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
                      />
                    ) : (
                      <Avatar  className="session-speaker-modal-avatar">
-                       {`${speaker?.user?.firstName[0]}${speaker?.user?.lastName[0]}`}
+                       {`${speaker?.user?.firstName?.[0]}${speaker?.user?.lastName?.[0]}`}
                      </Avatar>
                    )}
                  </Grid>
