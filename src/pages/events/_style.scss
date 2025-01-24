@@ -1420,6 +1420,7 @@
 }
 
 .registration-fee-list {
+    padding: 1.333rem !important;
     &-heading {
         font-weight: $font_semibold !important;
         font-size: $h5 !important;
@@ -1427,7 +1428,7 @@
     }
 
     &-sub-heading {
-        font-weight: $font_normal !important;
+        font-weight: $font_medium !important;
         font-size: $h6 !important;
     }
 
@@ -1480,7 +1481,19 @@
         font-weight: $font_semibold !important;
         box-shadow: none;
         margin-bottom: 1rem !important;
+        text-transform: none !important;
     }
+    &-decription-helper{
+        background-color: $clr_orange_light;
+        border-radius: 0.3rem;
+        margin: 0.5rem;
+        padding: 0.2rem;
+        &-text{
+            font-size: $p3 !important;
+            font-weight: $font-normal !important;
+        }
+    }
+
 
 }
 
