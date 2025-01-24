@@ -14,6 +14,8 @@ type EventContributorsSectionProps = {
 }
 
 
+
+
 /**
  * Method displays the event contributors section
  */
@@ -23,11 +25,32 @@ const EventContributorsSection = React.memo(
 
     const baseUrl = config.api.url; 
 
+     /**
+     * Extracts unique speakers from a given list based on their `userId`.
+     * 
+     * @param {any[]} speakers - An array of speaker objects. Each object is expected to have a `userId` property.
+     * @returns {any[]} An array of unique speaker objects, ensuring no duplicate `userId`s.
+     * 
+     * This function uses a Map to track speakers by their `userId`. 
+     * It ensures that only one speaker per `userId` is included in the returned array.
+     */
+    function getUniqueSpeakers(speakers: any) {
+        const uniqueSpeakersMap = new Map<number, any>();
+      
+        speakers.forEach((speaker: any) => {
+          if (!uniqueSpeakersMap.has(speaker.userId)) {
+            uniqueSpeakersMap.set(speaker.userId, speaker);
+          }
+        });
+      
+        return Array.from(uniqueSpeakersMap.values());
+      }
+
 
     return <Grid id={'Contributors'} container size={{ xs: 12, sm: 12 }} className={`${classPrefix} `} spacing={1} direction={'column'} justifyContent={'center'} alignItems={'center'} ref={ref}>
         <Grid className={`${classPrefix}-title`}>Meet Our Esteemed Speakers</Grid>
         <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-item-group-container anim-container`} justifyContent={'center'} alignItems={'center'} spacing={4}>
-            {data?.map((item: any) => {
+            {data?.length > 0 && getUniqueSpeakers(data)?.map((item: any) => {
                 return <Grid alignSelf={'stretch'}  size={{ xs: 12, sm: 6 }} container direction={'row'} className={`${classPrefix}-item-container `} spacing={2}>
                     <Grid   size={{ xs: 12, sm: 12 }} container direction={'row'} className={`${classPrefix}-item-container-speaker-card `}>
                         <Grid overflow={'hidden'}  className={`${classPrefix}-item-container-speaker-card-image-container card-image-container `}>
