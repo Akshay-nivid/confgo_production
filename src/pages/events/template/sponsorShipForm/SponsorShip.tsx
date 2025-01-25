@@ -21,6 +21,16 @@ interface FormData {
     message: string;
     validateReCAPTCHA: Boolean | string
 }
+/**
+ * SponsorShip Component
+ * 
+ * This functional component renders the sponsorship form, 
+ * allowing users to fill in their details and submit sponsorship requests.
+ * It includes fields for user input, validation messages, and a ReCAPTCHA 
+ * for additional security.
+ * 
+ * @returns {JSX.Element} The rendered JSX content for the sponsorship form.
+ */
 
 const SponsorShip = () => {
 
@@ -47,6 +57,10 @@ const SponsorShip = () => {
 
     const [refreshKey, setRefreshKey] = useState(0)
 
+    /**
+     * This effect runs after the form has been successfully validated and 
+     * submitted.
+     */
     useEffect(() => {
         const timer = setTimeout(() => {
             setValue("name", '')
