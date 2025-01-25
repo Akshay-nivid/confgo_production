@@ -42,7 +42,7 @@ type TemplateViewProps = {
 
 
 const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
-
+  setDataById("temEventId",{id:data?.id});
     const aboutRef = useRef(null);
     const contributorsRef = useRef(null);
     const programRef = useRef(null);

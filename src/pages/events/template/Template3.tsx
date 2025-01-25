@@ -23,6 +23,7 @@ import Temp3PhotoIcon from '@/assets/png/template3-photo.png';
 import CustomTooltip from '@/components/CustomToolTip/CustomTooltip';
 import TimerCounterComp from './TemplateTimer/TimerCounterComp';
 import SponsorShip from './sponsorShipForm/SponsorShip';
+import { setDataById } from '@/Libs/store';
 
 type TemplateViewProps = {
     data: any;
@@ -30,7 +31,7 @@ type TemplateViewProps = {
 
 
 const Template3: React.FC<TemplateViewProps> = React.memo(({ data }) => {
-
+    setDataById("temEventId",{id:data?.id});
     const aboutRef = useRef(null);
     const contributorsRef = useRef(null);
     const programRef = useRef(null);

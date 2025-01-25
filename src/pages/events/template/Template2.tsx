@@ -20,6 +20,7 @@ import { Box, Typography } from '@mui/material';
 import TitleSection from './TitleSection';
 import TimerCounterComp from './TemplateTimer/TimerCounterComp';
 import SponsorShip from './sponsorShipForm/SponsorShip';
+import { setDataById } from '@/Libs/store';
 
 
 type TemplateViewProps = {
@@ -28,7 +29,7 @@ type TemplateViewProps = {
 
 
 const Template2: React.FC<TemplateViewProps> = React.memo(({ data }) => {
-
+    setDataById("temEventId",{id:data?.id});
     const aboutRef = useRef(null);
     const contributorsRef = useRef(null);
     const programRef = useRef(null);

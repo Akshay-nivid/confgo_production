@@ -1,7 +1,7 @@
 import { Typography, TextareaAutosize } from '@mui/material';
 import CustomTextField from '@/components/CustomTextfield/CustomTextField';
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { validateEmail, validateRequiredField } from '@/Utils/Validation';
 import ReCAPTCHA from 'react-google-recaptcha';
 import Grid from '@mui/material/Grid2';
@@ -11,10 +11,10 @@ import CustomButton from '@/components/CustomButton/CustomButton';
 import CustomPhone from '@/components/CustomPhone/CustomPhone';
 import { countries } from '@/Utils/country/country';
 
-
 interface FormData {
     name: string;
     lastName: string;
+    jobTitle:string;
     email: string;
     phoneNumber: string;
     companyName: string;
@@ -43,37 +43,57 @@ const SponsorShip = () => {
 
     const [phoneNumber, setPhoneNumber] = useState("");
     const [selectedCountryCode, setSelectedCountryCode] = useState("+91");
-
+    const eventId=useStore((state:any)=>state?.compData?.['temEventId']?.id)??[];
     const isLoading = useStore(state => state.compData?.['sponsorContact']?.['notification/contact']?.loading) || false
-
+    /**
+    * Handles the change in selected country code.
+    * Updates the state with the newly selected country code.
+    * 
+    * @param code - The new country code selected by the user.
+    */
     const handleCountryChange = (code: string) => {
         setSelectedCountryCode(code);
     };
 
+    /**
+    * Handles the change in phone number input.
+     * Updates the state with the newly entered phone number.
+     * 
+     * @param number - The new phone number entered by the user.
+     */
     const handlePhoneNumberChange = (number: string) => {
         setPhoneNumber(number);
     };
 
-
-    const [refreshKey, setRefreshKey] = useState(0)
-
     /**
-     * This effect runs after the form has been successfully validated and 
-     * submitted.
-     */
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setValue("name", '')
-            setValue("lastName", '')
-            setValue("companyName", '')
-            setValue("phoneNumber", '')
-            setValue("email", '')
-            setValue("validateReCAPTCHA", '')
-            setValue("message", '')
-        }, 100)
+    * Function to reset the form fields after successful validation and integration.
+    */
+    type FormFields =
+        | "name"
+        | "lastName"
+        |"jobTitle"
+        | "email"
+        | "phoneNumber"
+        | "companyName"
+        | "message"
+        | "validateReCAPTCHA";
 
-        return () => clearTimeout(timer)
-    }, [refreshKey])
+    const resetFormValues = () => {
+        const defaultValues: Record<FormFields, string> = {
+            name: '',
+            lastName: '',
+            jobTitle:'',
+            companyName: '',
+            phoneNumber: '',
+            email: '',
+            validateReCAPTCHA: '',
+            message: '',
+        };
+
+        Object.entries(defaultValues).forEach(([key, value]) => {
+            setValue(key as FormFields, value);
+        });
+    };
 
     /**
      * change state of recapcha
@@ -99,25 +119,26 @@ const SponsorShip = () => {
         const body = {
             firstName: data.name,
             lastName: data.lastName,
+            jobTitle:data.jobTitle,
             companyName: data.companyName,
             gRecaptcha: recaptchaRef.current?.getValue() || '',
             phone: fullPhoneNumber,
             email: data.email,
-            message: data.message
+            message: data.message,
+            eventId:eventId,
         }
 
         /**
          * function to make api call
          */
         POST({
-            url: 'notification/contact', body: body,
+            url: 'notification/sponsorshipInterest', body: body,
             id: 'sponsorContact',
             successCB: (context: any) => {
                 console.log(context)
 
                 setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Form Submitted Successfuly " });
-                // snackBar({ severity: 'success', message:context?.message});
-                setRefreshKey((prev) => prev + 1)
+                resetFormValues();
             },
             errorCB: (error: any) => {
                 console.log(error)
@@ -167,6 +188,14 @@ const SponsorShip = () => {
                                 </Grid>
                                 <Grid size={{ lg: 12, xs: 12 }}  >
                                     <CustomTextField
+                                        name='jobTitle'
+                                        label="Job Title"
+                                        type='text'
+                                        control={control}
+                                    />
+                                </Grid>
+                                <Grid size={{ lg: 12, xs: 12 }}  >
+                                    <CustomTextField
                                         name='companyName'
                                         label="Company Name"
                                         type='text'
@@ -210,9 +239,7 @@ const SponsorShip = () => {
                                         className='sponsor-form-textarea'
                                         aria-label=""
                                         placeholder="Type here....."
-                                        {...register("message", {
-                                            required: "Message is required",
-                                        })}
+                                        {...register("message")}
                                     />
                                     {errors.message && <Typography className="error-message">{errors.message.message}</Typography>}
                                 </Grid>
