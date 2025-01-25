@@ -344,14 +344,8 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
       const speakerName = values?.speakerName;
       const speakerAssetId = values?.speakerAssetId;
       const speakerDesignation = values?.speakerDesignation;
-      const updatedEventSpeakers = selectedProgram?.eventSpeakers?.filter(
-        (existingSpeaker: any) => !delspeaker.includes(existingSpeaker?.userId)
-      );
-      // Check if the speaker is part of the original data (selectedProgram) using userId
-      const isExistingSpeaker = updatedEventSpeakers?.some(
-        (existingSpeaker: any) => existingSpeaker?.userId === speakerId
-      );
-      if(isExistingSpeaker){
+      const isDuplicate = values?.speakers?.some((speaker: any) => speaker.speakerId === speakerId);
+      if(isDuplicate){
         setError(`speakerSelection`, { type: "manual", message: "Speaker Already assigned. please select another speaker" });
         return;
       }
