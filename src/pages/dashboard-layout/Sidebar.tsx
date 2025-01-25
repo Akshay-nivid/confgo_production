@@ -19,6 +19,8 @@ import {
 import routes from '@/router/routes';
 import { clearDataById } from '@/Libs/store';
 
+import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined';
+
 interface SidebarProps {
   open: boolean;
 }
@@ -54,12 +56,20 @@ const sidebarItems = [
 
   },
   {
+    path: routes.sponsor(),
+    icon: HandshakeOutlinedIcon,
+    id:'sidebar-sponsor-button',
+    label: 'Sponsors',
+    exact: false,
+  },
+  {
     path: routes.calendar(),
     icon: CalenderIcon,
     id:'sidebar-calender-button',
     label: 'Calendar',
     exact: false,
   },
+
 ];
 
 /**
