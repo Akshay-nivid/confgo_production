@@ -1,0 +1,179 @@
+.sponsor {
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    background-color: $clr_background_gray;
+    padding-inline: clamp(2rem, 5vw, 3.42rem);
+    padding-top: 1.4rem;
+    display: flex;
+    flex-direction: column;
+
+    .title-filter-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        // margin-bottom: 3rem;
+        column-gap: 2rem;
+        // flex: 1;
+
+        &-title {
+            font-size: $h4;
+            font-weight: $font_bold;
+            // flex:1;
+        }
+
+        &-filter-container {
+            //    flex: 3;
+            width: max-content;
+            display: flex;
+            column-gap: 1.2rem;
+            flex: 1;
+            justify-content: end;
+
+            .auto-complete {
+                width: 100% !important;
+                flex-grow: 1;
+                flex-shrink: 2;
+                max-width: 30rem;
+
+                &-input {
+
+                    .custom-autopopulate {
+                        border: 0.14rem solid $clr_gray_medium !important;
+                        border-radius: .45rem;
+                    }
+                }
+            }
+
+            .filter-button {
+                button {
+                    width: max-content;
+                    padding-inline: 1.33rem !important;
+                    min-height: 100% !important;
+                }
+
+            }
+
+            .button-container {
+                width: max-content;
+
+                button {
+                    width: max-content;
+                    padding-inline: 1.33rem !important;
+                }
+            }
+        }
+    }
+
+    &-datagrid {
+        flex: 1;
+        min-height: 80%;
+
+        .custom-data-grid-grid {
+            min-height: 98% !important;
+            margin-bottom: .7rem !important;
+            padding-inline: 0 !important;
+
+            .no-record-container {
+                height: 100%;
+                margin: 0 !important;
+
+            }
+        }
+    }
+
+    &-drawer {
+        ::-webkit-scrollbar {
+            width: 0 !important;
+            display: none !important;
+        }
+
+
+        &-content {
+
+
+            width: 100vw !important;
+            max-width: 600px !important;
+            background-color: $clr_white;
+            height: 100vh !important;
+            padding-block: 3rem;
+            padding-inline: 3rem;
+            position: relative;
+            scrollbar-width: 0 !important;
+            overflow-y: hidden;
+            display: flex;
+            flex-direction: column;
+
+            .header-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 3rem;
+
+
+                &-close {
+                    svg {
+                        color: $clr_gray_faded !important;
+                        height: 1rem;
+                        width: 1rem;
+                    }
+
+                }
+
+                &-label {
+                    font-size: $h5 !important;
+                    font-weight: $font-semibold !important;
+                }
+            }
+
+
+            .form {
+                display: flex;
+                flex-direction: column;
+                row-gap: 1.667rem;
+                flex: 1;
+                height: calc(100vh - 10rem);
+                padding-bottom: 1rem;
+                padding-top: 1rem;
+
+                overflow-y: scroll;
+
+
+                &-file-upload {
+                    margin-top: .5rem;
+
+                    .file-upload-dropzone {
+                        margin-bottom: .5rem !important;
+                    }
+
+                    &-input {
+                        padding-inline: 0 !important;
+                        padding-block: 0;
+                        margin-top: 1rem;
+
+                    }
+
+                    &-label {
+                        font-size: $p1 !important;
+
+                    }
+                }
+
+                &-button-container {
+                    margin-left: auto;
+
+                    button {
+                        background-color: $clr_green !important;
+                        min-width: 10rem !important;
+                        height: 3rem;
+
+                    }
+                }
+
+            }
+
+
+        }
+    }
+
+}
