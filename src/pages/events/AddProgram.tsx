@@ -20,6 +20,7 @@ import { Logger } from "@/Utils/Logger";
 import { Speaker } from '@mui/icons-material';
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
 import config from "../../../config.json";
+import { truncateString } from "@/Utils/CommonBaseClass";
 import NewSpeakerDrawer from "./NewSpeakerDrawer";
 import confgo  from "../../../config.json"
 type Speaker = {
@@ -849,7 +850,7 @@ const handleAddProgram = () => {
                                                   {item.speakerFullName}
                                                 </Typography>
                                                 <Typography className="add-program-speaker-section-card-item-subtitle">
-                                                  {item?.designation}
+                                                  {truncateString(item?.designation, 35, "")}
                                                 </Typography>
                                               </Grid>
                                               <Grid size={{xs:2}} justifyItems={'center'}>

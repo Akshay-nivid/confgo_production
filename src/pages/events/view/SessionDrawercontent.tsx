@@ -11,6 +11,7 @@ import SessionAddonDrawer from "./SessionAddonDrawer";
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
 import { POST } from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
+import { truncateString } from "@/Utils/CommonBaseClass";
 import config from "../../../../config.json";
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
@@ -592,7 +593,7 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
                               {item?.speakerName}
                             </Typography>
                             <Typography className="add-program-speaker-section-card-item-subtitle">
-                              {item?.speakerDesignation}
+                              {truncateString(item?.speakerDesignation, 35, "")}
                             </Typography>
                           </Grid>
                           <Grid size={{ xs: 2 }} justifyItems={'center'}>
