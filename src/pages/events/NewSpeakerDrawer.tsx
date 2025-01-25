@@ -46,7 +46,9 @@ const NewSpeakerDrawer :React.FC<NewSpeakerDrawerProps> = ({ onSuccess, closeDra
         role: any,
         email: string,
         phone: string,
-        assetId:string|number
+        assetId:string|number,
+        designation: string,
+        userDescription: string
     }
     /**
     * useEffect fetch full role list
@@ -108,7 +110,9 @@ const NewSpeakerDrawer :React.FC<NewSpeakerDrawerProps> = ({ onSuccess, closeDra
                 phone: data.phone,
                 roleId: roleList.find((item) => item.label === 'SPEAKER')?.value || null,
                 companyId:companyId,
-                assetId:selectedFile?.id
+                assetId:selectedFile?.id,
+                designation: data.designation,
+                userDescription: data.userDescription
             },
             id: 'create-admin-user',
             successCB: (context: any) => { 
@@ -116,8 +120,8 @@ const NewSpeakerDrawer :React.FC<NewSpeakerDrawerProps> = ({ onSuccess, closeDra
               onSuccess && onSuccess();
               closeDrawer();              
             },
-            errorCB: () => {
-                setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "error createing speaker" });
+            errorCB: (context: any) => {
+                setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:context?.message || "error creating speaker" });
             }
         });
     };
@@ -204,6 +208,26 @@ const NewSpeakerDrawer :React.FC<NewSpeakerDrawerProps> = ({ onSuccess, closeDra
                                     fieldName: 'Phone Number',
                                 }),
                             }}
+                        />
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 12 }}>
+                        <CustomTextField
+                            placeholder="Designation"
+                            label="Designation "
+                            control={control}
+                            name="designation"
+                            type="text"
+                        />
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 12 }}>
+                        <CustomTextField
+                            placeholder="Description"
+                            label="Description "
+                            control={control}
+                            name="userDescription"
+                            type="text"
+                            multiline={true}
+                            rows={3}
                         />
                     </Grid>
                 </Grid>

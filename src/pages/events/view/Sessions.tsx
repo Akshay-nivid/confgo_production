@@ -198,7 +198,14 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
         : `/event/update/${selectedProgramId}`  // Program update URL
       : isAddon
         ? `/event/addon/add`                    // Add-on create URL
-        : `/event/program/add`;                 // Program create URL        
+        : `/event/program/add`;                 // Program create URL      
+        const message = isEditing
+        ? isAddon && selectedProgramId
+          ? 'Addon Updated Successfully!'   // Add-on update URL
+          : 'Program Updated Successfully!'  // Program update URL
+        : isAddon
+          ? 'Addon Created Successfully!'                    // Add-on create URL
+          : 'Program Created Successfully!' 
       
         const successCB = (response: any) => {
           onSubmitHandler();
@@ -219,7 +226,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
             open: true,
             autoHideDuration: 2000,
             severity: "success",
-            message: "Success",
+            message: message
           });
           Logger.info("Operation successful:", response.data);
         };
@@ -340,7 +347,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
       {/* Render valid date items */}
       {Object.keys(groupedData)
         .filter((date) => date !== "invalid")
-        .map((date) => (
+        .map((date,idx) => (
           <Grid size={{ xs: 12 }} key={date}>
             <Box
               className="event-sessions-date-header"
@@ -355,10 +362,11 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
 
             <Grid container spacing={2} className="event-sessions-session-list">
 						{groupedData[date].map(
-  (item: { addon: { name: any } }, index: Key | null | undefined) => {
+           (item: { addon: { name: any } }, index: Key | null | undefined) => {
     return (
       <SessionCard
         key={index}
+        index={idx + 1}
         item={item}
         timeCorrection={true}
         hasAddOns={item.addon ? true : false}
