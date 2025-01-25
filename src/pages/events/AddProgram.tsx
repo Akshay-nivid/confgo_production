@@ -4,7 +4,7 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import { Avatar, Box, IconButton, Typography } from "@mui/material";
+import { Avatar, Box, IconButton,Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
@@ -23,11 +23,19 @@ import config from "../../../config.json";
 import { truncateString } from "@/Utils/CommonBaseClass";
 import NewSpeakerDrawer from "./NewSpeakerDrawer";
 import confgo  from "../../../config.json"
+import SponsorForm from "./Sponsor/SponsorForm";
 type Speaker = {
   speakerId?: string;
   speakerFullName?: string;
   speakerAssetId?: string;
   designation: string;
+}
+
+type Sponsor={
+  sponsorId?:string;
+  sponsorFullName?:string;
+  sponsorLogoId?:string;
+  bannerId?:string;
 }
 
 type FormData = {
@@ -52,6 +60,16 @@ type FormData = {
     speakerAssetId?: string;
     designation?: string;
     speakerSelection?: string;
+    sponsors?:{
+      sponsorId?:string;
+      sponsorFullName?:string;
+      speakerLogoId?:string;
+      bannerId?:string;
+    }[];
+    sponsorId?:string;
+    sponsorFullName?:string;
+    sponsorLogoId?:string;
+    sponsorbannerId?:string;
   }[];
   savedPrograms: {
     id?: string;
@@ -75,6 +93,16 @@ type FormData = {
     speakerAssetId?: string;
     designation?: string;
     speakerSelection?: string;
+    sponsors?:{
+      sponsorId?:string;
+      sponsorFullName?:string;
+      speakerLogoId?:string;
+      bannerId?:string;
+    }[];
+    sponsorId?:string;
+    sponsorFullName?:string;
+    sponsorLogoId?:string;
+    sponsorbannerId?:string;
   }[];
 };
 type ProgramProps = {
@@ -109,7 +137,8 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
             type: "PAID",
             amount: "",
             totalSeat:"",
-            speakers:[]
+            speakers:[],
+         sponsors:[]
           },
         ],
       },
@@ -129,7 +158,9 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
     const [loading, setLoading] = useState(false);
     const companyId = sessionStorage.getItem("companyId")
     const [searchResults, setSearchResults] = useState<Speaker[]>([]);
+    const [searchSpekerResults,setSearchSpeakerResults]=useState<any>([]);
     const [showSpeakerSection, setShowSpeakerSection] = useState(false);
+    const [showSponserSeciton,setShowSponsorSection]=useState(false);
     const baseUrl = config.api.url;
     const [newSpeakerDrawerOpen, setNewSpeakerDrawerOpen] = useState(false);
     const currency=confgo.currency;
@@ -148,6 +179,20 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
       }));
     }
 
+     /**
+     * Method transforms data to the autocomplete data format
+     * @param data : api response data
+     * @returns 
+     */
+     function transformSponsoerData(data: any): Sponsor[] {
+      return data?.map((item: any) => ({
+        sponsorId: item?.id,
+        sponsorFullName: item?.name,
+        sponsorLogoId: item?.logoAssetId,
+        ...item
+      }));
+    } 
+// sponsor/list'
     /**
      *  Function to handle search API for user role autocomplete 
      */ 
@@ -169,6 +214,32 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
           setLoading(false);
         },
         errorCB: (context: any) => {
+          Logger.error("Error fetching search results:", context?.message);
+          setLoading(false);
+        }
+      })
+    };
+
+    const handleSponsorSearch = async (query: string) => {
+      setLoading(true);
+      await POST({
+        url: "sponsor/list",
+        id: "sponsorList",
+        body: {
+          filters: {
+            name: query,
+            companyId: companyId,
+          },
+          limit:30
+        },
+        successCB: (context: any) => {
+          console.log(context,'kkkkkkkkk')
+          transformSponsoerData(context.data)
+          // setSearchResults(transformUserData(context?.data))
+          setLoading(false);
+        },
+        errorCB: (context: any) => {
+          console.log(context,'434343434')
           Logger.error("Error fetching search results:", context?.message);
           setLoading(false);
         }
@@ -398,6 +469,12 @@ const handleAddProgram = () => {
           speakerFullName: "",
           speakerAssetId: "",
           designation: "",
+          sponsors:[],
+          sponsorId:"",
+          sponsorFullName:"",
+          speakerLogoId:"",
+          bannerId:""
+          
         };
         newPrograms.push(newProgram);
 
@@ -866,6 +943,18 @@ const handleAddProgram = () => {
                                   )}
                             </Grid>// end of add speaker section
                           )}
+                          {!showSponserSeciton?(
+                            <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'center'}>
+                              <CustomButton
+                                className="add-program-drawer-speaker-option-btn"
+                                label="Assign Sponsor for this Program?"
+                                variant="outlined"
+                                size="large"
+                                type="button"
+                                onClick={() => setShowSponsorSection(true)}
+                              />
+                            </Grid>
+                          ):( <SponsorForm control={control} handleSearch={handleSponsorSearch} addSponsor={addSpeaker} baseUrl={baseUrl} index={index} loading={loading} removeSponsor={removeSpeaker} setValue={setValue} searchResults={searchResults} setNewSpeakerDrawerOpen={()=>console.log()}watch={watch} />)}
                           <Grid
                             container
                             direction={"row"}
