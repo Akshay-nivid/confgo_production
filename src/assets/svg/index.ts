@@ -117,6 +117,8 @@ import NoProgramIcon from "./no-program-icon.svg";
 import ProgramIcon from "./programIcon.svg";
 import AddOnIcon from "./addOnIcon.svg";
 import VectorMenu from "./Vector-menu.svg";
+import DownArrow from "./down-arrow.svg";
+
 export {
   CalenderIcon,
   EditBoxWhite,
@@ -236,5 +238,6 @@ export {
   NoProgramIcon,
   ProgramIcon,
   AddOnIcon,
-  VectorMenu
+  VectorMenu,
+  DownArrow
 };
