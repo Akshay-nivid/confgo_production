@@ -22,6 +22,7 @@ interface FileUploadProps {
   resolution?: Resolution;
   onSubmit?: (response: any) => void;
   trimClientSide?: boolean;
+  onFileSelect?: (file: File[]) => void;
   width?: string | number;
   height?: string | number;
   className?: string;
@@ -42,6 +43,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
   resolution = { width: null, height: null },
   onSubmit,
   trimClientSide = true,
+  onFileSelect,
   // width = '30rem',
   // height = '30rem',
   className,
@@ -144,6 +146,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
       setPreviewUrls(validFiles.map(file => URL.createObjectURL(file)));
       setSelectedFiles(validFiles);
+      onFileSelect && onFileSelect(validFiles)
       setRejectionMessages(rejectionMsgs); // Set rejection messages
     },
     [allowDrop, resolution, trimClientSide]
