@@ -301,9 +301,8 @@ const Events = () => {
         statusId: draft? draftStatusId: statusId,
         amount: amount ? amount : "0",
         ...(speakers.length !== 0 && {
-          speaker: speakers?.map(({ speakerId, designation }: any) => ({
-            speakerId,
-            designation
+          speaker: speakers?.map(({ speakerId }: any) => ({
+            speakerId
           })),
         }),
       };

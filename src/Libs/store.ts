@@ -41,7 +41,10 @@ interface NonPersistedData {
     checkUserPaymentinitialFetchDone: { value: boolean };
     isProgramDetailsModelOpen: { value: boolean },
     programDetails: { value: any }
+    isSpeakerDetailsModelOpen: { value: boolean },
+    speakerDetails: { value: any }
     createSponsorModalOpen: { value: boolean },
+    
 
 
 }
@@ -95,6 +98,8 @@ const useStore = create<IStoreState>()(
                 checkUserPaymentinitialFetchDone: { value: false },
                 isProgramDetailsModelOpen: { value: false },
                 programDetails: { value: null },
+                isSpeakerDetailsModelOpen: { value: false },
+                speakerDetails: { value: null },
                 createSponsorModalOpen: { value: false },
             },
             /**
