@@ -121,8 +121,12 @@ import TemplateGrayClockIcon from './so-clock.svg';
 import TemplateBlackClockIcon from './so-clock-black.svg';
 import TemplatePriceGrayIcon from './so-price-tag-gray.svg';
 import TemplatePriceBlackIcon from './so-price-tag-black.svg';
+import DownArrow from "./down-arrow.svg";
+import ShakeHandIcon from "./shake-hand.svg";
+
 export {
   CalenderIcon,
+  ShakeHandIcon,
   EditBoxWhite,
   TicBoxWhite,
   CloseBoxWhite,
@@ -244,5 +248,6 @@ export {
   TemplateGrayClockIcon,
   TemplateBlackClockIcon,
   TemplatePriceGrayIcon,
-  TemplatePriceBlackIcon
+  TemplatePriceBlackIcon,
+  DownArrow
 };

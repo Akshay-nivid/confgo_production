@@ -2,7 +2,8 @@ import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/
 import Grid from "@mui/material/Grid2";
 // import SepekerCard from "./SpeakerCard";
 import VolunteerListCard from "./VolunteerListCard";
-import { AccordionAddIcon, AccordionArrowIcon } from "@/assets/svg";
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 import AbstractReviewer from "./AbstactReviewerListCard";
 import React from "react";
 import useStore from "@/Libs/store";
@@ -56,7 +57,7 @@ const TeamAndRole=()=>{
         expanded={expanded === "panel2-header"} 
         onChange={handleChange("panel2-header")}>
         <AccordionSummary
-       expandIcon={abstractReviewerData?.length!==0 ?<AccordionArrowIcon/>:<AccordionAddIcon />}
+       expandIcon={abstractReviewerData?.length!==0 || expanded === "panel3-header"?<RemoveIcon/>:<AddIcon />}
           aria-controls="panel2-content"
           id="panel2-header"
            className="accordion-container-icon"
@@ -75,9 +76,10 @@ const TeamAndRole=()=>{
         expanded={expanded === "panel3-header"} 
         onChange={handleChange("panel3-header")}>
         <AccordionSummary
-          expandIcon={volunteerListsDta?.length?<AccordionArrowIcon/>:<AccordionAddIcon/>}
-          aria-controls="panel2-content"
-          id="panel2-header"
+          expandIcon={volunteerListsDta?.length || expanded === "panel3-header" ?<RemoveIcon/>:<AddIcon/>}
+          
+          aria-controls="panel3-content"
+          id="panel3-header"
           className="accordion-container-icon"
         >
           <Typography className="accordion-container-heading">Volunteer</Typography>

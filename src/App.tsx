@@ -69,6 +69,7 @@ import VerifyUSerMailPage from "./pages/Admin-users/VerfiyUserEmail";
 import SpeakerHome from "./pages/Speaker/Home";
 import SpeakersEventDetails from "./pages/Speaker/Home/SpeakersEventDetails";
 import { AccountDeletionPage } from "./pages/Delete-Account";
+import Sponsors from "./pages/Admin/Sponsors";
 
 
 const userRoutes = [
@@ -279,6 +280,7 @@ const router = createBrowserRouter([
         path: routes.coupon(),
         element: <Coupon />,
       },
+
       {
         path: routes.createCoupon(),
         element: <CreateCoupon  />,
@@ -318,6 +320,10 @@ const router = createBrowserRouter([
       {
         path: routes.upgradePlanPayment(),
         element: <PlanUpgrade />,
+      },
+      {
+        path: routes.sponsor(),
+        element: <Sponsors />,
       },
     ],
   },

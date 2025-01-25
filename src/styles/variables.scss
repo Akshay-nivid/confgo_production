@@ -116,6 +116,7 @@ $soft-pastel-green: #C1E1C1;
 $clr_black_shadow:#0000001A;
 $clr_dim_gray: #919191;
 $clr_neutral_gray: #808080;
+$clr_teal: #2D6C72;
 
 //Font weight
 $font_small: 400;
@@ -127,7 +128,7 @@ $font_extrabold: 800;
 $font_extramaxbold:900;
 
 // Font Size
-
+$hMax: 4.16rem; // 50px
 $h1: 3.333rem; // 40px
 $h2: 2.5rem; //30px
 $h3: 2.167rem; //26px
@@ -140,4 +141,4 @@ $p3: 1rem; //12px
 $p4: .5rem; //8px
 $p5: 1.5rem; //18px
 $p6: 1.2rem; //18px
-$font: "Inter", sans-serif;
+$font: "Overpass", sans-serif;
