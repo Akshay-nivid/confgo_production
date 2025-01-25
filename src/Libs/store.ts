@@ -40,7 +40,8 @@ interface NonPersistedData {
     [key: string]: any;
     checkUserPaymentinitialFetchDone: { value: boolean };
     isProgramDetailsModelOpen: { value: boolean },
-    programDetails:{value:any}
+    programDetails: { value: any }
+    createSponsorModalOpen: { value: boolean },
 
 
 }
@@ -93,7 +94,8 @@ const useStore = create<IStoreState>()(
             nonPersistedData: {
                 checkUserPaymentinitialFetchDone: { value: false },
                 isProgramDetailsModelOpen: { value: false },
-                programDetails:{value:null}
+                programDetails: { value: null },
+                createSponsorModalOpen: { value: false },
             },
             /**
              * Method to set data in global state using id
