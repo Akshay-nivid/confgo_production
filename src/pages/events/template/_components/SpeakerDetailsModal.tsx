@@ -8,7 +8,7 @@ import { Close } from '@mui/icons-material'
 import { Avatar, IconButton, Typography } from '@mui/material'
 import Modal from '@mui/material/Modal';
 import useStore, { POST, setNonPersistedDataById } from '@/Libs/store'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import config from '../../../../../config.json'
 import Grid from '@mui/material/Grid2';
 import LocalTimeDate from '@/components/LocalTimeDate/LocalTimeDate';
@@ -26,6 +26,7 @@ const SpeakerDetailsModal = () => {
     const speakerInfo = useStore((state: any) => state?.compData?.['templateSpeakerDetails']?.['eventSpeaker/list']?.data) ?? [];
     const baseUrl = config.api.url;
     const currency = config.currency;
+    const [loading, setLoading] = useState(true);
 
 
 
@@ -35,6 +36,7 @@ const SpeakerDetailsModal = () => {
     function handleCloseModal() {
         setNonPersistedDataById("isSpeakerDetailsModelOpen", { value: false })
         setNonPersistedDataById('speakerDetails', { value: null })
+        setLoading(true);
     }
 
     
@@ -42,10 +44,12 @@ const SpeakerDetailsModal = () => {
      * to clear modal data on un mount
      */
     useEffect(() => {
-
-        return () => setNonPersistedDataById('speakerDetails', { value: null })
-
-    }, [])
+        return () => {
+            setNonPersistedDataById('speakerDetails', { value: null });
+            setLoading(true);
+        };
+    }, []);
+    
 
     
     /**
@@ -61,7 +65,11 @@ const SpeakerDetailsModal = () => {
                         userId: speakerDetails?.userId,
                         parentEventId: speakerDetails?.parentEventId
                     }
+                },
+                successCB: () => {
+                    setLoading(false);
                 }
+                
             })
         }
     }, [speakerDetails])
@@ -69,7 +77,7 @@ const SpeakerDetailsModal = () => {
 
     return (
         <div>
-           {speakerInfo &&  <Modal
+           {speakerInfo && !loading &&  <Modal
                 open={isModal}
             >
                 <Box className="min-h-screen w-full flex justify-center items-center speaker-details-modal">
