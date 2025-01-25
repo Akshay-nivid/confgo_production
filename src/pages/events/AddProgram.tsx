@@ -790,9 +790,11 @@ const handleAddProgram = () => {
                                   <Typography className="add-program-drawer-heading">
                                     Assign Speakers
                                   </Typography>
+                                  {watch(`programs.${index}.speakers`)?.length == 0 && (
                                   <IconButton onClick={() => setShowSpeakerSection(false)}>
                                     <CloseOutlined />
                                   </IconButton>
+                                  )}
                                 </Grid>{/*end of speaker header section */}
                                 <Grid size={{ xs: 12}}>
                                   <CustomAutocomplete
