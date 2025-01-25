@@ -22,6 +22,7 @@ import { Box, Button, Typography } from '@mui/material';
 import Temp3PhotoIcon from '@/assets/png/template3-photo.png';
 import CustomTooltip from '@/components/CustomToolTip/CustomTooltip';
 import TimerCounterComp from './TemplateTimer/TimerCounterComp';
+import SponsorShip from './sponsorShipForm/SponsorShip';
 
 type TemplateViewProps = {
     data: any;
@@ -29,7 +30,6 @@ type TemplateViewProps = {
 
 
 const Template3: React.FC<TemplateViewProps> = React.memo(({ data }) => {
-
     const aboutRef = useRef(null);
     const contributorsRef = useRef(null);
     const programRef = useRef(null);
@@ -220,6 +220,10 @@ const Template3: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                 onScrollToTier={() => handleScrollTo(tierRef)}
             />
         }
+        {/* Sponsor */}
+        <Grid  minHeight={"max-content"} size={12} container>
+        <SponsorShip eventId={data?.id}/>
+        </Grid>
         {/* Footer section */}
         <FooterSection classPrefix={`${classPrefix}-footer`} data={data} />
     </Grid>
