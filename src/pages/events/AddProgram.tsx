@@ -20,7 +20,6 @@ import { Logger } from "@/Utils/Logger";
 import { Speaker } from '@mui/icons-material';
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
 import config from "../../../config.json";
-import { truncateString } from "@/Utils/CommonBaseClass";
 import NewSpeakerDrawer from "./NewSpeakerDrawer";
 import confgo  from "../../../config.json"
 type Speaker = {
@@ -811,8 +810,8 @@ const handleAddProgram = () => {
                                     }}
                                   />
                                 </Grid>
-                                <Grid container className="add-program-drawer-new-speaker-link" justifyContent={'end'} onClick={() => setNewSpeakerDrawerOpen(true)} size={{xs:12}}>
-                                  <Typography className="cursor-container" variant="h6">Create New Speaker ?</Typography>
+                                <Grid container className="add-program-drawer-new-speaker-link" justifyContent={'end'} size={{xs:12}}>
+                                  <Typography className="cursor-container" variant="h6" onClick={() => setNewSpeakerDrawerOpen(true)}>Create New Speaker ?</Typography>
                                 </Grid>
                                 {/* <Grid size={{ xs: 12}}>
                                   <CustomTextField
@@ -850,7 +849,7 @@ const handleAddProgram = () => {
                                                   {item.speakerFullName}
                                                 </Typography>
                                                 <Typography className="add-program-speaker-section-card-item-subtitle">
-                                                  { truncateString(item?.designation,35)}
+                                                  {item?.designation}
                                                 </Typography>
                                               </Grid>
                                               <Grid size={{xs:2}} justifyItems={'center'}>
