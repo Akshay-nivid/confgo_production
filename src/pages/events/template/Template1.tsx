@@ -32,6 +32,7 @@ import routes from '@/router/routes';
 import parse from 'html-react-parser';
 import TimerCounterComp from './TemplateTimer/TimerCounterComp';
 import ProgramDetailsModal from './_components/ProgramDetailsModal';
+import SponsorShip from './sponsorShipForm/SponsorShip';
 
 
 
@@ -574,6 +575,11 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                 onScrollToTier={() => handleScrollTo(tierRef)}
             />
         }
+        {/* Sponsor */}
+        <Grid  minHeight={"max-content"} size={12} container>
+         <SponsorShip/>
+        </Grid>
+
         {/* Footer section */}
         <FooterSection classPrefix={`${classPrefix}-footer`} data={data} />
     </Grid>

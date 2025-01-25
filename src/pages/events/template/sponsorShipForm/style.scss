@@ -1,19 +1,18 @@
-.contact-page {
+.sponsor-page {
     margin-top: .816rem;
 
-    .contact-container {
+    .sponsor-container {
         margin-top: 3rem;
-        .contact-header-content {
+        .sponsor-header-content {
             flex-direction: column !important;
-            width: 42.375rem !important;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        .contact-header-title {
+        .sponsor-header-title {
             font-size: $h1 !important;
-            font-weight: $font_bold !important;
+            font-weight: $font-semibold !important;
             color: $clr_black;
             text-align: center;
             @media screen and (max-width: 600px) {
@@ -22,125 +21,101 @@
             }
         }
 
-        .contact-header-description {
+        .sponsor-header-description {
             color: $clr_sub_header;
-            font-size: $h6 !important;
+            font-size: $p5 !important;
             font-weight: $font_normal !important;
             text-align: center;
         }
     }
 
-    .contact-content {
+    .sponsor-content {
         padding-bottom: 5rem;
         margin-top: 3.375rem;
 
-        .contact-content-wrapper {
+        .sponsor-content-wrapper {
             width: full !important;
             height: auto;
             border-radius: 0.7rem;
 
-            .contact-info {
-                background-image: url('/src/assets/svg/contact-svg.svg');
+            .sponsor-info {
+                background-image: url('/src/assets/svg/sponsor-svg.svg');
                 border-radius: 0.7rem;
                 background-size: cover;
 
-                .contact-info_header {
+                .sponsor-info_header {
 
                     font-size: $h2 !important;
 
-                    .contact-info_title {
+                    .sponsor-info_title {
                         color: $clr_white;
                         font-size: $h2 !important;
                         font-weight: $font_bold !important;
                     }
 
-                    .contact-info_description {
+                    .sponsor-info_description {
                         font-size: $h6 !important;
                         font-family: $font;
                         color: $clr_white;
 
                     }
 
-                }
-
-                .contact-info_details {
-                    font-size: $h6 !important;
-
-                    .contact-info_item {
-                    font-size: $h6 !important;
-
-                   
-                        font-family: $font;
-                    }
-
-                    .contact-info-label {
-                        color: $clr_white;
-                        font-size: $h6 !important;
-                        font-weight: $font_normal;
-                    }
-
-                    .contact-info-value {
-                        color: $clr_white;
-                        font-size: $h6 !important;
-                        font-weight: $font_normal;
-                    }
-
-                    .contact-page-icon {
-
-                        width: 3.5rem;
-                        height: 3.5rem;
-                    }
                 }
             }
 
-            .contact-form {
+            .sponsor-form {
                 .error-message{
-                    color: $clr_red;
+                    color:$clr_red;
                 }
-                .contact-form-recaptcha {
+                &-field{
+                    border-bottom:0.09rem solid $clr_black;
+                }
+                .sponsor-form-recaptcha {
                     margin-right: auto;
                 }
 
-                .contact-form-textarea {
+                .sponsor-form-textarea {
                     width: 100%;
                     height: 7rem !important;
                     border-radius: 0.41rem;
                     border: 0.09375rem solid $clr_gray_extra_light;
                     padding: 1rem;
+                    border-bottom:0.09rem solid $clr_black;
+                   
                 }
 
-                .contact-form-textarea:focus-visible {
+                .sponsor-form-textarea:focus-visible {
                     outline: 0.0625rem solid $clr_gray_extra_light !important;
                 }
 
-                .contact-form-textarea::placeholder {
+                .sponsor-form-textarea::placeholder {
                     color: $input_label; 
                 }
 
-                .contact-form-submit-button:disabled {
+                .sponsor-form-submit-button:disabled {
                     opacity: 0.6;
-                    background: $clr_blue;
+                    background: $clr_charcoal_cyan;
                     border-radius: .48rem;
                     color: $clr_white;
                 }
 
                 
-                .contact-form-submit-button {
+                .sponsor-form-submit-button {
                     max-width: 48.25rem;
                     height: 3.75rem;
-                    background: $clr_blue;
+                    background: $clr_charcoal_cyan;
                     border-radius: 0.3125rem;
                     color: $clr_white;
                     font-size: $p2;
                     text-transform: none;
                 }
 
-                .contact-form-textarea::placeholder {
+                .sponsor-form-textarea::placeholder {
                     font-size: $h6;
                     font-weight: $font_normal;
                 }
 
-                .contact-form-custom-phone {
+                .sponsor-form-custom-phone {
                     display: flex;
                     align-items: center;
                     height: 3.125rem;
@@ -149,26 +124,26 @@
                     width: 31.25rem;
                 }
 
-                .contact-form-phone-container {
+                .sponsor-form-phone-container {
                     display: flex;
                     align-items: center;
                     border: 0.0625rem solid $clr_gray_extra_light;
                     border-radius: 0.20rem;
                 }
 
-                .contact-form-phone-container:focus-within {
+                .sponsor-form-phone-container:focus-within {
                     border-color: 0.09375rem solid $clr_gray_extra_light;;
                     border-width: 0.2rem;
                 }
 
-                .contact-form-phone-container.error-border {
+                .sponsor-form-phone-container.error-border {
                     border: 0.078rem solid  $clr_red !important;;
                 }
-                .contact-form-textfield{
+                .sponsor-form-textfield{
                     border:.0833rem solid $clr_gray_extra_light !important;
                     border-radius: .416rem !important;
                 }
-                .contact-form-country-selector {
+                .sponsor-form-country-selector {
                     display: flex;
                     align-items: center;
                     padding: 0.5rem;
@@ -176,32 +151,32 @@
 
                 }
 
-                .contact-form-flagIcon {
+                .sponsor-form-flagIcon {
                     font-size: $h4;
                     margin-right: 0.5rem;
                 }
 
-                .contact-form-countryCode {
+                .sponsor-form-countryCode {
                     font-size: $p2;
                     font-weight: $font_medium;
                 }
 
-                .contact-form-selectMenu {
+                .sponsor-form-selectMenu {
                     font-size: $p5;
                     font-weight: $font_medium;
                 }
 
-                .contact-form-countryMenu {
+                .sponsor-form-countryMenu {
                     display: flex;
                     align-Items: center;
                 }
 
-                .contact-form-countryFlag {
+                .sponsor-form-countryFlag {
                     font-size: $p2;
                     margin-right: 0.625rem;
                 }
 
-                .contact-form-countryLabel {
+                .sponsor-form-countryLabel {
                     font-size: $p2;
                 }
             }

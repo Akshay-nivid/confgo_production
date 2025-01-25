@@ -19,6 +19,7 @@ import LinkIcon from '@/assets/svg/template1-url.svg';
 import { Box, Typography } from '@mui/material';
 import TitleSection from './TitleSection';
 import TimerCounterComp from './TemplateTimer/TimerCounterComp';
+import SponsorShip from './sponsorShipForm/SponsorShip';
 
 
 type TemplateViewProps = {
@@ -209,6 +210,10 @@ const Template2: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                 onScrollToTier={() => handleScrollTo(tierRef)}
             />
         }
+        {/* Sponsor */}
+        <Grid  minHeight={"max-content"} size={12} container>
+        <SponsorShip/>
+        </Grid>
         {/* Footer section */}
         <FooterSection classPrefix={`${classPrefix}-footer`} data={data} />
     </Grid>
