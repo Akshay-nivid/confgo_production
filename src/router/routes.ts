@@ -61,6 +61,7 @@ const routes = {
   planUpgrade: () => "/planUpgrade",
   upgradePlanPayment: ()=> "/planUpgrade/payment",
   planUpgradePricing: () => "/planUpgrade/pricing",
+  sponsor:()=>"/sponsor",
 };
 
 export default routes;

@@ -174,7 +174,7 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
   const existingSpeakerIds = new Set(existingSpeakers?.map((speaker: any) => speaker.speakerId));
 
   // Filter out speakers whose speakerId exists in the Set
-  return speakers?.filter((speaker: any) => !existingSpeakerIds?.has(speaker.speakerId));
+  return speakers && speakers.filter((speaker: any) => !existingSpeakerIds.has(speaker.speakerId));
 }
 
   /**
