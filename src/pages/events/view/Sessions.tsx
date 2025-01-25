@@ -301,7 +301,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
           const speakers = event?.eventSpeakers
           ? event?.eventSpeakers.map((speaker: any) => ({
               speakerAssetId: speaker?.user?.assetId,
-              speakerFirstName: speaker?.user?.firstName,
+              speakerFullName: speaker?.user?.firstName,
               speakerId: speaker?.user?.id,
               designation:speaker?.user?.designation,
               speakerLastName:speaker?.user?.lastName
