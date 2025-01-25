@@ -224,30 +224,30 @@ const SessionCard: React.FC<SessionCardProps> = ({
        {/* </Grid> */}
       
       
-       {!hasAddOns&&item?.eventSpeakers?.[0]?.user && (
+       {!hasAddOns&&item?.speakers && (
        <>
         <Grid className="card-content-heading" >
                  <Grid className="card-content-heading"  gap={1}minHeight="5rem" display={"flex"}direction={"column"}>
                 
-                   {item?.eventSpeakers?.map((speaker: any, index: number) => (
+                   {item?.speakers?.map((speaker: any, index: number) => (
                     index < 5 && <Grid key={index} display="flex" alignItems="center" gap={1}>
-                        {speaker?.user?.assetId ? (
+                        {speaker?.speakerAssetId ? (
                       <Avatar
-                         src={`${baseUrl}asset/${speaker?.user?.assetId}`}
+                         src={`${baseUrl}asset/${speaker?.speakerAssetId }`}
           
-                            alt={`${speaker.name || "User Profile"}`}
+                            alt={`${speaker?.speakerFirstName || "User Profile"}`}
                               variant="circular"
                         />
                         ) : (
                           //className="main-user-profile main-user-profile-text"
                      <Avatar className="session-speaker-avatar">
-                    {`${speaker?.user?.firstName?.[0]}${speaker?.user?.lastName?.[0]}`}
+                    {`${speaker?.speakerFirstName?.[0]}${speaker?.speakerLastName?.[0]}`}
                     </Avatar>
                    )}
      
                     </Grid>
                         ))}
-                       {item?.eventSpeakers?.length >= 5 &&  <Grid container justifyContent={'flex-end'} alignItems={'center'}>{`...`}</Grid>}
+                       {item?.speakers?.length >= 5 &&  <Grid container justifyContent={'flex-end'} alignItems={'center'}>{`...`}</Grid>}
                     </Grid>
                     </Grid>
                        </>
@@ -317,6 +317,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
                
                 {!hasAddOns && (
                 <>
+                { item?.speakers?.length !==0 &&
                <Grid className="speaker-box" size={12} minHeight={"5rem"} >
                    
                    <Typography className="speaker-box-heading">
@@ -324,42 +325,42 @@ const SessionCard: React.FC<SessionCardProps> = ({
                    </Typography>
           
                    <Grid className="card-content-heading"  gap={1}minHeight="5rem" display={"flex"}direction={"column"} >
-         {item?.eventSpeakers?.map((speaker: any, index: number) => (
+         {item?.speakers?.map((speaker: any, index: number) => (
           <Grid key={index} display="flex" alignItems="center" gap={1} >
                 <SpeakerDetailsToolTip  className="speaker-box-toolTip" title={<>
-                {speaker?.user?.assetId ? (
+                {speaker?.speakerAssetId ? (
                 <Avatar
-                  src={`${baseUrl}asset/${speaker?.user?.assetId}`}
+                  src={`${baseUrl}asset/${speaker?.speakerAssetId}`}
                     // className="main-user-profile"
-                    alt={`${speaker.name || "User Profile"}`}
+                    alt={`${speaker?.speakerFirstName || "User Profile"}`}
                      variant="circular"
                       />
                        ) : (
                          
                   <Avatar  className="session-speaker-modal-avatar">
-                  {`${speaker?.user?.firstName?.[0]}${speaker?.user?.lastName?.[0]}`}
+                  {`${speaker?.speakerFirstName?.[0]}${speaker?.speakerLastName?.[0]}`}
                </Avatar>
          )}
         </>} > 
                <Grid direction={"column"} display={"flex"} size={12} >
                  <Grid size={2}>
-                   {speaker?.user?.assetId ? (
+                   {speaker?.speakerAssetId ? (
                      <Avatar
-                       src={`${baseUrl}asset/${speaker?.user?.assetId}`}
+                       src={`${baseUrl}asset/${speaker?.speakerAssetId}`}
                        // className="main-user-profile"
-                       alt={`${speaker.name || "User Profile"}`}
+                       alt={`${speaker?.speakerFirstName || "User Profile"}`}
                        variant="circular"
                      />
                    ) : (
                      <Avatar  className="session-speaker-modal-avatar">
-                       {`${speaker?.user?.firstName?.[0]}${speaker?.user?.lastName?.[0]}`}
+                       {`${speaker?.speakerFirstName?.[0]}${speaker?.speakerLastName?.[0]}`}
                      </Avatar>
                    )}
                  </Grid>
                  <Grid size={10} marginInline={"2rem"}>
 
-                  <Typography className="modal-speaker-name">{`${speaker?.user?.firstName}${speaker?.user?.lastName}` }</Typography>
-                  <Typography className="modal-speaker-name-designation">{speaker?.user?.designation}</Typography>
+                  <Typography className="modal-speaker-name">{`${speaker?.speakerFirstName} ${speaker?.speakerLastName}` }</Typography>
+                  <Typography className="modal-speaker-name-designation">{speaker?.designation}</Typography>
       
                  </Grid>
                </Grid>
@@ -368,6 +369,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
          ))}
                     </Grid>
                   </Grid>
+                }
                 </>
               )}
 

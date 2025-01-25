@@ -529,7 +529,8 @@ const Events = () => {
             totalSeat: program ? program?.eventParticipantEntries?.[0]?.totalSeat : null,
             speakers: program?.eventSpeakers?.map((speaker: any) => ({
               speakerId: speaker?.userId,
-              speakerFullName: `${speaker?.user?.firstName} ${speaker?.user?.lastName}`,
+              speakerFirstName: speaker?.user?.firstName,
+              speakerLastName:speaker?.user?.lastName,
               speakerAssetId: speaker?.user?.assetId,
               designation: speaker?.speakerBios?.[0]?.designation || " ",
             })) || [],
