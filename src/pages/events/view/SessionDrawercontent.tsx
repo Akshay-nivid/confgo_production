@@ -168,10 +168,10 @@ interface SessionDrawerContentProps {
  */
 function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
   // Create a Set of speakerIds from the existingSpeakers array for fast lookup
-  const existingSpeakerIds = new Set(existingSpeakers.map((speaker: any) => speaker.speakerId));
+  const existingSpeakerIds = new Set(existingSpeakers?.map((speaker: any) => speaker.speakerId));
 
   // Filter out speakers whose speakerId exists in the Set
-  return speakers.filter((speaker: any) => !existingSpeakerIds.has(speaker.speakerId));
+  return speakers && speakers.filter((speaker: any) => !existingSpeakerIds.has(speaker.speakerId));
 }
 
   /**
