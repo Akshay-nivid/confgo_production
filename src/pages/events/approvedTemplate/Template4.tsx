@@ -37,7 +37,10 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     const [minute, setMinute] = useState<string>('');
     const [second, setSecond] = useState<string>('');
 
-    // Callback function to receive the updated time values from TimerCounterComp
+  /**
+    * Callback function to receive the updated time values from TimerCounterComp
+    * @param day,hour,minute,second
+    */ 
     const handleTimeUpdate = (day: string, hour: string, minute: string, second: string) => {
         setDay(day);
         setHour(hour);
@@ -61,26 +64,36 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     ];
     const [selectedDate, setSelectedDate] = useState<string>('');
 
-    // Group and sort `programs` and `addons` by date
+    /**
+    * Group and sort `programs` and `addons` by date
+    */ 
     const groupedPrograms = useMemo(() => groupByDate(data.programs), [data.programs]);
     const groupedAddons = useMemo(() => groupByDate(data.addons), [data.addons]);
 
-    // Combine and sort programs and addons for the selected date
+    /**
+    * Combine and sort programs and addons for the selected date
+    */ 
     const combinedAndSortedItems = useMemo(() => {
         const programs = groupedPrograms[selectedDate] || [];
         const addons = groupedAddons[selectedDate] || [];
 
-        // Add type to distinguish between programs and addons
+        /**
+        * Add type to distinguish between programs and addons
+        */ 
         const combined = [
             ...programs?.map((program: any) => ({ ...program, type: 'program' })),
             ...addons?.map((addon: any) => ({ ...addon, type: 'addon' })),
         ];
 
-        // Sort by start time
+        /**
+        * Sort by start time
+        */  
         return combined?.sort((a, b) => moment(a.startTime).valueOf() - moment(b.startTime).valueOf());
     }, [groupedPrograms, groupedAddons, selectedDate]);
 
-    // Set default selected date
+    /**
+    * Set default selected date
+    */  
     useEffect(() => {
         const firstDate = Object.keys(groupedPrograms)[0];
         if (firstDate) {
