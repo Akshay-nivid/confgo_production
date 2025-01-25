@@ -432,7 +432,7 @@ const handleAddProgram = () => {
       setValue("programs", watch("savedPrograms"));
       setProgramIndex(index);
       if(watch(`programs.${index}.speakers`)){
-        setShowSpeakerSection(true)
+        setShowSpeakerSection(false)
       }
     };
 
@@ -813,8 +813,8 @@ const handleAddProgram = () => {
                                     }}
                                   />
                                 </Grid>
-                                <Grid container className="add-program-drawer-new-speaker-link" justifyContent={'end'} onClick={() => setNewSpeakerDrawerOpen(true)} size={{xs:12}}>
-                                  <Typography className="cursor-container" variant="h6">Create New Speaker ?</Typography>
+                                <Grid container className="add-program-drawer-new-speaker-link" justifyContent={'end'}  size={{xs:12}}>
+                                  <Typography onClick={() => setNewSpeakerDrawerOpen(true)} className="cursor-container" variant="h6">Create New Speaker ?</Typography>
                                 </Grid>
                                 {/* <Grid size={{ xs: 12}}>
                                   <CustomTextField
