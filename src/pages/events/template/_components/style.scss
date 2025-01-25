@@ -1,0 +1,263 @@
+.program-details-modal {
+    .content {
+        padding-inline: 1.5rem;
+        padding-block: 1.5rem;
+        background-color: $clr_white !important;
+        border-radius: .5rem;
+        max-width: 60rem;
+        min-width: 40rem;
+
+
+        &-header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            column-gap: 6rem;
+
+            &-header {
+                font-size: $p5 ;
+                font-weight: $font_semibold;
+            }
+
+            &-close {
+                margin-top: .2rem;
+            }
+        }
+
+        &-date-container {
+
+            background-color: $clr_green_light !important;
+            width: max-content;
+            padding-inline: .55rem;
+            padding-block: .4rem;
+            border: 0.083rem solid $clr_green_border;
+            border-radius: 0.4rem;
+            font-size: $p2 ;
+            font-weight: $font_medium;
+            margin-bottom: 2rem;
+
+
+        }
+
+        &-description-container {
+            margin-bottom: 3rem;
+            font-size: $p1 ;
+            font-weight: $font_normal;
+            letter-spacing: .03rem;
+            line-height: 2rem;
+        }
+
+        &-speaker-container {
+
+            &-header {
+                margin-bottom: 1.66rem;
+                font-size: $p2;
+                font-weight: $font_semibold;
+            }
+
+            &-speaker-list {
+                display: flex;
+                column-gap: 1rem;
+                flex-wrap: wrap;
+                row-gap: 1.5rem;
+
+                &-avatar {
+                    height: 4.17rem;
+                    width: 4.17rem;
+                }
+            }
+        }
+
+        .modal-tooltip-container {
+            position: absolute;
+            top: -320%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+    }
+
+
+}
+
+
+
+.MuiTooltip-tooltip {
+    background: $clr_black !important;
+    position: relative !important;
+
+    .modal-tooltip-name {
+        font-size: $h6 !important;
+        margin-top: -0.2rem;
+
+    }
+
+    .modal-tooltip-designation {
+        font-size: $p3 !important;
+    }
+
+
+}
+
+.MuiTooltip-arrow {
+    color: $clr_black !important;
+    width: 12% !important;
+    height:12% !important;
+    top: 100%;
+    left: -.3rem !important;
+}
+
+.modal-tooltip {
+    padding-block: 1.3rem;
+    padding-inline: 1rem;
+    min-height: 11.92rem;
+    min-width: 24rem;
+    background-color: $clr_black;
+    display: flex;
+    column-gap: 0.83rem;
+    position: relative;
+    color: $clr_white;
+    border-radius: .4rem;
+
+
+
+
+}
+.speaker-details-modal {
+    height: 100%;
+    overflow-y: auto !important; 
+    display: flex;
+    flex-direction: column;
+    &-content{
+        flex-grow: 1; // Ensure the content wrapper expands properly
+        overflow-y: auto; // Enable scrolling for the content area
+        max-width: 80rem;
+        min-width: 60rem;
+        padding-inline: 1.5rem;
+            padding-block: 1.5rem;
+            background-color: $clr_white !important;
+            border-radius: .5rem;
+    }
+
+    &-header-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 2rem;
+                column-gap: 6rem;
+    
+                &-header {
+                    font-size: $p5 ;
+                    font-weight: $font_semibold;
+                }
+    
+                &-close {
+                    margin-top: .2rem;
+                }
+            }
+
+    &-avatar {
+        .MuiAvatar-root{
+            width: 5rem;
+            height: 5rem;
+        }
+        
+    }
+    &-title{
+        font-size: $h5 !important;
+        font-weight: $font_semibold !important;
+    }
+
+    &-day{
+        font-size: $p3 !important;
+        font-weight: $font_semibold !important;
+    }
+
+    &-date{
+        font-size: $h5 !important;
+        font-weight: $font_semibold !important;
+    }
+    &-icon {
+        padding: 0.3rem;
+        svg{
+            
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+       
+    }
+    &-time{
+        padding-left: 0.3rem;
+        font-size: $p2 !important;
+        font-weight: $font_semibold !important;
+        color: $clr_dim_gray !important;
+    }
+    &-sub-title{
+        font-size: $p5 !important;
+        font-weight: $font_medium !important;
+    }
+    &-text{
+        font-size: $p3 !important;
+        font-weight: $font_small !important;
+        color: $clr_neutral_gray !important;
+    }
+    &-main-container {
+        padding: 1rem;
+    }
+    &-item-container {
+        padding: 3rem 1rem 3rem 1rem;
+        border-bottom: 1px solid $clr_background_gray;
+    }
+    &-day-container {
+        position: relative; // Ensure positioning is enabled for the pseudo-element.
+        
+        // Remove the default border
+        border-right: none;
+    
+        // Add a centered vertical line
+        &::after {
+            content: ''; 
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%; // Center the line horizontally in the container.
+            transform: translateX(-50%); // Adjust the position to align the center accurately.
+            width: 1px; // Line width for border
+            background-color: $clr_background_gray; // Same color as your previous border-right
+        }
+    }
+    &-time-container {
+        position: relative; // Ensure positioning is enabled for the pseudo-element.
+        
+        // Remove the default border
+        border-right: none;
+    
+        // Add a centered vertical line
+        &::after {
+            content: ''; 
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 90%; // Center the line horizontally in the container.
+            transform: translateX(-50%); // Adjust the position to align the center accurately.
+            width: 1px; // Line width for border
+            background-color: $clr_background_gray; // Same color as your previous border-right
+        }
+    }
+    &-details{
+        &-name{
+            font-size: $h4 !important;
+            font-weight: $font_semibold !important;
+        }
+        &-designation{
+            font-size: $h5 !important;
+            font-weight: $font_semibold !important;
+        }
+        &-descripion{
+            font-size: $h6 !important;
+            font-weight: $font_medium !important;
+        }
+    }
+    
+}

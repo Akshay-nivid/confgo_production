@@ -318,7 +318,6 @@
       
     }
     &-avatar {
-      margin-left: 0.3rem;
       background-color: $soft-cyan !important;
       color: $clr_white;
       font-size: $h4;
@@ -797,6 +796,9 @@
   & li {
     padding-block: 0.5rem;
     font-size: 1.2rem;
+  }
+  .user-dash-space-fix{
+    margin-bottom: 0.8rem;
   }
 
   & .menu-item-text {

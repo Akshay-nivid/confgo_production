@@ -6,6 +6,7 @@ import Grid from '@mui/material/Grid2';
 import moment from 'moment';
 import React from 'react';
 import ClockIcon from '@/assets/svg/template1-clock.svg';
+import ProgramDetailsModal from './_components/ProgramDetailsModal';
 
 type ProgramSectionProps = {
     data?: any;
@@ -19,79 +20,109 @@ type ProgramSectionProps = {
  */
 const ProgramSection = React.memo(
     React.forwardRef<HTMLDivElement, ProgramSectionProps>(({ data, classPrefix }, ref) => {
-     
 
-    /**
-     * Method groups the program based on date and sort based on time
-     * @param programs : program data
-     * @returns : grouped array based on date and sort based on time
-     */
-    const groupProgramsByDate = (programs: any[]) => {
-        if (!programs) return {};
 
-        const sortedPrograms = [...programs].sort((a, b) =>
-            moment(a.startTime).valueOf() - moment(b.startTime).valueOf()
-        );
+        /**
+         * Method groups the program based on date and sort based on time
+         * @param programs : program data
+         * @returns : grouped array based on date and sort based on time
+         */
+        const groupProgramsByDate = (programs: any[]) => {
+            if (!programs) return {};
 
-        const grouped = sortedPrograms.reduce((acc: any, program: any) => {
-            const date = moment(program.startTime).format('YYYY-MM-DD');
-            if (!acc[date]) {
-                acc[date] = [];
-            }
-            acc[date].push(program);
-            return acc;
-        }, {});
+            const sortedPrograms = [...programs].sort((a, b) =>
+                moment(a.startTime).valueOf() - moment(b.startTime).valueOf()
+            );
 
-        return grouped;
-    };
+            const grouped = sortedPrograms.reduce((acc: any, program: any) => {
+                const date = moment(program.startTime).format('YYYY-MM-DD');
+                if (!acc[date]) {
+                    acc[date] = [];
+                }
+                acc[date].push(program);
+                return acc;
+            }, {});
 
-    const groupedPrograms = groupProgramsByDate(data?.programs);
+            return grouped;
+        };
+        let generalAddsOn = data?.addons?.filter((item: { startTime: any; endTime: any; }) => !item.startTime || !item.endTime);
 
-    return <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}`} spacing={1} direction={'column'} justifyContent={'center'} alignItems={'center'} ref={ref}>
-        <Grid className={`${classPrefix}-title`}>Event Program Schedule</Grid>
+        const groupedPrograms = groupProgramsByDate(data?.programs);
 
-        {Object.entries(groupedPrograms).map(([date, programs]: any, index: number) => (
-            <Grid  container size={{ xs: 12, sm: 12 }} key={date} direction={'column'} justifyContent={'center'} alignItems={'center'} spacing={2}>
-                <Grid className={`${classPrefix}-item-day`}>
-                    <Typography>{`Day ${String(index + 1).padStart(2, "0")} - ${moment(date).format("MMMM D, YYYY")}`}</Typography>
-                </Grid>
-                <Grid size={12}  container spacing={2} direction={'column'} justifyContent={'center'} alignItems={'center'}>
-                    {programs?.map((program: any) => (
-                        <Grid size={12} key={program.id} container className={`${classPrefix}-item-group-container`} direction={'row'}>
+        return <Grid id="Program" container size={{ xs: 12, sm: 12 }} className={`${classPrefix}`} spacing={1} direction={'column'} justifyContent={'center'} alignItems={'center'} ref={ref}>
+            <Grid className={`${classPrefix}-title`}>Event Program Schedule</Grid>
 
-                            <Grid container direction={'row'} justifyContent={'center'} alignItems={'center'} >
-                                <Grid container direction={'row'} justifyContent={'center'} alignItems={'center'} className={`${classPrefix}-item-time-container`}>
-                                    <Grid><ClockIcon /></Grid>
+            {Object.entries(groupedPrograms).map(([date, programs]: any, index: number) => (
+                <Grid container size={{ xs: 12, sm: 12 }} key={date} direction={'column'} justifyContent={'center'} alignItems={'center'} spacing={2}>
+                    <Grid className={`${classPrefix}-item-day`}>
+                        <Typography>{`Day ${String(index + 1).padStart(2, "0")} - ${moment(date).format("MMMM D, YYYY")}`}</Typography>
+                    </Grid>
+                    <Grid size={12} container spacing={2} direction={'column'} justifyContent={'center'} alignItems={'center'}>
+                        {generalAddsOn?.map((program: any) => (
+                            <Grid size={12} key={program.id} container className={`${classPrefix}-item-group-container`} direction={'row'}>
+
+                                <Grid container direction={'row'} justifyContent={'center'} alignItems={'center'} >
+                                    <Grid container direction={'row'} justifyContent={'center'} alignItems={'center'} className={`${classPrefix}-item-time-container`}>
+                                        {/* <Grid><ClockIcon /></Grid> */}
+                                        <Grid>
+                                            <Typography>
+                                                General Addons
+                                            </Typography>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                                <Grid container direction={'column'} className={`${classPrefix}-item-name-container`} >
                                     <Grid>
-                                        <Typography>
-                                            {`${moment(program.startTime).format('hh:mm A')}` +
-                                                (moment(program.startTime).isSame(moment(program.endTime), 'day')
-                                                    ? '' // Dates are the same, no need to show the date
-                                                    : ` (${moment(program.startTime).format('MMM D')})`) +
-                                                ` - ${moment(program.endTime).format('hh:mm A')}` +
-                                                (moment(program.startTime).isSame(moment(program.endTime), 'day')
-                                                    ? '' // Dates are the same, no need to show the date
-                                                    : ` (${moment(program.endTime).format('MMM D')})`)}
-                                        </Typography>
+                                        <Typography className={`${classPrefix}-item-name`}>{program?.addon?.name}</Typography>
+                                    </Grid>
+                                </Grid>
+                                <Grid container direction={'column'} className={`${classPrefix}-item-description-container`} >
+                                    <Grid>
+                                        <Typography className={`${classPrefix}-item-description`}>{program.description}</Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>
-                            <Grid container direction={'column'} className={`${classPrefix}-item-name-container`} >
-                                <Grid>
-                                    <Typography className={`${classPrefix}-item-name`}>{program.name}</Typography>
+                        ))}
+                        {programs?.map((program: any) => (
+                            <Grid size={12} key={program.id} container className={`${classPrefix}-item-group-container`} direction={'row'}>
+
+                                <Grid container direction={'row'} justifyContent={'center'} alignItems={'center'} >
+                                    <Grid container direction={'row'} justifyContent={'center'} alignItems={'center'} className={`${classPrefix}-item-time-container`}>
+                                        <Grid><ClockIcon /></Grid>
+                                        <Grid>
+                                            <Typography>
+                                                {`${moment(program.startTime).format('hh:mm A')}` +
+                                                    (moment(program.startTime).isSame(moment(program.endTime), 'day')
+                                                        ? '' // Dates are the same, no need to show the date
+                                                        : ` (${moment(program.startTime).format('MMM D')})`) +
+                                                    ` - ${moment(program.endTime).format('hh:mm A')}` +
+                                                    (moment(program.startTime).isSame(moment(program.endTime), 'day')
+                                                        ? '' // Dates are the same, no need to show the date
+                                                        : ` (${moment(program.endTime).format('MMM D')})`)}
+                                            </Typography>
+                                        </Grid>
+                                    </Grid>
                                 </Grid>
-                                <Grid>
-                                    <Typography className={`${classPrefix}-item-description`}>{program.description}</Typography>
+                                <Grid container direction={'column'} className={`${classPrefix}-item-name-container`} >
+                                    <Grid>
+                                        <Typography className={`${classPrefix}-item-name`}>{program.name}</Typography>
+                                    </Grid>
+                                </Grid>
+                                <Grid container direction={'column'} className={`${classPrefix}-item-description-container`} >
+                                    <Grid>
+                                        <Typography className={`${classPrefix}-item-description`}>{program.description}</Typography>
+                                    </Grid>
                                 </Grid>
                             </Grid>
-                        </Grid>
-                    ))}
-                </Grid>
-            </Grid>
-        ))}
+                        ))}
+                        <ProgramDetailsModal />
 
-    </Grid>
-}));
+                    </Grid>
+                </Grid>
+            ))}
+
+        </Grid>
+    }));
 
 export default ProgramSection;
 

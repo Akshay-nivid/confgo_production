@@ -1,18 +1,27 @@
 import React, { useState } from "react";
-import { Typography, IconButton, Box } from "@mui/material";
+import { Typography, IconButton, Divider,Button, Menu, Avatar } from "@mui/material";
 import EditIcon from "@/assets/svg/event-edit.svg";
-import AddIcon from "../../../assets/svg/event-addon-icon.svg"; // Importing the icon to display next to the start time
 import Grid from "@mui/material/Grid2";
 import { DeleteContributorIcon, WarningIcon} from "@/assets/svg";
-import moment from "moment";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
-
+import { getLocalTimeDate, truncateString } from "@/Utils/CommonBaseClass";
+import CustomModel from "@/components/CustomModel/CustomModel";
+import { CloseOutlined } from "@mui/icons-material";
+import { setDataById } from "@/Libs/store";
+import AddOnIcon from "../../../assets/svg/addOnIcon.svg";
+import ProgramIcon from "../../../assets/svg/programIcon.svg";
+import {VectorMenu} from "@/assets/svg";
+import SpeakerDetailsToolTip from "./ToolTipSpeaker/SpeakerDetailsToolTip";
+import config from "../../../../config.json"
+import moment from "moment";
 interface FieldConfig {
   label: string;
+  
   field: string;
   format?: (value: any) => string;
 }
 interface SessionCardProps {
+  index?: any;
   item: any;
   onEditClick?: (item: any) => void;
   titleField: string;
@@ -21,6 +30,7 @@ interface SessionCardProps {
   endTimeField: string;
   hasAddOns?: boolean;
   optionsData?:[];
+  timeCorrection?: boolean;
   onDeleteClick?: (item: any) => void;
 }
 
@@ -36,14 +46,16 @@ const SessionCard: React.FC<SessionCardProps> = ({
   item,
   onEditClick,
   titleField,
-  fields,
+  // fields,
   startTimeField,
   endTimeField,
   hasAddOns = false,
   optionsData,
+  timeCorrection,
   onDeleteClick,
 }) => {
 
+  // const modalState= useStore((state:any)=>state.compData?.['programModal']) ??[];
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   /**
    * function to access nested properties in an object.
@@ -56,21 +68,6 @@ const SessionCard: React.FC<SessionCardProps> = ({
   };
 
   /**
-   * Check the formate of the satetime and according to it convert to hh:mm format
-   * @param time 
-   * @returns 
-   */
-  function formatTime(time: string): string {
-    if (time.includes('T')) {
-      // Handle ISO 8601 format (e.g., 2024-11-26T06:27:00.000Z)
-      const date = new Date(time);
-      return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' , hour12: true, timeZone: 'UTC'});
-    } else {
-      return moment(time, "HH:mm").format("h:mm A");
-    }
-  }
-
-  /**
   * render the selected addon property label from it's value using useMemo
   */
   const selectedLabel = React.useMemo(() => {
@@ -79,78 +76,195 @@ const SessionCard: React.FC<SessionCardProps> = ({
   }, [item?.addonId, optionsData]); 
 
   const title = getNestedValue(item, titleField) || selectedLabel || "";
-  return (
-    <Grid
-      size={{
-        xs: 12,
-        sm: 6,
-        md: 4,
-      }}
-      className="event-sessions-session-card"
-    >
-      <div className="event-sessions-session-card-header">
-        <div className="event-sessions-session-card-time">
-          {/* Conditionally render the Add icon next to the start time */}
+    /**
+     * model for view certificate
+     */
+    const [open, setOpen] = React.useState(false);
+    const handleClose = () => setOpen(false);
+    const closeDrawer = () =>{
+      
+      setDataById("programModal",{open})
+      setOpen(false)
+    };
+  
+    /**
+    * @param index  Function to handle the event selection from the autocomplete input.
+    * It updates the API request configuration based on the selected event.
+    */
+   const handleSquareButtonClick = () => {
+    setDataById("programModal",{open})
+    setOpen(true);
+     };
 
-          <Typography variant="subtitle2">
-            <Box display="flex" alignItems="center" gap={1}>
-              {hasAddOns && (
-                <AddIcon fontSize="small"  />
-              )}
-              {item[startTimeField]&&item[endTimeField]?<><span>{formatTime(item[startTimeField])}</span>
-              <span>{formatTime(item[endTimeField])}</span></>:<span>General Addon</span>}
-            </Box>
-          </Typography>
-        </div>
-        <Grid>
+    /**
+    * handle vector 
+    */
+      const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+       const opens = Boolean(anchorEl);
+       const baseUrl = config.api.url;  
+       const handleClicked = (event: React.MouseEvent<HTMLButtonElement>) => {
+         setAnchorEl(event.currentTarget);
+       };
+       const handleClosed = () => {
+         setAnchorEl(null);
+       };
+
+  return (
+    <Grid container spacing={0}  size={{
+      xs: 12,
+      sm: 4,
+      md: 3,
+    }} flexDirection={"row"}
+    >
+      <Grid size={12} container className="event-sessions-session-card"  >
+      <Grid container size={12} className="card-header">
+        <Grid size={11} container>
+      {hasAddOns ? (
+       <>
+      <AddOnIcon className="svg-icon"/>
+      <Grid container ><Typography className="card-header-tag">Add-On</Typography></Grid>
+      </>
+      ):(
+      <>
+      <ProgramIcon  className="svg-icon"/>
+      <Grid container > <Typography className="card-header-tag">Programs</Typography></Grid>
+      </>
+       )}
+      </Grid>
+     {onDeleteClick && onEditClick &&(
+       <Grid  size={1} justifyContent={"flex-end"} className="card-header-menu">
+        <Button
+          className=""
+          aria-controls={opens ? 'basic-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={opens ? 'true' : undefined}
+          onClick={handleClicked} > <VectorMenu/></Button>
+       </Grid>
+      )}
+       {/* menu for to delete and edit */}
+         <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={opens}
+                onClose={handleClosed}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+              > 
+      <Grid className="card-header-menu-content">
         {onEditClick && (
-        <IconButton
+          <IconButton
           size="small"
           className="event-detail-event-info-card-edit-btn"
-          onClick={() => onEditClick(item)}
+          onClick={() =>{ 
+            handleClosed();
+            onEditClick(item)}}
         >
-          <EditIcon fontSize="small" />
+          <EditIcon fontSize="small"/>
         </IconButton>
-          )}
+         )} 
           {onDeleteClick && (
             <IconButton
               size="small"
               className="event-detail-event-info-card-edit-btn"
-              onClick={() => setDeleteModalOpen(true)}
+              onClick={() =>{
+                handleClosed();
+                setDeleteModalOpen(true)}}
             >
               <DeleteContributorIcon fontSize="small" />
             </IconButton>
-          )}
+          )} 
         </Grid>
-      </div>
+        </Menu>
 
-      <div className="session-details">
-        {/* Render title */}
-        <Typography variant="h6" className="event-detail-sessions-card-header">
-          {title}
+      </Grid>
+      <Grid className="card-content"    size={12} onClick={handleSquareButtonClick}>
+      {!hasAddOns && (
+          <>
+         <Grid container size={12}>
+        <Typography className="card-content-day">
+        {item && (` Day - ${moment(item?.startDate).format('dddd')}`)}
         </Typography>
-        {/* Dynamically render fields based on configuration */}
-        {!hasAddOns?fields.map(
-          (field, index) =>
-            (item[field.field] !== undefined && item[field.field] !== null) && (
-              <Typography
-                key={index}
-                className="event-sessions-session-card-speaker"
-              >
-                {field.label}:{" "}
-                {field.format
-                  ? field.format(item[field.field])
-                  : item[field.field]}
+       </Grid>
+       </>
+      )}
+
+
+       <Grid container size={12}>
+        <Typography className="card-content-heading">
+        {truncateString(title,25)}
+        </Typography>
+       </Grid>
+     
+       <Grid container size={12}>
+        <Typography className="card-content-description">
+           {truncateString((item.description), 25, "Untitled")}
               </Typography>
-            )
-        )
-        :<>
-        <Grid container display="flex" justifyContent="flex-start">
-              <Typography className="event-sessions-session-card-speaker">{item?.description}</Typography>
+       </Grid>
+
+       <Grid className="card-content-devider">
+        <Divider/>
+       </Grid>
+
+      
+      {hasAddOns && item?.eventAddonProperties && (
+         item?.eventAddonProperties.map((props: any) => (
+          <Grid container size={12} key={props.id}> 
+          <Grid display={"flex"} direction={"column"}>
+            <Typography className="card-content-description" >
+            {`Items: ${props.name}`}-
+            {`Price: ${props.amount}`}
+          </Typography>
+            </Grid>
+          
+         </Grid>
+         ))
+       )}
+
+       {/* </Grid> */}
+      
+      
+       {!hasAddOns&&item?.eventSpeakers?.[0]?.user && (
+       <>
+        <Grid className="card-content-heading" >
+                 <Grid className="card-content-heading"  gap={1}minHeight="5rem" display={"flex"}direction={"column"}>
+                
+                   {item?.eventSpeakers?.map((speaker: any, index: number) => (
+                    index < 5 && <Grid key={index} display="flex" alignItems="center" gap={1}>
+                        {speaker?.user?.assetId ? (
+                      <Avatar
+                         src={`${baseUrl}asset/${speaker?.user?.assetId}`}
+          
+                            alt={`${speaker.name || "User Profile"}`}
+                              variant="circular"
+                        />
+                        ) : (
+                          //className="main-user-profile main-user-profile-text"
+                     <Avatar className="session-speaker-avatar">
+                    {`${speaker?.user?.firstName?.[0]}${speaker?.user?.lastName?.[0]}`}
+                    </Avatar>
+                   )}
+     
+                    </Grid>
+                        ))}
+                       {item?.eventSpeakers?.length >= 5 &&  <Grid container justifyContent={'flex-end'} alignItems={'center'}>{`...`}</Grid>}
+                    </Grid>
+                    </Grid>
+                       </>
+                        )}
+      
+
+         <Grid className="card-content-timeBox" >
+         <Typography className="time" >
+                  {item[startTimeField]&&item[endTimeField]?<><span>{timeCorrection ? getLocalTimeDate(item[startTimeField]) : item[startTimeField]}</span> - 
+                  <span>{timeCorrection ? getLocalTimeDate(item[endTimeField]) : item[endTimeField]}</span></>:<span>General Addon</span>}
+        </Typography>
         </Grid>
-      </>
-      }
-      </div>
+
+        </Grid>
+
+      </Grid>
+     
       {/* Delete Confirmation Modal */}
        <CustomActionModal
         icon={<WarningIcon className="unpublish-modal-icon"/>}
@@ -165,7 +279,109 @@ const SessionCard: React.FC<SessionCardProps> = ({
           setDeleteModalOpen(false);
           onDeleteClick?.(item);
         }}
+
         />
+        {/* program Details Modal */}
+        <CustomModel
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Grid container className="event-sessions-program-modal" size={10}  >
+          <Grid container size={6}  className="display-container">
+
+            <Grid container size={11} flexDirection={"column"}>
+
+                <Grid size={12} maxWidth={"auto"}  alignItems={"center"}>
+
+                    <Typography className="heading">
+                    {title}
+                    </Typography>
+                </Grid>
+
+                <Grid maxWidth={"max-content"} container alignItems={"center"} className="date-box" > 
+
+                   <Typography className="date-box-content">
+                   {item[startTimeField]&&item[endTimeField]?<><span>{timeCorrection ? getLocalTimeDate(item[startTimeField]) : item[startTimeField]}</span> - 
+                   <span>{timeCorrection ? getLocalTimeDate(item[endTimeField]) : item[endTimeField]}</span></>:<span>General Addon</span>}
+                   </Typography>
+                </Grid>
+
+               <Grid className="description-box" size={12}>
+
+                   <Typography className="description-box-content">
+                    {item?.description}
+                   </Typography>
+                </Grid>
+               
+                {!hasAddOns && (
+                <>
+               <Grid className="speaker-box" size={12} minHeight={"5rem"} >
+                   
+                   <Typography className="speaker-box-heading">
+                   Speakers  
+                   </Typography>
+          
+                   <Grid className="card-content-heading"  gap={1}minHeight="5rem" display={"flex"}direction={"column"} >
+         {item?.eventSpeakers?.map((speaker: any, index: number) => (
+          <Grid key={index} display="flex" alignItems="center" gap={1} >
+                <SpeakerDetailsToolTip  className="speaker-box-toolTip" title={<>
+                {speaker?.user?.assetId ? (
+                <Avatar
+                  src={`${baseUrl}asset/${speaker?.user?.assetId}`}
+                    // className="main-user-profile"
+                    alt={`${speaker.name || "User Profile"}`}
+                     variant="circular"
+                      />
+                       ) : (
+                         
+                  <Avatar  className="session-speaker-modal-avatar">
+                  {`${speaker?.user?.firstName?.[0]}${speaker?.user?.lastName?.[0]}`}
+               </Avatar>
+         )}
+        </>} > 
+               <Grid direction={"column"} display={"flex"} size={12} >
+                 <Grid size={2}>
+                   {speaker?.user?.assetId ? (
+                     <Avatar
+                       src={`${baseUrl}asset/${speaker?.user?.assetId}`}
+                       // className="main-user-profile"
+                       alt={`${speaker.name || "User Profile"}`}
+                       variant="circular"
+                     />
+                   ) : (
+                     <Avatar  className="session-speaker-modal-avatar">
+                       {`${speaker?.user?.firstName?.[0]}${speaker?.user?.lastName?.[0]}`}
+                     </Avatar>
+                   )}
+                 </Grid>
+                 <Grid size={10} marginInline={"2rem"}>
+
+                  <Typography className="modal-speaker-name">{`${speaker?.user?.firstName}${speaker?.user?.lastName}` }</Typography>
+                  <Typography className="modal-speaker-name-designation">{speaker?.user?.designation}</Typography>
+      
+                 </Grid>
+               </Grid>
+             </SpeakerDetailsToolTip>
+           </Grid>
+         ))}
+                    </Grid>
+                  </Grid>
+                </>
+              )}
+
+         </Grid>
+
+         <Grid   minHeight={"2rem"} className="mt-8">
+         <IconButton onClick={closeDrawer}>
+         <CloseOutlined />
+         </IconButton>
+         </Grid>
+        
+        </Grid>
+        </Grid>
+      </CustomModel>
     </Grid>
   );
 };

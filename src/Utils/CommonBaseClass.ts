@@ -1,5 +1,7 @@
 import moment from 'moment';
 import { useMediaQuery } from "react-responsive";
+import { StatusEnum } from './StatusEnum';
+import momentTimeZone from 'moment-timezone';
 
 /**
  * Process the API response to extract status and message.
@@ -142,7 +144,7 @@ export function formatDateTimeRange({date,format}:IDateTimeRangeParams){
 return  moment.utc(date).local().format(format);
 }
 
-export function formatUTCDateTime(dateString: string) {
+export function formatUTCDateTime(dateString: string, format: string = '') {
   if (!dateString) {
     return '';
   }
@@ -155,10 +157,27 @@ export function formatUTCDateTime(dateString: string) {
   const hours = String(date.getUTCHours()).padStart(2, "0");
   const minutes = String(date.getUTCMinutes()).padStart(2, "0");
 
-  // Format to desired output
-  const formattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;
+  // Default format
+  const defaultFormattedDate = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+  // If no format is provided, return default format
+  if (!format) {
+    return defaultFormattedDate;
+  }
+
+  // Handle custom formats
+  let formattedDate = format;
+
+  // Replace placeholders with actual date components
+  formattedDate = formattedDate.replace('YYYY', year.toString());
+  formattedDate = formattedDate.replace('MM', month);
+  formattedDate = formattedDate.replace('DD', day);
+  formattedDate = formattedDate.replace('HH', hours);
+  formattedDate = formattedDate.replace('mm', minutes);
+
   return formattedDate;
 }
+
 
 /**
  * Method used to convert text to camelcase
@@ -276,3 +295,124 @@ export function extractFileType(fileObject: any) {
   const mimeTypeParts = fileObject.mimeType.split('/');
   return mimeTypeParts.length > 1 ? mimeTypeParts[1] : null;
 }
+/**
+ * Determines the status of an event based on its properties.
+ *
+ * @param {any} data - The event data object containing details such as `published`, `statusId`, and `eventEndTime`.
+ * @returns {string} - A string representing the event status:
+ *   - "6" if the event is published.
+ *   - "4" if the event status is ACTIVE and the event's end time is in the future.
+ *   - "3" for all other cases.
+ */
+export const findEventStatus = (data: any) => {
+  if(data.published){
+      return "6";
+  }
+  else{
+      if((data.statusId === StatusEnum.ACTIVE) && (new Date(data.eventEndTime) > new Date())){
+          return "4";
+      }
+      else{
+          return "3";
+      }
+  }
+}
+
+/**
+ * Function to convert local time to UTC time
+ * @returns 
+ */
+export function convertLocalToUTC(localTime:any, format = 'YYYY-MM-DD') {
+  const localMoment = moment(localTime);
+
+  // Convert to UTC and return formatted date
+  const utcTime = localMoment.utc();
+  return utcTime.format(format);
+}
+
+/**
+ * Function to convert the time from utc to local 
+ * @param utcDateTime 
+ * @param format 
+ * @param timezone 
+ * @param fallbackText 
+ * @returns 
+ */
+export function getLocalTimeDate(
+  utcDateTime :any,
+  format = "hh:mm A",
+  timezone = "auto",
+  fallbackText = "Not Available",
+)  {
+  if (utcDateTime == null) {
+  
+    return fallbackText;
+  }
+
+    // Normalize input to ensure proper parsing
+    const normalizedInput =
+      typeof utcDateTime === "string" ? utcDateTime.trim() : utcDateTime;
+
+    // Detect or use specified timezone
+    const detectedTimezone =
+      timezone === "auto" ? moment.tz.guess() : timezone;
+
+    // Parse UTC time with explicit UTC parsing
+    const utcMoment = moment.utc(normalizedInput);
+
+    // Validate the moment object
+    if (!utcMoment.isValid()) {
+      throw new Error("Invalid date parsing");
+    }
+
+    // Convert to local time
+    const localMoment = utcMoment.tz(detectedTimezone);
+
+        
+    return localMoment.format(format);
+
+}
+
+/**
+ * A function that groups an array of items by their start date. 
+ * Items are first sorted by their `startTime` in ascending order, 
+ * then grouped by the formatted start date (`YYYY-MM-DD`).
+ * @param - items : An array of objects, each containing a `startTime` property.
+ */
+export const groupByDate = (items: any[]): Record<string, any[]> => {
+  const sortedItems = [...items].sort((a, b) => moment(a.startTime).valueOf() - moment(b.startTime).valueOf());
+
+  return sortedItems.reduce((acc: Record<string, any[]>, item: any) => {
+    const date = moment(item.startTime).format("YYYY-MM-DD");
+    if (!acc[date]) acc[date] = [];
+    acc[date].push(item);
+    return acc;
+  }, {});
+};
+
+/**
+ * Convert UTC date/time to the user's current time zone
+ * @param utcDateStr - The date/time in UTC format
+ * @param format - Optional format string
+ * @returns Converted date/time as a string
+ */
+export const convertUTCToUserTimeZone = (
+  utcDateStr: string | number | Date,
+  format?: string
+): string => {
+  // Get the user's current time zone
+  const userTimeZone = momentTimeZone.tz.guess();
+
+  // Create a moment object from the UTC input
+  const dateInUTC = momentTimeZone.utc(utcDateStr);
+
+  // Convert the date to the user's current time zone
+  const dateInUserTimeZone = dateInUTC.tz(userTimeZone);
+
+  // Format the date based on the provided format or use a default
+  if (format) {
+    return dateInUserTimeZone.format(format);
+  } else {
+    return dateInUserTimeZone.format('DD/MM/YYYY, hh:mm A');
+  }
+};

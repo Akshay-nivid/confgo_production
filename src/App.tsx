@@ -38,7 +38,7 @@ import ParticipantHome from "@/pages/participant/Participant-Home";
 
 import ViewEventDetail from "@/pages/events/view/ViewEventDetail";
 import EventList from "@/pages/events/EventList";
-import TemplateContainer from "@/pages/events/template/TemplateContainer";
+import TemplateContainer from "@/pages/events/template";
 import UserDetail from "./pages/events/view/UserDetail";
 
 import Register from "@/pages/register/Register";
@@ -67,6 +67,8 @@ import AdminUsersList from "./pages/Admin-users";
 import CreateNewUsers from "./pages/Admin-users/CreateUsers";
 import VerifyUSerMailPage from "./pages/Admin-users/VerfiyUserEmail";
 import SpeakerHome from "./pages/Speaker/Home";
+import SpeakersEventDetails from "./pages/Speaker/Home/SpeakersEventDetails";
+import { AccountDeletionPage } from "./pages/Delete-Account";
 
 
 const userRoutes = [
@@ -168,6 +170,10 @@ const userRoutes = [
         path: routes.speakerHome(),
         element: <SpeakerHome />,
       },
+      {
+        path: routes.speakerDetails(":id"),
+        element: <SpeakersEventDetails />,
+      },
     ]
   },
   {
@@ -191,7 +197,10 @@ const userRoutes = [
 
 const router = createBrowserRouter([
   // Public routes
-
+  {
+    path: routes.deleteAccount(),
+    element: <AccountDeletionPage />
+  },
   {
     path: routes.register(),
     element: <Register />,
@@ -252,6 +261,10 @@ const router = createBrowserRouter([
       },
       {
         path: routes.createEvent(),
+        element: <Events  />,
+      },
+      {
+        path: routes.editDraftEvent(":id"),
         element: <Events  />,
       },
       {

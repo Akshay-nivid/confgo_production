@@ -46,7 +46,7 @@ const ForgotPassword = () => {
      */
     setLoading(true); // Start loader
     const successCB = (success: any) => {
-      if (success?.data?.role?.roleName === "USER") {
+      if (success?.data?.role?.roleName != "COMPANYADMIN"&&success?.data?.role?.roleName !='ADMIN') {
         navigate(routes.userOtp(), { state: { email: data.email, purpose: purposeTypes.RESET_PASSWORD, token: success?.data?.token?.token, userId: success?.data?.token?.userId } });
         setDataById("resendOtp", { token: success?.data?.token?.token });
       } else {

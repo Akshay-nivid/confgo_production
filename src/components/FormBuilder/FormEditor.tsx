@@ -11,7 +11,7 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { isFieldTypePresent, selectOptions } from "./programHandlers";
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import CustomButton from "../CustomButton/CustomButton";
-import { useEffect } from "react";
+import { useMemo } from "react";
 import { useLocation } from "react-router-dom";
 
 interface IFormEditor {
@@ -38,7 +38,7 @@ interface IFormEditor {
 const FormEditor: React.FC<IFormEditor> = ({ participantType, participantData, handleGenerateForm,eventData }) => {
 
     const formFieldsArray = useStore((state: any) => state?.compData?.["formFieldsArray"]) ?? {};
-
+    const refreshKey = useStore((state:any) => state?.compData?.["refreshKey"]) ;
   const eventId = useLocation()?.pathname.split("/")[3];
 
     const { handleSubmit, control, watch, reset } = useForm({
@@ -118,7 +118,7 @@ const FormEditor: React.FC<IFormEditor> = ({ participantType, participantData, h
 /**
  * data are stored in formfieldarrays inorder to show them
  */
-  useEffect(() => {
+  useMemo(() => {
     GET({
       url: `event/form/${eventId}`,
       id: 'formBuilder',
@@ -160,7 +160,7 @@ const FormEditor: React.FC<IFormEditor> = ({ participantType, participantData, h
         setDataById("formFieldsArray", formFieldsArray);
       },
     });
-}, [eventId]);
+}, [eventId,refreshKey]);
 
     return (
 
@@ -177,31 +177,32 @@ const FormEditor: React.FC<IFormEditor> = ({ participantType, participantData, h
                     className="form"
                 >
                     <Box className="textfield-container ">
-                        <Grid position={"relative"} container columnSpacing={2}>
-                            <Grid size={5}>
+                        <Grid position={"relative"} container columnSpacing={2} rowSpacing={2}>
+                            <Grid size={10}>
                                 {/* <Box className="title-type-button-container"> */}
                                 <CustomTextField
                                     
                                     control={control}
                                     className="title-field"
                                     name="title"
-                                    placeholder="Title"
-                                    label={"Field Name"}
+                                    placeholder="Question"
+                                    label={"Question"}
                                     rules={{
                                         required: validateRequiredField({ showMessage: false }),
                                     }}
                                 />
                             </Grid>
-                            <Grid size={5}>
+                            <Grid size={10}>
                                 <CustomSelect
                                     name="fieldType"
                                     control={control}
-                                    label="Select Field Type"
+                                    label="Question Type"
                                     options={selectOptions}
                                     rules={{
                                         required: validateRequiredField({ showMessage: false }),
                                     }}
                                 />
+                                {/* <InfoOutlinedIcon/> */}
                             </Grid>
                             <Grid className="" size={2} display={"flex"} justifyContent={'center'} alignItems={'center'}>
                                 <IconButton type="submit" className="add-icon-button-wrapper">
@@ -220,8 +221,8 @@ const FormEditor: React.FC<IFormEditor> = ({ participantType, participantData, h
                                                 key={field.id}
                                                 control={control}
                                                 name={`option.${index}.value`}
-                                                placeholder="Field Name"
-                                                label={"Field Name"}
+                                                placeholder="Option"
+                                                label={"Option"}
                                                 rules={{
                                                     required: validateRequiredField({}),
                                                 }}
@@ -236,7 +237,7 @@ const FormEditor: React.FC<IFormEditor> = ({ participantType, participantData, h
                                         justifyContent={"flex-end"}
                                         alignItems={"center"}
                                     >
-                                        {fields.length > 0 ? (
+                                        {fields.length > 1 ? (
                                             <IconButton>
                                                 <DeleteIcon onClick={() => remove(index)} className="" />
 

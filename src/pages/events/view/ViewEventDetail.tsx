@@ -6,15 +6,14 @@ import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import EventInfoCard from "./EventInfoCard";
-import SepekerCard from "./SpeakerCard";
 import Sessions from "./Sessions";
 import LocationCard from "./LocationCard";
 import UserListCard from "./UserListCard";
 import TemplateCard from "./TemplateCard";
 import { Logger } from "@/Utils/Logger";
 import apiClient from "@/Libs/Https/API-client";
-import { useParams } from "react-router-dom";
-import { processAPIResponse } from "@/Utils/CommonBaseClass";
+import { useLocation, useParams } from "react-router-dom";
+import { processAPIResponse, truncateString } from "@/Utils/CommonBaseClass";
 import FormBuilder from "@/components/FormBuilder";
 import StatusComponent from "@/components/Status/StatusComponent";
 import CustomButton from "@/components/CustomButton/CustomButton";
@@ -30,8 +29,9 @@ import ShareInvitationDrawer from "./ShareInvitationDrawer";
 import PriceTierList from "./PriceTierList";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
 import { PublishTickIcon, WarningIcon } from "@/assets/svg";
-import VolunteerListCard from "./VolunteerListCard";
 import AbstractListCard from "./AbstractListCard";
+import TeamAndRole from "./TeamAndRole";
+import Tooltip from '@mui/material/Tooltip';
 
 
 
@@ -90,42 +90,68 @@ interface Addon {
   venueId: number;
   published: boolean;
   slugName: string;
-  specialtyId:number;
+  specialtyId: number;
+  isAbstract: number;
 }
 
 const ViewEventDetail = () => {
 
-  const [value, setTabValue] = React.useState('1');
+  //const [value, setTabValue] = React.useState('1');
   const { setDataById }: any = useStore();
-  const { setValue, control, watch} = useForm<any>();
-  const {id } = useParams<Record<string, string | undefined>>();
-  const [eventFullData,setEventFullData]=useState<Addon>();
+  const { setValue, control, watch } = useForm<any>();
+  const { id } = useParams<Record<string, string | undefined>>();
+  const [eventFullData, setEventFullData] = useState<Addon>();
   const [link, setLink] = useState('');
   const [errorMessage, setErrorMessage] = useState('')
-  const [openModal,setOpenModal]=useState(false);
-  const [datass,setdatass]=useState()
+  const [openModal, setOpenModal] = useState(false);
+  const [datass, setdatass] = useState()
 
-	const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-	// Functions to open and close the drawer.
-	const openDrawer = () => setIsDrawerOpen(true);
-	const closeDrawer = () => setIsDrawerOpen(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
+  /**
+   *  Functions to open and close the drawer. 
+  */
+
+  const openDrawer = () => setIsDrawerOpen(true);
+  const closeDrawer = () => setIsDrawerOpen(false);
+
+  const {state} = useLocation() || {};
+  
   /**
    * Method handles the click event for the tab
    * @param _event : event parameter
    * @param newValue : new value to be assigned to tab
    */
+
   const handleChange = (_event: React.SyntheticEvent, newValue: string) => {
-    setTabValue(newValue);
+    // setTabValue(newValue);
+    setDataById("tabValue", { value: newValue });
   };
+
+   /**
+    * set tab value
+   */
+const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.value)  ?? '1'
   
+   /**
+    * Sets the tab value based on the initial state if 'tabId' is defined.
+    * This effect runs only once after the initial render.
+   */
+
+   useEffect(() => {
+     if (state?.tabId) {
+       setDataById('tabValue', { value: state?.tabId })
+     }
+   }, [])
 
   /**
    * Useeffect hook initializes the parameter and handles the get event api call
    */
   useEffect(() => {
     setErrorMessage('')
+
     getEventDetails();
+
     eventPartcipantList();
   }, [])
 
@@ -154,12 +180,14 @@ const ViewEventDetail = () => {
   const eventPartcipantList = async () => {
     try {
       const req = {
-        filters:{ eventId: id}
-       
+
+        filters: { eventId: id }
+
       };
-      const response = await apiClient.post(`participant/list`,req);
+      const response = await apiClient.post(`participant/list`, req);
       const { status, data } = await processAPIResponse(response, 'eventData');
-      if (status) {   
+      
+      if (status) {
         setdatass(data.length)
       }
     } catch (error) {
@@ -173,17 +201,17 @@ const ViewEventDetail = () => {
   const getEventDetails = async () => {
     try {
       const response = await apiClient.get(`event/${id}`);
-      const { status, data } = await processAPIResponse(response, 'eventData');
+      const { status, data } =  processAPIResponse(response, 'eventData');
       if (status) {
-        setEventFullData(data)
-        if(data.published){
-          
-          setValue('event', data.slugName? `event-link/${data.slugName}`: '')
+        setEventFullData(data);
+        setDataById("TeamAndRoleData",{data});
+        if (data.published) {
+          setValue('event', data.slugName ? `event-link/${data.slugName}` : '');
           setLink(data);
+        } else {
+          data.slugName ? setValue('eventLink', data.slugName) : handleLinkGenerationApiCall();
         }
-        else{
-          handleLinkGenerationApiCall();
-        }
+        
       }
     } catch (error) {
       Logger.error('ViewEventDetail', error);
@@ -231,7 +259,6 @@ const ViewEventDetail = () => {
       setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: message });
       setErrorMessage('')
       getEventDetails();
-      published && handleLinkGenerationApiCall();
       setOpenModal(false);
     }
     else {
@@ -259,7 +286,7 @@ const ViewEventDetail = () => {
       eventId: id
     }
     const response = await apiClient.post('event/slug/isAvailable', req);
-    const { status, data } = await processAPIResponse(response, 'link-availablility');
+    const { status, data } = processAPIResponse(response, 'link-availablility');
     if (status) {
       setErrorMessage(data === false ? 'Url already exist. Please enter a different url.' : '')
     }
@@ -301,14 +328,18 @@ const ViewEventDetail = () => {
       className="event-detail-card" >
       <Grid size={{ xs: 12, sm: 12 }} flexDirection={"column"} >
         <Grid className="event-detail-header" size={{ xs: 12, sm: 12 }} >
-          <Grid container justifyContent={'space-between'} alignItems={"center"}>
+          <Grid container justifyContent={'space-between'} >
             <Grid container>
               <Grid >
-                <Typography variant="h4" className="event-detail-header-title">{eventFullData?.name}</Typography>
+              <Tooltip classes={{ tooltip: 'custom-tooltip'}} title={eventFullData?.name || 'No name available'} placement="top">
+              <Typography variant="h4" className="event-detail-header-title">
+               {truncateString(eventFullData?.name, 20)}
+              </Typography>
+              </Tooltip>
               </Grid>
               <Grid>
                 {eventFullData?.statusId &&
-                  <Grid ml={2}> <StatusComponent value={eventFullData?.statusId ==1 && eventFullData?.published ? "6" : eventFullData?.statusId.toString()} /></Grid>}
+                  <Grid sx={{ml:2}}><StatusComponent value={eventFullData?.statusId ==1 && eventFullData?.published ? "6" : eventFullData?.statusId.toString()} /></Grid>}
               </Grid>
             </Grid>
             <Grid container spacing={2}>
@@ -363,36 +394,39 @@ const ViewEventDetail = () => {
         </Grid>
       </Grid>
       <Grid container direction={"column"} size={{ xs: 12, sm: 12 }} className="event-detail-tab-layout-container">
-        <TabContext value={value}>
+        <TabContext value={abstarctValue}>
         <Grid container direction={"column"} size={{ xs: 12, sm: 12 }} >
             <TabList className="event-detail-tab-layout" onChange={handleChange} aria-label="lab API tabs example">
               <Tab label="Basic Info" className="event-detail-tab-layout-item" value="1" />
-              <Tab label="Speakers" className="event-detail-tab-layout-item" value="2" />
+              <Tab label="Team & Role" className="event-detail-tab-layout-item" value="2" />
               <Tab label="Sessions" className="event-detail-tab-layout-item" value="3" />
-              { eventFullData?.venue && <Tab label="Location" className="event-detail-tab-layout-item" value="4" />}
+              {/* { eventFullData?.venue && <Tab label="Location" className="event-detail-tab-layout-item" value="4" />} */}
               <Tab label="Participants" className="event-detail-tab-layout-item" value="5" />              
               <Tab label="Template" className="event-detail-tab-layout-item" value="6" />
               <Tab label="Custom Fields" className="event-detail-tab-layout-item" value="7" />
-              <Tab label='Settings' className="event-detail-tab-layout-item" value="8" />
-              <Tab label='Volunteers' className="event-detail-tab-layout-item" value="9"/>
+              <Tab label='Configurations' className="event-detail-tab-layout-item" value="8" />
+              {/* <Tab label='Volunteers' className="event-detail-tab-layout-item" value="9"/> */}
              
-              {eventFullData?.specialtyId===1 &&<Tab label="Abstracts" className="event-detail-tab-layout-item" value="10" />}
+              {eventFullData?.isAbstract===1 &&<Tab label="Abstracts" className="event-detail-tab-layout-item" value="10" />}
             </TabList>
           </Grid>
           <TabPanel value="1">
             <EventInfoCard eventData={eventFullData} onSubmitHandler={handleSubmitHandler}/>
+            { eventFullData?.eventClass !="ONLINE" &&
+            <LocationCard eventData={eventFullData} published={eventFullData?.published}  onSubmitHandler={handleSubmitHandler}/>
+          }
           </TabPanel>
           <TabPanel value="2">
-            <SepekerCard eventData={eventFullData} />
+            <TeamAndRole/>
           </TabPanel>
           <TabPanel value="3">
             <Sessions eventData={eventFullData} onSubmitHandler={handleSubmitHandler}/>
           </TabPanel>
-          { eventFullData?.venue &&
+          {/* { eventFullData?.venue &&
           <TabPanel value="4">
             <LocationCard data={eventFullData?.venue} published={eventFullData?.published}  onSubmitHandler={handleSubmitHandler}/>
           </TabPanel>
-          }
+          } */}
           <TabPanel value="5">
             <UserListCard />
           </TabPanel>
@@ -405,10 +439,10 @@ const ViewEventDetail = () => {
           <TabPanel value="8">
             <PriceTierList />
           </TabPanel>
-          <TabPanel value="9">
+          {/* <TabPanel value="9">
             <VolunteerListCard />
-          </TabPanel>
-          {eventFullData?.specialtyId===1&&
+          </TabPanel> */}
+          {eventFullData?.isAbstract===1&&
           <TabPanel value="10">
             <AbstractListCard />
           </TabPanel>}

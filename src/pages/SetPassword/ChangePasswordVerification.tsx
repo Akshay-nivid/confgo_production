@@ -38,12 +38,6 @@ const ChangeVerification = () => {
             successCB: (_success: ResponseData) => {
                 setDataById('userDataRegister', { data: { userId: decodedId, token: token, tokenType: "FORGOT_PASSWORD_OTP" } });
                 navigate('/setpassword');
-                setDataById("snackBarInfo", {
-                    open: true,
-                    autoHideDuration: 2000,
-                    severity: "success",
-                    message: "success",
-                });
             },
             errorCB: (error: any) => {
                 navigate(routes.loginOrg())

@@ -109,7 +109,14 @@ import BookWhite from './book-white-new.svg';
 import EditBoxWhite from './edit-box-white-new.svg';
 import TicBoxWhite from './tic-box-white-new.svg';
 import CloseBoxWhite from './close-box-white.svg';
-
+import AccordionArrowIcon from "./AccordionArrowIcon.svg";
+import AccordionAddIcon from "./AccordionAddIcon.svg";
+import NoProfilePicture from "./NoProfilePicture.svg";
+import NoAddons from "./No Addons.svg";
+import NoProgramIcon from "./no-program-icon.svg";
+import ProgramIcon from "./programIcon.svg";
+import AddOnIcon from "./addOnIcon.svg";
+import VectorMenu from "./Vector-menu.svg";
 export {
   CalenderIcon,
   EditBoxWhite,
@@ -222,4 +229,12 @@ export {
   BookIcon,
   CloseCircle,
   UploadIcon,
+  AccordionArrowIcon,
+  AccordionAddIcon,
+  NoProfilePicture,
+  NoAddons,
+  NoProgramIcon,
+  ProgramIcon,
+  AddOnIcon,
+  VectorMenu
 };

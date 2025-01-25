@@ -39,7 +39,7 @@
             background-color: $clr_red_danger;
         }
         &.reviewing{
-            background-color: $clr_status_bar;
+            background-color:$clr_orange_dark;
         }
         &.default{
             background-color: transparent;
@@ -63,6 +63,13 @@
     .stepper-title{
         font-weight: $font_semibold;
         font-size: $p1;
+       
+    }
+    .stepper-desc{
+        font-family: $font;
+        font-size: $p3;
+        color:$clr_field;
+        white-space: pre-wrap;
     }
     &-header {
         font-weight: $font-bold !important;
@@ -144,7 +151,7 @@
         .daate_time{
          margin-top:1rem;
         }
-        margin-top: 3rem;
+        margin-top: 1rem;
         &-text {
             font-family: Inter;
             font-size: $h5 !important;
@@ -266,7 +273,7 @@
         }
 
         .edit-icon{
-            background-color: $clr_gray_20_percent !important;
+            // background-color: $clr_gray_20_percent !important;
 
         }
 
@@ -281,12 +288,7 @@
         flex-direction: column;
         row-gap: 2rem;
 
-        button{
-            margin-top: -6rem !important;
-            background-color: $clr_blue !important;
-            box-shadow: none !important;
-            line-height: 2rem;
-        }
+       
     }
 
     &-header{
@@ -332,8 +334,8 @@
             padding-right:1.5rem;
             border-radius: 0.75rem;
             svg{
-                width: 1.667rem !important;
-                height: 1.667rem !important;
+                width: 1.5rem !important;
+                height: 1.5rem !important;
             }
             &-header{
                 font-size: $h6 !important;
@@ -350,6 +352,7 @@
     }
     &-comments-container{
         padding-top: 2.5rem;
+        padding-bottom:6rem ;
        
         &-header{
             font-size: $p6 !important;
@@ -364,6 +367,10 @@
         &-subText{
             font-weight: $font_normal !important;
             color: $clr_charcoal_gray !important;
+        }
+
+        .MuiRating-root {
+            font-size: 2.5rem !important;
         }
 
     }
@@ -402,4 +409,15 @@
 
 
 
+}
+.upload-dropzone-text{
+    color: $clr_black !important;
+    font-size: $h6 !important;
+    font-weight: $font_semibold !important;
+}
+.upload-dropzone-subtext{
+    color: $clr_field !important;
+    font-size: $p2 !important;
+    font-weight: $font_medium !important;
+    justify-content: center !important;
 }

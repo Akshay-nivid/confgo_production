@@ -1,4 +1,5 @@
-import { Grid, Card, CardContent, Typography, IconButton, Box } from '@mui/material';
+import { Card, CardContent, Typography, IconButton, Box } from '@mui/material';
+import Grid from '@mui/material/Grid2';
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import CustomAutocomplete from '@/components/CustomAutocomplete/CustomAutocomplete';
 import { useForm } from 'react-hook-form';
@@ -6,7 +7,6 @@ import { useState } from 'react';
 import apiClient from '@/Libs/Https/API-client';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';
 import { Logger } from '@/Utils/Logger';
-// import { ISource } from '@/Libs/type';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import { CloseOutlined } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
@@ -47,16 +47,14 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
                       });
                     onClose();
                     volunteerList();
-                } else {
-                    setDataById("snackBarInfo", {
-                        open: true,
-                        autoHideDuration: 2000,
-                        severity: "error",
-                        message: "Failed to assign volunteeres",
-                      });
                 }
-
             } catch (error) {
+                setDataById("snackBarInfo", {
+                    open: true,
+                    autoHideDuration: 2000,
+                    severity: "error",
+                    message: "volunteer already assigned",
+                  });
                 Logger.error("AssignedVolunteers.tsx", error);
             }
     };
@@ -67,13 +65,18 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
     const handleSearch = async (query: string) => {
         setLoading(true);
         try {
-            let req: any = {
-                filters: {
-                    roleEnums: ["VOLUNTEER"],
-                     name: query,
-                     companyId: companyId,
-                },
+            const filters: any = {
+                roleEnums: ["VOLUNTEER"],
+                companyId: companyId,
             };
+    
+           if (/^\d+$/.test(query)) {
+                filters.phone = query; 
+            } else {
+                filters.name = query;
+            }
+    
+            const req: any = { filters };
             const response = await await apiClient.post(
                 `user/userRole/list`,
                 req
@@ -93,14 +96,30 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
     };
 
     /**
- * Updates the source for the data grid when an autocomplete selection is made.
- * @param selected - The selected item from the autocomplete list
- */
+    * Updates the source for the data grid when an autocomplete selection is made.
+    * @param selected - The selected item from the autocomplete list
+    */
     const handleAutocompleteChange = async (selected: any) => {
-
-            if (selected) {
-                setAssignedVolunteers((prev: any) => [...prev,{user:selected}]);
+            if (selected?.id) {
+                setAssignedVolunteers((prev: any) => {
+                    const isAlreadyAssigned = prev.some(
+                        (volunteer: any) => volunteer.user?.id === selected.id
+                    );
+                    if (!isAlreadyAssigned) {
+                        const updatedVolunteers = [...prev, { user: selected }];
+                        return updatedVolunteers;
+                    } else {
+                        setDataById("snackBarInfo", {
+                            open: true,
+                            autoHideDuration: 2000,
+                            severity: "error",
+                            message: "volunteer already Selected",
+                          });
+                        return prev;
+                    }
+                });
             }
+     
     };
 
     const handleDelete = (id: string) => {
@@ -115,9 +134,9 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
                 <Typography className='assigned-volunteer-main-label'>
                     Assign Volunteers
                 </Typography>
-                <IconButton>
-                    <CloseOutlined onClick={onClose} />
-                </IconButton>
+                <IconButton onClick={onClose} >
+                    <CloseOutlined />
+                </IconButton> 
             </Box>
 
             <Grid container className='assigned-volunteer-search'>
@@ -127,19 +146,28 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
                     placeholder="Search by ID, Name or Phone ..."
                     control={control}
                     options={searchResults}
-                    getOptionLabel={(option: any) => option?.firstName || ""}
+                    getOptionLabel={(option: any) => {
+                        const name = option?.firstName || '';
+                        const email = option?.email || '';
+                        const phone = option?.phone || '';
+                        if (!name && !email && !phone) {
+                            return '';
+                        }
+                        return `${name} ${email ? `(${email})` : ''}, ${phone ? phone : ''}`;
+                    }}                   
                     onSearch={handleSearch}
                     loading={loading}
                     onChange={handleAutocompleteChange}
                 />
             </Grid>
-            <Typography gutterBottom className='assigned-volunteer-label'>
+
+           {assignedVolunteers.length>0 &&(<Typography gutterBottom className='assigned-volunteer-label'>
                 Assigned Volunteers
-            </Typography>
+            </Typography>)}
 
             <Grid container spacing={2} className='assigned-volunteer-container-style'>
                 {assignedVolunteers?.map((volunteer) =>  (
-                    <Grid item xs={12} key={volunteer.id}>
+                    <Grid size={12} key={volunteer.id}>
                         <Card
                             variant="outlined"
                             className='assigned-volunteer-card'

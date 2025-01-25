@@ -1,0 +1,39 @@
+.Speaker-tooltip {
+    position: relative;
+  }
+    .Speaker-tooltip-stand {
+        width: 2rem; 
+        height: 2rem;
+        background-color:$clr_black;
+        clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+        transform: rotate(180deg); 
+        position: absolute;
+        top: -80%;
+        left: 18%;
+        visibility: hidden;
+        transform-origin: center; 
+        transform: translateX(-10%) rotate(180deg);
+        
+      }
+  
+  .Speaker-tooltip-content {
+    visibility: hidden;
+    background-color:$clr_black;
+    color: $clr_white;
+    border-radius: 4px;
+    padding:1rem;
+    position: absolute;
+    left:-260%;
+    width: 20rem;
+    height: 10rem;
+    transform: translateY(-150%);
+    white-space: nowrap;
+    border-radius: 0.5rem;
+  }
+  
+  .Speaker-tooltip:hover .Speaker-tooltip-content,
+  .Speaker-tooltip:hover .Speaker-tooltip-stand {
+    visibility: visible;
+    opacity: 1;
+  }
+  

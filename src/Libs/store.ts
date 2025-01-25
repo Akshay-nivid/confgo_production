@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { createJSONStorage, persist } from 'zustand/middleware'
 import apiClient from "./Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
-import { ICartData, ICartResponse, IParticipantCoupon, IParticipantOrder ,IUserEvents} from "./type";
+import { ICartData, ICartResponse, IParticipantCoupon, IParticipantOrder, IUserEvents } from "./type";
 
 
 /**
@@ -10,19 +10,23 @@ import { ICartData, ICartResponse, IParticipantCoupon, IParticipantOrder ,IUserE
 */
 interface CompData {
     [key: string]: any;
-
+    adminCompanyId?:{companyId:number};
     couponData?: { ["coupon/applyCoupon"]: IParticipantCoupon };
     order?: { order: IParticipantOrder };
     previousRoute?: { url: string };
-    finalPrice?: { value: number | null };
-    addToCart?: { cart: ICartResponse|null };
+    finalPrice?: { value: null | string | undefined };
+    addToCart?: { cart: ICartResponse | null };
     getCart?: { [cartKey: string]: ICartData | null };
     slugName?: { value: string };
     eventSelected?: { id: number | null };
     templateId?: { id: number | null };
     checkout?: { checkout: { data: any, loading: boolean, success: boolean } };
-    userEvents?:{["participant/registered/events"]:IUserEvents}
+    userEvents?: { ["participant/registered/events"]: IUserEvents }
 }
+
+
+
+
 
 type ApiRequestOptions = {
     url: string;
@@ -32,19 +36,35 @@ type ApiRequestOptions = {
     errorCB?: (context: any) => void;
 };
 
+interface NonPersistedData {
+    [key: string]: any;
+    checkUserPaymentinitialFetchDone: { value: boolean };
+    isProgramDetailsModelOpen: { value: boolean },
+    programDetails:{value:any},
+    isSpeakerDetailsModelOpen: { value: boolean },
+    speakerDetails:{value:any}
+
+
+}
+
 
 export interface IStoreState {
     compData: CompData;
+    nonPersistedData: NonPersistedData;
     userInfo: any; // Specify the type based on your user info structure
     setDataById: (id: string, data: any) => void;
     clearDataById: (id: string) => void;
     setUserInfo: (data: any) => void;
     resetStore: () => void;
+    setNonPersistedDataById:(
+        id: string,
+        data: any
+    ) => void;
     POST: (params: ApiRequestOptions) => void;
     GET: (params: ApiRequestOptions) => Promise<{ status: boolean; data: any; message: string }>;
     PUT: (params: ApiRequestOptions) => Promise<{ status: boolean; data: any; message: string }>;
     DELETE: (params: ApiRequestOptions) => Promise<{ status: boolean; data: any; message: string }>;
-    snackBar: ({severity,message,autoHideDuration}:{severity: "success"|"error",message:string,autoHideDuration?:number}) => void
+    snackBar: ({ severity, message, autoHideDuration }: { severity: "success" | "error", message: string, autoHideDuration?: number }) => void
 }
 
 /**
@@ -72,6 +92,13 @@ const useStore = create<IStoreState>()(
         (set, get) => ({
             compData: {},
             userInfo: {},
+            nonPersistedData: {
+                checkUserPaymentinitialFetchDone: { value: false },
+                isProgramDetailsModelOpen: { value: false },
+                programDetails:{value:null},
+                isSpeakerDetailsModelOpen: { value: false },
+                speakerDetails:{value:null}
+            },
             /**
              * Method to set data in global state using id
              * @param id :id
@@ -81,6 +108,7 @@ const useStore = create<IStoreState>()(
                 set((state: any) => ({
                     compData: {
                         ...state?.compData,
+
                         [id]: {
                             ...(state?.compData?.[id] || {}),
                             ...data
@@ -88,6 +116,28 @@ const useStore = create<IStoreState>()(
                     },
                 }))
             },
+
+
+            /**
+             * Method to set non persisted data in global state using id
+             * @param id :id
+             * @param data :data
+             */
+            setNonPersistedDataById: (
+                id: string,
+                data: any,
+            ) => {
+                set((state) => ({
+                    nonPersistedData: {
+                        ...state.nonPersistedData,
+                        [id]: {
+                            ...(state.nonPersistedData[id] || {}),
+                            ...data
+                        }
+                    },
+                }));
+            },
+
             /**
              * Method to clear global state by id
              * @param id :state id
@@ -124,13 +174,13 @@ const useStore = create<IStoreState>()(
                     successCB?.(context);
 
                 } else {
-                    let context = { data: data, loading: false, message:message }
+                    let context = { data: data, loading: false, message: message }
                     get().setDataById(id, { message, [url]: { ...context } });
                     errorCB?.(context)
                 }
                 return { status, data, message };
             },
-            GET: async ({ url,  id, successCB, errorCB }: ApiRequestOptions) => {
+            GET: async ({ url, id, successCB, errorCB }: ApiRequestOptions) => {
                 // Set loading state
                 get().setDataById(id, { [url]: { loading: true } });
                 // Make API call
@@ -142,7 +192,7 @@ const useStore = create<IStoreState>()(
                     successCB?.(context);
 
                 } else {
-                    let context = { data: data, loading: false, message:message }
+                    let context = { data: data, loading: false, message: message }
                     get().setDataById(id, { message, [url]: { ...context } });
                     errorCB?.(context)
                 }
@@ -160,13 +210,13 @@ const useStore = create<IStoreState>()(
                     successCB?.(context);
 
                 } else {
-                    let context = { data: data, loading: false, message:message }
+                    let context = { data: data, loading: false, message: message }
                     get().setDataById(id, { message, [url]: { ...context } });
                     errorCB?.(context)
                 }
                 return { status, data, message };
             },
-            DELETE: async ({ url,  id, successCB, errorCB }: ApiRequestOptions) => {
+            DELETE: async ({ url, id, successCB, errorCB }: ApiRequestOptions) => {
                 // Set loading state
                 get().setDataById(id, { [url]: { loading: true } });
                 // Make API call
@@ -178,18 +228,18 @@ const useStore = create<IStoreState>()(
                     successCB?.(context);
 
                 } else {
-                    let context = { data: data, loading: false, message:message }
+                    let context = { data: data, loading: false, message: message }
                     get().setDataById(id, { message, [url]: { ...context } });
                     errorCB?.(context)
                 }
                 return { status, data, message };
             },
-            snackBar: ({severity,message,autoHideDuration}) => {
+            snackBar: ({ severity, message, autoHideDuration }) => {
                 get().setDataById("snackBarInfo", {
                     open: true,
-                    autoHideDuration:autoHideDuration || 2000,
-                    severity:severity,
-                    message:message,
+                    autoHideDuration: autoHideDuration || 2000,
+                    severity: severity,
+                    message: message,
                 })
             }
         }),
@@ -197,9 +247,13 @@ const useStore = create<IStoreState>()(
         {
             name: "global-state-storage", // Unique name for local storage key
             storage: createJSONStorage(() => customStorage),
+            partialize: (state) => ({
+                compData: state.compData,
+                userInfo: state.userInfo,
+            }),
         }
     ),
 );
 
-export const { POST, GET, PUT, DELETE, setDataById, clearDataById, resetStore,snackBar } = useStore.getState();
+export const { POST, GET, PUT, DELETE, setDataById, clearDataById, resetStore, snackBar, setNonPersistedDataById } = useStore.getState();
 export default useStore;

@@ -76,16 +76,19 @@ const UserLogin = (props: UserProps) => {
     sessionStorage.clear();
     sessionStorage.setItem("token", data?.token);
     sessionStorage.setItem("userToken", data?.token);
-    sessionStorage.setItem("userId", data?.id.toString());
+    sessionStorage.setItem("userId", data?.id?.toString());
     sessionStorage.setItem('userLoggedInType', data?.userRole?.roleName);
     sessionStorage.setItem('isUserLoggedIn', 'true');
     sessionStorage.setItem('userRole', data?.userRole?.roleName);
     sessionStorage.setItem('name', `${data?.firstName} ${data?.lastName}`);
+    sessionStorage.setItem('cartId', data?.cartId)
+    setDataById('participantLogin', true);
+    setDataById('participantUserData', data);
     setDataById('participantLogin', true);
     apiClient.setToken(data.token);
     setDataById('userDetails', data);
     setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Login Successfully" });
-    navigate(data?.userRole?.roleName === "USER" && previousRoute ? previousRoute : roleToRouteMapper[data?.userRole?.roleName],{replace: true});
+    navigate(data?.userRole?.roleName === "USER" && previousRoute ? previousRoute : roleToRouteMapper[data?.userRole?.roleName], { replace: true });
     clearDataById('previousRoute');
   };
 
@@ -101,6 +104,11 @@ const UserLogin = (props: UserProps) => {
       id: props?.id,
       successCB: (context: ApiResponse) => {
         storeDetails(context?.data);
+        // clearDataById('previousRoute');
+
+        setDataById("adminCompanyId", { companyId: context?.data?.companyId });
+        sessionStorage.setItem('token', context?.data?.token);
+
         sessionStorage.setItem('ssoUser', 'false');
 
       },
@@ -130,6 +138,8 @@ const UserLogin = (props: UserProps) => {
       successCB: (context: ApiResponse) => {
         storeDetails(context?.data);
         sessionStorage.setItem('ssoUser', 'true');
+        // clearDataById('previousRoute');
+
       },
       errorCB: (context: any) => {
         setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });

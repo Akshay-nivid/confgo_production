@@ -5,11 +5,13 @@ import { SettingsIcon, LogoutIcon, DownArrowSvg, ResetPassword } from '@/assets/
 import Grid from '@mui/material/Grid2';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
-import { toSentenceCase, useIsMobileScreen } from '@/Utils/CommonBaseClass';
+import { processAPIResponse, toSentenceCase, useIsMobileScreen } from '@/Utils/CommonBaseClass';
 import useStore, { resetStore, setDataById } from '@/Libs/store';
 import MenuIcon from "../../assets/svg/Vector.svg"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MobileDashboardSideMenu from './MobileDashboardSideMenu';
+import apiClient from '@/Libs/Https/API-client';
+import config from "../../../config.json";
 interface LayoutAppbarProps {
   userDetails: {
     firstName: string;
@@ -24,6 +26,21 @@ interface LayoutAppbarProps {
  * @author Neethu
  */
 const LayoutAppbar: React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) => {
+  const baseUrl = config.api.url;  
+  const [picture,setPicture]=useState('');
+  /**
+   * get user Details
+   */
+    useEffect(() => {
+      userDetailss();
+    },);
+  const userDetailss=async()=>{
+    const response= await apiClient.get(`/user`);
+    const{data}=processAPIResponse(response,'');
+    if(data){
+      setPicture(data?.assetId);
+    }
+  }
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
   const role = sessionStorage.getItem('userRole');
@@ -73,12 +90,7 @@ const LayoutAppbar: React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =
     navigate(routes.accountsettings(), { state: { email: userDetails?.email } })
   };
   const isMobileView = useIsMobileScreen();
-  /**
- * Account settings
- */
-  // const handleAccountSettings = () => {
-  // };
-
+ 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
    // Toggle the drawer state
@@ -113,16 +125,22 @@ const LayoutAppbar: React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =
       {!isMobileView ? (
       <Grid  className="appbars-right" container>
         <Grid size={2} className="appbars-group" onClick={handleMenuOpen} >
-          {/*Image */}
           <Grid size={1} className="appbars-group-img" mb={0}>
-            {userDetails?.firstName && userDetails?.lastName ? (
-              <Avatar className="appbars-group-avatar" >
-                {`${userDetails.firstName[0]}${userDetails.lastName[0]}`.toUpperCase()}
-              </Avatar>
-            ) : (
-              <Avatar>
-              </Avatar>
-            )}
+          {picture ? (
+          <Avatar
+          src={`${baseUrl}asset/${picture}`}
+          className="appbars-group-avatar"
+          alt="User Profile"
+          variant="circular"
+          />
+          ) : userDetails?.firstName && userDetails?.lastName ? (
+          <Avatar className="appbars-group-avatar">
+          {`${userDetails.firstName[0]}${userDetails.lastName[0]}`.toUpperCase()}
+         </Avatar>
+         ) : (
+         <Avatar className="appbars-group-avatar" />
+         )}
+
           </Grid>
           {/* Name and Role */}
           <Grid size={7} className="appbars-group-textgroup">
@@ -164,11 +182,11 @@ const LayoutAppbar: React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =
 
           </MenuItem>
           <Divider />
-          {role !== 'SPEAKER' && <><MenuItem className="menu-item-margin" onClick={handleProfileClick} >
+          {role !== 'SPEAKER' && role !== 'REVIEWER' &&<><MenuItem className="menu-item-margin" onClick={handleProfileClick} >
             <SettingsIcon   className="user-profile-menu-icon"/>
             <span className="menu-item-text">Profile</span>
           </MenuItem>
-          <MenuItem className="" onClick={handleResetPassword}>
+          <MenuItem className="user-dash-space-fix" onClick={handleResetPassword}>
             <ResetPassword className="user-profile-menu-icon"  />
             <span className="menu-item-text">Change Password</span>
           </MenuItem></>}

@@ -1,17 +1,17 @@
 /**
  * Component displays the top menu section of the template
  */
-import useStore, { resetStore, setDataById } from '@/Libs/store';
-import { getUserToken, handleLogout, useIsMobileScreen } from '@/Utils/CommonBaseClass';
+import useStore, { clearDataById, resetStore, setDataById } from '@/Libs/store';
+import { getUserToken, handleLogout, useIsMobileOrTabletScreen } from '@/Utils/CommonBaseClass';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import routes from '@/router/routes';
 import Grid from '@mui/material/Grid2';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import config from "../../../../config.json";
-import {  Drawer } from '@mui/material';
+import { Drawer } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import {  CloseIcon } from '@/assets/svg';
+import { CloseIcon } from '@/assets/svg';
 
 type TopMenuSectionProps = {
     data?: any;
@@ -24,6 +24,7 @@ type TopMenuSectionProps = {
 }
 
 
+
 /**
  * Component displays the top menu section of the template
  */
@@ -33,11 +34,57 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, classP
     const navigate = useNavigate();
     const location = useLocation();
     const baseUrl = config.api.url;
-    const slugName = useStore((state: any) => state?.compData?.["slugName"]?.slugName) || '';
+    const slugName = useStore((state: any) => state?.compData?.["slugName"]?.value) || '';
     const slugInfo = useStore((state: any) => state?.compData?.['slugEventDetails']?.[`event/slug/${slugName}`]?.data) ?? [];
 
+    const currentLink = useStore((state: any) => state?.compData?.['currentLink']?.value) || ''
 
-    const isMobileScreen = useIsMobileScreen();
+    const isMobileOrTabletScreen = useIsMobileOrTabletScreen();
+
+
+
+    function scrollToTargetLink(link: 'About' | 'Program' | 'Contributors' | 'Location') {
+
+        if (link === 'About') {
+            onScrollToAbout()
+            return
+        }
+        if (link === 'Program') {
+            onScrollToProgram()
+            return
+        }
+        if (link === 'Contributors') {
+            onScrollToContributors()
+            return
+        }
+        if (link === 'Location') {
+            onScrollToLocation()
+            return
+        }
+    }
+
+
+    useEffect(() => {
+        if (currentLink) {
+          const timer = setTimeout(() => {
+            const element = document.getElementById(currentLink);
+            if (element) {
+                scrollToTargetLink(currentLink);
+                clearDataById('currentLink')
+                
+            }
+          }, 100);
+      
+            return () => {
+                clearTimeout(timer)
+            };
+        }
+        // ...
+      }, [location, currentLink]);
+
+
+
+
 
     /**
      * Opens the drawer component
@@ -86,6 +133,33 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, classP
         });
     }
 
+    /**
+     * Handles the click event on a link, prevents the default anchor behavior,
+     * and triggers the scroll to the "About" section.
+     *
+     * @param {React.MouseEvent<HTMLAnchorElement>} e - The mouse event triggered by the link click.
+     */
+
+    function handleLinkClick(value: 'About' | 'Program' | 'Contributors' | 'Location') {
+
+
+        if (location?.pathname?.startsWith('/event-link')) {
+            scrollToTargetLink(value)
+
+        } else {
+            setDataById('currentLink', { value: value });
+
+            const targetRoute = `/event-link/${slugName}`
+
+            navigate(targetRoute);
+
+
+        }
+        handleCloseDrawer()
+    }
+
+
+  
 
 
 
@@ -96,17 +170,9 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, classP
 
 
                 {
-                    isMobileScreen ? (
+                    isMobileOrTabletScreen ? (
                         <>
-                            <Grid className={`${classPrefix}-logo`}>{(data?.assetId || slugInfo?.assetId) ? <img
-                                className={`${classPrefix}-logo-img`}
-                                src={`${baseUrl}asset/${data?.assetId ?? slugInfo?.assetId ?? ''}`}
-                            /> : <Grid></Grid>}</Grid>
-
-                            <Grid >
-                                <MenuIcon onClick={handleOpenDrawer} className={`${classPrefix}-burger`} />
-                            </Grid>
-
+                            <MobileNavbar classPrefix={classPrefix} data={data} slugInfo={slugInfo} handleOpenDrawer={handleOpenDrawer} />
                         </>
                     )
                         :
@@ -115,14 +181,14 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, classP
                                 className={`${classPrefix}-logo-img`}
                                 src={`${baseUrl}asset/${data?.assetId ?? slugInfo?.assetId ?? ''}`}
                             /> : <Grid></Grid>}</Grid>
-                            {location.pathname.startsWith('/event-link') && <Grid container spacing={2}>
-                                <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToAbout(e) }}> About </Link></Grid>
-                                {data?.eventSpeakers?.length > 0 && <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToContributors(e) }}> Contributors </Link></Grid>}
-                                <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToProgram(e) }}> Programs </Link></Grid>
-                                {data?.venue?.mapUrl && <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToLocation(e) }}> Location </Link></Grid>}
-                            </Grid>}
+                            <Grid container spacing={4}>
+                                <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={() => handleLinkClick('About')}> About </Link></Grid>
+                                {data?.eventSpeakers?.length > 0 && <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={() => { handleLinkClick('Contributors') }}> Contributors </Link></Grid>}
+                                <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={() => { handleLinkClick('Program') }}> Programs </Link></Grid>
+                                <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={() => { handleLinkClick('Location') }}> Location </Link></Grid>
+                            </Grid>
                             <Grid container spacing={2}>
-                                {getUserToken() ? <Grid className={`${classPrefix}-book-button`}><CustomButton label='Logout' onClick={logoutFn}/></Grid> :
+                                {getUserToken() ? <Grid className={`${classPrefix}-book-button`}><CustomButton label='Logout' onClick={logoutFn} /></Grid> :
                                     <><Grid className={`${classPrefix}-login-button`}><span role='button' onClick={loginFn}> Login </span></Grid>
                                         <Grid className={`${classPrefix}-button-border`}></Grid>
                                         <Grid className={`${classPrefix}-book-button`}><CustomButton onClick={SignupFn} label='Signup'
@@ -132,7 +198,7 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, classP
                 }
             </Grid>
 
-            {isMobileScreen && <Drawer
+            {isMobileOrTabletScreen && <Drawer
 
                 PaperProps={{
                     sx: {
@@ -147,23 +213,26 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, classP
                 <CloseIcon onClick={handleCloseDrawer} className={`${classPrefix}-container-close-icon`} />
 
                 <Grid container flexDirection={'column'} height={'100vh'} className={`${classPrefix}-container-drawer`} >
-                    
-                    {location.pathname.startsWith('/event-link') &&
-                        <Grid container flexDirection={'column'} rowSpacing={4}>
-                            <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToAbout(e) }}> About </Link></Grid>
-                            <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToContributors(e) }}> Contributors </Link></Grid>
-                            <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToProgram(e) }}> Programs </Link></Grid>
-                            <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={(e) => { e.preventDefault(); onScrollToLocation(e) }}> Location </Link></Grid>
-                        </Grid>}
+
+
+                    <Grid container flexDirection={'column'} rowSpacing={4}>
+                        <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={() => handleLinkClick('About')}> About </Link></Grid>
+                        {data?.eventSpeakers?.length > 0 && <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={() => handleLinkClick('Contributors')}> Contributors </Link></Grid>}
+                        <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={() => handleLinkClick('Program')}> Programs </Link></Grid>
+                        <Grid className={`${classPrefix}-sub-item`}><Link to={'#'} onClick={() => handleLinkClick('Location')}> Location </Link></Grid>
+                    </Grid>
 
                     <Grid container spacing={2} flexDirection={'column'} marginTop={"auto"}>
-                       
-                        {getUserToken() ? <Grid className={`${classPrefix}-book-button`}><CustomButton fullWidth label='Logout'  onClick={logoutFn}/></Grid> :
-                            <><Grid className={`${classPrefix}-book-button login`}><CustomButton fullWidth onClick={loginFn} label='Login' /> </Grid>
-                                {/* <Grid className={`${classPrefix}-button-border`}></Grid> */}
-                                <Grid className={`${classPrefix}-book-button`}><CustomButton fullWidth onClick={SignupFn} label='Signup'
-                                /></Grid></>}
-                        
+
+                        {getUserToken() ?
+                            <Grid className={`${classPrefix}-book-button`}><CustomButton fullWidth label='Logout' onClick={logoutFn} /></Grid>
+                            :
+                            <>
+                                <Grid className={`${classPrefix}-book-button login`}><CustomButton fullWidth onClick={loginFn} label='Login' /> </Grid>
+                                <Grid className={`${classPrefix}-book-button`}><CustomButton fullWidth onClick={SignupFn} label='Signup' /></Grid>
+                            </>
+                        }
+
                     </Grid>
                 </Grid>
 
@@ -173,3 +242,34 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, classP
 });
 
 export default TopMenuSection;
+
+
+
+const MobileNavbar = React.memo(({ classPrefix, data, slugInfo, handleOpenDrawer, }: { classPrefix: any, data: any, slugInfo: any, handleOpenDrawer: () => void }) => {
+
+    const baseUrl = config.api.url;
+
+    return (
+        <>
+
+            <Grid className={`${classPrefix}-logo`}>
+
+                {(data?.assetId || slugInfo?.assetId) ?
+                    <img
+                        className={`${classPrefix}-logo-img`}
+                        src={`${baseUrl}asset/${data?.assetId ?? slugInfo?.assetId ?? ''}`}
+                    />
+                    :
+                    <Grid></Grid>
+                }
+
+            </Grid>
+
+            <Grid >
+                <MenuIcon onClick={handleOpenDrawer} className={`${classPrefix}-burger`} />
+            </Grid>
+        </>
+    )
+
+}
+)

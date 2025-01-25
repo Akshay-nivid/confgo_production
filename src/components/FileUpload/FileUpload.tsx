@@ -7,6 +7,7 @@ import DeleteIcon from '@mui/icons-material/Close';
 import CustomButton from '../CustomButton/CustomButton';
 import clsx from 'clsx';
 import DownloadIcon from '../../assets/svg/abstract-download.svg';
+import { PdfIcon } from '@/assets/svg';
 
 interface Resolution {
   width: number | null;
@@ -41,8 +42,8 @@ const FileUpload: React.FC<FileUploadProps> = ({
   resolution = { width: null, height: null },
   onSubmit,
   trimClientSide = true,
-  width = '30rem',
-  height = '30rem',
+  // width = '30rem',
+  // height = '30rem',
   className,
   isAbstract,
   disabled = false,
@@ -53,7 +54,9 @@ const FileUpload: React.FC<FileUploadProps> = ({
   const setDataById = useStore((state: any) => state.setDataById);
   const POST = useStore((state: any) => state.POST);
 
-  const loading = useStore((state: any) => state.compData?.['assetUpload']?.['asset']?.loading);
+  const assetUploadLoading = useStore((state: any) => state.compData?.['assetUpload']?.['asset']?.loading);
+
+  // const loading = useStore((state: any) => state.compData?.['assetUpload']?.['asset']?.loading);
 
   /**
    * Trims the image to the specified resolution.
@@ -196,9 +199,12 @@ const FileUpload: React.FC<FileUploadProps> = ({
     setSelectedFiles(prev => prev.filter((_, i) => i !== index));
     setPreviewUrls(prev => prev.filter((_, i) => i !== index));
   };
+  const isPDF = (file: File) => file.type === 'application/pdf';
 
   return (
-    <Grid className={clsx('file-upload', className)} container style={{ width, height }} justifyContent={'flex-end'}>
+    <Grid className={clsx('file-upload', className)} container 
+    // style={{ width, height }} 
+    justifyContent={'flex-end'}>
       <Grid {...getRootProps()} className={isAbstract ? 'file-upload-dropzone file-upload-abstract-dropzone' : 'file-upload-dropzone'} size={{ xs: 12 }}>
         <input {...getInputProps()} disabled={disabled} />
         {selectedFiles.length === 0 && (
@@ -218,31 +224,42 @@ const FileUpload: React.FC<FileUploadProps> = ({
                 </Grid>
               </Grid>
             ) : (
-              <Typography>Drag & drop files here, or click to select files</Typography>
+              <>
+              <Typography className="upload-dropzone-text">Drag & drop or click here to upload.</Typography>
+              <Typography className="upload-dropzone-subtext">Choose a file to upload, Max file size: 1MB.</Typography>
+              <Typography className="upload-dropzone-subtext">Recommended ratio: 16:9 for best fit</Typography>
+              </>
             )}
           </Grid>
         )}
 
         {/* File previews with remove button and upload progress */}
         <Grid className="file-upload-preview" justifyContent={'center'}>
-          {previewUrls.map((url, index) => (
-            <Grid key={index} className="file-upload-preview-item">
-              <img src={url} alt={`preview ${index}`} />
-              {/* Display the file name */}
+          {previewUrls.map((url, index) => {
+            const file = selectedFiles[index];
+            const isFilePDF = isPDF(file);
+            return (
+              <Grid key={index} className="file-upload-preview-item">
+                {isFilePDF ? (
+                  <PdfIcon className='file-upload-preview-item-pdf'/> 
+                ) : (
+                  <img src={url} alt={`preview ${index}`} />
+                )}
 
-              <IconButton
-                onClick={event => {
-                  event.stopPropagation(); // Prevent file manager from opening
-                  handleRemoveFile(index); // Your existing function to remove the file
-                }}
-              >
-                <DeleteIcon />
-              </IconButton>
-              <Typography className="file-upload-preview-item-name" variant="body2" align="center" title={selectedFiles[index]?.name}>
-                {selectedFiles[index]?.name}
-              </Typography>
-            </Grid>
-          ))}
+                <IconButton
+                  onClick={event => {
+                    event.stopPropagation();
+                    handleRemoveFile(index); // Remove file
+                  }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+                <Typography className="file-upload-preview-item-name" variant="body2" align="center" title={file.name}>
+                  {file.name}
+                </Typography>
+              </Grid>
+            );
+          })}
         </Grid>
         {/* Display rejection messages */}
         {rejectionMessages.length > 0 && (
@@ -259,7 +276,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
       {/* Show submit button only if files are selected */}
       {selectedFiles.length > 0 && (
         <Grid>
-          <CustomButton variant="contained" color="primary" onClick={handleSubmit} label="Upload" isLoading={loading} className="file-upload-button" />
+          <CustomButton variant="contained" color="primary" onClick={handleSubmit} disabled={assetUploadLoading} label="Upload" isLoading={assetUploadLoading} className="file-upload-button" />
         </Grid>
       )}
     </Grid>

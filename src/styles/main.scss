@@ -3,6 +3,7 @@
 @tailwind utilities;
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;800;900&display=swap");
 
+@import "../pages/Delete-Account/style";
 @import "../components/style";
 @import "../pages/register/style";
 @import "../pages/dashboard-layout/layout";
@@ -48,4 +49,6 @@
 @import '../components/CustomToolTip/CustomTooltip.scss';
 @import "../pages/Speaker/Home/style.scss";
 @import '../pages/Reviewer/style.scss';
-@import '../components/CustomCalendar/CustomCalendar.scss'
+@import '../components/CustomCalendar/CustomCalendar.scss';
+@import '../pages/events/view/TeamAndRole.scss';
+@import '../pages/events/template/TemplateTimer/_style.scss';

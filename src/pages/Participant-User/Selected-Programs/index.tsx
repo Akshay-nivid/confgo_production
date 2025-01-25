@@ -7,9 +7,8 @@ import { useForm } from "react-hook-form";
 import { CouponIcon } from "@/assets/svg";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
-import useStore, { clearDataById, GET, IStoreState, POST } from "@/Libs/store";
+import useStore, { clearDataById, GET, IStoreState, POST, snackBar } from "@/Libs/store";
 import routes from "@/router/routes";
-import { handleGroupData } from "../Program-Selection/programsHandlers";
 import { processFormData, formatDate } from "../Program-Selection/programsHandlers";
 import { EventRegistrationSuccessIcon } from "@/assets/svg";
 import CloseIcon from '@mui/icons-material/Close';
@@ -20,6 +19,8 @@ import Badge from "../Components/Badge";
 import { Dollar } from '@/assets/svg'
 import LocalTimeDate from "@/components/LocalTimeDate/LocalTimeDate";
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
+import { getUserCart } from "@/pages/events/template/programHandler";
+import { handleCartProcessing } from "../Payment-Method/programHandler";
 
 /**
  * Compoennt used to render selected program
@@ -27,8 +28,10 @@ import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined
 const SelectedPrograms = () => {
 
 
+  const userToken = sessionStorage.getItem("userToken");
+
   const navigate = useNavigate();
-  const location = useLocation()
+  const location = useLocation();
 
 
   const selectedPrograms = useStore((state: IStoreState) => state?.compData?.["formatedCartData"]?.["formatedData"]) ?? null;
@@ -134,6 +137,14 @@ const SelectedPrograms = () => {
   }
 
 
+/**
+ * Navigates to the dynamic user form page
+ * @param route - The route to navigate to
+ */
+  function handleDynamicNavigation(route:string) {
+
+    navigate(route)
+   }
 
 
   /**
@@ -146,40 +157,37 @@ const SelectedPrograms = () => {
   function handleClickNextButton() {
 
 
-    const token = sessionStorage.getItem("token")
-    if (!token) {
+    const token = sessionStorage.getItem("userId")
 
-      navigate(routes.userLogin())
+    if (!token) {
       setDataById('previousRoute', { url: location.pathname })
+      navigate(routes.userLogin())
       return;
     }
 
+    
 
-    const body = couponData?.data?.coupon?.code ? {
-      coupon: couponData?.data?.coupon?.code,
-      cartId: cartId
-    } : {
-      cartId: cartId
+    const coupon = couponData?.data?.coupon?.code || null; 
+
+
+    const body = {
+      cartId: cartId,
+      ...(coupon && {coupon:coupon})
+
     }
 
     POST({
-      url: "order", id: "order", body: body, successCB: () => {
-
+      url: "order", id: "order", body: body, successCB: (orderResponse: any) => {
+        
 
         GET({
-          /**
-           * Callback function to handle the response from the dynamic form API.
-           * Navigates to the payment method page if no dynamic form data is returned.
-           * Otherwise, it parses the metadata from each form item, stores the parsed
-           * data, and navigates to the dynamic user form page.
-           * 
-           * @param dynamicFormResponseData - Response data containing dynamic form information.
-           */
           url: `event/form/${eventId}`, id: "dynamicFormData", successCB: (dynamicFormResponseData: any) => {
 
             if (dynamicFormResponseData.data.length === 0) {
-              navigate(routes.userPaymentMethod())
-              return
+
+            handleCartProcessing({ helperFn: handleDynamicNavigation, grandTotal: finalPrice, orderId: orderResponse?.data?.id, eventId: eventId })
+              // navigate(routes.userPaymentMethod())
+              // return
             }
 
             else {
@@ -202,7 +210,9 @@ const SelectedPrograms = () => {
         })
 
 
-      }, errorCB: () => { }
+      }, errorCB: (err) => {
+        snackBar({severity:'error',message:err?.message || 'something went wrong'})
+       }
     })
 
 
@@ -236,15 +246,11 @@ const SelectedPrograms = () => {
 
   }
 
-  /**
-   * Handles the toggle event of an addon checkbox.
-   * 
-   * This function is called when an addon checkbox is toggled. It parses the key to extract the date and id components.
-   * It then resets the value of the corresponding addon property in the form to an empty array.
-   * Afterward, it processes the updated form data, updates the cart, and stores the default program data.
-   * 
-   * @param key - The key of the checkbox in the format "date-addon-addonId".
-   */
+  
+
+
+
+  
  
 
   /**
@@ -261,35 +267,14 @@ const SelectedPrograms = () => {
       id: 'addToCart',
 
       successCB: () => {
-        GET({
-          url: `cart/${cartId}`,
-          id: 'getCart',
-          successCB: (response: any) => {
 
-            setDataById("finalPrice", { value: response?.data?.cart?.finalPrice })
-
-            const formatedData = handleGroupData({
-              addons: response?.data?.addons,
-              programs: response?.data?.programs,
-              calculateTotal: true
-            })
-
-            setDataById("formatedCartData", { formatedData: formatedData })
-
+        getUserCart({
+          helperFn: () => {
             setTimeout(() => {
-              reset(formData) // storing form datato set default value
+              reset(formData) 
             }, 1)
-
           },
-          errorCB: (error: any) => {
-            setDataById("snackBarInfo", {
-              open: true,
-              autoHideDuration: 2000,
-              severity: "error",
-              message: error?.message || 'something went wrong',
-            })
-
-          }
+          cartID:cartId
         })
 
       },
@@ -382,7 +367,7 @@ const SelectedPrograms = () => {
                             <Grid size={12} container justifyContent={'space-between'}>
 
                               <Grid className="time-chip-container" size={12} width={"max-content"}>
-                                <Chip className="time-chip" size="medium" icon={<TimerOutlinedIcon />} label={moment(item?.startTime).format("h:mm A") + ' ' + '-' + ' ' + moment(item?.endTime).format("h:mm A")} />
+                                 <Chip className="time-chip" size="medium" icon={<TimerOutlinedIcon />} label={moment(item?.startTime).format("h:mm A") + ' ' + '-' + ' ' + moment(item?.endTime).format("h:mm A")} />
                               </Grid>
                               <Badge text="Program" type="program" />
 
@@ -435,7 +420,7 @@ const SelectedPrograms = () => {
 
                             return (
 
-                              <Grid>
+                              <Grid key={addon.id}>
                                 {/* {index === 0 && <Grid textAlign={'center'} size={12} className="card-header card-header-wrapper">Addon</Grid>} */}
                                 <Grid className="addon-list-item-wrapper" size={12} container key={addon?.eventAddon?.id}>
 
@@ -544,10 +529,11 @@ const SelectedPrograms = () => {
               </>
             ))
           }
-          {!couponData?.data?.coupon?.code ?
+          {userToken&&(
+          !couponData?.data?.coupon?.code ?(
             <Grid className="coupon-container">
 
-              <Typography className="apply-coupon-header">
+             <Typography className="apply-coupon-header">
                 Apply Coupons
               </Typography>
 
@@ -575,8 +561,8 @@ const SelectedPrograms = () => {
 
               </Grid>
 
-            </Grid> :
-
+            </Grid>
+               ) :(
 
             <Grid display={'flex'} justifyContent={'space-between'} size={12} className="coupon-banner-container  ">
 
@@ -595,8 +581,8 @@ const SelectedPrograms = () => {
               </IconButton>
 
             </Grid>
-          }
-
+           )
+          )}
 
           <Grid container flexDirection={"column"} className="bill-details-container">
 

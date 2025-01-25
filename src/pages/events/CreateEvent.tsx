@@ -16,17 +16,23 @@ import "react-quill/dist/quill.snow.css";
 import config from "../../../config.json";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import { validateEmail, validatePhoneNumber } from "@/Utils/Validation";
+import { validateEmail } from "@/Utils/Validation";
 import { validateMaxLength } from '@/Utils/Validation';
 import GoogleMapPlacePicker from "./GoogleMapPlacePicker";
 import useStore, { setDataById } from "@/Libs/store";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
+import confgo  from "../../../config.json"
 
 type EventProps = {
   formSubmit: boolean;
+  formDraftSubmit: boolean;
   onSubmitHandler: (
     event: React.FormEvent<HTMLFormElement>,
+    type: string
+  ) => void;
+  onDraftSubmitHandler: (
+    event: any,
     type: string
   ) => void;
   data: any;
@@ -72,7 +78,7 @@ interface Specialty{
   label:string
 }
 const CreateEvent: React.FC<EventProps> =
-  ({ formSubmit, onSubmitHandler, data }) => {
+  ({ formSubmit, formDraftSubmit, onSubmitHandler, onDraftSubmitHandler, data }) => {
     const methods = useForm<FormData>()
     const {
       handleSubmit,
@@ -96,7 +102,7 @@ const CreateEvent: React.FC<EventProps> =
   const [isInitialRender, setIsInitialRender] = useState(true);
   const POST = useStore((state: any) => state.POST);
   const [specialty,setspecialty]=useState<Specialty[]>([]);
-
+  const currency=confgo.currency;
     // Watch values from the form
     const fields: ('mapUrl' | 'postalCode' | 'venueName' | 'city' | 'address')[] = ['mapUrl', 'postalCode', 'venueName', 'city','address'];
     const mapUrl = watch('mapUrl');
@@ -173,6 +179,15 @@ const CreateEvent: React.FC<EventProps> =
     }, [formSubmit]);
 
     /**
+     * Useeffect hook handles the form submission based on the formSubmit variable
+     */
+    useEffect(() => {
+      if (formDraftSubmit) {
+        onDraftSubmitHandler && onDraftSubmitHandler(watch(), "EVENT");
+      }
+    }, [formDraftSubmit]);
+
+    /**
      * Method handles the form submission
      * @param data
      */
@@ -189,6 +204,13 @@ const CreateEvent: React.FC<EventProps> =
       }
       const startTime = new Date(data.startTime);
       const endTime = new Date(data.endTime);
+      const today = new Date();
+
+       // Remove time portion for date-only comparison
+      today.setHours(0, 0, 0, 0);
+      startTime.setHours(0, 0, 0, 0);
+      endTime.setHours(0, 0, 0, 0);
+
       if(selectedFile){
         setValue('assetId',selectedFile[0]?.id) 
       }
@@ -198,6 +220,14 @@ const CreateEvent: React.FC<EventProps> =
           message: 'Start date cannot be greater than end date',
         });
         return
+      }
+
+      if (startTime < today) {
+        setError('startTime', {
+          type: 'manual',
+          message: 'Dates cannot be in the past',
+        });
+        return;
       }
     //store the dates to compare 
       useStore.getState().setDataById("event-date", { startDate: startTime });
@@ -399,11 +429,12 @@ const CreateEvent: React.FC<EventProps> =
                       placeholder="Phone"
                       control={control}
                       name="phone"
-                      type="phone"
-                      rules={{
+                      type="text"
+                      isNumeric={true}
+                       rules={{
                         required: 'Phone is required',
-                        pattern: validatePhoneNumber({})
-                      }}
+                      //   pattern: validatePhoneNumber({})
+                       }}
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 6 }}>
@@ -432,7 +463,7 @@ const CreateEvent: React.FC<EventProps> =
                         required:true,
                         pattern: {
                           value: /^\d{4}-\d{2}-\d{2}$/, 
-                          message: "Please enter a valid start start date (DD-MM-YYYY)"
+                          message: "Please enter a valid start date (DD-MM-YYYY)"
                         }
                       }}
                     />
@@ -458,9 +489,17 @@ const CreateEvent: React.FC<EventProps> =
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField
                       placeholder="Price"
+                       prefix={currency}
                       control={control}
                       name="amount"
                       type="number"
+                      rules={{
+                        pattern: {
+                        value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
+                          message:
+                            "Enter a valid price (up to 2 decimal places & Zero not accepted)price up to 1Crore",
+                        }
+                      }}
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 6 }}>
@@ -471,6 +510,8 @@ const CreateEvent: React.FC<EventProps> =
                     control={control}
                     label="Specialty"
                     options={specialty}
+                    defaultValue={data?.speciality?.name}
+                    onChange={() => setValue('isAbstract',false)}
                     />
                   </Grid>
                   {watch('specialtyId')=='1'&&
@@ -497,7 +538,7 @@ const CreateEvent: React.FC<EventProps> =
                         required:true,
                         pattern: {
                           value: /^\d{4}-\d{2}-\d{2}$/, 
-                          message: "Please enter a valid start start date (DD-MM-YYYY)"
+                          message: "Please enter a valid start date (DD-MM-YYYY)"
                         }
                       }}
                     />
@@ -521,10 +562,11 @@ const CreateEvent: React.FC<EventProps> =
 
                   {watch("type") !== "ONLINE" && (
                     <>
-                    <Grid size={12} container justifyContent={"flex-start"} alignItems={"center"}>
+                    <Grid size={12} container justifyContent={"flex-start"} alignItems={"center"} id = "create-event-location-button"
+                    >
                       <CustomButton
                       className="create-event-choose-map"
-                        label="Choose Location"
+                        label="Choose Venue"
                         onClick={()=>setDrawerOpen(true)}
                         />
                           <Tooltip title="Location details fills up on once choose desired location" arrow>
@@ -541,7 +583,7 @@ const CreateEvent: React.FC<EventProps> =
                         mb={0}
                       >
                         <CustomTextField
-                          placeholder="Location URL (must be a Google Maps link with latitude and longitude)"
+                          placeholder="Venue URL (must be a Google Maps link with latitude and longitude)"
                           control={control}
                           name="mapUrl" 
                           type="text" 
@@ -613,7 +655,7 @@ const CreateEvent: React.FC<EventProps> =
                           rules={{
                             required: watch("type") === "OFFLINE",
                             pattern: {
-                              value: /(^\d{5}(-\d{4})?$)|(^\d{6}$)/,
+                              value: /^.{1,10}$/,
                               message: "Enter a valid postal code (e.g., '12345', '12345-6789', or '123456')",
                             },
                           }}

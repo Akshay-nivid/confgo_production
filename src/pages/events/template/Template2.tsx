@@ -11,13 +11,14 @@ import TicketingSection from './TicketingSection';
 import LocationSection from './LocationSection';
 import RegisterBannerSection from './RegisterBannerSection';
 import TopMenuSection from './TopMenuSection';
-import { formatDateRange, toTitleCase, truncateString } from '@/Utils/CommonBaseClass';
+import { formatDateRange, getLocalTimeDate, toTitleCase, truncateString } from '@/Utils/CommonBaseClass';
 import LocationIcon from '@/assets/svg/template1-location.svg';
 import CalendarIcon from '@/assets/svg/template1-calendar.svg';
 import EmailIcon from '@/assets/svg/template1-email.svg';
 import LinkIcon from '@/assets/svg/template1-url.svg';
-import { Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import TitleSection from './TitleSection';
+import TimerCounterComp from './TemplateTimer/TimerCounterComp';
 
 
 type TemplateViewProps = {
@@ -32,7 +33,19 @@ const Template2: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     const programRef = useRef(null);
     const tierRef = useRef(null);
     const LocationRef = useRef(null);
-    const [copied, setCopied] = useState(false);
+    // const [copied, setCopied] = useState(false);
+    const [day, setDay] = useState<string>('');
+    const [hour, setHour] = useState<string>('');
+    const [minute, setMinute] = useState<string>('');
+    const [second, setSecond] = useState<string>('');
+  
+    // Callback function to receive the updated time values from TimerCounterComp
+    const handleTimeUpdate = (day: string, hour: string, minute: string, second: string) => {
+      setDay(day);
+      setHour(hour);
+      setMinute(minute);
+      setSecond(second);
+    };
 
     //Create item array dynamically based on Event Class
     const itemArray = [];
@@ -54,20 +67,20 @@ const Template2: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     //     itemArray.push({ icon: <PhoneIcon />, label: "Phone", value: data?.eventContacts[0]?.phone || "" });
     // }
 
-    const CopyUrl = data?.venue?.mapUrl
+    // const CopyUrl = data?.venue?.mapUrl
 
     /**
     * Method to copy the URL to clipboard
     */
-    const copyToClipboard = () => {
-        const url = data?.venue?.mapUrl;
-        if (url) {
-            navigator.clipboard.writeText(url).then(() => {
-                setCopied(true); // Indicate that the URL was copied
-                setTimeout(() => setCopied(false), 3000); // Reset copied state after 2 seconds
-            });
-        }
-    };
+    // const copyToClipboard = () => {
+    //     const url = data?.venue?.mapUrl;
+    //     if (url) {
+    //         navigator.clipboard.writeText(url).then(() => {
+    //             setCopied(true); // Indicate that the URL was copied
+    //             setTimeout(() => setCopied(false), 3000); // Reset copied state after 2 seconds
+    //         });
+    //     }
+    // };
     /**
      * Method handles the scroll functionality based on click event
      * @param ref : event reference
@@ -88,8 +101,8 @@ const Template2: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                 <TopMenuSection  classPrefix={`${classPrefix}-top-menu`} data={data} onScrollToProgram={() => handleScrollTo(programRef)} onScrollToAbout={() => handleScrollTo(aboutRef)} onScrollToContributors={() => handleScrollTo(contributorsRef)} onScrollToLocation={() => handleScrollTo(LocationRef)} />
                 <Grid  container size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} direction={'row'}>
                   
-                    <Grid   container className={`${classPrefix}-title-container`} size={{ xs: 12, sm: 6,lg:12 }} alignItems={'center'}>
-                        <Grid  container direction={'column'} alignItems={'center'} justifyContent={"center"} className={`${classPrefix}-title`}>
+                    <Grid   container className={`${classPrefix}-title-container`} size={{ xs: 12, sm: 6,lg:12 }} >
+                        <Grid  container direction={'column'} alignItems={'center'}  className={`${classPrefix}-title`}>
                             <TitleSection onScrollToTier={() => handleScrollTo(tierRef)} classPrefix={`${classPrefix}-title`} data={data} />
                         </Grid>
                     </Grid> 
@@ -113,13 +126,13 @@ const Template2: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                     })
 
                                 }
-                                {CopyUrl && data.eventClass !== 'OFFLINE' && (
+                                {/* {CopyUrl && data.eventClass !== 'OFFLINE' && (
                                     <Grid container size={{ xs: 1 }} justifyContent="center" direction="column" >
                                         <Button onClick={copyToClipboard} variant="outlined" color="primary">
                                             {copied ? "Copied!" : "Copy URL"}
                                         </Button>
                                     </Grid>
-                                )}
+                                )} */}
 
                             </Grid>
                         </Grid></Grid>
@@ -127,7 +140,44 @@ const Template2: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                 </Grid>
             </Grid>
         </Grid>
-
+        {/*Event Count down  */}
+        <Grid className="template1-countdown" spacing={2} container justifyContent={"center"} >
+        <Grid className="template1-countdown-container" size={12} justifyContent={"center"} spacing={2}>
+          <TimerCounterComp
+            targetDate={getLocalTimeDate(data.startTime, 'YYYY-MM-DD HH:mm:ss')}
+            onTimeUpdate={handleTimeUpdate}
+          >
+            <Typography textAlign={"center"} className='template2-countdown-headerText'>Time Remaining</Typography>
+            <Grid container size={12} justifyContent="center" alignItems="center" direction="row" display={"flex"}>
+              <Grid size={2} />
+              <Grid size={2}>
+                <Box display="flex" flexDirection="row" alignItems="baseline" justifyContent="center" className="template2-countdown-timerTypo">
+                  <Typography textAlign={"center"} variant="h4" className='template2-countdown-timerDigit'>{day}</Typography>
+                  <Typography textAlign={"center"}>Days</Typography>
+                </Box>
+              </Grid>
+              <Grid size={2}>
+                <Box display="flex" flexDirection="row" alignItems="baseline" justifyContent="center" className="template2-countdown-timerTypo">
+                  <Typography variant="h4" className='template2-countdown-timerDigit'>{hour}</Typography>
+                  <Typography>Hours</Typography>
+                </Box>
+              </Grid>
+              <Grid size={2}>
+                <Box display="flex" flexDirection="row" alignItems="baseline" justifyContent="center" className="template2-countdown-timerTypo">
+                  <Typography variant="h4" className='template2-countdown-timerDigit'>{minute}</Typography>
+                  <Typography>Minutes</Typography>
+                </Box>
+              </Grid>
+              <Grid size={2}>
+                <Box display="flex" flexDirection="row" alignItems="baseline" justifyContent="center" className="template2-countdown-timerTypo">
+                  <Typography variant="h4" className='template2-countdown-timerDigit'>{second}</Typography>
+                  <Typography>Seconds</Typography>
+                </Box>
+              </Grid>
+            </Grid>
+          </TimerCounterComp>
+        </Grid>
+      </Grid>
         {/* About section */}
         <AboutSection classPrefix={`${classPrefix}-about`} data={data} ref={aboutRef} />
         {/* Event Contributors section */}

@@ -2,7 +2,11 @@ import React from "react";
 import Grid from "@mui/material/Grid2";
 import { NoEvent as NoEventIcon } from "@/assets/svg";
 import { Typography } from "@mui/material";
-const NoEvents: React.FC = React.memo(() => {
+ interface NoEventsProps {
+  title?:string;
+  description?:string
+}
+const NoEvents: React.FC<NoEventsProps> = React.memo(({title,description}) => {
     return(
         <Grid container size={12} justifyContent={"center"}>
         <Grid  container justifyContent={"center"}  className="no-event" >
@@ -10,8 +14,8 @@ const NoEvents: React.FC = React.memo(() => {
         <NoEventIcon className="no-event-svg" />
         </Grid>
         <Grid size={12} flexDirection={"column"}>
-          <Typography className="no-event-svg-text">No Events Found</Typography>
-          <Typography className="no-event-svg-text-description">You haven’t registered for any events yet. Explore upcoming events and secure your spot today!</Typography>
+          <Typography className="no-event-svg-text">{title}</Typography>
+          <Typography className="no-event-svg-text-description">{description}</Typography>
         </Grid>
             </Grid> 
       </Grid>

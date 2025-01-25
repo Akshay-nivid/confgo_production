@@ -1,8 +1,6 @@
-import CustomAutocomplete from '@/components/CustomAutocomplete/CustomAutocomplete';
-import { Button, Tab, Tabs, Typography } from '@mui/material';
+import { Button, Tab, Tabs, Typography, Box } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { Logger } from '@/Utils/Logger';
 import { formatDateTimeRange, toTitleCase } from '@/Utils/CommonBaseClass';
 import React from 'react';
@@ -15,45 +13,43 @@ import moment from 'moment';
 import { SkeletonList } from '@/components/Skeleton';
 import UserUploadAbstract from './UserUploadAbstract';
 import { Mapper } from '@/components/Mapper/Mapper';
+import DateRangeIcon from "@mui/icons-material/DateRange";
 
 /**
  *
  */
 
-interface Event {
-  event: any;
-  abstractDate?: string | null;
-  amount: string;
-  assetId?: number | null;
-  attendees: Array<any>; // Adjust `any` to a more specific type if attendees have a structure
-  companyId: number;
-  description: string;
-  discount?: number | null;
-  endTime: string;
-  eventClass: string; // Example: "OFFLINE"
-  id: number;
-  interval?: number | null;
-  isAbstract?: boolean | null;
-  name: string;
-  parentId?: number | null;
-  published: boolean;
-  registrationDeadline?: string | null;
-  slugName?: string | null;
-  specialtyId?: number | null;
-  startTime: string;
-  statusId: number;
-  templateId?: number | null;
-  title?: string | null;
-  url?: string | null;
-}
+// interface Event {
+//   event: any;
+//   abstractDate?: string | null;
+//   amount: string;
+//   assetId?: number | null;
+//   attendees: Array<any>; // Adjust `any` to a more specific type if attendees have a structure
+//   companyId: number;
+//   description: string;
+//   discount?: number | null;
+//   endTime: string;
+//   eventClass: string; // Example: "OFFLINE"
+//   id: number;
+//   interval?: number | null;
+//   isAbstract?: boolean | null;
+//   name: string;
+//   parentId?: number | null;
+//   published: boolean;
+//   registrationDeadline?: string | null;
+//   slugName?: string | null;
+//   specialtyId?: number | null;
+//   startTime: string;
+//   statusId: number;
+//   templateId?: number | null;
+//   title?: string | null;
+//   url?: string | null;
+// }
 
 /**
  * UpcomingEvent component renders a list of upcoming events and includes a search bar
  */
 const EventRecap: React.FC = React.memo(() => {
-  const { control } = useForm();
-  const [searchResults, setSearchResults] = useState([]);
-  const [loading, setLoading] = useState(false);
   const setDataById = useStore((state: any) => state.setDataById);
   const { eventId } = useLocation().state || {};
   const [eventLoading, setEventLoading] = useState(true);
@@ -61,41 +57,14 @@ const EventRecap: React.FC = React.memo(() => {
   const eventTicketData = useStore((state: any) => state?.compData?.['eventTicketData']?.['participant/payment/details']) ?? [];
   const POST = useStore((state: any) => state.POST);
   const userDetails = useStore(state => state?.compData?.['userDetails']) ?? {};
-  const Program = useStore((state: any) => state?.compData?.['programs']);
+  const Program = useStore((state: any) => state?.compData?.['programs']?.data) ?? [];
 
   /**
    * attended status
    */
-  const attendeeStatus = eventData[0]?.participants[0]?.eventParticipants[0]?.event.attendees;
+  const attendeeStatus = eventData[0]?.participants[0]?.eventParticipants[0]?.event?.attendees;
 
-  /**
-   * Event program details
-   */
-  const eventProgram = eventData?.[0]?.participants?.[0]?.eventParticipants;
-  /**
-   * Function to handle search API for autocomplete
-   */
-  const handleSearch = async (query: string) => {
-    setLoading(true);
-    try {
-      // let req: any = {
-      //     filters: {
-      //         name: query,
-      //     },
-      // };
-      // const response = await await apiClient.post(`event/registered/eventList`, req);
-      // const { status, data } = await processAPIResponse(response, "eventList");
-      const filteredEvents = eventProgram.filter((item: any) => item.event?.name?.toLowerCase().includes(query.toLowerCase()));
-      if (filteredEvents) {
-        const data = filteredEvents.map((item: Event) => item.event);
-        setSearchResults(data);
-      }
-    } catch (error) {
-      Logger.error(error, 'EventList.tsx');
-    } finally {
-      setLoading(false);
-    }
-  };
+  
   /**
    * Fetch event details when the component mounts
    */
@@ -104,38 +73,7 @@ const EventRecap: React.FC = React.memo(() => {
     eventTicketDataApi();
   }, []);
 
-  /**
-   * Function to handle search API for autocomplete
-   *  New handler for when an event is selected from autocomplete
-   * @param selected
-   */
-  const handleAutocompleteChange = async (selected: any) => {
-    if (selected) {
-      try {
-        // await POST({
-        //   url: "event/list",
-        //   body: {
-        //     filters: {id: selected.id},
-        //   },
-        // id: 'userLatestEvents',
-        // errorCB: (context: any) => {
-        //     setDataById("snackBarInfo", {
-        //       open: true,
-        //       autoHideDuration: 2000,
-        //       severity: "error",
-        //       message: context?.message,
-        //     });
-        //   },
-        // });
-        const selectedData = eventProgram.find((program: any) => program.event.id === selected.id);
-        if (selectedData) {
-          setDataById('programsNew', { data: [selectedData] });
-        }
-      } catch (error) {
-        Logger.error('An error occurred:', error);
-      }
-    }
-  };
+
   /**
    * get evenet details
    */
@@ -325,7 +263,34 @@ const EventRecap: React.FC = React.memo(() => {
       console.error('Error loading image or generating PDF:', error);
     }
   };
-  const tabInfo = useStore((state: any) => state?.compData?.['eventTab']) || 0;
+  const tabInfo = useStore((state: any) => state?.compData?.['eventTab'])?.tabIndex || 0;
+
+/***
+ * combines the programes from same date
+ */
+  const combinedItems = [
+    ...Program?.map((item:any) => ({
+      ...item,
+      startTime: item?.event?.startTime || null,
+    })),
+  ].sort((a, b) => moment(a.startTime).diff(moment(b.startTime)));
+  
+ const groupedData = combinedItems.reduce((acc, program) => {
+    const date = moment(program?.endTime).isValid()
+      ? moment(program?.startTime).format("YYYY-MM-DD")
+      : "Invalid Date";
+
+    if (date === "Invalid Date") {
+      if (!acc.invalid) acc.invalid = [];
+      acc.invalid.push(program);
+    } else {
+      if (!acc[date]) acc[date] = [];
+      acc[date].push(program);
+    }
+    return acc;
+  }, {});
+
+
   /**
    * Handles the tab change event by updating the active tab index btw account-settings and security
    */
@@ -343,19 +308,7 @@ const EventRecap: React.FC = React.memo(() => {
             <Grid size={{ xs: 12, sm: 6, md: 6 }}>
               <Typography className="event-recap-header">My Events</Typography>
             </Grid>
-            <Grid size={{ xs: 12, sm: 5, md: 5 }}>
-              <CustomAutocomplete
-                name="search"
-                className="custom-search-event-text-field"
-                control={control}
-                options={searchResults}
-                getOptionLabel={(option: any) => option.name || ''}
-                onSearch={handleSearch}
-                loading={loading}
-                placeholder="Search"
-                onChange={handleAutocompleteChange}
-              />
-            </Grid>
+           
           </Grid>
           <Grid container className="padding-x-20 event-info">
             <Grid container size={12} columnSpacing={2} className="event-recap-first-grid">
@@ -371,7 +324,10 @@ const EventRecap: React.FC = React.memo(() => {
                 <Typography className="event-recap-first-grid-address">
                   {formatDateTimeRange({
                     date: eventData?.[0]?.startTime,
-                    format: 'MMMM D, YYYY',
+                    format: 'MMM D, YYYY',
+                  })}-{formatDateTimeRange({
+                    date: eventData?.[0]?.endTime,
+                    format: 'MMM D, YYYY',
                   })}
                   <span className="mx-2">|</span>
                   {formatDateTimeRange({
@@ -384,7 +340,8 @@ const EventRecap: React.FC = React.memo(() => {
                     format: 'h:mm A',
                   })}
                   <span className="mx-2">|</span>
-                  {eventData?.[0]?.venue?.city + ', ' + eventData?.[0]?.venue?.address}
+                  {eventData?.[0]?.eventClass === "OFFLINE" ? 
+                  `${eventData?.[0]?.venue?.city}, ${eventData?.[0]?.venue?.address}`:eventData?.[0]?.eventClass}
                 </Typography>
               </Grid>
               <Grid size={12} className="event-recap-first-grid-buttons">
@@ -397,23 +354,40 @@ const EventRecap: React.FC = React.memo(() => {
             </Grid>
           </Grid>
           <Grid size={{ xs: 12, sm: 8 }}>
-            <Tabs value={tabInfo?.tabIndex} className="my-event-tabs" onChange={handleTabChange}>
+            <Tabs value={tabInfo} className="my-event-tabs" onChange={handleTabChange}>
               <Tab label="Registered Programmes" className="account-tab-title account-tabs"></Tab>
-              {eventData![0]?.isAbstract == 1 && <Tab label="Upload Abstract" className="account-tab-title account-tabs"></Tab>}
+              {eventData![0]?.isAbstract === 1 && <Tab label="Upload Abstract" className="account-tab-title account-tabs"></Tab>}
             </Tabs>
           </Grid>
           <Grid size={{ xs: 12, sm: 4 }} className="border-bottom "></Grid>
-          {tabInfo?.tabIndex === 0 ? (
-            <Mapper
-              MapperData={Program?.data}
-              component={RegisteredProgramCard}
-              helperData={attendeeStatus}
-              WrapperComponent={({ children }) => (
-                <Grid columnSpacing={2} rowSpacing={2} className="event-recap-second-grid padding-x-20 pb-8" container size={12}>
-                  {children}
-                </Grid>
-              )}
-            />
+          {tabInfo === 0 ? (
+            Object.keys(groupedData)
+            .filter((date) => date !== "Invalid date")
+            .map((date) => (
+              <Grid size={12} key={date}>
+                {/* Date Header */}
+                <Box className="event-sessions-date-header" display="flex" alignItems="center">
+                  <DateRangeIcon sx={{ mr: 1 }} />
+                  <Typography variant="h6">
+                    {moment(date).format("MMMM D YYYY")}
+                  </Typography>
+                </Box>     
+               <Grid container spacing={2} className="event-sessions-session-list">
+                {Array.isArray(groupedData[date]) && (
+                <Mapper
+                  MapperData={groupedData[date]}
+                  component={RegisteredProgramCard}
+                  helperData={attendeeStatus}
+                  WrapperComponent={({ children }) => (
+                    <Grid columnSpacing={2} rowSpacing={2} className="event-recap-second-grid padding-x-20 pb-8" container size={12}>
+                      {children}
+                    </Grid>
+                  )}
+                />
+                )}
+               </Grid>
+              </Grid>
+          ))
           ) : (
             <UserUploadAbstract eventData={eventData && eventData![0]} />
           )}
@@ -436,15 +410,16 @@ export default EventRecap;
 
 const RegisteredProgramCard = ({ item, helperData }: { item: any; helperData?: any }) => {
   return (
-    <Grid size={{ lg: 4, sm: 12 }} rowSpacing={1} container className="event-recap-second-grid-content">
-      <Grid container size={12} className="daate_time " columnSpacing={8}>
+    <>
+    {item?.event && <Grid size={{ lg: 4, sm: 12 }} rowSpacing={1} container className="event-recap-second-grid-content">
+    <Grid container size={12} className="daate_time " columnSpacing={8}>
         <Grid size={6} className="event-recap-second-grid-content-time">
           <Typography className="event-recap-second-grid-content-time-text">
             {formatDateTimeRange({
               date: item.event?.startTime,
               format: 'h:mm A',
-            })}
-            ,{formatDateTimeRange({ date: item.endTime, format: 'h:mm A' })}
+            })}-
+            {formatDateTimeRange({ date: item?.event?.endTime, format: 'h:mm A' })}
           </Typography>
         </Grid>
         <Grid className="event-recap-second-grid-content-status">
@@ -458,13 +433,15 @@ const RegisteredProgramCard = ({ item, helperData }: { item: any; helperData?: a
       </Grid>
       <Grid className="event-recap-second-grid-content-location" size={12}>
         <Typography className="event-recap-second-grid-content-location-text">
-          Location:
-          {item?.event?.venue?.city + ',' + item?.event?.venue?.country}
+          {item.event?.eventClass==="OFFLINE"?(
+          <>
+          Location:{item?.event?.venue?.city + ',' + item?.event?.venue?.country}
+          </>
+          ):(<>Mode:{item.event?.eventClass}</>)}
         </Typography>
       </Grid>
-      <Grid className="event-recap-second-grid-content-speaker" size={12}>
-        <Typography className="event-recap-second-grid-content-speaker-text">Speaker:swayer</Typography>
-      </Grid>
     </Grid>
+    }
+   </>
   );
 };

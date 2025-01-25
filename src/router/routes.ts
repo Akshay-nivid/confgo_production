@@ -1,14 +1,17 @@
 
 
 const routes = {
+  deleteAccount: () => "/delete-account",
   home: () => "/",
   dashboard: () => "/dashboard",
   reviewerHome: () => "/reviewer/home",
   reviewDetails: (id: string | number) => `/reviewer/${id}`,
   speakerHome: () => "/speaker/home",
+  speakerDetails: (id: string | number) => `/speaker/event/${id}`,
   register: () => "/register",
   events: () => "/events",
   createEvent: () => "/events/create",
+  editDraftEvent: (id: string | number) => `/events/create/${id}`,
   userForgotPassword: () => "/user/forgot-password",
   organisationForgotPassword: () => "/organisation/forgot-password",
   thankyou: () => "/thankyou",

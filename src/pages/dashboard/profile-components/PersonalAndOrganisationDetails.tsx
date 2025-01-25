@@ -156,14 +156,16 @@ const handleOrganisationImageUpload =(uploadedFiles: CustomFile)=>{
 /** function to submit logo */
 const onLogoSubmit = async (newdata: Company) => {
   try {
-    const payload = {
+    let payload:any = {
       companyName: newdata.companyName || LogoprofileData?.companyName || "", 
       companyPhone: newdata.companyPhone || LogoprofileData?.companyPhone || "",
       companyAddress: newdata.companyAddress || LogoprofileData?.companyAddress || "", 
       companyEmail: newdata.companyEmail || LogoprofileData?.companyEmail || "",
-      assetId: drawerLogoImage || LogoprofileData?.assetId
     };
 
+  if(drawerLogoImage || LogoprofileData?.assetId){
+       payload["assetId"] = drawerLogoImage || LogoprofileData?.assetId ;
+  }
     // Send the payload to the server for updating the company details
     const response = await apiClient.put(`/company/${compId}`, payload);
     const { status,message } = processAPIResponse(response, "personalInformation");
@@ -370,8 +372,8 @@ return (
 
     <CustomDrawer open={isDrawerOpen} type="right">
       <Grid container className="main-account-drawer">
-        <Grid size={12} container className="main-account-drawer-text">
-          <Typography className="main-account-title account-drawer-textfield">
+        <Grid size={12} display={'flex'} justifyContent={'space-between'} alignItems={'center'} container className="main-account-drawer-text">
+          <Typography className="edit-personal-text">
             Edit Personal Details
           </Typography>
           <IconButton onClick={closeDrawer} className="close">
@@ -381,16 +383,21 @@ return (
         <Grid size={12} className="main-connected">
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container direction="row" alignItems="center">
-              <Avatar
-                className="main-user-profile"
-                src={
-                  drawerProfileImage
-                    ? `${baseUrl}asset/${drawerProfileImage}`
-                    : `${baseUrl}asset/${profileData?.assetId}`
-                }
-                alt="User Profile"
-                variant="circular"
-              />
+              {profileData?.assetId || drawerProfileImage != null ? (
+                  <Avatar
+                    src={drawerProfileImage
+                      ? `${baseUrl}asset/${drawerProfileImage}`
+                      : `${baseUrl}asset/${profileData?.assetId}`
+                  }
+                    className="main-user-profile"
+                    alt="User Profile"
+                    variant="circular"
+                  />
+                ) : (
+                  <Avatar className="main-user-profile main-user-profile-text">
+                    {`${profileData?.firstName[0]}${profileData?.lastName[0]}`.toUpperCase()}
+                  </Avatar>
+                )}
               <Button
                 className="main-user-profile-upload-btn"
                 onClick={openmodal}
@@ -432,7 +439,7 @@ return (
     <CustomDrawer open={organsisationDrawer} type="right">
       <Grid container className="main-account-drawer">
         <Grid size={12} container className="main-account-drawer-text">
-          <Typography className="main-account-title account-drawer-textfield">
+          <Typography className="edit-organisation-text">
             Edit Organisation Details
           </Typography>
           <IconButton onClick={closeOrganisationDrawer}>
@@ -442,16 +449,31 @@ return (
         <Grid size={12} className="main-connected">
           <form onSubmit={handleSubmit(onLogoSubmit)}>
             <Grid container direction="row" alignItems="center">
-              <Avatar
-                className="main-user-profile"
-                src={
-                  drawerLogoImage
-                    ? `${baseUrl}asset/${drawerLogoImage}`
-                    : `${baseUrl}asset/${LogoprofileData?.assetId}`
-                }
-                alt="User Profile"
-                variant="circular"
-              />
+            {LogoprofileData?.assetId || drawerLogoImage != null ? (
+                  <Avatar
+                    className="main-user-profile"
+                    src={
+                      drawerLogoImage
+                        ? `${baseUrl}asset/${drawerLogoImage}`
+                        : `${baseUrl}asset/${LogoprofileData?.assetId}`
+                    }
+                    alt="User Profile"
+                    variant="circular"
+                  />
+                ) : (
+                  <>
+                    {LogoprofileData?.companyName ? (
+                      <Avatar className="main-user-profile main-user-profile-text">
+                        {LogoprofileData.companyName
+                          .split(" ")
+                          .map((word) => word[0].toUpperCase())
+                          .join("")}
+                      </Avatar>
+                    ) : (
+                      <Avatar></Avatar>
+                    )}
+                  </>
+                )}
               <Button
                 className="main-user-profile-upload-btn"
                 onClick={openLogomodal}

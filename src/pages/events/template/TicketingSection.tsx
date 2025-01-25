@@ -7,7 +7,7 @@ import { Typography } from '@mui/material';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
-import { setDataById } from '@/Libs/store';
+import { setDataById, snackBar } from '@/Libs/store';
 
 
 type TicketingSectionProps = {
@@ -116,6 +116,33 @@ const TicketingSection = React.memo(
         */
         function handleClickRegister(tierData: any) {
 
+            const userRole = sessionStorage.getItem('userRole')
+
+
+            const userToken = sessionStorage.getItem('token')
+
+            const startData = new Date(data?.startDate);
+
+
+            const isEventEnded = startData < new Date() 
+
+
+
+            if (isEventEnded) {
+                snackBar({ severity: 'error', message: "The event has ended." })
+                return
+            }
+
+
+
+
+
+            // admin user is perevented from navigating to cart
+            if (userToken && userRole !== 'USER') {
+                snackBar({ severity: 'error', message: 'please login using participant credentials' })
+                return
+            }
+
             setDataById('participantTypeId', { value: tierData.participantTypeId });
 
             navigate(routes.programSelection())
@@ -128,10 +155,11 @@ const TicketingSection = React.memo(
         const amountCalculatedData = calculateAmounts(groupByParticipantTypeId(data?.eventPriceTiers), totalAmount);
 
 
+
         return <Grid ref={ref} container size={{ xs: 12, sm: 12 }} className={`${classPrefix}`} justifyContent={'center'} alignItems={'center'} spacing={2} direction={'column'}>
             <Grid><Typography className={`${classPrefix}-title`}>Registration & Ticketing</Typography></Grid>
 
-            <Grid className={'anim-container'} container spacing={2}>
+            <Grid className={`${classPrefix}-anim-container`} container spacing={2} justifyContent={'center'} alignContent={'center'}>
                 {
                     Object.keys(amountCalculatedData)
                         .map((participantType: any) => {
@@ -149,7 +177,7 @@ const TicketingSection = React.memo(
                                             amountCalculatedData[participantType]
                                                 .map((item: any) => {
                                                     const dateRange = formatDateRange(item.startDate, item.endDate);
-                                                    return (
+                                                    return parseFloat(item?.percentage) > 0 ? (
                                                         <Grid container className={`${classPrefix}-sub-item-container`} justifyContent={'space-between'}>
                                                             <Grid container direction={'column'}>
                                                                 <Grid><Typography className={`${classPrefix}-sub-item-name`}>{item.name}</Typography></Grid>
@@ -159,7 +187,7 @@ const TicketingSection = React.memo(
                                                                 <Typography className={`${classPrefix}-sub-item-amount`}>{parseFloat(item?.percentage)}% OFF</Typography>
                                                             </Grid>
                                                         </Grid>
-                                                    );
+                                                    ) : <></>;
                                                 })
                                         }
                                     </Grid>

@@ -104,6 +104,7 @@ const LoginOrg = () => {
     sessionStorage.setItem('userLoggedInType', userRole?.roleName);
     sessionStorage.setItem('token', token);
     sessionStorage.setItem('ssoUser', 'false');
+    sessionStorage.setItem('userId', id?.toString());
     // Set the authentication token for API client
     apiClient.setToken(token);
     // Check if the user is of type "COMPANY"
@@ -111,9 +112,9 @@ const LoginOrg = () => {
       // Store specific session details for company users'
       sessionStorage.setItem('companyUserName', `${firstName} ${lastName || ''}`);
       sessionStorage.setItem('subscriptionStatus', subscriptionStatus);
-      sessionStorage.setItem('userId', id?.toString());
       sessionStorage.setItem('acceptedTerms', acceptedTerms.toString());
       sessionStorage.setItem('companyId', companyId);
+      setDataById("adminCompanyId",{companyId:companyId});
       sessionStorage.setItem('companyEmail', email);
       sessionStorage.setItem('companyPhone', phone);
       // Show success notification
@@ -123,6 +124,7 @@ const LoginOrg = () => {
       setDataById('userDetails', data);
       sessionStorage.setItem('name', `${firstName} ${lastName || ''}`);
       setDataById('participantLogin', true);
+      setDataById('participantUserData', data);
     }
     navigate(roleToRouteMapper[userRole?.roleName], { replace: true });
   };

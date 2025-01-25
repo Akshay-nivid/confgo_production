@@ -16,6 +16,7 @@ $clr_orange: hsl(28, 91%, 54%);
 $clr_green: #2eac2b;
 $clr_green_light: #f2faf2;
 $clr_green_slight_light: #29CC39;
+$clr_green_border:#C1E1C1;
 $clr_gray_extra_dark: #787878;
 $clr_honeydew: #eaf6e9;
 $clr_purple_light: #f0f2ff;
@@ -106,13 +107,24 @@ $clr_orange_medium:#ffb728ac;
 $clr_sky_blue_dark :  #5f98b755;
 $clr_sky_blue_light: #9fd4f086;
 $clr_border_sky_blue_light: #CCDFF2;
+$text_primary_dark : #4D5E80;
+$clr_background_light_gray:#DDE7E7;
+$clr_deep_cyan_green:#0D33361C;
+$clr_light_slate_gray:#F3F7F7;
+$clr_border_light_grey: #E5E5E5;
+$soft-pastel-green: #C1E1C1;
+$clr_black_shadow:#0000001A;
+$clr_dim_gray: #919191;
+$clr_neutral_gray: #808080;
 
 //Font weight
+$font_small: 400;
 $font_normal: 400;
 $font_medium: 500;
 $font_semibold: 600;
 $font_bold: 700;
 $font_extrabold: 800;
+$font_extramaxbold:900;
 
 // Font Size
 

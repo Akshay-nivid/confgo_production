@@ -1,21 +1,22 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
-import { Avatar, IconButton, Modal, Typography } from "@mui/material";
+import {IconButton, Modal, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Logger } from "@/Utils/Logger";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CloseIcon from "@mui/icons-material/Close";
-import { DeleteContributorIcon, UploadedFile } from "@/assets/svg";
+import {NoCouponDataSvg } from "@/assets/svg";
 import useStore from "@/Libs/store";
 import AddIcon from "@mui/icons-material/Add";
-import config from "../../../../config.json";
-import PersonIcon from '@mui/icons-material/Person';
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
-
+import { ISource } from "@/Libs/type";
+import { DataGridList } from "@/components/DataGrid/DataGridList";
+import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
+import routes from "@/router/routes";
 
 interface EventParticipant {
   id: number;
@@ -45,25 +46,23 @@ type TransformedData = {
   name: string;
 };
 
-const SpeakerCard = (_eventData: any) => {
+const SpeakerCard = (eventData: any) => { 
   const { id } = useParams<Record<string, string | undefined>>();
   const { handleSubmit, control, reset,watch, formState: { errors }, setValue } = useForm<FormData>();
   const [addContributeView, setAddContributeView] = useState(false);
-  const [contributorList, setContributorList] = useState([]);
   const [editContributorValue, setEditConrtributorValue] =
     useState<EventParticipant | null>();
-  const contributorFields =
-    useStore((state: any) => state?.compData?.["contributorFields"]) ?? [];
+  const contributorFields = useStore((state: any) => state?.compData?.["contributorFields"]) ?? [];    
   const setDataById = useStore((state: any) => state.setDataById);
   const clearDataById = useStore((state: any) => state?.clearDataById);
   const POST = useStore((state: any) => state.POST);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
-  const baseUrl = config.api.url;
   const [searchResults, setSearchResults] = useState<TransformedData[]>([]);
-  const [loading, setLoading] = useState(false); // To indicate loading state for API
+  const [loading, setLoading] = useState(false);
   const [handleSelectedValue,setHandleSelectedValue]=useState<any>();
   const companyId = sessionStorage.getItem("companyId")
-  
+  const [source, setSource] = useState<ISource | undefined>(undefined);
+  const navigate = useNavigate();
   /**
    * Method transforms data to the autocomplete data format
    * @param data : api response data
@@ -77,31 +76,19 @@ const SpeakerCard = (_eventData: any) => {
       ...item
     }));
   }
-   /**
-     * Method handles the document download functionality
-     * @param id : document id
-     */
-   const handleDownload = (id: any) => {
-    const href = `${baseUrl}asset/${id}`
-    window.open(href, '_blank')
-};
+
   /**
    *function to handle close the modal
    */
   const handleCloseDeleteModal = () => {
     setDeleteModal(false);
   };
-  /**
-   *function to handle open Drawer Edit
-   */
-  // const handleScreenViewChange = () => {
-  //   setAddContributeView(true);
-  // };
+ 
   /**
    *function to handle open Drawer Create
    */
   const handleDrawerOpen = () => {
-    if(_eventData?.eventData?.published){
+    if(eventData?.eventData?.published){
       setDataById("snackBarInfo", {
         open: true,
         autoHideDuration: 2000,
@@ -135,30 +122,26 @@ const SpeakerCard = (_eventData: any) => {
   const fetchProgramList = async () => {
     try {
       const requestBody = {
+        offset: 0,
+        limit: 5,
         filters: {
-          eventId: _eventData?.eventData?.id,
+          eventId: eventData?.eventData?.id,
         },
       };
-      await POST({
-        url: "eventSpeaker/list",
-        body: requestBody,
-        id: "eventProgramList",
-        successCB: (context: any) => {
-          if (context?.success) {
-            setContributorList(context.data);
-          }
-        },
-        errorCB: (context: any) => {
-          Logger.error("SpeakerCard.tsx", context?.message);
-        },
+      setSource({
+         method:"POST",
+         data:requestBody,
+         url: "eventSpeaker/list",
+         listName: "speakerList",
+
+
       });
-    } catch (error) {
+      return;
+    }
+    catch (error) {
       Logger.error("SpeakerCard.tsx", error);
     }
   };
-
-
-
   type FormData = {
     contributorType: string;
     contributorName: string;
@@ -199,7 +182,7 @@ const SpeakerCard = (_eventData: any) => {
               open: true,
               autoHideDuration: 2000,
               severity: "success",
-              message: "Contributor Added Successfully",
+              message: "Speaker Added Successfully",
             });
           }
         },
@@ -296,39 +279,11 @@ const SpeakerCard = (_eventData: any) => {
   };
 
   /**
-   * function handles edit contributor form fields
-   * @param item
-   */
-  // const handleContributorEdit = (item: EventParticipant) => {
-  //   if(_eventData?.eventData?.published){
-  //     setDataById("snackBarInfo", {
-  //       open: true,
-  //       autoHideDuration: 2000,
-  //       severity: "error",
-  //       message: "Event is Already Published !",
-  //     });
-  //   }else{
-  //     if (item?.name ) {
-  //     reset({
-  //       contributorName: item.name,
-  //       contributorType: item.designation,
-  //       contributorDescription: item.description || "",
-  //     });
-  //   }
-  //   else{
-  //     reset()
-  //   }
-  //   setDataById("contributorFields", item);
-  //   setEditConrtributorValue(item);
-  //   handleScreenViewChange();
-  //   }
-  // };
-  /**
    * function handles delete contributor form fields
    * @param item
    */
   const handleDeleteModal = (item: EventParticipant) => {
-    if(_eventData?.eventData?.published){
+    if(eventData?.eventData?.published){
       setDataById("snackBarInfo", {
         open: true,
         autoHideDuration: 2000,
@@ -336,7 +291,7 @@ const SpeakerCard = (_eventData: any) => {
         message: "Event is Already Published !",
       });
     }else{
-    setDataById("contributorFields", item);
+    setDataById("contributorFields", {id:item});
     setDeleteModal(true);
     }
   };
@@ -375,6 +330,71 @@ const SpeakerCard = (_eventData: any) => {
       selected && setValue('contributorName',selected?.fullName)
   };
 
+   // Column configuration for the DataGrid component
+   const columns = [
+    { type: "default", field: "id", headerName: "ID", width: 150 },
+    { type: "default", field: "name", headerName: "Name", width: 200 },
+    {
+      type: "default",
+      field: "email",
+      headerName: "Email",
+      width: 250,
+    },
+    {
+      type: "default",
+      field: "phone",
+      headerName: "Phone No",
+      width: 200,
+    },
+    {
+      type: "status",
+      field: "status",
+      headerName: "Status",
+      width: 150,
+    },
+    
+    {
+      type:"default",
+      field:"Action",
+      headerName: "Action",
+      width:100,
+      renderCell: (params: any) => (
+        <IconButton
+          onClick={() => handleDeleteModal(params.row.id)}
+        >
+          <DeleteIcon />
+        </IconButton>
+      ),
+    }
+  ];
+  /**
+   * Transforms the raw data from the API to match the required format for the DataGrid component.
+   * @param data - The raw data from API response
+   * @returns Transformed data for DataGrid
+   */
+  const transformData = (data: any) => {
+    if (!data) return [];
+    return data.map((item: any) => {
+      return {
+        ...item,
+        id: item?.id,
+        name: `${item?.user?.firstName} ${item?.user?.lastName}`,
+        email: item?.user?.email,
+        phone: item?.user?.phone,
+        status: item?.statusId,
+        Action: <DeleteIcon onClick={()=>handleDeleteModal(item?.user?.id)} />
+      };
+    });
+  };
+
+  /**
+   * drawer create speaker button
+   */ 
+  const createNewSpeaker=(speaker:any)=>{
+    navigate(routes.createNewUsers(),{state:{data:speaker,eventId:eventData?.eventData?.id}});
+
+  };
+
   return (
     <Grid
       className="event-detail-speakers-card"
@@ -402,12 +422,14 @@ const SpeakerCard = (_eventData: any) => {
               </Grid>
               <Grid>
                 <CustomButton
-                  className="event-detail-speakers-card-speaker-add-button"
+                  className="event-detail-speakers-card-speaker-assign-button"
                   variant="outlined"
-                  label="Add"
+                  label="Assign"
                   onClick={handleDrawerOpen}
                   startIcon={<AddIcon />}
+                  size="large"
                 />
+
               </Grid>
             </Grid>
             <Grid container mt={2}></Grid>
@@ -427,71 +449,26 @@ const SpeakerCard = (_eventData: any) => {
             </Typography>
           </Grid>
         </Grid>
-        {/* Contributor List */}
         <Grid
           className="event-detail-speakers-card-list-row"
           container
           justifyContent={"center"}
           alignContent={"center"}
+          size={{ xs: 12 }}
+        
         >
-          <Grid container flexDirection={"row"} direction={"row"}>
-            {contributorList?.map((item: any) => {
-              return (
-                <Grid>
-                  <Grid
-                    container
-                    className="event-detail-speakers-card-list-row-container"
-                    key={item?.id}
-                    alignItems={"flex-start"}
-                    spacing={0.5}
-                  >
-                    <Grid>
-                      {item?.user?.assetId ? (
-                        <img
-                          className="event-detail-speakers-card-list-row-img"
-                          src={`${baseUrl}asset/${item?.user?.assetId}`}
-                          alt={item?.user?.firstName}
-                        />
-                      ) : (
-                        <Avatar className="event-detail-speakers-card-list-row-no-img">
-                          <PersonIcon className="event-detail-speakers-card-list-row-no-img-icon" />
-                        </Avatar>
-                      )}
-                      <Typography className="event-detail-speakers-card-list-row-name">
-                        {item?.user?.firstName}
-                      </Typography>
-                      <Typography className="event-detail-speakers-card-list-row-designation">
-                        {item?.designation}
-                      </Typography>
-                                   {/* <Grid
-                                  onClick={() => handleContributorEdit(item)}
-                                >
-                                  <EditContributorIcon className="event-detail-speakers-card-list-row-box-icon" />
-                                </Grid> */}
-
-                      <Grid
-                        display={"flex"}
-                        className="event-detail-speakers-card-list-row-box"
-                      >
-                        {item.speakerFileId && (
-                          <Grid
-                            onClick={() => handleDownload(item.speakerFileId)}
-                          >
-                            <UploadedFile className="event-detail-speakers-card-list-row-box-icon" />
-                          </Grid>
-                        )}
-
-                        <Grid></Grid>
-                        <Grid onClick={() => handleDeleteModal(item)}>
-                          <DeleteContributorIcon className="event-detail-speakers-card-list-row-box-icon" />
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              );
-            })}
-          </Grid>
+        <Grid size={{ xs: 12 }}>
+        <DataGridList
+           dataTransformer={transformData}
+          source={source}
+          title="Speekers"
+          hideFooterPagination={false}
+          columns={columns}
+          id="speaker-lists"
+          noRecordIcon={<NoCouponDataSvg className="no-coupon-icon"/>}
+          noRecordSubtitle="It looks like you haven't created any speakers yet."
+        />
+      </Grid>
         </Grid>
         {/* Drawer */}
         <CustomDrawer
@@ -502,8 +479,8 @@ const SpeakerCard = (_eventData: any) => {
               <Grid container justifyContent={"space-between"} mb={1}>
                 <Typography className="event-detail-speakers-card-contributor-header">
                   {editContributorValue != null
-                    ? "Edit Contributor"
-                    : "Create Contributor"}
+                    ? "Edit Speaker"
+                    : "Create Speaker"}
                 </Typography>
                 <IconButton onClick={() => setAddContributeView(false)}>
                   <CloseIcon />
@@ -511,11 +488,11 @@ const SpeakerCard = (_eventData: any) => {
               </Grid>
               <Grid>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                  <Grid container spacing={2}>
+                  <Grid container spacing={2} className="speaker-search-grid">
                     <Grid container size={{ xs: 12 }} pt={2}>
                       <CustomAutocomplete
                         name="userInfo"
-                        className={errors['userInfo'] ?"custom-search-text-field event-detail-speakers-card-contributor-auto-complete border-error-input": "custom-search-text-field event-detail-speakers-card-contributor-auto-complete"}
+                        className={errors['userInfo'] ?"custom-search-text-field event-detail-speakers-card-contributor-auto-complete border-error-input": "custom-search-text-field event-detail-speakers-card-contributor-auto-complete border-speaker"}
                         control={control}
                         placeholder="Search Contributor User"
                         options={searchResults} // Dynamic options based on API results
@@ -547,14 +524,25 @@ const SpeakerCard = (_eventData: any) => {
                     </Grid>
                     </>}
                   </Grid>
-                  <Grid container justifyContent="flex-end" alignItems="center" size={12}>
-                    <CustomButton
+                  <Grid container justifyContent="flex-end" alignItems="center" size={12}  >
+                  <Grid>  <CustomButton
                       className="event-detail-speakers-card-btn-container-submit-btn"
                       label="Submit"
                       variant="contained"
                       type="submit"
                     />
-                  </Grid>   
+                    </Grid>
+
+                     <Grid container size={12} justifyContent="flex-end" className="mt-3">
+                    <CustomButton
+                      label="Create Speaker user"
+                      variant="text"
+                       onClick={()=>createNewSpeaker("SPEAKER")}
+                    />
+                    
+                  </Grid>  
+                  </Grid>  
+
                 </form>
               </Grid>
             </Grid>

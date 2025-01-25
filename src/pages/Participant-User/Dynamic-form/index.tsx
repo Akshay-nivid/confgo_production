@@ -13,6 +13,7 @@ import routes from "@/router/routes";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
 import { useState } from "react";
+import { handleCartProcessing } from "../Payment-Method/programHandler";
 
 interface Option {
   value: string;
@@ -69,9 +70,20 @@ const DynamicUserForm = () => {
 
   const previousRoute = useStore((state: IStoreState) => state?.compData?.["previousRoute"]?.url) ?? null
 
+
+  const grandTotal = useStore(state => state.compData.finalPrice?.value)
+
+
+  const orderId = useStore((state) => state.compData?.order?.order?.data?.id)
+
+
+
+
   const anyMatchParticipantTypeId = dynamicFormData?.data?.some(
     (item: FormField) => item.participantTypeId === participantTypeId
   );
+
+
 
   const filteredFormData = dynamicFormData?.data?.filter((item: FormField) => {
     if (anyMatchParticipantTypeId) {
@@ -95,9 +107,16 @@ const DynamicUserForm = () => {
   /**
    * Navigates to the user payment method page
    */
-  function handleSkipForm() {
-    navigate(routes.userPaymentMethod())
+  function handleNavigateToPayment(route: string) {
+    navigate(route);
   }
+
+
+  function handleCartProcess() {
+    handleCartProcessing({ helperFn: handleNavigateToPayment, grandTotal: grandTotal, orderId: orderId, eventId: eventId })
+    
+  }
+
 
   /**
    * 
@@ -172,7 +191,8 @@ const DynamicUserForm = () => {
       id: 'registrationRecord',
       successCB: () => {
         clearDataById('uploadedFiles')
-        navigate(routes.userPaymentMethod())
+       
+        handleCartProcess()
       },
       errorCB: (error: any) => {
 
@@ -253,6 +273,7 @@ const DynamicUserForm = () => {
         return (
           <>
             <Grid className="file-upload-wrapper" size={12} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
+              <Grid justifyContent={'center'}><Typography className="file-upload-title">{metadata?.title}</Typography></Grid>
               <FileUpload resolution={{ width: 150, height: 150 }} onSubmit={(data) => handleFileUpload(data, commonProps.name)} className="dynamic-file-upload" height={"max-content"} />
               <Box paddingInline={3} display={"flex"} columnGap={1} rowGap={1} flexWrap={"wrap"}>
 
@@ -401,7 +422,7 @@ const DynamicUserForm = () => {
           </Grid>
         </form>
       </CardContent>
-      <CustomActionModal submitLabel="Skip" cancelLabel="Cancel" modalClassName="dynamic-form-modal" cancelAction={handleCloseModal} onClose={handleCloseModal} open={isModalOpen} submitAction={handleSkipForm} header="Are you sure you want to skip this form?" subHeader="This form is not mandotory you can skip the form if you want to" />
+      <CustomActionModal submitLabel="Skip" cancelLabel="Cancel" modalClassName="dynamic-form-modal" cancelAction={handleCloseModal} onClose={handleCloseModal} open={isModalOpen} submitAction={handleCartProcess} header="Are you sure you want to skip this form?" subHeader="This form is not mandotory you can skip the form if you want to" />
     </Box>
   );
 };

@@ -202,6 +202,7 @@ interface FormBuilderProps {
               severity: "success",
               message: "Form generated successfully!",
             });
+            setDataById("refreshKey", { key: Math.random() });
     
           }
         });

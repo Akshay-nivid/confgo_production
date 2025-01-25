@@ -3,7 +3,7 @@ import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import Grid from '@mui/material/Grid2';
 import useStore, { IStoreState, POST, snackBar } from '@/Libs/store';
 import { setDataById } from '@/Libs/store';
-import { useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import { Backdrop, CircularProgress } from '@mui/material';
 
@@ -24,6 +24,7 @@ interface IPayment {
     amount: number;
     eventId: number;
     paymentReferenceNumber: string;
+    orderId: string;
 }
 
 interface IPaymentResponse {
@@ -174,16 +175,16 @@ const PayPalParticipantButton: React.FC = () => {
             navigate(routes.programSelection())
             setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: 'Could not find order. Please try again' })
             return;
-    
+
         }
-        
+
 
         if (orderData?.finalPrice === 0) {
             const body = {
                 "orderId": orderData?.id,
                 "registrationType": "online"
             }
-    
+
             POST({
                 url: 'partcipant', id: 'participant', body, successCB: () => {
                     snackBar({ severity: 'success', message: 'successfully registered' })
@@ -193,13 +194,13 @@ const PayPalParticipantButton: React.FC = () => {
                     snackBar({ severity: 'error', message: 'Something went wrong. Please try again' })
                     navigate(routes.programSelection())
                     return
-                 }
+                }
             })
         }
 
-    }, [orderData?.id,orderData.finalPrice])
+    }, [orderData?.id, orderData.finalPrice])
 
-    
+
 
 
     /**
@@ -227,7 +228,8 @@ const PayPalParticipantButton: React.FC = () => {
             "metadata": '{}',
             "amount": orderData?.finalPrice,
             "eventId": eventId,
-            "paymentReferenceNumber": paymentReferenceNumber
+            "paymentReferenceNumber": paymentReferenceNumber,
+            "orderId": orderData.id
         }
 
         POST({
@@ -235,9 +237,6 @@ const PayPalParticipantButton: React.FC = () => {
             url: 'payment',
             body: body,
             successCB: async (paymentResponse: IPaymentResponse) => {
-
-
-
 
                 setDataById('checkout', { checkout: { loading: true } })
 
@@ -250,28 +249,36 @@ const PayPalParticipantButton: React.FC = () => {
                         url: 'checkout',
                         id: 'checkout',
                         body: {
-                            orderId: orderData.id,
+                            orderId: orderData?.id,
                             registrationType: "online",
                             eventId: eventId,
-                            status: paymentSuccessInfo.status,
-                            paymentStatus: paymentSuccessInfo.status,
+                            status: paymentSuccessInfo?.status,
+                            paymentStatus: paymentSuccessInfo?.status,
                             paymentId: paymentResponse?.data?.id,
                             state: "COMPLETED",
                             errorMessage: "No error",
-                            transactionid: paymentSuccessInfo.id,
+                            transactionId: paymentSuccessInfo?.id,
                             paymentreferencenumber: paymentReferenceNumber,
                             metadata: JSON.stringify(paymentSuccessInfo),
-                            amount: paymentSuccessInfo.purchase_units?.[0]?.amount?.value || orderData?.finalPrice,
+                            amount: paymentSuccessInfo?.purchase_units?.[0]?.amount?.value || orderData?.finalPrice,
                         },
-                        successCB: () => {
+                        successCB: (context:any) => {
                             navigate(routes.userEventRegistrationCompleted())
+                            setDataById('registrationCompleteData', context?.data)
+                            
                         }, errorCB: (errorResponse) => {
-                            snackBar({ severity: 'error', message: errorResponse.message })
+                            snackBar({ severity: 'error', message: errorResponse?.message })
                         }
                     })
                 }
             }, errorCB: (errorResponse) => {
-                snackBar({ severity: 'error', message: errorResponse.message })
+
+
+                snackBar({ severity: 'error', message: errorResponse?.message || 'something went wrong' })
+                if (errorResponse?.message.trim() === 'Payment has already been completed.') {
+                    navigate(routes.userHome(),{replace:true})
+                }
+
             }
 
         })

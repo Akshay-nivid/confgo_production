@@ -14,10 +14,11 @@ import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
 import { Filter } from "@/components/Filter";
 import useStore, { setDataById } from "@/Libs/store";
+import { NoUserList } from "@/assets/svg";
 
 interface Role{
-  value:number,
-  label:string
+  value:string,
+  name:string
 }
 type RoleList = {
   id: number;            
@@ -39,6 +40,7 @@ const AdminUsersList=()=>{
     const POST = useStore((state: any) => state.POST);
     const { control } = useForm();
     const [roleList,setRoleList]=useState<Role []>([])
+
   /**
    * Fetches the userRole list when the component mounts.
    */
@@ -108,10 +110,10 @@ const AdminUsersList=()=>{
         successCB: (context: any) => {
             let roleData: Role[] = []; 
             context.data.forEach((item: RoleList) => {
-                if (![1,3].includes(item.id)) {
+                if (![1,2,3].includes(item.id)) {
                     roleData.push({
-                        value: item.id,
-                        label: item.roleName
+                        value: item.roleName,
+                        name: item.roleName
                     });
                 }
             });
@@ -168,7 +170,7 @@ const AdminUsersList=()=>{
         },
       };
       const response = await await apiClient.post(
-        `user/userRole/list'`,
+        `user/userRole/list`,
         req
       );
       const { status, data } = await processAPIResponse(
@@ -212,14 +214,12 @@ const AdminUsersList=()=>{
 
   const filterFields: any = [
     {
-      type: 'select',
-      fieldName: 'roleId',
-      label: 'Role',
-      defaultValue:roleList&&roleList[0]?.value,
+      type: 'checkBox',
+      fieldName: 'roleEnums',
       heading: 'Filter with Role Type',
-      options: roleList
+      data: roleList,
     }
-  ]
+   ]
   
     return(
         <Grid container className="custom-list">
@@ -274,6 +274,8 @@ const AdminUsersList=()=>{
             columns={columns}
             id="data-role-list"
             // onRowClick={(params:any) => handleRowClick(params.id)}
+            noRecordIcon={<NoUserList className="userdetail-noimage"/>}
+            noRecordSubtitle="It's looks like you haven't created any users yet."
           />
         </Grid>
       </Grid>

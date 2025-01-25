@@ -3,12 +3,13 @@ import Grid from "@mui/material/Grid2";
 import moment from "moment";
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
-import { useState, Key } from "react";
+import { useState, Key, useEffect } from "react";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { Logger } from "@/Utils/Logger";
 import SessionDrawerContent from "./SessionDrawercontent";
 import SessionCard from "./sessionCard";
 import useStore from "@/Libs/store";
+import { formatUTCDateTime } from "@/Utils/CommonBaseClass";
 interface SessionsProps {
   eventData: any;
   onSubmitHandler: () => void;
@@ -37,6 +38,13 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
   const POST = useStore((state) => state.POST);
   const PUT = useStore((state) => state.PUT);
   const setDataById = useStore((state) => state.setDataById);
+
+  //fetch the details from eventData
+  useEffect(() => {
+    if (eventData?.programs) {
+      setPrograms(eventData.programs);
+    }
+  }, [eventData?.programs]);
   /**
    * Function used at while adding
    */
@@ -67,7 +75,6 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
       setDataById('sessions', {drawerOpen:true, isEditing:false, isAddon:true, showPriceField:false})
     }
 };
-
 
   const closeDrawer = () => setDataById('sessions', {drawerOpen: false});
   /**
@@ -179,6 +186,8 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
       ...data,
       programType: data.programType,
       isPaid: data.isPaid,
+      ...(data.startTime ? {startTime:formatUTCDateTime(data.startTime) } : {}), // Conditionally add abstractDate
+      ...(data.endTime ? {endTime:formatUTCDateTime(data.endTime) } : {}), // Conditionally add abstractDate
       ...(isEditing ? {} : { parentEventId: parentId }), // Include parentId only when adding a new program
     };
 
@@ -189,7 +198,14 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
         : `/event/update/${selectedProgramId}`  // Program update URL
       : isAddon
         ? `/event/addon/add`                    // Add-on create URL
-        : `/event/program/add`;                 // Program create URL        
+        : `/event/program/add`;                 // Program create URL      
+        const message = isEditing
+        ? isAddon && selectedProgramId
+          ? 'Addon Updated Successfully!'   // Add-on update URL
+          : 'Program Updated Successfully!'  // Program update URL
+        : isAddon
+          ? 'Addon Created Successfully!'                    // Add-on create URL
+          : 'Program Created Successfully!' 
       
         const successCB = (response: any) => {
           onSubmitHandler();
@@ -210,7 +226,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
             open: true,
             autoHideDuration: 2000,
             severity: "success",
-            message: "Success",
+            message: message
           });
           Logger.info("Operation successful:", response.data);
         };
@@ -283,7 +299,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
         </Typography>
 				<Grid>
 					<CustomButton
-							className="event-detail-speakers-card-speaker-add-button"
+							className="event-sessions-sessions-container-add-addon-button"
 							variant="outlined"
 							label=" + Add Add-ons"
 							onClick={handleAddOnClick}
@@ -306,6 +322,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
                 <SessionCard
                   key={index}
                   item={item}
+                  timeCorrection={true}
                   onEditClick={handleEditClick}
                   onDeleteClick={handleDeleteClick}
                   titleField={item.addon && item.addon.name ? "addon.name" : "name"}
@@ -330,7 +347,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
       {/* Render valid date items */}
       {Object.keys(groupedData)
         .filter((date) => date !== "invalid")
-        .map((date) => (
+        .map((date,idx) => (
           <Grid size={{ xs: 12 }} key={date}>
             <Box
               className="event-sessions-date-header"
@@ -345,11 +362,13 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
 
             <Grid container spacing={2} className="event-sessions-session-list">
 						{groupedData[date].map(
-  (item: { addon: { name: any } }, index: Key | null | undefined) => {
+           (item: { addon: { name: any } }, index: Key | null | undefined) => {
     return (
       <SessionCard
         key={index}
+        index={idx + 1}
         item={item}
+        timeCorrection={true}
         hasAddOns={item.addon ? true : false}
         onEditClick={handleEditClick}
         onDeleteClick={handleDeleteClick}
@@ -382,6 +401,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
         type="right"
         children={
           <SessionDrawerContent
+          submitHandler={onSubmitHandler}
             isEditing={isEditing}
             isAddon={isAddon}
             selectedProgram={selectedProgram}
@@ -389,6 +409,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
             closeDrawer={closeDrawer}
             eventStartTime={eventData?.startTime}
             eventEndTime={eventData?.endTime}
+            eventData={eventData}
           />
         }
       />

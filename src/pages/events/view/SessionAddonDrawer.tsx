@@ -1,4 +1,4 @@
-import { Typography, IconButton, Box, Chip } from "@mui/material";
+import { Typography, IconButton, Box, Chip, Tooltip } from "@mui/material";
 import { CloseOutlined } from "@mui/icons-material";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
@@ -10,7 +10,7 @@ import moment from "moment";
 import { useFieldArray } from "react-hook-form";
 import AddIcon from "@mui/icons-material/Add";
 import apiClient from "@/Libs/Https/API-client";
-import { processAPIResponse } from "@/Utils/CommonBaseClass";
+import {convertUTCToUserTimeZone, formatUTCDateTime, getLocalTimeDate, processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import { useParams } from "react-router-dom";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
@@ -18,6 +18,8 @@ import CreateAddon from "../CreateAddon";
 import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
 import CustomTimePicker from "@/components/CustomTimePicker/CustomTimePicker";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import CustomCheckbox from "@/components/CustomCheckbox/CustomCheckbox";
+import { POST, setDataById } from "@/Libs/store";
 
 interface FormData {
   addonId: number;
@@ -34,6 +36,8 @@ interface FormData {
   }[];
   dateRequired: boolean;
   addonDate: string;
+  repeat: string[];
+  noOfDays: string;
 }
 
 interface SessionAddonDrawerProps {
@@ -41,6 +45,8 @@ interface SessionAddonDrawerProps {
   selectedAddOn: any;
   onSubmit: (data: FieldValues) => void;
   closeDrawer: () => void;
+  eventData: any;
+  onSubmitHandler:()=>void
 }
 
 /**
@@ -51,13 +57,13 @@ interface SessionAddonDrawerProps {
  * @param onSubmit - Callback to handle form submission
  * @param closeDrawer - Callback to close the drawer
  */
-const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, selectedAddOn, onSubmit, closeDrawer }) => {
+const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, selectedAddOn, onSubmit, closeDrawer, eventData, onSubmitHandler }) => {
   const { id } = useParams();
   const [addOnOptions, setAddOnOptions] = useState<{ label: string; value: string | number }[]>([]);
   const [selectedAddOnId, setSelectedAddOnId] = useState<string | number | null>(null);
   const [newAddOnView, setNewAddonView] = useState(false);
 
-  const { control, setValue, handleSubmit, watch, reset,setError,clearErrors } = useForm<FormData>({
+  const { control, setValue, handleSubmit, watch, reset, setError, clearErrors } = useForm<FormData>({
     defaultValues: {
       isPaid: isEditing && selectedAddOn?.amount > 0 ? "PAID" : "FREE",
       startTime: selectedAddOn ? selectedAddOn.startTime : "",
@@ -77,7 +83,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
   /**
    * Fetches and sets new add-on options created for the dropdown from the API.
    */
-  const onaddOnSubmitHandler =async () => {
+  const onaddOnSubmitHandler = async () => {
     await handleAddOnOptionsApiCall();
   };
 
@@ -85,10 +91,9 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
   const isAddon = watch("addonId");
   const isDescription = watch("description");
   const addonProperties = watch("properties");
-
   const buttonDisbaled = !isAddon || !isDescription || addonProperties === undefined || addonProperties?.length === 0;
-
-
+  const [endTimeChanged, setEndTimeChanged] = useState(false);
+  const [startTimeChanged, setStartTimeChanged] = useState(false);
   const { fields, remove, append } = useFieldArray({
     control,
     name: "properties",
@@ -120,7 +125,6 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
     }
   };
 
-
   /**
    * Closes the add-on drawer, but prevents the drawer from closing if there is any data in the form that has not been saved yet.
    * If there is unsaved data, it will display an error message snackbar.
@@ -138,8 +142,8 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
       setSelectedAddOnId(selectedAddOn?.addon?.id);
       setValue("description", selectedAddOn?.description);
       setValue("addonDate", moment(selectedAddOn?.startTime).format("YYYY-MM-DD"));
-      setValue("startTime", moment.utc(selectedAddOn?.startTime).format("HH:mm"));
-      setValue("endTime", moment.utc(selectedAddOn?.endTime).format("HH:mm"));
+      setValue("startTime", startTimeChanged ? moment.utc(selectedAddOn?.startTime).format("HH:mm A") : getLocalTimeDate(selectedAddOn?.startTime));
+      setValue("endTime", endTimeChanged ? moment.utc(selectedAddOn?.endTime).format("HH:mm A") : getLocalTimeDate(selectedAddOn?.endTime));
       setValue("isPaid", selectedAddOn.amount > 0 ? "PAID" : "FREE");
       setValue("amount", selectedAddOn.amount);
       setValue("dateRequired", !!selectedAddOn?.endTime);
@@ -240,36 +244,143 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
    * @param form data
    */
   const handleFormSubmit = (data: FieldValues) => {
-    if (!data.properties || data?.properties.length == 0) {
+    if (!data.properties || data?.properties.length === 0) {
       setError(`propertyName`, {
         type: 'manual',
         message: `Minimum one Addon property should be there`,
       });
       return;
     } else {
-      const formattedData: any = {
-        eventId: Number(id),
-        addonId: Number(selectedAddOnId),
-        amount: data.amount,
-        description: data.description,
-        properties: Array.isArray(data.properties) && data.properties.length > 0
-          ? data.properties.map((property: any) => ({
-            name: property.propertyName,
-            amount: property.propertyAmount || 0,
-            description: "  ",
-            enabled: 1,
-          }))
-          : [],
-      };
-      if (data.dateRequired) {
-        formattedData.startTime = `${data.addonDate} ${data.startTime}`;
-        formattedData.endTime = `${data.addonDate} ${data.endTime}`;
+      const startDate = moment(eventData.startTime).startOf('day');
+      const endDate = moment(eventData.endTime).startOf('day');
+      const differenceInDays = endDate.diff(startDate, 'days') + (startDate.isBefore(endDate) ? 1 : 0);
+
+      if (parseInt(data?.noOfDays) > differenceInDays) {
+        setError(`noOfDays`, {
+          type: 'manual',
+          message: `Maximum ${differenceInDays} can be repeated!`,
+        });
+        return;
       }
-      onSubmit(formattedData);
+
+      const formattedDataArray: any[] = []; 
+      if (data.noOfDays !== '' && data?.repeat?.length > 0) {
+        // Create the base data structure without including the date
+        const baseFormattedData: any = {
+          addonId: Number(selectedAddOnId),
+          // amount: data.amount,
+          description: data.description,
+          properties: Array.isArray(data.properties) && data.properties.length > 0
+            ? data.properties.map((property: any) => ({
+              name: property.propertyName,
+              amount: property.propertyAmount || 0,
+              description: "  ",
+              // enabled: 1,
+            }))
+            : [],
+        };
+
+        if (data.dateRequired) {
+          baseFormattedData.startTime = `${data.addonDate} ${data.startTime}`;
+          baseFormattedData.endTime = `${data.addonDate} ${data.endTime}`;
+        }
+
+        // Loop through the number of days
+        for (let i = 0; i < parseInt(data.noOfDays); i++) {
+          const newAddon = { ...baseFormattedData };
+          const currentDate = new Date(newAddon.startTime);
+          currentDate.setDate(currentDate.getDate() + i); // Add i days to the start date
+
+          // Update the date field
+          const date = currentDate.toISOString().split('T')[0]; // Format the date
+
+          // Update startTime and endTime with the new date
+          newAddon.startTime = `${date} ${formatUTCDateTime(newAddon.startTime,"HH:mm")}`;
+          newAddon.endTime = `${date} ${formatUTCDateTime(newAddon.endTime,"HH:mm")}`;
+
+          // Add the formatted data to the array
+          formattedDataArray.push(newAddon); // This ensures you're adding to an array, not an object
+        }
+      } else {
+        // If no looping is required, generate just one formattedData
+        const formattedData: any = {
+          addonId: Number(selectedAddOnId),
+          description: data.description,
+          properties: Array.isArray(data.properties) && data.properties.length > 0
+            ? data.properties.map((property: any) => ({
+              name: property.propertyName,
+              amount: property.propertyAmount || 0,
+              description: "  ",
+            }))
+            : [],
+        };
+
+        if (data.dateRequired) {
+          formattedData.startTime = `${data.addonDate} ${convertUTCToUserTimeZone(data.addonDate+" "+data.startTime,"HH:mm")}`;
+          formattedData.endTime = `${data.addonDate} ${convertUTCToUserTimeZone(data.addonDate+" "+data.endTime,"HH:mm")}`;
+        }
+        formattedDataArray.push(formattedData);
+        
+      }
+      if (isEditing) {      
+        const baseFormattedData: any = {
+          eventId: Number(id),
+          addonId: Number(selectedAddOnId),
+          startTime:`${data.addonDate} ${data?.startTime} `,
+          endTime:`${data.addonDate} ${data?.endTime}`,
+          description: data.description,
+          properties: Array.isArray(data.properties) && data.properties.length > 0
+            ? data.properties.map((property: any) => ({
+              name: property.propertyName,
+              amount: property.propertyAmount || 0,
+              description: "  ",
+            }))
+            : [],
+        };
+        onSubmit(baseFormattedData);
+      } else {
+        addonCreateSubmit(formattedDataArray);
+      }
     }
   };
+
+  /**
+   * addon create request handles repeat addon create
+   * @param form data
+   */
+  const addonCreateSubmit = (data: any) => {
+    const request = {
+      eventId: Number(id),
+      addons: data
+    }
+    POST({
+      url: '/event/addon/add',
+      body: request,
+      id: 'createMultipleAddon',
+      successCB: (_context) => {
+        closeDrawer();
+        onSubmitHandler();
+        setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "success",
+          message: "Success",
+        });
+      },
+      errorCB: (error: any) => {
+        setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "error",
+          message: error.message,
+        });
+      },
+    })
+  }
+
+
   return (
-     
+
     <Box sx={{ maxWidth: 600 }}>
       <Grid container rowGap={3} columnSpacing={2} padding={2} className="pb-5 ">
         <Grid container rowSpacing={4} justifyContent="space-between" alignItems="center" size={{ xs: 12 }}>
@@ -319,7 +430,9 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
         {watch("dateRequired") && (
           <>
             <Grid size={{ xs: 12 }}>
-              <CustomTextField name="addonDate" placeholder="Add-on Date" control={control} type="date" />
+              <CustomTextField name="addonDate" placeholder="Add-on Date" control={control} type="date"
+                min={moment(eventData?.startTime).format("YYYY-MM-DD")}
+                max={moment(eventData?.endTime).format("YYYY-MM-DD")} />
             </Grid>
             <Grid size={{ xs: 6 }}>
               <CustomTimePicker
@@ -329,6 +442,10 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
                 control={control}
                 type="time"
                 ampm={true}
+                defaultValue={getLocalTimeDate(selectedAddOn?.startTime)}
+                onValueChange={() => {
+                  setStartTimeChanged(true)
+                }}
               />
             </Grid>
             <Grid size={{ xs: 6 }}>
@@ -339,10 +456,49 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
                 control={control}
                 type="time"
                 ampm={true}
+                defaultValue={getLocalTimeDate(selectedAddOn?.endTime)}
+                onValueChange={() => {
+                  setEndTimeChanged(true)
+                }}
               />
             </Grid>
           </>
         )}
+        {!isEditing && watch("dateRequired") && <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
+          <Grid size={{ xs: 12, sm: 12 }}>
+            <Grid container display={"flex"} alignItems={"center"}>
+              <CustomCheckbox
+                className="add-addons-check-btn"
+                options={[{ label: 'Repeat', value: 'YES' }]}
+                control={control}
+                name={`repeat`}
+                onChange={() => {
+                  setValue(`noOfDays`, '')
+                }}
+              />
+              <Tooltip title="No of Days once Saved can't be edited" arrow>
+                <IconButton className="add-addons-warning-msg"
+                >
+                  {/* <ErrorOutlineIcon /> */}
+                </IconButton>
+              </Tooltip>
+            </Grid>
+            <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
+              {/* Conditionally render Number of Days field */}
+              {watch(`repeat`)?.length > 0 && (
+                <Grid size={{ xs: 12, sm: 12 }}>
+                  <CustomTextField
+                    placeholder="Number of days"
+                    control={control}
+                    name={`noOfDays`}
+                    type="number"
+                    rules={{ required: true }}
+                  />
+                </Grid>
+              )}
+            </Grid>
+          </Grid>
+        </Grid>}
         {/* <Grid size={{ xs: 12 }}>
           <CustomTextField name="amount" placeholder="Price" control={control} type="number" requiredField={true} />
         </Grid> */}
@@ -368,7 +524,6 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
               validate: () => Array.isArray(addonProperties) && addonProperties.length > 0 || "Please add at least one property"
             }} />
           </Grid>
-
 
           <Grid size={{ xs: 6 }}>
             <CustomTextField

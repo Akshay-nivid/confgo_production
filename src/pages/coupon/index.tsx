@@ -4,8 +4,6 @@ import Grid from "@mui/material/Grid2";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
-import TuneRoundedIcon from "../../../src/assets/svg/filter.svg";
-import FilterModal from "@/components/CustomFilter/FilterModal";
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
 import { useForm } from "react-hook-form";
 import apiClient from "@/Libs/Https/API-client";
@@ -14,6 +12,7 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { Typography } from "@mui/material";
 import { ISource } from "@/Libs/type";
 import { NoCouponDataSvg } from "@/assets/svg";
+import { Filter } from "@/components/Filter";
 
 interface FilterType {
   id?: number;
@@ -27,12 +26,11 @@ interface FilterType {
  */
 const Coupon = () => {
   const navigate = useNavigate();
-  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
   const [filters, setFilters] = useState<FilterType>({});
   const [source, setSource] = useState<ISource | undefined>(undefined);
   const [loading, setLoading] = useState(false); // To indicate loading state for API
-
+  const [dataLength, setDataLength] = useState(0);
   const { control } = useForm();
   /**
    * Useeffect hook handles the api call
@@ -77,26 +75,27 @@ const Coupon = () => {
       type:"default", field:"code", headerName: "Coupon Code", width:200
     }
   ];
-  /**
-   * Apply filter
-   * @param newFilters
-   */
-  const handleApplyFilters = (newFilters: any) => {
-    // Update filters when modal is applied
-    setSource({
-      method: "POST",
-      data: {
-        offset: 0,
-        limit: 5,
-        filters: {
-          ...newFilters,
-        },
-      },
-      url: `coupon/list`,
-      listName: "couponList",
-    });
-    setFilters(newFilters);
-  };
+
+  const DiscountTypeArray = [
+    { label: "flat", value: "flat" },
+    { label: "percentage", value: "percentage" },
+  ];
+  
+  const filterFields: any = [
+    {
+      type: 'date',
+      fieldName: 'startTime',
+      label: 'Today',
+      heading: 'Filter with Date'
+    },
+    {
+      type: 'tiles',
+      fieldName: 'discountType',
+      label: 'Discount Type',
+      heading: 'Filter with Discount Type',
+      options: DiscountTypeArray
+    },
+  ]
 
   /**
    * Row click navigation
@@ -148,6 +147,24 @@ const Coupon = () => {
       });
     }
   };
+
+   /**
+   * Transforms the raw data from the API to match the required format for the DataGrid component.
+   * @param data - The raw data from API response
+   * @returns Transformed data for DataGrid
+   */
+  const transformData = (data: any) => {
+    setDataLength(data?.length)
+    if (!data) return [];
+    return data.map((item: any) => ({
+      id: item?.id,
+      name: item?.name,
+      discountType: item?.discountType,
+      endDate: item?.endDate,
+      code:item?.code,
+    }));
+  };
+
   return (
     <Grid container className="custom-list">
       <Grid size={{ xs: 4 }}>
@@ -159,17 +176,19 @@ const Coupon = () => {
       {/* Buttons for 'Create New Coupon' and 'Filters' */}
       <Grid container size={{ xs: 8 }} spacing={2} justifyContent="flex-end">
         <Grid container>
+          { dataLength > 0 &&
           <CustomAutocomplete
-            name="search"
-            className="custom-search-text-field"
-            control={control}
-            placeholder="Search Coupon Name"
-            options={searchResults} // Dynamic options based on API results
-            getOptionLabel={(option: any) => option.name || ""} // Adjust based on your data structure
-            onSearch={handleSearch} // Call the search function
-            loading={loading}
-            onChange={handleAutocompleteChange}
-          />
+          name="search"
+          className="custom-search-text-field"
+          control={control}
+          placeholder="Search Coupon Name"
+          options={searchResults} // Dynamic options based on API results
+          getOptionLabel={(option: any) => option.name || ""} // Adjust based on your data structure
+          onSearch={handleSearch} // Call the search function
+          loading={loading}
+          onChange={handleAutocompleteChange}
+        />}
+          
         </Grid>
         <Grid container spacing={2}>
           <CustomButton
@@ -184,19 +203,12 @@ const Coupon = () => {
             }}
             // disabled={loading}
           />
-          <CustomButton
-            className="create-coupon-filter-btn"
-            onClick={() => setIsFilterModalOpen(true)}
-            label="Filters"
-            startIcon={<TuneRoundedIcon />}
-            variant="contained"
-            color="primary"
-            size="large"
-          />
+          <Filter datagridId='coupon-datagrid' fields={filterFields} />
         </Grid>
       </Grid>
       <Grid size={{ xs: 12 }}>
         <DataGridList
+          dataTransformer={transformData}
           source={source}
           onRowClick={(params: any) => handleRowClick(params.id)}
           title="Coupon"
@@ -210,13 +222,6 @@ const Coupon = () => {
           btnName="Create New Coupon" //define the label of btn
         />
       </Grid>
-
-      {/* Filter Modal */}
-      <FilterModal
-        open={isFilterModalOpen}
-        onClose={() => setIsFilterModalOpen(false)}
-        onApplyFilters={handleApplyFilters}
-      />
     </Grid>
   );
 };
