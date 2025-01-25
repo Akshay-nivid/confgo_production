@@ -13,6 +13,7 @@ import ProgramIcon from "../../../assets/svg/programIcon.svg";
 import {VectorMenu} from "@/assets/svg";
 import SpeakerDetailsToolTip from "./ToolTipSpeaker/SpeakerDetailsToolTip";
 import config from "../../../../config.json"
+import moment from "moment";
 interface FieldConfig {
   label: string;
   
@@ -42,7 +43,6 @@ interface AddOnOptions{
  * Component for listing data in a card format, dynamically rendering fields based on item type
  */
 const SessionCard: React.FC<SessionCardProps> = ({
-  index,
   item,
   onEditClick,
   titleField,
@@ -183,7 +183,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
           <>
          <Grid container size={12}>
         <Typography className="card-content-day">
-       {item && (` Day ${index}`)}
+        {item && (` Day - ${moment(item?.startDate).format('dddd')}`)}
         </Typography>
        </Grid>
        </>
@@ -224,13 +224,13 @@ const SessionCard: React.FC<SessionCardProps> = ({
        {/* </Grid> */}
       
       
-       {!hasAddOns&&item?.eventSpeakers[0]?.user && (
+       {!hasAddOns&&item?.eventSpeakers?.[0]?.user && (
        <>
         <Grid className="card-content-heading" >
                  <Grid className="card-content-heading"  gap={1}minHeight="5rem" display={"flex"}direction={"column"}>
                 
                    {item?.eventSpeakers?.map((speaker: any, index: number) => (
-                    <Grid key={index} display="flex" alignItems="center" gap={1}>
+                    index < 5 && <Grid key={index} display="flex" alignItems="center" gap={1}>
                         {speaker?.user?.assetId ? (
                       <Avatar
                          src={`${baseUrl}asset/${speaker?.user?.assetId}`}
@@ -241,12 +241,13 @@ const SessionCard: React.FC<SessionCardProps> = ({
                         ) : (
                           //className="main-user-profile main-user-profile-text"
                      <Avatar className="session-speaker-avatar">
-                    {`${speaker?.user?.firstName[0]}${speaker?.user?.lastName[0]}`}
+                    {`${speaker?.user?.firstName?.[0]}${speaker?.user?.lastName?.[0]}`}
                     </Avatar>
                    )}
      
                     </Grid>
                         ))}
+                       {item?.eventSpeakers?.length >= 5 &&  <Grid container justifyContent={'flex-end'} alignItems={'center'}>{`...`}</Grid>}
                     </Grid>
                     </Grid>
                        </>
@@ -336,7 +337,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
                        ) : (
                          
                   <Avatar  className="session-speaker-modal-avatar">
-                  {`${speaker?.user?.firstName[0]}${speaker?.user?.lastName[0]}`}
+                  {`${speaker?.user?.firstName?.[0]}${speaker?.user?.lastName?.[0]}`}
                </Avatar>
          )}
         </>} > 
@@ -351,14 +352,14 @@ const SessionCard: React.FC<SessionCardProps> = ({
                      />
                    ) : (
                      <Avatar  className="session-speaker-modal-avatar">
-                       {`${speaker?.user?.firstName[0]}${speaker?.user?.lastName[0]}`}
+                       {`${speaker?.user?.firstName?.[0]}${speaker?.user?.lastName?.[0]}`}
                      </Avatar>
                    )}
                  </Grid>
                  <Grid size={10} marginInline={"2rem"}>
 
                   <Typography className="modal-speaker-name">{`${speaker?.user?.firstName}${speaker?.user?.lastName}` }</Typography>
-                  <Typography className="modal-speaker-name-designation">{speaker?.speakerBios?.designation}</Typography>
+                  <Typography className="modal-speaker-name-designation">{speaker?.user?.designation}</Typography>
       
                  </Grid>
                </Grid>
