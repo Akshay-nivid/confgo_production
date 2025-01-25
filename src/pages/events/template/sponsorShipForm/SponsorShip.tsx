@@ -32,7 +32,7 @@ interface FormData {
  * @returns {JSX.Element} The rendered JSX content for the sponsorship form.
  */
 
-const SponsorShip = () => {
+const SponsorShip = (eventId:any) => {
 
     const { handleSubmit, control, formState: { errors }, setValue, register } = useForm<FormData>({
         reValidateMode: "onSubmit"
@@ -43,7 +43,6 @@ const SponsorShip = () => {
 
     const [phoneNumber, setPhoneNumber] = useState("");
     const [selectedCountryCode, setSelectedCountryCode] = useState("+91");
-    const eventId=useStore((state:any)=>state?.compData?.['temEventId']?.id)??[];
     const isLoading = useStore(state => state.compData?.['sponsorContact']?.['notification/contact']?.loading) || false
     /**
     * Handles the change in selected country code.
