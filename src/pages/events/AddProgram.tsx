@@ -433,7 +433,7 @@ const handleAddProgram = () => {
       setValue("programs", watch("savedPrograms"));
       setProgramIndex(index);
       if(watch(`programs.${index}.speakers`)){
-        setShowSpeakerSection(true)
+        setShowSpeakerSection(watch(`programs.${index}.speakers`)?.length == 0 ? false : true)
       }
     };
 
