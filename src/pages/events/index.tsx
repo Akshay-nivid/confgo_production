@@ -531,7 +531,7 @@ const Events = () => {
               speakerId: speaker?.userId,
               speakerFullName: `${speaker?.user?.firstName} ${speaker?.user?.lastName}`,
               speakerAssetId: speaker?.user?.assetId,
-              designation: speaker?.user?.[0]?.designation || " ",
+              designation: speaker?.user?.designation || " ",
             })) || [],
         })),
         addOns: data.addons?.map((addon: any) => ({
