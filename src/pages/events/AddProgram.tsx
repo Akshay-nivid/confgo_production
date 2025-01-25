@@ -28,7 +28,7 @@ type Speaker = {
   speakerId?: string;
   speakerFullName?: string;
   speakerAssetId?: string;
-  designation: string;
+  designation?: string;
 }
 
 type Sponsor={
@@ -53,7 +53,7 @@ type FormData = {
       speakerId?: string;
       speakerFullName?: string;
       speakerAssetId?: string;
-      designation: string;
+      designation?: string;
     }[];
     speakerId?: string;
     speakerFullName?: string;
@@ -86,7 +86,7 @@ type FormData = {
       speakerId?: string;
       speakerFullName?: string;
       speakerAssetId?: string;
-      designation: string;
+      designation?: string;
     }[];
     speakerId?: string;
     speakerFullName?: string;
@@ -175,6 +175,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
         speakerId: item?.id,
         speakerFullName: `${item?.firstName} ${item?.lastName}`,
         speakerAssetId: item?.assetId,
+        designation: item?.designation,
         ...item
       }));
     }
@@ -391,24 +392,24 @@ const handleAddProgram = () => {
         return
       }
     // Ensure dates are valid Date objects
-    let selectedDate =programs?.[programIndex]?.startDate
-    let selectedEndDate =programs?.[programIndex]?.endDate
-    let eventStartDateObj = new Date(eventStartDate);
-    let startDateObj = new Date(selectedDate);
-    let endDateObj = new Date(programs?.[programIndex]?.endDate);
+    let selectedDate = programs?.[programIndex]?.startDate
+    let selectedEndDate = programs?.[programIndex]?.endDate
+    let formattedStartDate = moment(selectedDate)?.format('YYYY-MM-DD');
+    let formattedeventStartDate = moment(eventStartDate)?.format('YYYY-MM-DD');
+    let formattedeventeventEndDate = moment(eventEndDate)?.format('YYYY-MM-DD');
+    let formattedeventendDate = moment(programs?.[programIndex]?.endDate).format('YYYY-MM-DD');
     let eventEndDateObj = new Date(eventEndDate)
     eventEndDateObj.setHours(23, 59, 59, 999);
 
       // Perform the comparison of dates
-      if (startDateObj.getTime() < eventStartDateObj.getTime() || startDateObj.getTime() > eventEndDateObj.getTime()) {
+      if (formattedStartDate < formattedeventStartDate || formattedStartDate > formattedeventeventEndDate) {
         setError(`programs.${programIndex}.startDate`, {
           type: 'manual',
           message: 'Start date should be within event Dates',
         });
         return
       } 
-  
-      if (endDateObj.getTime() > eventEndDateObj.getTime()) {
+      if (formattedeventendDate > formattedeventeventEndDate) {
         setError(`programs.${programIndex}.endDate`, {
           type: 'manual',
           message: 'End date should be within event Dates',
@@ -600,13 +601,13 @@ const handleAddProgram = () => {
         });
         return;
       }
-      if (!designation) {
-        setError(`programs.${index}.designation`, {
-          type: 'manual',
-          message: 'Designation is required',
-        });
-        return;
-      }
+      // if (!designation) {
+      //   setError(`programs.${index}.designation`, {
+      //     type: 'manual',
+      //     message: 'Designation is required',
+      //   });
+      //   return;
+      // }
 
       const newSpeaker = {
         speakerId,
@@ -649,17 +650,18 @@ const handleAddProgram = () => {
      * @param {object} item - The speaker object that needs to be removed.
      * @param {number} _index - The index of the program in the programs array .
      */
-    const removeSpeaker = (item: any, _index: number) => {
+    const removeSpeaker = (item: any, index: number) => {
+      // Retrieve current form values
       const values = watch();
-      const updatedPrograms = values.programs.map((program) => {
-        const updatedSpeakers = program.speakers?.filter(
-          (speaker) => speaker?.speakerId !== item?.speakerId
-        ) || [];
-        return {
-          ...program,
-          speakers: updatedSpeakers,
-        };
-      });
+    
+      // Update only the specific program at the provided index
+      const updatedPrograms = [...values.programs];
+      const updatedSpeakers = updatedPrograms[index].speakers?.filter(
+        (speaker) => speaker?.speakerId !== item?.speakerId
+      ) || [];
+      updatedPrograms[index].speakers = updatedSpeakers;
+    
+      // Set the updated programs back to the form
       setValue('programs', updatedPrograms);
     };    
 
@@ -882,20 +884,21 @@ const handleAddProgram = () => {
                                       setValue(`programs.${index}.speakerId`,selectedOption?.speakerId)
                                       setValue(`programs.${index}.speakerAssetId`,selectedOption?.speakerAssetId)
                                       setValue(`programs.${index}.speakerFullName`,selectedOption?.speakerFullName)
+                                      setValue(`programs.${index}.designation`,selectedOption?.designation)
                                     }}
                                   />
                                 </Grid>
                                 <Grid container className="add-program-drawer-new-speaker-link" justifyContent={'end'} onClick={() => setNewSpeakerDrawerOpen(true)} size={{xs:12}}>
                                   <Typography className="cursor-container" variant="h6">Create New Speaker ?</Typography>
                                 </Grid>
-                                <Grid size={{ xs: 12}}>
+                                {/* <Grid size={{ xs: 12}}>
                                   <CustomTextField
                                     placeholder="Designation"
                                     control={control}
                                     name={`programs.${index}.designation`}
                                     type="text"
                                   />
-                                </Grid>
+                                </Grid> */}
                                 <Grid size={{xs:12}} >
                                   <CustomButton
                                     className="add-program-drawer-btn-cancel"

@@ -5,6 +5,9 @@ import Grid from '@mui/material/Grid2';
 import React from 'react';
 import config from '../../../../config.json';
 import NoProfilePicture from "../../../assets/svg/NoProfilePicture.svg";
+import { setNonPersistedDataById } from '@/Libs/store';
+import SpeakerDetailsModal from './_components/SpeakerDetailsModal';
+import { truncateString } from '@/Utils/CommonBaseClass';
 
 type EventContributorsSectionProps = {
     data?: any;
@@ -46,12 +49,22 @@ const EventContributorsSection = React.memo(
         return Array.from(uniqueSpeakersMap.values());
       }
 
+      function handleSpeakerCardClick(item:any) {
+    
+        setNonPersistedDataById('isSpeakerDetailsModelOpen', { value: true })
+        setNonPersistedDataById('speakerDetails', { value: item })
+    
+      }
+
+   
+
 
     return <Grid id={'Contributors'} container size={{ xs: 12, sm: 12 }} className={`${classPrefix} `} spacing={1} direction={'column'} justifyContent={'center'} alignItems={'center'} ref={ref}>
+        <SpeakerDetailsModal />
         <Grid className={`${classPrefix}-title`}>Meet Our Esteemed Speakers</Grid>
         <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-item-group-container anim-container`} justifyContent={'center'} alignItems={'center'} spacing={4}>
             {data?.length > 0 && getUniqueSpeakers(data)?.map((item: any) => {
-                return <Grid alignSelf={'stretch'}  size={{ xs: 12, sm: 6 }} container direction={'row'} className={`${classPrefix}-item-container `} spacing={2}>
+                return <Grid alignSelf={'stretch'} onClick={() => handleSpeakerCardClick(item)}  size={{ xs: 12, sm: 6 }} container direction={'row'} className={`${classPrefix}-item-container `} spacing={2}>
                     <Grid   size={{ xs: 12, sm: 12 }} container direction={'row'} className={`${classPrefix}-item-container-speaker-card `}>
                         <Grid overflow={'hidden'}  className={`${classPrefix}-item-container-speaker-card-image-container card-image-container `}>
                             {item?.user?.assetId ? (<img
@@ -66,8 +79,8 @@ const EventContributorsSection = React.memo(
                         </Grid>
                         <Grid container  direction={'column'} >
                             <Grid className={`${classPrefix}-item-name name`}>{`${item.user?.firstName} ${item.user?.lastName}`}</Grid>
-                            {/* <Grid className={`${classPrefix}-item-designation`}>{item.designation}</Grid>
-                            <Grid className={`${classPrefix}-item-topic`} title={item.description}>{truncateString(item.description,30, "")}</Grid> */}
+                            <Grid className={`${classPrefix}-item-designation`}>{item.user?.designation}</Grid>
+                            <Grid className={`${classPrefix}-item-topic`} title={item.user?.userDescription}>{truncateString(item.user?.userDescription,40, "")}</Grid>
                         </Grid>
                     </Grid>
                 </Grid>
