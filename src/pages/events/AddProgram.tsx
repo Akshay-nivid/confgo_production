@@ -70,6 +70,7 @@ type FormData = {
     sponsorFullName?:string;
     sponsorLogoId?:string;
     sponsorbannerId?:string;
+    sponosrSelection?:string;
   }[];
   savedPrograms: {
     id?: string;
@@ -103,6 +104,7 @@ type FormData = {
     sponsorFullName?:string;
     sponsorLogoId?:string;
     sponsorbannerId?:string;
+    sponosrSelection?:string;
   }[];
 };
 type ProgramProps = {
@@ -158,7 +160,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
     const [loading, setLoading] = useState(false);
     const companyId = sessionStorage.getItem("companyId")
     const [searchResults, setSearchResults] = useState<Speaker[]>([]);
-    const [searchSpekerResults,setSearchSpeakerResults]=useState<any>([]);
+    const [searchSpekerResults,setSearchSpeakerResults]=useState<Sponsor[]>([]);
     const [showSpeakerSection, setShowSpeakerSection] = useState(false);
     const [showSponserSeciton,setShowSponsorSection]=useState(false);
     const baseUrl = config.api.url;
@@ -186,6 +188,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
      * @returns 
      */
      function transformSponsoerData(data: any): Sponsor[] {
+      console.log(data,'full data getting here>>>>>.')
       return data?.map((item: any) => ({
         sponsorId: item?.id,
         sponsorFullName: item?.name,
@@ -234,9 +237,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
           limit:30
         },
         successCB: (context: any) => {
-          console.log(context,'kkkkkkkkk')
-          transformSponsoerData(context.data)
-          // setSearchResults(transformUserData(context?.data))
+          setSearchSpeakerResults(transformSponsoerData(context?.data))
           setLoading(false);
         },
         errorCB: (context: any) => {
@@ -957,7 +958,7 @@ const handleAddProgram = () => {
                                 onClick={() => setShowSponsorSection(true)}
                               />
                             </Grid>
-                          ):( <SponsorForm control={control} handleSearch={handleSponsorSearch} addSponsor={addSpeaker} baseUrl={baseUrl} index={index} loading={loading} removeSponsor={removeSpeaker} setValue={setValue} searchResults={searchResults} setNewSpeakerDrawerOpen={()=>console.log()}watch={watch} />)}
+                          ):( <SponsorForm control={control} handleSearch={handleSponsorSearch} addSponsor={addSpeaker} baseUrl={baseUrl} index={index} loading={loading} removeSponsor={removeSpeaker} setValue={setValue} searchResults={searchSpekerResults} setNewSpeakerDrawerOpen={()=>console.log()}watch={watch} />)}
                           <Grid
                             container
                             direction={"row"}
