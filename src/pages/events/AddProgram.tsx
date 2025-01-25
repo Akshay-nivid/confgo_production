@@ -510,7 +510,7 @@ const handleAddProgram = () => {
       setValue("programs", watch("savedPrograms"));
       setProgramIndex(index);
       if(watch(`programs.${index}.speakers`)){
-        setShowSpeakerSection(true)
+        setShowSpeakerSection(false)
       }
     };
 
@@ -868,9 +868,11 @@ const handleAddProgram = () => {
                                   <Typography className="add-program-drawer-heading">
                                     Assign Speakers
                                   </Typography>
+                                  {watch(`programs.${index}.speakers`)?.length == 0 && (
                                   <IconButton onClick={() => setShowSpeakerSection(false)}>
                                     <CloseOutlined />
                                   </IconButton>
+                                  )}
                                 </Grid>{/*end of speaker header section */}
                                 <Grid size={{ xs: 12}}>
                                   <CustomAutocomplete
@@ -889,8 +891,8 @@ const handleAddProgram = () => {
                                     }}
                                   />
                                 </Grid>
-                                <Grid container className="add-program-drawer-new-speaker-link" justifyContent={'end'} onClick={() => setNewSpeakerDrawerOpen(true)} size={{xs:12}}>
-                                  <Typography className="cursor-container" variant="h6">Create New Speaker ?</Typography>
+                                <Grid container className="add-program-drawer-new-speaker-link" justifyContent={'end'}  size={{xs:12}}>
+                                  <Typography onClick={() => setNewSpeakerDrawerOpen(true)} className="cursor-container" variant="h6">Create New Speaker ?</Typography>
                                 </Grid>
                                 {/* <Grid size={{ xs: 12}}>
                                   <CustomTextField
