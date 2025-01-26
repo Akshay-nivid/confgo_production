@@ -139,13 +139,13 @@ const AdminUsersList=()=>{
           offset: 0,
           limit: 5,
           filters: {
-            id: selected.id,
+            userId: selected.id,
             companyId:companyId,
-            roleEnums: [
-              "VOLUNTEER",
-              "SPONSER",
-              "REVIEWER"
-          ]
+          //   roleEnums: [
+          //     "VOLUNTEER",
+          //     "SPONSER",
+          //     "REVIEWER"
+          // ]
           },
         },
         url: `user/userRole/list`,
@@ -162,11 +162,13 @@ const AdminUsersList=()=>{
    * @param query - The search query entered by the user
    */
   const handleSearch = async (query: string) => {
+    const companyId=sessionStorage.getItem('companyId')
     setLoading(true);
     try {
       let req = {
         filters: {
           name: query,
+          companyId:companyId,
         },
       };
       const response = await await apiClient.post(
@@ -242,7 +244,7 @@ const AdminUsersList=()=>{
               control={control}
               options={searchResults}
               getOptionLabel={(option: any) =>
-                option.user?.firstName || ""
+                option.firstName || ""
               }
               onSearch={handleSearch}
               loading={loading}
