@@ -854,7 +854,7 @@ const handleAddProgram = () => {
                                                   {item.speakerFullName}
                                                 </Typography>
                                                 <Typography className="add-program-speaker-section-card-item-subtitle">
-                                                  { truncateString(item?.designation,35)}
+                                                  {truncateString(item?.designation, 35, "")}
                                                 </Typography>
                                               </Grid>
                                               <Grid size={{xs:2}} justifyItems={'center'}>
@@ -911,7 +911,7 @@ const handleAddProgram = () => {
         <Grid
             container
             direction={"row"}
-            className="add-program-display-container"
+            className="add-program-program-display-container"
             size={{ xs: 12, sm: 7 }}
             spacing={2}
             key='add-program-display-container'
@@ -929,7 +929,7 @@ const handleAddProgram = () => {
             </Grid>
             <Grid
               size={{ xs: 12 }}
-              className="add-program-display-items"
+              className="add-program-program-display-items"
               alignItems="flex-start"
               justifyContent="flex-start"
               mt={{xs:1,sm:3}}
