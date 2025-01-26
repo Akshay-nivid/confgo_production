@@ -406,6 +406,7 @@ const handleAddProgram = () => {
         setValue("savedPrograms", programs);
         append(newProgram);
         setProgramIndex(programs?.length || 0);
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Program added to the event" })
       } else {
         // If in `editMode`, just update the program index
         setProgramIndex(programs?.length ? programs.length - 1 : 0);
@@ -432,7 +433,7 @@ const handleAddProgram = () => {
       setValue("programs", watch("savedPrograms"));
       setProgramIndex(index);
       if(watch(`programs.${index}.speakers`)){
-        setShowSpeakerSection(false)
+        setShowSpeakerSection(watch(`programs.${index}.speakers`)?.length == 0 ? false : true)
       }
     };
 
@@ -565,6 +566,7 @@ const handleAddProgram = () => {
       resetField(`programs.${index}.designation`);
       resetField(`programs.${index}.speakerFullName`);
       resetField(`programs.${index}.speakerSelection`);
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "speaker added successfully" })
     }; 
 
     /**

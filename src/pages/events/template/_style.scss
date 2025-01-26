@@ -1420,6 +1420,7 @@
     }
 
     &-template4{
+
         &-bg {
             background-color: $clr_white;
         }
@@ -1596,6 +1597,150 @@
                     width: 2rem;
                     height: 2rem;
                 }
+            }
+        }
+        &-program-schedule {
+            &-heading {
+                font-size: $h1 !important;
+                font-weight: $font_bold !important;
+                text-align: center !important;
+            }
+
+            &-date {
+                width: 24.33rem;
+                padding: 0.83rem !important;
+                background-color: $clr_charcoal_cyan !important;
+                border-radius: 0.6rem;
+                color: $clr_white;
+                font-weight: $font-normal;
+                font-size: $p5;
+                text-align: center;
+            }
+        }
+        &-program-tabs {
+            &-container {
+                margin: auto;
+                text-align: center;
+            }
+
+            &-box {
+                display: flex;
+                justify-content: center;
+                padding: 0.83rem;
+                background-color: $clr_background_light_gray;
+                border-radius: 0.83rem;
+            }
+
+            &-list {
+                display: flex;
+                gap: 0.83rem;
+            }
+
+            &-tab {
+                background-color: $clr_white !important;
+                color: $clr_black !important;
+                border: 0.083rem solid $clr_charcoal_cyan !important;
+                border-radius: 3.333rem !important;
+                box-shadow: none !important;
+                width: 10.58rem;
+                padding: 1rem 0.83rem 1rem 0.83rem !important;
+                font-weight: $font-bold !important;
+                font-size: $h6 !important;
+            }
+
+            &-tab-active {
+                background-color: $clr_charcoal_cyan !important;
+                color: $clr_white !important;
+            }
+        }
+        &-program-content {
+    
+            &-item {
+                border-radius: 0.83rem;
+                background-color: $clr_white;
+    
+                &-addon {
+                    // background-color: $clr_background_light_gray;
+                    background: repeating-linear-gradient(
+                        -70deg,
+                        $clr_gray_template_shade,
+                        $clr_gray_template_shade 3.333rem, 
+                        $clr_white 0.417rem,
+                        $clr_white 4.583rem
+                      );
+                      border-radius: 8px; /* Round corners if needed */
+                } 
+                &-program{
+                    border:solid 0.083rem $clr_gray_very_light
+                }
+            }
+    
+            &-time {
+                &-divider-gray{
+                    border-right: 0.083rem solid $clr_background_gray !important;
+                    margin-right: 2rem ;
+                }
+                &-divider-black{
+                    border-right: 0.083rem solid $clr_black !important;
+                    margin-right: 2rem ; 
+                }
+                &-day{
+                    text-align: center !important;
+                    font-size: $h5 !important;
+                    font-weight: $font-semibold !important;
+                }
+                &-num{
+                    text-align: center !important;
+                    font-size: $h1 !important;
+                    font-weight: $font-semibold !important;
+
+                }
+                &-divider-program{
+                    width: 0.08rem;
+                    height: 5rem !important;      
+                    background-color:$clr_background_gray !important; 
+                    margin-inline-start: 1rem !important;
+                }
+                // width: 17.91rem !important;
+                // background-color: $clr_charcoal_cyan;
+                // color: $clr_white !important;
+                // padding: 1rem 1.25rem 1rem 1.25rem !important;
+                // border-radius: 0.83rem;
+    
+                // &-icon {
+                //     fill: $clr_white;
+                //     width: 2rem;
+                //     height: 2rem;
+                // }
+    
+                &-value {
+                    font-weight: $font-semibold !important;
+                    font-size: $p3 !important;
+                    line-height: 1.5rem;
+                }
+            }
+    
+            &-details {
+                &-program {
+                    border-left: 0.083rem solid $clr_deep_cyan_green;
+                    padding-left: 2rem;
+                }
+    
+                &-addon {
+                    border-left: 0.083rem solid $clr_black;   
+                    padding-left: 2rem;      
+                }
+            }
+    
+            &-title {
+                font-weight: $font-normal !important;
+                font-size: 2.25rem !important;
+            }
+    
+            &-description {
+                font-weight: $font-normal !important;
+                font-size: $p5 !important;
+                color: $input_label !important;
             }
         }
     }
