@@ -3,7 +3,7 @@ import './style.scss'
 import { Close } from '@mui/icons-material'
 import { Avatar, IconButton, Tooltip } from '@mui/material'
 import Modal from '@mui/material/Modal';
-import useStore, { setNonPersistedDataById } from '@/Libs/store'
+import useStore, { setNonPersistedDataById } from '@/Libs/store/store'
 import { getLocalTimeDate } from '@/Utils/CommonBaseClass'
 import moment from 'moment'
 import { useEffect } from 'react';

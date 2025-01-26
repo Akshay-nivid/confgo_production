@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom'
 import Navbar from '../NavBar'
 import EventInfo from './EventInfo'
 import { useEffect } from 'react'
-import  { GET, POST, setDataById, snackBar } from '@/Libs/store'
+import  { GET, POST, setDataById, snackBar } from '@/Libs/store/store'
 
 
 

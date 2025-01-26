@@ -1,6 +1,6 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomCheckbox from "@/components/CustomCheckbox/CustomCheckbox";
-import useStore from "@/Libs/store";
+import useStore from "@/Libs/store/store";
 import { Logger } from "@/Utils/Logger";
 import { Dialog, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";

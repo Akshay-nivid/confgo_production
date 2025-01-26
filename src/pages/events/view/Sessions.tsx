@@ -8,7 +8,7 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { Logger } from "@/Utils/Logger";
 import SessionDrawerContent from "./SessionDrawercontent";
 import SessionCard from "./sessionCard";
-import useStore from "@/Libs/store";
+import useStore from "@/Libs/store/store";
 import { formatUTCDateTime } from "@/Utils/CommonBaseClass";
 interface SessionsProps {
   eventData: any;

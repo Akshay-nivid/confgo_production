@@ -5,7 +5,7 @@ import VolunteerListCard from "./VolunteerListCard";
 import { AccordionAddIcon, AccordionArrowIcon } from "@/assets/svg";
 import AbstractReviewer from "./AbstactReviewerListCard";
 import React from "react";
-import useStore from "@/Libs/store";
+import useStore from "@/Libs/store/store";
 
 /**
  * TeamAndRole Component

@@ -2,7 +2,7 @@
 import {Typography } from '@mui/material'
 import Grid from '@mui/material/Grid2'
 import {useNavigate } from 'react-router-dom'
-import useStore from '@/Libs/store'
+import useStore from '@/Libs/store/store'
 import KeyboardBackspaceRoundedIcon from '@mui/icons-material/KeyboardBackspaceRounded';
 import { useEffect } from 'react'
 import CustomButton from '@/components/CustomButton/CustomButton'

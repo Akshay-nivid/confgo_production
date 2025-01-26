@@ -11,7 +11,7 @@ import routes from '@/router/routes';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';
 import CustomDatePicker from '@/components/CustomDatePicker/CustomDatePicker';
 import moment from 'moment';
-import { setDataById } from '@/Libs/store';
+import { setDataById } from '@/Libs/store/store';
 import { validateAmount, validateMaxLength, validateMinLength } from '@/Utils/Validation';
 
 interface CouponFormData {

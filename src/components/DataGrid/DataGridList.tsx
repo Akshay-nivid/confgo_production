@@ -1,6 +1,6 @@
 import { DataGrid } from '@mui/x-data-grid';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import useStore from '../../Libs/store';
+import useStore from '../../Libs/store/store';
 import apiClient from '../../Libs/Https/API-client';
 import { processAPIResponse } from '../../Utils/CommonBaseClass';
 import { MenuItem, Pagination, Select, Typography } from '@mui/material';
@@ -8,7 +8,7 @@ import { Logger } from '../../Utils/Logger';
 import Grid from '@mui/material/Grid2';
 import StatusComponent from '../Status/StatusComponent';
 import { NoRecords } from '../NoRecords/NoRecords';
-import { ISource } from '@/Libs/type';
+import { ISource } from '@/Libs/types/type';
 import moment from 'moment';
 import { NoEvent } from '@/assets/svg';
 import { SkeletonList } from '../Skeleton';

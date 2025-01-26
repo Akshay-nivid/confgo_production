@@ -13,7 +13,7 @@ import { formatUTCDateTime, processAPIResponse } from '@/Utils/CommonBaseClass';
 import { Logger } from '@/Utils/Logger';
 import { useNavigate, useParams } from 'react-router-dom';
 import routes from '@/router/routes';
-import useStore, { GET } from '@/Libs/store';
+import useStore, { GET } from '@/Libs/store/store';
 import AddAddOns from './AddAddons';
 import LeftArrowIcon from '@/assets/svg/left-arrow.svg';
 import moment from 'moment';

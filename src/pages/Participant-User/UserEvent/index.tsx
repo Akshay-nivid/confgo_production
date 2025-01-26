@@ -8,12 +8,12 @@ import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import apiClient from "@/Libs/Https/API-client";
 import { Logger } from "@/Utils/Logger";
 import React from "react";
-import useStore, {IStoreState } from '@/Libs/store';
+import useStore, {IStoreState } from '@/Libs/store/store';
 import CustomModel from "@/components/CustomModel/CustomModel";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { CloseOutlined } from "@mui/icons-material";
 import NoEvents from "../No-Event/NoEvent";
-import { IEvent } from "@/Libs/type";
+import { IEvent } from "@/Libs/types/type";
 import { SkeletonList } from "@/components/Skeleton";
 
 

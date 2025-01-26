@@ -2,7 +2,7 @@ import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomple
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { DataGridList } from "@/components/DataGrid/DataGridList";
 import apiClient from "@/Libs/Https/API-client";
-import { ISource } from "@/Libs/type";
+import { ISource } from "@/Libs/types/type";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import { Logger } from "@/Utils/Logger";
 import Grid from "@mui/material/Grid2";
@@ -13,7 +13,7 @@ import routes from "@/router/routes";
 import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
 import { Filter } from "@/components/Filter";
-import useStore, { setDataById } from "@/Libs/store";
+import useStore, { setDataById } from "@/Libs/store/store";
 import { NoUserList } from "@/assets/svg";
 
 interface Role{

@@ -5,7 +5,7 @@ import { useRef, useState } from 'react';
 import {  validateEmail,  validateRequiredField } from '@/Utils/Validation';
 import ReCAPTCHA from 'react-google-recaptcha';
 import Grid from '@mui/material/Grid2';
-import useStore from '@/Libs/store';
+import useStore from '@/Libs/store/store';
 import { CallIcon } from '@/assets/svg';
 import { LocatioIcon } from '@/assets/svg';
 import { MessageIcon } from '@/assets/svg';

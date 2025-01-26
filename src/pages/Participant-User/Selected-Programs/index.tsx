@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { CouponIcon } from "@/assets/svg";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
-import useStore, { clearDataById, GET, IStoreState, POST, snackBar } from "@/Libs/store";
+import useStore, { clearDataById, GET, IStoreState, POST, snackBar } from "@/Libs/store/store";
 import routes from "@/router/routes";
 import { processFormData, formatDate } from "../Program-Selection/programsHandlers";
 import { EventRegistrationSuccessIcon } from "@/assets/svg";

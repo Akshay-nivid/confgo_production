@@ -7,7 +7,7 @@ import './style.scss'
 import { Close } from '@mui/icons-material'
 import { Avatar, IconButton, Typography } from '@mui/material'
 import Modal from '@mui/material/Modal';
-import useStore, { POST, setNonPersistedDataById } from '@/Libs/store'
+import useStore, { POST, setNonPersistedDataById } from '@/Libs/store/store'
 import { useEffect, useState } from 'react';
 import config from '../../../../../config.json'
 import Grid from '@mui/material/Grid2';

@@ -1,4 +1,4 @@
-import { GET, setDataById, snackBar } from "@/Libs/store"
+import { GET, setDataById, snackBar } from "@/Libs/store/store"
 import { handleGroupData } from "@/pages/Participant-User/Program-Selection/programsHandlers"
 
 

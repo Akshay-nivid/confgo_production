@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import moment from "moment";
 import SessionAddonDrawer from "./SessionAddonDrawer";
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
-import { POST } from "@/Libs/store";
+import { POST } from "@/Libs/store/store";
 import { Logger } from "@/Utils/Logger";
 import { truncateString } from "@/Utils/CommonBaseClass";
 import config from "../../../../config.json";

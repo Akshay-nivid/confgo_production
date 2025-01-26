@@ -1,4 +1,4 @@
-import useStore from '@/Libs/store';
+import useStore from '@/Libs/store/store';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import CustomSelect from '@/components/CustomSelectBox/CustomSelect';
 import routes from '@/router/routes';

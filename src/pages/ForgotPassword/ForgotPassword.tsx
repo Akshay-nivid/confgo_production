@@ -6,7 +6,7 @@ import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { ForgotPasswordIcon,Arrow2Left } from "@/assets/svg";
 import routes from "@/router/routes";
 import { validateEmail, validateRequiredField } from "@/Utils/Validation";
-import useStore from "@/Libs/store";
+import useStore from "@/Libs/store/store";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { Logger } from "@/Utils/Logger";
 import { purposeTypes, useIsMobileScreen } from "@/Utils/CommonBaseClass";

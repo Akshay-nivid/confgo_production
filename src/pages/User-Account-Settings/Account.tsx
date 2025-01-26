@@ -3,7 +3,7 @@ import { Typography, Tabs, Tab, Box } from '@mui/material';
 import AccountSetting from "./AccountSettings"
 import Security from './Security';
 import Grid from "@mui/material/Grid2";
-import useStore from "@/Libs/store";
+import useStore from "@/Libs/store/store";
 import { useLocation } from 'react-router-dom';
 
 

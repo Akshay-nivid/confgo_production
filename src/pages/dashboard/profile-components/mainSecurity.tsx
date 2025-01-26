@@ -10,7 +10,7 @@ import "./mainProfile.scss";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";
-import useStore, { setDataById } from "@/Libs/store";
+import useStore, { setDataById } from "@/Libs/store/store";
 import { Logger } from "@/Utils/Logger";
 import { purposeTypes } from "@/Utils/CommonBaseClass";
 

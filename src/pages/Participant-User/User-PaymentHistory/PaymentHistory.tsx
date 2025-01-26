@@ -6,10 +6,10 @@ import Grid from "@mui/material/Grid2";
 import { CircularProgress } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import { Logger } from "@/Utils/Logger";
-import { ISource } from "@/Libs/type";
+import { ISource } from "@/Libs/types/type";
 import { NoPayment } from "@/assets/svg";
 import jsPDF from "jspdf";
-import { POST } from "@/Libs/store";
+import { POST } from "@/Libs/store/store";
 import moment from "moment";
 import StatusComponent from "@/components/Status/StatusComponent";
 import confgo  from "../../../../config.json"

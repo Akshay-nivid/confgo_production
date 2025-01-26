@@ -12,7 +12,7 @@ import { EventListCard } from "./EventListCard";
 import { CalendarCard } from "./CalendarCard";
 import { Typography,CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
-import useStore from "@/Libs/store";
+import useStore from "@/Libs/store/store";
 import { Logger } from "@/Utils/Logger";
 import moment from "moment";
 import { CalendarCardData } from "./CalendarCard";

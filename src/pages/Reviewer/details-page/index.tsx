@@ -7,9 +7,9 @@ import ReactQuill from 'react-quill';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import moment from 'moment';
-import { GET, PUT, snackBar } from '@/Libs/store';
+import { GET, PUT, snackBar } from '@/Libs/store/store';
 import { useForm } from 'react-hook-form';
-import useStore from '@/Libs/store';
+import useStore from '@/Libs/store/store';
 import { Edit } from '@mui/icons-material';
 /**
  * Reviewer component renders the details page for the reviewer.

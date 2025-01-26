@@ -5,7 +5,7 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { Alert, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import WarningIcon from "../../assets/svg/warning.svg"
-import useStore from "@/Libs/store";
+import useStore from "@/Libs/store/store";
 import routes from "@/router/routes";
 import { useNavigate } from "react-router-dom";
 

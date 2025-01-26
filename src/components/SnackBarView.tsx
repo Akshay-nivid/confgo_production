@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Snackbar, Alert, SnackbarOrigin, AlertColor } from '@mui/material';
-import useStore from '@/Libs/store';
+import useStore from '@/Libs/store/store';
 
 export type SnackBarViewProps = {
     open: boolean;

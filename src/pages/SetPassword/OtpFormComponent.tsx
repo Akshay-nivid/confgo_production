@@ -6,7 +6,7 @@ import { Controller } from 'react-hook-form';
 import { validateMinLength, validateRequiredField } from '@/Utils/Validation';
 import { useEffect, useState } from 'react';
 import apiClient from '@/Libs/Https/API-client';
-import useStore from '@/Libs/store';
+import useStore from '@/Libs/store/store';
 import { Logger } from '@/Utils/Logger';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import clsx from 'clsx';

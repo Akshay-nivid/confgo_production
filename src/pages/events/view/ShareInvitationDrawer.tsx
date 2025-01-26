@@ -9,7 +9,7 @@ import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import { CloseOutlined } from "@mui/icons-material";
 import CustomChip from "@/components/CustomChip/CustomChip";
 import config from "../../../../config.json";
-import useStore from "@/Libs/store";
+import useStore from "@/Libs/store/store";
 
 interface ShareInvitationDrawerProps {
   isOpen: boolean;

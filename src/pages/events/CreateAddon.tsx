@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid2';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import CloseIcon from '@mui/icons-material/Close';
-import useStore from '@/Libs/store';
+import useStore from '@/Libs/store/store';
 import { Logger } from '@/Utils/Logger';
 import { ApiResponse } from '../LoginOrg/loginOrg';
 

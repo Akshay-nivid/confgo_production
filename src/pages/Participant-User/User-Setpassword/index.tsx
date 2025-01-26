@@ -18,7 +18,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import apiClient from '@/Libs/Https/API-client';
 import { Logger } from '@/Utils/Logger';
-import useStore from '@/Libs/store';
+import useStore from '@/Libs/store/store';
 import routes from '@/router/routes';
 
 interface ISetPasswordForm {

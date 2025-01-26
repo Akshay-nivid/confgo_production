@@ -3,9 +3,9 @@ import ConfrenceManagementSection from './ConfrenceManagementSection';
 import FeatureSection from './FeatureSection';
 import HeroSection from './HeroSection';
 import WhychooseSection from '../home-layout/WhychooseSection';
-import useStore from '@/Libs/store';
+import useStore from '@/Libs/store/store';
 import { useEffect } from 'react';
-import { resetStore } from '@/Libs/store';
+import { resetStore } from '@/Libs/store/store';
 /*
  * home page component
  * @returns

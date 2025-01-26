@@ -14,7 +14,7 @@ import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import { Logger } from "@/Utils/Logger";
 import Grid from "@mui/material/Grid2";
-import useStore from "@/Libs/store";
+import useStore from "@/Libs/store/store";
 import { IconButton } from "@mui/material";
 import { CloseOutlined } from "@mui/icons-material";
 

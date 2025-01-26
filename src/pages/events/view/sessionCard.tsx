@@ -7,7 +7,7 @@ import CustomActionModal from "@/components/CustomActionModal/CustomActionModal"
 import { getLocalTimeDate, truncateString } from "@/Utils/CommonBaseClass";
 import CustomModel from "@/components/CustomModel/CustomModel";
 import { CloseOutlined } from "@mui/icons-material";
-import { setDataById } from "@/Libs/store";
+import { setDataById } from "@/Libs/store/store";
 import AddOnIcon from "../../../assets/svg/addOnIcon.svg";
 import ProgramIcon from "../../../assets/svg/programIcon.svg";
 import {VectorMenu} from "@/assets/svg";

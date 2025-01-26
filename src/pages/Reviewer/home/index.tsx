@@ -1,12 +1,12 @@
 import { DataGridList } from '@/components/DataGrid/DataGridList';
-import { ISource } from '@/Libs/type';
+import { ISource } from '@/Libs/types/type';
 import { Box, Skeleton, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
-import useStore, { GET } from '@/Libs/store';
+import useStore, { GET } from '@/Libs/store/store';
 import CustomAutocomplete from '@/components/CustomAutocomplete/CustomAutocomplete';
 import { useForm } from 'react-hook-form';
 

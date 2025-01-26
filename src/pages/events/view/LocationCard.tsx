@@ -15,7 +15,7 @@ import EditIcon from "@/assets/svg/event-edit.svg";
 import { GoogleMap,Marker } from '@react-google-maps/api';
 //const { AdvancedMarkerElement } = await google.maps.importLibrary("marker") as any;
 import config from "../../../../config.json";
-import { setDataById } from "@/Libs/store";
+import { setDataById } from "@/Libs/store/store";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { CloseOutlined } from "@mui/icons-material";

@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid2';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { PaymentAlertBanner } from './PaymentAlertBanner';
-import useStore, { POST } from "@/Libs/store";
+import useStore, { POST } from "@/Libs/store/store";
 import { useEffect, useState } from "react";
 
 /**

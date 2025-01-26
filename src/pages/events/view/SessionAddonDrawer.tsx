@@ -19,7 +19,7 @@ import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
 import CustomTimePicker from "@/components/CustomTimePicker/CustomTimePicker";
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CustomCheckbox from "@/components/CustomCheckbox/CustomCheckbox";
-import { POST, setDataById } from "@/Libs/store";
+import { POST, setDataById } from "@/Libs/store/store";
 
 interface FormData {
   addonId: number;

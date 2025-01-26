@@ -5,7 +5,7 @@ import { ArrowDropDown } from '@mui/icons-material';
 import { SettingsIcon, LogoutIcon, AppThemeLogo } from '@/assets/svg';
 import {useEffect} from "react";
 import Grid from '@mui/material/Grid2';
-import useStore, { resetStore, setDataById } from '@/Libs/store';
+import useStore, { resetStore, setDataById } from '@/Libs/store/store';
 import routes from '@/router/routes';
 import { useNavigate } from 'react-router-dom';
 import config from "../../../config.json";

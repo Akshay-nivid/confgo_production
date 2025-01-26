@@ -20,7 +20,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
 import CustomSnackbar from "@/components/CustomSnackbar/CustomSnackbar";
 import routes from "@/router/routes";
-import useStore from '@/Libs/store'
+import useStore from '@/Libs/store/store'
 import { validateMaxLength, validateMinLength } from "@/Utils/Validation";
 import confgo  from "../../../config.json"
 

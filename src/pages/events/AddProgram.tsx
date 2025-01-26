@@ -12,7 +12,7 @@ import EditIcon from "@/assets/svg/edit-program-icon.svg";
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import moment from "moment";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
-import useStore, { POST, setDataById } from "@/Libs/store";
+import useStore, { POST, setDataById } from "@/Libs/store/store";
 import { NoProgramIcon, WarningIcon } from "@/assets/svg";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import { CloseOutlined } from "@mui/icons-material";

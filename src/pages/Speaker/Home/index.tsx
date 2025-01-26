@@ -5,7 +5,7 @@ import React from 'react';
 import Grid from '@mui/material/Grid2';
 import { Typography } from '@mui/material';
 import { findEventStatus } from '@/Utils/CommonBaseClass';
-import useStore from '@/Libs/store';
+import useStore from '@/Libs/store/store';
 import { DataGridList } from '@/components/DataGrid/DataGridList';
 import { NoEvent as NoEventIcon } from "@/assets/svg";
 import StatusComponent from '@/components/Status/StatusComponent';

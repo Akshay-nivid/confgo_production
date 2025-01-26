@@ -14,7 +14,7 @@ import VerifyMailPage from "@/pages/register/VerifyMailPage";
 import { SnackBarView } from "@/components/SnackBarView";
 import Layout from "@/pages/dashboard-layout";
 import Coupon from "@/pages/coupon";
-import useStore from "@/Libs/store";
+import useStore from "@/Libs/store/store";
 import CouponView from "@/pages/coupon/CouponView";
 import Contact from "@/pages/contact/contact";
 

@@ -1,4 +1,4 @@
-import useStore from "@/Libs/store";
+import useStore from "@/Libs/store/store";
 import routes from "@/router/routes";
 import { CircularProgress, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";

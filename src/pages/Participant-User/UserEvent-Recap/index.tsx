@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Logger } from '@/Utils/Logger';
 import { formatDateTimeRange, toTitleCase } from '@/Utils/CommonBaseClass';
 import React from 'react';
-import useStore from '@/Libs/store';
+import useStore from '@/Libs/store/store';
 import StatusComponent from '@/components/Status/StatusComponent';
 import { useLocation } from 'react-router-dom';
 import QRCode from 'qrcode';

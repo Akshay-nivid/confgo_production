@@ -1,6 +1,6 @@
 import Grid from "@mui/material/Grid2";
 import { Typography } from "@mui/material";
-import useStore, { IStoreState } from "@/Libs/store";
+import useStore, { IStoreState } from "@/Libs/store/store";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Logger } from "@/Utils/Logger";

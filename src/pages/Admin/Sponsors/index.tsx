@@ -7,12 +7,12 @@ import CustomButton from '@/components/CustomButton/CustomButton'
 import AddIcon from "@mui/icons-material/Add";
 import CustomDrawer from '@/components/CustomDrawer/CustomDrawer'
 import CloseIcon from '@mui/icons-material/Close';
-import useStore, { POST, setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store'
+import useStore, { POST, setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store/store'
 import CustomTextField from '@/components/CustomTextfield/CustomTextField'
 import FileUpload from '@/components/FileUpload/FileUpload'
 import { DataGridList } from '@/components/DataGrid/DataGridList'
 import React, { useCallback, useEffect, useState } from 'react'
-import { ISource } from '@/Libs/type'
+import { ISource } from '@/Libs/types/type'
 import { NoEvent as NoEventIcon } from "@/assets/svg";
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -91,19 +91,18 @@ const Sponsors = () => {
             type: "default",
             field: "email",
             headerName: "Email",
-            width: 200,
+            width: 210,
+        },
+        {
+            type: "default",
+            field: "phone",
+            headerName: "Phone",
+            width: 180,
         },
         {
             type: "dateField",
             field: "createdOn",
             headerName: "Created Date",
-            width: 180,
-            dateFormat: "DD/MM/YYYY",
-        },
-        {
-            type: "dateField",
-            field: "updatedOn",
-            headerName: "Updated Date",
             width: 180,
             dateFormat: "DD/MM/YYYY",
         },
@@ -159,6 +158,7 @@ const Sponsors = () => {
                 id: item?.id,
                 name: item?.name,
                 email: item?.email,
+                phone: item?.phone,
                 logo: <Avatar className='top-2' src={`${baseUrl}/asset/${item?.logoAssetId}`} >{item?.name?.slice(0, 2)}</Avatar>,
                 delete:  <IconButton disabled={isDeleteSponsorPending} onClick={(e) => handleClickDelete(e, item?.id)}>
                     <Delete />

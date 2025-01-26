@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid2';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Template1 from './Template1';
-import useStore, { setDataById } from '@/Libs/store';
+import useStore, { setDataById } from '@/Libs/store/store';
 import { Logger } from '@/Utils/Logger';
 import routes from '@/router/routes';
 import Template3 from './Template3';
