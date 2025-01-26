@@ -1776,6 +1776,10 @@
                         font-weight: $font-semibold !important;
                     }
                 }
+                &-container-no-profile-picture{
+                        width: 10rem;
+                        height: 10rem;
+                }
             }
 
         }
@@ -1881,6 +1885,60 @@
                     }
                 }
                 
+            }
+        }
+        &-sponsors {
+            padding: 2rem 8rem 2rem 8rem;
+
+            &-anim-container {
+                gap: 3.33rem !important;
+                width: 100%;
+            }
+
+            &-title {
+                font-size: $h1 !important;
+                font-weight: $font_bold !important;
+                margin-bottom: 2.5rem !important;
+            }
+            &-item-container {
+                background-color: $clr_very_light_gray; // Light gray background
+                border-radius: 8px; // Optional: Rounded corners
+                padding: 16px; // Padding inside the grid
+                display: flex; // Ensure proper layout
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                border-bottom: 0.42rem solid $clr_teal;
+            
+                &-card {
+                    width: 100%; // Ensure the card fills the outer grid
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                }
+            
+                &-card-image-container {
+                    overflow: hidden; // Ensures the image stays within the bounds
+                    width: 7rem; // Adjust size for the logo
+                    height: 7rem; // Maintain square shape
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background-color: #fff; // Optional: Add a white background for contrast
+            
+                    img {
+                        max-width: 100%; // Make sure the image scales properly
+                        max-height: 100%;
+                        object-fit: contain; // Ensure the image fits without distortion
+                    }
+            
+                    .NoProfilePicture {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: contain; // Ensure proper scaling for the placeholder
+                    }
+                }
             }
         }
     }
