@@ -21,13 +21,14 @@ type TopMenuHeaderProps = {
     onScrollToContributors?: any;
     onScrollToLocation?: any;
     onScrollToBeSponsor?: any;
+    onScrollToSponsor?: any;
     temp?: any;
 }
 
 /**
  * Component displays the top menu section of the template
  */
-const TopMenuHeader: React.FC<TopMenuHeaderProps> = React.memo(({ links, data, classPrefix, onScrollToProgram, onScrollToLocation, onScrollToContributors, onScrollToBeSponsor }) => {
+const TopMenuHeader: React.FC<TopMenuHeaderProps> = React.memo(({ links, data, classPrefix, onScrollToProgram, onScrollToLocation, onScrollToContributors, onScrollToBeSponsor, onScrollToSponsor }) => {
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -52,7 +53,7 @@ const TopMenuHeader: React.FC<TopMenuHeaderProps> = React.memo(({ links, data, c
             return
         }
         if (link === 'Sponsers') {
-            
+            onScrollToSponsor();
             return
         }
         if (link === 'Location') {

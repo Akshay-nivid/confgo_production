@@ -40,6 +40,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     const programRef = useRef(null);
     const LocationRef = useRef(null);
     const tierRef = useRef(null);
+    const sponsorRef = useRef(null);
     const beSponsorRef = useRef(null);
     const baseUrl = config.api.url;
     const [day, setDay] = useState<string>('');
@@ -148,6 +149,27 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
         });
       
         return Array.from(uniqueSpeakersMap.values());
+      }
+
+       /**
+     * Extracts unique sponsors from a given list based on their `sponsorId`.
+     * 
+     * @param {any[]} sponsors - An array of sponsor objects. Each object is expected to have a `sponsorId` property.
+     * @returns {any[]} An array of unique sponsor objects, ensuring no duplicate `sponsorId`s.
+     * 
+     * This function uses a Map to track speakers by their `sponsorId`. 
+     * It ensures that only one sponsor per `sponsorId` is included in the returned array.
+     */
+    function getUniqueSponsors(sponsors: any) {
+        const uniqueSponsorsMap = new Map<number, any>();
+      
+        sponsors.forEach((sponsor: any) => {
+          if (!uniqueSponsorsMap.has(sponsor.sponsorId)) {
+            uniqueSponsorsMap.set(sponsor.sponsorId, sponsor);
+          }
+        });
+      
+        return Array.from(uniqueSponsorsMap.values());
       }
 
       function handleSpeakerCardClick(item:any) {
@@ -291,7 +313,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     return (
         <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-bg`}>
             <Grid container size={{ xs: 12, sm: 12 }} className={classPrefix}>
-                <TopMenuHeader links={headerLinks} classPrefix={`${classPrefix}-top-menu`} data={data} onScrollToProgram={() => handleScrollTo(programRef)} onScrollToAbout={() => handleScrollTo(aboutRef)} onScrollToContributors={() => handleScrollTo(contributorsRef)} onScrollToLocation={() => handleScrollTo(LocationRef)} onScrollToBeSponsor={() => handleScrollTo(beSponsorRef)} />
+                <TopMenuHeader links={headerLinks} classPrefix={`${classPrefix}-top-menu`} data={data} onScrollToProgram={() => handleScrollTo(programRef)} onScrollToAbout={() => handleScrollTo(aboutRef)} onScrollToContributors={() => handleScrollTo(contributorsRef)} onScrollToLocation={() => handleScrollTo(LocationRef)} onScrollToBeSponsor={() => handleScrollTo(beSponsorRef)} onScrollToSponsor={() => handleScrollTo(sponsorRef)}/>
                 <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-header`} />
                 <AuthFormHandler className={`${classPrefix}-headerBottom`} data={data} />
                 <TEventDetails className={`${classPrefix}-eventDetails`} data={data} />
@@ -341,12 +363,10 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                 <Grid size={{ xs: 12, sm: 12 }} container direction={'column'} className={`${classPrefix}-event-contributors-item-container-speaker-card `}>
                                     <Grid overflow={'hidden'} className={`${classPrefix}-event-contributors-item-container-speaker-card-image-container`}>
                                         {item?.user?.assetId ? (<img
-                                            height={'100%'}
-                                            width={'100%'}
                                             src={`${baseUrl}asset/${item?.user?.assetId}`}
                                             alt={item.name}
                                         />) : (
-                                            <NoProfilePicture className='h-full w-full' />
+                                            <NoProfilePicture className={`h-full w-full ${classPrefix}-event-contributors-item-container-no-profile-picture`} />
                                         )}
 
                                     </Grid>
@@ -475,6 +495,28 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                 </Grid>
                 {/* Program section ends here */}
                 <LocationSection classPrefix={`${classPrefix}-location`}data={data} onScrollToTier={LocationRef}/>
+                {/* Sponsors section starts here */}
+                {data?.eventSponsors?.length > 0 && getUniqueSponsors(data?.eventSponsors)?.length > 0 && <Grid id={'sponsors'} container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-sponsors `} spacing={1} direction={'column'} justifyContent={'center'} alignItems={'center'} ref={sponsorRef}>
+                    <Grid className={`${classPrefix}-sponsors-title`}>Sponsors</Grid>
+                    <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-sponsors-item-group-container`} justifyContent={'center'} alignItems={'center'} spacing={4}>
+                        {data?.eventSponsors?.length > 0 && getUniqueSponsors(data?.eventSponsors)?.map((item: any) => {
+                            return <Grid alignSelf={'stretch'} size={{ xs: 12, sm: 3 }} container direction={'row'} className={`${classPrefix}-sponsors-item-container `} spacing={2}>
+                                <Grid size={{ xs: 12, sm: 12 }} container direction={'column'} justifyContent={'center'} alignItems={'center'} className={`${classPrefix}-sponsors-item-container-card `}>
+                                    <Grid overflow={'hidden'} className={`${classPrefix}-sponsors-item-container-card-image-container`}>
+                                        {item?.sponsor?.logoAssetId ? (<img
+                                            src={`${baseUrl}asset/${item.sponsor?.logoAssetId}`}
+                                            alt={item.sponsor?.name}
+                                        />) : (
+                                            <NoProfilePicture className='h-full w-full' />
+                                        )}
+
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                        })}
+                    </Grid>
+                </Grid>}
+                {/* Sponsors section ends here */}
                 {/* Registration and ticketing section starts here */}
                 <Grid ref={tierRef} container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-ticketing`} justifyContent={'center'} alignItems={'center'} spacing={2} direction={'column'}>
                     <Grid><Typography className={`${classPrefix}-ticketing-title`}>Registration & Ticketing</Typography></Grid>
