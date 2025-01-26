@@ -14,6 +14,8 @@ import { Logger } from "@/Utils/Logger";
 import { truncateString } from "@/Utils/CommonBaseClass";
 import config from "../../../../config.json";
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
+import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
+import NewSpeakerDrawer from "../NewSpeakerDrawer";
 
 
 
@@ -99,6 +101,7 @@ interface SessionDrawerContentProps {
     const [searchResults, setSearchResults] = useState<Speaker[]>([]);
     const [delspeaker,setDelSpeaker]=useState<any>([])
     const baseUrl = config.api.url;
+    const [newSpeakerDrawerOpen, setNewSpeakerDrawerOpen] = useState(false);
     const {append } = useFieldArray({
       control,
       name: "speakers",
@@ -168,10 +171,10 @@ interface SessionDrawerContentProps {
  */
 function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
   // Create a Set of speakerIds from the existingSpeakers array for fast lookup
-  const existingSpeakerIds = new Set(existingSpeakers.map((speaker: any) => speaker.speakerId));
+  const existingSpeakerIds = new Set(existingSpeakers?.map((speaker: any) => speaker.speakerId));
 
   // Filter out speakers whose speakerId exists in the Set
-  return speakers.filter((speaker: any) => !existingSpeakerIds.has(speaker.speakerId));
+  return speakers && speakers.filter((speaker: any) => !existingSpeakerIds.has(speaker.speakerId));
 }
 
   /**
@@ -275,7 +278,7 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
             successCB: (context: any) => {
               Logger.info("Speaker removed successfully", context);
               // Proceed to remove from the field array once the API call is successful
-              const updatedSpeakers = speakers.filter((s: Speaker) => s.speakerId !== speaker.speakerId);
+              const updatedSpeakers = speakers?.filter((s: Speaker) => s.speakerId !== speaker.speakerId);
               setValue('speakers', updatedSpeakers); // Update form data after successful API call
             },
             errorCB: (context: any) => {
@@ -341,14 +344,8 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
       const speakerName = values?.speakerName;
       const speakerAssetId = values?.speakerAssetId;
       const speakerDesignation = values?.speakerDesignation;
-      const updatedEventSpeakers = selectedProgram?.eventSpeakers?.filter(
-        (existingSpeaker: any) => !delspeaker.includes(existingSpeaker?.userId)
-      );
-      // Check if the speaker is part of the original data (selectedProgram) using userId
-      const isExistingSpeaker = updatedEventSpeakers?.some(
-        (existingSpeaker: any) => existingSpeaker?.userId === speakerId
-      );
-      if(isExistingSpeaker){
+      const isDuplicate = values?.speakers?.some((speaker: any) => speaker.speakerId === speakerId);
+      if(isDuplicate){
         setError(`speakerSelection`, { type: "manual", message: "Speaker Already assigned. please select another speaker" });
         return;
       }
@@ -551,6 +548,9 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
                   }}
                 />
               </Grid>
+              <Grid container className="add-program-drawer-new-speaker-link"  justifyContent={'end'} size={{xs:12}}>
+                <Typography className="cursor-container" variant="h6" onClick={() => setNewSpeakerDrawerOpen(true)}>Create New Speaker ?</Typography>
+              </Grid>
               {/* <Grid size={{ xs: 12 }}>
                 <CustomTextField
                   placeholder="Designation"
@@ -587,7 +587,7 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
                               {item?.speakerName}
                             </Typography>
                             <Typography className="add-program-speaker-section-card-item-subtitle">
-                              {truncateString(item?.speakerDesignation, 35)}
+                              {truncateString(item?.speakerDesignation, 35, "")}
                             </Typography>
                           </Grid>
                           <Grid size={{ xs: 2 }} justifyItems={'center'}>
@@ -603,7 +603,14 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
               )}
             </Grid>// end of add speaker section
           )}
-
+          {/* Drawer to create a new Speaker */}
+          <Grid >
+            <CustomDrawer
+              children={<NewSpeakerDrawer onSuccess={() => { handleSearch("") }} closeDrawer={() => setNewSpeakerDrawerOpen(false)} />}
+              open={newSpeakerDrawerOpen}
+              type="right"
+            />
+          </Grid>
           <Grid size={{xs:12}}>
             <Grid container justifyContent="right">
               <CustomButton

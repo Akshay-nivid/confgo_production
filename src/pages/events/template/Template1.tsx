@@ -32,6 +32,7 @@ import routes from '@/router/routes';
 import parse from 'html-react-parser';
 import TimerCounterComp from './TemplateTimer/TimerCounterComp';
 import ProgramDetailsModal from './_components/ProgramDetailsModal';
+import SponsorShip from './sponsorShipForm/SponsorShip';
 
 
 
@@ -41,7 +42,6 @@ type TemplateViewProps = {
 
 
 const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
-
     const aboutRef = useRef(null);
     const contributorsRef = useRef(null);
     const programRef = useRef(null);
@@ -55,6 +55,8 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     const baseUrl = config.api.url;
     const slugName = useStore((state: any) => state?.compData?.["slugName"]?.value) || '';
     const slugInfo = useStore((state: any) => state?.compData?.['slugEventDetails']?.[`event/slug/${slugName}`]?.data) ?? [];
+    console.log(">>>>>>slugInfo",slugInfo);
+    
     const [day, setDay] = useState<string>('');
     const [hour, setHour] = useState<string>('');
     const [minute, setMinute] = useState<string>('');
@@ -574,6 +576,11 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                 onScrollToTier={() => handleScrollTo(tierRef)}
             />
         }
+        {/* Sponsor */}
+        <Grid  minHeight={"max-content"} size={12} container>
+         <SponsorShip eventId={data?.id}/>
+        </Grid>
+
         {/* Footer section */}
         <FooterSection classPrefix={`${classPrefix}-footer`} data={data} />
     </Grid>

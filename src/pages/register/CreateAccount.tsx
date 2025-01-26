@@ -27,6 +27,15 @@ const CreateAccount = React.memo(() => {
        * already exist and set error messages,
        */
       const successCB = (context: any) => {
+
+        if (!/^[a-zA-Z\s]+$/.test(data.fullName)) {
+            setError("fullName", {
+                type: "manual",
+                message: "Full Name can only contain alphabets and spaces.",
+            });
+            return;
+        }
+        
         clearErrors("phoneNumber");
         clearErrors("email");
         const { phoneExists, emailExists } = context?.data;
@@ -101,8 +110,8 @@ const CreateAccount = React.memo(() => {
                                                 rules={{
                                                     required: { value: true, message: "Name is required" },
                                                     pattern: {
-                                                        value: /^(?!\s*$)(?!\s+$).+/,
-                                                        message: "Name cannot be only spaces"
+                                                        value: /^[a-zA-Z\s]+$/,
+                                                        message: "Full Name can only contain alphabets and spaces."
                                                     },
                                                 }}
                                             />

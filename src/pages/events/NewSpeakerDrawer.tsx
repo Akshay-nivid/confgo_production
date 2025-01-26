@@ -115,8 +115,8 @@ const NewSpeakerDrawer :React.FC<NewSpeakerDrawerProps> = ({ onSuccess, closeDra
                 userDescription: data.userDescription
             },
             id: 'create-admin-user',
-            successCB: (context: any) => { 
-              setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: context?.message });
+            successCB: () => { 
+              setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "New Speaker created" });
               onSuccess && onSuccess();
               closeDrawer();              
             },

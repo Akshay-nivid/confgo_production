@@ -37,8 +37,8 @@ const Sponsors = () => {
             message: "Please enter a valid phone number",
         }),
         website: z.string().optional(),
-        logoId: z.number().optional(),
-        bannerId: z.number().optional(),
+        logoId: z.union([z.string(), z.number()]).optional(),
+        bannerId: z.union([z.string(), z.number()]).optional(),
     })
 
 
@@ -52,7 +52,7 @@ const Sponsors = () => {
             bannerId: ''
         },
         resolver: zodResolver(schema),
-        reValidateMode: "onChange"
+        reValidateMode: "onChange",
     })
 
 
@@ -214,9 +214,9 @@ const Sponsors = () => {
 
             email: data.email,
             phone: data.phone,
-            logoAssetId: data.logoId,
-            bannerImgAssetId: data.bannerId,
             companyId: sessionStorage.getItem('companyId'),
+            ...(data.logoId && { logoAssetId: data.logoId }),
+            ...(data.bannerId && { bannerImgAssetId: data.bannerId }),
             ...(website && { website })
         }
 
@@ -226,6 +226,7 @@ const Sponsors = () => {
                 form.reset();
                 eventList();
                 snackBar({ severity: 'success', message: 'Sponsor created successfully' })
+                handleCloseModal();
 
             }, errorCB: (error) => {
                 snackBar({ severity: 'error', message: error?.message || 'something went wrong' })

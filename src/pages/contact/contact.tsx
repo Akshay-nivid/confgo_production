@@ -52,7 +52,7 @@ const boxArray = [
  * @returns 
  */
 const Contact = () => {
-    const { handleSubmit, control, formState: { errors }} = useForm<FormData>();
+    const { handleSubmit, control, formState: { errors },register} = useForm<FormData>();
     const [recapcha, setRecapcha] = useState(true)
     const recaptchaRef = useRef<ReCAPTCHA>(null);
     const POST = useStore((state: any) => state.POST);
@@ -222,8 +222,12 @@ const Contact = () => {
                                         className='contact-form-textarea'
                                         aria-label=""
                                         placeholder="Type here....."
-                                        name='message'
+                                        {...register("message", {
+                                            required: "Message is required",
+                                        })}
                                     />
+                                      {errors.message && <Typography className="error-message">{errors.message.message}</Typography>}
+
                                 </Grid>
                                 <Grid className='contact-form-recaptcha'>
                                     <ReCAPTCHA

@@ -6,7 +6,7 @@
 
 import React from "react";
 import Grid from "@mui/material/Grid2";
-import { Avatar, IconButton, Typography } from "@mui/material";
+import { Avatar, Box, Button, IconButton, Modal, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import "./accountsetting.scss";
 import { useCallback, useEffect, useState } from "react";
@@ -18,8 +18,14 @@ import apiClient from "@/Libs/Https/API-client";
 import { EditIconRound, Google } from "@/assets/svg";
 import useStore from "@/Libs/store/store";
 import { Logger } from "@/Utils/Logger";
+import config from "../../../config.json";
+import FileUpload from "@/components/FileUpload/FileUpload";
+import { processAPIResponse } from "@/Utils/CommonBaseClass";
 
-
+interface CustomFile {
+  id: number;
+  name: string;
+}
 
 interface Profile {
   firstName: string;
@@ -28,6 +34,7 @@ interface Profile {
   phone: string;
   avatarUrl: string;
   isSsoUser:boolean;
+  assetId:number;
 }
 interface AccountSettingProps {
   setEmail: (email: string) => void; 
@@ -42,6 +49,10 @@ interface AccountSettingProps {
   const closeDrawer = () => setIsDrawerOpen(false);
   const setDataById = useStore((state: any) => state.setDataById)
   const userDetails = useStore((state) => state?.compData?.["userDetails"]) ?? {};
+  const [drawerProfileImage, setDrawerProfileImage] = useState<number | null>(profileData?.assetId || null);
+  const [uploadModalOpen, setUploadModalOpen] = useState(false); 
+
+  const baseUrl = config.api.url;  
   useEffect(() => {
     AccountProfile();
   }, []);
@@ -62,8 +73,8 @@ interface AccountSettingProps {
           phone: data.phone,
           email: data.email,
           avatarUrl: data.avatarUrl || "",
-          isSsoUser:data?.isSsoUser
-
+          isSsoUser:data?.isSsoUser,
+          assetId: data.assetId || null,
         };
         setProfileData(AccountData);
      
@@ -87,38 +98,54 @@ interface AccountSettingProps {
  * Submit form to update profile data from drawer
  * @param data
  */
-  const onSubmit = async (data: Profile) => {
-    try {
-      
-      
-      const response = await apiClient.put(`/user`, data, {
-     
+
+const onSubmit = async (data: Profile) => {
+  try {
+    const payload = {
+      ...data,
+      assetId: drawerProfileImage || profileData?.assetId || null,
+    };
+    const response = await apiClient.put(`/user`, payload);
+    const { status, message } = processAPIResponse(response, "personalInformation");
+    if (status) {
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: message });
+       setProfileData((prevProfileData:any) => ({
+        ...prevProfileData,
+        ...payload,
+      }));
+      setDataById("userDetails", {
+        ...userDetails,
+        firstName: response.data?.data?.firstName,
+        lastName: response.data?.data?.lastName,
+        assetId: response.data?.data?.assetId,
       });
-     
-      
-      if (response.data.status === "success") {
-        
-     /**
-      * Update local state with the new data that is updated
-      */
-        setProfileData((prevProfileData) => ({
-          ...prevProfileData,
-          ...data,
-        }));
-        /**
-         * header section user deatils update
-         */
-        setDataById('userDetails', {
-          ...userDetails,
-          firstName: response.data?.data?.firstName,
-          lastName: response.data?.data?.lastName,
-        });
-        closeDrawer();
-      }
-    } catch (error) {
-      Logger.error("Error updating profile data:", error);
+     setDataById("profileImage",{item:response?.data?.data?.assetId})
+      closeDrawer();
     }
-  };
+    else{
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message })
+    }
+  } 
+  catch (error) {
+    Logger.error("Error updating profile data:", error);
+  }
+};
+
+  /** 
+* opens the modal for image upload
+*/
+const openmodal = () =>{
+  setUploadModalOpen(true)
+}
+
+/** 
+ * image upload function for profile image
+ */
+const handleImageUpload = (uploadedFile: CustomFile) => {
+  setDrawerProfileImage(uploadedFile.id); 
+  setUploadModalOpen(false);
+};
+
   return (
     <Grid container className="account-main-grid">
       <Grid size={8} className="account-profile-grid account-margin">
@@ -129,12 +156,18 @@ interface AccountSettingProps {
           </IconButton>
         </Grid>
         <Grid className="account-profile-image connected">
-          <Avatar
-          className="user-profile"
-            src={profileData?.avatarUrl}
-            alt="User Profile"
-            variant="square"
-          />
+          {profileData?.assetId ? (
+            <Avatar
+              src={`${baseUrl}asset/${profileData?.assetId}`}
+              className="main-user-profile"
+              alt="User Profile"
+              variant="circular"
+            />
+          ) : (
+            <Avatar className="main-user-profile main-user-profile-text">
+              {`${profileData?.firstName[0]}${profileData?.lastName[0]}`.toUpperCase()}
+            </Avatar>
+          )}
         </Grid>
         <Grid container className="account-detail-grid connected" size={12}>
           <Grid size={{ xs: 12, sm: 6 }}>
@@ -186,7 +219,7 @@ interface AccountSettingProps {
 
       <CustomDrawer open={isDrawerOpen} type="right">
         <Grid container className="account-drawer">
-          <Grid size={12} container className="account-drawer-text">
+          <Grid size={6} container className="account-drawer-text">
             <Typography className="account-title account-drawer-textfield">Personal Information</Typography >
             <IconButton onClick={closeDrawer}className="settings-close" >
               <CloseOutlined />
@@ -195,6 +228,26 @@ interface AccountSettingProps {
           <Grid size={12} className="connected">
             <form onSubmit={handleSubmit(onSubmit)}>
               <Grid container direction="column" spacing={2}>
+              <Grid container direction='row'>
+                {profileData?.assetId || drawerProfileImage != null ? (
+                    <Avatar
+                      src={drawerProfileImage
+                        ? `${baseUrl}asset/${drawerProfileImage}`
+                        : `${baseUrl}asset/${profileData?.assetId}`
+                    }
+                      className="main-user-profile"
+                      alt="User Profile"
+                      variant="circular"
+                    />
+                  ) : (
+                    <Avatar className="main-user-profile main-user-profile-text">
+                      {`${profileData?.firstName[0]}${profileData?.lastName[0]}`.toUpperCase()}
+                    </Avatar>
+                  )}
+                <Button className="main-user-profile-upload-btn" onClick={openmodal} >
+                  Upload New Photo
+                </Button></Grid>
+              
                 <Grid size={12}>
                   <CustomTextField name="firstName" placeholder="First Name" control={control} requiredField />
                 </Grid>
@@ -206,9 +259,49 @@ interface AccountSettingProps {
                 </Grid>
               </Grid>
             </form>
+
+            {/* <form onSubmit={handleSubmit(onSubmit)}>
+              <Grid container direction="row" alignItems="center">
+                
+                <Grid size={12}>
+                  <CustomTextField
+                    name="firstName"
+                    placeholder="First Name"
+                    control={control}
+                    requiredField
+                    className="main-account-drawer-textfield"
+                  />
+                </Grid>
+                <Grid size={12}>
+                  <CustomTextField
+                    name="lastName"
+                    placeholder="Last Name"
+                    control={control}
+                    requiredField
+                    className="main-account-drawer-textfield"
+                  />
+                </Grid>
+                <Grid size={12} container className="main-account-drawer-btn">
+                  <CustomButton
+                    label="Submit"
+                    type="submit"
+                    className="main-user-submit-btn"
+                  />
+                </Grid>
+              </Grid>
+            </form> */}
           </Grid>
         </Grid>
       </CustomDrawer>
+      <Modal open={uploadModalOpen} onClose={() => setUploadModalOpen(false)}>
+        <Box className="modal-upload-container">
+          <FileUpload
+            acceptedFiles={["image/jpeg", "image/png"]}
+            resolution={{ width: 200, height: 200 }}
+            onSubmit={handleImageUpload}
+          />
+        </Box>
+      </Modal>
     </Grid>
   );
 });
