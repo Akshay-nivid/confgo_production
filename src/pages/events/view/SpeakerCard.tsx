@@ -13,7 +13,7 @@ import {NoCouponDataSvg } from "@/assets/svg";
 import useStore from "@/Libs/store";
 import AddIcon from "@mui/icons-material/Add";
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
-import { ISource } from "@/Libs/type";
+import { ISource } from "@/Libs/types/type";
 import { DataGridList } from "@/components/DataGrid/DataGridList";
 import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
 import routes from "@/router/routes";

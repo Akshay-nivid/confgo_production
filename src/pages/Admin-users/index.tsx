@@ -2,7 +2,7 @@ import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomple
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { DataGridList } from "@/components/DataGrid/DataGridList";
 import apiClient from "@/Libs/Https/API-client";
-import { ISource } from "@/Libs/type";
+import { ISource } from "@/Libs/types/type";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import { Logger } from "@/Utils/Logger";
 import Grid from "@mui/material/Grid2";
