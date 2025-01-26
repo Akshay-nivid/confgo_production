@@ -15,7 +15,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import apiClient from '@/Libs/Https/API-client';
 import { Logger } from '@/Utils/Logger';
 import { jwtDecode } from 'jwt-decode';
-import useStore, { clearDataById } from '@/Libs/store/store';
+import useStore, { clearDataById } from '@/Libs/store';
 import { purposeTypes } from '@/Utils/CommonBaseClass';
 
 

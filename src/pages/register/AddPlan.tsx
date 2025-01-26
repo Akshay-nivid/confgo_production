@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import useStore from "@/Libs/store/store";
+import useStore from "@/Libs/store";
 import PlanCard from "@/components/PlanCard";
 import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";

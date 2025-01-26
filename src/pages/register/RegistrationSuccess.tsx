@@ -8,7 +8,7 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { SuccessTickImage } from "@/assets/svg";
 import routes from "@/router/routes";
 import { useNavigate } from "react-router-dom";
-import useStore from "@/Libs/store/store";
+import useStore from "@/Libs/store";
 /*
  * functional compoent to render Registration success page
  */

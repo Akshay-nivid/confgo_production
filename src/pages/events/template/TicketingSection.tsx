@@ -7,7 +7,7 @@ import { Typography } from '@mui/material';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
-import { setDataById, snackBar } from '@/Libs/store/store';
+import { setDataById, snackBar } from '@/Libs/store';
 
 
 type TicketingSectionProps = {

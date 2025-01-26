@@ -10,7 +10,7 @@ import { DataGridList } from "@/components/DataGrid/DataGridList";
 import FilterModal from "@/components/CustomFilter/FilterModal";
 import { NoUserList } from "@/assets/svg";
 import { Button} from "@mui/material";
-import useStore, { setDataById } from "@/Libs/store/store";
+import useStore, { setDataById } from "@/Libs/store";
 
 
 const AbstractReviewer = () => {

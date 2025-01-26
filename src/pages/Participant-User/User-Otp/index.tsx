@@ -9,7 +9,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import OtpInput from 'react-otp-input';
 import { LockIcon } from '@/assets/svg';
 import { useEffect, useState } from 'react';
-import useStore, { clearDataById } from '@/Libs/store/store';
+import useStore, { clearDataById } from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import { purposeTypes } from '@/Utils/CommonBaseClass';
 import CustomTimer from '@/components/CustomTimer/CustomTimer';

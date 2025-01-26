@@ -8,7 +8,7 @@ import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import apiClient from "@/Libs/Https/API-client";
 import { Logger } from "@/Utils/Logger";
 import React from "react";
-import useStore, {IStoreState } from '@/Libs/store/store';
+import useStore, {IStoreState } from '@/Libs/store';
 import CustomModel from "@/components/CustomModel/CustomModel";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { CloseOutlined } from "@mui/icons-material";

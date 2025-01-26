@@ -17,7 +17,7 @@ import { processAPIResponse, truncateString } from "@/Utils/CommonBaseClass";
 import FormBuilder from "@/components/FormBuilder";
 import StatusComponent from "@/components/Status/StatusComponent";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import useStore from "@/Libs/store/store";
+import useStore from "@/Libs/store";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { useForm } from "react-hook-form";
 import PublishIcon from "@/assets/svg/publish.svg";

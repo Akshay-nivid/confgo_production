@@ -1,7 +1,7 @@
-import { GET, setDataById } from "@/Libs/store/store";
+import { GET, setDataById } from "@/Libs/store";
 import { validateRequiredField } from "@/Utils/Validation";
 import { Box, Typography, IconButton } from "@mui/material";
-import useStore from "@/Libs/store/store";
+import useStore from "@/Libs/store";
 import Grid from "@mui/material/Grid2";
 import CustomSelect from "../CustomSelectBox/CustomSelect";
 import CustomSwitch from "../CustomSwitch/CustomSwitch";

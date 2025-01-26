@@ -1,4 +1,4 @@
-import useStore from "@/Libs/store/store";
+import useStore from "@/Libs/store";
 import Grid from '@mui/material/Grid2';
 import PaymentMethod from "../register/PaymentMethod";
 import { useEffect } from "react";

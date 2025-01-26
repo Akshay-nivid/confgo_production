@@ -10,7 +10,7 @@ import { Logger } from '@/Utils/Logger';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import { CloseOutlined } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
-import { setDataById } from '@/Libs/store/store';
+import { setDataById } from '@/Libs/store';
 
 interface AssignedVolunteersProps {
     onClose: () => void;

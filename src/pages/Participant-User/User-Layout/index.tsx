@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import TopMenuSection from '@/pages/events/template/TopMenuSection';
-import useStore, { setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store/store';
+import useStore, { setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store';
 import { useEffect } from 'react';
 import apiClient from '@/Libs/Https/API-client';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';

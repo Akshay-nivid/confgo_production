@@ -8,7 +8,7 @@ import {
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { SubmitHandler, useForm } from "react-hook-form";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import useStore, { POST } from "@/Libs/store/store";
+import useStore, { POST } from "@/Libs/store";
 import { emailRules } from "@/Utils/Validation";
 import { Logger } from "@/Utils/Logger";
 /*

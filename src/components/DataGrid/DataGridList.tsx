@@ -1,6 +1,6 @@
 import { DataGrid } from '@mui/x-data-grid';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import useStore from '../../Libs/store/store';
+import useStore from '../../Libs/store';
 import apiClient from '../../Libs/Https/API-client';
 import { processAPIResponse } from '../../Utils/CommonBaseClass';
 import { MenuItem, Pagination, Select, Typography } from '@mui/material';

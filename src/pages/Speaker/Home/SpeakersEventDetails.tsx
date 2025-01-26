@@ -8,7 +8,7 @@ import FileUpload from '@/components/FileUpload/FileUpload';
 import { extractFileType } from '@/Utils/CommonBaseClass';
 import UploadedIcon from "../../../assets/svg/uploaded-abstract.svg"
 import RemoveIcon from "../../../assets/svg/file-remove.svg"
-import useStore, { POST, PUT } from '@/Libs/store/store';
+import useStore, { POST, PUT } from '@/Libs/store';
 import moment from 'moment';
 import config from '../../../../config.json';
 import { useNavigate, useParams } from 'react-router-dom';

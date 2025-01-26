@@ -3,7 +3,7 @@ import { Typography, Tabs, Tab, Box } from '@mui/material';
 import MainSecurity from './profile-components/mainSecurity';
 // import Notifications from './profile-components/Notifications'; // Import the Notifications component
 import Grid from "@mui/material/Grid2";
-import useStore from "@/Libs/store/store";
+import useStore from "@/Libs/store";
 import "./profile-components/mainProfile.scss"
 import PersonalAndOrganisationDetails from './profile-components/PersonalAndOrganisationDetails';
 

@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid2";
 import PricingTierConfigure from "./PricingTierConfigure";
 import { useEffect, useMemo, useState } from "react";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
-import useStore from "@/Libs/store/store";
+import useStore from "@/Libs/store";
 import PricingTable from "./PricingTable";
 import { useForm } from "react-hook-form";
 import { useParams } from "react-router-dom";

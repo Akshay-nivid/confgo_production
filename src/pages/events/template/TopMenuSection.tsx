@@ -1,7 +1,7 @@
 /**
  * Component displays the top menu section of the template
  */
-import useStore, { clearDataById, resetStore, setDataById } from '@/Libs/store/store';
+import useStore, { clearDataById, resetStore, setDataById } from '@/Libs/store';
 import { getUserToken, handleLogout, useIsMobileOrTabletScreen } from '@/Utils/CommonBaseClass';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import routes from '@/router/routes';

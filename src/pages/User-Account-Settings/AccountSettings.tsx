@@ -16,7 +16,7 @@ import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { CloseOutlined } from "@mui/icons-material";
 import apiClient from "@/Libs/Https/API-client"; 
 import { EditIconRound, Google } from "@/assets/svg";
-import useStore from "@/Libs/store/store";
+import useStore from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
 import config from "../../../config.json";
 import FileUpload from "@/components/FileUpload/FileUpload";

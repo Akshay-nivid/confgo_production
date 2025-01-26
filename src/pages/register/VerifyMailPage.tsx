@@ -1,5 +1,5 @@
 import apiClient from "@/Libs/Https/API-client";
-import useStore from "@/Libs/store/store";
+import useStore from "@/Libs/store";
 import routes from "@/router/routes";
 import { Logger } from "@/Utils/Logger";
 import CircularProgress from "@mui/material/CircularProgress";

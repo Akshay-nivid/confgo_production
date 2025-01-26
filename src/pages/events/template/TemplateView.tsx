@@ -7,7 +7,7 @@ import AboutSection from './AboutSection';
 import ProgramSection from './ProgramSection';
 import HeaderSection from './HeaderSection';
 import EventContributorsSection from './EventContributorsSection';
-import useStore, { setDataById } from '@/Libs/store/store';
+import useStore, { setDataById } from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import FooterSection from './FooterSection';
 import TicketingSection from './TicketingSection';

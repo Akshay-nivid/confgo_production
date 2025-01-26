@@ -2,7 +2,7 @@ import Grid from "@mui/material/Grid2";
 import { EventRegistrationSuccessIcon } from "@/assets/svg";
 import { Box, Typography } from "@mui/material";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import useStore, { IStoreState } from "@/Libs/store/store";
+import useStore, { IStoreState } from "@/Libs/store";
 import routes from "@/router/routes";
 import { useNavigate } from "react-router-dom";
 //import { Navigate } from "react-router-dom";

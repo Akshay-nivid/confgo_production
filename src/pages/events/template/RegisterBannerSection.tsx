@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import { Typography } from '@mui/material';
-import { snackBar } from '@/Libs/store/store';
+import { snackBar } from '@/Libs/store';
 
 type RegisterBannerSectionProps = {
   data?: any;

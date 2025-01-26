@@ -17,7 +17,7 @@ import {
   UserCreateIcon,
 } from '@/assets/svg';
 import routes from '@/router/routes';
-import { clearDataById } from '@/Libs/store/store';
+import { clearDataById } from '@/Libs/store';
 
 import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined';
 

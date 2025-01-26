@@ -4,7 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import routes from "@/router/routes";
-import useStore, { POST } from "@/Libs/store/store";
+import useStore, { POST } from "@/Libs/store";
 import apiClient from "@/Libs/Https/API-client";
 import { useIsMobileScreen } from "@/Utils/CommonBaseClass";
 import { roleToRouteMapper } from "../Participant-User/User-Login";

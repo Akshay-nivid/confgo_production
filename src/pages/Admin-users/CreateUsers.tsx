@@ -2,7 +2,7 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import FileListModal from "@/components/FileUpload/FileListModal";
-import useStore from "@/Libs/store/store";
+import useStore from "@/Libs/store";
 import routes from "@/router/routes";
 import { validateEmail, validateRequiredField } from "@/Utils/Validation";
 import { Typography } from "@mui/material";

@@ -18,7 +18,7 @@ import {
 } from "@/assets/svg";
 import { useState } from "react";
 import { ArrowDropDown } from "@mui/icons-material";
-import useStore, { IStoreState, setDataById } from "@/Libs/store/store";
+import useStore, { IStoreState, setDataById } from "@/Libs/store";
 import PayPalParticipantButton from "./PaypalPartcipantComponent";
 import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";

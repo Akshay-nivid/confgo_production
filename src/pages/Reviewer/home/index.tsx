@@ -6,7 +6,7 @@ import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
-import useStore, { GET } from '@/Libs/store/store';
+import useStore, { GET } from '@/Libs/store';
 import CustomAutocomplete from '@/components/CustomAutocomplete/CustomAutocomplete';
 import { useForm } from 'react-hook-form';
 

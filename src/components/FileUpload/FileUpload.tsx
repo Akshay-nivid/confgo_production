@@ -1,4 +1,4 @@
-import useStore from '@/Libs/store/store';
+import useStore from '@/Libs/store';
 import { Typography, IconButton } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import React, { useCallback, useState } from 'react';

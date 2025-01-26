@@ -9,7 +9,7 @@ import { IconButton, Typography } from "@mui/material";
 import { CloseOutlined } from "@mui/icons-material";
 import apiClient from "@/Libs/Https/API-client";
 import { useParams } from "react-router-dom";
-import useStore, { POST } from "@/Libs/store/store";
+import useStore, { POST } from "@/Libs/store";
 import { formatUTCDateTime, processAPIResponse } from "@/Utils/CommonBaseClass";
 import moment from "moment";
 import EditIcon from "@/assets/svg/event-edit.svg";

@@ -6,7 +6,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import clsx from 'clsx';
 import { validateMinLength, validatePassword, validateRequiredField } from '@/Utils/Validation';
 import { REGEX } from '@/Utils/Validation';
-import useStore from '@/Libs/store/store';
+import useStore from '@/Libs/store';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import { Logger } from '@/Utils/Logger';

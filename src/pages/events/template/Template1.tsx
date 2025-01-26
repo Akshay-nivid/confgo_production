@@ -27,7 +27,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { CloseIcon } from '@/assets/svg';
 import { Drawer } from '@mui/material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import useStore, { resetStore, setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store/store';
+import useStore, { resetStore, setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store';
 import routes from '@/router/routes';
 import parse from 'html-react-parser';
 import TimerCounterComp from './TemplateTimer/TimerCounterComp';

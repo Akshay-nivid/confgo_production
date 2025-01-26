@@ -3,7 +3,7 @@ import { Box, Typography, Accordion, AccordionSummary, IconButton, AccordionDeta
 import Grid from "@mui/material/Grid2";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import useStore, {setDataById } from "@/Libs/store/store";
+import useStore, {setDataById } from "@/Libs/store";
 import CustomSelect from "../CustomSelectBox/CustomSelect";
 import CustomTextField from "../CustomTextfield/CustomTextField";
 import { selectOptions, isFieldTypePresent } from "./programHandlers";

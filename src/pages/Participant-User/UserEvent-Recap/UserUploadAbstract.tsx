@@ -1,7 +1,7 @@
 import { BookIcon, BookWhite, CloseBoxWhite, EditBoxWhite, TicBoxWhite } from '@/assets/svg';
 import FileUpload from '@/components/FileUpload/FileUpload';
 import StatusComponent from '@/components/Status/StatusComponent';
-import useStore, { POST, PUT, setDataById, snackBar } from '@/Libs/store/store';
+import useStore, { POST, PUT, setDataById, snackBar } from '@/Libs/store';
 import { Edit } from '@mui/icons-material';
 import { Avatar, Box, IconButton, Rating, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';

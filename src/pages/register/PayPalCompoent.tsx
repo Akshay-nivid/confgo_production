@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import Grid from '@mui/material/Grid2';
-import useStore, { POST } from '@/Libs/store/store';
+import useStore, { POST } from '@/Libs/store';
 import apiClient from '@/Libs/Https/API-client';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';
 import { Logger } from '@/Utils/Logger';

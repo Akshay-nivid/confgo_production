@@ -13,7 +13,7 @@ import routes from "@/router/routes";
 import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
 import { Filter } from "@/components/Filter";
-import useStore, { setDataById } from "@/Libs/store/store";
+import useStore, { setDataById } from "@/Libs/store";
 import { NoUserList } from "@/assets/svg";
 
 interface Role{

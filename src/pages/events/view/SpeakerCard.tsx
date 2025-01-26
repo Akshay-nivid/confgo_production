@@ -10,7 +10,7 @@ import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CloseIcon from "@mui/icons-material/Close";
 import {NoCouponDataSvg } from "@/assets/svg";
-import useStore from "@/Libs/store/store";
+import useStore from "@/Libs/store";
 import AddIcon from "@mui/icons-material/Add";
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
 import { ISource } from "@/Libs/types/type";

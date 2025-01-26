@@ -10,7 +10,7 @@ import PricingTable from "./PricingTable";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Logger } from "@/Utils/Logger";
-import useStore from "@/Libs/store/store";
+import useStore from "@/Libs/store";
 import moment from "moment";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';

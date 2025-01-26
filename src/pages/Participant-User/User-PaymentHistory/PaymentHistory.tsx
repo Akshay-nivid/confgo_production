@@ -9,7 +9,7 @@ import { Logger } from "@/Utils/Logger";
 import { ISource } from "@/Libs/types/type";
 import { NoPayment } from "@/assets/svg";
 import jsPDF from "jspdf";
-import { POST } from "@/Libs/store/store";
+import { POST } from "@/Libs/store";
 import moment from "moment";
 import StatusComponent from "@/components/Status/StatusComponent";
 import confgo  from "../../../../config.json"

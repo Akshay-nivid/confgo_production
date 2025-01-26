@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import useStore from "@/Libs/store/store";
+import useStore from "@/Libs/store";
 import AddPlan from "./AddPlan";
 import CreateAccount from "./CreateAccount";
 import AddOrganization from "./AddOrganization";

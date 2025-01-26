@@ -9,7 +9,7 @@ import Template3 from '../../../assets/png/template3-preview.png'
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CheckCircleIcon from '../../../assets/svg/template-select.svg'
 import { useEffect } from "react";
-import useStore from "@/Libs/store/store";
+import useStore from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
 
 

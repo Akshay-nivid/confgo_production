@@ -1,7 +1,7 @@
 import routes from '@/router/routes';
 import { Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import useStore from '@/Libs/store/store';
+import useStore from '@/Libs/store';
 import { toCamelCase } from '@/Utils/CommonBaseClass';
 import Grid from "@mui/material/Grid2";
 import { ArrowIconSvg, BasicPlainIcon, ProPlanIcon, StandardPlanIcon } from '@/assets/svg';

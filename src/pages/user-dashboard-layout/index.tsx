@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid2';
 import { Outlet } from 'react-router-dom';
 import { Box } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import useStore from '@/Libs/store/store';
+import useStore from '@/Libs/store';
 import { useIsMobileScreen } from '@/Utils/CommonBaseClass';
 
 type UserProps = {

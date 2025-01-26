@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid2';
 import React from 'react';
 import config from '../../../../config.json';
 import NoProfilePicture from "../../../assets/svg/NoProfilePicture.svg";
-import { setNonPersistedDataById } from '@/Libs/store/store';
+import { setNonPersistedDataById } from '@/Libs/store';
 import SpeakerDetailsModal from './_components/SpeakerDetailsModal';
 import { truncateString } from '@/Utils/CommonBaseClass';
 

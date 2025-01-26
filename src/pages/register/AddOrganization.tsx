@@ -10,7 +10,7 @@ import {
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { SubmitHandler, useForm } from "react-hook-form";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import useStore from "@/Libs/store/store";
+import useStore from "@/Libs/store";
 import { emailRules } from "@/Utils/Validation";
 import { processAPIResponse} from "@/Utils/CommonBaseClass";
 import apiClient from "@/Libs/Https/API-client";

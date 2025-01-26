@@ -6,7 +6,7 @@ import { Box, CircularProgress, Divider, Typography } from "@mui/material";
 import DashboardCardItem from './DashboardCardItem';
 import {  DownloadCertsIcon, DownloadEventIcon, EventsSvg, HeartEventIcon, PaymentDashboardIcon,  TransactionHistoryIcon } from '@/assets/svg';
 import React from 'react';
-import useStore from '@/Libs/store/store';
+import useStore from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import { CalendarCard } from '../dashboard/CalendarCard';
 // import moment from 'moment';

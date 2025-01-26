@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import { Logger } from '@/Utils/Logger';
-import useStore, { clearDataById } from '@/Libs/store/store';
+import useStore, { clearDataById } from '@/Libs/store';
 import { registerComponent } from '@/Libs/DataHandler/dataHandler';
 import { ApiResponse } from '@/pages/LoginOrg/loginOrg';
 import apiClient from '@/Libs/Https/API-client';

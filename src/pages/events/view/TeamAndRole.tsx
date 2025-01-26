@@ -6,7 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import AbstractReviewer from "./AbstactReviewerListCard";
 import React from "react";
-import useStore from "@/Libs/store/store";
+import useStore from "@/Libs/store";
 
 /**
  * TeamAndRole Component
