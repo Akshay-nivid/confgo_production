@@ -141,11 +141,12 @@ const AdminUsersList=()=>{
           filters: {
             userId: selected.id,
             companyId:companyId,
-          //   roleEnums: [
-          //     "VOLUNTEER",
-          //     "SPONSER",
-          //     "REVIEWER"
-          // ]
+            roleEnums: [
+              "VOLUNTEER",
+              "SPONSER",
+              "SPEAKER",
+              "REVIEWER",
+          ]
           },
         },
         url: `user/userRole/list`,
@@ -169,6 +170,12 @@ const AdminUsersList=()=>{
         filters: {
           name: query,
           companyId:companyId,
+          roleEnums: [
+            "VOLUNTEER",
+            "SPONSER",
+            "SPEAKER",
+            "REVIEWER",
+          ]
         },
       };
       const response = await await apiClient.post(
