@@ -1769,7 +1769,8 @@
                 text-align: center !important;
                 min-height: 3rem !important;
               font-size:$p2;
-              font-weight: $font_normal;
+              font-weight: $font-bold !important;
+              line-height: 2rem;
              }
              &-ImgBox{
                 min-width: 15rem !important;
