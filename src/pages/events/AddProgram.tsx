@@ -27,7 +27,7 @@ type Speaker = {
   speakerId?: string;
   speakerFullName?: string;
   speakerAssetId?: string;
-  designation: string;
+  designation?: string;
 }
 
 type FormData = {
@@ -45,7 +45,7 @@ type FormData = {
       speakerId?: string;
       speakerFullName?: string;
       speakerAssetId?: string;
-      designation: string;
+      designation?: string;
     }[];
     speakerId?: string;
     speakerFullName?: string;
@@ -68,7 +68,7 @@ type FormData = {
       speakerId?: string;
       speakerFullName?: string;
       speakerAssetId?: string;
-      designation: string;
+      designation?: string;
     }[];
     speakerId?: string;
     speakerFullName?: string;
@@ -144,6 +144,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
         speakerId: item?.id,
         speakerFullName: `${item?.firstName} ${item?.lastName}`,
         speakerAssetId: item?.assetId,
+        designation: item?.designation,
         ...item
       }));
     }
@@ -320,15 +321,17 @@ const handleAddProgram = () => {
         return
       }
     // Ensure dates are valid Date objects
-    let selectedDate =programs?.[programIndex]?.startDate
-    let selectedEndDate =programs?.[programIndex]?.endDate
-    let eventStartDateObj = new Date(eventStartDate);
-    let startDateObj = new Date(selectedDate);
-    let endDateObj = new Date(programs?.[programIndex]?.endDate);
+    let selectedDate = programs?.[programIndex]?.startDate
+    let selectedEndDate = programs?.[programIndex]?.endDate
+    let formattedStartDate = moment(selectedDate)?.format('YYYY-MM-DD');
+    let formattedeventStartDate = moment(eventStartDate)?.format('YYYY-MM-DD');
+    let formattedeventeventEndDate = moment(eventEndDate)?.format('YYYY-MM-DD');
+    let formattedeventendDate = moment(programs?.[programIndex]?.endDate).format('YYYY-MM-DD');
     let eventEndDateObj = new Date(eventEndDate)
     eventEndDateObj.setHours(23, 59, 59, 999);
 
       // Perform the comparison of dates
+      if (formattedStartDate < formattedeventStartDate || formattedStartDate > formattedeventeventEndDate) {
       if (startDateObj.getTime() < eventStartDateObj.getTime() || startDateObj.getTime() > eventEndDateObj.setHours(11,59,59,0)) {
         setError(`programs.${programIndex}.startDate`, {
           type: 'manual',
@@ -336,8 +339,7 @@ const handleAddProgram = () => {
         });
         return
       } 
-  
-      if (endDateObj.getTime() > eventEndDateObj.getTime()) {
+      if (formattedeventendDate > formattedeventeventEndDate) {
         setError(`programs.${programIndex}.endDate`, {
           type: 'manual',
           message: 'End date should be within event Dates',
@@ -405,6 +407,7 @@ const handleAddProgram = () => {
         setValue("savedPrograms", programs);
         append(newProgram);
         setProgramIndex(programs?.length || 0);
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Program added to the event" })
       } else {
         // If in `editMode`, just update the program index
         setProgramIndex(programs?.length ? programs.length - 1 : 0);
@@ -431,7 +434,7 @@ const handleAddProgram = () => {
       setValue("programs", watch("savedPrograms"));
       setProgramIndex(index);
       if(watch(`programs.${index}.speakers`)){
-        setShowSpeakerSection(true)
+        setShowSpeakerSection(watch(`programs.${index}.speakers`)?.length == 0 ? false : true)
       }
     };
 
@@ -523,13 +526,13 @@ const handleAddProgram = () => {
         });
         return;
       }
-      if (!designation) {
-        setError(`programs.${index}.designation`, {
-          type: 'manual',
-          message: 'Designation is required',
-        });
-        return;
-      }
+      // if (!designation) {
+      //   setError(`programs.${index}.designation`, {
+      //     type: 'manual',
+      //     message: 'Designation is required',
+      //   });
+      //   return;
+      // }
 
       const newSpeaker = {
         speakerId,
@@ -564,6 +567,7 @@ const handleAddProgram = () => {
       resetField(`programs.${index}.designation`);
       resetField(`programs.${index}.speakerFullName`);
       resetField(`programs.${index}.speakerSelection`);
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "speaker added successfully" })
     }; 
 
     /**
@@ -572,17 +576,18 @@ const handleAddProgram = () => {
      * @param {object} item - The speaker object that needs to be removed.
      * @param {number} _index - The index of the program in the programs array .
      */
-    const removeSpeaker = (item: any, _index: number) => {
+    const removeSpeaker = (item: any, index: number) => {
+      // Retrieve current form values
       const values = watch();
-      const updatedPrograms = values.programs.map((program) => {
-        const updatedSpeakers = program.speakers?.filter(
-          (speaker) => speaker?.speakerId !== item?.speakerId
-        ) || [];
-        return {
-          ...program,
-          speakers: updatedSpeakers,
-        };
-      });
+    
+      // Update only the specific program at the provided index
+      const updatedPrograms = [...values.programs];
+      const updatedSpeakers = updatedPrograms[index].speakers?.filter(
+        (speaker) => speaker?.speakerId !== item?.speakerId
+      ) || [];
+      updatedPrograms[index].speakers = updatedSpeakers;
+    
+      // Set the updated programs back to the form
       setValue('programs', updatedPrograms);
     };    
 
@@ -788,9 +793,11 @@ const handleAddProgram = () => {
                                   <Typography className="add-program-drawer-heading">
                                     Assign Speakers
                                   </Typography>
+                                  {watch(`programs.${index}.speakers`)?.length == 0 && (
                                   <IconButton onClick={() => setShowSpeakerSection(false)}>
                                     <CloseOutlined />
                                   </IconButton>
+                                  )}
                                 </Grid>{/*end of speaker header section */}
                                 <Grid size={{ xs: 12}}>
                                   <CustomAutocomplete
@@ -805,20 +812,21 @@ const handleAddProgram = () => {
                                       setValue(`programs.${index}.speakerId`,selectedOption?.speakerId)
                                       setValue(`programs.${index}.speakerAssetId`,selectedOption?.speakerAssetId)
                                       setValue(`programs.${index}.speakerFullName`,selectedOption?.speakerFullName)
+                                      setValue(`programs.${index}.designation`,selectedOption?.designation)
                                     }}
                                   />
                                 </Grid>
-                                <Grid container className="add-program-drawer-new-speaker-link" justifyContent={'end'} onClick={() => setNewSpeakerDrawerOpen(true)} size={{xs:12}}>
-                                  <Typography className="cursor-container" variant="h6">Create New Speaker ?</Typography>
+                                <Grid container className="add-program-drawer-new-speaker-link" justifyContent={'end'}  size={{xs:12}}>
+                                  <Typography onClick={() => setNewSpeakerDrawerOpen(true)} className="cursor-container" variant="h6">Create New Speaker ?</Typography>
                                 </Grid>
-                                <Grid size={{ xs: 12}}>
+                                {/* <Grid size={{ xs: 12}}>
                                   <CustomTextField
                                     placeholder="Designation"
                                     control={control}
                                     name={`programs.${index}.designation`}
                                     type="text"
                                   />
-                                </Grid>
+                                </Grid> */}
                                 <Grid size={{xs:12}} >
                                   <CustomButton
                                     className="add-program-drawer-btn-cancel"
@@ -847,7 +855,7 @@ const handleAddProgram = () => {
                                                   {item.speakerFullName}
                                                 </Typography>
                                                 <Typography className="add-program-speaker-section-card-item-subtitle">
-                                                  { truncateString(item?.designation,35)}
+                                                  {truncateString(item?.designation, 35, "")}
                                                 </Typography>
                                               </Grid>
                                               <Grid size={{xs:2}} justifyItems={'center'}>
@@ -904,7 +912,7 @@ const handleAddProgram = () => {
         <Grid
             container
             direction={"row"}
-            className="add-program-display-container"
+            className="add-program-program-display-container"
             size={{ xs: 12, sm: 7 }}
             spacing={2}
             key='add-program-display-container'
@@ -922,7 +930,7 @@ const handleAddProgram = () => {
             </Grid>
             <Grid
               size={{ xs: 12 }}
-              className="add-program-display-items"
+              className="add-program-program-display-items"
               alignItems="flex-start"
               justifyContent="flex-start"
               mt={{xs:1,sm:3}}

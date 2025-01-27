@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Overpass:wght@100;300;400;500;600;700;800;900&display=swap");
 
 @import "../pages/Delete-Account/style";
 @import "../components/style";
@@ -52,3 +52,4 @@
 @import '../components/CustomCalendar/CustomCalendar.scss';
 @import '../pages/events/view/TeamAndRole.scss';
 @import '../pages/events/template/TemplateTimer/_style.scss';
+@import "../pages/events/template/sponsorShipForm/style.scss"

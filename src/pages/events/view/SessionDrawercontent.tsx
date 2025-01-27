@@ -14,6 +14,8 @@ import { Logger } from "@/Utils/Logger";
 import { truncateString } from "@/Utils/CommonBaseClass";
 import config from "../../../../config.json";
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
+import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
+import NewSpeakerDrawer from "../NewSpeakerDrawer";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 
 
@@ -32,12 +34,12 @@ interface FormData {
   speakerId?: string;
   speakerName?: string;
   speakerAssetId?: string;
-  speakerDesignation:string;
+  speakerDesignation?:string;
   speakers: {
     speakerId?: string;
     speakerName?: string;
     speakerAssetId?: string;
-    speakerDesignation:string;
+    speakerDesignation?:string;
   }[];
   speakerSelection?:string;
   sponsorId?: string;
@@ -56,7 +58,7 @@ type Speaker = {
   speakerId?: string;
   speakerName?: string;
   speakerAssetId?: string;
-  speakerDesignation: string;
+  speakerDesignation?: string;
 }
 type Sponsor = { 
   sponsorId?: string;
@@ -118,13 +120,16 @@ interface SessionDrawerContentProps {
     
     const isPaid = watch("isPaid");
     const [showSpeakerSection, setShowSpeakerSection] = useState(false);
+    const [existingSpeakers, setExistingSpeakers] = useState<any>();
     const [showSponserSection, setShowSponsorSection] = useState(false);
     const [loading, setLoading] = useState(false);
     const companyId = sessionStorage.getItem("companyId")
     const [searchResults, setSearchResults] = useState<Speaker[]>([]);
+    const [delspeaker,setDelSpeaker]=useState<any>([])
     const [sponsorSearchResults, setSponsorSearcResults] = useState<Sponsor[]>([]);
     const [sponsorType,setSponsorType]=useState<SponsorType[]>([]);
     const baseUrl = config.api.url;
+    const [newSpeakerDrawerOpen, setNewSpeakerDrawerOpen] = useState(false);
     const {append } = useFieldArray({
       control,
       name: "speakers",
@@ -154,7 +159,7 @@ interface SessionDrawerContentProps {
         const speakers = selectedProgram?.eventSpeakers?.map((speaker: any) => ({
           speakerId: speaker?.userId,
           speakerName: `${speaker?.user?.firstName} ${speaker?.user?.lastName}`,
-          speakerDesignation: speaker?.speakerBios?.[0]?.designation,
+          speakerDesignation: speaker?.user?.designation,
           speakerAssetId:speaker?.user?.assetId,
         }));
         const sponsors = selectedProgram?.eventSpeakers?.map((sponsor: any) => ({
@@ -165,6 +170,7 @@ interface SessionDrawerContentProps {
         }))
 
         setValue("speakers", speakers);
+        setExistingSpeakers(speakers);
         setShowSpeakerSection(speakers?.length > 0)
 
         setValue("sponsors", sponsors)
@@ -203,6 +209,22 @@ interface SessionDrawerContentProps {
 		if(isAddon){
 				return <SessionAddonDrawer closeDrawer={closeDrawer} isEditing={isEditing} selectedAddOn={selectedProgram} onSubmit={onSubmit} eventData={eventData}  onSubmitHandler={submitHandler} />
 		}  
+
+  /**
+ * Filters out speakers from the `speakers` array whose `speakerId` exists in the `existingSpeakers` array.
+ *
+ * @param {Array} speakers - The array of speaker objects to filter.
+ * @param {Array} existingSpeakers - The array of existing speaker objects with `speakerId`s to exclude.
+ * @returns {Array} A new array of speakers excluding those with `speakerId`s found in `existingSpeakers`.
+ */
+function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
+  // Create a Set of speakerIds from the existingSpeakers array for fast lookup
+  const existingSpeakerIds = new Set(existingSpeakers?.map((speaker: any) => speaker.speakerId));
+
+  // Filter out speakers whose speakerId exists in the Set
+  return speakers && speakers.filter((speaker: any) => !existingSpeakerIds.has(speaker.speakerId));
+}
+
   /**
    * formating the submit request
    */
@@ -252,10 +274,11 @@ interface SessionDrawerContentProps {
       }
   }
       // Map speakers to the desired format
-      const speakers = data?.speakers?.map((speaker: any) => ({
+      const newAddedSpeakers = data?.speakers?.map((speaker: any) => ({
         speakerId: speaker?.speakerId,
-        designation: speaker?.speakerDesignation || ' ',
       }));
+
+       const speakers = removeExistingSpeakers(newAddedSpeakers, existingSpeakers);
 
       // Map sponsors to the desired format
       const sponsors = data?.sponsors?.map((sponsor: any) => ({
@@ -287,6 +310,7 @@ interface SessionDrawerContentProps {
      */
     const removeSpeaker = (speaker: Speaker) => {
       const speakers = watch('speakers');
+      setDelSpeaker([...delspeaker,speaker.speakerId])
     
       // Check if the speaker is part of the original data (selectedProgram) using userId
       const isExistingSpeaker = selectedProgram?.eventSpeakers?.some(
@@ -309,7 +333,7 @@ interface SessionDrawerContentProps {
             successCB: (context: any) => {
               Logger.info("Speaker removed successfully", context);
               // Proceed to remove from the field array once the API call is successful
-              const updatedSpeakers = speakers.filter((s: Speaker) => s.speakerId !== speaker.speakerId);
+              const updatedSpeakers = speakers?.filter((s: Speaker) => s.speakerId !== speaker.speakerId);
               setValue('speakers', updatedSpeakers); // Update form data after successful API call
             },
             errorCB: (context: any) => {
@@ -334,6 +358,7 @@ interface SessionDrawerContentProps {
         speakerId: item?.id,
         speakerName: `${item?.firstName} ${item?.lastName}`,
         speakerAssetId: item?.assetId,
+        speakerDesignation:item?.designation,
         ...item
       }));
     }
@@ -502,12 +527,8 @@ interface SessionDrawerContentProps {
       const speakerName = values?.speakerName;
       const speakerAssetId = values?.speakerAssetId;
       const speakerDesignation = values?.speakerDesignation;
-    
-      // Check if the speaker is part of the original data (selectedProgram) using userId
-      const isExistingSpeaker = selectedProgram?.eventSpeakers?.some(
-        (existingSpeaker: any) => existingSpeaker?.userId === speakerId
-      );
-      if(isExistingSpeaker){
+      const isDuplicate = values?.speakers?.some((speaker: any) => speaker.speakerId === speakerId);
+      if(isDuplicate){
         setError(`speakerSelection`, { type: "manual", message: "Speaker Already assigned. please select another speaker" });
         return;
       }
@@ -516,10 +537,10 @@ interface SessionDrawerContentProps {
         setError(`speakerSelection`, { type: "manual", message: "Please select a speaker" });
         return;
       }
-      if (!speakerDesignation) {
-        setError(`speakerDesignation`, { type: "manual", message: "Designation is required" });
-        return;
-      }
+      // if (!speakerDesignation) {
+      //   setError(`speakerDesignation`, { type: "manual", message: "Designation is required" });
+      //   return;
+      // }
         // Append speaker to the speakers field
       append({
         speakerId,
@@ -735,17 +756,21 @@ interface SessionDrawerContentProps {
                     setValue(`speakerId`, selectedOption?.speakerId)
                     setValue(`speakerAssetId`, selectedOption?.speakerAssetId)
                     setValue(`speakerName`, selectedOption?.speakerName)
+                    setValue(`speakerDesignation`, selectedOption?.speakerDesignation)
                   }}
                 />
               </Grid>
-              <Grid size={{ xs: 12 }}>
+              <Grid container className="add-program-drawer-new-speaker-link"  justifyContent={'end'} size={{xs:12}}>
+                <Typography className="cursor-container" variant="h6" onClick={() => setNewSpeakerDrawerOpen(true)}>Create New Speaker ?</Typography>
+              </Grid>
+              {/* <Grid size={{ xs: 12 }}>
                 <CustomTextField
                   placeholder="Designation"
                   control={control}
                   name={`speakerDesignation`}
                   type="text"
                 />
-              </Grid>
+              </Grid> */}
               <Grid size={{ xs: 12 }} >
                 <CustomButton
                   className="add-program-drawer-btn-cancel"
@@ -774,7 +799,7 @@ interface SessionDrawerContentProps {
                               {item?.speakerName}
                             </Typography>
                             <Typography className="add-program-speaker-section-card-item-subtitle">
-                              {truncateString(item?.speakerDesignation, 35)}
+                              {truncateString(item?.speakerDesignation, 35, "")}
                             </Typography>
                           </Grid>
                           <Grid size={{ xs: 2 }} justifyItems={'center'}>
@@ -790,6 +815,14 @@ interface SessionDrawerContentProps {
               )}
             </Grid>// end of add speaker section
           )}
+          {/* Drawer to create a new Speaker */}
+          <Grid >
+            <CustomDrawer
+              children={<NewSpeakerDrawer onSuccess={() => { handleSearch("") }} closeDrawer={() => setNewSpeakerDrawerOpen(false)} />}
+              open={newSpeakerDrawerOpen}
+              type="right"
+            />
+          </Grid>
 
 
 {!showSponserSection ? (

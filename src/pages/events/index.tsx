@@ -97,8 +97,34 @@ const Events = () => {
   const eventInfo = useStore((state: any) => state?.compData?.getEventDetails?.[`event/${id}`]?.data)
   
 
+  // const [isDirty, setIsDirty] = useState(false); 
+  // /**
+  //  * Check if form data has changed
+  //  */ 
+  // useEffect(() => {
+  //   const hasChanges = JSON.stringify(formData) !== null;
+  //   setIsDirty(hasChanges);
+  // }, [formData]);
 
+  // /**
+  //  * Prompt user on navigating away or closing the tab
+  //  */ 
+  // useEffect(() => {
+  //   const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+  //     if (isDirty) {
+  //       const message = "You have unsaved changes. Are you sure you want to leave?";
+  //       event.returnValue = message; 
+  //       return message;
+  //     }
+  //   };
 
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
+
+    
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, [isDirty]);
 
   /**
    * Useeffect hook handles the api call for getting event status, add options and get event data
@@ -214,6 +240,9 @@ const Events = () => {
     if ((step === 1 && !isEventValid) || ((step === 2 || step === 3) && (!isEventValid || !isProgramValid))) {
       return;
     }
+    // if (isDirty && !window.confirm("You have unsaved changes. Are you sure you want to continue?")) {
+    //   return;
+    // }
   
     setActiveStep(step);
   };
@@ -301,9 +330,8 @@ const Events = () => {
         statusId: draft? draftStatusId: statusId,
         amount: amount ? amount : "0",
         ...(speakers.length !== 0 && {
-          speaker: speakers?.map(({ speakerId, designation }: any) => ({
-            speakerId,
-            designation
+          speaker: speakers?.map(({ speakerId }: any) => ({
+            speakerId
           })),
         }),
       };
@@ -532,7 +560,7 @@ const Events = () => {
               speakerId: speaker?.userId,
               speakerFullName: `${speaker?.user?.firstName} ${speaker?.user?.lastName}`,
               speakerAssetId: speaker?.user?.assetId,
-              designation: speaker?.speakerBios?.[0]?.designation || " ",
+              designation: speaker?.user?.designation || " ",
             })) || [],
         })),
         addOns: data.addons?.map((addon: any) => ({

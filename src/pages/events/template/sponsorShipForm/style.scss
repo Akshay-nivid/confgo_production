@@ -1,0 +1,185 @@
+.sponsor-page {
+    margin-top: .816rem;
+
+    .sponsor-container {
+        margin-top: 3rem;
+        .sponsor-header-content {
+            flex-direction: column !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sponsor-header-title {
+            font-size: $h1 !important;
+            font-weight: $font-semibold !important;
+            color: $clr_black;
+            text-align: center;
+            @media screen and (max-width: 600px) {
+                font-size: $h2 !important;
+            
+            }
+        }
+
+        .sponsor-header-description {
+            color: $clr_sub_header;
+            font-size: $p5 !important;
+            font-weight: $font_normal !important;
+            text-align: center;
+        }
+    }
+
+    .sponsor-content {
+        padding-bottom: 5rem;
+        margin-top: 3.375rem;
+
+        .sponsor-content-wrapper {
+            width: full !important;
+            height: auto;
+            border-radius: 0.7rem;
+
+            .sponsor-info {
+                background-image: url('/src/assets/svg/sponsor-svg.svg');
+                border-radius: 0.7rem;
+                background-size: cover;
+
+                .sponsor-info_header {
+
+                    font-size: $h2 !important;
+
+                    .sponsor-info_title {
+                        color: $clr_white;
+                        font-size: $h2 !important;
+                        font-weight: $font_bold !important;
+                    }
+
+                    .sponsor-info_description {
+                        font-size: $h6 !important;
+                        font-family: $font;
+                        color: $clr_white;
+
+                    }
+
+                }
+            }
+
+            .sponsor-form {
+                .error-message{
+                    color:$clr_red;
+                }
+                &-field{
+                    border-bottom:0.09rem solid $clr_black;
+                }
+                .sponsor-form-recaptcha {
+                    margin-right: auto;
+                }
+
+                .sponsor-form-textarea {
+                    width: 100%;
+                    height: 7rem !important;
+                    border-radius: 0.41rem;
+                    border: 0.09375rem solid $clr_gray_extra_light;
+                    padding: 1rem;
+                    border-bottom:0.09rem solid $clr_black;
+                   
+                }
+
+                .sponsor-form-textarea:focus-visible {
+                    outline: 0.0625rem solid $clr_gray_extra_light !important;
+                }
+
+                .sponsor-form-textarea::placeholder {
+                    color: $input_label; 
+                }
+
+                .sponsor-form-submit-button:disabled {
+                    opacity: 0.6;
+                    background: $clr_charcoal_cyan;
+                    border-radius: .48rem;
+                    color: $clr_white;
+                }
+
+                
+                .sponsor-form-submit-button {
+                    max-width: 48.25rem;
+                    height: 3.75rem;
+                    background: $clr_charcoal_cyan;
+                    border-radius: 0.3125rem;
+                    color: $clr_white;
+                    font-size: $p2;
+                    text-transform: none;
+                }
+
+                .sponsor-form-textarea::placeholder {
+                    font-size: $h6;
+                    font-weight: $font_normal;
+                }
+
+                .sponsor-form-custom-phone {
+                    display: flex;
+                    align-items: center;
+                    height: 3.125rem;
+                    border: 0.0625rem solid $clr_gray_extra_light;
+                    overflow: hidden;
+                    width: 31.25rem;
+                }
+
+                .sponsor-form-phone-container {
+                    display: flex;
+                    align-items: center;
+                    border: 0.0625rem solid $clr_gray_extra_light;
+                    border-radius: 0.20rem;
+                }
+
+                .sponsor-form-phone-container:focus-within {
+                    border-color: 0.09375rem solid $clr_gray_extra_light;;
+                    border-width: 0.2rem;
+                }
+
+                .sponsor-form-phone-container.error-border {
+                    border: 0.078rem solid  $clr_red !important;;
+                }
+                .sponsor-form-textfield{
+                    border:.0833rem solid $clr_gray_extra_light !important;
+                    border-radius: .416rem !important;
+                }
+                .sponsor-form-country-selector {
+                    display: flex;
+                    align-items: center;
+                    padding: 0.5rem;
+                    border-right: 0.0625rem solid $clr_gray_extra_light;
+
+                }
+
+                .sponsor-form-flagIcon {
+                    font-size: $h4;
+                    margin-right: 0.5rem;
+                }
+
+                .sponsor-form-countryCode {
+                    font-size: $p2;
+                    font-weight: $font_medium;
+                }
+
+                .sponsor-form-selectMenu {
+                    font-size: $p5;
+                    font-weight: $font_medium;
+                }
+
+                .sponsor-form-countryMenu {
+                    display: flex;
+                    align-Items: center;
+                }
+
+                .sponsor-form-countryFlag {
+                    font-size: $p2;
+                    margin-right: 0.625rem;
+                }
+
+                .sponsor-form-countryLabel {
+                    font-size: $p2;
+                }
+            }
+        }
+    }
+}
