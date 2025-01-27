@@ -575,7 +575,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                         <Grid size={12} container direction={'column'} mb={10}>
                                             <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
                                             {
-                                                items.map((item: any) => {
+                                                items?.map((item: any) => {
                                                     return (
                                                         <Grid size={{ xs: 12, sm: 6 }} container direction={'row'} spacing={2}>
                                                             <img className='object-fill' width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
@@ -588,7 +588,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                         <Grid mb={10} size={12} container direction={'column'} >
                                             <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
                                             {
-                                                items.map((item: any) => {
+                                                items?.map((item: any) => {
                                                     return (
                                                         <Grid size={{ xs: 12, sm: 4 }} container direction={'row'} spacing={2}>
                                                             <img className='object-fill' width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
@@ -601,7 +601,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                         <Grid size={12} container direction={'column'}>
                                             <Typography textAlign={"center"} className='template4-sponsor-banner-text'>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
                                             {
-                                                items.map((item: any) => {
+                                                items?.map((item: any) => {
                                                     return (
                                                         <Grid size={{ xs: 12, sm: 3 }} container direction={'row'} spacing={2}>
                                                             <img className='object-fill' height={'100%'} width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
