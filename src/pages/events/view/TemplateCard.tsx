@@ -68,7 +68,7 @@ const TemplateCard = (data: any) => {
       await POST({
         url: `template/list`,
         id: 'templateList',
-        body: { enabled: 1, limit: 4 },
+        body: { enabled: 1, limit: 1 },
         errorCB: (context: any) => {
           Logger.error('TemplateView.tsx', context?.message);
         }
