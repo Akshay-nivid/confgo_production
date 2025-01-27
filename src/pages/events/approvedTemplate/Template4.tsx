@@ -70,11 +70,16 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
         }
     };
     const headerLinks: LinkData[] = [
-        { text: "Speakers" },
-        { text: "Sponsors" },
+        ...(data?.eventSpeakers?.length > 0 && getUniqueSpeakers(data?.eventSpeakers)?.length > 0
+          ? [{ text: "Speakers" }]
+          : []),
+        ...(data?.eventSponsors?.length > 0 && getUniqueSponsors(data?.eventSponsors)?.length > 0
+          ? [{ text: "Sponsors" }]
+          : []),
         { text: "Programs" },
-        { text: "Location" }
-    ];
+        ...(data?.venue?.mapUrl ? [{ text: "Location" }] : []),
+      ];
+      
     const [selectedDate, setSelectedDate] = useState<string>('');
 
     /**
@@ -495,10 +500,10 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                     </Grid>
                 </Grid>
                 {/* Program section ends here */}
-                <LocationSection classPrefix={`${classPrefix}-location`}data={data} onScrollToTier={LocationRef}/>
+                {data?.venue?.mapUrl && <LocationSection classPrefix={`${classPrefix}-location`}data={data} onScrollToTier={LocationRef}/>}
                 {/* Sponsors section starts here */}
                 {data?.eventSponsors?.length > 0 && getUniqueSponsors(data?.eventSponsors)?.length > 0 && <Grid id={'sponsors'} container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-sponsors `} spacing={1} direction={'column'} justifyContent={'center'} alignItems={'center'} ref={sponsorRef}>
-                    <Grid className={`${classPrefix}-sponsors-title`}>Sponsors</Grid>
+                    <Grid className={`${classPrefix}-sponsors-title`}>Our Sponsors</Grid>
                     <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-sponsors-item-group-container`} justifyContent={'center'} alignItems={'center'} spacing={4}>
                         {data?.eventSponsors?.length > 0 && getUniqueSponsors(data?.eventSponsors)?.map((item: any) => {
                             return <Grid alignSelf={'stretch'} size={{ xs: 12, sm: 3 }} container direction={'row'} className={`${classPrefix}-sponsors-item-container `} spacing={2}>
@@ -519,7 +524,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                 </Grid>}
                 {/* Sponsors section ends here */}
                 {/* Registration and ticketing section starts here */}
-                <Grid ref={tierRef} container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-ticketing`} justifyContent={'center'} alignItems={'center'} spacing={2} direction={'column'}>
+                {Object.keys(amountCalculatedData).length > 0 && <Grid ref={tierRef} container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-ticketing`} justifyContent={'center'} alignItems={'center'} spacing={2} direction={'column'}>
                     <Grid><Typography className={`${classPrefix}-ticketing-title`}>Registration & Ticketing</Typography></Grid>
 
                     <Grid className={`${classPrefix}-ticketing-anim-container`} container spacing={2} justifyContent={'center'} alignContent={'center'}>
@@ -560,7 +565,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                 })
                         }
                     </Grid>
-                </Grid>
+                </Grid>}
                 {/* Registration and ticketing section ends here */}
                 {/* Sponsor enquiry form starts here */}
                 <Grid minHeight={"max-content"} size={12} container ref={beSponsorRef}>

@@ -335,6 +335,18 @@ const Sponsors = () => {
     }
 
 
+    /**
+     * Handles removing the logo or banner image from the sponsor form.
+     * @param {React.MouseEvent} e The event that triggered the function.
+     * @param {'logoId' | 'bannerId'} type The type of image to remove.
+     */
+    function handleRemoveImage(e: React.MouseEvent, type: 'logoId' | 'bannerId') {
+        e.preventDefault()
+        e.stopPropagation()
+        form.setValue(type, '')
+    }
+
+
     const bannerId = form.watch('bannerId')
     const logoId = form.watch('logoId')
 
@@ -414,7 +426,12 @@ const Sponsors = () => {
                                 <FormLabel className='form-file-upload-label'>Please upload the sponsor logo</FormLabel>
                                 <FileUpload onFileSelect={() => { }} onSubmit={(file) => handleFileUpload(file, 'logoId')} className='form-file-upload-input' />
                                 <Box className="form-file-upload-image-logo" >
-                                    <img src={`${baseUrl}/asset/${logoId}`} alt='' />
+                                    <Box className='relative w-max flex gap-x-1'>
+                                        <img src={`${baseUrl}/asset/${logoId}`} alt='' />
+                                         <IconButton onClick={(e) => handleRemoveImage(e, 'logoId')} className='form-file-upload-image-logo-close'>
+                                            <CloseIcon />
+                                        </IconButton>
+                                    </Box>
                                 </Box>
                             </Box>
 
@@ -422,7 +439,12 @@ const Sponsors = () => {
                                 <FormLabel className='form-file-upload-label'>Please upload the sponsor banner</FormLabel>
                                 <FileUpload onSubmit={(file) => handleFileUpload(file, 'bannerId')} className='form-file-upload-input' />
                                 <Box className="form-file-upload-image-banner" >
-                                    <img src={`${baseUrl}/asset/${bannerId}`} alt='' />
+                                    <Box className='relative w-max flex gap-x-1'>
+                                        <img src={`${baseUrl}/asset/${bannerId}`} alt='' />
+                                        <IconButton onClick={(e) => handleRemoveImage(e, 'bannerId')} className='form-file-upload-image-logo-close'>
+                                            <CloseIcon />
+                                        </IconButton>
+                                    </Box>
                                 </Box>
                             </Box>
 

@@ -7,6 +7,8 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import AbstractReviewer from "./AbstactReviewerListCard";
 import React from "react";
 import useStore from "@/Libs/store";
+import SponsorListCard from "./SponsorListCard";
+import { AccordionAddIcon, AccordionArrowIcon } from "@/assets/svg";
 
 /**
  * TeamAndRole Component
@@ -86,6 +88,23 @@ const TeamAndRole=()=>{
         </AccordionSummary>
         <AccordionDetails>
           <VolunteerListCard />
+        </AccordionDetails>
+      </Accordion>
+      </Grid>
+      <Grid size={12}>
+      <Accordion  className="accordion-container-box"
+        expanded={expanded === "panel4-header"} 
+        onChange={handleChange("panel4-header")}>
+        <AccordionSummary
+          expandIcon={volunteerListsDta?.length?<AccordionArrowIcon/>:<AccordionAddIcon/>}
+          aria-controls="panel2-content"
+          id="panel2-header"
+          className="accordion-container-icon"
+        >
+          <Typography className="accordion-container-heading">Sponsor</Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <SponsorListCard />
         </AccordionDetails>
       </Accordion>
       </Grid>

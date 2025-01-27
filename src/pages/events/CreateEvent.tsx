@@ -587,7 +587,7 @@ const CreateEvent: React.FC<EventProps> =
                           control={control}
                           name="mapUrl" 
                           type="text" 
-                          shrink={watch('mapUrl')!==''&&watch('mapUrl')!==undefined?true:undefined}
+                          shrink={watch('mapUrl') !== '' && watch('mapUrl') !== undefined ? true : undefined}
                           readOnly
                           rules={{
                             required: true,                                                                  
@@ -599,7 +599,7 @@ const CreateEvent: React.FC<EventProps> =
                           placeholder="Venue Name"
                           control={control}
                           name="venueName"
-                          shrink={watch('venueName')!==''&&watch('venueName')!==undefined?true:undefined}
+                          shrink={watch('venueName') !== '' && watch('venueName') !== undefined ? true : undefined}
                           type="text"
                           rules={{ required: watch("type") === "OFFLINE" }}
                         />
@@ -609,7 +609,7 @@ const CreateEvent: React.FC<EventProps> =
                           placeholder="Address"
                           control={control}
                           name="address"
-                          shrink={watch('address')!==''&&watch('address')!==undefined?true:undefined}
+                          shrink={watch('address') !== '' && watch('address') !== undefined ? true : undefined}
                           type="text"
                           rules={{ required: watch("type") === "OFFLINE" }}
                         />
@@ -619,7 +619,7 @@ const CreateEvent: React.FC<EventProps> =
                           name="country"
                           label="Country"
                           control={control}
-                          shrink={watch('country')!==''&&watch('country')!==undefined?true:undefined}
+                          shrink={watch('country') !== '' && watch('country') !== undefined ? true : undefined}
                           type="text"
                         />
                       </Grid>
@@ -629,7 +629,7 @@ const CreateEvent: React.FC<EventProps> =
                             label="State"
                             control={control}
                             type="text"
-                            shrink={watch('state')!==''&&watch('state')!==undefined}
+                            shrink={watch('state') !== '' && watch('state') !== undefined ? true : undefined}
                             rules={{
                               required:Boolean(watch('country')),
                             }}
@@ -641,17 +641,17 @@ const CreateEvent: React.FC<EventProps> =
                           control={control}
                           name="city"
                           type="text"
-                          shrink={watch('city')!==''&&watch('city')!==undefined}
+                          shrink={watch('city') !== '' && watch('city') !== undefined ? true : undefined}
                           rules={{ required: watch("type") === "OFFLINE" }}
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 6 }}>
                         <CustomTextField
-                          placeholder="Pin Code"
+                          label="Pin Code"
                           control={control}
                           name="postalCode"
                           type="text"
-                          shrink={watch('postalCode')!==''&&watch('postalCode')!==undefined?true:undefined}
+                          shrink={watch('postalCode') !== '' && watch('postalCode') !== undefined ? true : undefined}
                           rules={{
                             required: watch("type") === "OFFLINE",
                             pattern: {
