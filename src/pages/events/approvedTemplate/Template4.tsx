@@ -526,7 +526,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                         </Grid>
                                         </Grid>
                                         <Grid size={6} container  justifyContent={"flex-end"} >
-                                        {(item?.eventSponsors?.length !== 0 && item?.eventSponsors?.length<2 &&item?.eventSpeakers?.length===0)&& (
+                                        {(item?.eventSponsors?.length !== 0 && item?.eventSponsors?.length<2 && (item?.eventSpeakers?.length===0 || !item?.eventSpeakers))&& (
                                         <Grid container  className={`${classPrefix}-program-content-sponsor`} columnSpacing={3} >
                                            <Grid container justifyContent={"center"} size={12} className={`${classPrefix}-program-content-sponsor-heading`}>
                                            <Typography >Sponsored by</Typography>
