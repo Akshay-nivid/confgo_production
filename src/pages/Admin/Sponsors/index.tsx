@@ -93,11 +93,11 @@ const Sponsors = () => {
 
     }
 
-/**
- * Handles the file upload and sets the value of the form field.
- * @param file - The file object to be uploaded.
- * @param key - The key of the form field to set, either 'logoId' or 'bannerId'.
- */
+    /**
+     * Handles the file upload and sets the value of the form field.
+     * @param file - The file object to be uploaded.
+     * @param key - The key of the form field to set, either 'logoId' or 'bannerId'.
+     */
 
     function handleFileUpload(file: any, key: 'logoId' | 'bannerId') {
 
@@ -159,9 +159,9 @@ const Sponsors = () => {
 
 
 
-/**
- * fucntion to set source for fetching sponsor list
- */
+    /**
+     * fucntion to set source for fetching sponsor list
+     */
     const sponsorList = useCallback((filters?: any) => {
         const req = {
             offset: 0,
@@ -216,7 +216,7 @@ const Sponsors = () => {
                 phone: item?.phone,
                 website: item?.website,
                 logo: <Avatar className='top-2' src={item?.logoAssetId ? `${baseUrl}/asset/${item?.logoAssetId}` : ''} >{item?.name?.slice(0, 2)}</Avatar>,
-               
+
                 delete: <IconButton disabled={isDeleteSponsorPending} onClick={(e) => handleClickDelete(e, item?.id)}>
                     <Delete />
                 </IconButton>,
@@ -253,12 +253,12 @@ const Sponsors = () => {
 
     }
 
-/**
- * Handles the row click event for the sponsor list.
- * Sets the sponsor details into the non-persisted state and opens the sponsor details modal.
- * 
- * @param {any} data - The data of the clicked row, which contains sponsor information.
- */
+    /**
+     * Handles the row click event for the sponsor list.
+     * Sets the sponsor details into the non-persisted state and opens the sponsor details modal.
+     * 
+     * @param {any} data - The data of the clicked row, which contains sponsor information.
+     */
 
     function onRowClick(data: any) {
 
@@ -273,18 +273,19 @@ const Sponsors = () => {
                 bannerId: data?.row?.bannerId,
                 logoId: data?.row?.logoId
 
-        } })
+            }
+        })
 
         setNonPersistedDataById('isAdminSponsorDetailsModalOpen', { value: true })
 
     }
 
-/**
- * Handles the submit event for the sponsor form.
- * Validates the website URL, constructs the form data and sends a POST request to create or update a sponsor.
- * 
- * @param {any} data - The data of the form, which contains sponsor information.
- */
+    /**
+     * Handles the submit event for the sponsor form.
+     * Validates the website URL, constructs the form data and sends a POST request to create or update a sponsor.
+     * 
+     * @param {any} data - The data of the form, which contains sponsor information.
+     */
     function onSubmit(data: any) {
 
         const urlRegex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
@@ -302,7 +303,7 @@ const Sponsors = () => {
 
         const companyId = sessionStorage.getItem('companyId') || '';
 
-        
+
         const url = sponsorDrawerType === "create" ? 'sponsor' : `sponsor/update/${sponsorId}`
 
 
@@ -311,7 +312,7 @@ const Sponsors = () => {
 
             email: data.email,
             phone: data.phone,
-            ...( sponsorDrawerType === "create" && {companyId: parseInt(companyId)}),
+            ...(sponsorDrawerType === "create" && { companyId: parseInt(companyId) }),
             ...(data.logoId && { logoAssetId: data.logoId }),
             ...(data.bannerId && { bannerImgAssetId: data.bannerId }),
             ...(website && { website })
@@ -333,6 +334,9 @@ const Sponsors = () => {
         })
     }
 
+
+    const bannerId = form.watch('bannerId')
+    const logoId = form.watch('logoId')
 
     return (
         <Grid container className="sponsor">
@@ -409,11 +413,17 @@ const Sponsors = () => {
                             <Box className="form-file-upload">
                                 <FormLabel className='form-file-upload-label'>Please upload the sponsor logo</FormLabel>
                                 <FileUpload onFileSelect={() => { }} onSubmit={(file) => handleFileUpload(file, 'logoId')} className='form-file-upload-input' />
+                                <Box className="form-file-upload-image-logo" >
+                                    <img src={`${baseUrl}/asset/${logoId}`} alt='' />
+                                </Box>
                             </Box>
 
                             <Box className="form-file-upload">
                                 <FormLabel className='form-file-upload-label'>Please upload the sponsor banner</FormLabel>
                                 <FileUpload onSubmit={(file) => handleFileUpload(file, 'bannerId')} className='form-file-upload-input' />
+                                <Box className="form-file-upload-image-banner" >
+                                    <img src={`${baseUrl}/asset/${bannerId}`} alt='' />
+                                </Box>
                             </Box>
 
                             <Box className="form-button-container">
