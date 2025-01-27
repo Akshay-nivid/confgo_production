@@ -2,7 +2,7 @@ import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomple
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { DataGridList } from "@/components/DataGrid/DataGridList";
 import apiClient from "@/Libs/Https/API-client";
-import { ISource } from "@/Libs/type";
+import { ISource } from "@/Libs/types/type";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import { Logger } from "@/Utils/Logger";
 import Grid from "@mui/material/Grid2";
@@ -139,12 +139,13 @@ const AdminUsersList=()=>{
           offset: 0,
           limit: 5,
           filters: {
-            id: selected.id,
+            userId: selected.id,
             companyId:companyId,
             roleEnums: [
               "VOLUNTEER",
               "SPONSER",
-              "REVIEWER"
+              "SPEAKER",
+              "REVIEWER",
           ]
           },
         },
@@ -162,11 +163,19 @@ const AdminUsersList=()=>{
    * @param query - The search query entered by the user
    */
   const handleSearch = async (query: string) => {
+    const companyId=sessionStorage.getItem('companyId')
     setLoading(true);
     try {
       let req = {
         filters: {
           name: query,
+          companyId:companyId,
+          roleEnums: [
+            "VOLUNTEER",
+            "SPONSER",
+            "SPEAKER",
+            "REVIEWER",
+          ]
         },
       };
       const response = await await apiClient.post(
@@ -242,7 +251,7 @@ const AdminUsersList=()=>{
               control={control}
               options={searchResults}
               getOptionLabel={(option: any) =>
-                option.user?.firstName || ""
+                option.firstName || ""
               }
               onSearch={handleSearch}
               loading={loading}

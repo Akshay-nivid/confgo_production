@@ -10,7 +10,7 @@ import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { Typography } from "@mui/material";
-import { ISource } from "@/Libs/type";
+import { ISource } from "@/Libs/types/type";
 import { NoCouponDataSvg } from "@/assets/svg";
 import { Filter } from "@/components/Filter";
 
