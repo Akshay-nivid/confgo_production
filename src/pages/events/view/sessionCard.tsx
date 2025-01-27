@@ -357,7 +357,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
                      </Avatar>
                    )}
                  </Grid>
-                 <Grid size={10} marginInline={"2rem"}>
+                 <Grid size={10} marginLeft={"2rem"}>
 
                   <Typography className="modal-speaker-name">{`${speaker?.speakerFullName} ${speaker?.speakerLastName ? speaker?.speakerLastName : "" }` }</Typography>
                   <Typography className="modal-speaker-name-designation">{speaker?.designation}</Typography>
