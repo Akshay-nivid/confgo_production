@@ -12,7 +12,7 @@ import CustomButton from '@/components/CustomButton/CustomButton';
 interface FormData {
     name: string;
     lastName: string;
-    jobTitle:string;
+    jobTitle: string;
     email: string;
     phoneNumber: string;
     companyName: string;
@@ -30,8 +30,8 @@ interface FormData {
  * @returns {JSX.Element} The rendered JSX content for the sponsorship form.
  */
 
-const SponsorShip = (Id:any) => {
-    const eventId=Id?.eventId;
+const SponsorShip = (Id: any) => {
+    const eventId = Id?.eventId;
     const { handleSubmit, control, formState: { errors }, setValue, register } = useForm<FormData>({
         reValidateMode: "onSubmit"
     });
@@ -43,14 +43,14 @@ const SponsorShip = (Id:any) => {
      * Button loder
      */
     const isLoading = useStore(state => state.compData?.['sponsorContact']?.['notification/contact']?.loading) || false
-    
+
     /**
     * Function to reset the form fields after successful validation and integration.
     */
     type FormFields =
         | "name"
         | "lastName"
-        |"jobTitle"
+        | "jobTitle"
         | "email"
         | "phoneNumber"
         | "companyName"
@@ -61,7 +61,7 @@ const SponsorShip = (Id:any) => {
         const defaultValues: Record<FormFields, string> = {
             name: '',
             lastName: '',
-            jobTitle:'',
+            jobTitle: '',
             companyName: '',
             phoneNumber: '',
             email: '',
@@ -97,13 +97,13 @@ const SponsorShip = (Id:any) => {
         const body = {
             firstName: data.name,
             lastName: data.lastName,
-            jobTitle:data.jobTitle,
+            jobTitle: data.jobTitle,
             companyName: data.companyName,
             gRecaptcha: recaptchaRef.current?.getValue() || '',
             phone: data.phoneNumber,
             email: data.email,
             message: data.message,
-            eventId:eventId,
+            eventId: eventId,
         }
 
         /**
@@ -144,8 +144,9 @@ const SponsorShip = (Id:any) => {
                                     <CustomTextField
                                         className="border-b border-black"
                                         name='name'
-                                        label={" First Name"}
+                                        placeholder={" First Name"}
                                         type='text'
+                                        showOutlinedText={false}
                                         control={control}
                                         rules={
                                             {
@@ -157,15 +158,16 @@ const SponsorShip = (Id:any) => {
                                             }
                                         }
                                     /></Grid>
-                                 <Grid size={{ lg: 6, xs: 12 }}  >
-                                 <Typography className="sponsor-form-label">
+                                <Grid size={{ lg: 6, xs: 12 }}  >
+                                    <Typography className="sponsor-form-label">
                                         Second Name<span className="star">*</span>
                                     </Typography>
                                     <CustomTextField
                                         className="border-b border-black"
                                         name='lastName'
-                                        label={"Last Name"}
+                                        placeholder={"Last Name"}
                                         type='text'
+                                        showOutlinedText={false}
                                         control={control}
                                         rules={{
                                             required: validateRequiredField({}),
@@ -177,25 +179,27 @@ const SponsorShip = (Id:any) => {
                                     />
                                 </Grid>
                                 <Grid size={{ lg: 6, xs: 12 }}  >
-                                <Typography className="sponsor-form-label">
+                                    <Typography className="sponsor-form-label">
                                         Job Title<span className="star">*</span>
                                     </Typography>
                                     <CustomTextField
                                         className="border-b border-black"
                                         name='jobTitle'
-                                        label="Job Title"
+                                        showOutlinedText={false}
+                                        placeholder="Job Title"
                                         type='text'
                                         control={control}
                                     />
                                 </Grid>
                                 <Grid size={{ lg: 6, xs: 12 }}  >
-                                <Typography className="sponsor-form-label">
+                                    <Typography className="sponsor-form-label">
                                         Organisation Name<span className="star">*</span>
                                     </Typography>
                                     <CustomTextField
                                         className="border-b border-black"
                                         name='companyName'
-                                        label="Company Name"
+                                        showOutlinedText={false}
+                                        placeholder="Company Name"
                                         type='text'
                                         control={control}
                                         rules={{
@@ -204,14 +208,15 @@ const SponsorShip = (Id:any) => {
                                     />
                                 </Grid>
                                 <Grid size={{ lg: 6, xs: 12 }} >
-                                <Typography className="sponsor-form-label">
+                                    <Typography className="sponsor-form-label">
                                         Email<span className="star">*</span>
                                     </Typography>
                                     <CustomTextField
-                                        className="border-b border-black" 
+                                        className="border-b border-black"
                                         control={control}
                                         name="email"
-                                        label={"Email Address"}
+                                        showOutlinedText={false}
+                                        placeholder={"Email Address"}
                                         type="email"
                                         rules={
                                             {
@@ -222,24 +227,25 @@ const SponsorShip = (Id:any) => {
                                     />
                                 </Grid>
                                 <Grid size={{ lg: 6, xs: 12 }} >
-                                <Typography className="sponsor-form-label">
+                                    <Typography className="sponsor-form-label">
                                         Phone Number<span className="star">*</span>
                                     </Typography>
                                     <CustomTextField
-                                   className="border-b border-black"
-                                   placeholder="Phone"
-                                   control={control}
-                                   name="phoneNumber"
-                                   type="text"
-                                   isNumeric={true}
-                                   rules={{
-                                   required: 'Phone is required',
-                                   }}
+                                        className="border-b border-black"
+                                        placeholder="Phone"
+                                        control={control}
+                                        name="phoneNumber"
+                                        showOutlinedText={false}
+                                        type="text"
+                                        isNumeric={true}
+                                        rules={{
+                                            required: 'Phone is required',
+                                        }}
                                     />
                                 </Grid>
 
                                 <Grid size={{ lg: 12, xs: 12 }}>
-                                <Typography className="sponsor-form-label">
+                                    <Typography className="sponsor-form-label">
                                         Message<span className="star">*</span>
                                     </Typography>
                                     <TextareaAutosize

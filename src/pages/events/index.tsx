@@ -329,8 +329,8 @@ const Events = () => {
    */
   const createFormRequest = (data: any, draft?: boolean) => {
     const event = data?.event;
-    const EventStart = `${event?.startTime}T00:00`
-    const EventEnd = `${event?.endTime}T23:59`
+    const EventStart = event?.startTime
+    const EventEnd = event?.endTime
     const EventStartTime= formatUTCDateTime(EventStart)
     const EventEndTime= formatUTCDateTime(EventEnd)
 
@@ -370,13 +370,17 @@ const Events = () => {
         endTime: formatUTCDateTime(endDateTime),
         statusId: draft? draftStatusId: statusId,
         amount: amount ? amount : "0",
-        ...(speakers.length !== 0 && {
+        ...(speakers?.length !== 0 && {
           speaker: speakers?.map(({ speakerId }: any) => ({
             speakerId
           })),
         }),
-        ...(sponsor.length != 0 && {
-          sponsor: sponsor.map(({ sponsorId, sponsorTypeId, sponsorReservedSeats }) => ({ sponsorId, sponsorTypeId,reservedSeats: sponsorReservedSeats ?? 0 }))
+        ...(sponsor?.length !== 0 && {
+          sponsor: sponsor?.map(({ sponsorId, sponsorTypeId, sponsorReservedSeats }) => ({
+            sponsorId,
+            sponsorTypeId,
+            ...(sponsorReservedSeats && { reservedSeats: sponsorReservedSeats }) // Include reservedSeats only if it has a value
+          }))
         })
       };
     });
@@ -405,7 +409,7 @@ const Events = () => {
         amount:amount?amount:"0",
         ...(combinedStartDateTime && { startTime: formatUTCDateTime(combinedStartDateTime) }),
         ...(combinedEndDateTime&&{ endTime:formatUTCDateTime(combinedEndDateTime)}),
-        ...(properties.length !== 0 && {
+        ...(properties?.length !== 0 && {
           properties: properties?.map(({ propertyId, propertyName, propertyAmount, ...rest }: any) => ({
             name: propertyName,
             amount: propertyAmount? Number(propertyAmount) : 0,

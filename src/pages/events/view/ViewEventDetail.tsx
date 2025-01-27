@@ -209,7 +209,7 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
         setEventFullData(data);
         setDataById("TeamAndRoleData",{data});
         if (data.published) {
-          setValue('event', data.slugName ? `event-link/${data.slugName}` : '');
+          setValue('event', data.slugName ? `event/${data.slugName}` : '');
           setLink(data);
         } else {
           data.slugName ? setValue('eventLink', data.slugName) : handleLinkGenerationApiCall();
@@ -302,7 +302,7 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
   const handleEventCopy = () => {
     const textToCopy = watch("event");
     if (textToCopy) {
-      const subDomain = config['event-link']['sub-domain'];
+      const subDomain = config['event']['sub-domain'];
       navigator.clipboard.writeText(`${subDomain}${textToCopy}`)
         .then(() => {
           setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: 'Text copied to clipboard' });
@@ -317,7 +317,7 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
    * Method handles the click event for the copy to clipboard icon
    */
   const handleToggleSuffixIcon = () => {
-    const url = `/event-link/${eventFullData?.slugName}`;
+    const url = `/event/${eventFullData?.slugName}`;
     window.open(url, '_blank');
   }
 
@@ -376,7 +376,7 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
                                     control={control}
                                     name="eventLabel"
                                     type="text"
-                                    defaultValue={`event-link/`}
+                                    defaultValue={`event/`}
                                     readOnly={true}
                                     
                                 />

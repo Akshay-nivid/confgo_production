@@ -9,6 +9,8 @@ import moment from 'moment'
 import { useEffect } from 'react';
 import config from '../../../../../config.json'
 import ModalToolTip from './ModalToolTip';
+import Grid from '@mui/material/Grid2';
+
 
 
 const ProgramDetailsModal = () => {
@@ -49,6 +51,9 @@ const ProgramDetailsModal = () => {
 
 
 
+    const isAddOn = programDetails?.addonId;
+
+
 
     return (
         <div>
@@ -58,18 +63,18 @@ const ProgramDetailsModal = () => {
                 <Box className="min-h-screen w-full flex justify-center items-center program-details-modal">
                     <Box className="content">
                         <Box className="content-header-container">
-                            <p className='content-header-container-header'>{programDetails?.name || 'Unknown Program'}</p>
+                            <p className='content-header-container-header'>{isAddOn? programDetails?.addon?.name: programDetails?.name}</p>
                             <IconButton onClick={handleCloseModal} className='content-header-container-close' >
                                 <Close />
                             </IconButton>
                         </Box>
-                        <Box className="content-date-container">
+                        {(isAddOn && !programDetails?.startTime) ?null :<Box className="content-date-container">
                             <p>
                                 {handleDate()}
                             </p>
-                        </Box>
+                        </Box>}
                         <Box className="content-description-container">
-                            <p>{programDetails?.description || 'Unknown Description'}</p>
+                            <p>{programDetails?.description}</p>
                         </Box>
                         {programDetails?.eventSponsors?.length > 0 ?
                             <Box className="content-speaker-container">
@@ -101,6 +106,7 @@ const ProgramDetailsModal = () => {
                             :
                             <></>
                         }
+                        <Grid size={{ xs:12, sm:12 }}>&nbsp;</Grid> 
                         {programDetails?.eventSpeakers?.length > 0 ?
                             <Box className="content-speaker-container">
                                 <p className='content-speaker-container-header'>Speakers</p>

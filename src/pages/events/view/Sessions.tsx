@@ -24,6 +24,7 @@ interface Program {
   amount: number;
 }
 interface Event {
+  startTime: Date;
   eventSpeakers: any; 
 };
 
@@ -308,7 +309,9 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
             }))
           : null;
         return {
-          ...event,speakers
+          ...event,
+          speakers,
+          startDate: event?.startTime,
         };
       }),
     ])
