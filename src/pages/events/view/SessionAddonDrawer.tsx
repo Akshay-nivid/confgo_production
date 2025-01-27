@@ -24,6 +24,7 @@ import config from "../../../../config.json";
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import { Logger } from "@/Utils/Logger";
+import DrawerCreateSponosor from "../Sponsor/DrawerCreateSponsor";
 
 interface FormData {
   addonId: number;
@@ -134,7 +135,8 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
   const [startTimeChanged, setStartTimeChanged] = useState(false);
   const [existingSponsor, setExistingSponsor] = useState<any>();
   const [sponsorSearchResults, setSponsorSearcResults] = useState<Sponsor[]>([]);
- 
+  const [newSponsorDrawerOpen,setNewSponsorDrawerOpen]=useState(false)
+  
   const { fields, remove, append } = useFieldArray({
     control,
     name: "properties",
@@ -598,6 +600,30 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
     getSponsor()
   }, [])
 
+//Function to update the list
+  const handleSponsorSearch = async (query: string) => {
+        setLoading(true);
+        await POST({
+          url: "sponsor/list",
+          id: "sponsorList",
+          body: {
+            filters: {
+              name: query,
+              companyId: companyId,
+            },
+            limit:30
+          },
+          successCB: (context: any) => {
+            setSponsorSearcResults(transformSponsorData(context?.data))
+            setLoading(false);
+          },
+          errorCB: (context: any) => {
+            Logger.error("Error fetching search results:", context?.message);
+            setLoading(false);
+          }
+        })
+      };
+
   return (
 
     <Box sx={{ maxWidth: 600 }}>
@@ -835,6 +861,9 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
                     options={sponsorType}
                     />
               </Grid>
+              <Grid container className="add-program-drawer-new-speaker-link" justifyContent={'end'}  size={{xs:12} } >
+              <Typography onClick={() => setNewSponsorDrawerOpen(true)} className="cursor-container" variant="h6" paddingTop={1} paddingBottom={1}>Create New Sponsor ?</Typography>
+            </Grid>
               <Grid size={{ xs: 12 }} >
                 <CustomButton
                   className="add-program-drawer-btn-cancel"
@@ -899,6 +928,17 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
           type="right"
           onClose={() => handleDrawerClose}
         />
+        <CustomDrawer
+            children={
+            <DrawerCreateSponosor onSuccess={()=>{handleSponsorSearch("")}} 
+            closeDrawer={()=>
+              setNewSponsorDrawerOpen(false)           
+              }
+              />
+            }
+            open={newSponsorDrawerOpen} 
+            type="right"
+          />
       </Grid>
     </Box>
   );
