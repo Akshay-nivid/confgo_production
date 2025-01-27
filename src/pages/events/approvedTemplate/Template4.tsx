@@ -556,13 +556,13 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                     </Grid>
                                 </Grid>
                                 <Grid container size={12} className="mt-2">
-                                  {(item?.eventSponsors?.length !==0 && item?.eventSponsors?.length>1)?(
+                                  {((item?.eventSponsors?.length !== 0 &&item?.eventSponsors?.length>1) || (item?.eventSponsors?.length !== 0 &&item?.eventSponsors?.length>0 && item?.eventSpeakers?.length >0))?(
                                 <Grid  size={12}  className={`${classPrefix}-program-content-divider`}>
                                  <Divider/>
                                 </Grid>
                                    ):<Grid></Grid>}
 
-                                    {item?.eventSponsors?.length !== 0 &&item?.eventSponsors?.length>1&& (
+                                    {((item?.eventSponsors?.length !== 0 &&item?.eventSponsors?.length>1) || (item?.eventSponsors?.length !== 0 &&item?.eventSponsors?.length>0 && item?.eventSpeakers?.length >0))&& (
                                         <Grid container  className={`${classPrefix}-program-content-sponsor`} columnSpacing={3} >
                                            <Grid container size={12} className={`${classPrefix}-program-content-sponsor-heading`}>
                                            <Typography >Sponsors</Typography>
