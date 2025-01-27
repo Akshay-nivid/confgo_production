@@ -79,7 +79,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
             ? [{ text: "Sponsors" }]
             : []),
         { text: "Programs" },
-        ...(data?.venue?.mapUrl ? [{ text: "Location" }] : []),
+        ...(data?.venue?.mapUrl ? [{ text: "Venue" }] : []),
     ];
 
     const [selectedDate, setSelectedDate] = useState<string>('');
