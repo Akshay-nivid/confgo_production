@@ -3622,3 +3622,29 @@
         box-shadow: 0rem 0.417rem 1.667rem 0rem $clr_black_shadow;
     }
 }
+
+.maintenance-page{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; 
+    padding: 1rem;
+    &-image{
+        width: 29.657rem;
+        height: 28.501rem;
+    }
+    &-text-grid{
+        margin-top:7rem;
+        margin-left: 8rem;
+    }
+    &-title{
+        font-size: $hMax !important;
+        font-weight: $font_bold !important;
+    }
+    &-description{
+        font-size: $h3 !important;
+        font-weight: $font_normal;
+        color: $clr_neutral_gray;
+        width:40rem
+    }  
+}
