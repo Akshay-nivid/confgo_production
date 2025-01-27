@@ -195,6 +195,8 @@
             padding: 1.2rem;
             border-radius: .45rem;
             position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
 
             &__close__btn {
                 position: absolute !important;

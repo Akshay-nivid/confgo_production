@@ -18,6 +18,10 @@ const SponsorDetailsModal = () => {
 
 
 
+    /**
+     * Method handles the closing of the sponsor details modal
+     * by setting the isAdminSponsorDetailsModalOpen state to false
+     */
     function handleCloseModal() {
         setNonPersistedDataById('isAdminSponsorDetailsModalOpen', { value: false })
     }

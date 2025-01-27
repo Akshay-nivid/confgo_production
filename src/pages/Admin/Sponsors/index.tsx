@@ -64,6 +64,10 @@ const Sponsors = () => {
 
 
 
+    /**
+     * Resets the form and sets the createSponsorModalOpen and sponsorDrawerType 
+     * to false and null respectively, which closes the modal.
+     */
     function handleCloseModal() {
         form.reset({
             name: '',
@@ -77,6 +81,10 @@ const Sponsors = () => {
         setNonPersistedDataById('sponsorDrawerType', { value: null })
     }
 
+    /**
+     * Opens the create/edit sponsor modal based on the type provided as argument
+     * @param type - 'create' or 'edit'
+     */
     function handleOpenModal(type: 'create' | 'edit') {
 
         setNonPersistedDataById('sponsorDrawerType', { value: type })
@@ -84,6 +92,12 @@ const Sponsors = () => {
         setNonPersistedDataById('createSponsorModalOpen', { value: true })
 
     }
+
+/**
+ * Handles the file upload and sets the value of the form field.
+ * @param file - The file object to be uploaded.
+ * @param key - The key of the form field to set, either 'logoId' or 'bannerId'.
+ */
 
     function handleFileUpload(file: any, key: 'logoId' | 'bannerId') {
 
@@ -140,14 +154,15 @@ const Sponsors = () => {
     ];
 
     useEffect(() => {
-        eventList()
+        sponsorList()
     }, [])
 
 
 
-    // const limit
-
-    const eventList = useCallback((filters?: any) => {
+/**
+ * fucntion to set source for fetching sponsor list
+ */
+    const sponsorList = useCallback((filters?: any) => {
         const req = {
             offset: 0,
             limit: sponsorResponseData?.pagination?.limit,
@@ -168,7 +183,6 @@ const Sponsors = () => {
 
 
 
-    // const navigate = useNavigate();
 
     /**
   * Row click navigation
@@ -229,7 +243,7 @@ const Sponsors = () => {
             url: `sponsor/delete/${id}`,
             id: 'deleteSponsor',
             successCB: () => {
-                eventList();
+                sponsorList();
                 snackBar({ severity: 'success', message: 'Sponsor deleted successfully' })
             },
             errorCB: (error) => {
@@ -238,6 +252,13 @@ const Sponsors = () => {
         })
 
     }
+
+/**
+ * Handles the row click event for the sponsor list.
+ * Sets the sponsor details into the non-persisted state and opens the sponsor details modal.
+ * 
+ * @param {any} data - The data of the clicked row, which contains sponsor information.
+ */
 
     function onRowClick(data: any) {
 
@@ -258,6 +279,12 @@ const Sponsors = () => {
 
     }
 
+/**
+ * Handles the submit event for the sponsor form.
+ * Validates the website URL, constructs the form data and sends a POST request to create or update a sponsor.
+ * 
+ * @param {any} data - The data of the form, which contains sponsor information.
+ */
     function onSubmit(data: any) {
 
         const urlRegex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
@@ -296,7 +323,7 @@ const Sponsors = () => {
             url: url, body: body, id: 'createSponsor', successCB: () => {
 
                 form.reset();
-                eventList();
+                sponsorList();
                 snackBar({ severity: 'success', message: 'Sponsor created successfully' })
                 handleCloseModal();
 
@@ -306,7 +333,6 @@ const Sponsors = () => {
         })
     }
 
-    // const [selectedFile,setSelectedFile] = React.useState<any>(null);  
 
     return (
         <Grid container className="sponsor">
@@ -321,7 +347,7 @@ const Sponsors = () => {
                             control={form.control} loading={false}
                             options={listData}
                             getOptionLabel={(option: any) => option?.name}
-                            onSearch={(query: string) => { eventList({ name: query }) }}
+                            onSearch={(query: string) => { sponsorList({ name: query }) }}
                             onChange={() => { }}
                             clearable={false}
 
