@@ -155,6 +155,27 @@
                         font-size: $p1 !important;
 
                     }
+                    &-image-logo{
+                        object-fit: contain;
+                        background-color: $clr_gray_10_percent;
+                        width: 100%;
+                        max-height: 8.33rem;
+                        img{
+                            max-width: 8.33rem;
+                            height: 100%;
+                            object-fit: contain;
+                        }
+                    }
+                    &-image-banner{
+                     width: 100%;
+                    background-color: $clr_gray_10_percent;
+
+                    img{
+                
+                        height: 100%;
+                        object-fit: contain;
+                    } 
+                    }
                 }
 
                 &-button-container {
@@ -174,4 +195,98 @@
         }
     }
 
+}
+
+
+
+.sponsor__details__modal {
+    &__content {
+        min-height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &__body {
+            background-color: $clr_white;
+            width: 100%;
+            max-width: 40rem;
+            height: max-content;
+            flex: 1;
+            padding: 1.2rem;
+            border-radius: .45rem;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+
+            &__close__btn {
+                position: absolute !important;
+                right: 1rem;
+                top: .5rem;
+            }
+
+            &__header {
+                font-size: $h6 !important;
+                font-weight: $font-bold !important;
+            }
+
+            &__details {
+                &__name {
+                    margin-top: 1.667rem !important;
+
+                    &__value {
+                        // display: block;
+                        margin-left: .5rem;
+                        font-size: $p1 !important;
+                        font-weight: $font-medium !important;
+                        margin-top: .3rem;
+                    }
+                }
+
+                &__logo {
+                    width: 100%;
+                    padding-top: .5rem;
+                   
+
+                    &__label {
+                        margin-top: 1.667rem !important;
+                        font-size: $h6 !important;
+                        font-weight: $font-semibold !important;
+                    }
+
+                    img {
+                        width: 40%;
+                        aspect-ratio: 2/1;
+                        object-fit: contain;
+                        border-radius: .5rem;
+                        background-color: $clr_gray_10_percent;
+
+
+                    }
+                }
+
+                &__banner {
+                    width: 100%;
+                    padding-top: .5rem;
+
+                    &__label {
+                        margin-top: 1.667rem !important;
+                        font-size: $h6 !important;
+                        font-weight: $font-semibold !important;
+                    }
+
+                    img {
+                        width: 100%;
+                        aspect-ratio: 2/1;
+                        border-radius: .5rem;
+                        background-color: $clr_gray_20_percent;
+
+
+
+                    }
+                }
+            }
+        }
+
+    }
 }

@@ -1456,12 +1456,13 @@
                 font-size: $h6 !important;
                 font-weight: $font_semibold !important;
                 pointer-events: auto;
+                box-shadow:none !important
             }
         }
         &-header {
             background: url("../assets/png/template4-header.png") no-repeat center;
             background-size: cover;
-            height: 110vh;
+            height: 100vh;
             &-photo-container {
                 width: 51.6rem !important;
             }
@@ -1472,7 +1473,8 @@
         &-headerBottom{
             position: absolute;
             bottom:0 !important;
-            margin-left: 10rem;
+            padding-left: 10rem;
+            padding-bottom: 5rem !important;
             &-title{
                 font-weight: $font_semibold !important;
                 font-size: $h1 !important;
@@ -1492,6 +1494,7 @@
                 border-radius: 0.41rem !important;
                 border: 0.125rem solid $clr_white !important;
                 margin-right: 1rem !important;
+                box-shadow:none !important
             }
             &-register{
                 font-weight: $font_semibold !important;
@@ -1501,6 +1504,7 @@
                 background-color: $clr_white !important;
                 color: $clr_black !important;
                 border-radius: 0.41rem !important;
+                box-shadow:none !important
             }
         }
         &-eventDetails{
@@ -1520,7 +1524,6 @@
                 svg{
                     width: 8rem;
                     height: 8rem;
-                    margin-top: 3rem;
                 }
             }
             &-title{
@@ -1537,6 +1540,7 @@
                 margin-top: 3rem !important;
                 font-size: $p5 !important;
                 color: $clr_white !important;
+                font-weight: $font_normal !important;
                 line-height: 2rem !important;
             }
             &-icon-container{
@@ -1774,7 +1778,11 @@
                         padding: 0 !important;
                         font-size: $h6 !important;
                         font-weight: $font-semibold !important;
+                        &:hover {
+                            color: $clr_teal !important; 
+                        }
                     }
+                    
                 }
                 &-container-no-profile-picture{
                         width: 20rem;
@@ -1822,6 +1830,7 @@
                 margin-top: 3.33rem !important;
                 margin-bottom: 0.83rem !important;
                 width: 90% !important;
+                box-shadow: none !important;
             }
 
             &-item-container:nth-child(odd) .event-template-template4-ticketing-register-button {
@@ -1841,6 +1850,8 @@
                 margin-bottom: 3rem !important;
                 margin-top: 0.83rem !important;
                 border-bottom: 1px solid $clr_very_light_gray;
+                padding-top: 1rem !important;
+                padding-bottom: 2rem !important;
             }
 
             &-content {
@@ -3620,4 +3631,30 @@
     &:hover{
         box-shadow: 0rem 0.417rem 1.667rem 0rem $clr_black_shadow;
     }
+}
+
+.maintenance-page{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; 
+    padding: 1rem;
+    &-image{
+        width: 29.657rem;
+        height: 28.501rem;
+    }
+    &-text-grid{
+        margin-top:7rem;
+        margin-left: 8rem;
+    }
+    &-title{
+        font-size: $hMax !important;
+        font-weight: $font_bold !important;
+    }
+    &-description{
+        font-size: $h3 !important;
+        font-weight: $font_normal;
+        color: $clr_neutral_gray;
+        width:40rem
+    }  
 }

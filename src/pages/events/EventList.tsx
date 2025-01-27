@@ -16,7 +16,6 @@ import React from "react";
 import { NoEvent as NoEventIcon } from "@/assets/svg";
 import { Filter } from "@/components/Filter";
 import { StatusEnum } from "@/Utils/StatusEnum";
-import {truncateString } from "@/Utils/CommonBaseClass";
 
 interface EventListProps {
   hideAction?: boolean;
@@ -184,7 +183,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
      if (!data) return [];
      return data.map((item: any) => ({
        id: item?.id,
-       name: truncateString(item?.name,20),
+       name: item?.name,
        eventClass: item?.eventClass,
        createdOn: item?.createdOn,
        startTime:item?.startTime,

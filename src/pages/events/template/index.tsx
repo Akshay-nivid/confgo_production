@@ -4,15 +4,15 @@
 import Grid from '@mui/material/Grid2';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Template1 from './Template1';
+//import Template1 from './Template1';
 import useStore, { setDataById } from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import routes from '@/router/routes';
-import Template3 from './Template3';
-import Template2 from './Template2';
+//import Template3 from './Template3';
+//import Template2 from './Template2';
 import Template4 from '../approvedTemplate/Template4';
 import { CircularProgress } from '@mui/material';
-import NoEvents from '@/pages/Participant-User/No-Event/NoEvent';
+import MaintenancePage from './MaintenancePage';
 
 type TemplateContainerProps = {
     id?: number;
@@ -20,9 +20,9 @@ type TemplateContainerProps = {
 
 const templates: any = {
   1: Template4,
-  2: Template2,
-  3: Template3,
-  4: Template1
+  // 2: Template2,
+  // 3: Template3,
+  // 4: Template1
 };
 
 /**
@@ -167,7 +167,7 @@ const fetchEventDetails = async () => {
       )}
     </Grid>
   ) : (
-    <NoEvents description="" title="This event is currently under maintenance" />
+    <MaintenancePage/>
   );
 });
 
