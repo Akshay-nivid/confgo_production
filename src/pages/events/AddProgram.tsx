@@ -246,7 +246,6 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
           setLoading(false);
         },
         errorCB: (context: any) => {
-          console.log(context,'434343434')
           Logger.error("Error fetching search results:", context?.message);
           setLoading(false);
         }
@@ -764,7 +763,6 @@ const handleAddProgram = () => {
       setValue('programs', updatedPrograms);
     };  
 
-    console.log(watch('programs'),'programs full >>>>');
 
 
 
@@ -1207,7 +1205,6 @@ const handleAddProgram = () => {
             children={
             <DrawerCreateSponosor onSuccess={()=>{handleSponsorSearch("")}} 
             closeDrawer={()=>
-              // console.log('what the hhhhh')
               setNewSponsorDrawerOpen(false)
               
               }

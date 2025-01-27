@@ -14,7 +14,6 @@ interface NewSpeakerDrawerProps {
     closeDrawer?: () => void;
 }
 const DrawerCreateSponosor: React.FC<NewSpeakerDrawerProps> = ({onSuccess, closeDrawer}:NewSpeakerDrawerProps) => {
-    console.log(closeDrawer,'jjjjjjjjjjj')
     const isLoading = useStore((state: any) => state.compData?.['createSponsor']?.['sponsor']?.loading) || false
     const schema = z.object({
         name: z.string({ message: "Name is required" }).min(3, { message: "Name is required" }),
