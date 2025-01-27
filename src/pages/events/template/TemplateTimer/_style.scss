@@ -5,6 +5,8 @@
     &-headerText{
         font-size: $h2 !important;
         font-weight: $font_semibold !important;
+        margin-bottom: 2.5rem !important;
+
     }
     &-container{
         padding: 1rem;
@@ -40,6 +42,8 @@
     &-headerText{
         font-size: $h2 !important;
         font-weight: $font_semibold !important;
+        margin-bottom: 2.5rem !important;
+
     }
     &-container{
         padding: 1rem;
@@ -74,9 +78,12 @@
     &-headerText{
         font-size: $h2 !important;
         font-weight: $font_semibold !important;
+        margin-bottom: 2.5rem !important;
+        
     }
     &-container{
         padding: 1rem;
+        margin-bottom: 5rem !important;
     }
     &-timerDigit{
         color: $clr_dark_navy_blue !important;

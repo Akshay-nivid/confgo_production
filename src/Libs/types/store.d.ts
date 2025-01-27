@@ -27,6 +27,19 @@ export interface NonPersistedData {
     isSpeakerDetailsModelOpen: { value: boolean },
     speakerDetails: { value: any }
     createSponsorModalOpen: { value: boolean },
+    isAdminSponsorDetailsModalOpen: { value: boolean },
+    sponsorDrawerType: { value: 'create' | 'edit' | null }
+    sponsorAdminDetails: {
+        value: {
+            name: string | null,
+            email: string | null,
+            phone: string | null,
+            website: string | null,
+            logoUrl: string | null,
+            bannerUrl: string | null,
+            bannerId: number | null,
+            logoId: number | null,
+    }}
 }
 
 export type ApiRequestOptions = {
