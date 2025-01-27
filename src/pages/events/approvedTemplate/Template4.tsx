@@ -364,7 +364,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                 {data?.eventSpeakers?.length > 0 && getUniqueSpeakers(data?.eventSpeakers)?.length > 0 && <Grid id={'Contributors'} container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-event-contributors `} spacing={1} direction={'column'} justifyContent={'center'} alignItems={'center'} ref={contributorsRef}>
                     <SpeakerDetailsModal />
                     <Grid className={`${classPrefix}-event-contributors-title`}>Meet Our Esteemed Speakers</Grid>
-                    <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-event-contributors-item-group-container`} justifyContent={'center'} alignItems={'center'} spacing={4}>
+                    <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-event-contributors-item-group-container`} justifyContent={'flex-start'} alignItems={'center'} spacing={4}>
                         {data?.eventSpeakers?.length > 0 && getUniqueSpeakers(data?.eventSpeakers)?.map((item: any) => {
                             return <Grid alignSelf={'stretch'} onClick={() => handleSpeakerCardClick(item)} size={{ xs: 12, sm: 3 }} container direction={'row'} className={`${classPrefix}-event-contributors-item-container `} spacing={2}>
                                 <Grid size={{ xs: 12, sm: 12 }} container direction={'column'} className={`${classPrefix}-event-contributors-item-container-speaker-card `}>
@@ -406,7 +406,6 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                             {Object.keys(groupedPrograms)?.map((date, index) => (
                                 <CustomButton
                                     key={index}
-
                                     onClick={(event) => handleTabChange(event, date)}
                                     className={`${classPrefix}-program-tabs-tab ${selectedDate === date ? `${classPrefix}-program-tabs-tab-active` : ``}`}
                                     label={` ${moment(date).format('MMM DD')}`}
@@ -446,7 +445,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                     </Grid>
                     <Grid  container spacing={3} className={`${classPrefix}-program-content-container`} mt={2} direction="column" alignContent={'center'} size={{ xs: 12, sm: 12 }}>
                         {combinedAndSortedItems?.map((item: any, index: number) => (
-                            <Grid  onClick={() => handleProgramCardClick(item)} size={{ xs: 11 }} justifyContent={'center'} pl={{ xs: 2, md: 4 }} p={2} key={index}
+                            <Grid onClick={() => handleProgramCardClick(item)} size={{ xs: 11 }} justifyContent={'center'} pl={{ xs: 2, md: 4 }} p={2} key={index}
                                 className={`${classPrefix}-program-content-item ${item?.type === 'program' ? `${classPrefix}-program-content-item-program` : `${classPrefix}-program-content-item-addon`}`}
                             >
                                 <Grid container alignItems="center" >

@@ -1420,7 +1420,9 @@
     }
 
     &-template4{
-
+        button{
+            padding-top: 0.7rem !important;
+        }
         &-bg {
             background-color: $clr_white;
         }
@@ -1456,6 +1458,8 @@
                 font-size: $h6 !important;
                 font-weight: $font_semibold !important;
                 pointer-events: auto;
+                box-shadow:none !important;
+                text-transform: none !important;
             }
         }
         &-header {
@@ -1478,7 +1482,7 @@
                 font-weight: $font_semibold !important;
                 font-size: $h1 !important;
                 color: $clr_white !important;
-                max-width: 50rem;
+                max-width: 60rem;
                 line-height: 4rem !important;
                 word-wrap: break-word;
                 overflow-wrap: break-word;
@@ -1486,22 +1490,26 @@
             }
             &-login{
                 font-weight: $font_semibold !important;
-                font-size: $h6;
+                font-size: $h6 !important;
                 width: 10.17rem !important;
                 height: 4.17rem !important;
                 background-color: transparent !important;
                 border-radius: 0.41rem !important;
                 border: 0.125rem solid $clr_white !important;
                 margin-right: 1rem !important;
+                box-shadow:none !important;
+                text-transform: none !important;
             }
             &-register{
                 font-weight: $font_semibold !important;
-                font-size: $h6;
+                font-size: $h6 !important;
                 width: 10.17rem !important;
                 height: 4.17rem !important;
                 background-color: $clr_white !important;
                 color: $clr_black !important;
                 border-radius: 0.41rem !important;
+                box-shadow:none !important;
+                text-transform: none !important;
             }
         }
         &-eventDetails{
@@ -1670,6 +1678,7 @@
                         $clr_white 4.583rem
                       );
                       border-radius: 8px; /* Round corners if needed */
+                      cursor: pointer;
                 } 
                 &-program{
                     border:solid 0.083rem $clr_gray_very_light;
