@@ -375,8 +375,12 @@ const Events = () => {
             speakerId
           })),
         }),
-        ...(sponsor.length != 0 && {
-          sponsor: sponsor.map(({ sponsorId, sponsorTypeId, sponsorReservedSeats }) => ({ sponsorId, sponsorTypeId,reservedSeats: sponsorReservedSeats ?? 0 }))
+        ...(sponsor.length !== 0 && {
+          sponsor: sponsor.map(({ sponsorId, sponsorTypeId, sponsorReservedSeats }) => ({
+            sponsorId,
+            sponsorTypeId,
+            ...(sponsorReservedSeats && { reservedSeats: sponsorReservedSeats }) // Include reservedSeats only if it has a value
+          }))
         })
       };
     });

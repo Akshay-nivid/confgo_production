@@ -22,8 +22,8 @@ const DrawerCreateSponosor: React.FC<NewSpeakerDrawerProps> = ({onSuccess, close
             message: "Please enter a valid phone number",
         }),
         website: z.string().optional(),
-        logoId: z.number().optional(),
-        bannerId: z.number().optional(),
+     logoId: z.union([z.string(), z.number()]).optional(),
+    bannerId: z.union([z.string(), z.number()]).optional(),
     })
 
     const form = useForm({
@@ -57,8 +57,8 @@ const DrawerCreateSponosor: React.FC<NewSpeakerDrawerProps> = ({onSuccess, close
             name: data.name,
             email: data.email,
             phone: data.phone,
-            logoAssetId: data.logoId,
-            bannerImgAssetId: data.bannerId,
+         ...(data.logoId && { logoAssetId: data.logoId }),
+         ...(data.bannerId && { bannerImgAssetId: data.bannerId }),
             companyId: sessionStorage.getItem('companyId'),
             ...(website && { website })
         }
@@ -66,9 +66,11 @@ const DrawerCreateSponosor: React.FC<NewSpeakerDrawerProps> = ({onSuccess, close
         POST({
             url: 'sponsor', body: body, id: 'createSponsor', successCB: () => {
                 form.reset();
-                onSuccess
-                closeDrawer
-                // eventList();
+                
+               closeDrawer&& closeDrawer()
+
+                onSuccess && onSuccess()
+                
                 snackBar({ severity: 'success', message: 'Sponsor created successfully' })
 
             }, errorCB: (error) => {
