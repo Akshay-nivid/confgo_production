@@ -463,7 +463,6 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
         const sponsorToRemove = selectedProgram?.eventSponsors?.find(
           (existingSponsor: any) => existingSponsor?.sponsorId === sponsors?.[0]?.sponsorId
         );
-        console.log(sponsorToRemove,"ff")
 
         if (sponsorToRemove) {
           const sponsorId = sponsorToRemove?.id; // Use `id` for deletion
@@ -921,7 +920,6 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
                 <Grid container flexDirection={"column"} className="add-program-speaker-section-card-container" size={{ xs: 12 }}>
                   <Grid container spacing={1}>
                     {watch(`sponsors`)?.map((item, sponsorIndex) => {
-                      console.log(item,"item")
                       return (
                         <Grid size={{ xs: 12 }} key={sponsorIndex + "grid"} container alignItems="center" className="add-program-speaker-section-card-item" p={1}>
                           <Grid size={{ xs: 2 }} justifyItems={'center'}>

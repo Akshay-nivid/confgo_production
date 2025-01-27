@@ -180,7 +180,6 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
    */
   useEffect(() => {
     if (isEditing && selectedAddOn) {
-      console.log(selectedAddOn,'selectedaddon')
       setSelectedAddOnId(selectedAddOn?.addon?.id);
       setValue("description", selectedAddOn?.description);
       setValue("addonDate", moment(selectedAddOn?.startTime).format("YYYY-MM-DD"));
