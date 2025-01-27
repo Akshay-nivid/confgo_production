@@ -1530,7 +1530,12 @@
                     width: 8rem;
                     height: 8rem;
                     margin-top: 3rem;
+                    margin-left: 0.9rem;
+                    margin-top: 6rem;
                 }
+            }
+            &-welcome{
+            padding-top: 3rem !important;
             }
             &-title{
                 font-weight: $font_semibold !important;
@@ -1546,6 +1551,7 @@
                 margin-top: 3rem !important;
                 font-size: $p5 !important;
                 color: $clr_white !important;
+                font-weight: $font-normal !important;
                 line-height: 2rem !important;
             }
             &-icon-container{
