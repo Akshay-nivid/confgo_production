@@ -235,13 +235,13 @@ const SessionCard: React.FC<SessionCardProps> = ({
                       <Avatar
                          src={`${baseUrl}asset/${speaker?.speakerAssetId }`}
           
-                            alt={`${speaker?.speakerFirstName || "User Profile"}`}
+                            alt={`${speaker.speakerFullName || "User Profile"}`}
                               variant="circular"
                         />
                         ) : (
                           //className="main-user-profile main-user-profile-text"
                      <Avatar className="session-speaker-avatar">
-                    {`${speaker?.speakerFirstName?.[0]}${speaker?.speakerLastName?.[0]}`}
+                    {`${speaker?.speakerFullName?.[0]}${speaker?.speakerLastName? speaker?.speakerLastName?.[0] : ""}`}
                     </Avatar>
                    )}
      
@@ -332,13 +332,13 @@ const SessionCard: React.FC<SessionCardProps> = ({
                 <Avatar
                   src={`${baseUrl}asset/${speaker?.speakerAssetId}`}
                     // className="main-user-profile"
-                    alt={`${speaker?.speakerFirstName || "User Profile"}`}
+                    alt={`${speaker?.speakerFullName || "User Profile"}`}
                      variant="circular"
                       />
                        ) : (
                          
                   <Avatar  className="session-speaker-modal-avatar">
-                  {`${speaker?.speakerFirstName?.[0]}${speaker?.speakerLastName?.[0]}`}
+                  {`${speaker?.speakerFullName?.[0]}${speaker?.speakerLastName? speaker?.speakerLastName?.[0] : ""}`}
                </Avatar>
          )}
         </>} > 
@@ -348,18 +348,18 @@ const SessionCard: React.FC<SessionCardProps> = ({
                      <Avatar
                        src={`${baseUrl}asset/${speaker?.speakerAssetId}`}
                        // className="main-user-profile"
-                       alt={`${speaker?.speakerFirstName || "User Profile"}`}
+                       alt={`${speaker.speakerFullName || "User Profile"}`}
                        variant="circular"
                      />
                    ) : (
                      <Avatar  className="session-speaker-modal-avatar">
-                       {`${speaker?.speakerFirstName?.[0]}${speaker?.speakerLastName?.[0]}`}
+                       {`${speaker?.speakerFullName?.[0]}${speaker?.speakerLastName? speaker?.speakerLastName?.[0] : ""}`}
                      </Avatar>
                    )}
                  </Grid>
                  <Grid size={10} marginInline={"2rem"}>
 
-                  <Typography className="modal-speaker-name">{`${speaker?.speakerFirstName} ${speaker?.speakerLastName}` }</Typography>
+                  <Typography className="modal-speaker-name">{`${speaker?.speakerFullName} ${speaker?.speakerLastName ? speaker?.speakerLastName : "" }` }</Typography>
                   <Typography className="modal-speaker-name-designation">{speaker?.designation}</Typography>
       
                  </Grid>
