@@ -64,6 +64,18 @@
             }
 
             .sponsor-form {
+                &-label{
+                    color:$clr_black;
+                    font-size:$h6;
+                    font-weight: $font_medium;
+                    padding-bottom: 0.8rem !important;
+                    &-input{
+                        border-bottom: 0.0125rem solid $clr_black;
+                        border-radius: 0 !important;
+                    }
+                 .star{
+                    color:$clr_red !important;
+                 }              }
                 .error-message{
                     color:$clr_red;
                 }

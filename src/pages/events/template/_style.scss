@@ -1527,14 +1527,10 @@
                     font-size: $h6 !important;
                 }
                 svg{
-                    margin-left: 0.9rem;
-                    margin-top: 6rem;
                     width: 8rem;
                     height: 8rem;
+                    margin-top: 3rem;
                 }
-            }
-            &-welcome{
-                padding-top: 3rem !important;
             }
             &-title{
                 font-weight: $font_semibold !important;
@@ -1550,7 +1546,6 @@
                 margin-top: 3rem !important;
                 font-size: $p5 !important;
                 color: $clr_white !important;
-                font-weight: $font_normal !important;
                 line-height: 2rem !important;
             }
             &-icon-container{
@@ -1663,7 +1658,7 @@
             }
 
             &-tab-active {
-                background-color: $clr_charcoal_cyan !important;
+                background-color: $clr_black !important;
                 color: $clr_white !important;
             }
         }
@@ -1711,6 +1706,13 @@
                     font-weight: $font-semibold !important;
 
                 }
+                &-icon{
+                    padding-bottom: 0.6rem;
+                  svg{
+                    width: 1.5rem ;
+                    height: 1.5rem;
+                  }
+                }
                 &-divider-program{
                     width: 0.08rem;
                     height: 5rem !important;      
@@ -1733,6 +1735,7 @@
                     font-weight: $font-semibold !important;
                     font-size: $p3 !important;
                     line-height: 1.5rem;
+                    color: $clr_dim_gray;
                 }
             }
     
@@ -1752,6 +1755,30 @@
                 font-weight: $font-normal !important;
                 font-size: 2.25rem !important;
             }
+
+            &-sponsor{
+             height: max-content;
+             margin-left: 1rem;
+             img{
+                width: 6rem;
+                height: 5rem !important;
+             }
+             &-heading{
+                display: flex;
+                align-items: center;
+                text-align: center !important;
+                min-height: 3rem !important;
+              font-size:$p2;
+              font-weight: $font-bold !important;
+              line-height: 2rem;
+             }
+             &-ImgBox{
+                min-width: 15rem !important;
+                // border: 0.1rem solid !important;
+                border-radius: 0.8rem;
+             }
+            }
+           
     
             &-description {
                 font-weight: $font-normal !important;
@@ -1789,15 +1816,11 @@
                         padding: 0 !important;
                         font-size: $h6 !important;
                         font-weight: $font-semibold !important;
-                        &:hover {
-                            color: $clr_teal !important; 
-                        }
                     }
-                    
                 }
                 &-container-no-profile-picture{
-                        width: 17rem;
-                        height: 17rem;
+                        width: 20rem;
+                        height: 20rem;
                 }
             }
 
@@ -1841,7 +1864,6 @@
                 margin-top: 3.33rem !important;
                 margin-bottom: 0.83rem !important;
                 width: 90% !important;
-                box-shadow: none !important;
             }
 
             &-item-container:nth-child(odd) .event-template-template4-ticketing-register-button {
@@ -1861,8 +1883,6 @@
                 margin-bottom: 3rem !important;
                 margin-top: 0.83rem !important;
                 border-bottom: 1px solid $clr_very_light_gray;
-                padding-top: 1rem !important;
-                padding-bottom: 2rem !important;
             }
 
             &-content {
