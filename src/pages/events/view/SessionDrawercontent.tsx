@@ -17,6 +17,7 @@ import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import NewSpeakerDrawer from "../NewSpeakerDrawer";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
+import { useParams } from "react-router-dom";
 
 
 
@@ -46,11 +47,13 @@ interface FormData {
   sponsorName?: string;
   sponsorAssetId?: string;
   sponsorType?: string;
+  reservedSeats?:string
   sponsors: {
     sponsorId?:string;
     sponsorName?: string;
     sponsorAssetId?: string;
     sponsorType?: string;
+    reservedSeats?:string;
   }[];
   sponsorSelection?: string;
 }
@@ -65,6 +68,7 @@ type Sponsor = {
   sponsorName?: string;
   sponsorAssetId?: string;
   sponsorType?: string;
+  reservedSeats?:string;
 }
 
 interface SponsorType{
@@ -129,6 +133,8 @@ interface SessionDrawerContentProps {
     const [sponsorSearchResults, setSponsorSearcResults] = useState<Sponsor[]>([]);
     const [sponsorType,setSponsorType]=useState<SponsorType[]>([]);
     const baseUrl = config.api.url;
+    const [existingSponsor, setExistingSponsor] = useState<any>();
+    const [delsponsor,setDelSponsor]=useState<any>([])
     const [newSpeakerDrawerOpen, setNewSpeakerDrawerOpen] = useState(false);
     const {append } = useFieldArray({
       control,
@@ -138,9 +144,7 @@ interface SessionDrawerContentProps {
     const { append: appendSponsor } = useFieldArray({
       control,
       name: "sponsors", // Field array for sponsors
-    });
-
-  
+    });  
    
   /**
    * Used to set value into the field if its edit and reset if it's add
@@ -162,11 +166,12 @@ interface SessionDrawerContentProps {
           speakerDesignation: speaker?.user?.designation,
           speakerAssetId:speaker?.user?.assetId,
         }));
-        const sponsors = selectedProgram?.eventSpeakers?.map((sponsor: any) => ({
-          sponsorId: sponsor?.userId,
-          sponsorName: `${sponsor?.user?.firstName} ${sponsor?.user?.lastName}`,
-          sponsorType: sponsor?.speakerBios?.[0]?.designation,
-          sponsorAssetId:sponsor?.user?.assetId,
+        const sponsors = selectedProgram?.eventSponsors?.map((sponsor: any) => ({
+          sponsorId: sponsor?.sponsor?.id,
+          sponsorName: sponsor?.sponsor?.name ,
+          sponsorType: sponsor?.sponsorTypeId,
+          reservedSeat: sponsor?.reservedSeats,
+          sponsorAssetId:sponsor?.sponsor?.logoAssetId,
         }))
 
         setValue("speakers", speakers);
@@ -174,6 +179,7 @@ interface SessionDrawerContentProps {
         setShowSpeakerSection(speakers?.length > 0)
 
         setValue("sponsors", sponsors)
+        setExistingSponsor(sponsors)
         setShowSponsorSection(sponsors?.length > 0)
 
         } else {
@@ -195,10 +201,12 @@ interface SessionDrawerContentProps {
           sponsorAssetId:"",
           sponsorType:"",
           sponsorName:"",
+          reservedSeats:"",
         });
       }
     }, [isEditing, selectedProgram, reset, setValue]);
-
+ 
+    const{id} = useParams();
   /**
    * making the field price 0 if free
    */
@@ -224,7 +232,6 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
   // Filter out speakers whose speakerId exists in the Set
   return speakers && speakers.filter((speaker: any) => !existingSpeakerIds.has(speaker.speakerId));
 }
-
   /**
    * formating the submit request
    */
@@ -281,10 +288,16 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
        const speakers = removeExistingSpeakers(newAddedSpeakers, existingSpeakers);
 
       // Map sponsors to the desired format
-      const sponsors = data?.sponsors?.map((sponsor: any) => ({
+      const newAddedSponsors = data?.sponsors?.map((sponsor: any) => ({
         sponsorId: sponsor?.sponsorId,
-        sponsorType: sponsor?.sponsorType || ' ',
+        sponsorTypeId: sponsor?.sponsorType || ' ',
+        reservedSeats: sponsor?.reservedSeats || '',
+        parentEventId: id,
+
       }));
+
+      const sponsor = removeExistingSponsors(newAddedSponsors, existingSponsor);
+
 
       // Create the new transformed object
       const transformedProgram = {
@@ -296,7 +309,7 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
         startTime: startDateTime,
         endTime: endDateTime,
         speakers,
-        sponsors,
+        sponsor,
       };
       onSubmit(transformedProgram);
 
@@ -400,6 +413,7 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
         sponsorId: item?.id,
         sponsorName: `${item?.name}`,
         sponsorAssetId: item?.assetId,
+        reservedSeats:item?.reservedSeats,
         ...item
       }));
     }
@@ -430,26 +444,33 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
     };
 
 
+    function removeExistingSponsors(sponsors: any, existingSponsors: any) {
+      const existingSponsorsIds = new Set(existingSponsors?.map((sponsor: any) => sponsor.sponsorId));
+      return sponsors && sponsors.filter((sponsor: any) => !existingSponsorsIds.has(sponsor.sponsorId));
+    }
+    
     const removeSponsor = (sponsor: Sponsor) => {
       const sponsors = watch('sponsors');
+      setDelSponsor([...delsponsor, sponsor.sponsorId])
     
       // Check if the speaker is part of the original data (selectedProgram) using userId
-      const isExistingSponsor = selectedProgram?.eventSpeakers?.some(
-        (existingSponsor: any) => existingSponsor?.userId === sponsors?.[0]?.sponsorId
+      const isExistingSponsor = selectedProgram?.eventSponsors?.some(
+        (existingSponsor: any) => existingSponsor?.sponsorId === sponsors?.[0]?.sponsorId
       );
     
       if (isExistingSponsor) {
         // If the speaker is from the original program data, call the API to remove it
-        const sponsorToRemove = selectedProgram?.eventSpeakers?.find(
-          (existingSponsor: any) => existingSponsor?.userId === sponsors?.[0]?.sponsorId
+        const sponsorToRemove = selectedProgram?.eventSponsors?.find(
+          (existingSponsor: any) => existingSponsor?.sponsorId === sponsors?.[0]?.sponsorId
         );
-    
+        console.log(sponsorToRemove,"ff")
+
         if (sponsorToRemove) {
           const sponsorId = sponsorToRemove?.id; // Use `id` for deletion
     
           POST({
-            url: `eventSpeaker/delete/${sponsorId}`, // Your API endpoint to remove a speaker
-            id: "removeSpeaker",
+            url: `sponsor/remove/${sponsorId}`, // Your API endpoint to remove a speaker
+            id: "removeSponsor",
             body: { },
             successCB: (context: any) => {
               Logger.info("Sponsorr removed successfully", context);
@@ -476,6 +497,7 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
       const sponsorName = values?.sponsorName;
       const sponsorAssetId = values?.sponsorAssetId;
       const sponsorType = values?.sponsorType;
+      const reservedSeats = values?.reservedSeats;
 
             const isDuplicate = values?.sponsors?.some((sponsor: any) => sponsor.sponsorId === sponsorId);
             if(isDuplicate){
@@ -507,6 +529,7 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
         sponsorName,
         sponsorAssetId,
         sponsorType,
+        reservedSeats,
       });
       clearErrors();
       
@@ -515,6 +538,7 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
       setValue("sponsorName", "");
       setValue("sponsorAssetId", "");
       setValue("sponsorType", "");
+      setValue("reservedSeats","")
     }
 
     /**
@@ -877,6 +901,13 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
                     options={sponsorType}
                     />
               </Grid>
+              <Grid size={{ xs: 12 }}>
+              <CustomTextField         
+                    name="reservedSeats"
+                    control={control}
+                    label="Reservation seat"
+                    />
+              </Grid>
               <Grid size={{ xs: 12 }} >
                 <CustomButton
                   className="add-program-drawer-btn-cancel"
@@ -889,9 +920,10 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
               {watch(`sponsors`)?.length !== 0 && (
                 <Grid container flexDirection={"column"} className="add-program-speaker-section-card-container" size={{ xs: 12 }}>
                   <Grid container spacing={1}>
-                    {watch(`sponsors`)?.map((item, speakerIndex) => {
+                    {watch(`sponsors`)?.map((item, sponsorIndex) => {
+                      console.log(item,"item")
                       return (
-                        <Grid size={{ xs: 12 }} key={speakerIndex + "grid"} container alignItems="center" className="add-program-speaker-section-card-item" p={1}>
+                        <Grid size={{ xs: 12 }} key={sponsorIndex + "grid"} container alignItems="center" className="add-program-speaker-section-card-item" p={1}>
                           <Grid size={{ xs: 2 }} justifyItems={'center'}>
                             <Avatar
                               alt={item?.sponsorName}
@@ -906,7 +938,7 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
                             </Typography>
                             <Typography className="add-program-speaker-section-card-item-subtitle">
                             {truncateString(
-    sponsorType.find((type) => type.value === item?.sponsorType)?.label || "N/A",
+    sponsorType.find((type:any) => type.value === item?.sponsorType)?.label || "N/A",
     35
   )}                            </Typography>
                           </Grid>

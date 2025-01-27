@@ -719,6 +719,7 @@ const handleAddProgram = () => {
       resetField(`programs.${index}.sponosorReservedSeats`);
       resetField(`programs.${index}.sponsorFullName`);
       resetField(`programs.${index}.sponosrSelection`);
+      resetField(`programs.${index}.sponsorTypeId`);
     }; 
 
     /**

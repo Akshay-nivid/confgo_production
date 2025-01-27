@@ -23,6 +23,7 @@ import { POST, setDataById } from "@/Libs/store";
 import config from "../../../../config.json";
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
+import { Logger } from "@/Utils/Logger";
 
 interface FormData {
   addonId: number;
@@ -127,9 +128,13 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
   const isAddon = watch("addonId");
   const isDescription = watch("description");
   const addonProperties = watch("properties");
+  const companyId = sessionStorage.getItem("companyId")
   const buttonDisbaled = !isAddon || !isDescription || addonProperties === undefined || addonProperties?.length === 0;
   const [endTimeChanged, setEndTimeChanged] = useState(false);
   const [startTimeChanged, setStartTimeChanged] = useState(false);
+  const [existingSponsor, setExistingSponsor] = useState<any>();
+  const [sponsorSearchResults, setSponsorSearcResults] = useState<Sponsor[]>([]);
+ 
   const { fields, remove, append } = useFieldArray({
     control,
     name: "properties",
@@ -175,6 +180,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
    */
   useEffect(() => {
     if (isEditing && selectedAddOn) {
+      console.log(selectedAddOn,'selectedaddon')
       setSelectedAddOnId(selectedAddOn?.addon?.id);
       setValue("description", selectedAddOn?.description);
       setValue("addonDate", moment(selectedAddOn?.startTime).format("YYYY-MM-DD"));
@@ -183,11 +189,11 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
       setValue("isPaid", selectedAddOn.amount > 0 ? "PAID" : "FREE");
       setValue("amount", selectedAddOn.amount);
       setValue("dateRequired", !!selectedAddOn?.endTime);
-      const sponsors = selectedAddOn?.eventSpeakers?.map((sponsor: any) => ({
-        sponsorId: sponsor?.userId,
-        sponsorName: `${sponsor?.user?.firstName} ${sponsor?.user?.lastName}`,
-        sponsorType: sponsor?.sponsorType,
-        sponsorAssetId:sponsor?.user?.assetId,
+      const sponsors = selectedAddOn?.eventSponsors?.map((sponsor: any) => ({
+        sponsorId: sponsor?.sponsor?.id,
+        sponsorName: sponsor?.sponsor?.name,
+        sponsorType: sponsor?.sponsorTypeId,
+        sponsorAssetId:sponsor?.sponsor?.logoAssetId,
       }))
       const properties = selectedAddOn.eventAddonProperties.map((property: { name: any; amount: any }) => ({
         propertyName: property.name,
@@ -196,6 +202,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
       setValue("properties", properties);
 
       setValue("sponsors", sponsors)
+      setExistingSponsor(sponsors)
       setShowSponsorSection(sponsors?.length > 0)
 
     } else {
@@ -287,6 +294,10 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
     clearErrors();
   };
 
+  function removeExistingSponsors(sponsors: any, existingSponsors: any) {
+    const existingSponsorsIds = new Set(existingSponsors?.map((sponsor: any) => sponsor.sponsorId));
+    return sponsors && sponsors.filter((sponsor: any) => !existingSponsorsIds.has(sponsor.sponsorId));
+  }
 
   /**
    * Formats the form data and passing it to the onSubmit handler.
@@ -312,11 +323,13 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
         return;
       }
 
-        // Map sponsors to the desired format
-      const sponsors = data?.sponsors?.map((sponsor: any) => ({
+      // Map sponsors to the desired format
+      const newAddedSponsors = data?.sponsors?.map((sponsor: any) => ({
         sponsorId: sponsor?.sponsorId,
-        sponsorType: sponsor?.sponsorType || ' ',
+        sponsorTypeId: sponsor?.sponsorType || ' ',
       }));
+
+      const sponsors = removeExistingSponsors(newAddedSponsors, existingSponsor);
 
       const formattedDataArray: any[] = []; 
       if (data.noOfDays !== '' && data?.repeat?.length > 0) {
@@ -362,6 +375,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
         const formattedData: any = {
           addonId: Number(selectedAddOnId),
           description: data.description,
+          sponsors,
           properties: Array.isArray(data.properties) && data.properties.length > 0
             ? data.properties.map((property: any) => ({
               name: property.propertyName,
@@ -385,6 +399,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
           startTime:`${data.addonDate} ${data?.startTime} `,
           endTime:`${data.addonDate} ${data?.endTime}`,
           description: data.description,
+          sponsors,
           properties: Array.isArray(data.properties) && data.properties.length > 0
             ? data.properties.map((property: any) => ({
               name: property.propertyName,
@@ -399,6 +414,130 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
       }
     }
   };
+
+  const handleSearchSponsor = async (query: string) => {
+        setLoading(true);
+        await POST({
+          url: "sponsor/list",
+          id: "sponsorList",
+          body: {
+            filters: {
+              name: query,
+              companyId: companyId,
+            },
+            limit: 30
+          },
+          successCB: (context: any) => {
+            setSponsorSearcResults(transformSponsorData(context?.data))
+            setLoading(false);
+          },
+          errorCB: (context: any) => {
+            Logger.error("Error fetching search results:", context?.message);
+            setLoading(false);
+          }
+        })
+      };
+      
+  /**
+     * Method transforms data to the autocomplete data format of sponsor
+     * @param data : api response data
+     * @returns 
+     */
+  function transformSponsorData(data: any): Sponsor[] {
+    return data?.map((item: any) => ({
+      sponsorId: item?.id,
+      sponsorName: `${item?.name}`,
+      sponsorAssetId: item?.assetId,
+      ...item
+    }));
+  }
+
+    const removeSponsor = (sponsor: Sponsor) => {
+      const sponsors = watch('sponsors');
+    
+      // Check if the sponsor is part of the original data (selectedProgram) using userId
+      const isExistingSponsor = selectedAddOn?.eventSponsors?.some(
+        (existingSponsor: any) => existingSponsor?.userId === sponsors?.[0]?.sponsorId
+      );
+    
+      if (isExistingSponsor) {
+        // If the sponsor is from the original program data, call the API to remove it
+        const sponsorToRemove = selectedAddOn?.eventSponsors?.find(
+          (existingSponsor: any) => existingSponsor?.userId === sponsors?.[0]?.sponsorId
+        );
+    
+        if (sponsorToRemove) {
+          const sponsorId = sponsorToRemove?.id; // Use `id` for deletion
+    
+          POST({
+            url: `sponsor/remove/${sponsorId}`, // Your API endpoint to remove a sponsor
+            id: "removeSponsor",
+            body: { },
+            successCB: (context: any) => {
+              Logger.info("Sponsorr removed successfully", context);
+              // Proceed to remove from the field array once the API call is successful
+              const updatedSponsors = sponsors.filter((s: Sponsor) => s.sponsorId !== sponsor.sponsorId);
+              setValue('sponsors', updatedSponsors); // Update form data after successful API call
+            },
+            errorCB: (context: any) => {
+              Logger.error("Error removing sponsor", context);
+            }
+          });
+        }
+      } else {
+        // If the sponsor is newly added, just remove it from the field array
+        const updatedSponsor = sponsors?.filter((s: Sponsor) => s?.sponsorId !== sponsor?.sponsorId);
+        setValue('sponsors', updatedSponsor); // Update form data to remove the speaker
+      }
+    };
+  
+    const addSponsor = () => {
+      const values = watch();
+      const sponsorId = values?.sponsorId;
+      const sponsorName = values?.sponsorName;
+      const sponsorAssetId = values?.sponsorAssetId;
+      const sponsorType = values?.sponsorType;
+
+            const isDuplicate = values?.sponsors?.some((sponsor: any) => sponsor.sponsorId === sponsorId);
+            if(isDuplicate){
+              setError('sponsorSelection', {type:"manual", message:"Sponsor already exist please select another sponsor"});
+              return;
+            }
+            // Check if the sponsor is part of the original data (selectedProgram) using userId
+            const isExistingSponsor = selectedAddOn?.eventSponsors?.some(
+              (existingSponsor: any) => existingSponsor?.userId === sponsorId
+            );
+
+            if(isExistingSponsor){
+              setError(`sponsorSelection`, { type: "manual", message: "Sponsor Already assigned. please select another sponser" });
+              return;
+            }
+
+            if (!sponsorId) {
+              setError(`sponsorSelection`, { type: "manual", message: "Please select a sponsor" });
+              return;
+            }
+            if (!sponsorType) {
+              setError(`sponsorType`, { type: "manual", message: "Sponsor type is required" });
+              return;
+            }
+
+             // Append sponsor to the sponsor field
+      appendSponsor({
+        sponsorId,
+        sponsorName,
+        sponsorAssetId,
+        sponsorType,
+      });
+      clearErrors();
+      
+        // Reset the speaker form fields
+      setValue("sponsorId", "");
+      setValue("sponsorName", "");
+      setValue("sponsorAssetId", "");
+      setValue("sponsorType", "");
+    }
+
 
   /**
    * addon create request handles repeat addon create
@@ -649,7 +788,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
             <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'center'}>
               <CustomButton
                 className="add-program-drawer-speaker-option-btn"
-                label="Assign Sponsors for this Program?"
+                label="Assign Sponsors for this Addon?"
                 variant="outlined"
                 size="large"
                 type="button"
@@ -677,14 +816,14 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
                   name={`sponsorSelection`}
                   control={control}
                   placeholder="Search Sponsor"
-                  options={"searchResults"}
-                  getOptionLabel={(option: any) => option?.speakerName || ""}
-                  onSearch={handleSearch}
+                  options={sponsorSearchResults}
+                  getOptionLabel={(option: any) => option?.name || ""}
+                  onSearch={handleSearchSponsor}
                   loading={loading}
                   onChange={(selectedOption) => {
-                    setValue(`sponsorId`, selectedOption?.speakerId)
-                    setValue(`sponsorAssetId`, selectedOption?.speakerAssetId)
-                    setValue(`sponsorName`, selectedOption?.speakerName)
+                    setValue(`sponsorId`, selectedOption?.sponsorId)
+                    setValue(`sponsorAssetId`, selectedOption?.sponsorAssetId)
+                    setValue(`sponsorName`, selectedOption?.sponsorName)
                   }}
                 />
               </Grid>
@@ -703,15 +842,15 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
                   label="Assign Sponsor"
                   variant="outlined"
                   size="large"
-                  onClick={"addSponsor"}
+                  onClick={addSponsor}
                 />
               </Grid>
               {watch(`sponsors`)?.length !== 0 && (
                 <Grid container flexDirection={"column"} className="add-program-speaker-section-card-container" size={{ xs: 12 }}>
                   <Grid container spacing={1}>
-                    {watch(`sponsors`)?.map((item, speakerIndex) => {
+                    {watch(`sponsors`)?.map((item, sponsorIndex) => {
                       return (
-                        <Grid size={{ xs: 12 }} key={speakerIndex + "grid"} container alignItems="center" className="add-program-speaker-section-card-item" p={1}>
+                        <Grid size={{ xs: 12 }} key={sponsorIndex + "grid"} container alignItems="center" className="add-program-speaker-section-card-item" p={1}>
                           <Grid size={{ xs: 2 }} justifyItems={'center'}>
                             <Avatar
                               alt={item?.sponsorName}
@@ -726,7 +865,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
                             </Typography>
                             <Typography className="add-program-speaker-section-card-item-subtitle">
                             {truncateString(
-    sponsorType.find((type) => type.value === item?.sponsorType)?.label || "N/A",
+    sponsorType.find((type:any) => type.value === item?.sponsorType)?.label || "N/A",
     35
   )}                            </Typography>
                           </Grid>

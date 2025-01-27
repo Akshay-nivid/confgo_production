@@ -8,6 +8,7 @@ import AbstractReviewer from "./AbstactReviewerListCard";
 import React from "react";
 import useStore from "@/Libs/store";
 import SponsorListCard from "./SponsorListCard";
+import { AccordionAddIcon, AccordionArrowIcon } from "@/assets/svg";
 
 /**
  * TeamAndRole Component
