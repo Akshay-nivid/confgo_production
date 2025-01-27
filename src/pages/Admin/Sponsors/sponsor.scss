@@ -158,7 +158,7 @@
                     &-image-logo{
                         object-fit: contain;
                         background-color: $clr_gray_10_percent;
-                        width: 100%;
+                        width: max-content;
                         max-height: 8.33rem;
                         img{
                             max-width: 8.33rem;
@@ -167,7 +167,8 @@
                         }
                     }
                     &-image-banner{
-                     width: 100%;
+                     width: max-content;
+                     display: flex;
                     background-color: $clr_gray_10_percent;
 
                     img{
@@ -176,6 +177,29 @@
                         object-fit: contain;
                     } 
                     }
+
+                    &-image-logo-close{
+                        // position: absolute;
+                        // right: -.7rem;
+                        // top: 0.2rem;
+                        // margin-top: .3rem;
+                        background-color: $clr_red;
+                        height: 1.8rem;
+                        width: 1.8rem;
+                        cursor: pointer;
+                        position: absolute;
+                        right: 0;
+                        &:hover{
+                        background-color: $clr_red !important;
+
+                        }
+                        
+                        svg{
+                            color: $clr_gray_30_percent;
+                        }
+                    }
+
+                   
                 }
 
                 &-button-container {
