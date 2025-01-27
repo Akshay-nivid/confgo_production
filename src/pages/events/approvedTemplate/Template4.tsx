@@ -503,7 +503,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                 {data?.venue?.mapUrl && <LocationSection classPrefix={`${classPrefix}-location`}data={data} onScrollToTier={LocationRef}/>}
                 {/* Sponsors section starts here */}
                 {data?.eventSponsors?.length > 0 && getUniqueSponsors(data?.eventSponsors)?.length > 0 && <Grid id={'sponsors'} container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-sponsors `} spacing={1} direction={'column'} justifyContent={'center'} alignItems={'center'} ref={sponsorRef}>
-                    <Grid className={`${classPrefix}-sponsors-title`}>Sponsors</Grid>
+                    <Grid className={`${classPrefix}-sponsors-title`}>Our Sponsors</Grid>
                     <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-sponsors-item-group-container`} justifyContent={'center'} alignItems={'center'} spacing={4}>
                         {data?.eventSponsors?.length > 0 && getUniqueSponsors(data?.eventSponsors)?.map((item: any) => {
                             return <Grid alignSelf={'stretch'} size={{ xs: 12, sm: 3 }} container direction={'row'} className={`${classPrefix}-sponsors-item-container `} spacing={2}>
