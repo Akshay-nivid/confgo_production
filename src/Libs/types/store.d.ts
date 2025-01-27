@@ -28,6 +28,7 @@ export interface NonPersistedData {
     speakerDetails: { value: any }
     createSponsorModalOpen: { value: boolean },
     isAdminSponsorDetailsModalOpen: { value: boolean },
+    sponsorId: { value: number | null },
     sponsorDrawerType: { value: 'create' | 'edit' | null }
     sponsorAdminDetails: {
         value: {
