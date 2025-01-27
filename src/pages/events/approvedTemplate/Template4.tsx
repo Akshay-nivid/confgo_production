@@ -71,11 +71,16 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
         }
     };
     const headerLinks: LinkData[] = [
-        { text: "Speakers" },
-        { text: "Sponsers" },
-        { text: "Programmes" },
-        { text: "Location" }
-    ];
+        ...(data?.eventSpeakers?.length > 0 && getUniqueSpeakers(data?.eventSpeakers)?.length > 0
+          ? [{ text: "Speakers" }]
+          : []),
+        ...(data?.eventSponsors?.length > 0 && getUniqueSponsors(data?.eventSponsors)?.length > 0
+          ? [{ text: "Sponsors" }]
+          : []),
+        { text: "Programs" },
+        ...(data?.venue?.mapUrl ? [{ text: "Location" }] : []),
+      ];
+      
     const [selectedDate, setSelectedDate] = useState<string>('');
 
     /**
@@ -317,7 +322,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
             <Grid container size={{ xs: 12, sm: 12 }} className={classPrefix}>
                 <TopMenuHeader links={headerLinks} classPrefix={`${classPrefix}-top-menu`} data={data} onScrollToProgram={() => handleScrollTo(programRef)} onScrollToAbout={() => handleScrollTo(aboutRef)} onScrollToContributors={() => handleScrollTo(contributorsRef)} onScrollToLocation={() => handleScrollTo(LocationRef)} onScrollToBeSponsor={() => handleScrollTo(beSponsorRef)} onScrollToSponsor={() => handleScrollTo(sponsorRef)}/>
                 <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-header`} />
-                <AuthFormHandler className={`${classPrefix}-headerBottom`} data={data} onScrollToTier={() => handleScrollTo(tierRef)}/>
+                <AuthFormHandler className={`${classPrefix}-headerBottom`} data={data} onScrollToTier={() => handleScrollTo(tierRef)} />
                 <TEventDetails className={`${classPrefix}-eventDetails`} data={data} />
                 <Grid className="template4-countdown" container justifyContent={"center"} >
                     <Grid className="template4-countdown-container" size={12} justifyContent={"center"} >
@@ -374,7 +379,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                     </Grid>
                                     <Grid container direction={'column'} >
                                         <Grid className={`${classPrefix}-event-contributors-item-name`}>{`${item.user?.firstName} ${item.user?.lastName}`}</Grid>
-                                        <Grid className={`${classPrefix}-event-contributors-item-designation`}>{item.user?.designation}</Grid>
+                                        {item.user?.designation && <Grid className={`${classPrefix}-event-contributors-item-designation`}>{item.user?.designation}</Grid>}
                                         <Grid className={`${classPrefix}-event-contributors-item-view-more`} ><CustomButton
                         label={'View more'}
                         className={`${classPrefix}-event-contributors-item-view-more-button`}
@@ -547,10 +552,10 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                     </Grid>
                 </Grid>
                 {/* Program section ends here */}
-                <LocationSection classPrefix={`${classPrefix}-location`}data={data} onScrollToTier={LocationRef}/>
+                {data?.venue?.mapUrl && <LocationSection classPrefix={`${classPrefix}-location`}data={data} onScrollToTier={LocationRef}/>}
                 {/* Sponsors section starts here */}
                 {data?.eventSponsors?.length > 0 && getUniqueSponsors(data?.eventSponsors)?.length > 0 && <Grid id={'sponsors'} container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-sponsors `} spacing={1} direction={'column'} justifyContent={'center'} alignItems={'center'} ref={sponsorRef}>
-                    <Grid className={`${classPrefix}-sponsors-title`}>Sponsors</Grid>
+                    <Grid className={`${classPrefix}-sponsors-title`}>Our Sponsors</Grid>
                     <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-sponsors-item-group-container`} justifyContent={'center'} alignItems={'center'} spacing={4}>
                         {data?.eventSponsors?.length > 0 && getUniqueSponsors(data?.eventSponsors)?.map((item: any) => {
                             return <Grid alignSelf={'stretch'} size={{ xs: 12, sm: 3 }} container direction={'row'} className={`${classPrefix}-sponsors-item-container `} spacing={2}>
@@ -571,7 +576,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                 </Grid>}
                 {/* Sponsors section ends here */}
                 {/* Registration and ticketing section starts here */}
-                <Grid ref={tierRef} container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-ticketing`} justifyContent={'center'} alignItems={'center'} spacing={2} direction={'column'}>
+                {Object.keys(amountCalculatedData).length > 0 && <Grid ref={tierRef} container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-ticketing`} justifyContent={'center'} alignItems={'center'} spacing={2} direction={'column'}>
                     <Grid><Typography className={`${classPrefix}-ticketing-title`}>Registration & Ticketing</Typography></Grid>
 
                     <Grid className={`${classPrefix}-ticketing-anim-container`} container spacing={2} justifyContent={'center'} alignContent={'center'}>
@@ -612,7 +617,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                 })
                         }
                     </Grid>
-                </Grid>
+                </Grid>}
                 {/* Registration and ticketing section ends here */}
                 {/* Sponsor enquiry form starts here */}
                 <Grid minHeight={"max-content"} size={12} container ref={beSponsorRef}>

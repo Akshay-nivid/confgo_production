@@ -1456,6 +1456,7 @@
                 font-size: $h6 !important;
                 font-weight: $font_semibold !important;
                 pointer-events: auto;
+                box-shadow:none !important
             }
         }
         &-header {
@@ -1493,6 +1494,7 @@
                 border-radius: 0.41rem !important;
                 border: 0.125rem solid $clr_white !important;
                 margin-right: 1rem !important;
+                box-shadow:none !important
             }
             &-register{
                 font-weight: $font_semibold !important;
@@ -1502,6 +1504,7 @@
                 background-color: $clr_white !important;
                 color: $clr_black !important;
                 border-radius: 0.41rem !important;
+                box-shadow:none !important
             }
         }
         &-eventDetails{
@@ -1519,10 +1522,14 @@
                     font-size: $h6 !important;
                 }
                 svg{
+                    margin-left: 0.9rem;
+                    margin-top: 6rem;
                     width: 8rem;
                     height: 8rem;
-                    margin-top: 3rem;
                 }
+            }
+            &-welcome{
+                padding-top: 3rem !important;
             }
             &-title{
                 font-weight: $font_semibold !important;
@@ -1538,6 +1545,7 @@
                 margin-top: 3rem !important;
                 font-size: $p5 !important;
                 color: $clr_white !important;
+                font-weight: $font_normal !important;
                 line-height: 2rem !important;
             }
             &-icon-container{
@@ -1810,11 +1818,15 @@
                         padding: 0 !important;
                         font-size: $h6 !important;
                         font-weight: $font-semibold !important;
+                        &:hover {
+                            color: $clr_teal !important; 
+                        }
                     }
+                    
                 }
                 &-container-no-profile-picture{
-                        width: 20rem;
-                        height: 20rem;
+                        width: 17rem;
+                        height: 17rem;
                 }
             }
 
@@ -1858,6 +1870,7 @@
                 margin-top: 3.33rem !important;
                 margin-bottom: 0.83rem !important;
                 width: 90% !important;
+                box-shadow: none !important;
             }
 
             &-item-container:nth-child(odd) .event-template-template4-ticketing-register-button {
@@ -1877,6 +1890,8 @@
                 margin-bottom: 3rem !important;
                 margin-top: 0.83rem !important;
                 border-bottom: 1px solid $clr_very_light_gray;
+                padding-top: 1rem !important;
+                padding-bottom: 2rem !important;
             }
 
             &-content {

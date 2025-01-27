@@ -668,7 +668,6 @@ const handleAddProgram = () => {
       const sponsorSelection = values.programs[index].sponosrSelection;
       const sponsorTypeId=values.programs[index].sponsorTypeId
 
-
       if (!sponsorSelection) {
         setError(`programs.${index}.sponosrSelection`, {
           type: 'manual',
@@ -676,13 +675,13 @@ const handleAddProgram = () => {
         });
         return;
       }
-      if (!sponsorReservedSeats) {
-        setError(`programs.${index}.sponosorReservedSeats`, {
-          type: 'manual',
-          message: 'Reservation Seat is required',
-        });
-        return;
-      }
+      // if (!sponsorReservedSeats) {
+      //   setError(`programs.${index}.sponosorReservedSeats`, {
+      //     type: 'manual',
+      //     message: 'Reservation Seat is required',
+      //   });
+      //   return;
+      // }
 
       const newSponsor = {
         sponsorId,
@@ -719,6 +718,7 @@ const handleAddProgram = () => {
       resetField(`programs.${index}.sponosorReservedSeats`);
       resetField(`programs.${index}.sponsorFullName`);
       resetField(`programs.${index}.sponosrSelection`);
+      resetField(`programs.${index}.sponsorTypeId`);
     }; 
 
     /**
@@ -1058,7 +1058,7 @@ const handleAddProgram = () => {
                                 onClick={() => setShowSponsorSection(true)}
                               />
                             </Grid>
-                          ):( <SponsorForm sponsorSectionShow={()=>setShowSponsorSection(false)} control={control} handleSearch={handleSponsorSearch} addSponsor={addSponsor} baseUrl={baseUrl} index={index} loading={loading} removeSponsor={removeSponsor} setValue={setValue} searchResults={searchSpekerResults} sponsorDrawerhandle={()=>setNewSponsorDrawerOpen(true)}watch={watch} />)}
+                          ) : (<SponsorForm sponsorSectionShow={() => setShowSponsorSection(false)} control={control} handleSearch={handleSponsorSearch} addSponsor={addSponsor} baseUrl={baseUrl} index={index} loading={loading} removeSponsor={removeSponsor} setValue={setValue} searchResults={searchSpekerResults} sponsorDrawerhandle={() => setNewSponsorDrawerOpen(true)} watch={watch} />)}
                           <Grid
                             container
                             direction={"row"}
@@ -1139,7 +1139,6 @@ const handleAddProgram = () => {
                         </Grid>
 
                       </Grid>
-
                       <Grid container size={{ xs: 4, sm: 3 }} justifyContent={'center'}>
                         <IconButton key={`${index}-edit-program`} onClick={() => handleEdit(index)}>
                           <EditIcon />

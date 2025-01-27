@@ -41,6 +41,7 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   control?: Control<T>;
   style?: React.CSSProperties;
   showHeader?: boolean;
+  showOutlinedText?: boolean;
   requiredField?: boolean;
   defaultValue?: PathValue<T, Path<T>>;
   value?: PathValue<T, Path<T>>;
@@ -94,6 +95,7 @@ const CustomTextField = <T extends FieldValues>({
   onClick,
   showError = true,
   shrink,
+  showOutlinedText = true,
   ...props
 }: ICustomTextFieldProps<T>) => {
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -229,9 +231,9 @@ const CustomTextField = <T extends FieldValues>({
         </Typography>
       )}
 
-      <InputLabel shrink={shrink}  htmlFor={name} className={clsx("custom-input-label", disabled && 'label-disabled')}>
-         {label? label:placeholder}
-     </InputLabel>
+     { showOutlinedText && <InputLabel shrink={shrink}  htmlFor={name} className={clsx("custom-input-label", disabled && 'label-disabled')}>
+         {label? label: placeholder}
+     </InputLabel>}
 
       <Controller
         name={name}
