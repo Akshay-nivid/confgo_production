@@ -223,6 +223,7 @@
                 &__logo {
                     width: 100%;
                     padding-top: .5rem;
+                   
 
                     &__label {
                         margin-top: 1.667rem !important;
@@ -233,7 +234,10 @@
                     img {
                         width: 40%;
                         aspect-ratio: 2/1;
+                        object-fit: contain;
                         border-radius: .5rem;
+                        background-color: $clr_gray_10_percent;
+
 
                     }
                 }
@@ -252,6 +256,8 @@
                         width: 100%;
                         aspect-ratio: 2/1;
                         border-radius: .5rem;
+                        background-color: $clr_gray_20_percent;
+
 
 
                     }

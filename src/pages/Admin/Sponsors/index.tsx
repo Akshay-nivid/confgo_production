@@ -273,20 +273,21 @@ const Sponsors = () => {
         const companyId = sessionStorage.getItem('companyId') || '';
 
         
+        const url = sponsorDrawerType === "create" ? 'sponsor' : `sponsor/update/${sponsorId}`
+
 
         const body = {
             name: data.name,
 
             email: data.email,
             phone: data.phone,
-            companyId: parseInt(companyId),
+            ...( sponsorDrawerType === "create" && {companyId: parseInt(companyId)}),
             ...(data.logoId && { logoAssetId: data.logoId }),
             ...(data.bannerId && { bannerImgAssetId: data.bannerId }),
             ...(website && { website })
         }
 
 
-        const url = sponsorDrawerType === "create" ? 'sponsor' : `sponsor/update/${sponsorId}`
 
         POST({
             url: url, body: body, id: 'createSponsor', successCB: () => {
