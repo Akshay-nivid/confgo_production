@@ -7,6 +7,7 @@ export const initialNonPersistedData = {
     createSponsorModalOpen: { value: false },
     isAdminSponsorDetailsModalOpen: { value: false },
     sponsorDrawerType: { value: null },
+    sponsorId:{ value: null },
     sponsorAdminDetails: {
         value: {
             name: null,
