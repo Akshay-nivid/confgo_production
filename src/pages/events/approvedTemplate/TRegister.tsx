@@ -4,13 +4,15 @@ import React from 'react'
 /**
  * Components handle Register
  */
-const TRegister: React.FC<any> = React.memo(({ buttonName, className }) => {
+const TRegister: React.FC<any> = React.memo(({ buttonName, className, onClick }) => {
     return (
         <CustomButton
             className={className}
             label={buttonName}
             variant="contained"
-            color="primary" />
+            color="primary"
+            onClick={onClick}
+            />
     )
 })
 

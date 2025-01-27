@@ -55,8 +55,6 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     const baseUrl = config.api.url;
     const slugName = useStore((state: any) => state?.compData?.["slugName"]?.value) || '';
     const slugInfo = useStore((state: any) => state?.compData?.['slugEventDetails']?.[`event/slug/${slugName}`]?.data) ?? [];
-    console.log(">>>>>>slugInfo",slugInfo);
-    
     const [day, setDay] = useState<string>('');
     const [hour, setHour] = useState<string>('');
     const [minute, setMinute] = useState<string>('');
