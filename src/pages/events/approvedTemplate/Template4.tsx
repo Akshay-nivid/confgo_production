@@ -18,7 +18,6 @@ import TimeComponent from '../template/TimeComponent';
 import { ProgramDetailsModal } from '../template/_components';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import SpeakerDetailsModal from '../template/_components/SpeakerDetailsModal';
-import NoProfilePicture from "../../../assets/svg/NoProfilePicture.svg";
 import ViewMoreLink from "../../../assets/svg/view-more.svg";
 import { setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store';
 import routes from '@/router/routes';
@@ -551,7 +550,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                             </Grid>
                         })} */}
                         {
-                            Object.entries(groupedSponsors).map(([key, items]: any, idx) => {
+                           Object.keys.length > 0 && Object.entries(groupedSponsors).map(([key, items]: any) => {
                                 return (
                                     key === "DIAMOND" ? (
                                         <Box width={'100%'} mb={10}>
