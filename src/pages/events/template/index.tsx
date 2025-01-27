@@ -19,10 +19,10 @@ type TemplateContainerProps = {
 }
 
 const templates: any = {
-  1: Template1,
+  1: Template4,
   2: Template2,
   3: Template3,
-  4: Template4
+  4: Template1
 };
 
 /**

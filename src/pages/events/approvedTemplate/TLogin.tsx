@@ -4,13 +4,15 @@ import React from 'react'
 /**
  * Components handle Login
  */
-const TLogin: React.FC<any> = React.memo(({className}:any) => {
+const TLogin: React.FC<any> = React.memo(({className, onClick}:any) => {
     return (
         <CustomButton
             className={className}
             label="Login"
             variant="contained"
-            color="primary" />
+            color="primary" 
+            onClick={onClick}
+            />
     )
 })
 
