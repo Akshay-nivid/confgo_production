@@ -13,11 +13,11 @@ const TEventDetails: React.FC<any> = React.memo(({ className, data }) => {
 
     return (
         <Grid size={12} container className={className} direction={'row'}>
-            <Grid size={1} container justifyContent={'center'} alignItems={'center'} className={`${className}-firstContainer`}>
+            <Grid size={1} className={`${className}-firstContainer`}>
                 <Typography> Scroll Down</Typography><DownArrow />
             </Grid>
-            <Grid size={4} container justifyContent={'center'} alignItems={'center'}>
-                <Typography className={`${className}-title`}>{data?.name}</Typography>
+            <Grid size={4} container  className={`${className}-welcome`}>
+                <Typography className={`${className}-title`}>Welcome to {data?.name}</Typography>
             </Grid>
             <Grid size={6} container direction={'column'} justifyContent={'center'} alignItems={'center'}>
                 <Grid>
