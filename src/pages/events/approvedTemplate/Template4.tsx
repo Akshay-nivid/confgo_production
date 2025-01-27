@@ -562,13 +562,13 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                 </Grid>
                                    ):<Grid></Grid>}
 
-                                    {item?.eventSponsors.length !== 0 &&item?.eventSponsors.length>1&& (
+                                    {item?.eventSponsors?.length !== 0 &&item?.eventSponsors?.length>1&& (
                                         <Grid container  className={`${classPrefix}-program-content-sponsor`} columnSpacing={3} >
                                            <Grid container size={12} className={`${classPrefix}-program-content-sponsor-heading`}>
                                            <Typography >Sponsors</Typography>
 
                                            </Grid>
-                                            {item.eventSponsors.map((sponsor: any) => (
+                                            {item?.eventSponsors?.map((sponsor: any) => (
                                                 <Grid  container justifyContent={"center"} alignItems={"center"} className={`${classPrefix}-program-content-sponsor-ImgBox`}>
 
                                                     {sponsor?.sponsor?.logoAssetId ? (
@@ -595,7 +595,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                            <Typography >Speakers</Typography>
 
                                            </Grid>
-                                            {item.eventSpeakers?.map((speaker: any) => {
+                                            {item?.eventSpeakers?.map((speaker: any) => {
                                                 return <Avatar
 
                                                     alt={speaker?.user?.firstName}
