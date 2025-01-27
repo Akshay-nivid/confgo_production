@@ -291,7 +291,7 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
       const newAddedSponsors = data?.sponsors?.map((sponsor: any) => ({
         sponsorId: sponsor?.sponsorId,
         sponsorTypeId: sponsor?.sponsorType || ' ',
-        reservedSeats: sponsor?.reservedSeats || '',
+      ...(sponsor?.reservedSeats&&{reservedSeats: sponsor?.reservedSeats}),
         parentEventId: id,
 
       }));
