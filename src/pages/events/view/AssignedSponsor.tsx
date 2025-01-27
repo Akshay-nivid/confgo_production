@@ -260,7 +260,6 @@ const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
                     disabled={assignedSponsors.length === 0 ? true:false}
                 />
             </div>
-          <Typography className="cursor-container-link" display={'flex'} justifyContent={'flex-end'} paddingTop={2} variant="h6">Create New Sponsor ?</Typography>
             
         </div>
 
