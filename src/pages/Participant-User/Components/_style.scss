@@ -4,6 +4,7 @@
     padding: 1rem;
     height: auto !important;
     cursor: pointer;
+
     &-date-box {
         font-weight: $font_semibold;
         margin-top: 0.4rem;
@@ -111,7 +112,8 @@
 
     &-1,
     &-2,
-    &-3 {
+    &-3,
+    &-4 {
         padding: 0;
         margin-left: 0 !important;
         margin-right: 0 !important;
@@ -164,6 +166,14 @@
             background-color: $clr_dark_navy_blue !important;
         }
     }
+
+    &-4 {
+        .MuiFormControl-root {
+            background-color: $clr_charcoal_cyan !important;
+        }
+
+
+    }
 }
 
 
@@ -173,17 +183,18 @@
 
     &-1,
     &-2,
-    &-3 {
+    &-3,
+    &-4 {
         background-color: $clr_gray_10_percent !important;
         border: 0.083rem solid $clr_gray_30_percent !important;
         border-radius: .5rem !important;
         padding: 1.667rem;
-        padding-bottom:4rem ;
-        padding-top: 1rem !important ;
+        padding-bottom: 4rem;
+        padding-top: 1rem !important;
         position: relative !important;
-        box-shadow:$clr_gray_30_percent 0rem 0.083rem .167rem 0;
+        box-shadow: $clr_gray_30_percent 0rem 0.083rem .167rem 0;
 
-        .program-descritption{
+        .program-descritption {
             color: $clr_gray_dark_text !important;
 
         }
@@ -192,32 +203,33 @@
 
             font-size: $h1 !important;
             margin-left: -0.8667rem;
-          }
+        }
+
         .card-title {
             font-size: $h6 !important;
             font-weight: $font_medium !important;
             margin-bottom: 0.5rem !important;
         }
 
-        .price-group{
+        .price-group {
             padding-top: .667rem !important;
             padding-bottom: 1.667rem !important;
 
-            .program-price{
+            .program-price {
                 font-size: $h4 !important;
                 margin-left: -.5rem !important;
                 font-weight: $font_bold !important;
             }
         }
 
-      
-        .program-checkbox-wrapper{
+
+        .program-checkbox-wrapper {
             position: absolute;
             left: 1.667rem;
             right: 1.667rem;
-            bottom: 1rem;   
+            bottom: 1rem;
 
-            
+
         }
     }
 
@@ -227,30 +239,31 @@
 
 
     }
-   
+
 }
 
 .addon-card {
 
     &-1,
     &-2,
-    &-3 {
+    &-3,
+    &-4 {
         background-color: $clr_gray_10_percent !important;
         border: 0.083rem solid $clr_gray_30_percent !important;
         border-radius: .5rem !important;
         padding-block: 1rem !important;
         padding-inline: 1.667rem !important;
         position: relative !important;
-        box-shadow:$clr_gray_30_percent 0rem 0.083rem .167rem 0;
+        box-shadow: $clr_gray_30_percent 0rem 0.083rem .167rem 0;
 
         .divider {
             height: .08rem;
             background-color: $clr_gray_30_percent;
             margin-block: .5rem;
-            
+
         }
 
-        .addon-name{
+        .addon-name {
             font-size: $h5 !important;
             font-weight: $font_medium !important;
             margin-bottom: 0.5rem !important;
@@ -260,23 +273,24 @@
             color: $clr_gray_dark_text !important;
         }
 
-        
-        
 
-        .addon-property-list-container{
+
+
+        .addon-property-list-container {
             margin-top: .8667rem;
         }
 
 
     }
-    
+
 }
 
 .addon-property-checkbox-group {
 
     &-1,
     &-2,
-    &-3 {
+    &-3,
+    &-4 {
 
         .MuiFormControlLabel-root {
             margin-right: 0 !important;
@@ -338,15 +352,28 @@
 
     }
 
-    
+    &-4 {
+        .addon-prop-checkbox svg {
+            fill: $clr_charcoal_cyan !important
+        }
+
+        .addon-prop-label {
+            color: $clr_charcoal_cyan !important;
+
+        }
+
+    }
 }
 
 
 .program-card,
 .addon-card {
 
-    &-1, &-2, &-3 {
-        .date-time-container{
+    &-1,
+    &-2,
+    &-3,
+    &-4 {
+        .date-time-container {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -357,7 +384,7 @@
             margin-top: 0.833rem;
         }
 
-        .time-container{
+        .time-container {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -366,42 +393,43 @@
             padding-bottom: 0.0833rem;
             width: max-content;
             border-radius: 0.0833rem;
-            color:$clr_gray_dark_text !important;
+            color: $clr_gray_dark_text !important;
             margin-top: .8rem;
             column-gap: 0.6rem;
             margin-bottom: .3rem;
 
-            .addon-time{
+            .addon-time {
                 margin-top: .18rem;
             }
 
-            
+
         }
 
     }
 }
 
 
-.addon-badge,.program-badge {
-    border: 0.083rem solid  !important;
+.addon-badge,
+.program-badge {
+    border: 0.083rem solid !important;
     padding-inline: 0.6667rem !important;
-    font-weight:$font-medium !important;
-    border-radius:.3rem ;
+    font-weight: $font-medium !important;
+    border-radius: .3rem;
     margin-left: auto;
     width: max-content;
     height: max-content;
 }
 
-.program-badge{
-    background-color:$clr_sky_blue_light ;
-    border-color: $clr_sky_blue_dark   !important;
+.program-badge {
+    background-color: $clr_sky_blue_light ;
+    border-color: $clr_sky_blue_dark !important;
 }
 
-.addon-badge{
+.addon-badge {
     background-color: $clr_orange_light;
-    border-color:  $clr_orange_medium !important;
+    border-color: $clr_orange_medium !important;
 }
 
-.badge-text{
+.badge-text {
     font-weight: $font_medium !important;
 }

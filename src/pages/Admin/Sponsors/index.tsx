@@ -17,9 +17,13 @@ import { NoEvent as NoEventIcon } from "@/assets/svg";
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import config from "../../../../config.json";
-import { Delete } from '@mui/icons-material'
+import { Delete, Edit } from '@mui/icons-material'
 import Grid from '@mui/material/Grid2';
+import SponsorDetailsModal from './SponsorDetailsModal'
 
+/**
+ * Component for Sponsors list,create,edit and delete
+ */
 const Sponsors = () => {
 
 
@@ -29,6 +33,8 @@ const Sponsors = () => {
     const listData = sponsorResponseData?.data || []
     const sponsorId = useStore(state => state?.compData?.['sponsorId']?.value) || null;
     const isDeleteSponsorPending = useStore(state => state.compData?.['deleteSponsor']?.[`sponsor/delete/${sponsorId}`]?.loading) || false
+
+    const sponsorDrawerType = useStore(state => state.nonPersistedData.sponsorDrawerType?.value)
 
     const schema = z.object({
         name: z.string({ message: "Name is required" }).min(3, { message: "Name is required" }),
@@ -56,16 +62,42 @@ const Sponsors = () => {
     })
 
 
-   
 
+
+    /**
+     * Resets the form and sets the createSponsorModalOpen and sponsorDrawerType 
+     * to false and null respectively, which closes the modal.
+     */
     function handleCloseModal() {
+        form.reset({
+            name: '',
+            email: '',
+            phone: '',
+            website: '',
+            logoId: '',
+            bannerId: ''
+        });
         setNonPersistedDataById('createSponsorModalOpen', { value: false })
-        form.reset();
+        setNonPersistedDataById('sponsorDrawerType', { value: null })
     }
 
-    // function handleOpenModal() {
-    //     setNonPersistedDataById('createSponsorModalOpen', { value: true })
-    // }
+    /**
+     * Opens the create/edit sponsor modal based on the type provided as argument
+     * @param type - 'create' or 'edit'
+     */
+    function handleOpenModal(type: 'create' | 'edit') {
+
+        setNonPersistedDataById('sponsorDrawerType', { value: type })
+
+        setNonPersistedDataById('createSponsorModalOpen', { value: true })
+
+    }
+
+    /**
+     * Handles the file upload and sets the value of the form field.
+     * @param file - The file object to be uploaded.
+     * @param key - The key of the form field to set, either 'logoId' or 'bannerId'.
+     */
 
     function handleFileUpload(file: any, key: 'logoId' | 'bannerId') {
 
@@ -73,7 +105,7 @@ const Sponsors = () => {
     }
 
     const columns = [
-        { type: "default", field: "id", headerName: "ID", width: 150 },
+        { type: "default", field: "id", headerName: "ID", width: 100 },
         {
             type: "custom",
             field: "logo",
@@ -103,26 +135,34 @@ const Sponsors = () => {
             type: "dateField",
             field: "createdOn",
             headerName: "Created Date",
-            width: 180,
+            width: 150,
             dateFormat: "DD/MM/YYYY",
+        },
+        {
+            type: "custom",
+            field: "edit",
+            headerName: " ",
+            width: 70,
         },
         {
             type: "custom",
             field: "delete",
             headerName: " ",
-            width: 100,
+            width: 70,
         },
+
     ];
 
     useEffect(() => {
-        eventList()
+        sponsorList()
     }, [])
 
 
 
-    // const limit
-
-    const eventList = useCallback((filters?: any) => {
+    /**
+     * fucntion to set source for fetching sponsor list
+     */
+    const sponsorList = useCallback((filters?: any) => {
         const req = {
             offset: 0,
             limit: sponsorResponseData?.pagination?.limit,
@@ -143,12 +183,27 @@ const Sponsors = () => {
 
 
 
-    // const navigate = useNavigate();
 
     /**
   * Row click navigation
   */
     const baseUrl = config.api.url;
+
+
+    function handleClickEdit(e: React.MouseEvent, data: any) {
+        e.preventDefault()
+        e.stopPropagation()
+
+        form.reset({
+            name: data?.name || '',
+            email: data?.email || '',
+            phone: data?.phone || '',
+            website: data?.website || '',
+            logoId: data?.logoAssetId || '',
+            bannerId: data?.bannerImgAssetId || ''
+        })
+        handleOpenModal('edit')
+    }
 
 
 
@@ -159,11 +214,18 @@ const Sponsors = () => {
                 name: item?.name,
                 email: item?.email,
                 phone: item?.phone,
-                logo: <Avatar className='top-2' src={`${baseUrl}/asset/${item?.logoAssetId}`} >{item?.name?.slice(0, 2)}</Avatar>,
-                delete:  <IconButton disabled={isDeleteSponsorPending} onClick={(e) => handleClickDelete(e, item?.id)}>
-                    <Delete />
-                </IconButton>
+                website: item?.website,
+                logo: <Avatar className='top-2' src={item?.logoAssetId ? `${baseUrl}/asset/${item?.logoAssetId}` : ''} >{item?.name?.slice(0, 2)}</Avatar>,
 
+                delete: <IconButton disabled={isDeleteSponsorPending} onClick={(e) => handleClickDelete(e, item?.id)}>
+                    <Delete />
+                </IconButton>,
+                edit: <IconButton disabled={isDeleteSponsorPending} onClick={(e) => handleClickEdit(e, item)}>
+                    <Edit />
+                </IconButton>,
+                bannerUrl: `${baseUrl}/asset/${item?.bannerImgAssetId}`,
+                bannerId: item?.bannerImgAssetId,
+                logoId: item?.logoAssetId,
             }
         })
         return newData
@@ -181,7 +243,7 @@ const Sponsors = () => {
             url: `sponsor/delete/${id}`,
             id: 'deleteSponsor',
             successCB: () => {
-                eventList();
+                sponsorList();
                 snackBar({ severity: 'success', message: 'Sponsor deleted successfully' })
             },
             errorCB: (error) => {
@@ -191,8 +253,39 @@ const Sponsors = () => {
 
     }
 
-   
+    /**
+     * Handles the row click event for the sponsor list.
+     * Sets the sponsor details into the non-persisted state and opens the sponsor details modal.
+     * 
+     * @param {any} data - The data of the clicked row, which contains sponsor information.
+     */
 
+    function onRowClick(data: any) {
+
+        setNonPersistedDataById('sponsorAdminDetails', {
+            value: {
+                name: data?.row?.name,
+                email: data?.row?.email,
+                phone: data?.row?.phone,
+                website: data?.row?.website,
+                logoUrl: data?.row?.logo?.props?.src,
+                bannerUrl: data?.row?.bannerUrl,
+                bannerId: data?.row?.bannerId,
+                logoId: data?.row?.logoId
+
+            }
+        })
+
+        setNonPersistedDataById('isAdminSponsorDetailsModalOpen', { value: true })
+
+    }
+
+    /**
+     * Handles the submit event for the sponsor form.
+     * Validates the website URL, constructs the form data and sends a POST request to create or update a sponsor.
+     * 
+     * @param {any} data - The data of the form, which contains sponsor information.
+     */
     function onSubmit(data: any) {
 
         const urlRegex = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
@@ -208,23 +301,30 @@ const Sponsors = () => {
             form.clearErrors('website');
         }
 
+        const companyId = sessionStorage.getItem('companyId') || '';
+
+
+        const url = sponsorDrawerType === "create" ? 'sponsor' : `sponsor/update/${sponsorId}`
+
 
         const body = {
             name: data.name,
 
             email: data.email,
             phone: data.phone,
-            companyId: sessionStorage.getItem('companyId'),
+            ...(sponsorDrawerType === "create" && { companyId: parseInt(companyId) }),
             ...(data.logoId && { logoAssetId: data.logoId }),
             ...(data.bannerId && { bannerImgAssetId: data.bannerId }),
             ...(website && { website })
         }
 
+
+
         POST({
-            url: 'sponsor', body: body, id: 'createSponsor', successCB: () => {
+            url: url, body: body, id: 'createSponsor', successCB: () => {
 
                 form.reset();
-                eventList();
+                sponsorList();
                 snackBar({ severity: 'success', message: 'Sponsor created successfully' })
                 handleCloseModal();
 
@@ -234,7 +334,9 @@ const Sponsors = () => {
         })
     }
 
-    // const [selectedFile,setSelectedFile] = React.useState<any>(null);  
+
+    const bannerId = form.watch('bannerId')
+    const logoId = form.watch('logoId')
 
     return (
         <Grid container className="sponsor">
@@ -249,7 +351,7 @@ const Sponsors = () => {
                             control={form.control} loading={false}
                             options={listData}
                             getOptionLabel={(option: any) => option?.name}
-                            onSearch={(query: string) => { eventList({ name: query }) }}
+                            onSearch={(query: string) => { sponsorList({ name: query }) }}
                             onChange={() => { }}
                             clearable={false}
 
@@ -260,7 +362,7 @@ const Sponsors = () => {
                     </Box> */}
                     <Box className="button-container">
                         <CustomButton
-                            onClick={() => setNonPersistedDataById('createSponsorModalOpen', { value: true })}
+                            onClick={() => handleOpenModal('create')}
                             className="create-coupon-create-btn"
                             label="Create New Sponsor"
                             variant="contained"
@@ -276,7 +378,7 @@ const Sponsors = () => {
                 <DataGridList
                     dataTransformer={transformData}
                     source={source}
-                    // onRowClick={(params: any) => handleRowClick(params.id, params.row)}
+                    onRowClick={onRowClick}
                     title="Sponsor List"
                     hideFooterPagination={false}
                     columns={columns}
@@ -311,11 +413,17 @@ const Sponsors = () => {
                             <Box className="form-file-upload">
                                 <FormLabel className='form-file-upload-label'>Please upload the sponsor logo</FormLabel>
                                 <FileUpload onFileSelect={() => { }} onSubmit={(file) => handleFileUpload(file, 'logoId')} className='form-file-upload-input' />
+                                <Box className="form-file-upload-image-logo" >
+                                    <img src={`${baseUrl}/asset/${logoId}`} alt='' />
+                                </Box>
                             </Box>
 
                             <Box className="form-file-upload">
                                 <FormLabel className='form-file-upload-label'>Please upload the sponsor banner</FormLabel>
                                 <FileUpload onSubmit={(file) => handleFileUpload(file, 'bannerId')} className='form-file-upload-input' />
+                                <Box className="form-file-upload-image-banner" >
+                                    <img src={`${baseUrl}/asset/${bannerId}`} alt='' />
+                                </Box>
                             </Box>
 
                             <Box className="form-button-container">
@@ -329,6 +437,7 @@ const Sponsors = () => {
 
                 </Box>
             </CustomDrawer>
+            <SponsorDetailsModal />
         </Grid>
     )
 }
