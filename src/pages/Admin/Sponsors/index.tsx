@@ -17,8 +17,9 @@ import { NoEvent as NoEventIcon } from "@/assets/svg";
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import config from "../../../../config.json";
-import { Delete } from '@mui/icons-material'
+import { Delete, Edit } from '@mui/icons-material'
 import Grid from '@mui/material/Grid2';
+import SponsorDetailsModal from './SponsorDetailsModal'
 
 const Sponsors = () => {
 
@@ -29,6 +30,8 @@ const Sponsors = () => {
     const listData = sponsorResponseData?.data || []
     const sponsorId = useStore(state => state?.compData?.['sponsorId']?.value) || null;
     const isDeleteSponsorPending = useStore(state => state.compData?.['deleteSponsor']?.[`sponsor/delete/${sponsorId}`]?.loading) || false
+
+    const sponsorDrawerType = useStore(state => state.nonPersistedData.sponsorDrawerType?.value)
 
     const schema = z.object({
         name: z.string({ message: "Name is required" }).min(3, { message: "Name is required" }),
@@ -56,16 +59,28 @@ const Sponsors = () => {
     })
 
 
-   
+
 
     function handleCloseModal() {
+        form.reset({
+            name: '',
+            email: '',
+            phone: '',
+            website: '',
+            logoId: '',
+            bannerId: ''
+        });
         setNonPersistedDataById('createSponsorModalOpen', { value: false })
-        form.reset();
+        setNonPersistedDataById('sponsorDrawerType', { value: null })
     }
 
-    // function handleOpenModal() {
-    //     setNonPersistedDataById('createSponsorModalOpen', { value: true })
-    // }
+    function handleOpenModal(type: 'create' | 'edit') {
+
+        setNonPersistedDataById('sponsorDrawerType', { value: type })
+
+        setNonPersistedDataById('createSponsorModalOpen', { value: true })
+
+    }
 
     function handleFileUpload(file: any, key: 'logoId' | 'bannerId') {
 
@@ -73,7 +88,7 @@ const Sponsors = () => {
     }
 
     const columns = [
-        { type: "default", field: "id", headerName: "ID", width: 150 },
+        { type: "default", field: "id", headerName: "ID", width: 100 },
         {
             type: "custom",
             field: "logo",
@@ -103,15 +118,22 @@ const Sponsors = () => {
             type: "dateField",
             field: "createdOn",
             headerName: "Created Date",
-            width: 180,
+            width: 150,
             dateFormat: "DD/MM/YYYY",
+        },
+        {
+            type: "custom",
+            field: "edit",
+            headerName: " ",
+            width: 70,
         },
         {
             type: "custom",
             field: "delete",
             headerName: " ",
-            width: 100,
+            width: 70,
         },
+
     ];
 
     useEffect(() => {
@@ -151,6 +173,22 @@ const Sponsors = () => {
     const baseUrl = config.api.url;
 
 
+    function handleClickEdit(e: React.MouseEvent, data: any) {
+        e.preventDefault()
+        e.stopPropagation()
+
+        form.reset({
+            name: data?.name || '',
+            email: data?.email || '',
+            phone: data?.phone || '',
+            website: data?.website || '',
+            logoId: data?.logoAssetId || '',
+            bannerId: data?.bannerImgAssetId || ''
+        })
+        handleOpenModal('edit')
+    }
+
+
 
     const transformData = (data: any) => {
         const newData = data.map((item: any) => {
@@ -159,11 +197,18 @@ const Sponsors = () => {
                 name: item?.name,
                 email: item?.email,
                 phone: item?.phone,
-                logo: <Avatar className='top-2' src={`${baseUrl}/asset/${item?.logoAssetId}`} >{item?.name?.slice(0, 2)}</Avatar>,
-                delete:  <IconButton disabled={isDeleteSponsorPending} onClick={(e) => handleClickDelete(e, item?.id)}>
+                website: item?.website,
+                logo: <Avatar className='top-2' src={item?.logoAssetId ? `${baseUrl}/asset/${item?.logoAssetId}` : ''} >{item?.name?.slice(0, 2)}</Avatar>,
+               
+                delete: <IconButton disabled={isDeleteSponsorPending} onClick={(e) => handleClickDelete(e, item?.id)}>
                     <Delete />
-                </IconButton>
-
+                </IconButton>,
+                edit: <IconButton disabled={isDeleteSponsorPending} onClick={(e) => handleClickEdit(e, item)}>
+                    <Edit />
+                </IconButton>,
+                bannerUrl: `${baseUrl}/asset/${item?.bannerImgAssetId}`,
+                bannerId: item?.bannerImgAssetId,
+                logoId: item?.logoAssetId,
             }
         })
         return newData
@@ -191,7 +236,24 @@ const Sponsors = () => {
 
     }
 
-   
+    function onRowClick(data: any) {
+
+        setNonPersistedDataById('sponsorAdminDetails', {
+            value: {
+                name: data?.row?.name,
+                email: data?.row?.email,
+                phone: data?.row?.phone,
+                website: data?.row?.website,
+                logoUrl: data?.row?.logo?.props?.src,
+                bannerUrl: data?.row?.bannerUrl,
+                bannerId: data?.row?.bannerId,
+                logoId: data?.row?.logoId
+
+        } })
+
+        setNonPersistedDataById('isAdminSponsorDetailsModalOpen', { value: true })
+
+    }
 
     function onSubmit(data: any) {
 
@@ -208,20 +270,26 @@ const Sponsors = () => {
             form.clearErrors('website');
         }
 
+        const companyId = sessionStorage.getItem('companyId') || '';
+
+        
 
         const body = {
             name: data.name,
 
             email: data.email,
             phone: data.phone,
-            companyId: sessionStorage.getItem('companyId'),
+            companyId: parseInt(companyId),
             ...(data.logoId && { logoAssetId: data.logoId }),
             ...(data.bannerId && { bannerImgAssetId: data.bannerId }),
             ...(website && { website })
         }
 
+
+        const url = sponsorDrawerType === "create" ? 'sponsor' : `sponsor/update/${sponsorId}`
+
         POST({
-            url: 'sponsor', body: body, id: 'createSponsor', successCB: () => {
+            url: url, body: body, id: 'createSponsor', successCB: () => {
 
                 form.reset();
                 eventList();
@@ -260,7 +328,7 @@ const Sponsors = () => {
                     </Box> */}
                     <Box className="button-container">
                         <CustomButton
-                            onClick={() => setNonPersistedDataById('createSponsorModalOpen', { value: true })}
+                            onClick={() => handleOpenModal('create')}
                             className="create-coupon-create-btn"
                             label="Create New Sponsor"
                             variant="contained"
@@ -276,7 +344,7 @@ const Sponsors = () => {
                 <DataGridList
                     dataTransformer={transformData}
                     source={source}
-                    // onRowClick={(params: any) => handleRowClick(params.id, params.row)}
+                    onRowClick={onRowClick}
                     title="Sponsor List"
                     hideFooterPagination={false}
                     columns={columns}
@@ -329,6 +397,7 @@ const Sponsors = () => {
 
                 </Box>
             </CustomDrawer>
+            <SponsorDetailsModal />
         </Grid>
     )
 }

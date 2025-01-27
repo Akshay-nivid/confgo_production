@@ -5,4 +5,7 @@ export const initialNonPersistedData = {
     isSpeakerDetailsModelOpen: { value: false },
     speakerDetails: { value: null },
     createSponsorModalOpen: { value: false },
+    isAdminSponsorDetailsModalOpen: { value: false },
+    sponsorDrawerType: { value: null },
+    sponsorAdminDetails: {value:null}
 }
