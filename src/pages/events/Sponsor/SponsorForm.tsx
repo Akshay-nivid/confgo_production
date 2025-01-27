@@ -146,7 +146,7 @@ const SponsorForm: React.FC<SponsorFormProps> = ({
       <Grid size={{ xs: 12 }}>
         <CustomButton
           className="add-program-drawer-btn-cancel"
-          label="Assign Sponosr"
+          label="Assign Sponsor"
           variant="outlined"
           size="large"
           onClick={() => addSponsor(index)}
@@ -171,9 +171,9 @@ const SponsorForm: React.FC<SponsorFormProps> = ({
                     <Typography className="add-program-speaker-section-card-item-title">
                       {item.sponsorFullName}
                     </Typography>
-                    <Typography className="add-program-speaker-section-card-item-subtitle">
+                    {item?.sponsorReservedSeats&&<Typography className="add-program-speaker-section-card-item-subtitle">
                       Reserved Seats: {item?.sponsorReservedSeats}
-                    </Typography>
+                    </Typography>}
                   </Grid>
                   <Grid size={{ xs: 2 }} justifyItems={'center'}>
                     <IconButton
