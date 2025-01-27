@@ -71,8 +71,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     };
     const headerLinks: LinkData[] = [
         { text: "Speakers" },
-        { text: "Sponsers" },
-        { text: "Programmes" },
+        { text: "Sponsors" },
+        { text: "Programs" },
         { text: "Location" }
     ];
     const [selectedDate, setSelectedDate] = useState<string>('');
@@ -316,7 +316,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
             <Grid container size={{ xs: 12, sm: 12 }} className={classPrefix}>
                 <TopMenuHeader links={headerLinks} classPrefix={`${classPrefix}-top-menu`} data={data} onScrollToProgram={() => handleScrollTo(programRef)} onScrollToAbout={() => handleScrollTo(aboutRef)} onScrollToContributors={() => handleScrollTo(contributorsRef)} onScrollToLocation={() => handleScrollTo(LocationRef)} onScrollToBeSponsor={() => handleScrollTo(beSponsorRef)} onScrollToSponsor={() => handleScrollTo(sponsorRef)}/>
                 <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-header`} />
-                <AuthFormHandler className={`${classPrefix}-headerBottom`} data={data} onScrollToTier={() => handleScrollTo(tierRef)}/>
+                <AuthFormHandler className={`${classPrefix}-headerBottom`} data={data} onScrollToTier={() => handleScrollTo(tierRef)} />
                 <TEventDetails className={`${classPrefix}-eventDetails`} data={data} />
                 <Grid className="template4-countdown" container justifyContent={"center"} >
                     <Grid className="template4-countdown-container" size={12} justifyContent={"center"} >
@@ -373,7 +373,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                     </Grid>
                                     <Grid container direction={'column'} >
                                         <Grid className={`${classPrefix}-event-contributors-item-name`}>{`${item.user?.firstName} ${item.user?.lastName}`}</Grid>
-                                        <Grid className={`${classPrefix}-event-contributors-item-designation`}>{item.user?.designation}</Grid>
+                                        {item.user?.designation && <Grid className={`${classPrefix}-event-contributors-item-designation`}>{item.user?.designation}</Grid>}
                                         <Grid className={`${classPrefix}-event-contributors-item-view-more`} ><CustomButton
                         label={'View more'}
                         className={`${classPrefix}-event-contributors-item-view-more-button`}

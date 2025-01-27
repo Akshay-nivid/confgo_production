@@ -71,6 +71,36 @@ const ProgramDetailsModal = () => {
                         <Box className="content-description-container">
                             <p>{programDetails?.description || 'Unknown Description'}</p>
                         </Box>
+                        {programDetails?.eventSponsors?.length > 0 ?
+                            <Box className="content-speaker-container">
+                                <p className='content-speaker-container-header'>Sponsors</p>
+                                <Box className="content-speaker-container-speaker-list">
+                                    {
+                                        programDetails?.eventSponsors?.map((sponsor: any) => {
+                                            return (
+
+                                                <Box className="tooltip-avatar">
+                                                    <Tooltip
+                                                        
+                                                        placement='top' className='speaker-tooltip' arrow title={<ModalToolTip data={sponsor} type='SPONSOR'></ModalToolTip>}>
+                                                        <Avatar src={config.api.url + "asset/" + sponsor?.sponsor?.logoAssetId} key={sponsor.id} className='content-speaker-container-speaker-list-avatar' >
+                                                            {sponsor?.sponsor?.name?.[0]}
+                                                        </Avatar>
+                                                    </Tooltip>
+
+                                                </Box>
+
+
+
+                                            )
+                                        })
+                                    }
+
+                                </Box>
+                            </Box>
+                            :
+                            <></>
+                        }
                         {programDetails?.eventSpeakers?.length > 0 ?
                             <Box className="content-speaker-container">
                                 <p className='content-speaker-container-header'>Speakers</p>
