@@ -30,6 +30,14 @@ type Speaker = {
   speakerAssetId?: string;
   designation: string;
 }
+type Sponsor={
+  sponsorId?:string;
+  sponsorFullName?:string;
+  sponsorLogoId?:string;
+  bannerId?:string;
+  sponsorTypeId?:string;
+  sponsorReservedSeats?:string
+}
 interface Program {
   name: string;
   description: string;
@@ -47,6 +55,14 @@ interface Program {
   speakerFullName:string;
   speakerId:string;
   speakerSelection:string;
+  sponsor:Sponsor[],
+  sponsorId?:string;
+  sponsorFullName?:string;
+  sponsorLogoId?:string;
+  sponsorbannerId?:string;
+  sponosrSelection?:string;
+  sponsorReservedSeats?:string;
+  sponsorTypeId?:string
 }
 interface Property {
   propertyId: string;
@@ -70,7 +86,20 @@ interface Addons {
   amount: string;   
   propertyName:string;
   propertyAmount:string;
-  propertyChip:string
+  propertyChip:string;
+  sponsor?:{
+    sponsorId?:string;
+    sponsorFullName?:string;
+    speakerLogoId?:string;
+    sponsorTypeId?:string;
+  }[];
+  sponsorId?:string;
+  sponsorFullName?:string;
+  sponsorLogoId?:string;
+  sponsorbannerId?:string;
+  sponosrSelection?:string;
+  sponsorReservedSeats?:string;
+  sponsorTypeId?:string
 }
 
 const Events = () => {
@@ -309,6 +338,8 @@ const Events = () => {
     const addOns=data?.addOns||[];
     const program = programs?.filter((item: Program) => item.name!='');
     const addOn = addOns?.filter((item: Addons) => item.addonId!='');
+
+
     //tranform program fields
     const transformProgram = program?.map(({ type, addOnId, startDate, startTime, endDate, endTime, amount, totalSeat, 
       speakers, 
@@ -316,7 +347,17 @@ const Events = () => {
       designation,
       speakerFullName,
       speakerId,
-      speakerSelection, ...item }: Program) => {
+      speakerSelection,
+      sponsorFullName,
+      sponsorId,
+      sponsorLogoId,
+      sponsorbannerId,
+      sponosrSelection,
+      sponsorReservedSeats,
+      sponsorTypeId,
+      sponsor,
+
+       ...item }: Program) => {
       // Combine startDate and startTime
       const startDateTime = `${startDate}T${startTime}`;
       
@@ -334,10 +375,23 @@ const Events = () => {
             speakerId
           })),
         }),
+        ...(sponsor.length != 0 && {
+          sponsor: sponsor.map(({ sponsorId, sponsorTypeId, sponsorReservedSeats }) => ({ sponsorId, sponsorTypeId,reservedSeats: sponsorReservedSeats ?? 0 }))
+        })
       };
     });
+    
     //tranform addOnData
-    const transformedAddOnData = addOn?.map(({ propertyName,propertyAmount,repeat, name, addonType, noOfDays, dateRequired, propertyChip, type, startTime, endTime, date, properties,amount, ...item }: Addons) => {
+    const transformedAddOnData = addOn?.map(({ propertyName,propertyAmount,repeat, name, addonType, noOfDays, dateRequired, propertyChip, type, startTime, endTime, date, properties,amount,
+      sponsorFullName,
+      sponsorId,
+      sponsorLogoId,
+      sponsorbannerId,
+      sponosrSelection,
+      sponsorReservedSeats,
+      sponsorTypeId,
+      sponsor,
+       ...item }: Addons) => {
       // Create the combined datetime field
       let combinedStartDateTime;
       let combinedEndDateTime;
@@ -358,9 +412,13 @@ const Events = () => {
             ...rest
           })),
         }),
+        ...(sponsor?.length != 0 && {
+          sponsor: sponsor?.map(({ sponsorId, sponsorTypeId }) => ({ sponsorId, sponsorTypeId }))
+        }),
         addonId: item.addonId
       };
     });
+
     let req: any = {
       name: event?.name,
       description: event?.description,
@@ -407,7 +465,6 @@ const Events = () => {
     }
     req['programs']=transformProgram;
     req['addons']=transformedAddOnData;
-
     return req;
   };
 
@@ -563,6 +620,13 @@ const Events = () => {
               speakerAssetId: speaker?.user?.assetId,
               designation: speaker?.speakerBios?.[0]?.designation || " ",
             })) || [],
+            sponsor:program?.eventSponsors?.map((sponosr:any)=>({
+              sponsorId:sponosr?.sponsorId,
+              sponsorFullName:sponosr?.sponsor?.name,
+              speakerLogoId:sponosr?.sponsor?.logoAssetId,
+              sponsorTypeId:sponosr?.sponsorTypeId,
+              sponosorReservedSeats:sponosr?.reservedSeats
+            }))||[],
         })),
         addOns: data.addons?.map((addon: any) => ({
             name: addon.addon?.name || "",
@@ -584,7 +648,13 @@ const Events = () => {
             dateRequired: [],
             addonType: addon.amount === "0.00" ? "FREE" : "PAID",
             repeat: [],
-            noOfDays: ""
+            noOfDays: "",
+            sponsor:addon?.eventSponsors?.map((sponosr:any)=>({
+              sponsorId:sponosr?.sponsorId,
+              sponsorFullName:sponosr?.sponsor?.name,
+              speakerLogoId:sponosr?.sponsor?.logoAssetId,
+              sponsorTypeId:sponosr?.sponsorTypeId,
+            }))||[],
         }))
     };
       transformedData?.program.push({
@@ -598,6 +668,7 @@ const Events = () => {
         amount: "",
         totalSeat:"",
         speakers: [],
+        sponsor:[]
       },)
 
       transformedData?.addOns.push({

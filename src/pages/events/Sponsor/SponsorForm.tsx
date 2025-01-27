@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography, IconButton, Avatar } from '@mui/material';
 import CloseOutlined from '@mui/icons-material/CloseOutlined';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -9,7 +9,11 @@ import CustomAutocomplete from '@/components/CustomAutocomplete/CustomAutocomple
 import { UseFormSetValue } from 'react-hook-form';
 import { POST } from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
+import CustomSelect from '@/components/CustomSelectBox/CustomSelect';
 
+/**
+ * Component for Sponosr Assign 
+ */
 interface SponsorFormProps {
   index: number;
   control: any;
@@ -21,12 +25,13 @@ interface SponsorFormProps {
   loading: boolean;
   watch: any;
   setShowSponsorSection?: (value: boolean) => void;
-  setNewSpeakerDrawerOpen: (value: boolean) => void;
+  sponsorDrawerhandle: () => void;
   baseUrl: string;
+  sponsorSectionShow: () => void;
 }
-interface SponosrType{
-  value:number,
-  label:string
+interface SponosrType {
+  value: number,
+  label: string
 }
 const SponsorForm: React.FC<SponsorFormProps> = ({
   index,
@@ -38,48 +43,43 @@ const SponsorForm: React.FC<SponsorFormProps> = ({
   searchResults,
   loading,
   watch,
-  setShowSponsorSection,
-  setNewSpeakerDrawerOpen,
+  sponsorDrawerhandle,
   baseUrl,
+  sponsorSectionShow
 }) => {
 
-  const truncateString = (str: string, length: number) => {
-    return str.length > length ? str.substring(0, length) + '...' : str;
-  };
   useEffect(() => {
     getSponsorType();
   }, [])
-  const [sponsorType,setSponsorType]=useState();
+  const [sponsorType, setSponsorType] = useState<SponosrType[]>([]);
 
-
-  const getSponsorType=async()=>{
+/**
+ * get different type of sponsor type
+ */
+  const getSponsorType = async () => {
     POST({
       url: "sponsorType/list",
       id: "programSponsorType",
       body: {},
       successCB: (context: any) => {
-        console.log(context,'context of sponsor type is here>>>>>>')
-        let _sponsorType:any=[];
+        let _sponsorType: any = [];
         context.data.forEach((item: any) => {
           _sponsorType.push({
             value: item?.id,
             label: item?.name
           })
         })
-        console.log(sponsorType,'sponsorType is here>>>>>>')
         setSponsorType(_sponsorType);
-        // setSearchResults(transformUserData(context?.data))
-        // setLoading(false);
       },
       errorCB: (context: any) => {
         Logger.error("Error fetching search results:", context?.message);
-        // setLoading(false);
       }
     })
   }
+
   return (
-    <Grid container size={{ xs: 12, sm: 12 }} p={{ xs: 1, sm: 2 }} className="add-program-speaker-section">
-      {/* speaker add section */}
+    <Grid spacing={2} container size={{ xs: 12, sm: 12 }} p={{ xs: 1, sm: 2 }} className="add-program-speaker-section">
+      {/* sponosr add section */}
       <Grid
         size={{ xs: 12 }}
         container
@@ -87,9 +87,9 @@ const SponsorForm: React.FC<SponsorFormProps> = ({
         alignItems="center"
       >
         <Typography className="add-program-drawer-heading">Assign Sponsor</Typography>
-        {/* <IconButton onClick={() => setShowSponsorSection(false)}> */}
+        <IconButton onClick={sponsorSectionShow}>
           <CloseOutlined />
-        {/* </IconButton> */}
+        </IconButton>
       </Grid>
 
       {/* speaker selection */}
@@ -102,9 +102,9 @@ const SponsorForm: React.FC<SponsorFormProps> = ({
           getOptionLabel={(option: any) => option.sponsorFullName || ''}
           onSearch={handleSearch}
           loading={loading}
-          onChange={(selectedOption:any) => {
-            setValue(`programs.${index}.sponsorId`, selectedOption?.speakerId);
-            setValue(`programs.${index}.speakerLogoId`, selectedOption?.speakerLogoId);
+          onChange={(selectedOption: any) => {
+            setValue(`programs.${index}.sponsorId`, selectedOption?.sponsorId);
+            setValue(`programs.${index}.sponsorLogoId`, selectedOption?.sponsorLogoId);
             setValue(`programs.${index}.sponsorFullName`, selectedOption?.sponsorFullName);
           }}
         />
@@ -115,59 +115,69 @@ const SponsorForm: React.FC<SponsorFormProps> = ({
         container
         className="add-program-drawer-new-speaker-link"
         justifyContent={'end'}
-        onClick={() => setNewSpeakerDrawerOpen(true)}
+        onClick={sponsorDrawerhandle}
         size={{ xs: 12 }}
       >
         <Typography className="cursor-container" variant="h6">Create New Sponsor?</Typography>
       </Grid>
 
-      {/* Designation field */}
-      {/* <Grid size={{ xs: 12 }}>
+      <CustomSelect
+        fullWidth
+        className="add-program-select"
+        name={`programs.${index}.sponsorTypeId`}
+        control={control}
+        label="Sponsor type"
+        options={sponsorType}
+        onChange={(_value: any) =>()=>{}}
+      />
+
+      {/* total seat field */}
+      <Grid size={{ xs: 12 }}>
         <CustomTextField
-          placeholder="Designation"
+          placeholder="Reserved Seats"
           control={control}
-          name={`programs.${index}.designation`}
+          name={`programs.${index}.sponosorReservedSeats`}
           type="text"
+          isNumeric={true}
         />
-      </Grid> */}
+      </Grid>
 
       {/* Assign Speaker button */}
       <Grid size={{ xs: 12 }}>
         <CustomButton
           className="add-program-drawer-btn-cancel"
-          label="Assign Speaker"
+          label="Assign Sponosr"
           variant="outlined"
           size="large"
           onClick={() => addSponsor(index)}
         />
       </Grid>
-
       {/* Sponsors list */}
-      {watch(`programs.${index}.sponsors`)?.length !== 0 && (
+      {watch(`programs.${index}.sponsor`)?.length !== 0 && (
         <Grid container flexDirection={"column"} className="add-program-speaker-section-card-container" size={{ xs: 12 }}>
           <Grid container spacing={1}>
-            {watch(`programs.${index}.sponsors`)?.map((item:any, speakerIndex:any) => {
+            {watch(`programs.${index}.sponsor`)?.map((item: any, speakerIndex: any) => {
               return (
                 <Grid size={{ xs: 12 }} key={speakerIndex + "grid"} container alignItems="center" className="add-program-speaker-section-card-item" p={1}>
                   <Grid size={{ xs: 2 }} justifyItems={'center'}>
                     <Avatar
-                      alt={item.speakerFullName}
-                      src={item?.speakerAssetId
-                        ? `${baseUrl}asset/${item?.speakerAssetId}`
+                      alt={item.sponsorFullName}
+                      src={item?.sponsorAssetId
+                        ? `${baseUrl}asset/${item?.sponsorAssetId}`
                         : ""}
                     />
                   </Grid>
                   <Grid size={{ xs: 8 }} justifyItems={'start'}>
                     <Typography className="add-program-speaker-section-card-item-title">
-                      {item.speakerFullName}
+                      {item.sponsorFullName}
                     </Typography>
-                    {/* <Typography className="add-program-speaker-section-card-item-subtitle">
-                      {truncateString(item?.designation, 35)}
-                    </Typography> */}
+                    <Typography className="add-program-speaker-section-card-item-subtitle">
+                      Reserved Seats: {item?.sponsorReservedSeats}
+                    </Typography>
                   </Grid>
                   <Grid size={{ xs: 2 }} justifyItems={'center'}>
                     <IconButton
-                      onClick={() => removeSponsor(item, index)} 
+                      onClick={() => removeSponsor(item, index)}
                       sx={{ padding: 1 }}
                     >
                       <DeleteIcon />
