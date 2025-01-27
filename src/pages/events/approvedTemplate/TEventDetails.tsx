@@ -27,7 +27,7 @@ const TEventDetails: React.FC<any> = React.memo(({ className, data }) => {
                     <Grid container size={7} className={`${className}-icon-container`}>
                         <LocationIcon className={`${className}-icon-container-location`} />
                         <Grid className={`${className}-icon-container-textSection`}>
-                            <Typography className={`${className}-icon-container-textSection-title`}>Location</Typography>
+                            <Typography className={`${className}-icon-container-textSection-title`}>Venue</Typography>
                             <Typography className={`${className}-icon-container-textSection-subTitle`}>{data?.venue?.name}</Typography>
                         </Grid>
                     </Grid>

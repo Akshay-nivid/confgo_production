@@ -42,7 +42,7 @@ const TopMenuHeader: React.FC<TopMenuHeaderProps> = React.memo(({ links, data, c
      * @param link 
      * @returns 
      */
-    function scrollToTargetLink(link: 'Speakers' | 'Sponsors' | 'Programs' | 'Location' | 'BeSponser') {
+    function scrollToTargetLink(link: 'Speakers' | 'Sponsors' | 'Programs' | 'Venue' | 'BeSponser') {
 
         if (link === 'Speakers') {
             onScrollToContributors()
@@ -56,7 +56,7 @@ const TopMenuHeader: React.FC<TopMenuHeaderProps> = React.memo(({ links, data, c
             onScrollToSponsor();
             return
         }
-        if (link === 'Location') {
+        if (link === 'Venue') {
             onScrollToLocation()
             return
         }
@@ -90,7 +90,7 @@ const TopMenuHeader: React.FC<TopMenuHeaderProps> = React.memo(({ links, data, c
      * @param {React.MouseEvent<HTMLAnchorElement>} e - The mouse event triggered by the link click.
      */
 
-    function handleLinkClick(value: "Speakers" | "Sponsors" | "Programs" | "Location" | "BeSponser") {
+    function handleLinkClick(value: "Speakers" | "Sponsors" | "Programs" | "Venue" | "BeSponser") {
         if (location?.pathname?.startsWith('/event')) {
             scrollToTargetLink(value)
 
