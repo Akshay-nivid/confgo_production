@@ -1,3 +1,4 @@
+import { IAddon, IProgram } from "./event";
 
 export interface ISource {
   method: string; // HTTP method, e.g., 'POST'
@@ -60,7 +61,7 @@ export interface IParticipantOrder {
     addonTotal: number;
     priceTierDiscount: number;
   };
-  loading: boolean; 
+  loading: boolean;
   success: boolean;
 }
 
@@ -104,7 +105,7 @@ export interface IEvents {
 
 
 
-export interface IProgram {
+export type IPrograms = {
   id: number;
   parentId: number;
   name: string;
@@ -129,27 +130,27 @@ export interface IProgram {
   status: Status;
 }
 
-export interface IAddon {
-  id: number;
-  eventId: number;
-  addonId: number;
-  companyId: number;
-  amount: string;
-  tier: string | null;
-  startTime: string;
-  endTime: string;
-  description: string;
-  addon: {
-    id: number;
-    name: string;
-    description: string;
-    companyId: number | null;
-    owner: string;
-    enabled: number;
-    assetId: number | null;
-  };
-  eventAddonProperties: (null | Record<string, unknown>)[];
-}
+// export type IAddons = {
+//   id: number;
+//   eventId: number;
+//   addonId: number;
+//   companyId: number;
+//   amount: string;
+//   tier: string | null;
+//   startTime: string;
+//   endTime: string;
+//   description: string;
+//   addon: {
+//     id: number;
+//     name: string;
+//     description: string;
+//     companyId: number | null;
+//     owner: string;
+//     enabled: number;
+//     assetId: number | null;
+//   };
+//   eventAddonProperties: (null | Record<string, unknown>)[];
+// }
 
 export interface ICartData {
   data: {
@@ -165,9 +166,6 @@ export interface ICartData {
   loading: boolean;
   success: boolean;
 }
-
-
-
 
 
 interface CartResponseData {
@@ -189,14 +187,11 @@ export interface ICartResponse {
 }
 
 
-
-
-
-export interface IEventResponse {
-  data: IEventData;
-  loading: boolean;
-  success: boolean;
-}
+// export interface IEventResponse {
+//   data: IEventData;
+//   loading: boolean;
+//   success: boolean;
+// }
 
 export interface IEventData {
   id: number;
@@ -289,7 +284,7 @@ export interface Venue {
   mapUrl: string | null;
 };
 
-export interface IEvent  {
+export interface IEvent {
   id: number;
   parentId: number | null;
   name: string;
@@ -318,12 +313,13 @@ export interface IEvent  {
   venue: Venue;
 };
 
-interface Data  {
+interface Data {
   Events: IEvent[];
 };
 
-export interface IUserEvents  {
+export interface IUserEvents {
   data: Data;
   loading: boolean;
   success: boolean;
 };
+

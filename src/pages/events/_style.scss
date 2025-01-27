@@ -236,6 +236,16 @@
         font-size: $h5 !important;
         color: $clr_black;
     }
+    
+    &-program-display-container {
+      border: 0.092rem solid $clr_gray_very_light;
+      border-radius: 0.625rem;
+    }
+
+    &-program-display-items {
+      overflow-y: auto;
+      max-height: 20rem;
+    }
 
     &-display-container {
         padding: 1rem !important;

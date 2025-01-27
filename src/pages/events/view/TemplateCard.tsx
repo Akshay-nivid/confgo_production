@@ -6,6 +6,7 @@ import Grid from "@mui/material/Grid2";
 import Template1 from '../../../assets/png/template1-preview.png'
 import Template2 from '../../../assets/png/template2-preview.png'
 import Template3 from '../../../assets/png/template3-preview.png'
+import Template4 from '../../../assets/png/template1-preview.png'
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CheckCircleIcon from '../../../assets/svg/template-select.svg'
 import { useEffect } from "react";
@@ -19,7 +20,7 @@ const TemplateCard = (data: any) => {
   const POST = useStore((state: any) => state.POST);
   const PUT = useStore((state: any) => state.PUT);
   const templateInfo = useStore((state: any) => state?.compData?.['templateList']?.[`template/list`]?.data) ?? [];
-  const templates = [Template1, Template2, Template3];
+  const templates = [Template1, Template2, Template3, Template4];
   //const setDataById = useStore((state: any) => state.setDataById);
 
 
@@ -67,7 +68,7 @@ const TemplateCard = (data: any) => {
       await POST({
         url: `template/list`,
         id: 'templateList',
-        body: { enabled: 1, limit: 3 },
+        body: { enabled: 1, limit: 4 },
         errorCB: (context: any) => {
           Logger.error('TemplateView.tsx', context?.message);
         }
