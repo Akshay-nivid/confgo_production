@@ -325,6 +325,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
 
         sponsors.forEach((sponsor: any) => {
 
+
             if (!groupedSponsors[sponsor?.sponsorType?.name]) {
 
                 groupedSponsors[sponsor?.sponsorType?.name] = [sponsor]
@@ -342,6 +343,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
 
 
     const groupedSponsors = groupSponsorsByCategory(sponsors)
+
 
 
     return (
@@ -550,15 +552,14 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                         })} */}
                         {
                             Object.entries(groupedSponsors).map(([key, items]: any, idx) => {
-                                console.log(items)
                                 return (
                                     key === "DIAMOND" ? (
-                                        <Box width={'100%'}>
+                                        <Box width={'100%'} mb={10}>
                                             <Box width={'100%'}>
-                                                <Typography textAlign={"center"}>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
+                                                <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
 
                                             </Box>
-                                            <Box className="flex flex-col gap-y-4 w-full">
+                                            <Box className="flex flex-col gap-y-6 w-full">
                                                 {
                                                     items.map((item: any) => {
                                                         return (
@@ -572,8 +573,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                             </Box>
                                         </Box>
                                     ) : key === "PLATINUM" ? (
-                                        <Grid>
-                                            <Typography textAlign={"center"}>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
+                                        <Grid size={12} container direction={'column'} mb={10}>
+                                            <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
                                             {
                                                 items.map((item: any) => {
                                                     return (
@@ -584,7 +585,33 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                 })
                                             }
                                         </Grid>
-                                    ) : <></>
+                                    ) : key === "GOLD" ? (
+                                        <Grid mb={10} size={12} container direction={'column'} >
+                                            <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
+                                            {
+                                                items.map((item: any) => {
+                                                    return (
+                                                        <Grid size={{ xs: 12, sm: 4 }} container direction={'row'} spacing={2}>
+                                                            <img className='object-fill' width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
+                                                        </Grid>
+                                                    )
+                                                })
+                                            }
+                                        </Grid>
+                                    ) : <>
+                                        <Grid size={12} container direction={'column'}>
+                                            <Typography textAlign={"center"} className='template4-sponsor-banner-text'>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
+                                            {
+                                                items.map((item: any) => {
+                                                    return (
+                                                        <Grid size={{ xs: 12, sm: 3 }} container direction={'row'} spacing={2}>
+                                                            <img className='object-fill' height={'100%'} width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
+                                                        </Grid>
+                                                    )
+                                                })
+                                            }
+                                        </Grid>
+                                    </>
 
 
                                 )
