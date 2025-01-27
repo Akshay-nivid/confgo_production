@@ -31,14 +31,14 @@ export interface NonPersistedData {
     sponsorDrawerType: { value: 'create' | 'edit' | null }
     sponsorAdminDetails: {
         value: {
-            name: string,
-            email: string,
-            phone: string,
-            website: string,
-            logoUrl: string,
-            bannerUrl: string,
-            bannerId: number,
-            logoId: number,
+            name: string | null,
+            email: string | null,
+            phone: string | null,
+            website: string | null,
+            logoUrl: string | null,
+            bannerUrl: string | null,
+            bannerId: number | null,
+            logoId: number | null,
     }}
 }
 

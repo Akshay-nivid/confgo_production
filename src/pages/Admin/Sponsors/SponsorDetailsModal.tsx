@@ -2,11 +2,19 @@ import useStore, { setNonPersistedDataById } from '@/Libs/store'
 import { Box, IconButton, Modal, Typography } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
 
+/**
+ * SponsorDetailsModal
+ * This component renders a modal with the details of the sponsor
+ * The modal is open when the user clicks on the sponsor in the sponsors list
+ * @function
+ * @returns {JSX.Element} The rendered JSX content for the sponsor modal
+ */
 const SponsorDetailsModal = () => {
 
     const isModalOpen = useStore(state => state.nonPersistedData.isAdminSponsorDetailsModalOpen.value)
 
     const sponsorDetails = useStore(state => state?.nonPersistedData?.sponsorAdminDetails?.value)
+
 
 
 
@@ -53,7 +61,7 @@ const SponsorDetailsModal = () => {
                                 Logo
                             </Typography>
                             <Box className="sponsor__details__modal__content__body__details__logo">
-                                <img src={sponsorDetails?.logoUrl} alt='sponsor logo' />
+                                <img src={sponsorDetails?.logoUrl || ''} alt='sponsor logo' />
                             </Box>
                         </Box>}
 
@@ -62,7 +70,7 @@ const SponsorDetailsModal = () => {
                                 Banner
                             </Typography>
                             <Box className="sponsor__details__modal__content__body__details__banner">
-                                <img src={sponsorDetails?.bannerUrl} alt='sponsor logo' />
+                                <img src={sponsorDetails?.bannerUrl || ''} alt='sponsor logo' />
                             </Box>
                         </Box>}
                     </Box>
