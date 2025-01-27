@@ -18,6 +18,7 @@ import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import NewSpeakerDrawer from "../NewSpeakerDrawer";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import { useParams } from "react-router-dom";
+import DrawerCreateSponosor from "../Sponsor/DrawerCreateSponsor";
 
 
 
@@ -136,6 +137,7 @@ interface SessionDrawerContentProps {
     const [existingSponsor, setExistingSponsor] = useState<any>();
     const [delsponsor,setDelSponsor]=useState<any>([])
     const [newSpeakerDrawerOpen, setNewSpeakerDrawerOpen] = useState(false);
+    const [newSponsorDrawerOpen, setNewSponsorDrawerOpen] = useState(false);
     const {append } = useFieldArray({
       control,
       name: "speakers",
@@ -608,7 +610,29 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
             getSponsor()
           }, [])
           
-    
+    // function to update the list      
+    const handleSponsorSearch = async (query: string) => {
+          setLoading(true);
+          await POST({
+            url: "sponsor/list",
+            id: "sponsorList",
+            body: {
+              filters: {
+                name: query,
+                companyId: companyId,
+              },
+              limit:30
+            },
+            successCB: (context: any) => {
+              setSponsorSearcResults(transformSponsorData(context?.data))
+              setLoading(false);
+            },
+            errorCB: (context: any) => {
+              Logger.error("Error fetching search results:", context?.message);
+              setLoading(false);
+            }
+          })
+        };
 
     return (
       <Box sx={{ maxWidth: 600 }}>
@@ -891,6 +915,7 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
                   }}
                 />
               </Grid>
+             
               <Grid size={{ xs: 12 }}>
               <CustomSelect
                     fullWidth
@@ -907,6 +932,9 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
                     label="Reservation seat"
                     />
               </Grid>
+              <Grid container className="add-program-drawer-new-speaker-link" justifyContent={'end'}  size={{xs:12}} >
+              <Typography onClick={() => setNewSponsorDrawerOpen(true)} className="cursor-container" variant="h6">Create New Sponsor ?</Typography>
+            </Grid>
               <Grid size={{ xs: 12 }} >
                 <CustomButton
                   className="add-program-drawer-btn-cancel"
@@ -963,6 +991,19 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
               />
             </Grid>
           </Grid>
+        </Grid>
+        <Grid>
+        <CustomDrawer
+            children={
+            <DrawerCreateSponosor onSuccess={()=>{handleSponsorSearch("")}} 
+            closeDrawer={()=>
+              setNewSponsorDrawerOpen(false)           
+              }
+              />
+            }
+            open={newSponsorDrawerOpen} 
+            type="right"
+          />
         </Grid>
       </Box>
     );
