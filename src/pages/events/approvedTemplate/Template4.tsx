@@ -550,7 +550,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                             </Grid>
                         })} */}
                         {
-                           Object.keys.length > 0 && Object.entries(groupedSponsors).map(([key, items]: any) => {
+                           Object.keys(groupedSponsors).length > 0 && Object.entries(groupedSponsors).map(([key, items]: any) => {
                                 return (
                                     key === "DIAMOND" ? (
                                         <Box width={'100%'} mb={10}>
