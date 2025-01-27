@@ -35,16 +35,24 @@ const SponsorListCard = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const closeOrganisationDrawer = () => setDrawerOpen(false);
   const [sponsorType,setSponsorType]=useState<Sponsor[]>([]);
-  
+  const [isSponsorTypeLoading, setIsSponsorTypeLoading] = useState(true); // Track loading state for sponsorType
+
 
   const { control } = useForm();
+
+  useEffect(() => {
+    getSponsor()
+  }, [])
+
   /**
    * Fetches the volunteer list when the component mounts.
    */
   useEffect(() => {
+
     sponsorList();
   }, []);
    const getSponsor=async ()=>{
+    setIsSponsorTypeLoading(true); // Set loading state to true
             await POST({
                 url:'sponsorType/list',
                 body:{},
@@ -58,16 +66,17 @@ const SponsorListCard = () => {
                     })
                   })
                   setSponsorType(_sponsor)
+                  setIsSponsorTypeLoading(false); // Set loading state to false after data is fetched
+
                 }, 
                 errorCB: (context: any) => {
                     setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
+                    setIsSponsorTypeLoading(false); // Set loading state to false after data is fetched
+
                 }
             });
         }
   
-        useEffect(() => {
-          getSponsor()
-        }, [])
 
   /**
    * Function to set the initial request configuration for fetching volunteer data.
@@ -106,7 +115,7 @@ const SponsorListCard = () => {
         name: item?.name,
         email: item?.email,
         phone: item?.phone,
-        sponsorType:  sponsorType.find(type => type.value === item?.eventSponsors[0]?.sponsorTypeId)?.label || 'Unknown', 
+        sponsorType:  sponsorType.find(type => type.value === item?.eventSponsors[0]?.sponsorTypeId)?.label || '-', 
         status: item?.statusId,
         logo: <Avatar className='top-2' src={`${baseUrl}/asset/${item?.logoAssetId}`} >{item?.name?.slice(0, 2)}</Avatar>,
       };
@@ -218,18 +227,7 @@ const SponsorListCard = () => {
     closeOrganisationDrawer();
   }
 
-//   /**
-//    * For deleting the assigned volunteer from the list
-//    */
-//   const handleDelete = async(volunteerId: number) => {
-//     try{     
-//         await apiClient.delete(`user/volunteerEvent/${volunteerId}`)
-//         sponsorList();
 
-//     } catch (error) {
-//         Logger.error(error,"AssignedVolunteers.tsx");
-//     }
-// };
 
   return (
     <Grid container>
@@ -268,6 +266,7 @@ const SponsorListCard = () => {
         </Grid>
       </Grid>
       <Grid size={{ xs: 12 }}>
+      {!isSponsorTypeLoading && (
         <DataGridList
           dataTransformer={transformData}
           source={source}
@@ -278,6 +277,7 @@ const SponsorListCard = () => {
           noRecordIcon={<NoCouponDataSvg className="no-coupon-icon"/>}
           noRecordSubtitle="cIt looks like you haven't assigned any sponsor yet ."
         />
+      )}
       </Grid>
 
       <CustomDrawer open={drawerOpen} type="right">

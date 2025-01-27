@@ -385,8 +385,8 @@ const handleAddProgram = () => {
      */
     const onSave: SubmitHandler<FormData> = () => {
       const programs = watch("programs");
-      const lastItem = programs[programs.length - 1];
-      const lastIndex = programs.length - 1;
+      const lastItem = programs[programs?.length - 1];
+      const lastIndex = programs?.length - 1;
       const startDate = new Date(lastItem.startDate);
       const endDate = new Date(lastItem.endDate);
       if (startDate > endDate) {
@@ -542,7 +542,7 @@ const handleAddProgram = () => {
       const saveProgram = programsCopy;
 
       remove(index);
-      if (index === programsCopy.length) {
+      if (index === programsCopy?.length) {
         if (index === 0) {
           append({
             name: "",
@@ -577,7 +577,7 @@ const handleAddProgram = () => {
             designation: "",
           });
         } else {
-          setProgramIndex(programsCopy.length);
+          setProgramIndex(programsCopy?.length);
         }
       }
       onSaveHandler && onSaveHandler(saveProgram, 'program');
