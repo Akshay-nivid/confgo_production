@@ -48,7 +48,8 @@
 
     &-1,
     &-2,
-    &-3 {
+    &-3,
+    &-4 {
       width: 100%;
       display: flex;
       justify-content: center;
@@ -118,7 +119,20 @@
 
       }
     }
+    &-4 {
+      .back-button {
+        border-color: $clr_charcoal_cyan;
+        color: $clr_charcoal_cyan;
+        min-width: 10rem;
+      }
 
+      .next-button {
+        background-color: $clr_charcoal_cyan;
+        color: $clr_white;
+        min-width: 10rem;
+
+      }
+    }
   }
 }
 
@@ -653,6 +667,59 @@
 
       }
     }
+  }
+
+  &-4 {
+
+    .checkbox-container {
+
+      .MuiCheckbox-root {
+
+        svg {
+
+          background-color: $clr_charcoal_cyan !important;
+
+        }
+      }
+    }
+
+    .addon-property-item {
+      .MuiCheckbox-root {
+        svg {
+          fill: $clr_charcoal_cyan !important;
+        }
+
+      }
+    }
+
+    .back-btn {
+      border-color: $clr_charcoal_cyan;
+      color: $clr_charcoal_cyan;
+    }
+
+    .next-btn {
+      background-color: $clr_charcoal_cyan;
+    }
+
+    .price-chip {
+      &.MuiChip-root {
+        background-color: $clr_charcoal_cyan !important;
+        color: $clr_white !important;
+      }
+    }
+
+    .program-list-item {
+      .MuiCheckbox-root {
+        svg {
+          background-color: $clr_charcoal_cyan !important;
+        }
+
+
+      }
+    }
+
+
+
   }
 
   .money-icon {
