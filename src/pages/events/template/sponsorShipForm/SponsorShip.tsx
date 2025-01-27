@@ -8,8 +8,6 @@ import Grid from '@mui/material/Grid2';
 import useStore, { setDataById } from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import CustomButton from '@/components/CustomButton/CustomButton';
-import CustomPhone from '@/components/CustomPhone/CustomPhone';
-import { countries } from '@/Utils/country/country';
 
 interface FormData {
     name: string;
@@ -32,8 +30,8 @@ interface FormData {
  * @returns {JSX.Element} The rendered JSX content for the sponsorship form.
  */
 
-const SponsorShip = (eventId:any) => {
-
+const SponsorShip = (Id:any) => {
+    const eventId=Id?.eventId;
     const { handleSubmit, control, formState: { errors }, setValue, register } = useForm<FormData>({
         reValidateMode: "onSubmit"
     });
@@ -41,29 +39,11 @@ const SponsorShip = (eventId:any) => {
     const recaptchaRef = useRef<ReCAPTCHA>(null);
     const POST = useStore((state: any) => state.POST);
 
-    const [phoneNumber, setPhoneNumber] = useState("");
-    const [selectedCountryCode, setSelectedCountryCode] = useState("+91");
-    const isLoading = useStore(state => state.compData?.['sponsorContact']?.['notification/contact']?.loading) || false
     /**
-    * Handles the change in selected country code.
-    * Updates the state with the newly selected country code.
-    * 
-    * @param code - The new country code selected by the user.
-    */
-    const handleCountryChange = (code: string) => {
-        setSelectedCountryCode(code);
-    };
-
-    /**
-    * Handles the change in phone number input.
-     * Updates the state with the newly entered phone number.
-     * 
-     * @param number - The new phone number entered by the user.
+     * Button loder
      */
-    const handlePhoneNumberChange = (number: string) => {
-        setPhoneNumber(number);
-    };
-
+    const isLoading = useStore(state => state.compData?.['sponsorContact']?.['notification/contact']?.loading) || false
+    
     /**
     * Function to reset the form fields after successful validation and integration.
     */
@@ -114,17 +94,16 @@ const SponsorShip = (eventId:any) => {
      * @param data 
      */
     const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
-        const fullPhoneNumber = `${selectedCountryCode}` + data.phoneNumber;
         const body = {
             firstName: data.name,
             lastName: data.lastName,
             jobTitle:data.jobTitle,
             companyName: data.companyName,
             gRecaptcha: recaptchaRef.current?.getValue() || '',
-            phone: fullPhoneNumber,
+            phone: data.phoneNumber,
             email: data.email,
             message: data.message,
-            eventId:eventId?.eventId,
+            eventId:eventId,
         }
 
         /**
@@ -133,9 +112,7 @@ const SponsorShip = (eventId:any) => {
         POST({
             url: 'notification/sponsorshipInterest', body: body,
             id: 'sponsorContact',
-            successCB: (context: any) => {
-                console.log(context)
-
+            successCB: (_context: any) => {
                 setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Form Submitted Successfuly " });
                 resetFormValues();
             },
@@ -178,11 +155,13 @@ const SponsorShip = (eventId:any) => {
                                         label={"Last Name"}
                                         type='text'
                                         control={control}
-                                        rules={
-                                            {
-                                                required: validateRequiredField({})
-                                            }
-                                        }
+                                        rules={{
+                                            required: validateRequiredField({}),
+                                            pattern: {
+                                                value: /^[A-Za-z\s]+$/,
+                                                message: "Last name must contain only alphabetic characters and spaces.",
+                                            },
+                                        }}
                                     />
                                 </Grid>
                                 <Grid size={{ lg: 12, xs: 12 }}  >
@@ -219,17 +198,17 @@ const SponsorShip = (eventId:any) => {
                                     />
                                 </Grid>
                                 <Grid size={{ lg: 12, xs: 12 }}  >
-                                    <CustomPhone
-                                        countries={countries}
-                                        selectedCountryCode={selectedCountryCode}
-                                        onCountryChange={handleCountryChange}
-                                        phoneNumber={phoneNumber}
-                                        control={control}
-                                        onPhoneNumberChange={handlePhoneNumberChange}
-                                        placeholder="Phone Number"
-                                        error={errors.phoneNumber}
-
-
+                                    <CustomTextField
+                                   className="add-program-text-Field"
+                                   placeholder="Phone"
+                                   control={control}
+                                   name="phoneNumber"
+                                   type="text"
+                                   isNumeric={true}
+                                   rules={{
+                                   required: 'Phone is required',
+                                   //   pattern: validatePhoneNumber({})
+                                   }}
                                     />
                                 </Grid>
 
