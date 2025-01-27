@@ -373,7 +373,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                     </Grid>
                                     <Grid container direction={'column'} >
                                         <Grid className={`${classPrefix}-event-contributors-item-name`}>{`${item.user?.firstName} ${item.user?.lastName}`}</Grid>
-                                        <Grid className={`${classPrefix}-event-contributors-item-designation`}>{item.user?.designation}</Grid>
+                                        {item.user?.designation && <Grid className={`${classPrefix}-event-contributors-item-designation`}>{item.user?.designation}</Grid>}
                                         <Grid className={`${classPrefix}-event-contributors-item-view-more`} ><CustomButton
                         label={'View more'}
                         className={`${classPrefix}-event-contributors-item-view-more-button`}
