@@ -4,7 +4,7 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import { Avatar, Box, IconButton, Typography } from "@mui/material";
+import { Avatar, Box, IconButton,Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
@@ -23,11 +23,20 @@ import config from "../../../config.json";
 import { truncateString } from "@/Utils/CommonBaseClass";
 import NewSpeakerDrawer from "./NewSpeakerDrawer";
 import confgo  from "../../../config.json"
+import SponsorForm from "./Sponsor/SponsorForm";
+import DrawerCreateSponosor from "./Sponsor/DrawerCreateSponsor";
 type Speaker = {
   speakerId?: string;
   speakerFullName?: string;
   speakerAssetId?: string;
   designation?: string;
+}
+
+type Sponsor={
+  sponsorId?:string;
+  sponsorFullName?:string;
+  sponsorLogoId?:string;
+  bannerId?:string;
 }
 
 type FormData = {
@@ -52,6 +61,19 @@ type FormData = {
     speakerAssetId?: string;
     designation?: string;
     speakerSelection?: string;
+    sponsor?:{
+      sponsorId?:string;
+      sponsorFullName?:string;
+      speakerLogoId?:string;
+      sponsorTypeId?:string;
+    }[];
+    sponsorId?:string;
+    sponsorFullName?:string;
+    sponsorLogoId?:string;
+    sponsorbannerId?:string;
+    sponosrSelection?:string;
+    sponosorReservedSeats?:string;
+    sponsorTypeId?:string
   }[];
   savedPrograms: {
     id?: string;
@@ -75,6 +97,19 @@ type FormData = {
     speakerAssetId?: string;
     designation?: string;
     speakerSelection?: string;
+    sponsor?:{
+      sponsorId?:string;
+      sponsorFullName?:string;
+      speakerLogoId?:string;
+      sponsorTypeId?:string;
+    }[];
+    sponsorId?:string;
+    sponsorFullName?:string;
+    sponsorLogoId?:string;
+    sponsorbannerId?:string;
+    sponosrSelection?:string;
+    sponosorReservedSeats?:string;
+    sponsorTypeId?:string
   }[];
 };
 type ProgramProps = {
@@ -109,7 +144,8 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
             type: "PAID",
             amount: "",
             totalSeat:"",
-            speakers:[]
+            speakers:[],
+            sponsor:[]
           },
         ],
       },
@@ -129,9 +165,12 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
     const [loading, setLoading] = useState(false);
     const companyId = sessionStorage.getItem("companyId")
     const [searchResults, setSearchResults] = useState<Speaker[]>([]);
+    const [searchSpekerResults,setSearchSpeakerResults]=useState<Sponsor[]>([]);
     const [showSpeakerSection, setShowSpeakerSection] = useState(false);
+    const [showSponserSeciton,setShowSponsorSection]=useState(false);
     const baseUrl = config.api.url;
     const [newSpeakerDrawerOpen, setNewSpeakerDrawerOpen] = useState(false);
+    const [newSponsorDrawerOpen,setNewSponsorDrawerOpen]=useState(false)
     const currency=confgo.currency;
 
     /**
@@ -149,6 +188,20 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
       }));
     }
 
+     /**
+     * Method transforms data to the autocomplete data format
+     * @param data : api response data
+     * @returns 
+     */
+     function transformSponsoerData(data: any): Sponsor[] {
+      return data?.map((item: any) => ({
+        sponsorId: item?.id,
+        sponsorFullName: item?.name,
+        sponsorLogoId: item?.logoAssetId,
+        ...item
+      }));
+    } 
+// sponsor/list'
     /**
      *  Function to handle search API for user role autocomplete 
      */ 
@@ -167,6 +220,29 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
         },
         successCB: (context: any) => {
           setSearchResults(transformUserData(context?.data))
+          setLoading(false);
+        },
+        errorCB: (context: any) => {
+          Logger.error("Error fetching search results:", context?.message);
+          setLoading(false);
+        }
+      })
+    };
+
+    const handleSponsorSearch = async (query: string) => {
+      setLoading(true);
+      await POST({
+        url: "sponsor/list",
+        id: "sponsorList",
+        body: {
+          filters: {
+            name: query,
+            companyId: companyId,
+          },
+          limit:30
+        },
+        successCB: (context: any) => {
+          setSearchSpeakerResults(transformSponsoerData(context?.data))
           setLoading(false);
         },
         errorCB: (context: any) => {
@@ -399,6 +475,13 @@ const handleAddProgram = () => {
           speakerFullName: "",
           speakerAssetId: "",
           designation: "",
+          sponsors:[],
+          sponsorId:"",
+          sponsorFullName:"",
+          speakerLogoId:"",
+          bannerId:"",
+          sponsorTypeId:""
+          
         };
         newPrograms.push(newProgram);
 
@@ -510,7 +593,6 @@ const handleAddProgram = () => {
      */
     const addSpeaker = (index: number) => {
       const values = watch();
-      
       const speakerId = values.programs[index].speakerId;
       const speakerFullName = values.programs[index].speakerFullName;
       const speakerAssetId = values.programs[index].speakerAssetId;
@@ -570,6 +652,76 @@ const handleAddProgram = () => {
     }; 
 
     /**
+     * Adds a new sponosr to the specified program's sponosr array.
+     * fetches the current form values for the specified program (using `index`), 
+     * prepares a new sponosr object using the form values, and adds it to the `sponosr` array
+     * After adding the sponosr, the form fields related to the sponosr are reset for the next input.
+     * @param {number} index - The index of the program which the sponosr is to be added.
+     */
+    const addSponsor = (index: number) => {
+      const values = watch();
+
+      const sponsorId = values.programs[index].sponsorId;
+      const sponsorFullName = values.programs[index].sponsorFullName;
+      const sponsorAssetId = values.programs[index].sponsorLogoId;
+      const sponsorReservedSeats = values.programs[index].sponosorReservedSeats;
+      const sponsorSelection = values.programs[index].sponosrSelection;
+      const sponsorTypeId=values.programs[index].sponsorTypeId
+
+
+      if (!sponsorSelection) {
+        setError(`programs.${index}.sponosrSelection`, {
+          type: 'manual',
+          message: 'please select a sponsor',
+        });
+        return;
+      }
+      if (!sponsorReservedSeats) {
+        setError(`programs.${index}.sponosorReservedSeats`, {
+          type: 'manual',
+          message: 'Reservation Seat is required',
+        });
+        return;
+      }
+
+      const newSponsor = {
+        sponsorId,
+        sponsorFullName,
+        sponsorAssetId,
+        sponsorReservedSeats,
+        sponsorTypeId
+      };
+      // Get current programs list and update the speakers array for the selected program index
+      const updatedPrograms = [...values.programs];
+      if (!updatedPrograms[index].sponsor) {
+        updatedPrograms[index].sponsor = [];
+      }    
+      // Filter out empty or undefined speakers
+      // Filter out empty or undefined speakers
+      updatedPrograms[index].sponsor = updatedPrograms[index].sponsor?.filter(
+        speaker => speaker.sponsorId
+      );
+      // Check if a speaker with the same ID already exists
+      const isDuplicate = updatedPrograms[index].sponsor.some(
+        (sponsor) => sponsor.sponsorId === newSponsor.sponsorId
+      );
+      if (isDuplicate) {
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "sponosr is already added" })
+        return;
+      }
+      
+      // Add the new speaker to the speakers array
+      updatedPrograms[index].sponsor.push({ ...newSponsor });
+      setValue("programs", updatedPrograms);
+    
+      resetField(`programs.${index}.sponsorId`);
+      resetField(`programs.${index}.sponsorLogoId`);
+      resetField(`programs.${index}.sponosorReservedSeats`);
+      resetField(`programs.${index}.sponsorFullName`);
+      resetField(`programs.${index}.sponosrSelection`);
+    }; 
+
+    /**
      * Removes a speaker from the specified program's speakers array.
      * This function filters out the speaker with the matching `speakerId` from the `speakers` array of the program (by `item.speakerId`).
      * @param {object} item - The speaker object that needs to be removed.
@@ -588,7 +740,29 @@ const handleAddProgram = () => {
     
       // Set the updated programs back to the form
       setValue('programs', updatedPrograms);
-    };    
+    }; 
+    
+    /**
+     * Removes a sponosr from the specified program's sponosr array.
+     * This function filters out the sponosr with the matching `sponosorId` from the `sponosr` array of the program (by `item.sponosrId`).
+     * @param {object} item - The speaker object that needs to be removed.
+     * @param {number} _index - The index of the program in the programs array .
+     */
+    const removeSponsor = (item: any, index: number) => {
+      // Retrieve current form values
+      const values = watch();
+    
+      // Update only the specific program at the provided index
+      const updatedPrograms = [...values.programs];
+      const updatedSpeakers = updatedPrograms[index].sponsor?.filter(
+        (sponsor) => sponsor?.sponsorId !== item?.sponsorId
+      ) || [];
+      updatedPrograms[index].sponsor = updatedSpeakers;
+    
+      // Set the updated programs back to the form
+      setValue('programs', updatedPrograms);
+    };  
+
 
 
 
@@ -873,6 +1047,18 @@ const handleAddProgram = () => {
                                   )}
                             </Grid>// end of add speaker section
                           )}
+                          {!showSponserSeciton?(
+                            <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'center'}>
+                              <CustomButton
+                                className="add-program-drawer-speaker-option-btn"
+                                label="Assign Sponsor for this Program?"
+                                variant="outlined"
+                                size="large"
+                                type="button"
+                                onClick={() => setShowSponsorSection(true)}
+                              />
+                            </Grid>
+                          ):( <SponsorForm sponsorSectionShow={()=>setShowSponsorSection(false)} control={control} handleSearch={handleSponsorSearch} addSponsor={addSponsor} baseUrl={baseUrl} index={index} loading={loading} removeSponsor={removeSponsor} setValue={setValue} searchResults={searchSpekerResults} sponsorDrawerhandle={()=>setNewSponsorDrawerOpen(true)}watch={watch} />)}
                           <Grid
                             container
                             direction={"row"}
@@ -1010,6 +1196,21 @@ const handleAddProgram = () => {
           <CustomDrawer
             children={<NewSpeakerDrawer onSuccess={()=>{handleSearch("")}} closeDrawer={()=>setNewSpeakerDrawerOpen(false)}/>}
             open={newSpeakerDrawerOpen} 
+            type="right"
+          />
+        </Grid>
+        {/* Drawer to create a new sponsor */}
+        <Grid>
+        <CustomDrawer
+            children={
+            <DrawerCreateSponosor onSuccess={()=>{handleSponsorSearch("")}} 
+            closeDrawer={()=>
+              setNewSponsorDrawerOpen(false)
+              
+              }
+              />
+            }
+            open={newSponsorDrawerOpen} 
             type="right"
           />
         </Grid>
