@@ -159,6 +159,7 @@
                         object-fit: contain;
                         background-color: $clr_gray_10_percent;
                         width: max-content;
+                        max-width: 100%;
                         max-height: 8.33rem;
                         img{
                             max-width: 8.33rem;
@@ -168,6 +169,7 @@
                     }
                     &-image-banner{
                      width: max-content;
+                     max-width: 100%;
                      display: flex;
                     background-color: $clr_gray_10_percent;
 
@@ -179,13 +181,11 @@
                     }
 
                     &-image-logo-close{
-                        // position: absolute;
-                        // right: -.7rem;
-                        // top: 0.2rem;
-                        // margin-top: .3rem;
+                       
                         background-color: $clr_red;
                         height: 1.8rem;
                         width: 1.8rem;
+                        border: 0.14rem solid $clr_gray_30_percent;
                         cursor: pointer;
                         position: absolute;
                         right: 0;

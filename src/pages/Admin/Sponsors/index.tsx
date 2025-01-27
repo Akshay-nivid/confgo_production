@@ -7,7 +7,7 @@ import CustomButton from '@/components/CustomButton/CustomButton'
 import AddIcon from "@mui/icons-material/Add";
 import CustomDrawer from '@/components/CustomDrawer/CustomDrawer'
 import CloseIcon from '@mui/icons-material/Close';
-import useStore, { POST, setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store'
+import useStore, { POST, setNonPersistedDataById, snackBar } from '@/Libs/store'
 import CustomTextField from '@/components/CustomTextfield/CustomTextField'
 import FileUpload from '@/components/FileUpload/FileUpload'
 import { DataGridList } from '@/components/DataGrid/DataGridList'
@@ -31,10 +31,12 @@ const Sponsors = () => {
     const isLoading = useStore(state => state.compData?.['createSponsor']?.['sponsor']?.loading) || false
     const sponsorResponseData = useStore(state => state.compData?.['sponsor-datagrid']) || {}
     const listData = sponsorResponseData?.data || []
-    const sponsorId = useStore(state => state?.compData?.['sponsorId']?.value) || null;
+    // const sponsorId = useStore(state => state?.compData?.['sponsorId']?.value) || null;
     const isDeleteSponsorPending = useStore(state => state.compData?.['deleteSponsor']?.[`sponsor/delete/${sponsorId}`]?.loading) || false
-
+    const sponsorId = useStore(state=>state.nonPersistedData.sponsorId?.value)
     const sponsorDrawerType = useStore(state => state.nonPersistedData.sponsorDrawerType?.value)
+    const isEditSponsorLoading = useStore(state => state.compData?.['createSponsor']?.[`sponsor/edit/${sponsorId}`]?.loading) || false
+
 
     const schema = z.object({
         name: z.string({ message: "Name is required" }).min(3, { message: "Name is required" }),
@@ -194,6 +196,8 @@ const Sponsors = () => {
         e.preventDefault()
         e.stopPropagation()
 
+        setNonPersistedDataById('sponsorId', { value: data?.id })
+
         form.reset({
             name: data?.name || '',
             email: data?.email || '',
@@ -238,7 +242,7 @@ const Sponsors = () => {
     function handleClickDelete(e: React.MouseEvent, id: number) {
         e.preventDefault()
         e.stopPropagation()
-        setDataById('sponsorId', { value: id })
+        setNonPersistedDataById('sponsorId', { value: id })
         POST({
             url: `sponsor/delete/${id}`,
             id: 'deleteSponsor',
@@ -449,7 +453,7 @@ const Sponsors = () => {
                             </Box>
 
                             <Box className="form-button-container">
-                                <CustomButton isLoading={isLoading} disabled={isLoading} label='Submit' type='submit' />
+                                <CustomButton isLoading={isLoading || isEditSponsorLoading} disabled={isLoading || isEditSponsorLoading} label='Submit' type='submit' />
                             </Box>
 
                         </form>
