@@ -21,6 +21,9 @@ import { Delete, Edit } from '@mui/icons-material'
 import Grid from '@mui/material/Grid2';
 import SponsorDetailsModal from './SponsorDetailsModal'
 
+/**
+ * Component for Sponsors list,create,edit and delete
+ */
 const Sponsors = () => {
 
 
