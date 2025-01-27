@@ -1673,6 +1673,7 @@
                         $clr_white 4.583rem
                       );
                       border-radius: 8px; /* Round corners if needed */
+                      cursor: pointer;
                 } 
                 &-program{
                     border:solid 0.083rem $clr_gray_very_light;
