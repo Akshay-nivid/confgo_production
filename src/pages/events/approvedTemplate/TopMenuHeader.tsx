@@ -20,13 +20,15 @@ type TopMenuHeaderProps = {
     onScrollToAbout?: any;
     onScrollToContributors?: any;
     onScrollToLocation?: any;
+    onScrollToBeSponsor?: any;
+    onScrollToSponsor?: any;
     temp?: any;
 }
 
 /**
  * Component displays the top menu section of the template
  */
-const TopMenuHeader: React.FC<TopMenuHeaderProps> = React.memo(({ links, data, classPrefix, onScrollToProgram, onScrollToLocation }) => {
+const TopMenuHeader: React.FC<TopMenuHeaderProps> = React.memo(({ links, data, classPrefix, onScrollToProgram, onScrollToLocation, onScrollToContributors, onScrollToBeSponsor, onScrollToSponsor }) => {
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -43,6 +45,7 @@ const TopMenuHeader: React.FC<TopMenuHeaderProps> = React.memo(({ links, data, c
     function scrollToTargetLink(link: 'Speakers' | 'Sponsers' | 'Programmes' | 'Location' | 'BeSponser') {
 
         if (link === 'Speakers') {
+            onScrollToContributors()
             return
         }
         if (link === 'Programmes') {
@@ -50,6 +53,7 @@ const TopMenuHeader: React.FC<TopMenuHeaderProps> = React.memo(({ links, data, c
             return
         }
         if (link === 'Sponsers') {
+            onScrollToSponsor();
             return
         }
         if (link === 'Location') {
@@ -57,6 +61,7 @@ const TopMenuHeader: React.FC<TopMenuHeaderProps> = React.memo(({ links, data, c
             return
         }
         if (link === "BeSponser") {
+            onScrollToBeSponsor()
             return
         }
     }
@@ -111,7 +116,9 @@ const TopMenuHeader: React.FC<TopMenuHeaderProps> = React.memo(({ links, data, c
                         <CustomButton className={`${classPrefix}-sponser-button`}
                             label="Become Sponsor"
                             variant="contained"
-                            color="primary" />
+                            color="primary" 
+                            onClick={() => handleLinkClick('BeSponser')}
+                            />
                     </Grid>
                 </>
             </Grid>

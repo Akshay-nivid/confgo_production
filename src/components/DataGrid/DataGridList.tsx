@@ -8,7 +8,7 @@ import { Logger } from '../../Utils/Logger';
 import Grid from '@mui/material/Grid2';
 import StatusComponent from '../Status/StatusComponent';
 import { NoRecords } from '../NoRecords/NoRecords';
-import { ISource } from '@/Libs/type';
+import { ISource } from '@/Libs/types/type';
 import moment from 'moment';
 import { NoEvent } from '@/assets/svg';
 import { SkeletonList } from '../Skeleton';

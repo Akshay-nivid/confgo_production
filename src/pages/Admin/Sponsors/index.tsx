@@ -12,7 +12,7 @@ import CustomTextField from '@/components/CustomTextfield/CustomTextField'
 import FileUpload from '@/components/FileUpload/FileUpload'
 import { DataGridList } from '@/components/DataGrid/DataGridList'
 import React, { useCallback, useEffect, useState } from 'react'
-import { ISource } from '@/Libs/type'
+import { ISource } from '@/Libs/types/type'
 import { NoEvent as NoEventIcon } from "@/assets/svg";
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -37,8 +37,8 @@ const Sponsors = () => {
             message: "Please enter a valid phone number",
         }),
         website: z.string().optional(),
-        logoId: z.number().optional(),
-        bannerId: z.number().optional(),
+        logoId: z.union([z.string(), z.number()]).optional(),
+        bannerId: z.union([z.string(), z.number()]).optional(),
     })
 
 
@@ -52,7 +52,7 @@ const Sponsors = () => {
             bannerId: ''
         },
         resolver: zodResolver(schema),
-        reValidateMode: "onChange"
+        reValidateMode: "onChange",
     })
 
 
@@ -91,19 +91,18 @@ const Sponsors = () => {
             type: "default",
             field: "email",
             headerName: "Email",
-            width: 200,
+            width: 210,
+        },
+        {
+            type: "default",
+            field: "phone",
+            headerName: "Phone",
+            width: 180,
         },
         {
             type: "dateField",
             field: "createdOn",
             headerName: "Created Date",
-            width: 180,
-            dateFormat: "DD/MM/YYYY",
-        },
-        {
-            type: "dateField",
-            field: "updatedOn",
-            headerName: "Updated Date",
             width: 180,
             dateFormat: "DD/MM/YYYY",
         },
@@ -159,6 +158,7 @@ const Sponsors = () => {
                 id: item?.id,
                 name: item?.name,
                 email: item?.email,
+                phone: item?.phone,
                 logo: <Avatar className='top-2' src={`${baseUrl}/asset/${item?.logoAssetId}`} >{item?.name?.slice(0, 2)}</Avatar>,
                 delete:  <IconButton disabled={isDeleteSponsorPending} onClick={(e) => handleClickDelete(e, item?.id)}>
                     <Delete />
@@ -214,9 +214,9 @@ const Sponsors = () => {
 
             email: data.email,
             phone: data.phone,
-            logoAssetId: data.logoId,
-            bannerImgAssetId: data.bannerId,
             companyId: sessionStorage.getItem('companyId'),
+            ...(data.logoId && { logoAssetId: data.logoId }),
+            ...(data.bannerId && { bannerImgAssetId: data.bannerId }),
             ...(website && { website })
         }
 
@@ -226,6 +226,7 @@ const Sponsors = () => {
                 form.reset();
                 eventList();
                 snackBar({ severity: 'success', message: 'Sponsor created successfully' })
+                handleCloseModal();
 
             }, errorCB: (error) => {
                 snackBar({ severity: 'error', message: error?.message || 'something went wrong' })

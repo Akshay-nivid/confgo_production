@@ -1,5 +1,5 @@
 import { DataGridList } from '@/components/DataGrid/DataGridList';
-import { ISource } from '@/Libs/type';
+import { ISource } from '@/Libs/types/type';
 import { Box, Skeleton, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import clsx from 'clsx';

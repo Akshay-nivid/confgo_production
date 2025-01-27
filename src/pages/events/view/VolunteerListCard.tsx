@@ -1,6 +1,6 @@
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import { ISource } from "@/Libs/type";
+import { ISource } from "@/Libs/types/type";
 import Grid from "@mui/material/Grid2";
 import { useCallback, useEffect, useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
