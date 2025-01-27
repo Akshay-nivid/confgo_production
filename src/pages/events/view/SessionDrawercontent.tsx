@@ -9,11 +9,12 @@ import { useEffect, useState } from "react";
 import moment from "moment";
 import SessionAddonDrawer from "./SessionAddonDrawer";
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
-import { POST } from "@/Libs/store";
+import { POST, setDataById} from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
 import { truncateString } from "@/Utils/CommonBaseClass";
 import config from "../../../../config.json";
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
+import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 
 
 
@@ -39,6 +40,17 @@ interface FormData {
     speakerDesignation:string;
   }[];
   speakerSelection?:string;
+  sponsorId?: string;
+  sponsorName?: string;
+  sponsorAssetId?: string;
+  sponsorType?: string;
+  sponsors: {
+    sponsorId?:string;
+    sponsorName?: string;
+    sponsorAssetId?: string;
+    sponsorType?: string;
+  }[];
+  sponsorSelection?: string;
 }
 type Speaker = {
   speakerId?: string;
@@ -46,6 +58,19 @@ type Speaker = {
   speakerAssetId?: string;
   speakerDesignation: string;
 }
+type Sponsor = { 
+  sponsorId?: string;
+  sponsorName?: string;
+  sponsorAssetId?: string;
+  sponsorType?: string;
+}
+
+interface SponsorType{
+  value: number;
+  label: string;
+}
+
+
 interface SessionDrawerContentProps {
     isEditing: boolean;
     selectedProgram: any;
@@ -93,16 +118,25 @@ interface SessionDrawerContentProps {
     
     const isPaid = watch("isPaid");
     const [showSpeakerSection, setShowSpeakerSection] = useState(false);
+    const [showSponserSection, setShowSponsorSection] = useState(false);
     const [loading, setLoading] = useState(false);
     const companyId = sessionStorage.getItem("companyId")
     const [searchResults, setSearchResults] = useState<Speaker[]>([]);
+    const [sponsorSearchResults, setSponsorSearcResults] = useState<Sponsor[]>([]);
+    const [sponsorType,setSponsorType]=useState<SponsorType[]>([]);
     const baseUrl = config.api.url;
     const {append } = useFieldArray({
       control,
       name: "speakers",
     });
+ 
+    const { append: appendSponsor } = useFieldArray({
+      control,
+      name: "sponsors", // Field array for sponsors
+    });
 
   
+   
   /**
    * Used to set value into the field if its edit and reset if it's add
    */
@@ -123,8 +157,18 @@ interface SessionDrawerContentProps {
           speakerDesignation: speaker?.speakerBios?.[0]?.designation,
           speakerAssetId:speaker?.user?.assetId,
         }));
+        const sponsors = selectedProgram?.eventSpeakers?.map((sponsor: any) => ({
+          sponsorId: sponsor?.userId,
+          sponsorName: `${sponsor?.user?.firstName} ${sponsor?.user?.lastName}`,
+          sponsorType: sponsor?.speakerBios?.[0]?.designation,
+          sponsorAssetId:sponsor?.user?.assetId,
+        }))
+
         setValue("speakers", speakers);
         setShowSpeakerSection(speakers?.length > 0)
+
+        setValue("sponsors", sponsors)
+        setShowSponsorSection(sponsors?.length > 0)
 
         } else {
         reset({
@@ -141,6 +185,10 @@ interface SessionDrawerContentProps {
           speakerAssetId: "",
           speakerDesignation: "",
           speakerName:"",
+          sponsorId:"",
+          sponsorAssetId:"",
+          sponsorType:"",
+          sponsorName:"",
         });
       }
     }, [isEditing, selectedProgram, reset, setValue]);
@@ -209,6 +257,12 @@ interface SessionDrawerContentProps {
         designation: speaker?.speakerDesignation || ' ',
       }));
 
+      // Map sponsors to the desired format
+      const sponsors = data?.sponsors?.map((sponsor: any) => ({
+        sponsorId: sponsor?.sponsorId,
+        sponsorType: sponsor?.sponsorType || ' ',
+      }));
+
       // Create the new transformed object
       const transformedProgram = {
         isPaid: data.isPaid,
@@ -219,6 +273,7 @@ interface SessionDrawerContentProps {
         startTime: startDateTime,
         endTime: endDateTime,
         speakers,
+        sponsors,
       };
       onSubmit(transformedProgram);
 
@@ -309,6 +364,134 @@ interface SessionDrawerContentProps {
       })
     };
 
+
+     /**
+     * Method transforms data to the autocomplete data format of sponsor
+     * @param data : api response data
+     * @returns 
+     */
+     function transformSponsorData(data: any): Sponsor[] {
+      return data?.map((item: any) => ({
+        sponsorId: item?.id,
+        sponsorName: `${item?.name}`,
+        sponsorAssetId: item?.assetId,
+        ...item
+      }));
+    }
+    /**
+     *  Function to handle search Sponsor API for user role autocomplete
+     */
+    const handleSearchSponsor = async (query: string) => {
+      setLoading(true);
+      await POST({
+        url: "sponsor/list",
+        id: "sponsorList",
+        body: {
+          filters: {
+            name: query,
+            companyId: companyId,
+          },
+          limit: 30
+        },
+        successCB: (context: any) => {
+          setSponsorSearcResults(transformSponsorData(context?.data))
+          setLoading(false);
+        },
+        errorCB: (context: any) => {
+          Logger.error("Error fetching search results:", context?.message);
+          setLoading(false);
+        }
+      })
+    };
+
+
+    const removeSponsor = (sponsor: Sponsor) => {
+      const sponsors = watch('sponsors');
+    
+      // Check if the speaker is part of the original data (selectedProgram) using userId
+      const isExistingSponsor = selectedProgram?.eventSpeakers?.some(
+        (existingSponsor: any) => existingSponsor?.userId === sponsors?.[0]?.sponsorId
+      );
+    
+      if (isExistingSponsor) {
+        // If the speaker is from the original program data, call the API to remove it
+        const sponsorToRemove = selectedProgram?.eventSpeakers?.find(
+          (existingSponsor: any) => existingSponsor?.userId === sponsors?.[0]?.sponsorId
+        );
+    
+        if (sponsorToRemove) {
+          const sponsorId = sponsorToRemove?.id; // Use `id` for deletion
+    
+          POST({
+            url: `eventSpeaker/delete/${sponsorId}`, // Your API endpoint to remove a speaker
+            id: "removeSpeaker",
+            body: { },
+            successCB: (context: any) => {
+              Logger.info("Sponsorr removed successfully", context);
+              // Proceed to remove from the field array once the API call is successful
+              const updatedSponsors = sponsors.filter((s: Sponsor) => s.sponsorId !== sponsor.sponsorId);
+              setValue('sponsors', updatedSponsors); // Update form data after successful API call
+            },
+            errorCB: (context: any) => {
+              Logger.error("Error removing sponsor", context);
+            }
+          });
+        }
+      } else {
+        // If the speaker is newly added, just remove it from the field array
+        const updatedSponsor = sponsors?.filter((s: Sponsor) => s?.sponsorId !== sponsor?.sponsorId);
+        setValue('sponsors', updatedSponsor); // Update form data to remove the speaker
+      }
+    };
+
+
+    const addSponsor = () => {
+      const values = watch();
+      const sponsorId = values?.sponsorId;
+      const sponsorName = values?.sponsorName;
+      const sponsorAssetId = values?.sponsorAssetId;
+      const sponsorType = values?.sponsorType;
+
+            const isDuplicate = values?.sponsors?.some((sponsor: any) => sponsor.sponsorId === sponsorId);
+            if(isDuplicate){
+              setError('sponsorSelection', {type:"manual", message:"Sponsor already exist please select another sponsor"});
+              return;
+            }
+            // Check if the speaker is part of the original data (selectedProgram) using userId
+            const isExistingSponsor = selectedProgram?.eventSpeakers?.some(
+              (existingSponsor: any) => existingSponsor?.userId === sponsorId
+            );
+
+            if(isExistingSponsor){
+              setError(`sponsorSelection`, { type: "manual", message: "Sponsor Already assigned. please select another sponser" });
+              return;
+            }
+
+            if (!sponsorId) {
+              setError(`sponsorSelection`, { type: "manual", message: "Please select a sponsor" });
+              return;
+            }
+            if (!sponsorType) {
+              setError(`sponsorType`, { type: "manual", message: "Sponsor type is required" });
+              return;
+            }
+
+             // Append speaker to the speakers field
+      appendSponsor({
+        sponsorId,
+        sponsorName,
+        sponsorAssetId,
+        sponsorType,
+      });
+      clearErrors();
+      
+        // Reset the speaker form fields
+      setValue("sponsorId", "");
+      setValue("sponsorName", "");
+      setValue("sponsorAssetId", "");
+      setValue("sponsorType", "");
+    }
+
     /**
      * Adds a new speaker to the program's speakers array.
      */
@@ -354,6 +537,35 @@ interface SessionDrawerContentProps {
       
     };
     
+    
+     const getSponsor=async ()=>{
+              await POST({
+                  url:'sponsorType/list',
+                  body:{},
+                  id:'sponsorType-list',
+                  successCB: (_context: any) => {
+                    let _sponsor:any=[];
+                    _context.data.forEach((item: any) => {
+                      _sponsor.push({
+                        value: item?.id,
+                        label: item?.name
+                      })
+                    })
+                    setSponsorType(_sponsor)
+                  }, 
+                  errorCB: (context: any) => {
+                      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
+                  }
+              });
+          }
+    
+          // eslint-disable-next-line react-hooks/rules-of-hooks
+          useEffect(() => {
+            getSponsor()
+          }, [])
+          
+    
+
     return (
       <Box sx={{ maxWidth: 600 }}>
         <Grid container spacing={2} padding={2}>
@@ -567,6 +779,106 @@ interface SessionDrawerContentProps {
                           </Grid>
                           <Grid size={{ xs: 2 }} justifyItems={'center'}>
                             <IconButton onClick={() => removeSpeaker(item)}>
+                              <DeleteIcon />
+                            </IconButton>
+                          </Grid>
+                        </Grid>
+                      );
+                    })}
+                  </Grid>
+                </Grid>
+              )}
+            </Grid>// end of add speaker section
+          )}
+
+
+{!showSponserSection ? (
+            <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'center'}>
+              <CustomButton
+                className="add-program-drawer-speaker-option-btn"
+                label="Assign Sponsors for this Program?"
+                variant="outlined"
+                size="large"
+                type="button"
+                onClick={() => setShowSponsorSection(true)}
+              />
+            </Grid>
+          ) : (
+            <Grid container size={{ xs: 12, sm: 12 }} p={{ xs: 1, sm: 2 }} className="add-program-speaker-section">
+              {/* speaker add section */}
+              <Grid
+                size={{ xs: 12 }}
+                container
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Typography className="add-program-drawer-heading">
+                  Assign Sponsors
+                </Typography>
+                <IconButton onClick={() => setShowSponsorSection(false)}>
+                  <CloseOutlined />
+                </IconButton>
+              </Grid>{/*end of sponsor header section */}
+              <Grid size={{ xs: 12 }}>
+                <CustomAutocomplete
+                  name={`sponsorSelection`}
+                  control={control}
+                  placeholder="Search Sponsor"
+                  options={sponsorSearchResults}
+                  getOptionLabel={(option: any) => option?.name || ""}
+                  onSearch={handleSearchSponsor}
+                  loading={loading}
+                  onChange={(selectedOption) => {
+                    setValue(`sponsorId`, selectedOption?.sponsorId)
+                    setValue(`sponsorAssetId`, selectedOption?.sponsorAssetId)
+                    setValue(`sponsorName`, selectedOption?.sponsorName)
+                  }}
+                />
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+              <CustomSelect
+                    fullWidth
+                    name="sponsorType"
+                    control={control}
+                    label="Sponsor Type"
+                    options={sponsorType}
+                    />
+              </Grid>
+              <Grid size={{ xs: 12 }} >
+                <CustomButton
+                  className="add-program-drawer-btn-cancel"
+                  label="Assign Sponsor"
+                  variant="outlined"
+                  size="large"
+                  onClick={addSponsor}
+                />
+              </Grid>
+              {watch(`sponsors`)?.length !== 0 && (
+                <Grid container flexDirection={"column"} className="add-program-speaker-section-card-container" size={{ xs: 12 }}>
+                  <Grid container spacing={1}>
+                    {watch(`sponsors`)?.map((item, speakerIndex) => {
+                      return (
+                        <Grid size={{ xs: 12 }} key={speakerIndex + "grid"} container alignItems="center" className="add-program-speaker-section-card-item" p={1}>
+                          <Grid size={{ xs: 2 }} justifyItems={'center'}>
+                            <Avatar
+                              alt={item?.sponsorName}
+                              src={item?.sponsorAssetId
+                                ? `${baseUrl}asset/${item?.sponsorAssetId}`
+                                : ""}
+                            />
+                          </Grid>
+                          <Grid size={{ xs: 8 }} justifyItems={'start'}>
+                            <Typography className="add-program-speaker-section-card-item-title">
+                              {item?.sponsorName}
+                            </Typography>
+                            <Typography className="add-program-speaker-section-card-item-subtitle">
+                            {truncateString(
+    sponsorType.find((type) => type.value === item?.sponsorType)?.label || "N/A",
+    35
+  )}                            </Typography>
+                          </Grid>
+                          <Grid size={{ xs: 2 }} justifyItems={'center'}>
+                            <IconButton onClick={() => removeSponsor(item)}>
                               <DeleteIcon />
                             </IconButton>
                           </Grid>
