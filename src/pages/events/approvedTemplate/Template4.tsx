@@ -71,8 +71,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     };
     const headerLinks: LinkData[] = [
         { text: "Speakers" },
-        { text: "Sponsers" },
-        { text: "Programmes" },
+        { text: "Sponsors" },
+        { text: "Programs" },
         { text: "Location" }
     ];
     const [selectedDate, setSelectedDate] = useState<string>('');
