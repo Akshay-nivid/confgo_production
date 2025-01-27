@@ -143,13 +143,13 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, classP
     function handleLinkClick(value: 'About' | 'Program' | 'Contributors' | 'Location') {
 
 
-        if (location?.pathname?.startsWith('/event-link')) {
+        if (location?.pathname?.startsWith('/event')) {
             scrollToTargetLink(value)
 
         } else {
             setDataById('currentLink', { value: value });
 
-            const targetRoute = `/event-link/${slugName}`
+            const targetRoute = `/event/${slugName}`
 
             navigate(targetRoute);
 

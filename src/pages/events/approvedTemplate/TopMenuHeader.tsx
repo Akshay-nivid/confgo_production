@@ -91,12 +91,12 @@ const TopMenuHeader: React.FC<TopMenuHeaderProps> = React.memo(({ links, data, c
      */
 
     function handleLinkClick(value: "Speakers" | "Sponsers" | "Programmes" | "Location" | "BeSponser") {
-        if (location?.pathname?.startsWith('/event-link')) {
+        if (location?.pathname?.startsWith('/event')) {
             scrollToTargetLink(value)
 
         } else {
             setDataById('currentLink', { value: value });
-            const targetRoute = `/event-link/${slugName}`
+            const targetRoute = `/event/${slugName}`
             navigate(targetRoute);
         }
     }
