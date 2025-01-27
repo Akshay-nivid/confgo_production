@@ -1461,7 +1461,7 @@
         &-header {
             background: url("../assets/png/template4-header.png") no-repeat center;
             background-size: cover;
-            height: 110vh;
+            height: 100vh;
             &-photo-container {
                 width: 51.6rem !important;
             }
@@ -1473,6 +1473,7 @@
             position: absolute;
             bottom:0 !important;
             margin-left: 10rem;
+            padding-bottom: 5rem !important;
             &-title{
                 font-weight: $font_semibold !important;
                 font-size: $h1 !important;
@@ -1777,8 +1778,8 @@
                     }
                 }
                 &-container-no-profile-picture{
-                        width: 10rem;
-                        height: 10rem;
+                        width: 20rem;
+                        height: 20rem;
                 }
             }
 
@@ -1925,7 +1926,6 @@
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    background-color: #fff; // Optional: Add a white background for contrast
             
                     img {
                         max-width: 100%; // Make sure the image scales properly
