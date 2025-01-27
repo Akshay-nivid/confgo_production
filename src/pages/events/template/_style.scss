@@ -1778,11 +1778,15 @@
                         padding: 0 !important;
                         font-size: $h6 !important;
                         font-weight: $font-semibold !important;
+                        &:hover {
+                            color: $clr_teal !important; 
+                        }
                     }
+                    
                 }
                 &-container-no-profile-picture{
-                        width: 20rem;
-                        height: 20rem;
+                        width: 17rem;
+                        height: 17rem;
                 }
             }
 
@@ -1826,6 +1830,7 @@
                 margin-top: 3.33rem !important;
                 margin-bottom: 0.83rem !important;
                 width: 90% !important;
+                box-shadow: none !important;
             }
 
             &-item-container:nth-child(odd) .event-template-template4-ticketing-register-button {
@@ -1845,6 +1850,8 @@
                 margin-bottom: 3rem !important;
                 margin-top: 0.83rem !important;
                 border-bottom: 1px solid $clr_very_light_gray;
+                padding-top: 1rem !important;
+                padding-bottom: 2rem !important;
             }
 
             &-content {
