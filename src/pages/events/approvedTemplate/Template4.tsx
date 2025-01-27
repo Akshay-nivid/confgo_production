@@ -550,17 +550,17 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                             </Grid>
                         })} */}
                         {
-                           Object.keys(groupedSponsors).length > 0 && Object.entries(groupedSponsors).map(([key, items]: any) => {
+                           Object.keys(groupedSponsors)?.length > 0 && Object?.entries(groupedSponsors)?.map(([key, items]: any) => {
                                 return (
                                     key === "DIAMOND" ? (
                                         <Box width={'100%'} mb={10}>
                                             <Box width={'100%'}>
-                                                <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
+                                                <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key?.toLowerCase()} Sponsors`}</Typography>
 
                                             </Box>
                                             <Box className="flex flex-col gap-y-6 w-full">
                                                 {
-                                                    items.map((item: any) => {
+                                                    items?.map((item: any) => {
                                                         return (
                                                             <Box className="max-h-[438px] contain-content " width={'100%'}>
                                                                 <img className='object-fill' width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
