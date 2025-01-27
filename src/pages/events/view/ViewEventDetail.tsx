@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Skeleton, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import React, { useEffect, useState } from "react";
 import Tab from '@mui/material/Tab';
@@ -32,6 +32,7 @@ import { PublishTickIcon, WarningIcon } from "@/assets/svg";
 import AbstractListCard from "./AbstractListCard";
 import TeamAndRole from "./TeamAndRole";
 import Tooltip from '@mui/material/Tooltip';
+import { EventDetailSkeleton } from "@/components/Skeleton";
 
 
 
@@ -104,7 +105,8 @@ const ViewEventDetail = () => {
   const [link, setLink] = useState('');
   const [errorMessage, setErrorMessage] = useState('')
   const [openModal, setOpenModal] = useState(false);
-  const [datass, setdatass] = useState()
+  const [datass, setdatass] = useState();
+  const [loading, setLoading] = useState(true);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -200,6 +202,7 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
    */
   const getEventDetails = async () => {
     try {
+      setLoading(true);
       const response = await apiClient.get(`event/${id}`);
       const { status, data } =  processAPIResponse(response, 'eventData');
       if (status) {
@@ -211,10 +214,11 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
         } else {
           data.slugName ? setValue('eventLink', data.slugName) : handleLinkGenerationApiCall();
         }
-        
+        setLoading(false)
       }
     } catch (error) {
       Logger.error('ViewEventDetail', error);
+      setLoading(false)
     }
   }
 
@@ -329,11 +333,14 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
       <Grid size={{ xs: 12, sm: 12 }} flexDirection={"column"} >
         <Grid className="event-detail-header" size={{ xs: 12, sm: 12 }} >
           <Grid container justifyContent={'space-between'} >
+          {loading ? (
+            <Skeleton animation="wave" width={"30%"}/>
+          ) : (
             <Grid container>
               <Grid >
               <Tooltip classes={{ tooltip: 'custom-tooltip'}} title={eventFullData?.name || 'No name available'} placement="top">
               <Typography variant="h4" className="event-detail-header-title">
-               {truncateString(eventFullData?.name, 20)}
+               {truncateString(eventFullData?.name, 20, '')}
               </Typography>
               </Tooltip>
               </Grid>
@@ -341,7 +348,7 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
                 {eventFullData?.statusId &&
                   <Grid sx={{ml:2}}><StatusComponent value={eventFullData?.statusId ==1 && eventFullData?.published ? "6" : eventFullData?.statusId.toString()} /></Grid>}
               </Grid>
-            </Grid>
+            </Grid>)}
             <Grid container spacing={2}>
               <Grid>
               {eventFullData?.published? <Grid container size={{ xs: 12, sm: 12 }} direction={'column'}>
@@ -411,9 +418,15 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
             </TabList>
           </Grid>
           <TabPanel value="1">
-            <EventInfoCard eventData={eventFullData} onSubmitHandler={handleSubmitHandler}/>
-            { eventFullData?.eventClass !="ONLINE" &&
-            <LocationCard eventData={eventFullData} published={eventFullData?.published}  onSubmitHandler={handleSubmitHandler}/>
+          { loading ? (
+              <EventDetailSkeleton width={600} />
+            ) : (
+              <>
+                <EventInfoCard eventData={eventFullData} onSubmitHandler={handleSubmitHandler} />
+                {eventFullData?.eventClass != "ONLINE" &&
+                  <LocationCard eventData={eventFullData} published={eventFullData?.published} onSubmitHandler={handleSubmitHandler} />
+                }</>
+            )
           }
           </TabPanel>
           <TabPanel value="2">

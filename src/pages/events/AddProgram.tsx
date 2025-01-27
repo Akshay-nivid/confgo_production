@@ -406,6 +406,7 @@ const handleAddProgram = () => {
         setValue("savedPrograms", programs);
         append(newProgram);
         setProgramIndex(programs?.length || 0);
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Program added to the event" })
       } else {
         // If in `editMode`, just update the program index
         setProgramIndex(programs?.length ? programs.length - 1 : 0);
@@ -432,7 +433,7 @@ const handleAddProgram = () => {
       setValue("programs", watch("savedPrograms"));
       setProgramIndex(index);
       if(watch(`programs.${index}.speakers`)){
-        setShowSpeakerSection(true)
+        setShowSpeakerSection(watch(`programs.${index}.speakers`)?.length == 0 ? false : true)
       }
     };
 
@@ -565,6 +566,7 @@ const handleAddProgram = () => {
       resetField(`programs.${index}.designation`);
       resetField(`programs.${index}.speakerFullName`);
       resetField(`programs.${index}.speakerSelection`);
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "speaker added successfully" })
     }; 
 
     /**
@@ -790,9 +792,11 @@ const handleAddProgram = () => {
                                   <Typography className="add-program-drawer-heading">
                                     Assign Speakers
                                   </Typography>
+                                  {watch(`programs.${index}.speakers`)?.length == 0 && (
                                   <IconButton onClick={() => setShowSpeakerSection(false)}>
                                     <CloseOutlined />
                                   </IconButton>
+                                  )}
                                 </Grid>{/*end of speaker header section */}
                                 <Grid size={{ xs: 12}}>
                                   <CustomAutocomplete
@@ -811,8 +815,8 @@ const handleAddProgram = () => {
                                     }}
                                   />
                                 </Grid>
-                                <Grid container className="add-program-drawer-new-speaker-link" justifyContent={'end'} onClick={() => setNewSpeakerDrawerOpen(true)} size={{xs:12}}>
-                                  <Typography className="cursor-container" variant="h6">Create New Speaker ?</Typography>
+                                <Grid container className="add-program-drawer-new-speaker-link" justifyContent={'end'}  size={{xs:12}}>
+                                  <Typography onClick={() => setNewSpeakerDrawerOpen(true)} className="cursor-container" variant="h6">Create New Speaker ?</Typography>
                                 </Grid>
                                 {/* <Grid size={{ xs: 12}}>
                                   <CustomTextField
@@ -850,7 +854,7 @@ const handleAddProgram = () => {
                                                   {item.speakerFullName}
                                                 </Typography>
                                                 <Typography className="add-program-speaker-section-card-item-subtitle">
-                                                  { truncateString(item?.designation,35)}
+                                                  {truncateString(item?.designation, 35, "")}
                                                 </Typography>
                                               </Grid>
                                               <Grid size={{xs:2}} justifyItems={'center'}>
@@ -907,7 +911,7 @@ const handleAddProgram = () => {
         <Grid
             container
             direction={"row"}
-            className="add-program-display-container"
+            className="add-program-program-display-container"
             size={{ xs: 12, sm: 7 }}
             spacing={2}
             key='add-program-display-container'
@@ -925,7 +929,7 @@ const handleAddProgram = () => {
             </Grid>
             <Grid
               size={{ xs: 12 }}
-              className="add-program-display-items"
+              className="add-program-program-display-items"
               alignItems="flex-start"
               justifyContent="flex-start"
               mt={{xs:1,sm:3}}

@@ -23,6 +23,10 @@ interface Program {
   isPaid: "PAID" | "FREE";
   amount: number;
 }
+interface Event {
+  eventSpeakers: any; 
+};
+
 /**
  *  Componet to list the sessions
  */
@@ -286,6 +290,30 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
 
     return acc;
   }, {});
+
+/**
+ * transformed data so that session card support
+ */
+  const transformed = Object.fromEntries(
+    Object.entries(groupedData).map(([date, events]) => [
+      date,
+      (events as Event[]).map((event) => {
+          const speakers = event?.eventSpeakers
+          ? event?.eventSpeakers.map((speaker: any) => ({
+              speakerAssetId: speaker?.user?.assetId,
+              speakerFullName: speaker?.user?.firstName,
+              speakerId: speaker?.user?.id,
+              designation:speaker?.user?.designation,
+              speakerLastName:speaker?.user?.lastName
+            }))
+          : null;
+        return {
+          ...event,speakers
+        };
+      }),
+    ])
+  );
+
   return (
     <Grid container spacing={3} className="event-sessions-sessions-container">
       <Grid
@@ -345,7 +373,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
       )}
 
       {/* Render valid date items */}
-      {Object.keys(groupedData)
+      {Object.keys(transformed)
         .filter((date) => date !== "invalid")
         .map((date,idx) => (
           <Grid size={{ xs: 12 }} key={date}>
@@ -361,8 +389,8 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
             </Box>
 
             <Grid container spacing={2} className="event-sessions-session-list">
-						{groupedData[date].map(
-           (item: { addon: { name: any } }, index: Key | null | undefined) => {
+						{transformed[date].map(
+           (item: any, index: Key | null | undefined) => {
     return (
       <SessionCard
         key={index}

@@ -183,8 +183,7 @@ const LoginOrg = () => {
                     variant="contained"
                     className="w-full custom-button"
                     style={{ textTransform: "none" }}
-                    loading={isLoading}
-                    // disabled={isLoading}
+                    disabled={isLoading}
                   >
                     Log In
                   </Button>

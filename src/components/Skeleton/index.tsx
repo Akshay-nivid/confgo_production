@@ -88,3 +88,56 @@ export const SkeletonList: React.FC<SkeletonProps> = props => {
 
   )
 }
+
+
+//skelton for the EventDetail
+export const EventDetailSkeleton: React.FC<SkeletonProps> = props => {
+  let maxHight: number = 20.5;
+  if (props.height) {
+    try {
+      maxHight = parseInt(props.height + "".replace('rem', ''))
+    } catch (e) { }
+  }
+
+
+  const rows_hight = 45 * 0.0625;
+  let rowCount: any = Math.floor((maxHight) / rows_hight);
+  let rows: any = [];
+  for (let i = 1; i <= rowCount; i++) {
+    rows.push(i);
+  }
+  return (
+    <Card className={clsx("fx-skelton", props?.className)} style={{'width': props.width || '100%' ,'border':'none' ,'boxShadow':'none'}}>
+      <table width="100%">
+        {/* card header 40px height */}
+        <tr>
+          <td width="40%" >
+            <CardHeader
+              title={
+                <><Skeleton animation="wave" height={16} width="80%" /></>
+              }
+            /> </td>
+            <td ><CardContent><Skeleton animation="wave" /></CardContent></td>
+        </tr>
+        {/* card list items height 44px  */}
+        {
+          rows.map(() => {
+            return (
+              <tr>
+                <td >
+                  <CardHeader
+                    title={
+                      <><Skeleton animation="wave" height={16} width="80%" /></>
+                    }
+                  />
+                </td>
+                <td ><CardContent><Skeleton animation="wave" /></CardContent></td>
+              </tr>
+            )
+          })
+        }
+      </table>
+    </Card>
+  )
+}
+

@@ -117,6 +117,11 @@ import NoProgramIcon from "./no-program-icon.svg";
 import ProgramIcon from "./programIcon.svg";
 import AddOnIcon from "./addOnIcon.svg";
 import VectorMenu from "./Vector-menu.svg";
+import TemplateGrayClockIcon from './so-clock.svg';
+import TemplateBlackClockIcon from './so-clock-black.svg';
+import TemplatePriceGrayIcon from './so-price-tag-gray.svg';
+import TemplatePriceBlackIcon from './so-price-tag-black.svg';
+import DownArrow from "./down-arrow.svg";
 import ShakeHandIcon from "./shake-hand.svg";
 
 export {
@@ -239,5 +244,10 @@ export {
   NoProgramIcon,
   ProgramIcon,
   AddOnIcon,
-  VectorMenu
+  VectorMenu,
+  TemplateGrayClockIcon,
+  TemplateBlackClockIcon,
+  TemplatePriceGrayIcon,
+  TemplatePriceBlackIcon,
+  DownArrow
 };

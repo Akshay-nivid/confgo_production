@@ -104,7 +104,7 @@ const SponsorShip = (Id:any) => {
             phone: data.phoneNumber,
             email: data.email,
             message: data.message,
-            eventId:eventId,
+            eventId:eventId?.eventId,
         }
 
         /**

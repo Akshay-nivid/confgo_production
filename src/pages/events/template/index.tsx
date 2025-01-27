@@ -10,6 +10,7 @@ import { Logger } from '@/Utils/Logger';
 import routes from '@/router/routes';
 import Template3 from './Template3';
 import Template2 from './Template2';
+import Template4 from '../approvedTemplate/Template4';
 import { CircularProgress } from '@mui/material';
 import NoEvents from '@/pages/Participant-User/No-Event/NoEvent';
 
@@ -21,6 +22,7 @@ const templates: any = {
   1: Template1,
   2: Template2,
   3: Template3,
+  4: Template4
 };
 
 /**
