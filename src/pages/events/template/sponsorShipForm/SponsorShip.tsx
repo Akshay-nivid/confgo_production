@@ -94,7 +94,6 @@ const SponsorShip = (Id:any) => {
      * @param data 
      */
     const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
-        // const fullPhoneNumber = `${selectedCountryCode}` + data.phoneNumber;
         const body = {
             firstName: data.name,
             lastName: data.lastName,
@@ -104,7 +103,7 @@ const SponsorShip = (Id:any) => {
             phone: data.phoneNumber,
             email: data.email,
             message: data.message,
-            eventId:eventId?.eventId,
+            eventId:eventId,
         }
 
         /**
