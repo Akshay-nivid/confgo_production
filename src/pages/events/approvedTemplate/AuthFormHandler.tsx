@@ -6,6 +6,7 @@ import { Typography } from '@mui/material';
 import { setDataById, snackBar } from '@/Libs/store';
 import { useLocation, useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
+import TLogout from './TLogout';
 
 /**
  * Component handles auth section
@@ -15,6 +16,8 @@ const AuthFormHandler: React.FC<any> = React.memo(({ className, data, onScrollTo
     const navigate = useNavigate();
     const location = useLocation();
     const eventPriceTiersPresent = data?.eventPriceTiers !== undefined && data?.eventPriceTiers !== null && data?.eventPriceTiers?.length > 0;
+    const userToken = sessionStorage.getItem('token')
+    const userRole = sessionStorage.getItem('userRole')
 
 
      /**
@@ -25,8 +28,6 @@ const AuthFormHandler: React.FC<any> = React.memo(({ className, data, onScrollTo
 
     e.preventDefault();
 
-    const userToken = sessionStorage.getItem('token')
-    const userRole = sessionStorage.getItem('userRole')
 
     // admin user is perevented from navigating to cart
     if (userToken && userRole !== 'USER') {
@@ -55,7 +56,7 @@ const AuthFormHandler: React.FC<any> = React.memo(({ className, data, onScrollTo
         <Grid size={12} className={className}>
             <Typography className={`${className}-title`}>{data?.name}</Typography>
             <Grid direction={'row'} container>
-                <TLogin className={`${className}-login`} onClick={loginFn}/>
+                {userToken ? <TLogout className={`${className}-login`} /> : <TLogin className={`${className}-login`} onClick={loginFn}/>}
                 <TRegister buttonName='Regsiter' className={`${className}-register`} onClick={(e: any) => handleClickRegister(e)}/>
             </Grid>
         </Grid>

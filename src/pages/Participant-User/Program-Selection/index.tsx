@@ -17,6 +17,7 @@ import LocalTimeDate from "@/components/LocalTimeDate/LocalTimeDate";
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import { getUserCart } from "@/pages/events/template/programHandler";
 import { IEventResponse } from "@/Libs/types/event";
+import ProgramDetailsModal from "./ProgramDetailsModal";
 
 
 export interface IProgram {
@@ -371,6 +372,7 @@ const ProgramSelection = () => {
               </Box>
             </form>
           </FormProvider>
+          <ProgramDetailsModal className="program-selection-modal"/>
         </Box>
       </Grid>
     </Grid>

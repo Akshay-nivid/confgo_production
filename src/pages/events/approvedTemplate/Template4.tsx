@@ -320,21 +320,16 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
 
     function groupSponsorsByCategory(sponsors: any) {
 
-        const groupedSponsors = {} as any
+        const groupedSponsors = {
+            "DIAMOND": [],
+            "PLATINUM": [],
+            "GOLD": [],
+            "SILVER": [],
+        } as any
 
         sponsors.forEach((sponsor: any) => {
-
-
-            if (!groupedSponsors[sponsor?.sponsorType?.name]) {
-
-                groupedSponsors[sponsor?.sponsorType?.name] = [sponsor]
-
-            } else {
-
-                groupedSponsors[sponsor?.sponsorType?.name].push(sponsor)
-
-            }
-
+            
+            groupedSponsors[sponsor?.sponsorType?.name].push(sponsor)
         })
 
         return groupedSponsors
@@ -423,7 +418,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
 
                 {/* Speaker section ends here  */}
                 {/* Program section starts here */}
-                <Grid id={"Program"} container size={{ xs: 12, sm: 12 }} spacing={2} mb={10} ref={programRef}>
+                <Grid id={"Program"} container size={{ xs: 12, sm: 12 }} spacing={2} mb={5} ref={programRef}>
                     <Grid size={{ xs: 12 }} justifyContent={'center'} mt={{ xs: 2, sm: 4 }}><Typography className={`${classPrefix}-program-schedule-heading`}>Conference Program Schedule</Typography></Grid>
                     {/* <Grid container size={{xs:12}} justifyContent={'center'} alignItems="center" mb={{xs:2,sm:3}}>
             <Box className={`${classPrefix}-program-schedule-date`}>Event Start Date : {moment(data?.startTime)?.format('DD, MM, YYYY')}</Box>
@@ -550,10 +545,10 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                             </Grid>
                         })} */}
                         {
-                           Object.keys(groupedSponsors)?.length > 0 && Object?.entries(groupedSponsors)?.map(([key, items]: any) => {
+                            Object.keys(groupedSponsors)?.length > 0 && Object?.entries(groupedSponsors)?.map(([key, items]: any) => {
                                 return (
-                                    key === "DIAMOND" ? (
-                                        <Box width={'100%'} mb={10}>
+                                    key === "DIAMOND" ? items?.length > 0 && (
+                                        <Box width={'100%'} mb={5}>
                                             <Box width={'100%'}>
                                                 <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key?.toLowerCase()} Sponsors`}</Typography>
 
@@ -571,8 +566,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                 }
                                             </Box>
                                         </Box>
-                                    ) : key === "PLATINUM" ? (
-                                        <Grid size={12} container direction={'column'} mb={10}>
+                                    ) : key === "PLATINUM" ? items?.length > 0 && (
+                                        <Grid size={12} container direction={'column'} mb={5}>
                                             <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
                                             {
                                                 items?.map((item: any) => {
@@ -584,8 +579,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                 })
                                             }
                                         </Grid>
-                                    ) : key === "GOLD" ? (
-                                        <Grid mb={10} size={12} container direction={'column'} >
+                                    ) : key === "GOLD" ? items?.length > 0 && (
+                                        <Grid mb={5} size={12} container direction={'column'} >
                                             <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
                                             {
                                                 items?.map((item: any) => {
@@ -598,7 +593,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                             }
                                         </Grid>
                                     ) : <>
-                                        <Grid size={12} container direction={'column'}>
+                                        { items?.length > 0 && <Grid size={12} container direction={'column'}>
                                             <Typography textAlign={"center"} className='template4-sponsor-banner-text'>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
                                             {
                                                 items?.map((item: any) => {
@@ -609,7 +604,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                     )
                                                 })
                                             }
-                                        </Grid>
+                                        </Grid>}
                                     </>
 
 

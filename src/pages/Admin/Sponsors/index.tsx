@@ -32,8 +32,8 @@ const Sponsors = () => {
     const sponsorResponseData = useStore(state => state.compData?.['sponsor-datagrid']) || {}
     const listData = sponsorResponseData?.data || []
     // const sponsorId = useStore(state => state?.compData?.['sponsorId']?.value) || null;
-    const isDeleteSponsorPending = useStore(state => state.compData?.['deleteSponsor']?.[`sponsor/delete/${sponsorId}`]?.loading) || false
     const sponsorId = useStore(state=>state.nonPersistedData.sponsorId?.value)
+    const isDeleteSponsorPending = useStore(state => state.compData?.['deleteSponsor']?.[`sponsor/delete/${sponsorId}`]?.loading) || false
     const sponsorDrawerType = useStore(state => state.nonPersistedData.sponsorDrawerType?.value)
     const isEditSponsorLoading = useStore(state => state.compData?.['createSponsor']?.[`sponsor/edit/${sponsorId}`]?.loading) || false
 
@@ -195,6 +195,8 @@ const Sponsors = () => {
     function handleClickEdit(e: React.MouseEvent, data: any) {
         e.preventDefault()
         e.stopPropagation()
+
+        console.log(data)
 
         setNonPersistedDataById('sponsorId', { value: data?.id })
 
