@@ -124,9 +124,10 @@ const SpeakersEventDetails: React.FC<any> = ({ file }) => {
                                 isAbstract={true}
                                 acceptedFiles={["pdf",]}
                                 trimClientSide={false}
-                                resolution={{ width: 200, height: 200 }}
+                                resolution={{ width: 200 }}
                                 onSubmit={handleImageUpload}
                                 height={'25rem'}
+                                maxSize={10}
                             />
                         </Grid>
                         {uploadedFile?.id && <Grid>
