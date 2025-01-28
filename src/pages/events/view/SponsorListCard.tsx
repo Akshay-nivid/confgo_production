@@ -179,7 +179,7 @@ const SponsorListCard = () => {
 
   // Column configuration for the DataGrid component
   const columns = [
-    { type: "default", field: "id", headerName: "ID", width: 150 },
+    { type: "default", field: "id", headerName: "ID", width: 100 },
     {
       type: "custom",
       field: "logo",
@@ -187,20 +187,20 @@ const SponsorListCard = () => {
       width: 110,
 
   },
-    { type: "default", field: "name", headerName: "Name", width: 200 },
+    { type: "default", field: "name", headerName: "Name", width: 150 },
     {
       type: "default",
       field: "email",
       headerName: "Email",
-      width: 250,
+      width: 190,
     },
     {
       type: "default",
       field: "phone",
       headerName: "Phone No",
-      width: 200,
+      width: 150,
     },
-    { type: "default", field: "sponsorType", headerName: "Type", width: 200 },
+    { type: "default", field: "sponsorType", headerName: "Type", width: 100 },
 
     {
       type: "status",
