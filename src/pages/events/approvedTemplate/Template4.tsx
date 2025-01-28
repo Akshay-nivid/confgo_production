@@ -4,7 +4,7 @@ import TopMenuHeader, { LinkData } from './TopMenuHeader';
 import AuthFormHandler from './AuthFormHandler';
 import TEventDetails from './TEventDetails';
 import TimerCounterComp from '../template/TemplateTimer/TimerCounterComp';
-import { getLocalTimeDate, groupByDate } from '@/Utils/CommonBaseClass';
+import { getLocalTimeDate, groupByDate, truncateString } from '@/Utils/CommonBaseClass';
 import { Avatar, Box,Divider, Typography } from '@mui/material';
 import LocationSection from '../template/LocationSection';
 import FooterSection from '../template/FooterSection';
@@ -424,7 +424,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                     </Grid>
                                     <Grid container direction={'column'} >
                                         <Grid className={`${classPrefix}-event-contributors-item-name`}>{`${item.user?.firstName} ${item.user?.lastName}`}</Grid>
-                                        {item.user?.designation && <Grid className={`${classPrefix}-event-contributors-item-designation`}>{item.user?.designation}</Grid>}
+                                        {item.user?.designation && <Grid className={`${classPrefix}-event-contributors-item-designation`} title={item.user?.designation}>{truncateString(item.user?.designation, 30)}</Grid>}
                                         <Grid className={`${classPrefix}-event-contributors-item-view-more`} ><CustomButton
                                             label={'View more'}
                                             className={`${classPrefix}-event-contributors-item-view-more-button`}
