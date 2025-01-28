@@ -387,8 +387,8 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
         };
 
         if (data.dateRequired) {
-          formattedData.startTime = `${data.addonDate} ${convertUTCToUserTimeZone(data.addonDate+" "+data.startTime,"HH:mm")}`;
-          formattedData.endTime = `${data.addonDate} ${convertUTCToUserTimeZone(data.addonDate+" "+data.endTime,"HH:mm")}`;
+          formattedData.startTime = `${data?.addonDate} ${formatUTCDateTime(data?.addonDate+"T"+data?.startTime,"HH:mm")}`;
+          formattedData.endTime = `${data?.addonDate} ${formatUTCDateTime(data?.addonDate+"T"+data?.endTime,"HH:mm")}`;
         }
         formattedDataArray.push(formattedData);
         
@@ -397,8 +397,8 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
         const baseFormattedData: any = {
           eventId: Number(id),
           addonId: Number(selectedAddOnId),
-          startTime:`${data.addonDate} ${data?.startTime} `,
-          endTime:`${data.addonDate} ${data?.endTime}`,
+           ...(data?.addonDate && data?.dateRequired ? {startTime:`${data?.addonDate} ${data?.startTime} ` } : {}),
+           ...(data?.addonDate && data?.dateRequired ? {endTime:`${data?.addonDate} ${data?.endTime} ` } : {}), 
           description: data.description,
           sponsors,
           properties: Array.isArray(data.properties) && data.properties.length > 0
