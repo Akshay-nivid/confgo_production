@@ -1551,7 +1551,7 @@
                 font-size: $p5 !important;
                 color: $clr_white !important;
                 font-weight: $font-normal !important;
-                line-height: 2rem !important;
+                line-height: 2.66rem !important;
             }
             &-icon-container{
                 margin-bottom: 3rem !important;
@@ -1793,7 +1793,7 @@
         }
         &-event-contributors {
            // background-color: $clr_charcoal_cyan;
-            padding-top: 8rem;
+            padding-top: 4rem;
 
             &-title {
                 font-size: $h1;
@@ -1830,11 +1830,17 @@
                         width: 17rem;
                         height: 17rem;
                 }
+                &-container-image{
+                    img{
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
             }
 
         }
         &-ticketing {
-            padding: 2rem 2rem 8rem 2rem;
+            padding: 2rem 2rem 2rem 2rem;
 
             &-anim-container {
                 gap: 3.33rem !important;
