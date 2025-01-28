@@ -459,7 +459,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                         />
                                     </Grid>
 
-                                    {item.eventSponsors.length > 0 && (
+                                    {item?.eventSponsors?.length > 0 && (
 
                                         <Grid size={5}  className={`${classPrefix}-program-content-sponsor-generalAddon`}>
 
@@ -477,7 +477,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                 }
 
                                                 <Grid container size={12} justifyContent={"flex-end"} spacing={2}>
-                                                    {item.eventSponsors.map((sponsor: any) => (
+                                                    {item?.eventSponsors?.map((sponsor: any) => (
                                                         <Grid container   >
 
                                                             {sponsor?.sponsor?.logoAssetId ? (
@@ -589,14 +589,14 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
 
                                            </Grid>
                                            ):
-                                           item?.eventSponsors.length !==0 &&
+                                           item?.eventSponsors?.length !==0 &&
                                            <Grid container  className={`${classPrefix}-program-content-sponsor-heading`}>
                                            <Typography >Sponsored by</Typography>
 
                                            </Grid>
                                            }
                                             <Grid container size={10} justifyContent={"flex-end"} spacing={2} >
-                                            {item.eventSponsors.map((sponsor: any) => (
+                                            {item?.eventSponsors?.map((sponsor: any) => (
                                                 <Grid  container    className={`${classPrefix}-program-content-sponsor-ImgBox`} >
 
                                                     {sponsor?.sponsor?.logoAssetId ? (
