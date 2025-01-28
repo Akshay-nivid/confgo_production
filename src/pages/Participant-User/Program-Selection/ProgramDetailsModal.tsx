@@ -85,7 +85,7 @@ const ProgramDetailsModal = ({ className }: { className: string }) => {
                             <Box className="speakers">
 
                                 {
-                                    programDetails?.eventSpeakers.length > 0 ? programDetails?.eventSpeakers.map((speaker: any) => (
+                                    programDetails?.eventSpeakers?.length > 0 ? programDetails?.eventSpeakers?.map((speaker: any) => (
                                         <Avatar key={speaker?.user?.id} className="speakers-avatar" src={speaker?.user?.assetId ? config.api.url + "asset/" + speaker?.user?.assetId : ''}>{speaker?.user?.name?.[0]}</Avatar>
                                     )) : <Typography>No Speakers Found</Typography>
                                 }

@@ -186,17 +186,23 @@ const Sponsors = () => {
 
 
 
-    /**
-  * Row click navigation
-  */
     const baseUrl = config.api.url;
 
+
+/**
+ * Handles the click event for editing a sponsor.
+ * Prevents the default action and propagation of the event.
+ * Sets the sponsor ID in non-persisted data and resets the form with the sponsor's data.
+ * Opens the modal in edit mode.
+ *
+ * @param {React.MouseEvent} e - The click event.
+ * @param {any} data - The data object containing sponsor details.
+ */
 
     function handleClickEdit(e: React.MouseEvent, data: any) {
         e.preventDefault()
         e.stopPropagation()
 
-        console.log(data)
 
         setNonPersistedDataById('sponsorId', { value: data?.id })
 
@@ -213,6 +219,12 @@ const Sponsors = () => {
 
 
 
+    /**
+     * Transforms the raw API response data into the format required by the DataGrid.
+     * @function transformData
+     * @param {any} data - The raw data from the API response.
+     * @returns {Array} Transformed data for the DataGrid.
+     */
     const transformData = (data: any) => {
         const newData = data.map((item: any) => {
             return {
@@ -241,6 +253,16 @@ const Sponsors = () => {
 
     const [source, setSource] = useState<ISource | undefined>(undefined);
 
+    /**
+     * Handles the click event for deleting a sponsor.
+     * Prevents the default action and propagation of the event.
+     * Sets the sponsor ID in non-persisted data and sends a request to delete the sponsor.
+     * If the request is successful, it reloads the sponsor list and shows a success message.
+     * If the request fails, it shows an error message.
+     * @function handleClickDelete
+     * @param {React.MouseEvent} e - The click event.
+     * @param {number} id - The sponsor ID to be deleted.
+     */
     function handleClickDelete(e: React.MouseEvent, id: number) {
         e.preventDefault()
         e.stopPropagation()
