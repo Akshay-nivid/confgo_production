@@ -89,26 +89,48 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     */
     const groupedPrograms = useMemo(() => groupByDate(data.programs), [data.programs]);
     const groupedAddons = useMemo(() => groupByDate(data.addons), [data.addons]);
-
     /**
     * Combine and sort programs and addons for the selected date
     */
+
+
     const combinedAndSortedItems = useMemo(() => {
         const programs = groupedPrograms[selectedDate] || [];
         const addons = groupedAddons[selectedDate] || [];
-
+    
         /**
-        * Add type to distinguish between programs and addons
-        */
+         * Add type to distinguish between programs and addons
+         */
         const combined = [
             ...programs?.map((program: any) => ({ ...program, type: 'program' })),
             ...addons?.map((addon: any) => ({ ...addon, type: 'addon' })),
         ];
-
+    
         /**
-        * Sort by start time
-        */
-        return combined?.sort((a, b) => moment(a.startTime).valueOf() - moment(b.startTime).valueOf());
+         * Sort by start time
+         */
+        const sorted = combined.sort((a, b) => moment(a.startTime).valueOf() - moment(b.startTime).valueOf());
+    
+        /**
+         * Group items by start time
+         */
+        const grouped = sorted.reduce((acc: any[], item: any) => {
+            const lastGroup = acc[acc.length - 1];
+    
+            if (lastGroup && moment(lastGroup.startTime).valueOf() === moment(item.startTime).valueOf()) {
+                // If the startTime matches, add the item to the last group
+                if (!lastGroup.subItems) lastGroup.subItems = []; // Initialize subItems if not already
+                lastGroup.subItems.push(item);
+            } else {
+                // Otherwise, add the item as a new group
+                acc.push({ ...item });
+            }
+    
+            return acc;
+        }, []);
+    
+    
+        return grouped;
     }, [groupedPrograms, groupedAddons, selectedDate]);
 
     /**
@@ -557,7 +579,54 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                             </Grid>
                                         </Grid>
                                     </Grid>
-                                    <Grid  size={{ xs: 6, sm: 8 }} className={`${classPrefix}-program-content-details-${item.type === 'program' ? 'program' : 'addon'}`} container flex={"column"}>
+                                    <Grid  size={{ xs: 6, sm: 8 }} className={`${classPrefix}-program-content-details-${item.type === 'program' ? 'program' : 'addon'}`} container direction='column' flex={"column"}>
+                                    {item.subItems && item.subItems.length > 0 ? (
+                                            item.subItems.map((subItem: any, subIndex: number) => (
+                                                <Grid key={subIndex}>
+                                                    <Grid display={"flex"} justifyContent={"space-between"} size={6} container>
+                                                        <Grid size={12}>
+                                                            <TitleComponent
+                                                                title={subItem?.type === 'program' ? subItem?.name : subItem?.addon?.name}
+                                                                classPrefix={`${classPrefix}-program-content-title`}
+                                                            />
+                                                        </Grid>
+                                                        <Grid size={12}>
+                                                            <DescriptionComponent
+                                                                temp={"temp4"}
+                                                                description={subItem?.description}
+                                                                classPrefix={`${classPrefix}-program-content-description`}
+                                                            />
+                                                        </Grid>
+                                                    </Grid>
+                                                    <Grid size={6} container justifyContent={"flex-end"}>
+                                                        {/* Sponsors */}
+                                                        {subItem?.eventSponsors?.length !== 0 && subItem?.eventSponsors?.length < 2 && (!subItem?.eventSpeakers || subItem?.eventSpeakers?.length === 0) && (
+                                                            <Grid container className={`${classPrefix}-program-content-sponsor`} columnSpacing={3}>
+                                                                <Grid container justifyContent={"center"} size={12} className={`${classPrefix}-program-content-sponsor-heading`}>
+                                                                    <Typography>Sponsored by</Typography>
+                                                                </Grid>
+                                                                {subItem.eventSponsors.map((sponsor: any) => (
+                                                                    <Grid key={sponsor.id} container justifyContent={"flex-end"} alignItems={"center"} className={`${classPrefix}-program-content-sponsor-ImgBox`}>
+                                                                        {sponsor?.sponsor?.logoAssetId ? (
+                                                                            <img
+                                                                                alt={sponsor?.sponsor?.name}
+                                                                                src={`${baseUrl}asset/${sponsor?.sponsor?.logoAssetId}`}
+                                                                            />
+                                                                        ) : (
+                                                                            <Avatar
+                                                                                alt={sponsor?.sponsor?.name}
+                                                                                src=""
+                                                                            />
+                                                                        )}
+                                                                    </Grid>
+                                                                ))}
+                                                            </Grid>
+                                                        )}
+                                                    </Grid>
+                                                </Grid>
+                                            ))
+
+                                        ):(<Grid>
                                         <Grid  display={"flex"} justifyContent={"space-between"}size={6} container >
                                            <Grid size={12}>
                                             <TitleComponent
@@ -614,6 +683,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                    
                                 
                                         </Grid> )}
+                                        </Grid>)}
                                     </Grid>
                                 </Grid>
                                 
