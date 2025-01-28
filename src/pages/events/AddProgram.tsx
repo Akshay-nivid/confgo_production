@@ -475,11 +475,10 @@ const handleAddProgram = () => {
           speakerFullName: "",
           speakerAssetId: "",
           designation: "",
-          sponsors:[],
+          sponsor:[],
           sponsorId:"",
           sponsorFullName:"",
-          speakerLogoId:"",
-          bannerId:"",
+          sponsorLogoId:"",
           sponsorTypeId:""
           
         };
