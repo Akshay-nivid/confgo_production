@@ -25,6 +25,7 @@ const TeamAndRole=()=>{
   // const speakerData = useStore((state: any) => state?.compData?.["speaker-lists"]?.data) ?? []; 
   const abstractReviewerData= useStore((state:any)=>state?.compData?.['AbstractReviewer-list']?.data) ?? [];
   const volunteerListsDta=useStore((state:any)=>state?.compData?.['volunteer-lists']?.data) ?? [];
+  const sponsorListData=useStore((state:any) => state?.compData?.['sponsor-lists']?.data) ?? [];
   const TeamAndRoleData =useStore((state:any)=> state?.compData?.['TeamAndRoleData']?.data) ?? [];
 
   const [expanded, setExpanded] = React.useState<string | false>("panel2-header"); 
@@ -59,7 +60,7 @@ const TeamAndRole=()=>{
         expanded={expanded === "panel2-header"} 
         onChange={handleChange("panel2-header")}>
         <AccordionSummary
-       expandIcon={abstractReviewerData?.length!==0 || expanded === "panel3-header"?<RemoveIcon/>:<AddIcon />}
+       expandIcon={abstractReviewerData?.length!==0 || expanded === "panel3-header"?<AccordionArrowIcon/>:<AccordionAddIcon/>}
           aria-controls="panel2-content"
           id="panel2-header"
            className="accordion-container-icon"
@@ -78,7 +79,7 @@ const TeamAndRole=()=>{
         expanded={expanded === "panel3-header"} 
         onChange={handleChange("panel3-header")}>
         <AccordionSummary
-          expandIcon={volunteerListsDta?.length || expanded === "panel3-header" ?<RemoveIcon/>:<AddIcon/>}
+          expandIcon={volunteerListsDta?.length || expanded === "panel3-header" ?<AccordionArrowIcon/>:<AccordionAddIcon/>}
           
           aria-controls="panel3-content"
           id="panel3-header"
@@ -96,7 +97,7 @@ const TeamAndRole=()=>{
         expanded={expanded === "panel4-header"} 
         onChange={handleChange("panel4-header")}>
         <AccordionSummary
-          expandIcon={volunteerListsDta?.length?<AccordionArrowIcon/>:<AccordionAddIcon/>}
+          expandIcon={sponsorListData?.length?<AccordionArrowIcon/>:<AccordionAddIcon/>}
           aria-controls="panel2-content"
           id="panel2-header"
           className="accordion-container-icon"
