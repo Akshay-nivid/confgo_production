@@ -142,7 +142,7 @@ const SponsorShip = (Id: any) => {
                                         First Name<span className="star">*</span>
                                     </Typography>
                                     <CustomTextField
-                                        className="border-b border-black"
+                                        className="sponsor-form-label-input"
                                         name='name'
                                         placeholder={" First Name"}
                                         type='text'
@@ -163,7 +163,7 @@ const SponsorShip = (Id: any) => {
                                         Second Name<span className="star">*</span>
                                     </Typography>
                                     <CustomTextField
-                                        className="border-b border-black"
+                                        className="sponsor-form-label-input"
                                         name='lastName'
                                         placeholder={"Last Name"}
                                         type='text'
@@ -183,7 +183,7 @@ const SponsorShip = (Id: any) => {
                                         Job Title<span className="star">*</span>
                                     </Typography>
                                     <CustomTextField
-                                        className="border-b border-black"
+                                        className="sponsor-form-label-input"
                                         name='jobTitle'
                                         showOutlinedText={false}
                                         placeholder="Job Title"
@@ -196,7 +196,7 @@ const SponsorShip = (Id: any) => {
                                         Organisation Name<span className="star">*</span>
                                     </Typography>
                                     <CustomTextField
-                                        className="border-b border-black"
+                                        className="sponsor-form-label-input"
                                         name='companyName'
                                         showOutlinedText={false}
                                         placeholder="Company Name"
@@ -212,7 +212,7 @@ const SponsorShip = (Id: any) => {
                                         Email<span className="star">*</span>
                                     </Typography>
                                     <CustomTextField
-                                        className="border-b border-black"
+                                        className="sponsor-form-label-input"
                                         control={control}
                                         name="email"
                                         showOutlinedText={false}
@@ -231,7 +231,7 @@ const SponsorShip = (Id: any) => {
                                         Phone Number<span className="star">*</span>
                                     </Typography>
                                     <CustomTextField
-                                        className="border-b border-black"
+                                        className="sponsor-form-label-input"
                                         placeholder="Phone"
                                         control={control}
                                         name="phoneNumber"

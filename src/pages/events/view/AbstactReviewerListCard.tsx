@@ -64,6 +64,10 @@ const AbstractReviewer = () => {
       name: item?.firstName,
       email: item?.email,
       phone: item?.phone,
+      action: <Button
+              onClick={() => handleAssign(item.id)}
+             >Assign
+        </Button>
     }));
   };
   /**
@@ -81,17 +85,11 @@ const AbstractReviewer = () => {
     { type: "default", field: "email", headerName: "email", width: 250 },
     { type: "default", field: "phone", headerName: "phone", width: 200 },
     {
-      type: "default",
-      field: "Action",
+      type: "custom",
+      field: "action",
       headerName: "Action",
       width: 150,
-      renderCell: (params: any) => (
-        <Button
-          onClick={() => handleAssign(params.row.id)}
-        >Assign
-        </Button>
-      ),
-    }
+    } 
 
   ];
 

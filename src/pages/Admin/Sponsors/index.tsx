@@ -430,7 +430,7 @@ const Sponsors = () => {
 
                             <Box className="form-file-upload">
                                 <FormLabel className='form-file-upload-label'>Please upload the sponsor logo</FormLabel>
-                                <FileUpload onFileSelect={() => { }} onSubmit={(file) => handleFileUpload(file, 'logoId')} className='form-file-upload-input' />
+                                {logoId ? (
                                 <Box className="form-file-upload-image-logo" >
                                     <Box className='relative w-max flex gap-x-1'>
                                         <img src={`${baseUrl}/asset/${logoId}`} alt='' />
@@ -439,11 +439,13 @@ const Sponsors = () => {
                                         </IconButton>
                                     </Box>
                                 </Box>
+                                ) :
+                                ( <FileUpload onFileSelect={() => { }} onSubmit={(file) => handleFileUpload(file, 'logoId')} className='form-file-upload-input' /> )}   
                             </Box>
 
                             <Box className="form-file-upload">
                                 <FormLabel className='form-file-upload-label'>Please upload the sponsor banner</FormLabel>
-                                <FileUpload onSubmit={(file) => handleFileUpload(file, 'bannerId')} className='form-file-upload-input' />
+                                { bannerId ? (
                                 <Box className="form-file-upload-image-banner" >
                                     <Box className='relative w-max flex gap-x-1'>
                                         <img src={`${baseUrl}/asset/${bannerId}`} alt='' />
@@ -452,6 +454,8 @@ const Sponsors = () => {
                                         </IconButton>
                                     </Box>
                                 </Box>
+                                ) :
+                                ( <FileUpload onSubmit={(file) => handleFileUpload(file, 'bannerId')} className='form-file-upload-input' /> )}
                             </Box>
 
                             <Box className="form-button-container">
