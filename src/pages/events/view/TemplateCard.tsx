@@ -43,12 +43,12 @@ const TemplateCard = (data: any) => {
    * @param temp : template id
    */
   const handlePreview = (temp: any) => {
-    const url = `/event-link/detail/${data?.eventData?.id}/template/${temp?.id}/preview`;
+    const url = `/event/detail/${data?.eventData?.id}/template/${temp?.id}/preview`;
     window.open(url, '_blank');
   }
 
   const handleItem = (_tempItem: any) => {
-    const url = `/event-link/${data?.eventData?.slugName}`;
+    const url = `/event/${data?.eventData?.slugName}`;
     window.open(url, '_blank');
   }
 

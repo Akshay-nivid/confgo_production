@@ -12,6 +12,8 @@ import { CloseOutlined } from '@mui/icons-material';
 import { useParams } from 'react-router-dom';
 import { POST, setDataById } from '@/Libs/store';
 import CustomSelect from '@/components/CustomSelectBox/CustomSelect';
+import CustomDrawer from '@/components/CustomDrawer/CustomDrawer';
+import DrawerCreateSponosor from '../Sponsor/DrawerCreateSponsor';
 
 interface AssignedSponsorsProps {
     onClose: () => void;
@@ -32,7 +34,9 @@ const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
     const companyId = sessionStorage.getItem('companyId')
     const [sponsorType,setSponsorType]=useState<Sponsor[]>([]);
     const userId = sessionStorage.getItem('userId');
-
+    const [newSponsorDrawerOpen, setNewSponsorDrawerOpen] = useState(false);
+    // const [searchSponsorResults,setSearchSponsorResults]=useState<Sponsor[]>([]);
+    
     
 
 
@@ -166,6 +170,30 @@ const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
         getSponsor()
       }, [])
 
+
+       const handleSponsorSearch = async (query: string) => {
+            setLoading(true);
+            await POST({
+              url: "sponsor/list",
+              id: "sponsorList",
+              body: {
+                filters: {
+                  name: query,
+                  companyId: companyId,
+                },
+                limit:30
+              },
+              successCB: () => {
+                // setSearchSponsorResults(transformSponsoerData(context?.data))
+                setLoading(false);
+              },
+              errorCB: (context: any) => {
+                Logger.error("Error fetching search results:", context?.message);
+                setLoading(false);
+              }
+            })
+          };
+
     return (
         <div className='assigned-volunteer-main-container'>
             <Box
@@ -220,7 +248,9 @@ const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
                 />
                 </Grid>
             </Grid>
-
+            <Grid container className="add-program-drawer-new-speaker-link" justifyContent={'end'}  size={{xs:12}} paddingTop={1}>
+              <Typography onClick={() => setNewSponsorDrawerOpen(true)} className="cursor-container" variant="h6">Create New Speaker ?</Typography>
+            </Grid>
            {assignedSponsors.length>0 &&(<Typography gutterBottom className='assigned-volunteer-label'>
                 Assigned Sponsors
             </Typography>)}
@@ -248,7 +278,19 @@ const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
                     </Grid>
                 ))}
             </Grid>
-            
+            <Grid>
+        <CustomDrawer
+            children={
+            <DrawerCreateSponosor onSuccess={()=>{handleSponsorSearch("")}} 
+            closeDrawer={()=>
+              setNewSponsorDrawerOpen(false)           
+              }
+              />
+            }
+            open={newSponsorDrawerOpen} 
+            type="right"
+          />
+        </Grid>
             <div className='assigned-volunteer-button-container'>     
                 <CustomButton
                     className="assigned-volunteer-button"
@@ -262,7 +304,7 @@ const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
             </div>
             
         </div>
-
+    
     );
 };
 
