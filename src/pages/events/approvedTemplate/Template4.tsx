@@ -396,7 +396,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                         {data?.eventSpeakers?.length > 0 && getUniqueSpeakers(data?.eventSpeakers)?.map((item: any) => {
                             return <Grid alignSelf={'stretch'} onClick={() => handleSpeakerCardClick(item)} size={{ xs: 12, sm: 3 }} container direction={'row'} className={`${classPrefix}-event-contributors-item-container `} spacing={2}>
                                 <Grid size={{ xs: 12, sm: 12 }} container direction={'column'} className={`${classPrefix}-event-contributors-item-container-speaker-card `}>
-                                    <Grid overflow={'hidden'} className={`${classPrefix}-event-contributors-item-container-speaker-card-image-container`}>
+                                    <Grid overflow={'hidden'} className={`${classPrefix}-event-contributors-item-container-image`}>
                                         {item?.user?.assetId ? (<img
                                             src={`${baseUrl}asset/${item?.user?.assetId}`}
                                             alt={item.name}
