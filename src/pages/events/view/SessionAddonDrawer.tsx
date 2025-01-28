@@ -10,7 +10,7 @@ import moment from "moment";
 import { useFieldArray } from "react-hook-form";
 import AddIcon from "@mui/icons-material/Add";
 import apiClient from "@/Libs/Https/API-client";
-import {convertUTCToUserTimeZone, formatUTCDateTime, getLocalTimeDate, processAPIResponse, truncateString } from "@/Utils/CommonBaseClass";
+import { formatUTCDateTime, getLocalTimeDate, processAPIResponse, truncateString } from "@/Utils/CommonBaseClass";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import { useParams } from "react-router-dom";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
