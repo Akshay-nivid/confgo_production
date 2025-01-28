@@ -194,6 +194,11 @@
         position: relative !important;
         box-shadow: $clr_gray_30_percent 0rem 0.083rem .167rem 0;
 
+        .view-details-btn{
+            color: $clr_gray_dark_text !important;
+            text-decoration: underline;
+        }
+
         .program-descritption {
             color: $clr_gray_dark_text !important;
 

@@ -32,8 +32,8 @@ const Sponsors = () => {
     const sponsorResponseData = useStore(state => state.compData?.['sponsor-datagrid']) || {}
     const listData = sponsorResponseData?.data || []
     // const sponsorId = useStore(state => state?.compData?.['sponsorId']?.value) || null;
-    const isDeleteSponsorPending = useStore(state => state.compData?.['deleteSponsor']?.[`sponsor/delete/${sponsorId}`]?.loading) || false
     const sponsorId = useStore(state=>state.nonPersistedData.sponsorId?.value)
+    const isDeleteSponsorPending = useStore(state => state.compData?.['deleteSponsor']?.[`sponsor/delete/${sponsorId}`]?.loading) || false
     const sponsorDrawerType = useStore(state => state.nonPersistedData.sponsorDrawerType?.value)
     const isEditSponsorLoading = useStore(state => state.compData?.['createSponsor']?.[`sponsor/edit/${sponsorId}`]?.loading) || false
 
@@ -186,15 +186,23 @@ const Sponsors = () => {
 
 
 
-    /**
-  * Row click navigation
-  */
     const baseUrl = config.api.url;
 
+
+/**
+ * Handles the click event for editing a sponsor.
+ * Prevents the default action and propagation of the event.
+ * Sets the sponsor ID in non-persisted data and resets the form with the sponsor's data.
+ * Opens the modal in edit mode.
+ *
+ * @param {React.MouseEvent} e - The click event.
+ * @param {any} data - The data object containing sponsor details.
+ */
 
     function handleClickEdit(e: React.MouseEvent, data: any) {
         e.preventDefault()
         e.stopPropagation()
+
 
         setNonPersistedDataById('sponsorId', { value: data?.id })
 
@@ -211,6 +219,12 @@ const Sponsors = () => {
 
 
 
+    /**
+     * Transforms the raw API response data into the format required by the DataGrid.
+     * @function transformData
+     * @param {any} data - The raw data from the API response.
+     * @returns {Array} Transformed data for the DataGrid.
+     */
     const transformData = (data: any) => {
         const newData = data.map((item: any) => {
             return {
@@ -239,6 +253,16 @@ const Sponsors = () => {
 
     const [source, setSource] = useState<ISource | undefined>(undefined);
 
+    /**
+     * Handles the click event for deleting a sponsor.
+     * Prevents the default action and propagation of the event.
+     * Sets the sponsor ID in non-persisted data and sends a request to delete the sponsor.
+     * If the request is successful, it reloads the sponsor list and shows a success message.
+     * If the request fails, it shows an error message.
+     * @function handleClickDelete
+     * @param {React.MouseEvent} e - The click event.
+     * @param {number} id - The sponsor ID to be deleted.
+     */
     function handleClickDelete(e: React.MouseEvent, id: number) {
         e.preventDefault()
         e.stopPropagation()
