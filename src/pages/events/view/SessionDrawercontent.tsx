@@ -19,6 +19,7 @@ import NewSpeakerDrawer from "../NewSpeakerDrawer";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import { useParams } from "react-router-dom";
 import DrawerCreateSponosor from "../Sponsor/DrawerCreateSponsor";
+import CustomCheckbox from "@/components/CustomCheckbox/CustomCheckbox";
 
 
 
@@ -33,15 +34,17 @@ interface FormData {
   price: string;
   startDate: string;
   endDate: string
-  speakerId?: string;
+  speakerId?: any;
   speakerName?: string;
   speakerAssetId?: string;
   speakerDesignation?:string;
+  moderator:boolean;
   speakers: {
     speakerId?: string;
     speakerName?: string;
     speakerAssetId?: string;
     speakerDesignation?:string;
+    moderator?:boolean
   }[];
   speakerSelection?:string;
   sponsorId?: string;
@@ -59,7 +62,7 @@ interface FormData {
   sponsorSelection?: string;
 }
 type Speaker = {
-  speakerId?: string;
+  speakerId?: any;
   speakerName?: string;
   speakerAssetId?: string;
   speakerDesignation?: string;
@@ -138,6 +141,8 @@ interface SessionDrawerContentProps {
     const [delsponsor,setDelSponsor]=useState<any>([])
     const [newSpeakerDrawerOpen, setNewSpeakerDrawerOpen] = useState(false);
     const [newSponsorDrawerOpen, setNewSponsorDrawerOpen] = useState(false);
+    const [ischecked, setischecked] = useState(false);
+    const [latestmoderator, setlatestmoderator] = useState(null);
     const {append } = useFieldArray({
       control,
       name: "speakers",
@@ -284,11 +289,18 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
   }
       // Map speakers to the desired format
       const newAddedSpeakers = data?.speakers?.map((speaker: any) => ({
-        speakerId: speaker?.speakerId,
+        speakerId: speaker?.speakerId,  
+        isModerator:speaker?.moderator
       }));
 
        const speakers = removeExistingSpeakers(newAddedSpeakers, existingSpeakers);
-
+      //updating the speaker array with latest moderator as true 
+       const updatedSpeakers = speakers.map((speaker:any) => {
+        return {
+          ...speaker,
+          isModerator: speaker?.speakerId === latestmoderator ? true : false
+        };
+      }); 
       // Map sponsors to the desired format
       const newAddedSponsors = data?.sponsors?.map((sponsor: any) => ({
         sponsorId: sponsor?.sponsorId,
@@ -310,7 +322,7 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
         ...(data.totalSeat ? { totalSeat: data.totalSeat } : {}),
         startTime: startDateTime,
         endTime: endDateTime,
-        speakers,
+        speakers:updatedSpeakers,
         sponsor,
       };
       onSubmit(transformedProgram);
@@ -552,7 +564,12 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
       const speakerName = values?.speakerName;
       const speakerAssetId = values?.speakerAssetId;
       const speakerDesignation = values?.speakerDesignation;
+      const moderator = values?.moderator
       const isDuplicate = values?.speakers?.some((speaker: any) => speaker.speakerId === speakerId);
+      //setting the latest iscehcked and speakerID
+      if (ischecked && speakerId){
+        setlatestmoderator(speakerId)
+      }
       if(isDuplicate){
         setError(`speakerSelection`, { type: "manual", message: "Speaker Already assigned. please select another speaker" });
         return;
@@ -572,6 +589,7 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
         speakerName,
         speakerAssetId,
         speakerDesignation,
+        moderator,
       });
       clearErrors();
       
@@ -790,6 +808,16 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
                   <CloseOutlined />
                 </IconButton>
               </Grid>{/*end of speaker header section */}
+              <CustomCheckbox
+                className="add-addons-check-btn"
+                options={[{ label: 'Moderator', value: 'True' }]}
+                 control={control}
+                 name={"moderator"}
+                 defaultValue={false}
+                 onChange={() => {
+                  setischecked(!ischecked); // Toggle the checkbox
+                }}
+                 />
               <Grid size={{ xs: 12 }}>
                 <CustomAutocomplete
                   name={`speakerSelection`}
