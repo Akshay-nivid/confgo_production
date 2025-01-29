@@ -4,7 +4,7 @@ import TopMenuHeader, { LinkData } from './TopMenuHeader';
 import AuthFormHandler from './AuthFormHandler';
 import TEventDetails from './TEventDetails';
 import TimerCounterComp from '../template/TemplateTimer/TimerCounterComp';
-import { getLocalTimeDate, groupByDate, truncateString } from '@/Utils/CommonBaseClass';
+import { getLocalTimeDate, groupByDate } from '@/Utils/CommonBaseClass';
 import { Avatar, Box,Divider, Typography } from '@mui/material';
 import LocationSection from '../template/LocationSection';
 import FooterSection from '../template/FooterSection';
@@ -424,7 +424,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                     </Grid>
                                     <Grid container direction={'column'} >
                                         <Grid className={`${classPrefix}-event-contributors-item-name`}>{`${item.user?.firstName} ${item.user?.lastName}`}</Grid>
-                                        {item.user?.designation && <Grid className={`${classPrefix}-event-contributors-item-designation`} title={item.user?.designation}>{truncateString(item.user?.designation, 30)}</Grid>}
+                                        {item.user?.designation && <Grid className={`${classPrefix}-event-contributors-item-designation`}>{item.user?.designation}</Grid>}
                                         <Grid className={`${classPrefix}-event-contributors-item-view-more`} ><CustomButton
                                             label={'View more'}
                                             className={`${classPrefix}-event-contributors-item-view-more-button`}
@@ -582,8 +582,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                     <Grid  size={{ xs: 6, sm: 8 }} className={`${classPrefix}-program-content-details-${item.type === 'program' ? 'program' : 'addon'}`} container direction='column' flex={"column"}>
                                     {item.subItems && item.subItems.length > 0 ? (
                                             item.subItems.map((subItem: any, subIndex: number) => (
-                                                <Grid key={subIndex}>
-                                                    <Grid display={"flex"} justifyContent={"space-between"} size={6} container>
+                                                <Grid key={subIndex}  size={12} display={"flex"} direction={"column"} >
+                                                    <Grid   size={6} container >
                                                         <Grid size={12}>
                                                             <TitleComponent
                                                                 title={subItem?.type === 'program' ? subItem?.name : subItem?.addon?.name}
@@ -597,16 +597,22 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                                 classPrefix={`${classPrefix}-program-content-description`}
                                                             />
                                                         </Grid>
+                                              
                                                     </Grid>
-                                                    <Grid size={6} container justifyContent={"flex-end"}>
+
+                                        
+                                                     {subItem?.eventSponsors && subItem?.eventSponsors?.length!==0&& (  <Grid size={6} container justifyContent={"flex-end"} >
                                                         {/* Sponsors */}
-                                                        {subItem?.eventSponsors?.length !== 0 && subItem?.eventSponsors?.length < 2 && (!subItem?.eventSpeakers || subItem?.eventSpeakers?.length === 0) && (
-                                                            <Grid container className={`${classPrefix}-program-content-sponsor`} columnSpacing={3}>
-                                                                <Grid container justifyContent={"center"} size={12} className={`${classPrefix}-program-content-sponsor-heading`}>
+                                                        {/* {subItem?.eventSponsors?.length !== 0 && subItem?.eventSponsors?.length < 2 && (!subItem?.eventSpeakers || subItem?.eventSpeakers?.length === 0) && ( */}
+                                                     
+                                                            <Grid container className={`${classPrefix}-program-content-sponsor`}   >
+                                                               
+                                                                <Grid  container justifyContent={"center"} size={12} className={`${classPrefix}-program-content-sponsor-heading`}>
                                                                     <Typography>Sponsored by</Typography>
                                                                 </Grid>
+
                                                                 {subItem.eventSponsors.map((sponsor: any) => (
-                                                                    <Grid key={sponsor.id} container justifyContent={"flex-end"} alignItems={"center"} className={`${classPrefix}-program-content-sponsor-ImgBox`}>
+                                                                    <Grid  size={6}key={sponsor.id} container  className={`${classPrefix}-program-content-sponsor-ImgBox`}>
                                                                         {sponsor?.sponsor?.logoAssetId ? (
                                                                             <img
                                                                                 alt={sponsor?.sponsor?.name}
@@ -621,12 +627,12 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                                     </Grid>
                                                                 ))}
                                                             </Grid>
-                                                        )}
-                                                    </Grid>
+                                                       
+                                                    </Grid> )}
                                                 </Grid>
                                             ))
 
-                                        ):(<Grid>
+                                        ):(<Grid container size={12}>
                                         <Grid  display={"flex"} justifyContent={"space-between"}size={6} container >
                                            <Grid size={12}>
                                             <TitleComponent
