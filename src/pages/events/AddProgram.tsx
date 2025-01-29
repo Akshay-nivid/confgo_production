@@ -605,7 +605,7 @@ const handleAddProgram = () => {
      */
     function processModerators(arr:Speaker[]) {
       // Find the index of the last object with isModerator: true
-      const lastModeratorIndex = arr.reduce((lastIndex, obj, currentIndex) => {
+      const lastModeratorIndex = arr?.reduce((lastIndex, obj, currentIndex) => {
           if (obj.isModerator === true) {
               return currentIndex;
           }
@@ -613,7 +613,7 @@ const handleAddProgram = () => {
       }, -1);
   
       // Create a new array with all moderators set to false except the last one
-      return arr.map((obj, index) => ({
+      return arr?.map((obj, index) => ({
           ...obj,
           isModerator: index === lastModeratorIndex ? true : false
       }));
@@ -815,17 +815,17 @@ const handleAddProgram = () => {
      */
     const addHallName = (index: number) => {
       const values = watch();
-      const hallName = values.programs[index].hallName
+      const hallName = values.programs[index]?.hallName
       const newHall: any = { hallName };
 
       // TypeScript now knows hallArray is an array of { hallName: string }
       const updatedPrograms: any = [...values.programs];
 
 
-      if (!updatedPrograms[index].hallArray) {
+      if (!updatedPrograms[index]?.hallArray) {
         updatedPrograms[index].hallArray = [];
       }
-      const isDuplicate = updatedPrograms[index].hallArray.some(
+      const isDuplicate = updatedPrograms[index]?.hallArray.some(
         (item: any) => item.hallName === newHall.hallName
       );
 
