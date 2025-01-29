@@ -1668,6 +1668,9 @@
             }
         }
         &-program-content {
+            &-divider{
+                margin-block: 0.7rem;
+            }
              &-hall{
                 margin-top: 1rem;
                 font-size: $h3;
