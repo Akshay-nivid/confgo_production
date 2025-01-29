@@ -39,6 +39,7 @@ interface FormData {
   speakerAssetId?: string;
   speakerDesignation?:string;
   moderator:boolean;
+  hallName:string
   speakers: {
     speakerId?: string;
     speakerName?: string;
@@ -167,6 +168,7 @@ interface SessionDrawerContentProps {
         setValue("price", selectedProgram.amount);
         setValue('startDate', moment(selectedProgram?.startTime).format("YYYY-MM-DD"))
         setValue('endDate', moment(selectedProgram?.endTime).format("YYYY-MM-DD"))
+        setValue('hallName',selectedProgram?.hall)
         const speakers = selectedProgram?.eventSpeakers?.map((speaker: any) => ({
           speakerId: speaker?.userId,
           speakerName: `${speaker?.user?.firstName} ${speaker?.user?.lastName}`,
@@ -209,6 +211,7 @@ interface SessionDrawerContentProps {
           sponsorType:"",
           sponsorName:"",
           reservedSeats:"",
+          hallName:""
         });
       }
     }, [isEditing, selectedProgram, reset, setValue]);
@@ -295,7 +298,7 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
 
        const speakers = removeExistingSpeakers(newAddedSpeakers, existingSpeakers);
       //updating the speaker array with latest moderator as true 
-       const updatedSpeakers = speakers.map((speaker:any) => {
+       const updatedSpeakers = speakers?.map((speaker:any) => {
         return {
           ...speaker,
           isModerator: speaker?.speakerId === latestmoderator ? true : false
@@ -324,6 +327,7 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
         endTime: endDateTime,
         speakers:updatedSpeakers,
         sponsor,
+        ...(data?.hallName ? { hall: data?.hallName }: {}),
       };
       onSubmit(transformedProgram);
 
@@ -695,6 +699,13 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
                     "Enter a positive whole number",
                 }
               }}
+            />
+          </Grid>
+          <Grid size={12}>
+            <CustomTextField
+              name="hallName"
+              placeholder="Hall Name"
+              control={control}
             />
           </Grid>
           <Grid size={12}>
