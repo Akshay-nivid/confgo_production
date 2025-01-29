@@ -1,83 +1,126 @@
-import useStore, { setNonPersistedDataById } from '@/Libs/store'
-import { Box, IconButton, Modal, Typography } from '@mui/material'
+
+
+import { Box, IconButton, Modal, Typography } from "@mui/material"
+import useStore, { setNonPersistedDataById } from "@/Libs/store"
 import CloseIcon from '@mui/icons-material/Close';
+import { getLocalTimeDate } from "@/Utils/CommonBaseClass";
+
+import LanguageIcon from '@mui/icons-material/Language';
+import Grid from '@mui/material/Grid2';
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined';
+import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined';
+import DateRangeOutlinedIcon from '@mui/icons-material/DateRangeOutlined';
+import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
+
 
 /**
- * SponsorDetailsModal
- * This component renders a modal with the details of the sponsor
- * The modal is open when the user clicks on the sponsor in the sponsors list
- * @function
- * @returns {JSX.Element} The rendered JSX content for the sponsor modal
+ * Component displays the sponsor details modal of the template
+ * The modal displays the details of the sponsor 
+ * The details include the sponsor's name, email, phone number, website, 
+ * created and modified date, logo and banner
  */
-const SponsorDetailsModal = () => {
+
+const SponsorDetailsModal = ({ className }: { className?: string }) => {
 
     const isModalOpen = useStore(state => state.nonPersistedData.isAdminSponsorDetailsModalOpen.value)
 
     const sponsorDetails = useStore(state => state?.nonPersistedData?.sponsorAdminDetails?.value)
-
-
-
-
     /**
-     * Method handles the closing of the sponsor details modal
-     * by setting the isAdminSponsorDetailsModalOpen state to false
+     * Method handles the closing of the program details modal
+     * by setting the isProgramDetailsModelOpen state to false
      */
     function handleCloseModal() {
-        setNonPersistedDataById('isAdminSponsorDetailsModalOpen', { value: false })
+        setNonPersistedDataById("isAdminSponsorDetailsModalOpen", { value: false })
+        setNonPersistedDataById('sponsorAdminDetails', { value: null })
     }
 
+
     return (
-        <Modal open={isModalOpen} className='sponsor__details__modal'>
+        <Modal open={isModalOpen} className={className}>
+            <Box className="content-wrapper ">
+                <Box className="content ">
 
+                    <Box className="modal-header">
+                        <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} className="mb-2">
+                            <Typography className="modal-header-name">{sponsorDetails?.name || "NA"}</Typography>
 
-            <Box className='sponsor__details__modal__content'>
+                            <IconButton className="modal-close" onClick={handleCloseModal}>
+                                <CloseIcon />
+                            </IconButton>
+                        </Box>
+                        <a href={sponsorDetails?.website || ''}>
+                            <Typography className="modal-header-description">{sponsorDetails?.website || "NA"}</Typography>
+                        </a>
 
-                <Box className='sponsor__details__modal__content__body'>
-                    <IconButton onClick={handleCloseModal} className='sponsor__details__modal__content__body__close__btn'>
-                        <CloseIcon />
-                    </IconButton>
-                    <Typography className='sponsor__details__modal__content__body__header'>
-                        Sponsor Details
-                    </Typography>
-                    <Box className='sponsor__details__modal__content__body__details'>
-                        <Typography className='sponsor__details__modal__content__body__details__name'>
-                            Name :
-                            <span className='sponsor__details__modal__content__body__details__name__value'>{sponsorDetails?.name }</span>
-                        </Typography>
-
-                        <Typography className='sponsor__details__modal__content__body__details__name'>
-                            Email :
-                            <span className='sponsor__details__modal__content__body__details__name__value'>{sponsorDetails?.email}</span>
-                        </Typography>
-
-                        <Typography className='sponsor__details__modal__content__body__details__name'>
-                            Phone Number :
-                            <span className='sponsor__details__modal__content__body__details__name__value'>{ sponsorDetails?.phone}</span>
-                        </Typography>
-
-                       {sponsorDetails?.website && <Typography className='sponsor__details__modal__content__body__details__name'>
-                            Website :   
-                            <a href={sponsorDetails?.website} target='_blank' className='sponsor__details__modal__content__body__details__name__value'>{sponsorDetails?.website }</a>
-                        </Typography>}
-
-                       {sponsorDetails?.logoId && <Box>
-                            <Typography className='sponsor__details__modal__content__body__details__logo__label'>
-                                Logo
-                            </Typography>
-                            <Box className="sponsor__details__modal__content__body__details__logo">
-                                <img src={sponsorDetails?.logoUrl || ''} alt='sponsor logo' />
-                            </Box>
-                        </Box>}
-
-                        {sponsorDetails?.bannerId && <Box>
-                            <Typography className='sponsor__details__modal__content__body__details__banner__label'>
-                                Banner
-                            </Typography>
-                            <Box className="sponsor__details__modal__content__body__details__banner">
-                                <img src={sponsorDetails?.bannerUrl || ''} alt='sponsor logo' />
-                            </Box>
-                        </Box>}
                     </Box>
+                    <Grid columnSpacing={6} rowGap={3} container className="modal-content-wrapper">
+
+
+                        <Grid size={{ xs: 12, md: 6 }} className="modal-group">
+                            <Box display={'flex'} columnGap={.4} alignItems={"center"}>
+                                <EmailOutlinedIcon className="icon" />
+                                <Typography className="label">Email</Typography>
+                            </Box>
+                            <Typography className="value">{sponsorDetails?.email || "NA"}</Typography>
+                        </Grid>
+
+                        <Grid size={{ xs: 12, md: 6 }} className="modal-group">
+                            <Box display={'flex'} columnGap={.4} alignItems={"center"}>
+                                <LocalPhoneOutlinedIcon className="icon" />
+                                <Typography className="label">Phone Number</Typography>
+                            </Box>
+                            <Typography className="value">{sponsorDetails?.phone || "NA"}</Typography>
+                        </Grid>
+
+                        <Grid size={{ xs: 12, md: 6 }} className="modal-group">
+                            <Box display={'flex'} columnGap={.4} alignItems={"center"}>
+                                <LanguageIcon className="icon" />
+                                <Typography className="label">WebSite</Typography>
+                            </Box>
+                            <a href="{sponsorDetails?.website}">
+                                <Typography className="value">{sponsorDetails?.website || "NA"}</Typography>
+                            </a>
+                        </Grid>
+
+                        <Grid size={{ xs: 12, md: 6 }} className="modal-group">
+                            <Box display={'flex'} columnGap={.4} alignItems={"center"}>
+                                <DateRangeOutlinedIcon className="icon" />
+                                <Typography className="label">Created On</Typography>
+                            </Box>
+                            <Typography className="value">{getLocalTimeDate(sponsorDetails?.createdOn, "MMMM-MM-YY HH:mm A") || "NA"}</Typography>
+                        </Grid>
+
+                        <Grid size={{ xs: 12, md: 6 }} className="modal-group">
+                            <Box display={'flex'} columnGap={.4} alignItems={"center"}>
+                                <DateRangeOutlinedIcon className="icon" />
+                                <Typography className="label">Modified On</Typography>
+                            </Box>
+                            <Typography className="value">{getLocalTimeDate(sponsorDetails?.modifiedOn, "MMMM-MM-YY HH:mm A") || "NA"}</Typography>
+                        </Grid>
+
+                        <Box className="modal-divider"></Box>
+
+                        <Grid size={{ xs: 12, md: 5 }} className="modal-group">
+                            <Box display={'flex'} columnGap={.4} alignItems={"center"}>
+                                <ImageOutlinedIcon className="icon" />
+                                <Typography className="label">Sponsor Logo</Typography>
+                            </Box>
+                            <Box className="max-w-[100px] mt-4">
+                                <img className="h-full w-full rounded-sm" src={sponsorDetails?.logoUrl ? sponsorDetails?.logoUrl : ''} alt='sponsor logo' />
+                            </Box>
+                        </Grid>
+
+                        <Grid size={{ xs: 12, md: 7 }} className="modal-group">
+                            <Box display={'flex'} columnGap={.4} alignItems={"center"}>
+                                <ImageOutlinedIcon className="icon" />
+                                <Typography className="label">Sponsor Banner</Typography>
+                            </Box>
+                            <Box className="mt-4">
+                                <img className="h-full w-full rounded-sm" src={sponsorDetails?.bannerUrl ? sponsorDetails?.bannerUrl : ''} alt='sponsor logo' />
+                            </Box>
+                        </Grid>
+                    </Grid>
+
                 </Box>
             </Box>
         </Modal>

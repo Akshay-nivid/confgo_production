@@ -826,8 +826,11 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                             </Box>
                                         </Box>
                                     ) : key === "PLATINUM" ? items?.length > 0 && (
-                                        <Grid size={12} container direction={'column'} mb={5}>
-                                            <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
+                                        <Grid size={12} justifyContent={'center'} container mb={5}>
+
+                                            <Grid size={12}>
+                                                <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
+                                            </Grid>
                                             {
                                                 items?.map((item: any) => {
                                                     return (
@@ -839,8 +842,11 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                             }
                                         </Grid>
                                     ) : key === "GOLD" ? items?.length > 0 && (
-                                        <Grid mb={5} size={12} container direction={'column'} >
-                                            <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
+                                        <Grid mb={5} size={12} container  justifyContent={'center'}>
+                                            <Grid size={12}>
+                                                <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
+
+                                            </Grid>
                                             {
                                                 items?.map((item: any) => {
                                                     return (
@@ -852,8 +858,10 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                             }
                                         </Grid>
                                     ) : <>
-                                        {items?.length > 0 && <Grid size={12} container direction={'column'}>
-                                            <Typography textAlign={"center"} className='template4-sponsor-banner-text'>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
+                                        {items?.length > 0 && <Grid size={12} container justifyContent={'center'}>
+                                            <Grid size={12}>
+                                                <Typography textAlign={"center"} className='template4-sponsor-banner-text'>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
+                                            </Grid>
                                             {
                                                 items?.map((item: any) => {
                                                     return (
