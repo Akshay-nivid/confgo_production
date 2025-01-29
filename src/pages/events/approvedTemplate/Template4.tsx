@@ -629,9 +629,9 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
 
                                                     </Grid>
                                                     )}
-                                                    {subItem?.eventSpeakers&&
+                                                    {subItem?.eventSpeakers && subItem?.eventSpeakers?.length !==0&&
 
-                                                        <Grid size={12} container>
+                                                        <Grid size={12} container className="mt-2">
                                                             <Grid size={12} container className={`${classPrefix}-program-content-sponsor-heading`}>
                                                                 <Typography>Speakers</Typography>
                                                             </Grid>
@@ -645,6 +645,10 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                             })}
                                                         
                                                     </Grid>}
+                                                    {subItem?.eventSpeakers && subItem?.eventSpeakers?.length !==0&&
+                                                    <Grid size={12} className={`${classPrefix}-program-content-divider mt-3`}>
+                                                                <Divider />
+                                                            </Grid>}
                                                 </Grid>
 
                                             ))
