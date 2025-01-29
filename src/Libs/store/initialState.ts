@@ -28,6 +28,8 @@ export const initialNonPersistedData = {
             bannerUrl: null,
             bannerId: null,
             logoId: null,
+            createdOn: null,
+            modifiedOn: null
         }
     }
 }

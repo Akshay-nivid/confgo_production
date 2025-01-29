@@ -20,6 +20,7 @@ import config from "../../../../config.json";
 import { Delete, Edit } from '@mui/icons-material'
 import Grid from '@mui/material/Grid2';
 import SponsorDetailsModal from './SponsorDetailsModal'
+import clsx from 'clsx'
 
 /**
  * Component for Sponsors list,create,edit and delete
@@ -231,6 +232,8 @@ const Sponsors = () => {
                 id: item?.id,
                 name: item?.name,
                 email: item?.email,
+                createdOn: item?.createdOn,
+                modifiedOn: item?.modifiedOn,
                 phone: item?.phone,
                 website: item?.website,
                 logo: <Avatar className='top-2' src={item?.logoAssetId ? `${baseUrl}/asset/${item?.logoAssetId}` : ''} >{item?.name?.slice(0, 2)}</Avatar>,
@@ -290,12 +293,15 @@ const Sponsors = () => {
 
     function onRowClick(data: any) {
 
+
         setNonPersistedDataById('sponsorAdminDetails', {
             value: {
                 name: data?.row?.name,
                 email: data?.row?.email,
                 phone: data?.row?.phone,
                 website: data?.row?.website,
+                createdOn: data?.row?.createdOn,
+                modifiedOn: data?.row?.modifiedOn,
                 logoUrl: data?.row?.logo?.props?.src,
                 bannerUrl: data?.row?.bannerUrl,
                 bannerId: data?.row?.bannerId,
@@ -450,8 +456,8 @@ const Sponsors = () => {
                             <CustomTextField control={form.control} name='phone' placeholder='Phone Number' />
                             <CustomTextField control={form.control} name='website' placeholder='(e.g., https://www.example.com)' label='Website Url' />
 
-                            <Box className="form-file-upload">
-                                <FormLabel className='form-file-upload-label'>Please upload the sponsor logo</FormLabel>
+                            <Box className="form-file-upload ">
+                                <FormLabel className={clsx('form-file-upload-label',logoId && 'mb-5')}>{logoId ? 'Sponsor Logo' : 'Please upload the sponsor logo'}</FormLabel>
                                 {logoId ? (
                                 <Box className="form-file-upload-image-logo" >
                                     <Box className='relative w-max flex gap-x-1'>
@@ -466,10 +472,10 @@ const Sponsors = () => {
                             </Box>
 
                             <Box className="form-file-upload">
-                                <FormLabel className='form-file-upload-label'>Please upload the sponsor banner</FormLabel>
+                                <FormLabel className={clsx('form-file-upload-label')}>{ bannerId ? 'Sponsor Banner' : 'Please upload the sponsor banner'}</FormLabel>
                                 { bannerId ? (
-                                <Box className="form-file-upload-image-banner" >
-                                    <Box className='relative w-max flex gap-x-1'>
+                                <Box className={clsx("form-file-upload-image-banner")} >
+                                    <Box className={clsx('relative w-max flex gap-x-1')}>
                                         <img src={`${baseUrl}/asset/${bannerId}`} alt='' />
                                         <IconButton onClick={(e) => handleRemoveImage(e, 'bannerId')} className='form-file-upload-image-logo-close'>
                                             <CloseIcon />
@@ -491,7 +497,7 @@ const Sponsors = () => {
 
                 </Box>
             </CustomDrawer>
-            <SponsorDetailsModal />
+            <SponsorDetailsModal className='sponsor-details-modal'/>
         </Grid>
     )
 }

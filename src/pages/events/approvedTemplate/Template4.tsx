@@ -554,7 +554,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                     </Grid>
                     <Grid container spacing={3} className={`${classPrefix}-program-content-container`} mt={2} direction="column" alignContent={'center'} size={{ xs: 12, sm: 12 }}>
                         {combinedAndSortedItems?.map((item: any, index: number) => (
-                            <Grid onClick={() => handleProgramCardClick(item)} size={{ xs: 11 }} justifyContent={'center'} pl={{ xs: 2, md: 4 }} p={2} key={index}
+                            <Grid size={{ xs: 11 }} justifyContent={'center'} pl={{ xs: 2, md: 4 }} p={2} key={index}
                                 className={`${classPrefix}-program-content-item ${item?.type === 'program' ? `${classPrefix}-program-content-item-program` : `${classPrefix}-program-content-item-addon`}`}
                             >
                                 <Grid container alignItems="center" size={12} >
@@ -581,7 +581,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                     <Grid size={{ xs: 6, sm: 8 }} className={`${classPrefix}-program-content-details-${item.type === 'program' ? 'program' : 'addon'}`} container direction='column' flex={"column"}>
                                         {item.subItems && item.subItems.length > 0 ? (
                                             item.subItems.map((subItem: any, subIndex: number) => (
-                                                <Grid container key={subIndex} size={12} display={"flex"}   >
+                                                <Grid container key={subIndex} size={12} display={"flex"} onClick={() => handleProgramCardClick(subItem)}  >
                                                     <Grid size={6} container >
                                                         <Grid size={12}>
                                                             <TitleComponent
@@ -826,8 +826,11 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                             </Box>
                                         </Box>
                                     ) : key === "PLATINUM" ? items?.length > 0 && (
-                                        <Grid size={12} container direction={'column'} mb={5}>
-                                            <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
+                                        <Grid size={12} justifyContent={'center'} container mb={5}>
+
+                                            <Grid size={12}>
+                                                <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
+                                            </Grid>
                                             {
                                                 items?.map((item: any) => {
                                                     return (
@@ -839,8 +842,11 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                             }
                                         </Grid>
                                     ) : key === "GOLD" ? items?.length > 0 && (
-                                        <Grid mb={5} size={12} container direction={'column'} >
-                                            <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
+                                        <Grid mb={5} size={12} container  justifyContent={'center'}>
+                                            <Grid size={12}>
+                                                <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
+
+                                            </Grid>
                                             {
                                                 items?.map((item: any) => {
                                                     return (
@@ -852,8 +858,10 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                             }
                                         </Grid>
                                     ) : <>
-                                        {items?.length > 0 && <Grid size={12} container direction={'column'}>
-                                            <Typography textAlign={"center"} className='template4-sponsor-banner-text'>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
+                                        {items?.length > 0 && <Grid size={12} container justifyContent={'center'}>
+                                            <Grid size={12}>
+                                                <Typography textAlign={"center"} className='template4-sponsor-banner-text'>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
+                                            </Grid>
                                             {
                                                 items?.map((item: any) => {
                                                     return (
