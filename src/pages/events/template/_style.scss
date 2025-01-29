@@ -1687,10 +1687,10 @@
                 } 
                 &-program{
                     &:hover {
-                        box-shadow: 0 0 0.33rem 0.01rem $clr_black; 
+                        box-shadow: 0 0 0.43rem 0.01rem $clr_black_shadow; 
                       }
                     
-                    border:solid 0.083rem $clr_gray_very_light;
+                    border:solid 0.17rem $clr_gray_very_light;
                     cursor: pointer;
                 }
             }
