@@ -139,6 +139,11 @@
 
                 &-file-upload {
                     margin-top: .5rem;
+                    height: max-content !important;
+
+                    label {
+                        margin-bottom: 2rem !important;
+                    }
 
                     .file-upload-dropzone {
                         margin-bottom: .5rem !important;
@@ -151,37 +156,51 @@
 
                     }
 
+
+
                     &-label {
                         font-size: $p1 !important;
 
+
+
                     }
-                    &-image-logo{
+
+                    &-label-with-id {
+                        margin-bottom: 2rem !important;
+                    }
+
+                    &-image-logo {
                         object-fit: contain;
                         background-color: $clr_gray_10_percent;
                         width: max-content;
                         max-width: 100%;
-                        max-height: 8.33rem;
-                        img{
+                        margin-block: 1rem;
+                        // max-height: 8.33rem;
+
+                        img {
                             max-width: 8.33rem;
+                            // height: 100%;
+                            aspect-ratio: 1;
+                            object-fit: contain;
+                        }
+                    }
+
+                    &-image-banner {
+                        width: max-content;
+                        max-width: 100%;
+                        display: flex;
+                        background-color: $clr_gray_10_percent;
+                        margin-block: 1rem;
+
+
+                        img {
                             height: 100%;
                             object-fit: contain;
                         }
                     }
-                    &-image-banner{
-                     width: max-content;
-                     max-width: 100%;
-                     display: flex;
-                    background-color: $clr_gray_10_percent;
 
-                    img{
-                
-                        height: 100%;
-                        object-fit: contain;
-                    } 
-                    }
+                    &-image-logo-close {
 
-                    &-image-logo-close{
-                       
                         background-color: $clr_red;
                         height: 1.8rem;
                         width: 1.8rem;
@@ -189,17 +208,18 @@
                         cursor: pointer;
                         position: absolute;
                         right: 0;
-                        &:hover{
-                        background-color: $clr_red !important;
+
+                        &:hover {
+                            background-color: $clr_red !important;
 
                         }
-                        
-                        svg{
+
+                        svg {
                             color: $clr_gray_30_percent;
                         }
                     }
 
-                   
+
                 }
 
                 &-button-container {
@@ -270,7 +290,7 @@
                 &__logo {
                     width: 100%;
                     padding-top: .5rem;
-                   
+
 
                     &__label {
                         margin-top: 1.667rem !important;
@@ -313,4 +333,137 @@
         }
 
     }
+}
+
+
+.sponsor-details-modal {
+
+    .content-wrapper {
+
+        min-height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: transparent !important;
+
+    }
+
+    .content {
+        background-color: $clr_white !important;
+        width: 100%;
+        max-width: 50rem;
+        padding: .3rem;
+        border-radius: .5rem;
+        position: relative;
+        max-height: 90vh;
+        overflow: auto;
+        scrollbar-width: 0 !important;
+
+        &::-webkit-scrollbar {
+            width: 0 !important;
+            appearance: none;
+        }
+
+        .modal-header {
+            padding-inline: 1.5rem;
+            padding-bottom: 1.5rem;
+            padding-top: 1.5rem;
+            background-color: $clr_gray_20_percent;
+            border-radius: .3rem .3rem 0 0;
+
+            &-chip {
+                background-color: $clr_gray_faded;
+                width: max-content;
+                padding-inline: .2rem;
+                border-radius: 1rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: max-content !important;
+                padding-block: .2rem !important;
+                padding-bottom: 0 !important;
+                font-size: $p2 !important;
+                font-weight: $font-medium;
+
+                p {
+                    line-height: 0 !important;
+                    margin: 0 !important;
+                    padding: 0 !important;
+                }
+            }
+
+            &-name {
+                font-size: $h4 !important;
+                font-weight: $font_semibold !important;
+            }
+
+            &-description {
+                font-size: $p2 !important;
+                font-weight: $font_normal !important;
+            }
+        }
+
+        .modal-close {
+            border: 0.083rem solid $clr_gray_faded !important;
+        }
+
+        .modal-content-wrapper {
+            padding-inline: 1.5rem;
+            padding-bottom: 1rem !important;
+            padding-top: 2rem !important;
+            // display: flex;
+            // column-gap: 4rem;
+            // flex-wrap: wrap;
+        }
+
+        .modal-group {
+            margin-bottom: 1rem;
+            // flex: 1 !important;
+            // flex-basis: min(100%,20rem) !important;
+
+            .icon {
+                color: $clr_sub_header !important;
+
+            }
+
+            .label {
+                font-size: $p1 !important;
+                font-weight: $font_semibold !important;
+                color: $clr_sub_header !important;
+                margin-top: .35rem;
+            }
+
+            .value {
+                font-size: $p1 !important;
+                font-weight: $font_normal !important;
+                color: $clr_gray_dark_text !important;
+                margin-left: .4rem;
+                margin-top: .4rem;
+            }
+        }
+
+        .modal-divider {
+            width: 100%;
+            height: 0.12rem;
+            background-color: $clr_gray_30_percent !important;
+        }
+
+        .speakers {
+
+            margin-top: 1rem;
+            display: flex !important;
+            align-items: center;
+            flex-wrap: wrap;
+            column-gap: 1rem;
+            row-gap: .5rem;
+
+            &-avatar {
+                width: 5rem;
+                height: 5rem;
+            }
+
+        }
+    }
+
 }

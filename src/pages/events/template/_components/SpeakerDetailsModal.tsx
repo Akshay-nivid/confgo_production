@@ -82,8 +82,8 @@ const SpeakerDetailsModal = () => {
             >
                 <Box className="min-h-screen w-full flex justify-center items-center speaker-details-modal">
                     <Box className="speaker-details-modal-content">
-                        <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'space-between'}>
-                                    <Grid justifyItems={'center'} className="speaker-details-modal-avatar" size={{ xs: 2, sm: 2 }}>
+                        <Grid container columnSpacing={3    } size={{ xs: 12, sm: 12 }} justifyContent={'space-between'}>
+                                    <Grid width={"max-content"} className="speaker-details-modal-avatar">
                                         <Avatar
                                             alt={speakerDetails?.user?.firstName}
                                             src={speakerDetails?.user?.assetId
@@ -91,12 +91,12 @@ const SpeakerDetailsModal = () => {
                                                 : ""}
                                         />
                                     </Grid>
-                                    <Grid size={{ xs: 9, sm: 9 }}  direction={'column'}>
+                                    <Grid flex={1}  direction={'column'}>
                                     <Grid><Typography className="speaker-details-modal-details-name">{`${speakerDetails?.user?.firstName} ${speakerDetails?.user?.lastName}`}</Typography></Grid>
                                         <Grid><Typography className="speaker-details-modal-details-designation">{speakerDetails?.user?.designation}</Typography></Grid>
                                         <Grid><Typography className="speaker-details-modal-details-descripion">{speakerDetails?.user?.userDescription}</Typography></Grid>
                                     </Grid>
-                            <Grid size={{ xs: 1, sm: 1 }}>
+                            <Grid width={'max-content'}>
                                 <IconButton onClick={handleCloseModal} className='content-header-container-close' >
                                     <Close />
                                 </IconButton>

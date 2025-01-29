@@ -5,7 +5,7 @@ import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import Grid from "@mui/material/Grid2";
 import { useForm, FieldValues, useFieldArray } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import moment from "moment";
 import SessionAddonDrawer from "./SessionAddonDrawer";
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
@@ -112,6 +112,7 @@ interface SessionDrawerContentProps {
       setError,
       reset,
       clearErrors,
+      formState: { errors },
     } = useForm<FormData>({
       defaultValues: {
         isPaid: isEditing && selectedProgram?.amount > 0 ? "PAID" : "FREE", 
@@ -198,8 +199,8 @@ interface SessionDrawerContentProps {
         } else {
         reset({
           isPaid: "FREE",
-          startTime: moment(eventStartTime).format("HH:mm"),
-          endTime: moment(eventStartTime).format("HH:mm"),
+          startTime: moment().format("HH:mm"),
+          endTime: moment().format("HH:mm"),
           startDate:moment(eventStartTime).format("YYYY-MM-DD"),
           endDate:moment(eventStartTime).format("YYYY-MM-DD"),
           name: "",
@@ -231,6 +232,51 @@ interface SessionDrawerContentProps {
 		if(isAddon){
 				return <SessionAddonDrawer closeDrawer={closeDrawer} isEditing={isEditing} selectedAddOn={selectedProgram} onSubmit={onSubmit} eventData={eventData}  onSubmitHandler={submitHandler} />
 		}  
+
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const scrollToError = useCallback(() => {
+      const errorFieldMap: { [key: string]: string } = {
+        name: '[name="name"]',
+        description: '[name="description"]',
+        totalSeat: '[name="totalSeat"]',
+        startDate: '[name="startDate"]',
+        startTime: '[name="startTime"]',
+        endTime: '[name="endTime"]',
+        endDate: '[name="endDate"]',
+        price: '[name="price"]',
+      };
+    
+      const errorKeys = Object.keys(errors);
+    
+      if (errorKeys.length > 0) {
+        const firstErrorKey = errorKeys[0];
+        const selector = errorFieldMap[firstErrorKey];
+    
+        if (selector) {
+          const errorElement = document.querySelector(selector);
+    
+          if (errorElement) {
+            errorElement.scrollIntoView({ behavior: "smooth", block: "center" });
+    
+            // Try to focus on the first focusable element within the error element
+            const focusableElement = errorElement.querySelector("input, textarea") || errorElement;
+            if (focusableElement) {
+              (focusableElement as HTMLElement).focus();
+            }
+          }
+        }
+      }
+    }, [errors]);
+    
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+      if (Object.keys(errors).length > 0) {
+        scrollToError();
+      }
+    }, );
+    
+    
 
   /**
  * Filters out speakers from the `speakers` array whose `speakerId` exists in the `existingSpeakers` array.
@@ -320,7 +366,7 @@ interface SessionDrawerContentProps {
 
       }));
 
-      const sponsor = removeExistingSponsors(newAddedSponsors, existingSponsor);
+      const sponsors = removeExistingSponsors(newAddedSponsors, existingSponsor);
 
 
       // Create the new transformed object
@@ -333,8 +379,8 @@ interface SessionDrawerContentProps {
         startTime: startDateTime,
         endTime: endDateTime,
         speakers:updatedSpeakers,
-        sponsor,
         ...(data?.hallName ? { hall: data?.hallName }: {}),
+        sponsors,
       };
       onSubmit(transformedProgram);
 
