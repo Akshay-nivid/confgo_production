@@ -251,7 +251,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
                 {isFilePDF ? (
                   <PdfIcon className='file-upload-preview-item-pdf'/> 
                 ) : (
-                  <img src={url} alt={`preview ${index}`} />
+                  <img className="file-upload-preview-item-image" src={url} alt={`preview ${index}`} />
                 )}
 
                 <IconButton
