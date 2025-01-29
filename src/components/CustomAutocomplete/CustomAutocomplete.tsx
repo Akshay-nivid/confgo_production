@@ -78,7 +78,6 @@ const CustomAutocomplete = <T,>({
           }}
           inputValue={inputValue}
           onInputChange={(_, newInputValue) => {
-            console.log('text changes values',newInputValue)
             if (newInputValue === "") {
               // Clear field value when the input is manually cleared
               field.onChange(null);
