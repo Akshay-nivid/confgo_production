@@ -17,7 +17,7 @@ interface DescriptionComponentProps {
 
 const DescriptionComponent: React.FC<DescriptionComponentProps> = ({ description, classPrefix,temp}) => (
   <Typography className={`${classPrefix}`}>
-  {temp ? truncateString(description, 30) : description}
+  {temp ? truncateString(description, 90) : description}
 </Typography>
 );
 
