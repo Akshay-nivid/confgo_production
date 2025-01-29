@@ -454,7 +454,7 @@ const Sponsors = () => {
 
                             <CustomTextField control={form.control} name='email' placeholder='Email' />
                             <CustomTextField control={form.control} name='phone' placeholder='Phone Number' />
-                            <CustomTextField control={form.control} name='website' placeholder='(e.g., https://www.example.com)' label='Website Url' />
+                            <CustomTextField control={form.control} name='website' placeholder='(e.g.: https://www.example.com)' label='Website Url' />
 
                             <Box className="form-file-upload ">
                                 <FormLabel className={clsx('form-file-upload-label',logoId && 'mb-5')}>{logoId ? 'Sponsor Logo' : 'Please upload the sponsor logo'}</FormLabel>

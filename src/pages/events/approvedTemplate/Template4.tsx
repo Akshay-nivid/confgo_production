@@ -24,6 +24,7 @@ import routes from '@/router/routes';
 import { useNavigate } from 'react-router-dom';
 import SponsorShip from '../template/sponsorShipForm/SponsorShip';
 import NoSpeakerIcon from "../../../assets/svg/no-speaker-image.svg";
+import { personPlaceholder } from '@/assets/png';
 
 
 type TemplateViewProps = {
@@ -340,6 +341,9 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
 
     const sponsors = getUniqueSponsors(data?.eventSponsors)
 
+    const isCompany = sessionStorage.getItem('userLoggedInType') === 'COMPANYADMIN' 
+
+
     function groupSponsorsByCategory(sponsors: any) {
 
         const groupedSponsors = {
@@ -414,10 +418,11 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                 <Grid size={{ xs: 12, sm: 12 }} container direction={'column'} className={`${classPrefix}-event-contributors-item-container-speaker-card `}>
                                     <Grid overflow={'hidden'} className={`${classPrefix}-event-contributors-item-container-image`}>
                                         {item?.user?.assetId ? (<img
+                                            className='w-full aspect-square max-h-[16.7rem]'
                                             src={`${baseUrl}asset/${item?.user?.assetId}`}
                                             alt={item.name}
                                         />) : (
-                                            <NoSpeakerIcon className={`h-full w-full ${classPrefix}-event-contributors-item-container-no-profile-picture`} />
+                                            <img alt={item.name} src={personPlaceholder} className={` w-full aspect-square max-h-[16.7rem]`} />
                                         )}
 
                                     </Grid>
@@ -787,7 +792,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                 {/* Sponsors section starts here */}
                 {data?.eventSponsors?.length > 0 && getUniqueSponsors(data?.eventSponsors)?.length > 0 && <Grid id={'sponsors'} container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-sponsors `} spacing={1} direction={'column'} justifyContent={'center'} alignItems={'center'} ref={sponsorRef}>
                     <Grid className={`${classPrefix}-sponsors-title`}>Our Sponsors</Grid>
-                    <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-sponsors-item-group-container`} justifyContent={'center'} alignItems={'center'} spacing={4}>
+                    <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-sponsors-item-group-container`} justifyContent={'center'} alignItems={'center'}>
                         {/* {data?.eventSponsors?.length > 0 && getUniqueSponsors(data?.eventSponsors)?.map((item: any) => {
                             return <Grid alignSelf={'stretch'} size={{ xs: 12, sm: 3 }} container direction={'row'} className={`${classPrefix}-sponsors-item-container `} spacing={2}>
                                 <Grid size={{ xs: 12, sm: 12 }} container direction={'column'} justifyContent={'center'} alignItems={'center'} className={`${classPrefix}-sponsors-item-container-card `}>
@@ -817,7 +822,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                     items?.map((item: any) => {
                                                         return (
                                                             <Box className="max-h-[438px] contain-content " width={'100%'}>
-                                                                <img className='object-fill' width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
+                                                                <img  className='object-fill rounded-sm' width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
                                                             </Box>
                                                         )
 
@@ -834,8 +839,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                             {
                                                 items?.map((item: any) => {
                                                     return (
-                                                        <Grid size={{ xs: 12, sm: 6 }} container direction={'row'} spacing={2}>
-                                                            <img className='object-fill' width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
+                                                        <Grid size={{ xs: 12, sm: 6 }} >
+                                                            <img className='object-fill rounded-sm' width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
                                                         </Grid>
                                                     )
                                                 })
@@ -851,7 +856,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                 items?.map((item: any) => {
                                                     return (
                                                         <Grid size={{ xs: 12, sm: 4 }} container direction={'row'} spacing={2}>
-                                                            <img className='object-fill' width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
+                                                            <img className='object-fill rounded-sm' width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
                                                         </Grid>
                                                     )
                                                 })
@@ -866,7 +871,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                 items?.map((item: any) => {
                                                     return (
                                                         <Grid size={{ xs: 12, sm: 3 }} container direction={'row'} spacing={2}>
-                                                            <img className='object-fill' height={'100%'} width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
+                                                            <img className='object-fill rounded-sm' height={'100%'} width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
                                                         </Grid>
                                                     )
                                                 })
@@ -917,7 +922,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                         })
                                                 }
                                             </Grid>
-                                            <Grid container justifyContent={'center'} alignItems={'flex-end'} className={`${classPrefix}-ticketing-register-button-container`}><CustomButton onClick={() => handleClickRegister(amountCalculatedData[participantType]?.[0])} label="Register Now" className={`${classPrefix}-ticketing-register-button`} /></Grid>
+    const isCompany = sessionStorage.getItem('userLoggedInType') === 'COMPANYADMIN' 
+    <Grid container justifyContent={'center'} alignItems={'flex-end'} className={`${classPrefix}-ticketing-register-button-container`}><CustomButton onClick={ isCompany ? undefined : () => handleClickRegister(amountCalculatedData[participantType]?.[0])} label="Register Now" className={`${classPrefix}-ticketing-register-button`} /></Grid>
 
                                         </Grid>)
                                 })
