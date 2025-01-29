@@ -26,6 +26,7 @@ import SponsorShip from '../template/sponsorShipForm/SponsorShip';
 import NoSpeakerIcon from "../../../assets/svg/no-speaker-image.svg";
 import { Badge } from "@mui/material";
 import ModeratorIcon from "../../../assets/svg/moderator.svg"; 
+import TempHall from "../../../assets/svg/temp-hall.svg"; 
 
 
 type TemplateViewProps = {
@@ -630,6 +631,12 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                         </Grid>
 
                                                     </Grid>
+                                                    )}
+                                                    {subItem?.hall&&(
+                                                        <Grid container size={12}   alignItems={"center"}className={`${classPrefix}-program-content-hall`} >
+                                                            <Grid> <TempHall/></Grid>
+                                                        <Typography className={`${classPrefix}-program-content-hall-content`}>  {subItem?.hall}</Typography>  
+                                                        </Grid>
                                                     )}
                                                     {subItem?.eventSpeakers && subItem?.eventSpeakers?.length !==0&&
 

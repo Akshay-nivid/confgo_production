@@ -1668,7 +1668,22 @@
             }
         }
         &-program-content {
-    
+             &-hall{
+                margin-top: 1rem;
+                font-size: $h3;
+                svg{
+                    width: 2rem  !important;
+                    height: 2rem;
+                }
+                &-content{
+                    font-size:$h6;
+                    color: $clr_dim_gray;
+                    font-size: $h6;
+                    text-transform: capitalize;
+                    padding-inline:0.7rem ;
+
+                }
+             }
             &-item {
                 border-radius: 0.83rem;
                 background-color: $clr_white;
