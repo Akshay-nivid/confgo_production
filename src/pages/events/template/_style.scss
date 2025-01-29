@@ -1551,7 +1551,7 @@
                 font-size: $p5 !important;
                 color: $clr_white !important;
                 font-weight: $font-normal !important;
-                line-height: 2rem !important;
+                line-height: 2.66rem !important;
             }
             &-icon-container{
                 margin-bottom: 3rem !important;
@@ -1686,6 +1686,10 @@
                       cursor: pointer;
                 } 
                 &-program{
+                    &:hover {
+                        box-shadow: 0 0 0.33rem 0.01rem $clr_black; 
+                      }
+                    
                     border:solid 0.083rem $clr_gray_very_light;
                     cursor: pointer;
                 }
@@ -1751,7 +1755,7 @@
                 }
     
                 &-addon {
-                    border-left: 0.083rem solid $clr_black;   
+                    // border-left: 0.083rem solid $clr_black;   
                     padding-left: 2rem;      
                 }
             }
@@ -1768,6 +1772,13 @@
                 width: 6rem;
                 height: 5rem !important;
              }
+             &-generalAddon{
+                padding-left: 2rem ;
+                img{
+                    width: 6rem;
+                    height: 5rem !important;
+                }
+             }
              &-heading{
                 display: flex;
                 align-items: center;
@@ -1776,11 +1787,6 @@
               font-size:$p2;
               font-weight: $font-bold !important;
               line-height: 2rem;
-             }
-             &-ImgBox{
-                min-width: 15rem !important;
-                // border: 0.1rem solid !important;
-                border-radius: 0.8rem;
              }
             }
            
@@ -1793,7 +1799,7 @@
         }
         &-event-contributors {
            // background-color: $clr_charcoal_cyan;
-            padding-top: 8rem;
+            padding-top: 4rem;
 
             &-title {
                 font-size: $h1;
@@ -1830,11 +1836,17 @@
                         width: 17rem;
                         height: 17rem;
                 }
+                &-container-image{
+                    img{
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
             }
 
         }
         &-ticketing {
-            padding: 2rem 2rem 8rem 2rem;
+            padding: 2rem 2rem 2rem 2rem;
 
             &-anim-container {
                 gap: 3.33rem !important;
@@ -3705,5 +3717,6 @@
 .template4-sponsor-banner-text{
     font-size: $h4 !important;
     font-weight: $font_semibold !important;
+    margin-bottom: 1rem !important;
 
 }

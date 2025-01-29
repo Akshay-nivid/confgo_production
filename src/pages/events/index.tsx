@@ -334,8 +334,10 @@ const Events = () => {
    */
   const createFormRequest = (data: any, draft?: boolean) => {
     const event = data?.event;
-    const EventStart = event?.startTime
-    const EventEnd = event?.endTime
+    // const EventStart = event?.startTime
+    // const EventEnd = event?.endTime
+    const EventStart = `${event?.startTime}T00:00` //for testing repeated addon purpose
+    const EventEnd = `${event?.endTime}T23:59` //for testing repeated addon purpos
     const EventStartTime= formatUTCDateTime(EventStart)
     const EventEndTime= formatUTCDateTime(EventEnd)
 

@@ -13,8 +13,10 @@ import LocalTimeDate from '@/components/LocalTimeDate/LocalTimeDate';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import Badge from './Badge';
 import { useFormContext } from 'react-hook-form';
+import CustomButton from '@/components/CustomButton/CustomButton';
+import { setNonPersistedDataById } from '@/Libs/store';
 interface IProgramcardProps {
-    templateId:number | null | undefined, handleToggleProgramCheckbox:(param:string)=>void, program:any, date:string 
+    templateId: number | null | undefined, handleToggleProgramCheckbox: (param: string) => void, program: any, date: string
 }
 
 /**
@@ -27,18 +29,27 @@ interface IProgramcardProps {
  * @returns {JSX.Element} Programcard component
  */
 
-const Programcard = ({  templateId, handleToggleProgramCheckbox, program, date }:IProgramcardProps) => {
+const Programcard = ({ templateId, handleToggleProgramCheckbox, program, date }: IProgramcardProps) => {
 
     const methods = useFormContext();
 
-    const {control,setValue,watch} = methods
+    const { control, setValue, watch } = methods
 
+    /**
+     * Handles the click event on the view details button
+     * Sets the isProgramDetailsModelOpen state to true and sets the programDetails state to the program object
+     */
+    function handleClickViewDetails() { 
 
+        setNonPersistedDataById('isProgramDetailsModelOpen', { value: true })
+
+        setNonPersistedDataById('programDetails', { value: program })
+    }
 
 
     return (
-        <Grid size={{ xs: 12, sm: 6, md: 4 }} className={clsx( `program-card-${templateId}`, watch(`${formatDate(date)}-programs`)?.includes(program?.id) ? '' : '')} >
-         
+        <Grid size={{ xs: 12, sm: 6, md: 4 }} className={clsx(`program-card-${templateId}`, watch(`${formatDate(date)}-programs`)?.includes(program?.id) ? '' : '')} >
+
             <Badge text="Program" type="program" />
 
             <Grid size={12}>
@@ -50,8 +61,8 @@ const Programcard = ({  templateId, handleToggleProgramCheckbox, program, date }
 
                 </Tooltip>
 
-                <Box  className="date-time-container">
-                    <CalendarMonthOutlinedIcon/>
+                <Box className="date-time-container">
+                    <CalendarMonthOutlinedIcon />
                     <LocalTimeDate utcDateTime={program?.startTime} format="MMMM D" timezone="auto" fallbackText="Not Available" />
                     <Typography>-</Typography>
                     <LocalTimeDate utcDateTime={program?.endTime} format="MMMM D" timezone="auto" fallbackText="Not Available" />
@@ -64,13 +75,23 @@ const Programcard = ({  templateId, handleToggleProgramCheckbox, program, date }
                         {moment(program?.startTime).format("h:mm A") + ' ' + '-' + ' ' + moment(program?.endTime).format("h:mm A")}
                     </Typography>
                 </Box>
-                
+
             </Grid>
 
-            <Grid display={'flex'} alignItems={'center'}  className="price-group">
-                <Dollar className="program-money-icon" />
-                <Typography className='program-price'>{Math.trunc(Number(program?.amount)) === 0 ? "Free" : `${program?.amount}`}</Typography>
-            </Grid>
+
+            <Box className="flex items-center justify-between">
+
+
+                <Grid display={'flex'} alignItems={'center'} className="price-group">
+                    <Dollar className="program-money-icon" />
+                    <Typography className='program-price'>{Math.trunc(Number(program?.amount)) === 0 ? "Free" : `${program?.amount}`}</Typography>
+                </Grid>
+
+                <Box>
+                    <CustomButton onClick={handleClickViewDetails} label='view details' className='view-details-btn' variant='text' />
+                </Box>
+            </Box>
+
 
             <Box className="program-checkbox-wrapper">
                 <Grid size={12} className={`program-checkbox-group-${templateId}`}>

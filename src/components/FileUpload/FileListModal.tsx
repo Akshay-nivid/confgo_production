@@ -154,7 +154,7 @@ const FileListModal: React.FC<FileListModalProps> = ({
         <Grid className="modal-close-icon" container justifyContent={"flex-end"} onClick={handleClose}>
           <CloseIcon/>
         </Grid>
-        <FileUpload acceptedFiles={["image/jpeg", "image/png",]} resolution={{ width: 200, height: 200 }} onSubmit={handleUploadSuccess}/>
+        <FileUpload acceptedFiles={["image/jpeg", "image/png",]} resolution={{ width: 200 }} onSubmit={handleUploadSuccess}/>
 {/* 
           <Autocomplete
             limitTags={2}
@@ -199,7 +199,7 @@ const FileListModal: React.FC<FileListModalProps> = ({
           {/* FileUpload Modal */}
           <Modal open={uploadModalOpen} onClose={() => setUploadModalOpen(false)}>
             <Box className="modal-upload-container">
-              <FileUpload acceptedFiles={["image/jpeg", "image/png",]} resolution={{ width: 200, height: 200 }} onSubmit={handleUploadSuccess}/>
+              <FileUpload acceptedFiles={["image/jpeg", "image/png",]} resolution={{ width: 200 }} onSubmit={handleUploadSuccess}/>
             </Box>
           </Modal>
           </Grid>
