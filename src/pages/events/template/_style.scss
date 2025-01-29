@@ -1683,7 +1683,7 @@
                         $clr_white 4.583rem
                       );
                       border-radius: 8px; /* Round corners if needed */
-                      cursor: pointer;
+                      
                 } 
                 &-program{
                     &:hover {
@@ -1691,7 +1691,7 @@
                       }
                     
                     border:solid 0.17rem $clr_gray_very_light;
-                    cursor: pointer;
+                    
                 }
             }
     
@@ -1752,11 +1752,13 @@
                 &-program {
                     border-left: 0.083rem solid $clr_deep_cyan_green;
                     padding-left: 2rem;
+                    cursor: pointer;
                 }
     
                 &-addon {
                     // border-left: 0.083rem solid $clr_black;   
-                    padding-left: 2rem;      
+                    padding-left: 2rem;     
+                    cursor: pointer; 
                 }
             }
     
