@@ -232,6 +232,8 @@ const Sponsors = () => {
                 id: item?.id,
                 name: item?.name,
                 email: item?.email,
+                createdOn: item?.createdOn,
+                modifiedOn: item?.modifiedOn,
                 phone: item?.phone,
                 website: item?.website,
                 logo: <Avatar className='top-2' src={item?.logoAssetId ? `${baseUrl}/asset/${item?.logoAssetId}` : ''} >{item?.name?.slice(0, 2)}</Avatar>,
@@ -291,12 +293,15 @@ const Sponsors = () => {
 
     function onRowClick(data: any) {
 
+
         setNonPersistedDataById('sponsorAdminDetails', {
             value: {
                 name: data?.row?.name,
                 email: data?.row?.email,
                 phone: data?.row?.phone,
                 website: data?.row?.website,
+                createdOn: data?.row?.createdOn,
+                modifiedOn: data?.row?.modifiedOn,
                 logoUrl: data?.row?.logo?.props?.src,
                 bannerUrl: data?.row?.bannerUrl,
                 bannerId: data?.row?.bannerId,
@@ -492,7 +497,7 @@ const Sponsors = () => {
 
                 </Box>
             </CustomDrawer>
-            <SponsorDetailsModal />
+            <SponsorDetailsModal className='sponsor-details-modal'/>
         </Grid>
     )
 }
