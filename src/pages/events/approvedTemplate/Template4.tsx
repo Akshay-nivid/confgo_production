@@ -638,11 +638,11 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                                 <Typography>Speakers</Typography>
                                                             </Grid>
                                                             {subItem?.eventSpeakers?.map((speaker: any) => {
-                                                                const isModerator = speaker?.speakerBios?.[0]?.isModerator; // Access first element of speakerBios array
+                                                                const isModerator = speaker?.speakerBios?.[0]?.isModerator;
 
                                                                 return (
                                                                     <Badge
-                                                                        key={speaker?.id} // Ensure a unique key
+                                                                        key={speaker?.id}
                                                                         overlap="circular"
                                                                         badgeContent={isModerator ? <ModeratorIcon width={'17'} height={"17"}/> : null}
                                                                     >
