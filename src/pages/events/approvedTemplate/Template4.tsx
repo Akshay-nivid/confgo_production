@@ -11,7 +11,7 @@ import FooterSection from '../template/FooterSection';
 import moment from 'moment';
 import DescriptionComponent from '../template/DescriptionComponent';
 import TitleComponent from '../template/TitleComponent';
-// import { setNonPersistedDataById } from '@/Libs/store';
+
 import { TemplateBlackClockIcon, TemplateGrayClockIcon, TemplatePriceBlackIcon, TemplatePriceGrayIcon } from '@/assets/svg';
 import config from "../../../../config.json";
 import TimeComponent from '../template/TimeComponent';
@@ -24,6 +24,8 @@ import routes from '@/router/routes';
 import { useNavigate } from 'react-router-dom';
 import SponsorShip from '../template/sponsorShipForm/SponsorShip';
 import NoSpeakerIcon from "../../../assets/svg/no-speaker-image.svg";
+import { Badge } from "@mui/material";
+import ModeratorIcon from "../../../assets/svg/moderator.svg"; 
 
 
 type TemplateViewProps = {
@@ -464,7 +466,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                 className={`${classPrefix}-program-content-item ${item?.type === 'program' ? `${classPrefix}-program-content-item-program` : `${classPrefix}-program-content-item-addon`}`}
                             >
                                 <Grid container alignItems="center" spacing={3}>
-                                    <Grid size={{ xs: 9, lg: 6 }} className={`${classPrefix}-program-content-details-${item.type === 'program' ? 'program' : 'addon'}`}>
+                                    <Grid size={{ xs: 9, lg: 6 }} className={`${classPrefix}-program-content-details-${item.type === 'program' ? 'program' : 'gerenarl-addon'}`}>
                                         <TitleComponent
                                             title={item?.type === 'program' ? item?.name : item?.addon?.name}
                                             classPrefix={`${classPrefix}-program-content-title`}
@@ -558,8 +560,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                 className={`${classPrefix}-program-content-item ${item?.type === 'program' ? `${classPrefix}-program-content-item-program` : `${classPrefix}-program-content-item-addon`}`}
                             >
                                 <Grid container alignItems="center" size={12} >
-                                    <Grid size={{ xs: 6, sm: 4, lg: 3 }} container direction="row" alignItems="center" justifyContent="start" className={`${classPrefix}-program-content-time`} >
-                                        <Grid className={`${classPrefix}-program-content-time${item?.type === 'program' ? "-divider-gray" : "-divider-black"}`} size={{ xs: 3, sm: 2, lg: 3 }} container justifyContent={"center"} display={"block"}>
+                                    <Grid  size={{ xs: 6, sm: 4, lg: 2.5 }} container direction="row" alignItems="center" justifyContent="start" className={`${classPrefix}-program-content-time`} >
+                                        <Grid className={`${classPrefix}-program-content-time${item?.type === 'program' ? "-divider-gray" : "-divider-black"}`} size={{ xs: 3, sm: 2, lg: 3  }}   container justifyContent={"center"} display={"block"}>
                                             <Typography textAlign={"center"} className={`${classPrefix}-program-content-time-day`}>{getLocalTimeDate(item.startTime, 'ddd')}</Typography>
                                             <Typography textAlign={"center"} className={`${classPrefix}-program-content-time-num`}>{getLocalTimeDate(item.startTime, 'DD')}</Typography>
                                         </Grid>
@@ -572,7 +574,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                     classPrefix={`${classPrefix}-program-content-time-value`}
                                                 />
                                             </Grid>
-                                            <Grid container display={"flex"} alignItems={"center"} columnGap={1} className={`${classPrefix}-program-content-time-icon`}>
+                                            <Grid  container display={"flex"} alignItems={"center"} columnGap={1} className={`${classPrefix}-program-content-time-icon`}>
                                                 {item?.type === 'program' ? <TemplatePriceGrayIcon /> : <TemplatePriceBlackIcon />}
                                                 <Typography className={`${classPrefix}-program-content-time-value`}>{config?.currency}{item?.amount}</Typography>
                                             </Grid>
@@ -581,8 +583,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                     <Grid size={{ xs: 6, sm: 8 }} className={`${classPrefix}-program-content-details-${item.type === 'program' ? 'program' : 'addon'}`} container direction='column' flex={"column"}>
                                         {item.subItems && item.subItems.length > 0 ? (
                                             item.subItems.map((subItem: any, subIndex: number) => (
-                                                <Grid container key={subIndex} size={12} display={"flex"}   >
-                                                    <Grid size={6} container >
+                                                <Grid container key={subIndex} size={12} display={"flex"}>
+                                                    <Grid size={8} container >
                                                         <Grid size={12}>
                                                             <TitleComponent
                                                                 title={subItem?.type === 'program' ? subItem?.name : subItem?.addon?.name}
@@ -599,8 +601,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
 
                                                     </Grid>
 
-                                                    {subItem?.eventSponsors && subItem?.eventSponsors?.length !== 0 && (<Grid size={6} container justifyContent={"flex-end"} >
-                           
+                                                    {subItem?.eventSponsors && subItem?.eventSponsors?.length !== 0 && (<Grid size={4} container justifyContent={"flex-end"} >
+    
                                                         <Grid  container className={`${classPrefix}-program-content-sponsor`} justifyContent={subItem?.eventSponsors?.length > 1 ? "center" : 'flex-start'} >
 
                                                             <Grid container justifyContent={subItem?.eventSponsors?.length > 1 ? "center" : 'flex-start'} size={12} className={`${classPrefix}-program-content-sponsor-heading`}>
@@ -631,22 +633,31 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                     )}
                                                     {subItem?.eventSpeakers && subItem?.eventSpeakers?.length !==0&&
 
-                                                        <Grid size={12} container className="mt-2">
+                                                        <Grid size={12} container className="mt-2" spacing={1}>
                                                             <Grid size={12} container className={`${classPrefix}-program-content-sponsor-heading`}>
                                                                 <Typography>Speakers</Typography>
                                                             </Grid>
-                                                            {subItem?.eventSpeakers?.map((speaker:any)=>{
-                                                               return <Avatar
-                                                               alt={speaker?.user?.firstName}
-                                                               src={speaker?.user?.assetId
-                                                                   ? `${baseUrl}asset/${speaker?.user?.assetId}`
-                                                                   : ""}
-                                                           />
+                                                            {subItem?.eventSpeakers?.map((speaker: any) => {
+                                                                const isModerator = speaker?.speakerBios?.[0]?.isModerator; // Access first element of speakerBios array
+
+                                                                return (
+                                                                    <Badge
+                                                                        key={speaker?.id} // Ensure a unique key
+                                                                        overlap="circular"
+                                                                        badgeContent={isModerator ? <ModeratorIcon width={'17'} height={"17"}/> : null}
+                                                                    >
+                                                                        <Avatar
+                                                                            alt={speaker?.user?.firstName}
+                                                                            src={speaker?.user?.assetId ? `${baseUrl}asset/${speaker?.user?.assetId}` : ""}
+                                                                        />
+                                                                    </Badge>
+                                                                );
                                                             })}
+
                                                         
                                                     </Grid>}
-                                                    {item.subItems.length >1&&
-                                                    <Grid size={12} className={`${classPrefix}-program-content-divider mt-3`}>
+                                                    {item.subItems.length >1&& subItem?.eventSpeakers.length !==0 &&
+                                                    <Grid size={12} className={`${classPrefix}-program-content-divider mt-5`}>
                                                                 <Divider />
                                                             </Grid>}
                                                 </Grid>

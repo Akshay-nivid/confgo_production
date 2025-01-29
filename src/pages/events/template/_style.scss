@@ -1697,7 +1697,7 @@
     
             &-time {
                 &-divider-gray{
-                    border-right: 0.083rem solid $clr_background_gray !important;
+                    border-right: 0.083rem solid $clr_border_light_grey !important;
                     margin-right: 2rem ;
                 }
                 &-divider-black{
@@ -1755,8 +1755,11 @@
                 }
     
                 &-addon {
-                    // border-left: 0.083rem solid $clr_black;   
+                     border-left: 0.083rem solid $clr_black;   
                     padding-left: 2rem;      
+                }
+                &-gerenarl-addon{ 
+                    padding-left: 2rem;  
                 }
             }
     
