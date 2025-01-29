@@ -372,7 +372,6 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
         startTime: startDateTime,
         endTime: endDateTime,
         speakers:updatedSpeakers,
-        sponsor,
         ...(data?.hallName ? { hall: data?.hallName }: {}),
         sponsors,
       };
