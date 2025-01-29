@@ -24,7 +24,7 @@ import routes from '@/router/routes';
 import { useNavigate } from 'react-router-dom';
 import SponsorShip from '../template/sponsorShipForm/SponsorShip';
 import { Badge } from "@mui/material";
-import ModeratorIcon from "../../../assets/svg/moderator.svg"; 
+import ModeratorIcon from "../../../assets/svg/moderator.svg";
 import TempHall from "../../../assets/svg/temp-hall.svg";
 import { personPlaceholder } from '@/assets/png';
 
@@ -343,7 +343,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
 
     const sponsors = getUniqueSponsors(data?.eventSponsors)
 
-    const isCompany = sessionStorage.getItem('userLoggedInType') === 'COMPANYADMIN' 
+    const isCompany = sessionStorage.getItem('userLoggedInType') === 'COMPANYADMIN'
 
 
     function groupSponsorsByCategory(sponsors: any) {
@@ -565,8 +565,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                 className={`${classPrefix}-program-content-item ${item?.type === 'program' ? `${classPrefix}-program-content-item-program` : `${classPrefix}-program-content-item-addon`}`}
                             >
                                 <Grid container alignItems="center" size={12} >
-                                    <Grid  size={{ xs: 6, sm: 4, lg: 2.5 }} container direction="row" alignItems="center" justifyContent="start" className={`${classPrefix}-program-content-time`} >
-                                        <Grid className={`${classPrefix}-program-content-time${item?.type === 'program' ? "-divider-gray" : "-divider-black"}`} size={{ xs: 3, sm: 2, lg: 3  }}   container justifyContent={"center"} display={"block"}>
+                                    <Grid size={{ xs: 6, sm: 4, lg: 2.5 }} container direction="row" alignItems="center" justifyContent="start" className={`${classPrefix}-program-content-time`} >
+                                        <Grid className={`${classPrefix}-program-content-time${item?.type === 'program' ? "-divider-gray" : "-divider-black"}`} size={{ xs: 3, sm: 2, lg: 3 }} container justifyContent={"center"} display={"block"}>
                                             <Typography textAlign={"center"} className={`${classPrefix}-program-content-time-day`}>{getLocalTimeDate(item.startTime, 'ddd')}</Typography>
                                             <Typography textAlign={"center"} className={`${classPrefix}-program-content-time-num`}>{getLocalTimeDate(item.startTime, 'DD')}</Typography>
                                         </Grid>
@@ -579,7 +579,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                     classPrefix={`${classPrefix}-program-content-time-value`}
                                                 />
                                             </Grid>
-                                            <Grid  container display={"flex"} alignItems={"center"} columnGap={1} className={`${classPrefix}-program-content-time-icon`}>
+                                            <Grid container display={"flex"} alignItems={"center"} columnGap={1} className={`${classPrefix}-program-content-time-icon`}>
                                                 {item?.type === 'program' ? <TemplatePriceGrayIcon /> : <TemplatePriceBlackIcon />}
                                                 <Typography className={`${classPrefix}-program-content-time-value`}>{config?.currency}{item?.amount}</Typography>
                                             </Grid>
@@ -607,8 +607,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                     </Grid>
 
                                                     {subItem?.eventSponsors && subItem?.eventSponsors?.length !== 0 && (<Grid size={4} container justifyContent={"flex-end"} >
-    
-                                                        <Grid  container className={`${classPrefix}-program-content-sponsor`} justifyContent={subItem?.eventSponsors?.length > 1 ? "center" : 'flex-start'} >
+
+                                                        <Grid container className={`${classPrefix}-program-content-sponsor`} justifyContent={subItem?.eventSponsors?.length > 1 ? "center" : 'flex-start'} >
 
                                                             <Grid container justifyContent={subItem?.eventSponsors?.length > 1 ? "center" : 'flex-start'} size={12} className={`${classPrefix}-program-content-sponsor-heading`}>
                                                                 <Typography>Sponsored by</Typography>
@@ -636,13 +636,13 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
 
                                                     </Grid>
                                                     )}
-                                                    {subItem?.hall&&(
-                                                        <Grid container size={12}   alignItems={"center"}className={`${classPrefix}-program-content-hall`} >
-                                                            <Grid> <TempHall/></Grid>
-                                                        <Typography className={`${classPrefix}-program-content-hall-content`}>  {subItem?.hall}</Typography>  
+                                                    {subItem?.hall && (
+                                                        <Grid container size={12} alignItems={"center"} className={`${classPrefix}-program-content-hall`} >
+                                                            <Grid> <TempHall /></Grid>
+                                                            <Typography className={`${classPrefix}-program-content-hall-content`}>  {subItem?.hall}</Typography>
                                                         </Grid>
                                                     )}
-                                                    {subItem?.eventSpeakers && subItem?.eventSpeakers?.length !==0&&
+                                                    {subItem?.eventSpeakers && subItem?.eventSpeakers?.length !== 0 &&
 
                                                         <Grid size={12} container className="mt-2" spacing={1}>
                                                             <Grid size={12} container className={`${classPrefix}-program-content-sponsor-heading`}>
@@ -655,7 +655,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                                     <Badge
                                                                         key={speaker?.id}
                                                                         overlap="circular"
-                                                                        badgeContent={isModerator ? <ModeratorIcon width={'17'} height={"17"}/> : null}
+                                                                        badgeContent={isModerator ? <ModeratorIcon width={'17'} height={"17"} /> : null}
                                                                     >
                                                                         <Avatar
                                                                             alt={speaker?.user?.firstName}
@@ -773,7 +773,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                 ))}
                                         </Grid>
                                     )} */}
-                                    
+
                                     {/* bottom speaker */}
 
                                     {/* {item?.eventSpeakers?.length > 0 && (
@@ -839,7 +839,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                     items?.map((item: any) => {
                                                         return (
                                                             <Box className="max-h-[438px] contain-content " width={'100%'}>
-                                                                <img  className='object-fill rounded-sm' width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
+                                                                <img className='object-fill rounded-sm' width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
                                                             </Box>
                                                         )
 
@@ -864,7 +864,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                             }
                                         </Grid>
                                     ) : key === "GOLD" ? items?.length > 0 && (
-                                        <Grid mb={5} size={12} container  justifyContent={'center'}>
+                                        <Grid mb={5} size={12} container justifyContent={'center'}>
                                             <Grid size={12}>
                                                 <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
 
@@ -939,8 +939,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                         })
                                                 }
                                             </Grid>
-    const isCompany = sessionStorage.getItem('userLoggedInType') === 'COMPANYADMIN' 
-    <Grid container justifyContent={'center'} alignItems={'flex-end'} className={`${classPrefix}-ticketing-register-button-container`}><CustomButton onClick={ isCompany ? undefined : () => handleClickRegister(amountCalculatedData[participantType]?.[0])} label="Register Now" className={`${classPrefix}-ticketing-register-button`} /></Grid>
+
+                                            <Grid container justifyContent={'center'} alignItems={'flex-end'} className={`${classPrefix}-ticketing-register-button-container`}><CustomButton onClick={isCompany ? undefined : () => handleClickRegister(amountCalculatedData[participantType]?.[0])} label="Register Now" className={`${classPrefix}-ticketing-register-button`} /></Grid>
 
                                         </Grid>)
                                 })

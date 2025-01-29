@@ -263,7 +263,7 @@ const NewSpeakerDrawer :React.FC<NewSpeakerDrawerProps> = ({ onSuccess, closeDra
                             <Grid container direction={'row'} alignItems={'center'} justifyContent={"center"} alignContent={"center"}>
                                 {selectedFile && (
                                     <Grid className="create-event-btn-container-img-box" >
-                                        <img
+                                        <img className="create-event-btn-container-img-box-image"
                                             src={`${baseUrl}asset/${selectedFile.id}`}
                                             alt={selectedFile.name}
                                         />
