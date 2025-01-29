@@ -29,7 +29,6 @@ import TempHall from "../../../assets/svg/temp-hall.svg";
 import { personPlaceholder } from '@/assets/png';
 
 
-
 type TemplateViewProps = {
     data: any;
 }
