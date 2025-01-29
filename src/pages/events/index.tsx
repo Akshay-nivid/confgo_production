@@ -29,6 +29,7 @@ type Speaker = {
   speakerFullName?: string;
   speakerAssetId?: string;
   designation: string;
+  isModerator:boolean
 }
 type Sponsor={
   sponsorId?:string;
@@ -62,7 +63,11 @@ interface Program {
   sponsorbannerId?:string;
   sponosrSelection?:string;
   sponsorReservedSeats?:string;
-  sponsorTypeId?:string
+  sponsorTypeId?:string;
+  isModerator?:boolean;
+  hallName?:{hallName:string};
+  hallArray?:[],
+  createHallName?:string
 }
 interface Property {
   propertyId: string;
@@ -358,6 +363,10 @@ const Events = () => {
       sponsorReservedSeats,
       sponsorTypeId,
       sponsor,
+      isModerator,
+      hallName,
+      hallArray,
+      createHallName,
 
        ...item }: Program) => {
       // Combine startDate and startTime
@@ -365,6 +374,7 @@ const Events = () => {
       
       // Combine endDate and endTime
       const endDateTime = `${endDate}T${endTime}`;
+
       return {
         ...item,  
         totalSeat: totalSeat && totalSeat !== "" ? totalSeat : undefined,             
@@ -373,8 +383,9 @@ const Events = () => {
         statusId: draft? draftStatusId: statusId,
         amount: amount ? amount : "0",
         ...(speakers?.length !== 0 && {
-          speaker: speakers?.map(({ speakerId }: any) => ({
-            speakerId
+          speaker: speakers?.map(({ speakerId,isModerator }: any) => ({
+            speakerId,
+            ...(isModerator&&{isModerator:isModerator})
           })),
         }),
         ...(sponsor?.length !== 0 && {
@@ -383,7 +394,8 @@ const Events = () => {
             sponsorTypeId,
             ...(sponsorReservedSeats && { reservedSeats: sponsorReservedSeats }) // Include reservedSeats only if it has a value
           }))
-        })
+        }),
+        ...(hallName&&{hall:hallName?.hallName})
       };
     });
     
@@ -624,6 +636,7 @@ const Events = () => {
               speakerFullName: `${speaker?.user?.firstName} ${speaker?.user?.lastName}`,
               speakerAssetId: speaker?.user?.assetId,
               designation: speaker?.user?.designation || " ",
+              isModerator:speaker?.user?.isModerator
             })) || [],
             sponsor:program?.eventSponsors?.map((sponosr:any)=>({
               sponsorId:sponosr?.sponsorId,
