@@ -124,8 +124,9 @@ import TemplatePriceBlackIcon from './so-price-tag-black.svg';
 import DownArrow from "./down-arrow.svg";
 import ShakeHandIcon from "./shake-hand.svg";
 import MaintenanceIcon from "./maintenance-icon.svg";
+import ModeratorIcon from "./moderator.svg";
 import HallIcon from "./hall-icon.svg";
-
+import TempHall from "./temp-hall.svg"
 export {
   CalenderIcon,
   ShakeHandIcon,
@@ -253,5 +254,7 @@ export {
   TemplatePriceBlackIcon,
   DownArrow,
   MaintenanceIcon,
-  HallIcon
+  ModeratorIcon,
+  HallIcon,
+  TempHall
 };
