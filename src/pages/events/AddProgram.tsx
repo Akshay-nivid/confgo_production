@@ -716,13 +716,13 @@ const handleAddProgram = () => {
         });
         return;
       }
-      // if (!sponsorReservedSeats) {
-      //   setError(`programs.${index}.sponosorReservedSeats`, {
-      //     type: 'manual',
-      //     message: 'Reservation Seat is required',
-      //   });
-      //   return;
-      // }
+      if (!sponsorTypeId) {
+        setError(`programs.${index}.sponsorTypeId`, {
+          type: 'manual',
+          message: 'Choose Sponsor Type',
+        });
+        return;
+      }
 
       const newSponsor = {
         sponsorId,
