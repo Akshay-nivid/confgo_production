@@ -102,8 +102,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
          * Add type to distinguish between programs and addons
          */
         const combined = [
-            ...programs.map((program: any) => ({ ...program, type: 'program' })),
-            ...addons.map((addon: any) => ({ ...addon, type: 'addon' })),
+            ...programs?.map((program: any) => ({ ...program, type: 'program' })),
+            ...addons?.map((addon: any) => ({ ...addon, type: 'addon' })),
         ];
 
         /**
