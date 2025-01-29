@@ -97,6 +97,11 @@
             border: solid 0.1rem $clr_gray_very_light;
             border-radius: 0.4rem;
             padding: 0.2rem;
+
+            &-image{
+                height: 4.5rem !important;
+                width: 4.5rem;
+            }
         }
 
         &-delete-btn {

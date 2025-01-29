@@ -5,7 +5,7 @@ import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import Grid from "@mui/material/Grid2";
 import { useForm, FieldValues, useFieldArray } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import moment from "moment";
 import SessionAddonDrawer from "./SessionAddonDrawer";
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
@@ -19,9 +19,7 @@ import NewSpeakerDrawer from "../NewSpeakerDrawer";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import { useParams } from "react-router-dom";
 import DrawerCreateSponosor from "../Sponsor/DrawerCreateSponsor";
-import CustomCheckbox from "@/components/CustomCheckbox/CustomCheckbox";
-
-
+import MicNoneIcon from '@mui/icons-material/MicNone';
 
 interface FormData {
   isPaid: "PAID" | "FREE";
@@ -39,8 +37,9 @@ interface FormData {
   speakerAssetId?: string;
   speakerDesignation?:string;
   moderator:boolean;
+  hallName:string
   speakers: {
-    speakerId?: string;
+    speakerId?: any;
     speakerName?: string;
     speakerAssetId?: string;
     speakerDesignation?:string;
@@ -106,12 +105,14 @@ interface SessionDrawerContentProps {
   }) => {
     const {
       control,
+      getValues,
       setValue,
       handleSubmit,
       watch,
       setError,
       reset,
       clearErrors,
+      formState: { errors },
     } = useForm<FormData>({
       defaultValues: {
         isPaid: isEditing && selectedProgram?.amount > 0 ? "PAID" : "FREE", 
@@ -125,7 +126,7 @@ interface SessionDrawerContentProps {
         endDate:selectedProgram ? selectedProgram.endTime : (eventEndTime ? eventEndTime:""),
       },
     });
-    
+
     const isPaid = watch("isPaid");
     const [showSpeakerSection, setShowSpeakerSection] = useState(false);
     const [existingSpeakers, setExistingSpeakers] = useState<any>();
@@ -141,8 +142,7 @@ interface SessionDrawerContentProps {
     const [delsponsor,setDelSponsor]=useState<any>([])
     const [newSpeakerDrawerOpen, setNewSpeakerDrawerOpen] = useState(false);
     const [newSponsorDrawerOpen, setNewSponsorDrawerOpen] = useState(false);
-    const [ischecked, setischecked] = useState(false);
-    const [latestmoderator, setlatestmoderator] = useState(null);
+    const [latestModerator, setLatestModerator] = useState<string | null>(null);
     const {append } = useFieldArray({
       control,
       name: "speakers",
@@ -167,12 +167,19 @@ interface SessionDrawerContentProps {
         setValue("price", selectedProgram.amount);
         setValue('startDate', moment(selectedProgram?.startTime).format("YYYY-MM-DD"))
         setValue('endDate', moment(selectedProgram?.endTime).format("YYYY-MM-DD"))
+        setValue('hallName',selectedProgram?.hall)
         const speakers = selectedProgram?.eventSpeakers?.map((speaker: any) => ({
           speakerId: speaker?.userId,
           speakerName: `${speaker?.user?.firstName} ${speaker?.user?.lastName}`,
           speakerDesignation: speaker?.user?.designation,
           speakerAssetId:speaker?.user?.assetId,
+          moderator: speaker?.speakerBios?.[0]?.isModerator || false, 
         }));
+      //set the assigned moderator as latestmoderator
+      const assignedModerator = speakers?.find((speaker: any) => speaker?.moderator);
+      if (assignedModerator) {
+        setLatestModerator(assignedModerator?.speakerId);
+      } 
         const sponsors = selectedProgram?.eventSponsors?.map((sponsor: any) => ({
           sponsorId: sponsor?.sponsor?.id,
           sponsorName: sponsor?.sponsor?.name ,
@@ -192,8 +199,8 @@ interface SessionDrawerContentProps {
         } else {
         reset({
           isPaid: "FREE",
-          startTime: moment(eventStartTime).format("HH:mm"),
-          endTime: moment(eventStartTime).format("HH:mm"),
+          startTime: moment().format("HH:mm"),
+          endTime: moment().format("HH:mm"),
           startDate:moment(eventStartTime).format("YYYY-MM-DD"),
           endDate:moment(eventStartTime).format("YYYY-MM-DD"),
           name: "",
@@ -209,6 +216,7 @@ interface SessionDrawerContentProps {
           sponsorType:"",
           sponsorName:"",
           reservedSeats:"",
+          hallName:""
         });
       }
     }, [isEditing, selectedProgram, reset, setValue]);
@@ -225,20 +233,70 @@ interface SessionDrawerContentProps {
 				return <SessionAddonDrawer closeDrawer={closeDrawer} isEditing={isEditing} selectedAddOn={selectedProgram} onSubmit={onSubmit} eventData={eventData}  onSubmitHandler={submitHandler} />
 		}  
 
+
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const scrollToError = useCallback(() => {
+      const errorFieldMap: { [key: string]: string } = {
+        name: '[name="name"]',
+        description: '[name="description"]',
+        totalSeat: '[name="totalSeat"]',
+        startDate: '[name="startDate"]',
+        startTime: '[name="startTime"]',
+        endTime: '[name="endTime"]',
+        endDate: '[name="endDate"]',
+        price: '[name="price"]',
+      };
+    
+      const errorKeys = Object.keys(errors);
+    
+      if (errorKeys.length > 0) {
+        const firstErrorKey = errorKeys[0];
+        const selector = errorFieldMap[firstErrorKey];
+    
+        if (selector) {
+          const errorElement = document.querySelector(selector);
+    
+          if (errorElement) {
+            errorElement.scrollIntoView({ behavior: "smooth", block: "center" });
+    
+            // Try to focus on the first focusable element within the error element
+            const focusableElement = errorElement.querySelector("input, textarea") || errorElement;
+            if (focusableElement) {
+              (focusableElement as HTMLElement).focus();
+            }
+          }
+        }
+      }
+    }, [errors]);
+    
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+      if (Object.keys(errors).length > 0) {
+        scrollToError();
+      }
+    }, );
+    
+    
+
   /**
  * Filters out speakers from the `speakers` array whose `speakerId` exists in the `existingSpeakers` array.
  *
  * @param {Array} speakers - The array of speaker objects to filter.
  * @param {Array} existingSpeakers - The array of existing speaker objects with `speakerId`s to exclude.
- * @returns {Array} A new array of speakers excluding those with `speakerId`s found in `existingSpeakers`.
+ * @returns {Array} A new array of speakers excluding those with `speakerId`s found in `existingSpeakers except the edited speaker`.
  */
-function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
-  // Create a Set of speakerIds from the existingSpeakers array for fast lookup
-  const existingSpeakerIds = new Set(existingSpeakers?.map((speaker: any) => speaker.speakerId));
-
-  // Filter out speakers whose speakerId exists in the Set
-  return speakers && speakers.filter((speaker: any) => !existingSpeakerIds.has(speaker.speakerId));
-}
+  function removeExistingSpeakers(speakers: any,existingSpeakers: any,latestModerator: string | null) {
+    // Create a Set of speakerIds from the existingSpeakers array for fast lookup
+    const existingSpeakerIds = new Set(existingSpeakers?.map((speaker: any) => speaker.speakerId));
+    // Filter out speakers, but keep the latestModerator so that to give to payload
+    return (
+      speakers &&
+      speakers.filter(
+        (speaker: any) =>
+          !existingSpeakerIds.has(speaker?.speakerId) || speaker?.speakerId === latestModerator
+      )
+    );
+  }
   /**
    * formating the submit request
    */
@@ -293,14 +351,12 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
         isModerator:speaker?.moderator
       }));
 
-       const speakers = removeExistingSpeakers(newAddedSpeakers, existingSpeakers);
+       const speakers = removeExistingSpeakers(newAddedSpeakers, existingSpeakers,latestModerator);
       //updating the speaker array with latest moderator as true 
-       const updatedSpeakers = speakers.map((speaker:any) => {
-        return {
-          ...speaker,
-          isModerator: speaker?.speakerId === latestmoderator ? true : false
-        };
-      }); 
+      const updatedSpeakers = speakers?.map((speaker: any) => ({
+        ...speaker,
+        isModerator: speaker?.speakerId === latestModerator, 
+      }));
       // Map sponsors to the desired format
       const newAddedSponsors = data?.sponsors?.map((sponsor: any) => ({
         sponsorId: sponsor?.sponsorId,
@@ -310,7 +366,7 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
 
       }));
 
-      const sponsor = removeExistingSponsors(newAddedSponsors, existingSponsor);
+      const sponsors = removeExistingSponsors(newAddedSponsors, existingSponsor);
 
 
       // Create the new transformed object
@@ -323,7 +379,8 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
         startTime: startDateTime,
         endTime: endDateTime,
         speakers:updatedSpeakers,
-        sponsor,
+        ...(data?.hallName ? { hall: data?.hallName }: {}),
+        sponsors,
       };
       onSubmit(transformedProgram);
 
@@ -566,10 +623,6 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
       const speakerDesignation = values?.speakerDesignation;
       const moderator = values?.moderator
       const isDuplicate = values?.speakers?.some((speaker: any) => speaker.speakerId === speakerId);
-      //setting the latest iscehcked and speakerID
-      if (ischecked && speakerId){
-        setlatestmoderator(speakerId)
-      }
       if(isDuplicate){
         setError(`speakerSelection`, { type: "manual", message: "Speaker Already assigned. please select another speaker" });
         return;
@@ -652,6 +705,23 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
           })
         };
 
+    /**
+     * assign moderator function only latest selected is given as true
+     */
+    const handleAssignModerator = (speakerIndex: number, speakerId: string) => {
+      return () => {
+        const speakers = getValues("speakers");
+        // Update all moderators to false except the selected one
+        const updatedSpeakers = speakers?.map((speaker: any, index: number) => ({
+          ...speaker,
+          moderator: index === speakerIndex, // Set selected speaker as moderator
+        }));
+        setValue("speakers", updatedSpeakers);
+        // Update the latest moderator state
+        setLatestModerator(speakerId);
+      };
+    };
+
     return (
       <Box sx={{ maxWidth: 600 }}>
         <Grid container spacing={2} padding={2}>
@@ -695,6 +765,13 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
                     "Enter a positive whole number",
                 }
               }}
+            />
+          </Grid>
+          <Grid size={12}>
+            <CustomTextField
+              name="hallName"
+              placeholder="Hall Name"
+              control={control}
             />
           </Grid>
           <Grid size={12}>
@@ -808,16 +885,6 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
                   <CloseOutlined />
                 </IconButton>
               </Grid>{/*end of speaker header section */}
-              <CustomCheckbox
-                className="add-addons-check-btn"
-                options={[{ label: 'Moderator', value: 'True' }]}
-                 control={control}
-                 name={"moderator"}
-                 defaultValue={false}
-                 onChange={() => {
-                  setischecked(!ischecked); // Toggle the checkbox
-                }}
-                 />
               <Grid size={{ xs: 12 }}>
                 <CustomAutocomplete
                   name={`speakerSelection`}
@@ -874,13 +941,21 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
                               {item?.speakerName}
                             </Typography>
                             <Typography className="add-program-speaker-section-card-item-subtitle">
+                            {item?.moderator ? "Moderator" : ""}
+                            </Typography>
+                            <Typography className="add-program-speaker-section-card-item-subtitle">
                               {truncateString(item?.speakerDesignation, 35, "")}
                             </Typography>
                           </Grid>
-                          <Grid size={{ xs: 2 }} justifyItems={'center'}>
+                          <Grid size={{ xs: 2 }}  display={"flex"}>
+                          <>
+                          <IconButton  onClick={handleAssignModerator(speakerIndex, item.speakerId)}>
+                          <MicNoneIcon/>
+                            </IconButton>
                             <IconButton onClick={() => removeSpeaker(item)}>
                               <DeleteIcon />
                             </IconButton>
+                          </>
                           </Grid>
                         </Grid>
                       );

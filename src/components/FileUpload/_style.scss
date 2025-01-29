@@ -208,6 +208,9 @@
     height: 5rem; /* Increase this value for larger height */
     margin-bottom: .5rem;    
    }
+   &-image{
+    max-height: 8.6rem !important;
+   }
 
    .img {
     object-fit: cover;
