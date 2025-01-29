@@ -426,7 +426,7 @@ function removeExistingSpeakers(speakers: any, existingSpeakers: any) {
       return data?.map((item: any) => ({
         sponsorId: item?.id,
         sponsorName: `${item?.name}`,
-        sponsorAssetId: item?.assetId,
+        sponsorAssetId: item?.logoAssetId,
         reservedSeats:item?.reservedSeats,
         ...item
       }));

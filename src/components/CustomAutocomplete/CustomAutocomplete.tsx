@@ -1,4 +1,4 @@
-import { Autocomplete, TextField, InputAdornment, IconButton, CircularProgress } from '@mui/material';
+import { Autocomplete, TextField, InputAdornment, IconButton, CircularProgress, Typography } from '@mui/material';
 import {  Clear } from '@mui/icons-material';
 import Search from '../../assets/svg/Search.svg'
 import { Controller } from "react-hook-form";
@@ -16,6 +16,9 @@ interface ICustomAutocompleteProps<T> {
   onSearch: (query: string) => void; // Prop for handling API search
   loading: boolean; // Prop to indicate if data is loading
   clearable?: boolean; // Prop to make the input clearable
+  onCustomButtonClick?: () => void;
+  customButtonLabel?:string
+  onTextChange?:any
 }
 
 /**
@@ -33,6 +36,9 @@ const CustomAutocomplete = <T,>({
   loading,
   clearable = true,  // Default to true, so the clear button is enabled by default
   onChange,
+  onCustomButtonClick,
+  customButtonLabel,
+  onTextChange,
   ...props
 }: ICustomAutocompleteProps<T> & { onChange?: (value: T | null) => void }) => {
   const [inputValue, setInputValue] = useState<string>("");
@@ -46,7 +52,6 @@ const CustomAutocomplete = <T,>({
       setInputValue('');
     }
   }, [inputValue]);
-
 
   return (
     <Controller
@@ -76,7 +81,11 @@ const CustomAutocomplete = <T,>({
             if (newInputValue === "") {
               // Clear field value when the input is manually cleared
               field.onChange(null);
-              if (onChange) {   onChange(" " as T); } 
+              if (onChange) {   onChange(" " as T); }
+            
+            }
+            if(onTextChange){
+             onTextChange(newInputValue);
             }
             setInputValue(newInputValue)
           }}
@@ -113,6 +122,21 @@ const CustomAutocomplete = <T,>({
                           size="small"
                         >
                           <Clear />
+                        </IconButton>
+                      </InputAdornment>
+                    )}
+                      {/* Render the custom button if `onCustomButtonClick` is provided */}
+                      {onCustomButtonClick && !field.value && (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => {
+                            onCustomButtonClick(); // Trigger the custom button action
+                          }}
+                          size="small"
+                        >
+                          <IconButton> {/* Add your custom icon or button here */}
+                          <Typography variant='button'>{customButtonLabel}</Typography> 
+                          </IconButton>
                         </IconButton>
                       </InputAdornment>
                     )}
