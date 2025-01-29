@@ -668,7 +668,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
 
                                                         </Grid>}
                                                         {item?.subItems?.length > 1 && subIndex !== item?.subItems?.length - 1 &&
-                                                    <Grid size={12} className={`${classPrefix}-program-content-divider mt-5`}>
+                                                    <Grid size={12} className={`${classPrefix}-program-content-divider`}>
                                                                 <Divider />
                                                             </Grid>}
                                                 </Grid>
