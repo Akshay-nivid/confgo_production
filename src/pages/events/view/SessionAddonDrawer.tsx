@@ -448,7 +448,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
     return data?.map((item: any) => ({
       sponsorId: item?.id,
       sponsorName: `${item?.name}`,
-      sponsorAssetId: item?.assetId,
+      sponsorAssetId: item?.logoAssetId,
       ...item
     }));
   }

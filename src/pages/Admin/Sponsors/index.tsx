@@ -20,6 +20,7 @@ import config from "../../../../config.json";
 import { Delete, Edit } from '@mui/icons-material'
 import Grid from '@mui/material/Grid2';
 import SponsorDetailsModal from './SponsorDetailsModal'
+import clsx from 'clsx'
 
 /**
  * Component for Sponsors list,create,edit and delete
@@ -450,8 +451,8 @@ const Sponsors = () => {
                             <CustomTextField control={form.control} name='phone' placeholder='Phone Number' />
                             <CustomTextField control={form.control} name='website' placeholder='(e.g., https://www.example.com)' label='Website Url' />
 
-                            <Box className="form-file-upload">
-                                <FormLabel className='form-file-upload-label'>Please upload the sponsor logo</FormLabel>
+                            <Box className="form-file-upload ">
+                                <FormLabel className={clsx('form-file-upload-label',logoId && 'mb-5')}>{logoId ? 'Sponsor Logo' : 'Please upload the sponsor logo'}</FormLabel>
                                 {logoId ? (
                                 <Box className="form-file-upload-image-logo" >
                                     <Box className='relative w-max flex gap-x-1'>
@@ -466,10 +467,10 @@ const Sponsors = () => {
                             </Box>
 
                             <Box className="form-file-upload">
-                                <FormLabel className='form-file-upload-label'>Please upload the sponsor banner</FormLabel>
+                                <FormLabel className={clsx('form-file-upload-label')}>{ bannerId ? 'Sponsor Banner' : 'Please upload the sponsor banner'}</FormLabel>
                                 { bannerId ? (
-                                <Box className="form-file-upload-image-banner" >
-                                    <Box className='relative w-max flex gap-x-1'>
+                                <Box className={clsx("form-file-upload-image-banner")} >
+                                    <Box className={clsx('relative w-max flex gap-x-1')}>
                                         <img src={`${baseUrl}/asset/${bannerId}`} alt='' />
                                         <IconButton onClick={(e) => handleRemoveImage(e, 'bannerId')} className='form-file-upload-image-logo-close'>
                                             <CloseIcon />

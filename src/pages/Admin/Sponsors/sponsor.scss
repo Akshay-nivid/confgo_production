@@ -139,6 +139,11 @@
 
                 &-file-upload {
                     margin-top: .5rem;
+                    height: max-content !important;
+
+                    label {
+                        margin-bottom: 2rem !important;
+                    }
 
                     .file-upload-dropzone {
                         margin-bottom: .5rem !important;
@@ -151,37 +156,51 @@
 
                     }
 
+
+
                     &-label {
                         font-size: $p1 !important;
 
+
+
                     }
-                    &-image-logo{
+
+                    &-label-with-id {
+                        margin-bottom: 2rem !important;
+                    }
+
+                    &-image-logo {
                         object-fit: contain;
                         background-color: $clr_gray_10_percent;
                         width: max-content;
                         max-width: 100%;
-                        max-height: 8.33rem;
-                        img{
+                        margin-block: 1rem;
+                        // max-height: 8.33rem;
+
+                        img {
                             max-width: 8.33rem;
+                            // height: 100%;
+                            aspect-ratio: 1;
+                            object-fit: contain;
+                        }
+                    }
+
+                    &-image-banner {
+                        width: max-content;
+                        max-width: 100%;
+                        display: flex;
+                        background-color: $clr_gray_10_percent;
+                        margin-block: 1rem;
+
+
+                        img {
                             height: 100%;
                             object-fit: contain;
                         }
                     }
-                    &-image-banner{
-                     width: max-content;
-                     max-width: 100%;
-                     display: flex;
-                    background-color: $clr_gray_10_percent;
 
-                    img{
-                
-                        height: 100%;
-                        object-fit: contain;
-                    } 
-                    }
+                    &-image-logo-close {
 
-                    &-image-logo-close{
-                       
                         background-color: $clr_red;
                         height: 1.8rem;
                         width: 1.8rem;
@@ -189,17 +208,18 @@
                         cursor: pointer;
                         position: absolute;
                         right: 0;
-                        &:hover{
-                        background-color: $clr_red !important;
+
+                        &:hover {
+                            background-color: $clr_red !important;
 
                         }
-                        
-                        svg{
+
+                        svg {
                             color: $clr_gray_30_percent;
                         }
                     }
 
-                   
+
                 }
 
                 &-button-container {
@@ -270,7 +290,7 @@
                 &__logo {
                     width: 100%;
                     padding-top: .5rem;
-                   
+
 
                     &__label {
                         margin-top: 1.667rem !important;
