@@ -11,7 +11,7 @@ import routes from '@/router/routes';
 //import Template3 from './Template3';
 //import Template2 from './Template2';
 import Template4 from '../approvedTemplate/Template4';
-import { CircularProgress } from '@mui/material';
+import { Backdrop, CircularProgress } from '@mui/material';
 import MaintenancePage from './MaintenancePage';
 
 type TemplateContainerProps = {
@@ -155,7 +155,9 @@ const fetchEventDetails = async () => {
   const SelectedTemplate = templates[findTemp(temp, slugInfo?.data)];
 
   return loading ? (
+    <Backdrop open={true}>
     <CircularProgress color="inherit" size={20} />
+    </Backdrop>
   ) : publish ? (
     <Grid container size={{ xs: 12, sm: 12 }} className={`event-template${!slug ? " event-template-preview" : ""}`} spacing={1}>
       {(dataInfo?.data || slugInfo?.data) && (
