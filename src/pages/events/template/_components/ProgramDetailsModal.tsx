@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box/Box'
 import './style.scss'
 import { Close } from '@mui/icons-material'
-import { Avatar, IconButton, Tooltip } from '@mui/material'
+import { Avatar, Badge, IconButton, Tooltip } from '@mui/material'
 import Modal from '@mui/material/Modal';
 import useStore, { setNonPersistedDataById } from '@/Libs/store'
 import { getLocalTimeDate } from '@/Utils/CommonBaseClass'
@@ -10,6 +10,7 @@ import { useEffect } from 'react';
 import config from '../../../../../config.json'
 import ModalToolTip from './ModalToolTip';
 import Grid from '@mui/material/Grid2';
+import { ModeratorIcon } from '@/assets/svg';
 
 
 
@@ -113,16 +114,20 @@ const ProgramDetailsModal = () => {
                                 <Box className="content-speaker-container-speaker-list">
                                     {
                                         programDetails?.eventSpeakers.map((speaker: any) => {
+                                            const isModerator = speaker?.speakerBios?.[0]?.isModerator;
                                             return (
-
                                                 <Box className="tooltip-avatar">
                                                     <Tooltip
-                                                        
                                                         placement='top' className='speaker-tooltip' arrow title={<ModalToolTip data={speaker}></ModalToolTip>}>
+                                                        <Badge 
+                                                            key={speaker?.id}
+                                                            overlap="circular"
+                                                            badgeContent={isModerator ? <ModeratorIcon width={'17'} height={"17"} /> : null}
+                                                            >
                                                         <Avatar src={config.api.url + "asset/" + speaker?.user?.assetId} key={speaker.id} className='content-speaker-container-speaker-list-avatar' >
                                                             {speaker?.user?.firstName[0]}
                                                             {speaker?.user?.lastName[0]}
-                                                        </Avatar>
+                                                        </Avatar></Badge>
                                                     </Tooltip>
 
                                                 </Box>
