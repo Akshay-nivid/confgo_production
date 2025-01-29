@@ -40,6 +40,8 @@ export interface NonPersistedData {
             bannerUrl: string | null,
             bannerId: number | null,
             logoId: number | null,
+            createdOn: string | null,
+            modifiedOn: string | null,
     }}
 }
 

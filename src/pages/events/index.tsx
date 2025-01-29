@@ -389,7 +389,7 @@ const Events = () => {
           })),
         }),
         ...(sponsor?.length !== 0 && {
-          sponsor: sponsor?.map(({ sponsorId, sponsorTypeId, sponsorReservedSeats }) => ({
+          sponsors: sponsor?.map(({ sponsorId, sponsorTypeId, sponsorReservedSeats }) => ({
             sponsorId,
             sponsorTypeId,
             ...(sponsorReservedSeats && { reservedSeats: sponsorReservedSeats }) // Include reservedSeats only if it has a value
@@ -431,7 +431,7 @@ const Events = () => {
           })),
         }),
         ...(sponsor?.length != 0 && {
-          sponsor: sponsor?.map(({ sponsorId, sponsorTypeId }) => ({ sponsorId, sponsorTypeId }))
+          sponsors: sponsor?.map(({ sponsorId, sponsorTypeId }) => ({ sponsorId, sponsorTypeId }))
         }),
         addonId: item.addonId
       };
@@ -638,7 +638,7 @@ const Events = () => {
               designation: speaker?.user?.designation || " ",
               isModerator:speaker?.user?.isModerator
             })) || [],
-            sponsor:program?.eventSponsors?.map((sponosr:any)=>({
+            sponsors:program?.eventSponsors?.map((sponosr:any)=>({
               sponsorId:sponosr?.sponsorId,
               sponsorFullName:sponosr?.sponsor?.name,
               speakerLogoId:sponosr?.sponsor?.logoAssetId,
@@ -667,7 +667,7 @@ const Events = () => {
             addonType: addon.amount === "0.00" ? "FREE" : "PAID",
             repeat: [],
             noOfDays: "",
-            sponsor:addon?.eventSponsors?.map((sponosr:any)=>({
+            sponsors:addon?.eventSponsors?.map((sponosr:any)=>({
               sponsorId:sponosr?.sponsorId,
               sponsorFullName:sponosr?.sponsor?.name,
               speakerLogoId:sponosr?.sponsor?.logoAssetId,
