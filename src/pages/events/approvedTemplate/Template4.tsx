@@ -23,8 +23,6 @@ import useStore, { setDataById, setNonPersistedDataById, snackBar } from '@/Libs
 import routes from '@/router/routes';
 import { useNavigate } from 'react-router-dom';
 import SponsorShip from '../template/sponsorShipForm/SponsorShip';
-import { Badge } from "@mui/material";
-import ModeratorIcon from "../../../assets/svg/moderator.svg";
 import TempHall from "../../../assets/svg/temp-hall.svg";
 import { personPlaceholder } from '@/assets/png';
 
@@ -36,7 +34,7 @@ type TemplateViewProps = {
 /**
  * Template 
  */
-const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
+const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
 
     const classPrefix = 'event-template-template4';
     const aboutRef = useRef(null);
@@ -381,6 +379,18 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     //     setNonPersistedDataById('programDetails', { value: null })
     // }
 
+
+    /**
+    * Checks if the given `subItem` array contains at least one moderator.
+    *
+    * @param {any[]} subItem - The list of speakers to check.
+    * @returns {boolean} - Returns `true` if at least one speaker is a moderator, otherwise `false`.
+    */
+
+    const hasModerator = (subItem: any): boolean => {
+        return subItem?.some((speaker: any) => speaker?.speakerBios?.[0]?.isModerator) ?? false;
+    };
+
     return (
         <Grid  container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-bg`}  >
             <Grid container size={{ xs: 12, sm: 12 }} className={classPrefix}>
@@ -432,13 +442,13 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                         {data?.eventSpeakers?.length > 0 && getUniqueSpeakers(data?.eventSpeakers)?.map((item: any) => {
                             return <Grid alignSelf={'stretch'} onClick={() => handleSpeakerCardClick(item)} size={{ xs: 12, sm: 3 }} container direction={'row'} className={`${classPrefix}-event-contributors-item-container `} spacing={2}>
                                 <Grid size={{ xs: 12, sm: 12 }} container direction={'column'} className={`${classPrefix}-event-contributors-item-container-speaker-card `}>
-                                    <Grid overflow={'hidden'} className={`${classPrefix}-event-contributors-item-container-image`}>
+                                    <Grid overflow={'hidden'} className={`${classPrefix}-event-contributors-item-container-images`}>
                                         {item?.user?.assetId ? (<img
-                                            className='w-full aspect-square max-h-[16.7rem]'
+                                            // className='w-full aspect-square max-h-[16.7rem]'
                                             src={`${baseUrl}asset/${item?.user?.assetId}`}
                                             alt={item.name}
                                         />) : (
-                                            <img alt={item.name} src={personPlaceholder} className={` w-full aspect-square max-h-[16.7rem]`} />
+                                            <img alt={item.name} src={personPlaceholder} className={`  aspect-square max-h-[18.2rem]`} />
                                         )}
 
                                     </Grid>
@@ -658,27 +668,53 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                         </Grid>
                                                     )}
                                                     {subItem?.eventSpeakers && subItem?.eventSpeakers?.length !== 0 &&
-
+                                                        
                                                         <Grid size={12} container className="mt-2" spacing={1}>
                                                             <Grid size={12} container className={`${classPrefix}-program-content-sponsor-heading`}>
-                                                                <Typography>Speakers</Typography>
-                                                            </Grid>
-                                                            {subItem?.eventSpeakers?.map((speaker: any) => {
-                                                                const isModerator = speaker?.speakerBios?.[0]?.isModerator;
 
-                                                                return (
-                                                                    <Badge
-                                                                        key={speaker?.id}
-                                                                        overlap="circular"
-                                                                        badgeContent={isModerator ? <ModeratorIcon width={'17'} height={"17"} /> : null}
-                                                                    >
+                                                                {hasModerator(subItem?.eventSpeakers) &&
+                                                                    (
+                                                                        <><Typography >Moderator</Typography>
+                                                                            <Typography >|</Typography>
+                                                                        </>
+                                                                    )
+                                                                }
+
+                                                                <Typography >Speakers</Typography>
+
+                                                            </Grid>
+
+                                                            {subItem?.eventSpeakers
+                                                                ?.slice() 
+                                                                ?.sort((a: any, b: any) => {
+                                                                    const isModeratorA = a?.speakerBios?.[0]?.isModerator ? -1 : 1;
+                                                                    const isModeratorB = b?.speakerBios?.[0]?.isModerator ? -1 : 1;
+                                                                    return isModeratorA - isModeratorB; // Sort moderators first
+                                                                })
+                                                                ?.map((speaker: any) => {
+                                                                    const isModerator = speaker?.speakerBios?.[0]?.isModerator;
+                                                                    
+                                                                    return !isModerator ? (
+
                                                                         <Avatar
+                                                                            className={`${classPrefix}-program-content-sponsor-heading-avatar`}
                                                                             alt={speaker?.user?.firstName}
                                                                             src={speaker?.user?.assetId ? `${baseUrl}asset/${speaker?.user?.assetId}` : ""}
                                                                         />
-                                                                    </Badge>
-                                                                );
-                                                            })}
+
+                                                                    ) : (
+                                                                        <Grid container size={1} >
+
+                                                                            <Avatar
+                                                                                className={`${classPrefix}-program-content-sponsor-heading-moderator`}
+                                                                                alt={speaker?.user?.firstName}
+                                                                                src={speaker?.user?.assetId ? `${baseUrl}asset/${speaker?.user?.assetId}` : ""}
+                                                                            />
+
+                                                                        </Grid>
+                                                                    );
+
+                                                                })}
 
 
                                                         </Grid>}
@@ -853,9 +889,9 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                 {
                                                     items?.map((item: any) => {
                                                         return (
-                                                            <Box className="max-h-[438px] contain-content " width={'100%'}>
+                                                            <Grid  size={12}>
                                                                 <img className='object-fill rounded-sm' width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
-                                                            </Box>
+                                                            </Grid>
                                                         )
 
                                                     })
