@@ -781,6 +781,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                       
                                   </>
                                 } </>}
+                                {watch(`addOn.${index}.dateRequired`) && (
                                 <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
                                   <Grid size={{ xs: 12, sm: 6 }}>
                                     <Grid container display={"flex"} alignItems={"center"}>
@@ -802,6 +803,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                   </Grid>
                                   </Grid>
                                 </Grid>
+                                )}
                                 <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
                                   {/* Conditionally render Number of Days field */}
                                   {watch(`addOn.${index}.repeat`)?.length > 0 && (
