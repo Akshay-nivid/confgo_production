@@ -1246,7 +1246,7 @@ const handleAddProgram = () => {
                                                     : ""}
                                                 />
                                               </Grid>
-                                              <Grid size={{xs:8}} justifyItems={'start'}>
+                                              <Grid size={{xs:6}} justifyItems={'start'}>
                                                 <Typography className="add-program-speaker-section-card-item-title">
                                                   {item.speakerFullName}
                                                 </Typography>
@@ -1258,11 +1258,18 @@ const handleAddProgram = () => {
                                                 </Typography>
                                               
                                               </Grid>  
-                                              <Grid size={{xs:2}} justifyItems={'center'} display={"flex"}>
+                                              <Grid size={{xs:4}} justifyItems={'center'} display={"flex"}>
                                               <Tooltip title="Make as Moderator" classes={{tooltip:'add-program-speaker-section-card-tool-tip'}}>
-                                              <IconButton disabled={item.isModerator?true:false} onClick={() =>assignModerator(index,speakerIndex)}>
+                                              {/* <IconButton disabled={item.isModerator?true:false} onClick={() =>assignModerator(index,speakerIndex)}>
                                               <MicNoneIcon/>
-                                                </IconButton>
+                                                </IconButton> */}
+                                                <CustomButton
+                                                //  className="add-program-hallcreate"
+                                                variant="outlined"
+                                                label="Moderator"
+                                                disabled={item.isModerator?true:false}
+                                                onClick={() =>assignModerator(index,speakerIndex)}
+                                                />
                                                 </Tooltip>
                                                 <IconButton
                                                   onClick={() => removeSpeaker(item,index)} // Handle removal logic
