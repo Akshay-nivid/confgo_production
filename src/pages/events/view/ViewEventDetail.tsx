@@ -340,7 +340,7 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
               <Grid >
               <Tooltip classes={{ tooltip: 'custom-tooltip'}} title={eventFullData?.name || 'No name available'} placement="top">
               <Typography variant="h4" className="event-detail-header-title">
-               {truncateString(eventFullData?.name, 20, '')}
+               {truncateString(eventFullData?.name, 29, '')}
               </Typography>
               </Tooltip>
               </Grid>

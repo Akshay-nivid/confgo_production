@@ -4,7 +4,7 @@ import TopMenuHeader, { LinkData } from './TopMenuHeader';
 import AuthFormHandler from './AuthFormHandler';
 import TEventDetails from './TEventDetails';
 import TimerCounterComp from '../template/TemplateTimer/TimerCounterComp';
-import { getLocalTimeDate, groupByDate, truncateString } from '@/Utils/CommonBaseClass';
+import { getLocalTimeDate, groupByDate, toTitleCase, truncateString } from '@/Utils/CommonBaseClass';
 import { Avatar, Box, Divider, Typography } from '@mui/material';
 import LocationSection from '../template/LocationSection';
 import FooterSection from '../template/FooterSection';
@@ -882,7 +882,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                     key === "DIAMOND" ? items?.length > 0 && (
                                         <Box width={'100%'} mb={5}>
                                             <Box width={'100%'}>
-                                                <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key?.toLowerCase()} Sponsors`}</Typography>
+                                                <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`${key && toTitleCase(key)} Sponsors`}</Typography>
 
                                             </Box>
                                             <Box className="flex flex-col gap-y-6 w-full">
@@ -902,7 +902,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                         <Grid size={12} justifyContent={'center'} container mb={5}>
 
                                             <Grid size={12}>
-                                                <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
+                                                <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`${key && toTitleCase(key)} Sponsors`}</Typography>
                                             </Grid>
                                             {
                                                 items?.map((item: any) => {
@@ -917,7 +917,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                     ) : key === "GOLD" ? items?.length > 0 && (
                                         <Grid mb={5} size={12} container justifyContent={'center'}>
                                             <Grid size={12}>
-                                                <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
+                                                <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`${key && toTitleCase(key)} Sponsors`}</Typography>
 
                                             </Grid>
                                             {
@@ -933,7 +933,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                     ) : <>
                                         {items?.length > 0 && <Grid size={12} container justifyContent={'center'}>
                                             <Grid size={12}>
-                                                <Typography textAlign={"center"} className='template4-sponsor-banner-text'>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
+                                                <Typography textAlign={"center"} className='template4-sponsor-banner-text'>{`${key && toTitleCase(key)} Sponsors`}</Typography>
                                             </Grid>
                                             {
                                                 items?.map((item: any) => {

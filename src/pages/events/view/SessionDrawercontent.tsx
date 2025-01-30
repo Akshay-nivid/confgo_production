@@ -19,7 +19,6 @@ import NewSpeakerDrawer from "../NewSpeakerDrawer";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import { useParams } from "react-router-dom";
 import DrawerCreateSponosor from "../Sponsor/DrawerCreateSponsor";
-import MicNoneIcon from '@mui/icons-material/MicNone';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 interface FormData {
@@ -928,7 +927,7 @@ interface SessionDrawerContentProps {
                   {watch(`speakers`)?.length && (<Box className="registration-fee-list-decription-helper" display={"flex"} justifyContent={"center"} alignItems={"flex-start"} mr={1}>
                     <InfoOutlinedIcon style={{ marginRight: 2 }} />
                     <Typography className="registration-fee-list-decription-helper-text">
-                      If the '<MicNoneIcon />' icon is selected, assign the user
+                      If the moderator button clicked, assign the user
                       as a moderator. Only the most recently selected user will
                       remain as the moderator, replacing any previously assigned
                       moderator.
@@ -948,7 +947,7 @@ interface SessionDrawerContentProps {
                                 : ""}
                             />
                           </Grid>
-                          <Grid size={{ xs: 8 }} justifyItems={'start'}>
+                          <Grid size={{ xs: 7 }} justifyItems={'start'}>
                             <Typography className="add-program-speaker-section-card-item-title">
                               {item?.speakerName}
                             </Typography>
@@ -959,12 +958,17 @@ interface SessionDrawerContentProps {
                               {truncateString(item?.speakerDesignation, 35, "")}
                             </Typography>
                           </Grid>
-                          <Grid size={{ xs: 2 }}  display={"flex"}>
+                          <Grid size={{ xs: 3 }}  display={"flex"}>
                           <>
                           <Tooltip title="Make as Moderator" classes={{tooltip:'add-program-speaker-section-card-tool-tip'}}>
-                          <IconButton  onClick={handleAssignModerator(speakerIndex, item.speakerId)} className={ item?.moderator ? "add-program-speaker-section-card-moderator-select": ""} disabled={item?.moderator ? true : false}>
-                          <MicNoneIcon/>
-                            </IconButton>
+                          {/* <IconButton  onClick={handleAssignModerator(speakerIndex, item.speakerId)} className={ item?.moderator ? "add-program-speaker-section-card-moderator-select": ""} disabled={item?.moderator ? true : false}> */}
+                                <CustomButton
+                                  variant="outlined"
+                                  label="Moderator"
+                                  disabled={item?.moderator ? true : false}
+                                  onClick={handleAssignModerator(speakerIndex, item.speakerId)}
+                                />
+                            {/* </IconButton> */}
                             </Tooltip>
                             <IconButton onClick={() => removeSpeaker(item)}>
                               <DeleteIcon />

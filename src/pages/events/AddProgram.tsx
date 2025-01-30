@@ -25,7 +25,6 @@ import confgo  from "../../../config.json"
 import SponsorForm from "./Sponsor/SponsorForm";
 import DrawerCreateSponosor from "./Sponsor/DrawerCreateSponsor";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import MicNoneIcon from '@mui/icons-material/MicNone';
 import CloseIcon from '@mui/icons-material/Close';
 type Speaker = {
   speakerId?: string;
@@ -145,7 +144,7 @@ const typeArray = [
 
 const AddProgram: React.FC<ProgramProps> = React.memo(
   ({ formSubmit, formDraftSubmit, onSubmitHandler, onDraftSubmitHandler, data, onSaveHandler ,eventData}) => {
-    const { handleSubmit, control, watch, setValue,setError,setFocus,resetField } = useForm<FormData>({
+    const { handleSubmit, control, watch, setValue,setError,setFocus,resetField,trigger } = useForm<FormData>({
       defaultValues: {
         programs: [
           {
@@ -822,10 +821,15 @@ const handleAddProgram = () => {
      * Adds a new hallName to the specified program's hallArray array.
      * @param {number} index - The index of the program which the hallArray is to be added.
      */
-    const addHallName = (index: number) => {
+    const addHallName =async (index: number) => {
+      const isValid = await trigger(`programs.${index}.createHallName`); // Validate only this field
+      if (!isValid) {
+        return;
+      }
       const values = watch();
       const hallName = values.programs[index]?.createHallName
       const newHall: any = { hallName };
+
 
       // TypeScript now knows hallArray is an array of { hallName: string }
       const updatedPrograms: any = [...values.programs];
@@ -1022,6 +1026,10 @@ const handleAddProgram = () => {
                                     control={control}
                                     name={`programs.${index}.createHallName`}
                                     type="text"
+                                    rules={{
+                                      required: true,
+                                        
+                                    }}
                                   />
                                   </Grid>
                                   {watch(`programs.${index}.hallArray`)?.length !== 0&&
@@ -1220,7 +1228,7 @@ const handleAddProgram = () => {
                                    control={control}
                                    name={`programs.${index}.isModerator`}
                                   /> */}
-                                  <Box className="registration-fee-list-decription-helper" display={"flex"} justifyContent={"center"} alignItems={"flex-start"} mr={1}><InfoOutlinedIcon style={{ marginRight: 2 }} /><Typography className="registration-fee-list-decription-helper-text">If the 'Moderator' mic icon is pressed, assign the user as a moderator. Only the most recently selected user with the 'Moderator' mic icon pressed will be added as a moderator.</Typography></Box>
+                                  <Box className="registration-fee-list-decription-helper" display={"flex"} justifyContent={"center"} alignItems={"flex-start"} mr={1}><InfoOutlinedIcon style={{ marginRight: 2 }} /><Typography className="registration-fee-list-decription-helper-text">If the 'Moderator' button is pressed, assign the user as a moderator. Only the most recently selected user with the 'Moderator' button pressed will be added as a moderator.</Typography></Box>
                                 </Grid>
                                 <Grid size={{xs:12}} >
                                   <CustomButton
@@ -1246,7 +1254,7 @@ const handleAddProgram = () => {
                                                     : ""}
                                                 />
                                               </Grid>
-                                              <Grid size={{xs:8}} justifyItems={'start'}>
+                                              <Grid size={{xs:6}} justifyItems={'start'}>
                                                 <Typography className="add-program-speaker-section-card-item-title">
                                                   {item.speakerFullName}
                                                 </Typography>
@@ -1258,11 +1266,18 @@ const handleAddProgram = () => {
                                                 </Typography>
                                               
                                               </Grid>  
-                                              <Grid size={{xs:2}} justifyItems={'center'} display={"flex"}>
+                                              <Grid size={{xs:4}} justifyItems={'center'} display={"flex"}>
                                               <Tooltip title="Make as Moderator" classes={{tooltip:'add-program-speaker-section-card-tool-tip'}}>
-                                              <IconButton disabled={item.isModerator?true:false} onClick={() =>assignModerator(index,speakerIndex)}>
+                                              {/* <IconButton disabled={item.isModerator?true:false} onClick={() =>assignModerator(index,speakerIndex)}>
                                               <MicNoneIcon/>
-                                                </IconButton>
+                                                </IconButton> */}
+                                                <CustomButton
+                                                //  className="add-program-hallcreate"
+                                                variant="outlined"
+                                                label="Moderator"
+                                                disabled={item.isModerator?true:false}
+                                                onClick={() =>assignModerator(index,speakerIndex)}
+                                                />
                                                 </Tooltip>
                                                 <IconButton
                                                   onClick={() => removeSpeaker(item,index)} // Handle removal logic
