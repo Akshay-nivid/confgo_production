@@ -325,7 +325,7 @@ const StatusAvatar = ({ status }: { status: 'uploaded' | 'reviewing' | 'approved
         },
     };
 
-    return <Avatar className={clsx('status-avatar', status)}>{statusList[status].icon}</Avatar>;
+    return <Avatar className={clsx('status-avatar', status)}>{statusList[status]?.icon}</Avatar>;
 };
 
 /**
