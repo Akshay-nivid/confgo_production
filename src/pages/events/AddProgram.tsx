@@ -25,7 +25,6 @@ import confgo  from "../../../config.json"
 import SponsorForm from "./Sponsor/SponsorForm";
 import DrawerCreateSponosor from "./Sponsor/DrawerCreateSponsor";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import MicNoneIcon from '@mui/icons-material/MicNone';
 import CloseIcon from '@mui/icons-material/Close';
 type Speaker = {
   speakerId?: string;
@@ -145,7 +144,7 @@ const typeArray = [
 
 const AddProgram: React.FC<ProgramProps> = React.memo(
   ({ formSubmit, formDraftSubmit, onSubmitHandler, onDraftSubmitHandler, data, onSaveHandler ,eventData}) => {
-    const { handleSubmit, control, watch, setValue,setError,setFocus,resetField } = useForm<FormData>({
+    const { handleSubmit, control, watch, setValue,setError,setFocus,resetField,trigger } = useForm<FormData>({
       defaultValues: {
         programs: [
           {
@@ -822,10 +821,15 @@ const handleAddProgram = () => {
      * Adds a new hallName to the specified program's hallArray array.
      * @param {number} index - The index of the program which the hallArray is to be added.
      */
-    const addHallName = (index: number) => {
+    const addHallName =async (index: number) => {
+      const isValid = await trigger(`programs.${index}.createHallName`); // Validate only this field
+      if (!isValid) {
+        return;
+      }
       const values = watch();
       const hallName = values.programs[index]?.createHallName
       const newHall: any = { hallName };
+
 
       // TypeScript now knows hallArray is an array of { hallName: string }
       const updatedPrograms: any = [...values.programs];
@@ -1022,6 +1026,10 @@ const handleAddProgram = () => {
                                     control={control}
                                     name={`programs.${index}.createHallName`}
                                     type="text"
+                                    rules={{
+                                      required: true,
+                                        
+                                    }}
                                   />
                                   </Grid>
                                   {watch(`programs.${index}.hallArray`)?.length !== 0&&
