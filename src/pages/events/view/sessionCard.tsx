@@ -421,7 +421,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
                                 />
                               ) : (
                                 <Avatar className="session-speaker-modal-avatar">
-                                  {`${sponsor?.sponsorFullName[0]}`}
+                                  {`${sponsor?.sponsorFullName?.[0]}`}
                                 </Avatar>
                               )}
                             </>} >
@@ -472,7 +472,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
                                 />
                               ) : (
                                 <Avatar className="session-speaker-modal-avatar">
-                                  {`${sponsor?.sponsorFullName[0]}`}
+                                  {`${sponsor?.sponsorFullName?.[0]}`}
                                 </Avatar>
                               )}
                             </>} >
@@ -493,7 +493,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
                                 </Grid>
                                 <Grid size={10} marginInline={"2rem"}>
                                   <Typography className="modal-speaker-name">{`${sponsor?.sponsorFullName}`}</Typography>
-                                  <Typography className="modal-speaker-name-designation"> Reserved Seats:{sponsor?.sponsorReservedSeats ?? "N/A"}</Typography>
+                                  <Typography className="modal-speaker-name-designation"> Reserved Seats:{sponsor?.sponsorReservedSeats ?? "Null"}</Typography>
                                 </Grid>
                               </Grid>
                             </SpeakerDetailsToolTip>

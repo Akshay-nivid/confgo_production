@@ -359,7 +359,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
       {groupedData.invalid && (
         <Grid size={{ xs: 12 }} key="invalid">
           <Grid container spacing={2} className="event-sessions-session-list">
-            {transformed.invalid.map(
+            {transformed?.invalid.map(
               (item:  any, index: Key | null | undefined) => (
                 <SessionCard
                   key={index}
