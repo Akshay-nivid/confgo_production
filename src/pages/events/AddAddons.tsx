@@ -33,7 +33,7 @@ type Sponsor={
   sponsorFullName?:string;
   sponsorLogoId?:string;
   bannerId?:string;
-}
+} 
 
 type FormData = {
   addOn: {
@@ -478,7 +478,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
     
       // Update the addOn array by filtering out empty properties and adding the new property
       const updatedAddOn = [...values.addOn];
-      updatedAddOn[index].properties = updatedAddOn[index].properties.filter(
+      updatedAddOn[index].properties = updatedAddOn[index].properties?.filter(
         prop => prop.propertyName !== ""
       );
       updatedAddOn[index].properties.push({ ...newProperty });
@@ -512,9 +512,9 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
     /**
      * Method to close the Drawer
      */
-    const handleDrawerClose=()=>{
+    const handleDrawerClose=(index: any)=>{
       setAddonView(false)
-      resetField(`addOn.${0}.addonId`,{});
+      resetField(`addOn.${index}.addonId`,{});
     }
 
     /**
@@ -710,6 +710,13 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     options={addOnOptions} />
                                     
                                 </Grid>
+                                <CustomDrawer
+        children={<CreateAddon submitHandler={onaddOnSubmitHandler} closeDrawer={() => handleDrawerClose(index)} />}
+        open={addOnView}
+        type="right"
+        onClose={()=>handleDrawerClose(index)}
+
+        />
                                 <Grid size={{ xs: 12, sm: 12 }}>
                                   <CustomTextField
                                     placeholder="Add-on Description"
@@ -947,13 +954,14 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
               size={6}
               key='add-addons-display-container'
               alignItems={"center"}
+              
 
             >
-            <Grid  className="add-addons-display-container-box" container  justifyContent={"flex-start"} size={11} >
+            <Grid  className="add-addons-display-container-box" container  justifyContent={"flex-start"} size={11}  >
                <Typography  className="add-addons-display-container-heading" >Saved Add-Ons</Typography> 
               </Grid>
            
-            <Grid   size={11} className="add-addons-display-container-details" alignItems={"center"}>
+            <Grid   size={11} className="add-addons-display-container-details" alignItems={"center"} >
                {(watch("savedAddOns")?.length > 0 && watch("savedAddOns")?.[0]?.addonId) ? (
                watch("savedAddOns")?.map(
                (field, index) =>
@@ -1009,13 +1017,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
             <CustomButton className="add-addons-addon-btn"   label="Create Add Ons"  onClick={handleCreateAddons} ></CustomButton>
             </Grid>
 
-        <CustomDrawer
-        children={<CreateAddon submitHandler={onaddOnSubmitHandler} closeDrawer={handleDrawerClose} />}
-        open={addOnView}
-        type="right"
-        onClose={()=>handleDrawerClose}
-
-        />
+        
         <Grid>
           <CustomDrawer
             children={

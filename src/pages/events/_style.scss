@@ -464,6 +464,10 @@
         &-tool-tip{
             font-size: $p2 !important;
           }
+          
+        &-moderator-select{
+        color: $clr_green !important
+        }
       }
  
     }
@@ -1988,6 +1992,7 @@
         //  margin-bottom: 1.05rem !important;
         border: 0.092rem solid $clr_gray_very_light !important;
         border-radius: 0.41rem !important;
+        margin: 1rem;
         &-name{
             color: $clr_field !important;
             padding-inline: 1rem;
@@ -2016,6 +2021,7 @@
         border-radius: 0.625rem;
         overflow-y: auto;
         &-details{
+         padding: 1rem;
          min-height: 10rem ;
          max-height:20rem ;
         }
