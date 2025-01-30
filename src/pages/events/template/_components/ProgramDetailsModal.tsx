@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box/Box'
 import './style.scss'
 import { Close } from '@mui/icons-material'
-import { Avatar, Badge, IconButton, Tooltip } from '@mui/material'
+import { Avatar, IconButton, Tooltip } from '@mui/material'
 import Modal from '@mui/material/Modal';
 import useStore, { setNonPersistedDataById } from '@/Libs/store'
 import { getLocalTimeDate } from '@/Utils/CommonBaseClass'
