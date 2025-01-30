@@ -1717,12 +1717,12 @@
                         $clr_white 0.417rem,
                         $clr_white 4.583rem
                       );
-                      border-radius: 8px; /* Round corners if needed */
+                      border-radius: 0.6667rem; /* Round corners if needed */
                       
                 } 
                 &-program{
                     &:hover {
-                        box-shadow: 0 0 0.43rem 0.01rem $clr_black_shadow; 
+                        box-shadow: 0 0.08rem 1rem 0 $clr_black_shadow; 
                       }
                     
                     border:solid 0.17rem $clr_gray_very_light;
@@ -1828,6 +1828,13 @@
               font-size:$p2;
               font-weight: $font-bold !important;
               line-height: 2rem;
+              &-avatar{
+                background-color: $clr_blue_violet !important;
+              }
+              &-moderator{
+                 border: 0.3rem solid $clr_blue_violet;
+                 
+              }
              }
             }
            
