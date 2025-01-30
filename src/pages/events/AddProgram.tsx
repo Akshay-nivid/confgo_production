@@ -4,7 +4,7 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import { Avatar, Box, IconButton,Modal,Tooltip,Typography } from "@mui/material";
+import { Avatar, Box, Chip, IconButton,Modal,Tooltip,Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
@@ -345,7 +345,6 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
             : itemEndDate.format("YYYY-MM-DD"),
         };
       });
-           
       // Update the form values with the validated and formatted data
       setValue("programs", formattedData);
       setValue("savedPrograms", formattedData);
@@ -540,9 +539,9 @@ const handleAddProgram = () => {
       if(watch(`programs.${index}.hallArray`)){
         setHallOptions(watch(`programs.${index}.hallArray`));
       }
-      console.log(watch(`programs.${index}.hallName`),'hiiiiiiiii')
       if(watch(`programs.${index}.hallName`)){
-        setHallOptions(watch(`programs.${index}.hallName`));
+        const hallValue=watch(`programs.${index}.hallName`)
+        setHallOptions([hallValue]);
       }
     };
 
@@ -838,53 +837,74 @@ const handleAddProgram = () => {
       const isDuplicate = updatedPrograms[index]?.hallArray.some(
         (item: any) => item.hallName === newHall.hallName
       );
+      const isDuplicateExistingOptions=hallOptions?.some(
+        (item:any)=>item.hallName===newHall.hallName
+      )
 
-      if (isDuplicate) {
+      if (isDuplicate||isDuplicateExistingOptions) {
         setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "Same hall name" })
         return;
       }
-
-      setHallOptions([...updatedPrograms[index]?.hallArray, newHall]);
+    
+      setHallOptions([...hallOptions, newHall]);
       updatedPrograms[index].hallArray?.push(newHall);
       setValue("programs", updatedPrograms);
-
+      resetField(`programs.${index}.createHallName`);
     };
-const assignModerator=(index:any,speakerIndex:any)=>{
-  const values = watch();   
-// 
+    /**
+     * assign moderator created speakers list.
+     * @param {index-program,speakerIndex:speaker list index}.
+     */
+    const assignModerator = (index: any, speakerIndex: any) => {
+      const values = watch();
+      // 
       // Get current programs list and update the speakers array for the selected program index
-      const updatedPrograms:any = [...values.programs];
-      const speakers:any = updatedPrograms[index]?.speakers;  
+      const updatedPrograms: any = [...values.programs];
+      const speakers: any = updatedPrograms[index]?.speakers;
 
       // updatedPrograms[index].speakers = processModerators([...speakers,newSpeaker]);
-      const updatedData =  updateModeratorStatus(speakers,speakerIndex);
+      const updatedData = updateModeratorStatus(speakers, speakerIndex);
 
       updatedPrograms[index].speakers = updatedData
 
       setValue("programs", updatedPrograms);
-}
+    }
 
-console.log(watch('programs'),'enthahhhhhhh')
 
-function updateModeratorStatus(speakersArray:any, index:any) {
+    /**
+     * updating moderator status 
+     * @param {speakersArray,index}.
+     */
+    function updateModeratorStatus(speakersArray: any, index: any) {
 
-  // Create a new array with the updated moderator status
-  return speakersArray.map((speaker:any, i:any) => {
-    if (i === index) {
-      return {
-          ...speaker,
-          isModerator: true
-      };
-  } else {
-      return {
-          ...speaker,
-          isModerator: false
-      };
-  }
-  });
-}
+      // Create a new array with the updated moderator status
+      return speakersArray.map((speaker: any, i: any) => {
+        if (i === index) {
+          return {
+            ...speaker,
+            isModerator: true
+          };
+        } else {
+          return {
+            ...speaker,
+            isModerator: false
+          };
+        }
+      });
+    }
 
-console.log(hallModal,'jjjjjjj')
+// const handleHallNameDelete=(item:any,_hallIndex:any,index:any)=>{
+//   const values = watch();
+//   const updatedPrograms: any = [...values.programs];
+//   const updatedHallName = updatedPrograms[index].hallArray?.filter((hall: any) => {
+//     return hall?.hallName === item?.hallName;
+//   });
+//   updatedPrograms[index].hallArray = updatedHallName;
+//   setHallOptions([ ...hallOptions,updatedHallName]);
+//   // Set the updated programs back to the form
+//   setValue('programs', updatedPrograms);
+// }
+
     return (
       <Grid container className="add-program-container" justifyContent={'center'} spacing={4}>
         <CustomDrawer open={drawerOpen} type="right">
@@ -948,27 +968,37 @@ console.log(hallModal,'jjjjjjj')
                               }}
                             />
                           </Grid>
-                          <Grid container display={"flex"} size={{ xs: 12, sm: 12 }} >
-                           <Grid size={12}>
+                          <Grid container display={"flex"} size={{ xs: 12, sm: 12 }} alignItems={"center"} >
+                           <Grid size={9}>
                           <CustomAutocomplete
+                          defaultValue={data&&data[index]?.hallName}
                             name={`programs${index}.hallName`}
                             className='auto-complete-input'
                             placeholder='search by hall name'
                             control={control} loading={false}
                             options={hallOptions??[]}
-                            getOptionLabel={(option: any) => option.hallName}
+                            getOptionLabel={(option: any) => option.hallName||option}
                             onSearch={(_query: string) => { }}
                             onChange={(e:any) => { 
                               setValue(`programs.${index}.hallName`, e);
                             }}
                             // onCustomButtonClick={()=>addHallName(index)}
-                            onCustomButtonClick={()=>{setHallModal(true)}}
-                            customButtonLabel="Add New Hall"
+                            // onCustomButtonClick={()=>{setHallModal(true)}}
+                            // customButtonLabel="Add New Hall"
                             clearable={false}
                             onTextChange={(e:any)=>
                               setValue(`programs.${index}.hallName`, e)
                             }
                         />
+                       </Grid>
+                       <Grid size={3}>
+                        <CustomButton
+                        className="add-program-hallcreate"
+                        variant="outlined"
+                        label="Add New Hall"
+                        onClick={()=>{setHallModal(true)}}
+                        />
+
                        </Grid>
                             {/* <CustomModal onClose={() => setHallModal(false)} open={hallModal} children={
                               <Grid  className="h-screen w-screen" justifyContent={"center"} alignContent={"center"} sx={{backgroundColor:"white",height:200,width:400}}>
@@ -977,9 +1007,15 @@ console.log(hallModal,'jjjjjjj')
                             }>
                             </CustomModal> */}
                             <Modal  open={hallModal} >
-                              <Box  className="w-screen h-screen flex items-center justify-center">
-                                <Box className="min-w-[60rem] min-h-32 bg-white p-4 rounded-md">
+                              <Box  className="add-program-hall-modal">
+                                <Grid container spacing={2}>
+                                <Box className="add-program-hall-modal-container">
+                                  <Grid container spacing={1} justifyContent={"flex-end"}>
                                   <IconButton onClick={() => {setHallModal(false)}}><CloseIcon/></IconButton>
+                                  </Grid>
+
+                                 <Typography variant={"h6"}>Create Hall Name</Typography>
+                                 <Grid className="add-program-hall-modal-textField" container size={12}>
                                   <CustomTextField
                                     placeholder="Hall Name"
                                     className="create-event"
@@ -987,11 +1023,22 @@ console.log(hallModal,'jjjjjjj')
                                     name={`programs.${index}.createHallName`}
                                     type="text"
                                   />
+                                  </Grid>
+                                  {watch(`programs.${index}.hallArray`)?.length !== 0&&
+                                  <Grid className="add-program-hall-modal-chipBox">
+                                   {hallOptions.map((item:any, hallIndex:any) => {
+                                    return <Chip key={hallIndex+"hallName"} className="add-program-hall-modal-chipBox-chip" label={item?.hallName} variant="outlined"  />}
+                                  )  } </Grid>}
+                                 
+                                  <Grid container justifyContent={"flex-end"}>
                                   <CustomButton
+                                  className="add-program-hall-modal-btn"
                                   label="Save"
                                   onClick={()=>addHallName(index)}
                                   />
+                                 </Grid>
                                 </Box>
+                                </Grid>
                               </Box>
                             </Modal>
                        </Grid>
