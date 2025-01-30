@@ -19,6 +19,7 @@ interface ICustomAutocompleteProps<T> {
   onCustomButtonClick?: () => void;
   customButtonLabel?:string
   onTextChange?:any
+  defaultValue?:any
 }
 
 /**
@@ -39,6 +40,7 @@ const CustomAutocomplete = <T,>({
   onCustomButtonClick,
   customButtonLabel,
   onTextChange,
+  defaultValue,
   ...props
 }: ICustomAutocompleteProps<T> & { onChange?: (value: T | null) => void }) => {
   const [inputValue, setInputValue] = useState<string>("");
@@ -69,7 +71,7 @@ const CustomAutocomplete = <T,>({
           }}
           options={options}
           getOptionLabel={getOptionLabel}
-          value={field.value || null}
+          value={field.value ||defaultValue|| null}
           onChange={(_, data) => {
             field.onChange(data);
             if (onChange) {

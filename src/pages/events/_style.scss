@@ -461,8 +461,57 @@
             font-size: $p3 !important;
           }
         }
+        &-tool-tip{
+            font-size: $p2 !important;
+          }
+          
+        &-moderator-select{
+        color: $clr_green !important
+        }
       }
+ 
     }
+    &-hallcreate{
+        border-color: $clr_green !important;
+        color:$clr_green !important;
+        font-weight: $font-semibold !important;
+        text-transform: none !important;
+    }
+    &-hall-modal{
+        width: 100vw;    
+        height: 100vh;    
+        display: flex;      
+        align-items: center; 
+        justify-content: center; 
+        &-container{
+            min-width: 60rem;       
+            min-height: 8rem;      
+            background-color:$clr-white; 
+            padding: 1rem;        
+            border-radius: 0.375rem; 
+        }
+        &-textField{
+            margin-top: 1rem;
+        }
+        &-btn{
+            justify-content: center !important;
+            margin-top: 1rem !important;
+            background-color: $clr_green !important;
+            text-transform: none !important;
+            justify-self: flex-end !important;
+        }
+        &-chipBox{
+            margin-top: 1rem;
+
+            &-chip{
+                margin: 0 8px 8px 0 !important;
+                .MuiChip-deleteIcon {
+                    color:$clr_red !important
+                }
+            }
+        }
+    }
+
 }
 
 
