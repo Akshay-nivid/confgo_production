@@ -19,7 +19,6 @@ import NewSpeakerDrawer from "../NewSpeakerDrawer";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import { useParams } from "react-router-dom";
 import DrawerCreateSponosor from "../Sponsor/DrawerCreateSponsor";
-import MicNoneIcon from '@mui/icons-material/MicNone';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 interface FormData {
