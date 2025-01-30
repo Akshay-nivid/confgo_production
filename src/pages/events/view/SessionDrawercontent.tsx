@@ -1,4 +1,4 @@
-import { Typography, IconButton, Box, Avatar } from "@mui/material";
+import { Typography, IconButton, Box, Avatar, Tooltip } from "@mui/material";
 import { CloseOutlined } from "@mui/icons-material";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
@@ -961,9 +961,11 @@ interface SessionDrawerContentProps {
                           </Grid>
                           <Grid size={{ xs: 2 }}  display={"flex"}>
                           <>
-                          <IconButton  onClick={handleAssignModerator(speakerIndex, item.speakerId)} className={ item?.moderator ? "add-program-speaker-section-card-moderator-select": ""}>
+                          <Tooltip title="Make as Moderator" classes={{tooltip:'add-program-speaker-section-card-tool-tip'}}>
+                          <IconButton  onClick={handleAssignModerator(speakerIndex, item.speakerId)} className={ item?.moderator ? "add-program-speaker-section-card-moderator-select": ""} disabled={item?.moderator ? true : false}>
                           <MicNoneIcon/>
                             </IconButton>
+                            </Tooltip>
                             <IconButton onClick={() => removeSpeaker(item)}>
                               <DeleteIcon />
                             </IconButton>
