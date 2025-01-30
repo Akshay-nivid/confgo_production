@@ -1228,7 +1228,7 @@ const handleAddProgram = () => {
                                    control={control}
                                    name={`programs.${index}.isModerator`}
                                   /> */}
-                                  <Box className="registration-fee-list-decription-helper" display={"flex"} justifyContent={"center"} alignItems={"flex-start"} mr={1}><InfoOutlinedIcon style={{ marginRight: 2 }} /><Typography className="registration-fee-list-decription-helper-text">If the 'Moderator' butoon is pressed, assign the user as a moderator. Only the most recently selected user with the 'Moderator' mic icon pressed will be added as a moderator.</Typography></Box>
+                                  <Box className="registration-fee-list-decription-helper" display={"flex"} justifyContent={"center"} alignItems={"flex-start"} mr={1}><InfoOutlinedIcon style={{ marginRight: 2 }} /><Typography className="registration-fee-list-decription-helper-text">If the 'Moderator' button is pressed, assign the user as a moderator. Only the most recently selected user with the 'Moderator' button pressed will be added as a moderator.</Typography></Box>
                                 </Grid>
                                 <Grid size={{xs:12}} >
                                   <CustomButton
