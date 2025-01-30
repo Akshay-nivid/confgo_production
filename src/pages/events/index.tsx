@@ -638,13 +638,14 @@ const Events = () => {
               designation: speaker?.user?.designation || " ",
               isModerator:speaker?.user?.isModerator
             })) || [],
-            sponsors:program?.eventSponsors?.map((sponosr:any)=>({
+            sponsor:program?.eventSponsors?.map((sponosr:any)=>({
               sponsorId:sponosr?.sponsorId,
               sponsorFullName:sponosr?.sponsor?.name,
               speakerLogoId:sponosr?.sponsor?.logoAssetId,
               sponsorTypeId:sponosr?.sponsorTypeId,
               sponosorReservedSeats:sponosr?.reservedSeats
             }))||[],
+            hallName:program?.hall
         })),
         addOns: data.addons?.map((addon: any) => ({
             name: addon.addon?.name || "",
@@ -667,7 +668,7 @@ const Events = () => {
             addonType: addon.amount === "0.00" ? "FREE" : "PAID",
             repeat: [],
             noOfDays: "",
-            sponsors:addon?.eventSponsors?.map((sponosr:any)=>({
+            sponsor:addon?.eventSponsors?.map((sponosr:any)=>({
               sponsorId:sponosr?.sponsorId,
               sponsorFullName:sponosr?.sponsor?.name,
               speakerLogoId:sponosr?.sponsor?.logoAssetId,
@@ -686,7 +687,8 @@ const Events = () => {
         amount: "",
         totalSeat:"",
         speakers: [],
-        sponsor:[]
+        sponsor:[],
+        hallName:""
       },)
 
       transformedData?.addOns.push({
