@@ -18,8 +18,8 @@ const CustomDrawer: React.FC<CustomDrawerProps> = ({ open, onClose, children, ty
     <Drawer anchor={type} open={open} onClose={onClose} className={className}>
       <div
         role="presentation"
-        onClick={onClose}
-        onKeyDown={onClose}
+        // onClick={onClose}
+        // onKeyDown={onClose}
       >
         {children} 
       </div>
