@@ -413,6 +413,12 @@
 
         &-location {
             padding: 2rem 7rem 5rem 7rem;
+            &-title {
+                font-size: $h1 !important;
+                font-weight: $font_bold !important;
+                text-align: center !important;
+            }
+
         }
 
         &-ticketing {
@@ -1592,7 +1598,18 @@
             }
         }
         &-location {
-            padding: 2rem 7rem 5rem 7rem;
+            padding: 0rem 7rem 5rem 7rem;
+            &-title {
+                font-size: $h1 !important;
+                font-weight: $font_bold !important;
+                text-align: center !important;
+                padding-bottom: 1rem;
+            }
+            &-sub-title {
+                font-size: $h5 !important;
+                font-weight: $font_normal !important;
+                padding-bottom: 1rem;
+            }
         }
         &-footer {
             background-color: $clr_medium_black;
