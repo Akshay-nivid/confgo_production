@@ -583,6 +583,14 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
         return;
       }
 
+      if (!sponsorTypeId) {
+        setError(`addOn.${index}.sponsorTypeId`, {
+          type: 'manual',
+          message: 'Choose Sponsor Type',
+        });
+        return;
+      }
+
       const newSponsor = {
         sponsorId,
         sponsorFullName,

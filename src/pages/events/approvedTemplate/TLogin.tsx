@@ -5,6 +5,8 @@ import React from 'react'
  * Components handle Login
  */
 const TLogin: React.FC<any> = React.memo(({ className, onClick }: any) => {
+
+    const isCompany = sessionStorage.getItem('userLoggedInType') === 'COMPANYADMIN' 
     
     return (
         <CustomButton
@@ -12,7 +14,7 @@ const TLogin: React.FC<any> = React.memo(({ className, onClick }: any) => {
             label="Login"
             variant="contained"
             color="primary" 
-            onClick={onClick}
+            onClick={isCompany ? undefined : onClick}
             />
     )
 })

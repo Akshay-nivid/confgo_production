@@ -20,16 +20,18 @@ import { Logger } from "@/Utils/Logger";
 import { Speaker } from '@mui/icons-material';
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
 import config from "../../../config.json";
-import { truncateString } from "@/Utils/CommonBaseClass";
 import NewSpeakerDrawer from "./NewSpeakerDrawer";
 import confgo  from "../../../config.json"
 import SponsorForm from "./Sponsor/SponsorForm";
 import DrawerCreateSponosor from "./Sponsor/DrawerCreateSponsor";
+import CustomCheckbox from "@/components/CustomCheckbox/CustomCheckbox";
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 type Speaker = {
   speakerId?: string;
   speakerFullName?: string;
   speakerAssetId?: string;
   designation?: string;
+  isModerator?:boolean
 }
 
 type Sponsor={
@@ -55,6 +57,7 @@ type FormData = {
       speakerFullName?: string;
       speakerAssetId?: string;
       designation?: string;
+      isModerator?:boolean
     }[];
     speakerId?: string;
     speakerFullName?: string;
@@ -73,7 +76,11 @@ type FormData = {
     sponsorbannerId?:string;
     sponosrSelection?:string;
     sponosorReservedSeats?:string;
-    sponsorTypeId?:string
+    sponsorTypeId?:string;
+    isModerator?:[],
+    hallName?:string
+    hallArray?: [],
+    createHallName?:string
   }[];
   savedPrograms: {
     id?: string;
@@ -91,6 +98,7 @@ type FormData = {
       speakerFullName?: string;
       speakerAssetId?: string;
       designation?: string;
+     
     }[];
     speakerId?: string;
     speakerFullName?: string;
@@ -102,6 +110,7 @@ type FormData = {
       sponsorFullName?:string;
       speakerLogoId?:string;
       sponsorTypeId?:string;
+     
     }[];
     sponsorId?:string;
     sponsorFullName?:string;
@@ -109,7 +118,11 @@ type FormData = {
     sponsorbannerId?:string;
     sponosrSelection?:string;
     sponosorReservedSeats?:string;
-    sponsorTypeId?:string
+    sponsorTypeId?:string;
+    isModerator?:[],
+    hallName?:string,
+    hallArray?: [],
+    createHallName?:string
   }[];
 };
 type ProgramProps = {
@@ -479,7 +492,8 @@ const handleAddProgram = () => {
           sponsorId:"",
           sponsorFullName:"",
           sponsorLogoId:"",
-          sponsorTypeId:""
+          sponsorTypeId:"",
+
           
         };
         newPrograms.push(newProgram);
@@ -516,6 +530,9 @@ const handleAddProgram = () => {
       setProgramIndex(index);
       if(watch(`programs.${index}.speakers`)){
         setShowSpeakerSection(watch(`programs.${index}.speakers`)?.length == 0 ? false : true)
+      }
+      if(watch(`programs.${index}.hallArray`)){
+        setHallOptions(watch(`programs.${index}.hallArray`));
       }
     };
 
@@ -574,6 +591,7 @@ const handleAddProgram = () => {
             speakerFullName: "",
             speakerAssetId: "",
             designation: "",
+            hallName:"",
           });
         } else {
           setProgramIndex(programsCopy?.length);
@@ -581,8 +599,25 @@ const handleAddProgram = () => {
       }
       onSaveHandler && onSaveHandler(saveProgram, 'program');
     };
-
-
+    /**
+     * process spekaer in which only make one moderator while creation of speaker
+     * @param arr:Speaker
+     */
+    function processModerators(arr:Speaker[]) {
+      // Find the index of the last object with isModerator: true
+      const lastModeratorIndex = arr?.reduce((lastIndex, obj, currentIndex) => {
+          if (obj.isModerator === true) {
+              return currentIndex;
+          }
+          return lastIndex;
+      }, -1);
+  
+      // Create a new array with all moderators set to false except the last one
+      return arr?.map((obj, index) => ({
+          ...obj,
+          isModerator: index === lastModeratorIndex ? true : false
+      }));
+  }
     /**
      * Adds a new speaker to the specified program's speakers array.
      * fetches the current form values for the specified program (using `index`), 
@@ -591,12 +626,13 @@ const handleAddProgram = () => {
      * @param {number} index - The index of the program which the speaker is to be added.
      */
     const addSpeaker = (index: number) => {
-      const values = watch();
+      const values = watch();   
       const speakerId = values.programs[index].speakerId;
       const speakerFullName = values.programs[index].speakerFullName;
       const speakerAssetId = values.programs[index].speakerAssetId;
       const designation = values.programs[index].designation;
       const speakerSelection = values.programs[index].speakerSelection;
+      const isModerator = values.programs[index]?.isModerator&&values.programs[index]?.isModerator?.length>0?true:false
 
 
       if (!speakerSelection) {
@@ -619,16 +655,23 @@ const handleAddProgram = () => {
         speakerFullName,
         speakerAssetId,
         designation,
+        isModerator
       };
+
+
       // Get current programs list and update the speakers array for the selected program index
       const updatedPrograms = [...values.programs];
       if (!updatedPrograms[index].speakers) {
         updatedPrograms[index].speakers = [];
-      }    
+      }   
+      
+      
       // Filter out empty or undefined speakers
       updatedPrograms[index].speakers = updatedPrograms[index].speakers?.filter(
         speaker => speaker.speakerId
       );
+
+
       // Check if a speaker with the same ID already exists
       const isDuplicate = updatedPrograms[index].speakers.some(
         (speaker) => speaker.speakerId === newSpeaker.speakerId
@@ -637,11 +680,10 @@ const handleAddProgram = () => {
         setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "speaker is already added" })
         return;
       }
-      
-      // Add the new speaker to the speakers array
-      updatedPrograms[index].speakers.push({ ...newSpeaker });
+
+      const speakers = updatedPrograms[index]?.speakers      
+      updatedPrograms[index].speakers = processModerators([...speakers,newSpeaker]);
       setValue("programs", updatedPrograms);
-    
       resetField(`programs.${index}.speakerId`);
       resetField(`programs.${index}.speakerAssetId`);
       resetField(`programs.${index}.designation`);
@@ -674,13 +716,13 @@ const handleAddProgram = () => {
         });
         return;
       }
-      // if (!sponsorReservedSeats) {
-      //   setError(`programs.${index}.sponosorReservedSeats`, {
-      //     type: 'manual',
-      //     message: 'Reservation Seat is required',
-      //   });
-      //   return;
-      // }
+      if (!sponsorTypeId) {
+        setError(`programs.${index}.sponsorTypeId`, {
+          type: 'manual',
+          message: 'Choose Sponsor Type',
+        });
+        return;
+      }
 
       const newSponsor = {
         sponsorId,
@@ -718,6 +760,7 @@ const handleAddProgram = () => {
       resetField(`programs.${index}.sponsorFullName`);
       resetField(`programs.${index}.sponosrSelection`);
       resetField(`programs.${index}.sponsorTypeId`);
+      resetField(`programs.${index}.isModerator`);
     }; 
 
     /**
@@ -764,6 +807,38 @@ const handleAddProgram = () => {
 
 
 
+ const [hallOptions,setHallOptions]=useState<any>([]);
+
+    /**
+     * Adds a new hallName to the specified program's hallArray array.
+     * @param {number} index - The index of the program which the hallArray is to be added.
+     */
+    const addHallName = (index: number) => {
+      const values = watch();
+      const hallName = values.programs[index]?.hallName
+      const newHall: any = { hallName };
+
+      // TypeScript now knows hallArray is an array of { hallName: string }
+      const updatedPrograms: any = [...values.programs];
+
+
+      if (!updatedPrograms[index]?.hallArray) {
+        updatedPrograms[index].hallArray = [];
+      }
+      const isDuplicate = updatedPrograms[index]?.hallArray.some(
+        (item: any) => item.hallName === newHall.hallName
+      );
+
+      if (isDuplicate) {
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "Same hall name" })
+        return;
+      }
+
+      setHallOptions([...updatedPrograms[index]?.hallArray, newHall]);
+      updatedPrograms[index].hallArray?.push(newHall);
+      setValue("programs", updatedPrograms);
+
+    };
 
     return (
       <Grid container className="add-program-container" justifyContent={'center'} spacing={4}>
@@ -828,6 +903,28 @@ const handleAddProgram = () => {
                               }}
                             />
                           </Grid>
+                          <Grid container display={"flex"} size={{ xs: 12, sm: 12 }} >
+                           <Grid size={12}>
+                          <CustomAutocomplete
+                            name={`programs${index}.hallName`}
+                            className='auto-complete-input'
+                            placeholder='search by hall name'
+                            control={control} loading={false}
+                            options={hallOptions??[]}
+                            getOptionLabel={(option: any) => option.hallName}
+                            onSearch={(_query: string) => { }}
+                            onChange={(e:any) => { 
+                              setValue(`programs.${index}.hallName`, e);
+                            }}
+                            onCustomButtonClick={()=>addHallName(index)}
+                            customButtonLabel="Add New Hall"
+                            clearable={false}
+                            onTextChange={(e:any)=>
+                              setValue(`programs.${index}.hallName`, e)
+                            }
+                        />
+                       </Grid>
+                       </Grid>
                           <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"} container spacing={2}>
                             <Grid size={{ xs: 12, sm: 6 }}>
                               <CustomTextField
@@ -999,6 +1096,15 @@ const handleAddProgram = () => {
                                     type="text"
                                   />
                                 </Grid> */}
+                                <Grid container size={12}>
+                                  <CustomCheckbox 
+                                   className="add-addons-check-btn"
+                                   options={[{ label: 'Moderator', value: "YES" }]}
+                                   control={control}
+                                   name={`programs.${index}.isModerator`}
+                                  />
+                                  <Box className="registration-fee-list-decription-helper" display={"flex"} justifyContent={"center"} alignItems={"flex-start"} mr={1}><InfoOutlinedIcon style={{ marginRight: 2 }} /><Typography className="registration-fee-list-decription-helper-text">If the 'Moderator' checkbox is selected, assign the user as a moderator. Only the most recently selected user with the 'Moderator' checkbox checked will be added as a moderator.</Typography></Box>
+                                </Grid>
                                 <Grid size={{xs:12}} >
                                   <CustomButton
                                     className="add-program-drawer-btn-cancel"
@@ -1013,6 +1119,7 @@ const handleAddProgram = () => {
                                       <Grid container spacing={1}>
                                         {watch(`programs.${index}.speakers`)?.map((item, speakerIndex) => {
                                           return (
+                                            
                                             <Grid size={{xs:12}} key={speakerIndex + "grid"} container alignItems="center" className="add-program-speaker-section-card-item" p={1}>
                                               <Grid size={{xs:2}} justifyItems={'center'}> 
                                                 <Avatar
@@ -1026,10 +1133,14 @@ const handleAddProgram = () => {
                                                 <Typography className="add-program-speaker-section-card-item-title">
                                                   {item.speakerFullName}
                                                 </Typography>
-                                                <Typography className="add-program-speaker-section-card-item-subtitle">
+                                                {/* <Typography className="add-program-speaker-section-card-item-subtitle">
                                                   {truncateString(item?.designation, 35, "")}
+                                                </Typography> */}
+                                                <Typography className="add-program-speaker-section-card-item-subtitle">
+                                                  {item.isModerator?"Moderator":""}
                                                 </Typography>
-                                              </Grid>
+                                              </Grid>  
+
                                               <Grid size={{xs:2}} justifyItems={'center'}>
                                                 <IconButton
                                                   onClick={() => removeSpeaker(item,index)} // Handle removal logic

@@ -1668,7 +1668,25 @@
             }
         }
         &-program-content {
-    
+            &-divider{
+                margin-block: 0.7rem;
+            }
+             &-hall{
+                margin-top: 1rem;
+                font-size: $h3;
+                svg{
+                    width: 2rem  !important;
+                    height: 2rem;
+                }
+                &-content{
+                    font-size:$h6;
+                    color: $clr_dim_gray;
+                    font-size: $h6;
+                    text-transform: capitalize;
+                    padding-inline:0.7rem ;
+
+                }
+             }
             &-item {
                 border-radius: 0.83rem;
                 background-color: $clr_white;
@@ -1683,21 +1701,21 @@
                         $clr_white 4.583rem
                       );
                       border-radius: 8px; /* Round corners if needed */
-                      cursor: pointer;
+                      
                 } 
                 &-program{
                     &:hover {
-                        box-shadow: 0 0 0.33rem 0.01rem $clr_black; 
+                        box-shadow: 0 0 0.43rem 0.01rem $clr_black_shadow; 
                       }
                     
-                    border:solid 0.083rem $clr_gray_very_light;
-                    cursor: pointer;
+                    border:solid 0.17rem $clr_gray_very_light;
+                    
                 }
             }
     
             &-time {
                 &-divider-gray{
-                    border-right: 0.083rem solid $clr_background_gray !important;
+                    border-right: 0.083rem solid $clr_border_light_grey !important;
                     margin-right: 2rem ;
                 }
                 &-divider-black{
@@ -1752,11 +1770,17 @@
                 &-program {
                     border-left: 0.083rem solid $clr_deep_cyan_green;
                     padding-left: 2rem;
+                    cursor: pointer;
                 }
     
                 &-addon {
-                    // border-left: 0.083rem solid $clr_black;   
-                    padding-left: 2rem;      
+                     border-left: 0.083rem solid $clr_black;   
+                    padding-left: 2rem;  
+                    cursor: pointer;     
+                }
+                &-gerenarl-addon{ 
+                    cursor: pointer; 
+                    padding-left: 2rem;  
                 }
             }
     
@@ -2009,9 +2033,9 @@
 
 
 
-    &-preview {
-        pointer-events: none;
-    }
+    // &-preview {
+    //     pointer-events: none;
+    // }
 
     &-top-menu {
         &-1 {
@@ -3717,6 +3741,6 @@
 .template4-sponsor-banner-text{
     font-size: $h4 !important;
     font-weight: $font_semibold !important;
-    margin-bottom: 1rem !important;
+    // margin-bottom: 1rem !important;
 
 }

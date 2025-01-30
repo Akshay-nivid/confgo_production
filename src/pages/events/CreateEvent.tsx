@@ -460,7 +460,7 @@ const CreateEvent: React.FC<EventProps> =
                       defaultValue={moment(new Date()).format("YYYY-MM-DD")}
                       min={moment(new Date()).format("YYYY-MM-DD")}
                       rules={{
-                        required:true,
+                        required:"Start date is a required field.",
                         pattern: {
                           value: /^\d{4}-\d{2}-\d{2}$/, 
                           message: "Please enter a valid start date (DD-MM-YYYY)"
@@ -478,7 +478,7 @@ const CreateEvent: React.FC<EventProps> =
                       defaultValue={moment(new Date()).format("YYYY-MM-DD")}
                       min={moment(new Date()).format("YYYY-MM-DD")}
                       rules={{
-                        required:true,
+                        required:'End date is a required field.',
                         pattern: {
                           value: /^\d{4}-\d{2}-\d{2}$/,
                           message: "Please enter a valid end date (DD-MM-YYYY)"
@@ -535,7 +535,7 @@ const CreateEvent: React.FC<EventProps> =
                       defaultValue={moment(new Date()).format("YYYY-MM-DD")}
                       min={moment(new Date()).format("YYYY-MM-DD")}
                       rules={{
-                        required:true,
+                        required:"Abstract Submission Date is required",
                         pattern: {
                           value: /^\d{4}-\d{2}-\d{2}$/, 
                           message: "Please enter a valid start date (DD-MM-YYYY)"

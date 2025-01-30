@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Typography, IconButton, Divider,Button, Menu, Avatar } from "@mui/material";
 import EditIcon from "@/assets/svg/event-edit.svg";
 import Grid from "@mui/material/Grid2";
-import { DeleteContributorIcon, WarningIcon} from "@/assets/svg";
+import { DeleteContributorIcon, HallIcon, WarningIcon} from "@/assets/svg";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
 import { getLocalTimeDate, truncateString } from "@/Utils/CommonBaseClass";
 import CustomModel from "@/components/CustomModel/CustomModel";
@@ -202,7 +202,10 @@ const SessionCard: React.FC<SessionCardProps> = ({
            {truncateString((item.description), 25, "Untitled")}
               </Typography>
        </Grid>
-
+          {item.hall && <Grid size={6} container spacing={1} display={"flex"} justifyContent={"flex-start"} alignItems={"center"}>
+            <HallIcon />
+            <Typography className="card-content-description">{item?.hall}</Typography>
+          </Grid>}
        <Grid className="card-content-devider">
         <Divider/>
        </Grid>
@@ -336,7 +339,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
 
                    <Typography className="description-box-content">
                     {item?.description}
-                   </Typography>
+                   </Typography>  
                 </Grid>
                
                 {!hasAddOns && (
