@@ -49,6 +49,14 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
   useEffect(() => {
     if (eventData?.programs) {
       setPrograms(eventData.programs);
+      const uniqueHalls = Array.from(
+        new Set(
+          eventData.programs
+            .map((program: any) => program.hall)
+            .filter((hall: any) => hall) // Remove null/undefined values
+        )
+      );
+      setDataById('uniqueHalls',uniqueHalls)
     }
   }, [eventData?.programs]);
   /**

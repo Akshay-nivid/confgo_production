@@ -17,7 +17,7 @@ import { processAPIResponse, truncateString } from "@/Utils/CommonBaseClass";
 import FormBuilder from "@/components/FormBuilder";
 import StatusComponent from "@/components/Status/StatusComponent";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import useStore from "@/Libs/store";
+import useStore, { clearDataById } from "@/Libs/store";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { useForm } from "react-hook-form";
 import PublishIcon from "@/assets/svg/publish.svg";
@@ -107,7 +107,7 @@ const ViewEventDetail = () => {
   const [openModal, setOpenModal] = useState(false);
   const [datass, setdatass] = useState();
   const [loading, setLoading] = useState(true);
-
+  const location = useLocation(); // Get the current location (URL) to detect changes
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   /**
@@ -157,6 +157,11 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
     eventPartcipantList();
   }, [])
 
+
+    // Clear uniqueHalls when the URL changes
+    useEffect(() => {
+      clearDataById("uniqueHalls"); // Clear uniqueHalls in global store when the URL changes
+    }, [location]);
   /**
    * Method handles the api call for generating slug
    */
