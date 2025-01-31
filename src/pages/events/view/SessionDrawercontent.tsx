@@ -306,9 +306,9 @@ const normalizeHalls = (data: any): string[] => {
   if (!data) return [];
 
   if (Array.isArray(data)) {
-    return data.flat().map(String); // Flatten nested arrays and convert to strings
+    return data?.flat()?.map(String); // Flatten nested arrays and convert to strings
   } else if (typeof data === "object") {
-    return Object.values(data).flat().map(String); // Extract values and flatten
+    return Object?.values(data)?.flat()?.map(String); // Extract values and flatten
   }
   return [];
 };

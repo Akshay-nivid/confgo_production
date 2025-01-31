@@ -52,7 +52,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
       const uniqueHalls = Array.from(
         new Set(
           eventData.programs
-            .map((program: any) => program.hall)
+            .map((program: any) => program?.hall)
             .filter((hall: any) => hall) // Remove null/undefined values
         )
       );
