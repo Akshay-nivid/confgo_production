@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box/Box'
 import './style.scss'
 import { Close } from '@mui/icons-material'
-import { Avatar, Badge, IconButton, Tooltip } from '@mui/material'
+import { Avatar, IconButton, Tooltip } from '@mui/material'
 import Modal from '@mui/material/Modal';
 import useStore, { setNonPersistedDataById } from '@/Libs/store'
 import { getLocalTimeDate } from '@/Utils/CommonBaseClass'
@@ -10,7 +10,6 @@ import { useEffect } from 'react';
 import config from '../../../../../config.json'
 import ModalToolTip from './ModalToolTip';
 import Grid from '@mui/material/Grid2';
-import { ModeratorIcon } from '@/assets/svg';
 
 
 
@@ -54,6 +53,17 @@ const ProgramDetailsModal = () => {
 
     const isAddOn = programDetails?.addonId;
 
+
+      /**
+  * Checks if the given `subItem` array contains at least one moderator.
+  *
+  * @param {any[]} subItem - The list of speakers to check.
+  * @returns {boolean} - Returns `true` if at least one speaker is a moderator, otherwise `false`.
+  */
+
+      const hasModerator = (subItem: any): boolean => {
+        return subItem?.some((speaker: any) => speaker?.speakerBios?.[0]?.isModerator) ?? false;
+    };
 
 
     return (
@@ -109,28 +119,46 @@ const ProgramDetailsModal = () => {
                         }
                         <Grid size={{ xs:12, sm:12 }}>&nbsp;</Grid> 
                         {programDetails?.eventSpeakers?.length > 0 ?
-                            <Box className="content-speaker-container">
+                            <Grid className="content-speaker-container">
+                                <Grid container size={12}>
+                                {hasModerator(programDetails?.eventSpeakers) &&
+                                    (
+                                        <><p className='content-speaker-container-header'>Moderator</p>
+                                            <pre className='content-speaker-container-header'> | </pre>
+                                        </>
+                                    )
+                                }
                                 <p className='content-speaker-container-header'>Speakers</p>
-                                <Box className="content-speaker-container-speaker-list">
-                                    {
-                                        programDetails?.eventSpeakers.map((speaker: any) => {
-                                            const isModerator = speaker?.speakerBios?.[0]?.isModerator;
+                                </Grid>
+                                <Grid className="content-speaker-container-speaker-list" container size={12}>
+                                    {programDetails?.eventSpeakers
+                                        ?.sort((_a: any, b: any) => (b?.speakerBios?.[0]?.isModerator ? 1 : -1)) 
+                                        .map((speaker: any) => {
+                                             const isModerator = speaker?.speakerBios?.[0]?.isModerator;
                                             return (
-                                                <Box className="tooltip-avatar">
+                                                <Grid className="tooltip-avatar" container size={isModerator?1.5:1}>
                                                     <Tooltip
                                                         placement='top' className='speaker-tooltip' arrow title={<ModalToolTip data={speaker}></ModalToolTip>}>
-                                                        <Badge 
-                                                            key={speaker?.id}
-                                                            overlap="circular"
-                                                            badgeContent={isModerator ? <ModeratorIcon width={'17'} height={"17"} /> : null}
-                                                            >
-                                                        <Avatar src={config.api.url + "asset/" + speaker?.user?.assetId} key={speaker.id} className='content-speaker-container-speaker-list-avatar' >
+                                                        {!isModerator?(
+                                                             <Avatar src={config.api.url + "asset/" + speaker?.user?.assetId} key={speaker.id} className='content-speaker-container-speaker-list-avatar' >
                                                             {speaker?.user?.firstName[0]}
                                                             {speaker?.user?.lastName[0]}
-                                                        </Avatar></Badge>
+                                                        </Avatar>
+                                                        ):(
+                                                            
+                                                            <Avatar src={config.api.url + "asset/" + speaker?.user?.assetId} key={speaker.id} className='content-speaker-container-speaker-list-moderators' >
+                                                            {speaker?.user?.firstName[0]}
+                                                            {speaker?.user?.lastName[0]}
+                                                        </Avatar>
+                                                        
+                                                        )}
+                                                       
+
+                                             
+
                                                     </Tooltip>
 
-                                                </Box>
+                                                </Grid>
 
 
 
@@ -138,8 +166,8 @@ const ProgramDetailsModal = () => {
                                         })
                                     }
 
-                                </Box>
-                            </Box>
+                                </Grid>
+                            </Grid>
                             :
                             <></>
                         }
