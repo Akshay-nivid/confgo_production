@@ -590,19 +590,29 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                 className={`${classPrefix}-program-content-item ${item?.type === 'program' ? `${classPrefix}-program-content-item-program` : `${classPrefix}-program-content-item-addon`}`}
                             >
                                 <Grid container alignItems="center" size={12} >
-                                    <Grid size={{ xs: 6, sm: 4, lg: 2.5 }} container direction="row" alignItems="center" justifyContent="start" className={`${classPrefix}-program-content-time`} >
-                                        <Grid className={`${classPrefix}-program-content-time${item?.type === 'program' ? "-divider-gray" : "-divider-black"}`} size={{ xs: 3, sm: 2, lg: 3 }} container justifyContent={"center"} display={"block"}>
+                                    <Grid size={{ xs: 6, sm: 4, lg: 3 }} container direction="row" alignItems="center" justifyContent="start" className={`${classPrefix}-program-content-time`} >
+                                         <Grid  className={`${classPrefix}-program-content-time${item?.type === 'program' ? "-divider-gray" : "-divider-black"}`} size={{ xs: 3, sm: 2, lg: 3 }} container justifyContent={"center"} display={"block"}>
                                             <Typography textAlign={"center"} className={`${classPrefix}-program-content-time-day`}>{getLocalTimeDate(item.startTime, 'ddd')}</Typography>
                                             <Typography textAlign={"center"} className={`${classPrefix}-program-content-time-num`}>{getLocalTimeDate(item.startTime, 'DD')}</Typography>
-                                        </Grid>
-                                        <Grid >
-                                            <Grid container display={"flex"} alignItems={"center"} columnGap={1} rowGap={2} className={`${classPrefix}-program-content-time-icon`}>
-                                                {item?.type === 'program' ? <TemplateGrayClockIcon /> : <TemplateBlackClockIcon />}
-                                                <TimeComponent
+                                            
+                                            {moment(item?.startTime).format('YYYY-MM-DD') !== moment(item?.endTime).format('YYYY-MM-DD') && (
+                                               
+                                               <TimeComponent
+                                                    month={true}
                                                     startTime={item?.startTime}
                                                     endTime={item?.endTime}
                                                     classPrefix={`${classPrefix}-program-content-time-value`}
                                                 />
+                                            )}
+                                         </Grid>
+                                        <Grid >
+                                            <Grid  container display={"flex"} alignItems={"center"} columnGap={1} rowGap={2} className={`${classPrefix}-program-content-time-icon`}>
+                                                {item?.type === 'program' ? <TemplateGrayClockIcon /> : <TemplateBlackClockIcon />}
+                                    
+                                                <Typography  className={`${classPrefix}-program-content-time-value`}>
+                                                    {moment(item?.startTime).format('hh:mm A')} - {moment(item?.endTime).format('hh:mm A')}
+                                                </Typography>
+
                                             </Grid>
                                             <Grid container display={"flex"} alignItems={"center"} columnGap={1} className={`${classPrefix}-program-content-time-icon`}>
                                                 {item?.type === 'program' ? <TemplatePriceGrayIcon /> : <TemplatePriceBlackIcon />}
