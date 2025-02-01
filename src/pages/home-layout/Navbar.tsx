@@ -48,7 +48,7 @@ const Navbar = () => {
                 <Link className={getLinkClassName(routes.loginOrg())} to={routes.loginOrg()}>
                   Login
                 </Link>
-                <Link className={getLinkClassName(routes.register()) + 'nav-signUp'} to={routes.register()}>
+                <Link className={getLinkClassName(routes.register()) + 'nav-signUp'} to={routes.pricing()}>
                   Signup
                 </Link>
               </Grid>
