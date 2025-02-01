@@ -920,10 +920,10 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                 >
                                   <Grid>
                                     <CustomButton
-                                      className="add-addons-save-btn"
+                                      className="event-information-restore-btn"
                                       onClick={handleDrawerClosing}
                                       label="Cancel"
-                                      variant="contained"
+                                      variant="outlined"
                                       size="large"
                                     />
                                   </Grid>
