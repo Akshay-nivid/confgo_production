@@ -20,6 +20,7 @@ import routes from '@/router/routes';
 import { clearDataById } from '@/Libs/store';
 
 import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined';
+import PaymentIcon from '@mui/icons-material/Payment';
 
 interface SidebarProps {
   open: boolean;
@@ -61,6 +62,13 @@ const sidebarItems = [
     id:'sidebar-sponsor-button',
     label: 'Sponsors',
     exact: false,
+  },
+  {
+    path:routes.adminPayment(),
+    icon:PaymentIcon,
+    id:'sidebar-payment-button',
+    label:'Payment',
+    exact:false
   },
   {
     path: routes.calendar(),
