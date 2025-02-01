@@ -128,7 +128,15 @@ import HallIcon from "./hall-icon.svg";
 import TempHall from "./temp-hall.svg";
 import DrawerClose from "./DrawerClose.svg";
 import UplodIcon from "./upload-bracket.svg";
-import RemoveIcon from "./RemoveIcon.svg"
+import RemoveIcon from "./RemoveIcon.svg";
+import CustomStep1 from "./Custom-stepper-1.svg";
+import CustomStep2 from "./Custom-stepper-2.svg";
+import CustomStep3 from "./Custom-stepper-3.svg";
+import CustomStep4 from "./Custom-stepper-4.svg";
+import CustomStepInactive4 from "./Custom-stepper-inactive-4.svg";
+import CustomStepInactive3 from "./Custom-stepper-inactive-3.svg";
+import CustomStepInactive2 from "./Custom-stepper-inactive-2.svg";
+
 export {
   CalenderIcon,
   ShakeHandIcon,
@@ -260,5 +268,12 @@ export {
   TempHall,
   DrawerClose,
   UplodIcon,
-  RemoveIcon
+  RemoveIcon,
+  CustomStep1,
+  CustomStep2,
+  CustomStep3,
+  CustomStep4,
+  CustomStepInactive4,
+  CustomStepInactive3,
+  CustomStepInactive2
 };
