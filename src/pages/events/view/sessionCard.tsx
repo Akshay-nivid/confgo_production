@@ -223,7 +223,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
          </Grid>
          ))
        )}
-       {/* </Grid> */}
+      
        {!hasAddOns&&item?.speakers && (
        <>
         <Grid className="card-content-heading" >
