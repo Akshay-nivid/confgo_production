@@ -22,6 +22,18 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import { CloseOutlined } from "@mui/icons-material";
 import { NoAddons } from "@/assets/svg";
 import confgo  from "../../../config.json"
+import SponsorAddonForm from "./Sponsor/SponosrAddonForm";
+import { POST, setDataById } from "@/Libs/store";
+import { Logger } from "@/Utils/Logger";
+import config from "../../../config.json";
+import DrawerCreateSponosor from "./Sponsor/DrawerCreateSponsor";
+
+type Sponsor={
+  sponsorId?:string;
+  sponsorFullName?:string;
+  sponsorLogoId?:string;
+  bannerId?:string;
+} 
 
 type FormData = {
   addOn: {
@@ -44,6 +56,19 @@ type FormData = {
     addonType:string;
     repeat:string[];
     noOfDays:string;
+    sponsor?:{
+      sponsorId?:string;
+      sponsorFullName?:string;
+      speakerLogoId?:string;
+      sponsorTypeId?:string;
+    }[];
+    sponsorId?:string;
+    sponsorFullName?:string;
+    sponsorLogoId?:string;
+    sponsorbannerId?:string;
+    sponosrSelection?:string;
+    sponosorReservedSeats?:string;
+    sponsorTypeId?:string
   }[];
   savedAddOns: {
     id?: string;
@@ -66,6 +91,18 @@ type FormData = {
     addonType:string;
     repeat:string[],
     noOfDays:string
+    sponsor?:{
+      sponsorId?:string;
+      sponsorFullName?:string;
+      speakerLogoId?:string;
+      sponsorTypeId?:string;
+    }[];
+    sponsorId?:string;
+    sponsorFullName?:string;
+    sponsorLogoId?:string;
+    sponsorbannerId?:string;
+    sponosrSelection?:string;
+    sponsorTypeId?:string
   }[];
 };
 type ProgramProps = {
@@ -104,7 +141,8 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
             addonId: "",
             dateRequired:[],
             addonType:"PAID",
-            noOfDays:""
+            noOfDays:"",
+            sponsor:[]
           },
         ],
       },
@@ -119,6 +157,12 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
     const [addOnView,setAddonView]=useState(false);
     const currency=confgo.currency;
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [showSponserSeciton,setShowSponsorSection]=useState(false);
+    const [loading, setLoading] = useState(false);
+    const companyId = sessionStorage.getItem("companyId")
+    const [searchSpekerResults,setSearchSpeakerResults]=useState<Sponsor[]>([]);
+    const baseUrl = config.api.url;
+    const [newSponsorDrawerOpen,setNewSponsorDrawerOpen]=useState(false)
 
      /**
      * craete addon drawer open 
@@ -259,7 +303,8 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
           dateRequired: [],
           addonType: "PAID",
           repeat: [],
-          noOfDays: ""
+          noOfDays: "",
+          sponsor:[]
         };
         if (lastItem.properties && lastItem.properties.length== 0){
           setError(`addOn.${lastIndex}.propertyName`, {
@@ -366,7 +411,8 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
             dateRequired:[],
             addonType:"PAID",
             repeat:[],
-            noOfDays:""
+            noOfDays:"",
+            sponsor:[]
             
           };
           append(obj);
@@ -432,7 +478,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
     
       // Update the addOn array by filtering out empty properties and adding the new property
       const updatedAddOn = [...values.addOn];
-      updatedAddOn[index].properties = updatedAddOn[index].properties.filter(
+      updatedAddOn[index].properties = updatedAddOn[index].properties?.filter(
         prop => prop.propertyName !== ""
       );
       updatedAddOn[index].properties.push({ ...newProperty });
@@ -466,11 +512,136 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
     /**
      * Method to close the Drawer
      */
-    const handleDrawerClose=()=>{
+    const handleDrawerClose=(index: any)=>{
       setAddonView(false)
-      resetField(`addOn.${0}.addonId`,{});
+      resetField(`addOn.${index}.addonId`,{});
     }
 
+    /**
+     * Method transforms data to the autocomplete data format
+     * @param data : api response data
+     * @returns 
+     */
+    function transformSponsoerData(data: any): Sponsor[] {
+      return data?.map((item: any) => ({
+        sponsorId: item?.id,
+        sponsorFullName: item?.name,
+        sponsorLogoId: item?.logoAssetId,
+        ...item
+      }));
+    } 
+    /**
+     * Method transforms data to the autocomplete data format
+     * @param data : api response data
+     * @returns 
+     */
+    const handleSponsorSearch = async (query: string) => {
+      setLoading(true);
+      await POST({
+        url: "sponsor/list",
+        id: "sponsorList",
+        body: {
+          filters: {
+            name: query,
+            companyId: companyId,
+          },
+          limit:30
+        },
+        successCB: (context: any) => {
+          setSearchSpeakerResults(transformSponsoerData(context?.data))
+          setLoading(false);
+        },
+        errorCB: (context: any) => {
+          Logger.error("Error fetching search results:", context?.message);
+          setLoading(false);
+        }
+      })
+    };
+
+    /**
+     * Adds a new sponosr to the specified program's sponosr array.
+     * fetches the current form values for the specified program (using `index`), 
+     * prepares a new sponosr object using the form values, and adds it to the `sponosr` array
+     * After adding the sponosr, the form fields related to the sponosr are reset for the next input.
+     * @param {number} index - The index of the program which the sponosr is to be added.
+     */
+    const addSponsor = (index: number) => {
+      const values = watch();
+      const sponsorId = values.addOn[index].sponsorId;
+      const sponsorFullName = values.addOn[index].sponsorFullName;
+      const sponsorAssetId = values.addOn[index].sponsorLogoId;
+      const sponsorReservedSeats = values.addOn[index].sponosorReservedSeats;
+      const sponsorSelection = values.addOn[index].sponosrSelection;
+      const sponsorTypeId = values.addOn[index].sponsorTypeId
+
+
+      if (!sponsorSelection) {
+        setError(`addOn.${index}.sponosrSelection`, {
+          type: 'manual',
+          message: 'please select a sponsor',
+        });
+        return;
+      }
+
+      if (!sponsorTypeId) {
+        setError(`addOn.${index}.sponsorTypeId`, {
+          type: 'manual',
+          message: 'Choose Sponsor Type',
+        });
+        return;
+      }
+
+      const newSponsor = {
+        sponsorId,
+        sponsorFullName,
+        sponsorAssetId,
+        sponsorReservedSeats,
+        sponsorTypeId
+      };
+      // Get current programs list and update the speakers array for the selected program index
+      const updatedPrograms = [...values.addOn];
+      if (!updatedPrograms[index].sponsor) {
+        updatedPrograms[index].sponsor = [];
+      }
+      // Filter out empty or undefined speakers
+      updatedPrograms[index].sponsor = updatedPrograms[index].sponsor?.filter(
+        speaker => speaker.sponsorId
+      );
+      // Check if a speaker with the same ID already exists
+      const isDuplicate = updatedPrograms[index].sponsor.some(
+        (sponsor) => sponsor.sponsorId === newSponsor.sponsorId
+      );
+      if (isDuplicate) {
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "speaker is already added" })
+        return;
+      }
+
+      // Add the new speaker to the speakers array
+      updatedPrograms[index].sponsor.push({ ...newSponsor });
+      setValue("addOn", updatedPrograms);
+
+      resetField(`addOn.${index}.sponsorId`);
+      resetField(`addOn.${index}.sponsorLogoId`);
+      resetField(`addOn.${index}.sponosorReservedSeats`);
+      resetField(`addOn.${index}.sponsorFullName`);
+      resetField(`addOn.${index}.sponosrSelection`);
+    }; 
+
+
+    const removeSponsor = (item: any, index: number) => {
+      // Retrieve current form values
+      const values = watch();
+    
+      // Update only the specific program at the provided index
+      const updatedPrograms = [...values.addOn];
+      const updatedSpeakers = updatedPrograms[index].sponsor?.filter(
+        (sponsor) => sponsor?.sponsorId !== item?.sponsorId
+      ) || [];
+      updatedPrograms[index].sponsor = updatedSpeakers;
+    
+      // Set the updated programs back to the form
+      setValue('addOn', updatedPrograms);
+    }; 
     return (
       <Box className="add-addons-container">
           <Grid
@@ -539,6 +710,13 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     options={addOnOptions} />
                                     
                                 </Grid>
+                                <CustomDrawer
+        children={<CreateAddon submitHandler={onaddOnSubmitHandler} closeDrawer={() => handleDrawerClose(index)} />}
+        open={addOnView}
+        type="right"
+        onClose={()=>handleDrawerClose(index)}
+
+        />
                                 <Grid size={{ xs: 12, sm: 12 }}>
                                   <CustomTextField
                                     placeholder="Add-on Description"
@@ -603,6 +781,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                       
                                   </>
                                 } </>}
+                                {watch(`addOn.${index}.dateRequired`) && (
                                 <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
                                   <Grid size={{ xs: 12, sm: 6 }}>
                                     <Grid container display={"flex"} alignItems={"center"}>
@@ -624,6 +803,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                   </Grid>
                                   </Grid>
                                 </Grid>
+                                )}
                                 <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"}>
                                   {/* Conditionally render Number of Days field */}
                                   {watch(`addOn.${index}.repeat`)?.length > 0 && (
@@ -712,6 +892,18 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                   })}
                                   </Grid>
                                 </Grid>}
+                                {!showSponserSeciton ? (
+                                  <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'center'}>
+                                    <CustomButton
+                                      className="add-program-drawer-speaker-option-btn"
+                                      label="Assign Sponsor for this Program?"
+                                      variant="outlined"
+                                      size="large"
+                                      type="button"
+                                      onClick={() => setShowSponsorSection(true)}
+                                    />
+                                  </Grid>
+                                ) : (<SponsorAddonForm sponsorSectionShow={() => setShowSponsorSection(false)} control={control} handleSearch={handleSponsorSearch} addSponsor={addSponsor} baseUrl={baseUrl} index={index} loading={loading} removeSponsor={removeSponsor} setValue={setValue} searchResults={searchSpekerResults} sponsorDrawerhandle={() => setNewSponsorDrawerOpen(true)} watch={watch} />)}
                                 <Grid
                                   container
                                   direction={"row"}
@@ -762,13 +954,14 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
               size={6}
               key='add-addons-display-container'
               alignItems={"center"}
+              
 
             >
-            <Grid  className="add-addons-display-container-box" container  justifyContent={"flex-start"} size={11} >
+            <Grid  className="add-addons-display-container-box" container  justifyContent={"flex-start"} size={11}  >
                <Typography  className="add-addons-display-container-heading" >Saved Add-Ons</Typography> 
               </Grid>
            
-            <Grid   size={11} className="add-addons-display-container-details" alignItems={"center"}>
+            <Grid   size={11} className="add-addons-display-container-details" alignItems={"center"} >
                {(watch("savedAddOns")?.length > 0 && watch("savedAddOns")?.[0]?.addonId) ? (
                watch("savedAddOns")?.map(
                (field, index) =>
@@ -824,13 +1017,20 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
             <CustomButton className="add-addons-addon-btn"   label="Create Add Ons"  onClick={handleCreateAddons} ></CustomButton>
             </Grid>
 
-        <CustomDrawer
-        children={<CreateAddon submitHandler={onaddOnSubmitHandler} closeDrawer={handleDrawerClose} />}
-        open={addOnView}
-        type="right"
-        onClose={()=>handleDrawerClose}
-
-        />
+        
+        <Grid>
+          <CustomDrawer
+            children={
+              <DrawerCreateSponosor onSuccess={() => { handleSponsorSearch("") }}
+                closeDrawer={() =>
+                  setNewSponsorDrawerOpen(false)
+                }
+              />
+            }
+            open={newSponsorDrawerOpen}
+            type="right"
+          />
+        </Grid>
       </Box>
     );
   }

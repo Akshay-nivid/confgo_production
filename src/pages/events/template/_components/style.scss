@@ -5,7 +5,7 @@
         background-color: $clr_white !important;
         border-radius: .5rem;
         max-width: 60rem;
-        min-width: 40rem;
+        width: 100%;
 
 
         &-header-container {
@@ -21,7 +21,7 @@
             }
 
             &-close {
-                margin-top: .2rem;
+                 margin-bottom: 0.4rem;
             }
         }
 
@@ -66,6 +66,13 @@
                     height: 4.17rem;
                     width: 4.17rem;
                 }
+                &-moderators{
+                    height: 4.17rem;
+                    width: 4.17rem;
+                    border: 0.3rem solid $clr_blue_violet;
+                  
+                
+            }
             }
         }
 
@@ -125,12 +132,12 @@
 
 }
 .speaker-details-modal {
-    height: 100%;
+    max-height: 90vh;
     overflow-y: auto !important; 
     display: flex;
     flex-direction: column;
     &-content{
-        flex-grow: 1; // Ensure the content wrapper expands properly
+        max-height: 100%;
         overflow-y: auto; // Enable scrolling for the content area
         max-width: 80rem;
         min-width: 60rem;

@@ -18,6 +18,7 @@ const TimerCounterComp: React.FC<TimerCounterProps> = React.memo(({ targetDate, 
 
       if (difference <= 0) {
         // setTimeLeft("Time's up!");
+        onTimeUpdate("0", "0", "0", "0");
       } else {
         const days = Math.floor(difference / (1000 * 3600 * 24));
         const hours = Math.floor((difference % (1000 * 3600 * 24)) / (1000 * 3600));

@@ -94,6 +94,9 @@
             }
 
             .contact-form {
+                .error-message{
+                    color: $clr_red;
+                }
                 .contact-form-recaptcha {
                     margin-right: auto;
                 }

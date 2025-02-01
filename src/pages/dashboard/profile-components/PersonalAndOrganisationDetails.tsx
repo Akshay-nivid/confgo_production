@@ -513,7 +513,7 @@ return (
       <Box className="modal-upload-container">
         <FileUpload
           acceptedFiles={["image/jpeg", "image/png"]}
-          resolution={{ width: 200, height: 200 }}
+          resolution={{ width: 200 }}
           onSubmit={handleImageUpload}
         />
       </Box>
@@ -525,7 +525,7 @@ return (
       <Box className="modal-upload-container">
         <FileUpload
           acceptedFiles={["image/jpeg", "image/png"]}
-          resolution={{ width: 200, height: 200 }}
+          resolution={{ width: 200 }}
           onSubmit={handleOrganisationImageUpload}
         />
       </Box>

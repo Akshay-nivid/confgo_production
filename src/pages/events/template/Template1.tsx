@@ -32,6 +32,7 @@ import routes from '@/router/routes';
 import parse from 'html-react-parser';
 import TimerCounterComp from './TemplateTimer/TimerCounterComp';
 import ProgramDetailsModal from './_components/ProgramDetailsModal';
+import SponsorShip from './sponsorShipForm/SponsorShip';
 
 
 
@@ -41,7 +42,6 @@ type TemplateViewProps = {
 
 
 const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
-
     const aboutRef = useRef(null);
     const contributorsRef = useRef(null);
     const programRef = useRef(null);
@@ -170,13 +170,13 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
   function handleLinkClick(value: 'About' | 'Program' | 'Contributors' | 'Location') {
 
 
-    if (location?.pathname?.startsWith('/event-link')) {
+    if (location?.pathname?.startsWith('/event')) {
       scrollToTargetLink(value)
 
     } else {
       setDataById('currentLink', { value: value });
 
-      const targetRoute = `/event-link/${slugName}`
+      const targetRoute = `/event/${slugName}`
 
       navigate(targetRoute);
 
@@ -574,6 +574,11 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                 onScrollToTier={() => handleScrollTo(tierRef)}
             />
         }
+        {/* Sponsor */}
+        <Grid  minHeight={"max-content"} size={12} container>
+         <SponsorShip eventId={data?.id}/>
+        </Grid>
+
         {/* Footer section */}
         <FooterSection classPrefix={`${classPrefix}-footer`} data={data} />
     </Grid>

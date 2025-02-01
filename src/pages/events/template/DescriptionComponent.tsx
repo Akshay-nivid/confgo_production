@@ -7,16 +7,18 @@
  */
 import React from 'react';
 import { Typography } from '@mui/material';
+import { truncateString } from '@/Utils/CommonBaseClass';
 
 interface DescriptionComponentProps {
   description: string;
   classPrefix: string;
+  temp?:string;
 }
 
-const DescriptionComponent: React.FC<DescriptionComponentProps> = ({ description, classPrefix }) => (
+const DescriptionComponent: React.FC<DescriptionComponentProps> = ({ description, classPrefix,temp}) => (
   <Typography className={`${classPrefix}`}>
-    {description}
-  </Typography>
+  {temp ? truncateString(description, 90) : description}
+</Typography>
 );
 
 export default DescriptionComponent;

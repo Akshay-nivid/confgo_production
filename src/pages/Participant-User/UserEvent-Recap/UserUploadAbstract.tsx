@@ -208,9 +208,10 @@ const UserUploadAbstract = ({ eventData }: any) => {
                             <FileUpload
                                 acceptedFiles={['application/pdf']}
                                 trimClientSide={false}
-                                resolution={{ width: 200, height: 200 }}
+                                resolution={{ width: 200 }}
                                 onSubmit={handleImageUpload}
                                 disabled={disabled}
+                                maxSize={10}
                             />
                         )}
                     </Box>
@@ -324,7 +325,7 @@ const StatusAvatar = ({ status }: { status: 'uploaded' | 'reviewing' | 'approved
         },
     };
 
-    return <Avatar className={clsx('status-avatar', status)}>{statusList[status].icon}</Avatar>;
+    return <Avatar className={clsx('status-avatar', status)}>{statusList[status]?.icon}</Avatar>;
 };
 
 /**

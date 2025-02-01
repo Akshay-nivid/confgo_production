@@ -1,8 +1,8 @@
-import { Button, Tab, Tabs, Typography, Box } from '@mui/material';
+import { Button, Tab, Tabs, Typography, Box, Avatar, Divider } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useEffect, useState } from 'react';
 import { Logger } from '@/Utils/Logger';
-import { formatDateTimeRange, toTitleCase } from '@/Utils/CommonBaseClass';
+import { formatDateTimeRange, toTitleCase, truncateString } from '@/Utils/CommonBaseClass';
 import React from 'react';
 import useStore from '@/Libs/store';
 import StatusComponent from '@/components/Status/StatusComponent';
@@ -14,6 +14,8 @@ import { SkeletonList } from '@/components/Skeleton';
 import UserUploadAbstract from './UserUploadAbstract';
 import { Mapper } from '@/components/Mapper/Mapper';
 import DateRangeIcon from "@mui/icons-material/DateRange";
+import config from "../../../../config.json";
+import { AddOnIcon, ProgramIcon } from '@/assets/svg';
 
 /**
  *
@@ -273,6 +275,10 @@ const EventRecap: React.FC = React.memo(() => {
       ...item,
       startTime: item?.event?.startTime || null,
     })),
+    ...Program?.map((item:any) => ({
+      ...item,
+      startTime: item?.eventAddon?.startTime || null,
+    })),
   ].sort((a, b) => moment(a.startTime).diff(moment(b.startTime)));
   
  const groupedData = combinedItems.reduce((acc, program) => {
@@ -409,10 +415,185 @@ export default EventRecap;
  */
 
 const RegisteredProgramCard = ({ item, helperData }: { item: any; helperData?: any }) => {
+
+  const baseUrl = config.api.url;
+
   return (
     <>
-    {item?.event && <Grid size={{ lg: 4, sm: 12 }} rowSpacing={1} container className="event-recap-second-grid-content">
-    <Grid container size={12} className="daate_time " columnSpacing={8}>
+      {item?.event ? (
+       
+          <Grid
+            container
+            spacing={0}
+            size={{
+              xs: 12,
+              sm: 4,
+              md: 3,
+            }}
+            flexDirection={"row"}
+          >
+            <Grid size={12} container className="event-sessions-session-card">
+            <Grid container size={12} className="card-header">
+            <Grid container size={12} className="card-header" justifyContent="space-between" alignItems="center">
+            <Grid container size={10} gap={0} alignItems="center">
+            {item?.eventAddon?.length> 0 ? (
+       <>
+      <AddOnIcon className="svg-icon"/>
+      <Grid container ><Typography className="card-header-tag">Add-On</Typography></Grid>
+      </>
+      ):(
+      <>
+      <ProgramIcon  className="svg-icon"/>
+      <Grid container > <Typography className="card-header-tag">Programs</Typography></Grid>
+      </>
+       )}
+       </Grid>
+
+        <Grid size={2} container justifyContent="flex-end">
+            <Typography className="event-recap-second-grid-content-status-text" justifySelf={'flex-end'}>
+            <StatusComponent value={helperData?.length == 0 ? '7' : '8'} />
+          </Typography>
+          </Grid>
+              </Grid>
+
+
+            </Grid>
+            <Grid className="card-content"    size={12} >
+
+            <Grid container size={12}>
+        <Typography className="card-content-heading">
+        {truncateString(item.event?.name ? toTitleCase(item.event?.name) : '',25)}
+        </Typography>
+       </Grid>
+       <Grid container size={12}>
+        <Typography className="card-content-description">
+          {item.event?.eventClass==="OFFLINE"?(
+          <>
+          Location:{item?.event?.venue?.city + ',' + item?.event?.venue?.country}
+          </>
+          ):(<>Mode:{item.event?.eventClass}</>)}
+              </Typography>
+       </Grid>
+
+       <Grid className="card-content-devider">
+        <Divider/>
+       </Grid>
+       <Grid className="card-content-heading" >
+       {item?.event?.eventSpeakers?.length > 0 && (
+
+       <Grid className="card-content-heading"  gap={1}minHeight="5rem" display={"flex"}direction={"column"}>
+       {item?.event?.eventSpeakers?.map((speaker: any, index: number) => (
+                    <Grid key={index} display="flex" alignItems="center" gap={1}>
+                        {speaker?.user?.assetId ? (
+                      <Avatar
+                         src={`${baseUrl}asset/${speaker?.user?.assetId}`}
+          
+                            alt={`${speaker.name || "User Profile"}`}
+                              variant="circular"
+                        />
+                        ) : (
+                     <Avatar className="session-speaker-avatar">
+                    {`${speaker?.user?.firstName[0]}${speaker?.user?.lastName[0]}`}
+                    </Avatar>
+                   )}
+                    </Grid>
+                        ))}
+        </Grid>
+       )}
+        <Grid className="card-content-timeBox"  >
+         <Typography className="time" >
+         {formatDateTimeRange({
+              date: item.event?.startTime,
+              format: 'h:mm A',
+            })}-
+            {formatDateTimeRange({ date: item?.event?.endTime, format: 'h:mm A' })}
+        </Typography>
+        </Grid>
+        </Grid>
+        </Grid>
+            </Grid>
+          </Grid>
+      ):item.eventAddon?(<Grid
+        container
+        spacing={0}
+        size={{
+          xs: 12,
+          sm: 4,
+          md: 3,
+        }}
+        flexDirection={"row"}
+      >
+        <Grid size={12} container className="event-sessions-session-card">
+          {/* Card Header */}
+          <Grid container size={12} className="card-header" justifyContent="space-between" alignItems="center">
+            {/* Icon and Tag */}
+            <Grid container size={10} gap={0} alignItems="center">
+              <AddOnIcon className="svg-icon" />
+              <Grid container>
+                <Typography className="card-header-tag">Add-On</Typography>
+              </Grid>
+            </Grid>
+
+            {/* Status Component */}
+            <Grid size={2} container justifyContent="flex-end">
+              <Typography className="event-recap-second-grid-content-status-text" justifySelf={'flex-end'}>
+                <StatusComponent value={helperData?.length == 0 ? '7' : '8'} />
+              </Typography>
+            </Grid>
+          </Grid>
+
+          {/* Card Content */}
+          <Grid className="card-content" size={12}>
+            {/* Name */}
+            <Grid container size={12}>
+              <Typography className="card-content-heading">
+                {truncateString(item.eventAddon?.addon?.name ? toTitleCase(item.eventAddon?.addon?.name) : '', 25)}
+              </Typography>
+            </Grid>
+
+            {/* Description */}
+            <Grid container size={12}>
+              <Typography className="card-content-description">
+              {truncateString(item.eventAddon?.addon?.description ? toTitleCase(item.eventAddon?.addon?.description) : '', 25)}
+              </Typography>
+            </Grid>
+
+            {/* Divider */}
+            <Grid className="card-content-devider" size={12}>
+              <Divider />
+            </Grid>
+            <Grid className="card-content-heading" >
+                <Typography className="card-content-description" >
+                  {`Items: ${item?.eventAddonProperty?.name}`}-
+                  {`Price: ${item?.eventAddonProperty?.amount}`}
+                </Typography>
+            </Grid>
+            {/* Time */}
+            <Grid className="card-content-timeBox">
+              <Typography className="time">
+                {formatDateTimeRange({
+                  date: item.eventAddon?.startTime,
+                  format: 'h:mm A',
+                })}
+                -
+                {formatDateTimeRange({
+                  date: item.eventAddon?.endTime,
+                  format: 'h:mm A',
+                })}
+              </Typography>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Grid>
+    ) : null}
+    </>
+  );
+  
+};
+
+
+{/* 
+<Grid container size={12} className="daate_time " columnSpacing={8}>
         <Grid size={6} className="event-recap-second-grid-content-time">
           <Typography className="event-recap-second-grid-content-time-text">
             {formatDateTimeRange({
@@ -440,8 +621,35 @@ const RegisteredProgramCard = ({ item, helperData }: { item: any; helperData?: a
           ):(<>Mode:{item.event?.eventClass}</>)}
         </Typography>
       </Grid>
-    </Grid>
-    }
-   </>
-  );
-};
+      {item?.event?.eventSpeakers?.length > 0 &&
+      <Grid className="card-content-heading" minHeight={"5rem"}>
+           <Grid>
+                   <Typography className="event-recap-second-grid-content-location-text">
+                   Speakers  
+                   </Typography>
+            </Grid>
+                <Grid className="card-content-heading"  gap={1}minHeight="5rem" display={"flex"}direction={"column"} >
+                   {item?.event?.eventSpeakers?.map((speaker: any, index: number) => (
+                    <Grid key={index} display="flex" alignItems="center" gap={1}>
+                        {speaker?.user?.assetId ? (
+                      <Avatar
+                         src={`${baseUrl}asset/${speaker?.user?.assetId}`}
+          
+
+                            alt={`${speaker.name || "User Profile"}`}
+                              variant="circular"
+                        />
+                        ) : (
+                          //className="main-user-profile main-user-profile-text"
+                     <Avatar className="session-speaker-avatar">
+                    {`${speaker?.user?.firstName[0]}${speaker?.user?.lastName[0]}`}
+                    </Avatar>
+                   )}
+                    <Typography>
+                     { speaker?.user?.firstName}{ speaker?.user?.lastName}
+                    </Typography>
+                    </Grid>
+                        ))}
+                    </Grid>
+                    </Grid>}
+    </Grid> */}

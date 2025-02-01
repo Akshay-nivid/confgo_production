@@ -115,8 +115,8 @@ const NewSpeakerDrawer :React.FC<NewSpeakerDrawerProps> = ({ onSuccess, closeDra
                 userDescription: data.userDescription
             },
             id: 'create-admin-user',
-            successCB: (context: any) => { 
-              setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: context?.message });
+            successCB: () => { 
+              setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "New Speaker created" });
               onSuccess && onSuccess();
               closeDrawer();              
             },
@@ -263,7 +263,7 @@ const NewSpeakerDrawer :React.FC<NewSpeakerDrawerProps> = ({ onSuccess, closeDra
                             <Grid container direction={'row'} alignItems={'center'} justifyContent={"center"} alignContent={"center"}>
                                 {selectedFile && (
                                     <Grid className="create-event-btn-container-img-box" >
-                                        <img
+                                        <img className="create-event-btn-container-img-box-image"
                                             src={`${baseUrl}asset/${selectedFile.id}`}
                                             alt={selectedFile.name}
                                         />

@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Skeleton, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import React, { useEffect, useState } from "react";
 import Tab from '@mui/material/Tab';
@@ -17,7 +17,7 @@ import { processAPIResponse, truncateString } from "@/Utils/CommonBaseClass";
 import FormBuilder from "@/components/FormBuilder";
 import StatusComponent from "@/components/Status/StatusComponent";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import useStore from "@/Libs/store";
+import useStore, { clearDataById } from "@/Libs/store";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { useForm } from "react-hook-form";
 import PublishIcon from "@/assets/svg/publish.svg";
@@ -32,6 +32,7 @@ import { PublishTickIcon, WarningIcon } from "@/assets/svg";
 import AbstractListCard from "./AbstractListCard";
 import TeamAndRole from "./TeamAndRole";
 import Tooltip from '@mui/material/Tooltip';
+import { EventDetailSkeleton } from "@/components/Skeleton";
 
 
 
@@ -104,8 +105,9 @@ const ViewEventDetail = () => {
   const [link, setLink] = useState('');
   const [errorMessage, setErrorMessage] = useState('')
   const [openModal, setOpenModal] = useState(false);
-  const [datass, setdatass] = useState()
-
+  const [datass, setdatass] = useState();
+  const [loading, setLoading] = useState(true);
+  const location = useLocation(); // Get the current location (URL) to detect changes
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   /**
@@ -155,6 +157,11 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
     eventPartcipantList();
   }, [])
 
+
+    // Clear uniqueHalls when the URL changes
+    useEffect(() => {
+      clearDataById("uniqueHalls"); // Clear uniqueHalls in global store when the URL changes
+    }, [location]);
   /**
    * Method handles the api call for generating slug
    */
@@ -200,21 +207,23 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
    */
   const getEventDetails = async () => {
     try {
+      setLoading(true);
       const response = await apiClient.get(`event/${id}`);
       const { status, data } =  processAPIResponse(response, 'eventData');
       if (status) {
         setEventFullData(data);
         setDataById("TeamAndRoleData",{data});
         if (data.published) {
-          setValue('event', data.slugName ? `event-link/${data.slugName}` : '');
+          setValue('event', data.slugName ? `event/${data.slugName}` : '');
           setLink(data);
         } else {
           data.slugName ? setValue('eventLink', data.slugName) : handleLinkGenerationApiCall();
         }
-        
+        setLoading(false)
       }
     } catch (error) {
       Logger.error('ViewEventDetail', error);
+      setLoading(false)
     }
   }
 
@@ -298,7 +307,7 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
   const handleEventCopy = () => {
     const textToCopy = watch("event");
     if (textToCopy) {
-      const subDomain = config['event-link']['sub-domain'];
+      const subDomain = config['event']['sub-domain'];
       navigator.clipboard.writeText(`${subDomain}${textToCopy}`)
         .then(() => {
           setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: 'Text copied to clipboard' });
@@ -313,7 +322,7 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
    * Method handles the click event for the copy to clipboard icon
    */
   const handleToggleSuffixIcon = () => {
-    const url = `/event-link/${eventFullData?.slugName}`;
+    const url = `/event/${eventFullData?.slugName}`;
     window.open(url, '_blank');
   }
 
@@ -329,11 +338,14 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
       <Grid size={{ xs: 12, sm: 12 }} flexDirection={"column"} >
         <Grid className="event-detail-header" size={{ xs: 12, sm: 12 }} >
           <Grid container justifyContent={'space-between'} >
+          {loading ? (
+            <Skeleton animation="wave" width={"30%"}/>
+          ) : (
             <Grid container>
               <Grid >
               <Tooltip classes={{ tooltip: 'custom-tooltip'}} title={eventFullData?.name || 'No name available'} placement="top">
               <Typography variant="h4" className="event-detail-header-title">
-               {truncateString(eventFullData?.name, 20)}
+               {truncateString(eventFullData?.name, 29, '')}
               </Typography>
               </Tooltip>
               </Grid>
@@ -341,7 +353,7 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
                 {eventFullData?.statusId &&
                   <Grid sx={{ml:2}}><StatusComponent value={eventFullData?.statusId ==1 && eventFullData?.published ? "6" : eventFullData?.statusId.toString()} /></Grid>}
               </Grid>
-            </Grid>
+            </Grid>)}
             <Grid container spacing={2}>
               <Grid>
               {eventFullData?.published? <Grid container size={{ xs: 12, sm: 12 }} direction={'column'}>
@@ -369,7 +381,7 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
                                     control={control}
                                     name="eventLabel"
                                     type="text"
-                                    defaultValue={`event-link/`}
+                                    defaultValue={`event/`}
                                     readOnly={true}
                                     
                                 />
@@ -411,9 +423,15 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
             </TabList>
           </Grid>
           <TabPanel value="1">
-            <EventInfoCard eventData={eventFullData} onSubmitHandler={handleSubmitHandler}/>
-            { eventFullData?.eventClass !="ONLINE" &&
-            <LocationCard eventData={eventFullData} published={eventFullData?.published}  onSubmitHandler={handleSubmitHandler}/>
+          { loading ? (
+              <EventDetailSkeleton width={600} />
+            ) : (
+              <>
+                <EventInfoCard eventData={eventFullData} onSubmitHandler={handleSubmitHandler} />
+                {eventFullData?.eventClass != "ONLINE" &&
+                  <LocationCard eventData={eventFullData} published={eventFullData?.published} onSubmitHandler={handleSubmitHandler} />
+                }</>
+            )
           }
           </TabPanel>
           <TabPanel value="2">
