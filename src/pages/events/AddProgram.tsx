@@ -26,6 +26,7 @@ import SponsorForm from "./Sponsor/SponsorForm";
 import DrawerCreateSponosor from "./Sponsor/DrawerCreateSponsor";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import CloseIcon from '@mui/icons-material/Close';
+import { validateMaxLength } from "@/Utils/Validation";
 type Speaker = {
   speakerId?: string;
   speakerFullName?: string;
@@ -1029,6 +1030,10 @@ const handleAddProgram = () => {
                                     rules={{
                                       required: true,
                                         
+                                      maxLength: validateMaxLength({
+                                        maxLength: 20,
+                                        fieldName: 'Hall Name',
+                                      }),
                                     }}
                                   />
                                   </Grid>
