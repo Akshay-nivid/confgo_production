@@ -21,7 +21,7 @@
             }
 
             &-close {
-                margin-top: .2rem;
+                 margin-bottom: 0.4rem;
             }
         }
 
@@ -66,6 +66,13 @@
                     height: 4.17rem;
                     width: 4.17rem;
                 }
+                &-moderators{
+                    height: 4.17rem;
+                    width: 4.17rem;
+                    border: 0.3rem solid $clr_blue_violet;
+                  
+                
+            }
             }
         }
 

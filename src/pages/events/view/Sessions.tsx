@@ -26,6 +26,7 @@ interface Program {
 interface Event {
   startTime: Date;
   eventSpeakers: any; 
+  eventSponsors: any;
 };
 
 /**
@@ -48,6 +49,14 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
   useEffect(() => {
     if (eventData?.programs) {
       setPrograms(eventData.programs);
+      const uniqueHalls = Array.from(
+        new Set(
+          eventData.programs
+            .map((program: any) => program?.hall)
+            .filter((hall: any) => hall) // Remove null/undefined values
+        )
+      );
+      setDataById('uniqueHalls',uniqueHalls)
     }
   }, [eventData?.programs]);
   /**
@@ -292,6 +301,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
     return acc;
   }, {});
 
+
 /**
  * transformed data so that session card support
  */
@@ -308,15 +318,24 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
               speakerLastName:speaker?.user?.lastName
             }))
           : null;
+          const sponsor = event?.eventSponsors
+          ? event?.eventSponsors.map((sponsor: any) => ({
+              sponsorAssetId: sponsor?.sponsor?.logoAssetId,
+              sponsorFullName: sponsor?.sponsor?.name,
+              sponsorId: sponsor?.sponsor?.id,
+              sponsorReservedSeats:sponsor?.reservedSeats,
+            }))
+            : null;
+          
         return {
           ...event,
           speakers,
+          sponsor,
           startDate: event?.startTime,
         };
       }),
     ])
   );
-
   return (
     <Grid container spacing={3} className="event-sessions-sessions-container">
       <Grid
@@ -348,8 +367,8 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
       {groupedData.invalid && (
         <Grid size={{ xs: 12 }} key="invalid">
           <Grid container spacing={2} className="event-sessions-session-list">
-            {groupedData.invalid.map(
-              (item:  { addon: { name: any } }, index: Key | null | undefined) => (
+            {transformed?.invalid.map(
+              (item:  any, index: Key | null | undefined) => (
                 <SessionCard
                   key={index}
                   item={item}

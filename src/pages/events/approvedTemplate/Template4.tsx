@@ -4,7 +4,7 @@ import TopMenuHeader, { LinkData } from './TopMenuHeader';
 import AuthFormHandler from './AuthFormHandler';
 import TEventDetails from './TEventDetails';
 import TimerCounterComp from '../template/TemplateTimer/TimerCounterComp';
-import { getLocalTimeDate, groupByDate, truncateString } from '@/Utils/CommonBaseClass';
+import { getLocalTimeDate, groupByDate, toTitleCase, truncateString } from '@/Utils/CommonBaseClass';
 import { Avatar, Box, Divider, Typography } from '@mui/material';
 import LocationSection from '../template/LocationSection';
 import FooterSection from '../template/FooterSection';
@@ -19,12 +19,10 @@ import { ProgramDetailsModal } from '../template/_components';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import SpeakerDetailsModal from '../template/_components/SpeakerDetailsModal';
 import ViewMoreLink from "../../../assets/svg/view-more.svg";
-import { setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store';
+import useStore, { setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store';
 import routes from '@/router/routes';
 import { useNavigate } from 'react-router-dom';
 import SponsorShip from '../template/sponsorShipForm/SponsorShip';
-import { Badge } from "@mui/material";
-import ModeratorIcon from "../../../assets/svg/moderator.svg";
 import TempHall from "../../../assets/svg/temp-hall.svg";
 import { personPlaceholder } from '@/assets/png';
 
@@ -36,7 +34,7 @@ type TemplateViewProps = {
 /**
  * Template 
  */
-const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
+const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
 
     const classPrefix = 'event-template-template4';
     const aboutRef = useRef(null);
@@ -366,15 +364,41 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
 
     const groupedSponsors = groupSponsorsByCategory(sponsors)
 
+    /**
+    * Button loder
+    */
+    const isLoading = useStore(state => state.compData?.['templateSpeakerDetails']?.['eventSpeaker/list']?.loading) || false
+
+    /**
+     * handle program details modal 
+     * 
+     */
+
+    // function handleCloseModal() {
+    //     setNonPersistedDataById("isProgramDetailsModelOpen", { value: false })
+    //     setNonPersistedDataById('programDetails', { value: null })
+    // }
+
+
+    /**
+    * Checks if the given `subItem` array contains at least one moderator.
+    *
+    * @param {any[]} subItem - The list of speakers to check.
+    * @returns {boolean} - Returns `true` if at least one speaker is a moderator, otherwise `false`.
+    */
+
+    const hasModerator = (subItem: any): boolean => {
+        return subItem?.some((speaker: any) => speaker?.speakerBios?.[0]?.isModerator) ?? false;
+    };
 
     return (
-        <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-bg`}>
+        <Grid  container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-bg`}  >
             <Grid container size={{ xs: 12, sm: 12 }} className={classPrefix}>
                 <TopMenuHeader links={headerLinks} classPrefix={`${classPrefix}-top-menu`} data={data} onScrollToProgram={() => handleScrollTo(programRef)} onScrollToAbout={() => handleScrollTo(aboutRef)} onScrollToContributors={() => handleScrollTo(contributorsRef)} onScrollToLocation={() => handleScrollTo(LocationRef)} onScrollToBeSponsor={() => handleScrollTo(beSponsorRef)} onScrollToSponsor={() => handleScrollTo(sponsorRef)} />
                 <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-header`} />
                 <AuthFormHandler className={`${classPrefix}-headerBottom`} data={data} onScrollToTier={() => handleScrollTo(tierRef)} />
                 <TEventDetails className={`${classPrefix}-eventDetails`} data={data} />
-                <Grid className="template4-countdown" container justifyContent={"center"} >
+                <Grid className="template4-countdown" container justifyContent={"center"}>
                     <Grid className="template4-countdown-container" size={12} justifyContent={"center"} >
                         <TimerCounterComp
                             targetDate={getLocalTimeDate(data.startTime, 'YYYY-MM-DD HH:mm:ss')}
@@ -418,13 +442,13 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                         {data?.eventSpeakers?.length > 0 && getUniqueSpeakers(data?.eventSpeakers)?.map((item: any) => {
                             return <Grid alignSelf={'stretch'} onClick={() => handleSpeakerCardClick(item)} size={{ xs: 12, sm: 3 }} container direction={'row'} className={`${classPrefix}-event-contributors-item-container `} spacing={2}>
                                 <Grid size={{ xs: 12, sm: 12 }} container direction={'column'} className={`${classPrefix}-event-contributors-item-container-speaker-card `}>
-                                    <Grid overflow={'hidden'} className={`${classPrefix}-event-contributors-item-container-image`}>
+                                    <Grid overflow={'hidden'} className={`${classPrefix}-event-contributors-item-container-images`}>
                                         {item?.user?.assetId ? (<img
-                                            className='w-full aspect-square max-h-[16.7rem]'
+                                            // className='w-full aspect-square max-h-[16.7rem]'
                                             src={`${baseUrl}asset/${item?.user?.assetId}`}
                                             alt={item.name}
                                         />) : (
-                                            <img alt={item.name} src={personPlaceholder} className={` w-full aspect-square max-h-[16.7rem]`} />
+                                            <img alt={item.name} src={personPlaceholder} className={`  aspect-square max-h-[18.2rem]`} />
                                         )}
 
                                     </Grid>
@@ -432,6 +456,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                         <Grid className={`${classPrefix}-event-contributors-item-name`}>{`${item.user?.firstName} ${item.user?.lastName}`}</Grid>
                                         {item.user?.designation && <Grid className={`${classPrefix}-event-contributors-item-designation`} title={item.user?.designation}>{truncateString(item.user?.designation, 30)}</Grid>}
                                         <Grid className={`${classPrefix}-event-contributors-item-view-more`} ><CustomButton
+                                            isLoading={isLoading}
                                             label={'View more'}
                                             className={`${classPrefix}-event-contributors-item-view-more-button`}
                                             onClick={handleSpeakerCardClick}
@@ -565,19 +590,29 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                 className={`${classPrefix}-program-content-item ${item?.type === 'program' ? `${classPrefix}-program-content-item-program` : `${classPrefix}-program-content-item-addon`}`}
                             >
                                 <Grid container alignItems="center" size={12} >
-                                    <Grid size={{ xs: 6, sm: 4, lg: 2.5 }} container direction="row" alignItems="center" justifyContent="start" className={`${classPrefix}-program-content-time`} >
-                                        <Grid className={`${classPrefix}-program-content-time${item?.type === 'program' ? "-divider-gray" : "-divider-black"}`} size={{ xs: 3, sm: 2, lg: 3 }} container justifyContent={"center"} display={"block"}>
+                                    <Grid size={{ xs: 6, sm: 4, lg: 3 }} container direction="row" alignItems="center" justifyContent="start" className={`${classPrefix}-program-content-time`} >
+                                         <Grid  className={`${classPrefix}-program-content-time${item?.type === 'program' ? "-divider-gray" : "-divider-black"}`} size={{ xs: 3, sm: 2, lg: 3 }} container justifyContent={"center"} display={"block"}>
                                             <Typography textAlign={"center"} className={`${classPrefix}-program-content-time-day`}>{getLocalTimeDate(item.startTime, 'ddd')}</Typography>
                                             <Typography textAlign={"center"} className={`${classPrefix}-program-content-time-num`}>{getLocalTimeDate(item.startTime, 'DD')}</Typography>
-                                        </Grid>
-                                        <Grid >
-                                            <Grid container display={"flex"} alignItems={"center"} columnGap={1} rowGap={2} className={`${classPrefix}-program-content-time-icon`}>
-                                                {item?.type === 'program' ? <TemplateGrayClockIcon /> : <TemplateBlackClockIcon />}
-                                                <TimeComponent
+                                            
+                                            {moment(item?.startTime).format('YYYY-MM-DD') !== moment(item?.endTime).format('YYYY-MM-DD') && (
+                                               
+                                               <TimeComponent
+                                                    month={true}
                                                     startTime={item?.startTime}
                                                     endTime={item?.endTime}
                                                     classPrefix={`${classPrefix}-program-content-time-value`}
                                                 />
+                                            )}
+                                         </Grid>
+                                        <Grid >
+                                            <Grid  container display={"flex"} alignItems={"center"} columnGap={1} rowGap={2} className={`${classPrefix}-program-content-time-icon`}>
+                                                {item?.type === 'program' ? <TemplateGrayClockIcon /> : <TemplateBlackClockIcon />}
+                                    
+                                                <Typography  className={`${classPrefix}-program-content-time-value`}>
+                                                    {moment(item?.startTime).format('hh:mm A')} - {moment(item?.endTime).format('hh:mm A')}
+                                                </Typography>
+
                                             </Grid>
                                             <Grid container display={"flex"} alignItems={"center"} columnGap={1} className={`${classPrefix}-program-content-time-icon`}>
                                                 {item?.type === 'program' ? <TemplatePriceGrayIcon /> : <TemplatePriceBlackIcon />}
@@ -643,27 +678,53 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                         </Grid>
                                                     )}
                                                     {subItem?.eventSpeakers && subItem?.eventSpeakers?.length !== 0 &&
-
+                                                        
                                                         <Grid size={12} container className="mt-2" spacing={1}>
                                                             <Grid size={12} container className={`${classPrefix}-program-content-sponsor-heading`}>
-                                                                <Typography>Speakers</Typography>
-                                                            </Grid>
-                                                            {subItem?.eventSpeakers?.map((speaker: any) => {
-                                                                const isModerator = speaker?.speakerBios?.[0]?.isModerator;
 
-                                                                return (
-                                                                    <Badge
-                                                                        key={speaker?.id}
-                                                                        overlap="circular"
-                                                                        badgeContent={isModerator ? <ModeratorIcon width={'17'} height={"17"} /> : null}
-                                                                    >
+                                                                {hasModerator(subItem?.eventSpeakers) &&
+                                                                    (
+                                                                        <><Typography >Moderator</Typography>
+                                                                            <Typography >|</Typography>
+                                                                        </>
+                                                                    )
+                                                                }
+
+                                                                <Typography >Speakers</Typography>
+
+                                                            </Grid>
+
+                                                            {subItem?.eventSpeakers
+                                                                ?.slice() 
+                                                                ?.sort((a: any, b: any) => {
+                                                                    const isModeratorA = a?.speakerBios?.[0]?.isModerator ? -1 : 1;
+                                                                    const isModeratorB = b?.speakerBios?.[0]?.isModerator ? -1 : 1;
+                                                                    return isModeratorA - isModeratorB; // Sort moderators first
+                                                                })
+                                                                ?.map((speaker: any) => {
+                                                                    const isModerator = speaker?.speakerBios?.[0]?.isModerator;
+                                                                    
+                                                                    return !isModerator ? (
+
                                                                         <Avatar
+                                                                            className={`${classPrefix}-program-content-sponsor-heading-avatar`}
                                                                             alt={speaker?.user?.firstName}
                                                                             src={speaker?.user?.assetId ? `${baseUrl}asset/${speaker?.user?.assetId}` : ""}
                                                                         />
-                                                                    </Badge>
-                                                                );
-                                                            })}
+
+                                                                    ) : (
+                                                                        <Grid container size={1} >
+
+                                                                            <Avatar
+                                                                                className={`${classPrefix}-program-content-sponsor-heading-moderator`}
+                                                                                alt={speaker?.user?.firstName}
+                                                                                src={speaker?.user?.assetId ? `${baseUrl}asset/${speaker?.user?.assetId}` : ""}
+                                                                            />
+
+                                                                        </Grid>
+                                                                    );
+
+                                                                })}
 
 
                                                         </Grid>}
@@ -831,16 +892,16 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                     key === "DIAMOND" ? items?.length > 0 && (
                                         <Box width={'100%'} mb={5}>
                                             <Box width={'100%'}>
-                                                <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key?.toLowerCase()} Sponsors`}</Typography>
+                                                <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`${key && toTitleCase(key)} Sponsors`}</Typography>
 
                                             </Box>
                                             <Box className="flex flex-col gap-y-6 w-full">
                                                 {
                                                     items?.map((item: any) => {
                                                         return (
-                                                            <Box className="max-h-[438px] contain-content " width={'100%'}>
+                                                            <Grid  size={12}>
                                                                 <img className='object-fill rounded-sm' width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
-                                                            </Box>
+                                                            </Grid>
                                                         )
 
                                                     })
@@ -851,7 +912,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                         <Grid size={12} justifyContent={'center'} container mb={5}>
 
                                             <Grid size={12}>
-                                                <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
+                                                <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`${key && toTitleCase(key)} Sponsors`}</Typography>
                                             </Grid>
                                             {
                                                 items?.map((item: any) => {
@@ -866,7 +927,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                     ) : key === "GOLD" ? items?.length > 0 && (
                                         <Grid mb={5} size={12} container justifyContent={'center'}>
                                             <Grid size={12}>
-                                                <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
+                                                <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`${key && toTitleCase(key)} Sponsors`}</Typography>
 
                                             </Grid>
                                             {
@@ -882,7 +943,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                     ) : <>
                                         {items?.length > 0 && <Grid size={12} container justifyContent={'center'}>
                                             <Grid size={12}>
-                                                <Typography textAlign={"center"} className='template4-sponsor-banner-text'>{`Our ${key.toLowerCase()} Sponsors`}</Typography>
+                                                <Typography textAlign={"center"} className='template4-sponsor-banner-text'>{`${key && toTitleCase(key)} Sponsors`}</Typography>
                                             </Grid>
                                             {
                                                 items?.map((item: any) => {

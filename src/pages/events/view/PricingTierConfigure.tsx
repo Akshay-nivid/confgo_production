@@ -14,6 +14,7 @@ import useStore from "@/Libs/store";
 import moment from "moment";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { formatUTCDateTime } from "@/Utils/CommonBaseClass";
 // import { watch } from "fs";
 
 interface Attendee {
@@ -438,12 +439,18 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
           attendeeTypes.map((attendee: any, index: any) => {
             const percentage =
               attendees[index]?.pricingTiers[tier.tierName]?.percentage || ""; // Fetch percentage for the tier and attendee type
+              const startDate = new Date(tier.startDate);
+              startDate.setHours(0, 0, 0, 0); // Set time to 00:00 
+              const formattedStartDate = formatUTCDateTime(startDate.toISOString()) //convert to utc
+              const endDate = new Date(tier.endDate);
+              endDate.setHours(23, 59, 59, 999); // Set time to 23:59
+              const formattedEndDate = formatUTCDateTime(endDate.toISOString());//convert to utc
             return {
               name: tier.tierName,
               percentage: parseFloat(percentage),
               participantTypeId: attendee.id,
-              endDate: tier.endDate || "",
-              startDate: tier.startDate || "",
+              endDate: formattedEndDate,
+              startDate: formattedStartDate,
             };
           })
         ),

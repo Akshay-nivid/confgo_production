@@ -4,7 +4,7 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import { Avatar, Box, IconButton,Typography } from "@mui/material";
+import { Avatar, Box, Chip, IconButton,Modal,Tooltip,Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler, useFieldArray } from "react-hook-form";
@@ -24,8 +24,8 @@ import NewSpeakerDrawer from "./NewSpeakerDrawer";
 import confgo  from "../../../config.json"
 import SponsorForm from "./Sponsor/SponsorForm";
 import DrawerCreateSponosor from "./Sponsor/DrawerCreateSponsor";
-import CustomCheckbox from "@/components/CustomCheckbox/CustomCheckbox";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import CloseIcon from '@mui/icons-material/Close';
 type Speaker = {
   speakerId?: string;
   speakerFullName?: string;
@@ -144,7 +144,7 @@ const typeArray = [
 
 const AddProgram: React.FC<ProgramProps> = React.memo(
   ({ formSubmit, formDraftSubmit, onSubmitHandler, onDraftSubmitHandler, data, onSaveHandler ,eventData}) => {
-    const { handleSubmit, control, watch, setValue,setError,setFocus,resetField } = useForm<FormData>({
+    const { handleSubmit, control, watch, setValue,setError,setFocus,resetField,trigger } = useForm<FormData>({
       defaultValues: {
         programs: [
           {
@@ -185,6 +185,8 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
     const [newSpeakerDrawerOpen, setNewSpeakerDrawerOpen] = useState(false);
     const [newSponsorDrawerOpen,setNewSponsorDrawerOpen]=useState(false)
     const currency=confgo.currency;
+    const [hallModal,setHallModal]=useState(false);
+    const [hallOptions,setHallOptions]=useState<any>([]);
 
     /**
      * Method transforms data to the autocomplete data format
@@ -342,7 +344,6 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
             : itemEndDate.format("YYYY-MM-DD"),
         };
       });
-           
       // Update the form values with the validated and formatted data
       setValue("programs", formattedData);
       setValue("savedPrograms", formattedData);
@@ -518,6 +519,9 @@ const handleAddProgram = () => {
       setEditMode(false);
     };
 
+    // const handleClick=()=>{
+
+    // }
 
     /**
      * Method handles the Update of the program
@@ -533,6 +537,10 @@ const handleAddProgram = () => {
       }
       if(watch(`programs.${index}.hallArray`)){
         setHallOptions(watch(`programs.${index}.hallArray`));
+      }
+      if(watch(`programs.${index}.hallName`)){
+        const hallValue=watch(`programs.${index}.hallName`)
+        setHallOptions([hallValue]);
       }
     };
 
@@ -807,16 +815,21 @@ const handleAddProgram = () => {
 
 
 
- const [hallOptions,setHallOptions]=useState<any>([]);
+
 
     /**
      * Adds a new hallName to the specified program's hallArray array.
      * @param {number} index - The index of the program which the hallArray is to be added.
      */
-    const addHallName = (index: number) => {
+    const addHallName =async (index: number) => {
+      const isValid = await trigger(`programs.${index}.createHallName`); // Validate only this field
+      if (!isValid) {
+        return;
+      }
       const values = watch();
-      const hallName = values.programs[index]?.hallName
+      const hallName = values.programs[index]?.createHallName
       const newHall: any = { hallName };
+
 
       // TypeScript now knows hallArray is an array of { hallName: string }
       const updatedPrograms: any = [...values.programs];
@@ -828,17 +841,73 @@ const handleAddProgram = () => {
       const isDuplicate = updatedPrograms[index]?.hallArray.some(
         (item: any) => item.hallName === newHall.hallName
       );
+      const isDuplicateExistingOptions=hallOptions?.some(
+        (item:any)=>item.hallName===newHall.hallName
+      )
 
-      if (isDuplicate) {
+      if (isDuplicate||isDuplicateExistingOptions) {
         setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "Same hall name" })
         return;
       }
-
-      setHallOptions([...updatedPrograms[index]?.hallArray, newHall]);
+    
+      setHallOptions([...hallOptions, newHall]);
       updatedPrograms[index].hallArray?.push(newHall);
       setValue("programs", updatedPrograms);
-
+      resetField(`programs.${index}.createHallName`);
     };
+    /**
+     * assign moderator created speakers list.
+     * @param {index-program,speakerIndex:speaker list index}.
+     */
+    const assignModerator = (index: any, speakerIndex: any) => {
+      const values = watch();
+      // 
+      // Get current programs list and update the speakers array for the selected program index
+      const updatedPrograms: any = [...values.programs];
+      const speakers: any = updatedPrograms[index]?.speakers;
+
+      // updatedPrograms[index].speakers = processModerators([...speakers,newSpeaker]);
+      const updatedData = updateModeratorStatus(speakers, speakerIndex);
+
+      updatedPrograms[index].speakers = updatedData
+
+      setValue("programs", updatedPrograms);
+    }
+
+
+    /**
+     * updating moderator status 
+     * @param {speakersArray,index}.
+     */
+    function updateModeratorStatus(speakersArray: any, index: any) {
+
+      // Create a new array with the updated moderator status
+      return speakersArray.map((speaker: any, i: any) => {
+        if (i === index) {
+          return {
+            ...speaker,
+            isModerator: true
+          };
+        } else {
+          return {
+            ...speaker,
+            isModerator: false
+          };
+        }
+      });
+    }
+
+// const handleHallNameDelete=(item:any,_hallIndex:any,index:any)=>{
+//   const values = watch();
+//   const updatedPrograms: any = [...values.programs];
+//   const updatedHallName = updatedPrograms[index].hallArray?.filter((hall: any) => {
+//     return hall?.hallName === item?.hallName;
+//   });
+//   updatedPrograms[index].hallArray = updatedHallName;
+//   setHallOptions([ ...hallOptions,updatedHallName]);
+//   // Set the updated programs back to the form
+//   setValue('programs', updatedPrograms);
+// }
 
     return (
       <Grid container className="add-program-container" justifyContent={'center'} spacing={4}>
@@ -903,27 +972,83 @@ const handleAddProgram = () => {
                               }}
                             />
                           </Grid>
-                          <Grid container display={"flex"} size={{ xs: 12, sm: 12 }} >
-                           <Grid size={12}>
+                          <Grid container display={"flex"} size={{ xs: 12, sm: 12 }} alignItems={"center"} >
+                           <Grid size={9}>
                           <CustomAutocomplete
+                          defaultValue={data&&data[index]?.hallName}
                             name={`programs${index}.hallName`}
                             className='auto-complete-input'
                             placeholder='search by hall name'
                             control={control} loading={false}
                             options={hallOptions??[]}
-                            getOptionLabel={(option: any) => option.hallName}
+                            getOptionLabel={(option: any) => option.hallName||option}
                             onSearch={(_query: string) => { }}
                             onChange={(e:any) => { 
                               setValue(`programs.${index}.hallName`, e);
                             }}
-                            onCustomButtonClick={()=>addHallName(index)}
-                            customButtonLabel="Add New Hall"
+                            // onCustomButtonClick={()=>addHallName(index)}
+                            // onCustomButtonClick={()=>{setHallModal(true)}}
+                            // customButtonLabel="Add New Hall"
                             clearable={false}
                             onTextChange={(e:any)=>
                               setValue(`programs.${index}.hallName`, e)
                             }
                         />
                        </Grid>
+                       <Grid size={3}>
+                        <CustomButton
+                        className="add-program-hallcreate"
+                        variant="outlined"
+                        label="Add New Hall"
+                        onClick={()=>{setHallModal(true)}}
+                        />
+
+                       </Grid>
+                            {/* <CustomModal onClose={() => setHallModal(false)} open={hallModal} children={
+                              <Grid  className="h-screen w-screen" justifyContent={"center"} alignContent={"center"} sx={{backgroundColor:"white",height:200,width:400}}>
+                                <Typography>Hello</Typography>
+                              </Grid>
+                            }>
+                            </CustomModal> */}
+                            <Modal  open={hallModal} >
+                              <Box  className="add-program-hall-modal">
+                                <Grid container spacing={2}>
+                                <Box className="add-program-hall-modal-container">
+                                  <Grid container spacing={1} justifyContent={"flex-end"}>
+                                  <IconButton onClick={() => {setHallModal(false)}}><CloseIcon/></IconButton>
+                                  </Grid>
+
+                                 <Typography variant={"h6"}>Create Hall Name</Typography>
+                                 <Grid className="add-program-hall-modal-textField" container size={12}>
+                                  <CustomTextField
+                                    placeholder="Hall Name"
+                                    className="create-event"
+                                    control={control}
+                                    name={`programs.${index}.createHallName`}
+                                    type="text"
+                                    rules={{
+                                      required: true,
+                                        
+                                    }}
+                                  />
+                                  </Grid>
+                                  {watch(`programs.${index}.hallArray`)?.length !== 0&&
+                                  <Grid className="add-program-hall-modal-chipBox">
+                                   {hallOptions.map((item:any, hallIndex:any) => {
+                                    return <Chip key={hallIndex+"hallName"} className="add-program-hall-modal-chipBox-chip" label={item?.hallName} variant="outlined"  />}
+                                  )  } </Grid>}
+                                 
+                                  <Grid container justifyContent={"flex-end"}>
+                                  <CustomButton
+                                  className="add-program-hall-modal-btn"
+                                  label="Save"
+                                  onClick={()=>addHallName(index)}
+                                  />
+                                 </Grid>
+                                </Box>
+                                </Grid>
+                              </Box>
+                            </Modal>
                        </Grid>
                           <Grid size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"} container spacing={2}>
                             <Grid size={{ xs: 12, sm: 6 }}>
@@ -1097,13 +1222,13 @@ const handleAddProgram = () => {
                                   />
                                 </Grid> */}
                                 <Grid container size={12}>
-                                  <CustomCheckbox 
+                                  {/* <CustomCheckbox 
                                    className="add-addons-check-btn"
                                    options={[{ label: 'Moderator', value: "YES" }]}
                                    control={control}
                                    name={`programs.${index}.isModerator`}
-                                  />
-                                  <Box className="registration-fee-list-decription-helper" display={"flex"} justifyContent={"center"} alignItems={"flex-start"} mr={1}><InfoOutlinedIcon style={{ marginRight: 2 }} /><Typography className="registration-fee-list-decription-helper-text">If the 'Moderator' checkbox is selected, assign the user as a moderator. Only the most recently selected user with the 'Moderator' checkbox checked will be added as a moderator.</Typography></Box>
+                                  /> */}
+                                  <Box className="registration-fee-list-decription-helper" display={"flex"} justifyContent={"center"} alignItems={"flex-start"} mr={1}><InfoOutlinedIcon style={{ marginRight: 2 }} /><Typography className="registration-fee-list-decription-helper-text">If the 'Moderator' button is pressed, assign the user as a moderator. Only the most recently selected user with the 'Moderator' button pressed will be added as a moderator.</Typography></Box>
                                 </Grid>
                                 <Grid size={{xs:12}} >
                                   <CustomButton
@@ -1129,7 +1254,7 @@ const handleAddProgram = () => {
                                                     : ""}
                                                 />
                                               </Grid>
-                                              <Grid size={{xs:8}} justifyItems={'start'}>
+                                              <Grid size={{xs:6}} justifyItems={'start'}>
                                                 <Typography className="add-program-speaker-section-card-item-title">
                                                   {item.speakerFullName}
                                                 </Typography>
@@ -1139,9 +1264,21 @@ const handleAddProgram = () => {
                                                 <Typography className="add-program-speaker-section-card-item-subtitle">
                                                   {item.isModerator?"Moderator":""}
                                                 </Typography>
+                                              
                                               </Grid>  
-
-                                              <Grid size={{xs:2}} justifyItems={'center'}>
+                                              <Grid size={{xs:4}} justifyItems={'center'} display={"flex"}>
+                                              <Tooltip title="Make as Moderator" classes={{tooltip:'add-program-speaker-section-card-tool-tip'}}>
+                                              {/* <IconButton disabled={item.isModerator?true:false} onClick={() =>assignModerator(index,speakerIndex)}>
+                                              <MicNoneIcon/>
+                                                </IconButton> */}
+                                                <CustomButton
+                                                //  className="add-program-hallcreate"
+                                                variant="outlined"
+                                                label="Moderator"
+                                                disabled={item.isModerator?true:false}
+                                                onClick={() =>assignModerator(index,speakerIndex)}
+                                                />
+                                                </Tooltip>
                                                 <IconButton
                                                   onClick={() => removeSpeaker(item,index)} // Handle removal logic
                                                   sx={{ padding: 1 }}
@@ -1200,6 +1337,7 @@ const handleAddProgram = () => {
                     );
                   }
                 })}
+
               </form>
             </Box>
           </Grid>
@@ -1323,6 +1461,7 @@ const handleAddProgram = () => {
             type="right"
           />
         </Grid>
+
       </Grid>
     );
   }

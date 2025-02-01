@@ -483,7 +483,7 @@ const Sponsors = () => {
                                     </Box>
                                 </Box>
                                 ) :
-                                ( <FileUpload onSubmit={(file) => handleFileUpload(file, 'bannerId')} className='form-file-upload-input' /> )}
+                                ( <FileUpload onSubmit={(file) => handleFileUpload(file, 'bannerId')} className='form-file-upload-input' maxSize={3}/> )}
                             </Box>
 
                             <Box className="form-button-container">
