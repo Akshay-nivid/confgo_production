@@ -223,7 +223,7 @@ const Coupon = () => {
         <Grid container spacing={2}>
           <CustomButton
             className="create-coupon-create-btn"
-            label="Create New Couponss"
+            label="Create New Coupon"
             variant="contained"
             size="large"
             type="submit"
@@ -256,7 +256,7 @@ const Coupon = () => {
 
       {/* coupoun drawer */}
 
-      <Grid container size={6} bgcolor={"red"}>
+      <Grid container size={6}>
 
         <CustomDrawer open={CreateCouponDrawer} type={"right"}>
           <CreateCoupon />
