@@ -27,7 +27,7 @@ interface CustomFile {
 
 interface FileListModalProps {
   open: boolean;
-  handleClose: () => void;
+  handleClose: () => void | any;
   onSelectFile: (file: CustomFile[]) => void;
   companyId: Number | string | null;
   multipleSelect?: boolean;

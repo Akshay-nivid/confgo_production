@@ -9,10 +9,13 @@ import { useForm } from "react-hook-form";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import { Typography } from "@mui/material";
+import {Typography } from "@mui/material";
 import { ISource } from "@/Libs/types/type";
 import { NoCouponDataSvg } from "@/assets/svg";
 import { Filter } from "@/components/Filter";
+import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
+import CreateCoupon from "./CreateCoupon";
+import useStore, { setNonPersistedDataById } from "@/Libs/store";
 
 interface FilterType {
   id?: number;
@@ -32,6 +35,7 @@ const Coupon = () => {
   const [loading, setLoading] = useState(false); // To indicate loading state for API
   const [dataLength, setDataLength] = useState(0);
   const { control } = useForm();
+  
   /**
    * Useeffect hook handles the api call
    */
@@ -40,6 +44,9 @@ const Coupon = () => {
       couponList();
     }
   }, []);
+
+
+
   // const [filterValue, setFilterValue] = useState('');
   /**
    *  Fetch summary balance when the component mounts
@@ -164,6 +171,29 @@ const Coupon = () => {
       code:item?.code,
     }));
   };
+  
+  /**
+  * Opens the "Create Coupon Drawer" by updating the non-persisted state.
+  * This function sets `craeteCouponDrawer` to `true`, triggering the drawer to open.
+  */
+
+  function handleCouponDrawer() {
+
+    setNonPersistedDataById('craeteCouponDrawer', { value: true })
+
+  };
+
+  const CreateCouponDrawer = useStore(state => state.nonPersistedData?.['craeteCouponDrawer']?.value) || false;
+
+  /**
+  * Fetches the list of coupons whenever the `CreateCouponDrawer` dependency changes.
+  * This ensures that the coupon list is updated when a new coupon is created
+  * or when the drawer state is modified.
+  */
+  useEffect(() => {
+      couponList();
+    
+  }, [CreateCouponDrawer]);
 
   return (
     <Grid container className="custom-list">
@@ -198,10 +228,11 @@ const Coupon = () => {
             size="large"
             type="submit"
             startIcon={<AddIcon />}
-            onClick={() => {
-              navigate(routes.createCoupon());
-            }}
-            // disabled={loading}
+
+            onClick={
+              handleCouponDrawer
+              }
+           
           />
           <Filter datagridId='coupon-datagrid' fields={filterFields} />
         </Grid>
@@ -218,10 +249,21 @@ const Coupon = () => {
           noRecordIcon={<NoCouponDataSvg className="no-coupon-icon"/>}
           noRecordTitle="No Coupons Available"
           noRecordSubtitle="It looks like you haven't created any coupons yet. Start by creating your first discount coupon to boost event registrations."
-          redirectTo={() => routes.createCoupon()} // define the route
-          btnName="Create New Coupon" //define the label of btn
+          // redirectTo={() => routes.createCoupon()} // define the route
+          // btnName="Create New Coupon" //define the label of btn
         />
       </Grid>
+
+      {/* coupoun drawer */}
+
+      <Grid container size={6}>
+
+        <CustomDrawer open={CreateCouponDrawer} type={"right"}>
+          <CreateCoupon />
+        </CustomDrawer>
+      </Grid>
+
+
     </Grid>
   );
 };
