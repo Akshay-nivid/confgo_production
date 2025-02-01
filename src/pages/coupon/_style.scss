@@ -3,9 +3,8 @@
     background-color: $clr_white;
     margin: 1rem;
     border-radius: 0.9rem;
-  }
-  &-grid {
-    margin-top: $h5 !important;
+    width: 100%;
+    max-width: 40rem;
   }
   &-form {
     padding-top: 1rem !important;
@@ -37,7 +36,15 @@
   &-title {
     font-weight: $font_bold !important;
     font-size: $h4 !important;
-    margin: 2rem !important;
+    &-DrawerClose{
+      padding-top: 0.90rem !important;
+      svg{
+      width: 1.5rem !important;
+      height: 1.5rem !important;
+      &:hover{
+          background-color:$clr_gray_extra_light;
+      }}
+  }
   }
 
   &-create-btn{

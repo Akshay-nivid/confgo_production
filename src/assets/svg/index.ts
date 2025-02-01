@@ -125,7 +125,10 @@ import DownArrow from "./down-arrow.svg";
 import ShakeHandIcon from "./shake-hand.svg";
 import MaintenanceIcon from "./maintenance-icon.svg";
 import HallIcon from "./hall-icon.svg";
-import TempHall from "./temp-hall.svg"
+import TempHall from "./temp-hall.svg";
+import DrawerClose from "./DrawerClose.svg";
+import UplodIcon from "./upload-bracket.svg";
+import RemoveIcon from "./RemoveIcon.svg"
 export {
   CalenderIcon,
   ShakeHandIcon,
@@ -254,5 +257,8 @@ export {
   DownArrow,
   MaintenanceIcon,
   HallIcon,
-  TempHall
+  TempHall,
+  DrawerClose,
+  UplodIcon,
+  RemoveIcon
 };
