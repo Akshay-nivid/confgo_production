@@ -188,7 +188,7 @@ const FormEditor: React.FC<IFormEditor> = ({ participantType, participantData, h
                                     placeholder="Question"
                                     label={"Question"}
                                     rules={{
-                                        required: validateRequiredField({ showMessage: false }),
+                                        required: validateRequiredField({ showMessage: true }),
                                     }}
                                 />
                             </Grid>
@@ -199,7 +199,7 @@ const FormEditor: React.FC<IFormEditor> = ({ participantType, participantData, h
                                     label="Question Type"
                                     options={selectOptions}
                                     rules={{
-                                        required: validateRequiredField({ showMessage: false }),
+                                        required: validateRequiredField({ showMessage: true }),
                                     }}
                                 />
                                 {/* <InfoOutlinedIcon/> */}
