@@ -70,6 +70,7 @@ import SpeakerHome from "./pages/Speaker/Home";
 import SpeakersEventDetails from "./pages/Speaker/Home/SpeakersEventDetails";
 import { AccountDeletionPage } from "./pages/Delete-Account";
 import Sponsors from "./pages/Admin/Sponsors";
+import AdminPaymentList from "./pages/Admin/Payment";
 
 
 const userRoutes = [
@@ -325,6 +326,10 @@ const router = createBrowserRouter([
         path: routes.sponsor(),
         element: <Sponsors />,
       },
+      {
+        path:routes.adminPayment(),
+        element:<AdminPaymentList/>
+      }
     ],
   },
   {
