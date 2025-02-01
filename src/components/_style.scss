@@ -795,11 +795,8 @@
   margin: 1rem !important;
 
   &-stepBox{
-     border:1px solid #2eac2b !important;
-     border-radius: 50px;
-    }
-    &-StepLabel{
-      color:red !important
+     border: 0.083rem solid $clr_green !important;
+     border-radius: 4.167rem;
     }
   &-main {
     border-right: 1px solid $clr_gray_very_light;
@@ -1355,6 +1352,6 @@
   color: $clr_gray_medium !important;
 
   &-step {
-    border:1px solid $clr_gray_medium !important;
+    border: 0.083rem solid $clr_gray_medium !important;
   }
 }

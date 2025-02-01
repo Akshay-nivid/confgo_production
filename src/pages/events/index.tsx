@@ -20,7 +20,7 @@ import moment from 'moment';
 
 const steps = [
   { label: 'Add Event Details', description: '' },
-  { label: 'Add Programme', description: '' },
+  { label: 'Add Program', description: '' },
   { label: 'Add Add Ons', description: '' },
   { label: 'Review and Submit', description: '' },
 ];

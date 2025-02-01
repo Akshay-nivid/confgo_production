@@ -7,7 +7,7 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import { StepIconProps } from '@mui/material/StepIcon';
-import { CustomStep1, CustomStep2, CustomStep3, CustomStep4, StepperActive, StepperDefault } from '@/assets/svg';
+import { CustomStep1, CustomStep2, CustomStep3, CustomStep4, CustomStepInactive2, CustomStepInactive3, CustomStepInactive4, StepperActive, StepperDefault } from '@/assets/svg';
 import { IconButton, StepConnector, styled } from '@mui/material';
 import Grid from "@mui/material/Grid2";
 
@@ -49,7 +49,20 @@ const CustomStepper: React.FC<CustomStepperProps> = ({ steps, activeStep, onStep
           <IconButton className="custom-stepper-stepper-icon">
             <CustomStep4 />
           </IconButton>
-        ) : (
+        ) : icon == 4 ? (
+          <IconButton className="custom-stepper-stepper-icon">
+            <CustomStepInactive4 />
+          </IconButton>
+        ) :  icon == 3 ? (
+          <IconButton className="custom-stepper-stepper-icon">
+            <CustomStepInactive3 />
+          </IconButton>
+        ) : icon == 2 ? (
+          <IconButton className="custom-stepper-stepper-icon">
+            <CustomStepInactive2 />
+          </IconButton>
+        ) :
+        (
           <IconButton className="custom-stepper-stepper-icon">
             <StepperDefault />
           </IconButton>
