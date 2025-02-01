@@ -8,13 +8,13 @@ import { Logger } from "@/Utils/Logger";
 import Grid from "@mui/material/Grid2";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import routes from "@/router/routes";
 import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
 import { Filter } from "@/components/Filter";
-import useStore, { setDataById } from "@/Libs/store";
+import useStore, { setDataById, setNonPersistedDataById } from "@/Libs/store";
 import { NoUserList } from "@/assets/svg";
+import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
+import CreateNewUsers from "./CreateUsers";
 
 interface Role{
   value:string,
@@ -33,7 +33,6 @@ type RoleList = {
  * componet for showing full Admin created Company User List
  */
 const AdminUsersList=()=>{
-    const navigate = useNavigate();
     const [searchResults, setSearchResults] = useState([]);
     const [source, setSource] = useState<ISource | undefined>(undefined);
     const [loading, setLoading] = useState(false); // To indicate loading state for API
@@ -230,6 +229,28 @@ const AdminUsersList=()=>{
     }
    ]
   
+     /**
+  * Opens the "Create Coupon Drawer" by updating the non-persisted state.
+  * This function sets `craeteCouponDrawer` to `true`, triggering the drawer to open.
+  */
+
+  function handleCouponDrawer() {
+
+    setNonPersistedDataById('craeteUserDrawer', { value: true })
+
+  };
+
+  const CreateUserDrawer = useStore(state => state.nonPersistedData?.['craeteUserDrawer']?.value) || false;
+
+  /**
+  * Fetches the list of coupons whenever the `CreateCouponDrawer` dependency changes.
+  * This ensures that the coupon list is updated when a new coupon is created
+  * or when the drawer state is modified.
+  */
+  useEffect(() => {
+    getRoleList();
+    
+  }, [CreateUserDrawer]);
     return(
         <Grid container className="custom-list">
             <Grid size={{ xs: 4 }}>
@@ -266,10 +287,8 @@ const AdminUsersList=()=>{
             size="large"
             type="submit"
             startIcon={<AddIcon />}
-            onClick={() => {
-              navigate(routes.createNewUsers());
-            }}
-            // disabled={loading}
+            onClick={
+              handleCouponDrawer}
           />
            <Filter datagridId='data-role-list' fields={filterFields} />
           </Grid>
@@ -287,6 +306,13 @@ const AdminUsersList=()=>{
             noRecordSubtitle="It's looks like you haven't created any users yet."
           />
         </Grid>
+
+        <Grid>
+            <CustomDrawer open={CreateUserDrawer} type={"right"}>
+               <CreateNewUsers/>
+            </CustomDrawer>
+        </Grid>
+
       </Grid>
     );
 
