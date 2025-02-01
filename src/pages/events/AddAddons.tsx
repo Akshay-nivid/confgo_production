@@ -179,6 +179,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       setProgramIndex(savedAddOns?.length ? savedAddOns.length - 1 : 0);
       setEditMode(false);
       handleDrawerOpen(); // Open the drawer for the new program
+      setShowSponsorSection(false);
     }
   
     /**
@@ -378,6 +379,12 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       setEditMode(true);
       setValue("addOn", watch("savedAddOns"));
       setProgramIndex(index);
+      if(watch(`addOn.${index}.sponsor`)){
+        setShowSponsorSection(watch(`addOn.${index}.sponsor`)?.length > 0 ? true : false)
+      }
+      else{
+      setShowSponsorSection(false)
+      }
     };
 
     /**
