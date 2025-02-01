@@ -378,7 +378,7 @@ const CreateNewUsers = () => {
                                                 src={`${baseUrl}asset/${selectedFile.id}`}
                                                 alt={selectedFile.name}
                                             /></Grid>
-                                        <Grid size={6} container alignItems={"center"} className="pl-3">   <Typography>{selectedFile.name}</Typography></Grid>
+                                        <Grid size={6} container alignItems={"center"} className="pl-3">   <Typography className="admin-users-form-wrap-uplodedImg-name pl-3">{selectedFile.name}</Typography></Grid>
 
                                     </Grid>
                                 </Badge>

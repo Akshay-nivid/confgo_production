@@ -47,6 +47,12 @@
         }
         &-uplodedImg{
             border: 0.005rem solid $clr_gray_extra_light;
+            &-name{
+                color: red !important;
+                font-family: $font !important;
+                font-size: $h6 !important;
+                font-weight: $font_semibold !important;
+            }
             .badge{
                 svg{
                     width: 1.3rem !important;
