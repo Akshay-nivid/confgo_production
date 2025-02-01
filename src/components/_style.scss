@@ -794,13 +794,21 @@
   padding-right: 3rem !important;
   margin: 1rem !important;
 
+  &-stepBox{
+     border:1px solid #2eac2b !important;
+     border-radius: 50px;
+    }
+    &-StepLabel{
+      color:red !important
+    }
   &-main {
     border-right: 1px solid $clr_gray_very_light;
     background-color: $clr_white;
   }
 
   &-container {
-    width: 54.08rem !important;
+    border-left: 1px solid $clr_gray_very_light;
+    padding-left: 2rem;
 
    .MuiIconButton-root:hover {
     background-color: transparent !important;
@@ -809,7 +817,9 @@
     .MuiStepLabel-label {
       font-size: $p2 !important;
       font-weight: $font_medium;
-      color: $clr_field;
+    }
+    .Mui-completed{
+      color: $clr_green !important;
     }
 
     .Mui-active {
@@ -823,6 +833,7 @@
   }
 
   &-step-icon-box {
+    margin-left: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -831,10 +842,10 @@
     border-radius: 50%;
   }
 
-  &-stepper-icon {
-    width: 15rem !important;
-    height: 15rem !important;
-  }
+  // &-stepper-icon {
+  //   width: 15rem !important;
+  //   height: 15rem !important;
+  // }
 
   &-next-button {
     margin: auto !important;
@@ -1338,4 +1349,12 @@
 .border-speaker{
   background-color: $clr_gray_20_percent !important;
   border: 0.0667rem solid $clr_light_border_grey !important;
+}
+
+.stepper-inactive{
+  color: $clr_gray_medium !important;
+
+  &-step {
+    border:1px solid $clr_gray_medium !important;
+  }
 }

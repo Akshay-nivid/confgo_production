@@ -125,7 +125,12 @@ import DownArrow from "./down-arrow.svg";
 import ShakeHandIcon from "./shake-hand.svg";
 import MaintenanceIcon from "./maintenance-icon.svg";
 import HallIcon from "./hall-icon.svg";
-import TempHall from "./temp-hall.svg"
+import TempHall from "./temp-hall.svg";
+import CustomStep1 from "./Custom-stepper-1.svg";
+import CustomStep2 from "./Custom-stepper-2.svg";
+import CustomStep3 from "./Custom-stepper-3.svg";
+import CustomStep4 from "./Custom-stepper-4.svg";
+
 export {
   CalenderIcon,
   ShakeHandIcon,
@@ -254,5 +259,9 @@ export {
   DownArrow,
   MaintenanceIcon,
   HallIcon,
-  TempHall
+  TempHall,
+  CustomStep1,
+  CustomStep2,
+  CustomStep3,
+  CustomStep4
 };
