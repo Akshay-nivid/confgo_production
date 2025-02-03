@@ -284,7 +284,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
       {/* Show submit button only if files are selected */}
       {selectedFiles.length > 0 && (
         <Grid>
-          <CustomButton variant="contained" color="primary" onClick={handleSubmit} disabled={false} label="Upload" isLoading={assetUploadLoading} className="file-upload-button" />
+          <CustomButton variant="contained" color="primary" onClick={handleSubmit} disabled={assetUploadLoading} label="Upload" isLoading={assetUploadLoading} className="file-upload-button" />
         </Grid>
       )}
     </Grid>
