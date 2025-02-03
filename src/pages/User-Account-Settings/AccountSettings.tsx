@@ -23,7 +23,7 @@ import FileUpload from "@/components/FileUpload/FileUpload";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 
 interface CustomFile {
-  id: number;
+  id: string;
   name: string;
 }
 
@@ -34,7 +34,7 @@ interface Profile {
   phone: string;
   avatarUrl: string;
   isSsoUser:boolean;
-  assetId:number;
+  assetId:string;
 }
 interface AccountSettingProps {
   setEmail: (email: string) => void; 
@@ -49,7 +49,7 @@ interface AccountSettingProps {
   const closeDrawer = () => setIsDrawerOpen(false);
   const setDataById = useStore((state: any) => state.setDataById)
   const userDetails = useStore((state) => state?.compData?.["userDetails"]) ?? {};
-  const [drawerProfileImage, setDrawerProfileImage] = useState<number | null>(profileData?.assetId || null);
+  const [drawerProfileImage, setDrawerProfileImage] = useState<string | null>(profileData?.assetId || null);
   const [uploadModalOpen, setUploadModalOpen] = useState(false); 
 
   const baseUrl = config.api.url;  

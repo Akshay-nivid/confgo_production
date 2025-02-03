@@ -30,7 +30,7 @@ import confgo  from "../../../../config.json"
 const baseUrl = config.api.url;
 const currency=confgo.currency;
 interface CustomFile {
-  id: number;
+  id: string;
   name: string;
   sourcePath: string;
 }

@@ -10,7 +10,7 @@ import "./_style.scss";
 import config from '../../../config.json';
 
 interface CustomFile {
-  id: number;
+  id: string;
   name: string;
   mimeType: string;
   sourcePath: string;
