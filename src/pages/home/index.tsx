@@ -3,7 +3,7 @@ import ConfrenceManagementSection from './ConfrenceManagementSection';
 import FeatureSection from './FeatureSection';
 import HeroSection from './HeroSection';
 import WhychooseSection from '../home-layout/WhychooseSection';
-import useStore from '@/Libs/store';
+import useStore, { IStoreState } from '@/Libs/store';
 import { useEffect } from 'react';
 import { resetStore } from '@/Libs/store';
 /*
@@ -13,7 +13,7 @@ import { resetStore } from '@/Libs/store';
 
 const HomePage = () => {
 
-  const setDataById = useStore((state: any) => state.setDataById)
+  const setDataById = useStore((state: IStoreState) => state.setDataById)
   /**
    * useEffect used to set page when return from this page
    */

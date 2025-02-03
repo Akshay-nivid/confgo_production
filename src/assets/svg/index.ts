@@ -71,7 +71,6 @@ import GoogleIcon from './google-icon.svg';
 import WarningIcon from './warning-icon.svg';
 import PublishTickIcon from './publish-tick.svg';
 import TransactionHistoryIcon from './payment-history.svg';
-import HomeEvent from './home-event.svg';
 import Brand from './brands.svg';
 import BasicPlainIcon from './basic-plan-icon.svg';
 import StandardPlanIcon from './standard-plan-icon.svg';
@@ -136,8 +135,17 @@ import CustomStep4 from "./Custom-stepper-4.svg";
 import CustomStepInactive4 from "./Custom-stepper-inactive-4.svg";
 import CustomStepInactive3 from "./Custom-stepper-inactive-3.svg";
 import CustomStepInactive2 from "./Custom-stepper-inactive-2.svg";
-
+import MainHeroImage from './main-hero-section.svg'
+import MainEffortlesPlaningImg from './main-effortless-plaing.svg'
+import MainSeamlessTrackingImg from './main-seamless-tracking.svg'
+import MainYourBrandImg from './main-your-brand.svg'
+import MainBottomBanner from "./main-bottom-banner.svg"
 export {
+  MainBottomBanner,
+  MainYourBrandImg,
+  MainSeamlessTrackingImg,
+  MainEffortlesPlaningImg,
+  MainHeroImage,
   CalenderIcon,
   ShakeHandIcon,
   EditBoxWhite,
@@ -222,7 +230,6 @@ export {
   WarningIcon,
   PublishTickIcon,
   TransactionHistoryIcon,
-  HomeEvent,
   Brand,
   BasicPlainIcon,
   StandardPlanIcon,
