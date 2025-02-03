@@ -10,36 +10,145 @@ import { CheckIcon } from '@/assets/svg';
  */
 const PlanFeatureSection = () => {
   const features = [
+
     {
-      title: 'Online Payment Support',
+      title: 'Event Website Builder (Basic Templates)',
       basic: true,
       standard: true,
       pro: true,
     },
     {
-      title: 'Entry Via QR Scanner',
+      title: 'Online Registration & Ticketing',
       basic: true,
       standard: true,
       pro: true,
     },
     {
-      title: 'Customizable',
+      title: 'Payment Processing Integration (Stripe/PayPal)',
+      basic: true,
+      standard: true,
+      pro: true,
+    },
+    {
+      title: 'Basic Email Marketing Tools (Limited Templates & Automation)',
+      basic: true,
+      standard: true,
+      pro: true,
+    },
+    {
+      title: 'Attendee Management (Basic CRM)',
+      basic: true,
+      standard: true,
+      pro: true,
+    },
+    {
+      title: 'Standard Reporting & Analytics',
+      basic: true,
+      standard: true,
+      pro: true,
+    },
+    {
+      title: 'Standard Customer Support (Email Only)',
+      basic: true,
+      standard: true,
+      pro: true,
+    },
+    {
+      title: 'Mobile Event App (iOS & Android)',
       basic: false,
       standard: true,
       pro: true,
     },
     {
-      title: 'Unlimited Conference & Members',
+      title: 'Advanced Email Marketing (Segmentation, Automation)',
       basic: false,
       standard: true,
       pro: true,
     },
     {
-      title: 'Attendees Management',
+      title: 'More Customization Options (Websites & Registration Forms)',
+      basic: false,
+      standard: true,
+      pro: true,
+    },
+    {
+      title: 'More Integrations (CRM, Marketing Automation)',
+      basic: false,
+      standard: true,
+      pro: true,
+    },
+    {
+      title: 'Enhanced Reporting & Analytics',
+      basic: false,
+      standard: true,
+      pro: true,
+    },
+    {
+      title: 'Priority Customer Support (Email & Phone)',
+      basic: false,
+      standard: true,
+      pro: true,
+    },
+    {
+      title: 'Abstract Management',
+      basic: false,
+      standard: true,
+      pro: true,
+    },
+    {
+      title: 'Exhibitor/Sponsor Management Tools',
+      basic: false,
+      standard: true,
+      pro: true,
+    },
+    {
+      title: 'Advanced AI Features (Matchmaking, Content Recommendations)',
       basic: false,
       standard: false,
       pro: true,
     },
+    {
+      title: 'White-labeling/Branding Options',
+      basic: false,
+      standard: false,
+      pro: true,
+    },
+    {
+      title: 'Custom Integrations (API Access)',
+      basic: false,
+      standard: false,
+      pro: true,
+    },
+    {
+      title: 'Dedicated Account Manager',
+      basic: false,
+      standard: false,
+      pro: true,
+    },
+    {
+      title: 'Advanced Security Features',
+      basic: false,
+      standard: false,
+      pro: true,
+    },
+    {
+      title: 'Premium Support (24/7 Availability)',
+      basic: false,
+      standard: false,
+      pro: true,
+    },
+    {
+      title: 'Custom Reporting Dashboards',
+      basic: false,
+      standard: false,
+      pro: true,
+    },
+    {
+      title: 'On-Site Support (Optional, Additional Cost)',
+      basic: false,
+      standard: false,
+      pro: true,
+    }
   ];
 
   return (

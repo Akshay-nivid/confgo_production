@@ -657,6 +657,8 @@ useEffect(() => {
       setValue("sponsorAssetId", "");
       setValue("sponsorType", "");
       setValue("reservedSeats","")
+      setValue("sponsorSelection","")
+      
     }
 
     /**
@@ -692,6 +694,7 @@ useEffect(() => {
         speakerDesignation,
         moderator,
       });
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "speaker added successfully" })
       clearErrors();
       
         // Reset the speaker form fields
@@ -699,6 +702,7 @@ useEffect(() => {
       setValue("speakerName", "");
       setValue("speakerAssetId", "");
       setValue("speakerDesignation", "");
+      setValue("speakerSelection","");
       
     };
     

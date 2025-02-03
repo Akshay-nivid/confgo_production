@@ -97,10 +97,12 @@
             border: solid 0.1rem $clr_gray_very_light;
             border-radius: 0.4rem;
             padding: 0.2rem;
-
-            &-image{
-                height: 4.5rem !important;
-                width: 4.5rem;
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+        
+            &-image {
+                max-height: 4.5rem !important;
             }
         }
 
@@ -2326,3 +2328,10 @@
     border-color: #dadbdc  !important;
 
 }
+
+.hall-grid {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }

@@ -98,6 +98,13 @@
 
   }
 
+  &__text {
+    color: $clr_sub_header !important;
+    font-size: $p1 !important;
+    font-weight: $font_medium !important;
+    padding-bottom: 0.5rem;
+  }
+
   &__price_conatiner {
     margin-bottom: 3rem !important;
 

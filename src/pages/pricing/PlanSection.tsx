@@ -70,7 +70,7 @@ export const PlanSection = () => {
       <Grid container size={{ xs: 12, sm: 10 }} className="plansection__header">
         <Grid size={12}>
           <Typography className="plansection__title">
-            Simple Pricing For Everyone
+            Choose Your Plan
           </Typography>
           <Typography className="plansection__subtitle">
             Everything you might need and then some more in an accessible and
