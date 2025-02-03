@@ -202,9 +202,9 @@ const SessionCard: React.FC<SessionCardProps> = ({
            {truncateString((item.description), 25, "Untitled")}
               </Typography>
        </Grid>
-          {item.hall && <Grid size={6} container spacing={1} display={"flex"} justifyContent={"flex-start"} alignItems={"center"}>
+          {item.hall && <Grid size={12} container spacing={1} display={"flex"} justifyContent={"flex-start"} alignItems={"center"}>
             <HallIcon />
-            <Typography className="card-content-description">{item?.hall}</Typography>
+            <Typography className="card-content-description">{truncateString(item.hall,25)}</Typography>
           </Grid>}
        <Grid className="card-content-devider">
         <Divider/>
@@ -344,7 +344,15 @@ const SessionCard: React.FC<SessionCardProps> = ({
                     {item?.description}
                    </Typography>  
                 </Grid>
-               
+                <Grid className="description-box-content">
+                    <Grid className ="hall-grid">
+                    {item?.hall && (
+                          <>
+                            <HallIcon /> {item.hall}
+                          </>
+                        )}
+                    </Grid>
+                </Grid>
                 {!hasAddOns && (
                 <>
                 { item?.speakers?.length !==0 &&

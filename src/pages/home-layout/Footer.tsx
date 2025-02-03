@@ -66,7 +66,7 @@ const Footer = () => {
                             className="footer-nav-item"
                             to={routes.contact()}
                           >
-                            Contacts
+                            Contact Us
                           </Link>
                         </li>
                       </ul>
@@ -85,7 +85,7 @@ const Footer = () => {
                           EMAIL US
                         </Typography>
                         <Typography className="footer-contact-value">
-                          support@confgo.co
+                          support@confgo.com
                         </Typography>
                       </Grid>}
                       <Grid className="footer-contact-block">
@@ -102,7 +102,7 @@ const Footer = () => {
                         EMAIL US
                       </Typography>
                       <Typography className="footer-contact-value">
-                        support@confgo.co
+                        support@confgo.com
                       </Typography>
                     </Grid>}
                   </Grid>

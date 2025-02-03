@@ -45,7 +45,7 @@ const boxArray = [
         id: 3,
         icon: <MessageIcon className='contact-page-icon'></MessageIcon>,
         label: 'Message us',
-        info: 'Support@confgo.com'
+        info: 'support@confgo.com'
     }]
 /*
  * componenet used to display contact page
