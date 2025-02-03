@@ -657,6 +657,8 @@ useEffect(() => {
       setValue("sponsorAssetId", "");
       setValue("sponsorType", "");
       setValue("reservedSeats","")
+      setValue("sponsorSelection","")
+      
     }
 
     /**
@@ -699,6 +701,7 @@ useEffect(() => {
       setValue("speakerName", "");
       setValue("speakerAssetId", "");
       setValue("speakerDesignation", "");
+      setValue("speakerSelection","");
       
     };
     

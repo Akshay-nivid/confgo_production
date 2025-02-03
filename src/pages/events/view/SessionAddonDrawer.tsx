@@ -915,7 +915,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
         <Grid size={{ xs: 12 }}>
           <Grid container justifyContent="right" className="mb-5">
             <CustomButton
-              label="Create Addon"
+              label="Save"
               disabled={buttonDisbaled}
               onClick={handleSubmit(handleFormSubmit)}
               className="event-sessions-edit-button "
