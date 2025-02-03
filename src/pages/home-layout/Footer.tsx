@@ -1,22 +1,23 @@
 import { Box, Typography, Button } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AppLogo from "@/assets/appLogo.svg";
 import routes from "@/router/routes";
 import { useIsMobileScreen } from "@/Utils/CommonBaseClass";
+import moment from "moment";
 
 /**
  * footer component
  */
 const Footer = () => {
   const isMobileScreen = useIsMobileScreen();
-
+  const navigate = useNavigate()
   return (
     <Grid container padding={0} justifyContent={'center'} className="footer">
-      <Grid container size={{ xs: 12,md:12 }} position={'relative'}>
+      <Grid container size={{ xs: 12, md: 12 }} position={'relative'}>
         <Box paddingBlock={{ xs: 3.5 }} paddingInline={{ xs: 1.6 }} className="footer-content">
           <Grid container>
-            <Grid size={{xs:12,sm:10}} marginInline={'auto'}>
+            <Grid size={{ xs: 12, sm: 10 }} marginInline={'auto'}>
               <Typography className="footer-title">
                 Do you have{!isMobileScreen && <br />} any questions?
               </Typography>
@@ -33,7 +34,9 @@ const Footer = () => {
                   </Typography>
                 </Grid>}
               </Grid>
-              <Button variant="contained" className="footer-button">
+              <Button onClick={() => {
+                navigate(routes.contact())
+              }} variant="contained" className="footer-button">
                 Send A Message
               </Button>
             </Grid>
@@ -41,7 +44,7 @@ const Footer = () => {
           </Grid>
 
         </Box>
-        <Grid size={{md:10}} marginInline={'auto'} className="divider"></Grid>
+        <Grid size={{ md: 10 }} marginInline={'auto'} className="divider"></Grid>
       </Grid>
       <Grid paddingInline={1.7} size={12}>
         <Box className="footer-links-section">
@@ -77,7 +80,7 @@ const Footer = () => {
                           CALL US
                         </Typography>
                         <Typography className="footer-contact-value">
-                        +1 (414) 559-4745
+                          +1 (414) 559-4745
                         </Typography>
                       </Grid>
                       {isMobileScreen && <Grid size={4} className="footer-contact-block">
@@ -93,7 +96,7 @@ const Footer = () => {
                           VISIT US
                         </Typography>
                         <Typography className="footer-contact-value">
-                        6737 W Washington St.Suite 3265, <br />West Allis, WI 53214
+                          6737 W Washington St.Suite 3265, <br />West Allis, WI 53214
                         </Typography>
                       </Grid>
                     </Grid>
@@ -107,13 +110,17 @@ const Footer = () => {
                     </Grid>}
                   </Grid>
                   <Grid container justifyContent={isMobileScreen ? 'center' : 'flex-end'} alignItems={isMobileScreen ? 'center' : 'flex-end'} flexDirection={'column'} size={{ xs: 12, sm: 4 }}>
-                    <AppLogo className="footer-logo" />
+                    <AppLogo className="footer-logo"  />
                     <Typography className="footer-description">
-                      Don't know where to get your car tinted?{!isMobileScreen && <br />}Logoipsum — {isMobileScreen && <br />}
-                      practical, safe, and affordable.
+                      {/* Don't know where to get your car tinted?{!isMobileScreen && <br />}Logoipsum — {isMobileScreen && <br />}
+                      practical, safe, and affordable. */}
+                      {/* Website.com Solutions Inc. All Rights Reserved. All other trademarks and copyrights are the property of their respective holders. */}
                     </Typography>
                     <Typography className="footer-copyright">
-                      © 2024 — Copyright
+                      © {moment().year()} — Copyright
+                    </Typography>
+                    <Typography className="footer-copyright" textAlign={'end'} marginTop={.5} maxWidth={'40ch'}>
+                      Nivid Solutions All Rights Reserved. All other trademarks and copyrights are the property of their respective holders.
                     </Typography>
                   </Grid>
                 </Grid>

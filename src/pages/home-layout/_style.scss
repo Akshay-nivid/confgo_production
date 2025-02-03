@@ -38,6 +38,12 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+   
+  }
+
+  .nav-link{
+    font-size:1.33rem ;
+    
   }
   .nav-link.active {
     color: $clr_blue;
