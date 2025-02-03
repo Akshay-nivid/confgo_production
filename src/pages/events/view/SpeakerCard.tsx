@@ -26,7 +26,7 @@ interface EventParticipant {
   phone: string | null;
   email: string | null;
   bio: string | null;
-  assetId: number;
+  assetId: string;
   createdBy: number;
   createdOn: string;
   description: string | null;

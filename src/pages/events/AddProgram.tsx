@@ -369,6 +369,7 @@ const handleAddProgram = () => {
   setProgramIndex(savedPrograms?.length ? savedPrograms.length - 1 : 0);
   setEditMode(false);
   setDrawerOpen(true); // Open the drawer for the new program
+  setShowSponsorSection(false)
 };
 
     /**
@@ -534,6 +535,9 @@ const handleAddProgram = () => {
       setProgramIndex(index);
       if(watch(`programs.${index}.speakers`)){
         setShowSpeakerSection(watch(`programs.${index}.speakers`)?.length == 0 ? false : true)
+      }
+      if(watch(`programs.${index}.sponsor`)){
+        setShowSponsorSection(watch(`programs.${index}.sponsor`)?.length == 0 ? false : true)
       }
       if(watch(`programs.${index}.hallArray`)){
         setHallOptions(watch(`programs.${index}.hallArray`));
