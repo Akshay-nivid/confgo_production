@@ -19,10 +19,10 @@ import LeftArrowIcon from '@/assets/svg/left-arrow.svg';
 import moment from 'moment';
 
 const steps = [
-  { label: 'Create Event', description: '' },
-  { label: 'Program', description: '' },
-  { label: 'Add Ons', description: '' },
-  { label: 'Confirm', description: '' },
+  { label: 'Add Event Details', description: '' },
+  { label: 'Add Program', description: '' },
+  { label: 'Add Add Ons', description: '' },
+  { label: 'Review and Submit', description: '' },
 ];
 type Speaker = {
   speakerId?: string;
@@ -713,14 +713,10 @@ const Events = () => {
 
 
   return (
-    ((id && (formData?.event || formDraftData?.event)) || !id) && <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper">
-      <Grid size={{ xs: 12, sm: 12 }} justifyItems={'center'} className="custom-stepper-main">
-        <CustomStepper
-          steps={steps}
-          activeStep={activeStep}
-          onStepChange={handleStepChange}
-        />
-      </Grid>
+    ((id && (formData?.event || formDraftData?.event)) || !id) && 
+    <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper">
+      <Grid size={{ xs: 12 }}  display={"flex"}>
+      
       <Grid container size={{ xs: 12, sm: 12 }}>
         {activeStep === 0 && (
           <CreateEvent
@@ -806,6 +802,14 @@ const Events = () => {
           {/* {activeStep === 1 && <Grid className="custom-stepper-bottom-spacing"></Grid>} */}
         </Grid>
         <Grid container className="custom-stepper-button-container" size={{ xs: activeStep === 2 ? 2 : 3, sm: activeStep === 2 ? 2 : 3 }}></Grid>
+      </Grid>
+      <Grid size={{ xs: 4, sm: 4 }}  className="custom-stepper-main">
+        <CustomStepper
+          steps={steps}
+          activeStep={activeStep}
+          onStepChange={handleStepChange}
+        />
+      </Grid>
       </Grid>
     </Grid>
   );
