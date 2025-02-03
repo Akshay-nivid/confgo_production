@@ -17,7 +17,7 @@ import Grid from "@mui/material/Grid2";
 import CloseIcon from '@mui/icons-material/Close';
 
 interface CustomFile {
-  id: number;
+  id: string;
   name: string;
   mimeType: string;
   sourcePath: string;

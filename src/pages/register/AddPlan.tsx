@@ -25,7 +25,7 @@ type PlanType = {
   currency: string | null;
   validityDay: number;
   statusId: number;
-  assetId: number | null; 
+  assetId: string | null; 
   createdBy: string | null;
   createdOn: string; 
   description: string | null; 
