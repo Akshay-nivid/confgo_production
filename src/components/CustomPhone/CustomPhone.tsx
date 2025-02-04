@@ -1,7 +1,7 @@
 import React from "react";
 import {
-    Select,
-    MenuItem,
+    //Select,
+    //MenuItem,
     Box,
     SelectChangeEvent,
     FormHelperText,
@@ -112,7 +112,7 @@ const CustomPhone: React.FC<CustomPhoneProps> = ({
                 }}
             >
 
-                <Box className="contact-form-country-selector">
+                {/* <Box className="contact-form-country-selector">
                     <Select
                         value={selectedCountryCode}
                         onChange={handleCountryChange}
@@ -155,7 +155,7 @@ const CustomPhone: React.FC<CustomPhoneProps> = ({
                             </MenuItem>
                         ))}
                     </Select>
-                </Box>
+                </Box> */}
 
                 <CustomTextField
                     name="phoneNumber"
