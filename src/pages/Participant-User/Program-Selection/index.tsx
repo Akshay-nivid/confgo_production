@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Navigate, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
-import { handleClickBackButton, handleGroupData, processFormData, toggleProgramCheckboxesByDate, validateAddon, validateAddonWithNoProp, validatePrograms } from "./programsHandlers";
+import {  handleClickBackButton, handleGroupData, processFormData, toggleProgramCheckboxesByDate, validateAddon, validateAddonWithNoProp, validatePrograms } from "./programsHandlers";
 import clsx from "clsx";
 import AddonCard from "../Components/AddonCard";
 import Programcard from "../Components/Programcard";
@@ -16,6 +16,8 @@ import parse from 'html-react-parser';
 import LocalTimeDate from "@/components/LocalTimeDate/LocalTimeDate";
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import { getUserCart } from "@/pages/events/template/programHandler";
+import { IEventResponse } from "@/Libs/types/event";
+import ProgramDetailsModal from "./ProgramDetailsModal";
 
 
 export interface IProgram {
@@ -58,7 +60,9 @@ const ProgramSelection = () => {
 
   const defaultFormData = useStore((state: any) => state?.compData?.["defaultProgramData"]?.formData) || undefined;
 
+
   const eventData = useStore((state: IStoreState) => state?.compData?.["eventData"]) ?? undefined;
+
 
   const eventId = useStore((state: IStoreState) => state?.compData?.eventSelected?.id)
 
@@ -66,7 +70,7 @@ const ProgramSelection = () => {
 
   const addToCartLoading = addToCartResponseData?.cart?.loading ?? false
 
-  const event = useStore((state: any) => state?.compData?.["eventData"]?.[`event/${eventId}`])
+  const event: { data: IEventResponse; success: boolean; loading:boolean } = useStore((state: any) => state?.compData?.["eventData"]?.[`event/${eventId}`])
 
   const slugName = useStore((state: IStoreState) => state?.compData?.slugName?.value) || ''
 
@@ -74,11 +78,12 @@ const ProgramSelection = () => {
 
   const templateId = useStore((state: IStoreState) => state.compData?.templateId?.id)
 
-  // const classNamePrefix: string = `program-card-form-${templateId}`
 
   const eventDataLoading = useStore((state: any) => state?.compData?.["eventData"]?.[`event/${eventId}`]?.loading) ?? false
 
   const [currentTab, setCurrentTab] = useState(0);
+
+
 
 
   /**
@@ -86,7 +91,10 @@ const ProgramSelection = () => {
     */
   useEffect(() => {
 
+      //  (async()=>await fetchEventDetailsFn(10000))()
+
     const fetchEventDetails = async () => {
+
 
       if (!eventId) {
 
@@ -103,12 +111,17 @@ const ProgramSelection = () => {
 
       }
 
+
       GET({
 
         url: `event/${eventId}`,
         id: 'eventData',
 
-        successCB: (response: any) => {
+        successCB: (response: {
+          data: IEventResponse;
+          loading: boolean;
+          success: boolean;
+        }) => {
           const formatedData = handleGroupData({
             addons: response?.data?.addons,
             programs: response?.data?.programs
@@ -158,35 +171,6 @@ const ProgramSelection = () => {
       validateAddonWithNoProp(body?.addons)
 
 
-// if (selectedPrograms.length === 0 || selectedPrograms === undefined || !selectedPrograms) {
-
-      //   setDataById("snackBarInfo", {
-      //     open: true,
-      //     autoHideDuration: 2000,
-      //     severity: "error",
-      //     message: 'Please select at least one program and addon property',
-      //   })
-
-      //   return
-      // }
-
-      // const addonsWithNoAddonProp = body?.addons && body?.addons.some((addon: any) => {
-
-      //   return addon?.propertyIds !== undefined && addon?.propertyIds?.length === 0
-
-      // })
-
-
-      // if (addonsWithNoAddonProp) {
-      //   setDataById("snackBarInfo", {
-      //     open: true,
-      //     autoHideDuration: 2000,
-      //     severity: "error",
-      //     message: 'Please select at least one property for each selected addon.',
-      //   });
-      //   return;
-      // }
-
       POST({
         url: 'cart',
         body: body,
@@ -198,35 +182,7 @@ const ProgramSelection = () => {
 
           getUserCart({helperFn: handleNavigate,cartID:cartID}) 
 
-          // GET({
-          //   url: `cart/${cartID}`,
-          //   id: 'getCart',
-          //   successCB: (response: any) => {
-
-          //     const formatedData = handleGroupData({
-          //       addons: response?.data?.addons,
-          //       programs: response?.data?.programs,
-          //       calculateTotal: true
-          //     })
-
-          //     setDataById("finalPrice", { value: response?.data?.cart?.finalPrice })
-
-          //     setDataById("formatedCartData", { formatedData: formatedData }) // storing data after formatting for mapping in ui
-
-          //     navigate(routes.selectedPrograms());
-
-          //   },
-          //   errorCB: (error: any) => {
-
-          //     setDataById("snackBarInfo", {
-          //       open: true,
-          //       autoHideDuration: 2000,
-          //       severity: "error",
-          //       message: error?.message || 'something went wrong',
-          //     })
-
-          //   }
-          // })
+          
 
         },
         errorCB: (error: any) => {
@@ -242,7 +198,7 @@ const ProgramSelection = () => {
       })
     } catch (e: any) {
 
-      snackBar({ severity: "error", message: e?.message || "pleas", autoHideDuration: 3000 })
+      snackBar({ severity: "error", message: e?.message || "something went wrong", autoHideDuration: 3000 })
     }
 
   }
@@ -416,6 +372,7 @@ const ProgramSelection = () => {
               </Box>
             </form>
           </FormProvider>
+          <ProgramDetailsModal className="program-selection-modal"/>
         </Box>
       </Grid>
     </Grid>

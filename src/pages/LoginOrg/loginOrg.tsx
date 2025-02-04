@@ -46,6 +46,9 @@ const LoginOrg = () => {
     password: string;
   };
   const setDataById = useStore((state: any) => state.setDataById);
+
+  const isLoading = useStore(state => state.compData?.orgLogin?.['auth/login']?.loading) || false
+
   const { handleSubmit, control } = useForm<FormData>();
   const navigate = useNavigate();
 
@@ -180,6 +183,7 @@ const LoginOrg = () => {
                     variant="contained"
                     className="w-full custom-button"
                     style={{ textTransform: "none" }}
+                    disabled={isLoading}
                   >
                     Log In
                   </Button>

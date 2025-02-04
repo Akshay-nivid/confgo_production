@@ -24,6 +24,21 @@ const steps = [
   { label: 'Add Ons', description: '' },
   { label: 'Confirm', description: '' },
 ];
+type Speaker = {
+  speakerId?: string;
+  speakerFullName?: string;
+  speakerAssetId?: string;
+  designation: string;
+  isModerator:boolean
+}
+type Sponsor={
+  sponsorId?:string;
+  sponsorFullName?:string;
+  sponsorLogoId?:string;
+  bannerId?:string;
+  sponsorTypeId?:string;
+  sponsorReservedSeats?:string
+}
 interface Program {
   name: string;
   description: string;
@@ -35,6 +50,24 @@ interface Program {
   type: 'PAID' | 'FREE'|''; 
   amount: number; 
   addOnId:number;   
+  speakers: Speaker[];
+  speakerAssetId:string;
+  designation:string;
+  speakerFullName:string;
+  speakerId:string;
+  speakerSelection:string;
+  sponsor:Sponsor[],
+  sponsorId?:string;
+  sponsorFullName?:string;
+  sponsorLogoId?:string;
+  sponsorbannerId?:string;
+  sponosrSelection?:string;
+  sponsorReservedSeats?:string;
+  sponsorTypeId?:string;
+  isModerator?:boolean;
+  hallName?:{hallName:string};
+  hallArray?:[],
+  createHallName?:string
 }
 interface Property {
   propertyId: string;
@@ -58,7 +91,20 @@ interface Addons {
   amount: string;   
   propertyName:string;
   propertyAmount:string;
-  propertyChip:string
+  propertyChip:string;
+  sponsor?:{
+    sponsorId?:string;
+    sponsorFullName?:string;
+    speakerLogoId?:string;
+    sponsorTypeId?:string;
+  }[];
+  sponsorId?:string;
+  sponsorFullName?:string;
+  sponsorLogoId?:string;
+  sponsorbannerId?:string;
+  sponosrSelection?:string;
+  sponsorReservedSeats?:string;
+  sponsorTypeId?:string
 }
 
 const Events = () => {
@@ -85,8 +131,34 @@ const Events = () => {
   const eventInfo = useStore((state: any) => state?.compData?.getEventDetails?.[`event/${id}`]?.data)
   
 
+  // const [isDirty, setIsDirty] = useState(false); 
+  // /**
+  //  * Check if form data has changed
+  //  */ 
+  // useEffect(() => {
+  //   const hasChanges = JSON.stringify(formData) !== null;
+  //   setIsDirty(hasChanges);
+  // }, [formData]);
 
+  // /**
+  //  * Prompt user on navigating away or closing the tab
+  //  */ 
+  // useEffect(() => {
+  //   const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+  //     if (isDirty) {
+  //       const message = "You have unsaved changes. Are you sure you want to leave?";
+  //       event.returnValue = message; 
+  //       return message;
+  //     }
+  //   };
 
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
+
+    
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, [isDirty]);
 
   /**
    * Useeffect hook handles the api call for getting event status, add options and get event data
@@ -202,6 +274,9 @@ const Events = () => {
     if ((step === 1 && !isEventValid) || ((step === 2 || step === 3) && (!isEventValid || !isProgramValid))) {
       return;
     }
+    // if (isDirty && !window.confirm("You have unsaved changes. Are you sure you want to continue?")) {
+    //   return;
+    // }
   
     setActiveStep(step);
   };
@@ -259,8 +334,10 @@ const Events = () => {
    */
   const createFormRequest = (data: any, draft?: boolean) => {
     const event = data?.event;
-    const EventStart = `${event?.startTime}`
-    const EventEnd = `${event?.endTime}`
+    // const EventStart = event?.startTime
+    // const EventEnd = event?.endTime
+    const EventStart = `${event?.startTime}T00:00` //for testing repeated addon purpose
+    const EventEnd = `${event?.endTime}T23:59` //for testing repeated addon purpos
     const EventStartTime= formatUTCDateTime(EventStart)
     const EventEndTime= formatUTCDateTime(EventEnd)
 
@@ -268,25 +345,71 @@ const Events = () => {
     const addOns=data?.addOns||[];
     const program = programs?.filter((item: Program) => item.name!='');
     const addOn = addOns?.filter((item: Addons) => item.addonId!='');
+
+
     //tranform program fields
-    const transformProgram = program?.map(({type,addOnId, startDate, startTime, endDate, endTime,amount,totalSeat, ...item }: Program) => {
+    const transformProgram = program?.map(({ type, addOnId, startDate, startTime, endDate, endTime, amount, totalSeat, 
+      speakers, 
+      speakerAssetId,
+      designation,
+      speakerFullName,
+      speakerId,
+      speakerSelection,
+      sponsorFullName,
+      sponsorId,
+      sponsorLogoId,
+      sponsorbannerId,
+      sponosrSelection,
+      sponsorReservedSeats,
+      sponsorTypeId,
+      sponsor,
+      isModerator,
+      hallName,
+      hallArray,
+      createHallName,
+
+       ...item }: Program) => {
       // Combine startDate and startTime
       const startDateTime = `${startDate}T${startTime}`;
       
       // Combine endDate and endTime
       const endDateTime = `${endDate}T${endTime}`;
+
       return {
         ...item,  
         totalSeat: totalSeat && totalSeat !== "" ? totalSeat : undefined,             
         startTime: formatUTCDateTime(startDateTime),         
         endTime: formatUTCDateTime(endDateTime),
         statusId: draft? draftStatusId: statusId,
-        amount:amount?amount:"0"
-
+        amount: amount ? amount : "0",
+        ...(speakers?.length !== 0 && {
+          speaker: speakers?.map(({ speakerId,isModerator }: any) => ({
+            speakerId,
+            ...(isModerator&&{isModerator:isModerator})
+          })),
+        }),
+        ...(sponsor?.length !== 0 && {
+          sponsors: sponsor?.map(({ sponsorId, sponsorTypeId, sponsorReservedSeats }) => ({
+            sponsorId,
+            sponsorTypeId,
+            ...(sponsorReservedSeats && { reservedSeats: sponsorReservedSeats }) // Include reservedSeats only if it has a value
+          }))
+        }),
+        ...(hallName&&{hall:hallName?.hallName})
       };
     });
+    
     //tranform addOnData
-    const transformedAddOnData = addOn?.map(({ propertyName,propertyAmount,repeat, name, addonType, noOfDays, dateRequired, propertyChip, type, startTime, endTime, date, properties,amount, ...item }: Addons) => {
+    const transformedAddOnData = addOn?.map(({ propertyName,propertyAmount,repeat, name, addonType, noOfDays, dateRequired, propertyChip, type, startTime, endTime, date, properties,amount,
+      sponsorFullName,
+      sponsorId,
+      sponsorLogoId,
+      sponsorbannerId,
+      sponosrSelection,
+      sponsorReservedSeats,
+      sponsorTypeId,
+      sponsor,
+       ...item }: Addons) => {
       // Create the combined datetime field
       let combinedStartDateTime;
       let combinedEndDateTime;
@@ -300,16 +423,20 @@ const Events = () => {
         amount:amount?amount:"0",
         ...(combinedStartDateTime && { startTime: formatUTCDateTime(combinedStartDateTime) }),
         ...(combinedEndDateTime&&{ endTime:formatUTCDateTime(combinedEndDateTime)}),
-        ...(properties.length !== 0 && {
+        ...(properties?.length !== 0 && {
           properties: properties?.map(({ propertyId, propertyName, propertyAmount, ...rest }: any) => ({
             name: propertyName,
             amount: propertyAmount? Number(propertyAmount) : 0,
             ...rest
           })),
         }),
+        ...(sponsor?.length != 0 && {
+          sponsors: sponsor?.map(({ sponsorId, sponsorTypeId }) => ({ sponsorId, sponsorTypeId }))
+        }),
         addonId: item.addonId
       };
     });
+
     let req: any = {
       name: event?.name,
       description: event?.description,
@@ -356,7 +483,6 @@ const Events = () => {
     }
     req['programs']=transformProgram;
     req['addons']=transformedAddOnData;
-
     return req;
   };
 
@@ -469,7 +595,7 @@ const Events = () => {
     // Helper function to format date
     const formatDate = (dateString: any) => moment(dateString).format("YYYY-MM-DD")
     // Helper function to format time
-    const formatTime = (dateString: any) => moment(dateString).format().split("T")[1].slice(0, 5);
+    const formatTime = (dateString: any) => moment(dateString)?.format()?.split("T")[1]?.slice(0, 5);
 
     const transformedData = {
         event: {
@@ -505,6 +631,21 @@ const Events = () => {
             type: program.amount === "0.00" ? "FREE" : "PAID",
             amount: program.amount || "",
             totalSeat: program ? program?.eventParticipantEntries?.[0]?.totalSeat : null,
+            speakers: program?.eventSpeakers?.map((speaker: any) => ({
+              speakerId: speaker?.userId,
+              speakerFullName: `${speaker?.user?.firstName} ${speaker?.user?.lastName}`,
+              speakerAssetId: speaker?.user?.assetId,
+              designation: speaker?.user?.designation || " ",
+              isModerator:speaker?.user?.isModerator
+            })) || [],
+            sponsor:program?.eventSponsors?.map((sponosr:any)=>({
+              sponsorId:sponosr?.sponsorId,
+              sponsorFullName:sponosr?.sponsor?.name,
+              speakerLogoId:sponosr?.sponsor?.logoAssetId,
+              sponsorTypeId:sponosr?.sponsorTypeId,
+              sponosorReservedSeats:sponosr?.reservedSeats
+            }))||[],
+            hallName:program?.hall
         })),
         addOns: data.addons?.map((addon: any) => ({
             name: addon.addon?.name || "",
@@ -526,7 +667,13 @@ const Events = () => {
             dateRequired: [],
             addonType: addon.amount === "0.00" ? "FREE" : "PAID",
             repeat: [],
-            noOfDays: ""
+            noOfDays: "",
+            sponsor:addon?.eventSponsors?.map((sponosr:any)=>({
+              sponsorId:sponosr?.sponsorId,
+              sponsorFullName:sponosr?.sponsor?.name,
+              speakerLogoId:sponosr?.sponsor?.logoAssetId,
+              sponsorTypeId:sponosr?.sponsorTypeId,
+            }))||[],
         }))
     };
       transformedData?.program.push({
@@ -538,7 +685,10 @@ const Events = () => {
         endTime:moment(new Date()).format("HH:mm"),
         type: "PAID",
         amount: "",
-        // totalSeat:""
+        totalSeat:"",
+        speakers: [],
+        sponsor:[],
+        hallName:""
       },)
 
       transformedData?.addOns.push({

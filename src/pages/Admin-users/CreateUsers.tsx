@@ -45,7 +45,9 @@ const CreateNewUsers = () => {
         role: any,
         email: string,
         phone: string,
-        assetId:string|number
+        assetId:string|number,
+        designation: string,
+        userDescription: string
     }
     /**
     * useEffect fetch full role list
@@ -80,7 +82,7 @@ const CreateNewUsers = () => {
             successCB: (context: any) => {
                 let roleData: Role[] = []; 
                 context.data.forEach((item: RoleList) => {
-                    if (![1,3].includes(item.id)) {
+                    if (![1,2,3].includes(item.id)) {
                         roleData.push({
                             value: item.id,
                             label: item.roleName
@@ -108,7 +110,9 @@ const CreateNewUsers = () => {
                 phone: data.phone,
                 roleId:data.role,
                 companyId:companyId,
-                assetId:selectedFile?.id
+                assetId:selectedFile?.id,
+                designation: data.designation,
+                userDescription: data.userDescription
             },
             id: 'create-admin-user',
             successCB: (context: any) => {
@@ -262,6 +266,26 @@ const CreateNewUsers = () => {
                             options={roleList}
                             rules={{ required: validateRequiredField({}) }}
                         />}
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 6 }}>
+                        <CustomTextField
+                            placeholder="Designation"
+                            label="Designation "
+                            control={control}
+                            name="designation"
+                            type="text"
+                        />
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 12 }}>
+                        <CustomTextField
+                            placeholder="Description"
+                            label="Description "
+                            control={control}
+                            name="userDescription"
+                            type="text"
+                            multiline={true}
+                            rows={3}
+                        />
                     </Grid>
                     <Grid size={{xs:12,sm:6}}>
                     <Grid

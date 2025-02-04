@@ -10,12 +10,13 @@ import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { Typography } from "@mui/material";
-import { ISource } from "@/Libs/type";
+import { ISource } from "@/Libs/types/type";
 import { Logger } from "@/Utils/Logger";
 import React from "react";
 import { NoEvent as NoEventIcon } from "@/assets/svg";
 import { Filter } from "@/components/Filter";
 import { StatusEnum } from "@/Utils/StatusEnum";
+
 interface EventListProps {
   hideAction?: boolean;
   view?:any
@@ -99,7 +100,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
   const columns = [
     { type: "default", field: "id", headerName: "ID", width: 150 },
     {
-      type: "default",
+      type: "custom",
       field: "name",
       headerName: "Event Name",
       width: 200,

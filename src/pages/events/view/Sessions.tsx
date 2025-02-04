@@ -23,6 +23,12 @@ interface Program {
   isPaid: "PAID" | "FREE";
   amount: number;
 }
+interface Event {
+  startTime: Date;
+  eventSpeakers: any; 
+  eventSponsors: any;
+};
+
 /**
  *  Componet to list the sessions
  */
@@ -43,6 +49,14 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
   useEffect(() => {
     if (eventData?.programs) {
       setPrograms(eventData.programs);
+      const uniqueHalls = Array.from(
+        new Set(
+          eventData.programs
+            .map((program: any) => program?.hall)
+            .filter((hall: any) => hall) // Remove null/undefined values
+        )
+      );
+      setDataById('uniqueHalls',uniqueHalls)
     }
   }, [eventData?.programs]);
   /**
@@ -198,7 +212,14 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
         : `/event/update/${selectedProgramId}`  // Program update URL
       : isAddon
         ? `/event/addon/add`                    // Add-on create URL
-        : `/event/program/add`;                 // Program create URL        
+        : `/event/program/add`;                 // Program create URL      
+        const message = isEditing
+        ? isAddon && selectedProgramId
+          ? 'Addon Updated Successfully!'   // Add-on update URL
+          : 'Program Updated Successfully!'  // Program update URL
+        : isAddon
+          ? 'Addon Created Successfully!'                    // Add-on create URL
+          : 'Program Created Successfully!' 
       
         const successCB = (response: any) => {
           onSubmitHandler();
@@ -219,7 +240,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
             open: true,
             autoHideDuration: 2000,
             severity: "success",
-            message: "Success",
+            message: message
           });
           Logger.info("Operation successful:", response.data);
         };
@@ -279,6 +300,42 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
 
     return acc;
   }, {});
+
+
+/**
+ * transformed data so that session card support
+ */
+  const transformed = Object.fromEntries(
+    Object.entries(groupedData).map(([date, events]) => [
+      date,
+      (events as Event[]).map((event) => {
+          const speakers = event?.eventSpeakers
+          ? event?.eventSpeakers.map((speaker: any) => ({
+              speakerAssetId: speaker?.user?.assetId,
+              speakerFullName: speaker?.user?.firstName,
+              speakerId: speaker?.user?.id,
+              designation:speaker?.user?.designation,
+              speakerLastName:speaker?.user?.lastName
+            }))
+          : null;
+          const sponsor = event?.eventSponsors
+          ? event?.eventSponsors.map((sponsor: any) => ({
+              sponsorAssetId: sponsor?.sponsor?.logoAssetId,
+              sponsorFullName: sponsor?.sponsor?.name,
+              sponsorId: sponsor?.sponsor?.id,
+              sponsorReservedSeats:sponsor?.reservedSeats,
+            }))
+            : null;
+          
+        return {
+          ...event,
+          speakers,
+          sponsor,
+          startDate: event?.startTime,
+        };
+      }),
+    ])
+  );
   return (
     <Grid container spacing={3} className="event-sessions-sessions-container">
       <Grid
@@ -310,8 +367,8 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
       {groupedData.invalid && (
         <Grid size={{ xs: 12 }} key="invalid">
           <Grid container spacing={2} className="event-sessions-session-list">
-            {groupedData.invalid.map(
-              (item:  { addon: { name: any } }, index: Key | null | undefined) => (
+            {transformed?.invalid.map(
+              (item:  any, index: Key | null | undefined) => (
                 <SessionCard
                   key={index}
                   item={item}
@@ -338,9 +395,9 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
       )}
 
       {/* Render valid date items */}
-      {Object.keys(groupedData)
+      {Object.keys(transformed)
         .filter((date) => date !== "invalid")
-        .map((date) => (
+        .map((date,idx) => (
           <Grid size={{ xs: 12 }} key={date}>
             <Box
               className="event-sessions-date-header"
@@ -354,11 +411,12 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
             </Box>
 
             <Grid container spacing={2} className="event-sessions-session-list">
-						{groupedData[date].map(
-  (item: { addon: { name: any } }, index: Key | null | undefined) => {
+						{transformed[date].map(
+           (item: any, index: Key | null | undefined) => {
     return (
       <SessionCard
         key={index}
+        index={idx + 1}
         item={item}
         timeCorrection={true}
         hasAddOns={item.addon ? true : false}

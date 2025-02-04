@@ -1,55 +1,9 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from 'zustand/middleware'
-import apiClient from "./Https/API-client";
+import apiClient from "../Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
-import { ICartData, ICartResponse, IParticipantCoupon, IParticipantOrder, IUserEvents } from "./type";
-
-
-/**
-* Define types for the state
-*/
-interface CompData {
-    [key: string]: any;
-    adminCompanyId?:{companyId:number};
-    couponData?: { ["coupon/applyCoupon"]: IParticipantCoupon };
-    order?: { order: IParticipantOrder };
-    previousRoute?: { url: string };
-    finalPrice?: { value: null | string | undefined };
-    addToCart?: { cart: ICartResponse | null };
-    getCart?: { [cartKey: string]: ICartData | null };
-    slugName?: { value: string };
-    eventSelected?: { id: number | null };
-    templateId?: { id: number | null };
-    checkout?: { checkout: { data: any, loading: boolean, success: boolean } };
-    userEvents?: { ["participant/registered/events"]: IUserEvents }
-}
-
-export const NonPersistedKeys = {
-    INITIAL_GET_CART: 'intialGetCart',
-} as const;
-
-
-
-export type NonPersistedKey = typeof NonPersistedKeys[keyof typeof NonPersistedKeys];
-
-export type NonPersistedDataShape = {
-    [NonPersistedKeys.INITIAL_GET_CART]: {
-        value: boolean;
-    };
-};
-
-interface NonPersistedData {
-    [NonPersistedKeys.INITIAL_GET_CART]?: NonPersistedDataShape[typeof NonPersistedKeys.INITIAL_GET_CART];
-    // Add other mappings here
-}
-
-type ApiRequestOptions = {
-    url: string;
-    body?: any;
-    id: string;
-    successCB?: (context: any) => void;
-    errorCB?: (context: any) => void;
-};
+import { ApiRequestOptions, CompData, NonPersistedData } from "../types/store";
+import { initialNonPersistedData } from "./initialState";
 
 
 export interface IStoreState {
@@ -60,9 +14,9 @@ export interface IStoreState {
     clearDataById: (id: string) => void;
     setUserInfo: (data: any) => void;
     resetStore: () => void;
-    setNonPersistedDataById: <K extends NonPersistedKey>(
-        id: K,
-        data: NonPersistedDataShape[K]
+    setNonPersistedDataById:(
+        id: string,
+        data: any
     ) => void;
     POST: (params: ApiRequestOptions) => void;
     GET: (params: ApiRequestOptions) => Promise<{ status: boolean; data: any; message: string }>;
@@ -96,9 +50,7 @@ const useStore = create<IStoreState>()(
         (set, get) => ({
             compData: {},
             userInfo: {},
-            nonPersistedData: {
-                intialGetCart: { value: false },
-            },
+            nonPersistedData:initialNonPersistedData,
             /**
              * Method to set data in global state using id
              * @param id :id
@@ -123,9 +75,9 @@ const useStore = create<IStoreState>()(
              * @param id :id
              * @param data :data
              */
-            setNonPersistedDataById: <K extends NonPersistedKey>(
-                id: K,
-                data: Partial<NonPersistedDataShape[K]>
+            setNonPersistedDataById: (
+                id: string,
+                data: any,
             ) => {
                 set((state) => ({
                     nonPersistedData: {
@@ -133,7 +85,7 @@ const useStore = create<IStoreState>()(
                         [id]: {
                             ...(state.nonPersistedData[id] || {}),
                             ...data
-                        } as NonPersistedDataShape[K]
+                        }
                     },
                 }));
             },

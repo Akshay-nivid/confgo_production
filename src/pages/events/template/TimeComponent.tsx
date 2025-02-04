@@ -11,19 +11,25 @@ interface TimeComponentProps {
   startTime: string;
   endTime: string;
   classPrefix: string;
+  month?: boolean;
 }
 
-const TimeComponent: React.FC<TimeComponentProps> = ({ startTime, endTime, classPrefix }) => {
+const TimeComponent: React.FC<TimeComponentProps> = ({ startTime, endTime, classPrefix, month }) => {
   const formattedStart = moment(startTime).format('hh:mm A');
   const formattedEnd = moment(endTime).format('hh:mm A');
   const isSameDay = moment(startTime).isSame(moment(endTime), 'day');
+  const formattedStartDate = moment(startTime).format('MMM D');
+  const formattedEndDate = moment(endTime).format('MMM D');
 
   return (
+
     <Typography className={`${classPrefix}`}>
-      {`${formattedStart}` +
-        (isSameDay ? '' : ` (${moment(startTime).format('MMM D')})`) +
+      {month
+        ? `(${formattedStartDate}` + (isSameDay ? '' : ` -${formattedEndDate})`)
+        : `${formattedStart}` +
+        (isSameDay ? '' : ` (${formattedStartDate})`) +
         ` - ${formattedEnd}` +
-        (isSameDay ? '' : ` (${moment(endTime).format('MMM D')})`)}
+        (isSameDay ? '' : ` (${formattedEndDate})`)}
     </Typography>
   );
 };

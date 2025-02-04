@@ -2,7 +2,7 @@
  * Component handles the second template
  */
 import Grid from '@mui/material/Grid2';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import AboutSection from './AboutSection';
 import ProgramSection from './ProgramSection';
 import EventContributorsSection from './EventContributorsSection';
@@ -11,13 +11,16 @@ import TicketingSection from './TicketingSection';
 import LocationSection from './LocationSection';
 import RegisterBannerSection from './RegisterBannerSection';
 import TopMenuSection from './TopMenuSection';
-import { formatDateRange, toTitleCase, truncateString } from '@/Utils/CommonBaseClass';
+import { formatDateRange, getLocalTimeDate, toTitleCase, truncateString } from '@/Utils/CommonBaseClass';
 import LocationIcon from '@/assets/svg/template1-location.svg';
 import CalendarIcon from '@/assets/svg/template1-calendar.svg';
 import EmailIcon from '@/assets/svg/template1-email.svg';
 import LinkIcon from '@/assets/svg/template1-url.svg';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import TitleSection from './TitleSection';
+import TimerCounterComp from './TemplateTimer/TimerCounterComp';
+import SponsorShip from './sponsorShipForm/SponsorShip';
+
 
 
 type TemplateViewProps = {
@@ -26,13 +29,24 @@ type TemplateViewProps = {
 
 
 const Template2: React.FC<TemplateViewProps> = React.memo(({ data }) => {
-
     const aboutRef = useRef(null);
     const contributorsRef = useRef(null);
     const programRef = useRef(null);
     const tierRef = useRef(null);
     const LocationRef = useRef(null);
     // const [copied, setCopied] = useState(false);
+    const [day, setDay] = useState<string>('');
+    const [hour, setHour] = useState<string>('');
+    const [minute, setMinute] = useState<string>('');
+    const [second, setSecond] = useState<string>('');
+  
+    // Callback function to receive the updated time values from TimerCounterComp
+    const handleTimeUpdate = (day: string, hour: string, minute: string, second: string) => {
+      setDay(day);
+      setHour(hour);
+      setMinute(minute);
+      setSecond(second);
+    };
 
     //Create item array dynamically based on Event Class
     const itemArray = [];
@@ -127,7 +141,44 @@ const Template2: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                 </Grid>
             </Grid>
         </Grid>
-
+        {/*Event Count down  */}
+        <Grid className="template1-countdown" spacing={2} container justifyContent={"center"} >
+        <Grid className="template1-countdown-container" size={12} justifyContent={"center"} spacing={2}>
+          <TimerCounterComp
+            targetDate={getLocalTimeDate(data.startTime, 'YYYY-MM-DD HH:mm:ss')}
+            onTimeUpdate={handleTimeUpdate}
+          >
+            <Typography textAlign={"center"} className='template2-countdown-headerText'>Time Remaining</Typography>
+            <Grid container size={12} justifyContent="center" alignItems="center" direction="row" display={"flex"}>
+              <Grid size={2} />
+              <Grid size={2}>
+                <Box display="flex" flexDirection="row" alignItems="baseline" justifyContent="center" className="template2-countdown-timerTypo">
+                  <Typography textAlign={"center"} variant="h4" className='template2-countdown-timerDigit'>{day}</Typography>
+                  <Typography textAlign={"center"}>Days</Typography>
+                </Box>
+              </Grid>
+              <Grid size={2}>
+                <Box display="flex" flexDirection="row" alignItems="baseline" justifyContent="center" className="template2-countdown-timerTypo">
+                  <Typography variant="h4" className='template2-countdown-timerDigit'>{hour}</Typography>
+                  <Typography>Hours</Typography>
+                </Box>
+              </Grid>
+              <Grid size={2}>
+                <Box display="flex" flexDirection="row" alignItems="baseline" justifyContent="center" className="template2-countdown-timerTypo">
+                  <Typography variant="h4" className='template2-countdown-timerDigit'>{minute}</Typography>
+                  <Typography>Minutes</Typography>
+                </Box>
+              </Grid>
+              <Grid size={2}>
+                <Box display="flex" flexDirection="row" alignItems="baseline" justifyContent="center" className="template2-countdown-timerTypo">
+                  <Typography variant="h4" className='template2-countdown-timerDigit'>{second}</Typography>
+                  <Typography>Seconds</Typography>
+                </Box>
+              </Grid>
+            </Grid>
+          </TimerCounterComp>
+        </Grid>
+      </Grid>
         {/* About section */}
         <AboutSection classPrefix={`${classPrefix}-about`} data={data} ref={aboutRef} />
         {/* Event Contributors section */}
@@ -159,6 +210,10 @@ const Template2: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                 onScrollToTier={() => handleScrollTo(tierRef)}
             />
         }
+        {/* Sponsor */}
+        <Grid  minHeight={"max-content"} size={12} container>
+        <SponsorShip eventId={data?.id}/>
+        </Grid>
         {/* Footer section */}
         <FooterSection classPrefix={`${classPrefix}-footer`} data={data} />
     </Grid>

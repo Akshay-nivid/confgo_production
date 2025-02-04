@@ -702,9 +702,43 @@ console.log(today,"today")
                       }}
                     />
                   </Grid>
-                
-                  
-                  {/* <Grid size={{ xs: 12, sm: 6 }}>
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <CustomTextField
+                      placeholder="Start Date"
+                      control={control}
+                      name="startTime"
+                      type="date"
+                      className="create-event"
+                      defaultValue={moment(new Date()).format("YYYY-MM-DD")}
+                      min={moment(new Date()).format("YYYY-MM-DD")}
+                      rules={{
+                        required:"Start date is a required field.",
+                        pattern: {
+                          value: /^\d{4}-\d{2}-\d{2}$/, 
+                          message: "Please enter a valid start date (DD-MM-YYYY)"
+                        }
+                      }}
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: 6 }}>
+                    <CustomTextField
+                      placeholder="End Date"
+                      className="create-event"
+                      control={control}
+                      name="endTime"
+                      type="date"
+                      defaultValue={moment(new Date()).format("YYYY-MM-DD")}
+                      min={moment(new Date()).format("YYYY-MM-DD")}
+                      rules={{
+                        required:'End date is a required field.',
+                        pattern: {
+                          value: /^\d{4}-\d{2}-\d{2}$/,
+                          message: "Please enter a valid end date (DD-MM-YYYY)"
+                        }
+                      }}
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField
                       placeholder="Price"
                        prefix={currency}
@@ -730,9 +764,37 @@ console.log(today,"today")
                     defaultValue={data?.speciality?.name}
                     onChange={() => setValue('isAbstract',false)}
                     />
-                  </Grid> */}
-                  
-                  {/* {watch("type") !== "OFFLINE" && (
+                  </Grid>
+                  {watch('specialtyId')=='1'&&
+                  <Grid size={{ xs: 12, sm: watch('isAbstract')?6:12 }}>
+                      <CustomSwitch
+                        className="add-program-switch-btn"
+                        buttonColor="success"
+                        label="Abstract Submission"
+                        name={`isAbstract`}
+                        control={control}
+                      />
+                  </Grid>}
+                  {watch('isAbstract') && watch('specialtyId')=='1'&&
+                  <Grid size={{xs:12,sm:6}}>
+                    <CustomTextField
+                      placeholder="Abstract Submission Date"
+                      control={control}
+                      name="abstractDate"
+                      type="date"
+                      className="create-event"
+                      defaultValue={moment(new Date()).format("YYYY-MM-DD")}
+                      min={moment(new Date()).format("YYYY-MM-DD")}
+                      rules={{
+                        required:"Abstract Submission Date is required",
+                        pattern: {
+                          value: /^\d{4}-\d{2}-\d{2}$/, 
+                          message: "Please enter a valid start date (DD-MM-YYYY)"
+                        }
+                      }}
+                    />
+                  </Grid>}
+                  {watch("type") !== "OFFLINE" && (
                     <Grid size={{ xs: 12, sm: 12 }}>
                       <CustomTextField
                         placeholder="Url"
@@ -776,7 +838,7 @@ console.log(today,"today")
                           control={control}
                           name="mapUrl" 
                           type="text" 
-                          shrink={watch('mapUrl')!==''&&watch('mapUrl')!==undefined?true:undefined}
+                          shrink={watch('mapUrl') !== '' && watch('mapUrl') !== undefined ? true : undefined}
                           readOnly
                           rules={{
                             required: true,                                                                  
@@ -788,7 +850,7 @@ console.log(today,"today")
                           placeholder="Venue Name"
                           control={control}
                           name="venueName"
-                          shrink={watch('venueName')!==''&&watch('venueName')!==undefined?true:undefined}
+                          shrink={watch('venueName') !== '' && watch('venueName') !== undefined ? true : undefined}
                           type="text"
                           rules={{ required: watch("type") === "OFFLINE" }}
                         />
@@ -798,7 +860,7 @@ console.log(today,"today")
                           placeholder="Address"
                           control={control}
                           name="address"
-                          shrink={watch('address')!==''&&watch('address')!==undefined?true:undefined}
+                          shrink={watch('address') !== '' && watch('address') !== undefined ? true : undefined}
                           type="text"
                           rules={{ required: watch("type") === "OFFLINE" }}
                         />
@@ -808,7 +870,7 @@ console.log(today,"today")
                           name="country"
                           label="Country"
                           control={control}
-                          shrink={watch('country')!==''&&watch('country')!==undefined?true:undefined}
+                          shrink={watch('country') !== '' && watch('country') !== undefined ? true : undefined}
                           type="text"
                         />
                       </Grid>
@@ -818,7 +880,7 @@ console.log(today,"today")
                             label="State"
                             control={control}
                             type="text"
-                            shrink={watch('state')!==''&&watch('state')!==undefined}
+                            shrink={watch('state') !== '' && watch('state') !== undefined ? true : undefined}
                             rules={{
                               required:Boolean(watch('country')),
                             }}
@@ -830,21 +892,21 @@ console.log(today,"today")
                           control={control}
                           name="city"
                           type="text"
-                          shrink={watch('city')!==''&&watch('city')!==undefined}
+                          shrink={watch('city') !== '' && watch('city') !== undefined ? true : undefined}
                           rules={{ required: watch("type") === "OFFLINE" }}
                         />
                       </Grid>
                       <Grid size={{ xs: 12, sm: 6 }}>
                         <CustomTextField
-                          placeholder="Pin Code"
+                          label="Pin Code"
                           control={control}
                           name="postalCode"
                           type="text"
-                          shrink={watch('postalCode')!==''&&watch('postalCode')!==undefined?true:undefined}
+                          shrink={watch('postalCode') !== '' && watch('postalCode') !== undefined ? true : undefined}
                           rules={{
                             required: watch("type") === "OFFLINE",
                             pattern: {
-                              value: /(^\d{5}(-\d{4})?$)|(^\d{6}$)/,
+                              value: /^.{1,10}$/,
                               message: "Enter a valid postal code (e.g., '12345', '12345-6789', or '123456')",
                             },
                           }}

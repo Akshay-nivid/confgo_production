@@ -10,17 +10,19 @@ import { Logger } from '@/Utils/Logger';
 import routes from '@/router/routes';
 import Template3 from './Template3';
 import Template2 from './Template2';
-import { CircularProgress } from '@mui/material';
-import NoEvents from '@/pages/Participant-User/No-Event/NoEvent';
+import Template4 from '../approvedTemplate/Template4';
+import { Backdrop, CircularProgress } from '@mui/material';
+import MaintenancePage from './MaintenancePage';
 
 type TemplateContainerProps = {
     id?: number;
 }
 
 const templates: any = {
-  1: Template1,
+  1: Template4,
   2: Template2,
   3: Template3,
+  4: Template1
 };
 
 /**
@@ -153,7 +155,9 @@ const fetchEventDetails = async () => {
   const SelectedTemplate = templates[findTemp(temp, slugInfo?.data)];
 
   return loading ? (
+    <Backdrop open={true}>
     <CircularProgress color="inherit" size={20} />
+    </Backdrop>
   ) : publish ? (
     <Grid container size={{ xs: 12, sm: 12 }} className={`event-template${!slug ? " event-template-preview" : ""}`} spacing={1}>
       {(dataInfo?.data || slugInfo?.data) && (
@@ -165,7 +169,7 @@ const fetchEventDetails = async () => {
       )}
     </Grid>
   ) : (
-    <NoEvents description="" title="This event is currently under maintenance" />
+    <MaintenancePage/>
   );
 });
 

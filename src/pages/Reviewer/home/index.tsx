@@ -1,14 +1,15 @@
 import { DataGridList } from '@/components/DataGrid/DataGridList';
-import { ISource } from '@/Libs/type';
-import { Box, Typography } from '@mui/material';
+import { ISource } from '@/Libs/types/type';
+import { Box, Skeleton, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
-import useStore, { setDataById } from '@/Libs/store';
+import useStore, { GET } from '@/Libs/store';
 import CustomAutocomplete from '@/components/CustomAutocomplete/CustomAutocomplete';
 import { useForm } from 'react-hook-form';
+
 
 interface IDataListItem {
   id: number;
@@ -24,6 +25,7 @@ interface IDataListItem {
     name: string;
   };
 }
+
 
 /**
  * ReviewerHome component renders the home page for the reviewer.
@@ -56,15 +58,17 @@ const ReviewerHome = () => {
 
   const [source, setSource] = useState<ISource | undefined>(undefined);
 
-  const [dataList, setAbstractList] = useState<IDataListItem[]>([]);
+  // const [dataList, setAbstractList] = useState<IDataListItem[]>([]);
   const [currentTab, setCurrentTab] = useState(TABS.TOTAL_ABSTRACTS);
 
-  const [refreshKey, setRefreshKey] = useState(0); 
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const abstractList = useStore(state => state?.compData?.['reviewer-datagrid']?.data) ?? [];
 
+  const abstractSummaryData = useStore(state => state?.compData?.['abstractSummaryData']?.['dashBoard/abstractCount']) || {};
 
-  const [currectEventId,setCurrectEventId] = useState<number | null>(null)
+  const [currectEventId, setCurrectEventId] = useState<number | null>(null)
+
 
   const columns = [
     { type: 'default', field: 'id', headerName: 'ID', width: 150 },
@@ -132,12 +136,31 @@ const ReviewerHome = () => {
       url: `userAbstract/list`,
       listName: 'abstractList',
     });
-  }, [currentTab,refreshKey]);
+  }, [currentTab, refreshKey]);
 
-  useEffect(() => { 
-    setDataById('abstractSummaryData',{data:abstractList})
-  },[])
 
+  useEffect(() => {
+    GET({ url: 'dashBoard/abstractCount', id: 'abstractSummaryData' })
+  }, [])
+
+
+  /**
+   * Maps the statusId received from the API to the statusId used in the front-end.
+   * @param statusId - The statusId received from the API.
+   * @returns The mapped statusId used in the front-end.
+   */
+  function convertStatusId(statusId: number) {
+    switch (statusId) {
+      case 1:
+        return 9
+      case 2:
+        return 10
+      case 4:
+        return 3
+      default:
+        return 3
+    }
+  }
 
   /**
    * Transforms the raw data from the API to match the required format for the DataGrid component.
@@ -146,12 +169,13 @@ const ReviewerHome = () => {
    */
   const transformData =
     (data: IDataListItem[] = []) => {
-      setAbstractList(data);
+      // setAbstractList(data);
 
       return data.map(item => ({
         ...item,
         eventClass: item.event?.eventClass,
         eventName: item.event?.name,
+        statusId: convertStatusId(item?.statusId)
       }));
 
     }
@@ -160,27 +184,27 @@ const ReviewerHome = () => {
     {
       id: 1,
       title: 'Total Abstracts',
-      value: dataList.length,
+      value: abstractSummaryData?.data?.totalAbstracts,
     },
     {
       id: 2,
       title: 'Pending for Review',
-      value: dataList.filter(item => item.isReviewed === 0).length,
+      value: abstractSummaryData?.data?.pendingForReview,
     },
     {
       id: 3,
       title: 'Reviewed Abstracts',
-      value: dataList.filter(item => item.isReviewed === 1).length,
+      value: abstractSummaryData?.data?.reviewedAbstracts,
     },
     {
       id: 4,
       title: 'Approved',
-      value: dataList.filter(item => item.isReviewed === 1 && item.statusId === 1).length,
+      value: abstractSummaryData?.data?.approvedAbstract,
     },
     {
       id: 5,
       title: 'Rejected',
-      value: dataList.filter(item => item.isReviewed === 1 && item.statusId === 2).length,
+      value: abstractSummaryData?.data?.rejectedAbstracts,
     },
   ];
 
@@ -209,7 +233,7 @@ const ReviewerHome = () => {
    */
   function onSearch(query: string) {
 
-    const filteredData = abstractList.filter((item: any) => item.eventName.toLowerCase().includes(query.toLowerCase()));
+    const filteredData = abstractList.filter((item: any) => item?.eventName.toLowerCase().includes(query.toLowerCase()));
 
     setEventAbstractList(filteredData);
 
@@ -221,14 +245,14 @@ const ReviewerHome = () => {
    * @param {object} data - The event data selected from the dropdown.
    */
   function handleOnChange(data: any) {
-    
+
     setCurrectEventId(data.eventId)
-  
-    setRefreshKey(prev=>prev+1)
+
+    setRefreshKey(prev => prev + 1)
 
 
   }
-  
+
 
   return (
     <Box className="reviewer-main reviewer-home-main">
@@ -255,7 +279,7 @@ const ReviewerHome = () => {
               loading={false}
               placeholder="Search events"
               onChange={handleOnChange}
-              
+
             />
           </Box>
 
@@ -321,10 +345,21 @@ const TabButton = ({ text, active, onclick }: { text: string; active: boolean; o
  * @returns {JSX.Element} The rendered card
  */
 const SummaryCard = ({ title, value }: { title: string; value: number }) => {
+
+  const summaryData = useStore(state => state?.compData?.['abstractSummaryData']?.['dashBoard/abstractCount']) || false;
+
   return (
     <Box>
       <Typography className="abstracts-summary-content-title">{title} </Typography>
-      <Typography className="abstracts-summary-content-value">{value}</Typography>
+      <Typography className="abstracts-summary-content-value">
+        {
+          summaryData?.loading ? <Skeleton /> : value
+        }
+      </Typography>
     </Box>
   );
 };
+
+
+
+

@@ -9,7 +9,7 @@ import TicketingSection from './TicketingSection';
 import LocationSection from './LocationSection';
 import RegisterBannerSection from './RegisterBannerSection';
 import Temp1PhotoIcon from '@/assets/png/template1-photo.png';
-import { formatDateRange, getUserToken, groupByDate, handleLogout, toTitleCase, truncateString, useIsMobileOrTabletScreen } from '@/Utils/CommonBaseClass';
+import { formatDateRange, getLocalTimeDate, getUserToken, groupByDate, handleLogout, toTitleCase, truncateString, useIsMobileOrTabletScreen } from '@/Utils/CommonBaseClass';
 import LocationIcon from '@/assets/svg/template1-location.svg';
 import CalendarIcon from '@/assets/svg/template1-calendar.svg';
 import EmailIcon from '@/assets/svg/template1-email.svg';
@@ -27,9 +27,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { CloseIcon } from '@/assets/svg';
 import { Drawer } from '@mui/material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import useStore, { resetStore, setDataById, snackBar } from '@/Libs/store';
+import useStore, { resetStore, setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store';
 import routes from '@/router/routes';
 import parse from 'html-react-parser';
+import TimerCounterComp from './TemplateTimer/TimerCounterComp';
+import ProgramDetailsModal from './_components/ProgramDetailsModal';
+import SponsorShip from './sponsorShipForm/SponsorShip';
 
 
 
@@ -39,7 +42,6 @@ type TemplateViewProps = {
 
 
 const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
-
     const aboutRef = useRef(null);
     const contributorsRef = useRef(null);
     const programRef = useRef(null);
@@ -53,7 +55,18 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     const baseUrl = config.api.url;
     const slugName = useStore((state: any) => state?.compData?.["slugName"]?.value) || '';
     const slugInfo = useStore((state: any) => state?.compData?.['slugEventDetails']?.[`event/slug/${slugName}`]?.data) ?? [];
-
+    const [day, setDay] = useState<string>('');
+    const [hour, setHour] = useState<string>('');
+    const [minute, setMinute] = useState<string>('');
+    const [second, setSecond] = useState<string>('');
+  
+    // Callback function to receive the updated time values from TimerCounterComp
+    const handleTimeUpdate = (day: string, hour: string, minute: string, second: string) => {
+      setDay(day);
+      setHour(hour);
+      setMinute(minute);
+      setSecond(second);
+    };
 
     //Create item array dynamically based on Event Class
     const itemArray = [];
@@ -128,9 +141,9 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
       }
     }, [groupedPrograms]);
     
-    const handleTabChange = (_event: React.MouseEvent<Element>, newValue: string) => {
-      setSelectedDate(newValue);
-    };
+    // const handleTabChange = (_event: React.MouseEvent<Element>, newValue: string) => {
+    //   setSelectedDate(newValue);
+    // };
 
      /**
      * Opens the drawer component
@@ -157,13 +170,13 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
   function handleLinkClick(value: 'About' | 'Program' | 'Contributors' | 'Location') {
 
 
-    if (location?.pathname?.startsWith('/event-link')) {
+    if (location?.pathname?.startsWith('/event')) {
       scrollToTargetLink(value)
 
     } else {
       setDataById('currentLink', { value: value });
 
-      const targetRoute = `/event-link/${slugName}`
+      const targetRoute = `/event/${slugName}`
 
       navigate(targetRoute);
 
@@ -266,6 +279,12 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
   }
 
     
+  function handleProgramCardClick(item:any) {
+    
+    setNonPersistedDataById('isProgramDetailsModelOpen', { value: true })
+    setNonPersistedDataById('programDetails', { value: item })
+
+  }
     
     const classPrefix = 'event-template-template1';
 
@@ -320,7 +339,7 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
 
               <Grid container flexDirection={'column'} height={'100vh'} className={`${classPrefix}-top-menu-container-drawer`} >
 
-
+               
                 <Grid container flexDirection={'column'} rowSpacing={4}>
                   <Grid className={`${classPrefix}-top-menu-sub-item`}><Link to={'#'} onClick={() => handleLinkClick('About')}> About </Link></Grid>
                   {data?.eventSpeakers?.length > 0 && <Grid className={`${classPrefix}-top-menu-sub-item`}><Link to={'#'} onClick={() => handleLinkClick('Contributors')}> Contributors </Link></Grid>}
@@ -362,6 +381,7 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                 </Grid>
               </Grid>
             </Grid>
+
                     {/* Title section ends here */}
                     <Grid className={`${classPrefix}-header-photo-container`} size={{ xs: 12, sm: 6 }}><img src={Temp1PhotoIcon} alt="Template 1 Photo" /></Grid>
                     {/* Details section */}
@@ -395,12 +415,48 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
 
                             </Grid>
                         </Grid></Grid>
-
                 </Grid>
             </Grid>
         </Grid>
-
-
+      {/* Event count down component */}
+      <Grid className="template1-countdown" spacing={2} container justifyContent={"center"} >
+        <Grid className="template1-countdown-container" size={12} justifyContent={"center"} spacing={2}>
+          <TimerCounterComp
+            //  customStyles="template1-countdown"
+            targetDate={getLocalTimeDate(data.startTime, 'YYYY-MM-DD HH:mm:ss')}
+            onTimeUpdate={handleTimeUpdate}
+          >
+            <Typography textAlign={"center"} className='template1-countdown-headerText'>Time Remaining</Typography>
+            <Grid container size={12} justifyContent="center" alignItems="center" direction="row" display={"flex"}>
+              <Grid size={2} />
+              <Grid size={2}>
+                <Box display="flex" flexDirection="row" alignItems="baseline" justifyContent="center" className="template1-countdown-timerTypo">
+                  <Typography textAlign={"center"} variant="h4" className='template1-countdown-timerDigit'>{day}</Typography>
+                  <Typography textAlign={"center"}>Days</Typography>
+                </Box>
+              </Grid>
+              <Grid size={2}>
+                <Box display="flex" flexDirection="row" alignItems="baseline" justifyContent="center" className="template1-countdown-timerTypo">
+                  <Typography variant="h4" className='template1-countdown-timerDigit'>{hour}</Typography>
+                  <Typography>Hours</Typography>
+                </Box>
+              </Grid>
+              <Grid size={2}>
+                <Box display="flex" flexDirection="row" alignItems="baseline" justifyContent="center" className="template1-countdown-timerTypo">
+                  <Typography variant="h4" className='template1-countdown-timerDigit'>{minute}</Typography>
+                  <Typography>Minutes</Typography>
+                </Box>
+              </Grid>
+              <Grid size={2}>
+                <Box display="flex" flexDirection="row" alignItems="baseline" justifyContent="center" className="template1-countdown-timerTypo">
+                  <Typography variant="h4" className='template1-countdown-timerDigit'>{second}</Typography>
+                  <Typography>Seconds</Typography>
+                </Box>
+              </Grid>
+            </Grid>
+          </TimerCounterComp>
+        </Grid>
+      </Grid>
         {/* About section */}
       <Grid id="About" container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-about`} justifyContent={'center'} alignItems={'center'} spacing={2} direction={'column'} ref={aboutRef}>
         <Grid textAlign={{ xs: 'center', sm: 'center' }} className={`${classPrefix}-about-title`}>{`Welcome to the   ${truncateString(data?.name, 18, "Untitled")}`}</Grid>
@@ -418,27 +474,26 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
           <Grid className={`${classPrefix}-program-tabs-container`}>
             <Box className={`${classPrefix}-program-tabs-box`}>
               <Grid className={`${classPrefix}-program-tabs-list`} size={{ xs: 12, sm: 12 }}>
-                {Object.keys(groupedPrograms)?.map((date, index) => (
+                {/* {Object.keys(groupedPrograms)?.map((date, index) => (
                   <CustomButton
                     key={index}
                     onClick={(event) => handleTabChange(event, date)}
                     className={`${classPrefix}-program-tabs-tab ${selectedDate === date ? `${classPrefix}-program-tabs-tab-active` : ``}`}
                     label={` Day ${index + 1}`}
                   />
-                ))}
+                ))} */}
               </Grid>
             </Box>
           </Grid>
-          <Grid container spacing={3} className={`${classPrefix}-program-content-container`} mt={2} direction="column" alignContent={'center'} size={{ xs: 12, sm: 12 }}>
+          <Grid  container spacing={3} className={`${classPrefix}-program-content-container`} mt={2} direction="column" alignContent={'center'} size={{ xs: 12, sm: 12 }}>
             {generalAddsOn?.map((item: any, index: number) => (
-              <Grid size={{ xs: 11 }} justifyContent={'center'}  pl={{xs:2,md:4}} p={2} key={index} 
+              <Grid  size={{ xs: 11 }} justifyContent={'center'}  pl={{xs:2,md:4}} p={2} key={index} 
                 className={`${classPrefix}-program-content-item ${item?.type === 'program' ? `${classPrefix}-program-content-item-program` : `${classPrefix}-program-content-item-addon`}`}
               >
+                
                 <Grid container alignItems="center" spacing={3}>
-                  {/* Time Block */}
                   <Grid size={{ xs: 2 }} container direction="row" alignItems="center" justifyContent="start" className={`${classPrefix}-program-content-time`} >
                     <Grid size={{ xs: 2 }}>
-                      {/* <ClockIcon className={`${classPrefix}-program-content-time-icon`} /> */}
                     </Grid>
                     <Grid size={{ xs: 10 }}>
                     <Typography variant='h6'>
@@ -446,7 +501,6 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                     </Typography>
                     </Grid>
                   </Grid>
-                  {/* Content Block */}
                   <Grid size={{ xs: 9 }} className={`${classPrefix}-program-content-details-${item.type === 'program' ? 'program' : 'addon'}`}>
                     <TitleComponent
                       title={item?.type === 'program' ? item?.name : item?.addon?.name}
@@ -463,11 +517,10 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
           </Grid>
           <Grid container spacing={3} className={`${classPrefix}-program-content-container`} mt={2} direction="column" alignContent={'center'} size={{ xs: 12, sm: 12 }}>
             {combinedAndSortedItems?.map((item: any, index: number) => (
-              <Grid size={{ xs: 11 }} justifyContent={'center'}  pl={{xs:2,md:4}} p={2} key={index} 
+              <Grid  onClick={() => handleProgramCardClick(item)} size={{ xs: 11 }} justifyContent={'center'}  pl={{xs:2,md:4}} p={2} key={index} 
                 className={`${classPrefix}-program-content-item ${item?.type === 'program' ? `${classPrefix}-program-content-item-program` : `${classPrefix}-program-content-item-addon`}`}
               >
                 <Grid container alignItems="center" spacing={3}>
-                  {/* Time Block */}
                   <Grid size={{ xs: 2 }} container direction="row" alignItems="center" justifyContent="start" className={`${classPrefix}-program-content-time`} >
                     <Grid size={{ xs: 2 }}>
                       <ClockIcon className={`${classPrefix}-program-content-time-icon`} />
@@ -480,7 +533,6 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                       />
                     </Grid>
                   </Grid>
-                  {/* Content Block */}
                   <Grid size={{ xs: 9 }} className={`${classPrefix}-program-content-details-${item.type === 'program' ? 'program' : 'addon'}`}>
                     <TitleComponent
                       title={item?.type === 'program' ? item?.name : item?.addon?.name}
@@ -494,6 +546,7 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                 </Grid>
               </Grid>
             ))}
+          <ProgramDetailsModal/>
           </Grid>
         </Grid>
         {
@@ -521,6 +574,11 @@ const Template1: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                 onScrollToTier={() => handleScrollTo(tierRef)}
             />
         }
+        {/* Sponsor */}
+        <Grid  minHeight={"max-content"} size={12} container>
+         <SponsorShip eventId={data?.id}/>
+        </Grid>
+
         {/* Footer section */}
         <FooterSection classPrefix={`${classPrefix}-footer`} data={data} />
     </Grid>

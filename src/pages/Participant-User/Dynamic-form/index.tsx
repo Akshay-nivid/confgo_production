@@ -274,7 +274,7 @@ const DynamicUserForm = () => {
           <>
             <Grid className="file-upload-wrapper" size={12} display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
               <Grid justifyContent={'center'}><Typography className="file-upload-title">{metadata?.title}</Typography></Grid>
-              <FileUpload resolution={{ width: 150, height: 150 }} onSubmit={(data) => handleFileUpload(data, commonProps.name)} className="dynamic-file-upload" height={"max-content"} />
+              <FileUpload resolution={{ width: 150 }} onSubmit={(data) => handleFileUpload(data, commonProps.name)} className="dynamic-file-upload" height={"max-content"} />
               <Box paddingInline={3} display={"flex"} columnGap={1} rowGap={1} flexWrap={"wrap"}>
 
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import { CircularProgress } from '@mui/material';
+import clsx from 'clsx';
 
 interface CustomButtonProps {
   onClick?: (e: React.MouseEvent) => void;
@@ -40,7 +41,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
       type={type || 'button'}
       startIcon={startIcon}
       endIcon={endIcon}
-      className={ className}
+      className={clsx(className)}
       onClick={onClick}
       variant={variant}
       disabled={disabled}

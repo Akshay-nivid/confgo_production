@@ -10,8 +10,7 @@ import DownloadIcon from '../../assets/svg/abstract-download.svg';
 import { PdfIcon } from '@/assets/svg';
 
 interface Resolution {
-  width: number | null;
-  height: number | null;
+  width?: number | null;
 }
 
 interface FileUploadProps {
@@ -22,11 +21,13 @@ interface FileUploadProps {
   resolution?: Resolution;
   onSubmit?: (response: any) => void;
   trimClientSide?: boolean;
+  onFileSelect?: (file: File[]) => void;
   width?: string | number;
   height?: string | number;
   className?: string;
   isAbstract?: boolean;
   disabled?: boolean;
+  ratioLabel?: string;
 }
 
 /**
@@ -38,15 +39,17 @@ const FileUpload: React.FC<FileUploadProps> = ({
   allowDrop = true,
   acceptedFiles = ['image/jpeg', 'image/png'],
   canSelectMultiple = false,
-  maxSize = 1 * 1024 * 1024,
-  resolution = { width: null, height: null },
+  maxSize = 1,
+  resolution = { width: null },
   onSubmit,
   trimClientSide = true,
+  onFileSelect,
   // width = '30rem',
   // height = '30rem',
   className,
   isAbstract,
   disabled = false,
+  ratioLabel = "16:9",
 }) => {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -55,6 +58,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
   const POST = useStore((state: any) => state.POST);
 
   const assetUploadLoading = useStore((state: any) => state.compData?.['assetUpload']?.['asset']?.loading);
+  const maxSizeInBytes = maxSize * 1024 * 1024;
 
   // const loading = useStore((state: any) => state.compData?.['assetUpload']?.['asset']?.loading);
 
@@ -69,10 +73,15 @@ const FileUpload: React.FC<FileUploadProps> = ({
       img.src = URL.createObjectURL(file);
 
       img.onload = () => {
+        const aspectRatio = img.width / img.height;
+        let targetWidth = img.width;
+        let targetHeight = img.height;
+        if (resolution.width) {
+          // If width is provided, calculate height based on aspect ratio
+          targetWidth = resolution.width;
+          targetHeight = resolution.width / aspectRatio;
+        }
         const canvas = document.createElement('canvas');
-        const targetWidth = resolution.width || img.width;
-        const targetHeight = resolution.height || img.height;
-
         canvas.width = targetWidth;
         canvas.height = targetHeight;
 
@@ -110,8 +119,8 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
       // Process accepted files, resizing if necessary
       await Promise.all(
-        acceptedFiles.map(async file => {
-          if (trimClientSide && resolution.width && resolution.height) {
+        acceptedFiles.map(async (file) => {
+          if (trimClientSide && resolution.width) {
             try {
               const trimmedFile = await trimImageResolution(file);
               if (trimmedFile) {
@@ -133,9 +142,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
         const errorMessages = errors.map(e => {
           // Check if error is related to file size
           if (e.code === 'file-too-large') {
-            // Convert the maxSize to MB for the message
-            const maxSizeInMB = (maxSize / (1024 * 1024)).toFixed(2); // Convert to MB with 2 decimal points
-            return `File "${file.name}" exceeds the maximum size of ${maxSizeInMB} MB`;
+            return `File "${file.name}" exceeds the maximum size of ${maxSize} MB`;
           }
           return e.message;
         });
@@ -144,6 +151,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
 
       setPreviewUrls(validFiles.map(file => URL.createObjectURL(file)));
       setSelectedFiles(validFiles);
+      onFileSelect && onFileSelect(validFiles)
       setRejectionMessages(rejectionMsgs); // Set rejection messages
     },
     [allowDrop, resolution, trimClientSide]
@@ -155,7 +163,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
     onDrop,
     accept,
     multiple: canSelectMultiple,
-    maxSize,
+    maxSize: maxSizeInBytes,
   });
 
   /**
@@ -220,14 +228,14 @@ const FileUpload: React.FC<FileUploadProps> = ({
                   <Typography className="file-upload-abstract-title">Attach Abstract</Typography>
                 </Grid>
                 <Grid>
-                  <Typography className="file-upload-abstract-sub-title">Choose a file(PDF, DOCX), Max file size: 10MB</Typography>
+                  <Typography className="file-upload-abstract-sub-title">Choose a file(PDF, DOCX), Max file size: {maxSize}MB</Typography>
                 </Grid>
               </Grid>
             ) : (
               <>
               <Typography className="upload-dropzone-text">Drag & drop or click here to upload.</Typography>
-              <Typography className="upload-dropzone-subtext">Choose a file to upload, Max file size: 1MB.</Typography>
-              <Typography className="upload-dropzone-subtext">Recommended ratio: 16:9 for best fit</Typography>
+              <Typography className="upload-dropzone-subtext">Choose a file to upload, Max file size: {maxSize}MB.</Typography>
+              <Typography className="upload-dropzone-subtext">Recommended ratio: {ratioLabel} for best fit</Typography>
               </>
             )}
           </Grid>
@@ -243,7 +251,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
                 {isFilePDF ? (
                   <PdfIcon className='file-upload-preview-item-pdf'/> 
                 ) : (
-                  <img src={url} alt={`preview ${index}`} />
+                  <img className="file-upload-preview-item-image" src={url} alt={`preview ${index}`} />
                 )}
 
                 <IconButton

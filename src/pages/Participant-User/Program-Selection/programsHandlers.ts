@@ -12,7 +12,6 @@ import { UseFormSetValue, UseFormGetValues } from "react-hook-form";
  * @returns The formatted date string.
  */
 export const formatDate = (date: any) => {
-
   return moment(date).format("YYYY/MM/DD");
 }
 
@@ -51,9 +50,9 @@ const sortData = (data: any): any => {
     return {};
   }
   return data
-    .sort((a: any, b: any) => new Date(a?.startTime || a.eventAddon.startTime).getTime() - new Date(b?.startTime || b.eventAddon.startTime).getTime())
+    .sort((a: any, b: any) => new Date(a?.startTime || a?.eventAddon?.startTime).getTime() - new Date(b?.startTime || b?.eventAddon?.startTime).getTime())
     .reduce((grouped: any, program: any) => {
-      const date = moment(program?.startTime || program.eventAddon.startTime).format("MMM-DD-YYYY")
+      const date = moment(program?.startTime || program?.eventAddon?.startTime).format("MMM-DD-YYYY")
 
       if (!grouped[date]) {
         grouped[date] = [];
@@ -387,3 +386,29 @@ export const  validateAddonWithNoProp = (addons:any)=> {
       }
 
 }
+
+
+
+
+/**
+ * function to fetch event details
+ * @param eventId
+ * 
+ */
+
+// export const fetchEventDetailsFn = async (eventId: number | undefined|null) => {
+  
+//   if(!eventId) return
+
+//   try {
+
+
+
+    
+//   } catch (error) {
+
+
+    
+//   }
+
+//  }

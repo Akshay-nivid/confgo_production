@@ -177,31 +177,32 @@ const FormEditor: React.FC<IFormEditor> = ({ participantType, participantData, h
                     className="form"
                 >
                     <Box className="textfield-container ">
-                        <Grid position={"relative"} container columnSpacing={2}>
-                            <Grid size={5}>
+                        <Grid position={"relative"} container columnSpacing={2} rowSpacing={2}>
+                            <Grid size={10}>
                                 {/* <Box className="title-type-button-container"> */}
                                 <CustomTextField
                                     
                                     control={control}
                                     className="title-field"
                                     name="title"
-                                    placeholder="Title"
-                                    label={"Field Name"}
+                                    placeholder="Question"
+                                    label={"Question"}
                                     rules={{
                                         required: validateRequiredField({ showMessage: false }),
                                     }}
                                 />
                             </Grid>
-                            <Grid size={5}>
+                            <Grid size={10}>
                                 <CustomSelect
                                     name="fieldType"
                                     control={control}
-                                    label="Select Field Type"
+                                    label="Question Type"
                                     options={selectOptions}
                                     rules={{
                                         required: validateRequiredField({ showMessage: false }),
                                     }}
                                 />
+                                {/* <InfoOutlinedIcon/> */}
                             </Grid>
                             <Grid className="" size={2} display={"flex"} justifyContent={'center'} alignItems={'center'}>
                                 <IconButton type="submit" className="add-icon-button-wrapper">
@@ -220,8 +221,8 @@ const FormEditor: React.FC<IFormEditor> = ({ participantType, participantData, h
                                                 key={field.id}
                                                 control={control}
                                                 name={`option.${index}.value`}
-                                                placeholder="Field Name"
-                                                label={"Field Name"}
+                                                placeholder="Option"
+                                                label={"Option"}
                                                 rules={{
                                                     required: validateRequiredField({}),
                                                 }}

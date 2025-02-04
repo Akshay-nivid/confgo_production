@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { Typography, IconButton, Divider,Button, Menu } from "@mui/material";
+import { Typography, IconButton, Divider,Button, Menu, Avatar } from "@mui/material";
 import EditIcon from "@/assets/svg/event-edit.svg";
 import Grid from "@mui/material/Grid2";
-import { DeleteContributorIcon, WarningIcon} from "@/assets/svg";
+import { DeleteContributorIcon, HallIcon, WarningIcon} from "@/assets/svg";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
 import { getLocalTimeDate, truncateString } from "@/Utils/CommonBaseClass";
 import CustomModel from "@/components/CustomModel/CustomModel";
@@ -12,13 +12,16 @@ import AddOnIcon from "../../../assets/svg/addOnIcon.svg";
 import ProgramIcon from "../../../assets/svg/programIcon.svg";
 import {VectorMenu} from "@/assets/svg";
 import SpeakerDetailsToolTip from "./ToolTipSpeaker/SpeakerDetailsToolTip";
-
+import config from "../../../../config.json"
+import moment from "moment";
 interface FieldConfig {
   label: string;
+  
   field: string;
   format?: (value: any) => string;
 }
 interface SessionCardProps {
+  index?: any;
   item: any;
   onEditClick?: (item: any) => void;
   titleField: string;
@@ -64,7 +67,6 @@ const SessionCard: React.FC<SessionCardProps> = ({
     return path.split('.').reduce((acc, key) => acc?.[key], obj);
   };
 
-
   /**
   * render the selected addon property label from it's value using useMemo
   */
@@ -99,13 +101,14 @@ const SessionCard: React.FC<SessionCardProps> = ({
     */
       const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
        const opens = Boolean(anchorEl);
-     
+       const baseUrl = config.api.url;  
        const handleClicked = (event: React.MouseEvent<HTMLButtonElement>) => {
          setAnchorEl(event.currentTarget);
        };
        const handleClosed = () => {
          setAnchorEl(null);
        };
+
 
   return (
     <Grid container spacing={0}  size={{
@@ -114,23 +117,23 @@ const SessionCard: React.FC<SessionCardProps> = ({
       md: 3,
     }} flexDirection={"row"}
     >
-      <Grid size={12} container className="event-sessions-session-card">
-      <Grid container size={12} minHeight={"max-content"} className="card-header" >
+      <Grid size={12} container className="event-sessions-session-card"  >
+      <Grid container size={12} className="card-header">
         <Grid size={11} container>
       {hasAddOns ? (
        <>
       <AddOnIcon className="svg-icon"/>
-      <Grid container alignItems={"center"}><Typography className="card-header-tag">Add-On</Typography></Grid>
+      <Grid container ><Typography className="card-header-tag">Add-On</Typography></Grid>
       </>
       ):(
       <>
       <ProgramIcon  className="svg-icon"/>
-      <Grid container alignItems={"center"}> <Typography className="card-header-tag">Programs</Typography></Grid>
+      <Grid container > <Typography className="card-header-tag">Programs</Typography></Grid>
       </>
        )}
       </Grid>
      {onDeleteClick && onEditClick &&(
-       <Grid  size={1}container justifyContent={"flex-end"} className="card-header-menu">
+       <Grid  size={1} justifyContent={"flex-end"} className="card-header-menu">
         <Button
           className=""
           aria-controls={opens ? 'basic-menu' : undefined}
@@ -148,7 +151,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
                 MenuListProps={{
                   'aria-labelledby': 'basic-button',
                 }}
-              >
+              > 
       <Grid className="card-header-menu-content">
         {onEditClick && (
           <IconButton
@@ -176,12 +179,17 @@ const SessionCard: React.FC<SessionCardProps> = ({
         </Menu>
 
       </Grid>
-      <Grid className="card-content" minHeight={"10rem"} size={12} onClick={handleSquareButtonClick}>
-       <Grid container size={12}>
+      <Grid className="card-content"    size={12} onClick={handleSquareButtonClick}>
+      {!hasAddOns && (
+          <>
+         <Grid container size={12}>
         <Typography className="card-content-day">
-            Day
+        {item && (` Day - ${moment(item?.startDate).format('dddd')}`)}
         </Typography>
        </Grid>
+       </>
+      )}
+
 
        <Grid container size={12}>
         <Typography className="card-content-heading">
@@ -194,27 +202,97 @@ const SessionCard: React.FC<SessionCardProps> = ({
            {truncateString((item.description), 25, "Untitled")}
               </Typography>
        </Grid>
-
+          {item.hall && <Grid size={6} container spacing={1} display={"flex"} justifyContent={"flex-start"} alignItems={"center"}>
+            <HallIcon />
+            <Typography className="card-content-description">{item?.hall}</Typography>
+          </Grid>}
        <Grid className="card-content-devider">
         <Divider/>
        </Grid>
-       
-       <Grid className="card-content-heading" minHeight={"5rem"}>
-        <Typography>
-           speaker img
-        </Typography>
-       </Grid>
+
       
+      {hasAddOns && item?.eventAddonProperties && (
+         item?.eventAddonProperties.map((props: any) => (
+          <Grid container size={12} key={props.id}> 
+          <Grid display={"flex"} direction={"column"}>
+            <Typography className="card-content-description" >
+            {`Items: ${props.name}`}-
+            {`Price: ${props.amount}`}
+          </Typography>
+            </Grid>
+         </Grid>
+         ))
+       )}
+       {/* </Grid> */}
+       {!hasAddOns&&item?.speakers && (
+       <>
+        <Grid className="card-content-heading" >
+                 <Grid className="card-content-heading"  gap={1}minHeight="5rem" display={"flex"}direction={"column"}>
+                
+                   {item?.speakers?.map((speaker: any, index: number) => (
+                    index < 5 && <Grid key={index} display="flex" alignItems="center" gap={1}>
+                        {speaker?.speakerAssetId ? (
+                      <Avatar
+                         src={`${baseUrl}asset/${speaker?.speakerAssetId }`}
+          
+                            alt={`${speaker.speakerFullName || "User Profile"}`}
+                              variant="circular"
+                        />
+                        ) : (
+                          //className="main-user-profile main-user-profile-text"
+                     <Avatar className="session-speaker-avatar">
+                    {`${speaker?.speakerFullName?.[0]}${speaker?.speakerLastName? speaker?.speakerLastName?.[0] : ""}`}
+                    </Avatar>
+                   )}
+     
+                    </Grid>
+                        ))}
+                       {item?.speakers?.length >= 5 &&  <Grid container justifyContent={'flex-end'} alignItems={'center'}>{`...`}</Grid>}
+                    </Grid>
+                    </Grid>
+                       </>
+                        )}
 
-       <Grid className="card-content-timeBox" minHeight={"2rem"} >
-        <Typography className="time" >
-        {item[startTimeField]&&item[endTimeField]?<><span>{timeCorrection ? getLocalTimeDate(item[startTimeField]) : item[startTimeField]}</span> - 
-              <span>{timeCorrection ? getLocalTimeDate(item[endTimeField]) : item[endTimeField]}</span></>:<span>General Addon</span>}
+                        
+
+        {/* {
+          !hasAddOns&&item?.eventSponsors&&(
+            <>
+                    <Grid className="card-content-heading" >
+                      <Typography>Sponosrs</Typography>
+                 <Grid className="card-content-heading"  gap={1}minHeight="5rem" display={"flex"}direction={"column"}>
+                
+                   {item?.eventSponsors?.map((sponsor: any, index: number) => (
+                    index < 5 && <Grid key={index} display="flex" alignItems="center" gap={1}>
+                        {sponsor?.sponsor?.logoAssetId ? (
+                      <Avatar
+                         src={`${baseUrl}asset/${sponsor?.sponsor?.logoAssetId}`}
+          
+                            alt={`${sponsor?.sponsor?.name  || "User Profile"}`}
+                              variant="circular"
+                        />
+                        ) : (
+                          //className="main-user-profile main-user-profile-text"
+                     <Avatar className="session-speaker-avatar">
+                    {`${sponsor?.sponsor?.sponsor?.name?.[0]}`}
+                    </Avatar>
+                   )}
+     
+                    </Grid>
+                        ))}
+                       {item?.eventSponsors?.length >= 5 &&  <Grid container justifyContent={'flex-end'} alignItems={'center'}>{`...`}</Grid>}
+                    </Grid>
+                    </Grid>
+            </>
+          )
+        }                 */}
+         <Grid className="card-content-timeBox" >
+         <Typography className="time" >
+                  {item[startTimeField]&&item[endTimeField]?<><span>{timeCorrection ? getLocalTimeDate(item[startTimeField]) : item[startTimeField]}</span> - 
+                  <span>{timeCorrection ? getLocalTimeDate(item[endTimeField]) : item[endTimeField]}</span></>:<span>General Addon</span>}
         </Typography>
-       </Grid>
-
-      </Grid>
-
+        </Grid>
+        </Grid>
       </Grid>
      
       {/* Delete Confirmation Modal */}
@@ -231,6 +309,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
           setDeleteModalOpen(false);
           onDeleteClick?.(item);
         }}
+
         />
         {/* program Details Modal */}
         <CustomModel
@@ -263,32 +342,169 @@ const SessionCard: React.FC<SessionCardProps> = ({
 
                    <Typography className="description-box-content">
                     {item?.description}
-                   </Typography>
+                   </Typography>  
                 </Grid>
                
-               <Grid className="speaker-box" size={12} minHeight={"5rem"}>
+                {!hasAddOns && (
+                <>
+                { item?.speakers?.length !==0 &&
+               <Grid className="speaker-box" size={12} minHeight={"5rem"} >
                    
                    <Typography className="speaker-box-heading">
                    Speakers  
                    </Typography>
           
-                   <SpeakerDetailsToolTip  className="speaker-box-toolTip" title={<>
-                    <img src="" alt="Speaker Img" /></>} > 
-                   <Grid direction={"column"} display={"flex"} size={12} >
-                    <Grid size={2} >
-                    Image
-                    </Grid>
-                    <Grid size={10} bgcolor={"lightgray"}>
-                    description
-                    </Grid>
-                    </Grid>
-                  </SpeakerDetailsToolTip>
+                   <Grid className="card-content-heading"  gap={1}minHeight="5rem" display={"flex"}direction={"column"} >
+         {item?.speakers?.map((speaker: any, index: number) => (
+          <Grid key={index} display="flex" alignItems="center" gap={1} >
+                <SpeakerDetailsToolTip  className="speaker-box-toolTip" title={<>
+                {speaker?.speakerAssetId ? (
+                <Avatar
+                  src={`${baseUrl}asset/${speaker?.speakerAssetId}`}
+                    // className="main-user-profile"
+                    alt={`${speaker?.speakerFullName || "User Profile"}`}
+                     variant="circular"
+                      />
+                       ) : (
+                         
+                  <Avatar  className="session-speaker-modal-avatar">
+                  {`${speaker?.speakerFullName?.[0]}${speaker?.speakerLastName? speaker?.speakerLastName?.[0] : ""}`}
+               </Avatar>
+         )}
+        </>} > 
+               <Grid direction={"column"} display={"flex"} size={12} >
+                 <Grid size={2}>
+                   {speaker?.speakerAssetId ? (
+                     <Avatar
+                       src={`${baseUrl}asset/${speaker?.speakerAssetId}`}
+                       // className="main-user-profile"
+                       alt={`${speaker.speakerFullName || "User Profile"}`}
+                       variant="circular"
+                     />
+                   ) : (
+                     <Avatar  className="session-speaker-modal-avatar">
+                       {`${speaker?.speakerFullName?.[0]}${speaker?.speakerLastName? speaker?.speakerLastName?.[0] : ""}`}
+                     </Avatar>
+                   )}
+                 </Grid>
+                 <Grid size={10} marginLeft={"2rem"}>
 
-
+                  <Typography className="modal-speaker-name">{`${speaker?.speakerFullName} ${speaker?.speakerLastName ? speaker?.speakerLastName : "" }` }</Typography>
+                  <Typography className="modal-speaker-name-designation">{speaker?.designation}</Typography>
+      
+                 </Grid>
                </Grid>
-
+             </SpeakerDetailsToolTip>
+           </Grid>
+         ))}
+                    </Grid>
+                  </Grid>
+                }
+                </>
+              )}
+              {hasAddOns && (
+                <>
+                  {item?.sponsor && item.sponsor.length !== 0 && (
+                    <Grid className="speaker-box" size={12} minHeight={"5rem"} >
+                      <Typography className="speaker-box-heading">
+                        Sponsors
+                      </Typography>
+                      <Grid className="card-content-heading" gap={1} minHeight="5rem" display={"flex"} direction={"column"} >
+                        {item?.sponsor?.map((sponsor: any, index: number) => (
+                          <Grid key={index} display="flex" alignItems="center" gap={1} >
+                            <SpeakerDetailsToolTip className="speaker-box-toolTip" title={<>
+                              {sponsor?.sponsorAssetId ? (
+                                <Avatar
+                                  src={`${baseUrl}asset/${sponsor?.sponsorAssetId}`}
+                                  alt={`${sponsor?.sponsorFullName || "User Profile"}`}
+                                  variant="circular"
+                                />
+                              ) : (
+                                <Avatar className="session-speaker-modal-avatar">
+                                  {`${sponsor?.sponsorFullName?.[0]}`}
+                                </Avatar>
+                              )}
+                            </>} >
+                              <Grid direction={"column"} display={"flex"} size={12} >
+                                <Grid size={2}>
+                                  {sponsor?.sponsor?.logoAssetId ? (
+                                    <Avatar
+                                      src={`${baseUrl}asset/${sponsor?.sponsor?.logoAssetId}`}
+                                      // className="main-user-profile"
+                                      alt={`${sponsor?.sponsorFullName || "User Profile"}`}
+                                      variant="circular"
+                                    />
+                                  ) : (
+                                    <Avatar className="session-speaker-modal-avatar">
+                                      {`${sponsor?.sponsorFullName?.[0]}`}
+                                    </Avatar>
+                                  )}
+                                </Grid>
+                                <Grid size={10} marginInline={"2rem"}>
+                                  <Typography className="modal-speaker-name">{`${sponsor?.sponsorFullName}`}</Typography>
+                                </Grid>
+                              </Grid>
+                            </SpeakerDetailsToolTip>
+                          </Grid>
+                        ))}
+                      </Grid>
+                    </Grid>
+                  )}
+                </>
+              )}
+              {!hasAddOns && (
+                <>
+                  {item?.sponsor?.length !== 0 &&
+                    <Grid className="speaker-box" size={12} minHeight={"5rem"} >
+                      <Typography className="speaker-box-heading">
+                        Sponsors
+                      </Typography>
+                      <Grid className="card-content-heading" gap={1} minHeight="5rem" display={"flex"} direction={"column"} >
+                        {item?.sponsor?.map((sponsor: any, index: number) => (
+                          <Grid key={index} display="flex" alignItems="center" gap={1} >
+                            <SpeakerDetailsToolTip className="speaker-box-toolTip" title={<>
+                              {sponsor?.sponsorAssetId ? (
+                                <Avatar
+                                  src={`${baseUrl}asset/${sponsor?.sponsorAssetId}`}
+                                  // className="main-user-profile"
+                                  alt={`${sponsor?.sponsorFullName || "User Profile"}`}
+                                  variant="circular"
+                                />
+                              ) : (
+                                <Avatar className="session-speaker-modal-avatar">
+                                  {`${sponsor?.sponsorFullName?.[0]}`}
+                                </Avatar>
+                              )}
+                            </>} >
+                              <Grid direction={"column"} display={"flex"} size={12} >
+                                <Grid size={2}>
+                                  {sponsor?.sponsor?.logoAssetId ? (
+                                    <Avatar
+                                      src={`${baseUrl}asset/${sponsor?.sponsor?.logoAssetId}`}
+                                      // className="main-user-profile"
+                                      alt={`${sponsor?.sponsorFullName || "User Profile"}`}
+                                      variant="circular"
+                                    />
+                                  ) : (
+                                    <Avatar className="session-speaker-modal-avatar">
+                                      {`${sponsor?.sponsorFullName?.[0]}`}
+                                    </Avatar>
+                                  )}
+                                </Grid>
+                                <Grid size={10} marginInline={"2rem"}>
+                                  <Typography className="modal-speaker-name">{`${sponsor?.sponsorFullName}`}</Typography>
+                                  <Typography className="modal-speaker-name-designation"> Reserved Seats:{sponsor?.sponsorReservedSeats ?? "Null"}</Typography>
+                                </Grid>
+                              </Grid>
+                            </SpeakerDetailsToolTip>
+                          </Grid>
+                        ))}
+                      </Grid>
+                    </Grid>
+                  }
+                </>
+              )}
          </Grid>
-
          <Grid   minHeight={"2rem"} className="mt-8">
          <IconButton onClick={closeDrawer}>
          <CloseOutlined />

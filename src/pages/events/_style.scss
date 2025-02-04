@@ -97,6 +97,11 @@
             border: solid 0.1rem $clr_gray_very_light;
             border-radius: 0.4rem;
             padding: 0.2rem;
+
+            &-image{
+                height: 4.5rem !important;
+                width: 4.5rem;
+            }
         }
 
         &-delete-btn {
@@ -329,6 +334,16 @@
         font-size: $h5 !important;
         color: $clr_black;
     }
+    
+    &-program-display-container {
+      border: 0.092rem solid $clr_gray_very_light;
+      border-radius: 0.625rem;
+    }
+
+    &-program-display-items {
+      overflow-y: auto;
+      max-height: 20rem;
+    }
 
     &-display-container {
         padding: 1rem !important;
@@ -383,6 +398,7 @@
           font-size: $p1 !important;
           font-weight: $font_semibold !important;
           box-shadow: none !important;
+          width: 100% !important;
         }
         &-save{
           background-color: $clr_green !important;
@@ -394,6 +410,19 @@
           font-weight: $font_semibold !important;
           box-shadow: none !important;
         }
+      }
+      &-speaker-option-btn{
+        background-color: $clr_light_grey !important;
+        color: $clr_black !important;
+        font-weight: $font-semibold !important;
+        font-size: $p2 !important;
+        border: none !important;
+        border-radius: 0.416rem !important;
+        text-transform: none !important;
+      }
+      &-new-speaker-link{
+        color: $clr_greenish_blue !important;
+        text-decoration: underline !important;
       }
     }
     &-form-spacing {
@@ -509,6 +538,73 @@
         text-align: center;
       }
     }
+    &-speaker-section{
+      border: 0.083rem solid $clr_gray_very_light;
+      border-radius: 0.5rem;
+      &-card{
+        &-item{
+          border: 0.083rem solid $clr_gray_very_light !important;
+          border-radius: 0.5rem !important;  
+          &-title{
+            font-weight: $font_semibold !important;
+            font-size: $p3 !important;
+          }        
+          &-subtitle{
+            font-weight: $font_normal !important;
+            font-size: $p3 !important;
+          }
+        }
+        &-tool-tip{
+            font-size: $p2 !important;
+          }
+          
+        &-moderator-select{
+        color: $clr_green !important
+        }
+      }
+ 
+    }
+    &-hallcreate{
+        border-color: $clr_green !important;
+        color:$clr_green !important;
+        font-weight: $font-semibold !important;
+        text-transform: none !important;
+    }
+    &-hall-modal{
+        width: 100vw;    
+        height: 100vh;    
+        display: flex;      
+        align-items: center; 
+        justify-content: center; 
+        &-container{
+            min-width: 60rem;       
+            min-height: 8rem;      
+            background-color:$clr-white; 
+            padding: 1rem;        
+            border-radius: 0.375rem; 
+        }
+        &-textField{
+            margin-top: 1rem;
+        }
+        &-btn{
+            justify-content: center !important;
+            margin-top: 1rem !important;
+            background-color: $clr_green !important;
+            text-transform: none !important;
+            justify-self: flex-end !important;
+        }
+        &-chipBox{
+            margin-top: 1rem;
+
+            &-chip{
+                margin: 0 8px 8px 0 !important;
+                .MuiChip-deleteIcon {
+                    color:$clr_red !important
+                }
+            }
+        }
+    }
+
 }
 
 
@@ -580,10 +676,13 @@
     &-tab-layout {
         color: $clr_white;
         font-weight: $font_medium !important;
+        width: 100%; 
 
 
         &-container {
             padding: 0 !important;
+            display: flex; 
+            width: 100%; 
 
             .MuiTabPanel-root {
                 min-height: 40rem;
@@ -592,6 +691,7 @@
         }
 
         &-item {
+            flex-grow: 1; 
             padding: 0.5rem 1.8rem 0.5rem 1.8rem !important;
           
             &:first-of-type {
@@ -1113,13 +1213,19 @@
         justify-content: flex-start;
     }
 
-    &-session-card {    
+    &-session-card {  
+    .session-speaker-avatar{
+            background-color: $clr_border_sky_blue_light ;
+            font-size: $h4;
+            font-weight: $font-medium;
+        }  
         background: $background ;
         border: 0.03rem solid $clr_gray_very_light;
         border-radius:0.5rem;
         display: flex;
         padding-inline: 1rem;
         padding-block: 1rem;
+
        .card-header{
         .svg-icon {
             width: 1.6667rem;
@@ -1136,11 +1242,11 @@
             button{
                 min-width: max-content !important;
                 padding-inline: 0 !important;
+                
             }
             &-content{
-                background-color:transparent;
-                color: #000; 
-                min-width: 8rem; 
+                background-color:transparent!important;
+                color: $clr_black;  
                 padding: 10px;
                 position: absolute; 
                 transform: none; 
@@ -1156,10 +1262,12 @@
         padding-left:1rem ;
         padding-right: 0.6667rem;
         border-radius: 0.5rem;
-
+        cursor: pointer;
+        min-height: 16rem !important;
+         
         &-day{
             font-size: 13px;
-            font-weight: $font_semibold;
+            font-weight:$font_medium;
             font-family: $font;
             padding-top: 1rem;
             line-height: 1.52rem;
@@ -1167,10 +1275,11 @@
         }
         &-heading{
             font-size: $p2;
-            font-weight: $font_semibold;
+            font-weight: $font_medium;
             font-family: $font;
             padding-top: 0.75rem;
             line-height: 1.52rem;
+            // min-height: 5rem;
         }
         &-description{
             font-size: $p2;
@@ -1191,9 +1300,11 @@
             padding: 0.25rem 0.5rem;
             border-radius: 0.25rem;
             font-size: $p2 !important;
-            font-weight: $font_semibold !important;
+            font-weight: $font_medium!important;
             width: max-content;
-            margin-bottom: 0.5rem; 
+            margin-block: 0.5rem; 
+            min-height: 2rem;
+
             .time{
             font-size: $p2 !important;
             font-weight: $font_semibold !important; 
@@ -1248,6 +1359,7 @@
         font-size: $h6 ;
         font-weight: $font_semibold !important;
         box-shadow: none;
+        text-transform: none !important;
 
         &.Mui-disabled {
             background: $clr_gray_faded !important;
@@ -1469,6 +1581,7 @@
 }
 
 .registration-fee-list {
+    padding: 1.333rem !important;
     &-heading {
         font-weight: $font_semibold !important;
         font-size: $h5 !important;
@@ -1476,7 +1589,7 @@
     }
 
     &-sub-heading {
-        font-weight: $font_normal !important;
+        font-weight: $font_medium !important;
         font-size: $h6 !important;
     }
 
@@ -1529,7 +1642,19 @@
         font-weight: $font_semibold !important;
         box-shadow: none;
         margin-bottom: 1rem !important;
+        text-transform: none !important;
     }
+    &-decription-helper{
+        background-color: $clr_orange_light;
+        border-radius: 0.3rem;
+        margin: 0.5rem;
+        padding: 0.2rem;
+        &-text{
+            font-size: $p3 !important;
+            font-weight: $font-normal !important;
+        }
+    }
+
 
 }
 
@@ -1960,6 +2085,7 @@
         //  margin-bottom: 1.05rem !important;
         border: 0.092rem solid $clr_gray_very_light !important;
         border-radius: 0.41rem !important;
+        margin: 1rem;
         &-name{
             color: $clr_field !important;
             padding-inline: 1rem;
@@ -1988,6 +2114,7 @@
         border-radius: 0.625rem;
         overflow-y: auto;
         &-details{
+         padding: 1rem;
          min-height: 10rem ;
          max-height:20rem ;
         }
@@ -2217,6 +2344,21 @@
     }
   }
 .event-sessions-program-modal{
+    .session-speaker-modal-avatar{
+        background-color: $clr_border_sky_blue_light ;
+        font-size: $h4;
+        font-weight: $font-medium;
+      } 
+      .modal-speaker-name{
+        font-family: $font;
+        font-size:  $p3;
+        font-weight: $font-semibold;
+        line-height:  1.21 rem;
+        &-designation{
+            font-size: $p3;
+            font-weight: $font-normal;
+        }
+      }
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -2271,26 +2413,9 @@
 
     }
 }
-    
 
+.add-program-autocomplete{
+    border-radius:.3rem !important ;
+    border-color: #dadbdc  !important;
 
-
-  .parent{
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    fieldset{
-        width: 100%;
-    }
-    fieldset > div {
-        display: flex !important;
-        column-gap: 1rem !important;
-        flex-wrap: nowrap !important;
-    }
-    label{
-        flex: 1 !important;
-         margin-left: 0 !important;
-         margin-right: 0 !important;
-
-    }
-  }
+}
