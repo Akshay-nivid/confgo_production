@@ -7,7 +7,7 @@ import {
     FormHelperText,
 } from "@mui/material";
 import CustomTextField from "../CustomTextfield/CustomTextField";
-import { phoneRules } from "@/Utils/Validation";
+//import { phoneRules } from "@/Utils/Validation";
 
 /**
  * Interface for representing a country in the CustomPhone component.
@@ -164,7 +164,7 @@ const CustomPhone: React.FC<CustomPhoneProps> = ({
                     value={phoneNumber}
                     type="text"
                     control={control}
-                    rules={phoneRules}
+                    //rules={phoneRules}
                     max={10}
                     isNumeric={true}
                     onChange={(e) => handlePhoneChange(e.target.value)}
