@@ -4,6 +4,7 @@ import { Logger } from "@/Utils/Logger";
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect } from "react";
+import confgo from "../../../config.json"
 
 /**
  * EventFeedBack component displays feedback information for an event,
@@ -13,9 +14,10 @@ import { useEffect } from "react";
  */
 const EventFeedBack = () => {
 
+    const currency=confgo?.currency
 
     const eventId = useStore((state: any) => state?.nonPersistedData?.CustomSelectData?.data) ?? [];
-
+     
     const counts = useStore((state: any) => state?.compData?.countByEventData?.["dashboard/countByEvent"]?.data) || {};
 
     /**
@@ -55,20 +57,20 @@ const EventFeedBack = () => {
     const boxArray = [
         {
             id: 1,
-            icon: <NewRegistration className='contact-page-icon' />,
+            icon: <NewRegistration  />,
             info: 'NewRegistration',
             count: counts?.totalRegistrations
 
         },
         {
             id: 2,
-            icon: <ExistingUsers className='contact-page-icon' />,
+            icon: <ExistingUsers  />,
             info: 'Total Users Registered',
             count: counts?.totalCheckIns
 
         }, {
             id: 3,
-            icon: <SoldTickets className='contact-page-icon' />,
+            icon: <SoldTickets  />,
             info: 'Total Ticket Sales',
             count: counts?.totalAmount
         }]
@@ -76,9 +78,9 @@ const EventFeedBack = () => {
     return (
         <Grid container className="eventFeedBack-box" size={12} spacing={2}>
 
-            {boxArray.map((item: any, _index: any) => (
+            {boxArray.map((item: any, index: any) => (
 
-                <Grid size={4} minHeight={"1rem"} className="eventFeedBack-box-container" container spacing={2}>
+                <Grid size={4} minHeight={"1rem"} className="eventFeedBack-box-container" container spacing={2} key={index}>
 
                     <Grid size={12} className="eventFeedBack-box-container-icon" >
 
@@ -86,11 +88,10 @@ const EventFeedBack = () => {
 
                     </Grid>
 
-                    <Grid className="eventFeedBack-box-container-usersCount" size={12} >
+                    <Grid className="eventFeedBack-box-container-usersCount"  size={12} >
 
                         <Typography className="content-count">
-
-                            {item?.count}
+                        {index === 2 ? `${currency}${item?.count}` : item?.count}
 
                         </Typography>
 
