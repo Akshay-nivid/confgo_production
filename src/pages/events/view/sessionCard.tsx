@@ -198,9 +198,16 @@ const SessionCard: React.FC<SessionCardProps> = ({
        </Grid>
      
        <Grid container size={12}>
-        <Typography className="card-content-description">
-           {truncateString((item.description), 25, "Untitled")}
-              </Typography>
+        {onEditClick ? (
+         <Typography className="card-content-description">
+         {truncateString((item.description), 25, "Untitled")}
+         </Typography> 
+            ): (
+         <Typography className="card-content-description">
+          {truncateString((item.description), 18, "Untitled")}
+         </Typography>)
+        }
+       
        </Grid>
           {item.hall && <Grid size={12} container spacing={1} display={"flex"} justifyContent={"flex-start"} alignItems={"center"}>
             <HallIcon />
