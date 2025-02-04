@@ -249,7 +249,7 @@ const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
                 </Grid>
             </Grid>
             <Grid container className="add-program-drawer-new-speaker-link" justifyContent={'end'}  size={{xs:12}} paddingTop={1}>
-              <Typography onClick={() => setNewSponsorDrawerOpen(true)} className="cursor-container" variant="h6">Create New Speaker ?</Typography>
+              <Typography onClick={() => setNewSponsorDrawerOpen(true)} className="cursor-container" variant="h6">Create New Sponsor ?</Typography>
             </Grid>
            {assignedSponsors.length>0 &&(<Typography gutterBottom className='assigned-volunteer-label'>
                 Assigned Sponsors

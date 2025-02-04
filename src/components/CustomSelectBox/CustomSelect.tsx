@@ -59,7 +59,7 @@ const CustomSelect = <T extends FieldValues>({
               size={size}
                   {...field}
                   className={clsx('custom-text-field',className)}
-            value={field.value}
+            value={field.value ? field.value :  (defaultValue || '')}
             onChange={(event) => field.onChange(handleOnclick(event.target.value))}
             labelId={`${name}-label`}
             placeholder={label}
