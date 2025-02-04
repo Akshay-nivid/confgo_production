@@ -655,8 +655,8 @@ const CreateEvent: React.FC<EventProps> =
                           rules={{
                             required: watch("type") === "OFFLINE",
                             pattern: {
-                              value: /^.{1,10}$/,
-                              message: "Enter a valid postal code (e.g., '12345', '12345-6789', or '123456')",
+                              value: /^[A-Za-z0-9][A-Za-z0-9 -]{0,8}[A-Za-z0-9]$/,
+                              message: "Enter a valid postal code (e.g., '12345', '12345-6789', '123456' or 'A01 2BC')",
                             },
                           }}
                         />
