@@ -179,6 +179,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       setProgramIndex(savedAddOns?.length ? savedAddOns.length - 1 : 0);
       setEditMode(false);
       handleDrawerOpen(); // Open the drawer for the new program
+      setShowSponsorSection(false);
     }
   
     /**
@@ -378,6 +379,14 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       setEditMode(true);
       setValue("addOn", watch("savedAddOns"));
       setProgramIndex(index);
+      setShowSponsorSection(false)
+      // if(watch(`addOn.${index}.sponsor`)){
+      //   const sValue = watch(`addOn.${index}.sponsor`)?.length > 0? true: false
+      //   setShowSponsorSection(sValue)
+      // }
+      // else{
+      // setShowSponsorSection(false)
+      // }
     };
 
     /**
@@ -913,10 +922,10 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                 >
                                   <Grid>
                                     <CustomButton
-                                      className="add-addons-save-btn"
+                                      className="event-information-restore-btn"
                                       onClick={handleDrawerClosing}
                                       label="Cancel"
-                                      variant="contained"
+                                      variant="outlined"
                                       size="large"
                                     />
                                   </Grid>

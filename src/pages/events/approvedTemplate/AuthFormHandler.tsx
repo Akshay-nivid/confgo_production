@@ -57,7 +57,7 @@ const AuthFormHandler: React.FC<any> = React.memo(({ className, data, onScrollTo
             <Typography className={`${className}-title`}>{data?.name}</Typography>
             <Grid direction={'row'} container>
                 {userToken ? <TLogout className={`${className}-login`} /> : <TLogin className={`${className}-login`} onClick={loginFn}/>}
-                <TRegister buttonName='Regsiter' className={`${className}-register`} onClick={(e: any) => handleClickRegister(e)}/>
+                <TRegister buttonName='Register' className={`${className}-register`} onClick={(e: any) => handleClickRegister(e)}/>
             </Grid>
         </Grid>
     )

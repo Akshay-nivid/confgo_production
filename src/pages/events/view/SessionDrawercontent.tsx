@@ -694,6 +694,7 @@ useEffect(() => {
         speakerDesignation,
         moderator,
       });
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "speaker added successfully" })
       clearErrors();
       
         // Reset the speaker form fields
@@ -798,6 +799,8 @@ useEffect(() => {
           <Grid size={{xs:12}}>
             <CustomTextField
               name="description"
+              multiline
+              rows={6}
               placeholder="Description"
               control={control}
               rules={{required:"Description is required"}}

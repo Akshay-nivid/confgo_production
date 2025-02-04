@@ -48,6 +48,11 @@
             font-size: $h5 !important;
             font-weight: $font_bold !important;
             color: $clr_white !important;
+            overFlow: hidden !important; 
+            text-overflow: ellipsis !important;
+            white-space: nowrap !important; 
+            max-width: 100% !important; 
+            cursor: pointer !important;
         }
         &-date{
             font-size: $h6 !important;
@@ -195,6 +200,11 @@
               &-title{
                 font-size: $p3 !important;
                 font-weight: $font_bold !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                white-space: nowrap !important;
+                max-width: 19.625rem !important;
+                cursor: pointer !important;
               }
           }
     }

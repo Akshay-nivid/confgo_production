@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import useStore from '@/Libs/store';
 import { toCamelCase } from '@/Utils/CommonBaseClass';
 import Grid from "@mui/material/Grid2";
-import { ArrowIconSvg, BasicPlainIcon, ProPlanIcon, StandardPlanIcon } from '@/assets/svg';
+import { ArrowIconSvg, BasicPlainIcon, BlueTickIcon, EnterPriseFeeIcon, ProPlanIcon, StandardPlanIcon } from '@/assets/svg';
 import CustomButton from '@/components/CustomButton/CustomButton';
 
 /**
@@ -13,9 +13,9 @@ import CustomButton from '@/components/CustomButton/CustomButton';
  */
 type PlanCardProps = {
   data: any;
-  type: string;
+  type?: string;
 };
-export const PlanCard: React.FC<PlanCardProps> = ({ data, type }) => {
+export const PlanCard: React.FC<PlanCardProps> = ({ data }) => {
 
   const setDataById = useStore((state) => state?.setDataById);
   const navigate = useNavigate();
@@ -24,7 +24,8 @@ export const PlanCard: React.FC<PlanCardProps> = ({ data, type }) => {
   const planMapper: Record<string, React.ReactNode> = {
     "BASIC_PLAN": <BasicPlainIcon />,
     "STANDARD_PLAN": <StandardPlanIcon />,
-    "PRO_PLAN": <ProPlanIcon />
+    "PRO_PLAN": <ProPlanIcon />,
+    "ENTERPRISE_PLAN":<EnterPriseFeeIcon/>
   }
 
   const mode = useStore((state) => state?.compData?.planMode?.mode);
@@ -42,22 +43,27 @@ export const PlanCard: React.FC<PlanCardProps> = ({ data, type }) => {
       navigate(routes.upgradePlanPayment());
     }
   };
+  /**
+   * It updates the global state based on the mode and navigates to the appropriate route.
+   */
+  const handleContactUs=()=>{
+    navigate(routes.contact());
+
+  }
   return (
     <Box className=" plancard__container">
       <Box className="plancard__content">
-        <Box display={'flex'} className="plancard__header">
+        <Box display={"flex"}className="plancard__header">
           <Grid className="plancard__icon">{planMapper[data?.name]}</Grid>
           <Grid container flexDirection={'column'}>
             <Typography className="plancard__title">
               {toCamelCase(data?.name)}
             </Typography>
-            <Typography className="plancard__subtitle">
-              {data.description}
-            </Typography>
+           
           </Grid>
         </Box>
         <Grid container alignItems={'center'} alignSelf={'center'} className="plancard__price_conatiner">
-          <span className="price"> ${data.amount} </span>&nbsp; <span className="period">/&nbsp;{type}</span>
+          {data?.name!="ENTERPRISE_PLAN"?<span className="price"> ${data.amount*10} </span>:<span className="enterprise_des">For those who need a scalable custom solution.</span>  } 
         </Grid>
         {/* <Box className="plancard__features">
           {Array.from({ length: 5 }).map((_, index) => (
@@ -68,6 +74,17 @@ export const PlanCard: React.FC<PlanCardProps> = ({ data, type }) => {
             </Grid>
           ))}
         </Box> */}
+         <Grid container justifyContent={"space-between"} size={12} className="plancard-plan-description" display={"flex"} alignItems={"flex-start"}  >
+          <Grid size={1}>
+            <BlueTickIcon/>
+            </Grid>
+            <Grid size={11}>
+            <Typography textAlign={"center"} className="plancard__subtitle">
+              {data.eventAllotment}
+            </Typography>
+            </Grid>
+            </Grid>
+            {data?.name!="ENTERPRISE_PLAN"?
         <CustomButton
           onClick={handleButtonClick}
           fullWidth
@@ -75,7 +92,13 @@ export const PlanCard: React.FC<PlanCardProps> = ({ data, type }) => {
           endIcon={<ArrowIconSvg />}
           label='Choose This Plan'
         >
-        </CustomButton>
+        </CustomButton>:<CustomButton
+          onClick={handleContactUs}
+          fullWidth
+          className="plancard__buttonEnterprise"
+          endIcon={<ArrowIconSvg />}
+          label='Contact Us'
+        />}
       </Box>
     </Box>
   );

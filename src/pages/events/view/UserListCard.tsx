@@ -1,18 +1,16 @@
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
-import CustomButton from "@/components/CustomButton/CustomButton";
 import { ISource } from "@/Libs/types/type";
 import Grid from "@mui/material/Grid2";
 import { useCallback, useEffect, useState } from "react";
-import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 import { useForm } from "react-hook-form";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import { DataGridList } from "@/components/DataGrid/DataGridList";
-import FilterModal from "@/components/CustomFilter/FilterModal";
 import { Logger } from "@/Utils/Logger";
 import { useNavigate, useParams } from "react-router-dom";
 import routes from "@/router/routes";
 import { NoUserList } from "@/assets/svg";
+import { Filter } from "@/components/Filter";
 
 
 /**
@@ -22,9 +20,7 @@ const UserListCard = () => {
   // Retrieve the event ID from route parameters
   const { id } = useParams();
   const navigate = useNavigate();
-  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
-  const [filters, setFilters] = useState({ eventId: id });
   const [source, setSource] = useState<ISource | undefined>(undefined);
   const [loading, setLoading] = useState(false); // To indicate loading state for API
 
@@ -43,7 +39,9 @@ const UserListCard = () => {
     const req = {
       offset: 0,
       limit: 5,
-      filters: filters,
+      filters: {
+        eventId: id
+      },
     };
 
     setSource({
@@ -75,27 +73,6 @@ const UserListCard = () => {
   };
 
   /**
-   * Updates the filters and source for the data grid when new filters are applied.
-   * @param newFilters - The new filters applied by the user
-   */
-  const handleApplyFilters = (newFilters: any) => {
-    setSource({
-      method: "POST",
-      data: {
-        offset: 0,
-        limit: 5,
-        filters: {
-          ...newFilters,
-          eventId:filters
-        },
-      },
-      url: `participant/list`,
-      listName: "participantList",
-    });
-    setFilters(newFilters);
-  };
-
-  /**
    * Updates the source for the data grid when an autocomplete selection is made.
    * @param selected - The selected item from the autocomplete list
    */
@@ -107,7 +84,8 @@ const UserListCard = () => {
           offset: 0,
           limit: 5,
           filters: {
-            id: selected.id,
+            eventId: id,
+            id: selected?.participant?.id,
           },
         },
         url: `participant/list`,
@@ -128,6 +106,7 @@ const handleRowClick=(id:string |number)=>{
     try {
       let req = {
         filters: {
+          eventId: id,
           name: query,
         },
       };
@@ -148,6 +127,14 @@ const handleRowClick=(id:string |number)=>{
       setLoading(false);
     }
   };
+
+  const filterFields: any = [
+    {
+      type: 'dateRange',
+      fieldName: 'startTime',
+      heading: 'Filter with Registration Date'
+    },
+  ]
 
   // Column configuration for the DataGrid component
   const columns = [
@@ -190,24 +177,14 @@ const handleRowClick=(id:string |number)=>{
             control={control}
             options={searchResults}
             getOptionLabel={(option: any) =>
-              option.user?.firstName || ""
+              option?.participant?.user?.firstName || ""
             }
             onSearch={handleSearch}
             loading={loading}
             onChange={handleAutocompleteChange}
           />
         </Grid>
-        <Grid container spacing={2}>
-          <CustomButton
-            className="custom-list-filter-btn"
-            onClick={() => setIsFilterModalOpen(true)}
-            label="Filters"
-            startIcon={<TuneRoundedIcon />}
-            variant="contained"
-            color="primary"
-            size="large"
-          />
-        </Grid>
+        <Filter datagridId='participant-list-datagrid' fields={filterFields} />
       </Grid>
       <Grid size={{ xs: 12 }}>
         <DataGridList
@@ -222,13 +199,6 @@ const handleRowClick=(id:string |number)=>{
           onRowClick={(params:any) => handleRowClick(params.id)}
         />
       </Grid>
-
-      {/* Filter Modal */}
-      <FilterModal
-        open={isFilterModalOpen}
-        onClose={() => setIsFilterModalOpen(false)}
-        onApplyFilters={handleApplyFilters}
-      />
     </Grid>
   );
 };
