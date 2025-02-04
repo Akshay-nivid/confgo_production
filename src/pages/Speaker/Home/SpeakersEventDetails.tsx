@@ -17,7 +17,7 @@ import routes from "@/router/routes";
 
 
 interface CustomFile {
-    id: number;
+    id: string;
     name: string;
 }
 

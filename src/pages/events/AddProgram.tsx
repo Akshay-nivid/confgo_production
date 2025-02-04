@@ -372,6 +372,7 @@ const handleAddProgram = () => {
   setProgramIndex(savedPrograms?.length ? savedPrograms.length - 1 : 0);
   setEditMode(false);
   setDrawerOpen(true); // Open the drawer for the new program
+  setShowSponsorSection(false)
 };
 
     /**
@@ -544,6 +545,9 @@ const handleAddProgram = () => {
       //   const hallValue=watch(`programs.${index}.hallName`)
       //   setHallOptions([hallValue]);
       // }
+      if(watch(`programs.${index}.sponsor`)){
+        setShowSponsorSection(watch(`programs.${index}.sponsor`)?.length == 0 ? false : true)
+      }
     };
 
     /**

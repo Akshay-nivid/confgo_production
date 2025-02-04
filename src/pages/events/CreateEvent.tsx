@@ -55,7 +55,7 @@ type FormData = {
   url: string;
   amount: string;
   specialtyId: string;
-  assetId:number;
+  assetId:string;
   phone: string;
   email: string;
   isAbstract:boolean;
@@ -63,7 +63,7 @@ type FormData = {
 };
 
 interface CustomFile {
-  id: number;
+  id: string;
   name: string;
   sourcePath: string;
 }

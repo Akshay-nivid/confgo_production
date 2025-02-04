@@ -799,6 +799,8 @@ useEffect(() => {
           <Grid size={{xs:12}}>
             <CustomTextField
               name="description"
+              multiline
+              rows={6}
               placeholder="Description"
               control={control}
               rules={{required:"Description is required"}}

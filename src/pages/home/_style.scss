@@ -171,11 +171,20 @@
       justify-content: center;
       align-items: end;
 
-      .attendance-tracking-image {
+      .attendance-tracking-image1 {
         height: 30rem;
         width: 45rem;
+        padding-top: 2rem;
       }
+      .attendance-tracking-image2 {
+        height: 30rem;
+        width: 45rem;
+        padding-top: 5rem;
+      }
+      
     }
+
+
   }
 }
 
@@ -405,7 +414,7 @@
 
 .plan-selection-banner {
   &__content {
-    background: url("/src/assets/png/plan-banner-image.png") no-repeat center;
+    background: url("/src/assets/png/main-bottom-banner.png") no-repeat center;
     background-size: cover;
     justify-content: center;
     margin-bottom: 4.833rem;
