@@ -65,14 +65,14 @@
     background-color: $clr_white;
     width: 100%;
     padding-block: 2.083rem;
-    padding-inline: 1.833rem;
+    padding-inline: 1.033rem;
     border-radius: 1.85rem;
     box-shadow: $clr_gray_light 0rem 0.25rem 0.667rem;
 
   }
 
   &__header {
-    column-gap: 1.5rem;
+    column-gap: 1.0rem;
     margin-bottom: 2.91rem;
   }
 
@@ -94,7 +94,7 @@
   &__subtitle {
     padding-inline-start: 0.2rem;
     color: $clr_sub_header !important;
-    font-size: $p1 !important;
+    font-size: $p2 !important;
     font-weight: $font_medium !important;
 
   }
