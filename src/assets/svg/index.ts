@@ -128,6 +128,11 @@ import TempHall from "./temp-hall.svg";
 import DrawerClose from "./DrawerClose.svg";
 import UplodIcon from "./upload-bracket.svg";
 import RemoveIcon from "./RemoveIcon.svg";
+import EventDetailsIcon from "./Up-details.svg";
+import MikeIcon from "./karaoke.svg";
+import NewRegistration from "./new-registrations-icon.svg"
+import ExistingUsers from "./existingUsers.svg";
+import SoldTickets from "./soldTickets.svg"
 import CustomStep1 from "./Custom-stepper-1.svg";
 import CustomStep2 from "./Custom-stepper-2.svg";
 import CustomStep3 from "./Custom-stepper-3.svg";
@@ -278,6 +283,11 @@ export {
   DrawerClose,
   UplodIcon,
   RemoveIcon,
+  EventDetailsIcon,
+  MikeIcon,
+  NewRegistration,
+  ExistingUsers,
+  SoldTickets,
   CustomStep1,
   CustomStep2,
   CustomStep3,

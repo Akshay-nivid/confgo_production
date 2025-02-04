@@ -23,6 +23,9 @@ import routes from "@/router/routes";
 import { useNavigate } from "react-router-dom";
 import NoDataDashBoard from "./NoDataDashBoard";
 import TermsAndConditon from "./TermsAndCondition";
+import UpComingEvents from "./UpcomingEvents";
+// import EventDropDown from "./EventDropDown";
+// import EventFeedBack from "./EventFeedBack";
 
 const Dashboard = () => {
   const POST = useStore((state: any) => state.POST);
@@ -186,11 +189,12 @@ const Dashboard = () => {
     </Grid>
     <Grid size={{ xs: 12, sm: 4 }} pt={2}>
       <Grid><Typography className="dashboard-calendar-card-header">Weekly Calendar</Typography></Grid>
-      {upcomingData? <Grid className="dashboard-calendar-card"> <CalendarCard data={upcomingData}/> </Grid>:
+        {/* <Grid size={{ xs: 12, sm:upcomingData? 6:12 }} className="dashboard-welcome-card"><WelcomeCard /></Grid> */}
+      {upcomingData? <Grid className="dashboard-calendar-card"> <UpComingEvents data={upcomingData}/> </Grid>:
         <Grid container className="dashboard-no-event-calender" justifyContent={"center"} alignItems={"center"} alignContent={"center"} flexDirection={"column"}>
          <CalenderNoData width={50} height={50}/>
          <Typography className="dashboard-no-event-calender-header">No Events Scheduled</Typography>
-         <Typography className="dashboard-no-event-calender-subHeader">Looks like your calendar is clear!</Typography>
+         <Typography className="dashboard-no-event-calender-subHeader">Crreate New Events !</Typography>
          <CustomButton 
          className="dashboard-no-event-calender-btn"
          label="Create New Event"
