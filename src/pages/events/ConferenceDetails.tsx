@@ -97,7 +97,7 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
 					Review And Submit
 				  </Typography>
 				</Grid>
-				<Grid>
+				<Grid size={10}>
 				  <Typography align="center" className="custom-stepper-conference-details-content-subtext">
 					Check all the details carefully before submission. Make sure everything is perfect!
 				  </Typography>
