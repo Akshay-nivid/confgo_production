@@ -126,7 +126,9 @@ import ShakeHandIcon from "./shake-hand.svg";
 import MaintenanceIcon from "./maintenance-icon.svg";
 import HallIcon from "./hall-icon.svg";
 import TempHall from "./temp-hall.svg"
+
 export {
+  
   CalenderIcon,
   ShakeHandIcon,
   EditBoxWhite,

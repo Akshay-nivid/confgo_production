@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid2';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Template1 from './Template1';
-import useStore, { setDataById } from '@/Libs/store';
+import useStore, { setDataById, snackBar } from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import routes from '@/router/routes';
 import Template3 from './Template3';
@@ -13,16 +13,20 @@ import Template2 from './Template2';
 import Template4 from '../approvedTemplate/Template4';
 import { Backdrop, CircularProgress } from '@mui/material';
 import MaintenancePage from './MaintenancePage';
+import apiClient from '@/Libs/Https/API-client';
+import { processAPIResponse } from '@/Utils/CommonBaseClass';
+import Template5 from './Template-5';
 
 type TemplateContainerProps = {
-    id?: number;
+  id?: number;
 }
 
 const templates: any = {
-  1: Template4,
+  5: Template4,
   2: Template2,
   3: Template3,
-  4: Template1
+  4: Template1,
+  1: Template5,
 };
 
 /**
@@ -30,24 +34,25 @@ const templates: any = {
  */
 const TemplateContainer: React.FC<TemplateContainerProps> = React.memo(({ }) => {
 
-    const { id, entityId, slug } = useParams();
+  const { id, entityId, slug } = useParams();
 
-    const temp = typeof id === 'number' ? id : Number(id) || 1;
-    const GET = useStore((state: any) => state.GET);
-    const dataInfo = useStore((state: any) => state?.compData?.['templateEventDetails']?.[`event/${entityId}`]) ?? [];
-    const slugInfo = useStore((state: any) => state?.compData?.['slugEventDetails']?.[`event/slug/${slug}`]) ?? [];
-    const clearDataById = useStore((state: any) => state?.clearDataById);
-    const navigate = useNavigate();
-    // const isIntialGetCartCalled = useStore(state=>state?.nonPersistedData[NonPersistedKeys.INITIAL_GET_CART]?.value)
-    const [publish, setpublish] = useState<boolean>(false);
-    const [loading, setloading] = useState<boolean>(true);
+  const temp = typeof id === 'number' ? id : Number(id) || 1;
+  const GET = useStore((state: any) => state.GET);
+  const dataInfo = useStore((state: any) => state?.compData?.['templateEventDetails']?.[`event/${entityId}`]) ?? [];
+  const slugInfo = useStore((state: any) => state?.compData?.['slugEventDetails']?.[`event/slug/${slug}`]) ?? [];
+  const clearDataById = useStore((state: any) => state?.clearDataById);
+  const eventId = useStore((state: any) => state?.compData?.['eventSelected']?.id) || null;
+  const navigate = useNavigate();
+  // const isIntialGetCartCalled = useStore(state=>state?.nonPersistedData[NonPersistedKeys.INITIAL_GET_CART]?.value)
+  const [publish, setpublish] = useState<boolean>(false);
+  const [loading, setloading] = useState<boolean>(true);
 
   // const cartId = useStore(state => state.compData?.userDetails?.userCart?.id) || null; 
-    
-  
-    /**
-  * Useeffect hook handles the api call for fetching event details
-  */
+
+
+  /**
+* Useeffect hook handles the api call for fetching event details
+*/
   useEffect(() => {
     if (entityId) {
       fetchEventDetails();
@@ -59,6 +64,19 @@ const TemplateContainer: React.FC<TemplateContainerProps> = React.memo(({ }) => 
 
   }, [])
 
+  const isUserLoggedIn = sessionStorage.getItem('userToken')
+
+
+  useEffect(() => {
+
+    if (isUserLoggedIn) {
+      fetchIsUserRegistered()
+    }
+    return;
+
+
+  }, [isUserLoggedIn, eventId])
+
 
   // function handleNavigateToCart() {
   //   navigate(routes.programSelection());
@@ -66,7 +84,7 @@ const TemplateContainer: React.FC<TemplateContainerProps> = React.memo(({ }) => 
 
   // check if user is logged in or not. if logged in call cart api and get the cart data
   // useEffect(() => {
-   
+
   //   const userToken = sessionStorage.getItem('token')
   //   const userRole = sessionStorage.getItem('userRole')
 
@@ -85,7 +103,7 @@ const TemplateContainer: React.FC<TemplateContainerProps> = React.memo(({ }) => 
   //   }
 
   //   return 
-    
+
   // },[])
 
   useEffect(() => () => {
@@ -93,10 +111,10 @@ const TemplateContainer: React.FC<TemplateContainerProps> = React.memo(({ }) => 
     clearDataById('defaultProgramData')
   }, [])
 
-    /**
+  /**
 * Method fetch the event details
 */
-const fetchEventDetails = async () => {
+  const fetchEventDetails = async () => {
     try {
       setloading(true);
       await GET({
@@ -113,6 +131,29 @@ const fetchEventDetails = async () => {
     }
   }
 
+
+  const fetchIsUserRegistered = async () => {
+
+    try {
+
+
+      const response = await apiClient.post(`participant/existing`,{ eventId: eventId })
+
+      const { data, message, status } = processAPIResponse(response, 'participant/existing')
+
+      if (status) {
+        setDataById('isUserRegistered', { value: data?.participant });
+        console.log(data)
+      }
+
+    } catch (error) {
+
+      snackBar({ severity: 'error', message: 'Something went wrong' })
+
+    }
+
+  }
+
   /**
 * Method fetch the event details from slug
 */
@@ -124,6 +165,7 @@ const fetchEventDetails = async () => {
         id: 'slugEventDetails',
         successCB: (context: any) => {
           const eventData = context?.data;
+          setDataById('event', { data: eventData });
           setDataById('eventSelected', { id: eventData?.id });
           setDataById('slugName', { value: slug });
           setDataById('templateId', { id: eventData?.templateId });
@@ -148,7 +190,7 @@ const fetchEventDetails = async () => {
    * @param slugData : slug details
    * @returns : template id
    */
-  const findTemp = ( temp: any, slugData: any) => {
+  const findTemp = (temp: any, slugData: any) => {
     return slugData?.templateId || temp;
   }
 
@@ -156,7 +198,7 @@ const fetchEventDetails = async () => {
 
   return loading ? (
     <Backdrop open={true}>
-    <CircularProgress color="inherit" size={20} />
+      <CircularProgress color="inherit" size={20} />
     </Backdrop>
   ) : publish ? (
     <Grid container size={{ xs: 12, sm: 12 }} className={`event-template${!slug ? " event-template-preview" : ""}`} spacing={1}>
@@ -169,7 +211,7 @@ const fetchEventDetails = async () => {
       )}
     </Grid>
   ) : (
-    <MaintenancePage/>
+    <MaintenancePage />
   );
 });
 

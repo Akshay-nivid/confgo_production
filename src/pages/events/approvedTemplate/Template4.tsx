@@ -25,6 +25,9 @@ import { useNavigate } from 'react-router-dom';
 import SponsorShip from '../template/sponsorShipForm/SponsorShip';
 import TempHall from "../../../assets/svg/temp-hall.svg";
 import { personPlaceholder } from '@/assets/png';
+import TRegisterButton from '../template/_components/TRegisterButton/TRegisterButton';
+import TLink from '../template/_components/TLink/TLink';
+import TEventSpeakers from '../template/_components/TEventSpeakers/TEventSpeakers';
 
 
 type TemplateViewProps = {
@@ -391,6 +394,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
         return subItem?.some((speaker: any) => speaker?.speakerBios?.[0]?.isModerator) ?? false;
     };
 
+    console.log(data,'iiiiiiiiiiiiiii')
+
     return (
         <Grid  container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-bg`}  >
             <Grid container size={{ xs: 12, sm: 12 }} className={classPrefix}>
@@ -432,6 +437,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                 </Grid>
                             </Grid>
                         </TimerCounterComp>
+                        
                     </Grid>
                 </Grid>
                 {/* Speaker section starts here  */}

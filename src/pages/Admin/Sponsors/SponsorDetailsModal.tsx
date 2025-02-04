@@ -77,7 +77,7 @@ const SponsorDetailsModal = ({ className }: { className?: string }) => {
                                 <LanguageIcon className="icon" />
                                 <Typography className="label">WebSite</Typography>
                             </Box>
-                            <a href="{sponsorDetails?.website}">
+                            <a href={sponsorDetails?.website || ""}>
                                 <Typography className="value">{sponsorDetails?.website || "NA"}</Typography>
                             </a>
                         </Grid>
