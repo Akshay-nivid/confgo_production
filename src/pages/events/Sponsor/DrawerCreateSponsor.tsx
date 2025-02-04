@@ -108,7 +108,7 @@ const DrawerCreateSponosor: React.FC<NewSpeakerDrawerProps> = ({ onSuccess, clos
                 <form className='form' onSubmit={form.handleSubmit(onSubmit)}>
                     <CustomTextField control={form.control} name='name' placeholder='Sponsor Name' />
                     <CustomTextField control={form.control} name='email' placeholder='Email' />
-                    <CustomTextField control={form.control} name='phone' placeholder='Phone Number' />
+                    <CustomTextField control={form.control} name='phone' isNumeric={true} placeholder='Phone Number' />
                     <CustomTextField control={form.control} name='website' placeholder='(e.g., https://www.example.com)' label='Website Url' />
                     <Box className="form-file-upload">
                         <FormLabel className='form-file-upload-label'>Please upload the sponsor logo</FormLabel>
