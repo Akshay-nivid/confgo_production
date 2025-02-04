@@ -128,7 +128,12 @@ import HallIcon from "./hall-icon.svg";
 import TempHall from "./temp-hall.svg";
 import DrawerClose from "./DrawerClose.svg";
 import UplodIcon from "./upload-bracket.svg";
-import RemoveIcon from "./RemoveIcon.svg"
+import RemoveIcon from "./RemoveIcon.svg";
+import EventDetailsIcon from "./Up-details.svg";
+import MikeIcon from "./karaoke.svg";
+import NewRegistration from "./new-registrations-icon.svg"
+import ExistingUsers from "./existingUsers.svg";
+import SoldTickets from "./soldTickets.svg"
 export {
   CalenderIcon,
   ShakeHandIcon,
@@ -260,5 +265,10 @@ export {
   TempHall,
   DrawerClose,
   UplodIcon,
-  RemoveIcon
+  RemoveIcon,
+  EventDetailsIcon,
+  MikeIcon,
+  NewRegistration,
+  ExistingUsers,
+  SoldTickets
 };
