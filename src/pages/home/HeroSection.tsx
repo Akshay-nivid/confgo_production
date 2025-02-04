@@ -1,5 +1,5 @@
 import { useIsMobileScreen } from "@/Utils/CommonBaseClass";
-import { PlayIconSvg, MainHeroImage } from "@/assets/svg";
+import { MainHeroImage } from "@/assets/svg";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import routes from "@/router/routes";
 import { Typography } from "@mui/material";
