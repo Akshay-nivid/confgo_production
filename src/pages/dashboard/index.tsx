@@ -2,14 +2,14 @@
  * Component handles the organization dashboard
  */
 import Grid from "@mui/material/Grid2";
-import { WelcomeCard } from "./WelcomeCard";
-import { UpcomingEventCard } from "./UpcomingEventCard";
+// import { WelcomeCard } from "./WelcomeCard";
+// import { UpcomingEventCard } from "./UpcomingEventCard";
 import { ItemCard } from "./ItemCard";
 import EventHostedIcon from '@/assets/svg/events-hosted-icon.svg';
 import UsersRegisteredIcon from '@/assets/svg/users-registered-icon.svg';
 import NewRegistrationsIcon from '@/assets/svg/new-registrations-icon.svg';
 import { EventListCard } from "./EventListCard";
-import { CalendarCard } from "./CalendarCard";
+// import { CalendarCard } from "./CalendarCard";
 import { Typography,CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import useStore from "@/Libs/store";
@@ -24,8 +24,8 @@ import { useNavigate } from "react-router-dom";
 import NoDataDashBoard from "./NoDataDashBoard";
 import TermsAndConditon from "./TermsAndCondition";
 import UpComingEvents from "./UpcomingEvents";
-// import EventDropDown from "./EventDropDown";
-// import EventFeedBack from "./EventFeedBack";
+import EventDropDown from "./EventDropDown";
+import EventFeedBack from "./EventFeedBack";
 
 const Dashboard = () => {
   const POST = useStore((state: any) => state.POST);
@@ -116,7 +116,7 @@ const Dashboard = () => {
         id: 'upcomingEventList',
         successCB: (context: any) => {
           if (context?.success) {
-            setUpcomingData(context?.data?.[0])
+            setUpcomingData(context?.data?.[0]);
           }
         },
         errorCB: (context: any) => {
@@ -169,9 +169,20 @@ const Dashboard = () => {
   <TermsAndConditon open={open} onClose={handleClose}/>
   { fullEventList?.data?.length==0?<NoDataDashBoard/>:<Grid container size={{ xs: 12, sm: 12 }} spacing={2} className="dashboard" >
     <Grid size={{ xs: 12, sm: 8 }} container p={2}>
+    <Grid size={{ xs: 12, sm: 12 }} container>
+      
+    <EventDropDown data={fullEventList} />
+
+   <Grid container size={12}>
+    
+   <EventFeedBack/>
+
+   </Grid>
+  
+    </Grid>
       <Grid size={{ xs: 12, sm: 12 }} container >
-        <Grid size={{ xs: 12, sm:upcomingData? 6:12 }} className="dashboard-welcome-card"><WelcomeCard /></Grid>
-        {upcomingData&& <Grid size={{ xs: 12, sm: 6 }} className="dashboard-upcoming-event-card"><UpcomingEventCard data={upcomingData}/></Grid>}
+        {/* {upcomingData? <Grid className="dashboard-calendar-card"> <CalendarCard data={upcomingData}/> </Grid>: */}
+        {/* {upcomingData&& <Grid size={{ xs: 12, sm: 6 }} className="dashboard-upcoming-event-card"><UpcomingEventCard data={upcomingData}/></Grid>} */}
       </Grid>
       <Grid size={{ xs: 12, sm: 12 }} container>
         <Grid size={{ xs: 12, sm: 4 }} className="dashboard-item-card"><ItemCard label="Total Events Hosted" value={eventCountData?.data?.totalEventCount} icon={<EventHostedIcon />} /></Grid>
