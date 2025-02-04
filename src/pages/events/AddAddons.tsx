@@ -379,12 +379,14 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       setEditMode(true);
       setValue("addOn", watch("savedAddOns"));
       setProgramIndex(index);
-      if(watch(`addOn.${index}.sponsor`)){
-        setShowSponsorSection(watch(`addOn.${index}.sponsor`)?.length > 0 ? true : false)
-      }
-      else{
       setShowSponsorSection(false)
-      }
+      // if(watch(`addOn.${index}.sponsor`)){
+      //   const sValue = watch(`addOn.${index}.sponsor`)?.length > 0? true: false
+      //   setShowSponsorSection(sValue)
+      // }
+      // else{
+      // setShowSponsorSection(false)
+      // }
     };
 
     /**
