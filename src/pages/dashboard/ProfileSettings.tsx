@@ -6,6 +6,7 @@ import Grid from "@mui/material/Grid2";
 import useStore from "@/Libs/store";
 import "./profile-components/mainProfile.scss"
 import PersonalAndOrganisationDetails from './profile-components/PersonalAndOrganisationDetails';
+import PaymentConfigurations from '../Admin/PaymentConfiguration';
 
 const ProfileSettings: React.FC = React.memo(() => {
   const [email, setEmail] = useState('');
@@ -27,6 +28,7 @@ const ProfileSettings: React.FC = React.memo(() => {
       <Tabs value={tabInfo?.tabIndex} className='main-account-tabs' onChange={handleTabChange}>
         <Tab label="My Profile" className='main-account-tab-title account-tabs' />
         <Tab label="Security" className="main-account-tab-title account-tabs" />
+        <Tab label="Payment Configurations" className="main-account-tab-title account-tabs"/>
         {/* <Tab label="Notification" className="main-account-tab-title account-tabs" /> */}
       </Tabs>
       {tabInfo?.tabIndex === 0 ? (
@@ -41,6 +43,11 @@ const ProfileSettings: React.FC = React.memo(() => {
           {/* Profile reset password for end user */}
           <MainSecurity passEmail={email} />
         </Box>
+      ):tabInfo?.tabIndex==2?(
+
+      <Box>
+        <PaymentConfigurations/>
+      </Box>
       //commentted due to api is not there
       // ) : tabInfo?.tabIndex == 2 ? (
       //   <Box>
