@@ -97,15 +97,15 @@ export const PlanSection = () => {
           container
           className="plansection__cards"
         >
-   {planList.map((row, index) => (
-  <Grid 
-    size={{ xs: 12, sm: 6, md: 3 }} 
-    key={index} 
-    className="plansection__card"
-  >
-    <PlanCard data={row} />
-  </Grid>
-))}
+          {planList.map((row, index) => (
+            <Grid
+              size={{ xs: 12, sm: 6, md: 3 }}
+              key={index}
+              className="plansection__card"
+            >
+              <PlanCard data={row} />
+            </Grid>
+          ))}
         </Grid>
       </Grid>
     </Grid>
