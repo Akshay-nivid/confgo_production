@@ -1,4 +1,4 @@
-import CustomButton from '@/components/CustomButton/CustomButton';
+// import CustomButton from '@/components/CustomButton/CustomButton';
 import Grid from '@mui/material/Grid2';
 import { PlanCard } from './PlanCard';
 import Typography from '@mui/material/Typography/Typography';
@@ -34,15 +34,15 @@ type PlanType = {
 export const PlanSection = () => {
 
   const [planList, setPlanList] = useState<PlanType[]>([]);
-  const [selectedPlan, setSelectedPlan] = useState('Monthly');
+  // const [selectedPlan, setSelectedPlan] = useState('Monthly');
 
   /**
    * Method sued to set selected plan
    * @param plan 
    */
-  const handleSelection = (plan: string) => {
-    setSelectedPlan(plan);
-  };
+  // const handleSelection = (plan: string) => {
+  //   setSelectedPlan(plan);
+  // };
   /*
    * get state data if selected plan data is there
    */
@@ -84,25 +84,27 @@ export const PlanSection = () => {
           alignItems={'center'}
           className="plansection__button-container"
         >
-          <Grid className='plansection__button-group'>
+          {/* <Grid className='plansection__button-group'>
             <CustomButton label="Monthly" variant={selectedPlan === 'Monthly' ? 'contained' : 'outlined'} onClick={() => handleSelection('Monthly')} />
             <CustomButton label="Annualy" variant={selectedPlan === 'Annualy' ? 'contained' : 'outlined'} onClick={() => handleSelection('Annualy')} />
-          </Grid>
+          </Grid> */}
         </Grid>
         <Grid
           size={12}
           display={'flex'}
-          columnSpacing={{ xs: 2, md: 3 }}
-          rowSpacing={{xs:3,md:0}}
+          columnSpacing={{ xs:1, md: 2 }}
+          rowSpacing={{xs:1,md:0}}
           container
           className="plansection__cards"
         >
           {planList.map((row, index) => (
-            <>
-              <Grid size={{ xs: 12, sm: 6,md:4 }} key={index} className="plansection__card">
-                <PlanCard data={row} type={selectedPlan} />
-              </Grid>
-            </>
+            <Grid
+              size={{ xs: 12, sm: 6, md: 3 }}
+              key={index}
+              className="plansection__card"
+            >
+              <PlanCard data={row} />
+            </Grid>
           ))}
         </Grid>
       </Grid>
