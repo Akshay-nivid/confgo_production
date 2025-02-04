@@ -283,6 +283,9 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
      */
     useEffect(() => { 
       const savedPrograms = watch("savedPrograms");
+      if (savedPrograms?.[0]?.hallArray) {
+        setHallOptions(savedPrograms[0].hallArray);
+    }    
       setProgramIndex(savedPrograms?.length ? savedPrograms.length - 1 : 0);
   }, [watch("savedPrograms")]);
    
@@ -369,6 +372,7 @@ const handleAddProgram = () => {
   setProgramIndex(savedPrograms?.length ? savedPrograms.length - 1 : 0);
   setEditMode(false);
   setDrawerOpen(true); // Open the drawer for the new program
+  setShowSponsorSection(false)
 };
 
     /**
@@ -522,7 +526,6 @@ const handleAddProgram = () => {
     // const handleClick=()=>{
 
     // }
-
     /**
      * Method handles the Update of the program
      * @param index : index of the program to edit
@@ -535,12 +538,15 @@ const handleAddProgram = () => {
       if(watch(`programs.${index}.speakers`)){
         setShowSpeakerSection(watch(`programs.${index}.speakers`)?.length == 0 ? false : true)
       }
-      if(watch(`programs.${index}.hallArray`)){
-        setHallOptions(watch(`programs.${index}.hallArray`));
-      }
-      if(watch(`programs.${index}.hallName`)){
-        const hallValue=watch(`programs.${index}.hallName`)
-        setHallOptions([hallValue]);
+      // if(watch(`programs.${index}.hallArray`)){
+      //   setHallOptions(watch(`programs.${index}.hallArray`));
+      // }
+      // if(watch(`programs.${index}.hallName`)){
+      //   const hallValue=watch(`programs.${index}.hallName`)
+      //   setHallOptions([hallValue]);
+      // }
+      if(watch(`programs.${index}.sponsor`)){
+        setShowSponsorSection(watch(`programs.${index}.sponsor`)?.length == 0 ? false : true)
       }
     };
 
@@ -601,6 +607,7 @@ const handleAddProgram = () => {
             designation: "",
             hallName:"",
           });
+          setHallOptions([]);
         } else {
           setProgramIndex(programsCopy?.length);
         }
@@ -828,7 +835,7 @@ const handleAddProgram = () => {
       }
       const values = watch();
       const hallName = values.programs[index]?.createHallName
-      const newHall: any = { hallName };
+      const newHall: any =  {hallName} ;
 
 
       // TypeScript now knows hallArray is an array of { hallName: string }
@@ -896,18 +903,22 @@ const handleAddProgram = () => {
         }
       });
     }
+   /**
+     * Removes Hall Name from the state.
+     * @param {number} _item - object to be deleted,hallIndex-seleted hall,index:program index
+     */
+    const handleHallNameDelete = (_item: any, hallIndex: any, index: any) => {
+      const values = watch();
+      const updatedPrograms: any = [...values.programs];
 
-// const handleHallNameDelete=(item:any,_hallIndex:any,index:any)=>{
-//   const values = watch();
-//   const updatedPrograms: any = [...values.programs];
-//   const updatedHallName = updatedPrograms[index].hallArray?.filter((hall: any) => {
-//     return hall?.hallName === item?.hallName;
-//   });
-//   updatedPrograms[index].hallArray = updatedHallName;
-//   setHallOptions([ ...hallOptions,updatedHallName]);
-//   // Set the updated programs back to the form
-//   setValue('programs', updatedPrograms);
-// }
+      // Filter out the hall at the specified hallIndex
+      const hallArrayValues = hallOptions.filter(
+        (_: any, i: any) => i != hallIndex
+      );
+      updatedPrograms[index].hallArray = updatedPrograms[index].hallArray.filter((_: any, i: any) => i != hallIndex);
+      setHallOptions(hallArrayValues)
+      setValue("programs", updatedPrograms);
+    };
 
     return (
       <Grid container className="add-program-container" justifyContent={'center'} spacing={4}>
@@ -975,7 +986,7 @@ const handleAddProgram = () => {
                           <Grid container display={"flex"} size={{ xs: 12, sm: 12 }} alignItems={"center"} >
                            <Grid size={9}>
                           <CustomAutocomplete
-                          defaultValue={data&&data[index]?.hallName}
+                            defaultValue={data&&data[index]?.hallName}
                             name={`programs${index}.hallName`}
                             className='auto-complete-input'
                             placeholder='search by hall name'
@@ -1035,7 +1046,7 @@ const handleAddProgram = () => {
                                   {watch(`programs.${index}.hallArray`)?.length !== 0&&
                                   <Grid className="add-program-hall-modal-chipBox">
                                    {hallOptions.map((item:any, hallIndex:any) => {
-                                    return <Chip key={hallIndex+"hallName"} className="add-program-hall-modal-chipBox-chip" label={item?.hallName} variant="outlined"  />}
+                                    return <Chip key={hallIndex+"hallName"} className="add-program-hall-modal-chipBox-chip" label={item?.hallName} variant="outlined" onDelete={()=>handleHallNameDelete(item, hallIndex,index)}  />}
                                   )  } </Grid>}
                                  
                                   <Grid container justifyContent={"flex-end"}>

@@ -12,12 +12,12 @@ import {  handleClickBackButton, handleGroupData, processFormData, toggleProgram
 import clsx from "clsx";
 import AddonCard from "../Components/AddonCard";
 import Programcard from "../Components/Programcard";
-import parse from 'html-react-parser';
 import LocalTimeDate from "@/components/LocalTimeDate/LocalTimeDate";
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import { getUserCart } from "@/pages/events/template/programHandler";
 import { IEventResponse } from "@/Libs/types/event";
 import ProgramDetailsModal from "./ProgramDetailsModal";
+import HTMLReactParser from "html-react-parser/lib/index";
 
 
 export interface IProgram {
@@ -155,7 +155,6 @@ const ProgramSelection = () => {
 
     try {
 
-      validateAddon(formData)
 
       setDataById('defaultProgramData', { formData: formData }) // storing form data for setting default values in next screen 
 
@@ -164,8 +163,9 @@ const ProgramSelection = () => {
 
       const selectedPrograms = body.programIds || null;
 
-
       validatePrograms(selectedPrograms)
+      
+      validateAddon(formData)
 
 
       validateAddonWithNoProp(body?.addons)
@@ -196,9 +196,9 @@ const ProgramSelection = () => {
 
         }
       })
-    } catch (e: any) {
-
-      snackBar({ severity: "error", message: e?.message || "something went wrong", autoHideDuration: 3000 })
+    } catch (error:any) {
+const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      snackBar({ severity: "error", message: errorMessage || "something went wrong", autoHideDuration: 3000 })
     }
 
   }
@@ -297,7 +297,7 @@ const ProgramSelection = () => {
 
                 <Box className="event-header-container">
                   <Typography className="event-header"><span>{event?.data?.name}</span></Typography>
-                  <Typography className="event-description" > <span>{event?.data?.description && parse(event?.data?.description)}</span></Typography>
+                  <Typography className="event-description" > <span>{event?.data?.description && HTMLReactParser(event?.data?.description)}</span></Typography>
                   <Box className="flex items-center gap-x-2">
                     <CalendarMonthOutlinedIcon />
                     <LocalTimeDate className="event-date" utcDateTime={event?.data?.startTime} />

@@ -899,8 +899,11 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                                 {
                                                     items?.map((item: any) => {
                                                         return (
-                                                            <Grid  size={12}>
-                                                                <img className='object-fill rounded-sm' width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
+                                                            <Grid container justifyContent={"center"} alignItems={"center"} size={12}  >
+                                                                <img 
+                                                                className='sponsor-banner-diamond'
+                                                                src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} 
+                                                                alt="" />
                                                             </Grid>
                                                         )
 
@@ -910,15 +913,19 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                         </Box>
                                     ) : key === "PLATINUM" ? items?.length > 0 && (
                                         <Grid size={12} justifyContent={'center'} container mb={5}>
-
                                             <Grid size={12}>
                                                 <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`${key && toTitleCase(key)} Sponsors`}</Typography>
                                             </Grid>
                                             {
                                                 items?.map((item: any) => {
                                                     return (
-                                                        <Grid size={{ xs: 12, sm: 6 }} >
-                                                            <img className='object-fill rounded-sm' width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
+                                                        <Grid container justifyContent={"center"} alignItems={"flex-start"}  size={{ xs: 12, sm: 6 }}>
+                                                            <img
+                                                               className='sponsor-banner-platinum'
+                                                                src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''}
+                                                                alt=""
+                                                            />
+
                                                         </Grid>
                                                     )
                                                 })
@@ -933,8 +940,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                             {
                                                 items?.map((item: any) => {
                                                     return (
-                                                        <Grid size={{ xs: 12, sm: 4 }} container direction={'row'} spacing={2}>
-                                                            <img className='object-fill rounded-sm' width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
+                                                        <Grid container justifyContent={"center"} alignItems={"flex-start"} alignContent={"flex-start"}  size={{ xs: 12, sm: 4 }}  >
+                                                            <img  className='sponsor-banner-gold'  src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
                                                         </Grid>
                                                     )
                                                 })
@@ -948,8 +955,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                             {
                                                 items?.map((item: any) => {
                                                     return (
-                                                        <Grid size={{ xs: 12, sm: 3 }} container direction={'row'} spacing={2}>
-                                                            <img className='object-fill rounded-sm' height={'100%'} width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
+                                                        <Grid size={{ xs: 12, sm: 3 }} container justifyContent={'center'} alignItems={"flex-start"} alignContent={"flex-start"}  >
+                                                            <img className='sponsor-banner-silver' src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
                                                         </Grid>
                                                     )
                                                 })

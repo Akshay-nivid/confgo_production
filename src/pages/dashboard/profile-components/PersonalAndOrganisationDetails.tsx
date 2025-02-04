@@ -21,7 +21,7 @@ import config from "../../../../config.json";
 import FileUpload from "@/components/FileUpload/FileUpload";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 interface CustomFile {
-  id: number;
+  id: string;
   name: string;
 }
 
@@ -56,10 +56,10 @@ const PersonalAndOrganisationDetails:React.FC<AccountSettingProps> = React.memo(
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [uploadModalOpen, setUploadModalOpen] = useState(false); 
   const [uploadOrganisationModalOpen, setUploadOrganisationModalOpen] = useState(false); 
-  const [drawerProfileImage, setDrawerProfileImage] = useState<number | null>(profileData?.assetId || null);
+  const [drawerProfileImage, setDrawerProfileImage] = useState<string | null>(profileData?.assetId || null);
   const [organsisationDrawer, setorgansisationDrawer] = useState(false);
   const [LogoprofileData, setLogoProfileData] = useState<Company | null>(null);
-  const [drawerLogoImage, setDrawerLogoImage] = useState<number | null>(LogoprofileData?.assetId || null);
+  const [drawerLogoImage, setDrawerLogoImage] = useState<string | null>(LogoprofileData?.assetId || null);
   const [loading, setLoading] = useState(false); 
   const [compId,setCompId]=useState()
 

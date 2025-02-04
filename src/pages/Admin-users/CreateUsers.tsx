@@ -31,7 +31,7 @@ type RoleList = {
     modifiedOn: string;
 };
 interface CustomFile {
-    id: number;
+    id: string;
     name: string;
     sourcePath: string;
 }
