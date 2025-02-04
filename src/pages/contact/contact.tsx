@@ -9,9 +9,6 @@ import useStore from '@/Libs/store';
 import { CallIcon } from '@/assets/svg';
 import { LocatioIcon } from '@/assets/svg';
 import { MessageIcon } from '@/assets/svg';
-import { Logger } from '@/Utils/Logger';
-import { useNavigate } from 'react-router-dom';
-import routes from '@/router/routes';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import CustomPhone from '@/components/CustomPhone/CustomPhone';
 import { countries } from '@/Utils/country/country';
@@ -57,7 +54,6 @@ const Contact = () => {
     const recaptchaRef = useRef<ReCAPTCHA>(null);
     const POST = useStore((state: any) => state.POST);
     const setDataById = useStore((state: any) => state.setDataById);
-    const navigate = useNavigate();
     const [phoneNumber, setPhoneNumber] = useState("");
     const [selectedCountryCode, setSelectedCountryCode] = useState("+91");
 
