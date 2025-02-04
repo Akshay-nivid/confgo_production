@@ -56,7 +56,7 @@
 .plancard {
   &__container {
     background: linear-gradient(to bottom, $clr_offwhite, transparent);
-    padding: 1.25rem;
+    padding: 1.0rem;
     border-radius: 2.5rem;
 
   }
@@ -85,13 +85,14 @@
   }
 
   &__title {
-    font-size: $h4 !important;
+    font-size: $h5 !important;
     font-weight: $font_semibold !important;
 
  
   }
 
   &__subtitle {
+    padding-inline-start: 0.2rem;
     color: $clr_sub_header !important;
     font-size: $p1 !important;
     font-weight: $font_medium !important;
@@ -106,7 +107,7 @@
   }
 
   &__price_conatiner {
-    margin-bottom: 3rem !important;
+    margin-bottom: 1rem !important;
 
     .price {
       font-size: $h1 !important;
@@ -114,12 +115,24 @@
 
     
     }
+    .enterprise_des{
+      font-size: $p5 !important;
+      font-weight: $font-semibold !important;
+    }
 
     .period {
       font-size: $h6 !important;
       ;
       color: $clr_text_grey !important;
     }
+  }
+  &-plan-description{
+    svg{
+      width:2rem;
+      height: 2rem;
+    }
+    margin-bottom: 2rem;
+
   }
 
 
@@ -150,6 +163,7 @@
     }
   }
 
+
   &__button {
     height: 4.5rem;
     border-radius: 0.83rem !important;
@@ -164,6 +178,24 @@
     svg {
       path {
         fill: $clr_blue;
+      }
+    }
+
+  }
+  &__buttonEnterprise {
+    height: 4.5rem;
+    border-radius: 0.83rem !important;
+    border: 0.17rem solid $clr_blue !important;
+    background-color: $clr_blue !important;
+    text-transform: none !important;
+    color: $clr_white !important;
+    font-size: $p2 !important;
+    box-shadow: none !important;
+
+    
+    svg {
+      path {
+        fill: $clr_white;
       }
     }
   }

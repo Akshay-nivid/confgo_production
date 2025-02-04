@@ -335,10 +335,12 @@ export const validateAddon = (formData:any) => {
           throw new Error(
             `Please select at least one program related to the addon you selected on ${date}.`
           );
+          
         }
       }
     }
   });
+  
 };
 
 
@@ -352,15 +354,7 @@ export const validateAddon = (formData:any) => {
 export const  validatePrograms=(programs: any) =>{
   
   if (programs.length === 0 || programs === undefined || !programs) {
-
-    setDataById("snackBarInfo", {
-      open: true,
-      autoHideDuration: 2000,
-      severity: "error",
-      message: 'Please select at least one program and addon property',
-    })
-
-    return
+    throw new Error('Please select at least one program ')
   }
   
 }

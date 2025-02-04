@@ -136,6 +136,8 @@ import CustomStep4 from "./Custom-stepper-4.svg";
 import CustomStepInactive4 from "./Custom-stepper-inactive-4.svg";
 import CustomStepInactive3 from "./Custom-stepper-inactive-3.svg";
 import CustomStepInactive2 from "./Custom-stepper-inactive-2.svg";
+import EnterPriseFeeIcon from "./enterprise-icon.svg";
+import BlueTickIcon from "./check_pricing-blue.svg";
 
 export {
   CalenderIcon,
@@ -275,5 +277,7 @@ export {
   CustomStep4,
   CustomStepInactive4,
   CustomStepInactive3,
-  CustomStepInactive2
+  CustomStepInactive2,
+  EnterPriseFeeIcon,
+  BlueTickIcon
 };
