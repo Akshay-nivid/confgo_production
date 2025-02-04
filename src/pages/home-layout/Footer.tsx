@@ -120,7 +120,7 @@ const Footer = () => {
                       © {moment().year()} — Copyright
                     </Typography>
                     <Typography className="footer-copyright" textAlign={'end'} marginTop={.5} maxWidth={'40ch'}>
-                      Nivid Solutions All Rights Reserved. All other trademarks and copyrights are the property of their respective holders.
+                      Confgo.com All Rights Reserved. All other trademarks and copyrights are the property of their respective holders.
                     </Typography>
                   </Grid>
                 </Grid>
