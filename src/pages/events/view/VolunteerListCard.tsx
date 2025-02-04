@@ -235,7 +235,7 @@ const VolunteerListCard = () => {
           columns={columns}
           id="volunteer-lists"
           noRecordIcon={<NoCouponDataSvg className="no-coupon-icon"/>}
-          noRecordSubtitle="cIt looks like you haven't created any volunteer yet."
+          noRecordSubtitle="It looks like you haven't created any volunteer yet."
         />
       </Grid>
 
