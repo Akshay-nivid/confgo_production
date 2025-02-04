@@ -25,7 +25,7 @@ interface Sponsor{
     label:string;
 }
 const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
-    const { control, getValues } = useForm();
+    const { control, getValues,handleSubmit} = useForm();
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
     // const [source, setSource] = useState<ISource | undefined>(undefined);
@@ -43,7 +43,7 @@ const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
     /**
      * Function to assign the volunteers which are selected, the selected volunteers are passing in an array
      */
-    const handleSubmit = async () => {
+    const handleSubmitfunction = async () => {
         try {
             const sponsorIds = assignedSponsors?.map(sponsor => sponsor.user?.id);
             const sponsorTypeId = getValues("sponsorType"); // Get the selected sponsorType ID
@@ -206,6 +206,7 @@ const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
                     <CloseOutlined />
                 </IconButton> 
             </Box>
+            <form onSubmit={handleSubmit(handleSubmitfunction)}>
             <Grid container className='assigned-volunteer-search'>
            
                 <Grid size={{ xs: 12, sm: 12 }} >
@@ -218,6 +219,9 @@ const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
                     control={control}
                     label="Sponsor Type"
                     options={sponsorType}
+                    rules={{
+                        required: "Sponsor Type is required",
+                    }}
                     />
                   </Grid>
             </Grid>
@@ -299,9 +303,9 @@ const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
                     size="medium"
                     type="submit"
                     onClick={handleSubmit}
-                    disabled={assignedSponsors.length === 0 ? true:false}
                 />
             </div>
+            </form>
             
         </div>
     
