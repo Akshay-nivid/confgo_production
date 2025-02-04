@@ -70,8 +70,8 @@ interface CustomPhoneProps {
  * @returns {JSX.Element} The rendered CustomPhone component.
  */
 const CustomPhone: React.FC<CustomPhoneProps> = ({
-    countries,
-    selectedCountryCode,
+    //countries,
+    //selectedCountryCode,
     onCountryChange,
     phoneNumber,
     onPhoneNumberChange,
@@ -87,9 +87,9 @@ const CustomPhone: React.FC<CustomPhoneProps> = ({
    * 
    * @param {SelectChangeEvent<string>} event - The change event object from the country selector dropdown.
    */
-    const handleCountryChange = (event: SelectChangeEvent<string>) => {
-        onCountryChange(event.target.value);
-    };
+    // const handleCountryChange = (event: SelectChangeEvent<string>) => {
+    //     onCountryChange(event.target.value);
+    // };
 
     /**
      * Handles the change event for the phone number input.
