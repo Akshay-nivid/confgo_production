@@ -147,6 +147,10 @@ import MainEffortlesPlaningImg from './main-effortless-plaing.svg'
 import MainSeamlessTrackingImg from './main-seamless-tracking.svg'
 import MainYourBrandImg from './main-your-brand.svg'
 import MainBottomBanner from "./main-bottom-banner.svg"
+import ReviewMap from "./map-review.svg";
+import ReviewCalender from "./calendar-review.svg";
+import EventReview from "./event-review.svg";
+
 export {
   MainBottomBanner,
   MainYourBrandImg,
@@ -296,5 +300,8 @@ export {
   CustomStepInactive3,
   CustomStepInactive2,
   EnterPriseFeeIcon,
-  BlueTickIcon
+  BlueTickIcon,
+  ReviewMap,
+  ReviewCalender,
+  EventReview
 };

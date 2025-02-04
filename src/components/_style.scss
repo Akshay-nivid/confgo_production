@@ -907,16 +907,51 @@
   }
 
   &-conference-details {
+    padding: 2rem;
     background-color: $clr_white;
+    justify-content: center;
+    align-items: center;
 
+    &-border{
+      border: 0.083rem solid $clr_gray_very_light;
+      padding: 1.5rem;
+      border-radius: 0.833rem ;
+    }
+    &-review-img{
+      width: 7.333rem;
+      height: 6.583rem;
+    }
+
+    &-eventname{
+      font-weight: $font_semibold !important;
+      font-size: $h5 !important;
+    }
+    &-event-description{
+      color: $clr_gray_dark_text;
+      overflow: hidden;
+    }
     &-content {
       &-container {
-        padding: 2rem !important;
+        margin-top: 2rem !important;
+      }
+      &-date-and-location{
+        font-weight: $font_medium !important;
+        font-size: $h5 !important;
+      }
+      &-scheduled-date{
+        font-size: $p5 !important;
+        font-weight: $font_semibold !important;
+      }
+      &-subtext{
+        font-size: $h6 !important;
+        font-weight: $font_medium !important;
+        color:$clr_field;
+        width: 35rem;
       }
 
       &-title {
         font-weight: $font_bold !important;
-        font-size: $h3 !important;
+        font-size: $h4 !important;
         padding-top: 1rem;
       }
 
@@ -935,18 +970,22 @@
       }
 
       &-type {
-        height: 2.83rem;
-        border-radius: 0.66rem;
-        background-color: $clr_status_bar;
+        margin-left: 1rem;
+        height: 2rem;
+        border-radius: 4.167rem;
+        background-color: $clr_dark_orange;
         padding-left: 1rem;
         padding-right: 1rem;
-        color: $clr_cyan_blue ;
+        color: $clr_white ;
       }
 
       &-date-icon {
+        background-color: $clr_green_light;
+        border-radius: 0.417rem;
+        padding: 0.8rem;
         svg {
-          width: 1.5rem;
-          height: 1.5rem;
+          width: 2.2rem;
+          height: 2.2rem;
         }
       }
 

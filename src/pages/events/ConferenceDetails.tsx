@@ -1,15 +1,15 @@
 /**
  * ConferenceDetails component displays the conference details
  */
-import { toSentenceCase } from '@/Utils/CommonBaseClass';
+import { toSentenceCase, truncateString } from '@/Utils/CommonBaseClass';
 import { Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import moment from 'moment';
 import React from 'react';
 import parse from 'html-react-parser';
-import DateIcon from '@/assets/svg/event-date.svg';
-import LocationIcon from '@/assets/svg/event-location.svg';
 import SessionCard from './view/sessionCard';
+import { ReviewCalender, ReviewMap,EventReview } from '@/assets/svg';
+import ReviewLocation from './ReviewLocation';
 
 
 type ConferenceDetailsProps = {
@@ -19,8 +19,7 @@ type ConferenceDetailsProps = {
 
 const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,addOnOptions }) => {
 	
-	
-    const startDate = moment(data?.event?.startTime).format("MMMM D, YYYY");
+    const startDate = moment(data?.event?.startTime).format("MMMM D");
     const endDate = moment(data?.event?.endTime).format("MMMM D, YYYY");
     /**
      * Method checks the start and end date matches or not
@@ -87,29 +86,66 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
 		 * Separate general addons without dates from combinedData
 		 */
 		const { general: generalAddons = [], ...scheduledData } = combinedData;
-    return <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'center'} alignItems={'center'} className="custom-stepper-conference-details" padding={3}>
-        <Grid size={{ xs: 12, sm: 12 }} justifyContent={'start'} ml={3}>
-            <Typography variant="h3" className="custom-stepper-conference-details-content-title">Review And Submit</Typography>
-        </Grid>
-        <Grid container direction={'column'} size={{ xs: 12, sm: 12 }} className="custom-stepper-conference-details-content-container" spacing={2}>
-            <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper-conference-details-content-header-container" alignItems={'center'}>
-                <Typography variant="h3" lineHeight={2} className="custom-stepper-conference-details-content-sub-title">{data?.event?.name}</Typography>
-            </Grid>
-            {data?.event?.type && <Grid container sx={{ width: 'fit-content' }} className="custom-stepper-conference-details-content-type" justifyContent={'flex-start'} alignItems={'center'}>
-                {toSentenceCase(data.event.type)}
-            </Grid>}
-            <Grid container size={{ xs: 12, sm: 12 }} spacing={2}>
-                <Grid className="custom-stepper-conference-details-content-date-icon"><DateIcon /></Grid>
-                <Grid>{checkDateCondition(data?.event?.startDate, data?.event?.endTime) ? startDate : `${startDate} - ${endDate}`}</Grid>
-            </Grid>
-            {data?.event?.type !== 'ONLINE' && data?.event?.location && <Grid container size={{ xs: 12, sm: 12 }} spacing={2}>
-                <Grid className="custom-stepper-conference-details-content-date-icon"><LocationIcon /></Grid>
-                <Grid>{data?.event?.venueName}</Grid>
-            </Grid>}
-			<Grid className='custom-stepper-parse'>{parse(data?.event?.description)}</Grid>
-            <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper-conference-details-content-header-container" alignItems={'center'}>
-                <Typography variant="h3" lineHeight={2} className="custom-stepper-conference-details-content-sub-title">Scheduled Programmes</Typography>
-            </Grid>
+		return (
+			<Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper-conference-details" >
+			  <Grid container direction="column" alignItems="center" justifyContent="center" spacing={2} ml={3}>
+				<Grid>
+				  <EventReview className="custom-stepper-conference-details-review-img" />
+				</Grid>
+				<Grid>
+				  <Typography variant="h3" className="custom-stepper-conference-details-content-title">
+					Review And Submit
+				  </Typography>
+				</Grid>
+				<Grid>
+				  <Typography align="center" className="custom-stepper-conference-details-content-subtext">
+					Check all the details carefully before submission. Make sure everything is perfect!
+				  </Typography>
+				</Grid>
+			  </Grid>
+			  <Grid container direction={"column"} size={{ xs: 12, sm: 12 }} className="custom-stepper-conference-details-content-container">
+				<Grid display={"flex"} direction={"row"} mb={2}>
+				  <Grid size={data?.event?.type !== "ONLINE" ? 8 : 12}  className="custom-stepper-conference-details-border">
+					<Grid container size={{ xs: 12, sm: 12 }} alignItems={"center"} mb={2}>
+					  <Typography className="custom-stepper-conference-details-eventname">
+						{truncateString(data?.event?.name, 40)}
+					  </Typography>
+					  {data?.event?.type && (
+						<Grid container sx={{ width: "fit-content" }} className="custom-stepper-conference-details-content-type" justifyContent={"flex-start"} alignItems={"center"}>
+						 <Typography mt={0.3}>{toSentenceCase(data.event.type)}</Typography> 
+						</Grid>
+					  )}
+					</Grid>
+					<Grid container size={{ xs: 12, sm: 12 }} alignItems={"center"} mb={1}>
+					  <Typography className="custom-stepper-conference-details-event-description">
+						{parse(truncateString(data?.event?.description, 750))}
+					  </Typography>
+					</Grid>
+					<Grid container direction="row" alignItems="center" spacing={1} mb={1}>
+					  <Grid className="custom-stepper-conference-details-content-date-icon">
+						<ReviewCalender />
+					  </Grid>
+					  <Grid className="custom-stepper-conference-details-content-date-and-location">
+						{checkDateCondition(data?.event?.startDate,data?.event?.endTime)? startDate: `${startDate} - ${endDate}`}
+					  </Grid>
+					  {data?.event?.type !== "ONLINE" && data?.event?.venueName && (
+						<Grid display={"flex"} direction={"row"} alignItems={"center"}>
+						  <Grid className="custom-stepper-conference-details-content-date-icon" mr={1}>
+							<ReviewMap />
+						  </Grid>
+						  <Grid className="custom-stepper-conference-details-content-date-and-location">
+							{data?.event?.venueName}
+						  </Grid>
+						</Grid>
+					  )}
+					</Grid>
+				  </Grid>
+				  {data?.event?.type !== "ONLINE" && data?.event?.venueName && (
+					<Grid container className="show-map" size={4}>
+					  <ReviewLocation eventData={data?.event} />
+					</Grid>
+				  )}
+				</Grid>
 						{/* Addons without datetime */}
 						<Grid>
 							{generalAddons?.length > 0 && (
@@ -136,19 +172,11 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
 						</Grid>
 					{/* Date grouped Programs and Addons */}
 					{Object.keys(scheduledData)?.sort((a, b) => new Date(a).getTime() - new Date(b).getTime()) // Sort dates in ascending order
-					.map((date: string) => (
-						<Grid container size={{xs:12}}  key={date}  className="scheduled-programs-section">
-							<Grid
-								container
-								sx={{ width: "fit-content" }}
-								className="custom-stepper-conference-details-content-date"
-								justifyContent="space-around"
-								alignItems="center"
-
-							><Grid size={1}><DateIcon /></Grid>
-								<Grid>{date && moment(date).format("MMMM D")}</Grid>
-								
-								</Grid>
+					.map((date: string,index) => (
+						<Grid container size={{xs:12}}  key={date}  className="scheduled-programs-section" display={"flex"} direction={"row"}>
+							<Grid container mb={2} mt={2}>
+								<Grid className="custom-stepper-conference-details-content-scheduled-date">Programme & Add-ons | {date && moment(date).format("MMMM D yyyy")} | Day {index+1} </Grid>
+							</Grid>
 							<Grid container spacing={3} size={{xs:12}} alignItems={'center'}>
 								{scheduledData[date]?.map((item: any, index: number) => (
 									<SessionCard
@@ -172,6 +200,6 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
 					))}
 				</Grid>
     </Grid>
-});
+)});
 
 export default ConferenceDetails;
