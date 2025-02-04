@@ -134,10 +134,10 @@ const Contact = () => {
                                     <Typography className='contact-info_title'>Get in Touch </Typography>
                                     {/* <Typography className='contact-info_description'>Everything you might need and then some more in an accessible and intuitive package.</Typography> */}
                                 </Grid ><Box />
-                                <Grid size={{ lg: 6, xs: 12 }} display={'flex'} flexDirection={'column'} rowGap={4.2} className='contact-info_details'>
+                                <Grid size={{ lg: 12, xs: 12 }}  display={'flex'} flexDirection={'column'} rowGap={4.2} className='contact-info_details'>
                                     {boxArray.map((item) => (
-                                        <Grid key={item.id} container columnGap={1.6} className='contact-info_item'>
-                                            <Grid size={{ lg: 3 }} className='contact-info_icon'>
+                                        <Grid  key={item.id} container columnGap={1.6} className='contact-info_item'>
+                                            <Grid   className='contact-info_icon'>
                                                 {item.icon}
                                             </Grid>
                                             <Grid size={{ lg: 8 }} >
@@ -152,7 +152,7 @@ const Contact = () => {
                     </Grid>
                     <Grid container size={{ lg: 4, xs: 12,sm:10,md:6 }} paddingInline={1.6} spacing={0} className='contact-form' sx={{ order: { xs: 1, lg: 2 } }}  >
                         <form className='w-full' noValidate onSubmit={handleSubmit(onSubmit)} >
-                            <Grid container size={{ lg: 12, xs: 12 }} spacing={3} justifyContent='center' alignItems='center'>
+                            <Grid container size={{ lg: 12, xs: 12 }} spacing={1} justifyContent='center' alignItems='center'>
                                 <Grid size={{ lg: 6, xs: 12 }} >
                                     <CustomTextField
                                         name='name'

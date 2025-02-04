@@ -198,8 +198,8 @@ const Dashboard = () => {
         label="Create New Event"/>
         </Grid>}
     </Grid>
-    <Grid size={{ xs: 12, sm: 4 }} pt={2}>
-      <Grid><Typography className="dashboard-calendar-card-header">Weekly Calendar</Typography></Grid>
+    <Grid size={{ xs: 12, sm: 4 }} pt={1}>
+      {/* <Grid><Typography className="dashboard-calendar-card-header">Weekly Calendar</Typography></Grid> */}
         {/* <Grid size={{ xs: 12, sm:upcomingData? 6:12 }} className="dashboard-welcome-card"><WelcomeCard /></Grid> */}
       {upcomingData? <Grid className="dashboard-calendar-card"> <UpComingEvents data={upcomingData}/> </Grid>:
         <Grid container className="dashboard-no-event-calender" justifyContent={"center"} alignItems={"center"} alignContent={"center"} flexDirection={"column"}>
