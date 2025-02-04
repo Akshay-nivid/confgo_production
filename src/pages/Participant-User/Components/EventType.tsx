@@ -4,7 +4,9 @@ interface EventTypeProps{
     className:string
 }
 
-
+/**
+ * compoent Event type text
+ */
 const EventTypeText = ({status,className}:EventTypeProps) => {
   /**
    * Get the status text class based on the status
