@@ -59,7 +59,12 @@ const EventDropDown = (data: any) => {
     /**
      * Save selected eventId type to the store using the watch hook
      */
+
+    useEffect(()=>{
+
     setNonPersistedDataById("CustomSelectData", { data: watch('fieldType') });
+     
+    },[watch('fieldType')]);
 
     return (
         <Grid container size={12} className="adminDashBoard-EventsMenu">
