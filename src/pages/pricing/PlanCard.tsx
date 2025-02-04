@@ -63,7 +63,7 @@ export const PlanCard: React.FC<PlanCardProps> = ({ data }) => {
           </Grid>
         </Box>
         <Grid container alignItems={'center'} alignSelf={'center'} className="plancard__price_conatiner">
-          {data?.name!="ENTERPRISE_PLAN"?<span className="price"> ${data.amount} </span>:<span className="enterprise_des">For those who need a scalable custom solution.</span>  } 
+          {data?.name!="ENTERPRISE_PLAN"?<span className="price"> ${data.amount*10} </span>:<span className="enterprise_des">For those who need a scalable custom solution.</span>  } 
         </Grid>
         {/* <Box className="plancard__features">
           {Array.from({ length: 5 }).map((_, index) => (
