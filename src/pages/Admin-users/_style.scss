@@ -1,25 +1,73 @@
 .admin-users{
+    width: 100%;
+    max-width: 40rem;
     background-color: $clr_white;
     padding: 1rem;
-    margin: 1rem;
     border-radius: 0.5rem;
     &-header{
         margin-left: 1rem !important;
         font-weight: $font_bold !important;
         font-size: $h4 !important;
+        &-DrawerClose{
+            padding-top: 0.35rem;
+            padding-inline:1.3rem;
+            svg{
+            width: 1.5rem !important;
+            height: 1.5rem !important;
+            &:hover{
+                background-color:$clr_gray_extra_light;
+            }}
+        }
     }
     &-form-wrap {
-        width: 100% !important;
+        // width: 100% !important;
         margin: 1rem !important;
+        &-UploadLogo{
+            border: 0.205rem dashed $clr_gray_very_light;
+            text-align: center;
+            padding-block: 1rem;
+            border-radius: 0.4167rem;
+            &-icon{
+                svg{
+                    width: 2rem !important;
+                    height: 2rem !important;
+                }
+            }
+            &-title{
+                font-family:$font !important;
+                font-size: $h5 !important;
+                font-weight: $font_bold !important;
+                color: $clr_black;
+            }
+            &-info{
+                font-size: $p2 !important;
+                font-weight:$font_medium ;
+                color: $clr_field;
+            }
+        }
+        &-uplodedImg{
+            border: 0.005rem solid $clr_gray_extra_light;
+            &-name{
+                color: red !important;
+                font-family: $font !important;
+                font-size: $h6 !important;
+                font-weight: $font_semibold !important;
+            }
+            .badge{
+                svg{
+                    width: 1.3rem !important;
+                    height: 1.3rem !important;
+                }
+            }
+        }
     }
     &-submit-btn-container{
-        margin-top: 3.583rem;
 
         &-btn{
             background-color: $clr_green !important;
-            width: 29.333rem;
-            height: 3.75rem;
-            box-shadow: none !important;
+             width:10.25rem;
+             height: 3.8333rem;
+             border-radius: 0.4167rem;
         }
       
     }

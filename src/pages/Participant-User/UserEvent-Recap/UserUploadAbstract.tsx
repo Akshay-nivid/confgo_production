@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 import config from '../../../../config.json';
 
 interface CustomFile {
-    id: number;
+    id: string;
     name: string;
 }
 /**

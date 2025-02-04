@@ -37,7 +37,7 @@ export const AccountDeletionPage: React.FC<any> = () => {
                 </Grid>
                 <Grid size={12} className="contact">
                     <Typography>
-                        For support, contact us at <a href="mailto:support@confgo.co">support@confgo.co</a>.
+                        For support, contact us at <a href="mailto:support@confgo.com">support@confgo.com</a>.
                     </Typography>
                 </Grid>
                 <Grid size={12} className="button-container">

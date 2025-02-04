@@ -2,39 +2,40 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import FileListModal from "@/components/FileUpload/FileListModal";
-import useStore from "@/Libs/store";
+import useStore, { setNonPersistedDataById } from "@/Libs/store";
 import routes from "@/router/routes";
 import { validateEmail, validateRequiredField } from "@/Utils/Validation";
-import { Typography } from "@mui/material";
+import { Badge, Button, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import config from "../../../config.json";
-import {useLocation} from "react-router-dom";
-interface Role{
-    value:number,
-    label:string
+import { useLocation } from "react-router-dom";
+import { DrawerClose, UplodIcon ,RemoveIcon} from "@/assets/svg";
+interface Role {
+    value: number,
+    label: string
 }
 type RoleList = {
-    id: number;            
-    roleName: string;     
-    description: string;   
-    createdBy: string | null; 
-    createdOn: string;     
-    modifiedBy: string | null; 
-    modifiedOn: string;    
-  };
-  interface CustomFile {
     id: number;
+    roleName: string;
+    description: string;
+    createdBy: string | null;
+    createdOn: string;
+    modifiedBy: string | null;
+    modifiedOn: string;
+};
+interface CustomFile {
+    id: string;
     name: string;
     sourcePath: string;
-  }
+}
 /**
 * Component for creating new Company Users
-*/ 
+*/
 const CreateNewUsers = () => {
-    const {data:role,eventId} = useLocation().state||'';
+    const { data: role, eventId } = useLocation().state || '';
     const [selectedFile, setSelectedFile] = useState<any>(null);
     const [modalOpen, setModalOpen] = useState(false);
     const baseUrl = config.api.url;
@@ -45,7 +46,7 @@ const CreateNewUsers = () => {
         role: any,
         email: string,
         phone: string,
-        assetId:string|number,
+        assetId: string | number,
         designation: string,
         userDescription: string
     }
@@ -58,8 +59,8 @@ const CreateNewUsers = () => {
     const navigate = useNavigate();
     const POST = useStore((state: any) => state.POST);
     const setDataById = useStore((state: any) => state.setDataById);
-    const { handleSubmit, control,reset,setValue,getValues} = useForm<FormData>();
-    const [roleList,setRoleList]=useState<Role []>([])
+    const { handleSubmit, control, reset, setValue, getValues } = useForm<FormData>();
+    const [roleList, setRoleList] = useState<Role[]>([])
     /**
     * handle form submission 
     */
@@ -69,28 +70,28 @@ const CreateNewUsers = () => {
     /**
     * get full role list 
     */
-    const getRoleList=async ()=>{
+    const getRoleList = async () => {
         await POST({
-            url:'role/list',
-            body:{
-                    "offset": 0,
-                    "limit": 100,
-                    "sortBy": "id",
-                    "sortDirection": "DESC",
+            url: 'role/list',
+            body: {
+                "offset": 0,
+                "limit": 100,
+                "sortBy": "id",
+                "sortDirection": "DESC",
             },
-            id:'user-role-list',
+            id: 'user-role-list',
             successCB: (context: any) => {
-                let roleData: Role[] = []; 
+                let roleData: Role[] = [];
                 context.data.forEach((item: RoleList) => {
-                    if (![1,2,3].includes(item.id)) {
+                    if (![1, 2, 3].includes(item.id)) {
                         roleData.push({
                             value: item.id,
                             label: item.roleName
                         });
                     }
                 });
-                setRoleList(roleData);                
-            }, 
+                setRoleList(roleData);
+            },
             errorCB: (context: any) => {
                 setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
             }
@@ -100,7 +101,7 @@ const CreateNewUsers = () => {
     * handle create new user
     */
     const createUser = async (data: FormData) => {
-        const companyId=sessionStorage.getItem('companyId');
+        const companyId = sessionStorage.getItem('companyId');
         await POST({
             url: 'user',
             body: {
@@ -108,9 +109,9 @@ const CreateNewUsers = () => {
                 lastName: data.lastName,
                 email: data.email,
                 phone: data.phone,
-                roleId:data.role,
-                companyId:companyId,
-                assetId:selectedFile?.id,
+                roleId: data.role,
+                companyId: companyId,
+                assetId: selectedFile?.id,
                 designation: data.designation,
                 userDescription: data.userDescription
             },
@@ -118,42 +119,43 @@ const CreateNewUsers = () => {
             successCB: (context: any) => {
                 if (context?.success) {
                     reset();
-                    setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message:`Account Created Please check ${data.email}` });
+                    setNonPersistedDataById('craeteUserDrawer', { value: false })
+                    setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: `Account Created Please check ${data.email}` });
 
-                    if(eventId){
+                    if (eventId) {
                         const requestBody = {
                             userId: context.data?.token?.userId,
                             eventId: eventId,
                             statusId: "1",
-                          };
-                           POST({
+                        };
+                        POST({
                             url: "eventSpeaker/create",
                             body: requestBody,
                             id: "createContributor",
                             successCB: (context: any) => {
-                              if (context?.success) {
+                                if (context?.success) {
 
-                                setDataById("snackBarInfo", {
-                                  open: true,
-                                  autoHideDuration: 2000,
-                                  severity: "success",
-                                  message: "Speaker Assign Successfully",
-                                });
-            
-                                navigate(`/events/detail/${eventId}`,{state:{tabId:"2"}});
-                            
-                              }
+                                    setDataById("snackBarInfo", {
+                                        open: true,
+                                        autoHideDuration: 2000,
+                                        severity: "success",
+                                        message: "Speaker Assign Successfully",
+                                    });
+
+                                    navigate(`/events/detail/${eventId}`, { state: { tabId: "2" } });
+
+                                }
                             },
                             errorCB: () => {
-                              setDataById("snackBarInfo", {
-                                open: true,
-                                autoHideDuration: 2000,
-                                severity: "error",
-                                message: "Speaker Assigned Successfully",
-                              });
+                                setDataById("snackBarInfo", {
+                                    open: true,
+                                    autoHideDuration: 2000,
+                                    severity: "error",
+                                    message: "Speaker Assigned Successfully",
+                                });
                             },
-                          });
-                        }   
+                        });
+                    }
 
                     navigate(routes.users());
                 }
@@ -164,190 +166,234 @@ const CreateNewUsers = () => {
         });
     };
 
-   /**
-   * Defaultly set the role value in the form state
-   */
-    useEffect(()=>{
-    if(role){
-        reset({
-            ...getValues(),            
-           ...( role === "SPEAKER" && {role:5})
-        });
-    }
-    },[]);
+    /**
+    * Defaultly set the role value in the form state
+    */
+    useEffect(() => {
+        if (role) {
+            reset({
+                ...getValues(),
+                ...(role === "SPEAKER" && { role: 5 })
+            });
+        }
+    }, []);
+
     /**
      *function to handle clean file state
      */
-  const handleFileDelete = () => {
-    setSelectedFile(null);
-  };
-    return <Grid container className='admin-users' spacing={2}>
-        <Grid size={12} >
-            <Typography className="admin-users-header">Create New User</Typography>
+    const handleFileDelete = () => {
+        setSelectedFile(null);
+    };
+
+    /**
+      * Handle close create coupon drawer close
+      */
+    const closeDrawer = () => {
+        setNonPersistedDataById('craeteUserDrawer', { value: false })
+    }
+
+
+    return <Grid container className='admin-users' spacing={2} >
+
+        <Grid size={12} container >
+
+            <Grid size={10}  >
+                <Typography className="admin-users-header">Create New User</Typography>
+            </Grid>
+            <Grid size={2} justifyContent={"flex-end"} container className="admin-users-header-DrawerClose">
+            
+             <DrawerClose onClick={closeDrawer}/>
+
+            </Grid>
         </Grid>
-        <div className="admin-users-form-wrap">
+        <Grid className="admin-users-form-wrap" container size={12}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <Grid container spacing={2}>
-                <Grid container display={"flex"} size={12} justifyContent={"space-between"} alignItems={"center"} spacing={2}>
-                    <Grid size={{ xs: 12, sm: 6 }}>
-                        <CustomTextField
-                            placeholder="Full Name"
-                            label="First Name "
-                            control={control}
-                            name="firstName"
-                            type="text"
-                            rules={{
-                                required: { value: true, message: "Name is required" },
-                                pattern: {
-                                    value: /^(?!\s*$)(?!\s+$).+/,
-                                    message: "Name cannot be only spaces"
-                                },
-                            }}
-                        />
-                    </Grid>
-                    <Grid size={{ xs: 12, sm: 6 }}>
-                        <CustomTextField
-                            placeholder="Last Name"
-                            label="Last Name "
-                            control={control}
-                            name="lastName"
-                            type="text"
-                            rules={{
-                                required: { value: true, message: "Name is required" },
-                                pattern: {
-                                    value: /^(?!\s*$)(?!\s+$).+/,
-                                    message: "Name cannot be only spaces"
-                                },
-                            }}
-                        />
-                    </Grid>
-                </Grid>
-                <Grid container display={"flex"} size={12} justifyContent={"space-between"} alignItems={"center"}>
-                    <Grid size={{ xs: 12, sm: 6 }}>
-                        <CustomTextField
-                            control={control}
-                            name="email"
-                            placeholder="Email Address"
-                            label={'Email Address'}
-                            rules={{
-                                required: validateRequiredField({ fieldName: 'Email' }),
-                                pattern: validateEmail({}),
-                            }}
-                        />
-                    </Grid>
-                    <Grid size={{ xs: 12, sm: 6 }}>
-                        <CustomTextField
-                            control={control}
-                            name="phone"
-                            placeholder="Phone Number"
-                            label="Phone Number"
-                            type="phone"
-                            rules={{
-                                required: validateRequiredField({
-                                    fieldName: 'Phone Number',
-                                }),
-                                // pattern: validatePhoneNumber({}),
-                                // maxLength: validateMaxLength({
-                                //     maxLength: 10,
-                                //     fieldName: 'Phone Number',
-                                // }),
-                            }}
-                        />
-                    </Grid>
-                </Grid>
-                <Grid container display={"flex"} size={12} justifyContent={"space-between"} alignItems={"center"}>
-                    <Grid size={{ xs: 12, sm: 6 }}>
-                        { roleList.length > 0 &&<CustomSelect
-                            fullWidth
-                            name="role"
-                            control={control}
-                            defaultValue={role ? 5 : ''}
-                            label="Role"
-                            options={roleList}
-                            rules={{ required: validateRequiredField({}) }}
-                        />}
-                    </Grid>
-                    <Grid size={{ xs: 12, sm: 6 }}>
-                        <CustomTextField
-                            placeholder="Designation"
-                            label="Designation "
-                            control={control}
-                            name="designation"
-                            type="text"
-                        />
-                    </Grid>
-                    <Grid size={{ xs: 12, sm: 12 }}>
-                        <CustomTextField
-                            placeholder="Description"
-                            label="Description "
-                            control={control}
-                            name="userDescription"
-                            type="text"
-                            multiline={true}
-                            rows={3}
-                        />
-                    </Grid>
-                    <Grid size={{xs:12,sm:6}}>
-                    <Grid
-                          className="create-event-btn-container"
-                          container
-                          justifyContent={"flex-start"}
-                          size={{ xs: 12, sm: 12 }}
-                          direction={'row'}
-                        >
-                          <Grid>
-                            {modalOpen && (
-                              <FileListModal
-                                open={modalOpen}
-                                handleClose={() => setModalOpen(false)}
-                                onSelectFile={(files: CustomFile[]) => {
-                                  // Automatically select the newly uploaded file if it exists
-                                  if (files && files.length > 0) {
-                                    setSelectedFile(files[0]); // Set only the first selected file
-                                    setValue('assetId',files[0]?.id);
-                                  }
-                                  setModalOpen(false);
+                    <Grid container display={"flex"} size={12} justifyContent={"space-between"} alignItems={"center"} spacing={2}>
+                        <Grid size={{ xs: 12, sm: 6 ,lg:12 }}>
+                            <CustomTextField
+                                placeholder="Full Name"
+                                label="First Name "
+                                control={control}
+                                name="firstName"
+                                type="text"
+                                rules={{
+                                    required: { value: true, message: "Name is required" },
+                                    pattern: {
+                                        value: /^(?!\s*$)(?!\s+$).+/,
+                                        message: "Name cannot be only spaces"
+                                    },
                                 }}
-                                companyId={companyId}
-                                multipleSelect={false}
-                                imagesPerRow={4}
-                              />
-                            )}
-                          </Grid>
+                            />
                         </Grid>
-                            <Grid container direction={'row'} alignItems={'center'} justifyContent={"center"} alignContent={"center"}>
-                                {selectedFile && (
-                                    <Grid className="create-event-btn-container-img-box" >
-                                        <img
-                                            src={`${baseUrl}asset/${selectedFile.id}`}
-                                            alt={selectedFile.name}
-                                        />
-                                    </Grid>
-                                )}
-                                <CustomButton
-                                    className="create-event-btn-container-select-btn"
-                                    label={selectedFile ? "Change Avathar " : "Choose Avathar"}
-                                    variant="outlined"
-                                    onClick={() => setModalOpen(true)}
-                                />
-                                {selectedFile && (<Grid container spacing={1}>
-                                    <CustomButton
-                                        className="create-event-btn-container-delete-btn"
-                                        label="Delete"
-                                        variant="outlined"
-                                        onClick={handleFileDelete}
-                                    />
-                                </Grid>
-                                )}
-                            </Grid>
+                        <Grid size={{ xs: 12, sm: 6 ,lg:12}}>
+                            <CustomTextField
+                                placeholder="Last Name"
+                                label="Last Name "
+                                control={control}
+                                name="lastName"
+                                type="text"
+                                rules={{
+                                    required: { value: true, message: "Name is required" },
+                                    pattern: {
+                                        value: /^(?!\s*$)(?!\s+$).+/,
+                                        message: "Name cannot be only spaces"
+                                    },
+                                }}
+                            />
                         </Grid>
                     </Grid>
-                <Grid className="admin-users-submit-btn-container" display={"flex"} size={12} justifyContent={"flex-end"} alignItems={"center"} >
-                    <CustomButton type="submit" className="admin-users-submit-btn-container-btn" label="Submit" />
-                </Grid>
+                    <Grid container display={"flex"} size={12} justifyContent={"space-between"} alignItems={"center"}>
+                        <Grid size={{ xs: 12, sm: 6}}>
+                            <CustomTextField
+                                control={control}
+                                name="email"
+                                placeholder="Email Address"
+                                label={'Email Address'}
+                                rules={{
+                                    required: validateRequiredField({ fieldName: 'Email' }),
+                                    pattern: validateEmail({}),
+                                }}
+                            />
+                        </Grid>
+                        <Grid size={{ xs: 12, sm: 6 }}>
+                            <CustomTextField
+                                control={control}
+                                name="phone"
+                                placeholder="Phone Number"
+                                label="Phone Number"
+                                type="phone"
+                                rules={{
+                                    required: validateRequiredField({
+                                        fieldName: 'Phone Number',
+                                    }),
+                                    // pattern: validatePhoneNumber({}),
+                                    // maxLength: validateMaxLength({
+                                    //     maxLength: 10,
+                                    //     fieldName: 'Phone Number',
+                                    // }),
+                                }}
+                            />
+                        </Grid>
+                    </Grid>
+                    <Grid container display={"flex"} size={12} justifyContent={"space-between"} alignItems={"center"}>
+                        <Grid size={{ xs: 12, sm: 6 }}>
+                            {roleList.length > 0 && <CustomSelect
+                                fullWidth
+                                name="role"
+                                control={control}
+                                defaultValue={role ? 5 : ''}
+                                label="Role"
+                                options={roleList}
+                                rules={{ required: validateRequiredField({}) }}
+                            />}
+                        </Grid>
+                        <Grid size={{ xs: 12, sm: 6 }}>
+                            <CustomTextField
+                                placeholder="Designation"
+                                label="Designation "
+                                control={control}
+                                name="designation"
+                                type="text"
+                            />
+                        </Grid>
+                        <Grid size={{ xs: 12, sm: 12 }}>
+                            <CustomTextField
+                                placeholder="Description"
+                                label="Description "
+                                control={control}
+                                name="userDescription"
+                                type="text"
+                                multiline={true}
+                                rows={3}
+                            />
+                        </Grid>
+                        {!selectedFile &&(
+                        <Grid size={{ xs: 12, sm: 12,lg:12 }} onClick={() => setModalOpen(true)} className="admin-users-form-wrap-UploadLogo"   >
+                            <Grid
+                                className="create-event-btn-container"
+                                container
+                                justifyContent={"flex-start"}
+                                size={{ xs: 12, sm: 12 }}
+                                direction={'row'}
+                            >
+                                <Grid>
+                                    {modalOpen && (
+                                        <FileListModal
+                                            open={modalOpen}
+                                            handleClose={(e?: any) => {
+                                                if (e) e.stopPropagation();
+                                                setModalOpen(false);
+                                              }}
+                                            onSelectFile={(files: CustomFile[]) => {
+                                                // Automatically select the newly uploaded file if it exists
+                                                if (files && files.length > 0) {
+                                                    setSelectedFile(files[0]); // Set only the first selected file
+                                                    setValue('assetId', files[0]?.id);
+                                                }
+                                                setModalOpen(false);
+                                            }}
+                                            companyId={companyId}
+                                            multipleSelect={false}
+                                            imagesPerRow={4}
+                                        />
+                                    )}
+                                </Grid>
+                            </Grid>
+                           
+                          
+                           
+                            <Grid  container size={12}justifyContent={"center"} >
+                              
+                             <Grid size={10} container spacing={0}>
+
+                                  <Grid container size={12} justifyContent={"center"} alignItems={"center"} >
+                                    <Button  className="admin-users-form-wrap-UploadLogo-icon" > <UplodIcon/></Button>
+                                    </Grid>
+
+                                   <Grid container size={12} justifyContent={"center"} alignItems={"center"}className="admin-users-form-wrap-UploadLogo-title">
+                                      <Typography>Upload Logo</Typography>
+                                   </Grid>
+
+                                   <Grid container size={12} justifyContent={"center"} alignItems={"center"} className="admin-users-form-wrap-UploadLogo-info">
+                                      <Typography>Choose a file to upload, Max file size: 5MB. Recommended ratio: 16:9 for best fit</Typography>
+                                   </Grid>
+
+                                </Grid>
+                                
+                            </Grid>
+                          
+                        </Grid>) }
+                        {selectedFile && (
+                            <Grid size={6} minHeight={"3.5rem"} className="admin-users-form-wrap-uplodedImg " >
+                                < Badge
+
+                                    badgeContent={<RemoveIcon onClick={() => { setModalOpen(false); handleFileDelete(); }} />}
+                                    className="badge"
+                                >  <Grid container size={8} >
+                                        <Grid className="m-3" container size={4} >
+
+
+                                            <img
+                                                src={`${baseUrl}asset/${selectedFile.id}`}
+                                                alt={selectedFile.name}
+                                            /></Grid>
+                                        <Grid size={6} container alignItems={"center"} className="pl-3">   <Typography className="admin-users-form-wrap-uplodedImg-name pl-3">{selectedFile.name}</Typography></Grid>
+
+                                    </Grid>
+                                </Badge>
+                            </Grid>
+
+                        )}
+
+                    
+                    </Grid>
+                    <Grid container size={12} justifyContent={"flex-end"}> 
+                          <CustomButton type="submit" className="admin-users-submit-btn-container-btn" label="Submit" />
+                    </Grid>
                 </Grid>
             </form>
-        </div>
+        </Grid>
     </Grid>
 
 }

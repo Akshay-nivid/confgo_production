@@ -39,7 +39,7 @@ const features = [
     ]
   },
   {
-    title: "Unlimited conference & Members",
+    title: "Unlimited Conference & Members",
     flexDirection: "row-reverse",
     className: `card-2 ${isMobileScreen ? "card-2-mobile" : ""}`,
     description: "Unlock boundless possibilities with our unlimited conference and member capacities. Host gatherings of any size effortlessly, whether it's a small meeting or a large-scale event. Our platform is designed to accommodate your growing needs, providing seamless support for unlimited participants. Enjoy the freedom to expand your community, network, and collaborations without restrictions. With robust features and scalable solutions, managing conferences and memberships has never been easier. Embrace the potential for growth and connection with our limitless capabilities.",

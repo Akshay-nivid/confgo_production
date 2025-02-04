@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid2";
 import { Controller, useForm } from 'react-hook-form';
 import useStore from '@/Libs/store';
 import apiClient from '@/Libs/Https/API-client';
-import { convertLocalToUTC, processAPIResponse } from '@/Utils/CommonBaseClass';
+import { processAPIResponse } from '@/Utils/CommonBaseClass';
 import { Logger } from '@/Utils/Logger';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -79,7 +79,7 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
     const onSubmit = (data: any) => {
         const formattedData = Object.keys(data).reduce((acc: any, key: string) => {
             if (data[key] && typeof data[key] === 'object' && dayjs(data[key]).isValid()) {
-                acc[key] = convertLocalToUTC(dayjs(data[key]).format('YYYY-MM-DD'));
+                acc[key] = (dayjs(data[key]).format('YYYY-MM-DD'));
             } else {
                 acc[key] = data[key];
             }
