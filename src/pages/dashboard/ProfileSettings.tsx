@@ -7,7 +7,6 @@ import useStore from "@/Libs/store";
 import "./profile-components/mainProfile.scss"
 import PersonalAndOrganisationDetails from './profile-components/PersonalAndOrganisationDetails';
 
-
 const ProfileSettings: React.FC = React.memo(() => {
   const [email, setEmail] = useState('');
   const setDataById = useStore((state: any) => state.setDataById);
