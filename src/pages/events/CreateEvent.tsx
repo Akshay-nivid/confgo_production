@@ -29,6 +29,7 @@ import UploadLogo from '../../assets/svg/uploadLogo.svg'
 import { Close } from "@mui/icons-material";
 import UploadedIcon from '../../assets/svg/CreateEventimageIcon.svg'; // Replace with your actual UploadedIcon
 import CustomDateTimePicker from "@/components/CustomDateTimePicker/CustomDateTimePicker";
+import CustomPhone from "@/components/CustomPhone/CustomPhone";
 
 
 type EventProps = {
@@ -80,6 +81,11 @@ const typeArray = [
   { label: "Online", value: "ONLINE", icon:<PublicOutlinedIcon/> },
   { label: "Hybrid", value: "HYBRID", icon:<RssFeedOutlinedIcon/> },
 ];
+
+const AbstractArray =[
+  {label:"Allow Uplaod Abstartct", value:true},
+  {label:"Don't Allow Uplaod Abstartct", value:false}
+]
 interface Specialty{
   value:number,
   label:string
@@ -111,6 +117,7 @@ const CreateEvent: React.FC<EventProps> =
   const [specialty,setspecialty]=useState<Specialty[]>([]);
   const currency=confgo.currency;
   const [isPlacePickerOpen, setPlacePickerOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState("OFFLINE");
 
 
     // Watch values from the form
@@ -216,8 +223,7 @@ const CreateEvent: React.FC<EventProps> =
       const endTime = new Date(data.endTime);
       const today = new Date();
 
-console.log(startTime,"sta")
-console.log(today,"today")
+
 
       if(selectedFile){
         setValue('assetId',selectedFile[0]?.id) 
@@ -348,6 +354,11 @@ console.log(today,"today")
     const handlePlacePickerClose = () => {
       setPlacePickerOpen(false);
     };
+
+    const handleChangeType = (event) => {
+      setSelectedValue(event.target.value);
+    };
+    
     return (
       <Box className="create-event-container">
         <Grid
@@ -422,16 +433,16 @@ console.log(today,"today")
                     />
                   </Grid>
                   {watch('specialtyId')=='1'&&
-                  <Grid size={{ xs: 12, sm: watch('isAbstract')?6:12 }}>
-                      <CustomSwitch
-                        className="add-program-switch-btn"
-                        buttonColor="success"
-                        label="Abstract Submission"
-                        name={`isAbstract`}
-                        control={control}
-                      />
+                  <Grid size={{ xs: 12 }}   >
+                    <CustomRadio
+                      className="create-event-abstartct-radio-button"
+                      options={AbstractArray}
+                      name="isAbstract"
+                      control={control}
+                      row={true} // Horizontal layout
+                  />
                   </Grid>}
-                  {watch('isAbstract') && watch('specialtyId')=='1'&&
+                  {watch('isAbstract')=='true' && watch('specialtyId')=='1'&&
                   <Grid size={{xs:12,sm:6}}>
                     <CustomTextField
                       placeholder="Abstract Submission Date"
@@ -485,8 +496,8 @@ console.log(today,"today")
                     Event Type and Location
                     </Typography>
                   </Grid>
-                  <Grid width={'100%'}  container display='flex' justifyContent='space-between' spacing={2}>
-  <Box className="parent"  >
+                  <Grid size={{xs:12}}  >
+  <Box className="create-event-parent"  >
     <CustomRadio
       className="create-event-radio-btn "
       control={control}
@@ -496,13 +507,14 @@ console.log(today,"today")
       row={true} // Horizontal layout
       labelPlacement="start"
       value={"OFFLINE"}
+      onChange={handleChangeType} // Update state when selection changes
     />
   </Box>
 </Grid>
                   {watch("type") !== "ONLINE" && (
                   <Grid size={{ xs: 12, sm:12 }}>      
                         <CustomTextField
-                          placeholder="Address"
+                          placeholder="Venue"
                           control={control}
                           name="address"
                           readOnly={true}
@@ -512,7 +524,7 @@ console.log(today,"today")
                           rules={{ required: watch("type") === "OFFLINE" }}
                         />  
                          {isPlacePickerOpen && (
-        <GoogleMapPlacePicker onClose={handlePlacePickerClose} />
+        <GoogleMapPlacePicker createEvent={true} onClose={handlePlacePickerClose} />
       )}                   
                   </Grid>
                   )}
@@ -545,6 +557,8 @@ console.log(today,"today")
                       placeholder="Start Date"
                       control={control}
                       name="startTime"
+                      defaultValue={moment().format("YYYY-MM-DD hh:mm:a")}
+                      
                       rules={{
                         required:true,
                         pattern: {
@@ -559,6 +573,7 @@ console.log(today,"today")
                       placeholder="End Date"
                       control={control}
                       name="endTime"
+                      defaultValue={moment().format("YYYY-MM-DD hh:mm:a")}
                       rules={{
                         required:true,
                         pattern: {
@@ -613,7 +628,7 @@ console.log(today,"today")
         <Close fontSize="small" />
       </IconButton>
 
-      <Grid container direction="row" alignItems="left" justifyItems='center' spacing={1}>
+      <Grid display={"flex"} className="event-upload-document" container direction="row"  justifyItems='center' spacing={1}>
         <UploadedIcon />
         <Typography className="uploaded-container-text">
           {selectedFile.name}
@@ -702,6 +717,7 @@ console.log(today,"today")
                       }}
                     />
                   </Grid>
+{/*                   
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField
                       placeholder="Start Date"
@@ -753,7 +769,7 @@ console.log(today,"today")
                         }
                       }}
                     />
-                  </Grid> */}
+                  </Grid>  */}
                   {/* <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomSelect
                     className="add-program-select"

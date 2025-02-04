@@ -199,41 +199,148 @@
             z-index: 10 !important;
         }
     }
-
+    &-parent{
+        width:100%;
+    }
     &-radio-btn {
+        display: flex !important;
+        gap: 1rem;
+    
+        .single {
+            height: 3.75rem;
+            border-radius: 5px;
+            display: flex;
+            padding-left: 5px;
+            justify-content: space-between !important;
+            border: 1px solid $clr_gray_medium;
+            flex: 1 !important;
+            transition: border-color 0.3s ease-in-out; // Smooth transition
+    
+            .labelIcon {
+                display: flex;
+                gap: 1rem; // Add space between icon and label
+            }
+        }
+    
+        .MuiFormControlLabel-root {
+            margin: 0 !important;
+            gap: 1px !important;
+        }
+    
+
+    
+       
+        // Style checked radio button
+        .MuiRadio-root.Mui-checked {
+            color: $clr_green !important;
+    
+            ~ .MuiFormControlLabel-label {
+                color: $clr_green !important;
+            }
+        }
+    
+        // Style unchecked radio button
+        .MuiRadio-root:not(.Mui-checked) {
+            color: $clr_gray_medium !important;
+    
+            ~ .MuiFormControlLabel-label {
+                color: $clr_gray_medium !important;
+            }
+        }
+    }
+    
+    &-radio-btn-selected {
+        display: flex !important;
+        gap: 1rem;
+    
+        .single {
+            height: 3.75rem;
+            border-radius: 5px;
+            display: flex;
+            padding-left: 5px;
+            justify-content: space-between !important;
+            border: 1px solid $clr_green;
+            flex: 1 !important;
+            transition: border-color 0.3s ease-in-out; // Smooth transition
+    
+            .labelIcon {
+                display: flex;
+                gap: 1rem; // Add space between icon and label
+            }
+        }
+    
+        .MuiFormControlLabel-root {
+            margin: 0 !important;
+            gap: 1px !important;
+        }
+    
+
+    
+       
+        // Style checked radio button
+        .MuiRadio-root.Mui-checked {
+            color: $clr_green !important;
+    
+            ~ .MuiFormControlLabel-label {
+                color: $clr_green !important;
+            }
+        }
+    
+        // Style unchecked radio button
+        .MuiRadio-root:not(.Mui-checked) {
+            color: $clr_gray_medium !important;
+    
+            ~ .MuiFormControlLabel-label {
+                color: $clr_gray_medium !important;
+            }
+        }
+    }
+
+    &-abstartct-radio-button{
+        height: 3.75rem !important;
+        border-radius: 5px;
+        gap: 1.4rem;
         .single{
             height: 3.75rem;
             border-radius: 5px;
             display: flex;
             padding-left:5px; ;
             justify-content: space-between !important;
-            border: 1px solid $clr_gray_medium; 
-
+            border: .2px solid $clr_gray_medium; 
+            flex: 1!important;
+            display: flex !important;
+            flex-direction: row-reverse !important; 
             .labelIcon{
                 display: flex;
                 gap: 1rem;  // Add space between icon and label
             }
+
+            
         }
-        .Mui-checked {
+        .MuiFormControlLabel-root {
+            margin: 0 !important;
+            gap: 1px !important;;
+    }
+
+    .Mui-checked {
+        color: $clr_green !important;
+
+        ~.MuiFormControlLabel-label {
             color: $clr_green !important;
-
-            ~.MuiFormControlLabel-label {
-                color: $clr_green !important;
-            }
-            .single {
-                border: 1px solid $clr_green !important;
-              }
         }
+        .single {
+            border: 1px solid $clr_green !important;
+          }
+    }
 
-        .MuiRadio-root:not(.Mui-checked) {
-            color: $clr_gray_medium !important; // Define light color
+    .MuiRadio-root:not(.Mui-checked) {
+        color: $clr_gray_medium !important; // Define light color
 
-            // Style for the label of unchecked radio
-            ~.MuiFormControlLabel-label {
-                color: $clr_gray_medium !important; // Light color for label
-            }
+        // Style for the label of unchecked radio
+        ~.MuiFormControlLabel-label {
+            color: $clr_gray_medium !important; // Light color for label
         }
-
+    }
     }
 
     &-map-drawer {
@@ -245,6 +352,12 @@
     &-choose-map {
         background-color: $clr_green !important;
         box-shadow: none !important;
+    }
+    &-map-list-button{
+        background-color: $clr_green !important;
+        box-shadow: none !important;
+        height:2.2rem;
+        align-self: center;
     }
 }
 
@@ -2310,6 +2423,12 @@
     }
 }
 
+.event-upload-document{
+    position: relative;
+    width:20rem;
+    border-radius: 0.65rem;
+    align-self: center;
+}
 .modal-box {
     position: absolute;
     top: 50%;
