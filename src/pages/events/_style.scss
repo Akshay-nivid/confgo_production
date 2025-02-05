@@ -131,7 +131,7 @@
 
     &-upload-box-container {
         width: 100%;
-        border: 1px dashed #ccc;
+        border: 1px dashed $clr_disabled;
         position: relative;
         border-radius: $p4;
         height:12.58rem;
@@ -208,7 +208,7 @@
         display: flex !important;
         gap: 1rem;
     
-        .single {
+        .inside-design {
             height: 3.75rem;
             border-radius: .416rem;
             display: flex;
@@ -302,7 +302,7 @@
         height: 3.75rem !important;
         border-radius: .416rem;
         gap: 1.4rem;
-        .single{
+        .inside-design{
             height: 3.75rem;
             border-radius: .416rem;
             display: flex;
@@ -2439,7 +2439,7 @@
     transform: translate(-50%, -50%);
     width: 33.33rem;
     height: 33.33rem;
-    background-color: white;
+    background-color: $clr_white;
     border-radius: .66rem;
     padding-left: 1rem;
     padding-right: 1rem;
@@ -2552,14 +2552,14 @@
   .event-location-input {
   .react-select__control {
     border: none;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid $clr_disabled;
     box-shadow: none;
     border-radius: 0;
     font-size: $h6;
-    color: #aaa;
+    color: $clr_slightly_dark_gray;
 
     &:hover {
-      border-bottom: 1px solid #aaa;
+      border-bottom: 1px solid $clr_slightly_dark_gray;
     }
   }
 
@@ -2567,8 +2567,8 @@
     border: none;
     box-shadow: none;
     font-size: $h6;
-    color: #333;
-    background-color: white;
+    color: $clr_dark_brown;
+    background-color: $clr_white;
   }
 
   .react-select__option {

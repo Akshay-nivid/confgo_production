@@ -62,7 +62,7 @@ import {
             >
               {options.map((option) => (
                 <FormControlLabel
-                  className="single"
+                  className="inside-design"
                   key={option.value}
                   value={option.value}
                   control={<Radio color="primary" {...props} />}
