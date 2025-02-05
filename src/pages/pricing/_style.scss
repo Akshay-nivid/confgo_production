@@ -58,7 +58,8 @@
     background: linear-gradient(to bottom, $clr_offwhite, transparent);
     padding: 1.0rem;
     border-radius: 2.5rem;
-
+    min-height: 28rem;
+   
   }
 
   &__content {
@@ -68,7 +69,7 @@
     padding-inline: 1.033rem;
     border-radius: 1.85rem;
     box-shadow: $clr_gray_light 0rem 0.25rem 0.667rem;
-
+  min-height: 28rem;
   }
 
   &__header {
