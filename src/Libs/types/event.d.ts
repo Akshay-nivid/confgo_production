@@ -26,7 +26,7 @@ export interface IEventResponse {
   eventCapacity: IEventCapacity[];
   eventPriceTiers: IEventPriceTier[];
   eventSpeakers: Omit<IEventSpeaker, "speakerBios">[];
-  programs: IProgram
+  programs: IProgram[];
   addons: IAddons[];
   eventContacts: IEventContact[];
   url: string | null;

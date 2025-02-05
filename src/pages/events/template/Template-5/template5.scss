@@ -1,0 +1,302 @@
+.main {
+    max-width: 1480px;
+    padding-inline: 5rem;
+    margin-inline: auto;
+}
+
+.template5 {
+
+    &::-webkit-scrollbar {
+        display: none !important;
+    }
+
+    .hero-main {
+        height: auto;
+        min-height: 100vh;
+        background: url("/src/assets/png/template-5-hero.png");
+        background-size: 100% 100%;
+        background-position: start;
+        background-repeat: no-repeat;
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            padding-block: 2rem;
+            margin-bottom: 5rem;
+
+            .nav__links {
+                display: flex;
+                align-items: center;
+                column-gap: 3rem;
+
+                &__list {
+                    display: flex;
+                    align-items: center;
+                    column-gap: clamp(2rem, 5vw, 4rem);
+                    height: 100%;
+
+                    &__link {
+                        font-size: $h6;
+                    }
+                }
+
+                &__sponsor-button {
+                    background-color: $clr_blue;
+                    color: $clr_white;
+                    font-size: $h6;
+                    padding-inline: 1.8rem;
+                    padding-block: .8rem;
+                    border-radius: 2rem;
+                }
+            }
+
+        }
+
+
+        .date__container {
+
+            display: flex;
+            justify-content: end;
+            padding-bottom: .5rem;
+
+            &__card {
+                background-color: $clr_white;
+                padding: 1.2rem;
+                padding-inline: 1.667rem;
+                border-radius: 4rem;
+                display: flex;
+                align-items: center;
+                column-gap: 1.667rem;
+
+                &__icon {
+                    background-color: $clr_orange;
+                }
+
+                &__content {
+                    display: flex;
+                    flex-direction: column;
+                    row-gap: 0.5rem;
+
+                    &__title {
+                        font-size: $p2;
+                    }
+
+                    &__date {
+                        font-size: $h6;
+                    }
+                }
+
+            }
+
+        }
+
+
+        .hero-content {
+            padding-bottom: 5rem;
+
+            &__title {
+                font-size: $h1;
+                font-weight: $font_semibold;
+                max-width: max(40%, 500px);
+                margin-bottom: 2rem;
+            }
+
+            &__buttons {
+                display: flex;
+                align-items: center;
+                column-gap: 1.6rem;
+
+
+                &__login {
+                    color: $clr_black;
+                    border: .14rem solid $clr_gray_extra_dark;
+                    border-radius: 2rem;
+                    line-height: 0;
+                    padding-block: 1.6rem;
+                    padding-inline: 3.3rem;
+                    font-size: $p2;
+
+
+                }
+
+                &__register {
+                    color: $clr_white;
+                    background-color: $clr_blue;
+                    border-radius: 2rem;
+                    line-height: 0;
+                    padding-block: 1.7rem;
+                    padding-inline: 3.3rem;
+                    font-size: $p2;
+                    font-weight: $font_normal !important;
+
+
+                }
+            }
+
+
+        }
+
+
+        .venue__container {
+
+            display: flex;
+            justify-content: center;
+            padding-bottom: .5rem;
+            // margin-bottom: 2rem;
+
+            &__card {
+                background-color: $clr_white;
+                padding: 1.2rem;
+                padding-inline: 1.667rem;
+                border-radius: 4rem;
+                display: flex;
+                align-items: center;
+                column-gap: 1.667rem;
+
+                &__icon {
+                    background-color: $clr_green;
+
+                    svg {
+                        color: $clr_black;
+                    }
+                }
+
+                &__content {
+                    display: flex;
+                    flex-direction: column;
+                    row-gap: 0.5rem;
+
+                    &__title {
+                        font-size: $p2;
+                    }
+
+                    &__date {
+                        font-size: $h6;
+                    }
+                }
+
+            }
+
+        }
+    }
+
+    .about-section {
+        padding-block: 6rem;
+        text-align: center;
+        padding-inline: clamp(4rem, 8vw, 10rem);
+        margin-bottom: 2rem;
+
+        &__title {
+            font-size: $h1;
+            font-weight: $font_semibold;
+            margin-bottom: 1.5rem;
+        }
+
+        &__description {
+            font-size: $h6;
+        }
+    }
+
+    .timer-section {
+
+        margin-bottom: 8rem;
+
+        &__title {
+            font-size: $h2;
+            font-weight: $font_semibold;
+            text-align: center;
+
+        }
+
+        &__timer {
+            column-gap: 6rem;
+
+            .group {
+                display: flex;
+                align-items: end;
+                column-gap: .2rem;
+                height: max-content;
+                padding-block: 3rem;
+
+            }
+
+            .label {
+                font-size: $h6;
+                font-weight: $font_normal;
+                margin-bottom: 0 !important;
+            }
+
+            .value {
+                color: $clr_blue;
+                line-height: 1ch;
+            }
+        }
+
+    }
+
+
+    .speakers-section {
+        margin-bottom: 8rem;
+        background-color: $clr_gray_10_percent;
+        border-radius: 1.667rem;
+        padding-block: 2rem;
+
+        &__title {
+            font-size: $h1;
+            font-weight: $font_semibold;
+            text-align: center;
+            margin-bottom: 2.5rem;
+
+
+        }
+
+        &__container {
+
+
+            &__item {
+
+
+                .speaker-image {
+                    border-radius: 1.667rem;
+                    margin-bottom: 1.4rem;
+
+                }
+
+                .speaker-name {
+                    font-size: $h5;
+                    font-weight: $font_semibold;
+                    margin-bottom: .5rem;
+                }
+
+                .speaker-designation {
+                    font-size: $h6;
+                    margin-bottom: 2rem;
+                }
+
+                .speaker-section-viewmore {
+                    font-size: $p1;
+                    font-weight: $font_medium;
+                    cursor: pointer;
+
+                }
+            }
+
+
+
+        }
+    }
+
+
+    .programs-section {
+        &__title {
+            font-size: $h1;
+            font-weight: $font_semibold;
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+    }
+
+
+
+
+}

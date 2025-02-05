@@ -21,7 +21,7 @@
             }
 
             &-close {
-                 margin-bottom: 0.4rem;
+                margin-bottom: 0.4rem;
             }
         }
 
@@ -66,13 +66,14 @@
                     height: 4.17rem;
                     width: 4.17rem;
                 }
-                &-moderators{
+
+                &-moderators {
                     height: 4.17rem;
                     width: 4.17rem;
                     border: 0.3rem solid $clr_blue_violet;
-                  
-                
-            }
+
+
+                }
             }
         }
 
@@ -110,7 +111,7 @@
 .MuiTooltip-arrow {
     color: $clr_black !important;
     width: 12% !important;
-    height:12% !important;
+    height: 12% !important;
     top: 100%;
     left: -.3rem !important;
 }
@@ -131,100 +132,111 @@
 
 
 }
+
 .speaker-details-modal {
     max-height: 90vh;
-    overflow-y: auto !important; 
+    overflow-y: auto !important;
     display: flex;
     flex-direction: column;
-    &-content{
+
+    &-content {
         max-height: 100%;
         overflow-y: auto; // Enable scrolling for the content area
         max-width: 80rem;
         min-width: 60rem;
         padding-inline: 1.5rem;
-            padding-block: 1.5rem;
-            background-color: $clr_white !important;
-            border-radius: .5rem;
+        padding-block: 1.5rem;
+        background-color: $clr_white !important;
+        border-radius: .5rem;
     }
 
     &-header-container {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 2rem;
-                column-gap: 6rem;
-    
-                &-header {
-                    font-size: $p5 ;
-                    font-weight: $font_semibold;
-                }
-    
-                &-close {
-                    margin-top: .2rem;
-                }
-            }
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        column-gap: 6rem;
+
+        &-header {
+            font-size: $p5 ;
+            font-weight: $font_semibold;
+        }
+
+        &-close {
+            margin-top: .2rem;
+        }
+    }
 
     &-avatar {
-        .MuiAvatar-root{
+        .MuiAvatar-root {
             width: 5rem;
             height: 5rem;
         }
-        
+
     }
-    &-title{
+
+    &-title {
         font-size: $h5 !important;
         font-weight: $font_semibold !important;
     }
 
-    &-day{
+    &-day {
         font-size: $p3 !important;
         font-weight: $font_semibold !important;
     }
 
-    &-date{
+    &-date {
         font-size: $h5 !important;
         font-weight: $font_semibold !important;
     }
+
     &-icon {
         padding: 0.3rem;
-        svg{
-            
+
+        svg {
+
             width: 1.5rem;
             height: 1.5rem;
         }
-       
+
     }
-    &-time{
+
+    &-time {
         padding-left: 0.3rem;
         font-size: $p2 !important;
         font-weight: $font_semibold !important;
         color: $clr_dim_gray !important;
     }
-    &-sub-title{
+
+    &-sub-title {
         font-size: $p5 !important;
         font-weight: $font_medium !important;
     }
-    &-text{
+
+    &-text {
         font-size: $p3 !important;
         font-weight: $font_small !important;
         color: $clr_neutral_gray !important;
     }
+
     &-main-container {
         padding: 1rem;
     }
+
     &-item-container {
         padding: 3rem 1rem 3rem 1rem;
         border-bottom: 1px solid $clr_background_gray;
     }
+
     &-day-container {
         position: relative; // Ensure positioning is enabled for the pseudo-element.
-        
+
         // Remove the default border
         border-right: none;
-    
+
         // Add a centered vertical line
         &::after {
-            content: ''; 
+            content: '';
             position: absolute;
             top: 0;
             bottom: 0;
@@ -234,15 +246,16 @@
             background-color: $clr_background_gray; // Same color as your previous border-right
         }
     }
+
     &-time-container {
         position: relative; // Ensure positioning is enabled for the pseudo-element.
-        
+
         // Remove the default border
         border-right: none;
-    
+
         // Add a centered vertical line
         &::after {
-            content: ''; 
+            content: '';
             position: absolute;
             top: 0;
             bottom: 0;
@@ -252,19 +265,22 @@
             background-color: $clr_background_gray; // Same color as your previous border-right
         }
     }
-    &-details{
-        &-name{
+
+    &-details {
+        &-name {
             font-size: $h4 !important;
             font-weight: $font_semibold !important;
         }
-        &-designation{
+
+        &-designation {
             font-size: $h5 !important;
             font-weight: $font_semibold !important;
         }
-        &-descripion{
+
+        &-descripion {
             font-size: $h6 !important;
             font-weight: $font_medium !important;
         }
     }
-    
+
 }

@@ -25,9 +25,7 @@ import { useNavigate } from 'react-router-dom';
 import SponsorShip from '../template/sponsorShipForm/SponsorShip';
 import TempHall from "../../../assets/svg/temp-hall.svg";
 import { personPlaceholder } from '@/assets/png';
-import TRegisterButton from '../template/_components/TRegisterButton/TRegisterButton';
-import TLink from '../template/_components/TLink/TLink';
-import TEventSpeakers from '../template/_components/TEventSpeakers/TEventSpeakers';
+
 
 
 type TemplateViewProps = {
@@ -37,7 +35,7 @@ type TemplateViewProps = {
 /**
  * Template 
  */
-const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
+const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
 
     const classPrefix = 'event-template-template4';
     const aboutRef = useRef(null);
@@ -394,10 +392,10 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
         return subItem?.some((speaker: any) => speaker?.speakerBios?.[0]?.isModerator) ?? false;
     };
 
-    console.log(data,'iiiiiiiiiiiiiii')
+    console.log(data, 'iiiiiiiiiiiiiii')
 
     return (
-        <Grid  container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-bg`}  >
+        <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-bg`}  >
             <Grid container size={{ xs: 12, sm: 12 }} className={classPrefix}>
                 <TopMenuHeader links={headerLinks} classPrefix={`${classPrefix}-top-menu`} data={data} onScrollToProgram={() => handleScrollTo(programRef)} onScrollToAbout={() => handleScrollTo(aboutRef)} onScrollToContributors={() => handleScrollTo(contributorsRef)} onScrollToLocation={() => handleScrollTo(LocationRef)} onScrollToBeSponsor={() => handleScrollTo(beSponsorRef)} onScrollToSponsor={() => handleScrollTo(sponsorRef)} />
                 <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-header`} />
@@ -437,7 +435,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                 </Grid>
                             </Grid>
                         </TimerCounterComp>
-                        
+
                     </Grid>
                 </Grid>
                 {/* Speaker section starts here  */}
@@ -674,7 +672,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                                         </Grid>
                                                     )}
                                                     {subItem?.eventSpeakers && subItem?.eventSpeakers?.length !== 0 &&
-                                                        
+
                                                         <Grid size={12} container className="mt-2" spacing={1}>
                                                             <Grid size={12} container className={`${classPrefix}-program-content-sponsor-heading`}>
 
@@ -691,7 +689,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                                             </Grid>
 
                                                             {subItem?.eventSpeakers
-                                                                ?.slice() 
+                                                                ?.slice()
                                                                 ?.sort((a: any, b: any) => {
                                                                     const isModeratorA = a?.speakerBios?.[0]?.isModerator ? -1 : 1;
                                                                     const isModeratorB = b?.speakerBios?.[0]?.isModerator ? -1 : 1;
@@ -699,7 +697,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                                                 })
                                                                 ?.map((speaker: any) => {
                                                                     const isModerator = speaker?.speakerBios?.[0]?.isModerator;
-                                                                    
+
                                                                     return !isModerator ? (
 
                                                                         <Avatar
@@ -724,10 +722,10 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
 
 
                                                         </Grid>}
-                                                        {item?.subItems?.length > 1 && subIndex !== item?.subItems?.length - 1 &&
-                                                    <Grid size={12} className={`${classPrefix}-program-content-divider`}>
-                                                                <Divider />
-                                                            </Grid>}
+                                                    {item?.subItems?.length > 1 && subIndex !== item?.subItems?.length - 1 &&
+                                                        <Grid size={12} className={`${classPrefix}-program-content-divider`}>
+                                                            <Divider />
+                                                        </Grid>}
                                                 </Grid>
 
                                             ))
@@ -895,7 +893,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                                 {
                                                     items?.map((item: any) => {
                                                         return (
-                                                            <Grid  size={12}>
+                                                            <Grid size={12}>
                                                                 <img className='object-fill rounded-sm' width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
                                                             </Grid>
                                                         )

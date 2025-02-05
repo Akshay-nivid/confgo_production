@@ -1,21 +1,31 @@
-import useStore from '@/Libs/store'
-import { IEventResponse, IEventSpeaker } from '@/Libs/types/event'
+import useStore, { setNonPersistedDataById } from '@/Libs/store'
+import { IEventResponse, IEventSpeaker, IProgram } from '@/Libs/types/event'
 import { ElementType } from 'react';
 import config from '../../../../../../config.json';
-import { Box } from '@mui/material';
+import { Avatar, Box, Modal } from '@mui/material';
 import { personPlaceholder } from '@/assets/png';
 import Grid from '@mui/material/Grid2';
 import { Arrow2Left } from '@/assets/svg';
 import { ArrowRight } from '@mui/icons-material';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import "./TEventspeakers.scss";
+import ClockIcon from "../../../../../assets/svg/speaker-clock.svg";
+import AmountIcon from "../../../../../assets/svg/speaker-amount.svg"
+import { IPrograms } from '@/Libs/types/type';
+import { getLocalTimeDate } from '@/Utils/CommonBaseClass';
+import { date } from 'zod';
 
 interface TEventSpeakersProps {
     ItemWrapper: ElementType;
-    className?: string
 }
-const TEventSpeakers = ({  className, ItemWrapper }: TEventSpeakersProps) => {
+const TEventSpeakers = ({ ItemWrapper }: TEventSpeakersProps) => {
 
     const event: IEventResponse = useStore(state => state.compData?.['event']?.data) || {}
+
+
+
+    const speakerDetails = useStore(state => state.nonPersistedData.speakerDetails?.value) || {}
+    console.log(speakerDetails, 'speaker details')
 
     /**
 * Extracts unique speakers from a given list based on their `userId`.
@@ -39,28 +49,59 @@ const TEventSpeakers = ({  className, ItemWrapper }: TEventSpeakersProps) => {
     }
 
 
+    // console.log(event?.programs, 'event speakers')
+
+    const groupedObj: { [key: number]: IProgram[] } = {}
+
+
+    event?.programs?.forEach((program: IProgram) => {
+
+        if (program?.eventSpeakers) {
+            program?.eventSpeakers?.forEach((speaker: IEventSpeaker) => {
+
+                if (!groupedObj[speaker.userId]) {
+                    groupedObj[speaker.userId] = [program]
+                } else {
+                    groupedObj[speaker.userId].push(program)
+                }
+            })
+        }
+
+    })
+
+
+    function handleModalOpen(speaker: IEventSpeaker) {
+        setNonPersistedDataById('isSpeakerDetailsModelOpen', { value: true })
+        setNonPersistedDataById('speakerDetails', { value: { speaker, programs: groupedObj[speaker.userId] } })
+    }
+
+
+
+
+
     return (
         <>
             {event?.eventSpeakers?.length > 0 ?
                 <>
                     {
-                        getUniqueSpeakers(event?.eventSpeakers)?.map((speaker: Omit<IEventSpeaker, "speakerBios">, index: number) => {
+                        getUniqueSpeakers(event?.eventSpeakers)?.map((speaker: IEventSpeaker, index: number) => {
                             return (
                                 <ItemWrapper key={index}>
-                                    {speaker?.user?.assetId ? <img className='speaker-image object-contain' src={speaker?.user?.assetId ? `${config.api.url}asset/${speaker?.user?.assetId}` : ''} alt='program speaker image' />
+                                    {speaker?.user?.assetId ? <img className='speaker-image object-contain' src={'https://img.freepik.com/free-psd/cute-3d-character-wearing-orange-jacket-hat-holds-canon-camera-perfect-image-travel-photography-blogs-websites_632498-32172.jpg?semt=ais_hybrid'} alt='program speaker image' />
                                         :
                                         <img alt={'speaker-image'} src={personPlaceholder} className={`  aspect-square max-h-[18.2rem]`} />
 
                                     }
                                     <Box className='speaker-section-details'>
-                                        <p className='speaker-section-details-name'>{speaker?.user?.firstName} {speaker?.user?.lastName}</p>
-                                        <p className='speaker-section-details-designation'>{speaker?.user?.designation}</p>
+                                        <p className='speaker-name'>{speaker?.user?.firstName} {speaker?.user?.lastName}</p>
+                                        <p className='speaker-designation'>{speaker?.user?.designation}</p>
                                     </Box>
-                                    <Box className={'speaker-section-viewmore'}>View more <ArrowRightAltIcon className='speaker-section-viewmore-icon'/></Box>
+                                    <Box onClick={() => handleModalOpen(speaker)} className={'speaker-section-viewmore'}>View more <ArrowRightAltIcon className='speaker-section-viewmore-icon' /></Box>
                                 </ItemWrapper>
                             )
                         })
                     }
+                    <EventSpeakerModal />
 
                 </>
                 :
@@ -71,3 +112,105 @@ const TEventSpeakers = ({  className, ItemWrapper }: TEventSpeakersProps) => {
 }
 
 export default TEventSpeakers
+
+
+const EventSpeakerModal = () => {
+
+    function handleCloseModal() {
+        setNonPersistedDataById('isSpeakerDetailsModelOpen', { value: false })
+    }
+
+    const isSpeakerModalOpen = useStore(state => state.nonPersistedData?.isSpeakerDetailsModelOpen?.value)
+
+    const speakerDetails: { speaker: IEventSpeaker, programs: IProgram[] } = useStore(state => state.nonPersistedData?.speakerDetails?.value) || {}
+
+    console.log(speakerDetails)
+
+    return (
+        <Modal className='TEventSpeakers-speaker-details-modal' open={isSpeakerModalOpen}>
+            <Box onClick={handleCloseModal} className="TEventSpeakers-speaker-details-modal__overlay">
+                <Box className="TEventSpeakers-speaker-details-modal__content">
+                    <Box className="TEventSpeakers-speaker-details-modal__content__details">
+                        <Avatar className='TEventSpeakers-speaker-details-modal__content__details__img'></Avatar>
+                        <Box className="TEventSpeakers-speaker-details-modal__content__details__info">
+                            <h3 className='TEventSpeakers-speaker-details-modal__content__details__info__name'>{speakerDetails?.speaker?.user?.firstName || 'Unknown'}</h3>
+                            <p className='TEventSpeakers-speaker-details-modal__content__details__info__designation'>{speakerDetails?.speaker?.user?.designation || 'Unknown'}</p>
+                            <p className='TEventSpeakers-speaker-details-modal__content__details__info__description'>{speakerDetails?.speaker?.user?.userDescription || 'Unknown'}</p>
+                        </Box>
+                    </Box>
+
+                    <Box className="TEventSpeakers-speaker-details-modal__content__program">
+                        <p className='TEventSpeakers-speaker-details-modal__content__program__title'>Program Schedule</p>
+                        <Box className="TEventSpeakers-speaker-details-modal__content__programs__list">
+
+                            {
+                                speakerDetails?.programs?.map((item: IProgram, index: number) => {
+                                    return (
+                                        <>
+                                            <ProgramCard data={item} className='event-speakers-program-card' />
+                                            {index !== speakerDetails?.programs?.length - 1 && <HorizonatalDivider className='horizontal-divider ' />}
+                                        </>
+                                    )
+                                })
+                            }
+
+
+                        </Box>
+                    </Box>
+                </Box>
+            </Box>
+        </Modal>
+    )
+}
+
+
+
+const ProgramCard = ({ className, data }: { className: string, data: IProgram }) => {
+
+    const currency = config.currency;
+    return (
+        <Box className={className}>
+            <Box className="event-speakers-program-card__date-container" display={"flex"} flexDirection={"column"} alignItems={"center"} paddingRight={2}>
+                <p className="event-speakers-program-card__date-container__day">{getLocalTimeDate(data.startTime, 'ddd')}</p>
+                <p className="event-speakers-program-card__date-container__month">
+                    {getLocalTimeDate(data.startTime, 'D')}
+                </p>
+            </Box>
+            <Box className="event-speakers-program-card__vertical-divider">
+
+            </Box>
+
+            <Box className=" event-speakers-program-card__date-price">
+                <Box className=" event-speakers-program-card__date-price__time">
+                    <ClockIcon className='event-speakers-program-card__date-price__time__icon' />
+                    <p className='event-speakers-program-card__date-price__time__value'>
+                        {getLocalTimeDate(data.startTime, 'h:mm A')}
+                    </p>
+                </Box>
+                <Box className=" event-speakers-program-card__date-price__price">
+                    <AmountIcon className='event-speakers-program-card__date-price__price__icon' />
+                    <p className='event-speakers-program-card__date-price__price__value'>{Math.trunc(Number(data?.amount)) === 0 ? "Free" : `${Number(data?.amount).toFixed(0)}`}</p>
+                </Box>
+            </Box>
+            <Box className="event-speakers-program-card__vertical-divider">
+
+            </Box>
+
+            <Box className="event-speakers-program-card__name-container ">
+                <p className="event-speakers-program-card__name-container__name ">{data?.name}</p>
+                <p className="event-speakers-program-card__name-container__description ">{data?.description}</p>
+            </Box>
+
+        </Box>
+    )
+}
+
+
+
+const HorizonatalDivider = ({ className }: { className: string }) => {
+    return (
+        <Box className={className}>
+
+        </Box>
+    )
+}

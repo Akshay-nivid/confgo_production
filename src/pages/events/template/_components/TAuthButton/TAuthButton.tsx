@@ -8,9 +8,10 @@ import { useNavigate } from 'react-router-dom';
 
 interface TRegisterButtonProps extends ButtonProps {
     authType: "SIGNUP" | "LOGIN" | "LOGOUT";
+    children: React.ReactNode
 }
 
-const TAuthButton = ({  authType, children, ...props }: TRegisterButtonProps) => {
+const TAuthButton = ({ authType, children, ...props }: TRegisterButtonProps) => {
 
     const navigate = useNavigate();
 

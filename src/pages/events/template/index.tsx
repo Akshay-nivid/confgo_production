@@ -137,7 +137,7 @@ const TemplateContainer: React.FC<TemplateContainerProps> = React.memo(({ }) => 
     try {
 
 
-      const response = await apiClient.post(`participant/existing`,{ eventId: eventId })
+      const response = await apiClient.post(`participant/existing`, { eventId: eventId })
 
       const { data, message, status } = processAPIResponse(response, 'participant/existing')
 

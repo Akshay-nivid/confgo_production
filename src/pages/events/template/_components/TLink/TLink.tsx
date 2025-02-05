@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 interface TLinkProps extends React.HTMLAttributes<HTMLAnchorElement> {
     to?: string;
-    targetelementId: "speakers" | "sponsors" | "programs" | "location" | "tickets";
+    targetelementId: "speakers" | "sponsors" | "programs" | "location" | "tickets" | "sponsor-form";
     children: React.ReactNode
 }
 const TLink = ({ to, ...props }: TLinkProps) => {
@@ -19,7 +19,7 @@ const TLink = ({ to, ...props }: TLinkProps) => {
 
 
     return (
-        <Link {...props} to={to ? to : '#'} onClick={props.onClick ? props.onClick : handleClickLink}>{props.children }</Link>
+        <Link {...props} to={to ? to : '#'} onClick={props.onClick ? props.onClick : handleClickLink}>{props.children}</Link>
     )
 }
 
