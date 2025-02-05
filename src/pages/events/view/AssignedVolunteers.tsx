@@ -9,14 +9,16 @@ import { processAPIResponse } from '@/Utils/CommonBaseClass';
 import { Logger } from '@/Utils/Logger';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import { CloseOutlined } from '@mui/icons-material';
-import { useParams } from 'react-router-dom';
-import { setDataById } from '@/Libs/store';
+import { useNavigate, useParams } from 'react-router-dom';
+import { setDataById, setNonPersistedDataById } from '@/Libs/store';
+import routes from '@/router/routes';
 
 interface AssignedVolunteersProps {
     onClose: () => void;
     volunteerList: () => void;
+    data:any;
 }
-const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps) => {
+const AssignedVolunteers = ({ onClose, volunteerList ,data}: AssignedVolunteersProps) => {
     const { control } = useForm();
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -24,7 +26,7 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
     const [assignedVolunteers, setAssignedVolunteers] = useState<any[]>([]);
     const { id } = useParams()
     const companyId = sessionStorage.getItem('companyId')
-
+     const navigate = useNavigate();
     /**
      * Function to assign the volunteers which are selected, the selected volunteers are passing in an array
      */
@@ -125,6 +127,18 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
     const handleDelete = (id: string) => {
         setAssignedVolunteers((prev) => prev.filter((volunteer) => volunteer.user.id !== id));
     };
+
+    /**
+    * drawer create speaker button
+    */
+    const createNewVolunteer = (volunteer: any) => {
+
+        setNonPersistedDataById('craeteUserDrawer', { value: true });
+
+        navigate(routes.users(), { state: { data: volunteer, eventId: data?.eventData?.id } });
+
+    };
+  
    
     return (
         <div className='assigned-volunteer-main-container'>
@@ -188,8 +202,16 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
                     </Grid>
                 ))}
             </Grid>
-            <div className='assigned-volunteer-button-container'>     
-                <CustomButton
+            
+            <Grid container spacing={2} bgcolor={"red"}>
+          
+        </Grid>
+
+            <Grid className='assigned-volunteer-button-container' size={12} container justifyContent={"flex-end"} spacing={0}> 
+            
+          <Grid size={12}>
+
+          <CustomButton
                     className="assigned-volunteer-button"
                     label="Submit"
                     variant="contained"
@@ -198,7 +220,21 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
                     onClick={handleSubmit}
                     disabled={assignedVolunteers.length === 0 ? true:false}
                 />
-            </div>
+          </Grid>
+
+                <Grid >
+
+                <CustomButton
+                
+                variant='outlined'
+                className="assigned-volunteer-button-create"
+                label="Create Volunteer"
+                onClick={()=>createNewVolunteer("VOLUNTEER")}
+                size="medium"
+
+                />    
+                </Grid>
+            </Grid>
         </div>
 
     );

@@ -126,16 +126,55 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue}) => {
                     setNonPersistedDataById('craeteUserDrawer', { value: false })
                     setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: `Account Created Please check ${data.email}` });
 
-                    if (eventId) {
+                    // if (eventId) {
+                    //     const requestBody = {
+                    //         userId: context.data?.token?.userId,
+                    //         eventId: eventId,
+                    //         statusId: "1",
+                    //     };
+                        // POST({
+                        //     url: "eventSpeaker/create",
+                        //     body: requestBody,
+                        //     id: "createContributor",
+                        //     successCB: (context: any) => {
+                        //         if (context?.success) {
+
+                        //             setDataById("snackBarInfo", {
+                        //                 open: true,
+                        //                 autoHideDuration: 2000,
+                        //                 severity: "success",
+                        //                 message: "Speaker Assign Successfully",
+                        //             });
+
+                        //             navigate(`/events/detail/${eventId}`, { state: { tabId: "2" } });
+
+                        //         }
+                        //     },
+                        //     errorCB: () => {
+                        //         setDataById("snackBarInfo", {
+                        //             open: true,
+                        //             autoHideDuration: 2000,
+                        //             severity: "error",
+                        //             message: "Speaker Assigned Successfully",
+                        //         });
+                        //     },
+                        // });
+
+                        
+                    // }
+
+                    if(eventId){
+
                         const requestBody = {
-                            userId: context.data?.token?.userId,
+                            userIds: [context.data?.token?.userId],
                             eventId: eventId,
-                            statusId: "1",
+                            companyId: companyId,
                         };
+
                         POST({
-                            url: "eventSpeaker/create",
+                            url: "user/assignEvent",
                             body: requestBody,
-                            id: "createContributor",
+                            id: "createVolunteer",
                             successCB: (context: any) => {
                                 if (context?.success) {
 
@@ -143,7 +182,7 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue}) => {
                                         open: true,
                                         autoHideDuration: 2000,
                                         severity: "success",
-                                        message: "Speaker Assign Successfully",
+                                        message: "Volunteer Assign Successfully",
                                     });
 
                                     navigate(`/events/detail/${eventId}`, { state: { tabId: "2" } });
@@ -155,7 +194,7 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue}) => {
                                     open: true,
                                     autoHideDuration: 2000,
                                     severity: "error",
-                                    message: "Speaker Assigned Successfully",
+                                    message: "Error in assigning volunteer.",
                                 });
                             },
                         });
@@ -177,7 +216,8 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue}) => {
         if (role) {
             reset({
                 ...getValues(),
-                ...(role === "SPEAKER" && { role: 5 })
+                ...(role === "SPEAKER" && { role: 5 }),
+                ...(role === "VOLUNTEER" && { role: 4 })
             });
         }
     }, []);
