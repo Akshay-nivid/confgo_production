@@ -9,9 +9,6 @@ import useStore from '@/Libs/store';
 import { CallIcon } from '@/assets/svg';
 import { LocatioIcon } from '@/assets/svg';
 import { MessageIcon } from '@/assets/svg';
-import { Logger } from '@/Utils/Logger';
-import { useNavigate } from 'react-router-dom';
-import routes from '@/router/routes';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import CustomPhone from '@/components/CustomPhone/CustomPhone';
 import { countries } from '@/Utils/country/country';
@@ -52,12 +49,11 @@ const boxArray = [
  * @returns 
  */
 const Contact = () => {
-    const { handleSubmit, control, formState: { errors },register} = useForm<FormData>();
+    const { handleSubmit, control, formState: { errors },register, reset} = useForm<FormData>();
     const [recapcha, setRecapcha] = useState(true)
     const recaptchaRef = useRef<ReCAPTCHA>(null);
     const POST = useStore((state: any) => state.POST);
-    const setDataById = useStore((state: any) => state.setDtaById);
-    const navigate = useNavigate();
+    const setDataById = useStore((state: any) => state.setDataById);
     const [phoneNumber, setPhoneNumber] = useState("");
     const [selectedCountryCode, setSelectedCountryCode] = useState("+91");
 
@@ -89,7 +85,7 @@ const Contact = () => {
      * @param data 
      */
     const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
-        const fullPhoneNumber = `${selectedCountryCode}` + data.phoneNumber;
+        const fullPhoneNumber = data.phoneNumber;
         const body = {
             firstName: data.name,
             lastName: data.lastName,
@@ -107,14 +103,28 @@ const Contact = () => {
             url: 'notification/contact', body: body,
             id: 'contact',
             successCB: successCB,
-            errorCB: (error: any) => Logger.error("error", error)
+            errorCB: (context: any) => {
+                setDataById("snackBarInfo", {
+                  open: true,
+                  autoHideDuration: 2000,
+                  severity: "error",
+                  message: context?.message,
+                });
+              },
         })
         /**
          * success callback function
          */
         function successCB(_context: any) {
-            setDataById("thankYouPageInfo", { type: "Submitted sucessfully", redirectTo: routes.userLogin() });
-            navigate(routes.thankyou());
+            reset();
+            recaptchaRef.current?.reset();
+            setRecapcha(false);
+            setDataById("snackBarInfo", {
+                open: true,
+                autoHideDuration: 2000,
+                severity: "success",
+                message: "Email Send Successfully",
+            });
         }
     };
     return (
@@ -134,10 +144,10 @@ const Contact = () => {
                                     <Typography className='contact-info_title'>Get in Touch </Typography>
                                     {/* <Typography className='contact-info_description'>Everything you might need and then some more in an accessible and intuitive package.</Typography> */}
                                 </Grid ><Box />
-                                <Grid size={{ lg: 6, xs: 12 }} display={'flex'} flexDirection={'column'} rowGap={4.2} className='contact-info_details'>
+                                <Grid size={{ lg: 12, xs: 12 }}  display={'flex'} flexDirection={'column'} rowGap={4.2} className='contact-info_details'>
                                     {boxArray.map((item) => (
-                                        <Grid key={item.id} container columnGap={1.6} className='contact-info_item'>
-                                            <Grid size={{ lg: 3 }} className='contact-info_icon'>
+                                        <Grid  key={item.id} container columnGap={1.6} className='contact-info_item'>
+                                            <Grid   className='contact-info_icon'>
                                                 {item.icon}
                                             </Grid>
                                             <Grid size={{ lg: 8 }} >
@@ -152,7 +162,7 @@ const Contact = () => {
                     </Grid>
                     <Grid container size={{ lg: 4, xs: 12,sm:10,md:6 }} paddingInline={1.6} spacing={0} className='contact-form' sx={{ order: { xs: 1, lg: 2 } }}  >
                         <form className='w-full' noValidate onSubmit={handleSubmit(onSubmit)} >
-                            <Grid container size={{ lg: 12, xs: 12 }} spacing={3} justifyContent='center' alignItems='center'>
+                            <Grid container size={{ lg: 12, xs: 12 }} spacing={1} justifyContent='center' alignItems='center'>
                                 <Grid size={{ lg: 6, xs: 12 }} >
                                     <CustomTextField
                                         name='name'

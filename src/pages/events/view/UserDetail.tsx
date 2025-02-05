@@ -23,7 +23,7 @@ interface User {
   phone: string;
   email: string;
   statusId: string;
-  assetId:number;
+  assetId:string;
   roleName:string;
 }
 

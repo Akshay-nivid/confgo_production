@@ -242,7 +242,7 @@ const SponsorListCard = () => {
           <CustomAutocomplete
             name="search"
             className="custom-user-search-field"
-            placeholder="Search by ID, Name or Phone ..."
+            placeholder="Search by Name, Phone or email ..."
             control={control}
             options={searchResults}
             getOptionLabel={(option: any) =>

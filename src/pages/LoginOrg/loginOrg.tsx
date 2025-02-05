@@ -195,7 +195,7 @@ const LoginOrg = () => {
                   Don’t have an account?
                   <span className="signup-now-text">
                     {""}
-                    <Link to={routes.register()}> Sign Up </Link>{" "}
+                    <Link to={routes.pricing()}> Sign Up </Link>{" "}
                   </span>
                   now
                 </Typography>

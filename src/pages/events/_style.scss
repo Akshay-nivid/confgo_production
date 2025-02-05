@@ -57,7 +57,7 @@
     &-description {
         font-size: $h6 !important;
         font-weight: $font_semibold !important;
-        max-width: 91.5rem;
+        max-width: 66rem;
 
         .ql-container {
             min-height: 15rem;
@@ -97,10 +97,12 @@
             border: solid 0.1rem $clr_gray_very_light;
             border-radius: 0.4rem;
             padding: 0.2rem;
-
-            &-image{
-                height: 4.5rem !important;
-                width: 4.5rem;
+            display: flex; 
+            align-items: center;
+            justify-content: center;
+        
+            &-image {
+                max-height: 4.5rem !important;
             }
         }
 
@@ -1054,6 +1056,7 @@
     &-content {
         font-weight: $font_semibold !important;
         font-size: $h6 !important;
+        word-wrap: break-word;
     }
 
     &-custom-drawer {

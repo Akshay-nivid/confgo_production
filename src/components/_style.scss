@@ -794,13 +794,18 @@
   padding-right: 3rem !important;
   margin: 1rem !important;
 
+  &-stepBox{
+     border: 0.083rem solid $clr_green !important;
+     border-radius: 4.167rem;
+    }
   &-main {
     border-right: 1px solid $clr_gray_very_light;
     background-color: $clr_white;
   }
 
   &-container {
-    width: 54.08rem !important;
+    border-left: 1px solid $clr_gray_very_light;
+    padding-left: 2rem;
 
    .MuiIconButton-root:hover {
     background-color: transparent !important;
@@ -809,7 +814,9 @@
     .MuiStepLabel-label {
       font-size: $p2 !important;
       font-weight: $font_medium;
-      color: $clr_field;
+    }
+    .Mui-completed{
+      color: $clr_green !important;
     }
 
     .Mui-active {
@@ -823,6 +830,7 @@
   }
 
   &-step-icon-box {
+    margin-left: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -831,10 +839,10 @@
     border-radius: 50%;
   }
 
-  &-stepper-icon {
-    width: 15rem !important;
-    height: 15rem !important;
-  }
+  // &-stepper-icon {
+  //   width: 15rem !important;
+  //   height: 15rem !important;
+  // }
 
   &-next-button {
     margin: auto !important;
@@ -899,16 +907,50 @@
   }
 
   &-conference-details {
+    padding: 2rem;
     background-color: $clr_white;
+    justify-content: center;
+    align-items: center;
 
+    &-border{
+      border: 0.083rem solid $clr_gray_very_light;
+      padding: 1.5rem;
+      border-radius: 0.833rem ;
+    }
+    &-review-img{
+      width: 7.333rem;
+      height: 6.583rem;
+    }
+
+    &-eventname{
+      font-weight: $font_semibold !important;
+      font-size: $h5 !important;
+    }
+    &-event-description{
+      color: $clr_gray_dark_text;
+      overflow: hidden;
+    }
     &-content {
       &-container {
-        padding: 2rem !important;
+        margin-top: 2rem !important;
+      }
+      &-date-and-location{
+        font-weight: $font_medium !important;
+        font-size: $h5 !important;
+      }
+      &-scheduled-date{
+        font-size: $p5 !important;
+        font-weight: $font_semibold !important;
+      }
+      &-subtext{
+        font-size: $h6 !important;
+        font-weight: $font_medium !important;
+        color:$clr_field;
       }
 
       &-title {
         font-weight: $font_bold !important;
-        font-size: $h3 !important;
+        font-size: $h4 !important;
         padding-top: 1rem;
       }
 
@@ -927,18 +969,22 @@
       }
 
       &-type {
-        height: 2.83rem;
-        border-radius: 0.66rem;
-        background-color: $clr_status_bar;
+        margin-left: 1rem;
+        height: 2rem;
+        border-radius: 4.167rem;
+        background-color: $clr_dark_orange;
         padding-left: 1rem;
         padding-right: 1rem;
-        color: $clr_cyan_blue ;
+        color: $clr_white ;
       }
 
       &-date-icon {
+        background-color: $clr_green_light;
+        border-radius: 0.417rem;
+        padding: 0.8rem;
         svg {
-          width: 1.5rem;
-          height: 1.5rem;
+          width: 2.2rem;
+          height: 2.2rem;
         }
       }
 
@@ -1338,4 +1384,12 @@
 .border-speaker{
   background-color: $clr_gray_20_percent !important;
   border: 0.0667rem solid $clr_light_border_grey !important;
+}
+
+.stepper-inactive{
+  color: $clr_gray_medium !important;
+
+  &-step {
+    border: 0.083rem solid $clr_gray_medium !important;
+  }
 }

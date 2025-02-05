@@ -304,7 +304,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
           dateRequired: [],
           addonType: "PAID",
           repeat: [],
-          noOfDays: "",
+          noOfDays: "", 
           sponsor:[]
         };
         if (lastItem.properties && lastItem.properties.length== 0){
@@ -379,12 +379,9 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       setEditMode(true);
       setValue("addOn", watch("savedAddOns"));
       setProgramIndex(index);
-      if(watch(`addOn.${index}.sponsor`)){
-        setShowSponsorSection(watch(`addOn.${index}.sponsor`)?.length > 0 ? true : false)
-      }
-      else{
-      setShowSponsorSection(false)
-      }
+      const sponsorValue = watch(`addOn.${index}.sponsor`) ?? ''; // Default to empty string
+      const sValue = sponsorValue.length > 0;
+      setShowSponsorSection(sValue);
     };
 
     /**

@@ -55,7 +55,7 @@ type FormData = {
   url: string;
   amount: string;
   specialtyId: string;
-  assetId:number;
+  assetId:string;
   phone: string;
   email: string;
   isAbstract:boolean;
@@ -63,7 +63,7 @@ type FormData = {
 };
 
 interface CustomFile {
-  id: number;
+  id: string;
   name: string;
   sourcePath: string;
 }
@@ -102,6 +102,7 @@ const CreateEvent: React.FC<EventProps> =
   const [isInitialRender, setIsInitialRender] = useState(true);
   const POST = useStore((state: any) => state.POST);
   const [specialty,setspecialty]=useState<Specialty[]>([]);
+  const [specialtyName,setspecialtyName]=useState();
   const currency=confgo.currency;
     // Watch values from the form
     const fields: ('mapUrl' | 'postalCode' | 'venueName' | 'city' | 'address')[] = ['mapUrl', 'postalCode', 'venueName', 'city','address'];
@@ -319,6 +320,11 @@ const CreateEvent: React.FC<EventProps> =
               })
             })
             setspecialty(_speciality)
+            //to match the name of speciality
+            if(data?.specialtyId){
+              const Name = _speciality?.filter((item:any)=> item?.value == data?.specialtyId)
+              setspecialtyName(Name?.[0]?.label)
+            }
           }, 
           errorCB: (context: any) => {
               setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
@@ -510,7 +516,7 @@ const CreateEvent: React.FC<EventProps> =
                     control={control}
                     label="Specialty"
                     options={specialty}
-                    defaultValue={data?.speciality?.name}
+                    defaultValue={specialtyName ? specialtyName : data?.speciality?.name}
                     onChange={() => setValue('isAbstract',false)}
                     />
                   </Grid>
@@ -655,8 +661,8 @@ const CreateEvent: React.FC<EventProps> =
                           rules={{
                             required: watch("type") === "OFFLINE",
                             pattern: {
-                              value: /^.{1,10}$/,
-                              message: "Enter a valid postal code (e.g., '12345', '12345-6789', or '123456')",
+                              value: /^[A-Za-z0-9][A-Za-z0-9 -]{0,8}[A-Za-z0-9]$/,
+                              message: "Enter a valid postal code (e.g., '12345', '12345-6789', '123456' or 'A01 2BC')",
                             },
                           }}
                         />

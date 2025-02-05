@@ -1,11 +1,10 @@
 import { useIsMobileScreen } from "@/Utils/CommonBaseClass";
-import { PlayIconSvg, HomeEvent } from "@/assets/svg";
+import { MainHeroImage } from "@/assets/svg";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import routes from "@/router/routes";
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useNavigate } from "react-router-dom";
-
 /**
  * HeroSection component => first section of the home page
  * @returns {JSX.Element}
@@ -29,7 +28,7 @@ const HeroSection = () => {
             textAlign={"center"}
           >
             Are you tired of juggling multiple tools and platforms to organize your conferences and group meetings? Look {!isMobileScreen && <br />}
-            no further! Summit Pro is here to revolutionize your event management experience.
+            no further! Summit Pro is here to revolutionize your event management experience.
           </Typography>
 
           <Grid container className="hero-section-buttons">
@@ -37,18 +36,18 @@ const HeroSection = () => {
               variant="contained"
               label="Get Started"
               className="get-started-button"
-              onClick={() => navigate(routes.loginOrg())}
+              onClick={() => navigate(routes.pricing())}
             />
-            <CustomButton
+            {/* <CustomButton
               startIcon={<PlayIconSvg />}
               variant="outlined"
               label="Watch Our Videos"
               className="watch-video-button"
-            />
+            /> */}
           </Grid>
         </Grid>
         <Grid container justifyContent={'center'} alignItems={'center'} size={12} className="hero-section-image-grid">
-          <HomeEvent />
+          <MainHeroImage/>
         </Grid>
       </Grid>
     </Grid>

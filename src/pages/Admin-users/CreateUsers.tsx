@@ -13,6 +13,10 @@ import { useNavigate } from "react-router-dom";
 import config from "../../../config.json";
 import { useLocation } from "react-router-dom";
 import { DrawerClose, UplodIcon ,RemoveIcon} from "@/assets/svg";
+interface userProps{
+    NoNavigation?:boolean
+    defaultValue?:any
+}
 interface Role {
     value: number,
     label: string
@@ -27,14 +31,14 @@ type RoleList = {
     modifiedOn: string;
 };
 interface CustomFile {
-    id: number;
+    id: string;
     name: string;
     sourcePath: string;
 }
 /**
 * Component for creating new Company Users
 */
-const CreateNewUsers = () => {
+const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue}) => {
     const { data: role, eventId } = useLocation().state || '';
     const [selectedFile, setSelectedFile] = useState<any>(null);
     const [modalOpen, setModalOpen] = useState(false);
@@ -157,7 +161,7 @@ const CreateNewUsers = () => {
                         });
                     }
 
-                    navigate(routes.users());
+                    NoNavigation ? null : navigate(routes.users());
                 }
             },
             errorCB: (context: any) => {
@@ -282,10 +286,11 @@ const CreateNewUsers = () => {
                                 fullWidth
                                 name="role"
                                 control={control}
-                                defaultValue={role ? 5 : ''}
+                                defaultValue={role ? 5 : defaultValue ? 6 : ''}
                                 label="Role"
                                 options={roleList}
                                 rules={{ required: validateRequiredField({}) }}
+                                disabled={defaultValue}
                             />}
                         </Grid>
                         <Grid size={{ xs: 12, sm: 6 }}>
