@@ -2,7 +2,7 @@ import { Card, CardContent, Typography, IconButton, Box } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import CustomAutocomplete from '@/components/CustomAutocomplete/CustomAutocomplete';
-import { useForm } from 'react-hook-form';
+import { useForm,SubmitHandler  } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import apiClient from '@/Libs/Https/API-client';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';
@@ -24,8 +24,12 @@ interface Sponsor{
     value: number;
     label:string;
 }
+type FormValues = {
+    sponsorType: string;
+    
+  };
 const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
-    const { control, getValues } = useForm();
+    const { control, getValues,handleSubmit} = useForm<FormValues>();
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
     // const [source, setSource] = useState<ISource | undefined>(undefined);
@@ -43,7 +47,7 @@ const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
     /**
      * Function to assign the volunteers which are selected, the selected volunteers are passing in an array
      */
-    const handleSubmit = async () => {
+    const onSubmit: SubmitHandler<FormValues> = async () => {
         try {
             const sponsorIds = assignedSponsors?.map(sponsor => sponsor.user?.id);
             const sponsorTypeId = getValues("sponsorType"); // Get the selected sponsorType ID
@@ -206,6 +210,9 @@ const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
                     <CloseOutlined />
                 </IconButton> 
             </Box>
+          
+            <form onSubmit={handleSubmit(onSubmit)}>
+
             <Grid container className='assigned-volunteer-search'>
            
                 <Grid size={{ xs: 12, sm: 12 }} >
@@ -218,6 +225,9 @@ const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
                     control={control}
                     label="Sponsor Type"
                     options={sponsorType}
+                    rules={{
+                        required: "Sponsor Type is required",
+                    }}
                     />
                   </Grid>
             </Grid>
@@ -249,7 +259,7 @@ const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
                 </Grid>
             </Grid>
             <Grid container className="add-program-drawer-new-speaker-link" justifyContent={'end'}  size={{xs:12}} paddingTop={1}>
-              <Typography onClick={() => setNewSponsorDrawerOpen(true)} className="cursor-container" variant="h6">Create New Speaker ?</Typography>
+              <Typography onClick={() => setNewSponsorDrawerOpen(true)} className="cursor-container" variant="h6">Create New Sponsor ?</Typography>
             </Grid>
            {assignedSponsors.length>0 &&(<Typography gutterBottom className='assigned-volunteer-label'>
                 Assigned Sponsors
@@ -298,10 +308,10 @@ const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
                     variant="contained"
                     size="medium"
                     type="submit"
-                    onClick={handleSubmit}
-                    disabled={assignedSponsors.length === 0 ? true:false}
+                  
                 />
             </div>
+            </form>
             
         </div>
     

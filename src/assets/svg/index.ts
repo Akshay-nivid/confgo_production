@@ -128,6 +128,11 @@ import TempHall from "./temp-hall.svg";
 import DrawerClose from "./DrawerClose.svg";
 import UplodIcon from "./upload-bracket.svg";
 import RemoveIcon from "./RemoveIcon.svg";
+import EventDetailsIcon from "./Up-details.svg";
+import MikeIcon from "./karaoke.svg";
+import NewRegistration from "./new-registrations-icon.svg"
+import ExistingUsers from "./existingUsers.svg";
+import SoldTickets from "./soldTickets.svg"
 import CustomStep1 from "./Custom-stepper-1.svg";
 import CustomStep2 from "./Custom-stepper-2.svg";
 import CustomStep3 from "./Custom-stepper-3.svg";
@@ -142,6 +147,15 @@ import MainEffortlesPlaningImg from './main-effortless-plaing.svg'
 import MainSeamlessTrackingImg from './main-seamless-tracking.svg'
 import MainYourBrandImg from './main-your-brand.svg'
 import MainBottomBanner from "./main-bottom-banner.svg"
+import Clocks from "./clock-lineicon.svg"
+import ReviewMap from "./map-review.svg";
+import ReviewCalender from "./calendar-review.svg";
+import EventReview from "./event-review.svg";
+
+import AbstractSelectedGray from "./abstractselectedgrayicon.svg"
+import AbstractSelectedGreen from "./abstractselectedgreenicon.svg"
+import AbstractNonSelectedGray from "./abstractnonselectedgrayicon.svg"
+import AbstractNonSelectedGreen from "./abstractnonselectedgreenicon.svg"
 export {
   MainBottomBanner,
   MainYourBrandImg,
@@ -278,6 +292,11 @@ export {
   DrawerClose,
   UplodIcon,
   RemoveIcon,
+  EventDetailsIcon,
+  MikeIcon,
+  NewRegistration,
+  ExistingUsers,
+  SoldTickets,
   CustomStep1,
   CustomStep2,
   CustomStep3,
@@ -286,5 +305,13 @@ export {
   CustomStepInactive3,
   CustomStepInactive2,
   EnterPriseFeeIcon,
-  BlueTickIcon
+  BlueTickIcon,
+  Clocks,
+  ReviewMap,
+  ReviewCalender,
+  EventReview,
+  AbstractSelectedGray,
+  AbstractSelectedGreen,
+  AbstractNonSelectedGray,
+  AbstractNonSelectedGreen
 };

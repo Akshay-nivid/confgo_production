@@ -336,8 +336,8 @@ const Events = () => {
     const event = data?.event;
     // const EventStart = event?.startTime
     // const EventEnd = event?.endTime
-    const EventStart = `${event?.startTime}T00:00` //for testing repeated addon purpose
-    const EventEnd = `${event?.endTime}T23:59` //for testing repeated addon purpos
+    const EventStart = event?.startTime
+    const EventEnd = event?.endTime
     const EventStartTime= formatUTCDateTime(EventStart)
     const EventEndTime= formatUTCDateTime(EventEnd)
 
@@ -603,8 +603,8 @@ const Events = () => {
             name: data.name || "",
             phone: data.eventContacts?.[0]?.phone || "",
             email: data.eventContacts?.[0]?.email || "",
-            startTime: formatDate(data.startTime),
-            endTime: formatDate(data.endTime),
+            startTime: data.startTime,
+            endTime: data.endTime,
             amount:data.amount && data.amount !== "0.00" ? data.amount : "",
             specialtyId: data.specialtyId || null,
             url: data.url || null,

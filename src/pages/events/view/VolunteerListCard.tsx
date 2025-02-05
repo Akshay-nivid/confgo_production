@@ -12,8 +12,6 @@ import { Logger } from "@/Utils/Logger";
 import { useParams } from "react-router-dom";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import AssignedVolunteers from "./AssignedVolunteers";
-import { IconButton } from "@mui/material";
-import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
 import { NoCouponDataSvg } from "@/assets/svg";
 
 
@@ -158,37 +156,25 @@ const VolunteerListCard = () => {
       headerName: "Status",
       width: 150,
     },
-    {
-      type:"default",
-      field:"Action",
-      headerName: "Action",
-      width:100,
-      renderCell: (params: any) => (
-        <IconButton
-          onClick={() => handleDelete(params.row.id)}
-        >
-          <DeleteIcon />
-        </IconButton>
-      ),
-    }
+    // {
+    //   type:"default",
+    //   field:"Action",
+    //   headerName: "Action",
+    //   width:100,
+    //   renderCell: (params: any) => (
+    //     <IconButton
+    //       onClick={() => handleDelete(params.row.id)}
+    //     >
+    //       <DeleteIcon />
+    //     </IconButton>
+    //   ),
+    // }
   ];
 
   const onClose = () => {
     closeOrganisationDrawer();
   }
 
-  /**
-   * For deleting the assigned volunteer from the list
-   */
-  const handleDelete = async(volunteerId: number) => {
-    try{     
-        await apiClient.delete(`user/volunteerEvent/${volunteerId}`)
-        volunteerList();
-
-    } catch (error) {
-        Logger.error(error,"AssignedVolunteers.tsx");
-    }
-};
 
   return (
     <Grid container>
@@ -203,7 +189,7 @@ const VolunteerListCard = () => {
           <CustomAutocomplete
             name="search"
             className="custom-user-search-field"
-            placeholder="Search by ID, Name or Phone ..."
+            placeholder="Search by Name, Phone or email ..."
             control={control}
             options={searchResults}
             getOptionLabel={(option: any) =>
@@ -235,7 +221,7 @@ const VolunteerListCard = () => {
           columns={columns}
           id="volunteer-lists"
           noRecordIcon={<NoCouponDataSvg className="no-coupon-icon"/>}
-          noRecordSubtitle="cIt looks like you haven't created any volunteer yet."
+          noRecordSubtitle="It looks like you haven't created any volunteer yet."
         />
       </Grid>
 

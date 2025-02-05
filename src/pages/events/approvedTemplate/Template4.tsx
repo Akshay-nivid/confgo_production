@@ -444,11 +444,11 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                 <Grid size={{ xs: 12, sm: 12 }} container direction={'column'} className={`${classPrefix}-event-contributors-item-container-speaker-card `}>
                                     <Grid overflow={'hidden'} className={`${classPrefix}-event-contributors-item-container-images`}>
                                         {item?.user?.assetId ? (<img
-                                            // className='w-full aspect-square max-h-[16.7rem]'
+                                           className="max-h-[16.7rem]"
                                             src={`${baseUrl}asset/${item?.user?.assetId}`}
                                             alt={item.name}
                                         />) : (
-                                            <img alt={item.name} src={personPlaceholder} className={`  aspect-square max-h-[18.2rem]`} />
+                                            <img alt={item.name} src={personPlaceholder} className={`max-h-[16.2rem]`} />
                                         )}
 
                                     </Grid>

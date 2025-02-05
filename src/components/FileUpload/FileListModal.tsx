@@ -43,6 +43,8 @@ const fetchFilesFromAPI = async (companyId: Number | string | null, searchQuery:
       companyId,
       name: searchQuery,
     },
+    sortBy: 'createdOn',
+    sortDirection: 'DESC',
     limit: 16,
   };
   return apiClient.post("/asset/list", req);

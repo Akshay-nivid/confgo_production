@@ -23,7 +23,6 @@ import GoogleMapPlacePicker from "../GoogleMapPlacePicker";
 import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
 import { WarningIcon } from "@/assets/svg";
-import Tooltip from '@mui/material/Tooltip';
 
 import confgo  from "../../../../config.json"
 
@@ -360,11 +359,9 @@ const EventInfoCard: React.FC<any> = React.memo(
           </Typography>
         </Grid>
         <Grid size={{ xs: 9 }}>
-          <Tooltip classes={{ tooltip: 'custom-tooltip'}} title={eventData?.name || 'No name available'} placement="top">
           <Typography className="event-information-content">
           {eventData?.name}
          </Typography>
-         </Tooltip>
         </Grid>
 
         <Grid size={{ xs: 3 }}>

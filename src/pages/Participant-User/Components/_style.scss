@@ -1,10 +1,50 @@
 .event-card {
-    border: solid 0.1rem $clr_light_sky_blue;
-    border-radius: 0.5rem;
+    border: solid 0.042rem $clr_light_sky_blue;
+    border-radius: 0.833rem;
     padding: 1rem;
     height: auto !important;
     cursor: pointer;
 
+    .logo-box{
+        background-color: $background;
+        border-radius: 1.667rem;
+        width: 5rem;
+        height: 5rem;
+    }
+    .vertical-divider {
+        width: 1px;
+        background-color: $clr_black;
+        height: 1.667rem; 
+        margin-inline: 0.2rem;
+        }
+    .horizontal-dotted-divider{
+        border-top: 2px dashed $clr_light_quill_grey;
+        width: 100%;             
+        margin: 5px 0;              
+    }
+    &-info{
+        .left-container{
+           padding-inline: 0.542rem;
+           padding-block: 0.458rem;
+           background-color: $background;
+           border-radius: 0.833rem;
+        }
+        .title{
+            font-weight: $font-bold !important;
+            color: $clr_forset_green !important;
+            font-size: $p3 !important;
+        }
+        .title-value{
+            font-weight: $font-semibold !important;
+            font-size: $p2 !important;
+        }
+        .right-container{
+            padding-inline: 0.542rem;
+            padding-block: 0.458rem;
+            background-color: $background;
+            border-radius: 0.833rem;
+        }
+    }
     &-date-box {
         font-weight: $font_semibold;
         margin-top: 0.4rem;
@@ -437,4 +477,20 @@
 
 .badge-text {
     font-weight: $font_medium !important;
+}
+
+.eventClassType{
+    .text{
+        font-weight: $font-bold ;
+        font-size: $p3;
+    }
+    .offline{
+        color: $clr_blue;
+    }
+    .online{
+        color: $clr_crismon_red;
+    }
+    .hybrid{
+        color:$clr_vivid_orange;
+    }
 }
