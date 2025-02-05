@@ -2548,3 +2548,41 @@
     gap: 0.5rem;
     margin-bottom: 1.5rem;
   }
+
+  .event-location-input {
+  .react-select__control {
+    border: none;
+    border-bottom: 1px solid #ccc;
+    box-shadow: none;
+    border-radius: 0;
+    font-size: $h6;
+    color: #aaa;
+
+    &:hover {
+      border-bottom: 1px solid #aaa;
+    }
+  }
+
+  .react-select__menu {
+    border: none;
+    box-shadow: none;
+    font-size: $h6;
+    color: #333;
+    background-color: white;
+  }
+
+  .react-select__option {
+    padding: $p3 $p4;
+    font-size: $p2;
+    color: $clr_dark_brown;
+    background-color: $clr_white;
+
+    &--is-focused {
+      background-color: $clr_white;
+    }
+  }
+
+  .react-select__dropdown-indicator {
+    display: none; // Hide dropdown icon
+  }
+}

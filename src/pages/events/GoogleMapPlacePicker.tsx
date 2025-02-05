@@ -113,36 +113,7 @@ const GoogleMapPlacePicker = ({ onClose, createEvent = false }: GooglePlacePicke
             onChange: handlePlaceSelect,
             placeholder: "Enter location or link",
             isClearable: true,
-            styles: {
-              control: (provided) => ({
-                ...provided,
-                border: "none",
-                borderBottom: "1px solid #ccc",
-                boxShadow: "none",
-                borderRadius: "0",
-                fontSize: "16px",
-                color: "#aaa",
-                "&:hover": {
-                  borderBottom: "1px solid #aaa",
-                },
-              }),
-              menu: (provided) => ({
-                ...provided,
-                border: "none",
-                boxShadow: "none",
-                fontSize: "16px",
-                color: "#333",
-                backgroundColor: "white",
-              }),
-              option: (provided, state) => ({
-                ...provided,
-                padding: "8px 12px",
-                fontSize: "14px",
-                color: "#333",
-                backgroundColor: state.isFocused ? "#f5f5f5" : "white",
-              }),
-              dropdownIndicator: () => ({ display: "none" }), // Hide dropdown icon
-            },
+            classNamePrefix:"react-select"
           }}
         />
       </Grid>

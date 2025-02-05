@@ -21,6 +21,11 @@ interface CustomDateTimePickerProps {
   infoContent?: string; // Tooltip content
 }
 
+/**
+ * Component for selecting  date and time
+ * @param param0 
+ * @returns 
+ */
 const CustomDateTimePicker: React.FC<CustomDateTimePickerProps> = ({
   control,
   name,
@@ -41,7 +46,7 @@ const CustomDateTimePicker: React.FC<CustomDateTimePickerProps> = ({
       setValue(parsedValue.isValid() ? parsedValue : null);
     }
   }, [defaultValue]);
-
+  //Function used to handle the changes
   const handleChange = (newValue: Moment | null) => {
     setValue(newValue);
     if (onChange) {

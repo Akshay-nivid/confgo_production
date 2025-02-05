@@ -68,11 +68,12 @@ type FormData = {
   abstractDate:Date;
 };
 
-// interface CustomFile {  
-//   id: string;
-//   name: string;
-//   sourcePath: string;
-// }
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+interface CustomFile {  
+  id: string;
+  name: string;
+  sourcePath: string;
+}
 
 const typeArray = [
   { label: "Offline", value: "OFFLINE", icon:<PublicOffOutlinedIcon/> },
