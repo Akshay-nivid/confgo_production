@@ -16,7 +16,7 @@ import {
     control: Control<T>;
     name: Path<T>;
     label?: string;
-    options: { label: string; value: string | number; icon?: JSX.Element; }[];
+    options: { label: string; value: string | number | boolean | any; icon?: any; }[];
     labelPlacement?: "end" | "start" | "top" | "bottom";
     required?: boolean;
     disabled?: boolean;
@@ -41,8 +41,8 @@ import {
     onChange,
     ...props
   }: ICustomRadio<T>) => {
-    return (
-      <FormControl className="" component="fieldset">
+    return ( 
+      <FormControl fullWidth className="" component="fieldset">
         {label && <FormLabel component="legend">{label}</FormLabel>}
         <Controller
           control={control}

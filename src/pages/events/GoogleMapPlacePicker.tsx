@@ -10,6 +10,8 @@ import { Logger } from "@/Utils/Logger";
 
 interface GooglePlacePickerProps {
   onClose: () => void;
+  createEvent?: boolean; // Add createEvent prop
+
 }
 
 type AddressComponent = {
@@ -18,7 +20,7 @@ type AddressComponent = {
   types: string[];
 }
 
-const GoogleMapPlacePicker = ({ onClose }: GooglePlacePickerProps) => {
+const GoogleMapPlacePicker = ({ onClose, createEvent = false }: GooglePlacePickerProps) => {
   const { setValue } = useFormContext();
   const [selectedPlace, setSelectedPlace] = useState<any>();
   const [latLng, setLatLng] = useState<any>();
@@ -98,7 +100,62 @@ const GoogleMapPlacePicker = ({ onClose }: GooglePlacePickerProps) => {
             Logger.error('GoogleMapPlacePicker.tsx');
         }
     };
+
+
   return (
+    <>
+    {createEvent ? (
+      <Grid container className="event-location-container" spacing={10}>
+      <Grid  size={{xs:10}} className="event-location-input">
+        <ReactGooglePlacesAutocomplete
+          selectProps={{
+            value: selectedPlace,
+            onChange: handlePlaceSelect,
+            placeholder: "Enter location or link",
+            isClearable: true,
+            styles: {
+              control: (provided) => ({
+                ...provided,
+                border: "none",
+                borderBottom: "1px solid #ccc",
+                boxShadow: "none",
+                borderRadius: "0",
+                fontSize: "16px",
+                color: "#aaa",
+                "&:hover": {
+                  borderBottom: "1px solid #aaa",
+                },
+              }),
+              menu: (provided) => ({
+                ...provided,
+                border: "none",
+                boxShadow: "none",
+                fontSize: "16px",
+                color: "#333",
+                backgroundColor: "white",
+              }),
+              option: (provided, state) => ({
+                ...provided,
+                padding: "8px 12px",
+                fontSize: "14px",
+                color: "#333",
+                backgroundColor: state.isFocused ? "#f5f5f5" : "white",
+              }),
+              dropdownIndicator: () => ({ display: "none" }), // Hide dropdown icon
+            },
+          }}
+        />
+      </Grid>
+      <Grid  size={{xs:2}} container justifyContent="flex-end">
+      <CustomButton
+        className="create-event-map-list-button"
+        label="Submit"
+        type="submit"
+        onClick={handlePlaceSubmit}
+      />
+      </Grid>
+    </Grid>
+  ) : (
     <Grid container className="create-event-map-drawer" spacing={2}>
       <Grid container size={12} justifyContent={"space-between"}>
       <Typography
@@ -139,6 +196,9 @@ const GoogleMapPlacePicker = ({ onClose }: GooglePlacePickerProps) => {
       />
       </Grid>
     </Grid>
+        )}
+            </>
+
   );
 };
 

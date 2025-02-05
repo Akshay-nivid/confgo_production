@@ -7,12 +7,7 @@ import moment, { Moment } from "moment"; // Use moment
 import {
   FormControl,
   InputLabel,
-  FormHelperText,
-  Tooltip,
-  InputAdornment,
-  IconButton,
 } from "@mui/material";
-import InfoIcon from "@mui/icons-material/Info";
 
 interface CustomDateTimePickerProps {
   control: Control<any>;
@@ -33,9 +28,8 @@ const CustomDateTimePicker: React.FC<CustomDateTimePickerProps> = ({
   placeholder,
   rules,
   defaultValue,
-  format = "YYYY-MM-DD HH:mm", // Ensure format is "YYYY-MM-DD HH:mm"
+  format = "YYYY-MM-DD HH:mm",
   onChange,
-  infoContent,
 }) => {
   const [value, setValue] = useState<Moment | null>(
     defaultValue ? moment(defaultValue) : null
@@ -74,29 +68,16 @@ const CustomDateTimePicker: React.FC<CustomDateTimePickerProps> = ({
                   handleChange(newValue);
                   field.onChange(newValue?.toISOString() || null);
                 }}
-                renderInput={(params) => (
-                  <div style={{ position: "relative" }}>
-                    <params.TextField
-                      {...params.inputProps}
-                      error={!!error?.message}
-                      placeholder={placeholder}
-                      fullWidth
-                    />
-                    {infoContent && (
-                      <InputAdornment position="end">
-                        <Tooltip title={infoContent}>
-                          <IconButton edge="end">
-                            <InfoIcon />
-                          </IconButton>
-                        </Tooltip>
-                      </InputAdornment>
-                    )}
-                  </div>
-                )}
+                slotProps={{
+                  textField: {
+                    error: !!error?.message,
+                    placeholder: placeholder,
+                    fullWidth: true,
+                    helperText: error?.message || "",
+                  },
+                }}
               />
-              {error?.message && (
-                <FormHelperText error>{error.message}</FormHelperText>
-              )}
+              
             </>
           )}
         />

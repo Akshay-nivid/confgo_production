@@ -2,25 +2,22 @@
  * CreateEvent handles the event creation first screen
  */
 import { setFormValues } from "@/Utils/CommonBaseClass";
-import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import FileListModal from "@/components/FileUpload/FileListModal";
-import { Box, IconButton, Tooltip, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import moment from "moment";
 import React, { useCallback, useEffect,useState } from "react";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import config from "../../../config.json";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import { validateEmail } from "@/Utils/Validation";
 import { validateMaxLength } from '@/Utils/Validation';
 import GoogleMapPlacePicker from "./GoogleMapPlacePicker";
 import useStore, { setDataById } from "@/Libs/store";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
-import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
 import confgo  from "../../../config.json"
 import PublicOffOutlinedIcon from '@mui/icons-material/PublicOffOutlined';
 import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
@@ -29,9 +26,10 @@ import UploadLogo from '../../assets/svg/uploadLogo.svg'
 import { Close } from "@mui/icons-material";
 import UploadedIcon from '../../assets/svg/CreateEventimageIcon.svg'; // Replace with your actual UploadedIcon
 import CustomDateTimePicker from "@/components/CustomDateTimePicker/CustomDateTimePicker";
-import CustomPhone from "@/components/CustomPhone/CustomPhone";
-
-
+import { AbstractSelectedGray} from "@/assets/svg";
+import { AbstractSelectedGreen } from "@/assets/svg";
+import { AbstractNonSelectedGray } from "@/assets/svg";
+import { AbstractNonSelectedGreen } from "@/assets/svg";
 type EventProps = {
   formSubmit: boolean;
   formDraftSubmit: boolean;
@@ -70,11 +68,11 @@ type FormData = {
   abstractDate:Date;
 };
 
-interface CustomFile {
-  id: string;
-  name: string;
-  sourcePath: string;
-}
+// interface CustomFile {  
+//   id: string;
+//   name: string;
+//   sourcePath: string;
+// }
 
 const typeArray = [
   { label: "Offline", value: "OFFLINE", icon:<PublicOffOutlinedIcon/> },
@@ -83,8 +81,8 @@ const typeArray = [
 ];
 
 const AbstractArray =[
-  {label:"Allow Uplaod Abstartct", value:true},
-  {label:"Don't Allow Uplaod Abstartct", value:false}
+  {label:"Allow Uplaod Abstartct", value:true, ic:<AbstractSelectedGray/>, selectedIcon:<AbstractSelectedGreen/>},
+  {label:"Don't Allow Uplaod Abstartct", value:false, ic:<AbstractNonSelectedGray/>, selectedIcon:<AbstractNonSelectedGreen/>}
 ]
 interface Specialty{
   value:number,
@@ -110,15 +108,12 @@ const CreateEvent: React.FC<EventProps> =
   const [selectedFile, setSelectedFile] = useState<any>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const companyId = sessionStorage.getItem('companyId');
-  const baseUrl = config.api.url;
   const [drawerOpen,setDrawerOpen]=useState(false);
   const [isInitialRender, setIsInitialRender] = useState(true);
   const POST = useStore((state: any) => state.POST);
   const [specialty,setspecialty]=useState<Specialty[]>([]);
   const currency=confgo.currency;
   const [isPlacePickerOpen, setPlacePickerOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState("OFFLINE");
-
 
     // Watch values from the form
     const fields: ('mapUrl' | 'postalCode' | 'venueName' | 'city' | 'address')[] = ['mapUrl', 'postalCode', 'venueName', 'city','address'];
@@ -226,7 +221,7 @@ const CreateEvent: React.FC<EventProps> =
 
 
       if(selectedFile){
-        setValue('assetId',selectedFile[0]?.id) 
+        setValue('assetId',selectedFile?.id) 
       }
       if (startTime > endTime) {
         setError(`startTime`, {
@@ -355,10 +350,7 @@ const CreateEvent: React.FC<EventProps> =
       setPlacePickerOpen(false);
     };
 
-    const handleChangeType = (event) => {
-      setSelectedValue(event.target.value);
-    };
-    
+    const isAbstract:any = watch('isAbstract');
     return (
       <Box className="create-event-container">
         <Grid
@@ -436,13 +428,16 @@ const CreateEvent: React.FC<EventProps> =
                   <Grid size={{ xs: 12 }}   >
                     <CustomRadio
                       className="create-event-abstartct-radio-button"
-                      options={AbstractArray}
+                      options={AbstractArray.map((option) => ({
+                        ...option,
+                        icon: option.value === (isAbstract === "true" ? true : false) ? option.selectedIcon : option.ic
+                      }))}                      
                       name="isAbstract"
                       control={control}
                       row={true} // Horizontal layout
                   />
                   </Grid>}
-                  {watch('isAbstract')=='true' && watch('specialtyId')=='1'&&
+                  {String(watch("isAbstract")) =='true' && watch('specialtyId')=='1'&&
                   <Grid size={{xs:12,sm:6}}>
                     <CustomTextField
                       placeholder="Abstract Submission Date"
@@ -479,13 +474,6 @@ const CreateEvent: React.FC<EventProps> =
                       modules={modules}
                       id="react-quill-description"
                     />
-                    {/* <CustomTextField
-                      control={control}
-                      name="description"
-                      type="hidden"
-                      rules={{ required: true }}
-                    />
-                    /> */}
                   </Grid>
 
                   <Grid size={{xs:12}}>
@@ -507,7 +495,6 @@ const CreateEvent: React.FC<EventProps> =
       row={true} // Horizontal layout
       labelPlacement="start"
       value={"OFFLINE"}
-      onChange={handleChangeType} // Update state when selection changes
     />
   </Box>
 </Grid>
@@ -557,7 +544,7 @@ const CreateEvent: React.FC<EventProps> =
                       placeholder="Start Date"
                       control={control}
                       name="startTime"
-                      defaultValue={moment().format("YYYY-MM-DD hh:mm:a")}
+                      defaultValue={watch('startTime')? moment(watch('startTime')).format("YYYY-MM-DD hh:mm:a") : moment().format("YYYY-MM-DD hh:mm:a")}
                       
                       rules={{
                         required:true,
@@ -573,7 +560,7 @@ const CreateEvent: React.FC<EventProps> =
                       placeholder="End Date"
                       control={control}
                       name="endTime"
-                      defaultValue={moment().format("YYYY-MM-DD hh:mm:a")}
+                      defaultValue={watch('endTime')? moment(watch('endTime')).format("YYYY-MM-DD hh:mm:a") : moment().format("YYYY-MM-DD hh:mm:a")}
                       rules={{
                         required:true,
                         pattern: {
@@ -593,6 +580,7 @@ const CreateEvent: React.FC<EventProps> =
                   </Grid>
                   <Grid size={{ xs: 12, sm: 12 }}>
                     <CustomTextField
+                      prefix={currency}
                       placeholder="Price"
                       control={control}
                       name="amount"

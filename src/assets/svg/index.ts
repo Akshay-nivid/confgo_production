@@ -147,6 +147,10 @@ import MainEffortlesPlaningImg from './main-effortless-plaing.svg'
 import MainSeamlessTrackingImg from './main-seamless-tracking.svg'
 import MainYourBrandImg from './main-your-brand.svg'
 import MainBottomBanner from "./main-bottom-banner.svg"
+import AbstractSelectedGray from "./abstractselectedgrayicon.svg"
+import AbstractSelectedGreen from "./abstractselectedgreenicon.svg"
+import AbstractNonSelectedGray from "./abstractnonselectedgrayicon.svg"
+import AbstractNonSelectedGreen from "./abstractnonselectedgreenicon.svg"
 export {
   MainBottomBanner,
   MainYourBrandImg,
@@ -296,5 +300,9 @@ export {
   CustomStepInactive3,
   CustomStepInactive2,
   EnterPriseFeeIcon,
-  BlueTickIcon
+  BlueTickIcon,
+  AbstractSelectedGray,
+  AbstractSelectedGreen,
+  AbstractNonSelectedGray,
+  AbstractNonSelectedGreen
 };
