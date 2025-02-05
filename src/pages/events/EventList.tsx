@@ -184,7 +184,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view,dashV
     */
    const transformData = (data: any) => {
      if (!data) return [];
-     return data.map((item: any) => ({
+     return data?.map((item: any) => ({
        id: item?.id,
        name: item?.name,
        eventClass: item?.eventClass,
@@ -204,7 +204,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view,dashV
        const ReverseTransformData = (data: any) => {
         if (!data) return [];
         const reverseData = dashView ? [...data].reverse() : data;
-        return reverseData.map((item: any) => ({
+        return reverseData?.map((item: any) => ({
           id: item?.id,
           name: item?.name,
           eventClass: item?.eventClass,
