@@ -4,7 +4,7 @@ import { Logger } from "@/Utils/Logger";
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect } from "react";
-import confgo from "../../../config.json"
+import confgo from "../../../config.json";
 
 /**
  * EventFeedBack component displays feedback information for an event,
@@ -20,15 +20,17 @@ const EventFeedBack = () => {
      
     const counts = useStore((state: any) => state?.compData?.countByEventData?.["dashboard/countByEvent"]?.data) || {};
 
+ 
     /**
      *   Function to fetch the event feedback data (like total registrations, users, etc.)
      * */
     const details = async () => {
+        if (eventId == null) return;
         try {
             POST({
                 url: `dashboard/countByEvent`,
                 body: {
-                    eventId: eventId
+                    eventId:Number(eventId) 
                 },
                 id: 'countByEventData',
                 successCB: (_data: any) => {
@@ -91,11 +93,10 @@ const EventFeedBack = () => {
                     <Grid className="eventFeedBack-box-container-usersCount"  size={12} >
 
                         <Typography className="content-count">
-                        {index === 2 ? `${currency}${item?.count}` : item?.count}
-
+                            {index === 2 ? `${currency || ""}${item?.count ?? 0}` : item?.count ?? 0}
                         </Typography>
 
-                    </Grid >
+                    </Grid>
 
                     <Grid className="eventFeedBack-box-container-title">
 
