@@ -427,7 +427,7 @@ const CreateEvent: React.FC<EventProps> =
                     control={control}
                     label="Category"
                     options={specialty}
-                    defaultValue={data?.speciality?.name}
+                    defaultValue={specialtyName ? specialtyName : data?.speciality?.name}
                     onChange={() => setValue('isAbstract',false)}
                     />
                   </Grid>
@@ -663,7 +663,7 @@ const CreateEvent: React.FC<EventProps> =
         <FileListModal
           open={modalOpen}
           handleClose={() => setModalOpen(false)}
-          onSelectFile={(files) => {
+          onSelectFile={(files: CustomFile[]) => {
             if (files && files.length > 0) {
               setSelectedFile(files[0]);
             }
