@@ -75,7 +75,12 @@ const VolunteerListCard = () => {
         name: `${item?.user?.firstName} ${item?.user?.lastName}`,
         email: item?.user?.email,
         phone: item?.user?.phone,
-        status: item?.statusId
+        status: item?.statusId,
+        delete:  <IconButton
+        onClick={() => handleDelete(item?.id)}
+        >
+        <DeleteIcon />
+      </IconButton>
       };
     });
   };
@@ -158,19 +163,12 @@ const VolunteerListCard = () => {
       headerName: "Status",
       width: 150,
     },
-    // {
-    //   type:"default",
-    //   field:"Action",
-    //   headerName: "Action",
-    //   width:100,
-    //   renderCell: (params: any) => (
-    //     <IconButton
-    //       onClick={() => handleDelete(params.row.id)}
-    //     >
-    //       <DeleteIcon />
-    //     </IconButton>
-    //   ),
-    // }
+    {
+      type:"custom",
+      field:"delete",
+      headerName: "Action",
+      width:100,
+    }
   ];
 
   const onClose = () => {
