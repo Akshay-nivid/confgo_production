@@ -213,4 +213,41 @@
         font-size: $h5 !important;
         font-weight: $font_semibold !important;
     }
+
+.payment-configuration{
+    &-container {
+        padding: 1rem 1rem 1rem 2rem;
+    }
+    &-title{
+        font-size: $h5 !important;
+        font-weight: $font_semibold !important;
+    }
+    &-sub-title{
+        font-size: $p5 !important;
+        font-weight: $font_semibold !important;
+        &-grid {
+            border-top: $border_normal solid $clr_gray_light;
+            border-bottom: $border_normal solid $clr_gray_light;
+            padding: 1rem 0 1rem 0;
+        }
+    }
+    &-text {
+        font-size: $p2 !important;
+        font-weight: $font_normal !important;
+        color: $clr_grey !important;
+    }
+    &-button {
+        &-save {
+            font-size: $p2 !important;
+            font-weight: $font_semibold !important;
+            text-transform: none !important;
+            background-color: $clr_green !important;
+        }
+    }
+    &-add-tax-type{
+        .Mui-checked {
+            color: $clr_green !important;
+        }
+    }
+}
    
