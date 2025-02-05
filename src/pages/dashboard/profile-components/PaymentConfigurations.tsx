@@ -1,16 +1,12 @@
 /**
  * Payment configurations component handles the currency and  tax settings
  */
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import "./mainProfile.scss";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import { useNavigate } from "react-router-dom";
-import routes from "@/router/routes";
 import useStore, { setDataById } from "@/Libs/store";
-import { Logger } from "@/Utils/Logger";
-import { purposeTypes } from "@/Utils/CommonBaseClass";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { useForm } from "react-hook-form";
@@ -28,56 +24,87 @@ const typeArray: any = [
     { label: 'Tax Exclusive', value: 'false' }
 ]
 
-const PaymentConfigurations: React.FC<SecurityProps> = React.memo(({ passEmail }) => {
+const PaymentConfigurations: React.FC<SecurityProps> = React.memo(({ }) => {
     const POST = useStore((state: any) => state.POST);
+    const PUT = useStore((state: any) => state.PUT);
     const methods = useForm<any>()
     const {
         handleSubmit,
         control,
         setValue,
-        watch,
-        setError,
-        clearErrors,
-        formState: { errors },
+        resetField,
+        formState: { },
     } = methods;
-
-    const navigate = useNavigate();
-    const detail = useStore((state: any) => state?.compData?.["company-user"]);
-    const email = detail?.email ? detail.email : passEmail;
-    const [isLoading, setIsLoading] = useState(false);
+    const taxData = useStore((state: any) => state?.compData?.["tax-list"]?.['tax/list'] ?? "");
+    useEffect(() => {
+        getTaxList();
+    }, [])
+    /**
+     * get the existing tax details
+     */
+    const getTaxList = () => {
+        const companyId: any = sessionStorage.getItem('adminCompanyId')
+        const request = {
+            filters: {
+                "companyId": companyId?.companyId
+            }
+        }
+        POST({
+            id: 'tax-list',
+            url: 'tax/list',
+            body: request,
+            successCB: (_context: any) => {
+                setValue('taxName', _context?.data[0]?.taxName);
+                setValue('taxPercentage', _context?.data[0]?.taxPercentage);
+            }
+        })
+    }
     /**
      *  Initiates the password reset process by sending the user's email to the forgotPassword
      * @param email
      */
     const handleFormSubmit = async (data: any) => {
         console.log('testdata', data)
-        //return;
-        const body = { 
-            ...data, 
-            taxInclusive: data.taxInclusive === 'true' 
-          };
+        const body = {
+            ...data,
+            taxInclusive: data.taxInclusive === 'true'
+        };
         const successCB = (_context: any) => {
+            resetField('taxName');
+            resetField('taxPercentage');
             setDataById("snackBarInfo", {
                 open: true,
                 autoHideDuration: 2000,
                 severity: "success",
                 message: "Payment Configurations Updated Successfully",
-              });
+            });
+            getTaxList();
         };
-
-        POST({
-            url: 'tax', body: body,
-            id: 'payment-configuration-update',
-            successCB: successCB,
-            errorCB: (error: any) => {
+        const errorCB = (error: any) => {
             setDataById("snackBarInfo", {
                 open: true,
                 autoHideDuration: 2000,
                 severity: "error",
                 message: error.message,
             })
-            }
-        })
+        }
+        if (taxData?.data && taxData?.data[0]?.id) {
+            PUT({
+                id: 'payment-configuration-update',
+                url: `tax/${taxData?.data[0]?.id}`,
+                body: body,
+                successCB: successCB,
+                errorCB: errorCB
+
+            })
+        } else {
+            POST({
+                url: 'tax', body: body,
+                id: 'payment-configuration-create',
+                successCB: successCB,
+                errorCB: errorCB
+            })
+        }
     };
 
     return (
@@ -108,6 +135,7 @@ const PaymentConfigurations: React.FC<SecurityProps> = React.memo(({ passEmail }
                             rules={{
                                 required: true
                             }}
+                            shrink
                         />
                     </Grid>
                     <Grid size={{ xs: 12, sm: 12 }}>
@@ -120,6 +148,7 @@ const PaymentConfigurations: React.FC<SecurityProps> = React.memo(({ passEmail }
                             rules={{
                                 required: true
                             }}
+                            shrink
                         />
                     </Grid>
                     <Grid size={{ xs: 12, sm: 12 }}>
@@ -130,7 +159,7 @@ const PaymentConfigurations: React.FC<SecurityProps> = React.memo(({ passEmail }
                             label=""
                             options={typeArray}
                             row={true}
-                            value={"true"}
+                            value={taxData?.data && taxData?.data[0]?.taxInclusive}
                         />
                     </Grid>
 
