@@ -147,6 +147,7 @@ import MainEffortlesPlaningImg from './main-effortless-plaing.svg'
 import MainSeamlessTrackingImg from './main-seamless-tracking.svg'
 import MainYourBrandImg from './main-your-brand.svg'
 import MainBottomBanner from "./main-bottom-banner.svg"
+import Clocks from "./clock-LineIcon.svg"
 export {
   MainBottomBanner,
   MainYourBrandImg,
@@ -296,5 +297,6 @@ export {
   CustomStepInactive3,
   CustomStepInactive2,
   EnterPriseFeeIcon,
-  BlueTickIcon
+  BlueTickIcon,
+  Clocks
 };
