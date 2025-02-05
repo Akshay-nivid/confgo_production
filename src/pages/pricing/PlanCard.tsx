@@ -6,6 +6,7 @@ import { toCamelCase } from '@/Utils/CommonBaseClass';
 import Grid from "@mui/material/Grid2";
 import { ArrowIconSvg, BasicPlainIcon, BlueTickIcon, EnterPriseFeeIcon, ProPlanIcon, StandardPlanIcon } from '@/assets/svg';
 import CustomButton from '@/components/CustomButton/CustomButton';
+import HTMLReactParser from 'html-react-parser/lib/index';
 
 /**
  * Plan Card component
@@ -59,11 +60,13 @@ export const PlanCard: React.FC<PlanCardProps> = ({ data }) => {
             <Typography className="plancard__title">
               {toCamelCase(data?.name)}
             </Typography>
-           
+            <Typography className="plancard__subtitle ">
+              {toCamelCase(data?.organizationType)}
+            </Typography>
           </Grid>
         </Box>
         <Grid container alignItems={'center'} alignSelf={'center'} className="plancard__price_conatiner">
-          {data?.name!="ENTERPRISE_PLAN"?<span className="price"> ${data.amount*10} </span>:<span className="enterprise_des">For those who need a scalable custom solution.</span>  } 
+          {data?.name!="ENTERPRISE_PLAN"?<span className="price"> ${parseInt(data.amount)}</span>:<span className="enterprise_des">For those who need a scalable custom solution.</span>  } 
         </Grid>
         {/* <Box className="plancard__features">
           {Array.from({ length: 5 }).map((_, index) => (
@@ -79,8 +82,8 @@ export const PlanCard: React.FC<PlanCardProps> = ({ data }) => {
             <BlueTickIcon/>
             </Grid>
             <Grid size={11}>
-            <Typography textAlign={"center"} className="plancard__subtitle">
-              {data.eventAllotment}
+            <Typography textAlign={"start"} className="plancard__subtitle" ml={1}>
+              {HTMLReactParser(data.eventAllotment)}
             </Typography>
             </Grid>
             </Grid>

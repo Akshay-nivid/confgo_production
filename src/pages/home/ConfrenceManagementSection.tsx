@@ -64,7 +64,7 @@ const ConfrenceManagementSection = () => {
                 label="Get Started"
                 variant="outlined"
                 className="get-started-btn"
-                onClick={() => navigate(routes.loginOrg())}
+                onClick={() => navigate(routes.pricing())}
                 endIcon={<ArrowIconSvg />}
               ></CustomButton>
             </Grid>
