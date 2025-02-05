@@ -19,14 +19,15 @@ import { StatusEnum } from "@/Utils/StatusEnum";
 
 interface EventListProps {
   hideAction?: boolean;
-  view?:any
+  view?:any;
+  dashView ? :boolean;
 }
 
 /**
  * Used to render events list
  * @author Vanisree
  */
-const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => {
+const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , dashView}) => {
   const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState([]);
   let filters = { requestDate: '', eventClass: '',statusId:'' };
@@ -47,10 +48,10 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
   const eventList = useCallback(() => {
     const req = {
       offset: 0,
-      limit: 5,
+      limit:dashView?3 :5,
       sortBy: "id",
       sortDirection: "DESC",
-      filters: filters,
+      filters:dashView? {statusId:1}: filters
     };
 
     setSource({
@@ -244,7 +245,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
           title="Event"
           hideFooterPagination={hideAction ? true : false}
           columns={columns}
-          id="event-datagrid"
+          id={dashView?"dashboard-view":"event-datagrid"} 
           noRecordIcon={<NoEventIcon className="event-list-no-events-icon" />}
           noRecordSubtitle="It looks like you haven't created any events yet.Start by setting up your first conference or meeting."
           redirectTo={() => routes.createEvent()} // define the route
