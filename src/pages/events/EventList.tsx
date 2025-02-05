@@ -19,17 +19,18 @@ import { StatusEnum } from "@/Utils/StatusEnum";
 
 interface EventListProps {
   hideAction?: boolean;
-  view?:any
+  view?:any;
+  dashView? :boolean;
 }
 
 /**
  * Used to render events list
  * @author Vanisree
  */
-const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => {
+const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view,dashView}) => {
   const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState([]);
-  let filters = { requestDate: '', eventClass: '',statusId:'' };
+  // let filters = { requestDate: '', eventClass: '',statusId:'' };
   const [source, setSource] = useState<ISource | undefined>(undefined);
   const [loading, setLoading] = useState(false); // To indicate loading state for API
 
@@ -50,7 +51,9 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
       limit: 5,
       sortBy: "id",
       sortDirection: "DESC",
-      filters: filters,
+      filters: {
+        statusId:1
+      },
     };
 
     setSource({
@@ -188,8 +191,28 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
        createdOn: item?.createdOn,
        startTime:item?.startTime,
        statusId: item?.published === true && item?.statusId == 1 ? 6 : item?.statusId,
-     }));
+     }))
    };
+
+    /**
+    * Transforms and optionally reverses the raw API data to match the required format for the DataGrid component.
+    * 
+    * @param {any[]} data - The raw data from the API response.
+    * @param {boolean} dashView - If true, reverses the data order before transforming.
+    * @returns {Array} Transformed data formatted for the DataGrid component.
+    */
+       const ReverseTransformData = (data: any) => {
+        if (!data) return [];
+        const reverseData = dashView ? [...data].reverse() : data;
+        return reverseData.map((item: any) => ({
+          id: item?.id,
+          name: item?.name,
+          eventClass: item?.eventClass,
+          createdOn: item?.createdOn,
+          startTime:item?.startTime,
+          statusId: item?.published === true && item?.statusId == 1 ? 6 : item?.statusId,
+        }))
+      };
 
  
 
@@ -238,7 +261,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
       </Grid>
       <Grid size={{ xs: 12 }}>
         <DataGridList
-          dataTransformer={transformData}
+          dataTransformer={dashView? ReverseTransformData:  transformData}
           source={source}
           onRowClick={(params: any) => handleRowClick(params.id, params.row)}
           title="Event"

@@ -105,6 +105,7 @@ const Dashboard = () => {
         url: 'event/list',
         body: {
           filters: {
+            statusId:1,
             published: 1,
             startTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
           },
@@ -139,8 +140,8 @@ const Dashboard = () => {
         body: {
           filters: {
             published: 0,
-            startTime: moment(new Date()).format('YYYY-MM-DD'),
-            statusId: 1// 3 will be the future
+            startTime: moment(new Date()).add(1,'day').format('YYYY-MM-DD'),
+            statusId: 1
           },
           sortDirection: "asc",
           sortBy: "startTime",
