@@ -54,8 +54,8 @@ const PaymentConfigurations: React.FC<SecurityProps> = React.memo(({ }) => {
             url: 'tax/list',
             body: request,
             successCB: (_context: any) => {
-                setValue('taxName', _context?.data[0]?.taxName);
-                setValue('taxPercentage', _context?.data[0]?.taxPercentage);
+                setValue('taxName', _context?.data?.[0]?.taxName);
+                setValue('taxPercentage', _context?.data?.[0]?.taxPercentage);
             }
         })
     }
@@ -64,7 +64,6 @@ const PaymentConfigurations: React.FC<SecurityProps> = React.memo(({ }) => {
      * @param email
      */
     const handleFormSubmit = async (data: any) => {
-        console.log('testdata', data)
         const body = {
             ...data,
             taxInclusive: data.taxInclusive === 'true'
@@ -88,10 +87,10 @@ const PaymentConfigurations: React.FC<SecurityProps> = React.memo(({ }) => {
                 message: error.message,
             })
         }
-        if (taxData?.data && taxData?.data[0]?.id) {
+        if (taxData?.data && taxData?.data?.[0]?.id) {
             PUT({
                 id: 'payment-configuration-update',
-                url: `tax/${taxData?.data[0]?.id}`,
+                url: `tax/${taxData?.data?.[0]?.id}`,
                 body: body,
                 successCB: successCB,
                 errorCB: errorCB
@@ -159,10 +158,9 @@ const PaymentConfigurations: React.FC<SecurityProps> = React.memo(({ }) => {
                             label=""
                             options={typeArray}
                             row={true}
-                            value={taxData?.data && taxData?.data[0]?.taxInclusive}
+                            value={taxData?.data?.[0]?.id ? taxData?.data?.[0]?.taxInclusive:true}
                         />
                     </Grid>
-
                 </Grid>
                 <Grid size={{ xs: 12, sm: 12 }} container justifyContent="right" >
                     <Grid className="mb-5">
