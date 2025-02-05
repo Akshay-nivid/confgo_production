@@ -72,7 +72,7 @@ const Register = () => {
     <Grid container className="register-main-container overflow-hidden">
       <Grid  justifyContent={'start'} direction={'column'}  className="grid-left " size={{ xs: 12, md: 7 }} >
       {!isMobileScreen &&
-        (pageSwitch.data === "CREATE_ACCOUNT_PAGE" || 
+        (
          pageSwitch.data === "ADD_ORGANIZATION_PAGE" || 
          pageSwitch.data === "PLAN_PAGE") && (
           <Grid 

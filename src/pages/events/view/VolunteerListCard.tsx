@@ -158,19 +158,19 @@ const VolunteerListCard = () => {
       headerName: "Status",
       width: 150,
     },
-    {
-      type:"default",
-      field:"Action",
-      headerName: "Action",
-      width:100,
-      renderCell: (params: any) => (
-        <IconButton
-          onClick={() => handleDelete(params.row.id)}
-        >
-          <DeleteIcon />
-        </IconButton>
-      ),
-    }
+    // {
+    //   type:"default",
+    //   field:"Action",
+    //   headerName: "Action",
+    //   width:100,
+    //   renderCell: (params: any) => (
+    //     <IconButton
+    //       onClick={() => handleDelete(params.row.id)}
+    //     >
+    //       <DeleteIcon />
+    //     </IconButton>
+    //   ),
+    // }
   ];
 
   const onClose = () => {
@@ -203,7 +203,7 @@ const VolunteerListCard = () => {
           <CustomAutocomplete
             name="search"
             className="custom-user-search-field"
-            placeholder="Search by ID, Name or Phone ..."
+            placeholder="Search by Name, Phone or email ..."
             control={control}
             options={searchResults}
             getOptionLabel={(option: any) =>
@@ -235,7 +235,7 @@ const VolunteerListCard = () => {
           columns={columns}
           id="volunteer-lists"
           noRecordIcon={<NoCouponDataSvg className="no-coupon-icon"/>}
-          noRecordSubtitle="cIt looks like you haven't created any volunteer yet."
+          noRecordSubtitle="It looks like you haven't created any volunteer yet."
         />
       </Grid>
 

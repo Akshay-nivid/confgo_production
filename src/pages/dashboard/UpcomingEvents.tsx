@@ -3,7 +3,7 @@ import useStore, { POST, setNonPersistedDataById } from "@/Libs/store";
 import routes from "@/router/routes";
 import { Logger } from "@/Utils/Logger";
 import { StatusEnum } from "@/Utils/StatusEnum";
-import { Avatar, Button, Typography } from "@mui/material";
+import { Avatar, AvatarGroup, Button, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import moment from "moment";
 import { useEffect } from "react";
@@ -185,15 +185,16 @@ const UpComingEvents = (data: any) => {
                                 </Typography>
 
                             </Grid>
-                            <Grid size={9} container flexDirection={"row"} spacing={1}>
+                            <Grid size={9} container flexDirection={"row"} >
+                            <AvatarGroup max={4}>
+                                {speakerList?.map((item: any, index: any) => (
 
-                                {speakerList?.map((item: any, _index: any) => (
+                                    <Grid   flexDirection={"column"} key={index} >
 
-                                    <Grid size={2} container flexDirection={"column"} >
-
-                                        {item?.user?.assetId ? (
+                                        {item?.user?.assetId !== null ? (
                                             
                                             <Avatar
+                                                className="about-img-avatar"
                                                 src={`${baseUrl}asset/${item?.user?.assetId}`}
                                                 alt="" />
                                         ) : (
@@ -209,6 +210,8 @@ const UpComingEvents = (data: any) => {
 
 
                                 ))}
+                                </AvatarGroup>
+
                             </Grid>
 
 

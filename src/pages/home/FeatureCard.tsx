@@ -58,7 +58,7 @@ const FeatureCard = ({
             ))}
           </Grid>
         </Box>
-        <Button variant="outlined" className="feature-card__button" endIcon={<ArrowIconSvg/>} onClick={() => navigate(routes.loginOrg())}>
+        <Button variant="outlined" className="feature-card__button" endIcon={<ArrowIconSvg/>} onClick={() => navigate(routes.pricing())}>
           Get Started
         </Button>
       </Grid>

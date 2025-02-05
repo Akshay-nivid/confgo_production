@@ -4,6 +4,8 @@ import Grid from "@mui/material/Grid2";
 import FeatureCard from "./FeatureCard";
 import { ArrowIconSvg, SecureTransaction, FlexiblePaymentOptions, ScalableMember, EndlessEvent, StreamlinedRegistration, RealTimeTracking } from "@/assets/svg";
 import { useIsMobileScreen } from "@/Utils/CommonBaseClass";
+import routes from "@/router/routes";
+import { useNavigate } from "react-router-dom";
 
 
 const FeatureSection = () => {
@@ -11,6 +13,7 @@ const FeatureSection = () => {
 
 
  const isMobileScreen = useIsMobileScreen()
+ const navigate = useNavigate();
 
   /**
  * feature section ui component for home page
@@ -106,6 +109,7 @@ const features = [
               className="feature-section-main__header-button-container-feature-all-button"
               variant="outlined"
               endIcon={<ArrowIconSvg/>}
+              onClick={() => navigate(routes.pricing())}
             />
           </Box>
         </Grid>

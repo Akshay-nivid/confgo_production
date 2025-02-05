@@ -1,5 +1,5 @@
 import { useIsMobileScreen } from "@/Utils/CommonBaseClass";
-import { PlayIconSvg, MainHeroImage } from "@/assets/svg";
+import { MainHeroImage } from "@/assets/svg";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import routes from "@/router/routes";
 import { Typography } from "@mui/material";
@@ -36,14 +36,14 @@ const HeroSection = () => {
               variant="contained"
               label="Get Started"
               className="get-started-button"
-              onClick={() => navigate(routes.loginOrg())}
+              onClick={() => navigate(routes.pricing())}
             />
-            <CustomButton
+            {/* <CustomButton
               startIcon={<PlayIconSvg />}
               variant="outlined"
               label="Watch Our Videos"
               className="watch-video-button"
-            />
+            /> */}
           </Grid>
         </Grid>
         <Grid container justifyContent={'center'} alignItems={'center'} size={12} className="hero-section-image-grid">
