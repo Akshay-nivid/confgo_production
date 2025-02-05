@@ -12,8 +12,6 @@ import { Logger } from "@/Utils/Logger";
 import { useParams } from "react-router-dom";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import AssignedVolunteers from "./AssignedVolunteers";
-import { IconButton } from "@mui/material";
-import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
 import { NoCouponDataSvg } from "@/assets/svg";
 
 
@@ -177,18 +175,6 @@ const VolunteerListCard = () => {
     closeOrganisationDrawer();
   }
 
-  /**
-   * For deleting the assigned volunteer from the list
-   */
-  const handleDelete = async(volunteerId: number) => {
-    try{     
-        await apiClient.delete(`user/volunteerEvent/${volunteerId}`)
-        volunteerList();
-
-    } catch (error) {
-        Logger.error(error,"AssignedVolunteers.tsx");
-    }
-};
 
   return (
     <Grid container>

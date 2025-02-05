@@ -105,8 +105,9 @@ const Dashboard = () => {
         url: 'event/list',
         body: {
           filters: {
+            statusId:1,
             published: 1,
-            startTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+            // startTime: moment(new Date()).add(1,'days').format('YYYY-MM-DD HH:mm:ss')
           },
           sortDirection: "asc",
           sortBy: "startTime",
