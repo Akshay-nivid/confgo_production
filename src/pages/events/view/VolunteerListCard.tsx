@@ -13,12 +13,14 @@ import { useParams } from "react-router-dom";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import AssignedVolunteers from "./AssignedVolunteers";
 import { NoCouponDataSvg } from "@/assets/svg";
+import { IconButton } from "@mui/material";
+import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
 
 
 /**
  * Component to display a list of volunteers with search, assign and filter functionality.
  */
-const VolunteerListCard = () => {
+const VolunteerListCard = (data:any) => {
   const { id } = useParams();
   const [searchResults, setSearchResults] = useState([]);
   // const [filters, setFilters] = useState({ });
@@ -73,7 +75,12 @@ const VolunteerListCard = () => {
         name: `${item?.user?.firstName} ${item?.user?.lastName}`,
         email: item?.user?.email,
         phone: item?.user?.phone,
-        status: item?.statusId
+        status: item?.statusId,
+        delete:  <IconButton
+        onClick={() => handleDelete(item?.id)}
+        >
+        <DeleteIcon />
+      </IconButton>
       };
     });
   };
@@ -156,25 +163,33 @@ const VolunteerListCard = () => {
       headerName: "Status",
       width: 150,
     },
-    // {
-    //   type:"default",
-    //   field:"Action",
-    //   headerName: "Action",
-    //   width:100,
-    //   renderCell: (params: any) => (
-    //     <IconButton
-    //       onClick={() => handleDelete(params.row.id)}
-    //     >
-    //       <DeleteIcon />
-    //     </IconButton>
-    //   ),
-    // }
+    {
+      type:"custom",
+      field:"delete",
+      headerName: "Action",
+      width:100,
+    }
   ];
 
   const onClose = () => {
     closeOrganisationDrawer();
   }
 
+  /**
+  * For deleting the assigned volunteer from the list
+  */
+  const handleDelete = async (volunteerId: number) => {
+    try {
+
+      await apiClient.delete(`user/volunteerEvent/${volunteerId}`)
+
+      volunteerList();
+
+    } catch (error) {
+      
+      Logger.error(error, "AssignedVolunteers.tsx");
+    }
+  };
 
   return (
     <Grid container>
@@ -200,6 +215,8 @@ const VolunteerListCard = () => {
             onChange={handleAutocompleteChange}
           />
         </Grid>
+        
+
         <Grid container spacing={2}>
           <CustomButton
             className="custom-green-btn"
@@ -226,7 +243,7 @@ const VolunteerListCard = () => {
       </Grid>
 
       <CustomDrawer open={drawerOpen} type="right">
-        <AssignedVolunteers onClose={onClose}   volunteerList={volunteerList} 
+        <AssignedVolunteers data={data} onClose={onClose}   volunteerList={volunteerList} 
  />
       </CustomDrawer>
     </Grid>

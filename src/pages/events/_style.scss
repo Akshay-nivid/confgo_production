@@ -1969,6 +1969,14 @@
     text-align: left;
     display: block;
     font-size: $p1 !important;
+    &-create{
+         margin-top: 0.5rem !important;
+        color: $clr_blue !important;
+        width: 15.5rem !important;
+        height: 2.125rem !important;
+     
+        box-shadow: none;
+    }
 }
 
 .assigned-volunteer-button-container {
