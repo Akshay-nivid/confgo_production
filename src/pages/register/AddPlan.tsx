@@ -10,7 +10,7 @@ import useStore from "@/Libs/store";
 import PlanCard from "@/components/PlanCard";
 import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";
-import { ArrowIconSvg, BasicPlainIcon, ProPlanIcon, StandardPlanIcon } from "@/assets/svg";
+import { ArrowIconSvg, BasicPlainIcon, EnterPriseFeeIcon, ProPlanIcon, StandardPlanIcon } from "@/assets/svg";
 import { Logger } from "@/Utils/Logger";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse} from "@/Utils/CommonBaseClass";
@@ -111,9 +111,15 @@ const AddPlan = React.memo(() => {
   const planMapper: Record<string, React.ReactNode> = {
     "BASIC_PLAN": <BasicPlainIcon />,
     "STANDARD_PLAN": <StandardPlanIcon />,
-    "PRO_PLAN": <ProPlanIcon />
+    "PRO_PLAN": <ProPlanIcon />,
+    "ENTERPRISE_PLAN":<EnterPriseFeeIcon/>
   }
-
+  /**
+   * It updates the global state based on the mode and navigates to the appropriate route.
+   */
+  const handleContactUs=()=>{
+    navigate(routes.contact());
+  }
   return (
     <Grid className="signup-content-wrapper">
       <Grid className="left-inner-content">
@@ -145,7 +151,16 @@ const AddPlan = React.memo(() => {
           <Typography className="cursor-container" variant="h5">View all Pricing details?</Typography>
         </Grid>
         <Grid container mb={2} className="w-full" >
-          <CustomButton
+          {
+            currentPlan=="ENTERPRISE_PLAN"?
+            <CustomButton
+              onClick={handleContactUs}
+              fullWidth
+              className="plancard__button"
+              endIcon={<ArrowIconSvg />}
+              label='Contact Us'
+            />:
+             <CustomButton
             className={(loading || planList.length === 0) ? 'plan-disabled-choose-btn signup-plan-btn' : "plan-choose-btn signup-plan-btn"}
             endIcon={<ArrowIconSvg />}
             onClick={handleClick}
@@ -153,6 +168,7 @@ const AddPlan = React.memo(() => {
             size="large"
             disabled={loading || planList.length === 0}
           />
+          }
         </Grid>
       </Grid>
     </Grid>
