@@ -353,9 +353,9 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
             "SILVER": [],
         } as any
 
-        sponsors.forEach((sponsor: any) => {
+        sponsors?.forEach((sponsor: any) => {
 
-            groupedSponsors[sponsor?.sponsorType?.name].push(sponsor)
+            groupedSponsors[sponsor?.sponsorType?.name]?.push(sponsor)
         })
 
         return groupedSponsors

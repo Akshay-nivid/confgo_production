@@ -71,6 +71,7 @@ import SpeakersEventDetails from "./pages/Speaker/Home/SpeakersEventDetails";
 import { AccountDeletionPage } from "./pages/Delete-Account";
 import Sponsors from "./pages/Admin/Sponsors";
 import AdminPaymentList from "./pages/Admin/Payment";
+import Test from "./pages/Test";
 
 
 const userRoutes = [
@@ -198,6 +199,10 @@ const userRoutes = [
 ];
 
 const router = createBrowserRouter([
+  {
+    path: '/test',
+    element: <Test/>
+  },
   // Public routes
   {
     path: routes.deleteAccount(),
