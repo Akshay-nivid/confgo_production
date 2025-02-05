@@ -152,6 +152,10 @@ import ReviewMap from "./map-review.svg";
 import ReviewCalender from "./calendar-review.svg";
 import EventReview from "./event-review.svg";
 
+import AbstractSelectedGray from "./abstractselectedgrayicon.svg"
+import AbstractSelectedGreen from "./abstractselectedgreenicon.svg"
+import AbstractNonSelectedGray from "./abstractnonselectedgrayicon.svg"
+import AbstractNonSelectedGreen from "./abstractnonselectedgreenicon.svg"
 export {
   MainBottomBanner,
   MainYourBrandImg,
@@ -305,5 +309,9 @@ export {
   Clocks,
   ReviewMap,
   ReviewCalender,
-  EventReview
+  EventReview,
+  AbstractSelectedGray,
+  AbstractSelectedGreen,
+  AbstractNonSelectedGray,
+  AbstractNonSelectedGreen
 };

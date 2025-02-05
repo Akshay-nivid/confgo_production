@@ -10,6 +10,8 @@ import { Logger } from "@/Utils/Logger";
 
 interface GooglePlacePickerProps {
   onClose: () => void;
+  createEvent?: boolean; // Add createEvent prop
+
 }
 
 type AddressComponent = {
@@ -18,7 +20,7 @@ type AddressComponent = {
   types: string[];
 }
 
-const GoogleMapPlacePicker = ({ onClose }: GooglePlacePickerProps) => {
+const GoogleMapPlacePicker = ({ onClose, createEvent = false }: GooglePlacePickerProps) => {
   const { setValue } = useFormContext();
   const [selectedPlace, setSelectedPlace] = useState<any>();
   const [latLng, setLatLng] = useState<any>();
@@ -42,6 +44,9 @@ const GoogleMapPlacePicker = ({ onClose }: GooglePlacePickerProps) => {
                     setLatLng({ lat: lat(), lng: lng() });
                     const addressComponents = results[0].address_components;
                     setAddress(addressComponents);
+
+                    handlePlaceSubmit();
+
                 }
             });
         }
@@ -95,7 +100,33 @@ const GoogleMapPlacePicker = ({ onClose }: GooglePlacePickerProps) => {
             Logger.error('GoogleMapPlacePicker.tsx');
         }
     };
+
+
   return (
+    <>
+    {createEvent ? (
+      <Grid container className="event-location-container" spacing={10}>
+      <Grid  size={{xs:10}} className="event-location-input">
+        <ReactGooglePlacesAutocomplete
+          selectProps={{
+            value: selectedPlace,
+            onChange: handlePlaceSelect,
+            placeholder: "Enter location or link",
+            isClearable: true,
+            classNamePrefix:"react-select"
+          }}
+        />
+      </Grid>
+      <Grid  size={{xs:2}} container justifyContent="flex-end">
+      <CustomButton
+        className="create-event-map-list-button"
+        label="Submit"
+        type="submit"
+        onClick={handlePlaceSubmit}
+      />
+      </Grid>
+    </Grid>
+  ) : (
     <Grid container className="create-event-map-drawer" spacing={2}>
       <Grid container size={12} justifyContent={"space-between"}>
       <Typography
@@ -136,6 +167,9 @@ const GoogleMapPlacePicker = ({ onClose }: GooglePlacePickerProps) => {
       />
       </Grid>
     </Grid>
+        )}
+            </>
+
   );
 };
 
