@@ -24,3 +24,32 @@ li{
         }
     }
 }
+
+
+.linechart-responsive-container-wrapper{
+    &::-webkit-scrollbar {
+        width: 0.33rem !important;
+        /* Adjust width for vertical scrollbar */
+        height: 0.33rem !important;
+        /* Adjust height for horizontal scrollbar */
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #f0f0f0;
+        /* Light gray background */
+        border-radius: .83rem !important;
+        /* Round the track edges */
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: $clr_gray_faded;
+        /* Gray scrollbar */
+        border-radius: .83rem;
+        /* Round the scrollbar itself */
+    }
+
+    &::-webkit-scrollbar-thumb:hover {  
+        background: $clr_gray_faded !important;
+        /* Darker gray on hover */
+    }
+}

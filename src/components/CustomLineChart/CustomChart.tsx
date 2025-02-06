@@ -21,6 +21,7 @@ import {
 } from "recharts";
 
 import './CustomChart.scss'
+import Box from "@mui/material/Box/Box";
 
 interface CommonChartProps {
   chartData: ChartDataType[];
@@ -59,7 +60,7 @@ type ChartDotType = {
 type ChartDataType = {
   key: string | number;
   value: number;
-  name?:string | number
+  name?: string | number
 }
 
 
@@ -118,16 +119,52 @@ const CustomChart: React.FC<CommonChartProps> = ({
 
   const LinGreen = () => {
     return (
-      <ResponsiveContainer width="100%"  >
-        <LineChart data={data} {...lineChartProps}>
-          <CartesianGrid vertical={false} stroke="#96E3B0" strokeWidth={1} strokeDasharray="0"  {...CartesianProps} />
-          <XAxis tick={{ dy: 10 }} axisLine={false} dataKey={"key"} {...xAxisProps} />
-          <YAxis tick={{ dx: -10 }} axisLine={false} tickLine={false} tickCount={chartData.length < 5 ? 5 : chartData.length}  {...yAxisProps} />
-          <Tooltip contentStyle={{ backgroundColor: "#222", color: "#fff", padding: ".5rem", borderRadius: ".5rem" }} {...tooltipProps} />
-          {/* <Legend  {...legendProps} /> */}
+      <Box className="w-full h-full overflow-x-scroll linechart-responsive-container-wrapper">
+      <ResponsiveContainer  width={data.length * 25}    >
+
+        <LineChart
+          margin={{ left: -10 }}
+          data={data}
+          {...lineChartProps}
+          width={data.length * 100}
+        >
+          <CartesianGrid
+            vertical={false}
+            stroke="#96E3B0"
+            strokeWidth={1}
+            strokeDasharray="0"
+            {...CartesianProps}
+          />
+
+          <XAxis minTickGap={10}
+            tick={{ dy: 10 }}
+            axisLine={false}
+            dataKey={"key"}
+            {...xAxisProps}
+              width={data.length * 100}
+              padding={{ right: 10 }}
+              
+          />
+          <YAxis
+            tick={{ dx: -10 }}
+            axisLine={false}
+            tickLine={false}
+            tickCount={chartData.length < 5 ? 5 : chartData.length}
+            {...yAxisProps}
+          />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: "#222",
+              color: "#fff",
+              padding: ".5rem",
+              borderRadius: ".5rem"
+            }}
+            {...tooltipProps}
+          />
           <Line dataKey="value" stroke="#2EAC2B" strokeWidth={3} dot={(props) => <CustomDot {...props} key={props.key} />} />
         </LineChart>
-      </ResponsiveContainer>
+        </ResponsiveContainer>
+        </Box>
     )
   }
 
@@ -150,7 +187,7 @@ const CustomChart: React.FC<CommonChartProps> = ({
   }
 
 
- 
+
 
 
 
@@ -160,10 +197,10 @@ const CustomChart: React.FC<CommonChartProps> = ({
 
 
     return (
-     
+
       <div className="w-full max-w-lg">
         <div>
-          <div className="h-[11.66rem]">
+          <div className="h-[11.66rem] ">
             <ResponsiveContainer>
               <PieChart>
                 <Pie
@@ -188,20 +225,21 @@ const CustomChart: React.FC<CommonChartProps> = ({
           <div className="mt-8 flex flex-col gap-2">
             {data.map((entry, index) => {
               console.log(entry)
-              return(
-              <div key={entry.name} className="flex items-center gap-2">
-                <div className="h-3 w-3 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }} />
-                <div className="flex items-center justify-between w-full">
-                <span className="text-lg text-muted-foreground ">
-                  {entry.name} 
-                  </span>
-                  <span className="text-lg text-muted-foreground font-semibold">
-                   {entry.value}%
-                </span>
+              return (
+                <div key={entry.name} className="flex items-center gap-2">
+                  <div className="h-3 w-3 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }} />
+                  <div className="flex items-center justify-between w-full">
+                    <span className="text-lg text-muted-foreground ">
+                      {entry.name}
+                    </span>
+                    <span className="text-lg text-muted-foreground font-semibold">
+                      {entry.value}%
+                    </span>
+                  </div>
+
                 </div>
-                
-              </div>
-            )})}
+              )
+            })}
           </div>
         </div>
       </div>
