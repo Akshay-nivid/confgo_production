@@ -37,7 +37,7 @@ type Sponsor={
   sponsorLogoId?:string;
   bannerId?:string;
   sponsorTypeId?:string;
-  sponsorReservedSeats?:string
+  sponosorReservedSeats?:string
 }
 interface Program {
   name: string;
@@ -62,7 +62,7 @@ interface Program {
   sponsorLogoId?:string;
   sponsorbannerId?:string;
   sponosrSelection?:string;
-  sponsorReservedSeats?:string;
+  sponosorReservedSeats?:string;
   sponsorTypeId?:string;
   isModerator?:boolean;
   hallName?:{hallName:string};
@@ -360,7 +360,7 @@ const Events = () => {
       sponsorLogoId,
       sponsorbannerId,
       sponosrSelection,
-      sponsorReservedSeats,
+      sponosorReservedSeats,
       sponsorTypeId,
       sponsor,
       isModerator,
@@ -389,10 +389,10 @@ const Events = () => {
           })),
         }),
         ...(sponsor?.length !== 0 && {
-          sponsors: sponsor?.map(({ sponsorId, sponsorTypeId, sponsorReservedSeats }) => ({
+          sponsors: sponsor?.map(({ sponsorId, sponsorTypeId, sponosorReservedSeats }) => ({
             sponsorId,
             sponsorTypeId,
-            ...(sponsorReservedSeats && { reservedSeats: sponsorReservedSeats }) // Include reservedSeats only if it has a value
+            ...(sponosorReservedSeats && { reservedSeats: sponosorReservedSeats }) // Include reservedSeats only if it has a value
           }))
         }),
         ...(hallName&&{hall:hallName?.hallName})
