@@ -117,10 +117,11 @@ const EventDropDown = (data: any) => {
 
 
                 </Grid>
-                <Grid className="DropDownBox-container-createEvent" display={'flex'} size={3} height="100%">
+                <Grid className="DropDownBox-container-createEvent" display={"flex"} size={3} >
                     <CustomButton
                         className="DropDownBox-container-createEvent-btn"
                         fullWidth
+
                         label="Create Event"
                         onClick={() => navigate('/events/create')}
                     />
