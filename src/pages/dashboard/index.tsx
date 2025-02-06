@@ -216,12 +216,12 @@ const Dashboard = () => {
          />
         </Grid>
        }
-       
+        {upcomingData&&
           <Grid  className="dashboard-calendar-card" mt={1}>
 
            <PendingProgram/>
 
-          </Grid>
+          </Grid>}
 
     </Grid>
     <Grid size={{ xs: 12, sm: 12 }} container direction={'column'} p={1}>
