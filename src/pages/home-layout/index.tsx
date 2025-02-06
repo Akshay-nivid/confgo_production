@@ -6,7 +6,6 @@ import { useLocation } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { useIsMobileScreen } from '@/Utils/CommonBaseClass';
 import MobileNavbar from './MobileNavbar';
-import FaqSection from '../home/FaqSection';
 
 /**
  * home layout component

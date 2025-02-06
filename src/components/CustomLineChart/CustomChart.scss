@@ -1,0 +1,26 @@
+
+.pie-chart-responsive-container {
+ position: relative !important;
+    .recharts-wrapper {
+        position: static !important;
+
+        .recharts-surface {
+            position: static !important;
+        }
+    }
+
+    .recharts-legend-wrapper {
+       
+        width: 100%;
+        position: absolute !important;
+        bottom: 0;
+        left: 0 !important;
+        ul{
+           
+li{
+    line-height: 2rem;
+}
+
+        }
+    }
+}
