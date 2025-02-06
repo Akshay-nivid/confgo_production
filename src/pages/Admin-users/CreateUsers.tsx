@@ -16,6 +16,7 @@ import { DrawerClose, UplodIcon ,RemoveIcon} from "@/assets/svg";
 interface userProps{
     NoNavigation?:boolean
     defaultValue?:any
+    refreshUserRoles?: () => void; // Accept function as prop
 }
 interface Role {
     value: number,
@@ -38,7 +39,7 @@ interface CustomFile {
 /**
 * Component for creating new Company Users
 */
-const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue}) => {
+const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshUserRoles}) => {
     const { data: role, eventId } = useLocation().state || '';
     const [selectedFile, setSelectedFile] = useState<any>(null);
     const [modalOpen, setModalOpen] = useState(false);
@@ -163,10 +164,15 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue}) => {
 
                     NoNavigation ? null : navigate(routes.users());
                 }
+                //Call refreshUserRoles() if provided
+                if (refreshUserRoles) {
+                    refreshUserRoles();
+               }
             },
             errorCB: (context: any) => {
                 setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
             }
+
         });
     };
 

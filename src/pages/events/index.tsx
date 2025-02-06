@@ -803,7 +803,12 @@ const Events = () => {
         </Grid>
         <Grid container className="custom-stepper-button-container" size={{ xs: activeStep === 2 ? 2 : 3, sm: activeStep === 2 ? 2 : 3 }}></Grid>
       </Grid>
-      <Grid size={{ xs: 4, sm: 4 }}  className="custom-stepper-main">
+      <Grid size={{ xs: 4, sm: 4 }}  className="custom-stepper-main"  sx={{
+      position: "sticky",
+      height: "100vh",
+      overflow: "hidden",
+      display: "flex",
+    }}>
         <CustomStepper
           steps={steps}
           activeStep={activeStep}
