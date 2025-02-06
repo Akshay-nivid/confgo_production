@@ -309,7 +309,7 @@ const AdminUsersList=()=>{
 
         <Grid>
             <CustomDrawer open={CreateUserDrawer} type={"right"}>
-               <CreateNewUsers/>
+               <CreateNewUsers refreshUserRoles={UserRoleList}/>
             </CustomDrawer>
         </Grid>
 

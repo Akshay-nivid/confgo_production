@@ -720,7 +720,7 @@ const handleAddProgram = () => {
       const sponsorId = values.programs[index].sponsorId;
       const sponsorFullName = values.programs[index].sponsorFullName;
       const sponsorAssetId = values.programs[index].sponsorLogoId;
-      const sponsorReservedSeats = values.programs[index].sponosorReservedSeats;
+      const sponosorReservedSeats = values.programs[index].sponosorReservedSeats;
       const sponsorSelection = values.programs[index].sponosrSelection;
       const sponsorTypeId=values.programs[index].sponsorTypeId
 
@@ -743,7 +743,7 @@ const handleAddProgram = () => {
         sponsorId,
         sponsorFullName,
         sponsorAssetId,
-        sponsorReservedSeats,
+        sponosorReservedSeats,
         sponsorTypeId
       };
       // Get current programs list and update the speakers array for the selected program index
