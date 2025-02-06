@@ -68,7 +68,7 @@ const ShareInvitationDrawer: React.FC<ShareInvitationDrawerProps> = ({
         severity: "success",
         message: message,
       });
-      reset();
+      reset({ emails: "", notes: "" });
       onClose();
     } else {
       setDataById("snackBarInfo", {
