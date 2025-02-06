@@ -28,6 +28,7 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   suffixIconButton?: React.ReactNode;
   suffixIconSecondButton?: React.ReactNode;
   suffixIcon?: React.ReactNode;
+  suffix?: string;
   handleToggleprefixIcon?: () => void;
   handleToggleSuffixIcon?: () => void;
   handleToggleSuffixSecondIcon?: () => void;
@@ -179,6 +180,11 @@ const CustomTextField = <T extends FieldValues>({
     if (props.suffixIcon) {
       propsObj.endAdornment = (
         <InputAdornment position="end">{props.suffixIcon}</InputAdornment>
+      );
+    }
+    if (props.suffix) {
+      propsObj.endAdornment = (
+        <InputAdornment position="end">{props.suffix}</InputAdornment>
       );
     }
 

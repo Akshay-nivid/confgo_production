@@ -14,11 +14,11 @@ const FaqSection = () => {
 
   const faqDetails = [
     { title: 'What features does Confgo offer for conference management?', description: 'Confgo provides a range of tools, including attendee management, payment tracking, member coordination, speaker organization, and video management, all within a single platform.' },
-    { title: 'Can Confgo handle both physical and virtual conferences?', description: '' },
-    { title: 'How does Confgo ensure data security?', description: '' },
-    { title: 'Is Confgo available for small and large organizations?', description: '' },
-    { title: 'Does Confgo offer mobile app support for attendees?', description: '' },
-    { title: 'How can I get assistance with Confgo?', description: '' }
+    { title: 'Can Confgo handle both physical and virtual conferences?', description: ' Yes, Confgo supports both physical and virtual conferences by managing registrations, schedules, attendees, and sessions for both formats.' },
+    { title: 'How does Confgo ensure data security?', description: 'Confgo ensures data security through encryption, secure authentication, role-based access control, and compliance with industry standards.' },
+    { title: 'Is Confgo available for small and large organizations?', description: ' Yes, Confgo is designed for both small and large companies, offering scalable plans to meet different event management needs.' },
+    { title: 'Does Confgo offer mobile app support for attendees?', description: 'Yes, Confgo offers mobile app support for attendees, allowing them to access event details, schedules, and updates on the go.' },
+    { title: 'How can I get assistance with Confgo?', description: 'You can get assistance from Confgo through our support team via email or by visiting our help center on the website for FAQs.' }
   ]
 
   return (

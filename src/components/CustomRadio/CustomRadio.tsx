@@ -7,6 +7,8 @@ import {
     FormControlLabel,
     FormLabel,
     FormControl,
+    Box,
+    Typography,
   } from "@mui/material";
   import { Control, Controller, FieldValues, Path, PathValue } from "react-hook-form";
   
@@ -14,7 +16,7 @@ import {
     control: Control<T>;
     name: Path<T>;
     label?: string;
-    options: { label: string; value: string | number }[];
+    options: { label: string; value: string | number | boolean | any; icon?: any; }[];
     labelPlacement?: "end" | "start" | "top" | "bottom";
     required?: boolean;
     disabled?: boolean;
@@ -39,8 +41,8 @@ import {
     onChange,
     ...props
   }: ICustomRadio<T>) => {
-    return (
-      <FormControl component="fieldset">
+    return ( 
+      <FormControl fullWidth className="" component="fieldset">
         {label && <FormLabel component="legend">{label}</FormLabel>}
         <Controller
           control={control}
@@ -60,10 +62,16 @@ import {
             >
               {options.map((option) => (
                 <FormControlLabel
+                  className="inside-design"
                   key={option.value}
                   value={option.value}
                   control={<Radio color="primary" {...props} />}
-                  label={option.label}
+                  label={
+                    <Box display="flex" alignItems="center" gap={1} className="labelIcon">
+                      {option.icon && <Box>{option.icon}</Box>}
+                      <Typography>{option.label}</Typography>
+                    </Box>
+                  }
                   labelPlacement={labelPlacement ? labelPlacement : "end"}
                 />
               ))}

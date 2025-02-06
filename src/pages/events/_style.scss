@@ -60,7 +60,7 @@
         max-width: 66rem;
 
         .ql-container {
-            min-height: 15rem;
+            min-height: 7.66rem;
         }
 
         &-error {
@@ -129,6 +129,30 @@
         box-shadow: none !important;
     }
 
+    &-upload-box-container {
+        width: 100%;
+        border: 1px dashed $clr_disabled;
+        position: relative;
+        border-radius: $p4;
+        height:12.58rem;
+      
+
+      &-button {
+        display: flex; // Flexbox for centering within the button
+          flex-direction: column; // Stack logo and text vertically
+          align-items: center;// Center items horizontally
+          justify-content: center; // Center items vertically
+          border: "none";// Remove default button border
+          cursor: "pointer"; // Add pointer cursor
+          gap:.5rem;
+
+          &-text{
+            font-weight: $font_semibold !important;
+            font-size: $h6 !important;
+          }
+      }
+
+    }
     &-back-btn {
         background-color: $clr_white !important;
         color: $clr_green !important;
@@ -142,7 +166,183 @@
 
     &-title {
         font-weight: $font_bold !important;
-        font-size: $h3 !important;
+        font-size: $h5 !important;
+    }
+
+    &-title-sub {
+        font-weight:$font_normal !important;
+        font-size: $p2 !important;
+        color: $clr_field;
+    }
+
+    &-uploaded-card{
+        position: relative;
+        display: flex !important;
+        align-items: flex-start !important;
+        border: 1px solid $clr_light_white_gray;
+        padding: 1rem;
+        width:20rem;
+        height: 5rem;
+        border-radius: 0.65rem;
+        svg {
+            width: 2rem;
+            height: 2rem;
+        }
+
+        &-close-icon{
+            position: absolute !important;
+            top: -8px !important;
+            right: -8px !important;
+            background-color: $clr_black !important;
+            color: $clr_white !important;
+            font-size: $h6;
+            width: $h5 !important;
+            height: $h5 !important;
+            z-index: 10 !important;
+        }
+    }
+    &-parent{
+        width:100%;
+    }
+    &-radio-btn {
+        display: flex !important;
+        gap: 1rem;
+    
+        .inside-design {
+            height: 3.75rem;
+            border-radius: .416rem;
+            display: flex;
+            padding-left: .416rem;
+            justify-content: space-between !important;
+            border: 1px solid $clr_gray_medium;
+            flex: 1 !important;
+            transition: border-color 0.3s ease-in-out; // Smooth transition
+    
+            .labelIcon {
+                display: flex;
+                gap: 1rem; // Add space between icon and label
+            }
+        }
+    
+        .MuiFormControlLabel-root {
+            margin: 0 !important;
+            gap: .083rem !important;
+        }
+    
+
+    
+       
+        // Style checked radio button
+        .MuiRadio-root.Mui-checked {
+            color: $clr_green !important;
+    
+            ~ .MuiFormControlLabel-label {
+                color: $clr_green !important;
+            }
+        }
+    
+        // Style unchecked radio button
+        .MuiRadio-root:not(.Mui-checked) {
+            color: $clr_gray_medium !important;
+    
+            ~ .MuiFormControlLabel-label {
+                color: $clr_gray_medium !important;
+            }
+        }
+    }
+    
+    &-radio-btn-selected {
+        display: flex !important;
+        gap: 1rem;
+    
+        .single {
+            height: 3.75rem;
+            border-radius: .416rem;
+            display: flex;
+            padding-left: .416rem;
+            justify-content: space-between !important;
+            border: .083rem solid $clr_green;
+            flex: 1 !important;
+            transition: border-color 0.3s ease-in-out; // Smooth transition
+    
+            .labelIcon {
+                display: flex;
+                gap: 1rem; // Add space between icon and label
+            }
+        }
+    
+        .MuiFormControlLabel-root {
+            margin: 0 !important;
+            gap: .083rem !important;
+        }
+    
+
+    
+       
+        // Style checked radio button
+        .MuiRadio-root.Mui-checked {
+            color: $clr_green !important;
+    
+            ~ .MuiFormControlLabel-label {
+                color: $clr_green !important;
+            }
+        }
+    
+        // Style unchecked radio button
+        .MuiRadio-root:not(.Mui-checked) {
+            color: $clr_gray_medium !important;
+    
+            ~ .MuiFormControlLabel-label {
+                color: $clr_gray_medium !important;
+            }
+        }
+    }
+
+    &-abstartct-radio-button{
+        height: 3.75rem !important;
+        border-radius: .416rem;
+        gap: 1.4rem;
+        .inside-design{
+            height: 3.75rem;
+            border-radius: .416rem;
+            display: flex;
+            padding-left:.416rem; ;
+            justify-content: space-between !important;
+            border: .2px solid $clr_gray_medium; 
+            flex: 1!important;
+            display: flex !important;
+            flex-direction: row-reverse !important; 
+            .labelIcon{
+                display: flex;
+                gap: .5rem;  // Add space between icon and label
+            }
+
+            
+        }
+        .MuiFormControlLabel-root {
+            margin: 0 !important;
+            gap: 1px !important;;
+    }
+
+    .Mui-checked {
+        color: $clr_green !important;
+
+        ~.MuiFormControlLabel-label {
+            color: $clr_green !important;
+        }
+        .single {
+            border: 1px solid $clr_green !important;
+          }
+    }
+
+    .MuiRadio-root:not(.Mui-checked) {
+        color: $clr_gray_medium !important; // Define light color
+
+        // Style for the label of unchecked radio
+        ~.MuiFormControlLabel-label {
+            color: $clr_gray_medium !important; // Light color for label
+        }
+    }
     }
 
     &-map-drawer {
@@ -154,6 +354,12 @@
     &-choose-map {
         background-color: $clr_green !important;
         box-shadow: none !important;
+    }
+    &-map-list-button{
+        background-color: $clr_green !important;
+        box-shadow: none !important;
+        height:2.2rem;
+        align-self: center;
     }
 }
 
@@ -1763,6 +1969,14 @@
     text-align: left;
     display: block;
     font-size: $p1 !important;
+    &-create{
+         margin-top: 0.5rem !important;
+        color: $clr_blue !important;
+        width: 15.5rem !important;
+        height: 2.125rem !important;
+     
+        box-shadow: none;
+    }
 }
 
 .assigned-volunteer-button-container {
@@ -2220,6 +2434,12 @@
     }
 }
 
+.event-upload-document{
+    position: relative;
+    width:20rem;
+    border-radius: 0.65rem;
+    align-self: center;
+}
 .modal-box {
     position: absolute;
     top: 50%;
@@ -2227,7 +2447,7 @@
     transform: translate(-50%, -50%);
     width: 33.33rem;
     height: 33.33rem;
-    background-color: white;
+    background-color: $clr_white;
     border-radius: .66rem;
     padding-left: 1rem;
     padding-right: 1rem;
@@ -2336,3 +2556,41 @@
     gap: 0.5rem;
     margin-bottom: 1.5rem;
   }
+
+  .event-location-input {
+  .react-select__control {
+    border: none;
+    border-bottom: 1px solid $clr_disabled;
+    box-shadow: none;
+    border-radius: 0;
+    font-size: $h6;
+    color: $clr_slightly_dark_gray;
+
+    &:hover {
+      border-bottom: 1px solid $clr_slightly_dark_gray;
+    }
+  }
+
+  .react-select__menu {
+    border: none;
+    box-shadow: none;
+    font-size: $h6;
+    color: $clr_dark_brown;
+    background-color: $clr_white;
+  }
+
+  .react-select__option {
+    padding: $p3 $p4;
+    font-size: $p2;
+    color: $clr_dark_brown;
+    background-color: $clr_white;
+
+    &--is-focused {
+      background-color: $clr_white;
+    }
+  }
+
+  .react-select__dropdown-indicator {
+    display: none; // Hide dropdown icon
+  }
+}
