@@ -8,12 +8,22 @@ import Grid from '@mui/material/Grid2'
 import { useEffect } from 'react'
 import {  useForm } from 'react-hook-form'
 
+/**
+ * This component renders a chart displaying revenue breakdown and total users registered
+ * @function
+ * @returns {JSX.Element} Chart component
+ */
 const RevenueAndUserChart = () => {
 
     const chartData = useStore((state) => state.compData?.['revenueChartData']?.data) || [];
     const filterDates = useStore(state => state.nonPersistedData?.chartFilterDate?.value) || null;
     const isLoading = useStore(state => state.nonPersistedData?.chartDataLoading?.value)
 
+
+
+    /**
+     * function to fetch data for drawing the chart
+     */
     useEffect(() => {
 
         if (!filterDates?.startDate || !filterDates?.endDate) return

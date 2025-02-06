@@ -66,6 +66,12 @@ type ChartDataType = {
 
 
 
+/**
+ * A custom dot component for the line chart.
+ * @param {ChartDotType} props
+ * - `cx` and `cy`: The x and y coordinates of the dot.
+ * @returns {ReactElement} A React element representing the dot.
+ */
 const CustomDot = (props: ChartDotType) => {
   const { cx, cy } = props;
   return (
@@ -79,6 +85,20 @@ const CustomDot = (props: ChartDotType) => {
 
 
 
+/**
+ * A reusable component for rendering a line chart or pie chart.
+ * @param {CommonChartProps} props
+ * - `chartType`: The type of chart to render. Currently supports "LineGreen" and "LineOrange" for line charts, and "Pie" for pie charts.
+ * - `chartData`: The data to display in the chart. For line charts, this should be an array of objects with keys "key" and "value". For pie charts, this should be an array of objects with keys "name" and "value".
+ * - `xAxisProps`: Props to pass to the XAxis component.
+ * - `yAxisProps`: Props to pass to the YAxis component.
+ * - `tooltipProps`: Props to pass to the Tooltip component.
+ * - `legendProps`: Props to pass to the Legend component.
+ * - `lineProps`: Props to pass to the Line component.
+ * - `CartesianProps`: Props to pass to the CartesianGrid component.
+ * - `lineChartProps`: Props to pass to the LineChart component.
+ * @returns {ReactElement} A React element representing the chart.
+ */
 const CustomChart: React.FC<CommonChartProps> = ({
   chartType,
   chartData,
@@ -95,6 +115,7 @@ const CustomChart: React.FC<CommonChartProps> = ({
   const data = chartType === "Pie" ? chartData.map((item) => ({ name: item.key, value: item.value })) : chartData;
 
 
+
   const LinGreen = () => {
     return (
       <ResponsiveContainer width="100%"  >
@@ -109,6 +130,7 @@ const CustomChart: React.FC<CommonChartProps> = ({
       </ResponsiveContainer>
     )
   }
+
 
 
 
@@ -129,6 +151,7 @@ const CustomChart: React.FC<CommonChartProps> = ({
 
 
  
+
 
 
   const CustomPieChart = () => {
