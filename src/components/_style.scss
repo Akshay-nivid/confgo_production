@@ -801,6 +801,11 @@
   &-main {
     border-right: 1px solid $clr_gray_very_light;
     background-color: $clr_white;
+    position: sticky !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+    display: flex !important;
+    top:0 !important;
   }
 
   &-container {
