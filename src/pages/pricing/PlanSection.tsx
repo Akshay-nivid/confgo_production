@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import apiClient from '@/Libs/Https/API-client';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';
 import { Logger } from '@/Utils/Logger';
+import { useLocation } from 'react-router-dom';
 
 /**
  * Plan Section ui component
@@ -35,7 +36,8 @@ export const PlanSection = () => {
 
   const [planList, setPlanList] = useState<PlanType[]>([]);
   // const [selectedPlan, setSelectedPlan] = useState('Monthly');
-
+  const location = useLocation();
+  const currentUrl = location.pathname; 
   /**
    * Method sued to set selected plan
    * @param plan 
@@ -67,7 +69,7 @@ export const PlanSection = () => {
 
   return (
     <Grid container justifyContent={'center'} className="plansection__container">
-      <Grid container size={{ xs: 12, sm: 10 }} className="plansection__header">
+      <Grid container size={{ xs: 12, sm:currentUrl=='/pricing'?10: 12 }} className="plansection__header">
         <Grid size={12}>
           <Typography className="plansection__title">
             Choose Your Plan

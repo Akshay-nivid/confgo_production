@@ -51,7 +51,7 @@ interface Coordinates {
  */
 const LocationCard = ({ eventData, published, onSubmitHandler }: LocationCardProps) => { 
 const data = eventData?.venue;
-  const [_countryName, setCountryName] = useState<any>(data?.country);
+  // const [_countryName, setCountryName] = useState<any>(data?.country);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const methods = useForm<any>();
   const {
@@ -71,21 +71,21 @@ const data = eventData?.venue;
   /**
    * Define an asynchronous function to fetch the country name by country code
    */
-  useEffect(() => {
-    const fetchCountryName = async () => {
-      try {
-        const response = await fetch(`https://restcountries.com/v3.1/alpha/${data?.country}`);
-        const datas = await response.json();
-        if (datas && datas[0]?.name?.common) {
-          setCountryName(datas[0].name.common);
-        }
-      } catch (error) {
-        Logger.error("Error fetching country name:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchCountryName = async () => {
+  //     try {
+  //       const response = await fetch(`https://restcountries.com/v3.1/alpha/${data?.country}`);
+  //       const datas = await response.json();
+  //       if (datas && datas[0]?.name?.common) {
+  //         setCountryName(datas[0].name.common);
+  //       }
+  //     } catch (error) {
+  //       Logger.error("Error fetching country name:", error);
+  //     }
+  //   };
 
-    fetchCountryName();
-  }, [data?.country]);
+  //   fetchCountryName();
+  // }, [data?.country]);
 
   /**
    * Fetch all states for the given country code using a library function (State.getStatesOfCountry)

@@ -16,6 +16,7 @@ import { DrawerClose, UplodIcon ,RemoveIcon} from "@/assets/svg";
 interface userProps{
     NoNavigation?:boolean
     defaultValue?:any
+    refreshUserRoles?: () => void; // Accept function as prop
 }
 interface Role {
     value: number,
@@ -38,7 +39,7 @@ interface CustomFile {
 /**
 * Component for creating new Company Users
 */
-const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue}) => {
+const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshUserRoles}) => {
     const { data: role, eventId } = useLocation().state || '';
     const [selectedFile, setSelectedFile] = useState<any>(null);
     const [modalOpen, setModalOpen] = useState(false);
@@ -125,17 +126,21 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue}) => {
                     reset();
                     setNonPersistedDataById('craeteUserDrawer', { value: false })
                     setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: `Account Created Please check ${data.email}` });
+                    getRoleList();
+                   
 
-                    if (eventId) {
+                    if(eventId){
+
                         const requestBody = {
-                            userId: context.data?.token?.userId,
+                            userIds: [context.data?.token?.userId],
                             eventId: eventId,
-                            statusId: "1",
+                            companyId: companyId,
                         };
+
                         POST({
-                            url: "eventSpeaker/create",
+                            url: "user/assignEvent",
                             body: requestBody,
-                            id: "createContributor",
+                            id: "createVolunteer",
                             successCB: (context: any) => {
                                 if (context?.success) {
 
@@ -143,7 +148,7 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue}) => {
                                         open: true,
                                         autoHideDuration: 2000,
                                         severity: "success",
-                                        message: "Speaker Assign Successfully",
+                                        message: "Volunteer Assign Successfully",
                                     });
 
                                     navigate(`/events/detail/${eventId}`, { state: { tabId: "2" } });
@@ -155,7 +160,7 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue}) => {
                                     open: true,
                                     autoHideDuration: 2000,
                                     severity: "error",
-                                    message: "Speaker Assigned Successfully",
+                                    message: "Error in assigning volunteer.",
                                 });
                             },
                         });
@@ -163,10 +168,15 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue}) => {
 
                     NoNavigation ? null : navigate(routes.users());
                 }
+                //Call refreshUserRoles() if provided
+                if (refreshUserRoles) {
+                    refreshUserRoles();
+               }
             },
             errorCB: (context: any) => {
                 setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
             }
+
         });
     };
 
@@ -177,7 +187,7 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue}) => {
         if (role) {
             reset({
                 ...getValues(),
-                ...(role === "SPEAKER" && { role: 5 })
+                ...(role === "VOLUNTEER" && { role: 4 })
             });
         }
     }, []);

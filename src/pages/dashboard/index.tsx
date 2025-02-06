@@ -4,7 +4,10 @@
 import Grid from "@mui/material/Grid2";
 // import { WelcomeCard } from "./WelcomeCard";
 // import { UpcomingEventCard } from "./UpcomingEventCard";
-
+import { ItemCard } from "./ItemCard";
+import EventHostedIcon from '@/assets/svg/events-hosted-icon.svg';
+import UsersRegisteredIcon from '@/assets/svg/users-registered-icon.svg';
+import NewRegistrationsIcon from '@/assets/svg/new-registrations-icon.svg';
 import { EventListCard } from "./EventListCard";
 // import { CalendarCard } from "./CalendarCard";
 import { Typography, CircularProgress } from "@mui/material";
@@ -23,6 +26,7 @@ import TermsAndConditon from "./TermsAndCondition";
 import UpComingEvents from "./UpcomingEvents";
 import EventDropDown from "./EventDropDown";
 import EventFeedBack from "./EventFeedBack";
+import PendingProgram from "./PendingProgram";
 import RevenueAndUserChart from "./RevenueAndUserChart";
 
 const Dashboard = () => {
@@ -33,6 +37,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const fullEventList = useStore((state: any) => state?.compData?.["fullEventList"]?.['event/list']) ?? [];
   const pendingEventList = useStore((state: any) => state?.compData?.["pendingEventList"]?.['event/list']) ?? [];
+  const eventCountData = useStore((state: any) => state?.compData?.["dashBoardEventCount"]?.['dashboard/eventAndUserCount']) ?? [];
   const [open, setOpen] = useState<boolean>(false);
   const handleOpen = () => setOpen(true);//true 
   const handleClose = () => setOpen(false);
@@ -48,7 +53,7 @@ const Dashboard = () => {
     if (acceptedTerms == '0') {
       handleOpen();
     }
-  }, [])
+  }, []);
 
   /**
   * Method fetch the company count
@@ -99,18 +104,18 @@ const Dashboard = () => {
   const fetchUpcomingEventList = async () => {
     try {
       await POST({
-        url: 'event/list',
+        url: 'event/eventList',
         body: {
-          filters: {
-            statusId: 1,
-            published: 1,
-            // startTime: moment(new Date()).add(1,'days').format('YYYY-MM-DD HH:mm:ss')
-          },
           sortDirection: "asc",
           sortBy: "startTime",
           limit: 1,
-          offset: 0
+          offset: 0,
+          filters: {
+            published: 1,
+            startTime: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
+          }
         },
+
         id: 'upcomingEventList',
         successCB: (context: any) => {
           if (context?.success) {
@@ -175,20 +180,18 @@ const Dashboard = () => {
 
               <EventFeedBack />
 
+
             </Grid>
 
           </Grid>
-          <Grid size={{ xs: 12, sm: 12 }} container >
-            {/* {upcomingData? <Grid className="dashboard-calendar-card"> <CalendarCard data={upcomingData}/> </Grid>: */}
-            {/* {upcomingData&& <Grid size={{ xs: 12, sm: 6 }} className="dashboard-upcoming-event-card"><UpcomingEventCard data={upcomingData}/></Grid>} */}
-          </Grid>
-
 
           <RevenueAndUserChart/>
 
 
-
-
+          <Grid size={{ xs: 12, sm: 12 }} container >
+            {/* {upcomingData? <Grid className="dashboard-calendar-card"> <CalendarCard data={upcomingData}/> </Grid>: */}
+            {/* {upcomingData&& <Grid size={{ xs: 12, sm: 6 }} className="dashboard-upcoming-event-card"><UpcomingEventCard data={upcomingData}/></Grid>} */}
+          </Grid>
           {/* <Grid size={{ xs: 12, sm: 12 }} container>
         <Grid size={{ xs: 12, sm: 4 }} className="dashboard-item-card"><ItemCard label="Total Events Hosted" value={eventCountData?.data?.totalEventCount} icon={<EventHostedIcon />} /></Grid>
         <Grid size={{ xs: 12, sm: 4 }} className="dashboard-item-card"><ItemCard label="Total Users Registered" value={eventCountData?.data?.totalUserCount} icon={<UsersRegisteredIcon />} /></Grid>
@@ -218,22 +221,29 @@ const Dashboard = () => {
               />
             </Grid>
           }
+          {upcomingData &&
+            <Grid className="dashboard-calendar-card" mt={1}>
+
+              <PendingProgram />
+
+            </Grid>}
+
         </Grid>
         <Grid size={{ xs: 12, sm: 12 }} container direction={'column'} p={1}>
           {fullEventList?.data?.length < 5 ? (
             <Grid className="dashboard-event-list-card">
-              <EventListCard view={false} />
+              <EventListCard view={false} dashView={true} />
             </Grid>
           ) : (
-            <Grid className="dashboard-event-list-card">
-              <EventListCard view={true} />
+            <Grid className="dashboard-event-list-card -mt-8">
+              <EventListCard view={true} dashView={true} />
             </Grid>
           )}
 
         </Grid>
       </Grid>}
     </> :
-    <Grid container height={'100vh'}  alignItems={'center'} justifyContent={'center'}><CircularProgress color='success' /> </Grid>)
+    <Grid container justifyContent={'center'} height={'100%'} alignItems={"center"}><CircularProgress color="success" /> </Grid>)
 };
 
 export default Dashboard;

@@ -512,6 +512,7 @@
 
                 &-createEvent {
                     &-btn {
+                        height: 4.3rem !important;
                         font-size: $p2;
                         font-weight: $font_semibold;
                         box-shadow: none !important;
@@ -530,6 +531,7 @@
         padding: 1.125rem !important;
         border: 0.083rem solid $clr_gray_very_light;
         border-radius: 0.417rem;
+        background-color: $clr_white;
 
         &-icon {
             svg {
@@ -542,6 +544,7 @@
             .content-count {
                 font-weight: $font_bold !important;
                 font-size: $h4 !important;
+                padding-inline: 0.3rem;
             }
         }
 
@@ -549,11 +552,56 @@
             .content {
                 font-weight: $font_semibold;
                 font-size: $p2 ;
+                padding-inline: 0.3rem;
             }
         }
     }
+}
 
+.pending-programs {
+    padding-inline: 1.33rem;
+    padding-top: 1rem;
+    padding-block: 1rem;
 
+    &-header {
+        .heading {
+            font-size: $p2;
+            font-weight: $font-semibold;
+        }
+
+        .description {
+            font-family: $font !important;
+            font-size: $p2 !important;
+            font-weight: $font_medium !important;
+            color: $clr_text_gray;
+        }
+    }
+
+    &-time {
+        svg {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .time {
+            font-size: $font_medium;
+            font-size: $p2;
+            color: $clr_gray_dark_text !important;
+        }
+    }
+
+    &-btn {
+        .btn {
+            display: flex;
+            align-items: last center !important;
+            justify-content: center;
+            background-color: $clr_light_grey !important;
+            box-shadow: none !important;
+            color: $clr_black;
+            font-size: $p1;
+            font-weight: $font_medium;
+        }
+    }
 
 }
 
@@ -561,27 +609,29 @@
 
     contain: contain;
 
-    .header-container{
+    .header-container {
         padding-bottom: 2.5rem !important;
-        
+
         .revenue-breakdown-label {
             font-size: $p3;
             font-weight: $font-medium;
         }
-        .chart-date-picker{
+
+        .chart-date-picker {
 
             flex: 1;
-            .MuiInputBase-root{
+
+            .MuiInputBase-root {
                 cursor: pointer !important;
             }
-            
-            .MuiInputBase-input{
+
+            .MuiInputBase-input {
                 padding-block: .5rem !important;
             }
         }
     }
 
-    
+
 
     .total-users-label {
         font-size: $p2;
@@ -595,25 +645,33 @@
         margin-left: .3rem;
     }
 
-    .pie-chart-grid{
+    .pie-chart-grid {
         overflow-y: auto;
+
         &::-webkit-scrollbar {
-            width: 0.33rem !important; /* Adjust width for vertical scrollbar */
-            height: 0.33rem !important; /* Adjust height for horizontal scrollbar */
-          }
-          
-          &::-webkit-scrollbar-track {
-            background: #f0f0f0; /* Light gray background */
-            border-radius: .83rem !important; /* Round the track edges */
-          }
-          
-          &::-webkit-scrollbar-thumb {
-            background: $clr_gray_faded; /* Gray scrollbar */
-            border-radius: .83rem; /* Round the scrollbar itself */
-          }
-          
-          &::-webkit-scrollbar-thumb:hover {
-            background: $clr_gray_faded !important; /* Darker gray on hover */
-          }
+            width: 0.33rem !important;
+            /* Adjust width for vertical scrollbar */
+            height: 0.33rem !important;
+            /* Adjust height for horizontal scrollbar */
+        }
+
+        &::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            /* Light gray background */
+            border-radius: .83rem !important;
+            /* Round the track edges */
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: $clr_gray_faded;
+            /* Gray scrollbar */
+            border-radius: .83rem;
+            /* Round the scrollbar itself */
+        }
+
+        &::-webkit-scrollbar-thumb:hover {  
+            background: $clr_gray_faded !important;
+            /* Darker gray on hover */
+        }
     }
 }
