@@ -126,7 +126,7 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshU
                     reset();
                     setNonPersistedDataById('craeteUserDrawer', { value: false })
                     setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: `Account Created Please check ${data.email}` });
-
+                    getRoleList();
                    
 
                     if(eventId){
