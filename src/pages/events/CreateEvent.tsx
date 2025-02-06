@@ -812,7 +812,9 @@ const CreateEvent: React.FC<EventProps> =
                         control={control}
                         name="url"
                         type="text"
-                        rules={{ required: watch("type") === "ONLINE" }}
+                        rules={{
+                          required: watch("type") === "ONLINE" || watch("type") === "HYBRID",
+                        }}
                       />
                       {errors.url && (
                         <Typography color="error" variant="body2">

@@ -26,25 +26,25 @@ interface Coordinates {
  */
 const ReviewLocation = ({ eventData }: LocationCardProps) => { 
 const data = eventData;
-  const [_countryName, setCountryName] = useState<any>(data?.country);
-  /**
-   * Define an asynchronous function to fetch the country name by country code
-   */
-  useEffect(() => {
-    const fetchCountryName = async () => {
-      try {
-        const response = await fetch(`https://restcountries.com/v3.1/alpha/${data?.country}`);
-        const datas = await response.json();
-        if (datas && datas[0]?.name?.common) {
-          setCountryName(datas[0].name.common);
-        }
-      } catch (error) {
-        Logger.error("Error fetching country name:", error);
-      }
-    };
+  // const [_countryName, setCountryName] = useState<any>(data?.country);
+  // /**
+  //  * Define an asynchronous function to fetch the country name by country code
+  //  */
+  // useEffect(() => {
+  //   const fetchCountryName = async () => {
+  //     try {
+  //       const response = await fetch(`https://restcountries.com/v3.1/alpha/${data?.country}`);
+  //       const datas = await response.json();
+  //       if (datas && datas[0]?.name?.common) {
+  //         setCountryName(datas[0].name.common);
+  //       }
+  //     } catch (error) {
+  //       Logger.error("Error fetching country name:", error);
+  //     }
+  //   };
 
-    fetchCountryName();
-  }, [data?.country]);
+  //   fetchCountryName();
+  // }, [data?.country]);
   
 
   /**
