@@ -50,7 +50,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
     const [minute, setMinute] = useState<string>('');
     const [second, setSecond] = useState<string>('');
     const navigate = useNavigate();
-
+    const [timmer,setTimmer]=useState(false);
 
 
     /**
@@ -58,6 +58,9 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
       * @param day,hour,minute,second
       */
     const handleTimeUpdate = (day: string, hour: string, minute: string, second: string) => {
+        if(day==="0"){
+            setTimmer(true);
+        }
         setDay(day);
         setHour(hour);
         setMinute(minute);
@@ -400,7 +403,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                 <TEventDetails className={`${classPrefix}-eventDetails`} data={data} />
                 <Grid className="template4-countdown" container justifyContent={"center"}>
                     <Grid className="template4-countdown-container" size={12} justifyContent={"center"} >
-                        <TimerCounterComp
+                       {!timmer&&
+                         <TimerCounterComp
                             targetDate={getLocalTimeDate(data.startTime, 'YYYY-MM-DD HH:mm:ss')}
                             onTimeUpdate={handleTimeUpdate}
                         >
@@ -431,7 +435,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                     </Grid>
                                 </Grid>
                             </Grid>
-                        </TimerCounterComp>
+                        </TimerCounterComp> 
+                        }
                     </Grid>
                 </Grid>
                 {/* Speaker section starts here  */}

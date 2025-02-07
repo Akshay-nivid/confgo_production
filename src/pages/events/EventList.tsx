@@ -16,6 +16,7 @@ import React from "react";
 import { NoEvent as NoEventIcon } from "@/assets/svg";
 import { Filter } from "@/components/Filter";
 import { StatusEnum } from "@/Utils/StatusEnum";
+import moment from "moment";
 
 interface EventListProps {
   hideAction?: boolean;
@@ -48,10 +49,13 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
   const eventList = useCallback(() => {
     const req = {
       offset: 0,
-      limit:dashView?3 :5,
-      sortBy: "id",
-      sortDirection: "DESC",
-      filters:dashView? {statusId:1}: filters
+      limit:dashView ? 3 :5,
+      sortBy:dashView ? "startTime": "id",
+      sortDirection:dashView ? "ASC" : "DESC",
+      filters:dashView? {statusId:1,
+        startTime:moment(new Date()).add(1,'days').format('YYYY-MM-DD'),
+      }: 
+      filters
     };
 
     setSource({

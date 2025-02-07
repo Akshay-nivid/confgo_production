@@ -26,6 +26,7 @@ import TermsAndConditon from "./TermsAndCondition";
 import UpComingEvents from "./UpcomingEvents";
 import EventDropDown from "./EventDropDown";
 import EventFeedBack from "./EventFeedBack";
+import PendingProgram from "./PendingProgram";
 
 const Dashboard = () => {
   const POST = useStore((state: any) => state.POST);
@@ -51,7 +52,7 @@ const Dashboard = () => {
     if(acceptedTerms=='0'){
       handleOpen();
     }
-  }, [])
+  }, []);
 
   /**
   * Method fetch the company count
@@ -102,18 +103,18 @@ const Dashboard = () => {
   const fetchUpcomingEventList = async () => {
     try {
       await POST({
-        url: 'event/list',
+        url: 'event/eventList',
         body: {
-          filters: {
-            statusId:1,
-            published: 1,
-            // startTime: moment(new Date()).add(1,'days').format('YYYY-MM-DD HH:mm:ss')
-          },
           sortDirection: "asc",
           sortBy: "startTime",
           limit: 1,
-          offset: 0
+          offset: 0,
+          filters: {
+            published: 1,
+            startTime: moment(new Date()).add(1, 'days').format('YYYY-MM-DD'),
+          }
         },
+
         id: 'upcomingEventList',
         successCB: (context: any) => {
           if (context?.success) {
@@ -178,6 +179,7 @@ const Dashboard = () => {
     
    <EventFeedBack/>
 
+
    </Grid>
   
     </Grid>
@@ -203,7 +205,7 @@ const Dashboard = () => {
       {/* <Grid><Typography className="dashboard-calendar-card-header">Weekly Calendar</Typography></Grid> */}
         {/* <Grid size={{ xs: 12, sm:upcomingData? 6:12 }} className="dashboard-welcome-card"><WelcomeCard /></Grid> */}
       {upcomingData? <Grid className="dashboard-calendar-card"> <UpComingEvents data={upcomingData}/> </Grid>:
-        <Grid container className="dashboard-no-event-calender" justifyContent={"center"} alignItems={"center"} alignContent={"center"} flexDirection={"column"}>
+        <Grid  container className="dashboard-no-event-calender" justifyContent={"center"} alignItems={"center"} alignContent={"center"} flexDirection={"column"}>
          <CalenderNoData width={50} height={50}/>
          <Typography className="dashboard-no-event-calender-header">No Events Scheduled</Typography>
          <Typography className="dashboard-no-event-calender-subHeader">Crreate New Events !</Typography>
@@ -214,15 +216,22 @@ const Dashboard = () => {
          />
         </Grid>
        }
+        {upcomingData&&
+          <Grid  className="dashboard-calendar-card" mt={1}>
+
+           <PendingProgram/>
+
+          </Grid>}
+
     </Grid>
     <Grid size={{ xs: 12, sm: 12 }} container direction={'column'} p={1}>
     {fullEventList?.data?.length < 5 ? (
               <Grid className="dashboard-event-list-card">
-                <EventListCard view={false} />
+                <EventListCard view={false} dashView={true} />
               </Grid>
             ) : (
               <Grid className="dashboard-event-list-card">
-                <EventListCard view={true} />
+                <EventListCard view={true} dashView={true} />
               </Grid>
             )}
       
