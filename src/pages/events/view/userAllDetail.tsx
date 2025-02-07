@@ -641,7 +641,7 @@ const handleDownloadPdf = () => {
           <Typography className="all-details-data-title">Transcation ID</Typography>
           </Grid>
           <Grid size={8}>
-          <Typography className="all-details-data">{PaymentDetails.transactionId ? PaymentDetails.transactionId : "Not Available"}</Typography>
+          <Typography className="all-details-data">{PaymentDetails?.transactionId ? PaymentDetails.transactionId : "Not Available"}</Typography>
           </Grid>
       </Grid>
       <Grid container>
