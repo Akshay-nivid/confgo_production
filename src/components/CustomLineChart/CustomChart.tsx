@@ -224,7 +224,6 @@ const CustomChart: React.FC<CommonChartProps> = ({
           </div>
           <div className="mt-8 flex flex-col gap-2">
             {data?.map((entry, index) => {
-              console.log(entry)
               return (
                 <div key={entry.name} className="flex items-center gap-2">
                   <div className="h-3 w-3 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }} />

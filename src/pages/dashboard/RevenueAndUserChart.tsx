@@ -46,7 +46,6 @@ const RevenueAndUserChart = () => {
 
                     const revenueChartData = transformData(data)
 
-                    console.log(revenueChartData, 'ress')
 
                     setDataById('revenueChartData', { data: revenueChartData });
 
@@ -184,7 +183,6 @@ const DatePicker = () => {
         }
     })
 
-    console.log(typeof form.watch('startDate'), form.watch('endDate'))
 
     const startDate = form.watch('startDate');
     const endDate = form.watch('endDate');
