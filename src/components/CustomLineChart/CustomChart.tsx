@@ -113,20 +113,20 @@ const CustomChart: React.FC<CommonChartProps> = ({
 }) => {
 
 
-  const data = chartType === "Pie" ? chartData.map((item) => ({ name: item.key, value: item.value })) : chartData;
+  const data = chartType === "Pie" ? chartData?.map((item) => ({ name: item.key, value: item.value })) : chartData;
 
 
 
   const LinGreen = () => {
     return (
       <Box className="w-full h-full overflow-x-scroll linechart-responsive-container-wrapper">
-      <ResponsiveContainer  width={data.length * 25}    >
+      <ResponsiveContainer  width={data?.length * 50}    >
 
         <LineChart
           margin={{ left: -10 }}
           data={data}
           {...lineChartProps}
-          width={data.length * 100}
+          width={data?.length * 100}
         >
           <CartesianGrid
             vertical={false}
@@ -141,7 +141,7 @@ const CustomChart: React.FC<CommonChartProps> = ({
             axisLine={false}
             dataKey={"key"}
             {...xAxisProps}
-              width={data.length * 100}
+              width={data?.length * 100}
               padding={{ right: 10 }}
               
           />
@@ -149,7 +149,7 @@ const CustomChart: React.FC<CommonChartProps> = ({
             tick={{ dx: -10 }}
             axisLine={false}
             tickLine={false}
-            tickCount={chartData.length < 5 ? 5 : chartData.length}
+            tickCount={chartData?.length < 5 ? 5 : chartData?.length}
             {...yAxisProps}
           />
           <Tooltip
@@ -213,7 +213,7 @@ const CustomChart: React.FC<CommonChartProps> = ({
                   dataKey="value"
                   nameKey="name"
                 >
-                  {data.map((_, index) => (
+                  {data?.map((_, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} ></Cell>
                   ))}
                 </Pie>
@@ -223,7 +223,7 @@ const CustomChart: React.FC<CommonChartProps> = ({
             </ResponsiveContainer>
           </div>
           <div className="mt-8 flex flex-col gap-2">
-            {data.map((entry, index) => {
+            {data?.map((entry, index) => {
               console.log(entry)
               return (
                 <div key={entry.name} className="flex items-center gap-2">
