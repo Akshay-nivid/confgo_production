@@ -252,8 +252,8 @@ const CreateEvent: React.FC<EventProps> =
 
     useEffect(() => {
       if (selectedFile) {
-        setValue("assetId", selectedFile.id);
-        setValue("assetName", selectedFile.name)
+        setValue("assetId", selectedFile?.id);
+        setValue("assetName", selectedFile?.name)
       }
     }, [selectedFile]);
   /**
