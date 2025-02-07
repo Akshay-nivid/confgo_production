@@ -66,6 +66,7 @@ type FormData = {
   email: string;
   isAbstract:boolean;
   abstractDate:Date;
+  assetName?:string;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -197,6 +198,7 @@ const CreateEvent: React.FC<EventProps> =
      */
     useEffect(() => {
       if (formDraftSubmit) {
+        setValue("assetId", selectedFile?.id);
         onDraftSubmitHandler && onDraftSubmitHandler(watch(), "EVENT");
       }
     }, [formDraftSubmit]);
@@ -223,7 +225,8 @@ const CreateEvent: React.FC<EventProps> =
 
 
       if(selectedFile){
-        setValue('assetId',selectedFile?.id) 
+        setValue('assetId',selectedFile?.id)
+        setValue('assetName',selectedFile?.name)
       }
       if (startTime > endTime) {
         setError(`startTime`, {
@@ -247,6 +250,12 @@ const CreateEvent: React.FC<EventProps> =
       onSubmitHandler && onSubmitHandler(data, "EVENT");
     };
 
+    useEffect(() => {
+      if (selectedFile) {
+        setValue("assetId", selectedFile.id);
+        setValue("assetName", selectedFile.name)
+      }
+    }, [selectedFile]);
   /**
    * it watches the location fields whether it is filled or not 
    */
@@ -293,6 +302,7 @@ const CreateEvent: React.FC<EventProps> =
    */
   const handleFileDelete = () => {
     setSelectedFile(null);
+    setValue('assetId', ''); // Clear assetId in watch
   };
   /**
    *useEffect set assestId
@@ -301,7 +311,7 @@ const CreateEvent: React.FC<EventProps> =
     if(watch('assetId')){
       setSelectedFile({
         id: watch('assetId'),
-        name: 'Business'
+        name: watch('assetName') ||"bussiness"
     });
     }
 },[])
@@ -356,7 +366,6 @@ const CreateEvent: React.FC<EventProps> =
     const handlePlacePickerClose = () => {
       setPlacePickerOpen(false);
     };
-
     const isAbstract:any = watch('isAbstract');
     return (
       <Box className="create-event-container">
@@ -412,7 +421,7 @@ const CreateEvent: React.FC<EventProps> =
                       name="name"
                       type="text"
                       rules={{
-                        required: true,
+                        required: "Event name is a required field",
                         maxLength: validateMaxLength({
                           maxLength: 255,
                           fieldName: 'Event Name',
@@ -437,10 +446,13 @@ const CreateEvent: React.FC<EventProps> =
                       className="create-event-abstartct-radio-button"
                       options={AbstractArray.map((option) => ({
                         ...option,
-                        icon: option.value === (isAbstract === "true" ? true : false) ? option.selectedIcon : option.ic
+                        icon: option.value === (isAbstract === "true" || isAbstract === true || isAbstract === 1) 
+                        ? option.selectedIcon 
+                        : option.ic
                       }))}                      
                       name="isAbstract"
                       control={control}
+                      value={false}
                       row={true} // Horizontal layout
                   />
                   </Grid>}
@@ -516,6 +528,16 @@ const CreateEvent: React.FC<EventProps> =
                           type="text"
                           onClick={handleTextFieldClick} // Open the place picker on click
                           rules={{ required: watch("type") === "OFFLINE" }}
+                          closeIcon={true}
+                          onClear={() => {
+                            setValue("address", "");
+                            setValue("venueName", "");
+                            setValue("state", "");
+                            setValue("country", "");
+                            setValue("mapUrl", "");
+                            setValue("city", "");
+                            setValue("postalCode", "");
+                          }} 
                         />  
                          {isPlacePickerOpen && (
         <GoogleMapPlacePicker createEvent={true} onClose={handlePlacePickerClose} />
@@ -646,7 +668,7 @@ const CreateEvent: React.FC<EventProps> =
       >
        
           <Grid >
-            <button onClick={() => setModalOpen(true)} className="create-event-upload-box-container-button">
+            <button type="button" onClick={() => setModalOpen(true)} className="create-event-upload-box-container-button">
             <UploadLogo className="create-event-upload-box-container-button-text"/>
   
             <Typography className="create-event-upload-box-container-button-text"> Upload Logo</Typography>

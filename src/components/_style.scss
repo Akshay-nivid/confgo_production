@@ -1400,3 +1400,23 @@
     border: 0.083rem solid $clr_gray_medium !important;
   }
 }
+
+.custom-datetime-picker {
+  background-color: $clr_white; 
+  color: $clr_white; // Text color
+  border-radius: 8.33rem;
+  border: 1px solid $clr_charcoal_gray;
+  .MuiTypography-root {
+    font-size: $h6; 
+  }
+
+  .MuiPickersDay-root {
+    font-size: $p2; 
+  }
+  .MuiDateCalendar-root{
+    width: 18.33rem !important;
+  }
+  .MuiMultiSectionDigitalClock-root .MuiMultiSectionDigitalClockSection-root{
+    width:5rem !important;
+  }
+}

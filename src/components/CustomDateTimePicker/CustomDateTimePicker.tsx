@@ -80,6 +80,9 @@ const CustomDateTimePicker: React.FC<CustomDateTimePickerProps> = ({
                     fullWidth: true,
                     helperText: error?.message || "",
                   },
+                  desktopPaper: {
+                    className: "custom-datetime-picker",
+                  },
                 }}
               />
               
