@@ -18,6 +18,8 @@ import CreateNewUsers from "./CreateUsers";
 import {IconButton } from "@mui/material";
 import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
 import EditUserDrawer from "./EditUserDrawer";
+import EditIcon from "@/assets/svg/event-edit.svg";
+
 interface Role{
   value:string,
   name:string
@@ -115,7 +117,9 @@ const AdminUsersList=()=>{
    * Handles row click event to open the edit drawer with selected user data.
    * @param rowData - The data of the clicked row.
    */
-  const handleRowClick = (rowData: any) => {
+  const handleRowClick = (e: React.MouseEvent,rowData: any) => {
+    e.preventDefault()
+    e.stopPropagation()
     const transformedEditData: UserData = {
       id: rowData.id,
       firstName: rowData.firstName,
@@ -148,6 +152,9 @@ const AdminUsersList=()=>{
         email:item?.email,
         phone:item?.phone,
         status:item?.user?.statusId,
+        edit: <IconButton onClick={(e) => { handleRowClick(e, item) }} className="event-detail-event-info-card-edit-btn">
+          <EditIcon />
+        </IconButton>,
         inActive:  <IconButton
          onClick={() => handleDelete(item?.id)}
         >
@@ -262,7 +269,7 @@ const AdminUsersList=()=>{
   // Column configuration for the DataGrid component
   const columns = [
     { type: "default", field: "id", headerName: "ID", width: 100 },
-    { type: "custom", field: "name", headerName: "Name", width: 200 },
+    { type: "custom", field: "name", headerName: "Name", width: 150 },
     {
       type: "default",
       field: "role",
@@ -279,10 +286,11 @@ const AdminUsersList=()=>{
       type: "default",
       field: "phone",
       headerName: "Phone No",
-      width: 180,
+      width: 150,
     },
     { type: "status", field: "statusId", headerName: "Status", width: 150 },
-    { type: "custom", field: "inActive", headerName: "Action", width: 100 }
+    { type: "custom", field: "edit", headerName: "", width: 80 },
+    { type: "custom", field: "inActive", headerName: "", width: 80 },
   ];
 
   const filterFields: any = [
@@ -366,7 +374,7 @@ const AdminUsersList=()=>{
             hideFooterPagination={false}
             columns={columns}
             id="data-role-list"
-            onRowClick={(params:any) => handleRowClick(params.row)}
+            // onRowClick={(params:any) => handleRowClick(params.row)}
             noRecordIcon={<NoUserList className="userdetail-noimage"/>}
             noRecordSubtitle="It's looks like you haven't created any users yet."
           />
