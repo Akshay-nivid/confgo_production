@@ -17,6 +17,7 @@ import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CreateNewUsers from "./CreateUsers";
 import {IconButton } from "@mui/material";
 import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
+import EditUserDrawer from "./EditUserDrawer";
 interface Role{
   value:string,
   name:string
@@ -30,6 +31,11 @@ type RoleList = {
   modifiedBy: string | null; 
   modifiedOn: string;    
 };
+type UserData = {
+  id: number;
+  firstName: string;
+  lastName: string;
+};
 /**
  * componet for showing full Admin created Company User List
  */
@@ -39,7 +45,9 @@ const AdminUsersList=()=>{
     const [loading, setLoading] = useState(false); // To indicate loading state for API
     const POST = useStore((state: any) => state.POST);
     const { control } = useForm();
-    const [roleList,setRoleList]=useState<Role []>([])
+    const [roleList,setRoleList]=useState<Role []>([]);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
 
   /**
    * Fetches the userRole list when the component mounts.
@@ -104,6 +112,28 @@ const AdminUsersList=()=>{
    }
 
   /**
+   * Handles row click event to open the edit drawer with selected user data.
+   * @param rowData - The data of the clicked row.
+   */
+  const handleRowClick = (rowData: any) => {
+    const transformedEditData: UserData = {
+      id: rowData.id,
+      firstName: rowData.firstName,
+      lastName: rowData.lastName,
+    };
+    setIsDrawerOpen(true);
+    setSelectedUser(transformedEditData);
+  };
+
+  /**
+   * Closes the edit drawer and resets the selected user.
+   */
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
+    setSelectedUser(null);
+  };
+
+  /**
    * Transforms the raw data from the API to match the required format for the DataGrid component.
    * @param data - The raw data from API response
    * @returns Transformed data for DataGrid
@@ -113,7 +143,7 @@ const AdminUsersList=()=>{
     return data.map((item: any) => {
       return {
         ...item,
-        name: item?.firstName, 
+        name: `${item?.firstName} ${item?.lastName}`, 
         role:item?.userRoles[0]?.role?.roleName,
         email:item?.email,
         phone:item?.phone,
@@ -231,16 +261,16 @@ const AdminUsersList=()=>{
 
   // Column configuration for the DataGrid component
   const columns = [
-    { type: "default", field: "id", headerName: "ID", width: 150 },
-    { type: "default", field: "name", headerName: "Name", width: 200 },
+    { type: "default", field: "id", headerName: "ID", width: 100 },
+    { type: "custom", field: "name", headerName: "Name", width: 200 },
     {
       type: "default",
       field: "role",
       headerName: "Role",
-      width: 200,
+      width: 150,
     },
     {
-      type: "default",
+      type: "custom",
       field: "email",
       headerName: "Email",
       width: 180
@@ -252,7 +282,7 @@ const AdminUsersList=()=>{
       width: 180,
     },
     { type: "status", field: "statusId", headerName: "Status", width: 150 },
-    {type:"custom",field :"inActive",headerName: "Action", width: 150}
+    { type: "custom", field: "inActive", headerName: "Action", width: 100 }
   ];
 
   const filterFields: any = [
@@ -336,12 +366,18 @@ const AdminUsersList=()=>{
             hideFooterPagination={false}
             columns={columns}
             id="data-role-list"
-            // onRowClick={(params:any) => handleRowClick(params.id)}
+            onRowClick={(params:any) => handleRowClick(params.row)}
             noRecordIcon={<NoUserList className="userdetail-noimage"/>}
             noRecordSubtitle="It's looks like you haven't created any users yet."
           />
         </Grid>
-
+        <Grid>
+          <CustomDrawer
+            children={selectedUser && <EditUserDrawer data={selectedUser} closeDrawer={closeDrawer} onSuccess={UserRoleList} />}
+            open={isDrawerOpen}
+            type="right"
+          />
+        </Grid>
         <Grid>
             <CustomDrawer open={CreateUserDrawer} type={"right"}>
                <CreateNewUsers refreshUserRoles={UserRoleList}/>
