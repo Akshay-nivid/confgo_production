@@ -38,22 +38,22 @@ const EventDetailsCard = (eventData: any) => {
 
 
 
-
+               {description&&
                 <Grid className="description" spacing={0}>
-
+                   
                     {HTMLReactParser(description)}
-
-                </Grid>
+                    
+                </Grid>}
 
             </Grid>
 
             <Grid container size={12} spacing={3} mt={3} className="Event-BasicInfo-time">
-            {boxArray.map((item:any,index:any) => (
+            {boxArray?.map((item:any,index:any) => (
                 <Grid size={12} display={"flex"} gap={1} key={index}>
 
                     <Grid container justifyContent={"center"} alignItems={"center"} className="svg">
 
-                        {/* <EventCalendar /> */}
+                       
                     {item?.icon}
 
                     </Grid>
