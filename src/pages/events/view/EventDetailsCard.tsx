@@ -30,7 +30,7 @@ const EventDetailsCard = (eventData: any) => {
 
                 <Grid display={'flex'} size={12} flexWrap={"nowrap"} >
                     <Typography className="heading">
-                        {name} Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam, consectetur? Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos qui repellat saepe error aut omnis. Eos quam voluptatum sit eligendi.
+                        {name} 
                     </Typography>
                     <Chip label={eventClass} className="about-btn min-w-max" ></Chip>
 
