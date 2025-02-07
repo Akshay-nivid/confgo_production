@@ -30,6 +30,10 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
     const checkDateCondition = (start: any, end: any) => {
         return new Date(start) === new Date(end);
     }
+	const checkMonthCondition = (start: any, end: any) => {
+		return moment(start).isSame(moment(end), 'month');
+	};
+	
 
 		/**
 		* Group programs and addons by date,and general addons without dates
@@ -126,8 +130,15 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
 						<ReviewCalender />
 					  </Grid>
 					  <Grid className="custom-stepper-conference-details-content-date-and-location">
-						{checkDateCondition(data?.event?.startDate,data?.event?.endTime)? startDate: `${startDate} - ${endDate}`}
-					  </Grid>
+     			  {checkDateCondition(data?.event?.startDate, data?.event?.endTime) 
+   					 ? startDate 
+   					 : checkMonthCondition(data?.event?.startDate, data?.event?.endTime) 
+   					   ? `${moment(data?.event?.startTime).format("MMMM D")}-${moment(data?.event?.endTime).format("D, YYYY")}` 
+   					   : `${startDate} - ${endDate}`}
+					</Grid>
+					<Grid>
+						
+					</Grid>
 					  {data?.event?.type !== "ONLINE" && data?.event?.venueName && (
 						<Grid display={"flex"} direction={"row"} alignItems={"center"}>
 						  <Grid className="custom-stepper-conference-details-content-date-icon" mr={1}>
