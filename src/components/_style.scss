@@ -790,7 +790,7 @@
 
 //DataGrid css ends here
 .custom-stepper {
-  background-color: $background;
+  background-color: $clr_white;
   padding-right: 3rem !important;
   margin: 1rem !important;
 
@@ -801,19 +801,26 @@
   &-main {
     border-right: 1px solid $clr_gray_very_light;
     background-color: $clr_white;
+    position: sticky !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+    display: flex !important;
+    top:0 !important;
   }
 
   &-container {
     border-left: 1px solid $clr_gray_very_light;
     padding-left: 2rem;
+    width:100% !important;
 
    .MuiIconButton-root:hover {
     background-color: transparent !important;
    }
 
     .MuiStepLabel-label {
+      color:$clr_very_light_gray;
       font-size: $p2 !important;
-      font-weight: $font_medium;
+      font-weight: $font_semibold;
     }
     .Mui-completed{
       color: $clr_green !important;

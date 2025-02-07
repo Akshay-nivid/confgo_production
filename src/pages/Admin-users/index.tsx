@@ -11,11 +11,12 @@ import { useForm } from "react-hook-form";
 import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
 import { Filter } from "@/components/Filter";
-import useStore, { setDataById, setNonPersistedDataById } from "@/Libs/store";
+import useStore, { PUT, setDataById, setNonPersistedDataById } from "@/Libs/store";
 import { NoUserList } from "@/assets/svg";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CreateNewUsers from "./CreateUsers";
-
+import {IconButton } from "@mui/material";
+import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
 interface Role{
   value:string,
   name:string
@@ -57,6 +58,7 @@ const AdminUsersList=()=>{
       offset: 0,
       limit: 5,
     filters:{
+      statusId:1,
       companyId:companyId,
       roleEnums: [
         "VOLUNTEER",
@@ -76,6 +78,32 @@ const AdminUsersList=()=>{
   }, []);
 
   /**
+   * delete user
+   */
+   const handleDelete= async(id:number)=>{
+    try{
+      await PUT({
+        url: `user/update/${id}`,
+        body: {
+            statusId:2
+        },
+        id: 'user-updated',
+        successCB:(_data:any)=>{
+          setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "User Deleted Successfully" });
+          UserRoleList(); 
+
+        },
+        errorCB: (context: any) => {
+            setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
+        }
+    });
+    }catch(error){
+        Logger.error("Error in user/update/id api call ",error)
+    }
+      
+   }
+
+  /**
    * Transforms the raw data from the API to match the required format for the DataGrid component.
    * @param data - The raw data from API response
    * @returns Transformed data for DataGrid
@@ -89,7 +117,13 @@ const AdminUsersList=()=>{
         role:item?.userRoles[0]?.role?.roleName,
         email:item?.email,
         phone:item?.phone,
-        status:item?.user?.statusId
+        status:item?.user?.statusId,
+        inActive:  <IconButton
+         onClick={() => handleDelete(item?.id)}
+        >
+        <DeleteIcon />
+      </IconButton>
+        // <Button>Delete</Button>
       };
     });
   };
@@ -217,7 +251,8 @@ const AdminUsersList=()=>{
       headerName: "Phone No",
       width: 180,
     },
-    { type: "status", field: "statusId", headerName: "Status", width: 150 }
+    { type: "status", field: "statusId", headerName: "Status", width: 150 },
+    {type:"custom",field :"inActive",headerName: "Action", width: 150}
   ];
 
   const filterFields: any = [
@@ -248,7 +283,7 @@ const AdminUsersList=()=>{
   * or when the drawer state is modified.
   */
   useEffect(() => {
-    getRoleList();
+    UserRoleList();
     
   }, [CreateUserDrawer]);
     return(
@@ -309,7 +344,7 @@ const AdminUsersList=()=>{
 
         <Grid>
             <CustomDrawer open={CreateUserDrawer} type={"right"}>
-               <CreateNewUsers/>
+               <CreateNewUsers refreshUserRoles={UserRoleList}/>
             </CustomDrawer>
         </Grid>
 
