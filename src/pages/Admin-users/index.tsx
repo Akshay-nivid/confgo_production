@@ -55,6 +55,8 @@ const AdminUsersList=()=>{
   const UserRoleList = useCallback(() => {
     const companyId=sessionStorage.getItem('companyId')
     const req = {
+      sortDirection: "DESC",
+      sortBy:'id',
       offset: 0,
       limit: 5,
     filters:{

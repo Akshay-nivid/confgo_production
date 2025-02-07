@@ -151,11 +151,12 @@ import Clocks from "./clock-lineicon.svg"
 import ReviewMap from "./map-review.svg";
 import ReviewCalender from "./calendar-review.svg";
 import EventReview from "./event-review.svg";
-
+import EventCalendar from "./event-calendar.svg";
 import AbstractSelectedGray from "./abstractselectedgrayicon.svg"
 import AbstractSelectedGreen from "./abstractselectedgreenicon.svg"
 import AbstractNonSelectedGray from "./abstractnonselectedgrayicon.svg"
-import AbstractNonSelectedGreen from "./abstractnonselectedgreenicon.svg"
+import AbstractNonSelectedGreen from "./abstractnonselectedgreenicon.svg";
+import EventLocation from "./event-locations.svg"
 export {
   MainBottomBanner,
   MainYourBrandImg,
@@ -313,5 +314,7 @@ export {
   AbstractSelectedGray,
   AbstractSelectedGreen,
   AbstractNonSelectedGray,
-  AbstractNonSelectedGreen
+  AbstractNonSelectedGreen,
+  EventCalendar,
+  EventLocation,
 };

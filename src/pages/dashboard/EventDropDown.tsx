@@ -7,6 +7,7 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { setNonPersistedDataById } from "@/Libs/store";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { truncateString } from "@/Utils/CommonBaseClass";
 
 
 /**
@@ -29,7 +30,7 @@ const EventDropDown = (data: any) => {
      * Mapping event data to options for the dropdown
      */
     const options = data?.data?.data?.map((item: any) => ({
-        label: item?.name,
+        label: truncateString(item?.name,40),
         value: item?.id
     }));
 
@@ -89,7 +90,8 @@ const EventDropDown = (data: any) => {
                                 name="fieldType"
                                 control={control}
                                 defaultValue={options?.[0]?.value}
-                                label="" options={options}
+                                label="" 
+                                options={options}
 
                             />
 
