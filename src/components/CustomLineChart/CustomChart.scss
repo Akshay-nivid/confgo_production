@@ -35,7 +35,7 @@ li{
     }
 
     &::-webkit-scrollbar-track {
-        background: #f0f0f0;
+        background: $clr_gray_30_percent;
         /* Light gray background */
         border-radius: .83rem !important;
         /* Round the track edges */
