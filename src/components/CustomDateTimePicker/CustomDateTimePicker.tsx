@@ -73,6 +73,7 @@ const CustomDateTimePicker: React.FC<CustomDateTimePickerProps> = ({
                   handleChange(newValue);
                   field.onChange(newValue?.toISOString() || null);
                 }}
+                minDateTime={moment()} 
                 slotProps={{
                   textField: {
                     error: !!error?.message,
