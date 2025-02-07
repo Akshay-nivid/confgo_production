@@ -19,7 +19,6 @@ const RevenueAndUserChart = () => {
     const filterDates = useStore(state => state.nonPersistedData?.chartFilterDate?.value) || null;
     const isLoading = useStore(state => state.nonPersistedData?.chartDataLoading?.value)
 
-    console.log(chartData, 'chartData')
 
     /**
      * function to fetch data for drawing the chart
