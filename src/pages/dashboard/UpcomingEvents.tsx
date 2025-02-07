@@ -168,7 +168,7 @@ const UpComingEvents = (data: any) => {
 
                         <Grid size={9}>
 
-                            <Button className="about-btn" >Offline</Button>
+                            <Button className="about-btn" >{data?.data?.eventClass}</Button>
 
                         </Grid>
 

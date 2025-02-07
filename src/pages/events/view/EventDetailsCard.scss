@@ -1,0 +1,45 @@
+.Event-BasicInfo {
+    padding: 1.3rem;
+    border: 0.0833rem solid $clr_gray_very_light;
+    border-radius: 0.4167rem;
+
+    &-titles {
+        font-size: $h5 !important;
+        font-weight: $font_semibold !important;
+        .heading{
+            font-size: $h5 !important;
+            font-weight: $font_semibold !important;
+        }
+        .description{
+            font-size: $p2;
+            font-weight: $font_normal;
+            color: $clr_gray_dark_text;
+        }
+        .about-btn {
+            width: 7rem !important;
+            border-radius: 4.17rem !important;
+            background-color: $clr-warning-orange !important;
+            font-size: $p3 !important;
+            font-weight: $font-medium !important;
+            color: $clr_white !important;
+            padding-top: 0.3rem !important;
+
+        }
+    }
+    &-time{
+        .svg{
+           svg{
+            width: 2.6rem;
+            height: 2.6rem;
+           }      
+        }
+        .title{
+            font-size: $p2;
+            font-weight: $font_bold;
+        }
+        .date{
+            font-size: $h6;
+            font-weight: $font-medium;
+        }
+    }
+}
