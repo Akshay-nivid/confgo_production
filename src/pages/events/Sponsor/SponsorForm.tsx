@@ -97,7 +97,7 @@ const SponsorForm: React.FC<SponsorFormProps> = ({
         <CustomAutocomplete
           name={`programs.${index}.sponosrSelection`}
           control={control}
-          placeholder="Search Speaker"
+          placeholder="Search Sponsor"
           options={searchResults}
           getOptionLabel={(option: any) => option.sponsorFullName || ''}
           onSearch={handleSearch}
