@@ -22,8 +22,8 @@ import { validateEmail, validateMaxLength, validatePhoneNumber } from "@/Utils/V
 import GoogleMapPlacePicker from "../GoogleMapPlacePicker";
 import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
-import { WarningIcon } from "@/assets/svg";
-
+import { EventDetailProgram, WarningIcon, EventDetailSponsor, EventDetailSpeaker, EventDetailAttendee } from "@/assets/svg";
+import EventDetailCountCard from "./SingleEventDetail";
 import confgo  from "../../../../config.json"
 
 const baseUrl = config.api.url;
@@ -74,6 +74,35 @@ const EventInfoCard: React.FC<any> = React.memo(
   const companyId = sessionStorage.getItem('companyId');
   const [isWarning, setIsWarning] = useState(false);
   const [SubmitData, setSubmitData] = useState();
+
+  /** details to loop through EventDetailCountCard*/
+  const eventDetailCards = [
+    {
+      count: eventData?.programs?.length || 0,
+      title: "Programs",
+      description: "Sessions, panels & workshops",
+      icon: <EventDetailProgram className="single-event-icon" />,
+    },
+    {
+      count: eventData?.eventSponsors?.length || 0,
+      title: "Sponsors",
+      description: "Event partners & supporters",
+      icon: <EventDetailSponsor className="single-event-icon" />,
+    },
+    {
+      count: eventData?.eventSpeakers?.length || 0,
+      title: "Speakers",
+      description: "Experts & keynote guests",
+      icon: <EventDetailSpeaker className="single-event-icon" />,
+    },
+    {
+      count: eventData?.registeredParticipants || 0,
+      title: "Registered attendees",
+      description: "Number of attendees Registered",
+      icon: <EventDetailAttendee className="single-event-icon" />,
+    },
+  ];
+
     /**
    *useEffect get specialty
    */
@@ -307,6 +336,9 @@ const EventInfoCard: React.FC<any> = React.memo(
 
   return (
     <Grid container className="event-detail-event-info-card" spacing={2}>
+      {eventDetailCards.map((card, index) => (
+      <EventDetailCountCard key={index} count={card.count} title={card.title} description={card.description} icon={card.icon}/>
+      ))}
       <Grid
         size={{ xs: 12 }}
         container

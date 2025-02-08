@@ -159,6 +159,11 @@ import AbstractNonSelectedGreen from "./abstractnonselectedgreenicon.svg";
 import EventLocation from "./event-locations.svg";
 import EventMessage from "./event-mail.svg";
 import EventPhone from "./event-phone.svg";
+import EventDetailProgram from "./event-detail-programs.svg";
+import EventDetailSponsor from "./event-details-sponsor.svg";
+import EventDetailSpeaker from "./event-detail-Speaker.svg";
+import EventDetailAttendee from "./event-detail-attendence.svg";
+
 export {
   MainBottomBanner,
   MainYourBrandImg,
@@ -321,4 +326,8 @@ export {
   EventLocation,
   EventMessage,
   EventPhone,
+  EventDetailProgram,
+  EventDetailSponsor,
+  EventDetailSpeaker,
+  EventDetailAttendee
 };
