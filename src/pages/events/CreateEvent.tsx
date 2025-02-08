@@ -125,15 +125,19 @@ const CreateEvent: React.FC<EventProps> =
     const city = watch('city');
     const address = watch('address');
 
+    const removeEmojis = (text: any) => {
+      return text.replace(/\p{Extended_Pictographic}/gu, '');
+    };    
 
     /**
      * Method handles the on change event for description editor
      * @param value : event value
      */
     const handleChange = (value: any) => {
-      setEditorContent(value);
-      setValue("description", value);
-      if (value && value !== "<p><br></p>") {
+      const filteredContent = removeEmojis(value);
+      setEditorContent(filteredContent);
+      setValue("description", filteredContent);
+      if (filteredContent && filteredContent !== "<p><br></p>") {
         clearErrors("description"); 
       }
     };

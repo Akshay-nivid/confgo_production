@@ -85,7 +85,8 @@ const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetit
                     <Typography textAlign={"start"} className='title'>
                         DATE
                     </Typography>
-                    <Typography className='title-value'>{moment(eventFullData?.startTime).format('Do MMMM YYYY')}</Typography>
+                    <Typography className='title-value'>{moment(eventFullData?.startTime).format('Do MMMM')}</Typography>
+                    <Typography className='title-value'>{moment(eventFullData?.startTime).format('YYYY')}</Typography>
                     {/* <Typography className="event-card-location">
                  Location: {truncateString(location, 20, "Location not specified")}
                  </Typography> */}
@@ -94,7 +95,7 @@ const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetit
                     <Typography textAlign={"start"} className='title'>
                     {eventFullData.eventClass!="ONLINE"?  "LOCATION":"URL"}
                     </Typography>
-                    <Typography className='title-value'>{eventFullData.eventClass!="ONLINE"? truncateString(location, 20, "Location not specified"):eventFullData?.url}</Typography>
+                    <Typography className='title-value'>{eventFullData.eventClass!="ONLINE"? truncateString(location, 20, "Location not specified"): truncateString(eventFullData?.url, 15, "URL not specified")}</Typography>
                 </Grid>
             </Grid>
             {/* {Eventstatus &&
