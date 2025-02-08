@@ -3,25 +3,13 @@ import { Chip, Typography } from "@mui/material";
 import HTMLReactParser from 'html-react-parser/lib/index';
 import { EventCalendar, EventLocation} from "@/assets/svg";
 import moment from "moment";
+import CustomButton from "@/components/CustomButton/CustomButton";
 const EventDetailsCard = (eventData: any) => {
    
 
     const { name, eventClass, description, startTime, endTime ,venue} = eventData?.data;
- 
-    const boxArray = [
-        {
-            id: 1,
-            icon:<EventCalendar/> ,
-            label: 'Date & Time',
-            info:moment(startTime).format('MMM D') + ' - ' + moment(endTime).format('MMM D, YYYY')
-
-        },
-        {
-            id: 2,
-            icon: <EventLocation/>,
-            label: 'Location',
-            info: venue?.address
-        }]
+  
+   
 
     return (
         <Grid container size={12} className="Event-BasicInfo">
@@ -47,14 +35,15 @@ const EventDetailsCard = (eventData: any) => {
 
             </Grid>
 
+        
             <Grid container size={12} spacing={3} mt={3} className="Event-BasicInfo-time">
-            {boxArray?.map((item:any,index:any) => (
-                <Grid size={12} display={"flex"} gap={1} key={index}>
+            {/* {boxArray?.map((item:any,index:any) => ( */}
+                <Grid size={12} display={"flex"} gap={1} >
 
                     <Grid container justifyContent={"center"} alignItems={"center"} className="svg">
 
                        
-                    {item?.icon}
+                    <EventCalendar/>
 
                     </Grid>
 
@@ -64,7 +53,44 @@ const EventDetailsCard = (eventData: any) => {
 
                             <Typography className="title">
 
-                                {item?.label}
+                            Date & Time
+                            </Typography>
+                        </Grid>
+
+                        <Grid container  size={12}>
+
+                            <Typography className="date">
+
+                            {moment(startTime).format('MMM D') + ' - ' + moment(endTime).format('MMM D, YYYY')}
+                              
+                            </Typography>
+
+                        </Grid>
+                    </Grid>
+
+                </Grid>
+            
+
+            </Grid>
+
+            <Grid container size={12} spacing={3} mt={3} className="Event-BasicInfo-time" justifyContent={{sm:"flex-start",lg:"flex-end"}}>
+                {eventClass==="OFFLINE" &&(
+                <Grid size={6} display={"flex"} gap={1}  justifyContent={"flex-start"}>
+
+                    <Grid container justifyContent={"center"} alignItems={"center"} className="svg" >
+
+                       
+                    <EventLocation/>
+
+                    </Grid>
+
+                    <Grid   container size={12}>
+
+                        <Grid container    size={12} >
+
+                            <Typography className="title">
+
+                               Location
 
                             </Typography>
                         </Grid>
@@ -73,14 +99,31 @@ const EventDetailsCard = (eventData: any) => {
 
                             <Typography className="date">
 
-                              {item?.info}
+                              {venue?.address}
+                          
                             </Typography>
 
                         </Grid>
                     </Grid>
 
-                </Grid>
-            ))}
+                </Grid>)}
+                <Grid size={{lg:6,sm:12}} className="Event-BasicInfo-viewProgram"  display={"flex"} alignItems={"end"} justifyContent={"flex-end"} gap={1}>
+                
+                <Grid size={6} container>
+                    <CustomButton
+                    fullWidth
+                    label="View Programmes" className="btn"/>
+
+                 </Grid>
+                 <Grid size={6} container>
+                    <CustomButton
+                    fullWidth
+                    label="Edit Event Details" className="btn2"/>
+
+                 </Grid>
+
+                </Grid> 
+          
 
             </Grid>
 

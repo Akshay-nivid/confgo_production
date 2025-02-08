@@ -42,6 +42,38 @@
             font-weight: $font-medium;
         }
     }
+    &-viewProgram{
+        padding-right: 1rem;
+        .btn{
+             border: 0.125rem solid $clr_green;
+             border-radius:  0.4167rem;
+             box-shadow: none !important;
+             background-color: transparent !important;
+             color:  $clr_green !important;
+             font-size: $p2;
+             font-weight: $font_medium; 
+             text-transform: none;
+            min-width: max-content;
+
+
+        }
+        .btn2{
+            border-radius:  0.4167rem;
+            box-shadow: none !important;
+            background-color: $clr_green !important;
+            color:  $clr_white !important;
+            font-size: $p2;
+            font-weight: $font_medium; 
+            text-transform: none;
+            min-width: max-content;
+            &:hover {
+                background-color: $clr_green !important; 
+                color: $clr_white !important; 
+                box-shadow: none !important;
+            }
+        
+       }
+    }
 }
 
 .EventContactCard-grid{
@@ -72,3 +104,34 @@
 }
 
 } 
+
+.EventWebsite-grid{
+    background-image: url("/src/assets/svg/event-website.svg");
+    background-size: cover;
+    background-position: 100%;
+    padding-inline:  1.33rem;
+    padding-top:  1.67rem;
+    border-radius:0.8333rem ;
+    min-height: 10.67rem;
+    &-content{
+    &-title{
+        .header{
+            color:$clr_white;
+            font-size: $p5;
+            font-weight: $font_semibold;
+        }
+      
+    }  &-View-website{
+            font-family: $font;
+            height: 2.3rem;
+            background-color: $clr_white !important;
+              color: $clr_green !important;
+              padding-top: 0.7rem !important;
+              font-weight: $font_semibold !important;
+              font-size: $p2 !important;
+              text-transform: none !important;
+        }
+
+
+}
+}

@@ -42,8 +42,9 @@ const PendingProgram = () => {
     * Row click navigation
     */
     const handleRowClick = (id: number | string,) => {
-
-        navigate(routes.viewEvent(id))
+        
+        
+        navigate(`/events/detail/${id}`, { state: { tabId: "3" } });
     };
 
     return (
@@ -99,7 +100,7 @@ const PendingProgram = () => {
                     <CustomButton
                         className="btn"
                         fullWidth
-                        label="View  all programs" />
+                        label="View  all Programs" />
                 </Grid>
 
             </Grid>
