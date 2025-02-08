@@ -43,3 +43,32 @@
         }
     }
 }
+
+.EventContactCard-grid{
+    padding-inline: 1.25rem;
+    padding-block: 1.0833rem;
+    border-radius: 0.8333rem;
+    border: 0.0833rem solid $clr_gray_very_light;
+    &-box{
+      
+        .heading-title{
+            font-size: $p5;
+            font-weight: $font_semibold;
+        }
+    
+    &-details{
+        svg{
+            width: 1.8rem !important;
+            height: 1.8rem !important;
+        }
+       
+    }
+    &-content{
+        .mail-phn{
+            font-size: $p2 !important;
+            font-weight: $font-medium !important;
+        }
+    }
+}
+
+} 

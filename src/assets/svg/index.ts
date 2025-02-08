@@ -156,7 +156,9 @@ import AbstractSelectedGray from "./abstractselectedgrayicon.svg"
 import AbstractSelectedGreen from "./abstractselectedgreenicon.svg"
 import AbstractNonSelectedGray from "./abstractnonselectedgrayicon.svg"
 import AbstractNonSelectedGreen from "./abstractnonselectedgreenicon.svg";
-import EventLocation from "./event-locations.svg"
+import EventLocation from "./event-locations.svg";
+import EventMessage from "./event-mail.svg";
+import EventPhone from "./event-phone.svg";
 export {
   MainBottomBanner,
   MainYourBrandImg,
@@ -317,4 +319,6 @@ export {
   AbstractNonSelectedGreen,
   EventCalendar,
   EventLocation,
+  EventMessage,
+  EventPhone,
 };
