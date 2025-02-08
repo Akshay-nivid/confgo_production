@@ -299,6 +299,15 @@ interface SessionDrawerContentProps {
     setValue("createHallName", ""); // Clear input field
 
   };
+/** hall Name delete from hallName options
+  * @param index
+  */
+  const deleteHallName = (index:number) => {
+    setNewHall((prev) => {
+      // Create a new array without the hall at the specified index
+      return prev.filter((_, i) => i !== index);
+    });
+  };
 
 
 // Normalize and flatten hall data from local storage
@@ -1233,6 +1242,7 @@ useEffect(() => {
                                         key={index}
                                          className="add-program-hall-modal-chipBox-chip"
                                         label={item}
+                                        onDelete={()=>deleteHallName(index)}
                                         variant="outlined"
                                       />
                                     ))}

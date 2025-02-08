@@ -151,11 +151,17 @@ import Clocks from "./clock-lineicon.svg"
 import ReviewMap from "./map-review.svg";
 import ReviewCalender from "./calendar-review.svg";
 import EventReview from "./event-review.svg";
-
+import EventCalendar from "./event-calendar.svg";
 import AbstractSelectedGray from "./abstractselectedgrayicon.svg"
 import AbstractSelectedGreen from "./abstractselectedgreenicon.svg"
 import AbstractNonSelectedGray from "./abstractnonselectedgrayicon.svg"
-import AbstractNonSelectedGreen from "./abstractnonselectedgreenicon.svg"
+import AbstractNonSelectedGreen from "./abstractnonselectedgreenicon.svg";
+import EventLocation from "./event-locations.svg";
+import EventDetailProgram from "./event-detail-programs.svg";
+import EventDetailSponsor from "./event-details-sponsor.svg";
+import EventDetailSpeaker from "./event-detail-Speaker.svg";
+import EventDetailAttendee from "./event-detail-attendence.svg";
+
 export {
   MainBottomBanner,
   MainYourBrandImg,
@@ -313,5 +319,11 @@ export {
   AbstractSelectedGray,
   AbstractSelectedGreen,
   AbstractNonSelectedGray,
-  AbstractNonSelectedGreen
+  AbstractNonSelectedGreen,
+  EventCalendar,
+  EventLocation,
+  EventDetailProgram,
+  EventDetailSponsor,
+  EventDetailSpeaker,
+  EventDetailAttendee
 };

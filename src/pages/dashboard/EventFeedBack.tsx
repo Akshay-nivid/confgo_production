@@ -67,7 +67,7 @@ const EventFeedBack = () => {
         {
             id: 2,
             icon: <ExistingUsers  />,
-            info: 'Total Users Registered',
+            info: 'Total Checked-In Participants',
             count: counts?.totalCheckIns
 
         }, {
