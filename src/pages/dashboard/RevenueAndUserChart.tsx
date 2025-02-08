@@ -1,4 +1,3 @@
-import CustomDatePicker from '@/components/CustomDatePicker/CustomDatePicker'
 import CustomChart from '@/components/CustomCharts/CustomChart'
 import apiClient from '@/Libs/Https/API-client'
 import useStore, { setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store'
@@ -6,7 +5,6 @@ import { processAPIResponse } from '@/Utils/CommonBaseClass'
 import { CircularProgress } from '@mui/material'
 import Grid from '@mui/material/Grid2'
 import { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
 import CustomBarChart from '@/components/CustomCharts/CustomBarChart'
 
 
@@ -173,45 +171,45 @@ const RevenueAndUserChart = () => {
 export default RevenueAndUserChart
 
 
-const DatePicker = () => {
-    const form = useForm({
-        defaultValues: {
-            startDate: '',
-            endDate: '',
-        }
-    })
+// const DatePicker = () => {
+//     const form = useForm({
+//         defaultValues: {
+//             startDate: '',
+//             endDate: '',
+//         }
+//     })
 
 
-    const startDate = form.watch('startDate');
-    const endDate = form.watch('endDate');
+//     const startDate = form.watch('startDate');
+//     const endDate = form.watch('endDate');
 
-    const date = useStore(state => state.nonPersistedData?.datePickerchartFilterDate?.value)
+//     const date = useStore(state => state.nonPersistedData?.datePickerchartFilterDate?.value)
 
-    useEffect(() => {
+//     useEffect(() => {
 
-        if (startDate && endDate) {
+//         if (startDate && endDate) {
 
-            setNonPersistedDataById('chartFilterDate', { value: { startDate, endDate } })
-            setNonPersistedDataById('datePickerchartFilterDate', { value: { startDate, endDate } })
+//             setNonPersistedDataById('chartFilterDate', { value: { startDate, endDate } })
+//             setNonPersistedDataById('datePickerchartFilterDate', { value: { startDate, endDate } })
 
-        }
+//         }
 
-    }, [startDate, endDate])
+//     }, [startDate, endDate])
 
 
-    return (
-        <>
-            <Grid size={6}>
-                <CustomDatePicker defaultValue={date?.startDate || ''} label='start date' placeholder='start date' className='chart-date-picker' control={form.control} name='startDate' />
+//     return (
+//         <>
+//             <Grid size={6}>
+//                 <CustomDatePicker defaultValue={date?.startDate || ''} label='start date' placeholder='start date' className='chart-date-picker' control={form.control} name='startDate' />
 
-            </Grid>
-            <Grid size={6}>
-                <CustomDatePicker defaultValue={date?.endDate || ''} label='end date' className='chart-date-picker' control={form.control} name='endDate' />
+//             </Grid>
+//             <Grid size={6}>
+//                 <CustomDatePicker defaultValue={date?.endDate || ''} label='end date' className='chart-date-picker' control={form.control} name='endDate' />
 
-            </Grid>
-        </>
-    )
-}
+//             </Grid>
+//         </>
+//     )
+// }
 
 
 const Loader = () => {

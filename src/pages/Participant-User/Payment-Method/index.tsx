@@ -1,8 +1,5 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Box,
   Typography,
 } from "@mui/material";
@@ -16,7 +13,6 @@ import {
   // StripeIcon,
   // UpiIcon,
 } from "@/assets/svg";
-import { useState } from "react";
 import useStore, { IStoreState, setDataById } from "@/Libs/store";
 import PayPalParticipantButton from "./PaypalPartcipantComponent";
 import { useNavigate } from "react-router-dom";
@@ -29,7 +25,6 @@ import { OrderSummary } from "@/Libs/types/type";
  */
 const PaymentMethod = () => {
 
-  const [_expanded, setExpanded] = useState<string | false>("panel1");
 
   const orderData: OrderSummary = useStore((state: IStoreState) => state.compData?.order?.order?.data)
 

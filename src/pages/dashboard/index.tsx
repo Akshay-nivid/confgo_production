@@ -2,14 +2,9 @@
  * Component handles the organization dashboard
  */
 import Grid from "@mui/material/Grid2";
-// import { WelcomeCard } from "./WelcomeCard";
-// import { UpcomingEventCard } from "./UpcomingEventCard";
-import { ItemCard } from "./ItemCard";
-import EventHostedIcon from '@/assets/svg/events-hosted-icon.svg';
-import UsersRegisteredIcon from '@/assets/svg/users-registered-icon.svg';
-import NewRegistrationsIcon from '@/assets/svg/new-registrations-icon.svg';
+
+
 import { EventListCard } from "./EventListCard";
-// import { CalendarCard } from "./CalendarCard";
 import { Typography, CircularProgress } from "@mui/material";
 import { useEffect, useState } from "react";
 import useStore from "@/Libs/store";
@@ -37,7 +32,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const fullEventList = useStore((state: any) => state?.compData?.["fullEventList"]?.['event/list']) ?? [];
   const pendingEventList = useStore((state: any) => state?.compData?.["pendingEventList"]?.['event/list']) ?? [];
-  const eventCountData = useStore((state: any) => state?.compData?.["dashBoardEventCount"]?.['dashboard/eventAndUserCount']) ?? [];
+  // const eventCountData = useStore((state: any) => state?.compData?.["dashBoardEventCount"]?.['dashboard/eventAndUserCount']) ?? [];
   const [open, setOpen] = useState<boolean>(false);
   const handleOpen = () => setOpen(true);//true 
   const handleClose = () => setOpen(false);
