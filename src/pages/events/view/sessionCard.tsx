@@ -354,9 +354,18 @@ const SessionCard: React.FC<SessionCardProps> = ({
 
                 <Grid maxWidth={"max-content"} container alignItems={"center"} className="date-box" > 
 
-                   <Typography className="date-box-content">
-                    {formatedTimeRangeProgram(item[startTimeField],item[endTimeField])}
-                   </Typography>
+                <Typography className="date-box-content">
+                  {item[startTimeField] && item[endTimeField] ? (
+                    <>
+                      {formatedTimeRangeProgram(
+                        item[startTimeField],
+                        item[endTimeField]
+                      )}
+                    </>
+                  ) : (
+                    <span>General Addon</span>
+                  )}
+                </Typography>
                 </Grid>
 
                <Grid className="description-box" size={12}>
