@@ -2594,3 +2594,30 @@
     display: none; // Hide dropdown icon
   }
 }
+
+.single-event{
+    &-grid{
+        border: 1px solid $clr_gray_very_light;
+        border-radius: 0.833rem;
+        padding: 2rem;
+    }
+    &-title{
+        margin-top: 1rem;
+        font-weight: $font_bold;
+        font-size: $p2;
+    }
+    &-count{
+        margin-top: 1rem;
+        font-size: $h4 ;
+        font-weight: $font_bold ;
+    }
+    &-description{
+        font-size: $p3 ;
+        font-weight: $font_medium ;
+        color: $clr_gray_dark_text;
+    }
+    &-icon{
+        height: 2.833rem;
+        width: 2.833rem;
+    }
+}
