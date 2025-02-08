@@ -4,7 +4,10 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 
 
 
-
+/**
+ * Custom Bar  chart graph component 
+ * 
+ */
 
 export default function CustomBarChart({ chartData,barProps }: { chartData: any,barProps?: any }) {
 
