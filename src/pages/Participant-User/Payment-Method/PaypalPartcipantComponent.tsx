@@ -6,6 +6,7 @@ import { setDataById } from '@/Libs/store';
 import {  useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import { Backdrop, CircularProgress } from '@mui/material';
+import { OrderSummary } from '@/Libs/types/type';
 
 enum enumPaymentState {
     INITIATED = 'INITIATED',
@@ -24,7 +25,7 @@ interface IPayment {
     amount: number;
     eventId: number;
     paymentReferenceNumber: string;
-    orderId: string;
+    orderId: number;
 }
 
 interface IPaymentResponse {
@@ -152,7 +153,7 @@ const PayPalParticipantButton: React.FC = () => {
 
     const navigate = useNavigate();
 
-    const orderData = useStore((state: any) => state?.compData?.["order"]?.["order"]?.data) ?? null
+    const orderData:OrderSummary = useStore((state) => state?.compData?.["order"]?.["order"]?.data) ?? null
 
     const paymentLoading = useStore((state: any) => state?.compData?.["payment"]?.["payment"]?.loading) ?? false
 
@@ -164,7 +165,7 @@ const PayPalParticipantButton: React.FC = () => {
 
     useEffect(() => {
         setDataById('paymentReferenceNumber', { value: orderData?.id + JSON.stringify(Date.now()) })
-    }, [orderData.id])
+    }, [orderData?.id])
 
 
     useEffect(() => {
@@ -198,7 +199,7 @@ const PayPalParticipantButton: React.FC = () => {
             })
         }
 
-    }, [orderData?.id, orderData.finalPrice])
+    }, [orderData?.id, orderData?.finalPrice])
 
 
 
@@ -211,7 +212,7 @@ const PayPalParticipantButton: React.FC = () => {
      */
     const handleApprove = async (_data: any, actions: any) => {
 
-        if (!orderData.id || !orderData.finalPrice || orderData.id === undefined || orderData.finalPrice === undefined) {
+        if (!orderData?.id || !orderData?.finalPrice || orderData?.id === undefined || orderData?.finalPrice === undefined) {
 
             setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: 'Could not find order. Please try again' });
 
@@ -328,7 +329,7 @@ const PayPalParticipantButton: React.FC = () => {
                                 purchase_units: [{
                                     amount: {
                                         currency_code: 'USD',
-                                        value: orderData?.finalPrice,
+                                        value: JSON.stringify(orderData?.finalPrice),
                                     },
                                     custom_id: paymentReferenceNumber
                                 }],

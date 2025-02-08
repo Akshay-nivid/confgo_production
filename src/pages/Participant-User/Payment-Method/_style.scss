@@ -1,18 +1,24 @@
 .payment-method {
-  max-width:max(50rem, 50%);
+  max-width: 50rem;
+  width: 100%;
   margin-inline: auto;
-  border: 0.05rem solid $clr_gray_30_percent;
-  border-radius: 0.5rem;
+  // border: .2rem solid $clr_gray_30_percent;
+  background:$clr_gray_10_percent;
+
+  border-radius: 1rem;
   padding-top: 1rem;
   .payment-method-header {
+
     font-size: $h2;
     font-weight: $font-bold;
     text-align: center;
   }
   .payment-bill-details-container {
     margin-block: 1.5rem;
-    padding-block: 1.8rem;
+    // padding-block: 1.8rem;
     display: flex;
+    // border: 0.05rem solid $clr_gray_faded;
+    // border-radius: 1rem;
     flex-direction: column;
     row-gap: 1.66rem;
     .payment-bill-details {
@@ -26,33 +32,47 @@
         padding-inline: 1.66rem;
 
         .info-text {
-          font-size: $p2;
-          font-weight: $font_medium;
+          font-size: $h6;
+          font-weight: $font_semibold;
+          color: $clr_gray_extra_dark;
+        }
+        .value{
+          font-size: $h6;
+          font-weight: $font_semibold;
+          color: $clr_gray_dark_text;
         }
       }
     }
     .payment-grand-total-container {
       display: flex;
-      align-items: center;
+      align-items: start;
       justify-content: space-between;
       padding-inline: 1.66rem;
-      .grand-total-info-text {
+      .sub-total-info-text {
         font-size: $h6;
         font-weight: $font_semibold;
+        color: $clr_sub_header;
+      }
+      .grand-total-info-text {
+        font-size: $h5;
+        font-weight: $font_bold;
       }
     }
   }
   .divider {
-    height: 0.05rem;
+    height: 0.1rem;
     background-color: $clr_gray_very_light;
     width: 100%;
   }
   .payment-method-options-container {
     // padding-inline: 1.66rem;
-    margin-block: 3rem;
+    padding-block: 1.5rem;
+
+    // border-right: 0.05rem solid $clr_gray_faded;
+    // border-radius: 1rem;
     .payment-method-options-header {
-      font-size: $p1;
-      font-weight: $font_medium;
+      font-size: $h6;
+      font-weight: $font_semibold;
       margin-bottom: 2rem;
       padding-inline: 1.66rem;
     }
