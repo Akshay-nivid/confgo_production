@@ -1,5 +1,5 @@
 import CustomDatePicker from '@/components/CustomDatePicker/CustomDatePicker'
-import CustomChart from '@/components/CustomLineChart/CustomChart'
+import CustomChart from '@/components/CustomCharts/CustomChart'
 import apiClient from '@/Libs/Https/API-client'
 import useStore, { setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store'
 import { processAPIResponse } from '@/Utils/CommonBaseClass'
@@ -7,6 +7,8 @@ import { CircularProgress } from '@mui/material'
 import Grid from '@mui/material/Grid2'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
+import CustomBarChart from '@/components/CustomCharts/CustomBarChart'
+
 
 /**
  * This component renders a chart displaying revenue breakdown and total users registered
@@ -15,25 +17,24 @@ import { useForm } from 'react-hook-form'
  */
 const RevenueAndUserChart = () => {
 
-    const chartData = useStore((state) => state.compData?.['revenueChartData']?.data) || {};
-    const filterDates = useStore(state => state.nonPersistedData?.chartFilterDate?.value) || null;
+    const chartData: acc = useStore((state) => state.compData?.['revenueChartData']?.data) || {};
+    // const filterDates = useStore(state => state.nonPersistedData?.chartFilterDate?.value) || null;
     const isLoading = useStore(state => state.nonPersistedData?.chartDataLoading?.value)
-
+    const eventId = useStore(state => state.nonPersistedData?.CustomSelectData?.data) || null
 
     /**
      * function to fetch data for drawing the chart
      */
     useEffect(() => {
 
-        if (!filterDates?.startDate || !filterDates?.endDate) return
 
-
+        if (!eventId) return
+        
         (async () => {
             try {
                 setNonPersistedDataById('chartDataLoading', { value: true })
                 const response = await apiClient.post("dashboard/revenueCount", {
-                    "startDate": filterDates?.startDate,
-                    "endDate": filterDates?.endDate
+                    eventId: eventId
                 });
 
                 const { data, status, message } = processAPIResponse(response, "revenueCount");
@@ -47,7 +48,7 @@ const RevenueAndUserChart = () => {
                     const revenueChartData = transformData(data)
 
 
-                    setDataById('revenueChartData', { data: revenueChartData });
+                    setDataById('revenueChartData', { data: { ...revenueChartData } });
 
                 } else {
                     snackBar({ severity: 'error', message });
@@ -73,13 +74,16 @@ const RevenueAndUserChart = () => {
 
 
 
-    }, [filterDates?.startDate, filterDates?.endDate])
+    }, [eventId])
 
+
+
+  
 
 
     type acc = {
         totalUsers: number,
-        lineChartData: { key: string, value: number }[]
+        barChartData: { name: string, value: number }[]
         pieChartData: { key: string, value: number }[]
 
     }
@@ -94,8 +98,8 @@ const RevenueAndUserChart = () => {
             acc.totalUsers += item?.registeredUsers; // Accumulate total users
 
             // Push the transformed data into the data array
-            acc.lineChartData?.push({
-                key: item?.date,
+            acc.barChartData?.push({
+                name: item?.date,
                 value: item?.amount,
 
             });
@@ -106,30 +110,28 @@ const RevenueAndUserChart = () => {
             });
 
             return acc;
-        }, { totalUsers: 0, lineChartData: [], pieChartData: [] })
+        }, { totalUsers: 0, barChartData: [], pieChartData: [] })
 
     }
 
 
+    
 
 
     return (
+
+
         <Grid size={{ xs: 12, sm: 12 }} container minHeight={'24rem'} columnSpacing={2} className="revenue-and-user-chart">
-            <Grid size={8} container flexDirection={"column"} borderRadius={".83rem"} border={"0.083rem solid #E9E9E9"} bgcolor={"white"} padding={2.2}>
+            <Grid size={8} container flexDirection={"column"} borderRadius={".83rem"} border={"0.083rem solid #E9E9E9"} bgcolor={"white"} paddingBlock={1} paddingRight={2.2} >
                 <>
 
-                    <Grid size={12} display={'flex'} columnGap={8} className="header-container">
+                    <Grid size={12} display={'flex'} columnGap={8} className="header-container" paddingInline={2.2}>
                         <p className="revenue-breakdown-label "> REVENUE BREAKDOWN</p>
-                        <Grid flex={1} display={'flex'} rowGap={1.5} alignItems={'center'} columnGap={1}>
-
-                            <DatePicker />
-
-                        </Grid>
                     </Grid>
 
 
                     <Grid justifyContent={"center"} flex={1} display={"flex"} alignItems={"center"} size={12} >
-                        {isLoading ? <Loader /> : (!chartData || !chartData?.lineChartData || chartData?.lineChartData?.length === 0) ? <p className='total-users-label'>No Data available</p> : <CustomChart chartType="LineGreen" chartData={chartData?.lineChartData} />}
+                        {isLoading ? <Loader /> : (!chartData || chartData?.barChartData?.length === 0) ? <p className='total-users-label'>No Data available</p> : <CustomBarChart barProps={{ dataKey: 'value' }} chartData={chartData?.barChartData} />}
                     </Grid>
 
                 </>
@@ -139,30 +141,26 @@ const RevenueAndUserChart = () => {
 
             <Grid size={4} container borderRadius={".83rem"} border={"0.083rem solid #E9E9E9"} bgcolor={'white'} padding={'1rem'}>
 
-
-                {(!chartData || chartData?.totalUsers === 0) ?
-                    <Grid size={12} display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                        <p className='total-users-label'>No Data available</p>
-                    </Grid>
-                    :
-                    <>
                         <Grid size={12}>
                             <p className='total-users-label'>Total Users Registered</p>
-                            <p className='total-users-value'>{chartData?.totalUsers}</p>
+                            <p className='total-users-value'>{chartData?.totalUsers || ''}</p>
                         </Grid>
 
-                        <Grid size={12} width={'100%'} maxHeight={"24rem"} className="pie-chart-grid">
+                        <Grid size={12} width={'100%'} maxHeight={"20rem"} className="pie-chart-grid">
                             {isLoading ?
                                 <Grid size={12} display={'flex'} justifyContent={'center'} alignItems={'center'}>
-                                <Loader />
+                                    <Loader />
+                                </Grid> :
 
-                                </Grid>
-                                : <CustomChart chartType="Pie" chartData={chartData?.pieChartData} />}
+                                chartData?.pieChartData?.length === 0 ?
+
+                                    <Grid size={12} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                                        <p className='total-users-label'>No Data available</p>
+                                    </Grid>
+                                    :
+                                    <CustomChart chartType="Pie" chartData={chartData?.pieChartData} />}
                         </Grid>
-                    </>
-
-
-                }
+                  
 
             </Grid>
 

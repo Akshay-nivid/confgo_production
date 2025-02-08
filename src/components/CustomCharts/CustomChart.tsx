@@ -120,51 +120,52 @@ const CustomChart: React.FC<CommonChartProps> = ({
   const LinGreen = () => {
     return (
       <Box className="w-full h-full overflow-x-scroll linechart-responsive-container-wrapper">
-      <ResponsiveContainer  width={data?.length * 50}    >
+        <ResponsiveContainer width={'100%'}    >
 
-        <LineChart
-          margin={{ left: -10 }}
-          data={data}
-          {...lineChartProps}
-          width={data?.length * 100}
-        >
-          <CartesianGrid
-            vertical={false}
-            stroke="#96E3B0"
-            strokeWidth={1}
-            strokeDasharray="0"
-            {...CartesianProps}
-          />
+          <LineChart
+            margin={{ left: -10 }}
+            data={data}
+            width={"100%"}
+            {...lineChartProps}
+          >
+            <CartesianGrid
+              vertical={false}
+              stroke="#96E3B0"
+              strokeWidth={1}
+              strokeDasharray="0"
+              {...CartesianProps}
+            />
 
-          <XAxis minTickGap={10}
-            tick={{ dy: 10 }}
-            axisLine={false}
-            dataKey={"key"}
-            {...xAxisProps}
+            <XAxis minTickGap={10}
+              tick={{ dy: 10 }}
+              axisLine={false}
+              dataKey={"key"}
+              tickCount={10}
+              {...xAxisProps}
               width={data?.length * 100}
               padding={{ right: 10 }}
-              
-          />
-          <YAxis
-            tick={{ dx: -10 }}
-            axisLine={false}
-            tickLine={false}
-            tickCount={chartData?.length < 5 ? 5 : chartData?.length}
-            {...yAxisProps}
-          />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: "#222",
-              color: "#fff",
-              padding: ".5rem",
-              borderRadius: ".5rem"
-            }}
-            {...tooltipProps}
-          />
-          <Line dataKey="value" stroke="#2EAC2B" strokeWidth={3} dot={(props) => <CustomDot {...props} key={props.key} />} />
-        </LineChart>
+
+            />
+            <YAxis
+              tick={{ dx: -10 }}
+              axisLine={false}
+              tickLine={false}
+              tickCount={5}
+              {...yAxisProps}
+            />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "#222",
+                color: "#fff",
+                padding: ".5rem",
+                borderRadius: ".5rem"
+              }}
+              {...tooltipProps}
+            />
+            <Line dataKey="value" stroke="#2EAC2B" strokeWidth={3} dot={(props) => <CustomDot {...props} key={props.key} />} />
+          </LineChart>
         </ResponsiveContainer>
-        </Box>
+      </Box>
     )
   }
 
@@ -222,17 +223,17 @@ const CustomChart: React.FC<CommonChartProps> = ({
               {/* <div content={<ChartTooltipContent />} /> */}
             </ResponsiveContainer>
           </div>
-          <div className="mt-8 flex flex-col gap-2">
+          <div className="mt-8 flex flex-col gap-2 px-1">
             {data?.map((entry, index) => {
               return (
-                <div key={entry.name} className="flex items-center gap-2">
+                <div key={entry.name} className="flex items-center gap-2 ">
                   <div className="h-3 w-3 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }} />
                   <div className="flex items-center justify-between w-full">
                     <span className="text-lg text-muted-foreground ">
                       {entry.name}
                     </span>
                     <span className="text-lg text-muted-foreground font-semibold">
-                      {entry.value}%
+                      {entry.value}
                     </span>
                   </div>
 
