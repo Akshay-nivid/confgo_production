@@ -10,7 +10,7 @@ interface EventDetailCardProps {
 /**
  * Component to display the count of speakers, sponsors, Programs in eventdetails page etc
  */
-const SingleEvent: React.FC<EventDetailCardProps> = ({ count, title, description,icon }) => {
+const EventDetailCountCard: React.FC<EventDetailCardProps> = ({ count, title, description,icon }) => {
   return (
     <Grid size={3} className="single-event-grid">
       <Grid>{icon}</Grid>
@@ -21,4 +21,4 @@ const SingleEvent: React.FC<EventDetailCardProps> = ({ count, title, description
   );
 };
 
-export default SingleEvent;
+export default EventDetailCountCard;
