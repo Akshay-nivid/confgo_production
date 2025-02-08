@@ -292,22 +292,28 @@ const SessionCard: React.FC<SessionCardProps> = ({
                     </Grid>
             </>
           )
-        }                 */}
-         <Grid className="card-content-timeBox" >
-         <Typography className="time" > 
-                  {item[startTimeField]&&item[endTimeField]?<> <span>
-          {timeCorrection
-            ? getLocalTimeDate(`1970-01-01T${item[startTimeField]}:00Z`) // Convert to full UTC string
-            : moment(item[startTimeField], "HH:mm").format("hh:mm A")}  {/* Ensure AM/PM format */}
-        </span>
-        -
-        <span>
-          {timeCorrection
-            ? getLocalTimeDate(`1970-01-01T${item[endTimeField]}:00Z`)
-            : moment(item[endTimeField], "HH:mm").format("hh:mm A")}
-        </span></>:<span>General Addon</span>}
+        }    
+                         */}
+                           <Grid className="card-content-timeBox">
+  <Typography className="time">
+    {item[startTimeField] && item[endTimeField] ? (
+      <span>
+        <Typography className="date-box-content">
+          <span>
+            {timeCorrection ? getLocalTimeDate(item[startTimeField]) :moment(item[startTimeField], "HH:mm").format("hh:mm A")}
+          </span>
+          {' - '}
+          <span>
+            {timeCorrection ? getLocalTimeDate(item[endTimeField]) : moment(item[startTimeField], "HH:mm").format("hh:mm A")}
+          </span>
         </Typography>
-        </Grid>
+      </span>
+    ) : (
+      <span>General Addon</span>
+    )}
+  </Typography>
+</Grid>
+        
         </Grid>
       </Grid>
      
