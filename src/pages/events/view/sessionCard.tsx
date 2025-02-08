@@ -4,7 +4,7 @@ import EditIcon from "@/assets/svg/event-edit.svg";
 import Grid from "@mui/material/Grid2";
 import { DeleteContributorIcon, HallIcon, WarningIcon} from "@/assets/svg";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
-import { getLocalTimeDate, truncateString } from "@/Utils/CommonBaseClass";
+import { formatedTimeRangeProgram, getLocalTimeDate, truncateString } from "@/Utils/CommonBaseClass";
 import CustomModel from "@/components/CustomModel/CustomModel";
 import { CloseOutlined } from "@mui/icons-material";
 import { setDataById } from "@/Libs/store";
@@ -117,7 +117,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
       md: 3,
     }} flexDirection={"row"}
     >
-      <Grid size={12} container className="event-sessions-session-card"  >
+      <Grid size={12} container className="event-sessions-session-card hover-shadow"  >
       <Grid container size={12} className="card-header">
         <Grid size={11} container>
       {hasAddOns ? (
@@ -355,8 +355,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
                 <Grid maxWidth={"max-content"} container alignItems={"center"} className="date-box" > 
 
                    <Typography className="date-box-content">
-                   {item[startTimeField]&&item[endTimeField]?<><span>{timeCorrection ? getLocalTimeDate(item[startTimeField]) : item[startTimeField]}</span> - 
-                   <span>{timeCorrection ? getLocalTimeDate(item[endTimeField]) : item[endTimeField]}</span></>:<span>General Addon</span>}
+                    {formatedTimeRangeProgram(item[startTimeField],item[endTimeField])}
                    </Typography>
                 </Grid>
 
@@ -366,15 +365,16 @@ const SessionCard: React.FC<SessionCardProps> = ({
                     {item?.description}
                    </Typography>  
                 </Grid>
+                 {item?.hall && (
                 <Grid className="description-box-content">
                     <Grid className ="hall-grid">
-                    {item?.hall && (
+                   
                           <>
                             <HallIcon /> {item.hall}
                           </>
-                        )}
+                     
                     </Grid>
-                </Grid>
+                </Grid>   )}
                 {!hasAddOns && (
                 <>
                 { item?.speakers?.length !==0 &&

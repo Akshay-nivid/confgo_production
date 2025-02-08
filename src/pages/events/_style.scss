@@ -2543,7 +2543,13 @@
 
     }
 }
-
+.hover-shadow {
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .hover-shadow:hover {
+    box-shadow: 0 8px 12px $clr_light_white_gray;
+  }
 .add-program-autocomplete{
     border-radius:.3rem !important ;
     border-color: #dadbdc  !important;
