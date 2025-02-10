@@ -16,7 +16,7 @@ import { validateAmount, validateMaxLength, validateMinLength } from '@/Utils/Va
 import {DrawerClose } from '@/assets/svg';
 
 interface EditCouponProps {
-  data: any;
+  data?: any;
 }
 interface CouponFormData {
   name: string;
