@@ -7,6 +7,7 @@ import routes from "@/router/routes";
 import { useNavigate } from "react-router-dom";
 //import { Navigate } from "react-router-dom";
 import QRCodeDisplay from "@/components/QRCodeDisplay/QRCodeDisplay";
+import { OrderSummary } from "@/Libs/types/type";
 
 const RegistrationCompleted = () => {
 
@@ -14,12 +15,13 @@ const RegistrationCompleted = () => {
 
   const finalPrice = useStore((state: any) => state?.compData?.["finalPrice"]?.value)
   //const slugName = useStore((state: any) => state?.compData?.["slugName"]?.value)
-  const orderData = useStore((state: IStoreState) => state?.compData?.["order"]?.["order"]?.data) || null
+  const orderData: OrderSummary = useStore((state: IStoreState) => state?.compData?.["order"]?.["order"]?.data) || null
   //const isCheckout = useStore((state: IStoreState) => state?.compData?.cartCheckout?.checkout) || false 
   const couponData = useStore((state: IStoreState) => state?.compData?.["couponData"]?.['coupon/applyCoupon']?.data) ?? null
   const regData = useStore((state: IStoreState) => state?.compData?.registrationCompleteData) || null
-  
+
   const eventAmount = useStore((state: IStoreState) => state?.compData?.["eventData"]?.[`event/${regData?.event?.id}`]?.data?.amount) || null
+  
   // if (isCheckout === false) {
 
   //   if (!slugName) {
@@ -34,7 +36,8 @@ const RegistrationCompleted = () => {
   // }
 
   return (
-    <Grid container className="event-registration-completed">
+    <Box className="pb-5">
+    <Grid container className="event-registration-completed shadow">
       <Grid size={12} display={"flex"} justifyContent={"center"}>
         <EventRegistrationSuccessIcon className="registration-completed-icon" />
       </Grid>
@@ -60,36 +63,40 @@ const RegistrationCompleted = () => {
         display={"flex"}
         justifyContent={"center"}
       >
-        <QRCodeDisplay value={regData?.participant?.qrCode} className="qr-code-display-section"/>
+        <QRCodeDisplay value={regData?.participant?.qrCode} className="qr-code-display-section" />
       </Grid>
 
       <Grid size={12}>
         <Box className="payment-bill-details-container">
           <Box className="payment-bill-details">
-          <Box className="payment-bill-item">
+            <Box className="payment-bill-item">
               <Typography className="info-text">Event Total</Typography>
-              <Typography className="info-text">${eventAmount ?? 0}</Typography>
+              <Typography className="info-text value">${eventAmount ?? 0}</Typography>
             </Box>
 
             <Box className="payment-bill-item">
               <Typography className="info-text">Programs Total</Typography>
-              <Typography className="info-text">${orderData?.programTotal ?? 0}</Typography>
+              <Typography className="info-text value">${orderData?.programTotal ?? 0}</Typography>
             </Box>
-            
+
             <Box className="payment-bill-item">
               <Typography className="info-text">Food Total</Typography>
-              <Typography className="info-text">${orderData?.addonTotal ?? 0}</Typography>
+              <Typography className="info-text value">${orderData?.addonTotal ?? 0}</Typography>
             </Box>
           </Box>
           <Box className="divider"></Box>
           <Box className="payment-bill-details">
+           {orderData?.tax > 0 && <Box className="payment-bill-item">
+              <Typography className="info-text">Tax</Typography>
+              <Typography className="info-text value">${orderData?.tax ?? 0}</Typography>
+            </Box>}
             <Box className="payment-bill-item">
               <Typography className="info-text">Subtotal</Typography>
-              <Typography className="info-text">${orderData?.subTotal ?? 0}</Typography>
+              <Typography className="info-text value">${orderData?.subTotal ?? 0}</Typography>
             </Box>
-             <Box className="payment-bill-item">
+            <Box className="payment-bill-item">
               <Typography className="info-text">Coupon Code Applied</Typography>
-              <Typography className="info-text">${couponData?.discountAmount ?? 0 }</Typography>
+              <Typography className="info-text value">${couponData?.discountAmount ?? 0}</Typography>
             </Box>
           </Box>
           <Box className="divider"></Box>
@@ -120,7 +127,8 @@ const RegistrationCompleted = () => {
           including your ticket and event details.
         </Typography>
       </Grid>
-    </Grid>
+      </Grid>
+      </Box>
   );
 };
 

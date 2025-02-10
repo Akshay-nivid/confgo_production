@@ -161,7 +161,7 @@ import EventMessage from "./event-mail.svg";
 import EventPhone from "./event-phone.svg";
 import EventDetailProgram from "./event-detail-programs.svg";
 import EventDetailSponsor from "./event-details-sponsor.svg";
-import EventDetailSpeaker from "./event-detail-Speaker.svg";
+import EventDetailSpeaker from "./event-detail-speaker.svg";
 import EventDetailAttendee from "./event-detail-attendence.svg";
 
 export {
