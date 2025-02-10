@@ -1,7 +1,6 @@
 import { Clocks } from "@/assets/svg";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import useStore from "@/Libs/store";
-import routes from "@/router/routes";
 import { formatedTimeRangeProgram, truncateString } from "@/Utils/CommonBaseClass";
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
@@ -42,8 +41,9 @@ const PendingProgram = () => {
     * Row click navigation
     */
     const handleRowClick = (id: number | string,) => {
-
-        navigate(routes.viewEvent(id))
+        
+        
+        navigate(`/events/detail/${id}`, { state: { tabId: "3" } });
     };
 
     return (
@@ -99,7 +99,7 @@ const PendingProgram = () => {
                     <CustomButton
                         className="btn"
                         fullWidth
-                        label="View  all programs" />
+                        label="View  all Programs" />
                 </Grid>
 
             </Grid>

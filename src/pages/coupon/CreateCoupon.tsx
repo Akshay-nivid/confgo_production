@@ -15,7 +15,9 @@ import { setDataById, setNonPersistedDataById } from '@/Libs/store';
 import { validateAmount, validateMaxLength, validateMinLength } from '@/Utils/Validation';
 import {DrawerClose } from '@/assets/svg';
 
-
+interface EditCouponProps {
+  data?: any;
+}
 interface CouponFormData {
   name: string;
   code: string;
@@ -33,22 +35,23 @@ interface CouponFormData {
  * Coupon Create 
  * @author Neethu
  */
-const CreateCoupon: React.FC = () => {
+const CreateCoupon: React.FC<EditCouponProps> = ({data}) => {
+  const [originalData] = useState(data);
   const { control, handleSubmit, reset, watch, setValue, clearErrors, } = useForm<CouponFormData>({
     defaultValues: {
-      code: '',
-      name: '',
-      startDate: '',
-      endDate: '',
-      discountType: 'percentage',
-      discountValue: '',
-      maxUses: '',
-      maxDiscountValue: '',
-      minPurchaseValue: '',
-      description: '',
+      code: originalData?.code ||'',
+      name: originalData?.name || '',
+      startDate:originalData?.startDate?.split("T")[0] || '',
+      endDate:originalData?.endDate?.split("T")[0] || '',
+      discountType: originalData?.discountType ||'percentage',
+      discountValue:originalData?.discountValue || '',
+      maxUses: originalData?.maxUses ||'',
+      maxDiscountValue:originalData?.maxDiscountValue || '',
+      minPurchaseValue:originalData?.minPurchaseValue || '',
+      description: originalData?.description ||'',
     },
   });
-
+  const isEdit =originalData?.id ? true : false || false;
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -97,20 +100,17 @@ const CreateCoupon: React.FC = () => {
   const onSubmit = async (data: CouponFormData) => {
     setLoading(true);
     try {
-      const req = {
-        ...data,
-        statusId: 1,
-        companyId: 1,
-      };
+      const apiHeader = isEdit ? `coupon/${originalData?.id}` : 'coupon';
+      const req = { ...data, statusId: 1, ...(isEdit ? {} : { companyId: 1 }) };
+      const response = isEdit ? await apiClient.put(apiHeader, req) : await apiClient.post(apiHeader, req);
 
-      const response = await apiClient.post('coupon', req);
       const { status,message } = await processAPIResponse(response, "createCoupon");
       if (status) {
         setDataById("snackBarInfo", {
           open: true,
           autoHideDuration: 2000,
           severity: "success",
-          message: "Coupon Created Successfully",
+          message: isEdit ? "Coupon Updated Successfully" :"Coupon Created Successfully",
         });
         setNonPersistedDataById('craeteCouponDrawer', { value: false })
         reset();
@@ -170,7 +170,7 @@ const CreateCoupon: React.FC = () => {
             <Grid container size={10}>
 
               <Typography textAlign={'center'} lineHeight={2} className='create-coupon-title'>
-                Create New Coupon
+                {isEdit ? 'Edit Coupon' :'Create New Coupon'}
               </Typography>
 
             </Grid>

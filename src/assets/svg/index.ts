@@ -157,6 +157,8 @@ import AbstractSelectedGreen from "./abstractselectedgreenicon.svg"
 import AbstractNonSelectedGray from "./abstractnonselectedgrayicon.svg"
 import AbstractNonSelectedGreen from "./abstractnonselectedgreenicon.svg";
 import EventLocation from "./event-locations.svg";
+import EventMessage from "./event-mail.svg";
+import EventPhone from "./event-phone.svg";
 import EventDetailProgram from "./event-detail-programs.svg";
 import EventDetailSponsor from "./event-details-sponsor.svg";
 import EventDetailSpeaker from "./event-detail-speaker.svg";
@@ -322,6 +324,8 @@ export {
   AbstractNonSelectedGreen,
   EventCalendar,
   EventLocation,
+  EventMessage,
+  EventPhone,
   EventDetailProgram,
   EventDetailSponsor,
   EventDetailSpeaker,

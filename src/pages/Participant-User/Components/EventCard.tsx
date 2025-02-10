@@ -34,15 +34,19 @@ interface EventProps {
  * user Dashboard eventCard component
  */
 const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetitle, title, location, viewButton, buttonPress }) => {
-    const attendeeStatus = eventFullData?.participants[0]?.eventParticipants[0]?.event?.attendees
+    const attendeeStatus = eventFullData?.participants[0]?.eventParticipants[0]?.event?.attendees??[];
+    
     const navigate = useNavigate();
 
     /**
      * Compares the given end date (`datetitle?.endTime`) with today's date.
+     * Compares the given start date (`datetitle?.startTime`) with today's date.
     */
     const today = moment().startOf('day');
     const endDate = moment(datetitle?.endTime);
+    const startDate = moment(datetitle?.startTime);
     const isEndDatePast = endDate.isBefore(today, 'day');
+    const isStartDatePast = startDate.isBefore(today,'day');
     /**
     * Handles event propagation
     */
@@ -66,9 +70,11 @@ const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetit
                     <Grid display={"flex"} alignItems={"center"} columnGap={2}>
                         <EventTypeText status={eventFullData.eventClass} className='eventClassType' />
                         <Grid className="vertical-divider" />
-                        {isEndDatePast ? <StatusComponent value="11" /> :
-                            <StatusComponent value={attendeeStatus?.length == 0 ? "7" : "8"} />}
-                    </Grid>
+                            {isEndDatePast ? ( <StatusComponent value="11" />) : isStartDatePast ? (
+                                attendeeStatus?.length === 0 ? (<StatusComponent value="7" />
+                                ) : (<StatusComponent value="8" /> )) : (<StatusComponent value="14" />
+                                )}
+                        </Grid>
                 </Grid>
                 {/* <Typography textAlign={"center"} className="event-card-date-title" >Date: {formatDateTimeRange({ date: datetitle?.startTime, format: 'MMM D' })+"-"+ formatDateTimeRange({ date: datetitle?.endTime, format: 'MMM D' })}</Typography> */}
             </Grid>
@@ -85,7 +91,8 @@ const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetit
                     <Typography textAlign={"start"} className='title'>
                         DATE
                     </Typography>
-                    <Typography className='title-value'>{moment(eventFullData?.startTime).format('Do MMMM YYYY')}</Typography>
+                    <Typography className='title-value'>{moment(eventFullData?.startTime).format('Do MMMM')}</Typography>
+                    <Typography className='title-value'>{moment(eventFullData?.startTime).format('YYYY')}</Typography>
                     {/* <Typography className="event-card-location">
                  Location: {truncateString(location, 20, "Location not specified")}
                  </Typography> */}
@@ -94,7 +101,7 @@ const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetit
                     <Typography textAlign={"start"} className='title'>
                     {eventFullData.eventClass!="ONLINE"?  "LOCATION":"URL"}
                     </Typography>
-                    <Typography className='title-value'>{eventFullData.eventClass!="ONLINE"? truncateString(location, 20, "Location not specified"):eventFullData?.url}</Typography>
+                    <Typography className='title-value'>{eventFullData.eventClass!="ONLINE"? truncateString(location, 20, "Location not specified"): truncateString(eventFullData?.url, 15, "URL not specified")}</Typography>
                 </Grid>
             </Grid>
             {/* {Eventstatus &&
