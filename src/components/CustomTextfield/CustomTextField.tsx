@@ -8,7 +8,7 @@ import {
   Typography,
   Tooltip,
 } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material"; // Example icon, replace with your preferred icon
+import { Close, Visibility, VisibilityOff } from "@mui/icons-material"; // Example icon, replace with your preferred icon
 import {
   Control,
   Controller,
@@ -63,6 +63,8 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   infoContent?: any
   showError?: boolean;
   shrink?:boolean
+  closeIcon?: boolean;
+  onClear?: () => void; 
 }
 
 interface InputPropsType {
@@ -96,6 +98,7 @@ const CustomTextField = <T extends FieldValues>({
   onClick,
   showError = true,
   shrink,
+  closeIcon = false,
   showOutlinedText = true,
   ...props
 }: ICustomTextFieldProps<T>) => {
@@ -206,6 +209,16 @@ const CustomTextField = <T extends FieldValues>({
       )
     }
 
+     // Clear Button inside Input
+  if (closeIcon === true) {
+    propsObj.endAdornment = (
+      <InputAdornment position="end">
+        <IconButton onClick={props.onClear}  size="small">
+          <Close fontSize="small" />
+        </IconButton>
+      </InputAdornment>
+    );
+  }
     return propsObj;
   };
 

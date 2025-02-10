@@ -2583,6 +2583,10 @@
     font-size: $h6;
     color: $clr_dark_brown;
     background-color: $clr_white;
+    position: absolute; // Ensure it stays above the next item
+    width: 100%;
+    z-index: 10;
+
   }
 
   .react-select__option {

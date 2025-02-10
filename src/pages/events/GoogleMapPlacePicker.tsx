@@ -105,7 +105,7 @@ const GoogleMapPlacePicker = ({ onClose, createEvent = false }: GooglePlacePicke
   return (
     <>
     {createEvent ? (
-      <Grid container className="event-location-container" spacing={10}>
+      <Grid container className="event-location-container" spacing={1}>
       <Grid  size={{xs:10}} className="event-location-input">
         <ReactGooglePlacesAutocomplete
           selectProps={{
@@ -113,11 +113,11 @@ const GoogleMapPlacePicker = ({ onClose, createEvent = false }: GooglePlacePicke
             onChange: handlePlaceSelect,
             placeholder: "Enter location or link",
             isClearable: true,
-            classNamePrefix:"react-select"
+            classNamePrefix:"react-select",
           }}
         />
       </Grid>
-      <Grid  size={{xs:2}} container justifyContent="flex-end">
+      <Grid  size={{xs:2}} container>
       <CustomButton
         className="create-event-map-list-button"
         label="Submit"
