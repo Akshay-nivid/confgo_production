@@ -43,13 +43,13 @@ type FormData = {
     startTime: string;
     endTime: string;
     type: string;
-    properties?: {
-      propertyId?:string,
-      propertyName?: string;
-      propertyAmount?: string;
+    properties: {
+      propertyId:string | undefined,
+      propertyName: string | undefined;
+      propertyAmount: string | undefined;
     }[];
-    propertyName?:string,
-    propertyAmount?:string,
+    propertyName:string | undefined,
+    propertyAmount:string | undefined,
     addonId: string;
     propertyChip:string
     dateRequired: string[];
@@ -79,13 +79,13 @@ type FormData = {
     startTime: string;
     endTime: string;
     type: string;
-    properties?: {
-      propertyId?:string,
-      propertyName?: string;
-      propertyAmount?: string;
+    properties: {
+      propertyId:string | undefined,
+      propertyName: string  |undefined;
+      propertyAmount: string | undefined;
     }[];
-    propertyName?:string,
-    propertyAmount?:string,
+    propertyName:string |undefined,
+    propertyAmount:string | undefined,
     addonId: string;
     propertyChip:string;
     dateRequired: string[];
@@ -437,7 +437,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
     const addProperty = (index: number) => {
       const values = watch();
       const propertyName = values.addOn[index].propertyName;
-      const propertyAmount = values.addOn[index].propertyAmount;
+      const propertyAmount:any = values.addOn[index].propertyAmount;
       const propertyType = watch(`addOn.${index}.type`);
     
       // Check if the propertyName and propertyAmount are valid
@@ -488,7 +488,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       updatedAddOn[index].properties = updatedAddOn[index].properties?.filter(
         prop => prop.propertyName !== ""
       );
-      updatedAddOn[index].properties.push({ ...newProperty });
+      updatedAddOn[index]?.properties.push({ ...newProperty });
     
       // Update the addOn state and reset the form fields for propertyName and propertyAmount
       setValue("addOn", updatedAddOn);

@@ -129,7 +129,6 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
   const isPaid = watch("isPaid");
   const isAddon = watch("addonId");
   const isDescription = watch("description");
-  const addonProperties = watch("properties");
   const companyId = sessionStorage.getItem("companyId")
   const buttonDisbaled = !isAddon || !isDescription ;
   const [endTimeChanged, setEndTimeChanged] = useState(false);

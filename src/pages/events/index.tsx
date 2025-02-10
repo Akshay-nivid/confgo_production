@@ -105,6 +105,7 @@ interface Addons {
   sponosrSelection?:string;
   sponsorReservedSeats?:string;
   sponsorTypeId?:string
+  addOnPropertyRequired:string;
 }
 
 const Events = () => {
