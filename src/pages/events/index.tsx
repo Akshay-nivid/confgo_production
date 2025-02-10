@@ -105,6 +105,7 @@ interface Addons {
   sponosrSelection?:string;
   sponsorReservedSeats?:string;
   sponsorTypeId?:string
+  addOnPropertyRequired:string;
 }
 
 const Events = () => {
@@ -409,6 +410,7 @@ const Events = () => {
       sponsorReservedSeats,
       sponsorTypeId,
       sponsor,
+      addOnPropertyRequired,
        ...item }: Addons) => {
       // Create the combined datetime field
       let combinedStartDateTime;
@@ -452,7 +454,7 @@ const Events = () => {
           email: event?.email 
         }
       ],
-      isAbstract:event?.isAbstract?1:0,
+      isAbstract:event?.isAbstract === 'true' ? 1 : 0,
       abstractDate:event?.abstractDate,
       isDraft: draft? true: false
     };
@@ -472,10 +474,10 @@ const Events = () => {
         country: event?.country,
         ...(event?.postalCode ? { postalCode: event.postalCode } : {}),
       };
-      const allNull = Object.values(req['venue']).every((value) => (value === undefined || value === null));
+      const allNull = Object.values(req['venue']).every((value) => (value === undefined || value === null || value ===""));
 
       if (allNull) {
-        req['venue'] = null;
+        req['venue'] = {};
       }
       if ( event?.type !== 'OFFLINE') {
         req['url'] = event?.url;
@@ -618,7 +620,7 @@ const Events = () => {
             description: data.description || "",
             ...(data.assetId && data.assetId != 0 ? { assetId: data.assetId } : {}),// Conditionally add assetId
             ...(data.abstractDate ? { abstractDate: data.abstractDate } : {}), // Conditionally add abstractDate
-            isAbstract:data.isAbstract || false,
+            isAbstract:data.isAbstract === 1 ? true : false,
             ...(data.speciality ? { speciality: data.speciality } : {}),
         },
         program: data.programs?.map((program: any) => ({

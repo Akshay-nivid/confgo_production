@@ -27,9 +27,14 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
      * @param end 
      * @returns 
      */
-    const checkDateCondition = (start: any, end: any) => {
-        return new Date(start) === new Date(end);
-    }
+    // const checkDateCondition = (start: any, end: any) => {
+    //     return new Date(start) === new Date(end);
+    // }
+	const checkDateCondition = (start: any, end: any) => {
+		
+		return moment(start).isSame(moment(end), 'day');
+	};
+	
 	const checkMonthCondition = (start: any, end: any) => {
 		return moment(start).isSame(moment(end), 'month');
 	};
@@ -130,14 +135,22 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
 						<ReviewCalender />
 					  </Grid>
 					  <Grid className="custom-stepper-conference-details-content-date-and-location">
-     			  {checkDateCondition(data?.event?.startDate, data?.event?.endTime) 
-   					 ? startDate 
-   					 : checkMonthCondition(data?.event?.startDate, data?.event?.endTime) 
-   					   ? `${moment(data?.event?.startTime).format("MMMM D")}-${moment(data?.event?.endTime).format("D, YYYY")}` 
-   					   : `${startDate} - ${endDate}`}
+					  {
+ 							 checkDateCondition(data?.event?.startDate, data?.event?.endTime)
+ 				 			  ? moment(data?.event?.startDate).format("MMM D, YYYY") 
+   							 : checkMonthCondition(data?.event?.startDate, data?.event?.endTime)
+    						? `${moment(data?.event?.startDate).format("MMM D")}-${moment(data?.event?.endTime).format("D, YYYY")}`
+    						: `${startDate} - ${endDate}`
+						}
+					<Grid  container className="custom-stepper-conference-details-content-time">
+						<>
+						<span>
+						{moment.utc(data?.event?.startTime).local().format("hh:mm A")}
+						</span>-<span>
+						{moment.utc(data?.event?.endTime).local().format("hh:mm A")}
+						</span>
+						</>
 					</Grid>
-					<Grid>
-						
 					</Grid>
 					  {data?.event?.type !== "ONLINE" && data?.event?.venueName && (
 						<Grid display={"flex"} direction={"row"} alignItems={"center"}>

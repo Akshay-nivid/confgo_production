@@ -29,6 +29,7 @@ const StatusComponent: React.FC<AppBarProps> = ({ value ,className}) => {
     { id: "11", textColor: '#D32C2C', cellColor: '#FFE8EC' },
     { id: "12", textColor: '#D6983A', cellColor: '#FFECDF' }, 
     { id: "13", textColor: '#2C3CD3', cellColor: '#E8EBFF' },
+    { id: "14", textColor: '#0CAF60', cellColor: '#E7F7EF' },
   ];
 
 /**
@@ -55,7 +56,7 @@ const StatusComponent: React.FC<AppBarProps> = ({ value ,className}) => {
         return "Drafted";
       case "6":
         return "Published";
-          case "7":
+      case "7":
         return "Not Attended";
       case "8":
             return "Attended";  
@@ -68,7 +69,9 @@ const StatusComponent: React.FC<AppBarProps> = ({ value ,className}) => {
             case "12":
               return "Paid";    
         case "13":
-            return "Assigned";    
+            return "Assigned"; 
+        case "14":
+              return "Upcoming";    
       default:
         return "Pending";
     }
