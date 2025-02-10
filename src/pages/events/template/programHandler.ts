@@ -27,7 +27,6 @@ export const getUserCart = ({ helperFn, cartID }: { helperFn: () => void, cartID
                     calculateTotal: true
                 })
 
-                console.log(formatedData, 'formatedData')
 
                 setDataById("finalPrice", { value: response?.data?.cart?.finalPrice })
 
