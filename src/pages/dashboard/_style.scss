@@ -639,6 +639,13 @@
         color: $clr_gray_dark !important;
     }
 
+    .total-users-icon {
+        svg{
+            width: 6rem;
+            height: 6rem;
+        }
+    }
+
     .total-users-value {
         font-size: $h4;
         font-weight: $font-bold;
