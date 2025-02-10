@@ -283,7 +283,6 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
     const onSave: SubmitHandler<FormData> = () => {
       // Get the current programs data from `watch("programs")`
       const addOn = watch("addOn");
-      console.log(watch("addOn"))
       const lastItem = addOn[addOn.length - 1];
       const lastIndex = addOn.length - 1;
       let newPrograms = [...addOn];
