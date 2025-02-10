@@ -409,6 +409,7 @@ const Events = () => {
       sponsorReservedSeats,
       sponsorTypeId,
       sponsor,
+      addOnPropertyRequired,
        ...item }: Addons) => {
       // Create the combined datetime field
       let combinedStartDateTime;

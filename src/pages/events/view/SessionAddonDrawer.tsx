@@ -40,6 +40,7 @@ interface FormData {
     propertyAmount: string;
   }[];
   dateRequired: boolean;
+  propertyRequired: boolean;
   addonDate: string;
   repeat: string[];
   noOfDays: string;
@@ -130,7 +131,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
   const isDescription = watch("description");
   const addonProperties = watch("properties");
   const companyId = sessionStorage.getItem("companyId")
-  const buttonDisbaled = !isAddon || !isDescription || addonProperties === undefined || addonProperties?.length === 0;
+  const buttonDisbaled = !isAddon || !isDescription ;
   const [endTimeChanged, setEndTimeChanged] = useState(false);
   const [startTimeChanged, setStartTimeChanged] = useState(false);
   const [existingSponsor, setExistingSponsor] = useState<any>();
@@ -305,13 +306,14 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
    * @param form data
    */
   const handleFormSubmit = (data: FieldValues) => {
-    if (!data.properties || data?.properties.length === 0) {
-      setError(`propertyName`, {
-        type: 'manual',
-        message: `Minimum one Addon property should be there`,
-      });
-      return;
-    } else {
+    //property make the optional so commonding these condition checking
+    // if (!data.properties || data?.properties.length === 0) {
+    //   setError(`propertyName`, {
+    //     type: 'manual',
+    //     message: `Minimum one Addon property should be there`,
+    //   });
+    //   return;
+    // } else {
       const startDate = moment(eventData.startTime).startOf('day');
       const endDate = moment(eventData.endTime).startOf('day');
       const differenceInDays = endDate.diff(startDate, 'days') + (startDate.isBefore(endDate) ? 1 : 0);
@@ -413,7 +415,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
       } else {
         addonCreateSubmit(formattedDataArray);
       }
-    }
+    // }
   };
 
   const handleSearchSponsor = async (query: string) => {
@@ -747,7 +749,17 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
         {/* <Grid size={{ xs: 12 }}>
           <CustomTextField name="amount" placeholder="Price" control={control} type="number" requiredField={true} />
         </Grid> */}
-
+        <Grid size={{ xs: 12, sm: 12 }}>
+          <CustomSwitch
+            className="add-program-switch-btn"
+            buttonColor="success"
+            label="Add Properties?"
+            name="propertyRequired"
+            control={control}
+          />
+        </Grid>
+        {watch("propertyRequired") && (
+          <>
         <Grid size={{ xs: 12 }}>
           <Typography className="event-detail-speakers-card-contributor-header">Add Properties</Typography>
         </Grid>
@@ -765,9 +777,11 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
         </Grid >
         <Grid size={12} container className="border border-gray-100 w-full py-6 p-4 rounded-md " rowSpacing={2}>
           <Grid size={{ xs: 6 }}>
-            <CustomTextField name="propertyName" placeholder="PropertyName" control={control} rules={{
-              validate: () => Array.isArray(addonProperties) && addonProperties.length > 0 || "Please add at least one property"
-            }} />
+            <CustomTextField name="propertyName" placeholder="PropertyName" control={control} 
+            // rules={{
+            //   validate: () => Array.isArray(addonProperties) && addonProperties.length > 0 || "Please add at least one property"
+            // }} 
+            />
           </Grid>
 
           <Grid size={{ xs: 6 }}>
@@ -808,7 +822,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
               </Grid>
             </Grid>
           )}
-        </Grid>
+        </Grid> </>)}
         {!showSponserSection ? (
             <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'center'}>
               <CustomButton
