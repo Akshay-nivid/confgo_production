@@ -198,6 +198,7 @@ const userRoutes = [
 ];
 
 const router = createBrowserRouter([
+ 
   // Public routes
   {
     path: routes.deleteAccount(),
