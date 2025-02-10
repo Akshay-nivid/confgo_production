@@ -34,15 +34,19 @@ interface EventProps {
  * user Dashboard eventCard component
  */
 const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetitle, title, location, viewButton, buttonPress }) => {
-    const attendeeStatus = eventFullData?.participants[0]?.eventParticipants[0]?.event?.attendees
+    const attendeeStatus = eventFullData?.participants[0]?.eventParticipants[0]?.event?.attendees??[];
+    
     const navigate = useNavigate();
 
     /**
      * Compares the given end date (`datetitle?.endTime`) with today's date.
+     * Compares the given start date (`datetitle?.startTime`) with today's date.
     */
     const today = moment().startOf('day');
     const endDate = moment(datetitle?.endTime);
+    const startDate = moment(datetitle?.startTime);
     const isEndDatePast = endDate.isBefore(today, 'day');
+    const isStartDatePast = startDate.isBefore(today,'day');
     /**
     * Handles event propagation
     */
@@ -66,9 +70,11 @@ const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetit
                     <Grid display={"flex"} alignItems={"center"} columnGap={2}>
                         <EventTypeText status={eventFullData.eventClass} className='eventClassType' />
                         <Grid className="vertical-divider" />
-                        {isEndDatePast ? <StatusComponent value="11" /> :
-                            <StatusComponent value={attendeeStatus?.length == 0 ? "7" : "8"} />}
-                    </Grid>
+                            {isEndDatePast ? ( <StatusComponent value="11" />) : isStartDatePast ? (
+                                attendeeStatus?.length === 0 ? (<StatusComponent value="7" />
+                                ) : (<StatusComponent value="8" /> )) : (<StatusComponent value="14" />
+                                )}
+                        </Grid>
                 </Grid>
                 {/* <Typography textAlign={"center"} className="event-card-date-title" >Date: {formatDateTimeRange({ date: datetitle?.startTime, format: 'MMM D' })+"-"+ formatDateTimeRange({ date: datetitle?.endTime, format: 'MMM D' })}</Typography> */}
             </Grid>

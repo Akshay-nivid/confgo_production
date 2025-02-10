@@ -100,7 +100,8 @@ const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
             }
     
             const req: any = { filters };
-            const response = await await apiClient.post(
+            req.limit=30;
+                const response = await await apiClient.post(
                 `sponsor/list`,
                 req
             );
@@ -174,29 +175,34 @@ const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
         getSponsor()
       }, [])
 
-
-       const handleSponsorSearch = async (query: string) => {
-            setLoading(true);
-            await POST({
-              url: "sponsor/list",
-              id: "sponsorList",
-              body: {
-                filters: {
-                  name: query,
-                  companyId: companyId,
-                },
-                limit:30
-              },
-              successCB: () => {
-                // setSearchSponsorResults(transformSponsoerData(context?.data))
-                setLoading(false);
-              },
-              errorCB: (context: any) => {
-                Logger.error("Error fetching search results:", context?.message);
-                setLoading(false);
-              }
-            })
-          };
+    /**
+     * handleSponserSearch is used after the successful creation of a sponsor. 
+     *  But the list is not populated in customAutocomplete.
+     *  so after creatingsponsorr creation usethe  handleSearch function.
+     * It is working so this code is commented.
+     */
+    //    const handleSponsorSearch = async (query: string) => {
+    //         setLoading(true);
+    //         await POST({
+    //           url: "sponsor/list",
+    //           id: "sponsorList",
+    //           body: {
+    //             filters: {
+    //               name: query,
+    //               companyId: companyId,
+    //             },
+    //             limit:30
+    //           },
+    //           successCB: () => {
+    //             // setSearchSponsorResults(transformSponsoerData(context?.data))
+    //             setLoading(false);
+    //           },
+    //           errorCB: (context: any) => {
+    //             Logger.error("Error fetching search results:", context?.message);
+    //             setLoading(false);
+    //           }
+    //         })
+    //       };
 
     return (
         <div className='assigned-volunteer-main-container'>
@@ -291,7 +297,7 @@ const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
             <Grid>
         <CustomDrawer
             children={
-            <DrawerCreateSponosor onSuccess={()=>{handleSponsorSearch("")}} 
+            <DrawerCreateSponosor onSuccess={()=>{handleSearch("")}} 
             closeDrawer={()=>
               setNewSponsorDrawerOpen(false)           
               }

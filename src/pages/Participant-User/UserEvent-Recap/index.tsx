@@ -64,7 +64,8 @@ const EventRecap: React.FC = React.memo(() => {
   /**
    * attended status
    */
-  const attendeeStatus = eventData[0]?.participants[0]?.eventParticipants[0]?.event?.attendees;
+  const attendeeStatus = eventData[0]?.participants[0]?.eventParticipants[0]?.event?.attendees ?? [];
+
 
   
   /**
@@ -416,6 +417,18 @@ export default EventRecap;
 
 const RegisteredProgramCard = ({ item, helperData }: { item: any; helperData?: any }) => {
 
+
+   /**
+    * Compares the given end date with today's date.
+    * Compares the given start date with today's date.
+    * This is used for checking the status of the program and addons
+    */
+    const today = moment().startOf('day');
+    const endDate = moment(item?.endTime);
+    const startDate = moment(item?.startTime);
+    const isEndDatePast = endDate.isBefore(today, 'day');
+    const isStartDatePast = startDate.isBefore(today,'day');
+    
   const baseUrl = config.api.url;
 
   return (
@@ -444,14 +457,17 @@ const RegisteredProgramCard = ({ item, helperData }: { item: any; helperData?: a
       ):(
       <>
       <ProgramIcon  className="svg-icon"/>
-      <Grid container > <Typography className="card-header-tag">Programs</Typography></Grid>
+      <Grid container > <Typography className="card-header-tag">Program</Typography></Grid>
       </>
        )}
        </Grid>
 
         <Grid size={2} container justifyContent="flex-end">
             <Typography className="event-recap-second-grid-content-status-text" justifySelf={'flex-end'}>
-            <StatusComponent value={helperData?.length == 0 ? '7' : '8'} />
+            {isEndDatePast ? ( <StatusComponent value="11" />) : isStartDatePast ? (
+                                helperData?.length === 0 ? (<StatusComponent value="7" />
+                                ) : (<StatusComponent value="8" /> )) : (<StatusComponent value="14" />
+                                )}
           </Typography>
           </Grid>
               </Grid>
@@ -537,7 +553,10 @@ const RegisteredProgramCard = ({ item, helperData }: { item: any; helperData?: a
             {/* Status Component */}
             <Grid size={2} container justifyContent="flex-end">
               <Typography className="event-recap-second-grid-content-status-text" justifySelf={'flex-end'}>
-                <StatusComponent value={helperData?.length == 0 ? '7' : '8'} />
+              {isEndDatePast ? ( <StatusComponent value="11" />) : isStartDatePast ? (
+                                helperData?.length === 0 ? (<StatusComponent value="7" />
+                                ) : (<StatusComponent value="8" /> )) : (<StatusComponent value="14" />
+                                )}
               </Typography>
             </Grid>
           </Grid>
