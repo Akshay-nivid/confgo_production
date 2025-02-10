@@ -2,9 +2,12 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { Typography } from "@mui/material";
 import Grid  from "@mui/material/Grid2";
 
+/**
+ * This component renders a section that allows the user to view their event website. 
+ */
 const EventWebsite=()=>{
       return(
-        <Grid container size={6} bgcolor={"lightblue"} className="EventWebsite-grid" >
+        <Grid container size={6}  className="EventWebsite-grid" >
              <Grid  size={12} className="EventWebsite-grid-content" container spacing={1}>
                    <Grid  className="EventWebsite-grid-content-title" >
                     
