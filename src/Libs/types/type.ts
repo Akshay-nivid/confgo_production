@@ -323,3 +323,24 @@ export interface IUserEvents {
   success: boolean;
 };
 
+
+export type OrderSummary = {
+  addonTotal: number;
+  companyId: number;
+  couponDeduction: number;
+  discountAmount: number;
+  finalPrice: number;
+  id: number;
+  orderDate: string;
+  parentEventId: number;
+  participantTypeId: number;
+  paymentStatus: string;
+  priceTierDiscount: string; 
+  programTotal: number;
+  statusId: number;
+  subTotal: string; 
+  tax: number;
+  taxInclusive: number;
+  taxPercentage: number;
+  userId: number;
+};

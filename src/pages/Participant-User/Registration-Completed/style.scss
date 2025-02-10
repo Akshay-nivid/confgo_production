@@ -1,6 +1,12 @@
 .event-registration-completed {
-  width: max(70%, 40rem);
+  width:100%;
+  max-width: 50rem;
   margin-inline: auto;
+  padding-inline: 1rem;
+  padding-block: 2rem;
+  // border: .2rem solid $clr_gray_30_percent;
+  background:$clr_gray_10_percent;
+  border-radius: 1rem;
   .registration-completed-icon {
     height: 8rem;
     width: 10rem;
@@ -55,8 +61,12 @@
         padding-inline: 1.66rem;
 
         .info-text {
-          font-size: $p2;
-          font-weight: $font_medium;
+          font-size: $h6;
+          font-weight: $font_semibold;
+          color: $clr_gray_extra_dark;
+        }
+        .value{
+          color: $clr_gray_dark_text;
         }
       }
     }
@@ -66,8 +76,8 @@
       justify-content: space-between;
       padding-inline: 1.66rem;
       .grand-total-info-text {
-        font-size: $h6;
-        font-weight: $font_semibold;
+        font-size: $h5;
+        font-weight: $font_bold;
       }
     }
   }

@@ -1,8 +1,5 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Box,
   Typography,
 } from "@mui/material";
@@ -16,12 +13,11 @@ import {
   // StripeIcon,
   // UpiIcon,
 } from "@/assets/svg";
-import { useState } from "react";
-import { ArrowDropDown } from "@mui/icons-material";
 import useStore, { IStoreState, setDataById } from "@/Libs/store";
 import PayPalParticipantButton from "./PaypalPartcipantComponent";
 import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";
+import { OrderSummary } from "@/Libs/types/type";
 
 /**
  * This component renders the payment method page, which displays the programs and their corresponding costs, the food and its corresponding cost, and the total cost of the programs and food. It also displays the different payment methods available to the user.
@@ -29,18 +25,17 @@ import routes from "@/router/routes";
  */
 const PaymentMethod = () => {
 
-  const [expanded, setExpanded] = useState<string | false>("panel1");
 
-  const orderData = useStore((state: IStoreState) => state.compData?.order?.order?.data)
+  const orderData: OrderSummary = useStore((state: IStoreState) => state.compData?.order?.order?.data)
 
   const eventId = useStore(state => state?.compData?.["eventSelected"]?.id)
-  
+
   const eventAmount = useStore((state: IStoreState) => state?.compData?.["eventData"]?.[`event/${eventId}`]?.data?.amount) || null
 
-  const handleChange =
-    (panel: string) => (_: React.SyntheticEvent, isExpanded: boolean) => {
-      setExpanded(isExpanded ? panel : false);
-    };
+  // const handleChange =
+  //   (panel: string) => (_: React.SyntheticEvent, isExpanded: boolean) => {
+  //     setExpanded(isExpanded ? panel : false);
+  //   };
 
   const navigate = useNavigate()
 
@@ -54,9 +49,9 @@ const PaymentMethod = () => {
 
 
   return (
-    <Grid container className="payment-method">
-      <Grid size={12}>
-        <Typography className="payment-method-header">
+    <Grid container className="payment-method shadow">
+      <Grid size={12} overflow={"hidden"}>
+        <Typography className="payment-method-header bg-zinc-50 py-2 rounded-t-xl text-center text-2xl">
           Payment Method
         </Typography>
       </Grid>
@@ -66,24 +61,25 @@ const PaymentMethod = () => {
 
             <Box className="payment-bill-item">
               <Typography className="info-text">Event Total</Typography>
-              <Typography className="info-text">$ {eventAmount}</Typography>
+              <Typography className="info-text value">$ {Number(eventAmount).toFixed(2)}</Typography>
             </Box>
 
             <Box className="payment-bill-item">
               <Typography className="info-text">Programs Total</Typography>
-              <Typography className="info-text">$ {orderData?.programTotal}</Typography>
+              <Typography className="info-text value">$ {orderData?.programTotal.toFixed(2)}</Typography>
             </Box>
             <Box className="payment-bill-item">
               <Typography className="info-text">Addon Total</Typography>
-              <Typography className="info-text">$ {orderData?.addonTotal}</Typography>
+              <Typography className="info-text value">$ {orderData?.addonTotal.toFixed(2)}</Typography>
             </Box>
-            <Box className="payment-bill-item">
+            {/* {orderData?.tax < 1 && <Box className="payment-bill-item">
               <Typography className="info-text">Tax</Typography>
-              <Typography className="info-text">$ {orderData?.tax}</Typography>
-            </Box>
+              <Typography className="info-text value">$ {orderData?.tax}</Typography>
+
+            </Box>} */}
             <Box className="payment-bill-item">
               <Typography className="info-text">Tier Discount</Typography>
-              <Typography className="info-text">$ {orderData?.priceTierDiscount}</Typography>
+              <Typography className="info-text value">$ {Number(orderData?.priceTierDiscount).toFixed(2)}</Typography>
             </Box>
             {/* <Box className="payment-bill-item">
               <Typography className="info-text">Sub Total</Typography>
@@ -91,24 +87,43 @@ const PaymentMethod = () => {
             </Box> */}
             <Box className="payment-bill-item">
               <Typography className="info-text">Coupon Discount</Typography>
-              <Typography className="info-text">$ {orderData?.discountAmount}</Typography>
+              <Typography className="info-text value">$ {orderData?.discountAmount.toFixed(2)}</Typography>
             </Box>
           </Box>
           <Box className="divider"></Box>
           <Box className="payment-grand-total-container">
+            <Typography className="sub-total-info-text">
+              Sub Total
+            </Typography>
+            <Typography className="sub-total-info-text value">$ {Number(orderData?.subTotal).toFixed(2)}</Typography>
+          </Box>
+
+          <Box className="payment-grand-total-container  -mt-3">
+            <Typography className="sub-total-info-text">
+              Tax
+              <span className="text-lg font-light ml-2">({orderData?.taxPercentage}%)</span>
+            </Typography>
+            <Typography className="sub-total-info-text value">$ {orderData?.tax.toFixed(2)}</Typography>
+          </Box>
+
+          <Box className="payment-grand-total-container">
             <Typography className="grand-total-info-text">
               Grand Total
+              {/* {orderData?.taxPercentage == 0 && <span className="block text-lg font-normal">(Tax included - {orderData.taxPercentage }% )</span>} */}
             </Typography>
-            <Typography className="grand-total-info-text">$ {orderData?.finalPrice}</Typography>
+            <Typography className="grand-total-info-text value">$ { orderData?.finalPrice.toFixed(2)}</Typography>
           </Box>
         </Box>
       </Grid>
+      {/* <Grid size={12} className="h-4 bg-gray-50"></Grid> */}
       <Grid className="payment-method-options-container" size={12}>
-        <Typography className="payment-method-options-header">
+        <Typography className="payment-method-options-header bg-zinc-50 py-2">
           Choose Payment Method
         </Typography>
-        <Box className="payment-method-list">
-          <Accordion
+        <Box className="payment-method-list px-10">
+          <PayPalParticipantButton />
+
+          {/* <Accordion
             expanded={expanded === "panel1"}
             defaultExpanded={true}
             onChange={handleChange("panel1")}
@@ -125,7 +140,7 @@ const PaymentMethod = () => {
             <AccordionDetails>
               <PayPalParticipantButton />
             </AccordionDetails>
-          </Accordion>
+          </Accordion> */}
           {/* <Accordion
             expanded={expanded === "panel1"}
             onChange={handleChange("panel1")}

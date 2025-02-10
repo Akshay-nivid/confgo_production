@@ -1,6 +1,7 @@
 .selected-programs-main {
 
-  width: max(70%, 40rem);
+  width: 100%;
+  max-width: 60rem;
   margin-inline: auto;
 
   .divider2 {
@@ -19,7 +20,7 @@
     display: flex;
     justify-content: space-between;
     padding-inline: 2rem;
-    background-color: $clr_gray_20_percent;
+    background-color: $clr_gray_10_percent;
     margin-bottom: 4rem;
     border-radius: 0.88rem;
     padding-block: 1.5rem;
@@ -34,6 +35,9 @@
       font-weight: $font_medium;
       font-size: $p1;
       color: $clr_sub_header;
+    }
+    .discount{
+      color: $clr_red;
     }
   }
 
@@ -169,8 +173,9 @@
     padding-inline: 2rem;
 
     &-wrapper {
-      background-color: $clr_gray_20_percent;
-      // border-radius: 0.88rem;
+      background-color: $clr_gray_10_percent;
+
+      border-radius: 0.88rem;
       margin-inline: auto;
     }
 
@@ -457,7 +462,7 @@
     border: .0083rem solid $clr_green;
     border-radius: .5rem;
     padding: 1.66rem;
-    background-color: $clr_gray_faded;
+    background-color: $clr_green_light !important;
 
     .coupon-code {
       font-size: $h6 !important;
