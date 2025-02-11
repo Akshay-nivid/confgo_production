@@ -140,6 +140,7 @@ const EventDetailsCard = (eventData: any) => {
 
 
            {/* Call <Grid container size={8}>
+           
       <EventDetailsCard data={eventData}/>
 
       </Grid> */}
