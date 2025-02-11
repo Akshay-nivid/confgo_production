@@ -60,20 +60,20 @@ const EventFeedBack = () => {
         {
             id: 1,
             icon: <NewRegistration  />,
-            info: 'NewRegistration',
+            info: 'New Registration',
             count: counts?.totalRegistrations
-
+            
         },
         {
             id: 2,
             icon: <ExistingUsers  />,
-            info: 'Total Checked-In Participants',
+            info: 'Total Attendees',
             count: counts?.totalCheckIns
 
         }, {
             id: 3,
             icon: <SoldTickets  />,
-            info: 'Total Ticket Sales',
+            info: 'Total Revenue',
             count: counts?.totalAmount
         }]
 

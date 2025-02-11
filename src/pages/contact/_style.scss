@@ -94,6 +94,9 @@
             }
 
             .contact-form {
+                &-error{
+                    min-height: 1.4rem;
+                }
                 .error-message{
                     color: $clr_red;
                 }
