@@ -145,9 +145,9 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
 					<Grid  container className="custom-stepper-conference-details-content-time">
 						<>
 						<span>
-							{moment(startDate, "HH:mm").format("hh:mm A")}
+						{moment.utc(data?.event?.startTime).local().format("hh:mm A")}
 						</span>-<span>
-							{moment(endDate, "HH:mm").format("hh:mm A")}
+						{moment.utc(data?.event?.endTime).local().format("hh:mm A")}
 						</span>
 						</>
 					</Grid>

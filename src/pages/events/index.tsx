@@ -105,6 +105,7 @@ interface Addons {
   sponosrSelection?:string;
   sponsorReservedSeats?:string;
   sponsorTypeId?:string
+  addOnPropertyRequired:string;
 }
 
 const Events = () => {
@@ -409,6 +410,7 @@ const Events = () => {
       sponsorReservedSeats,
       sponsorTypeId,
       sponsor,
+      addOnPropertyRequired,
        ...item }: Addons) => {
       // Create the combined datetime field
       let combinedStartDateTime;
