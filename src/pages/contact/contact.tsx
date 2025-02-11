@@ -10,8 +10,8 @@ import { CallIcon } from '@/assets/svg';
 import { LocatioIcon } from '@/assets/svg';
 import { MessageIcon } from '@/assets/svg';
 import CustomButton from '@/components/CustomButton/CustomButton';
-import CustomPhone from '@/components/CustomPhone/CustomPhone';
-import { countries } from '@/Utils/country/country';
+// import CustomPhone from '@/components/CustomPhone/CustomPhone';
+// import { countries } from '@/Utils/country/country';
 
 
 interface FormData {
@@ -54,16 +54,16 @@ const Contact = () => {
     const recaptchaRef = useRef<ReCAPTCHA>(null);
     const POST = useStore((state: any) => state.POST);
     const setDataById = useStore((state: any) => state.setDataById);
-    const [phoneNumber, setPhoneNumber] = useState("");
-    const [selectedCountryCode, setSelectedCountryCode] = useState("+91");
+    // const [phoneNumber, setPhoneNumber] = useState("");
+    // const [selectedCountryCode, setSelectedCountryCode] = useState("+91");
 
-    const handleCountryChange = (code: string) => {
-        setSelectedCountryCode(code);
-    };
+    // const handleCountryChange = (code: string) => {
+    //     setSelectedCountryCode(code);
+    // };
 
-    const handlePhoneNumberChange = (number: string) => {
-        setPhoneNumber(number);
-    };
+    // const handlePhoneNumberChange = (number: string) => {
+    //     setPhoneNumber(number);
+    // };
 
 /**
  * change state of recapcha
@@ -162,48 +162,86 @@ const Contact = () => {
                     </Grid>
                     <Grid container size={{ lg: 4, xs: 12,sm:10,md:6 }} paddingInline={1.6} spacing={0} className='contact-form' sx={{ order: { xs: 1, lg: 2 } }}  >
                         <form className='w-full' noValidate onSubmit={handleSubmit(onSubmit)} >
-                            <Grid container size={{ lg: 12, xs: 12 }} spacing={1} justifyContent='center' alignItems='center'>
+                            <Grid container size={{ lg: 12, xs: 12 }} spacing={0} justifyContent='center' alignItems='center' columnSpacing={1}>
                                 <Grid size={{ lg: 6, xs: 12 }} >
                                     <CustomTextField
                                         name='name'
-                                        label={"First Name"}
+                                        placeholder={"First name"}
                                         type='text'
+                                        showOutlinedText={false}
                                         control={control}
                                         rules={
                                             {
-                                                required: validateRequiredField({})
-                                            }
-                                        }
-                                    /></Grid>
-                                <Grid size={{ lg: 6, xs: 12 }}>
-                                    <CustomTextField
-                                        name='lastName'
-                                        label={"Last Name"}
-                                        type='text'
-                                        control={control}
-                                        rules={
-                                            {
-                                                required: validateRequiredField({})
+                                                required: validateRequiredField({showMessage:false})
                                             }
                                         }
                                     />
+
+                                    <Grid  className="contact-form-error" >
+
+                                        {errors?.name&&
+                                        
+                                        <Typography className="error-message">
+                                           Field is required
+                                        </Typography>
+
+                                        }
+                                    </Grid>
+
+                                      </Grid>
+                                <Grid size={{ lg: 6, xs: 12 }}>
+                                    <CustomTextField
+                                        name='lastName'
+                                        placeholder={"Last Name"}
+                                        type='text'
+                                        showOutlinedText={false}
+                                        control={control}
+                                        rules={
+                                            {
+                                                required: validateRequiredField({showMessage:false }),
+                                            }
+                                        }
+                                    />
+                                    <Grid className="contact-form-error" >
+
+                                        {errors?.lastName&&
+
+                                        <Typography className="error-message">
+                                           Field is required
+                                        </Typography>
+
+                                        }
+                                    </Grid>
+
                                 </Grid>
                                 <Grid size={{ lg: 12, xs: 12 }}>
                                     <CustomTextField
                                         control={control}
                                         name="email"
-                                        label={"Email Address"}
+                                        placeholder={"Email Address"}
                                         type="email"
+                                        showOutlinedText={false}
                                         rules={
                                             {
-                                                required: validateRequiredField({}),
+                                                required: validateRequiredField({showMessage:false}),
                                                 pattern: validateEmail({})
                                             }
                                         }
                                     />
+                                    <Grid className="contact-form-error" >
+
+                                        {errors?.email&&
+
+                                        <Typography className="error-message">
+                                            Field is required
+                                        </Typography>
+
+                                        }
+
+                                    </Grid>
                                 </Grid>
                                 <Grid size={{ lg: 12, xs: 12 }}>
-                                    <CustomPhone
+                                    {/* <CustomPhone
                                         countries={countries}
                                         selectedCountryCode={selectedCountryCode}
                                         onCountryChange={handleCountryChange}
@@ -214,18 +252,52 @@ const Contact = () => {
                                         // removeBorder={true}
                                         error={errors.phoneNumber}
                                         
+                                    /> */}
+                                    <CustomTextField
+                                    name='phoneNumber'
+                                    showOutlinedText={false}
+                                    placeholder={"Phone Number"}
+                                    type='text'
+                                    control={control}
+                                    rules={{
+                                        required: validateRequiredField({showMessage:false})
+                                    }}
                                     />
+
+                                    <Grid className="contact-form-error" >
+
+                                    {errors?.phoneNumber&&
+
+                                    <Typography className="error-message">
+                                        Field is required
+                                    </Typography>
+
+                                    }
+                                </Grid>
+
+                                    
                                 </Grid>
                                 <Grid size={{ lg: 12, xs: 12 }}>
                                     <CustomTextField
                                         name='companyName'
-                                        label="Company Name"
+                                        showOutlinedText={false}
+                                        placeholder={"Company Name"}
                                         type='text'
                                         control={control}
                                         rules={{
-                                            required: validateRequiredField({})
+                                            required: validateRequiredField({showMessage:false})
                                         }}
                                     />
+                                    <Grid className="contact-form-error" >
+
+                                        {errors?.companyName&&
+
+                                        <Typography className="error-message">
+                                            Field is required
+                                        </Typography>
+
+                                        }
+                                    </Grid>
                                 </Grid>
                                 <Grid size={{ lg: 12, xs: 12 }}>
                                     <TextareaAutosize
@@ -236,7 +308,15 @@ const Contact = () => {
                                             required: "Message is required",
                                         })}
                                     />
-                                      {errors.message && <Typography className="error-message">{errors.message.message}</Typography>}
+                                      
+                                    <Grid className="contact-form-error">
+
+                                        {errors.message &&
+                                            <Typography className="error-message">{errors.message.message}</Typography>
+                                        }
+                                        
+                                    </Grid>
+                                      
 
                                 </Grid>
                                 <Grid className='contact-form-recaptcha'>

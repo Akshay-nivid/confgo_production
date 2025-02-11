@@ -6,6 +6,7 @@ import { CircularProgress } from '@mui/material'
 import Grid from '@mui/material/Grid2'
 import { useEffect } from 'react'
 import CustomBarChart from '@/components/CustomCharts/CustomBarChart'
+import { PichartIcon } from '@/assets/svg'
 
 
 /**
@@ -152,7 +153,10 @@ const RevenueAndUserChart = () => {
 
                                 chartData?.pieChartData?.length === 0 ?
 
-                                    <Grid size={12} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+                                    <Grid size={12} display={'flex'} justifyContent={'center'} alignItems={'center'} flexDirection={"column"} className='total-users-icon'>
+                                        
+                                        <PichartIcon/>
+                                       
                                         <p className='total-users-label'>No Data available</p>
                                     </Grid>
                                     :

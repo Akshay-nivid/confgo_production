@@ -4,13 +4,20 @@ import HTMLReactParser from 'html-react-parser/lib/index';
 import { EventCalendar, EventLocation} from "@/assets/svg";
 import moment from "moment";
 import CustomButton from "@/components/CustomButton/CustomButton";
+import { setDataById } from "@/Libs/store";
 const EventDetailsCard = (eventData: any) => {
    
 
-    const { name, eventClass, description, startTime, endTime ,venue} = eventData?.data;
-  
-   
+    const { name, eventClass, description, startTime, endTime ,venue,id} = eventData?.data;
+ 
+    /**
+     * Natigate to program Details page
+     */
+    const viewProgramme=(_id:any)=>{
+        setDataById("tabValue", { value: '3' });
+    }
 
+   
     return (
         <Grid container size={12} className="Event-BasicInfo">
 
@@ -61,7 +68,8 @@ const EventDetailsCard = (eventData: any) => {
 
                             <Typography className="date">
 
-                            {moment(startTime).format('MMM D') + ' - ' + moment(endTime).format('MMM D, YYYY')}
+                            {moment(startTime).format("MMM D, hh:mm A") + " - " + moment(endTime).format("MMM D,hh:mm A, YYYY ")
+                            }
                               
                             </Typography>
 
@@ -109,16 +117,19 @@ const EventDetailsCard = (eventData: any) => {
                 </Grid>)}
                 <Grid size={{lg:6,sm:12}} className="Event-BasicInfo-viewProgram"  display={"flex"} alignItems={"end"} justifyContent={"flex-end"} gap={1}>
                 
-                <Grid size={6} container>
+                <Grid size={6} container >
                     <CustomButton
                     fullWidth
-                    label="View Programmes" className="btn"/>
-
+                    label="View Programmes" className="btn"
+                    onClick={()=>viewProgramme(id)}
+                    />
                  </Grid>
                  <Grid size={6} container>
                     <CustomButton
                     fullWidth
-                    label="Edit Event Details" className="btn2"/>
+                    label="Edit Event Details" className="btn2"
+                    // onClick={editDrawer}
+                    />
 
                  </Grid>
 
