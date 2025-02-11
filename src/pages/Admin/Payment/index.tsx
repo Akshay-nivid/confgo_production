@@ -325,7 +325,7 @@ const AdminPaymentList: React.FC = () => {
       ) : (
             <Grid size={12} className="sponsor-datagrid">
                 <DataGridList
-                  noRecordIcon={<NoPayment className="paymentlist-no-payment-icon"/>}
+                  noRecordIcon={<NoPayment className="icon"/>}
                     noRecordSubtitle="It looks like you haven’t made any payments. Once you start registering for events, your payment history will appear here."
                     dataTransformer={transformData}
                     source={source}

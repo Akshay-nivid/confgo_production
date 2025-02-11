@@ -59,15 +59,15 @@ const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetit
         <Grid container className="event-card" spacing={1} flexDirection={"column"} onClick={() => navigate(routes.userEventRecap(), { state: { eventId: id } })}>
             <Grid container justifyContent={"flex-start"} display={"flex"}>
                 <Grid className="logo-box" alignContent={"center"} >
-                    {eventFullData?.assetId && <img src={`${baseUrl}asset/${eventFullData?.assetId}`} alt='' />}
+                    {eventFullData?.assetId && <img src={`${baseUrl}asset/${eventFullData?.assetId}`} alt=''/>}
                 </Grid>
                 <Grid display={"block"}>
                     <CustomTooltip title={title}>
                         <Typography className="event-card-title" >
-                            {truncateString(toTitleCase(title), 23, "Untitled")}
+                            {truncateString(toTitleCase(title), 20, "Untitled")}
                         </Typography>
                     </CustomTooltip>
-                    <Grid display={"flex"} alignItems={"center"} columnGap={2}>
+                    <Grid display={"flex"} alignItems={"center"} columnGap={1}>
                         <EventTypeText status={eventFullData.eventClass} className='eventClassType' />
                         <Grid className="vertical-divider" />
                             {isEndDatePast ? ( <StatusComponent value="11" />) : isStartDatePast ? (
@@ -86,8 +86,8 @@ const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetit
                </CustomTooltip> 
             </Grid> */}
             <Grid className="horizontal-dotted-divider" />
-            <Grid container display={"flex"} className="event-card-info" justifyContent={"space-between"}>
-                <Grid className="left-container" >
+            <Grid size={12} container display={"flex"} className="event-card-info" justifyContent={"space-between"}>
+                <Grid className="left-container"  size={6}>
                     <Typography textAlign={"start"} className='title'>
                         DATE
                     </Typography>
@@ -97,11 +97,11 @@ const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetit
                  Location: {truncateString(location, 20, "Location not specified")}
                  </Typography> */}
                 </Grid>
-                <Grid className="left-container" >
+                <Grid className="left-container"  size={6}>
                     <Typography textAlign={"start"} className='title'>
                     {eventFullData.eventClass!="ONLINE"?  "LOCATION":"URL"}
                     </Typography>
-                    <Typography className='title-value'>{eventFullData.eventClass!="ONLINE"? truncateString(location, 20, "Location not specified"): truncateString(eventFullData?.url, 15, "URL not specified")}</Typography>
+                    <Typography className='title-value'>{eventFullData.eventClass!="ONLINE"? truncateString(location, 12, "Location not specified"): truncateString(eventFullData?.url, 12, "URL not specified")}</Typography>
                 </Grid>
             </Grid>
             {/* {Eventstatus &&
