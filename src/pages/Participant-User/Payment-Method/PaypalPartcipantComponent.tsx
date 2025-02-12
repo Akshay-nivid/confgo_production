@@ -144,6 +144,7 @@ const PayPalParticipantButton: React.FC = () => {
         clientId: "AQ9K1hDjjXSmmQz1aBt3FDjLTkrl8DRJvnUC6H6_eXAw-wzz6eC2eoYmSOEJcdN0prPUX1hsSm8bfGtK",
         currency: "USD",
         intent: "capture",
+        "disable-funding": "card"
     };
 
 
