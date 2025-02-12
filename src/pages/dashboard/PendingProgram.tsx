@@ -41,8 +41,8 @@ const PendingProgram = () => {
     * Row click navigation
     */
     const handleRowClick = (id: number | string,) => {
-        
-        
+
+
         navigate(`/events/detail/${id}`, { state: { tabId: "3" } });
     };
 

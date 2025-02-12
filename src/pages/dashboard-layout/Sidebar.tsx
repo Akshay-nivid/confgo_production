@@ -106,7 +106,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       open={open}
       className="sidebar-drawer-admin"
     >
-      <div className="px-[1.666rem] flex-1">
+      <div className="px-[1.2rem] flex-1">
         <List className="sidebar-list-admin">
           {sidebarItems.map((item) => {
             const isActive = isActiveLink(item.path, item.exact);

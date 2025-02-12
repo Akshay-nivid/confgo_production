@@ -125,7 +125,8 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
       width: 200,
       dateFormat: "DD/MM/YYYY",
     },
-    { type: "status", field: "statusId", headerName: "Status", width: 150,sortable: false }
+    { type: "status", field: "statusId", headerName: "Status", width: 150, sortable: false },
+    
   ];
 
   /**
@@ -200,11 +201,11 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
 
   return (
     <Grid container className="custom-list">
-      <Grid size={{ xs: 4 }}>
+      {/* <Grid size={{ xs: 4 }}>
         <Typography className="custom-list-list-title" gutterBottom>
           Events
         </Typography>
-      </Grid>
+      </Grid> */}
 
       {/* Buttons for 'Create New Event' and 'Filters' */}
       <Grid container size={{ xs: 8 }} spacing={2} justifyContent="flex-end">
@@ -263,13 +264,13 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
           justifyContent={"center"}
           alignItems={"center"}
         >
-          <CustomButton
+          {/* <CustomButton
             className="custom-list-view-all-button"
             label="View All"
             variant="outlined"
             size="large"
             onClick={() => navigate("/events")}
-          />
+          /> */}
         </Grid>
       )}
     

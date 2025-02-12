@@ -73,7 +73,7 @@ export default function LayoutAppbar() {
   
   return (
     <Grid container className="appbar">
-      <Grid size={2} className="appbar-logo-container">
+      <Grid size={2} className="appbar-logo-container -ml-[.14rem]">
       <AppThemeLogo className={`appbar-logo-container-svg`} />
       </Grid>
       <Grid size={10} className="appbar-profile">

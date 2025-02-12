@@ -24,9 +24,29 @@
       width: 100%;
       flex-direction: column;
       display: flex;
+     
       &-outlet-adminwrapper {
+        overflow-x: hidden;
+        &::-webkit-scrollbar {
+          width: .5rem; // Thin scrollbar
+          height: .2rem; // For horizontal scrollbars (if needed)
+        }
+      
+        &::-webkit-scrollbar-thumb {
+          background:$clr_gray_medium; 
+          border-radius: 0.83rem !important;
+        }
+      
+        &::-webkit-scrollbar-thumb:hover {
+          background: $clr_gray_dark !important; 
+        }
+      
+        &::-webkit-scrollbar-track {
+          background:  $clr_gray_faded; 
+          border-radius: 0.83rem;
+          margin-top: .2rem !important;
+        }
         flex: 1;
-        // background-color: $background !important;
         overflow-y: auto;
       }
     }
@@ -36,14 +56,17 @@
 // sidebar
 .sidebar-drawer-admin {
   height: 100% !important;
+ 
 
   & .MuiPaper-root {
     width: '100%';
     position: relative;
     overflow-y: auto;
     border-top: none;
-    border-bottom-width: 0.0416rem;
-    border-bottom-color: $clr_gray_faded;
+    border-right-width: 0.15rem !important;
+    border-right-color: $clr_gray_30_percent !important;
+    // border-bottom-width: 0.4rem;
+    // border-bottom-color: $clr_gray_faded;
   }
 }
 
@@ -96,25 +119,20 @@
 //layout appbar
 
 .appbar {
-  // border-bottom-width: 0.0416rem;
-  // border-bottom-color: $clr_gray_faded;
+  
   display: flex;
   overflow: hidden;
   align-items: center;
-  // background-color: $background !important;
   min-height: 6.666rem;
   &-profile{
-    border-left: 0.0416rem solid $clr_gray_faded;
+    border-left: 0.15rem solid $clr_gray_30_percent;
     display: flex;
     align-items: center;
     min-height: 100% !important;
-     border-bottom-width: 0.0416rem;
-     border-bottom-color: $clr_gray_faded;
+     border-bottom-width: 0.15rem;
+     border-bottom-color: $clr_gray_30_percent;
   }
   &-logo-container {
-    // border: none !important;
-    // border-bottom-width: 0.0416rem;
-    // border-bottom-color: $clr_gray_faded;
     background-color: $clr_white;
     height: 6.666rem;
     display: flex;
@@ -198,3 +216,4 @@
    }
   }
 }
+

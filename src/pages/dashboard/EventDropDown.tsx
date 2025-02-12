@@ -30,21 +30,21 @@ const EventDropDown = (data: any): JSX.Element => {
      * Filtered only Published events
      */
 
-    const publishedEvent=data?.data?.data?.filter((event:any) => event?.published  === true);
+    const publishedEvent = data?.data?.data?.filter((event: any) => event?.published === true);
 
     /**
      * Mapping event data to options for the dropdown
      */
 
     const options = publishedEvent?.map((item: any) => ({
-        label: truncateString(item?.name,40),
+        label: truncateString(item?.name, 40),
         value: item?.id
     }));
 
     /**
      * React Hook Form's control and state management
      */
-    
+
     const {
         watch,
         setValue,
@@ -69,76 +69,49 @@ const EventDropDown = (data: any): JSX.Element => {
      * Save selected eventId type to the store using the watch hook
      */
 
-    useEffect(()=>{
+    useEffect(() => {
 
-    setNonPersistedDataById("CustomSelectData", { data: watch('fieldType') });
-     
-    },[watch('fieldType')]);
+        setNonPersistedDataById("CustomSelectData", { data: watch('fieldType') });
+
+    }, [watch('fieldType')]);
 
     return (
         <Grid container size={12} className="adminDashBoard-EventsMenu">
-
             <Grid className="adminDashBoard-EventsMenu-content" container size={12} alignItems={"center"} spacing={1}>
-
                 <Grid className="heading" size={3}>
-
                     <Typography className="heading">Dashboard</Typography>
-
                 </Grid>
-
-                <Grid className="DropDownBox" size={6} display={"flex"} gap={1}>
-
+                
+                <Grid className="DropDownBox" size={6} display={"flex"} >
+                    <Grid size={5} container justifyContent={"center"} alignItems={"center"} columnSpacing={.4}
+                        className="DropDownBox-container-mikeIcon"  >
+                        <MikeIcon />
+                            <Typography className="DropDownBox-container-mikeIcon-title"> Events</Typography>
+                    </Grid>
                     <Grid className="DropDownBox-container" size={12} display={"flex"}>
+
                         <Grid size={12}>
-
                             <CustomSelect
-
                                 className="DropDownBox-container-dropDown"
                                 size="medium"
                                 name="fieldType"
                                 control={control}
                                 defaultValue={options?.[0]?.value}
-                                label="" 
+                                label=""
                                 options={options}
-
                             />
-
                         </Grid>
-                        <Grid size={5} container justifyContent={"center"} alignItems={"center"}
-                            className="DropDownBox-container-mikeIcon"  >
-
-
-
-                            <MikeIcon />
-
-
-
-                            <Grid size={5}>
-
-                                <Typography className="DropDownBox-container-mikeIcon-title">Events</Typography>
-
-                            </Grid>
-
-                        </Grid>
-
-
 
                     </Grid>
-
-
                 </Grid>
                 <Grid className="DropDownBox-container-createEvent" display={"flex"} size={3} >
                     <CustomButton
                         className="DropDownBox-container-createEvent-btn"
                         fullWidth
-
                         label="Create Event"
                         onClick={() => navigate('/events/create')}
                     />
-
                 </Grid>
-
-
             </Grid>
         </Grid>
     )

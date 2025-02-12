@@ -120,8 +120,8 @@ const RevenueAndUserChart = () => {
     return (
 
 
-        <Grid size={{ xs: 12, sm: 12 }} container minHeight={'24rem'} columnSpacing={2} className="revenue-and-user-chart">
-            <Grid size={8} container flexDirection={"column"} borderRadius={".83rem"} border={"0.083rem solid #E9E9E9"} bgcolor={"white"} paddingBlock={1} paddingRight={2.2} >
+        <Grid size={{ xs: 12, sm: 12 }} container minHeight={'24.5rem'} columnSpacing={2} className="revenue-and-user-chart">
+            <Grid size={8} container flexDirection={"column"} borderRadius={".83rem"}  boxShadow={"rgba(0, 0, 0, 0.12) 0rem 0rem 0.3125rem 0rem,  rgba(0, 0, 0, 0.12) 0rem 0rem 0.0625rem 0rem"}  bgcolor={"white"} paddingBlock={1} paddingRight={2.2} >
                 <>
 
                     <Grid size={12} display={'flex'} columnGap={8} className="header-container" paddingInline={2.2}>
@@ -138,7 +138,7 @@ const RevenueAndUserChart = () => {
 
             </Grid>
 
-            <Grid size={4} container borderRadius={".83rem"} border={"0.083rem solid #E9E9E9"} bgcolor={'white'} padding={'1rem'}>
+            <Grid size={4} container borderRadius={".83rem"} boxShadow={"rgba(0, 0, 0, 0.12) 0rem 0rem 0.3125rem 0rem,  rgba(0, 0, 0, 0.12) 0rem 0rem 0.0625rem 0rem"} bgcolor={'white'} padding={'1rem'}>
 
                         <Grid size={12}>
                             <p className='total-users-label'>Total Users Registered</p>

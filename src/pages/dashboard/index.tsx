@@ -165,80 +165,64 @@ const Dashboard = () => {
   return (pendingEventList?.success ?
     <>
       <TermsAndConditon open={open} onClose={handleClose} />
-      {fullEventList?.data?.length == 0 ? <NoDataDashBoard /> : <Grid container size={{ xs: 12, sm: 12 }} spacing={2} className="dashboard" >
-        <Grid size={{ xs: 12, sm: 8 }} container p={2}>
-          <Grid size={{ xs: 12, sm: 12 }} container>
+      {fullEventList?.data?.length == 0 ? <NoDataDashBoard />
+        :
+        <Grid container size={{ xs: 12, sm: 12 }} spacing={2} className="dashboard" >
+          <Grid size={{ xs: 12, sm: 8.3 }} container p={2} >
+            <Grid size={{ xs: 12, sm: 12 }} container>
 
-            <EventDropDown data={fullEventList} />
+              <EventDropDown data={fullEventList} />
 
-            <Grid container size={12}>
+              <Grid container size={12}>
 
-              <EventFeedBack />
+                <EventFeedBack />
 
+              </Grid>
 
             </Grid>
+
+            <RevenueAndUserChart />
+          </Grid>
+          <Grid size={{ xs: 12, sm: 3 }} pt={.7}>
+
+            {upcomingData ? <Grid className="dashboard-calendar-card" boxShadow={"rgba(0, 0, 0, 0.12) 0rem 0rem 0.3125rem 0rem,  rgba(0, 0, 0, 0.12) 0rem 0rem 0.0625rem 0rem"}> <UpComingEvents data={upcomingData} /> </Grid> :
+              <Grid container className="dashboard-no-event-calender" justifyContent={"center"} alignItems={"center"} alignContent={"center"} flexDirection={"column"}>
+                <CalenderNoData width={50} height={50} />
+                <Typography className="dashboard-no-event-calender-header">No Events Scheduled</Typography>
+                <Typography className="dashboard-no-event-calender-subHeader">Create New Events !</Typography>
+                <CustomButton
+                  className="dashboard-no-event-calender-btn"
+                  label="Create New Event"
+                  onClick={() => navigate(routes.createEvent())}
+                />
+              </Grid>
+            }
+            {upcomingData &&
+              <Grid boxShadow={"rgba(0, 0, 0, 0.1) 0rem 0rem 0.3125rem 0rem,  rgba(0, 0, 0, 0.1) 0rem 0rem 0.0625rem 0rem"} className="dashboard-calendar-card" mt={1}>
+
+                <PendingProgram />
+
+              </Grid>}
 
           </Grid>
+          <Grid size={{ xs: 12, sm: 12 }} container direction={'column'} borderRadius={2} ml={2} mb={2} mr={3.5} boxShadow={"rgba(0, 0, 0, 0.1) 0rem 0rem 0.3125rem 0rem,  rgba(0, 0, 0, 0.1) 0rem 0rem 0.0625rem 0rem"}>
+            {fullEventList?.data?.length < 5 ? (
+              <Grid className="dashboard-event-list-card">
+                <EventListCard view={false} dashView={true} />
+              </Grid>
+            ) : (
+              <Grid className="dashboard-event-list-card -mt-8 relative">
+                <div className="absolute right-24 top-[55px] z-10  ">
+                  <p className="underline" />
 
-          <RevenueAndUserChart/>
+                </div>
 
-          
+                <EventListCard view={true} dashView={true} />
+              </Grid>
+            )}
 
-
-          <Grid size={{ xs: 12, sm: 12 }} container >
-            {/* {upcomingData? <Grid className="dashboard-calendar-card"> <CalendarCard data={upcomingData}/> </Grid>: */}
-            {/* {upcomingData&& <Grid size={{ xs: 12, sm: 6 }} className="dashboard-upcoming-event-card"><UpcomingEventCard data={upcomingData}/></Grid>} */}
           </Grid>
-          {/* <Grid size={{ xs: 12, sm: 12 }} container>
-        <Grid size={{ xs: 12, sm: 4 }} className="dashboard-item-card"><ItemCard label="Total Events Hosted" value={eventCountData?.data?.totalEventCount} icon={<EventHostedIcon />} /></Grid>
-        <Grid size={{ xs: 12, sm: 4 }} className="dashboard-item-card"><ItemCard label="Total Users Registered" value={eventCountData?.data?.totalUserCount} icon={<UsersRegisteredIcon />} /></Grid>
-        <Grid size={{ xs: 12, sm: 4 }} className="dashboard-item-card"><ItemCard label="New Registrations" value={eventCountData?.data?.newUserCount} icon={<NewRegistrationsIcon />} /></Grid>
-      </Grid> */}
-          {pendingData ? <Grid size={{ xs: 12, sm: 12 }} container className="dashboard-pending-event-card"><PendingEventCard data={pendingData} /></Grid> :
-            <Grid display={"flex"} size={12} className="dashboard-pending-event-card" justifyContent={"space-between"} alignContent={"center"} alignItems={"center"}>
-              <Typography className="dashboard-no-pending-event-header">No Pending Events</Typography>
-              <CustomButton
-                onClick={() => navigate(routes.createEvent())}
-                className="dashboard-no-pending-event-btn"
-                label="Create New Event" />
-            </Grid>}
-        </Grid>
-        <Grid size={{ xs: 12, sm: 4 }} pt={1}>
-          {/* <Grid><Typography className="dashboard-calendar-card-header">Weekly Calendar</Typography></Grid> */}
-          {/* <Grid size={{ xs: 12, sm:upcomingData? 6:12 }} className="dashboard-welcome-card"><WelcomeCard /></Grid> */}
-          {upcomingData ? <Grid className="dashboard-calendar-card"> <UpComingEvents data={upcomingData} /> </Grid> :
-            <Grid container className="dashboard-no-event-calender" justifyContent={"center"} alignItems={"center"} alignContent={"center"} flexDirection={"column"}>
-              <CalenderNoData width={50} height={50} />
-              <Typography className="dashboard-no-event-calender-header">No Events Scheduled</Typography>
-              <Typography className="dashboard-no-event-calender-subHeader">Crreate New Events !</Typography>
-              <CustomButton
-                className="dashboard-no-event-calender-btn"
-                label="Create New Event"
-                onClick={() => navigate(routes.createEvent())}
-              />
-            </Grid>
-          }
-          {upcomingData &&
-            <Grid className="dashboard-calendar-card" mt={1}>
-
-              <PendingProgram />
-
-            </Grid>}
-
-        </Grid>
-        <Grid size={{ xs: 12, sm: 12 }} container direction={'column'} p={1}>
-          {fullEventList?.data?.length < 5 ? (
-            <Grid className="dashboard-event-list-card">
-              <EventListCard view={false} dashView={true} />
-            </Grid>
-          ) : (
-            <Grid className="dashboard-event-list-card -mt-8">
-              <EventListCard view={true} dashView={true} />
-            </Grid>
-          )}
-
-        </Grid>
-      </Grid>}
+        </Grid>}
     </> :
     <Grid container justifyContent={'center'} height={'100%'} alignItems={"center"}><CircularProgress color="success" /> </Grid>)
 };
