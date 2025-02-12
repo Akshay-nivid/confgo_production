@@ -18,14 +18,14 @@
     &-content {
         display: flex;
         flex-direction: column;
-        max-height: 75vh; 
+        max-height: 74vh; 
         overflow-y: auto; 
         padding-right: 1rem; 
       }
     
       &-masonry {
         display: flex;
-        margin-left: -1.333rem;
+        // margin-left: -1.333rem;
         width: auto;
       }
       &-images {
@@ -35,6 +35,9 @@
         gap: 1rem;
         max-height: 80%;
         overflow-y: auto; 
+      }
+      &-info-image{
+        object-fit: cover;
       }
   
       &-title{
@@ -60,7 +63,27 @@
           background-color: $clr_white;
           padding: 2rem;
           width: 58.333rem;
+
+        &-text{
+          margin-bottom: 2rem;
+        }
+        &-modal{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
       }
+      &-confirm{
+        &-grid{
+            margin-top: 2rem;
+            justify-content: center;
+            align-items: center;
+        }
+        &-img{
+            height: 6rem;
+          }
+      }
+  
       &-view-btn{
           border: 0.083rem solid $clr_green !important;
           background-color: $clr_white !important;
@@ -96,5 +119,9 @@
             font-weight: $font_semibold;
             justify-content: center;
         }
+       
       }
+      &-header{
+        margin-bottom: 2rem;
+    }
 }

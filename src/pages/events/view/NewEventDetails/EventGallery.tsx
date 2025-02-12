@@ -12,6 +12,8 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import AddIcon from "@mui/icons-material/Add";
 import FileUpload from "@/components/FileUpload/FileUpload";
 import Masonry from "react-masonry-css";
+import { processAPIResponse } from "@/Utils/CommonBaseClass";
+import { setDataById } from "@/Libs/store";
 
 interface CustomFile {
   assetId: any;
@@ -25,7 +27,7 @@ interface CustomFile {
  */
 const EventGallery: React.FC = () => {
   const { handleSubmit } = useForm();
-  const eventId = useLocation()?.pathname.split("/")[3];
+  const eventId = useLocation()?.pathname?.split("/")[3];
 
   const [files, setFiles] = useState<CustomFile[]>([]);
   const [_loading, setLoading] = useState<boolean>(true);
@@ -44,9 +46,9 @@ const EventGallery: React.FC = () => {
       const response = await apiClient.post("/eventImage/ListByEvent", {
         eventId,
       });
-      const imagesArray = response.data?.data?.images || [];
+      const imagesArray = response?.data?.data?.images || [];
 
-      if (Array.isArray(imagesArray)) {
+      if (Array?.isArray(imagesArray)) {
         setFiles(imagesArray);
       } else {
         setFiles([]);
@@ -81,11 +83,18 @@ const EventGallery: React.FC = () => {
     try {
       const req = {
         eventId: eventId,
-        assetIds: selectedFiles.flat().map((file) => file.id) || [],
+        assetIds: selectedFiles?.flat()?.map((file) => file?.id) || [],
       };
       setLoading(true);
-      await apiClient.post("/eventImage/upload", req);
-      setSelectedFiles([]);
+      const response = await apiClient.post("/eventImage/upload", req);
+      const { status,message } =  await processAPIResponse(response,"imageUpload");
+      if(status){
+        setDataById("snackBarInfo", { open: true, autoHideDuration: 2000, severity: "success", message: message});
+        setSelectedFiles([]);
+      }
+      else{
+        throw new Error(message|| 'Unexpected error occurred');
+      }
     } catch (error) {
       Logger.error("Error uploading files:", error);
     } finally {
@@ -130,29 +139,25 @@ const EventGallery: React.FC = () => {
         <Grid size={12}>
         {files?.length != 0 ? (
             <Grid container spacing={1} justifyContent="center">
-              {files.slice(0, 5).map((item) => (
-                <Grid key={item.id} className="event-gallery-images">
+              {files?.slice(0, 5)?.map((item) => (
+                <Grid key={item?.id} className="event-gallery-images">
                   <img
-                    src={`${baseURL}asset/${item.assetId}`}
-                    alt={item.name}
+                    src={`${baseURL}asset/${item?.assetId}`}
+                    alt={item?.name}
                     loading="lazy"
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
+                    className="event-gallery-info-image"
                   />
                 </Grid>
               ))}
 
-              {files.length > 5 && (
+              {files?.length > 5 && (
                 <Grid className="event-gallery-img-length">
-                  +{files.length - 5}
+                  +{files?.length - 5}
                 </Grid>
               )}
             </Grid>
           ) : (
-            <Grid mt={2}>
+            <Grid className="event-gallery-upload-text">
               <Typography>Please upload images</Typography>
             </Grid>
           )}
@@ -176,8 +181,7 @@ const EventGallery: React.FC = () => {
             container
             alignItems="center"
             justifyContent="space-between"
-            className="event-gallery-header"
-            mb={2}
+            className="event-gallery-header" 
           >
             <Typography className="event-gallery-title">
               Event Gallery
@@ -203,11 +207,11 @@ const EventGallery: React.FC = () => {
               className="event-gallery-masonry"
               columnClassName="event-gallery-masonry-column"
             >
-              {files.map((item) => (
+              {files?.map((item) => (
                 <img
-                  key={item.id}
-                  src={`${baseURL}asset/${item.assetId}`}
-                  alt={item.name}
+                  key={item?.id}
+                  src={`${baseURL}asset/${item?.assetId}`}
+                  alt={item?.name}
                   className="event-gallery-img"
                   loading="lazy"
                 />
@@ -221,11 +225,7 @@ const EventGallery: React.FC = () => {
       <Modal
         open={uploadModalOpen}
         onClose={() => setUploadModalOpen(false)}
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
+        className="event-gallery-upload-modal"
       >
         <Box className="event-gallery-upload">
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -237,20 +237,17 @@ const EventGallery: React.FC = () => {
             <Grid
               container
               spacing={2}
-              alignItems="center"
-              justifyContent="center"
-              mt={2}
+              className="event-gallery-confirm-grid"
             >
-              {selectedFiles.length !== 0 ? (
+              {selectedFiles?.length !== 0 ? (
                 <>
-                  {selectedFiles.flat().map((file) => (
-                    <Grid key={file.id}>
+                  {selectedFiles?.flat()?.map((file) => (
+                    <Grid key={file?.id}>
                       <img
-                        src={`${baseURL}asset/${file.id}`}
-                        alt={file.name}
+                        src={`${baseURL}asset/${file?.id}`}
+                        alt={file?.name}
                         loading="lazy"
-                        style={{ height: "5rem" }}
-                      />
+                        className="event-gallery-confirm-img"                      />
                     </Grid>
                   ))}
                 </>
