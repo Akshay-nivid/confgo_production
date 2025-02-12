@@ -8,6 +8,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import useStore from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import { ApiResponse } from '../LoginOrg/loginOrg';
+import { validateRequiredField } from '@/Utils/Validation';
 
 type FormData = {
     title: string;
@@ -77,21 +78,21 @@ const CreateAddon: React.FC<createAddonProps> = React.memo(({ closeDrawer, submi
                     </IconButton>
                 </Grid>
                 <Grid flexDirection={"column"} size={12} spacing={2}>
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <Grid>
                         <Grid className="add-on-create-form-wrap">
-                            <CustomTextField placeholder='Add-on name' name='title' control={control} />
+                            <CustomTextField placeholder='Add-on name' name='title' control={control} rules={{required:validateRequiredField({ fieldName: 'Add-on Name' })}}/>
                         </Grid>
                         <Grid className="add-on-create-form-wrap" >
-                            <CustomTextField placeholder='Add-on decription' name='description' control={control} />
+                            <CustomTextField placeholder='Add-on description' name='description' control={control} rules={{required:validateRequiredField({ fieldName: 'Add-on Description' })}}/>
                         </Grid>
                         <Grid container spacing={2} justifyContent={"flex-end"}>
                             <CustomButton
                                 className='add-on-create-btn'
                                 label='Submit'
-                                type='submit'
+                                onClick={handleSubmit(onSubmit)}
                             />
                         </Grid>
-                    </form>
+                    </Grid>
                 </Grid>
             </Grid>
         </>
