@@ -163,6 +163,7 @@ import EventDetailProgram from "./event-detail-programs.svg";
 import EventDetailSponsor from "./event-details-sponsor.svg";
 import EventDetailSpeaker from "./event-detail-speaker.svg";
 import EventDetailAttendee from "./event-detail-attendence.svg";
+import PichartIcon from "./piechart-icon.svg"
 
 export {
   MainBottomBanner,
@@ -329,5 +330,6 @@ export {
   EventDetailProgram,
   EventDetailSponsor,
   EventDetailSpeaker,
-  EventDetailAttendee
+  EventDetailAttendee,
+  PichartIcon,
 };
