@@ -26,7 +26,7 @@
       display: flex;
       &-outlet-adminwrapper {
         flex: 1;
-        background-color: $background !important;
+        // background-color: $background !important;
         overflow-y: auto;
       }
     }
@@ -96,14 +96,25 @@
 //layout appbar
 
 .appbar {
-  border-bottom-width: 0.0416rem;
-  border-bottom-color: $clr_gray_faded;
+  // border-bottom-width: 0.0416rem;
+  // border-bottom-color: $clr_gray_faded;
   display: flex;
   overflow: hidden;
   align-items: center;
-  background-color: $background !important;
+  // background-color: $background !important;
   min-height: 6.666rem;
+  &-profile{
+    border-left: 0.0416rem solid $clr_gray_faded;
+    display: flex;
+    align-items: center;
+    min-height: 100% !important;
+     border-bottom-width: 0.0416rem;
+     border-bottom-color: $clr_gray_faded;
+  }
   &-logo-container {
+    // border: none !important;
+    // border-bottom-width: 0.0416rem;
+    // border-bottom-color: $clr_gray_faded;
     background-color: $clr_white;
     height: 6.666rem;
     display: flex;
