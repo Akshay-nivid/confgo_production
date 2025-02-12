@@ -190,7 +190,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
           if (canSelectMultiple) {
             onSubmit(response?.data);
           } else {
-            onSubmit(Array.isArray(response?.data) ? response.data[0] : response?.data);
+            onSubmit(Array.isArray(response?.data) ? response.data?.[0] : response?.data);
           }
         }
       },
