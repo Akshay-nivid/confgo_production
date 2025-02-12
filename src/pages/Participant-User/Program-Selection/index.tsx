@@ -87,6 +87,8 @@ const ProgramSelection = () => {
 
   const [currentTab, setCurrentTab] = useState(0);
 
+  const userToken = sessionStorage.getItem('token')
+  const userRole = sessionStorage.getItem('userRole')
 
   // const isIntialGetCartCalled = useStore(state => state?.nonPersistedData.intialGetCart?.value)
 
@@ -97,8 +99,6 @@ const ProgramSelection = () => {
   // check if user is logged in or not. if logged in call cart api and get the cart data
   useEffect(() => {
 
-    const userToken = sessionStorage.getItem('token')
-    const userRole = sessionStorage.getItem('userRole')
 
 
 
@@ -129,9 +129,9 @@ const ProgramSelection = () => {
          const obj:any = {}
 
 
-            Object.keys(formatedData).forEach((date: any) => {
+            Object?.keys(formatedData)?.forEach((date: any) => {
 
-              formatedData[date].programs?.forEach((program: any) => {
+              formatedData[date]?.programs?.forEach((program: any) => {
 
 
                 const pKey = `${moment(program?.startTime).format('YYYY/MM/DD')}-programs`
@@ -140,7 +140,7 @@ const ProgramSelection = () => {
 
               })
 
-              formatedData[date].addons?.forEach((addon: any) => {
+              formatedData?.[date]?.addons?.forEach((addon: any) => {
 
                 addon?.eventAddonProperties?.forEach((item: any) => {
 
@@ -261,7 +261,7 @@ const ProgramSelection = () => {
 
       const body = processFormData(formData, eventId, participantTypeId) // processing form data to match cart api body format
 
-      const selectedPrograms = body.programIds || null;
+      const selectedPrograms = body?.programIds || null;
 
       validatePrograms(selectedPrograms)
 
