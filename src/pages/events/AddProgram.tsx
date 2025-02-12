@@ -12,7 +12,7 @@ import EditIcon from "@/assets/svg/edit-program-icon.svg";
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import moment from "moment";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
-import useStore, { POST, setDataById, snackBar } from "@/Libs/store";
+import  { POST, setDataById } from "@/Libs/store";
 import { NoProgramIcon, WarningIcon } from "@/assets/svg";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import { CloseOutlined } from "@mui/icons-material";
@@ -171,9 +171,9 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
     const [programIndex, setProgramIndex] = useState<any>();
     const [editMode, setEditMode] = useState(false);
     const [openModal, setOpenModal] = useState(false);
-    const eventDate = useStore((state: any) => state?.compData?.["event-date"]);
-    const eventStartDate = eventDate?.startDate;
-    const eventEndDate = eventDate?.endDate;
+    // const eventDate = useStore((state: any) => state?.compData?.["event-date"]);
+    // const eventStartDate = eventDate?.startDate;
+    // const eventEndDate = eventDate?.endDate;
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const companyId = sessionStorage.getItem("companyId")
@@ -405,90 +405,120 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
      * @param data : form data
      */
     const onSave: SubmitHandler<FormData> = () => {
+
       const programs = watch("programs");
       const lastItem = programs[programs?.length - 1];
 
-      const eventDate = new Date(eventData?.startTime).getTime();
-      // const programStartDate = new Date(lastItem.startDate).getTime();
+      const eventStartDate = new Date(eventData?.startTime).getTime();
+      const eventEndDate = new Date(eventData?.endTime).getTime();
       const programStartDate = moment(`${lastItem?.startDate} ${lastItem?.startTime}`, "YYYY-MM-DD HH:mm");
-      const programUtcStartDate = programStartDate.utc().valueOf();
+    
 
-      if (programUtcStartDate <= eventDate) { 
-        snackBar({ severity: "error", message: `Invalid date: The program start date must be after the event's start date (${moment(eventData?.startTime).format("MMM D, YYYY hh:mm A")}). Please select a valid date.`,autoHideDuration:4000 });
+      const programEndDate = moment(`${lastItem?.endDate} ${lastItem?.endTime}`, "YYYY-MM-DD HH:mm");
+      const programUtcStartDate = programStartDate.utc().valueOf();
+      const programUtcEndDate = programEndDate.utc().valueOf();
+
+
+      // check for find if the program date is after event start date
+      if (programUtcStartDate <= eventStartDate) { 
+        setError(`programs.${programIndex}.startTime`, {
+          type: 'manual',
+          message: 'Start time cannot be in the past',
+        });
         return;
       }
 
-
-
-      const lastIndex = programs?.length - 1;
-      const startDate = new Date(lastItem.startDate);
-      const endDate = new Date(lastItem.endDate);
-      if (startDate > endDate) {
-        setError(`programs.${lastIndex}.startDate`, {
+      // check for find if the program start date dont exceed program end date 
+      if (programUtcStartDate > programUtcEndDate) {
+        setError(`programs.${programIndex}.startDate`, {
           type: 'manual',
           message: 'Start date cannot be greater than end date',
         });
+        return;
+      }
+
+      // check for find if the program end date dont exceed event end date
+
+      if(programUtcEndDate > eventEndDate) {
+        setError(`programs.${programIndex}.endDate`, {
+          type: 'manual',
+          message: 'End date cannot be greater than event end date',
+        });
         return
       }
+
+
+
+
+      // const lastIndex = programs?.length - 1;
+      // const startDate = new Date(lastItem.startDate);
+      // // const endDate = new Date(lastItem.endDate);
+      // if (startDate > endDate) {
+      //   setError(`programs.${lastIndex}.startDate`, {
+      //     type: 'manual',
+      //     message: 'Start date cannot be greater than end date',
+      //   });
+      //   return
+      // }
       // Ensure dates are valid Date objects
-      const selectedDate = programs?.[programIndex]?.startDate
-      const selectedEndDate = programs?.[programIndex]?.endDate
-      const formattedStartDate = moment(selectedDate)?.format('YYYY-MM-DD');
-      const formattedeventStartDate = moment(eventStartDate)?.format('YYYY-MM-DD');
-      const formattedeventeventEndDate = moment(eventEndDate)?.format('YYYY-MM-DD');
-      const formattedeventendDate = moment(programs?.[programIndex]?.endDate).format('YYYY-MM-DD');
+      // const selectedDate = programs?.[programIndex]?.startDate
+      // const selectedEndDate = programs?.[programIndex]?.endDate
+      // const formattedStartDate = moment(selectedDate)?.format('YYYY-MM-DD');
+      // const formattedeventStartDate = moment(eventStartDate)?.format('YYYY-MM-DD');
+      // const formattedeventeventEndDate = moment(eventEndDate)?.format('YYYY-MM-DD');
+      // const formattedeventendDate = moment(programs?.[programIndex]?.endDate).format('YYYY-MM-DD');
       const eventEndDateObj = new Date(eventEndDate)
       eventEndDateObj.setHours(23, 59, 59, 999);
 
       // Perform the comparison of dates
-      if (formattedStartDate < formattedeventStartDate || formattedStartDate > formattedeventeventEndDate) {
-        setError(`programs.${programIndex}.startDate`, {
-          type: 'manual',
-          message: 'Start date should be within event Dates',
-        });
-        return
-      }
-      if (formattedeventendDate > formattedeventeventEndDate) {
-        setError(`programs.${programIndex}.endDate`, {
-          type: 'manual',
-          message: 'End date should be within event Dates',
-        });
-        return
-      }
+      // if (formattedStartDate < formattedeventStartDate || formattedStartDate > formattedeventeventEndDate) {
+      //   setError(`programs.${programIndex}.startDate`, {
+      //     type: 'manual',
+      //     message: 'Start date should be within event Dates',
+      //   });
+      //   return
+      // }
+      // if (formattedeventendDate > formattedeventeventEndDate) {
+      //   setError(`programs.${programIndex}.endDate`, {
+      //     type: 'manual',
+      //     message: 'End date should be within event Dates',
+      //   });
+      //   return
+      // }
 
-      const today = moment(new Date()).format("YYYY-MM-DD")
-      const selectedStartTime = programs?.[programIndex]?.startTime;
-      const selectedEndTime = programs?.[programIndex]?.endTime;
+      // const today = moment(new Date()).format("YYYY-MM-DD")
+      // const selectedStartTime = programs?.[programIndex]?.startTime;
+      // const selectedEndTime = programs?.[programIndex]?.endTime;
 
       //check if time is greater than current time if selected date is today
-      if (selectedDate == today) {
-        const now = moment(new Date()).format("HH:mm");
-        if (selectedStartTime < now) {
-          setError(`programs.${programIndex}.startTime`, {
-            type: 'manual',
-            message: 'Start time cannot be in the past',
-          });
-          return
-        }
-      }
-      //check if selected end time is greater than selected start time is start and end dates are equal
-      if (selectedEndDate == selectedDate) {
-        if (selectedEndTime < selectedStartTime) {
-          setError(`programs.${programIndex}.endTime`, {
-            type: 'manual',
-            message: 'End time must be greater than start time',
-          });
-          return
-        }
-      }
+      // if (selectedDate == today) {
+      //   const now = moment(new Date()).format("HH:mm");
+      //   if (selectedStartTime < now) {
+      //     setError(`programs.${programIndex}.startTime`, {
+      //       type: 'manual',
+      //       message: 'Start time cannot be in the past',
+      //     });
+      //     return
+      //   }
+      // }
+      // //check if selected end time is greater than selected start time is start and end dates are equal
+      // if (selectedEndDate == selectedDate) {
+      //   if (selectedEndTime < selectedStartTime) {
+      //     setError(`programs.${programIndex}.endTime`, {
+      //       type: 'manual',
+      //       message: 'End time must be greater than start time',
+      //     });
+      //     return
+      //   }
+      // }
       //check if end date is greater than start date
-      if (selectedEndDate < selectedDate) {
-        setError(`programs.${programIndex}.startDate`, {
-          type: 'manual',
-          message: 'Start Date must be earlier than End date',
-        });
-        return
-      }
+      // if (selectedEndDate < selectedDate) {
+      //   setError(`programs.${programIndex}.startDate`, {
+      //     type: 'manual',
+      //     message: 'Start Date must be earlier than End date',
+      //   });
+      //   return
+      // }
 
 
       const newPrograms = [...programs];
