@@ -185,12 +185,12 @@ const LocationView = ({ eventData, published, onSubmitHandler }: LocationCardPro
             const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(mapLocation)}&key=${GOOGLE_API_KEY}`;
             const response = await axios.get(geocodeUrl);
 
-            if (response.data.status !== 'OK') {
-                Logger.error(`API Error: ${response.data.error_message}`);
+            if (response?.data?.status !== 'OK') {
+                Logger.error(`API Error: ${response?.data?.error_message}`);
                 return;
             }
-            if (response.data.results.length > 0) {
-                const { lat, lng } = response.data.results[0].geometry.location;
+            if (response?.data?.results?.length > 0) {
+                const { lat, lng } = response?.data?.results?.[0]?.geometry?.location;
                 setCoordinates({ lat, lng });
                 //  await findNearbyPlaces({ lat, lng });
             } else {
@@ -324,7 +324,7 @@ const LocationView = ({ eventData, published, onSubmitHandler }: LocationCardPro
         }
 
         const response = await apiClient.put(`event/update/${id}`, formattedData);
-        const { status, message } = await processAPIResponse(
+        const { status, message } =  processAPIResponse(
             response,
             "location-update"
         );
