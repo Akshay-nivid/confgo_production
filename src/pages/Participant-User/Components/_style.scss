@@ -8,8 +8,8 @@
     .logo-box{
         background-color: $background;
         border-radius: 1.667rem;
-        width: 5rem;
-        height: 5rem;
+        width: 4rem;
+        height: 4rem;
     }
     .vertical-divider {
         width: 2px;
@@ -28,18 +28,18 @@
            padding-block: 0.458rem;
            background-color: $background;
            border-radius: 0.833rem;
-           width: 14rem !important;
+           max-width: 14rem !important;
            height: 8rem;
         }
         .title{
-            font-weight: $font-bold !important;
+            font-weight: $font-medium !important;
             color: $clr_forset_green !important;
             font-size: $p3 !important;
             line-height: 2.5rem;
             padding-left: 0.5rem;
         }
         .title-value{
-            font-weight: $font-semibold !important;
+            font-weight: $font-medium !important;
             font-size: $p8 !important;
             padding-left: 0.5rem;
         }
@@ -68,7 +68,7 @@
 
     &-title {
         margin-top: 0.9375rem;
-        font-weight: $font_semibold !important;
+        font-weight: $font_medium !important;
         font-size: $h5 !important;
         font-family: $font;
         padding-right: 0rem;
