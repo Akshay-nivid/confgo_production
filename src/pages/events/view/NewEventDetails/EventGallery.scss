@@ -1,0 +1,100 @@
+.event-gallery{
+    &-container {
+        padding: 2rem;
+        background-color: $clr_white;
+        border-radius: 0.833rem;
+        max-width: 83.333rem;
+        margin: auto;
+        overflow: hidden;
+        height: 95vh;
+        margin-top: 2rem;
+      }
+    &-close-icon {
+        cursor: pointer;
+        margin-bottom: 0.5rem;
+        margin-right: 0.833rem;
+       }
+
+    &-content {
+        display: flex;
+        flex-direction: column;
+        max-height: 75vh; 
+        overflow-y: auto; 
+        padding-right: 1rem; 
+      }
+    
+      &-masonry {
+        display: flex;
+        margin-left: -1.333rem;
+        width: auto;
+      }
+      &-images {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+        max-height: 80%;
+        overflow-y: auto; 
+      }
+  
+      &-title{
+      text-align: start !important;
+      font-size: $p5 !important;
+      font-weight: $font_semibold !important;
+      margin-bottom: 1rem;      
+      }
+
+      &-add-grid{
+        margin-right: 2rem;
+        margin-bottom: 2rem;
+      }
+      &-border {
+          border: 0.083rem solid $clr_gray_very_light;
+          padding: 1.5rem;
+          border-radius: 0.833rem;
+          margin-top: 1.5rem;
+          text-align: center;
+          max-width: 20.833rem; 
+        }
+      &-upload{
+          background-color: $clr_white;
+          padding: 2rem;
+          width: 58.333rem;
+      }
+      &-view-btn{
+          border: 0.083rem solid $clr_green !important;
+          background-color: $clr_white !important;
+          color: $clr_green !important;
+          margin-top: 2rem !important;
+          box-shadow: none !important;
+      }
+      &-images{
+          width:5.4rem;
+          height: 5.4rem;
+          border-radius: 0.417rem;
+          overflow: hidden; 
+      }
+    
+      &-masonry-column {
+        padding-left: 1.333rem;
+        background-clip: padding-box;
+      }
+      &-img {
+        width: 100%;
+        display: block;
+        border-radius: 0.417rem;
+        margin-bottom: 1.333rem;
+
+        &-length{
+            width:5.4rem;
+            height: 5.4rem;
+            display: flex;
+            align-items: center;
+            background-color: $clr_very_light_gray;
+            border-radius: 0.417rem;
+            font-size: $p5;
+            font-weight: $font_semibold;
+            justify-content: center;
+        }
+      }
+}
