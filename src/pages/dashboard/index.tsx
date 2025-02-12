@@ -78,7 +78,7 @@ const Dashboard = () => {
           filters: {
           },
           offset: 0,
-          limit: 5,
+          // limit: 5,
           sortBy: "id",
           sortDirection: "DESC",
         },
