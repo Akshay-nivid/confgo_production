@@ -76,7 +76,7 @@ export default function LayoutAppbar() {
       <Grid size={2} className="appbar-logo-container">
       <AppThemeLogo className={`appbar-logo-container-svg`} />
       </Grid>
-      <Grid size={10}>
+      <Grid size={10} className="appbar-profile">
         <div className="avatar-group" onClick={handleMenuOpen}>
           <div className="flex flex-col">
             <Typography className="avatar-header-text">{companyUserName}</Typography>

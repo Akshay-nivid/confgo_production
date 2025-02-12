@@ -22,10 +22,18 @@ const EventFeedBack = () => {
 
  
     /**
-     *   Function to fetch the event feedback data (like total registrations, users, etc.)
-     * */
+     * Using useEffect hook to fetch data when eventId changes
+     */
+
+    useEffect(() => {
+
+        /**
+        *   Function to fetch the event feedback data (like total registrations, users, etc.)
+        * */
     const details = async () => {
+
         if (eventId == null) return;
+        
         try {
             POST({
                 url: `dashboard/countByEvent`,
@@ -42,12 +50,6 @@ const EventFeedBack = () => {
         }
     }
 
-
-    /**
-     * Using useEffect hook to fetch data when eventId changes
-     */
-
-    useEffect(() => {
         details();
     }, [eventId]);
 
