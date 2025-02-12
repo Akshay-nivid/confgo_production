@@ -93,7 +93,7 @@ const EventFeedBack = () => {
                     <Grid className="eventFeedBack-box-container-usersCount"  size={12} >
 
                         <Typography className="content-count">
-                            {index === 2 ? `${currency || ""}${item?.count ?? 0}` : item?.count ?? 0}
+                            {index == 2 ? `${currency}${item?.count ?? 0}` : item?.count ?? 0}
                         </Typography>
 
                     </Grid>

@@ -209,10 +209,10 @@ const SessionCard: React.FC<SessionCardProps> = ({
         }
        
        </Grid>
-          {item.hall && <Grid size={12} container spacing={1} display={"flex"} justifyContent={"flex-start"} alignItems={"center"}>
+           {(item.hall|| item?.hallName) &&( <Grid size={12} container spacing={1} display={"flex"} justifyContent={"flex-start"} alignItems={"center"}> 
             <HallIcon />
-            <Typography className="card-content-description">{truncateString(item.hall,25)}</Typography>
-          </Grid>}
+            <Typography className="card-content-description">{truncateString(item.hallName?item?.hallName:item?.hall,25) }</Typography>
+         </Grid>)}
        <Grid className="card-content-devider">
         <Divider/>
        </Grid>

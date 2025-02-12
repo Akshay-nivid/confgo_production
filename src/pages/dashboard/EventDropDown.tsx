@@ -21,15 +21,22 @@ import { truncateString } from "@/Utils/CommonBaseClass";
  * @returns {JSX.Element} - Renders a dropdown menu and create event button.
  */
 
-const EventDropDown = (data: any) => {
+const EventDropDown = (data: any): JSX.Element => {
 
 
     const navigate = useNavigate();
 
     /**
+     * Filtered only Published events
+     */
+
+    const publishedEvent=data?.data?.data?.filter((event:any) => event?.published  === true);
+
+    /**
      * Mapping event data to options for the dropdown
      */
-    const options = data?.data?.data?.map((item: any) => ({
+
+    const options = publishedEvent?.map((item: any) => ({
         label: truncateString(item?.name,40),
         value: item?.id
     }));
@@ -37,6 +44,7 @@ const EventDropDown = (data: any) => {
     /**
      * React Hook Form's control and state management
      */
+    
     const {
         watch,
         setValue,
@@ -54,7 +62,7 @@ const EventDropDown = (data: any) => {
      */
 
     useEffect(() => {
-        setValue('fieldType', data?.data?.data?.[0].id);
+        setValue('fieldType', publishedEvent?.[0]?.id);
     }, [data]);
 
     /**

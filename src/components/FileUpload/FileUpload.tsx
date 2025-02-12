@@ -188,7 +188,13 @@ const FileUpload: React.FC<FileUploadProps> = ({
           severity: 'success',
           message: 'File uploaded successfully!',
         });
-        onSubmit && onSubmit(response?.data);
+        if (onSubmit) {
+          if (canSelectMultiple) {
+            onSubmit(response?.data);
+          } else {
+            onSubmit(Array.isArray(response?.data) ? response.data?.[0] : response?.data);
+          }
+        }
       },
       errorCB: (error: any) => {
         setDataById('snackBarInfo', {

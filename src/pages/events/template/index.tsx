@@ -64,29 +64,7 @@ const TemplateContainer: React.FC<TemplateContainerProps> = React.memo(({ }) => 
   //   navigate(routes.programSelection());
   // }
 
-  // check if user is logged in or not. if logged in call cart api and get the cart data
-  // useEffect(() => {
-   
-  //   const userToken = sessionStorage.getItem('token')
-  //   const userRole = sessionStorage.getItem('userRole')
 
-
-  //   if (userToken && userRole === 'USER') { 
-
-  //     if(isIntialGetCartCalled) return // return if cart api is called for the first time
-
-  //     if (cartId) {
-
-  //       getUserCart({ helperFn: handleNavigateToCart, cartID: cartId }) 
-  //       setNonPersistedDataById('intialGetCart',{ value: true })
-  //      }
-
-
-  //   }
-
-  //   return 
-    
-  // },[])
 
   useEffect(() => () => {
     clearDataById('templateEventDetails');

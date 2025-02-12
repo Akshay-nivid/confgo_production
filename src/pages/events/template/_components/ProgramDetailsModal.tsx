@@ -140,13 +140,14 @@ const ProgramDetailsModal = () => {
                                                     <Tooltip
                                                         placement='top' className='speaker-tooltip' arrow title={<ModalToolTip data={speaker}></ModalToolTip>}>
                                                         {!isModerator?(
-                                                             <Avatar src={config.api.url + "asset/" + speaker?.user?.assetId} key={speaker.id} className='content-speaker-container-speaker-list-avatar' >
+                                                             <Avatar src={speaker?.user?.assetId ? config.api.url + "asset/" + speaker?.user?.assetId:''} key={speaker.id} className='content-speaker-container-speaker-list-avatar' >
                                                             {speaker?.user?.firstName[0]}
-                                                            {speaker?.user?.lastName[0]}
+                                                                {speaker?.user?.lastName[0]}
+                                                                
                                                         </Avatar>
                                                         ):(
                                                             
-                                                            <Avatar src={config.api.url + "asset/" + speaker?.user?.assetId} key={speaker.id} className='content-speaker-container-speaker-list-moderators' >
+                                                            <Avatar src={ speaker?.user?.assetId ?config.api.url + "asset/" + speaker?.user?.assetId:''} key={speaker.id} className='content-speaker-container-speaker-list-moderators' >
                                                             {speaker?.user?.firstName[0]}
                                                             {speaker?.user?.lastName[0]}
                                                         </Avatar>

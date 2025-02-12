@@ -384,25 +384,3 @@ export const  validateAddonWithNoProp = (addons:any)=> {
 
 
 
-/**
- * function to fetch event details
- * @param eventId
- * 
- */
-
-// export const fetchEventDetailsFn = async (eventId: number | undefined|null) => {
-  
-//   if(!eventId) return
-
-//   try {
-
-
-
-    
-//   } catch (error) {
-
-
-    
-//   }
-
-//  }
