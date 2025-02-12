@@ -54,7 +54,7 @@ interface FormData {
     sponsorAssetId?: string;
     sponsorType?: string;
   }[];
-  sponsorSelection?: string;
+  sponsorSelection?: any;
 }
 
 type Sponsor = { 
@@ -602,7 +602,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
   }, [])
 
 //Function to update the list
-  const handleSponsorSearch = async (query: string) => {
+  const handleSponsorSearch = async (query: string,data: any) => {
         setLoading(true);
         await POST({
           url: "sponsor/list",
@@ -616,6 +616,11 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
           },
           successCB: (context: any) => {
             setSponsorSearcResults(transformSponsorData(context?.data))
+            const newObj = transformSponsorData(context?.data)?.find((item: any) => item.id === data.id) || null;
+            setValue("sponsorSelection",newObj)
+            setValue(`sponsorId`, newObj?.sponsorId)
+            setValue(`sponsorAssetId`, newObj?.sponsorAssetId)
+            setValue(`sponsorName`, newObj?.sponsorName)
             setLoading(false);
           },
           errorCB: (context: any) => {
@@ -943,7 +948,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
         />
         <CustomDrawer
             children={
-            <DrawerCreateSponosor onSuccess={()=>{handleSponsorSearch("")}} 
+            <DrawerCreateSponosor onSuccess={handleSponsorSearch}
             closeDrawer={()=>
               setNewSponsorDrawerOpen(false)           
               }
