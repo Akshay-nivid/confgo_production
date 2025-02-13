@@ -88,7 +88,7 @@ const TeamAndRole=()=>{
           <Typography className="accordion-container-heading">Volunteer</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <VolunteerListCard eventData={TeamAndRoleData}/>
+          <VolunteerListCard eventData={TeamAndRoleData} drawerOpened={volunteerListsDta?.length == 0  ? true : false} expanded={expanded }/>
         </AccordionDetails>
       </Accordion>
       </Grid>

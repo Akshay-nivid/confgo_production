@@ -889,7 +889,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
       }
       const values = watch();
       const hallName = values.programs[index]?.createHallName
-      const newHall: any =  hallName ;
+      const newHall: any =  {hallName} ;
 
 
       // TypeScript now knows hallArray is an array of { hallName: string }

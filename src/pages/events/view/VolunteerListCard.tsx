@@ -16,11 +16,15 @@ import { NoCouponDataSvg } from "@/assets/svg";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
 
-
+interface volunteerprops {
+  drawerOpened?:boolean
+  expanded?:any
+  eventData?:any
+}
 /**
  * Component to display a list of volunteers with search, assign and filter functionality.
  */
-const VolunteerListCard = (data:any) => {
+  const VolunteerListCard : React.FC<volunteerprops> = ({drawerOpened,expanded,eventData}) => {
   const { id } = useParams();
   const [searchResults, setSearchResults] = useState([]);
   // const [filters, setFilters] = useState({ });
@@ -37,6 +41,13 @@ const VolunteerListCard = (data:any) => {
   useEffect(() => {
     volunteerList();
   }, []);
+
+  /**
+   * opens the assign drawer if volunteerlist is empty and expanded
+   */
+  useEffect(() => {
+    drawerOpened && expanded =='panel3-header' ? setDrawerOpen(true) : setDrawerOpen(false)
+  }, [expanded]);
 
   /**
    * Function to set the initial request configuration for fetching volunteer data.
@@ -243,8 +254,7 @@ const VolunteerListCard = (data:any) => {
       </Grid>
 
       <CustomDrawer open={drawerOpen} type="right">
-        <AssignedVolunteers data={data} onClose={onClose}   volunteerList={volunteerList} 
- />
+        <AssignedVolunteers data={eventData} onClose={onClose} volunteerList={volunteerList} />
       </CustomDrawer>
     </Grid>
   );
