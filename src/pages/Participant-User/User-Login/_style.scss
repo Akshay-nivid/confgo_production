@@ -9,7 +9,7 @@
   }
 
   .header-container {
-    background: url("../assets/svg/background-top.svg") no-repeat top;
+    // background: url("../assets/svg/background-top.svg") no-repeat top;
     background-position: center -4rem;
     background-repeat: no-repeat;
     margin-bottom: 3.5rem;
@@ -53,6 +53,7 @@
       font-size: $p2;
       text-transform: none;
       background-color: $clr_blue;
+      box-shadow: none !important;
     }
   }
 

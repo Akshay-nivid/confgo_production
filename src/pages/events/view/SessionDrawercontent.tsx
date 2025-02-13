@@ -299,6 +299,15 @@ interface SessionDrawerContentProps {
     setValue("createHallName", ""); // Clear input field
 
   };
+/** hall Name delete from hallName options
+  * @param index
+  */
+  const deleteHallName = (index:number) => {
+    setNewHall((prev) => {
+      // Create a new array without the hall at the specified index
+      return prev.filter((_, i) => i !== index);
+    });
+  };
 
 
 // Normalize and flatten hall data from local storage
@@ -657,6 +666,8 @@ useEffect(() => {
       setValue("sponsorAssetId", "");
       setValue("sponsorType", "");
       setValue("reservedSeats","")
+      setValue("sponsorSelection","")
+      
     }
 
     /**
@@ -692,6 +703,7 @@ useEffect(() => {
         speakerDesignation,
         moderator,
       });
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "speaker added successfully" })
       clearErrors();
       
         // Reset the speaker form fields
@@ -699,6 +711,7 @@ useEffect(() => {
       setValue("speakerName", "");
       setValue("speakerAssetId", "");
       setValue("speakerDesignation", "");
+      setValue("speakerSelection","");
       
     };
     
@@ -795,6 +808,8 @@ useEffect(() => {
           <Grid size={{xs:12}}>
             <CustomTextField
               name="description"
+              multiline
+              rows={6}
               placeholder="Description"
               control={control}
               rules={{required:"Description is required"}}
@@ -1227,6 +1242,7 @@ useEffect(() => {
                                         key={index}
                                          className="add-program-hall-modal-chipBox-chip"
                                         label={item}
+                                        onDelete={()=>deleteHallName(index)}
                                         variant="outlined"
                                       />
                                     ))}

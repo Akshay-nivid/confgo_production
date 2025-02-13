@@ -1,0 +1,105 @@
+.adminpayment{
+    height: 100%;
+    width: 100%;
+    overflow-y: auto;
+    background-color: $clr_background_gray;
+    padding-inline: clamp(2rem, 5vw, 3.42rem);
+    padding-top: 1.4rem;
+    display: flex;
+    flex-direction: column;
+
+    .title-filter-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        column-gap: 2rem;
+        // flex: 1;
+
+        &-title {
+            font-size: $h4;
+            font-weight: $font_bold;
+            // flex:1;
+        }
+
+        &-filter-container {
+            width: max-content;
+            display: flex;
+            column-gap: 1.2rem;
+            flex: 1;
+            justify-content: end;
+            align-items: center;
+
+            .auto-complete {
+                width: 100% !important;
+                flex-grow: 1;
+                flex-shrink: 2;
+                max-width: 30rem;
+
+                &-input {
+
+                    .custom-autopopulate {
+                        
+                        border: 0.14rem solid $clr_gray_medium !important;
+                        border-radius: .45rem;
+                    }
+                }
+            }
+
+            .filter-button {
+                button {
+                    width: max-content;
+                    padding-inline: 1.33rem !important;
+                    min-height: 100% !important;
+                }
+
+            }
+
+            .button-container {
+                justify-content: center;
+                width: max-content;
+
+                button {
+                    width: max-content;
+                    padding-inline: 1.33rem !important;
+                }
+            }
+        }
+    }
+
+    &-datagrid {
+        flex: 1;
+        min-height: 80%;
+
+        .custom-data-grid-grid {
+            min-height: 98% !important;
+            margin-bottom: .7rem !important;
+            padding-inline: 0 !important;
+
+            .no-record-container {
+                height: 100%;
+                margin: 0 !important;
+
+            }
+        }
+
+    }
+    
+    .nameField{
+        font-weight: $font_normal !important;
+        font-size: $h6 !important;
+    }
+    .textButton{
+        font-size: $p2 !important;
+        font-weight: $font-medium !important;
+        border: none !important;
+        color:$clr_blue !important
+    }
+    .textButton:hover {
+        background-color: transparent !important; 
+        box-shadow: none !important;
+    }
+    .icon{
+        height: 13.83rem;
+        width: 13.83rem;
+    }
+}

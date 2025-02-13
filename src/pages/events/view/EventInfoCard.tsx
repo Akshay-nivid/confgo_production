@@ -23,14 +23,13 @@ import GoogleMapPlacePicker from "../GoogleMapPlacePicker";
 import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
 import { WarningIcon } from "@/assets/svg";
-import Tooltip from '@mui/material/Tooltip';
-
+// import EventDetailCountCard from "./SingleEventDetail";
 import confgo  from "../../../../config.json"
 
 const baseUrl = config.api.url;
 const currency=confgo.currency;
 interface CustomFile {
-  id: number;
+  id: string;
   name: string;
   sourcePath: string;
 }
@@ -75,6 +74,35 @@ const EventInfoCard: React.FC<any> = React.memo(
   const companyId = sessionStorage.getItem('companyId');
   const [isWarning, setIsWarning] = useState(false);
   const [SubmitData, setSubmitData] = useState();
+
+  /** detals to loop through EventDetailCountCard*/
+  // const eventDetailCards = [
+  //   {
+  //     count: eventData?.programs?.length || 0,
+  //     title: "Programs",
+  //     description: "Sessions, panels & workshops",
+  //     icon: <EventDetailProgram className="single-event-icon" />,
+  //   },
+  //   {
+  //     count: eventData?.eventSponsors?.length || 0,
+  //     title: "Sponsors",
+  //     description: "Event partners & supporters",
+  //     icon: <EventDetailSponsor className="single-event-icon" />,
+  //   },
+  //   {
+  //     count: eventData?.eventSpeakers?.length || 0,
+  //     title: "Speakers",
+  //     description: "Experts & keynote guests",
+  //     icon: <EventDetailSpeaker className="single-event-icon" />,
+  //   },
+  //   {
+  //     count: eventData?.registeredParticipants || 0,
+  //     title: "Registered attendees",
+  //     description: "Number of attendees Registered",
+  //     icon: <EventDetailAttendee className="single-event-icon" />,
+  //   },
+  // ];
+
     /**
    *useEffect get specialty
    */
@@ -308,6 +336,9 @@ const EventInfoCard: React.FC<any> = React.memo(
 
   return (
     <Grid container className="event-detail-event-info-card" spacing={2}>
+      {/* {eventDetailCards.map((card, index) => (
+      <EventDetailCountCard key={index} count={card.count} title={card.title} description={card.description} icon={card.icon}/>
+      ))} */}
       <Grid
         size={{ xs: 12 }}
         container
@@ -360,11 +391,9 @@ const EventInfoCard: React.FC<any> = React.memo(
           </Typography>
         </Grid>
         <Grid size={{ xs: 9 }}>
-          <Tooltip classes={{ tooltip: 'custom-tooltip'}} title={eventData?.name || 'No name available'} placement="top">
           <Typography className="event-information-content">
           {eventData?.name}
          </Typography>
-         </Tooltip>
         </Grid>
 
         <Grid size={{ xs: 3 }}>
@@ -493,7 +522,7 @@ const EventInfoCard: React.FC<any> = React.memo(
          <Grid size={{ xs: 3 }}>
             <Typography className="event-information-subtitle">URL</Typography>
         </Grid>
-        <Grid size={{ xs: 3 }}>
+        <Grid size={{ xs: 9 }}>
             <Typography className="event-information-content">
                 {eventData?.url}
             </Typography>

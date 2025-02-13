@@ -1,0 +1,55 @@
+
+.pie-chart-responsive-container {
+ position: relative !important;
+    .recharts-wrapper {
+        position: static !important;
+
+        .recharts-surface {
+            position: static !important;
+        }
+    }
+
+    .recharts-legend-wrapper {
+       
+        width: 100%;
+        position: absolute !important;
+        bottom: 0;
+        left: 0 !important;
+        ul{
+           
+li{
+    line-height: 2rem;
+}
+
+        }
+    }
+}
+
+
+.linechart-responsive-container-wrapper{
+    &::-webkit-scrollbar {
+        width: 0.33rem !important;
+        /* Adjust width for vertical scrollbar */
+        height: 0.33rem !important;
+        /* Adjust height for horizontal scrollbar */
+    }
+
+    &::-webkit-scrollbar-track {
+        background: $clr_gray_30_percent;
+        /* Light gray background */
+        border-radius: .83rem !important;
+        /* Round the track edges */
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: $clr_gray_faded;
+        /* Gray scrollbar */
+        border-radius: .83rem;
+        /* Round the scrollbar itself */
+    }
+
+    &::-webkit-scrollbar-thumb:hover {  
+        background: $clr_gray_faded !important;
+        /* Darker gray on hover */
+    }
+}

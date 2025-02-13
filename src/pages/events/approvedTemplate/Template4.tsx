@@ -50,7 +50,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
     const [minute, setMinute] = useState<string>('');
     const [second, setSecond] = useState<string>('');
     const navigate = useNavigate();
-
+    const [timmer,setTimmer]=useState(false);
 
 
     /**
@@ -58,6 +58,9 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
       * @param day,hour,minute,second
       */
     const handleTimeUpdate = (day: string, hour: string, minute: string, second: string) => {
+        if(day==="0"){
+            setTimmer(true);
+        }
         setDay(day);
         setHour(hour);
         setMinute(minute);
@@ -353,9 +356,9 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
             "SILVER": [],
         } as any
 
-        sponsors.forEach((sponsor: any) => {
+        sponsors?.forEach((sponsor: any) => {
 
-            groupedSponsors[sponsor?.sponsorType?.name].push(sponsor)
+            groupedSponsors[sponsor?.sponsorType?.name]?.push(sponsor)
         })
 
         return groupedSponsors
@@ -399,7 +402,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                 <TEventDetails className={`${classPrefix}-eventDetails`} data={data} />
                 <Grid className="template4-countdown" container justifyContent={"center"}>
                     <Grid className="template4-countdown-container" size={12} justifyContent={"center"} >
-                        <TimerCounterComp
+                       {!timmer&&
+                         <TimerCounterComp
                             targetDate={getLocalTimeDate(data.startTime, 'YYYY-MM-DD HH:mm:ss')}
                             onTimeUpdate={handleTimeUpdate}
                         >
@@ -430,7 +434,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                     </Grid>
                                 </Grid>
                             </Grid>
-                        </TimerCounterComp>
+                        </TimerCounterComp> 
+                        }
                     </Grid>
                 </Grid>
                 {/* Speaker section starts here  */}
@@ -443,11 +448,11 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                 <Grid size={{ xs: 12, sm: 12 }} container direction={'column'} className={`${classPrefix}-event-contributors-item-container-speaker-card `}>
                                     <Grid overflow={'hidden'} className={`${classPrefix}-event-contributors-item-container-images`}>
                                         {item?.user?.assetId ? (<img
-                                            // className='w-full aspect-square max-h-[16.7rem]'
+                                           className="max-h-[16.7rem]"
                                             src={`${baseUrl}asset/${item?.user?.assetId}`}
                                             alt={item.name}
                                         />) : (
-                                            <img alt={item.name} src={personPlaceholder} className={`  aspect-square max-h-[18.2rem]`} />
+                                            <img alt={item.name} src={personPlaceholder} className={`max-h-[16.2rem]`} />
                                         )}
 
                                     </Grid>
@@ -925,8 +930,11 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                                 {
                                                     items?.map((item: any) => {
                                                         return (
-                                                            <Grid  size={12}>
-                                                                <img className='object-fill rounded-sm' width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
+                                                            <Grid container justifyContent={"center"} alignItems={"center"} size={12}  >
+                                                                <img 
+                                                                className='sponsor-banner-diamond'
+                                                                src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} 
+                                                                alt="" />
                                                             </Grid>
                                                         )
 
@@ -936,15 +944,19 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                         </Box>
                                     ) : key === "PLATINUM" ? items?.length > 0 && (
                                         <Grid size={12} justifyContent={'center'} container mb={5}>
-
                                             <Grid size={12}>
                                                 <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`${key && toTitleCase(key)} Sponsors`}</Typography>
                                             </Grid>
                                             {
                                                 items?.map((item: any) => {
                                                     return (
-                                                        <Grid size={{ xs: 12, sm: 6 }} >
-                                                            <img className='object-fill rounded-sm' width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
+                                                        <Grid container justifyContent={"center"} alignItems={"flex-start"}  size={{ xs: 12, sm: 6 }}>
+                                                            <img
+                                                               className='sponsor-banner-platinum'
+                                                                src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''}
+                                                                alt=""
+                                                            />
+
                                                         </Grid>
                                                     )
                                                 })
@@ -959,8 +971,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                             {
                                                 items?.map((item: any) => {
                                                     return (
-                                                        <Grid size={{ xs: 12, sm: 4 }} container direction={'row'} spacing={2}>
-                                                            <img className='object-fill rounded-sm' width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
+                                                        <Grid container justifyContent={"center"} alignItems={"flex-start"} alignContent={"flex-start"}  size={{ xs: 12, sm: 4 }}  >
+                                                            <img  className='sponsor-banner-gold'  src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
                                                         </Grid>
                                                     )
                                                 })
@@ -974,8 +986,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                             {
                                                 items?.map((item: any) => {
                                                     return (
-                                                        <Grid size={{ xs: 12, sm: 3 }} container direction={'row'} spacing={2}>
-                                                            <img className='object-fill rounded-sm' height={'100%'} width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
+                                                        <Grid size={{ xs: 12, sm: 3 }} container justifyContent={'center'} alignItems={"flex-start"} alignContent={"flex-start"}  >
+                                                            <img className='sponsor-banner-silver' src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
                                                         </Grid>
                                                     )
                                                 })

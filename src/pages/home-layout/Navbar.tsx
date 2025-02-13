@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import { AppThemeLogo, Divider } from '@/assets/svg';
 import { useMemo } from 'react';
@@ -20,9 +20,11 @@ const Navbar = () => {
   }, [location.pathname]);
 
   const theme = useMemo(() => {
-    const defaultTheme: any = { bgcolor: 'nav-theme-white-background', color: 'nav-theme-black' };
+    const defaultTheme: { bgcolor: string; color: string } = { bgcolor: 'nav-theme-white-background', color: 'nav-theme-black' };
     return defaultTheme
   }, [location.pathname])
+
+  const navigate = useNavigate();
 
   return (
     <Grid container className={`nav ${theme.bgcolor}`}>
@@ -30,12 +32,14 @@ const Navbar = () => {
       <Grid size={10} className="nav-content">
         <Box className="nav-inner">
           <Grid container>
-            <Grid className="nav-logo-container">
+            <Grid onClick={() => {
+              navigate(routes.home())
+            }} className="nav-logo-container">
                <AppThemeLogo className={`nav-logo-container-icon`} />
             </Grid>
             <Grid className="nav-links-container">
               <Grid className={`nav-links ${theme.color}`}>
-                <Link className={getLinkClassName(routes.home())} to={routes.home()}>
+                <Link  className={getLinkClassName(routes.home())} to={routes.home()}>
                   Home
                 </Link>
                 <Link className={getLinkClassName(routes.pricing())} to={routes.pricing()}>
@@ -48,7 +52,7 @@ const Navbar = () => {
                 <Link className={getLinkClassName(routes.loginOrg())} to={routes.loginOrg()}>
                   Login
                 </Link>
-                <Link className={getLinkClassName(routes.register()) + 'nav-signUp'} to={routes.register()}>
+                <Link className={getLinkClassName(routes.register()) + 'nav-signUp'} to={routes.pricing()}>
                   Signup
                 </Link>
               </Grid>

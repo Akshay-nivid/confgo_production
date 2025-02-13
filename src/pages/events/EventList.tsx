@@ -9,24 +9,25 @@ import { useForm } from "react-hook-form";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import { Typography } from "@mui/material";
 import { ISource } from "@/Libs/types/type";
 import { Logger } from "@/Utils/Logger";
 import React from "react";
 import { NoEvent as NoEventIcon } from "@/assets/svg";
 import { Filter } from "@/components/Filter";
 import { StatusEnum } from "@/Utils/StatusEnum";
+import moment from "moment";
 
 interface EventListProps {
   hideAction?: boolean;
-  view?:any
+  view?:any;
+  dashView ? :boolean;
 }
 
 /**
  * Used to render events list
  * @author Vanisree
  */
-const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => {
+const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , dashView}) => {
   const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState([]);
   let filters = { requestDate: '', eventClass: '',statusId:'' };
@@ -47,10 +48,13 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
   const eventList = useCallback(() => {
     const req = {
       offset: 0,
-      limit: 5,
-      sortBy: "id",
-      sortDirection: "DESC",
-      filters: filters,
+      limit:dashView ? 3 :5,
+      sortBy:dashView ? "startTime": "id",
+      sortDirection:dashView ? "ASC" : "DESC",
+      filters:dashView? {statusId:1,
+        startTime:moment(new Date()).add(1,'days').format('YYYY-MM-DD'),
+      }: 
+      filters
     };
 
     setSource({
@@ -120,7 +124,8 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
       width: 200,
       dateFormat: "DD/MM/YYYY",
     },
-    { type: "status", field: "statusId", headerName: "Status", width: 150,sortable: false }
+    { type: "status", field: "statusId", headerName: "Status", width: 150, sortable: false },
+    
   ];
 
   /**
@@ -195,11 +200,11 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
 
   return (
     <Grid container className="custom-list">
-      <Grid size={{ xs: 4 }}>
+      {/* <Grid size={{ xs: 4 }}>
         <Typography className="custom-list-list-title" gutterBottom>
           Events
         </Typography>
-      </Grid>
+      </Grid> */}
 
       {/* Buttons for 'Create New Event' and 'Filters' */}
       <Grid container size={{ xs: 8 }} spacing={2} justifyContent="flex-end">
@@ -244,7 +249,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
           title="Event"
           hideFooterPagination={hideAction ? true : false}
           columns={columns}
-          id="event-datagrid"
+          id={dashView?"dashboard-view":"event-datagrid"} 
           noRecordIcon={<NoEventIcon className="event-list-no-events-icon" />}
           noRecordSubtitle="It looks like you haven't created any events yet.Start by setting up your first conference or meeting."
           redirectTo={() => routes.createEvent()} // define the route
@@ -258,13 +263,13 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
           justifyContent={"center"}
           alignItems={"center"}
         >
-          <CustomButton
+          {/* <CustomButton
             className="custom-list-view-all-button"
             label="View All"
             variant="outlined"
             size="large"
             onClick={() => navigate("/events")}
-          />
+          /> */}
         </Grid>
       )}
     

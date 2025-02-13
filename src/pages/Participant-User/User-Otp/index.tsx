@@ -346,7 +346,7 @@ const UserOtp = () => {
                 </Typography>
                  )}
               <CustomTimer
-                initialTime={15}
+                initialTime={180}
                 isResendDisabled={isResendDisabled}
                 setIsResendDisabled={setIsResendDisabled}
                 className="resend-otp"

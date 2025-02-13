@@ -1,13 +1,13 @@
 import React from "react";
 import {
-    Select,
-    MenuItem,
+    //Select,
+    //MenuItem,
     Box,
-    SelectChangeEvent,
+   // SelectChangeEvent,
     FormHelperText,
 } from "@mui/material";
 import CustomTextField from "../CustomTextfield/CustomTextField";
-import { phoneRules } from "@/Utils/Validation";
+//import { phoneRules } from "@/Utils/Validation";
 
 /**
  * Interface for representing a country in the CustomPhone component.
@@ -70,9 +70,9 @@ interface CustomPhoneProps {
  * @returns {JSX.Element} The rendered CustomPhone component.
  */
 const CustomPhone: React.FC<CustomPhoneProps> = ({
-    countries,
-    selectedCountryCode,
-    onCountryChange,
+    //countries,
+    //selectedCountryCode,
+   // onCountryChange,
     phoneNumber,
     onPhoneNumberChange,
     placeholder = "Phone Number",
@@ -87,9 +87,9 @@ const CustomPhone: React.FC<CustomPhoneProps> = ({
    * 
    * @param {SelectChangeEvent<string>} event - The change event object from the country selector dropdown.
    */
-    const handleCountryChange = (event: SelectChangeEvent<string>) => {
-        onCountryChange(event.target.value);
-    };
+    // const handleCountryChange = (event: SelectChangeEvent<string>) => {
+    //     onCountryChange(event.target.value);
+    // };
 
     /**
      * Handles the change event for the phone number input.
@@ -112,7 +112,7 @@ const CustomPhone: React.FC<CustomPhoneProps> = ({
                 }}
             >
 
-                <Box className="contact-form-country-selector">
+                {/* <Box className="contact-form-country-selector">
                     <Select
                         value={selectedCountryCode}
                         onChange={handleCountryChange}
@@ -155,7 +155,7 @@ const CustomPhone: React.FC<CustomPhoneProps> = ({
                             </MenuItem>
                         ))}
                     </Select>
-                </Box>
+                </Box> */}
 
                 <CustomTextField
                     name="phoneNumber"
@@ -164,7 +164,7 @@ const CustomPhone: React.FC<CustomPhoneProps> = ({
                     value={phoneNumber}
                     type="text"
                     control={control}
-                    rules={phoneRules}
+                    //rules={phoneRules}
                     max={10}
                     isNumeric={true}
                     onChange={(e) => handlePhoneChange(e.target.value)}

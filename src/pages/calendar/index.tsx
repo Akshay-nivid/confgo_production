@@ -126,7 +126,7 @@ interface calendarProps {
  /**
   *  Transforms API response data into calendar format for user.
   */
-  const userData = UserProgram?.data.map((item: any) => ({
+  const userData = UserProgram?.data?.map((item: any) => ({
     id: item.event?.id,
     title: item.event?.name,
     start: new Date(item.event?.startTime),

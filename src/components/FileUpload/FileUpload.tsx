@@ -28,6 +28,7 @@ interface FileUploadProps {
   isAbstract?: boolean;
   disabled?: boolean;
   ratioLabel?: string;
+  NoRecommended?:boolean
 }
 
 /**
@@ -50,6 +51,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
   isAbstract,
   disabled = false,
   ratioLabel = "16:9",
+  NoRecommended = false
 }) => {
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
@@ -186,7 +188,13 @@ const FileUpload: React.FC<FileUploadProps> = ({
           severity: 'success',
           message: 'File uploaded successfully!',
         });
-        onSubmit && onSubmit(response?.data);
+        if (onSubmit) {
+          if (canSelectMultiple) {
+            onSubmit(response?.data);
+          } else {
+            onSubmit(Array.isArray(response?.data) ? response.data?.[0] : response?.data);
+          }
+        }
       },
       errorCB: (error: any) => {
         setDataById('snackBarInfo', {
@@ -235,7 +243,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
               <>
               <Typography className="upload-dropzone-text">Drag & drop or click here to upload.</Typography>
               <Typography className="upload-dropzone-subtext">Choose a file to upload, Max file size: {maxSize}MB.</Typography>
-              <Typography className="upload-dropzone-subtext">Recommended ratio: {ratioLabel} for best fit</Typography>
+              { !NoRecommended && <Typography className="upload-dropzone-subtext">Recommended ratio: {ratioLabel} for best fit</Typography>}
               </>
             )}
           </Grid>

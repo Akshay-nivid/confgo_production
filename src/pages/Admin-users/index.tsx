@@ -8,13 +8,17 @@ import { Logger } from "@/Utils/Logger";
 import Grid from "@mui/material/Grid2";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import routes from "@/router/routes";
 import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
 import { Filter } from "@/components/Filter";
-import useStore, { setDataById } from "@/Libs/store";
+import useStore, { PUT, setDataById, setNonPersistedDataById } from "@/Libs/store";
 import { NoUserList } from "@/assets/svg";
+import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
+import CreateNewUsers from "./CreateUsers";
+import {IconButton } from "@mui/material";
+import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
+import EditUserDrawer from "./EditUserDrawer";
+import EditIcon from "@/assets/svg/event-edit.svg";
 
 interface Role{
   value:string,
@@ -29,17 +33,23 @@ type RoleList = {
   modifiedBy: string | null; 
   modifiedOn: string;    
 };
+type UserData = {
+  id: number;
+  firstName: string;
+  lastName: string;
+};
 /**
  * componet for showing full Admin created Company User List
  */
 const AdminUsersList=()=>{
-    const navigate = useNavigate();
     const [searchResults, setSearchResults] = useState([]);
     const [source, setSource] = useState<ISource | undefined>(undefined);
     const [loading, setLoading] = useState(false); // To indicate loading state for API
     const POST = useStore((state: any) => state.POST);
     const { control } = useForm();
-    const [roleList,setRoleList]=useState<Role []>([])
+    const [roleList,setRoleList]=useState<Role []>([]);
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
 
   /**
    * Fetches the userRole list when the component mounts.
@@ -55,9 +65,12 @@ const AdminUsersList=()=>{
   const UserRoleList = useCallback(() => {
     const companyId=sessionStorage.getItem('companyId')
     const req = {
+      sortDirection: "DESC",
+      sortBy:'id',
       offset: 0,
       limit: 5,
     filters:{
+      statusId:1,
       companyId:companyId,
       roleEnums: [
         "VOLUNTEER",
@@ -77,6 +90,56 @@ const AdminUsersList=()=>{
   }, []);
 
   /**
+   * delete user
+   */
+   const handleDelete= async(id:number)=>{
+    try{
+      await PUT({
+        url: `user/update/${id}`,
+        body: {
+            statusId:2
+        },
+        id: 'user-updated',
+        successCB:(_data:any)=>{
+          setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "User Deleted Successfully" });
+          UserRoleList(); 
+
+        },
+        errorCB: (context: any) => {
+            setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
+        }
+    });
+    }catch(error){
+        Logger.error("Error in user/update/id api call ",error)
+    }
+      
+   }
+
+  /**
+   * Handles row click event to open the edit drawer with selected user data.
+   * @param rowData - The data of the clicked row.
+   */
+  const handleRowClick = (e: React.MouseEvent,rowData: any) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const transformedEditData: UserData = {
+      id: rowData.id,
+      firstName: rowData.firstName,
+      lastName: rowData.lastName,
+    };
+    setIsDrawerOpen(true);
+    setSelectedUser(transformedEditData);
+  };
+
+  /**
+   * Closes the edit drawer and resets the selected user.
+   */
+  const closeDrawer = () => {
+    setIsDrawerOpen(false);
+    setSelectedUser(null);
+  };
+
+  /**
    * Transforms the raw data from the API to match the required format for the DataGrid component.
    * @param data - The raw data from API response
    * @returns Transformed data for DataGrid
@@ -86,11 +149,20 @@ const AdminUsersList=()=>{
     return data.map((item: any) => {
       return {
         ...item,
-        name: item?.firstName, 
+        name: `${item?.firstName} ${item?.lastName}`, 
         role:item?.userRoles[0]?.role?.roleName,
         email:item?.email,
         phone:item?.phone,
-        status:item?.user?.statusId
+        status:item?.user?.statusId,
+        edit: <IconButton onClick={(e) => { handleRowClick(e, item) }} className="event-detail-event-info-card-edit-btn">
+          <EditIcon />
+        </IconButton>,
+        inActive:  <IconButton
+         onClick={() => handleDelete(item?.id)}
+        >
+        <DeleteIcon />
+      </IconButton>
+        // <Button>Delete</Button>
       };
     });
   };
@@ -198,16 +270,16 @@ const AdminUsersList=()=>{
 
   // Column configuration for the DataGrid component
   const columns = [
-    { type: "default", field: "id", headerName: "ID", width: 150 },
-    { type: "default", field: "name", headerName: "Name", width: 200 },
+    { type: "default", field: "id", headerName: "ID", width: 100 },
+    { type: "custom", field: "name", headerName: "Name", width: 150 },
     {
       type: "default",
       field: "role",
       headerName: "Role",
-      width: 200,
+      width: 150,
     },
     {
-      type: "default",
+      type: "custom",
       field: "email",
       headerName: "Email",
       width: 180
@@ -216,9 +288,11 @@ const AdminUsersList=()=>{
       type: "default",
       field: "phone",
       headerName: "Phone No",
-      width: 180,
+      width: 150,
     },
-    { type: "status", field: "statusId", headerName: "Status", width: 150 }
+    { type: "status", field: "statusId", headerName: "Status", width: 150 },
+    { type: "custom", field: "edit", headerName: "", width: 80 },
+    { type: "custom", field: "inActive", headerName: "", width: 80 },
   ];
 
   const filterFields: any = [
@@ -230,6 +304,28 @@ const AdminUsersList=()=>{
     }
    ]
   
+     /**
+  * Opens the "Create Coupon Drawer" by updating the non-persisted state.
+  * This function sets `craeteCouponDrawer` to `true`, triggering the drawer to open.
+  */
+
+  function handleCouponDrawer() {
+
+    setNonPersistedDataById('craeteUserDrawer', { value: true })
+
+  };
+
+  const CreateUserDrawer = useStore(state => state.nonPersistedData?.['craeteUserDrawer']?.value) || false;
+
+  /**
+  * Fetches the list of coupons whenever the `CreateCouponDrawer` dependency changes.
+  * This ensures that the coupon list is updated when a new coupon is created
+  * or when the drawer state is modified.
+  */
+  useEffect(() => {
+    UserRoleList();
+    
+  }, [CreateUserDrawer]);
     return(
         <Grid container className="custom-list">
             <Grid size={{ xs: 4 }}>
@@ -266,10 +362,8 @@ const AdminUsersList=()=>{
             size="large"
             type="submit"
             startIcon={<AddIcon />}
-            onClick={() => {
-              navigate(routes.createNewUsers());
-            }}
-            // disabled={loading}
+            onClick={
+              handleCouponDrawer}
           />
            <Filter datagridId='data-role-list' fields={filterFields} />
           </Grid>
@@ -282,11 +376,24 @@ const AdminUsersList=()=>{
             hideFooterPagination={false}
             columns={columns}
             id="data-role-list"
-            // onRowClick={(params:any) => handleRowClick(params.id)}
+            // onRowClick={(params:any) => handleRowClick(params.row)}
             noRecordIcon={<NoUserList className="userdetail-noimage"/>}
             noRecordSubtitle="It's looks like you haven't created any users yet."
           />
         </Grid>
+        <Grid>
+          <CustomDrawer
+            children={selectedUser && <EditUserDrawer data={selectedUser} closeDrawer={closeDrawer} onSuccess={UserRoleList} />}
+            open={isDrawerOpen}
+            type="right"
+          />
+        </Grid>
+        <Grid>
+            <CustomDrawer open={CreateUserDrawer} type={"right"}>
+               <CreateNewUsers refreshUserRoles={UserRoleList}/>
+            </CustomDrawer>
+        </Grid>
+
       </Grid>
     );
 

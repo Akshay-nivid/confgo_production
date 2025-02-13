@@ -8,14 +8,14 @@
   &__title {
     font-weight: $font_bold !important;
     text-align: center !important;
-    font-size: $h1 !important;
+    font-size: $h2 !important;
   }
 
   &__subtitle {
     text-align: center !important;
     margin-bottom: 4rem !important;
     color: $clr_sub_header !important;
-    font-size: $h6 !important;
+    font-size: $p1 !important;
   }
 
   &__button {
@@ -56,50 +56,59 @@
 .plancard {
   &__container {
     background: linear-gradient(to bottom, $clr_offwhite, transparent);
-    padding: 1.25rem;
+    padding: 1.0rem;
     border-radius: 2.5rem;
-
+    min-height: 28rem;
+   
   }
 
   &__content {
     background-color: $clr_white;
     width: 100%;
     padding-block: 2.083rem;
-    padding-inline: 1.833rem;
+    padding-inline: 1.033rem;
     border-radius: 1.85rem;
     box-shadow: $clr_gray_light 0rem 0.25rem 0.667rem;
-
+  min-height: 28rem;
   }
 
   &__header {
-    column-gap: 1.5rem;
+    column-gap: 1.0rem;
     margin-bottom: 2.91rem;
   }
 
   &__icon {
     svg {
-      width: 4.91rem;
-      height: 4.91rem;
+      width: 3.81rem;
+      height: 3.81rem;
     }
 
   }
 
   &__title {
-    font-size: $h4 !important;
+    font-size: $h5 !important;
     font-weight: $font_semibold !important;
 
  
   }
 
   &__subtitle {
+    padding-inline-start: 0.2rem;
     color: $clr_sub_header !important;
-    font-size: $p1 !important;
+    font-size: $p3 !important;
     font-weight: $font_medium !important;
 
   }
 
+  &__text {
+    color: $clr_sub_header !important;
+    font-size: $p1 !important;
+    font-weight: $font_medium !important;
+    padding-bottom: 0.5rem;
+  }
+
   &__price_conatiner {
-    margin-bottom: 3rem !important;
+    margin-bottom: 1rem !important;
 
     .price {
       font-size: $h1 !important;
@@ -107,12 +116,27 @@
 
     
     }
+    .annually-text{
+      font-size: $p2 !important;
+    }
+    .enterprise_des{
+      font-size: $p5 !important;
+      font-weight: $font-semibold !important;
+    }
 
     .period {
       font-size: $h6 !important;
       ;
       color: $clr_text_grey !important;
     }
+  }
+  &-plan-description{
+    svg{
+      width:2rem;
+      height: 2rem;
+    }
+    margin-bottom: 2rem;
+
   }
 
 
@@ -143,6 +167,7 @@
     }
   }
 
+
   &__button {
     height: 4.5rem;
     border-radius: 0.83rem !important;
@@ -157,6 +182,24 @@
     svg {
       path {
         fill: $clr_blue;
+      }
+    }
+
+  }
+  &__buttonEnterprise {
+    height: 4.5rem;
+    border-radius: 0.83rem !important;
+    border: 0.17rem solid $clr_blue !important;
+    background-color: $clr_blue !important;
+    text-transform: none !important;
+    color: $clr_white !important;
+    font-size: $p2 !important;
+    box-shadow: none !important;
+
+    
+    svg {
+      path {
+        fill: $clr_white;
       }
     }
   }

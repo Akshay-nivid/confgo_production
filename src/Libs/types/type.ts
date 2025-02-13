@@ -100,7 +100,7 @@ export interface IEvents {
   url: string | null;
   speciality: string | null;
   templateId: number | null;
-  assetId: number | null;
+  assetId: string | null;
 }
 
 
@@ -126,7 +126,7 @@ export type IPrograms = {
   url: string | null;
   speciality: string | null;
   templateId: number | null;
-  assetId: number | null;
+  assetId: string | null;
   status: Status;
 }
 
@@ -208,7 +208,7 @@ export interface IEventData {
   discount: number | null;
   statusId: number;
   slugName: string;
-  assetId: number;
+  assetId: string;
   published: boolean;
   venue: Venue;
   status: Status;
@@ -232,7 +232,7 @@ export interface Template {
   id: number;
   name: string;
   description: string;
-  assetId: number | null;
+  assetId: string | null;
   enabled: number;
   isDefault: number;
   createdBy: number;
@@ -265,7 +265,7 @@ export interface AddonDetails {
   companyId: number | null;
   owner: string;
   enabled: number;
-  assetId: number | null;
+  assetId: string | null;
 }
 
 export interface Venue {
@@ -323,3 +323,24 @@ export interface IUserEvents {
   success: boolean;
 };
 
+
+export type OrderSummary = {
+  addonTotal: number;
+  companyId: number;
+  couponDeduction: number;
+  discountAmount: number;
+  finalPrice: number;
+  id: number;
+  orderDate: string;
+  parentEventId: number;
+  participantTypeId: number;
+  paymentStatus: string;
+  priceTierDiscount: string; 
+  programTotal: number;
+  statusId: number;
+  subTotal: string; 
+  tax: number;
+  taxInclusive: number;
+  taxPercentage: number;
+  userId: number;
+};

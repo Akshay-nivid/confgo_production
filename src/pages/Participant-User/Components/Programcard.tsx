@@ -15,6 +15,8 @@ import Badge from './Badge';
 import { useFormContext } from 'react-hook-form';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import { setNonPersistedDataById } from '@/Libs/store';
+import HTMLReactParser from 'html-react-parser/lib/index';
+
 import {YellowSeat, RedSeat} from '@/assets/svg/index';
 interface IProgramcardProps {
     templateId: number | null | undefined, handleToggleProgramCheckbox: (param: string) => void, program: any, date: string
@@ -57,7 +59,7 @@ const Programcard = ({ templateId, handleToggleProgramCheckbox, program, date }:
                 <Tooltip title={program?.name}>
                     <Typography className='card-title'> {truncateString(program?.name, 23)}</Typography>
                 </Tooltip>
-                <Tooltip title={program?.description}>
+                <Tooltip title={HTMLReactParser(program?.description)}>
                     <Typography className=" program-descritption">{truncateString(program?.description, 23)} </Typography>
 
                 </Tooltip>

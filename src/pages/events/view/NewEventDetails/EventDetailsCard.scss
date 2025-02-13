@@ -1,0 +1,212 @@
+.Event-BasicInfo {
+    padding: 1.3rem;
+    border: 0.0833rem solid $clr_gray_very_light;
+    border-radius: 0.4167rem;
+
+    &-titles {
+        font-size: $h5 !important;
+        font-weight: $font_semibold !important;
+        .heading{
+            font-size: $h5 !important;
+            font-weight: $font_semibold !important;
+        }
+        .description{
+            font-size: $p2;
+            font-weight: $font_normal;
+            color: $clr_gray_dark_text;
+        }
+        .about-btn {
+            width: 7rem !important;
+            border-radius: 4.17rem !important;
+            background-color: $clr-warning-orange !important;
+            font-size: $p3 !important;
+            font-weight: $font-medium !important;
+            color: $clr_white !important;
+            padding-top: 0.3rem !important;
+
+        }
+    }
+    &-time{
+        .svg{
+           svg{
+            width: 2.6rem;
+            height: 2.6rem;
+           }      
+        }
+        .title{
+            font-size: $p2;
+            font-weight: $font_bold;
+        }
+        .date{
+            font-size: $h6;
+            font-weight: $font-medium;
+        }
+    }
+    &-viewProgram{
+        padding-right: 1rem;
+        .btn{
+             border: 0.125rem solid $clr_green;
+             border-radius:  0.4167rem;
+             box-shadow: none !important;
+             background-color: transparent !important;
+             color:  $clr_green !important;
+             font-size: $p2;
+             font-weight: $font_medium; 
+             text-transform: none;
+            min-width: max-content;
+
+
+        }
+        .btn2{
+            border-radius:  0.4167rem;
+            box-shadow: none !important;
+            background-color: $clr_green !important;
+            color:  $clr_white !important;
+            font-size: $p2;
+            font-weight: $font_medium; 
+            text-transform: none;
+            min-width: max-content;
+            &:hover {
+                background-color: $clr_green !important; 
+                color: $clr_white !important; 
+                box-shadow: none !important;
+            }
+        
+       }
+    }
+}
+
+.EventContactCard-grid{
+    padding-inline: 1.25rem;
+    padding-block: 1.0833rem;
+    border-radius: 0.8333rem;
+    border: 0.0833rem solid $clr_gray_very_light;
+    &-box{
+      
+        .heading-title{
+            font-size: $p5;
+            font-weight: $font_semibold;
+        }
+    
+    &-details{
+        svg{
+            width: 1.8rem !important;
+            height: 1.8rem !important;
+        }
+       
+    }
+    &-content{
+        .mail-phn{
+            font-size: $p2 !important;
+            font-weight: $font-medium !important;
+        }
+    }
+}
+
+} 
+
+.EventWebsite-grid{
+    background-image: url("/src/assets/png/web-site-png.png");
+    background-size: cover;
+    background-position: 100%;
+    padding-inline:  1.33rem;
+    padding-top:  1.67rem;
+    border-radius:0.8333rem ;
+    min-height: 10.67rem;
+    &-content{
+    &-title{
+        .header{
+            color:$clr_white;
+            font-size: $p5;
+            font-weight: $font_semibold;
+        }
+      
+    }  &-View-website{
+            font-family: $font;
+            height: 2.3rem;
+            background-color: $clr_white !important;
+              color: $clr_green !important;
+              padding-top: 0.7rem !important;
+              font-weight: $font_semibold !important;
+              font-size: $p2 !important;
+              text-transform: none !important;
+        }
+
+
+}
+}
+
+.main-location-Views {
+     padding-inline:0.8rem ;
+     padding-top: 0.8rem;
+     border: 0.0833rem  solid $clr_gray_very_light;
+     border-radius: 0.8333rem;
+   
+     &-address{
+        margin-top: 1rem !important;
+        .title-address{
+            font-family: $font;
+            font-size: $p1 !important ;
+            font-weight: $font-medium !important;
+  
+        }
+    }
+    
+
+    &-location-Text {
+        font-family: $font;
+        font-size: $h4 !important;
+        font-weight: $font_semibold !important;
+    }
+
+    &-edit-btn {
+        background-color: $clr_green !important;
+        margin-bottom: 1rem !important;
+        font-size: $p2 !important;
+        font-weight:$font_medium;
+        text-transform: none !important;
+        box-shadow: none !important;
+       border-radius: 0.4167rem !important;
+    }
+        .MuiButton-root:hover {
+            background-color: $clr_green !important;  // Removed !important unless necessary
+        }
+
+    &-location-button {
+        width: 1.8rem;
+        height: 2.1rem;
+    }
+
+    .show-map {
+        border-radius: 1.3333rem;
+        width: 44.84rem;
+    }
+
+    .nearby-location-grid {
+        .address {
+            display: flex;
+            flex-direction: row;
+            height: 4.875rem;
+            margin-top: 1.501rem !important;
+            align-items: center;
+        }
+
+        margin-top:1.8rem;
+        align-items:center;
+
+        .title {
+            font-family: $font;
+            font-size: $h4;
+            font-weight: $font_semibold;
+            line-height: 2.25rem;
+            letter-spacing: 0.01871rem;
+            text-align: left;
+        }
+
+        .nearby-location-description {
+            margin-top: 3rem;
+
+        }
+
+    }
+}

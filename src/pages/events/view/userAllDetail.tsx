@@ -641,7 +641,7 @@ const handleDownloadPdf = () => {
           <Typography className="all-details-data-title">Transcation ID</Typography>
           </Grid>
           <Grid size={8}>
-          <Typography className="all-details-data">{PaymentDetails.transactionId ? PaymentDetails.transactionId : "Not Available"}</Typography>
+          <Typography className="all-details-data">{PaymentDetails?.transactionId ? PaymentDetails.transactionId : "Not Available"}</Typography>
           </Grid>
       </Grid>
       <Grid container>
@@ -649,7 +649,7 @@ const handleDownloadPdf = () => {
           <Typography className="all-details-data-title">Total Amount</Typography>
           </Grid>
           <Grid size={8}>
-          <Typography className="all-details-data">{currency}{PaymentDetails.amount}</Typography>
+          <Typography className="all-details-data">{currency}{PaymentDetails?.amount ? PaymentDetails?.amount : 0 }</Typography>
           </Grid>
       </Grid>
       <Grid container>
@@ -657,7 +657,7 @@ const handleDownloadPdf = () => {
           <Typography className="all-details-data-title">Payment Method</Typography>
           </Grid>
           <Grid size={8}>
-          <Typography className="all-details-data">{PaymentDetails.paymentMethod.name}</Typography>
+          <Typography className="all-details-data">{PaymentDetails?.paymentMethod?.name}</Typography>
           </Grid>
       </Grid>
       <Grid container>
@@ -665,7 +665,7 @@ const handleDownloadPdf = () => {
           <Typography className="all-details-data-title">Payment Date</Typography>
           </Grid>
           <Grid size={8}>
-          <Typography className="all-details-data"> {formatDateTimeRange({ date: PaymentDetails.createdOn,format: "DD/MM/YYYY",})}</Typography>
+          <Typography className="all-details-data"> {formatDateTimeRange({ date: PaymentDetails?.createdOn,format: "DD/MM/YYYY",})}</Typography>
           </Grid>
       </Grid>
         </Grid> 

@@ -12,15 +12,19 @@ import { Logger } from "@/Utils/Logger";
 import { useParams } from "react-router-dom";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import AssignedVolunteers from "./AssignedVolunteers";
+import { NoCouponDataSvg } from "@/assets/svg";
 import { IconButton } from "@mui/material";
 import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
-import { NoCouponDataSvg } from "@/assets/svg";
 
-
+interface volunteerprops {
+  drawerOpened?:boolean
+  expanded?:any
+  eventData?:any
+}
 /**
  * Component to display a list of volunteers with search, assign and filter functionality.
  */
-const VolunteerListCard = () => {
+  const VolunteerListCard : React.FC<volunteerprops> = ({drawerOpened,expanded,eventData}) => {
   const { id } = useParams();
   const [searchResults, setSearchResults] = useState([]);
   // const [filters, setFilters] = useState({ });
@@ -37,6 +41,13 @@ const VolunteerListCard = () => {
   useEffect(() => {
     volunteerList();
   }, []);
+
+  /**
+   * opens the assign drawer if volunteerlist is empty and expanded
+   */
+  useEffect(() => {
+    drawerOpened && expanded =='panel3-header' ? setDrawerOpen(true) : setDrawerOpen(false)
+  }, [expanded]);
 
   /**
    * Function to set the initial request configuration for fetching volunteer data.
@@ -75,7 +86,12 @@ const VolunteerListCard = () => {
         name: `${item?.user?.firstName} ${item?.user?.lastName}`,
         email: item?.user?.email,
         phone: item?.user?.phone,
-        status: item?.statusId
+        status: item?.statusId,
+        delete:  <IconButton
+        onClick={() => handleDelete(item?.id)}
+        >
+        <DeleteIcon />
+      </IconButton>
       };
     });
   };
@@ -159,17 +175,10 @@ const VolunteerListCard = () => {
       width: 150,
     },
     {
-      type:"default",
-      field:"Action",
+      type:"custom",
+      field:"delete",
       headerName: "Action",
       width:100,
-      renderCell: (params: any) => (
-        <IconButton
-          onClick={() => handleDelete(params.row.id)}
-        >
-          <DeleteIcon />
-        </IconButton>
-      ),
     }
   ];
 
@@ -178,17 +187,20 @@ const VolunteerListCard = () => {
   }
 
   /**
-   * For deleting the assigned volunteer from the list
-   */
-  const handleDelete = async(volunteerId: number) => {
-    try{     
-        await apiClient.delete(`user/volunteerEvent/${volunteerId}`)
-        volunteerList();
+  * For deleting the assigned volunteer from the list
+  */
+  const handleDelete = async (volunteerId: number) => {
+    try {
+
+      await apiClient.delete(`user/volunteerEvent/${volunteerId}`)
+
+      volunteerList();
 
     } catch (error) {
-        Logger.error(error,"AssignedVolunteers.tsx");
+      
+      Logger.error(error, "AssignedVolunteers.tsx");
     }
-};
+  };
 
   return (
     <Grid container>
@@ -203,7 +215,7 @@ const VolunteerListCard = () => {
           <CustomAutocomplete
             name="search"
             className="custom-user-search-field"
-            placeholder="Search by ID, Name or Phone ..."
+            placeholder="Search by Name, Phone or email ..."
             control={control}
             options={searchResults}
             getOptionLabel={(option: any) =>
@@ -214,6 +226,8 @@ const VolunteerListCard = () => {
             onChange={handleAutocompleteChange}
           />
         </Grid>
+        
+
         <Grid container spacing={2}>
           <CustomButton
             className="custom-green-btn"
@@ -235,13 +249,12 @@ const VolunteerListCard = () => {
           columns={columns}
           id="volunteer-lists"
           noRecordIcon={<NoCouponDataSvg className="no-coupon-icon"/>}
-          noRecordSubtitle="cIt looks like you haven't created any volunteer yet."
+          noRecordSubtitle="It looks like you haven't created any volunteer yet."
         />
       </Grid>
 
       <CustomDrawer open={drawerOpen} type="right">
-        <AssignedVolunteers onClose={onClose}   volunteerList={volunteerList} 
- />
+        <AssignedVolunteers data={eventData} onClose={onClose} volunteerList={volunteerList} />
       </CustomDrawer>
     </Grid>
   );

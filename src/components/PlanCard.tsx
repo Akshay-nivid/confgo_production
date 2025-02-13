@@ -43,7 +43,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
             <Grid flexDirection={"column"} marginLeft={2}>
               <Typography className="plan-card-header">{toCamelCase(header)}</Typography>
               <Typography className="plan-card-price">
-                ${price}/monthly
+                {value != "ENTERPRISE_PLAN" ? "$" + parseInt(price) + "/Annually" : ""}
               </Typography>
             </Grid>
             {/* <Box>

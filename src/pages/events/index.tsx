@@ -19,10 +19,10 @@ import LeftArrowIcon from '@/assets/svg/left-arrow.svg';
 import moment from 'moment';
 
 const steps = [
-  { label: 'Create Event', description: '' },
-  { label: 'Program', description: '' },
-  { label: 'Add Ons', description: '' },
-  { label: 'Confirm', description: '' },
+  { label: 'Add Event Details', description: '' },
+  { label: 'Add Program', description: '' },
+  { label: 'Add Add Ons', description: '' },
+  { label: 'Review and Submit', description: '' },
 ];
 type Speaker = {
   speakerId?: string;
@@ -37,7 +37,7 @@ type Sponsor={
   sponsorLogoId?:string;
   bannerId?:string;
   sponsorTypeId?:string;
-  sponsorReservedSeats?:string
+  sponosorReservedSeats?:string
 }
 interface Program {
   name: string;
@@ -62,7 +62,7 @@ interface Program {
   sponsorLogoId?:string;
   sponsorbannerId?:string;
   sponosrSelection?:string;
-  sponsorReservedSeats?:string;
+  sponosorReservedSeats?:string;
   sponsorTypeId?:string;
   isModerator?:boolean;
   hallName?:{hallName:string};
@@ -105,6 +105,7 @@ interface Addons {
   sponosrSelection?:string;
   sponsorReservedSeats?:string;
   sponsorTypeId?:string
+  addOnPropertyRequired:string;
 }
 
 const Events = () => {
@@ -336,8 +337,8 @@ const Events = () => {
     const event = data?.event;
     // const EventStart = event?.startTime
     // const EventEnd = event?.endTime
-    const EventStart = `${event?.startTime}T00:00` //for testing repeated addon purpose
-    const EventEnd = `${event?.endTime}T23:59` //for testing repeated addon purpos
+    const EventStart = event?.startTime
+    const EventEnd = event?.endTime
     const EventStartTime= formatUTCDateTime(EventStart)
     const EventEndTime= formatUTCDateTime(EventEnd)
 
@@ -360,7 +361,7 @@ const Events = () => {
       sponsorLogoId,
       sponsorbannerId,
       sponosrSelection,
-      sponsorReservedSeats,
+      sponosorReservedSeats,
       sponsorTypeId,
       sponsor,
       isModerator,
@@ -389,10 +390,10 @@ const Events = () => {
           })),
         }),
         ...(sponsor?.length !== 0 && {
-          sponsors: sponsor?.map(({ sponsorId, sponsorTypeId, sponsorReservedSeats }) => ({
+          sponsors: sponsor?.map(({ sponsorId, sponsorTypeId, sponosorReservedSeats }) => ({
             sponsorId,
             sponsorTypeId,
-            ...(sponsorReservedSeats && { reservedSeats: sponsorReservedSeats }) // Include reservedSeats only if it has a value
+            ...(sponosorReservedSeats && { reservedSeats: sponosorReservedSeats }) // Include reservedSeats only if it has a value
           }))
         }),
         ...(hallName&&{hall:hallName?.hallName})
@@ -409,6 +410,7 @@ const Events = () => {
       sponsorReservedSeats,
       sponsorTypeId,
       sponsor,
+      addOnPropertyRequired,
        ...item }: Addons) => {
       // Create the combined datetime field
       let combinedStartDateTime;
@@ -452,7 +454,7 @@ const Events = () => {
           email: event?.email 
         }
       ],
-      isAbstract:event?.isAbstract?1:0,
+      isAbstract:event?.isAbstract === 'true' ? 1 : 0,
       abstractDate:event?.abstractDate,
       isDraft: draft? true: false
     };
@@ -472,10 +474,10 @@ const Events = () => {
         country: event?.country,
         ...(event?.postalCode ? { postalCode: event.postalCode } : {}),
       };
-      const allNull = Object.values(req['venue']).every((value) => (value === undefined || value === null));
+      const allNull = Object.values(req['venue']).every((value) => (value === undefined || value === null || value ===""));
 
       if (allNull) {
-        req['venue'] = null;
+        req['venue'] = {};
       }
       if ( event?.type !== 'OFFLINE') {
         req['url'] = event?.url;
@@ -603,8 +605,8 @@ const Events = () => {
             name: data.name || "",
             phone: data.eventContacts?.[0]?.phone || "",
             email: data.eventContacts?.[0]?.email || "",
-            startTime: formatDate(data.startTime),
-            endTime: formatDate(data.endTime),
+            startTime: data.startTime,
+            endTime: data.endTime,
             amount:data.amount && data.amount !== "0.00" ? data.amount : "",
             specialtyId: data.specialtyId || null,
             url: data.url || null,
@@ -618,7 +620,7 @@ const Events = () => {
             description: data.description || "",
             ...(data.assetId && data.assetId != 0 ? { assetId: data.assetId } : {}),// Conditionally add assetId
             ...(data.abstractDate ? { abstractDate: data.abstractDate } : {}), // Conditionally add abstractDate
-            isAbstract:data.isAbstract || false,
+            isAbstract:data.isAbstract === 1 ? true : false,
             ...(data.speciality ? { speciality: data.speciality } : {}),
         },
         program: data.programs?.map((program: any) => ({
@@ -713,14 +715,10 @@ const Events = () => {
 
 
   return (
-    ((id && (formData?.event || formDraftData?.event)) || !id) && <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper">
-      <Grid size={{ xs: 12, sm: 12 }} justifyItems={'center'} className="custom-stepper-main">
-        <CustomStepper
-          steps={steps}
-          activeStep={activeStep}
-          onStepChange={handleStepChange}
-        />
-      </Grid>
+    ((id && (formData?.event || formDraftData?.event)) || !id) && 
+    <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper">
+      <Grid size={{ xs: 12 }}  display={"flex"}>
+      
       <Grid container size={{ xs: 12, sm: 12 }}>
         {activeStep === 0 && (
           <CreateEvent
@@ -806,6 +804,14 @@ const Events = () => {
           {/* {activeStep === 1 && <Grid className="custom-stepper-bottom-spacing"></Grid>} */}
         </Grid>
         <Grid container className="custom-stepper-button-container" size={{ xs: activeStep === 2 ? 2 : 3, sm: activeStep === 2 ? 2 : 3 }}></Grid>
+      </Grid>
+      <Grid size={{ xs: 4, sm: 4 }}  className="custom-stepper-main">
+        <CustomStepper
+          steps={steps}
+          activeStep={activeStep}
+          onStepChange={handleStepChange}
+        />
+      </Grid>
       </Grid>
     </Grid>
   );
