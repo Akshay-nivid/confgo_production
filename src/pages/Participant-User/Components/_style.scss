@@ -438,3 +438,13 @@
 .badge-text {
     font-weight: $font_medium !important;
 }
+
+.program-card-seat-alert-red{
+    color:$clr_red;
+    font-size: $p2 !important;
+}
+.program-card-seat-alert-yellow{
+    color:$clr_orange_yellow;
+    font-size: $p1 !important;
+
+}

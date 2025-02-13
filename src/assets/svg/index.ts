@@ -126,6 +126,9 @@ import ShakeHandIcon from "./shake-hand.svg";
 import MaintenanceIcon from "./maintenance-icon.svg";
 import HallIcon from "./hall-icon.svg";
 import TempHall from "./temp-hall.svg"
+import YellowSeat from "./yelllowseat.svg";
+import RedSeat from "./redseat.svg";
+
 export {
   CalenderIcon,
   ShakeHandIcon,
@@ -254,5 +257,7 @@ export {
   DownArrow,
   MaintenanceIcon,
   HallIcon,
-  TempHall
+  TempHall,
+  YellowSeat,
+  RedSeat,
 };
