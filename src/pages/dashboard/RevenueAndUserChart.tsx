@@ -120,8 +120,8 @@ const RevenueAndUserChart = () => {
     return (
 
 
-        <Grid size={{ xs: 12, sm: 12 }} container minHeight={'24.5rem'} columnSpacing={2} className="revenue-and-user-chart">
-            <Grid size={8} container flexDirection={"column"} borderRadius={".83rem"}  boxShadow={"rgba(0, 0, 0, 0.12) 0rem 0rem 0.3125rem 0rem,  rgba(0, 0, 0, 0.12) 0rem 0rem 0.0625rem 0rem"}  bgcolor={"white"} paddingBlock={1} paddingRight={2.2} >
+        <Grid  size={{ xs: 12, sm: 12 }}  container minHeight={'24.5rem'} columnSpacing={2} rowSpacing={2} className="revenue-and-user-chart">
+            <Grid size={{xs:12,md:8}} height={{xs:'24.5rem'}} container flexDirection={"column"} borderRadius={".83rem"}  boxShadow={"rgba(0, 0, 0, 0.12) 0rem 0rem 0.3125rem 0rem,  rgba(0, 0, 0, 0.12) 0rem 0rem 0.0625rem 0rem"}  bgcolor={"white"} paddingBlock={1} paddingRight={2.2} >
                 <>
 
                     <Grid size={12} display={'flex'} columnGap={8} className="header-container" paddingInline={2.2}>
@@ -129,7 +129,7 @@ const RevenueAndUserChart = () => {
                     </Grid>
 
 
-                    <Grid justifyContent={"center"} flex={1} display={"flex"} alignItems={"center"} size={12} >
+                    <Grid justifyContent={"center"} flex={1} display={"flex"} alignItems={"center"} size={12} minWidth={'100%'} >
                         {isLoading ? <Loader /> : (!chartData || chartData?.barChartData?.length === 0) ? <p className='total-users-label'>No Data available</p> : <CustomBarChart barProps={{ dataKey: 'value' }} chartData={chartData?.barChartData} />}
                     </Grid>
 
@@ -138,14 +138,14 @@ const RevenueAndUserChart = () => {
 
             </Grid>
 
-            <Grid size={4} container borderRadius={".83rem"} boxShadow={"rgba(0, 0, 0, 0.12) 0rem 0rem 0.3125rem 0rem,  rgba(0, 0, 0, 0.12) 0rem 0rem 0.0625rem 0rem"} bgcolor={'white'} padding={'1rem'}>
+            <Grid size={{xs:12,md:4}}  container borderRadius={".83rem"} boxShadow={"rgba(0, 0, 0, 0.12) 0rem 0rem 0.3125rem 0rem,  rgba(0, 0, 0, 0.12) 0rem 0rem 0.0625rem 0rem"} bgcolor={'white'} padding={'1rem'}>
 
                         <Grid size={12}>
                             <p className='total-users-label'>Total Users Registered</p>
                             <p className='total-users-value'>{chartData?.totalUsers || ''}</p>
                         </Grid>
 
-                        <Grid size={12} width={'100%'} maxHeight={"20rem"} className="pie-chart-grid">
+                        <Grid size={12} minWidth={'100%'} maxHeight={"20rem"} className="pie-chart-grid">
                             {isLoading ?
                                 <Grid size={12} display={'flex'} justifyContent={'center'} alignItems={'center'}>
                                     <Loader />

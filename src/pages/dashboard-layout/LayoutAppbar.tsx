@@ -73,10 +73,10 @@ export default function LayoutAppbar() {
   
   return (
     <Grid container className="appbar">
-      <Grid size={2} className="appbar-logo-container -ml-[.14rem]">
-      <AppThemeLogo className={`appbar-logo-container-svg`} />
+      <Grid  display={{xs:'block',md:'none'}} className="appbar-logo-container absolute ">
+      {/* <AppThemeLogo className={`appbar-logo-container-svg h-[3rem] w-[8rem]`} /> */}
       </Grid>
-      <Grid size={10} className="appbar-profile">
+      <Grid size={12} className="appbar-profile">
         <div className="avatar-group" onClick={handleMenuOpen}>
           <div className="flex flex-col">
             <Typography className="avatar-header-text">{companyUserName}</Typography>
