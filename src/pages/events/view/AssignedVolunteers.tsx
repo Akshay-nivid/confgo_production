@@ -3,22 +3,25 @@ import Grid from '@mui/material/Grid2';
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import CustomAutocomplete from '@/components/CustomAutocomplete/CustomAutocomplete';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import apiClient from '@/Libs/Https/API-client';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';
 import { Logger } from '@/Utils/Logger';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import { CloseOutlined } from '@mui/icons-material';
-import { useNavigate, useParams } from 'react-router-dom';
-import { setDataById, setNonPersistedDataById } from '@/Libs/store';
-import routes from '@/router/routes';
+import {  useParams } from 'react-router-dom';
+import useStore, { setDataById, setNonPersistedDataById } from '@/Libs/store';
+import CustomDrawer from '@/components/CustomDrawer/CustomDrawer';
+import CreateNewUsers from '@/pages/Admin-users/CreateUsers';
 
 interface AssignedVolunteersProps {
     onClose: () => void;
     volunteerList: () => void;
     data:any;
 }
-const AssignedVolunteers = ({ onClose, volunteerList ,data}: AssignedVolunteersProps) => {
+const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps) => {
+    let craeteUserDrawer =  useStore(state => state.nonPersistedData?.['craeteUserDrawer']?.value);
+
     const { control } = useForm();
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -26,7 +29,7 @@ const AssignedVolunteers = ({ onClose, volunteerList ,data}: AssignedVolunteersP
     const [assignedVolunteers, setAssignedVolunteers] = useState<any[]>([]);
     const { id } = useParams()
     const companyId = sessionStorage.getItem('companyId')
-     const navigate = useNavigate();
+
     /**
      * Function to assign the volunteers which are selected, the selected volunteers are passing in an array
      */
@@ -60,6 +63,11 @@ const AssignedVolunteers = ({ onClose, volunteerList ,data}: AssignedVolunteersP
                 Logger.error("AssignedVolunteers.tsx", error);
             }
     };
+
+    useEffect(() => {
+        volunteerList();
+      }, [craeteUserDrawer]);
+
     /**
   * Searches participants based on the query entered by the user.
   * @param query - The search query entered by the user
@@ -131,11 +139,8 @@ const AssignedVolunteers = ({ onClose, volunteerList ,data}: AssignedVolunteersP
     /**
     * drawer create speaker button
     */
-    const createNewVolunteer = (volunteer: any) => {
-
-        setNonPersistedDataById('craeteUserDrawer', { value: true });
-
-        navigate(routes.users(), { state: { data: volunteer, eventId: data?.eventData?.id } });
+    const createNewVolunteer = () => {
+        setNonPersistedDataById('craeteUserDrawer', { value: true })
 
     };
   
@@ -173,6 +178,9 @@ const AssignedVolunteers = ({ onClose, volunteerList ,data}: AssignedVolunteersP
                     loading={loading}
                     onChange={handleAutocompleteChange}
                 />
+            <Grid container className="add-program-drawer-new-speaker-link" justifyContent={'end'}  size={{xs:12}} paddingTop={1}>
+              <Typography onClick={()=>createNewVolunteer()} className="cursor-container" variant="h6">Create New Volunteer ?</Typography>
+            </Grid>
             </Grid>
 
            {assignedVolunteers.length>0 &&(<Typography gutterBottom className='assigned-volunteer-label'>
@@ -223,18 +231,11 @@ const AssignedVolunteers = ({ onClose, volunteerList ,data}: AssignedVolunteersP
           </Grid>
 
                 <Grid >
-
-                <CustomButton
-                
-                variant='outlined'
-                className="assigned-volunteer-button-create"
-                label="Create Volunteer"
-                onClick={()=>createNewVolunteer("VOLUNTEER")}
-                size="medium"
-
-                />    
                 </Grid>
             </Grid>
+        <CustomDrawer open={craeteUserDrawer}  type="right">
+            <CreateNewUsers NoNavigation={true} defaultValue={4}/>
+        </CustomDrawer>
         </div>
 
     );

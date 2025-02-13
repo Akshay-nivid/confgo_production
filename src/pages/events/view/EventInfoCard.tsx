@@ -522,7 +522,7 @@ const EventInfoCard: React.FC<any> = React.memo(
          <Grid size={{ xs: 3 }}>
             <Typography className="event-information-subtitle">URL</Typography>
         </Grid>
-        <Grid size={{ xs: 3 }}>
+        <Grid size={{ xs: 9 }}>
             <Typography className="event-information-content">
                 {eventData?.url}
             </Typography>
