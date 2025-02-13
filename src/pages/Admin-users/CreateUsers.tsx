@@ -296,7 +296,7 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshU
                                 fullWidth
                                 name="role"
                                 control={control}
-                                defaultValue={role ? 5 : defaultValue ? 6 : ''}
+                                defaultValue={role ? 5 : defaultValue ? defaultValue : ''}
                                 label="Role"
                                 options={roleList}
                                 rules={{ required: validateRequiredField({}) }}
