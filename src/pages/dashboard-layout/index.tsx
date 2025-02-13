@@ -2,7 +2,6 @@ import Sidebar from './Sidebar';
 import LayoutAppbar from './LayoutAppbar';
 import Grid from '@mui/material/Grid2';
 import { Outlet, useLocation } from 'react-router-dom';
-import { Box } from '@mui/material';
 import { PaymentAlertBanner } from './PaymentAlertBanner';
 import useStore, { POST } from "@/Libs/store";
 import { useEffect, useState } from "react";
@@ -33,34 +32,30 @@ const Layout = () => {
   }, [])
 
   return (
-    <Box className="layout-container">
-      <LayoutAppbar />
-      <Box className="layout-container-grid-wrapper">
-        <Grid container className="layout-container-grid">
-          <Grid size={2}>
-            <Sidebar open={true} />
-          </Grid>
-          <Grid size={10} className="layout-container-grid-outlet-grid">
-            {showAlertBanner && <Grid><PaymentAlertBanner /></Grid>}
-            <Box className="layout-container-grid-outlet-grid-outlet-adminwrapper">
-              <Outlet />
-            </Box>
-            {/*    Commented for now          */}
-            {/* <Box className="min-h-20 w-full bg-slate-100 flex justify-center items-center">
-              Footer
-              <Button
-                onClick={() => {
-                  localStorage.removeItem('isLoggedIn');
-                  window.location.reload();
-                }}
-              >
-                logout
-              </Button>
-            </Box> */}
-          </Grid>
+
+    <Grid className="layout-container" container width={'100%'}>
+
+      <Grid minWidth={'5.88rem'} size={{xs:0,md:2}}>
+        <Sidebar open={true} />
+      </Grid>
+
+      <Grid className="h-full  " flex={{xs:1}} size={{md:10}} display={'flex'} flexDirection={'column'}>
+
+        <Grid size={12}>
+          <LayoutAppbar />
         </Grid>
-      </Box>
-    </Box>
+
+        <Grid size={{ xs: 12, md: 12 }} className="">
+          {showAlertBanner && <Grid><PaymentAlertBanner /></Grid>}
+        </Grid>
+
+        <div className="flex-1 overflow-y-auto h-full layout-content" >
+          <Outlet />
+        </div>
+
+      </Grid>
+
+    </Grid>
   );
 };
 

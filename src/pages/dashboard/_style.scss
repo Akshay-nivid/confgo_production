@@ -152,10 +152,10 @@
     &-calendar-card {
         background-color: $clr_white;
         border-radius: 0.66rem;
-        border: 0.0833rem solid $clr_gray_very_light;
+        // border: 0.0833rem solid $clr_gray_very_light;
         width: 29.5rem;
         height: max-content;
-        margin-top: 1rem;
+        // margin-top: 1rem;
 
         &-header {
             font-size: $p2 !important;
@@ -467,10 +467,15 @@
         }
 
         .DropDownBox {
-            &-container {
-                border: 0.063rem solid $clr_gray_dark !important;
+            border: 2px solid $clr_gray_faded !important;
                 border-radius: 0.4167rem;
 
+                &-container-mikeIcon{
+                    border-right: 2px solid $clr_gray_faded !important;
+                }
+
+            &-container {
+                
                 // contain: content;
                 .MuiOutlinedInput-notchedOutline {
                     border: none !important;
@@ -487,7 +492,7 @@
                     background-color: transparent;
                     min-height: 100% !important;
                     border-radius: 0 !important;
-                    border-right: 0.083rem solid $clr_text_gray;
+                    // border-right: 0.083rem solid $clr_text_gray;
 
                 }
 
@@ -518,6 +523,7 @@
                         box-shadow: none !important;
                         background-color: $clr_green !important;
                         text-transform: none;
+                        
                     }
                 }
             }
@@ -529,7 +535,11 @@
 .eventFeedBack-box {
     &-container {
         padding: 1.125rem !important;
-        border: 0.083rem solid $clr_gray_very_light;
+        // border: 0.083rem solid $clr_gray_very_light;
+        box-shadow:  
+        rgba(0, 0, 0, 0.12) 0rem 0rem 0.3125rem 0rem,  
+        rgba(0, 0, 0, 0.12) 0rem 0rem 0.0625rem 0rem;
+      
         border-radius: 0.417rem;
         background-color: $clr_white;
 
