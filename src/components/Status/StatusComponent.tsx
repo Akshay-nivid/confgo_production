@@ -20,7 +20,7 @@ const StatusComponent: React.FC<AppBarProps> = ({ value ,className}) => {
     { id: "5", textColor: '#232323', cellColor: '#B6B6B6' },
     { id: "3", textColor: '#D32C2C', cellColor: '#FFE8EC' },
     { id: "2", textColor: '#D32C2C', cellColor: '#FFE8EC' },
-    { id: "6", textColor: '#D32C2C', cellColor: '#FFE8EC' },
+    { id: "6", textColor: '#F39200', cellColor: '#FFECDF' },
     { id: "4", textColor: '#2C3CD3', cellColor: '#E8EBFF' },
     { id: "7", textColor: '#2C3CD3', cellColor: '#E8EBFF' },
     { id: "8", textColor: '#0CAF60', cellColor: '#E7F7EF' },
@@ -53,7 +53,7 @@ const StatusComponent: React.FC<AppBarProps> = ({ value ,className}) => {
       case "4":
         return "Completed";
       case "5":
-        return "Drafted";
+        return "Draft";
       case "6":
         return "Published";
       case "7":
