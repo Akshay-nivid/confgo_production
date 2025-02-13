@@ -84,7 +84,7 @@ const EventFeedBack = () => {
 
             {boxArray.map((item: any, index: any) => (
 
-                <Grid size={4} minHeight={"1rem"} className="eventFeedBack-box-container" container spacing={2} key={index}>
+                <Grid size={{xs:12,sm:6,md:4 }} minHeight={"1rem"} className="eventFeedBack-box-container" container spacing={2} key={index}>
 
                     <Grid size={12} className="eventFeedBack-box-container-icon" >
 

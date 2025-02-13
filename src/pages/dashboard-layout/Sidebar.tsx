@@ -7,6 +7,7 @@ import {
   ListItem,
   ListItemText,
   ListItemButton,
+
 } from '@mui/material';
 
 import {
@@ -15,13 +16,14 @@ import {
   EventIcon,
   DashboardIcon,
   UserCreateIcon,
+  AppThemeLogo,
 } from '@/assets/svg';
 import routes from '@/router/routes';
 import { clearDataById } from '@/Libs/store';
 
 import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined';
 import PaymentIcon from '@mui/icons-material/Payment';
-
+import Grid from "@mui/material/Grid2";
 interface SidebarProps {
   open: boolean;
 }
@@ -106,7 +108,10 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       open={open}
       className="sidebar-drawer-admin"
     >
-      <div className="px-[1.666rem] flex-1">
+      <div className="content flex flex-col items-center">
+      <Grid size={2} className="logo-container">
+      <AppThemeLogo className={`logo`} />
+      </Grid>
         <List className="sidebar-list-admin">
           {sidebarItems.map((item) => {
             const isActive = isActiveLink(item.path, item.exact);
@@ -120,7 +125,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
                         isActive ? 'sidebar-list-admin-active-drawer-icon-admin' : ''
                       }
                     />
-                    <ListItemText>{item.label}</ListItemText>
+                    <ListItemText className='link-item'>{item.label}</ListItemText>
                   </ListItemButton>
                 </ListItem>
               </NavLink>
