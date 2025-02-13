@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid2";
 import { useForm } from "react-hook-form";
 import MikeIcon from "../../assets/svg/karaoke.svg"
 import CustomButton from "@/components/CustomButton/CustomButton";
-import { setNonPersistedDataById } from "@/Libs/store";
+import useStore, { setNonPersistedDataById } from "@/Libs/store";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { truncateString } from "@/Utils/CommonBaseClass";
@@ -25,6 +25,7 @@ const EventDropDown = (data: any): JSX.Element => {
 
 
     const navigate = useNavigate();
+    const publishedEventInitialFetchDone = useStore(state => state.nonPersistedData?.publishedEventInitialFetchDone?.value) || false
 
     /**
      * Filtered only Published events
@@ -62,7 +63,13 @@ const EventDropDown = (data: any): JSX.Element => {
      */
 
     useEffect(() => {
-        setValue('fieldType', publishedEvent?.[0]?.id);
+
+        if (!publishedEventInitialFetchDone) {
+            setValue('fieldType', publishedEvent?.[0]?.id);
+            setNonPersistedDataById("publishedEventInitialFetchDone", { value: true })
+        }
+
+
     }, [data]);
 
     /**
@@ -78,15 +85,15 @@ const EventDropDown = (data: any): JSX.Element => {
     return (
         <Grid container size={12} className="adminDashBoard-EventsMenu">
             <Grid className="adminDashBoard-EventsMenu-content" container size={12} alignItems={"center"} spacing={1}>
-                <Grid className="heading" size={{xs:12,md:3}}>
+                <Grid className="heading" size={{ xs: 12, md: 3 }}>
                     <Typography className="heading">Dashboard</Typography>
                 </Grid>
-                
-                <Grid className="DropDownBox" flex={{xs:1}} size={{sm:6,md:6}} display={"flex"} >
-                    <Grid display={{xs:"none",sm:"flex"}} size={5} container justifyContent={"center"} alignItems={"center"} columnSpacing={.4}
+
+                <Grid className="DropDownBox" flex={{ xs: 1 }} size={{ sm: 6, md: 6 }} display={"flex"} >
+                    <Grid display={{ xs: "none", sm: "flex" }} size={5} container justifyContent={"center"} alignItems={"center"} columnSpacing={.4}
                         className="DropDownBox-container-mikeIcon"  >
                         <MikeIcon />
-                            <Typography className="DropDownBox-container-mikeIcon-title"> Events</Typography>
+                        <Typography className="DropDownBox-container-mikeIcon-title"> Events</Typography>
                     </Grid>
                     <Grid className="DropDownBox-container" size={12} display={"flex"}>
 

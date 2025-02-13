@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomButton from "@/components/CustomButton/CustomButton";
@@ -196,24 +196,22 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
      }));
    };
 
- 
+
+
+
 
   return (
     <Grid container className="custom-list">
-      {/* <Grid size={{ xs: 4 }}>
-        <Typography className="custom-list-list-title" gutterBottom>
-          Events
-        </Typography>
-      </Grid> */}
-
-      {/* Buttons for 'Create New Event' and 'Filters' */}
-      <Grid container size={{ xs: 8 }} spacing={2} justifyContent="flex-end">
+      
+     
+      <Grid  container size={{ xs: 8 }} spacing={2} justifyContent="flex-end " className="ml-auto w-max">
         {!hideAction && (
           <>
             <Grid container>
               <CustomAutocomplete
+                
                 name="search"
-                className="custom-search-text-field"
+                className="custom-search-text-field textfield-border"
                 control={control}
                 placeholder="Search Events Name"
                 options={searchResults} // Dynamic options based on API results
@@ -241,7 +239,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
           </>
         )}
       </Grid>
-      <Grid size={{ xs: 12 }}>
+      <Grid size={{ xs: 12 }} className="shadow-app mt-8 app-border-radius">
         <DataGridList
           dataTransformer={transformData}
           source={source}

@@ -39,6 +39,18 @@ body,p,li,a,div,span,button,h1,h2,h3,h4,h5,h6,label,input {
   box-shadow: rgba(0, 0, 0, 0.12) 0rem 0rem 0.3125rem 0rem,  rgba(0, 0, 0, 0.12) 0rem 0rem 0.0625rem 0rem;
 }
 
+.app-border-radius{
+  border-radius: .5rem;
+}
+
+.textfield-border{
+  .MuiFormControl-root{
+    border: 0.14rem solid $clr_gray_faded !important;
+    padding-right: .5rem !important;
+
+  }
+}
+
 // font weight
 
 .font-400 {

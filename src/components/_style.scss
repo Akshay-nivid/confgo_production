@@ -215,13 +215,13 @@
   }
 }
 .fx-skelton{
-  border-radius: $p2 !important;
+  border-radius: .4rem !important;
   border: 0rem !important;
 }
 //DataGrid css starts here
 .custom-data-grid {
-  margin-top: 1rem;
-  border-radius: $p2 !important;
+  border-radius: 0.4rem !important;
+  margin: 0 !important;
   border: 0rem !important;
   font-size: $p1;
 
@@ -308,8 +308,7 @@
   }
 
   &-grid {
-    margin-left: 0.4rem;
-    margin-right: 0.4rem;
+ 
 
     //margin: 3rem;
     .list-title {

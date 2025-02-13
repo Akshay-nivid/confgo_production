@@ -342,7 +342,7 @@ const AdminUsersList=()=>{
           <Grid container >
             <CustomAutocomplete
               name="search"
-              className="custom-search-text-field"
+              className="custom-search-text-field textfield-border"
               placeholder="Search by name"
               control={control}
               options={searchResults}
@@ -368,7 +368,7 @@ const AdminUsersList=()=>{
            <Filter datagridId='data-role-list' fields={filterFields} />
           </Grid>
         </Grid>
-        <Grid size={{ xs: 12 }}>
+        <Grid size={{ xs: 12 }} className="shadow-app app-border-radius mt-8">
           <DataGridList
             dataTransformer={transformData}
             source={source}

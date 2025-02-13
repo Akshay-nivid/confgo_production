@@ -207,7 +207,7 @@ const Coupon = () => {
           { dataLength > 0 &&
           <CustomAutocomplete
           name="search"
-          className="custom-search-text-field"
+          className="custom-search-text-field textfield-border"
           control={control}
           placeholder="Search Coupon Name"
           options={searchResults} // Dynamic options based on API results
@@ -235,7 +235,7 @@ const Coupon = () => {
           <Filter datagridId='coupon-datagrid' fields={filterFields} />
         </Grid>
       </Grid>
-      <Grid size={{ xs: 12 }}>
+      <Grid size={{ xs: 12 }} className="shadow-app app-border-radius mt-8">
         <DataGridList
           dataTransformer={transformData}
           source={source}
