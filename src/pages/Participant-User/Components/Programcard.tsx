@@ -37,7 +37,6 @@ const Programcard = ({ templateId, handleToggleProgramCheckbox, program, date }:
     const methods = useFormContext();
 
     const { control, setValue, watch } = methods
-    console.log(program.eventParticipantEntries,'program')
     /**
      * Handles the click event on the view details button
      * Sets the isProgramDetailsModelOpen state to true and sets the programDetails state to the program object
