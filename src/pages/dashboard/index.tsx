@@ -11,7 +11,6 @@ import useStore from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
 import moment from "moment";
 import { CalendarCardData } from "./CalendarCard";
-import { PendingEventCard } from "./PendingEventCard";
 import { CalenderNoData } from "@/assets/svg";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import routes from "@/router/routes";
@@ -28,7 +27,6 @@ const Dashboard = () => {
   const POST = useStore((state: any) => state.POST);
   const GET = useStore((state: any) => state.GET);
   const [upcomingData, setUpcomingData] = useState<CalendarCardData | null>(null);
-  const [pendingData, setPendingData] = useState<any>(null);
   const navigate = useNavigate();
   const fullEventList = useStore((state: any) => state?.compData?.["fullEventList"]?.['event/list']) ?? [];
   const pendingEventList = useStore((state: any) => state?.compData?.["pendingEventList"]?.['event/list']) ?? [];
@@ -189,7 +187,7 @@ const Dashboard = () => {
 
         <Grid size={{ xs: 12,lg: 4 }} container rowSpacing={2} columnSpacing={2}>
 
-          {upcomingData ? <Grid size={{ xs: 12,md:6,lg:12 }} className="dashboard-calendar-card" boxShadow={"rgba(0, 0, 0, 0.12) 0rem 0rem 0.3125rem 0rem,  rgba(0, 0, 0, 0.12) 0rem 0rem 0.0625rem 0rem"}> <UpComingEvents data={upcomingData} /> </Grid> :
+          {upcomingData ? <Grid size={{ xs: 12,md:6,lg:12 }} className="dashboard-calendar-card shadow-app" > <UpComingEvents data={upcomingData} /> </Grid> :
             <Grid container className="dashboard-no-event-calender" justifyContent={"center"} alignItems={"center"} alignContent={"center"} flexDirection={"column"}>
               <CalenderNoData width={50} height={50} />
               <Typography className="dashboard-no-event-calender-header">No Events Scheduled</Typography>
@@ -204,7 +202,7 @@ const Dashboard = () => {
 
 
           {upcomingData &&
-            <Grid size={{ xs: 12,md:6,lg:12 }} container boxShadow={"rgba(0, 0, 0, 0.1) 0rem 0rem 0.3125rem 0rem,  rgba(0, 0, 0, 0.1) 0rem 0rem 0.0625rem 0rem"} className="dashboard-calendar-card" >
+            <Grid size={{ xs: 12,md:6,lg:12 }} container  className="dashboard-calendar-card shadow-app" >
 
               <PendingProgram />
 
@@ -212,7 +210,7 @@ const Dashboard = () => {
 
         </Grid>
 
-        <Grid size={{ xs: 12, sm: 12 }} container direction={'column'} borderRadius={2}  mb={2} boxShadow={"rgba(0, 0, 0, 0.1) 0rem 0rem 0.3125rem 0rem,  rgba(0, 0, 0, 0.1) 0rem 0rem 0.0625rem 0rem"}>
+        <Grid size={{ xs: 12, sm: 12 }} container direction={'column'} borderRadius={2}  mb={2} className="shadow-app">
             {fullEventList?.data?.length < 5 ? (
               <Grid className="dashboard-event-list-card">
                 <EventListCard view={false} dashView={true} />
@@ -226,46 +224,6 @@ const Dashboard = () => {
           </Grid>
 
       </Grid>
-
-
-
-
-
-      {/* {fullEventList?.data?.length == 0 ? <NoDataDashBoard />
-        :
-        <Grid container size={{ xs: 12, sm: 12 }} spacing={2} className="dashboard" >
-          <Grid size={{ xs: 12, md: 12, lg: 8 }} container p={2} >
-            <Grid size={{ xs: 12, sm: 12 }} container>
-
-              <EventDropDown data={fullEventList} />
-
-              <Grid container size={12}>
-
-                <EventFeedBack />
-
-              </Grid>
-
-            </Grid>
-
-
-
-
-
-          </Grid>
-
-          <Grid size={{ xs: 12, sm: 12 }} container direction={'column'} borderRadius={2} ml={2} mb={2} mr={3.5} boxShadow={"rgba(0, 0, 0, 0.1) 0rem 0rem 0.3125rem 0rem,  rgba(0, 0, 0, 0.1) 0rem 0rem 0.0625rem 0rem"}>
-            {fullEventList?.data?.length < 5 ? (
-              <Grid className="dashboard-event-list-card">
-                <EventListCard view={false} dashView={true} />
-              </Grid>
-            ) : (
-              <Grid className="dashboard-event-list-card -mt-8 relative overflow-x-auto" size={{ xs: 12, sm: 12 }}>
-                <EventListCard view={true} dashView={true} />
-              </Grid>
-            )}
-
-          </Grid>
-        </Grid>} */}
     </> :
     <Grid container justifyContent={'center'} height={'100%'} alignItems={"center"}><CircularProgress color="success" /> </Grid>)
 };

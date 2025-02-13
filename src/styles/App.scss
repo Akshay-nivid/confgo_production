@@ -35,6 +35,10 @@ body,p,li,a,div,span,button,h1,h2,h3,h4,h5,h6,label,input {
   font-size: $p3 !important;
 }
 
+.shadow-app{
+  box-shadow: rgba(0, 0, 0, 0.12) 0rem 0rem 0.3125rem 0rem,  rgba(0, 0, 0, 0.12) 0rem 0rem 0.0625rem 0rem;
+}
+
 // font weight
 
 .font-400 {

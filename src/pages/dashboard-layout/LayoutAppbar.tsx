@@ -2,7 +2,7 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import { Avatar, Divider, Menu, MenuItem } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
-import { SettingsIcon, LogoutIcon, AppThemeLogo } from '@/assets/svg';
+import { SettingsIcon, LogoutIcon } from '@/assets/svg';
 import {useEffect} from "react";
 import Grid from '@mui/material/Grid2';
 import useStore, { resetStore, setDataById } from '@/Libs/store';
