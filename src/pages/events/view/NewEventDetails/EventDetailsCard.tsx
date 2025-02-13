@@ -6,15 +6,20 @@ import moment from "moment";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { setDataById } from "@/Libs/store";
 const EventDetailsCard = (eventData: any) => {
-   
 
-    const { name, eventClass, description, startTime, endTime ,venue,id} = eventData?.data;
+    const { name, eventClass, description, startTime, endTime ,venue,id} = eventData?.data || {};
  
     /**
      * Natigate to program Details page
      */
     const viewProgramme=(_id:any)=>{
         setDataById("tabValue", { value: '3' });
+    }
+    /**
+     * Handle event Edit deatils drawer
+     */
+    const editDrawer =()=>{
+        setDataById("eventDrawer", { value: true });   
     }
 
    
@@ -128,7 +133,7 @@ const EventDetailsCard = (eventData: any) => {
                     <CustomButton
                     fullWidth
                     label="Edit Event Details" className="btn2"
-                    // onClick={editDrawer}
+                    onClick={editDrawer}
                     />
 
                  </Grid>
@@ -137,13 +142,6 @@ const EventDetailsCard = (eventData: any) => {
           
 
             </Grid>
-
-
-           {/* Call <Grid container size={8}>
-           
-      <EventDetailsCard data={eventData}/>
-
-      </Grid> */}
 
 
         </Grid>

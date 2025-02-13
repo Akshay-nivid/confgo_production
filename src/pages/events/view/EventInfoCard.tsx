@@ -12,8 +12,6 @@ import { useParams } from "react-router-dom";
 import useStore, { POST } from "@/Libs/store";
 import { formatUTCDateTime, processAPIResponse } from "@/Utils/CommonBaseClass";
 import moment from "moment";
-import EditIcon from "@/assets/svg/event-edit.svg";
-import parse from 'html-react-parser';
 import ReactQuill from "react-quill";
 import React from "react";
 import config from "../../../../config.json";
@@ -22,12 +20,19 @@ import { validateEmail, validateMaxLength, validatePhoneNumber } from "@/Utils/V
 import GoogleMapPlacePicker from "../GoogleMapPlacePicker";
 import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
-import { WarningIcon } from "@/assets/svg";
-// import EventDetailCountCard from "./SingleEventDetail";
-import confgo  from "../../../../config.json"
+import { EventDetailAttendee, EventDetailProgram, EventDetailSpeaker, EventDetailSponsor, WarningIcon } from "@/assets/svg";
+ import EventDetailCountCard from "./SingleEventDetail";
+
+
+import EventDetailsCard from "./NewEventDetails/EventDetailsCard";
+import LocationView from "./NewEventDetails/LocationView";
+import EventContactCard from "./NewEventDetails/EventContactCard";
+import EventWebsite from "./NewEventDetails/EventWebsite";
+import EventLineChart from "./NewEventDetails/EventLineChart";
+import EventGallery from "./NewEventDetails/EventGallery";
 
 const baseUrl = config.api.url;
-const currency=confgo.currency;
+// const currency=confgo.currency;
 interface CustomFile {
   id: string;
   name: string;
@@ -63,7 +68,9 @@ const EventInfoCard: React.FC<any> = React.memo(
   const [specialty,setspecialty]=useState<Specialty[]>([]);
   // Functions to open and close the drawer.
   const openDrawer = () => setIsDrawerOpen(true);
-  const closeDrawer = () => setIsDrawerOpen(false);
+  const closeDrawer = () => {
+            setDataById("eventDrawer", { value: false });   
+            setIsDrawerOpen(false)};
   const [drawerOpen,setDrawerOpen]=useState(false);
 
   // Store a copy of the original event data for restoring data.
@@ -75,33 +82,61 @@ const EventInfoCard: React.FC<any> = React.memo(
   const [isWarning, setIsWarning] = useState(false);
   const [SubmitData, setSubmitData] = useState();
 
+
+  const eventDetailsDrawer = useStore(state => state?.compData?.['eventDrawer']?.value) ?? false;
+  /**
+  * Handle edit event deatils drawer
+  */
+  useEffect(() => {
+    if (!eventDetailsDrawer) return; 
+
+    if(eventData?.published){
+      setDataById("snackBarInfo", {
+        open: true,
+        autoHideDuration: 2000,
+        severity: "error",
+        message: "Event is Already Published !",
+      });
+    }else{
+      if(eventData?.assetId!=0){
+        setSelectedFile({
+          id: eventData?.assetId,
+          name: 'Business'
+      });
+      }
+
+      openDrawer();
+    }
+  }, [eventDetailsDrawer]); // Dependency array ensures it runs when state updates
+  
+  
   /** detals to loop through EventDetailCountCard*/
-  // const eventDetailCards = [
-  //   {
-  //     count: eventData?.programs?.length || 0,
-  //     title: "Programs",
-  //     description: "Sessions, panels & workshops",
-  //     icon: <EventDetailProgram className="single-event-icon" />,
-  //   },
-  //   {
-  //     count: eventData?.eventSponsors?.length || 0,
-  //     title: "Sponsors",
-  //     description: "Event partners & supporters",
-  //     icon: <EventDetailSponsor className="single-event-icon" />,
-  //   },
-  //   {
-  //     count: eventData?.eventSpeakers?.length || 0,
-  //     title: "Speakers",
-  //     description: "Experts & keynote guests",
-  //     icon: <EventDetailSpeaker className="single-event-icon" />,
-  //   },
-  //   {
-  //     count: eventData?.registeredParticipants || 0,
-  //     title: "Registered attendees",
-  //     description: "Number of attendees Registered",
-  //     icon: <EventDetailAttendee className="single-event-icon" />,
-  //   },
-  // ];
+  const eventDetailCards = [
+    {
+      count: eventData?.programs?.length || 0,
+      title: "Programs",
+      description: "Sessions, panels & workshops",
+      icon: <EventDetailProgram className="single-event-icon" />,
+    },
+    {
+      count: eventData?.eventSponsors?.length || 0,
+      title: "Sponsors",
+      description: "Event partners & supporters",
+      icon: <EventDetailSponsor className="single-event-icon" />,
+    },
+    {
+      count: eventData?.eventSpeakers?.length || 0,
+      title: "Speakers",
+      description: "Experts & keynote guests",
+      icon: <EventDetailSpeaker className="single-event-icon" />,
+    },
+    {
+      count: eventData?.registeredParticipants || 0,
+      title: "Registered attendees",
+      description: "Number of attendees Registered",
+      icon: <EventDetailAttendee className="single-event-icon" />,
+    },
+  ];
 
     /**
    *useEffect get specialty
@@ -296,25 +331,25 @@ const EventInfoCard: React.FC<any> = React.memo(
   /**
    * method to handle event info edit
    */
-  const eventEdit=()=>{
-    if(eventData?.published){
-      setDataById("snackBarInfo", {
-        open: true,
-        autoHideDuration: 2000,
-        severity: "error",
-        message: "Event is Already Published !",
-      });
-    }else{
-      if(eventData?.assetId!=0){
-        setSelectedFile({
-          id: eventData?.assetId,
-          name: 'Business'
-      });
-      }
+  // const eventEdit=()=>{
+  //   if(eventData?.published){
+  //     setDataById("snackBarInfo", {
+  //       open: true,
+  //       autoHideDuration: 2000,
+  //       severity: "error",
+  //       message: "Event is Already Published !",
+  //     });
+  //   }else{
+  //     if(eventData?.assetId!=0){
+  //       setSelectedFile({
+  //         id: eventData?.assetId,
+  //         name: 'Business'
+  //     });
+  //     }
 
-      openDrawer()
-    }
-  }
+  //     openDrawer()
+  //   }
+  // }
 
     /**
    *function to handle clean file state
@@ -336,34 +371,15 @@ const EventInfoCard: React.FC<any> = React.memo(
 
   return (
     <Grid container className="event-detail-event-info-card" spacing={2}>
-      {/* {eventDetailCards.map((card, index) => (
-      <EventDetailCountCard key={index} count={card.count} title={card.title} description={card.description} icon={card.icon}/>
-      ))} */}
-      <Grid
+
+      {/* <Grid
         size={{ xs: 12 }}
         container
         justifyContent="flex-start"
       >
-        <Grid container size={{xs: 12}}>
-        <Grid>
-          <Typography
-            variant="h3"
-            className="event-detail-event-info-card-title"
-          >
-            Basic Info
-          </Typography>
-        </Grid>
-        <Grid>
-          <IconButton onClick={eventEdit} className="event-detail-event-info-card-edit-btn">
-            <EditIcon />
-          </IconButton>
-        </Grid>
-        </Grid>
+       
          {eventData?.assetId ?
          <Grid size={12}>
-       {/* <Grid size={0}>  */}
-        {/* {eventData?.assetId!=0&& <Grid size={0}>
-        </Grid>} */}
        {eventData?.assetId!=0&&<Grid size={{ xs: 12 }}>
         <Grid container flexDirection={"row"} direction={"row"}>
                         <Grid>
@@ -385,150 +401,67 @@ const EventInfoCard: React.FC<any> = React.memo(
         </Grid>} 
         </Grid>
          : null} 
-        <Grid size={{ xs: 3 }}>
-          <Typography className="event-information-subtitle">
-             Name
-          </Typography>
-        </Grid>
-        <Grid size={{ xs: 9 }}>
-          <Typography className="event-information-content">
-          {eventData?.name}
-         </Typography>
-        </Grid>
-
-        <Grid size={{ xs: 3 }}>
-          <Typography className="event-information-subtitle">
-             Description
-          </Typography>
-        </Grid>
-        <Grid size={{ xs: 9 }}>
-          <Typography className="event-information-content">
-            {eventData?.description && parse(eventData?.description)}
-          </Typography>
-        </Grid>
-
-        <Grid size={{ xs: 3 }}>
-          <Typography className="event-information-subtitle">
-             Type
-          </Typography>
-        </Grid>
-        <Grid size={{ xs: 9 }}>
-          <Typography className="event-information-content">
-            {eventData?.eventClass}
-          </Typography>
-        </Grid>
-
-        <Grid size={{ xs: 3 }}>
-          <Typography className="event-information-subtitle">
-             Start Date
-          </Typography>
-        </Grid>
-        <Grid size={{ xs: 9 }}>
-          <Typography className="event-information-content">
-            {moment(eventData?.startTime).format(
-              "MMM D, YYYY"
-            )}
-          </Typography>
-        </Grid>
-
-        <Grid size={{ xs: 3 }}>
-          <Typography className="event-information-subtitle">
-             End Date
-          </Typography>
-        </Grid>
-        <Grid size={{ xs: 9 }}>
-          <Typography className="event-information-content">
-            {moment(eventData?.endTime).format(
-              "MMM D, YYYY"
-            )}
-          </Typography>
-        </Grid>
-        <Grid size={{ xs: 3 }}>
-          <Typography className="event-information-subtitle">
-             Price
-          </Typography>
-        </Grid>
-        <Grid size={{ xs: 9 }}>
-          <Typography className="event-information-content">
-          {currency}{eventData?.amount}
-          </Typography>
-        </Grid>
-      </Grid>
-      <Grid size={{ xs: 3 }}>
-          <Typography className="event-information-subtitle">
-             Phone
-          </Typography>
-        </Grid>
-        <Grid size={{ xs: 9 }}>
-          <Typography className="event-information-content">
-            {eventData?.eventContacts?.[0]?.phone}
-          </Typography>
-        </Grid>
-        <Grid size={{ xs: 3 }}>
-          <Typography className="event-information-subtitle">
-             Email
-          </Typography>
-        </Grid>
-        <Grid size={{ xs: 9 }}>
-          <Typography className="event-information-content">
-            {eventData?.eventContacts?.[0]?.email}
-          </Typography>
-        </Grid>
-
-        
-        { eventData?.speciality && (
-        <>
-          <Grid size={{ xs: 3 }}>
-            <Typography className="event-information-subtitle">
-              Specialty
-            </Typography>
-          </Grid>
-          <Grid size={{ xs: 9 }}>
-            <Typography className="event-information-content">
-              {eventData?.speciality?.name}
-            </Typography>
-          </Grid>
-        </>
-      )}
-        
+         </Grid> */}
        
-       <Grid size={{ xs: 3 }}>
-          <Typography className="event-information-subtitle">
-           Abstracts Required
-          </Typography>
+
+
+
+      <Grid container size={12} spacing={0} columnSpacing={1} rowSpacing={1}>
+
+   
+        {eventDetailCards.map((card, index) => (
+
+          <EventDetailCountCard key={index} count={card.count} title={card.title} description={card.description} icon={card.icon} />
+
+        ))}
+
+        <Grid container size={{ lg: eventData?.eventClass === "OFFLINE" ? 8 : 12, sm: 12 }} maxHeight={"max-content"}>
+
+          <EventDetailsCard data={eventData} />
+
         </Grid>
-        <Grid size={{ xs: 9 }}>
-          <Typography className="event-information-content">
-           {eventData?.isAbstract===1? 'Yes': 'No'}
-          </Typography>
-        </Grid>
-        {eventData?.isAbstract===1&&(
-          <>
-        <Grid size={{ xs: 3 }}>
-          <Typography className="event-information-subtitle">
-           Abstracts Submission Date
-          </Typography>
-        </Grid>
-        <Grid size={{ xs: 9 }}>
-          <Typography className="event-information-content">
-           {moment(eventData?.abstractDate).format(
-              "MMM D, YYYY"
+
+
+        <Grid container size={{ lg: 4, sm: 12 }} spacing={0} maxHeight={"max-content"} rowSpacing={2} >
+
+          {/* Location */}
+          {eventData?.eventClass === "OFFLINE"
+            && (
+              <LocationView eventData={eventData} />
             )}
-          </Typography>
+
         </Grid>
-        </>)}
-        {eventData?.eventClass === "ONLINE" && (
-        <>
-         <Grid size={{ xs: 3 }}>
-            <Typography className="event-information-subtitle">URL</Typography>
+
+        <Grid container size={12}>
+
+          <Grid size={{ lg: 5, sm: 12 }}>
+
+            {/* Attende charts */}
+
+            <EventLineChart />
+
+          </Grid>
+
+          <Grid container size={{ lg: 3, sm: 12 }}>
+
+            {/* EventGallery */}
+            <EventGallery />
+
+          </Grid>
+
+          <Grid container size={{ lg: 4, sm: 12 }}>
+
+            {/* Contact */}
+            <EventContactCard data={eventData?.id} />
+
+            {/* website */}
+            <EventWebsite published={eventData?.published} />
+
+          </Grid>
+
         </Grid>
-        <Grid size={{ xs: 3 }}>
-            <Typography className="event-information-content">
-                {eventData?.url}
-            </Typography>
-        </Grid>
-    </>
-)}
+
+      </Grid>
 
       {/* Drawer Component */}
       <CustomDrawer open={isDrawerOpen} type="right">
@@ -806,6 +739,7 @@ const EventInfoCard: React.FC<any> = React.memo(
         submitLabel="Done"
         modalClassName="unpublish-modal"
       />
+     
     </Grid>
   );
 });

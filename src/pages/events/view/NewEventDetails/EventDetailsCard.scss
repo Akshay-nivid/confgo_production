@@ -131,6 +131,13 @@
               font-size: $p2 !important;
               text-transform: none !important;
         }
+        &-publishText{
+            width: max-content;
+            color: red !important;
+            font-size: $p3 !important;
+            font-weight:$font_bold;
+            cursor: pointer;
+        }
 
 
 }
@@ -208,5 +215,18 @@
 
         }
 
+    }
+}
+
+.eventLineChart-grid{
+    border: 0.08333rem solid $clr_gray_very_light ;
+    border-radius: 0.8333rem ;
+    padding: 1rem !important;
+    height: 23rem !important;
+    &-header{
+        .title{
+            font-size: $p2;
+            font-weight:$font_bold ;
+        }
     }
 }

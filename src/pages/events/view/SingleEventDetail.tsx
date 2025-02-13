@@ -12,7 +12,7 @@ interface EventDetailCardProps {
  */
 const EventDetailCountCard: React.FC<EventDetailCardProps> = ({ count, title, description,icon }) => {
   return (
-    <Grid size={3} className="single-event-grid">
+    <Grid size={{lg:3,sm:12}} className="single-event-grid">
       <Grid>{icon}</Grid>
       <Grid className="single-event-count">{count}</Grid>
       <Grid className="single-event-title">{title}</Grid>
