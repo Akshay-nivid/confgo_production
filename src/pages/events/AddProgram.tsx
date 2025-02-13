@@ -63,7 +63,7 @@ type FormData = {
     speakerFullName?: string;
     speakerAssetId?: string;
     designation?: string;
-    speakerSelection?: string;
+    speakerSelection?: any;
     sponsor?: {
       sponsorId?: string;
       sponsorFullName?: string;
@@ -74,7 +74,7 @@ type FormData = {
     sponsorFullName?: string;
     sponsorLogoId?: string;
     sponsorbannerId?: string;
-    sponosrSelection?: string;
+    sponosrSelection?: any;
     sponosorReservedSeats?: string;
     sponsorTypeId?: string;
     isModerator?: [],
@@ -104,7 +104,7 @@ type FormData = {
     speakerFullName?: string;
     speakerAssetId?: string;
     designation?: string;
-    speakerSelection?: string;
+    speakerSelection?: any;
     sponsor?: {
       sponsorId?: string;
       sponsorFullName?: string;
@@ -116,7 +116,7 @@ type FormData = {
     sponsorFullName?: string;
     sponsorLogoId?: string;
     sponsorbannerId?: string;
-    sponosrSelection?: string;
+    sponosrSelection?: any;
     sponosorReservedSeats?: string;
     sponsorTypeId?: string;
     isModerator?: [],
@@ -220,7 +220,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
     /**
      *  Function to handle search API for user role autocomplete 
      */
-    const handleSearch = async (query: string) => {
+    const handleSearch = async (query: string, data?: any) => {
       setLoading(true);
       await POST({
         url: "user/userRole/list",
@@ -234,8 +234,17 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
           limit: 30
         },
         successCB: (context: any) => {
-          setSearchResults(transformUserData(context?.data))
-          setLoading(false);
+          const results = transformUserData(context?.data);
+          setSearchResults(results);
+          setLoading(false);           
+          if (data) {
+            const newObj = results.find((item: any) => item.id === data.id) || null;    
+            setValue(`programs.${programIndex}.speakerSelection`, newObj);
+            setValue(`programs.${programIndex}.speakerId`, newObj?.speakerId);
+            setValue(`programs.${programIndex}.speakerAssetId`, newObj?.speakerAssetId);
+            setValue(`programs.${programIndex}.speakerFullName`, newObj?.speakerFullName);
+            addSpeaker
+          }
         },
         errorCB: (context: any) => {
           Logger.error("Error fetching search results:", context?.message);
@@ -243,8 +252,8 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
         }
       })
     };
-
-    const handleSponsorSearch = async (query: string) => {
+    
+    const handleSponsorSearch = async (query: string, data?:any) => {
       setLoading(true);
       await POST({
         url: "sponsor/list",
@@ -259,6 +268,14 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
         successCB: (context: any) => {
           setSearchSpeakerResults(transformSponsoerData(context?.data))
           setLoading(false);
+          if (data){
+            const newObj = transformSponsoerData(context?.data)?.find((item: any) => item.id === data.id) || null;
+            setValue(`programs.${programIndex}.sponosrSelection`,newObj)
+            setValue(`programs.${programIndex}.sponsorId`, newObj?.sponsorId)
+            setValue(`programs.${programIndex}.sponsorLogoId`, newObj?.sponsorLogoId)
+            setValue(`programs.${programIndex}.sponsorFullName`, newObj?.sponsorFullName)
+            addSponsor
+          }    
         },
         errorCB: (context: any) => {
           Logger.error("Error fetching search results:", context?.message);
@@ -1507,7 +1524,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
         {/* Drawer to create a new Speaker */}
         <Grid >
           <CustomDrawer
-            children={<NewSpeakerDrawer onSuccess={() => { handleSearch("") }} closeDrawer={() => setNewSpeakerDrawerOpen(false)} />}
+            children={<NewSpeakerDrawer onSuccess={handleSearch} closeDrawer={() => setNewSpeakerDrawerOpen(false)} />}
             open={newSpeakerDrawerOpen}
             type="right"
           />
@@ -1516,7 +1533,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
         <Grid>
           <CustomDrawer
             children={
-              <DrawerCreateSponosor onSuccess={() => { handleSponsorSearch("") }}
+              <DrawerCreateSponosor onSuccess={handleSponsorSearch}
                 closeDrawer={() =>
                   setNewSponsorDrawerOpen(false)
 

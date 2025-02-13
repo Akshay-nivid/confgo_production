@@ -24,12 +24,20 @@ interface Sponsor{
     value: number;
     label:string;
 }
+type SponsorResult = { 
+    sponsorId?: string;
+    sponsorName?: string;
+    sponsorAssetId?: string;
+    sponsorType?: string;
+    reservedSeats?:string;
+  }
+  
 type FormValues = {
-    sponsorType: string;
-    
+    sponsorType: any;
+    search:any
   };
 const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
-    const { control, getValues,handleSubmit} = useForm<FormValues>();
+    const { control, getValues,handleSubmit,      setValue,    } = useForm<FormValues>();
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
     // const [source, setSource] = useState<ISource | undefined>(undefined);
@@ -39,6 +47,7 @@ const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
     const [sponsorType,setSponsorType]=useState<Sponsor[]>([]);
     const userId = sessionStorage.getItem('userId');
     const [newSponsorDrawerOpen, setNewSponsorDrawerOpen] = useState(false);
+    const [_sponsorSearchResults, setSponsorSearcResults] = useState<SponsorResult[]>([]);  
     // const [searchSponsorResults,setSearchSponsorResults]=useState<Sponsor[]>([]);
     
     
@@ -176,33 +185,50 @@ const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
       }, [])
 
     /**
+     * Method transforms data to the autocomplete data format of sponsor
+     * @param data : api response data
+     * @returns 
+     */
+     function transformSponsorData(data: any): SponsorResult[] {
+        return data?.map((item: any) => ({
+          sponsorId: item?.id,
+          sponsorName: `${item?.name}`,
+          sponsorAssetId: item?.logoAssetId,
+          reservedSeats:item?.reservedSeats,
+          ...item
+        }));
+      }
+    /**
      * handleSponserSearch is used after the successful creation of a sponsor. 
      *  But the list is not populated in customAutocomplete.
      *  so after creatingsponsorr creation usethe  handleSearch function.
      * It is working so this code is commented.
      */
-    //    const handleSponsorSearch = async (query: string) => {
-    //         setLoading(true);
-    //         await POST({
-    //           url: "sponsor/list",
-    //           id: "sponsorList",
-    //           body: {
-    //             filters: {
-    //               name: query,
-    //               companyId: companyId,
-    //             },
-    //             limit:30
-    //           },
-    //           successCB: () => {
-    //             // setSearchSponsorResults(transformSponsoerData(context?.data))
-    //             setLoading(false);
-    //           },
-    //           errorCB: (context: any) => {
-    //             Logger.error("Error fetching search results:", context?.message);
-    //             setLoading(false);
-    //           }
-    //         })
-    //       };
+       const handleSponsorSearch = async (query: string,data:any) => {
+            setLoading(true);
+            await POST({
+              url: "sponsor/list",
+              id: "sponsorList",
+              body: {
+                filters: {
+                  name: query,
+                  companyId: companyId,
+                },
+                limit:30
+              },
+              successCB: (context: any) => {
+                setSponsorSearcResults(transformSponsorData(context?.data))
+                setLoading(false);
+                const newObj = transformSponsorData(context?.data)?.find((item: any) => item.id === data.id) || null;
+                setValue("search",newObj)
+                handleAutocompleteChange(newObj)
+              },
+              errorCB: (context: any) => {
+                Logger.error("Error fetching search results:", context?.message);
+                setLoading(false);
+              }
+            })
+          };
 
     return (
         <div className='assigned-volunteer-main-container'>
@@ -297,7 +323,7 @@ const AssignedSponsors = ({ onClose, sponsorList }: AssignedSponsorsProps) => {
             <Grid>
         <CustomDrawer
             children={
-            <DrawerCreateSponosor onSuccess={()=>{handleSearch("")}} 
+            <DrawerCreateSponosor onSuccess={handleSponsorSearch} 
             closeDrawer={()=>
               setNewSponsorDrawerOpen(false)           
               }

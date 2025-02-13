@@ -47,7 +47,7 @@ interface FormData {
     speakerDesignation?:string;
     moderator?:boolean
   }[];
-  speakerSelection?:string;
+  speakerSelection?:any;
   sponsorId?: string;
   sponsorName?: string;
   sponsorAssetId?: string;
@@ -60,7 +60,7 @@ interface FormData {
     sponsorType?: string;
     reservedSeats?:string;
   }[];
-  sponsorSelection?: string;
+  sponsorSelection?: any;
 }
 type Speaker = {
   speakerId?: any;
@@ -506,7 +506,7 @@ useEffect(() => {
     /**
      *  Function to handle search API for user role autocomplete
      */
-    const handleSearch = async (query: string) => {
+    const handleSearch = async (query: string, data?: any) => {
       setLoading(true);
       await POST({
         url: "user/userRole/list",
@@ -520,7 +520,17 @@ useEffect(() => {
           limit: 30
         },
         successCB: (context: any) => {
-          setSearchResults(transformUserData(context?.data))
+          const results = transformUserData(context?.data);
+          setSearchResults(results);
+    
+          if (data) {
+            const newObj = results.find((item: any) => item.id === data.id) || null;
+            setValue("speakerSelection", newObj);
+            setValue("speakerId", newObj?.speakerId);
+            setValue("speakerAssetId", newObj?.speakerAssetId);
+            setValue("speakerName", newObj?.speakerName);
+          }
+    
           setLoading(false);
         },
         errorCB: (context: any) => {
@@ -743,7 +753,7 @@ useEffect(() => {
           }, [])
           
     // function to update the list      
-    const handleSponsorSearch = async (query: string) => {
+    const handleSponsorSearch = async (query: string,data: any) => {
           setLoading(true);
           await POST({
             url: "sponsor/list",
@@ -757,6 +767,11 @@ useEffect(() => {
             },
             successCB: (context: any) => {
               setSponsorSearcResults(transformSponsorData(context?.data))
+              const newObj = transformSponsorData(context?.data)?.find((item: any) => item.id === data.id) || null;
+              setValue("sponsorSelection",newObj)
+              setValue(`sponsorId`, newObj?.sponsorId)
+              setValue(`sponsorAssetId`, newObj?.sponsorAssetId)
+              setValue(`sponsorName`, newObj?.sponsorName)
               setLoading(false);
             },
             errorCB: (context: any) => {
@@ -1073,7 +1088,7 @@ useEffect(() => {
           {/* Drawer to create a new Speaker */}
           <Grid >
             <CustomDrawer
-              children={<NewSpeakerDrawer onSuccess={() => { handleSearch("") }} closeDrawer={() => setNewSpeakerDrawerOpen(false)} />}
+              children={<NewSpeakerDrawer onSuccess={handleSearch} closeDrawer={() => setNewSpeakerDrawerOpen(false)} />}
               open={newSpeakerDrawerOpen}
               type="right"
             />
@@ -1203,7 +1218,7 @@ useEffect(() => {
         <Grid>
         <CustomDrawer
             children={
-            <DrawerCreateSponosor onSuccess={()=>{handleSponsorSearch("")}} 
+            <DrawerCreateSponosor onSuccess={handleSponsorSearch} 
             closeDrawer={()=>
               setNewSponsorDrawerOpen(false)           
               }
