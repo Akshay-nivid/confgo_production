@@ -82,6 +82,13 @@
     color: $clr_white;
     text-decoration: none;
   }
+  &-logout-btn{
+    box-shadow: none !important;
+    border-radius: 0.5rem !important;
+    padding: 2rem;
+    background-color: $clr-blue !important;
+    color:$clr_white !important;
+  }
 }
 
 .nav-theme-white {

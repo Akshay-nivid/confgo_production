@@ -3,7 +3,7 @@
         padding: 2rem;
         background-color: $clr_white;
         border-radius: 0.833rem;
-        max-width: 83.333rem;
+        max-width: 100% !important;
         margin: auto;
         overflow: hidden;
         height: 95vh;
@@ -18,7 +18,7 @@
     &-content {
         display: flex;
         flex-direction: column;
-        max-height: 74vh; 
+        min-height: 74vh; 
         overflow-y: auto; 
         padding-right: 1rem; 
       }
@@ -41,6 +41,7 @@
       }
   
       &-title{
+        padding-bottom: 1rem;
       text-align: start !important;
       font-size: $p5 !important;
       font-weight: $font_semibold !important;
@@ -53,11 +54,11 @@
       }
       &-border {
           border: 0.083rem solid $clr_gray_very_light;
-          padding: 1.5rem;
+           padding: 1.5rem;
           border-radius: 0.833rem;
-          margin-top: 1.5rem;
+          // margin-top: 1.5rem;
           text-align: center;
-          max-width: 20.833rem; 
+          // max-width: 20.833rem; 
         }
       &-upload{
           background-color: $clr_white;

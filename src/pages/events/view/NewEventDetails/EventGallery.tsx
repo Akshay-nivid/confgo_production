@@ -133,10 +133,10 @@ const EventGallery: React.FC = () => {
     setSelectedFiles([]);
   };
   return (
-    <>
-      <Grid className="event-gallery-border" size={3}>
+    <Grid container size={12} className="event-gallery" >
+      <Grid className="event-gallery-border" size={12} minHeight={"20rem"}>
         <Typography className="event-gallery-title">Event Gallery</Typography>
-        <Grid size={12}>
+        <Grid size={12}  >
         {files?.length != 0 ? (
             <Grid container spacing={1} justifyContent="center">
               {files?.slice(0, 5)?.map((item) => (
@@ -270,7 +270,7 @@ const EventGallery: React.FC = () => {
           </form>
         </Box>
       </Modal>
-    </>
+    </Grid>
   );
 };
 
