@@ -649,6 +649,13 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       // Set the updated programs back to the form
       setValue('addOn', updatedPrograms);
     }; 
+
+    const handleNewAddon = async (data: any) => {
+      await onaddOnSubmitHandler();
+      if(data?.id){
+        setValue(`addOn.${programIndex}.addonId`, data?.id);
+      }
+    };
     return (
       <Box className="add-addons-container">
           <Grid
@@ -718,7 +725,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     
                                 </Grid>
                                 <CustomDrawer
-        children={<CreateAddon submitHandler={onaddOnSubmitHandler} closeDrawer={() => handleDrawerClose(index)} />}
+        children={<CreateAddon submitHandler={handleNewAddon} closeDrawer={() => handleDrawerClose(index)} />}
         open={addOnView}
         type="right"
         onClose={()=>handleDrawerClose(index)}

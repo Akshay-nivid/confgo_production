@@ -558,8 +558,8 @@ const Events = () => {
    /**
    * Method handles calls Add on get api when new Addon created
    */
-  const onaddOnSubmitHandler=()=>{
-    handleAddOnOptionsApiCall()
+  const onaddOnSubmitHandler= async ()=>{
+    await handleAddOnOptionsApiCall()
   }
 
   /**
