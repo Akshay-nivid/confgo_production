@@ -227,6 +227,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
         id: "userRoleList",
         body: {
           filters: {
+            statusId:1,
             roleEnums: ['SPEAKER'],
             name: query,
             companyId: companyId,
@@ -243,7 +244,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
             setValue(`programs.${programIndex}.speakerId`, newObj?.speakerId);
             setValue(`programs.${programIndex}.speakerAssetId`, newObj?.speakerAssetId);
             setValue(`programs.${programIndex}.speakerFullName`, newObj?.speakerFullName);
-            addSpeaker
+          
           }
         },
         errorCB: (context: any) => {
@@ -274,7 +275,6 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
             setValue(`programs.${programIndex}.sponsorId`, newObj?.sponsorId)
             setValue(`programs.${programIndex}.sponsorLogoId`, newObj?.sponsorLogoId)
             setValue(`programs.${programIndex}.sponsorFullName`, newObj?.sponsorFullName)
-            addSponsor
           }    
         },
         errorCB: (context: any) => {
