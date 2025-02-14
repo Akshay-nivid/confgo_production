@@ -15,11 +15,26 @@ const EventDetailsCard = (eventData: any) => {
     const viewProgramme=(_id:any)=>{
         setDataById("tabValue", { value: '3' });
     }
+    
     /**
      * Handle event Edit deatils drawer
      */
     const editDrawer =()=>{
+        if (!eventData) return; 
+        
+        if(eventData?.published){
+            setDataById("snackBarInfo", {
+              open: true,
+              autoHideDuration: 2000,
+              severity: "error",
+              message: "Event is Already Published !",
+            });
+            setDataById("eventDrawer", { value: false }); 
+          }
+
         setDataById("eventDrawer", { value: true });   
+
+            
     }
 
    
