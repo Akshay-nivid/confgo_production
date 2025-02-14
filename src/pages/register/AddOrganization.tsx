@@ -25,7 +25,6 @@ const AddOrganization = React.memo(() => {
     const form2 = useStore((state: any) => state?.compData?.['form2']) ?? [];
     const form3 = useStore((state: any) => state?.compData?.['form3']) ?? [];
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-    const { clearDataById }: any = useStore();
     const formdata2 = useStore((state:any)=>state.compData?.form2.field_values)
     /*
      * function to handle submission of the form and create new company
@@ -71,9 +70,6 @@ const AddOrganization = React.memo(() => {
                 setDataById('form3', { companyData: data });
                 setDataById('register', { data: 'PAYMENT_METHOD_PAGE',step:4 });
                 setIsButtonDisabled(true); 
-                clearDataById('form1');
-                clearDataById('form2');
-                clearDataById('form3');
             }
             else{
                 setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message});

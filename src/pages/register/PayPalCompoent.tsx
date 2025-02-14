@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import Grid from '@mui/material/Grid2';
-import useStore, { POST } from '@/Libs/store';
+import useStore, { clearDataById, POST } from '@/Libs/store';
 import apiClient from '@/Libs/Https/API-client';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';
 import { Logger } from '@/Utils/Logger';
@@ -89,6 +89,9 @@ const PayPalButton: React.FC = () => {
               isRegister
                 ? setDataById('register', { data: 'REGISTRATION_SUCCESS_PAGE' })
                 : (POST({ url: 'subscription/verify', body: {}, id: 'paymentBanner' }), navigate(routes.dashboard()));
+                clearDataById('form1');
+                clearDataById('form2');
+                clearDataById('form3');
             }
         } catch (error) {
             Logger.error('PayPalCompoent.tsx', error);
