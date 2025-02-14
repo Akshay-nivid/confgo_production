@@ -5,14 +5,15 @@ import FileListModal from "@/components/FileUpload/FileListModal";
 import useStore, { setNonPersistedDataById } from "@/Libs/store";
 import routes from "@/router/routes";
 import { validateEmail, validateRequiredField } from "@/Utils/Validation";
-import { Badge, Button, Typography } from "@mui/material";
+import { Badge, Button, Typography,IconButton } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import config from "../../../config.json";
 import { useLocation } from "react-router-dom";
-import { DrawerClose, UplodIcon ,RemoveIcon} from "@/assets/svg";
+import {UplodIcon ,RemoveIcon} from "@/assets/svg";
+import CloseIcon from '@mui/icons-material/Close';
 interface userProps{
     NoNavigation?:boolean
     defaultValue?:any
@@ -218,8 +219,10 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshU
             </Grid>
             <Grid size={2} justifyContent={"flex-end"} container className="admin-users-header-DrawerClose">
             
-             <DrawerClose onClick={closeDrawer}/>
-
+            
+             <IconButton onClick={closeDrawer}>
+                    <CloseIcon/>
+                </IconButton>
             </Grid>
         </Grid>
         <Grid className="admin-users-form-wrap" container size={12}>
