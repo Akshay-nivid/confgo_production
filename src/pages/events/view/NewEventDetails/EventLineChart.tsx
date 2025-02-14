@@ -1,6 +1,6 @@
 import CustomChart from "@/components/CustomCharts/CustomChart";
 import useStore, { POST } from "@/Libs/store";
-import { Typography } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2"
 import { useEffect } from "react";
 
@@ -18,18 +18,15 @@ import { useEffect } from "react";
 * - Transforms the API response into a format suitable for the chart
 * - Displays a `LineOrange` chart with a legend title of "Total Registrations"
 */
-const EventLineChart = () => {
+const EventLineChart = (id:any) => {
 
-
-    const eventId = useStore(state => state.compData?.CustomSelectData?.data) || null;
 
     const chartData = useStore(state => state?.compData?.EventDetailsChart?.[`dashboard/revenueCount`]?.data) || null;
 
-
-
+ 
     useEffect(() => {
-
-        if (!eventId) return;
+        
+        if (!id) return;
 
         (async () => {
             POST({
@@ -37,7 +34,7 @@ const EventLineChart = () => {
 
                 body: {
 
-                    eventId: eventId
+                    eventId:id?.id
 
                 },
                 id: 'EventDetailsChart',
@@ -80,9 +77,27 @@ const EventLineChart = () => {
                 </Typography>
                 
             </Grid>
+            {chartData?.loading ? (
+                <Grid size={12} display={'flex'} justifyContent={'center'}>
 
-            <CustomChart chartData={transformData(chartData)} chartType={"LineOrange"} legendTitle={"Total Registrations"} />
+                    <Loader />
 
+                </Grid>
+
+            ) : (
+                chartData?.length === 0 ? (
+
+                    <Grid size={12} display={'flex'} alignItems={'center'} flexDirection={"column"} className='total-users-icon'>
+
+                        <p className='total-users-label'>No Data available</p>
+
+                    </Grid> ) : 
+                    (
+                    <CustomChart chartData={transformData(chartData)} chartType={"LineOrange"} legendTitle={"Total Registrations"} />
+
+                )
+            )
+            }
 
         </Grid>
     )
@@ -90,4 +105,12 @@ const EventLineChart = () => {
 export default EventLineChart;
 
 
+/**
+ * @returns Loader
+ */
+const Loader = () => {
+    return (
+        <CircularProgress color='success' size={"2rem"} />
+    )
+}
 

@@ -97,6 +97,7 @@ const EventInfoCard: React.FC<any> = React.memo(
         severity: "error",
         message: "Event is Already Published !",
       });
+      setDataById("eventDrawer", { value: false }); 
     }else{
       if(eventData?.assetId!=0){
         setSelectedFile({
@@ -438,7 +439,7 @@ const EventInfoCard: React.FC<any> = React.memo(
 
             {/* Attende charts */}
 
-            <EventLineChart />
+            <EventLineChart id={id} />
 
           </Grid>
 
