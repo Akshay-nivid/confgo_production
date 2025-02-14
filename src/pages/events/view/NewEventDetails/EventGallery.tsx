@@ -234,6 +234,7 @@ const EventGallery: React.FC = () => {
                 Please upload Images
               </FormLabel>
             </Grid>
+            <Grid className="event-gallery-confirm">
             <Grid
               container
               spacing={2}
@@ -257,16 +258,19 @@ const EventGallery: React.FC = () => {
                   onSubmit={handleUploadSuccess}
                   canSelectMultiple={true}
                   NoRecommended={true}
+                  className="event-gallery-file"
                 />
               )}
+              </Grid>
 
-              <Grid size={12} container spacing={2} justifyContent="center">
+              
+            </Grid>
+            <Grid size={12} container spacing={2} justifyContent="center">
                 <Grid size={{ xs: 12, sm: 12 }}>
                   <CustomButton className="custom-list-save-btn" label="Submit" variant="contained" type="submit" size="large" onClick={() => addImages()} />
                   <CustomButton className="custom-list-save-btn custom-list-restore-btn" label="Cancel" variant="outlined" size="large" onClick={() => cancelupload()}/>
                 </Grid>
               </Grid>
-            </Grid>
           </form>
         </Box>
       </Modal>
