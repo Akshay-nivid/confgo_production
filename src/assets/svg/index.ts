@@ -165,6 +165,9 @@ import EventDetailSpeaker from "./event-detail-speaker.svg";
 import EventDetailAttendee from "./event-detail-attendence.svg";
 import PichartIcon from "./piechart-icon.svg"
 
+import YellowSeat from "./yelllowseat.svg";
+import RedSeat from "./redseat.svg";
+
 export {
   MainBottomBanner,
   MainYourBrandImg,
@@ -332,4 +335,6 @@ export {
   EventDetailSpeaker,
   EventDetailAttendee,
   PichartIcon,
+  YellowSeat,
+  RedSeat,
 };

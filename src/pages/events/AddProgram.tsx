@@ -420,7 +420,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
 
 
       // check for find if the program date is after event start date
-      if (programUtcStartDate <= eventStartDate) { 
+      if (programUtcStartDate < eventStartDate) { 
         setError(`programs.${programIndex}.startTime`, {
           type: 'manual',
           message: 'Start time cannot be in the past',
