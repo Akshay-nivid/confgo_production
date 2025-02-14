@@ -22,7 +22,7 @@ interface AssignedVolunteersProps {
 const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps) => {
     let craeteUserDrawer =  useStore(state => state.nonPersistedData?.['craeteUserDrawer']?.value);
 
-    const { control } = useForm();
+    const { control,setValue } = useForm();
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
     // const [source, setSource] = useState<ISource | undefined>(undefined);
@@ -144,6 +144,10 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
 
     };
   
+    const handleSponsorSearch = async (_query: string,data:any) => {
+        setValue("search",data)
+        handleAutocompleteChange(data)
+    }
    
     return (
         <div className='assigned-volunteer-main-container'>
@@ -234,7 +238,7 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
                 </Grid>
             </Grid>
         <CustomDrawer open={craeteUserDrawer}  type="right">
-            <CreateNewUsers NoNavigation={true} defaultValue={4}/>
+            <CreateNewUsers NoNavigation={true} defaultValue={4} onSuccess={handleSponsorSearch}/>
         </CustomDrawer>
         </div>
 
