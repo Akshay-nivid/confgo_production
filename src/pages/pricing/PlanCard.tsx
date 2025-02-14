@@ -1,7 +1,7 @@
 import routes from '@/router/routes';
 import { Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import useStore from '@/Libs/store';
+import useStore, { clearDataById } from '@/Libs/store';
 import { toCamelCase } from '@/Utils/CommonBaseClass';
 import Grid from "@mui/material/Grid2";
 import { ArrowIconSvg, BasicPlainIcon, BlueTickIcon, EnterPriseFeeIcon, ProPlanIcon, StandardPlanIcon } from '@/assets/svg';
@@ -35,6 +35,9 @@ export const PlanCard: React.FC<PlanCardProps> = ({ data }) => {
    * It updates the global state based on the mode and navigates to the appropriate route.
    */
   const handleButtonClick = () => {
+    clearDataById('form1');
+    clearDataById('form2');
+    clearDataById('form3');
     if (mode === 'register') {
       setDataById('register', { data: 'CREATE_ACCOUNT_PAGE', step: 2 });
       setDataById('form1', { field_values: { ...data } });
