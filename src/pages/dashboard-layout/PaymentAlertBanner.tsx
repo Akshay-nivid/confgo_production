@@ -21,7 +21,8 @@ export const PaymentAlertBanner = () => {
    */
     const handleViewPlanDetails=()=>{
       setDataById("planMode", { mode: "upgrade" });
-      navigate(routes.planUpgrade())
+      navigate(routes.organizationUserProfile())
+      setDataById("settings", { tabIndex: 3 });
     }   
     return(
         <Grid container size={{ xs: 12, sm: 12 }} p={3} pb={0} className="payment-alert-banner">
