@@ -1,5 +1,4 @@
 import CustomButton from '@/components/CustomButton/CustomButton'
-import routes from '@/router/routes';
 import { handleLogout } from '@/Utils/CommonBaseClass'
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
@@ -12,7 +11,6 @@ const TLogout: React.FC<any> = React.memo(({ className }: { className: string })
     const navigate = useNavigate();
 
     const onLogoutSuccess = React.useCallback(() => {
-        navigate(routes.userLogin());
     }, [navigate]);
 
     return (

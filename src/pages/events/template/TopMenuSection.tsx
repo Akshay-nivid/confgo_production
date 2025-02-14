@@ -127,8 +127,10 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, classP
     function logoutFn() {
         handleLogout({
             onLogoutSuccess: () => {
+                sessionStorage.clear();
+                localStorage.clear();
                 resetStore();
-                navigate(routes.userLogin());
+                navigate(routes.eventExternalLink(slugName), { replace: true });
             }
         });
     }
