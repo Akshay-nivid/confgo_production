@@ -1,7 +1,9 @@
+// import CustomBarChart from "@/components/CustomCharts/CustomBarChart";
 import CustomChart from "@/components/CustomCharts/CustomChart";
 import useStore, { POST } from "@/Libs/store";
 import { CircularProgress, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2"
+import moment from "moment";
 import { useEffect } from "react";
 
 
@@ -18,7 +20,7 @@ import { useEffect } from "react";
 * - Transforms the API response into a format suitable for the chart
 * - Displays a `LineOrange` chart with a legend title of "Total Registrations"
 */
-const EventLineChart = (id:any) => {
+const EventLineChart = ({id}:{id?:string}) => {
 
 
     const chartData = useStore(state => state?.compData?.EventDetailsChart?.[`dashboard/revenueCount`]?.data) || null;
@@ -34,7 +36,7 @@ const EventLineChart = (id:any) => {
 
                 body: {
 
-                    eventId:id?.id
+                    eventId:id
 
                 },
                 id: 'EventDetailsChart',
@@ -65,6 +67,30 @@ const EventLineChart = (id:any) => {
     };
 
 
+    /**
+    * If no data is available in `chartData`, this function generates default data 
+    * for the last 5 days with `registeredUsers` set to 0.
+    * 
+    * - Uses `moment` to get past 5 days.
+    * - Adds 2 days to ensure alignment with expected date format.
+    * - Returns an array of objects with `key` (date) and `value` (0).
+    * - Reverses the array to maintain chronological order.
+    */
+
+    const generateBarChartData = () => {
+        return Array.from({ length: 5 }, (_, index) => {
+          const date = moment().subtract(index, 'days').add(2, 'days').format('MMM-D');
+          return {
+            key: date,
+            value: 0
+          };
+        }).reverse();
+      };
+
+      const barChartDataArray = generateBarChartData();
+
+
+
 
     return (
 
@@ -89,9 +115,11 @@ const EventLineChart = (id:any) => {
 
                     <Grid size={12} display={'flex'} alignItems={'center'} flexDirection={"column"} className='total-users-icon'>
 
-                        <p className='total-users-label'>No Data available</p>
+                        
+                        <CustomChart chartData={barChartDataArray} chartType={"LineOrange"} legendTitle={"Total Registrations"}  />
 
-                    </Grid> ) : 
+                    </Grid> 
+                    ) : 
                     (
                     <CustomChart chartData={transformData(chartData)} chartType={"LineOrange"} legendTitle={"Total Registrations"} />
 
