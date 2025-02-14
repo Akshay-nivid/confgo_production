@@ -25,7 +25,7 @@ import { useNavigate } from 'react-router-dom';
 import SponsorShip from '../template/sponsorShipForm/SponsorShip';
 import TempHall from "../../../assets/svg/temp-hall.svg";
 import { personPlaceholder } from '@/assets/png';
-
+import {YellowSeat, RedSeat} from '@/assets/svg/index';
 
 type TemplateViewProps = {
     data: any;
@@ -393,7 +393,6 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
     const hasModerator = (subItem: any): boolean => {
         return subItem?.some((speaker: any) => speaker?.speakerBios?.[0]?.isModerator) ?? false;
     };
-
     return (
         <Grid  container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-bg`}  >
             <Grid container size={{ xs: 12, sm: 12 }} className={classPrefix}>
@@ -733,10 +732,37 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
 
 
                                                         </Grid>}
+                                                        <Grid container spacing={2} alignItems="center">
+                                                        {(item.eventParticipantEntries || []).map((entry: any, index: any) => {
+                                                            const { seatAllocated = 0, totalSeat = 1 } = entry;
+                                                            const remainingSeat = totalSeat - seatAllocated;
+                                                            const bookedPercentage = (76 / totalSeat) * 100;
+                                                            const isOverbookedRed = bookedPercentage > 85;
+                                                            const isOverbookedYellow = bookedPercentage > 70;
+
+                                                            if (!isOverbookedYellow) return null;
+                                                            return (
+                                                                <Grid container key={index}  spacing={2} alignItems="center" paddingTop={2}>
+                                                                {/* Seat Information */}
+                                                                <Grid container alignItems="center" spacing={.5}>
+                                                                  <Grid paddingBottom={.5}>
+                                                                   {isOverbookedRed ? <RedSeat fontSize={18}  /> : <YellowSeat fontSize={18} />}
+                                                                  </Grid>
+                                                                  <Grid>
+                                                                <Typography variant="body1" className={isOverbookedRed ? "program-seat-alert-red" : "program-seat-alert-yellow"}>
+                                                                  {seatAllocated} / {totalSeat} Hurry up! Only {remainingSeat} left! Secure your spot now!
+                                                                </Typography>
+                                                                  </Grid>
+                                                                </Grid>
+                                                                </Grid>
+                                                            );
+                                                            })}
+                                                        </Grid>
+                                                        {item.subItems.eventParticipantEntries}
                                                         {item?.subItems?.length > 1 && subIndex !== item?.subItems?.length - 1 &&
                                                     <Grid size={12} className={`${classPrefix}-program-content-divider`}>
                                                                 <Divider />
-                                                            </Grid>}
+                                                            </Grid>}                       
                                                 </Grid>
 
                                             ))

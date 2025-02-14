@@ -17,6 +17,7 @@ import CustomButton from '@/components/CustomButton/CustomButton';
 import { setNonPersistedDataById } from '@/Libs/store';
 import HTMLReactParser from 'html-react-parser/lib/index';
 
+import {YellowSeat, RedSeat} from '@/assets/svg/index';
 interface IProgramcardProps {
     templateId: number | null | undefined, handleToggleProgramCheckbox: (param: string) => void, program: any, date: string
 }
@@ -36,7 +37,6 @@ const Programcard = ({ templateId, handleToggleProgramCheckbox, program, date }:
     const methods = useFormContext();
 
     const { control, setValue, watch } = methods
-
     /**
      * Handles the click event on the view details button
      * Sets the isProgramDetailsModelOpen state to true and sets the programDetails state to the program object
@@ -88,13 +88,38 @@ const Programcard = ({ templateId, handleToggleProgramCheckbox, program, date }:
                     <Dollar className="program-money-icon" />
                     <Typography className='program-price'>{Math.trunc(Number(program?.amount)) === 0 ? "Free" : `${program?.amount}`}</Typography>
                 </Grid>
-
                 <Box>
                     <CustomButton onClick={handleClickViewDetails} label='view details' className='view-details-btn' variant='text' />
                 </Box>
             </Box>
 
+            <Grid container spacing={2} alignItems="center">
+                {(program.eventParticipantEntries || []).map((entry: any, index: any) => {
+                    const { seatAllocated = 0, totalSeat = 1 } = entry;
+                    const remainingSeat = totalSeat - seatAllocated;
+                    const bookedPercentage = (seatAllocated / totalSeat) * 100;
+                    const isOverbookedRed = bookedPercentage > 85;
+                    const isOverbookedYellow = bookedPercentage > 70;
 
+                    if (!isOverbookedYellow) return null;
+                        return (
+                            <Grid container key={index}  spacing={2} alignItems="center"  paddingBottom={1}>
+                            {/* Seat Information */}
+                            <Grid container alignItems="center" spacing={0.5}>
+                              <Grid paddingBottom={.5}>
+                            {isOverbookedRed ? <RedSeat fontSize={15} /> : <YellowSeat fontSize={15} />}
+                          </Grid>
+                          <Grid>
+                        <Typography variant="body1" className={isOverbookedRed ? "program-card-seat-alert-red" : "program-card-seat-alert-yellow"}>
+                          Only {remainingSeat} seats left!
+                        </Typography>
+                      </Grid>
+                    </Grid>
+
+                            </Grid>
+                       );
+                    })}
+                </Grid>
             <Box className="program-checkbox-wrapper">
                 <Grid size={12} className={`program-checkbox-group-${templateId}`}>
                     <CustomCheckbox
