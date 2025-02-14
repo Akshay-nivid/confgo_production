@@ -410,7 +410,7 @@ const EventInfoCard: React.FC<any> = React.memo(
       <Grid container size={12} spacing={0} columnSpacing={1} rowSpacing={1}>
 
    
-        {eventDetailCards.map((card, index) => (
+        {eventDetailCards?.map((card, index) => (
 
           <EventDetailCountCard key={index} count={card.count} title={card.title} description={card.description} icon={card.icon} />
 

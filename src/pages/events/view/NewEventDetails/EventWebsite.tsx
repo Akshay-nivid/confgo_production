@@ -36,13 +36,14 @@ const EventWebsite = ({published }: website) => {
                {!published
                &&(
 
-                <Grid container size={{lg:12,sm:6}} justifyContent={"center"} spacing={0} >
+                <Grid container size={{lg:12,sm:6}} justifyContent={"center"} alignItems={"center"} spacing={0} minHeight={"max-content"}>
 
-                    <Grid className="EventWebsite-grid-content-publishText">
+                    <Grid className="EventWebsite-grid-content-publishText" >
 
                     Please publish the event!
 
                         </Grid>
+
 
                 </Grid>
 
