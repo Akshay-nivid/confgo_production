@@ -42,23 +42,23 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
      * Useeffect hook populates the initial value from the datagrid request
      */
     useEffect(() => {
-        if(dataGridInfo?.source?.data?.filters){
-            const filterObj = {...dataGridInfo?.source?.data?.filters};
-            for(let i in filterObj){
+        if (dataGridInfo?.source?.data?.filters) {
+            const filterObj = { ...dataGridInfo?.source?.data?.filters };
+            for (let i in filterObj) {
                 fields?.map((item: any) => {
-                    if(item.type === 'checkBox'){
-                        setValue(item.fieldName,filterObj[i])
+                    if (item.type === 'checkBox') {
+                        setValue(item.fieldName, filterObj[i])
                     }
                 })
             }
         }
-    },[dataGridInfo?.source?.data?.filters])
+    }, [dataGridInfo?.source?.data?.filters])
 
     const handleClose = () => {
         setIsFilterModalOpen(false);
     };
 
-    
+
 
     /**
      * Method to check value is not empty
@@ -138,7 +138,7 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
     }
 
     const setTodaysDate = () => {
-        const currentDate = moment(); 
+        const currentDate = moment();
         setValue("startTime", currentDate);
         setValue("endTime", currentDate);
         setDateTemplate('Today');
@@ -250,15 +250,32 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
     };
     return (
         <>
-            <CustomButton
-                className="custom-list-filter-btn"
-                onClick={() => setIsFilterModalOpen(true)}
-                label="Filters"
-                startIcon={<EventFilterIcon />}
-                variant="contained"
-                color="primary"
-                size="large"
-            />
+            <Grid display={{xs:"block",sm:'none'}}>
+
+
+                <CustomButton
+                    className="custom-list-filter-btn"
+                    onClick={() => setIsFilterModalOpen(true)}
+                    label=""
+                    startIcon={<EventFilterIcon />}
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                />
+            </Grid>
+            <Grid display={{xs:"none",sm:'block'}}>
+
+
+                <CustomButton
+                    className="custom-list-filter-btn"
+                    onClick={() => setIsFilterModalOpen(true)}
+                    label="Filters"
+                    startIcon={<EventFilterIcon />}
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                />
+            </Grid>
             <CustomDrawer
                 className='filter-drawer'
                 type="right"
@@ -635,7 +652,7 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
                                     size="large"
                                     disabled={isSubmitting}
                                     fullWidth
-                                    //onClick={handleApplyFilters}
+                                //onClick={handleApplyFilters}
                                 />
                             </Grid>
                         </Grid>

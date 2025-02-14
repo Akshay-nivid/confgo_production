@@ -210,13 +210,13 @@ const Dashboard = () => {
 
         </Grid>
 
-        <Grid size={{ xs: 12, sm: 12 }} container direction={'column'} borderRadius={2}  mb={2} className="shadow-app">
+        <Grid size={{ xs: 12, sm: 12 }} maxWidth={"100%"} container direction={'column'} borderRadius={2}  mb={2} className="shadow-app dashboard-event-list ">
             {fullEventList?.data?.length < 5 ? (
-              <Grid className="dashboard-event-list-card">
+              <Grid className="dashboard-event-list-card mt-0">
                 <EventListCard view={false} dashView={true} />
               </Grid>
             ) : (
-              <Grid className="dashboard-event-list-card -mt-8 relative overflow-x-auto" size={{ xs: 12, sm: 12 }}>
+              <Grid className="dashboard-event-list-card relative overflow-x-auto" size={{ xs: 12, sm: 12 }}>
                 <EventListCard view={true} dashView={true} />
               </Grid>
             )}

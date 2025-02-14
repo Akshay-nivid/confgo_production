@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
-import { set, useForm } from "react-hook-form";
+import {  useForm } from "react-hook-form";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomButton from "@/components/CustomButton/CustomButton";
@@ -204,14 +204,13 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
     <Grid container className="custom-list">
       
      
-      <Grid  container size={{ xs: 8 }} spacing={2} justifyContent="flex-end " className="ml-auto w-max">
+      <Grid className="contents mb-8" container size={{ xs: 12 }} spacing={2} justifyContent="flex-end" flexWrap={"wrap"} >
         {!hideAction && (
           <>
-            <Grid container>
+            <Grid flex={1}>
               <CustomAutocomplete
-                
                 name="search"
-                className="custom-search-text-field textfield-border"
+                className="custom-search-text-field event-search textfield-border"
                 control={control}
                 placeholder="Search Events Name"
                 options={searchResults} // Dynamic options based on API results
@@ -221,7 +220,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
                 onChange={handleAutocompleteChange}
               />
             </Grid>
-            <Grid container spacing={2} id ="event-create-new-event">
+            <Grid container size={{ xs: 12,sm:0 }} minWidth={{sm:"max-content"}} justifyContent={"flex-end"} marginLeft={{xs:"auto"}} spacing={2} id ="event-create-new-event ml-auto">
               <CustomButton
                 className="event-list-create-btn"
                 label="Create New Event"
@@ -239,7 +238,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
           </>
         )}
       </Grid>
-      <Grid size={{ xs: 12 }} className="shadow-app mt-8 app-border-radius">
+      <Grid size={{ xs: 12 }} className="shadow-app  app-border-radius">
         <DataGridList
           dataTransformer={transformData}
           source={source}

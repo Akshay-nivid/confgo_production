@@ -89,7 +89,7 @@ const EventDropDown = (data: any): JSX.Element => {
                     <Typography className="heading">Dashboard</Typography>
                 </Grid>
 
-                <Grid className="DropDownBox" flex={{ xs: 1 }} size={{ sm: 6, md: 6 }} display={"flex"} >
+                <Grid className="DropDownBox " flex={{ xs: 1 }} size={{ sm: 6, md: 6 }} display={"flex"} >
                     <Grid display={{ xs: "none", sm: "flex" }} size={5} container justifyContent={"center"} alignItems={"center"} columnSpacing={.4}
                         className="DropDownBox-container-mikeIcon"  >
                         <MikeIcon />

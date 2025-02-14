@@ -36,7 +36,7 @@ body,p,li,a,div,span,button,h1,h2,h3,h4,h5,h6,label,input {
 }
 
 .shadow-app{
-  box-shadow: rgba(0, 0, 0, 0.12) 0rem 0rem 0.3125rem 0rem,  rgba(0, 0, 0, 0.12) 0rem 0rem 0.0625rem 0rem;
+  box-shadow: rgba(0, 0, 0, 0.15) 0rem 0rem 0.3125rem 0rem,  rgba(0, 0, 0, 0.15) 0rem 0rem 0.0625rem 0rem;
 }
 
 .app-border-radius{
@@ -45,7 +45,7 @@ body,p,li,a,div,span,button,h1,h2,h3,h4,h5,h6,label,input {
 
 .textfield-border{
   .MuiFormControl-root{
-    border: 0.14rem solid $clr_gray_faded !important;
+    border: 0.14rem solid $clr_gray_40_percent !important;
     padding-right: .5rem !important;
 
   }

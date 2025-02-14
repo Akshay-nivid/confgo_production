@@ -109,7 +109,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       className="sidebar-drawer-admin"
     >
       <div className="content flex flex-col items-center">
-      <Grid size={2} className="logo-container">
+      <Grid size={{xs:0,md:2}} display={{xs:"none", md:"block"}} className="logo-container">
       <AppThemeLogo className={`logo`} />
       </Grid>
         <List className="sidebar-list-admin">
