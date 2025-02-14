@@ -351,13 +351,13 @@ const LocationView = ({ eventData, published, onSubmitHandler }: LocationCardPro
     return (
         <Grid className="main-location-Views" container spacing={0} size={12} >
 
-            <Grid container className="show-map" size={12}>
+            <Grid container className="show-map" size={12} >
                 {loading ? (
                     <div>Loading...</div>
                 ) : coordinates ? (
                     <>
                         <GoogleMap
-                            mapContainerStyle={{ width: '44.84rem', height: '12rem' }}
+                            mapContainerStyle={{ width: '100%', height: '12rem' }}
                             center={coordinates}
                             zoom={16}
                         >

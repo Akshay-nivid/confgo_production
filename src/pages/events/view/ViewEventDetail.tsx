@@ -7,7 +7,7 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import EventInfoCard from "./EventInfoCard";
 import Sessions from "./Sessions";
-import LocationCard from "./LocationCard";
+// import LocationCard from "./LocationCard";
 import UserListCard from "./UserListCard";
 import TemplateCard from "./TemplateCard";
 import { Logger } from "@/Utils/Logger";
@@ -109,6 +109,7 @@ const ViewEventDetail = () => {
   const [loading, setLoading] = useState(true);
   const location = useLocation(); // Get the current location (URL) to detect changes
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
 
   /**
    *  Functions to open and close the drawer. 
@@ -215,6 +216,7 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
         setDataById("TeamAndRoleData",{data});
         if (data.published) {
           setValue('event', data.slugName ? `event/${data.slugName}` : '');
+          setDataById("slugUpdate",{slug:`/event/${data?.slugName}`});
           setLink(data);
         } else {
           data.slugName ? setValue('eventLink', data.slugName) : handleLinkGenerationApiCall();
@@ -327,6 +329,13 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
   }
 
   /**
+   * Store the slugName
+   */
+  useEffect(()=>{
+    setDataById("slugUpdate",{slug:`/event/${eventFullData?.slugName}`});
+  },[]);
+
+  /**
    * Method gets triggered when successfully submitting the edit form
    */
   const handleSubmitHandler = () => {
@@ -428,9 +437,10 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
             ) : (
               <>
                 <EventInfoCard eventData={eventFullData} onSubmitHandler={handleSubmitHandler} />
-                {eventFullData?.eventClass != "ONLINE" &&
+                {/* {eventFullData?.eventClass != "ONLINE" &&
                   <LocationCard eventData={eventFullData} published={eventFullData?.published} onSubmitHandler={handleSubmitHandler} />
-                }</>
+                } */}
+                </>
             )
           }
           </TabPanel>
