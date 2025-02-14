@@ -7,6 +7,7 @@ import useStore from "@/Libs/store";
 import "./profile-components/mainProfile.scss"
 import PersonalAndOrganisationDetails from './profile-components/PersonalAndOrganisationDetails';
 import PaymentConfigurations from './profile-components/PaymentConfigurations';
+import PlanPurchaseHistory from './profile-components/PlanPurchaseHistory';
 
 const ProfileSettings: React.FC = React.memo(() => {
   const [email, setEmail] = useState('');
@@ -29,6 +30,7 @@ const ProfileSettings: React.FC = React.memo(() => {
         <Tab label="My Profile" className='main-account-tab-title account-tabs' />
         <Tab label="Security" className="main-account-tab-title account-tabs" />
         <Tab label="Payment Configurations" className="main-account-tab-title account-tabs" />
+        <Tab label="Plan & Billing" className="main-account-tab-title account-tabs" />
         {/* <Tab label="Notification" className="main-account-tab-title account-tabs" /> */}
       </Tabs>
       {tabInfo?.tabIndex === 0 ? (
@@ -47,7 +49,11 @@ const ProfileSettings: React.FC = React.memo(() => {
           <Box>
             {/* Profile reset password for end user */}
             <PaymentConfigurations passEmail={email} />
-          </Box>
+          </Box>)
+          : tabInfo?.tabIndex === 3 ? (
+            <Box>
+              <PlanPurchaseHistory/>
+            </Box>
       //commentted due to api is not there
       // ) : tabInfo?.tabIndex == 2 ? (
       //   <Box>
