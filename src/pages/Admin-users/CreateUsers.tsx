@@ -18,6 +18,7 @@ interface userProps{
     NoNavigation?:boolean
     defaultValue?:any
     refreshUserRoles?: () => void; // Accept function as prop
+    onSuccess?: (query: any, data: any) => void;
 }
 interface Role {
     value: number,
@@ -40,7 +41,7 @@ interface CustomFile {
 /**
 * Component for creating new Company Users
 */
-const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshUserRoles}) => {
+const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshUserRoles,onSuccess}) => {
     const { data: role, eventId } = useLocation().state || '';
     const [selectedFile, setSelectedFile] = useState<any>(null);
     const [modalOpen, setModalOpen] = useState(false);
@@ -129,6 +130,7 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshU
                     setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: `Account Created Please check ${data.email}` });
                     getRoleList();
                    
+                    onSuccess && onSuccess("", context?.data)
 
                     if(eventId){
 

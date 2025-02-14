@@ -34,7 +34,8 @@ interface CommonChartProps {
   chartType: "LineGreen" | "Pie" | "LineOrange";
   lineChartProps?: any;
   CartesianProps?: any;
-
+  tooltipContent?:string;
+  legendTitle?: string ;
 }
 
 type ChartDotType = {
@@ -63,6 +64,9 @@ type ChartDataType = {
   name?: string | number
 }
 
+interface LineOrangeProps {
+  legendTitle: string; // Define the prop type explicitly
+}
 
 
 
@@ -109,13 +113,14 @@ const CustomChart: React.FC<CommonChartProps> = ({
   legendProps,
   lineProps,
   CartesianProps,
-  lineChartProps
+  lineChartProps,
+  legendTitle,
 }) => {
 
 
   const data = chartType === "Pie" ? chartData?.map((item) => ({ name: item.key, value: item.value })) : chartData;
 
-
+ 
 
   const LinGreen = () => {
     return (
@@ -172,15 +177,26 @@ const CustomChart: React.FC<CommonChartProps> = ({
 
 
 
-  const LineOrange = () => {
+  const LineOrange: React.FC<LineOrangeProps> = ({ legendTitle }) => {
     return (
       <ResponsiveContainer width="100%" height={'100%'}>
         <LineChart data={data}  {...lineChartProps}>
-          <CartesianGrid vertical={true} stroke="#E9E9E9" strokeDasharray="0"  {...CartesianProps} />
+          <CartesianGrid vertical={true} stroke="#E9E9E9" strokeDasharray="3 0"  {...CartesianProps} />
           <XAxis tick={{ dy: 10, fill: 'black' }} stroke="#E9E9E9" dataKey={"key"} {...xAxisProps} />
-          <YAxis tick={{ dx: -10, fill: 'black' }} tickCount={chartData.length < 10 ? 10 : chartData.length} stroke="#E9E9E9" {...yAxisProps} />
-          <Tooltip contentStyle={{ backgroundColor: "#222", color: "#fff", padding: ".5rem", borderRadius: ".5rem" }} {...tooltipProps} />
-          <Legend {...legendProps} />
+          <YAxis 
+          allowDecimals={false}
+          domain={[0, 'dataMax']}
+          tick={{ dx: -10, fill: 'black' }} tickCount={chartData?.length < 10 ? 10 : chartData?.length} stroke="#E9E9E9" {...yAxisProps} />
+          <Tooltip    contentStyle={{ backgroundColor: "#222", color: "#fff", padding: ".5rem", borderRadius: ".5rem" }} {...tooltipProps} />
+          {/* <Legend {...legendProps} /> */}
+          <Legend 
+          verticalAlign="top" 
+          align="right"
+          iconType="square"
+          wrapperStyle={{ top: 0, right: 20, fontSize: '1.1rem', color: '#404040' }}
+          formatter={() => <span style={{ color: '#333', fontWeight: 'normal' }}>{legendTitle}</span>}
+          {...legendProps}
+        />
           <Line dataKey="value" stroke="#F57F17" strokeWidth={2} dot={<></>}  {...lineProps} />
         </LineChart>
       </ResponsiveContainer>
@@ -250,7 +266,7 @@ const CustomChart: React.FC<CommonChartProps> = ({
   return (
     <>
       {
-        chartType === "LineGreen" ? <LinGreen /> : chartType === "LineOrange" ? <LineOrange /> : <CustomPieChart />
+        chartType === "LineGreen" ? <LinGreen /> : chartType === "LineOrange" ? <LineOrange  legendTitle={legendTitle ?? "Default Title"}  /> : <CustomPieChart />
       }
     </>
   );

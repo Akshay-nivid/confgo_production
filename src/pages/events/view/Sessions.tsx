@@ -190,7 +190,6 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
    * Submiting the datas according to the conditions
    */
   const onSubmit = async (data: any) => {
-    closeDrawer();
     if (data.isPaid === "FREE") {
       data.amount = parseInt("0");
     } else {
@@ -242,6 +241,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
             severity: "success",
             message: message
           });
+          closeDrawer();
           Logger.info("Operation successful:", response.data);
         };
       
