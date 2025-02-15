@@ -1,14 +1,12 @@
 import React, { useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import AppLogo from "@/assets/app-logo.png"
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import {
   Drawer,
   List,
   ListItem,
   ListItemText,
   ListItemButton,
-  Box,
 
 } from '@mui/material';
 
@@ -18,16 +16,14 @@ import {
   EventIcon,
   DashboardIcon,
   UserCreateIcon,
-  Arrow2Left,
 } from '@/assets/svg';
 import routes from '@/router/routes';
-import useStore, { clearDataById, setNonPersistedDataById } from '@/Libs/store';
+import { clearDataById } from '@/Libs/store';
 
 import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined';
 import PaymentIcon from '@mui/icons-material/Payment';
 import Grid from "@mui/material/Grid2";
-import { AppThemeLogo } from '@/assets/svg';
-import { ArrowBack } from '@mui/icons-material';
+
 interface SidebarProps {
   open: boolean;
 }
