@@ -476,6 +476,7 @@
     text-transform: none !important;
     font-size: $p1 !important;
     font-weight: $font_normal !important;
+    height: 100%;
 
     @media screen and (max-width: 600px) {
       padding-inline: 0 !important;
