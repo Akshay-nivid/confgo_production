@@ -16,6 +16,7 @@ import { NoEvent as NoEventIcon } from "@/assets/svg";
 import { Filter } from "@/components/Filter";
 import { StatusEnum } from "@/Utils/StatusEnum";
 import moment from "moment";
+import { Typography } from "@mui/material";
 
 interface EventListProps {
   hideAction?: boolean;
@@ -200,14 +201,14 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
 
   return (
     <Grid container className="custom-list">
-      {/* <Grid size={{ xs: 4 }}>
+      <Grid size={{ xs: 4 }}>
         <Typography className="custom-list-list-title" gutterBottom>
           Events
         </Typography>
-      </Grid> */}
+      </Grid>
 
       {/* Buttons for 'Create New Event' and 'Filters' */}
-      <Grid container size={{ xs: 8 }} spacing={2} justifyContent="flex-end">
+      <Grid container size={{ xs: 12 }} spacing={2} justifyContent="flex-end">
         {!hideAction && (
           <>
             <Grid container>

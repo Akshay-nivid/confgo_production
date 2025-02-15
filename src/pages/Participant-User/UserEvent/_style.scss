@@ -54,3 +54,13 @@
     border-radius: 0.4rem ;
     
    }
+  .card-hover-grid{
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card-hover-grid:hover {
+    transform: scale(1); 
+    box-shadow: 1px 0px 10px 1px rgb(63 94 254 / 14%);
+    border-radius: 0.833rem;;
+  }
+  
