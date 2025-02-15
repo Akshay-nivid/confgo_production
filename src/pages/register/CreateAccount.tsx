@@ -102,8 +102,8 @@ const CreateAccount = React.memo(() => {
                                         <Grid container className='w-full'>
                                             <CustomTextField
                                                 defaultValue={form2?.field_values?.fullName}
-                                                placeholder="Full Name"
-                                                label="Full Name "
+                                                placeholder="First Name"
+                                                label="First Name "
                                                 control={control}
                                                 name="fullName"
                                                 type="text"
