@@ -1,6 +1,6 @@
 import Grid from "@mui/material/Grid2";
 import ReactGooglePlacesAutocomplete from 'react-google-places-autocomplete';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconButton, Typography } from "@mui/material";
 import { CloseOutlined } from "@mui/icons-material";
 import CustomButton from "@/components/CustomButton/CustomButton";
@@ -11,6 +11,7 @@ import { Logger } from "@/Utils/Logger";
 interface GooglePlacePickerProps {
   onClose: () => void;
   createEvent?: boolean; // Add createEvent prop
+  randomNumber?: string;
 
 }
 
@@ -20,7 +21,7 @@ type AddressComponent = {
   types: string[];
 }
 
-const GoogleMapPlacePicker = ({ onClose, createEvent = false }: GooglePlacePickerProps) => {
+const GoogleMapPlacePicker = ({ onClose, createEvent = false, randomNumber }: GooglePlacePickerProps) => {
   const { setValue } = useFormContext();
   const [selectedPlace, setSelectedPlace] = useState<any>();
   const [latLng, setLatLng] = useState<any>();
@@ -51,6 +52,18 @@ const GoogleMapPlacePicker = ({ onClose, createEvent = false }: GooglePlacePicke
             });
         }
     };
+
+    /**
+     * Auto focus of input field
+     */
+    useEffect(() => {
+      setTimeout(()=> {
+        const googleInput = document.querySelector(".react-select__input") as HTMLInputElement;
+        if (googleInput){
+          googleInput.focus();
+        }
+      },10);
+    },[randomNumber]);
    /**
      * submit handle save the values in the respective fields
      * 
