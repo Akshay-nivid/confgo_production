@@ -110,7 +110,8 @@ const EventInfoCard: React.FC<any> = React.memo(
     }
   }, [eventDetailsDrawer]); // Dependency array ensures it runs when state updates
   
-  
+  const uniqueSponsorCount = new Set(eventData?.eventSponsors.map(item => item.sponsorId)).size;
+
   /** detals to loop through EventDetailCountCard*/
   const eventDetailCards = [
     {
@@ -120,7 +121,7 @@ const EventInfoCard: React.FC<any> = React.memo(
       icon: <EventDetailProgram className="single-event-icon" />,
     },
     {
-      count: eventData?.eventSponsors?.length || 0,
+      count: uniqueSponsorCount || 0,
       title: "Sponsors",
       description: "Event partners & supporters",
       icon: <EventDetailSponsor className="single-event-icon" />,
