@@ -88,7 +88,6 @@ const RevenueAndUserChart = () => {
       };
 
       const barChartDataArray = generateBarChartData();
-    console.log(barChartDataArray);
 
 
   
