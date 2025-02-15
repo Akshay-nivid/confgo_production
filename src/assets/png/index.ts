@@ -11,8 +11,6 @@ export {
   UnlimitedConference,
   PaymentMethod,
   NoCouponData,
-  personPlaceholder
-  Tempalte4App
   personPlaceholder,
   Tempalte4App,
 };
