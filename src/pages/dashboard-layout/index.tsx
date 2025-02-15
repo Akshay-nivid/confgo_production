@@ -43,20 +43,26 @@ const Layout = () => {
 /**
  * Mobile layout for screens with xs to md width
  */
+
+
+
 const MobileLayout = ({ showAlertBanner }: { showAlertBanner: boolean }) => {
+
   return (
     <Box width={"100%"} display={{ xs: 'block', md: 'none' }}>
       <Box className="h-screen overflow-hidden flex flex-col">
         <LayoutAppbar />
-        <Box className="flex-1 h-full flex overflow-x-hidden">
-          <Box maxWidth={"6rem"}>
+        <Box className=" h-full flex overflow-x-hidden">
+           <Box maxWidth={"6rem"} className="">
             <Sidebar open={true} />
           </Box>
           <Box className="flex-1 h-full overflow-y-auto layout-content">
           <Grid size={{ xs: 12, md: 12 }}>
             {showAlertBanner && <Grid><PaymentAlertBanner /></Grid>}
-          </Grid>
+            </Grid>
+            <Box className="flex-1">
             <Outlet />
+            </Box>
           </Box>
         </Box>
       </Box>

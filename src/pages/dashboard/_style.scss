@@ -1,6 +1,6 @@
 .dashboard {
     &-event-list{
-        overflow-x: scroll  !important;
+        overflow-x: auto  !important;
         .custom-list {
             max-width: 100% !important;
             margin: 0 !important;

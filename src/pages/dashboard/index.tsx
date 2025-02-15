@@ -185,7 +185,7 @@ const Dashboard = () => {
           <RevenueAndUserChart />
         </Grid>
 
-        <Grid size={{ xs: 12,lg: 4 }} container rowSpacing={2} columnSpacing={2}>
+        <Grid size={{ xs: 12,lg: 4 }} height={"max-content"} container rowSpacing={2} columnSpacing={2}>
 
           {upcomingData ? <Grid size={{ xs: 12,md:6,lg:12 }} className="dashboard-calendar-card shadow-app" > <UpComingEvents data={upcomingData} /> </Grid> :
             <Grid size={{ xs: 12,md:12,lg:12 }} container  className="dashboard-no-event-calender shadow-app" justifyContent={"center"} alignItems={"center"} alignContent={"center"} flexDirection={"column"}>

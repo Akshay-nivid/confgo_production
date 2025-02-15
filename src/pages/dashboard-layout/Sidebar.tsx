@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-
+import AppLogo from "@/assets/app-logo.png"
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import {
   Drawer,
   List,
   ListItem,
   ListItemText,
   ListItemButton,
+  Box,
 
 } from '@mui/material';
 
@@ -16,14 +18,16 @@ import {
   EventIcon,
   DashboardIcon,
   UserCreateIcon,
-  AppThemeLogo,
+  Arrow2Left,
 } from '@/assets/svg';
 import routes from '@/router/routes';
-import { clearDataById } from '@/Libs/store';
+import useStore, { clearDataById, setNonPersistedDataById } from '@/Libs/store';
 
 import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined';
 import PaymentIcon from '@mui/icons-material/Payment';
 import Grid from "@mui/material/Grid2";
+import { AppThemeLogo } from '@/assets/svg';
+import { ArrowBack } from '@mui/icons-material';
 interface SidebarProps {
   open: boolean;
 }
@@ -90,8 +94,8 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
   /**
    * clear the tabValue deafult value is one
    */
-  useEffect(()=>{
-     clearDataById("tabValue");
+  useEffect(() => {
+    clearDataById("tabValue");
   });
   const location = useLocation();
   const isActiveLink = (path: string, exact: boolean) => {
@@ -101,6 +105,9 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
     return isActive;
   };
 
+
+
+
   return (
     <Drawer
       variant="persistent"
@@ -109,9 +116,10 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       className="sidebar-drawer-admin"
     >
       <div className="content flex flex-col items-center">
-      <Grid size={{xs:0,md:2}} display={{xs:"none", md:"block"}} className="logo-container">
-      <AppThemeLogo className={`logo`} />
-      </Grid>
+        <Grid className="logo-container">
+        
+          <img src={AppLogo} className="logo" alt="" />
+        </Grid>
         <List className="sidebar-list-admin">
           {sidebarItems.map((item) => {
             const isActive = isActiveLink(item.path, item.exact);
@@ -125,6 +133,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
                         isActive ? 'sidebar-list-admin-active-drawer-icon-admin' : ''
                       }
                     />
+
                     <ListItemText className='link-item'>{item.label}</ListItemText>
                   </ListItemButton>
                 </ListItem>
@@ -138,3 +147,4 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
 };
 
 export default Sidebar;
+
