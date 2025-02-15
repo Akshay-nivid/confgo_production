@@ -64,11 +64,33 @@ const PersonalAndOrganisationDetails:React.FC<AccountSettingProps> = React.memo(
   const [compId,setCompId]=useState()
 
   const baseUrl = config.api.url;  
-  const openOrganisationDrawer =()=> setorgansisationDrawer(true)
-  const closeOrganisationDrawer = () => setorgansisationDrawer(false);
+  const openOrganisationDrawer =()=> {
+    if(LogoprofileData){
+      setValue("companyName", LogoprofileData.companyName);
+      setValue("companyAddress", LogoprofileData.companyAddress);      
+  
+    }
+    setorgansisationDrawer(true)
+  }
+  const closeOrganisationDrawer = () => {
+    setDrawerLogoImage(null);
+    setorgansisationDrawer(false);
+  }
 
-  const openDrawer = () => setIsDrawerOpen(true);
-  const closeDrawer = () => setIsDrawerOpen(false);
+  const openDrawer = () => {
+    if (profileData) {
+      setValue("firstName", profileData.firstName);
+      setValue("lastName", profileData.lastName);
+      setValue("email", profileData.email);
+      setValue("phone", profileData.phone);
+      setValue("assetId", profileData.assetId);
+    }
+    setIsDrawerOpen(true);
+  }
+  const closeDrawer = () => {
+    setDrawerProfileImage(null);
+    setIsDrawerOpen(false);
+  }
   const setDataById = useStore((state: any) => state.setDataById)
   const userDetails = useStore((state) => state?.compData?.["userDetails"]) ?? {};
   useEffect(() => {

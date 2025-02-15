@@ -105,7 +105,7 @@ const TeamAndRole=()=>{
           <Typography className="accordion-container-heading">Sponsor</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <SponsorListCard />
+          <SponsorListCard drawerOpened={sponsorListData?.length == 0  ? true : false} expanded={expanded }/>
         </AccordionDetails>
       </Accordion>
       </Grid>

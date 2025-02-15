@@ -323,7 +323,7 @@ const AdminPaymentList: React.FC = () => {
             {isLoading ? (
         <CircularProgress />
       ) : (
-            <Grid size={12} className="sponsor-datagrid">
+            <Grid size={12} className="sponsor-datagrid sahdow-app mt-8">
                 <DataGridList
                   noRecordIcon={<NoPayment className="icon"/>}
                     noRecordSubtitle="It looks like you haven’t made any payments. Once you start registering for events, your payment history will appear here."

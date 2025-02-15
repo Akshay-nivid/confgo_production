@@ -247,7 +247,11 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
    * Mehod handles the publish/unpublish using the modal
    */
   const handlePublishUnPublish = () => {
-    if (datass !=0 && eventFullData?.published){
+    if(errorMessage){
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: errorMessage });
+      return
+    }
+    else if (datass !=0 && eventFullData?.published){
       handlePublish(eventFullData?.published)
     }
     else{

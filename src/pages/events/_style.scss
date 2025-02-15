@@ -1812,6 +1812,19 @@
     }
 }
 
+.custom-list{
+    .event-list-title{
+        font-size: $h4;
+        font-weight: $font_bold;
+    }
+    .event-search{
+        min-width: 15rem !important;
+        max-width: 30rem !important;
+        margin-left: auto !important;
+    }   
+}
+
+
 .custom-list-next-btn {
     box-shadow: none !important;
     /* Remove shadow on hover */

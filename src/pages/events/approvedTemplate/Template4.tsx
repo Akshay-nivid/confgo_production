@@ -51,9 +51,13 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
     const [second, setSecond] = useState<string>('');
     const navigate = useNavigate();
     const [timmer,setTimmer]=useState(false);
+<<<<<<< HEAD
 
     const [loadingStates, setLoadingStates] = useState<Record<string, boolean>>({});
     const [apiLoading, setApiLoading] = useState(false);
+=======
+    setDataById('companyTempId',{value:data?.companyId});
+>>>>>>> 56513d6702ff95810fc348482211c3c58245d946
 
     /**
       * Callback function to receive the updated time values from TimerCounterComp
@@ -748,7 +752,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                                         {(item.eventParticipantEntries || []).map((entry: any, index: any) => {
                                                             const { seatAllocated = 0, totalSeat = 1 } = entry;
                                                             const remainingSeat = totalSeat - seatAllocated;
-                                                            const bookedPercentage = (76 / totalSeat) * 100;
+                                                            const bookedPercentage = (seatAllocated / totalSeat) * 100;
                                                             const isOverbookedRed = bookedPercentage > 85;
                                                             const isOverbookedYellow = bookedPercentage > 70;
 
