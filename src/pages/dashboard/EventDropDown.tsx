@@ -96,9 +96,9 @@ const EventDropDown = (data: any): JSX.Element => {
                                 size="medium"
                                 name="fieldType"
                                 control={control}
-                                defaultValue={options?.[0]?.value}
+                                defaultValue={options?.length>0 ? options?.[0]?.value:null}
                                 label=""
-                                options={options}
+                                options={options?.length ? options : [{ label: "No events available", value:null, disabled: true }]} // Show a default option when no events exist
                             />
                         </Grid>
 

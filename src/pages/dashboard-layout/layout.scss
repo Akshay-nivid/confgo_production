@@ -30,32 +30,48 @@
     }
   }
 
-  .layout-content {
-    overflow-x: hidden;
-
-    &::-webkit-scrollbar {
-      width: .5rem; // Thin scrollbar
-      height: .2rem; // For horizontal scrollbars (if needed)
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: $clr_gray_medium;
-      border-radius: 0.83rem !important;
-    }
-
-    &::-webkit-scrollbar-thumb:hover {
-      background: $clr_gray_dark !important;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: $clr_gray_faded;
-      border-radius: 0.83rem;
-      margin-top: .2rem !important;
-    }
-
-    flex: 1;
-    overflow-y: auto;
+ /* Common Scrollbar Styles */
+.scrollbar {
+  &::-webkit-scrollbar {
+    width: .5rem;
+    height: .2rem;
   }
+
+  &::-webkit-scrollbar-thumb {
+    background: #888; /*  custom color */
+    border-radius: 0.83rem !important;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555 !important; /*  hover color */
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1; /* custom track color */
+    border-radius: 0.83rem;
+    margin-top: .2rem !important;
+  }
+}
+
+/* Layout Content Specific Styles */
+.layout-content {
+  overflow-x: hidden;
+  overflow-y: auto;
+  flex: 1;
+
+  @extend .scrollbar;
+}
+
+/* Quill Editor Specific Styles */
+.ql-editor {
+  overflow-x: hidden;
+  min-height: 10rem !important;
+  max-height: 10rem !important;
+  overflow-y: auto;
+
+  @extend .scrollbar;
+}
+
 }
 
 // sidebar
