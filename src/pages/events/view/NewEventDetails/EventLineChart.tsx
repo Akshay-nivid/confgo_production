@@ -35,9 +35,9 @@ const EventLineChart = ({id}:{id?:string}) => {
                 url: `dashboard/revenueCount`,
 
                 body: {
-
+                    startDate:moment().subtract(7, 'days').format('YYYY-MM-DD'),
+                    endDate:moment().format('YYYY-MM-DD'),
                     eventId:id
-
                 },
                 id: 'EventDetailsChart',
 
