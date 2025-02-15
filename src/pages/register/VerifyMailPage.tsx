@@ -1,5 +1,5 @@
 import apiClient from "@/Libs/Https/API-client";
-import useStore from "@/Libs/store";
+import useStore, { clearDataById } from "@/Libs/store";
 import routes from "@/router/routes";
 import { Logger } from "@/Utils/Logger";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -29,6 +29,7 @@ const VerifyMailPage = () => {
             }
             const response = await apiClient.post(`token/validatetoken`, requestBody)
             if (response.data.status === 'success') {
+                clearDataById('get-admin-otp');
                 setDataById('userDataRegister', { data:{userId:decodedId,token:token, tokenType: "COMPANY_REGISTRATION"} });
                 navigate('/setpassword');
             } else {
