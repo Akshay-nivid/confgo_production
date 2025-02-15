@@ -150,11 +150,11 @@ interface calendarProps {
 
 
   return (
-    <Grid container size={{ xs: 12, sm: 12 }} spacing={2} className="calendar" id={id}>
+    <Grid container size={{ xs: 12, sm: 12 }} spacing={2} className="calendar " id={id}>
       <Grid size={{ xs: 12, sm: 12 }}>
         <Typography className="calendar-title">Calendar</Typography>
       </Grid>
-      <Grid size={{ xs: 12, sm: 12 }} className={containsUserCalendar?"calendar-usercontainer":"calendar-container"}>
+      <Grid size={{ xs: 12, sm: 12 }} className={containsUserCalendar?"calendar-usercontainer shadow-app":"calendar-container shadow-app"}>
       {dataInfotUser ? (
         <CustomCalendar
           id="user-calendar"

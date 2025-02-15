@@ -16,7 +16,7 @@ const EventFeedBack = () => {
 
     const currency=confgo?.currency
 
-    const eventId = useStore((state: any) => state?.nonPersistedData?.CustomSelectData?.data) ?? [];
+    const eventId = useStore((state: any) => state?.nonPersistedData?.CustomSelectData?.data) ?? null;
      
     const counts = useStore((state: any) => state?.compData?.countByEventData?.["dashboard/countByEvent"]?.data) || {};
 

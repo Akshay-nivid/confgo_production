@@ -71,7 +71,7 @@ export const CalendarCard: React.FC<CalendarCardProps> = ({ data }) => {
   const dynamicClass = `dashboard-calendar-card-event-${calculateDaysBetween(data?.startTime ?? "", data?.endTime ?? "")}`;
 
   return (
-    <Grid container size={{ xs: 12, sm: 12 }}>
+    <Grid container size={{ xs: 12, sm: 12 }} >
       <Grid container size={{ xs: 12, sm: 12 }} className="dashboard-calendar-card-title-container">
         <Grid className="dashboard-calendar-card-icon"><CalendarIcon /></Grid>
         <Grid container direction={'column'}>

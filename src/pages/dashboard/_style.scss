@@ -1,4 +1,16 @@
 .dashboard {
+    &-event-list{
+        overflow-x: auto  !important;
+        .custom-list {
+            max-width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            .contents{
+                margin-bottom: 0 !important;
+            }   
+        }
+        
+    }
     &-welcome-card {
         height: 16rem;
         background-color: $clr_white;
@@ -247,10 +259,8 @@
 
     &-no-event-calender {
         background-color: $clr_white;
-        margin: 1rem;
         border-radius: 0.5rem;
         height: 31.5rem;
-        margin-top: 1rem;
         background-image: url('../assets/svg/no-calender-event.svg');
         background-size: cover;
         background-repeat: no-repeat;
@@ -467,11 +477,11 @@
         }
 
         .DropDownBox {
-            border: 2px solid $clr_gray_faded !important;
+            border: 2px solid $clr_gray_40_percent !important;
                 border-radius: 0.4167rem;
 
                 &-container-mikeIcon{
-                    border-right: 2px solid $clr_gray_faded !important;
+                    border-right: 2px solid $clr_gray_40_percent !important;
                 }
 
             &-container {
