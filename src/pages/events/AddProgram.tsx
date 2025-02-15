@@ -283,8 +283,8 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
      */
     useEffect(() => {
       const savedPrograms = watch("savedPrograms");
-      if (savedPrograms?.[0]?.hallArray) {
-        setHallOptions(savedPrograms[0].hallArray);
+      if (savedPrograms?.[length - 1]?.hallArray) {
+        setHallOptions(savedPrograms[0]?.hallArray);
       }
       setProgramIndex(savedPrograms?.length ? savedPrograms.length - 1 : 0);
     }, [watch("savedPrograms")]);
@@ -916,6 +916,7 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
       setValue("programs", updatedPrograms);
       resetField(`programs.${index}.createHallName`);
     };
+
     /**
      * assign moderator created speakers list.
      * @param {index-program,speakerIndex:speaker list index}.
@@ -973,7 +974,6 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
       setHallOptions(hallArrayValues)
       setValue("programs", updatedPrograms);
     };
-
     return (
       <Grid container className="add-program-container" justifyContent={'center'} spacing={4}>
         <CustomDrawer open={drawerOpen} type="right">

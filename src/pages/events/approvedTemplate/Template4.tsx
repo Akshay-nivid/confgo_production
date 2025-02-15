@@ -736,7 +736,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                                         {(item.eventParticipantEntries || []).map((entry: any, index: any) => {
                                                             const { seatAllocated = 0, totalSeat = 1 } = entry;
                                                             const remainingSeat = totalSeat - seatAllocated;
-                                                            const bookedPercentage = (76 / totalSeat) * 100;
+                                                            const bookedPercentage = (seatAllocated / totalSeat) * 100;
                                                             const isOverbookedRed = bookedPercentage > 85;
                                                             const isOverbookedYellow = bookedPercentage > 70;
 

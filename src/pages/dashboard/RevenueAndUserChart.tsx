@@ -7,6 +7,7 @@ import Grid from '@mui/material/Grid2'
 import { useEffect } from 'react'
 import CustomBarChart from '@/components/CustomCharts/CustomBarChart'
 import { PichartIcon } from '@/assets/svg'
+import moment from 'moment'
 
 
 /**
@@ -75,6 +76,19 @@ const RevenueAndUserChart = () => {
 
     }, [eventId])
 
+    //Function to generate the date of previous and next 2 days to pass as static in displayin if there is no data in the custom bar chart
+    const generateBarChartData = () => {
+        return Array.from({ length: 5 }, (_, index) => {
+          const date = moment().subtract(index, 'days').add(2, 'days').format('MMM-D');
+          return {
+            name: date,
+            revenue: 0
+          };
+        }).reverse();
+      };
+
+      const barChartDataArray = generateBarChartData();
+    console.log(barChartDataArray);
 
 
   
@@ -82,7 +96,7 @@ const RevenueAndUserChart = () => {
 
     type acc = {
         totalUsers: number,
-        barChartData: { name: string, value: number }[]
+        barChartData: { name: string, revenue: number }[]
         pieChartData: { key: string, value: number }[]
 
     }
@@ -99,7 +113,7 @@ const RevenueAndUserChart = () => {
             // Push the transformed data into the data array
             acc.barChartData?.push({
                 name: item?.date,
-                value: item?.amount,
+                revenue: item?.amount,
 
             });
             acc.pieChartData?.push({
@@ -130,7 +144,7 @@ const RevenueAndUserChart = () => {
 
 
                     <Grid justifyContent={"center"} flex={1} display={"flex"} alignItems={"center"} size={12} minWidth={'100%'} >
-                        {isLoading ? <Loader /> : (!chartData || chartData?.barChartData?.length === 0) ? <p className='total-users-label'>No Data available</p> : <CustomBarChart barProps={{ dataKey: 'value' }} chartData={chartData?.barChartData} />}
+                        {isLoading ? <Loader /> : (!chartData || chartData?.barChartData?.length === 0) ? <CustomBarChart barProps={{ dataKey: 'revenue' }} chartData={barChartDataArray} />: <CustomBarChart barProps={{ dataKey: 'revenue' }} chartData={chartData?.barChartData} />}
                     </Grid>
 
                 </>
