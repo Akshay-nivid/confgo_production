@@ -19,7 +19,7 @@ import { ProgramDetailsModal } from '../template/_components';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import SpeakerDetailsModal from '../template/_components/SpeakerDetailsModal';
 import ViewMoreLink from "../../../assets/svg/view-more.svg";
-import useStore, { POST, setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store';
+import useStore, { setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store';
 import routes from '@/router/routes';
 import { useNavigate } from 'react-router-dom';
 import SponsorShip from '../template/sponsorShipForm/SponsorShip';
