@@ -64,33 +64,40 @@
   .content {
     padding-inline: 1rem !important;
   }
+  .sidebar-menu{
+    padding: 1rem !important;
+    margin-top: 1rem;
+    margin-bottom: .5rem  ;
+    background: $clr_gray_10_percent;
+    border-radius: .4rem;
+    &-icon{
+      color: $clr_gray_medium !important;
+    }
+  }
 
   .logo-container {
-    background-color: $clr_white;
-    height: 6.666rem;
+    // background-color: $clr_white;
+    height: 6.666rem ;
+    overflow:visible !important ;
+
     display: flex;
     align-items: center;
-    padding-left: 1rem;
-    width: 100%;
+    // padding-left: 1rem;
+    // width: 100%;
 
     .logo {
-      width: 20rem;
+      // width: rem;
       height: 3rem;
+      object-fit: contain;
     }
+    @media screen and (max-width: 900px) {
+      height: 0 !important;
+      overflow:hidden !important ;
+        
+      }
   }
 
-  &-logo-container {
-    background-color: $clr_white;
-    height: 6.666rem;
-    display: flex;
-    align-items: center;
-    padding-left: 1rem;
-
-    &-svg {
-      width: 30rem;
-      height: 30rem;
-    }
-  }
+  
 
   & .MuiPaper-root {
     width: '100%';
@@ -182,7 +189,6 @@
   min-height: 6.666rem;
   padding-inline: 2rem;
   // padding-block: 1rem !important;
-  margin-bottom: .5rem;
   border-bottom-color: $clr_gray_30_percent;
   border-bottom-width: 0.15rem;
 

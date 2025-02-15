@@ -4,6 +4,7 @@
     background-color: $clr_white;
     padding: 1rem;
     border-radius: 0.5rem;
+
     &-header{
         margin-left: 1rem !important;
         font-weight: $font_bold !important;
@@ -86,4 +87,15 @@
     font-weight: $font_semibold !important;
     font-size: $h5 !important;
   }
+  
+}
+.user-list-main{
+    .user-filter-container{
+        .custom-list-filter-btn{
+                height: 100% !important;
+        }
+      }
+      .custom-search-text-field{
+        max-width: 100% !important;
+      }
 }
