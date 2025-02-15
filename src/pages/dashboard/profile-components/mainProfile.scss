@@ -251,4 +251,126 @@
         }
     }
 }
-   
+ 
+.plan-billing{
+    .container{
+        margin-top: 2rem;
+        padding: 1rem 1rem 1rem 2rem;
+
+    }
+    .title{
+        font-size: $h5 !important;
+        font-weight: $font_semibold !important;  
+    }
+    .c-plan-card{
+        border: 1px solid $clr_gray_light;
+        padding-inline: 0.833rem;
+        padding-block: 1.667rem;
+        border-radius: 0.625rem;
+        .svg-img svg{
+            width: 4rem;
+            height: 4rem;
+        }
+        .plan-name{
+            font-size: $h5 !important;
+            font-weight: $font_semibold !important;
+        }
+        .plan-type{
+            color: $clr_sub_header !important;
+            font-size: $h6 !important;
+            font-weight: $font-medium !important;
+        }
+        .plan-amount{
+            font-size: $h2 !important;
+            font-weight: $font-bold !important;
+            width: 20.833rem;
+            display: block;
+            @media (max-width: 800px) {
+                width: auto;
+            }
+        }
+        .plan-btn{
+            // width: 21.25rem;
+            border: 0.167rem solid $clr_green !important;
+            color: $clr_green !important;
+            font-size: $p2 !important;
+            font-weight: $font-medium !important;
+            border-radius: 0.833rem !important;
+            @media (max-width: 800px) {
+                width: auto;
+        }
+    }
+
+    }
+    .plan-box{
+        
+        padding-block: 1.208rem;
+        padding-inline: 1.042rem;
+        background-color: $clr_light_grey;
+        .header{
+            font-weight: $font_normal !important;
+            font-size: $h6 !important;
+            color:$clr_gray_dark_text !important;
+        }
+        .header-value{
+            font-weight: $font_semibold !important;
+            font-size: $p6 !important;
+        }
+        .divider{
+            width: 0.083rem;           
+            height: 3.5rem;        
+            background-color: $clr_gray_dark_text ; 
+            display: inline-block;
+        }
+        .upgrade-btn{
+            background-color: $clr_green !important;
+            box-shadow: none !important;
+            
+        }
+        
+    }
+
+    .c-plan-card-2{
+        background: linear-gradient(90deg, #33AC42 0%, #28B66A 53%, #2AAC62 99%);
+        border: 1px solid $clr_gray_light;
+        padding-inline: 0.833rem;
+        padding-block: 1.667rem;
+        border-radius: 0.625rem;
+        .svg-img svg{
+            width: 4rem;
+            height: 4rem;
+        }
+        .plan-name{
+            color: $clr_white !important;
+            font-size: $h5 !important;
+            font-weight: $font_semibold !important;
+        }
+        .plan-type{
+            color: $clr_white !important;
+            font-size: $h6 !important;
+            font-weight: $font-medium !important;
+        }
+        .plan-amount{
+            color: $clr_white !important;
+            font-size: $p5 !important;
+            font-weight: $font-semibold !important;
+            width: 20.833rem;
+            display: block;
+            @media (max-width: 800px) {
+                width: auto;
+            }
+        }
+        .plan-btn{
+            // width: 21.25rem;
+            background-color: $clr_white !important;
+            border: 0.167rem solid $clr_green !important;
+             color: $clr_green !important;
+             font-size: $p2 !important;
+             font-weight: $font-medium !important;
+             border-radius: 0.833rem !important;
+                        @media (max-width: 800px) {
+                                width: auto;
+                            }
+         }
+    }
+}

@@ -122,8 +122,12 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
   /**
    * Fetches and sets new add-on options created for the dropdown from the API.
    */
-  const onaddOnSubmitHandler = async () => {
+  const onaddOnSubmitHandler = async (data: any) => {
     await handleAddOnOptionsApiCall();
+    if(data?.id){
+      setValue('addonId', data?.id);
+      setSelectedAddOnId(data?.id);
+    }
   };
 
   const isPaid = watch("isPaid");
@@ -388,6 +392,18 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
         };
 
         if (data.dateRequired) {
+          const startTime = startTimeChanged ? data?.startTime : moment(data.startTime, "hh:mm A").format("HH:mm");
+          const endTime = endTimeChanged ? data?.endTime : moment(data.endTime, "hh:mm A").format("HH:mm");
+          let startDateTime = new Date(`${data.addonDate}T${startTime}:00`);
+          let endDateTime = new Date(`${data.addonDate}T${endTime}:00`);
+
+          if (endDateTime <= startDateTime) {
+            setError('endTime', {
+              type: 'manual',
+              message: 'end time must be greater than start Time',
+            });
+            return;
+          }
           formattedData.startTime = `${data?.addonDate} ${formatUTCDateTime(data?.addonDate+"T"+data?.startTime,"HH:mm")}`;
           formattedData.endTime = `${data?.addonDate} ${formatUTCDateTime(data?.addonDate+"T"+data?.endTime,"HH:mm")}`;
         }

@@ -129,7 +129,7 @@ const SponsorAddonForm: React.FC<SponsorAddonFormProps> = ({
             <Grid size={{ xs: 12 }}>
                 <CustomButton
                     className="add-program-drawer-btn-cancel"
-                    label="Assign Sponosr"
+                    label="Assign Sponsor"
                     variant="outlined"
                     size="large"
                     onClick={() => addSponsor(index)}

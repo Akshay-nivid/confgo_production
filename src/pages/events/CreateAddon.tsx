@@ -2,12 +2,11 @@ import CustomButton from '@/components/CustomButton/CustomButton';
 import CustomTextField from '@/components/CustomTextfield/CustomTextField';
 import { IconButton, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import CloseIcon from '@mui/icons-material/Close';
 import useStore from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
-import { ApiResponse } from '../LoginOrg/loginOrg';
 import { validateRequiredField } from '@/Utils/Validation';
 
 type FormData = {
@@ -16,13 +15,14 @@ type FormData = {
 }
 interface createAddonProps {
     closeDrawer: () => void
-    submitHandler: () => void
+    submitHandler: (data: any) => void
 }
 
 const CreateAddon: React.FC<createAddonProps> = React.memo(({ closeDrawer, submitHandler }: createAddonProps) => {
     const { handleSubmit, control } = useForm<FormData>({});
     const POST = useStore((state: any) => state.POST);
     const setDataById = useStore((state: any) => state.setDataById);
+    const [loading, setLoading] = useState(false); // Added loading state
     /**
      * Method to handle form submission
      */
@@ -36,6 +36,7 @@ const CreateAddon: React.FC<createAddonProps> = React.memo(({ closeDrawer, submi
      */
     const handleCreateAddOn = async (formData: FormData) => {
         try {
+            setLoading(true);
             const requestBody = {
                 name: formData?.title,
                 description: formData?.description
@@ -44,9 +45,8 @@ const CreateAddon: React.FC<createAddonProps> = React.memo(({ closeDrawer, submi
             await POST({
                 url: 'addon',
                 body: requestBody,
-                successCB: (_success: ApiResponse) => {
-                    submitHandler();
-                    closeDrawer();
+                successCB: (response: any) => {
+                    submitHandler(response?.data);
                     setDataById("snackBarInfo", {
                         open: true,
                         autoHideDuration: 2000,
@@ -66,6 +66,8 @@ const CreateAddon: React.FC<createAddonProps> = React.memo(({ closeDrawer, submi
             });
         } catch (error) {
             Logger.error(error, 'CreateAddon.tsx')
+        } finally{
+          setLoading(false)
         }
     }
     return (
@@ -90,6 +92,8 @@ const CreateAddon: React.FC<createAddonProps> = React.memo(({ closeDrawer, submi
                                 className='add-on-create-btn'
                                 label='Submit'
                                 onClick={handleSubmit(onSubmit)}
+                                isLoading={loading}
+                                disabled={loading}
                             />
                         </Grid>
                     </Grid>

@@ -23,6 +23,7 @@
             font-weight: $font-medium !important;
             color: $clr_white !important;
             padding-top: 0.3rem !important;
+            margin-left: 0.8rem;
 
         }
     }
@@ -131,6 +132,13 @@
               font-size: $p2 !important;
               text-transform: none !important;
         }
+        &-publishText{
+            width: max-content;
+            color: $clr_red !important;
+            font-size: $p3 !important;
+            font-weight:$font_bold;
+            cursor: pointer;
+        }
 
 
 }
@@ -208,5 +216,18 @@
 
         }
 
+    }
+}
+
+.eventLineChart-grid{
+    border: 0.08333rem solid $clr_gray_very_light ;
+    border-radius: 0.8333rem ;
+    padding: 1rem !important;
+    height: 23rem !important;
+    &-header{
+        .title{
+            font-size: $p2;
+            font-weight:$font_bold ;
+        }
     }
 }
