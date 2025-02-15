@@ -14,9 +14,10 @@
             svg{
             width: 1.5rem !important;
             height: 1.5rem !important;
-            &:hover{
-                background-color:$clr_gray_extra_light;
-            }}
+            // &:hover{
+            //     background-color:$clr_gray_extra_light;
+            // }
+        }
         }
     }
     &-form-wrap {
