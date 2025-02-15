@@ -21,6 +21,7 @@ import LocalTimeDate from "@/components/LocalTimeDate/LocalTimeDate";
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import { getUserCart } from "@/pages/events/template/programHandler";
 import { handleCartProcessing } from "../Payment-Method/programHandler";
+import { useEffect } from "react";
 
 /**
  * Compoennt used to render selected program
@@ -42,6 +43,7 @@ const SelectedPrograms = () => {
   const cartInfo = useStore((state) => state?.compData?.addToCart)
 
   const eventId = useStore((state: IStoreState) => state?.compData?.["eventSelected"]?.id) ?? null;
+  const companyId =useStore((state:any)=>state?.compData?.['companyTempId']?.value??'');
   const cartId = cartInfo?.cart.data?.id ?? null
   const participantTypeId = useStore((state) => state?.compData?.["participantTypeId"]?.value) ?? '';
 
@@ -69,6 +71,25 @@ const SelectedPrograms = () => {
     }
 
   });
+
+  useEffect(()=>{
+    getPayPalConfigurations(companyId);
+},[])
+
+  /**
+   * get the paypal configurations of the company
+   */
+  const getPayPalConfigurations = (companyId: any) => {
+    POST({
+      id: 'paypal-company-clientId',
+      url: "paypalConfig/list",
+      body: {
+        filters: {
+          companyId: companyId
+        }
+      }
+    })
+  }
 
 
   /**
