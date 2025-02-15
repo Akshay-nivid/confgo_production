@@ -64,6 +64,7 @@ useEffect(()=>{
       offset: 0,
       limit: 5,
       filters: {
+        statusId:1,
         companyId: adminCompanyId,
         roleEnums: [
           "REVIEWER"

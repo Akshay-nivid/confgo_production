@@ -156,7 +156,7 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
           textAlign={'center'}
           className="otpcomponent__header-description "
         >
-          Enter the OTP sent to {userData?.phone} <br /> to complete
+          Enter the OTP sent to {userData?.email} <br /> to complete
           the process.
         </Typography>
       </Grid>
