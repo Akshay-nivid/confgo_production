@@ -10,6 +10,7 @@ import useStore, { setDataById } from "@/Libs/store";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { useForm } from "react-hook-form";
+import PayPalConfiguration from "./PayPalConfigurations";
 
 export const userType = {
     PARTICIPANT: 'PARTICIPANT',
@@ -111,6 +112,10 @@ const PaymentConfigurations: React.FC<SecurityProps> = React.memo(({ }) => {
             <Grid size={{ xs: 12, sm: 12 }}>
                 <Typography className="payment-configuration-title">Payment Configurations</Typography>
             </Grid>
+            <Grid size={{ xs: 12, sm: 12 }} className="payment-configuration-sub-title-grid">
+                <Typography className="payment-configuration-sub-title">PayPal Settings</Typography>
+            </Grid>
+            <PayPalConfiguration/>
             <Grid size={{ xs: 12, sm: 12 }} className="payment-configuration-sub-title-grid">
                 <Typography className="payment-configuration-sub-title">Tax Settings</Typography>
             </Grid>

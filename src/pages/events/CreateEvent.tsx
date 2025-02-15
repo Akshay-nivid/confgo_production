@@ -117,6 +117,7 @@ const CreateEvent: React.FC<EventProps> =
   const [specialtyName,setspecialtyName]=useState();
   const currency=confgo.currency;
   const [isPlacePickerOpen, setPlacePickerOpen] = useState(false);
+  const [randomNumber, setRandomNumber] = useState<any>();
 
     // Watch values from the form
     const fields: ('mapUrl' | 'postalCode' | 'venueName' | 'city' | 'address')[] = ['mapUrl', 'postalCode', 'venueName', 'city','address'];
@@ -361,6 +362,7 @@ const CreateEvent: React.FC<EventProps> =
    */
    const handleTextFieldClick = () => {
     setPlacePickerOpen(true);
+    setRandomNumber(Math.floor(Math.random()*1000000)); //generate random 6 digit
   };
 
 
@@ -544,7 +546,7 @@ const CreateEvent: React.FC<EventProps> =
                           }} 
                         />  
                          {isPlacePickerOpen && (
-        <GoogleMapPlacePicker createEvent={true} onClose={handlePlacePickerClose} />
+        <GoogleMapPlacePicker createEvent={true} randomNumber={randomNumber} onClose={handlePlacePickerClose} />
       )}                   
                   </Grid>
                   )}

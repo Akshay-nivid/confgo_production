@@ -385,14 +385,14 @@ const Sponsors = () => {
     const logoId = form.watch('logoId')
 
     return (
-        <Grid container className="sponsor">
+        <Grid container  className="sponsor">
             <Grid size={12} className='title-filter-container'>
                 <Typography className='title-filter-container-title'>Sponsors</Typography>
                 <Box className='title-filter-container-filter-container'>
                     <Box className="auto-complete">
                         <CustomAutocomplete
                             name='sponsors'
-                            className='auto-complete-input'
+                            className='auto-complete-input textfield-border'
                             placeholder='search sponsors by name'
                             control={form.control} loading={false}
                             options={listData}
@@ -420,8 +420,9 @@ const Sponsors = () => {
             </Grid>
 
 
-            <Grid size={12} className="sponsor-datagrid">
+            <Grid size={12} className="sponsor-datagrid mt-8">
                 <DataGridList
+                    
                     dataTransformer={transformData}
                     source={source}
                     onRowClick={onRowClick}
