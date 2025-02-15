@@ -19,7 +19,7 @@ import { ProgramDetailsModal } from '../template/_components';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import SpeakerDetailsModal from '../template/_components/SpeakerDetailsModal';
 import ViewMoreLink from "../../../assets/svg/view-more.svg";
-import useStore, { setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store';
+import useStore, { POST, setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store';
 import routes from '@/router/routes';
 import { useNavigate } from 'react-router-dom';
 import SponsorShip from '../template/sponsorShipForm/SponsorShip';
@@ -51,7 +51,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
     const [second, setSecond] = useState<string>('');
     const navigate = useNavigate();
     const [timmer,setTimmer]=useState(false);
-
+    setDataById('companyTempId',{value:data?.companyId});
 
     /**
       * Callback function to receive the updated time values from TimerCounterComp
