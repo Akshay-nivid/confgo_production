@@ -64,6 +64,25 @@
                     padding-inline: 1.33rem !important;
                 }
             }
+           
+        }
+        @media (max-width: 768px) {
+            flex-direction: column !important;
+            // align-items: flex-end ;
+            &-filter-container {
+                width: 100% !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            
+            &-filter-container {
+                width: 100% !important;
+                flex-direction: column !important;
+            row-gap: 1rem;
+            align-items: flex-end;
+
+            }
         }
     }
 

@@ -250,7 +250,7 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
     };
     return (
         <>
-            <Grid display={{xs:"block",sm:'none'}}>
+            <Grid className="filter" display={{xs:"block",sm:'none'}}>
 
 
                 <CustomButton
