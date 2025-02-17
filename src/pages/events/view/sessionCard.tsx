@@ -209,9 +209,15 @@ const SessionCard: React.FC<SessionCardProps> = ({
         }
        
        </Grid>
-           {(item.hall || item?.hallName?.hallName) &&( <Grid size={12} container spacing={1} display={"flex"} justifyContent={"flex-start"} alignItems={"center"}> 
+           {(item.hall || item?.hallName?.hallName ||item?.hallName ) &&( <Grid size={12} container spacing={1} display={"flex"} justifyContent={"flex-start"} alignItems={"center"}> 
             <HallIcon />
-            <Typography className="card-content-description">{truncateString(item?.hallName?.hallName ? item.hallName.hallName :item?.hall,25) }</Typography>
+            <Typography className="card-content-description">
+      {truncateString(
+        item?.hallName?.hallName || item?.hall || item?.hallName,
+        25
+      )}
+    </Typography>
+            {/* <Typography className="card-content-description">{truncateString(item?.hallName?.hallName ? item.hallName.hallName :item?.hall?item?.hall,25 :item?.hallName) }</Typography> */}
          </Grid>)}
        <Grid className="card-content-devider">
         <Divider/>

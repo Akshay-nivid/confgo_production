@@ -137,44 +137,46 @@ const styles = StyleSheet.create({
 
 const MyDocument = ({ data }: any) => {
 
-  console.log(">>Data",data);
-  
+  const details = data[0] || {};
+
   
   // Company Info
-  const companyName = data[0]?.company?.companyName || "N/A";
+  const companyName = details?.company?.companyName || "N/A";
 
-  const companyAddress = `${data[0]?.company?.companyAddress || "N/A"}, ${data[0]?.company?.state || ""}`;
-  const companyEmail = data[0]?.company?.email || "N/A";
-  const companyPhone = data[0]?.company?.phone || "N/A";
+  const companyAddress = `${details?.company?.companyAddress || "N/A"}, ${details?.company?.state || ""}`;
+  const companyEmail = details?.company?.email || "N/A";
+  const companyPhone = details?.company?.phone || "N/A";
 
   //event
-  const eventName = data[0]?.event?.name || "N/A";
-  const eventEmail = data[0]?.event?.eventContacts[0]?.email || "N/A";
-  const eventPhone = data[0]?.event?.eventContacts[0]?.phone || "N/A";
-  const eventTotal = data[0]?.event?.amount || "N/A";
+  const eventName = details?.event?.name || "N/A";
+  const eventEmail = details?.event?.eventContacts[0]?.email || "N/A";
+  const eventPhone = details?.event?.eventContacts[0]?.phone || "N/A";
 
-  const discountAmount = data[0]?.order?.discountAmount || "N/A";
+  //id
+  const invoiceNumber = details?.transactionId || "N/A";
+  const orderDate = details?.order?.orderDtae;
 
-  const invoiceNumber = data[0]?.transactionId || "N/A";
 
-  const clientName = data[0]?.user?.firstName
-    ? `${data[0]?.user.firstName} ${data[0]?.user.lastName || ""}`
+
+  const discountAmount = details?.order?.discountAmount || "N/A";
+
+  const couponDiscount = details?.order?.couponDeduction || "N/A";
+
+  const tax = details?.order?.tax || "0.00";
+
+  //client
+  const clientName = details?.user?.firstName
+    ? `${details?.user.firstName} ${details?.user.lastName || ""}`
     : "N/A";
-  const orderDate = data[0]?.order?.orderDtae;
-
-  const clientphone=  data[0]?.user?.phone || "N/A";
+  const clientphone=  details?.user?.phone || "N/A";
 
 
-  const couponDiscount = data[0]?.order?.couponDeduction || "N/A";
+  // amount of total(event,program,addons)
+  const subTotal = details?.order?.subTotal || "N/A" ;
 
-  const tax = data[0]?.order?.tax || "0.00";
-
-  const finalAmount = data[0]?.order?.finalPrice || "N/A";
-
-
-  // Total
-  const grandTotal = Number(finalAmount) - (Number(discountAmount) + Number(couponDiscount));
-
+  //Paid amount
+  const finalAmount = details?.order?.finalPrice || "N/A";
+  
 
 
   return (
@@ -232,8 +234,8 @@ const MyDocument = ({ data }: any) => {
           <Text style={styles.chargesHeader}>Charges</Text>
 
           <View style={styles.row}>
-            <Text style={styles.rowText}>Event Total</Text>
-            <Text style={styles.amount}>${eventTotal}</Text>
+            <Text style={styles.rowText}>subTotal</Text>
+            <Text style={styles.amount}>${subTotal}</Text>
           </View>
 
           <View style={styles.row}>
@@ -253,7 +255,7 @@ const MyDocument = ({ data }: any) => {
 
           <View style={styles.cost}>
             <Text style={styles.rowText}>Grand Total</Text>
-            <Text style={styles.amount}>${grandTotal}</Text>
+            <Text style={styles.amount}>${finalAmount}</Text>
           </View>
 
         </View>
