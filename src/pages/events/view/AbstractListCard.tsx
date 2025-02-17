@@ -145,6 +145,12 @@ const AbstractListCard = () => {
     setselectedAbstractId(null);
     setSelectedId(null) 
   };
+
+  /**
+   * function to remove a reviewer from an assigned abstract. 
+   * @param e mouseEvent
+   * @param id abstract id
+   */
   const handleUnassign = async (e: React.MouseEvent, id: number) => {
     e.preventDefault()
     e.stopPropagation()
