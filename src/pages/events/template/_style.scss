@@ -1629,6 +1629,14 @@
                     height: 2rem;
                 }
             }
+
+            &-sub-container{
+                &-item{
+                    a:hover{
+                            color: $clr_blue !important;
+                    }
+                }
+            }
         }
         &-program-schedule {
             &-heading {
