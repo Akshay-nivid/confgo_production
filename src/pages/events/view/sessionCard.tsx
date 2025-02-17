@@ -299,13 +299,13 @@ const SessionCard: React.FC<SessionCardProps> = ({
     {item[startTimeField] && item[endTimeField] ? (
       <span>
         <Typography className="date-box-content">
-          <span>
-            {timeCorrection ? getLocalTimeDate(item[startTimeField]) :moment(item[startTimeField], "HH:mm").format("hh:mm A")}
-          </span>
-          {' - '}
-          <span>
-            {timeCorrection ? getLocalTimeDate(item[endTimeField]) : moment(item[startTimeField], "HH:mm").format("hh:mm A")}
-          </span>
+                    <span>
+                      {timeCorrection ? getLocalTimeDate(item[startTimeField]) : moment(item[startTimeField], "HH:mm").format("hh:mm A")}
+                    </span>
+                    {' - '}
+                    <span>
+                      {timeCorrection ? getLocalTimeDate(item[endTimeField]) : moment(item[endTimeField], "HH:mm").format("hh:mm A")}
+                    </span>
         </Typography>
       </span>
     ) : (
