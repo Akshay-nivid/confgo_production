@@ -60,7 +60,7 @@
   
   .card-hover-grid:hover {
     transform: scale(1); 
-    box-shadow: 1px 0px 10px 1px rgb(63 94 254 / 14%);
+    box-shadow: 0.0625rem 0rem 0.625rem 0.0625rem $clr_black_blue;
     border-radius: 0.833rem;;
   }
   
