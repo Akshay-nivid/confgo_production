@@ -19,12 +19,12 @@ import { ProgramDetailsModal } from '../template/_components';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import SpeakerDetailsModal from '../template/_components/SpeakerDetailsModal';
 import ViewMoreLink from "../../../assets/svg/view-more.svg";
-import useStore, { POST, setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store';
+import useStore, { setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store';
 import routes from '@/router/routes';
 import { useNavigate } from 'react-router-dom';
 import SponsorShip from '../template/sponsorShipForm/SponsorShip';
 import TempHall from "../../../assets/svg/temp-hall.svg";
-import { personPlaceholder } from '@/assets/png';
+import { personPlaceholder, Tempalte4App } from '@/assets/png';
 import {YellowSeat, RedSeat} from '@/assets/svg/index';
 
 type TemplateViewProps = {
@@ -1052,6 +1052,22 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                     <SponsorShip eventId={data?.id} />
                 </Grid>
                 {/* Sponsor enquiry form ends here */}
+                {/* App banner Image */}
+                <Grid 
+                  container 
+                  justifyContent={"center"} 
+                  alignItems={"center"} 
+                  alignSelf={"center"}
+                  size={12}
+                  mb={8}
+                >
+                  <Grid  size={10}>
+                    <img 
+                      src={Tempalte4App} 
+                      alt="Template 4"
+                    />
+                  </Grid>
+                </Grid>
                 <FooterSection classPrefix={`${classPrefix}-footer`} data={data} />
             </Grid>
         </Grid>

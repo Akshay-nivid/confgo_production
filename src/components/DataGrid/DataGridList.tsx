@@ -225,7 +225,7 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
     return (
         <Grid container className="custom-data-grid-grid" justifyContent={'center'}>
             {loading ? (
-                <SkeletonList height={20} className="mt-4" />
+                <SkeletonList height={20}  />
             ) : dataInfo?.data && dataInfo?.data?.length > 0 ? (
                 <Grid className="w-full h-full flex flex-col">
                     <DataGrid

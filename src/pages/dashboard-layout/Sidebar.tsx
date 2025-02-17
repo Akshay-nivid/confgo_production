@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-
+import AppLogo from "@/assets/app-logo.png"
 import {
   Drawer,
   List,
@@ -16,7 +16,6 @@ import {
   EventIcon,
   DashboardIcon,
   UserCreateIcon,
-  AppThemeLogo,
 } from '@/assets/svg';
 import routes from '@/router/routes';
 import { clearDataById } from '@/Libs/store';
@@ -24,6 +23,7 @@ import { clearDataById } from '@/Libs/store';
 import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined';
 import PaymentIcon from '@mui/icons-material/Payment';
 import Grid from "@mui/material/Grid2";
+
 interface SidebarProps {
   open: boolean;
 }
@@ -90,8 +90,8 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
   /**
    * clear the tabValue deafult value is one
    */
-  useEffect(()=>{
-     clearDataById("tabValue");
+  useEffect(() => {
+    clearDataById("tabValue");
   });
   const location = useLocation();
   const isActiveLink = (path: string, exact: boolean) => {
@@ -101,6 +101,9 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
     return isActive;
   };
 
+
+
+
   return (
     <Drawer
       variant="persistent"
@@ -109,9 +112,10 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       className="sidebar-drawer-admin"
     >
       <div className="content flex flex-col items-center">
-      <Grid size={2} className="logo-container">
-      <AppThemeLogo className={`logo`} />
-      </Grid>
+        <Grid className="logo-container">
+        
+          <img src={AppLogo} className="logo" alt="" />
+        </Grid>
         <List className="sidebar-list-admin">
           {sidebarItems.map((item) => {
             const isActive = isActiveLink(item.path, item.exact);
@@ -125,6 +129,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
                         isActive ? 'sidebar-list-admin-active-drawer-icon-admin' : ''
                       }
                     />
+
                     <ListItemText className='link-item'>{item.label}</ListItemText>
                   </ListItemButton>
                 </ListItem>
@@ -138,3 +143,4 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
 };
 
 export default Sidebar;
+
