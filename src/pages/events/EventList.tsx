@@ -200,7 +200,6 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
 
   return (
     <Grid container className="custom-list">
-      
      
       <Grid className="contents mb-8" container size={{ xs: 12 }} spacing={2} justifyContent="flex-end" flexWrap={"wrap"} >
         {!hideAction && (

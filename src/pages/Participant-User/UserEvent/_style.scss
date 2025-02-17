@@ -54,3 +54,13 @@
     border-radius: 0.4rem ;
     
    }
+  .card-hover-grid{
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card-hover-grid:hover {
+    transform: scale(1); 
+    box-shadow: 0.0625rem 0rem 0.625rem 0.0625rem $clr_black_blue;
+    border-radius: 0.833rem;;
+  }
+  

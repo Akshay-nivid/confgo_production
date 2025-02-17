@@ -56,10 +56,10 @@ const FileUpload: React.FC<FileUploadProps> = ({
   const [previewUrls, setPreviewUrls] = useState<string[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [rejectionMessages, setRejectionMessages] = useState<string[]>([]); // State to store rejection messages
+  const [isUploading, setIsUploading] = useState(false); // Local loading state
   const setDataById = useStore((state: any) => state.setDataById);
   const POST = useStore((state: any) => state.POST);
 
-  const assetUploadLoading = useStore((state: any) => state.compData?.['assetUpload']?.['asset']?.loading);
   const maxSizeInBytes = maxSize * 1024 * 1024;
 
   // const loading = useStore((state: any) => state.compData?.['assetUpload']?.['asset']?.loading);
@@ -172,6 +172,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
    * Handles the form submission to upload the selected files.
    */
   const handleSubmit = async () => {
+    setIsUploading(true);
     const formData = new FormData();
     selectedFiles.forEach(file => formData.append('file', file));
 
@@ -292,7 +293,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
       {/* Show submit button only if files are selected */}
       {selectedFiles.length > 0 && (
         <Grid>
-          <CustomButton variant="contained" color="primary" onClick={handleSubmit} disabled={assetUploadLoading} label="Upload" isLoading={assetUploadLoading} className="file-upload-button" />
+          <CustomButton variant="contained" color="primary" onClick={handleSubmit} disabled={isUploading} label="Upload" isLoading={isUploading} className="file-upload-button" />
         </Grid>
       )}
     </Grid>

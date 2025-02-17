@@ -19,12 +19,12 @@ import { ProgramDetailsModal } from '../template/_components';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import SpeakerDetailsModal from '../template/_components/SpeakerDetailsModal';
 import ViewMoreLink from "../../../assets/svg/view-more.svg";
-import useStore, { setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store';
+import { setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store';
 import routes from '@/router/routes';
 import { useNavigate } from 'react-router-dom';
 import SponsorShip from '../template/sponsorShipForm/SponsorShip';
 import TempHall from "../../../assets/svg/temp-hall.svg";
-import { personPlaceholder } from '@/assets/png';
+import { personPlaceholder, Tempalte4App } from '@/assets/png';
 import {YellowSeat, RedSeat} from '@/assets/svg/index';
 
 type TemplateViewProps = {
@@ -51,6 +51,9 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
     const [second, setSecond] = useState<string>('');
     const navigate = useNavigate();
     const [timmer,setTimmer]=useState(false);
+
+    const [loadingStates, setLoadingStates] = useState<Record<string, boolean>>({});
+    const [apiLoading, setApiLoading] = useState(false);
     setDataById('companyTempId',{value:data?.companyId});
 
     /**
@@ -207,11 +210,21 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
 
     function handleSpeakerCardClick(item: any) {
 
-        setNonPersistedDataById('isSpeakerDetailsModelOpen', { value: true })
-        setNonPersistedDataById('speakerDetails', { value: item })
-
+        setLoadingStates((prev) => ({ ...prev, [item.user?.assetId]: true }));
+        setNonPersistedDataById('isSpeakerDetailsModelOpen', { value: true });
+        setNonPersistedDataById('speakerDetails', { value: item });
     }
-
+    
+    useEffect(() => {
+        if (!apiLoading) {
+            setLoadingStates((prev) => {
+                const newState = { ...prev };
+                Object.keys(newState).forEach(key => newState[key] = false);
+                return newState;
+            });
+        }
+    }, [apiLoading]);
+    
     /**
        * Method calculates the total amount
        * @param amountData : event data
@@ -367,11 +380,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
 
     const groupedSponsors = groupSponsorsByCategory(sponsors)
 
-    /**
-    * Button loder
-    */
-    const isLoading = useStore(state => state.compData?.['templateSpeakerDetails']?.['eventSpeaker/list']?.loading) || false
-
+   
     /**
      * handle program details modal 
      * 
@@ -440,7 +449,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                 </Grid>
                 {/* Speaker section starts here  */}
                 {data?.eventSpeakers?.length > 0 && getUniqueSpeakers(data?.eventSpeakers)?.length > 0 && <Grid id={'Contributors'} container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-event-contributors `} spacing={1} direction={'column'} justifyContent={'center'} alignItems={'center'} ref={contributorsRef}>
-                    <SpeakerDetailsModal />
+                    <SpeakerDetailsModal onApiLoadingChange={setApiLoading} />
                     <Grid className={`${classPrefix}-event-contributors-title`}>Meet Our Esteemed Speakers</Grid>
                     <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-event-contributors-item-group-container`} justifyContent={'flex-start'} alignItems={'center'} spacing={4}>
                         {data?.eventSpeakers?.length > 0 && getUniqueSpeakers(data?.eventSpeakers)?.map((item: any) => {
@@ -460,7 +469,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                         <Grid className={`${classPrefix}-event-contributors-item-name`}>{`${item.user?.firstName} ${item.user?.lastName}`}</Grid>
                                         {item.user?.designation && <Grid className={`${classPrefix}-event-contributors-item-designation`} title={item.user?.designation}>{truncateString(item.user?.designation, 30)}</Grid>}
                                         <Grid className={`${classPrefix}-event-contributors-item-view-more`} ><CustomButton
-                                            isLoading={isLoading}
+                                            isLoading={loadingStates[item.user?.assetId] || false}
                                             label={'View more'}
                                             className={`${classPrefix}-event-contributors-item-view-more-button`}
                                             onClick={handleSpeakerCardClick}
@@ -1052,7 +1061,23 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                     <SponsorShip eventId={data?.id} />
                 </Grid>
                 {/* Sponsor enquiry form ends here */}
-                <FooterSection classPrefix={`${classPrefix}-footer`} data={data} />
+                {/* App banner Image */}
+                <Grid 
+                  container 
+                  justifyContent={"center"} 
+                  alignItems={"center"} 
+                  alignSelf={"center"}
+                  size={12}
+                  mb={8}
+                >
+                  <Grid  size={10}>
+                    <img 
+                      src={Tempalte4App} 
+                      alt="Template 4"
+                    />
+                  </Grid>
+                </Grid>
+                <FooterSection classPrefix={`${classPrefix}-footer`} data={data} links={headerLinks} onScrollToProgram={() => handleScrollTo(programRef)} onScrollToAbout={() => handleScrollTo(aboutRef)} onScrollToContributors={() => handleScrollTo(contributorsRef)} onScrollToLocation={() => handleScrollTo(LocationRef)} onScrollToBeSponsor={() => handleScrollTo(beSponsorRef)} onScrollToSponsor={() => handleScrollTo(sponsorRef)}/>
             </Grid>
         </Grid>
     )
