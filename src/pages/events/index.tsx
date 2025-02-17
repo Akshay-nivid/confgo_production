@@ -444,6 +444,8 @@ const Events = () => {
       description: event?.description,
       startTime: EventStartTime,
       endTime: EventEndTime,
+      eventStartTime: EventStart,
+      eventEndTime: EventEnd,
       statusId: draft? draftStatusId: statusId,
       amount: event?.amount || 0,
       eventClass: event?.type,

@@ -267,6 +267,8 @@ const EventInfoCard: React.FC<any> = React.memo(
         Object.entries(data).filter(([key]) => !excludeKeys.includes(key))),
       startTime: formatUTCDateTime(formattedStartTime),
       endTime: formatUTCDateTime(formattedEndTime),
+      eventStartTime: formattedStartTime,
+      eventEndTime: formattedEndTime,
       assetId: selectedFile?.id,
       isAbstract: data.isAbstract==true ? 1 : 0,
       ...(data?.eventClass !== "ONLINE" ?{
