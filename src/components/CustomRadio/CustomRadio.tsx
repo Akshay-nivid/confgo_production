@@ -24,6 +24,7 @@ import {
     value?: PathValue<T, Path<T>>; // The default value passed as a prop
     className?: string;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    readonly?: boolean; 
   }
   
   /*
@@ -39,6 +40,7 @@ import {
     value,
     className,
     onChange,
+    readonly,
     ...props
   }: ICustomRadio<T>) => {
     return ( 
@@ -65,7 +67,7 @@ import {
                   className="inside-design"
                   key={option.value}
                   value={option.value}
-                  control={<Radio color="primary" {...props} />}
+                  control={<Radio color="primary" {...props} disabled={readonly} />}
                   label={
                     <Box display="flex" alignItems="center" gap={1} className="labelIcon">
                       {option.icon && <Box>{option.icon}</Box>}

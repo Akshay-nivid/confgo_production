@@ -2,9 +2,9 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import useStore, { GET, POST,PUT,setDataById } from "@/Libs/store";
 import Grid from "@mui/material/Grid2"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-
+import EditIcon from '@mui/icons-material/Edit';
 /**
 *  Componet to render to payal client id configuration
 */
@@ -13,6 +13,8 @@ const PayPalConfiguration = () => {
         getPayPalId();
     },
     [])
+    const payPalData = useStore((state: any) => state?.compData?.["paypal-clientId"]?.['paypalConfig']?.data ?? "");
+    const [editField,setEditField]=useState(payPalData?true:false);
 
     const methods = useForm<any>()
     const {
@@ -22,7 +24,7 @@ const PayPalConfiguration = () => {
         resetField,
         formState: { },
     } = methods;
-    const payPalData = useStore((state: any) => state?.compData?.["paypal-clientId"]?.['paypalConfig']?.data ?? "");
+
     /**
     *  get paypal client info
     */
@@ -33,7 +35,6 @@ const PayPalConfiguration = () => {
             successCB: (context: any) => {
                 setValue('clientId', context?.data?.clientId);
             }
-
         })
     }
     /**
@@ -55,6 +56,7 @@ const PayPalConfiguration = () => {
                 severity: "success",
                 message: "PayPal Configurations Updated Successfully",
             });
+            setEditField(true); 
             getPayPalId();
         };
         const errorCB = (error: any) => {
@@ -94,12 +96,14 @@ const PayPalConfiguration = () => {
                 rules={{
                     required: true
                 }}
+                readOnly={editField}
+                suffixIconButton={editField&&<EditIcon />} 
+                handleToggleSuffixIcon={() => {setEditField(false) }}
                 shrink
             />
-
         </Grid>
         <Grid>
-            <CustomButton onClick={handleSubmit(handleFormSubmit)}   className="payment-configuration-button-save"  label="Save" />
+            <CustomButton onClick={handleSubmit(handleFormSubmit)}   className="payment-configuration-button-save"  label={payPalData?"Update":"Add" }/>
         </Grid>
 
     </Grid>
