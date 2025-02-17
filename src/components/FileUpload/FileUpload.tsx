@@ -60,7 +60,6 @@ const FileUpload: React.FC<FileUploadProps> = ({
   const setDataById = useStore((state: any) => state.setDataById);
   const POST = useStore((state: any) => state.POST);
 
-  const assetUploadLoading = useStore((state: any) => state.compData?.['assetUpload']?.['asset']?.loading);
   const maxSizeInBytes = maxSize * 1024 * 1024;
 
   // const loading = useStore((state: any) => state.compData?.['assetUpload']?.['asset']?.loading);
