@@ -1077,7 +1077,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                     />
                   </Grid>
                 </Grid>
-                <FooterSection classPrefix={`${classPrefix}-footer`} data={data} />
+                <FooterSection classPrefix={`${classPrefix}-footer`} data={data} links={headerLinks} onScrollToProgram={() => handleScrollTo(programRef)} onScrollToAbout={() => handleScrollTo(aboutRef)} onScrollToContributors={() => handleScrollTo(contributorsRef)} onScrollToLocation={() => handleScrollTo(LocationRef)} onScrollToBeSponsor={() => handleScrollTo(beSponsorRef)} onScrollToSponsor={() => handleScrollTo(sponsorRef)}/>
             </Grid>
         </Grid>
     )

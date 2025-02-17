@@ -28,13 +28,25 @@ const GoogleMapPlacePicker = ({ onClose, createEvent = false, randomNumber }: Go
   const [address, setAddress] = useState<AddressComponent[]>();
   const [placeName, setPlaceName] = useState<string>();
   const [venueName,setVenueName]=useState<string>();
+  const [submit, setSubmit] = useState(false);
+
+  
+/**
+ * Useeffect hook handles the submit button click and handles the place submit
+ */
+  useEffect(() => {
+    if(submit){
+      handlePlaceSubmit();
+    }
+  },[submit])
+
     /**
      * select the place from the dropdown
      * @param place
      */
     const handlePlaceSelect = (place: any) => {
         setSelectedPlace(place); // Set the selected place
-        const placeId = place.value.place_id;
+        const placeId = place?.value?.place_id;
         setPlaceName(place?.value?.structured_formatting?.main_text);
         setVenueName(place?.value?.terms[0]?.value);
         if (placeId) {
@@ -45,8 +57,8 @@ const GoogleMapPlacePicker = ({ onClose, createEvent = false, randomNumber }: Go
                     setLatLng({ lat: lat(), lng: lng() });
                     const addressComponents = results[0].address_components;
                     setAddress(addressComponents);
-
-                    handlePlaceSubmit();
+                    setValue("address",place?.label)
+                    setSubmit(true);
 
                 }
             });
@@ -70,6 +82,7 @@ const GoogleMapPlacePicker = ({ onClose, createEvent = false, randomNumber }: Go
      */
     const handlePlaceSubmit = () => {
         try {
+          setSubmit(false);
             let state = '';
             let district = '';
             let country = '';
@@ -102,12 +115,12 @@ const GoogleMapPlacePicker = ({ onClose, createEvent = false, randomNumber }: Go
                 }
             });
             setValue('venueName',venueName);
-            const fullAddressString = fullAddress.join(' '); 
+            //const fullAddressString = fullAddress.join(' '); 
             const formattedPlaceName = encodeURIComponent(placeName ?? "");
             const formattedLatLng = `${latLng.lat},${latLng.lng}`;
             const mapLink = `https://www.google.com/maps?q=${formattedPlaceName}&@${formattedLatLng}z`;
             setValue('mapUrl', mapLink);
-            setValue('address', fullAddressString);
+            //setValue('address', fullAddressString);
             onClose();
         } catch (e) {
             Logger.error('GoogleMapPlacePicker.tsx');
@@ -130,14 +143,14 @@ const GoogleMapPlacePicker = ({ onClose, createEvent = false, randomNumber }: Go
           }}
         />
       </Grid>
-      <Grid  size={{xs:2}} container>
+      {/* <Grid  size={{xs:2}} container>
       <CustomButton
         className="create-event-map-list-button"
         label="Submit"
         type="submit"
         onClick={handlePlaceSubmit}
       />
-      </Grid>
+      </Grid> */}
     </Grid>
   ) : (
     <Grid container className="create-event-map-drawer" spacing={2}>
