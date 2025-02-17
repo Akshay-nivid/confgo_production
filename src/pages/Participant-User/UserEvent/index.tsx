@@ -178,7 +178,7 @@ const MyEventScreen = () => {
         ) : (
           <Grid container size={12} mt={2} spacing={2}>
             {sortedData?.map((event: IEvent, index:number) => (
-              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index} className="card-hover-grid">
                 <EventCard
                   eventFullData={event}
                   Eventstatus={true}
