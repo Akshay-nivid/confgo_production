@@ -33,7 +33,7 @@ export const PaymentAlertBanner = () => {
                     No payment done yet
                 </Typography>
                 </Grid>
-                <Grid display="flex" alignItems="center" justifyContent="space-between">
+                <Grid display="flex" alignItems="center">
                 <Typography className="payment-alert-banner-sub-title">
                     Your account is almost ready!. Complete payment to start publishing your events.
                 </Typography>
