@@ -635,7 +635,7 @@
 
         .revenue-breakdown-label {
             font-size: $p3;
-            font-weight: bold !important;
+            font-weight: $font_bold !important;
         }
 
         .chart-date-picker {
@@ -657,7 +657,7 @@
     .total-users-label {
         font-size: $p3;
         color: $clr_black !important;
-        font-weight: bold !important;
+        font-weight: $font_bold !important;
         }
 
     .total-users-icon {
