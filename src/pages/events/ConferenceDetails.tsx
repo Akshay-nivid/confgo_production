@@ -139,7 +139,7 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
  							 checkDateCondition(data?.event?.startDate, data?.event?.endTime)
  				 			  ? moment(data?.event?.startDate).format("MMM D, YYYY") 
    							 : checkMonthCondition(data?.event?.startDate, data?.event?.endTime)
-    						? `${moment(data?.event?.startDate).format("MMM D")}-${moment(data?.event?.endTime).format("D, YYYY")}`
+    						? `${moment(data?.event?.startTime).format("MMM D")}-${moment(data?.event?.endTime).format("D, YYYY")}`
     						: `${startDate} - ${endDate}`
 						}
 					<Grid  container className="custom-stepper-conference-details-content-time">

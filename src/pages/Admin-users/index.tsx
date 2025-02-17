@@ -173,6 +173,9 @@ const AdminUsersList = () => {
     await POST({
       url: 'role/list',
       body: {
+        filters: {
+          statusId:1
+        },
         "offset": 0,
         "limit": 100,
         "sortBy": "id",
@@ -211,6 +214,7 @@ const AdminUsersList = () => {
           offset: 0,
           limit: 5,
           filters: {
+             statusId:1,
             userId: selected.id,
             companyId: companyId,
             roleEnums: [
@@ -240,6 +244,7 @@ const AdminUsersList = () => {
     try {
       let req = {
         filters: {
+          statusId:1,
           name: query,
           companyId: companyId,
           roleEnums: [
