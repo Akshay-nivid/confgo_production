@@ -1,8 +1,8 @@
 /**
  * Payment configurations component handles the currency and  tax settings
  */
-import React, { useEffect } from "react";
-import { Typography } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { IconButton, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import "./mainProfile.scss";
 import CustomButton from "@/components/CustomButton/CustomButton";
@@ -11,6 +11,7 @@ import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { useForm } from "react-hook-form";
 import PayPalConfiguration from "./PayPalConfigurations";
+import EditIcon from '@mui/icons-material/Edit';
 
 export const userType = {
     PARTICIPANT: 'PARTICIPANT',
@@ -28,6 +29,8 @@ const typeArray: any = [
 const PaymentConfigurations: React.FC<SecurityProps> = React.memo(({ }) => {
     const POST = useStore((state: any) => state.POST);
     const PUT = useStore((state: any) => state.PUT);
+    const taxData = useStore((state: any) => state?.compData?.["tax-list"]?.['tax/list'] ?? "");
+    const [editField,setEditField]=useState(taxData?.data?.length!=0?true:false);
     const methods = useForm<any>()
     const {
         handleSubmit,
@@ -36,7 +39,7 @@ const PaymentConfigurations: React.FC<SecurityProps> = React.memo(({ }) => {
         resetField,
         formState: { },
     } = methods;
-    const taxData = useStore((state: any) => state?.compData?.["tax-list"]?.['tax/list'] ?? "");
+
     useEffect(() => {
         getTaxList();
     }, [])
@@ -79,6 +82,7 @@ const PaymentConfigurations: React.FC<SecurityProps> = React.memo(({ }) => {
                 message: "Payment Configurations Updated Successfully",
             });
             getTaxList();
+            setEditField(true);
         };
         const errorCB = (error: any) => {
             setDataById("snackBarInfo", {
@@ -116,14 +120,14 @@ const PaymentConfigurations: React.FC<SecurityProps> = React.memo(({ }) => {
                 <Typography className="payment-configuration-sub-title">PayPal Settings</Typography>
             </Grid>
             <PayPalConfiguration/>
-            <Grid size={{ xs: 12, sm: 12 }} className="payment-configuration-sub-title-grid">
+            <Grid container size={{ xs: 12, sm: 12 }}  flexDirection={"row"}className="payment-configuration-sub-title-grid" alignItems={"center"}>
                 <Typography className="payment-configuration-sub-title">Tax Settings</Typography>
+                {editField&&<IconButton onClick={()=>setEditField(false)}>
+                <EditIcon/>
+                </IconButton>}
             </Grid>
             <Grid container size={{ xs: 12, sm: 12 }}>
                 <Grid container size={{ xs: 12, sm: 6 }} direction={'column'}>
-                    {/* <Grid>
-                <Typography className="payment-configuration-sub-title">Tax Settings</Typography>
-            </Grid> */}
                     <Grid>
                         <Typography className="payment-configuration-text">Manage tax rates, names and inclusivity with ease.</Typography>
                     </Grid>
@@ -139,6 +143,7 @@ const PaymentConfigurations: React.FC<SecurityProps> = React.memo(({ }) => {
                             rules={{
                                 required: true
                             }}
+                            readOnly={editField}
                             shrink
                         />
                     </Grid>
@@ -152,6 +157,7 @@ const PaymentConfigurations: React.FC<SecurityProps> = React.memo(({ }) => {
                             rules={{
                                 required: true
                             }}
+                            readOnly={editField}
                             shrink
                         />
                     </Grid>
@@ -164,6 +170,7 @@ const PaymentConfigurations: React.FC<SecurityProps> = React.memo(({ }) => {
                             options={typeArray}
                             row={true}
                             value={taxData?.data?.[0]?.id ? taxData?.data?.[0]?.taxInclusive:true}
+                            readonly={editField}
                         />
                     </Grid>
                 </Grid>
