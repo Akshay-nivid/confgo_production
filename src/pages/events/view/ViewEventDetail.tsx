@@ -109,6 +109,7 @@ const ViewEventDetail = () => {
   const [loading, setLoading] = useState(true);
   const location = useLocation(); // Get the current location (URL) to detect changes
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const fullEventList = useStore((state: any) => state?.compData?.["fullEventList"]?.['event/list'].data) ?? [];
 
 
   /**
@@ -249,6 +250,10 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
   const handlePublishUnPublish = () => {
     if(errorMessage){
       setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: errorMessage });
+      return
+    }
+    if(fullEventList?.[0]?.company?.companyPaypalConfigurations?.length === 0){
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: 'Please add paypal configuration to publish event' });
       return
     }
     else if (datass !=0 && eventFullData?.published){
