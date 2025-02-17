@@ -232,15 +232,15 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshU
                         <Grid size={{ xs: 12, sm: 6 ,lg:12 }}>
                             <CustomTextField
                                 placeholder="Full Name"
-                                label="First Name "
+                                label="First Name"
                                 control={control}
                                 name="firstName"
                                 type="text"
                                 rules={{
-                                    required: { value: true, message: "Name is required" },
+                                    required: { value: true, message: "First Name is required" },
                                     pattern: {
-                                        value: /^(?!\s*$)(?!\s+$).+/,
-                                        message: "Name cannot be only spaces"
+                                        value: /^[A-Za-z\s]+$/,
+                                        message: "First Name contains only alphabets"
                                     },
                                 }}
                             />
@@ -253,10 +253,10 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshU
                                 name="lastName"
                                 type="text"
                                 rules={{
-                                    required: { value: true, message: "Name is required" },
+                                    required: { value: true, message: "Last Name is required" },
                                     pattern: {
-                                        value: /^(?!\s*$)(?!\s+$).+/,
-                                        message: "Name cannot be only spaces"
+                                        value:/^[A-Za-z\s]+$/,
+                                        message: "Last Name contains only alphabets"
                                     },
                                 }}
                             />
@@ -282,11 +282,10 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshU
                                 placeholder="Phone Number"
                                 label="Phone Number"
                                 type="phone"
+                                isNumeric={true}
                                 rules={{
-                                    required: validateRequiredField({
-                                        fieldName: 'Phone Number',
-                                    }),
-                                    // pattern: validatePhoneNumber({}),
+                                    required: validateRequiredField({fieldName: 'Phone Number'}),
+                                    //pattern: validatePhoneNumber({}),
                                     // maxLength: validateMaxLength({
                                     //     maxLength: 10,
                                     //     fieldName: 'Phone Number',

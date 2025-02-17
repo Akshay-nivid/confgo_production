@@ -1,15 +1,24 @@
 .event-card {
     border: solid 0.042rem $clr_light_sky_blue;
     border-radius: 0.833rem;
-    padding: 1rem;
+    padding: 1.2rem;
     height: auto !important;
     cursor: pointer;
 
     .logo-box{
-        background-color: $background;
-        border-radius: 1.667rem;
-        width: 4rem;
-        height: 4rem;
+        background-color:$clr_light_blue;
+        border-radius: 50%;
+        width: 5rem;
+        height: 5rem;
+        object-fit: cover !important;
+        &-text{
+            background-color:$clr_light_blue!important;
+            color: $clr_white;
+            font-size: $h2 !important;
+            font-weight: $font-bold !important;
+        }
+             
+        
     }
     .vertical-divider {
         width: 2px;
@@ -20,7 +29,9 @@
     .horizontal-dotted-divider{
         border-top: 2px dashed $clr_light_quill_grey;
         width: 100%;             
-        margin: 5px 0;              
+        margin: 15px 0;  
+        // padding-top: 1rem;
+        // padding-bottom: 1rem;            
     }
     &-info{
         .left-container{
@@ -89,6 +100,7 @@
             font-size: $p6 !important; // Further reduce for small screens
         }
     }
+    
 
     &-location {
         font-family: $font;

@@ -19,7 +19,7 @@ import { ProgramDetailsModal } from '../template/_components';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import SpeakerDetailsModal from '../template/_components/SpeakerDetailsModal';
 import ViewMoreLink from "../../../assets/svg/view-more.svg";
-import useStore, { setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store';
+import { setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store';
 import routes from '@/router/routes';
 import { useNavigate } from 'react-router-dom';
 import SponsorShip from '../template/sponsorShipForm/SponsorShip';
@@ -380,11 +380,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
 
     const groupedSponsors = groupSponsorsByCategory(sponsors)
 
-    /**
-    * Button loder
-    */
-    const isLoading = useStore(state => state.compData?.['templateSpeakerDetails']?.['eventSpeaker/list']?.loading) || false
-
+   
     /**
      * handle program details modal 
      * 
