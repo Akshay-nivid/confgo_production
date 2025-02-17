@@ -33,12 +33,13 @@ export const PaymentAlertBanner = () => {
                     No payment done yet
                 </Typography>
                 </Grid>
-                <Grid>
+                <Grid display="flex" alignItems="center" justifyContent="space-between">
                 <Typography className="payment-alert-banner-sub-title">
                     Your account is almost ready!. Complete payment to start publishing your events.
                 </Typography>
+                <CustomButton className="payment-alert-banner-btn" label={"Upgrade Plan"} onClick={handleViewPlanDetails} />
                 </Grid>
-                <Grid pt={2} pb={1}><CustomButton className="payment-alert-banner-btn" label={"Upgrade Plan"} onClick={handleViewPlanDetails}/></Grid>            </Alert>
+        </Alert>
         </Grid>
     )
 }
