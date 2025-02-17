@@ -13,14 +13,15 @@ import FilterModal from "@/components/CustomFilter/FilterModal";
 import { NoUserList } from "@/assets/svg";
 import AssignReviewerDrawer from "./AssignReviewerDrawer";
 import AddIcon from '@mui/icons-material/Add';
-import { Box, Button, IconButton, Modal, Typography } from "@mui/material";
+import { Box,IconButton, Modal, Typography } from "@mui/material";
 import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
 import { CloseOutlined } from "@mui/icons-material";
-import { setDataById } from "@/Libs/store";
+import { PUT, setDataById } from "@/Libs/store";
 import useStore from "@/Libs/store";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import { Logger } from "@/Utils/Logger";
+import UnpublishIcon  from '@/assets/svg/unpublish.svg';
 
 const AbstractListCard = () => {
   const { id } = useParams();
@@ -65,12 +66,10 @@ const AbstractListCard = () => {
   /**
    * handles the preview of abstract to review
    */
-  const handleAbstractClick = (id: number) => {
-    const result=abstractData.find((row: any) => row.id === id)
-    const assestId = result?.assetId
-    const href = `https://api.confgo.com/api/asset/${assestId}`;
-    window.open(href, '_blank');
-  };
+  // const handleAbstractClick = (id: number) => {
+  //   const href = `${baseURL}/asset/${id}`;
+  //   window.open(href, '_blank');
+  // };
 
   /**
    * previews the selected id to confirm
@@ -148,6 +147,35 @@ const AbstractListCard = () => {
   };
 
   /**
+   * function to remove a reviewer from an assigned abstract. 
+   * @param e mouseEvent
+   * @param id abstract id
+   */
+  const handleUnassign = async (e: React.MouseEvent, id: number) => {
+    e.preventDefault()
+    e.stopPropagation()
+    try {
+      await PUT({
+        url: `userAbstract/${id}`,
+        body: {
+          reviewerId: null
+        },
+        id: 'userAbstract-update',
+        successCB: (_data: any) => {
+          setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "Reviewer Unassigned from abstract" });
+          userAbstractList();
+        },
+        errorCB: (context: any) => {
+          setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
+        }
+      });
+    } catch (error) {
+      Logger.error("Error in userAbsrtract unassign ", error)
+    }
+
+  }
+
+  /**
    * Transforms the raw API response data into the format required by the DataGrid.
    * @function transformData
    * @param {any} data - The raw data from the API response.
@@ -166,32 +194,24 @@ const AbstractListCard = () => {
             : 3,
       reviewer: item?.reviewer?.firstName ? (item?.reviewer?.firstName) : ("Not Assigned"),
       userName: item?.user?.firstName,
+      unassign: <CustomButton
+        startIcon={<UnpublishIcon />}
+        disabled={item?.statusId !== 4}
+        onClick={(e) => { handleUnassign(e, item.id); }}
+        className="view-abstract-unassign-btn"
+        label={"Unassign"}
+      />,
     }));
   };
 
   const columns = [
-    { type: "default", field: "id", headerName: "ID", width: 150 },
-    { type: "default", field: "userName", headerName: "Uploaded By", width: 200 },
-    { type: "dateField", field: "createdOn", headerName: "Submitted On", width: 200 },
-    { 
-      type: "default", 
-      field: "name", 
-      headerName: "Abstract File", 
-      width: 200,
-      renderCell: (params:any) => (
-        <Button onClick={() => handleAbstractClick(params.id)} className="view-abstract">
-          {params.value}
-        </Button>
-      ),
-    },
-    { type: "default", field: "reviewer", headerName: "Reviewer", width: 180 , renderCell: (params: any) => {
-      return (
-          <div className={params.value==='Not Assigned' ? "not-assigned" : "reviewer-abstract"}>
-              {params.value}
-          </div>
-      );
-  }},
+    { type: "default", field: "id", headerName: "ID", width: 90 },
+    { type: "default", field: "userName", headerName: "Uploaded By", width: 165 },
+    { type: "custom", field: "name", headerName: "Abstract", width: 150},
+    { type: "dateField", field: "createdOn", headerName: "Submitted On", width: 175 },
     { type: "status", field: "status", headerName: "Review Status", width: 175 },
+    { type: "custom", field: "reviewer", headerName: "Reviewer", width: 150 },
+    { type: "custom", field: "unassign", headerName: "", width: 150 },
   ];
 
   /**

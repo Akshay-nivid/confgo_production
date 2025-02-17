@@ -5,18 +5,20 @@ import FileListModal from "@/components/FileUpload/FileListModal";
 import useStore, { setNonPersistedDataById } from "@/Libs/store";
 import routes from "@/router/routes";
 import { validateEmail, validateRequiredField } from "@/Utils/Validation";
-import { Badge, Button, Typography } from "@mui/material";
+import { Badge, Button, Typography,IconButton } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import config from "../../../config.json";
 import { useLocation } from "react-router-dom";
-import { DrawerClose, UplodIcon ,RemoveIcon} from "@/assets/svg";
+import {UplodIcon ,RemoveIcon} from "@/assets/svg";
+import CloseIcon from '@mui/icons-material/Close';
 interface userProps{
     NoNavigation?:boolean
     defaultValue?:any
     refreshUserRoles?: () => void; // Accept function as prop
+    onSuccess?: (query: any, data: any) => void;
 }
 interface Role {
     value: number,
@@ -39,7 +41,7 @@ interface CustomFile {
 /**
 * Component for creating new Company Users
 */
-const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshUserRoles}) => {
+const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshUserRoles,onSuccess}) => {
     const { data: role, eventId } = useLocation().state || '';
     const [selectedFile, setSelectedFile] = useState<any>(null);
     const [modalOpen, setModalOpen] = useState(false);
@@ -128,6 +130,7 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshU
                     setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: `Account Created Please check ${data.email}` });
                     getRoleList();
                    
+                    onSuccess && onSuccess("", context?.data)
 
                     if(eventId){
 
@@ -216,8 +219,10 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshU
             </Grid>
             <Grid size={2} justifyContent={"flex-end"} container className="admin-users-header-DrawerClose">
             
-             <DrawerClose onClick={closeDrawer}/>
-
+            
+             <IconButton onClick={closeDrawer}>
+                    <CloseIcon/>
+                </IconButton>
             </Grid>
         </Grid>
         <Grid className="admin-users-form-wrap" container size={12}>
@@ -227,15 +232,15 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshU
                         <Grid size={{ xs: 12, sm: 6 ,lg:12 }}>
                             <CustomTextField
                                 placeholder="Full Name"
-                                label="First Name "
+                                label="First Name"
                                 control={control}
                                 name="firstName"
                                 type="text"
                                 rules={{
-                                    required: { value: true, message: "Name is required" },
+                                    required: { value: true, message: "First Name is required" },
                                     pattern: {
-                                        value: /^(?!\s*$)(?!\s+$).+/,
-                                        message: "Name cannot be only spaces"
+                                        value: /^[A-Za-z\s]+$/,
+                                        message: "First Name contains only alphabets"
                                     },
                                 }}
                             />
@@ -248,10 +253,10 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshU
                                 name="lastName"
                                 type="text"
                                 rules={{
-                                    required: { value: true, message: "Name is required" },
+                                    required: { value: true, message: "Last Name is required" },
                                     pattern: {
-                                        value: /^(?!\s*$)(?!\s+$).+/,
-                                        message: "Name cannot be only spaces"
+                                        value:/^[A-Za-z\s]+$/,
+                                        message: "Last Name contains only alphabets"
                                     },
                                 }}
                             />
@@ -277,11 +282,10 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshU
                                 placeholder="Phone Number"
                                 label="Phone Number"
                                 type="phone"
+                                isNumeric={true}
                                 rules={{
-                                    required: validateRequiredField({
-                                        fieldName: 'Phone Number',
-                                    }),
-                                    // pattern: validatePhoneNumber({}),
+                                    required: validateRequiredField({fieldName: 'Phone Number'}),
+                                    //pattern: validatePhoneNumber({}),
                                     // maxLength: validateMaxLength({
                                     //     maxLength: 10,
                                     //     fieldName: 'Phone Number',

@@ -6,7 +6,7 @@ import { Controller } from 'react-hook-form';
 import { validateMinLength, validateRequiredField } from '@/Utils/Validation';
 import { useEffect, useState } from 'react';
 import apiClient from '@/Libs/Https/API-client';
-import useStore from '@/Libs/store';
+import useStore, { clearDataById, snackBar } from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import clsx from 'clsx';
@@ -31,6 +31,7 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
   const [otpData,setOtpData]=useState<otpDataFields>();
   const POST = useStore((state: any) => state.POST);
   const [isResendDisabled, setIsResendDisabled] = useState(true);
+  const getTokenValue=useStore((state:any)=>state?.compData?.['get-admin-otp']?.['token/otp']?.data??"");
   type FormData = {
     otp: string;
   };
@@ -38,8 +39,7 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
    * useEffect hook used to get user by id
    */
   useEffect(() => {
-    getUserById();
-
+      getUserById();
   }, [])
 
 
@@ -71,7 +71,9 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
       const response = await apiClient.post(`user/details`, requestBody)
       if (response.data.status === 'success') {
         setDataById('userDataRegister', { data:{userId:userDetails.data.userId,token:userDetails.data.token,email:response.data.data.email,phone:response.data.data.phone,tokenType:userDetails?.data?.tokenType==="FORGOT_PASSWORD_OTP"?"RESET_PASSWORD_OTP":userDetails?.data?.tokenType} });
-        getOtp(response.data.data.phone);
+        if(!getTokenValue){
+          getOtp(response.data.data.phone);
+        }
         setUserData(response.data.data);
       }else{
         setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:'Something went wrong' })
@@ -85,28 +87,46 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
    * function used to get otp
    * @param phone 
    */
+const getOtp=(phone:string)=>{
+  const requestBody = {
+    phone: userData?.phone ?? phone,
+    type:userDetails?.data?.tokenType==="FORGOT_PASSWORD_OTP"?"RESET_PASSWORD_OTP":userDetails?.data?.tokenType
 
-  const getOtp = async (phone: string) => {
-    try {
-      const requestBody = {
-        phone: userData?.phone ?? phone,
-        type:userDetails?.data?.tokenType==="FORGOT_PASSWORD_OTP"?"RESET_PASSWORD_OTP":userDetails?.data?.tokenType
-
-      }
-      const response = await apiClient.post(`token/otp`, requestBody)
-      if (response.data.status === 'success') {
-        setOtpData(
-          {otp:response.data.data.otp,token:response.data.data.token,type:response.data.data.type}
-        )
-        setIsResendDisabled(true)
-      }else{
-        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:response.data.message })
-      }
-    } catch (error:any) {
-      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:error.response.data.message })
-      Logger.error(error,'OtpFormComponent.tsx')
-    }
-  };
+  }
+  POST({
+    id:'get-admin-otp',
+    url:'token/otp',
+    body:requestBody,
+    successCB:(context:any)=>{
+      setOtpData( {otp:context.data.otp,token:context.data.token,type:context.data.type})
+      setIsResendDisabled(true)
+    },
+    errorCB: (error:any) => {
+      snackBar({ severity: 'error', message: error?.message || 'something went wrong' })
+  }
+  })
+}
+  // const getOtp = async (phone: string) => {
+  //   try {
+  //     const requestBody = {
+  //       phone: userData?.phone ?? phone,
+  //       type:userDetails?.data?.tokenType==="FORGOT_PASSWORD_OTP"?"RESET_PASSWORD_OTP":userDetails?.data?.tokenType
+    
+  //     }
+  //     const response = await apiClient.post(`token/otp`, requestBody)
+  //     if (response.data.status === 'success') {
+  //       setOtpData(
+  //         {otp:response.data.data.otp,token:response.data.data.token,type:response.data.data.type}
+  //       )
+  //       setIsResendDisabled(true)
+  //     }else{
+  //       setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:response.data.message })
+  //     }
+  //   } catch (error:any) {
+  //     setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message:error.response.data.message })
+  //     Logger.error(error,'OtpFormComponent.tsx')
+  //   }
+  // };
 
   /**
    * function used to verify otp
@@ -125,6 +145,7 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
           body: body,
           id: 'otpVerify',
           successCB: (_success: any) => {
+            clearDataById('get-admin-otp');
             onOtpVerify(true);
             setDataById("snackBarInfo", {
               open: true,
@@ -156,7 +177,7 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
           textAlign={'center'}
           className="otpcomponent__header-description "
         >
-          Enter the OTP sent to {userData?.phone} <br /> to complete
+          Enter the OTP sent to {userData?.email} <br /> to complete
           the process.
         </Typography>
       </Grid>

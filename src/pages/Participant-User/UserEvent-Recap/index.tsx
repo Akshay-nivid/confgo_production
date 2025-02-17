@@ -353,7 +353,7 @@ const EventRecap: React.FC = React.memo(() => {
               </Grid>
               <Grid size={12} className="event-recap-first-grid-buttons">
                 <Button className="event-recap-first-grid-buttons-firstButton" onClick={() => handlePdfGenerate()}>
-                  View Ticket
+                  Download Ticket
                 </Button>
                 {/* button hiidden */}
                 <Button className="event-recap-first-grid-buttons-secondButton">Cancel Event</Button>

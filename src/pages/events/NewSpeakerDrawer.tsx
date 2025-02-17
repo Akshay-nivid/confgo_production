@@ -29,7 +29,7 @@ type RoleList = {
     sourcePath: string;
   }
   interface NewSpeakerDrawerProps {
-    onSuccess?: () => void;
+    onSuccess?: (query: any, data: any) => void;
     closeDrawer: () => void;
   }
 /**
@@ -115,9 +115,9 @@ const NewSpeakerDrawer :React.FC<NewSpeakerDrawerProps> = ({ onSuccess, closeDra
                 userDescription: data.userDescription
             },
             id: 'create-admin-user',
-            successCB: () => { 
+            successCB: (response: any) => { 
               setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "New Speaker created" });
-              onSuccess && onSuccess();
+              onSuccess && onSuccess("", response?.data);
               closeDrawer();              
             },
             errorCB: (context: any) => {

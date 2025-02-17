@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Typography } from '@mui/material';
+import {Typography,IconButton } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useForm } from 'react-hook-form';
 import CustomTextField from '@/components/CustomTextfield/CustomTextField';
@@ -13,7 +13,7 @@ import CustomDatePicker from '@/components/CustomDatePicker/CustomDatePicker';
 import moment from 'moment';
 import { setDataById, setNonPersistedDataById } from '@/Libs/store';
 import { validateAmount, validateMaxLength, validateMinLength } from '@/Utils/Validation';
-import {DrawerClose } from '@/assets/svg';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface EditCouponProps {
   data?: any;
@@ -177,7 +177,10 @@ const CreateCoupon: React.FC<EditCouponProps> = ({data}) => {
 
             <Grid size={2} justifyContent={"flex-end"}  container className='create-coupon-title-DrawerClose' >
 
-              <DrawerClose onClick={closeDrawer}/>
+           
+              <IconButton onClick={closeDrawer}>
+                    <CloseIcon/>
+                </IconButton>
 
             </Grid>
 

@@ -17,7 +17,7 @@ import AmountIcon from "../../../../assets/svg/speaker-amount.svg";
 
 
 
-const SpeakerDetailsModal = () => {
+const SpeakerDetailsModal = ({ onApiLoadingChange }: { onApiLoadingChange?: (loading: boolean) => void }) => {
 
     const isModal = useStore(state => state.nonPersistedData.isSpeakerDetailsModelOpen?.value)
 
@@ -27,8 +27,16 @@ const SpeakerDetailsModal = () => {
     const baseUrl = config.api.url;
     const currency = config.currency;
     const [loading, setLoading] = useState(true);
+    const [apiLoading, setApiLoading] = useState(false);
 
-
+    /**
+     * Method to pass api loading variable
+     */
+    useEffect(() => {
+        if (onApiLoadingChange) {
+            onApiLoadingChange(apiLoading);
+        }
+    }, [apiLoading, onApiLoadingChange]);
 
     /**
      * Method handles the closing of the modal
@@ -57,6 +65,7 @@ const SpeakerDetailsModal = () => {
      */
     useEffect(() => {
         if (speakerDetails?.id) {
+            setApiLoading(true);
             POST({
                 url: "eventSpeaker/list",
                 id: "templateSpeakerDetails",
@@ -68,6 +77,7 @@ const SpeakerDetailsModal = () => {
                 },
                 successCB: () => {
                     setLoading(false);
+                    setApiLoading(false);
                 }
                 
             })
