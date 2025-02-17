@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Navigate, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
-import { handleClickBackButton, handleGroupData, processFormData, toggleProgramCheckboxesByDate, validateAddon, validateAddonWithNoProp, validatePrograms } from "./programsHandlers";
+import {  handleClickBackButton, handleGroupData, processFormData, toggleProgramCheckboxesByDate} from "./programsHandlers";
 import clsx from "clsx";
 import AddonCard from "../Components/AddonCard";
 import Programcard from "../Components/Programcard";
@@ -20,7 +20,6 @@ import ProgramDetailsModal from "./ProgramDetailsModal";
 import HTMLReactParser from "html-react-parser/lib/index";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
-
 
 
 export interface IProgram {
@@ -117,7 +116,7 @@ const ProgramSelection = () => {
 
 
           // return if current event id and event id get from user cart history are not same
-          if(data?.cart?.parentEventId !== eventId) return
+          if (data?.cart?.parentEventId !== eventId) return
 
           if (status) {
 
@@ -126,7 +125,7 @@ const ProgramSelection = () => {
               programs: data?.programs
             })
 
-         const obj:any = {}
+            const obj: any = {}
 
 
             Object?.keys(formatedData)?.forEach((date: any) => {
@@ -136,7 +135,7 @@ const ProgramSelection = () => {
 
                 const pKey = `${moment(program?.startTime).format('YYYY/MM/DD')}-programs`
 
-                obj[pKey] = [...(obj[pKey] || []),program?.id]
+                obj[pKey] = [...(obj[pKey] || []), program?.id]
 
               })
 
@@ -157,12 +156,12 @@ const ProgramSelection = () => {
 
               })
 
-                setDataById("defaultProgramData",{formData:obj})
+              setDataById("defaultProgramData", { formData: obj })
 
 
             })
 
-            setNonPersistedDataById("intialGetCart", {value: true})
+            setNonPersistedDataById("intialGetCart", { value: true })
 
           } else {
             snackBar({ severity: 'error', message })
@@ -221,6 +220,7 @@ const ProgramSelection = () => {
           loading: boolean;
           success: boolean;
         }) => {
+
           const formatedData = handleGroupData({
             addons: response?.data?.addons,
             programs: response?.data?.programs
@@ -263,12 +263,17 @@ const ProgramSelection = () => {
 
       const selectedPrograms = body?.programIds || null;
 
-      validatePrograms(selectedPrograms)
+      if (selectedPrograms?.length === 0 || body?.addons?.length === 0) {
+        snackBar({ severity: "error", message: "Please select aleast one programs or addons" })
+        return
+      }
 
-      validateAddon(formData)
+      // validatePrograms(selectedPrograms)
+
+      // validateAddon(formData)
 
 
-      validateAddonWithNoProp(body?.addons)
+      // validateAddonWithNoProp(body?.addons)
 
 
       POST({
@@ -375,6 +380,7 @@ const ProgramSelection = () => {
   }
 
 
+
   return (
     <Grid
       justifyContent={"center"}
@@ -430,7 +436,10 @@ const ProgramSelection = () => {
                         <Programcard date={date} program={program} handleToggleProgramCheckbox={handleToggleProgramCheckbox} templateId={templateId} key={index} />
 
 
+
                       ))}
+
+                     
 
                       {programs.addons?.map((addon: any) => {
 

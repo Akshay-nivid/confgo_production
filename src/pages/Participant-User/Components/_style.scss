@@ -5,51 +5,58 @@
     height: auto !important;
     cursor: pointer;
 
-    .logo-box{
+    .logo-box {
         background-color: $background;
         border-radius: 1.667rem;
         width: 4rem;
         height: 4rem;
     }
+
     .vertical-divider {
         width: 2px;
         background-color: $clr_black;
-        height: 1.2rem; 
+        height: 1.2rem;
         margin-inline: 0.2rem;
-        }
-    .horizontal-dotted-divider{
-        border-top: 2px dashed $clr_light_quill_grey;
-        width: 100%;             
-        margin: 5px 0;              
     }
-    &-info{
-        .left-container{
-           padding-inline: 0.542rem;
-           padding-block: 0.458rem;
-           background-color: $background;
-           border-radius: 0.833rem;
-           max-width: 14rem !important;
-           height: 8rem;
+
+    .horizontal-dotted-divider {
+        border-top: 2px dashed $clr_light_quill_grey;
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    &-info {
+        .left-container {
+            padding-inline: 0.542rem;
+            padding-block: 0.458rem;
+            background-color: $background;
+            border-radius: 0.833rem;
+            max-width: 14rem !important;
+            height: 8rem;
         }
-        .title{
+
+        .title {
             font-weight: $font-medium !important;
             color: $clr_forset_green !important;
             font-size: $p3 !important;
             line-height: 2.5rem;
             padding-left: 0.5rem;
         }
-        .title-value{
+
+        .title-value {
             font-weight: $font-medium !important;
             font-size: $p8 !important;
             padding-left: 0.5rem;
         }
-        .right-container{
+
+        .right-container {
             padding-inline: 0.542rem;
             padding-block: 0.458rem;
             background-color: $background;
             border-radius: 0.833rem;
         }
     }
+
     &-date-box {
         font-weight: $font_semibold;
         margin-top: 0.4rem;
@@ -226,6 +233,7 @@
 
 .program-card {
 
+
     &-1,
     &-2,
     &-3,
@@ -233,13 +241,17 @@
         background-color: $clr_gray_10_percent !important;
         border: 0.083rem solid $clr_gray_30_percent !important;
         border-radius: .5rem !important;
-        padding: 1.667rem;
-        padding-bottom: 4rem;
-        padding-top: 1rem !important;
         position: relative !important;
         box-shadow: $clr_gray_30_percent 0rem 0.083rem .167rem 0;
 
-        .view-details-btn{
+        .divider {
+            height: .12rem;
+            background-color: $clr_gray_30_percent;
+            margin-block: .5rem;
+
+        }
+
+        .view-details-btn {
             color: $clr_gray_dark_text !important;
             text-decoration: underline;
         }
@@ -262,8 +274,6 @@
         }
 
         .price-group {
-            padding-top: .667rem !important;
-            padding-bottom: 1.667rem !important;
 
             .program-price {
                 font-size: $h4 !important;
@@ -301,10 +311,36 @@
         background-color: $clr_gray_10_percent !important;
         border: 0.083rem solid $clr_gray_30_percent !important;
         border-radius: .5rem !important;
-        padding-block: 1rem !important;
-        padding-inline: 1.667rem !important;
+
         position: relative !important;
         box-shadow: $clr_gray_30_percent 0rem 0.083rem .167rem 0;
+
+        .addon-container {
+            padding-inline: .5rem;
+        }
+
+        .addon-time-container,
+        .addon-date-container {
+            padding-block: 1rem;
+            background-color: $clr_gray_30_percent;
+            padding-inline: 1rem;
+            border-radius: .5rem;
+
+        }
+
+        .badge-container{
+            position: absolute;
+            right: 1rem;
+            top:1rem ;
+        }
+        .icon {
+            margin-right: .5rem;
+            margin-top: -.4rem;
+        }
+
+        .addon-date-container {
+            margin-block: 1rem;
+        }
 
         .divider {
             height: .08rem;
@@ -323,8 +359,17 @@
             color: $clr_gray_dark_text !important;
         }
 
+        .addon-header {
+            padding-inline: 1rem;
+            padding-block: 1rem;
 
+        }
 
+        .addon-footer {
+            padding-inline: 1rem;
+            padding-block: 1rem;
+
+        }
 
         .addon-property-list-container {
             margin-top: .8667rem;
@@ -353,15 +398,15 @@
         }
 
         .addon-prop-money-icon {
-            font-size: $h3 !important;
+            font-size: $h2 !important;
             font-weight: $font-medium !important;
             color: $clr_gray_dark_text !important;
 
         }
 
         .addon-prop-amount {
-            font-size: $h6 !important;
-            font-weight: $font-medium !important;
+            font-size: $h5 !important;
+            font-weight: $font-semibold  !important;
             color: $clr_gray_dark_text !important;
         }
     }
@@ -434,19 +479,20 @@
             margin-top: 0.833rem;
         }
 
+        .program-date-container {
+            padding-inline: 1.33rem !important;
+            padding-block: 1rem;
+            border-radius: .5rem;
+            background-color: $clr_gray_30_percent;
+        }
+
         .time-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.1667rem;
-            padding-top: 0.0833rem;
-            padding-bottom: 0.0833rem;
-            width: max-content;
-            border-radius: 0.0833rem;
-            color: $clr_gray_dark_text !important;
-            margin-top: .8rem;
-            column-gap: 0.6rem;
-            margin-bottom: .3rem;
+            padding-inline: 1.33rem !important;
+            padding-block: 1rem;
+            border-radius: .5rem;
+            background-color: $clr_gray_30_percent;
+
+
 
             .addon-time {
                 margin-top: .18rem;
@@ -465,6 +511,7 @@
     padding-inline: 0.6667rem !important;
     font-weight: $font-medium !important;
     border-radius: .3rem;
+
     margin-left: auto;
     width: max-content;
     height: max-content;
@@ -473,6 +520,8 @@
 .program-badge {
     background-color: $clr_sky_blue_light ;
     border-color: $clr_sky_blue_dark !important;
+    padding-block: .2rem;
+    padding-inline: .4rem !important;
 }
 
 .addon-badge {
@@ -484,28 +533,32 @@
     font-weight: $font_medium !important;
 }
 
-.eventClassType{
-    .text{
+.eventClassType {
+    .text {
         font-weight: $font-bold ;
         font-size: $p6;
     }
-    .offline{
+
+    .offline {
         color: $clr_blue;
     }
-    .online{
+
+    .online {
         color: $clr_crismon_red;
     }
-    .hybrid{
-        color:$clr_vivid_orange;
+
+    .hybrid {
+        color: $clr_vivid_orange;
     }
 }
 
-.program-card-seat-alert-red{
-    color:$clr_red;
+.program-card-seat-alert-red {
+    color: $clr_red;
     font-size: $p2 !important;
 }
-.program-card-seat-alert-yellow{
-    color:$clr_orange_yellow;
+
+.program-card-seat-alert-yellow {
+    color: $clr_orange_yellow;
     font-size: $p1 !important;
 
 }

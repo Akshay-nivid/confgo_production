@@ -87,7 +87,16 @@ export const handleGroupData = ({ programs, addons, calculateTotal = false }: { 
   const sortedPrograms = sortData(programs);
   const sortedAddons = sortData(addons);
 
-  const formattedData = Object.entries(sortedPrograms).reduce((acc: any, [date, programData]) => {
+
+  const allkeys = sortDates([...Object.keys(sortedPrograms), ...Object.keys(sortedAddons)])
+
+  const uniqueKeys = new Set(allkeys)
+
+  const uniqueKeysList = [...uniqueKeys]
+
+
+  const formattedData = uniqueKeysList.reduce((acc: any, date) => {
+
 
 
     if (!sortedPrograms) {
@@ -99,13 +108,16 @@ export const handleGroupData = ({ programs, addons, calculateTotal = false }: { 
     }
 
     if (calculateTotal) {
-      if (Array.isArray(programData))
-        programData.map(prgm => {
+      if (Array.isArray(sortedPrograms[date]))
+        sortedPrograms[date].map(prgm => {
           acc[date].total = acc[date].total + parseFloat(prgm.amount)
         })
     }
 
-    acc[date].programs.push(...(programData as any[]))
+    if (sortedPrograms[date]) {
+    acc[date].programs.push(...(sortedPrograms[date] as any[]))
+    }
+
 
     if (sortedAddons[date]) {
       acc[date].addons.push(...sortedAddons[date]);
@@ -118,6 +130,50 @@ export const handleGroupData = ({ programs, addons, calculateTotal = false }: { 
   return formattedData
 }
 
+
+
+/**
+ * Sorts an array of date strings in 'MMM-DD-YYYY' format
+ * @param {string[]} dates Array of date strings in 'MMM-DD-YYYY' format
+ * @param {boolean} ascending Optional parameter to determine sort order (default: true)
+ * @returns {string[]} Sorted array of date strings in the same format
+ */
+function sortDates(dates: string[], ascending = true) {
+  // Create a mapping of month abbreviations to numbers
+  const monthMap: Record<string, string> = {
+      'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04',
+      'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08',
+      'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
+  };
+
+  // Convert dates to a sortable format (YYYY-MM-DD)
+  const convertToSortable = (dateStr: string) => {
+      try {
+          const [month, day, year] = dateStr.split('-');
+          const monthNum = monthMap[month];
+          if (!monthNum) throw new Error(`Invalid month: ${month}`);
+          
+          // Pad day with leading zero if necessary
+          const paddedDay = day.padStart(2, '0');
+          
+          return `${year}-${monthNum}-${paddedDay}`;
+      } catch (error) {
+          console.error(`Error processing date: ${dateStr}`, error);
+          // Return a far future or past date based on ascending order
+          // This will push invalid dates to the end/beginning of the sorted array
+          return ascending ? '9999-99-99' : '0000-00-00';
+      }
+  };
+
+  // Sort the array
+  return [...dates].sort((a, b) => {
+      const dateA = convertToSortable(a);
+      const dateB = convertToSortable(b);
+      return ascending 
+          ? dateA.localeCompare(dateB)
+          : dateB.localeCompare(dateA);
+  });
+}
 
 
 function sortObjectByKeyPriority(obj: any) {
@@ -205,6 +261,20 @@ export const processFormData = (formData: any, id: any, participantTypeId: strin
       }
 
       return
+    }
+
+
+    if (key.includes('addons')) {
+
+
+      if (value === undefined || !value) return
+
+      const addonKey = parseInt(key.split('-')[1])
+
+      addonGroup[addonKey] = {
+
+        addonId: addonKey,
+      }
     }
 
 
@@ -380,7 +450,5 @@ export const  validateAddonWithNoProp = (addons:any)=> {
       }
 
 }
-
-
 
 
