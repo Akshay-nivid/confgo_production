@@ -6,13 +6,13 @@
     cursor: pointer;
 
     .logo-box{
-        background-color:#5ba5c7;
+        background-color:$clr_light_blue;
         border-radius: 50%;
         width: 5rem;
         height: 5rem;
         object-fit: cover !important;
         &-text{
-            background-color:#5ba5c7!important;
+            background-color:$clr_light_blue!important;
             color: $clr_white;
             font-size: $h2 !important;
             font-weight: $font-bold !important;
