@@ -46,8 +46,6 @@ const UserDashboard: React.FC = React.memo(() => {
   const isMobileView = useIsMobileScreen()
   const userId = sessionStorage.getItem('userId');
   const firstCheckedIn = userCompletedEvents.data?.find((event: { checkedIn: any; }) => event.checkedIn) || null;
-console.log(firstCheckedIn,"checkedin")
-console.log(userCompletedEvents,"userCompletedEvents")
   /**
   * Useeffect hook handles the api call 
   */
