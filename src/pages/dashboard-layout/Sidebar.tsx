@@ -111,7 +111,7 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       open={open}
       className="sidebar-drawer-admin"
     >
-      <div className="content flex flex-col items-center">
+      <div className="content flex flex-col">
         <Grid className="logo-container">
         
           <img src={AppLogo} className="logo" alt="" />
