@@ -55,6 +55,7 @@ const PayPalConfiguration = () => {
                 severity: "success",
                 message: "PayPal Configurations Updated Successfully",
             });
+            setDataById("showPaypalConfigAlert",{data:true});
             setEditField(true); 
             getPayPalId();
         };

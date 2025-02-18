@@ -16,7 +16,7 @@ const Layout = () => {
   const location = useLocation();
   const [showAlertBanner, setShowAlertBanner] = useState(false);
   const [showPaypalBanner,setPayPalBanner]=useState(false);
-
+  const showPayPalConfigAlert = useStore((state: any) => state?.compData?.showPaypalConfigAlert?.data);
   const dataInfo = useStore((state: any) => state?.compData?.["paymentBanner"]?.['subscription/verify']?.data) ?? [];
   const fullEventList = useStore((state: any) => state?.compData?.["fullEventList"]?.['event/list'].data) ?? [];
   useEffect(() => {
@@ -26,7 +26,10 @@ const Layout = () => {
     setShowAlertBanner(showBanner);
     const showPaypalBanner = fullEventList?.[0]?.company?.companyPaypalConfigurations?.length === 0 ? true : false;
     setPayPalBanner(showPaypalBanner);
-  }, [dataInfo, location,fullEventList]);
+    if(showPayPalConfigAlert){
+      setPayPalBanner(false)
+    }
+  }, [dataInfo, location,fullEventList,showPayPalConfigAlert]);
 
   useEffect(() => {
     POST({

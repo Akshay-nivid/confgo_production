@@ -491,7 +491,7 @@ const CreateEvent: React.FC<EventProps> =
                   >
                    
                     <ReactQuill
-                      className={isError ? "create-event-description-error" : ""}
+                     className={`react-quill-editor ${isError ? "create-event-description-error" : ""}`}
                       value={editorContent}
                       onChange={handleChange}
                       theme="snow"
