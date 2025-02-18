@@ -3,7 +3,7 @@
         padding: 2rem;
         background-color: $clr_white;
         border-radius: 0.833rem;
-        max-width: 100% !important;
+        max-width: 96% !important;
         margin: auto;
         overflow: hidden;
         height: 95vh;
@@ -91,6 +91,7 @@
         }
         &-img{
             height: 6rem;
+            margin-bottom: 0.417rem !important;
           }
       }
   
@@ -116,8 +117,10 @@
         width: 100%;
         display: block;
         border-radius: 0.417rem;
-        margin-bottom: 1.333rem;
-
+        &-name{
+          margin-top: 0.417rem !important;
+          margin-bottom: 0.417rem !important;
+        }
         &-length{
             width:5.4rem;
             height: 5.4rem;
@@ -131,6 +134,22 @@
         }
        
       }
+      &-save-btn {
+        max-height: 4rem;
+        background-color: $clr_green !important;
+        color: $clr_white !important;
+        max-width: 19rem !important;
+        text-transform: none !important;
+        font-size: $p1 !important;
+        font-weight: $font_normal !important;
+        float: right !important;
+        margin-top: 1rem !important;
+        margin-bottom: 1rem !important;
+        &:disabled {
+          background-color: $clr_gray_dark !important;
+          color: $clr_white !important;
+      }
+    }
       &-header{
         margin-bottom: 2rem;
     }
