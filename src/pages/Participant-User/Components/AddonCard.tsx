@@ -72,7 +72,7 @@ const AddonCard = ({ templateId, addon, date }: IProgramcardProps) => {
         {(addon?.eventAddonProperties && addon?.eventAddonProperties?.length > 0) ? (
           <Grid size={12} className="addon-property-list-container" container columnSpacing={2}>
 
-            {addon.eventAddonProperties.map((property: any) => (
+            {addon?.eventAddonProperties?.length > 0 && addon.eventAddonProperties.map((property: any) => (
               <Grid size={12} display={'flex'} alignItems={'center'} className={`addon-property-checkbox-group-${templateId}`}>
                 < CustomCheckbox
                   className="addon-prop-checkbox"

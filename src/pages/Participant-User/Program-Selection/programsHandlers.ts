@@ -50,7 +50,13 @@ const sortData = (data: any): any => {
     return {};
   }
   return data
-    .sort((a: any, b: any) => new Date(a?.startTime || a?.eventAddon?.startTime).getTime() - new Date(b?.startTime || b?.eventAddon?.startTime).getTime())
+  .filter((item: any) => item?.startTime || item?.eventAddon?.startTime) // Remove invalid items
+  .sort((a: any, b: any) => {
+    return (
+      new Date(a?.startTime || a?.eventAddon?.startTime).getTime() -
+      new Date(b?.startTime || b?.eventAddon?.startTime).getTime()
+    )
+  })
     .reduce((grouped: any, program: any) => {
       const date = moment(program?.startTime || program?.eventAddon?.startTime).format("MMM-DD-YYYY")
 

@@ -60,11 +60,15 @@ const ProgramSelection = () => {
   const { handleSubmit, setValue, getValues, reset } = methods
 
 
-  const defaultFormData = useStore((state: any) => state?.compData?.["defaultProgramData"]?.formData) || undefined;
+  // const defaultFormData = useStore((state: any) => state?.compData?.["defaultProgramData"]?.formData) || undefined;
+
+  const defaultFormData = useStore((state) => state?.nonPersistedData?.["defaultProgramData"]?.formData) || undefined;
+
 
 
   const eventData = useStore((state: IStoreState) => state?.compData?.["eventData"]) ?? undefined;
 
+  const eventInitialFetchDone = useStore(state=>state.nonPersistedData?.eventInitialFetchDone?.value) || false
 
   const eventId = useStore((state: IStoreState) => state?.compData?.eventSelected?.id)
 
@@ -141,6 +145,9 @@ const ProgramSelection = () => {
 
               formatedData?.[date]?.addons?.forEach((addon: any) => {
 
+
+                obj[`addons.${addon?.id}`] = addon?.id
+
                 addon?.eventAddonProperties?.forEach((item: any) => {
 
                   const aKey = `${moment(addon?.startTime).format('YYYY/MM/DD')}-addonProp-${addon?.id}`
@@ -156,7 +163,8 @@ const ProgramSelection = () => {
 
               })
 
-              setDataById("defaultProgramData", { formData: obj })
+              // setDataById("defaultProgramData", { formData: obj })
+              setNonPersistedDataById("defaultProgramData", { formData: obj })
 
 
             })
@@ -191,6 +199,7 @@ const ProgramSelection = () => {
 
     //  (async()=>await fetchEventDetailsFn(10000))()
 
+    if(eventInitialFetchDone) return
     const fetchEventDetails = async () => {
 
 
@@ -226,7 +235,10 @@ const ProgramSelection = () => {
             programs: response?.data?.programs
           })
 
+        
+
           setDataById("eventData", { programs: formatedData });
+          setNonPersistedDataById("eventInitialFetchDone", { value: true })
         },
 
         errorCB: () => { }
@@ -236,7 +248,7 @@ const ProgramSelection = () => {
 
     fetchEventDetails();
 
-  }, []);
+  }, [eventInitialFetchDone]);
 
 
 
@@ -253,17 +265,27 @@ const ProgramSelection = () => {
 
 
 
+
     try {
 
 
-      setDataById('defaultProgramData', { formData: formData }) // storing form data for setting default values in next screen 
+      // setDataById('defaultProgramData', { formData: formData }) // storing form data for setting default values in next screen 
 
+      setNonPersistedDataById("defaultProgramData", { formData: formData })
 
       const body = processFormData(formData, eventId, participantTypeId) // processing form data to match cart api body format
 
       const selectedPrograms = body?.programIds || null;
 
-      if (selectedPrograms?.length === 0 || body?.addons?.length === 0) {
+
+      const apiBody = {
+        eventId: body?.eventId,
+        ...((participantTypeId && participantTypeId !== null && participantTypeId !== undefined) ? { participantTypeId: participantTypeId } : {}),
+        ...((body?.programIds && body?.programIds?.length > 0) ? { programIds: body.programIds } : {}),
+        ...((body?.addons && body?.addons?.length > 0) ? {addons: body.addons} : {})
+      }
+
+      if (selectedPrograms?.length === 0 && body?.addons?.length === 0) {
         snackBar({ severity: "error", message: "Please select aleast one programs or addons" })
         return
       }
@@ -278,7 +300,7 @@ const ProgramSelection = () => {
 
       POST({
         url: 'cart',
-        body: body,
+        body: apiBody,
         id: 'addToCart',
 
         successCB: (data: any) => {
