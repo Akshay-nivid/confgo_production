@@ -235,6 +235,7 @@ const onSubmit = async (data: Profile) => {
         assetId: response.data?.data?.assetId,
       });
      setDataById("profileImage",{item:response?.data?.data?.assetId})
+     sessionStorage.setItem('companyUserName', `${response.data?.data?.firstName} ${response.data?.data?.lastName || ''}`);
       closeDrawer();
     }
     else{

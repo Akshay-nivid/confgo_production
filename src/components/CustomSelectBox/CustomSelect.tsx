@@ -62,7 +62,6 @@ const CustomSelect = <T extends FieldValues>({
             value={field.value ? field.value :  (defaultValue || '')}
             onChange={(event) => field.onChange(handleOnclick(event.target.value))}
             labelId={`${name}-label`}
-            placeholder={label}
             displayEmpty
             disabled={disabled}
           >

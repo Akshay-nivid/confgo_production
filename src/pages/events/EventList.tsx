@@ -144,6 +144,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
       let req: any = {
         filters: {
           name: query,
+          limit: 10
         },
       };
       const response = await await apiClient.post(`event/list`, req);

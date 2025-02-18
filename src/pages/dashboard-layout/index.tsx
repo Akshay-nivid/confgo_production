@@ -6,6 +6,7 @@ import { PaymentAlertBanner } from './PaymentAlertBanner';
 import useStore, { POST } from "@/Libs/store";
 import { useEffect, useState } from "react";
 import Box from '@mui/material/Box/Box';
+import { PayPalAlertBanner } from './PaypalClientIdBanner';
 
 /**
  * component used to render layout
@@ -14,15 +15,18 @@ import Box from '@mui/material/Box/Box';
 const Layout = () => {
   const location = useLocation();
   const [showAlertBanner, setShowAlertBanner] = useState(false);
+  const [showPaypalBanner,setPayPalBanner]=useState(false);
 
   const dataInfo = useStore((state: any) => state?.compData?.["paymentBanner"]?.['subscription/verify']?.data) ?? [];
-
+  const fullEventList = useStore((state: any) => state?.compData?.["fullEventList"]?.['event/list'].data) ?? [];
   useEffect(() => {
     const showBanner =
       dataInfo?.subscriptionStatus === false &&
       !/^\/planUpgrade(\/.*)?$/.test(location.pathname);
     setShowAlertBanner(showBanner);
-  }, [dataInfo, location]);
+    const showPaypalBanner = fullEventList?.[0]?.company?.companyPaypalConfigurations?.length === 0 ? true : false;
+    setPayPalBanner(showPaypalBanner);
+  }, [dataInfo, location,fullEventList]);
 
   useEffect(() => {
     POST({
@@ -34,8 +38,8 @@ const Layout = () => {
 
   return (
     <>
-      <MobileLayout showAlertBanner={showAlertBanner} />
-      <DesktopLayout showAlertBanner={showAlertBanner} />
+      <MobileLayout showAlertBanner={showAlertBanner} showPaypalBanner={showPaypalBanner} />
+      <DesktopLayout showAlertBanner={showAlertBanner} showPaypalBanner={showPaypalBanner} />
     </>
   );
 };
@@ -46,7 +50,7 @@ const Layout = () => {
 
 
 
-const MobileLayout = ({ showAlertBanner }: { showAlertBanner: boolean }) => {
+const MobileLayout = ({ showAlertBanner,showPaypalBanner }: { showAlertBanner: boolean ,showPaypalBanner:boolean}) => {
 
   return (
     <Box width={"100%"} display={{ xs: 'block', md: 'none' }}>
@@ -59,6 +63,7 @@ const MobileLayout = ({ showAlertBanner }: { showAlertBanner: boolean }) => {
           <Box className="flex-1 h-full overflow-y-auto layout-content">
           <Grid size={{ xs: 12, md: 12 }}>
             {showAlertBanner && <Grid><PaymentAlertBanner /></Grid>}
+            {showPaypalBanner&&<PayPalAlertBanner/>}
             </Grid>
             <Box className="flex-1">
             <Outlet />
@@ -73,7 +78,7 @@ const MobileLayout = ({ showAlertBanner }: { showAlertBanner: boolean }) => {
 /**
  * Desktop layout for screens with md and above width
  */
-const DesktopLayout = ({ showAlertBanner }: { showAlertBanner: boolean }) => {
+const DesktopLayout = ({ showAlertBanner,showPaypalBanner }: { showAlertBanner: boolean,showPaypalBanner:boolean }) => {
   return (
     <Box display={{ xs: 'none', md: 'block' }}>
       <Grid className="layout-container" container width={'100%'}>
@@ -84,8 +89,17 @@ const DesktopLayout = ({ showAlertBanner }: { showAlertBanner: boolean }) => {
           <Grid size={12}>
             <LayoutAppbar />
           </Grid>
-          <Grid size={{ xs: 12, md: 12 }}>
-            {showAlertBanner && <Grid><PaymentAlertBanner /></Grid>}
+          <Grid container flexDirection={"row"} size={{ xs: 12, md: 12 }}>
+            {showAlertBanner && (
+              <Grid size={{ xs: showPaypalBanner ? 6 : 12, md: showPaypalBanner ? 6 : 12 }}>
+                <PaymentAlertBanner />
+              </Grid>
+            )}
+            {showPaypalBanner && (
+              <Grid size={{ xs: showAlertBanner ? 6 : 12, md: showAlertBanner ? 6 : 12 }}>
+                <PayPalAlertBanner />
+              </Grid>
+            )}
           </Grid>
           <div className="flex-1 overflow-y-auto h-full layout-content">
             <Outlet />

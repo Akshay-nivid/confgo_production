@@ -64,14 +64,7 @@ const EventInfoCard: React.FC<any> = React.memo(
   } = methods;
   const setDataById = useStore((state: any) => state.setDataById)
   // const { control, handleSubmit, reset, formState: { errors }, watch, setValue } = useForm<any>();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [specialty,setspecialty]=useState<Specialty[]>([]);
-  // Functions to open and close the drawer.
-  const openDrawer = () => setIsDrawerOpen(true);
-  const closeDrawer = () => {
-            setDataById("eventDrawer", { value: false });   
-            setIsDrawerOpen(false)};
-  const [drawerOpen,setDrawerOpen]=useState(false);
 
   // Store a copy of the original event data for restoring data.
   const [originalData, setOriginalData] = useState(eventData);
@@ -82,8 +75,19 @@ const EventInfoCard: React.FC<any> = React.memo(
   const [isWarning, setIsWarning] = useState(false);
   const [SubmitData, setSubmitData] = useState();
 
-
   const eventDetailsDrawer = useStore(state => state?.compData?.['eventDrawer']?.value) ?? false;
+  const eventDetailsDrawerOpen = useStore(state => state?.compData?.['eventDrawer']?.open) ?? false;
+
+  const [drawerOpen,setDrawerOpen]=useState(false);
+
+  /**
+   * Method closes the drawer
+   */
+    const closeDrawer = () => {
+              setDataById("eventDrawer", { value: false, open: false });   
+    };
+
+
   /**
   * Handle edit event deatils drawer
   */
@@ -105,10 +109,9 @@ const EventInfoCard: React.FC<any> = React.memo(
           name: 'Business'
       });
       }
-
-      openDrawer();
+      setDataById("eventDrawer", { value: true, open: true }); 
     }
-  }, [eventDetailsDrawer]); // Dependency array ensures it runs when state updates
+  },[eventDetailsDrawer]); // Dependency array ensures it runs when state updates
   
   const uniqueSponsorCount = new Set(eventData?.eventSponsors.map((item:any) => item.sponsorId)).size;
 
@@ -267,6 +270,8 @@ const EventInfoCard: React.FC<any> = React.memo(
         Object.entries(data).filter(([key]) => !excludeKeys.includes(key))),
       startTime: formatUTCDateTime(formattedStartTime),
       endTime: formatUTCDateTime(formattedEndTime),
+      eventStartTime: formattedStartTime,
+      eventEndTime: formattedEndTime,
       assetId: selectedFile?.id,
       isAbstract: data.isAbstract==true ? 1 : 0,
       ...(data?.eventClass !== "ONLINE" ?{
@@ -429,7 +434,7 @@ const EventInfoCard: React.FC<any> = React.memo(
           {/* Location */}
           {eventData?.eventClass === "OFFLINE"
             && (
-              <LocationView eventData={eventData} />
+              <LocationView eventData={eventData} onSubmitHandler={onSubmitHandler} />
             )}
 
         </Grid>
@@ -466,7 +471,7 @@ const EventInfoCard: React.FC<any> = React.memo(
       </Grid>
 
       {/* Drawer Component */}
-      <CustomDrawer open={isDrawerOpen} type="right">
+      <CustomDrawer open={eventDetailsDrawerOpen} type="right">
         <Grid container spacing={2} padding={2} className="event-information-custom-drawer">
           <Grid
             size={{ xs: 12 }}
