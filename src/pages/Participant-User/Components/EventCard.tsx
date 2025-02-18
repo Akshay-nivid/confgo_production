@@ -82,7 +82,7 @@ const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetit
                 <Grid display={"block"}>
                     <CustomTooltip title={title}>
                         <Typography className="event-card-title" >
-                            {truncateString(toTitleCase(title), 20, "Untitled")}
+                            {truncateString(toTitleCase(title), 18, "Untitled")}
                         </Typography>
                     </CustomTooltip>
                     <Grid display={"flex"} alignItems={"center"} columnGap={1}>

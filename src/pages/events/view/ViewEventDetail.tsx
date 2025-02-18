@@ -445,7 +445,7 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
               <EventDetailSkeleton width={600} />
             ) : (
               <>
-                <EventInfoCard eventData={eventFullData} onSubmitHandler={handleSubmitHandler} />
+                <EventInfoCard id="event-info-card" eventData={eventFullData} onSubmitHandler={handleSubmitHandler} />
                 {/* {eventFullData?.eventClass != "ONLINE" &&
                   <LocationCard eventData={eventFullData} published={eventFullData?.published} onSubmitHandler={handleSubmitHandler} />
                 } */}
