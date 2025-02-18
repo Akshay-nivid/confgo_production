@@ -199,9 +199,6 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
    };
 
 
-
-
-
   return (
     <Grid container className="custom-list">
      

@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { CouponIcon } from "@/assets/svg";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
-import useStore, { clearDataById, GET, IStoreState, POST, snackBar } from "@/Libs/store";
+import useStore, { clearDataById, GET, IStoreState, POST, setNonPersistedDataById, snackBar } from "@/Libs/store";
 import routes from "@/router/routes";
 import { processFormData, formatDate } from "../Program-Selection/programsHandlers";
 import { EventRegistrationSuccessIcon } from "@/assets/svg";
@@ -43,7 +43,7 @@ const SelectedPrograms = () => {
   const cartInfo = useStore((state) => state?.compData?.addToCart)
 
   const eventId = useStore((state: IStoreState) => state?.compData?.["eventSelected"]?.id) ?? null;
-  const companyId =useStore((state:any)=>state?.compData?.['companyTempId']?.value??'');
+  const companyId = useStore((state: any) => state?.compData?.['companyTempId']?.value ?? '');
   const cartId = cartInfo?.cart.data?.id ?? null
   const participantTypeId = useStore((state) => state?.compData?.["participantTypeId"]?.value) ?? '';
 
@@ -62,7 +62,7 @@ const SelectedPrograms = () => {
   const classNamePrefix = `selected-programs-main-${templateId}`
 
 
-  const selectedFormValues = useStore((state: IStoreState) => state?.compData?.["defaultProgramData"]?.formData)
+  const selectedFormValues = useStore((state: IStoreState) => state?.nonPersistedData?.["defaultProgramData"]?.formData)
   const { control, setValue, getValues, watch, reset } = useForm({
 
     defaultValues: {
@@ -72,9 +72,9 @@ const SelectedPrograms = () => {
 
   });
 
-  useEffect(()=>{
+  useEffect(() => {
     getPayPalConfigurations(companyId);
-},[])
+  }, [])
 
   /**
    * get the paypal configurations of the company
@@ -158,14 +158,14 @@ const SelectedPrograms = () => {
   }
 
 
-/**
- * Navigates to the dynamic user form page
- * @param route - The route to navigate to
- */
-  function handleDynamicNavigation(route:string) {
+  /**
+   * Navigates to the dynamic user form page
+   * @param route - The route to navigate to
+   */
+  function handleDynamicNavigation(route: string) {
 
     navigate(route)
-   }
+  }
 
 
   /**
@@ -186,27 +186,27 @@ const SelectedPrograms = () => {
       return;
     }
 
-    
 
-    const coupon = couponData?.data?.coupon?.code || null; 
+
+    const coupon = couponData?.data?.coupon?.code || null;
 
 
     const body = {
       cartId: cartId,
-      ...(coupon && {coupon:coupon})
+      ...(coupon && { coupon: coupon })
 
     }
 
     POST({
       url: "order", id: "order", body: body, successCB: (orderResponse: any) => {
-        
+
 
         GET({
           url: `event/form/${eventId}`, id: "dynamicFormData", successCB: (dynamicFormResponseData: any) => {
 
             if (dynamicFormResponseData.data.length === 0) {
 
-            handleCartProcessing({ helperFn: handleDynamicNavigation, grandTotal: finalPrice, orderId: orderResponse?.data?.id, eventId: eventId })
+              handleCartProcessing({ helperFn: handleDynamicNavigation, grandTotal: finalPrice, orderId: orderResponse?.data?.id, eventId: eventId })
               // navigate(routes.userPaymentMethod())
               // return
             }
@@ -232,8 +232,8 @@ const SelectedPrograms = () => {
 
 
       }, errorCB: (err) => {
-        snackBar({severity:'error',message:err?.message || 'something went wrong'})
-       }
+        snackBar({ severity: 'error', message: err?.message || 'something went wrong' })
+      }
     })
 
 
@@ -250,7 +250,8 @@ const SelectedPrograms = () => {
 
     const formData = getValues()
 
-    setDataById('defaultProgramData', { formData: formData })
+    // setDataById('defaultProgramData', { formData: formData })
+    setNonPersistedDataById('defaultProgramData', { formData: formData })
 
     const body = processFormData(formData, eventId, participantTypeId)
 
@@ -267,12 +268,12 @@ const SelectedPrograms = () => {
 
   }
 
-  
 
 
 
-  
- 
+
+
+
 
   /**
    * Makes a call to edit cart API and then gets the cart data.
@@ -292,10 +293,10 @@ const SelectedPrograms = () => {
         getUserCart({
           helperFn: () => {
             setTimeout(() => {
-              reset(formData) 
+              reset(formData)
             }, 1)
           },
-          cartID:cartId
+          cartID: cartId
         })
 
       },
@@ -388,7 +389,7 @@ const SelectedPrograms = () => {
                             <Grid size={12} container justifyContent={'space-between'}>
 
                               <Grid className="time-chip-container" size={12} width={"max-content"}>
-                                 <Chip className="time-chip" size="medium" icon={<TimerOutlinedIcon />} label={moment(item?.startTime).format("h:mm A") + ' ' + '-' + ' ' + moment(item?.endTime).format("h:mm A")} />
+                                <Chip className="time-chip" size="medium" icon={<TimerOutlinedIcon />} label={moment(item?.startTime).format("h:mm A") + ' ' + '-' + ' ' + moment(item?.endTime).format("h:mm A")} />
                               </Grid>
                               <Badge text="Program" type="program" />
 
@@ -494,14 +495,14 @@ const SelectedPrograms = () => {
 
                                   <div className="divider2"></div>
 
-                                  {addon?.eventAddonProperties?.length > 0 && (
-                                    <Grid container size={12} columnSpacing={2} className="add-on-prop-checkbox ">
+                                  {addon?.eventAddonProperties?.length > 0 ? (
+                                    <Grid container size={12} flexDirection={"column"} justifyContent={'space-between'} columnSpacing={2} rowSpacing={1} className="add-on-prop-checkbox ">
 
                                       {addon?.eventAddonProperties.map((property: any) => {
 
                                         return property !== null && (
 
-                                          <Grid display={'flex'} alignItems={'center'} size={4} className={`addon-property-checkbox-group-${templateId}`}>
+                                          <Grid size={12} display={'flex'} alignItems={'center'} justifyContent={"space-between"} className={`addon-property-checkbox-group-${templateId}`}>
                                             < CustomCheckbox
                                               className="addon-prop-checkbox"
                                               key={property?.id}
@@ -518,7 +519,7 @@ const SelectedPrograms = () => {
                                             <Box className="flex items-center w-full">
                                               <Typography className="addon-prop-label">{property?.name}</Typography>
                                               <Typography>-</Typography>
-                                              <Box className="flex items-center">
+                                              <Box className="flex items-center ml-auto">
                                                 <Dollar className='addon-prop-money-icon' />
                                                 <Typography className="addon-prop-amount">{Math.trunc(Number(property?.amount)) === 0 ? "Free" : `${property?.amount}`}</Typography>
                                               </Box>
@@ -533,8 +534,34 @@ const SelectedPrograms = () => {
                                     </Grid>
 
 
-                                  )}
+                                  ) : <></>
 
+
+                                  }
+                                  {addon?.eventAddonProperties?.[0] === null  &&<Grid size={12} display={'flex'} alignItems={'center'} justifyContent={"space-between"} className={`addon-property-checkbox-group-${templateId}`}>
+                                    < CustomCheckbox
+                                      className="addon-prop-checkbox"
+                                      key={addon?.id}
+                                      row={true}
+                                      onChange={() => onCheckboxToggle()}
+                                      control={control}
+                                      // required={false}
+                                      name={`addons-${addon?.id}`}
+                                      options={[
+                                        { label: '', value: addon?.id },
+                                      ]}
+                                    />
+                                    {/* <Typography className="add-on-prop-label">{property?.name}-{property?.amount}</Typography> */}
+                                    <Box className="flex items-center w-full">
+                                      <Typography className="addon-prop-label">{addon?.addon?.name}</Typography>
+                                      <Typography>-</Typography>
+                                      <Box className="flex items-center ml-auto">
+                                        <Dollar className='addon-prop-money-icon' />
+                                        <Typography className="addon-prop-amount">{Math.trunc(Number(addon?.amount)) === 0 ? "Free" : `${addon?.amount}`}</Typography>
+                                      </Box>
+
+                                    </Box>
+                                  </Grid>}
                                 </Grid>
                               </Grid>
 
@@ -550,59 +577,59 @@ const SelectedPrograms = () => {
               </>
             ))
           }
-          {userToken&&(
-          !couponData?.data?.coupon?.code ?(
-            <Grid className="coupon-container">
+          {userToken && (
+            !couponData?.data?.coupon?.code ? (
+              <Grid className="coupon-container">
 
-             <Typography className="apply-coupon-header">
-                Apply Coupons
-              </Typography>
+                <Typography className="apply-coupon-header">
+                  Apply Coupons
+                </Typography>
 
-              <Grid container rowSpacing={2} columnSpacing={3}>
+                <Grid container rowSpacing={2} columnSpacing={3}>
 
-                <Grid size={{ xs: 12, md: 8 }}>
-                  <CustomTextField
-                    control={control}
-                    name="coupon"
-                    placeholder="Apply Coupon Code"
-                  />
-                </Grid>
+                  <Grid size={{ xs: 12, md: 8 }}>
+                    <CustomTextField
+                      control={control}
+                      name="coupon"
+                      placeholder="Apply Coupon Code"
+                    />
+                  </Grid>
 
-                <Grid size={{ xs: 12, md: 4 }}>
-                  <CustomButton
-                    className="apply-coupon-button"
-                    label="Apply Coupon"
-                    size="large"
-                    variant="outlined"
-                    onClick={handleClickApplyCoupon}
-                    startIcon={!couponData?.loading ? <CouponIcon className="coupon-icon" /> : <></>}
-                    isLoading={couponData?.loading || false}
-                  />
+                  <Grid size={{ xs: 12, md: 4 }}>
+                    <CustomButton
+                      className="apply-coupon-button"
+                      label="Apply Coupon"
+                      size="large"
+                      variant="outlined"
+                      onClick={handleClickApplyCoupon}
+                      startIcon={!couponData?.loading ? <CouponIcon className="coupon-icon" /> : <></>}
+                      isLoading={couponData?.loading || false}
+                    />
+                  </Grid>
+
                 </Grid>
 
               </Grid>
+            ) : (
 
-            </Grid>
-               ) :(
-
-            <Grid display={'flex'} justifyContent={'space-between'} size={12} className="coupon-banner-container  ">
+              <Grid display={'flex'} justifyContent={'space-between'} size={12} className="coupon-banner-container  ">
 
 
-              <Grid display={'flex'} columnGap={2} alignItems={'center'}>
-                <EventRegistrationSuccessIcon fontSize={'3.5rem'} />
-                <Box>
-                  <Typography className="coupon-code">{couponData?.data?.coupon?.code.toUpperCase()} <span className="ml-1">applied</span></Typography>
-                  <Typography></Typography>
-                </Box>
+                <Grid display={'flex'} columnGap={2} alignItems={'center'}>
+                  <EventRegistrationSuccessIcon fontSize={'3.5rem'} />
+                  <Box>
+                    <Typography className="coupon-code">{couponData?.data?.coupon?.code.toUpperCase()} <span className="ml-1">applied</span></Typography>
+                    <Typography></Typography>
+                  </Box>
+                </Grid>
+
+
+                <IconButton onClick={handleRemoveCoupon}>
+                  {removeCouponLoading ? <CircularProgress size={20} /> : <CloseIcon />}
+                </IconButton>
+
               </Grid>
-
-
-              <IconButton onClick={handleRemoveCoupon}>
-                {removeCouponLoading ? <CircularProgress size={20} /> : <CloseIcon />}
-              </IconButton>
-
-            </Grid>
-           )
+            )
           )}
 
           <Grid container flexDirection={"column"} className="bill-details-container shadow">
@@ -630,7 +657,7 @@ const SelectedPrograms = () => {
 
             {couponData?.data?.coupon?.code && <Grid className="mb_2" container flexDirection={"row"} justifyContent={"space-between"}>
               <Typography className="sub-text">Coupon Applied</Typography>
-              <Typography  className="sub-text discount"> - $ {Number(couponData.data?.discountAmount).toFixed(2)}</Typography>
+              <Typography className="sub-text discount"> - $ {Number(couponData.data?.discountAmount).toFixed(2)}</Typography>
             </Grid>}
 
             <Grid className="divider mb_2" ></Grid>
