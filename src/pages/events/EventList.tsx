@@ -74,10 +74,10 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
   ];
 
   const statusArray = [
-    { label: "Completed", value: "COMPLETED" },
-    { label: "Ongoing", value: "ONGOING" },
+    { label: "Active", value: "ACTIVE" },
     { label: "Published", value: "PUBLISHED" },
-    { label: "Pending", value: "PENDING" },
+    { label: "Draft", value: "DRAFTED" },
+    { label: "Expired", value: "EXPIRED" },
   ];
 
   const filterFields: any = [
@@ -85,7 +85,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
       type: 'date',
       fieldName: 'startTime',
       label: 'Today',
-      heading: 'Filter with Request Date'
+      heading: 'Filter with Start Date'
     },
     {
       type: 'tiles',
@@ -198,6 +198,20 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
      }));
    };
 
+   /**
+    * Method handles the filter transformer
+    * @param filters : filters request data
+    * @returns : transformed filter request
+    */
+  const handleFilterTransformer = (filters: any) => {
+    for (let key in filters) {
+      if (key === 'endTime' && !filters[key]) {
+        filters[key] = filters['startTime'];
+      }
+    }
+    return filters
+  }
+
 
   return (
     <Grid container className="custom-list">
@@ -232,8 +246,8 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
                 }}
               // disabled={loading}
               />
-              <Grid size={{ }}>
-              <Filter datagridId='event-datagrid' fields={filterFields} />
+              <Grid >
+              <Filter datagridId='event-datagrid' fields={filterFields} filterTransformer={handleFilterTransformer}/>
 
               </Grid>
             </Grid>

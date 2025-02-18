@@ -14,18 +14,18 @@ import CustomButton from './CustomButton/CustomButton';
 import EventFilterIcon from '@/assets/svg/EventFilterIcon.svg';
 import CustomDrawer from './CustomDrawer/CustomDrawer';
 import { CloseOutlined } from '@mui/icons-material';
-import moment from 'moment';
 
 type FilterProps = {
     datagridId: string;
-    fields: Array<any>
+    fields: Array<any>;
+    filterTransformer?: any;
 }
 
 /**
  * Component used to draw filter
  * @returns 
  */
-export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
+export const Filter: React.FC<FilterProps> = ({ datagridId, fields, filterTransformer }: any) => {
     const dataGridInfo = useStore(
         (state: any) => state?.compData?.[datagridId]
     ) ?? [];
@@ -89,6 +89,9 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
             ...dataGridInfo?.source?.data,
         };
         req.filters = { ...dataGridInfo?.source?.data.filters, ...formattedData };
+        if(filterTransformer){
+            req.filters = filterTransformer(req.filters);
+        }  
 
         // Ensure roleEnum is excluded if roleId is set
         if (req.filters.roleId) {
@@ -138,7 +141,7 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
     }
 
     const setTodaysDate = () => {
-        const currentDate = moment();
+        const currentDate = dayjs();
         setValue("startTime", currentDate);
         setValue("endTime", currentDate);
         setDateTemplate('Today');
@@ -369,8 +372,9 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
                                                     name={item.fieldName}
                                                     control={control}
                                                     defaultValue={null}
-                                                    render={({ field }) => (
-                                                        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en">
+                                                    render={({ field }) => {
+
+                                                        return <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en">
                                                             <DatePicker
                                                                 name={item.fieldName}
                                                                 sx={{ width: '100%' }}
@@ -378,12 +382,19 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
                                                                 value={field.value || null}
                                                                 defaultValue={null}
                                                                 onChange={(newValue) => {
-                                                                    field.onChange(newValue);
-                                                                    setDateTemplate('');
+                                                                    try{
+                                                                        field.onChange(newValue);
+                                                                        setDateTemplate('');
+                                                                        setValue("endTime", '');
+                                                                    }
+                                                                    catch(e){
+                                                                        Logger.error(e)
+                                                                    }
+                                                                    
                                                                 }}
                                                             />
                                                         </LocalizationProvider>
-                                                    )}
+                                                    }}
                                                 />
                                             </Grid>
                                             <Grid size={{ xs: 12 }} margin={2} container spacing={1} sx={{ marginLeft: 0 }} >
