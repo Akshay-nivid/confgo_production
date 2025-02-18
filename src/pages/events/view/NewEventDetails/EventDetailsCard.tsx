@@ -30,9 +30,13 @@ const EventDetailsCard = (eventData: any) => {
               message: "Event is Already Published !",
             });
             setDataById("eventDrawer", { value: false }); 
+            return;
+          }
+          else{
+            setDataById("eventDrawer", { value: true });   
           }
 
-        setDataById("eventDrawer", { value: true });   
+        
 
             
     }
