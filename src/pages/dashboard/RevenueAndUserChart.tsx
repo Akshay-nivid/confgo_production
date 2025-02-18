@@ -138,7 +138,7 @@ const RevenueAndUserChart = () => {
                 <>
 
                     <Grid size={12} display={'flex'} columnGap={8} className="header-container" paddingInline={2.2}>
-                        <p className="revenue-breakdown-label "> REVENUE BREAKDOWN</p>
+                        <p className="revenue-breakdown-label "> Revenue Breakdown</p>
                     </Grid>
 
 
@@ -170,7 +170,7 @@ const RevenueAndUserChart = () => {
                                         
                                         <PichartIcon/>
                                        
-                                        <p className='total-users-label'>No Data available</p>
+                                        <p className='total-users-label'>No Data Available</p>
                                     </Grid>
                                     :
                                     <CustomChart chartType="Pie" chartData={chartData?.pieChartData} />}

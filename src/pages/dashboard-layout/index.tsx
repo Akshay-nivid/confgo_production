@@ -5,57 +5,108 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { PaymentAlertBanner } from './PaymentAlertBanner';
 import useStore, { POST } from "@/Libs/store";
 import { useEffect, useState } from "react";
+import Box from '@mui/material/Box/Box';
+import { PayPalAlertBanner } from './PaypalClientIdBanner';
 
 /**
  * component used to render layout
- * @returns
+ * @returns JSX.Element
  */
 const Layout = () => {
   const location = useLocation();
   const [showAlertBanner, setShowAlertBanner] = useState(false);
+  const [showPaypalBanner,setPayPalBanner]=useState(false);
 
   const dataInfo = useStore((state: any) => state?.compData?.["paymentBanner"]?.['subscription/verify']?.data) ?? [];
-
+  const fullEventList = useStore((state: any) => state?.compData?.["fullEventList"]?.['event/list'].data) ?? [];
   useEffect(() => {
     const showBanner =
       dataInfo?.subscriptionStatus === false &&
       !/^\/planUpgrade(\/.*)?$/.test(location.pathname);
     setShowAlertBanner(showBanner);
-  }, [dataInfo, location]);
+    const showPaypalBanner = fullEventList?.[0]?.company?.companyPaypalConfigurations?.length === 0 ? true : false;
+    setPayPalBanner(showPaypalBanner);
+  }, [dataInfo, location,fullEventList]);
 
   useEffect(() => {
     POST({
       url: 'subscription/verify',
       body: {},
       id: 'paymentBanner'
-    })
-  }, [])
+    });
+  }, []);
 
   return (
+    <>
+      <MobileLayout showAlertBanner={showAlertBanner} showPaypalBanner={showPaypalBanner} />
+      <DesktopLayout showAlertBanner={showAlertBanner} showPaypalBanner={showPaypalBanner} />
+    </>
+  );
+};
 
-    <Grid className="layout-container" container width={'100%'}>
+/**
+ * Mobile layout for screens with xs to md width
+ */
 
-      <Grid minWidth={'5.88rem'} size={{xs:0,md:2}}>
-        <Sidebar open={true} />
-      </Grid>
 
-      <Grid className="h-full  " flex={{xs:1}} size={{md:10}} display={'flex'} flexDirection={'column'}>
 
-        <Grid size={12}>
-          <LayoutAppbar />
+const MobileLayout = ({ showAlertBanner,showPaypalBanner }: { showAlertBanner: boolean ,showPaypalBanner:boolean}) => {
+
+  return (
+    <Box width={"100%"} display={{ xs: 'block', md: 'none' }}>
+      <Box className="h-screen overflow-hidden flex flex-col">
+        <LayoutAppbar />
+        <Box className=" h-full flex overflow-x-hidden">
+           <Box maxWidth={"6rem"} className="">
+            <Sidebar open={true} />
+          </Box>
+          <Box className="flex-1 h-full overflow-y-auto layout-content">
+          <Grid size={{ xs: 12, md: 12 }}>
+            {showAlertBanner && <Grid><PaymentAlertBanner /></Grid>}
+            {showPaypalBanner&&<PayPalAlertBanner/>}
+            </Grid>
+            <Box className="flex-1">
+            <Outlet />
+            </Box>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
+  );
+};
+
+/**
+ * Desktop layout for screens with md and above width
+ */
+const DesktopLayout = ({ showAlertBanner,showPaypalBanner }: { showAlertBanner: boolean,showPaypalBanner:boolean }) => {
+  return (
+    <Box display={{ xs: 'none', md: 'block' }}>
+      <Grid className="layout-container" container width={'100%'}>
+        <Grid minWidth={'5.88rem'} size={{ xs: 0, md: 2 }}>
+          <Sidebar open={true} />
         </Grid>
-
-        <Grid size={{ xs: 12, md: 12 }} className="">
-          {showAlertBanner && <Grid><PaymentAlertBanner /></Grid>}
+        <Grid className="h-full" flex={{ xs: 1 }} size={{ md: 10 }} display={'flex'} flexDirection={'column'}>
+          <Grid size={12}>
+            <LayoutAppbar />
+          </Grid>
+          <Grid container flexDirection={"row"} size={{ xs: 12, md: 12 }}>
+            {showAlertBanner && (
+              <Grid size={{ xs: showPaypalBanner ? 6 : 12, md: showPaypalBanner ? 6 : 12 }}>
+                <PaymentAlertBanner />
+              </Grid>
+            )}
+            {showPaypalBanner && (
+              <Grid size={{ xs: showAlertBanner ? 6 : 12, md: showAlertBanner ? 6 : 12 }}>
+                <PayPalAlertBanner />
+              </Grid>
+            )}
+          </Grid>
+          <div className="flex-1 overflow-y-auto h-full layout-content">
+            <Outlet />
+          </div>
         </Grid>
-
-        <div className="flex-1 overflow-y-auto h-full layout-content" >
-          <Outlet />
-        </div>
-
       </Grid>
-
-    </Grid>
+    </Box>
   );
 };
 

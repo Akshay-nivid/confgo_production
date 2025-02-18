@@ -110,7 +110,7 @@ const EventInfoCard: React.FC<any> = React.memo(
     }
   }, [eventDetailsDrawer]); // Dependency array ensures it runs when state updates
   
-  const uniqueSponsorCount = new Set(eventData?.eventSponsors.map(item => item.sponsorId)).size;
+  const uniqueSponsorCount = new Set(eventData?.eventSponsors.map((item:any) => item.sponsorId)).size;
 
   /** detals to loop through EventDetailCountCard*/
   const eventDetailCards = [
@@ -267,6 +267,8 @@ const EventInfoCard: React.FC<any> = React.memo(
         Object.entries(data).filter(([key]) => !excludeKeys.includes(key))),
       startTime: formatUTCDateTime(formattedStartTime),
       endTime: formatUTCDateTime(formattedEndTime),
+      eventStartTime: formattedStartTime,
+      eventEndTime: formattedEndTime,
       assetId: selectedFile?.id,
       isAbstract: data.isAbstract==true ? 1 : 0,
       ...(data?.eventClass !== "ONLINE" ?{
@@ -429,7 +431,7 @@ const EventInfoCard: React.FC<any> = React.memo(
           {/* Location */}
           {eventData?.eventClass === "OFFLINE"
             && (
-              <LocationView eventData={eventData} />
+              <LocationView eventData={eventData} onSubmitHandler={onSubmitHandler} />
             )}
 
         </Grid>

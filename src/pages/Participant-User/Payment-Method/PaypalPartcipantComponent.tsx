@@ -139,9 +139,9 @@ interface Link {
  * Component used to handle PayPal button 
  */
 const PayPalParticipantButton: React.FC = () => {
-
+    const paypalClientId = useStore((state: any) => state?.compData?.["paypal-company-clientId"]?.["paypalConfig/list"]?.data) ?? null
     const initialOptions = {
-        clientId: "AQ9K1hDjjXSmmQz1aBt3FDjLTkrl8DRJvnUC6H6_eXAw-wzz6eC2eoYmSOEJcdN0prPUX1hsSm8bfGtK",
+        clientId: paypalClientId?.[0]?.clientId,
         currency: "USD",
         intent: "capture",
         "disable-funding": "card"
@@ -320,7 +320,7 @@ const PayPalParticipantButton: React.FC = () => {
             {(checkoutLoading || paymentLoading) && <Backdrop open={true}>
                 <CircularProgress color="inherit" />
             </Backdrop>}
-            <PayPalScriptProvider options={initialOptions}>
+            {paypalClientId&&<PayPalScriptProvider options={initialOptions}>
                 <div ref={paypalButtonRef}>
                     <PayPalButtons
                         disabled={checkoutLoading || paymentLoading}
@@ -345,7 +345,8 @@ const PayPalParticipantButton: React.FC = () => {
 
                 </div>
 
-            </PayPalScriptProvider>
+            </PayPalScriptProvider>}
+
         </Grid>
     );
 };

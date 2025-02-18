@@ -2,7 +2,7 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import { Avatar, Divider, Menu, MenuItem } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
-import { SettingsIcon, LogoutIcon } from '@/assets/svg';
+import { SettingsIcon, LogoutIcon, AppThemeLogo } from '@/assets/svg';
 import {useEffect} from "react";
 import Grid from '@mui/material/Grid2';
 import useStore, { resetStore, setDataById } from '@/Libs/store';
@@ -19,7 +19,8 @@ export default function LayoutAppbar() {
   const baseUrl = config.api.url;  
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
-  const companyUserName = sessionStorage.getItem("companyUserName") || sessionStorage.getItem("name"); 
+  const userDetail=useStore((state:any)=>state.compData?.["userDetails"])  
+  const companyUserName = userDetail ? `${userDetail?.firstName ?? ""} ${userDetail?.lastName ?? ""}` : sessionStorage.getItem("companyUserName") || sessionStorage.getItem("name"); 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -74,7 +75,7 @@ export default function LayoutAppbar() {
   return (
     <Grid container className="appbar">
       <Grid  display={{xs:'block',md:'none'}} className="appbar-logo-container absolute ">
-      {/* <AppThemeLogo className={`appbar-logo-container-svg h-[3rem] w-[8rem]`} /> */}
+      <AppThemeLogo className={`appbar-logo-container-svg h-[3rem] w-[8rem]`} />
       </Grid>
       <Grid size={12} className="appbar-profile">
         <div className="avatar-group" onClick={handleMenuOpen}>

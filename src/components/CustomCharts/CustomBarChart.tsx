@@ -33,7 +33,7 @@ export default function CustomBarChart({ chartData,barProps }: { chartData: any,
           tickFormatter={(value)=>`$ ${value}`}
           tickCount={20} />
               <Tooltip />
-              <Legend formatter={()=><span>Revenue from Selected Event </span>}/>
+              <Legend formatter={()=><span>Revenue From Selected Event </span>}/>
               <Bar barSize={15}  fill="green" {...barProps}  />
             </BarChart>
           </ResponsiveContainer>

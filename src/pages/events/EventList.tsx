@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
-import { useForm } from "react-hook-form";
+import {  useForm } from "react-hook-form";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomButton from "@/components/CustomButton/CustomButton";
@@ -16,6 +16,7 @@ import { NoEvent as NoEventIcon } from "@/assets/svg";
 import { Filter } from "@/components/Filter";
 import { StatusEnum } from "@/Utils/StatusEnum";
 import moment from "moment";
+import Typography from "@mui/material/Typography/Typography";
 
 interface EventListProps {
   hideAction?: boolean;
@@ -143,6 +144,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
       let req: any = {
         filters: {
           name: query,
+          limit: 10
         },
       };
       const response = await await apiClient.post(`event/list`, req);
@@ -196,24 +198,21 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
      }));
    };
 
- 
+
+
+
 
   return (
     <Grid container className="custom-list">
-      {/* <Grid size={{ xs: 4 }}>
-        <Typography className="custom-list-list-title" gutterBottom>
-          Events
-        </Typography>
-      </Grid> */}
-
-      {/* Buttons for 'Create New Event' and 'Filters' */}
-      <Grid container size={{ xs: 8 }} spacing={2} justifyContent="flex-end">
+     
+      <Grid className="contents mb-8" container size={{ xs: 12 }} spacing={2} justifyContent="flex-end" flexWrap={"wrap"} >
         {!hideAction && (
           <>
-            <Grid container>
+        <Typography className='event-list-title'>Events</Typography>
+            <Grid flex={1}>
               <CustomAutocomplete
                 name="search"
-                className="custom-search-text-field"
+                className="custom-search-text-field event-search textfield-border"
                 control={control}
                 placeholder="Search Events Name"
                 options={searchResults} // Dynamic options based on API results
@@ -223,7 +222,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
                 onChange={handleAutocompleteChange}
               />
             </Grid>
-            <Grid container spacing={2} id ="event-create-new-event">
+            <Grid container size={{ xs: 12,sm:12,md:0 }} minWidth={{sm:"max-content"}} justifyContent={"flex-end"} marginLeft={{xs:"auto"}} spacing={2} id ="event-create-new-event ml-auto">
               <CustomButton
                 className="event-list-create-btn"
                 label="Create New Event"
@@ -236,12 +235,15 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
                 }}
               // disabled={loading}
               />
+              <Grid size={{ }}>
               <Filter datagridId='event-datagrid' fields={filterFields} />
+
+              </Grid>
             </Grid>
           </>
         )}
       </Grid>
-      <Grid size={{ xs: 12 }}>
+      <Grid size={{ xs: 12 }} className="shadow-app  app-border-radius">
         <DataGridList
           dataTransformer={transformData}
           source={source}

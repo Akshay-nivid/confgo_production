@@ -185,10 +185,10 @@ const Dashboard = () => {
           <RevenueAndUserChart />
         </Grid>
 
-        <Grid size={{ xs: 12,lg: 4 }} container rowSpacing={2} columnSpacing={2}>
+        <Grid size={{ xs: 12,lg: 4 }} height={"max-content"} container rowSpacing={2} columnSpacing={2}>
 
           {upcomingData ? <Grid size={{ xs: 12,md:6,lg:12 }} className="dashboard-calendar-card shadow-app" > <UpComingEvents data={upcomingData} /> </Grid> :
-            <Grid container className="dashboard-no-event-calender" justifyContent={"center"} alignItems={"center"} alignContent={"center"} flexDirection={"column"}>
+            <Grid size={{ xs: 12,md:12,lg:12 }} container  className="dashboard-no-event-calender shadow-app" justifyContent={"center"} alignItems={"center"} alignContent={"center"} flexDirection={"column"}>
               <CalenderNoData width={50} height={50} />
               <Typography className="dashboard-no-event-calender-header">No Events Scheduled</Typography>
               <Typography className="dashboard-no-event-calender-subHeader">Create New Events !</Typography>
@@ -210,13 +210,13 @@ const Dashboard = () => {
 
         </Grid>
 
-        <Grid size={{ xs: 12, sm: 12 }} container direction={'column'} borderRadius={2}  mb={2} className="shadow-app">
+        <Grid size={{ xs: 12, sm: 12 }} maxWidth={"100%"} container direction={'column'} borderRadius={2}  mb={2} className="shadow-app dashboard-event-list ">
             {fullEventList?.data?.length < 5 ? (
-              <Grid className="dashboard-event-list-card">
+              <Grid className="dashboard-event-list-card mt-0">
                 <EventListCard view={false} dashView={true} />
               </Grid>
             ) : (
-              <Grid className="dashboard-event-list-card -mt-8 relative overflow-x-auto" size={{ xs: 12, sm: 12 }}>
+              <Grid className="dashboard-event-list-card relative overflow-x-auto" size={{ xs: 12, sm: 12 }}>
                 <EventListCard view={true} dashView={true} />
               </Grid>
             )}

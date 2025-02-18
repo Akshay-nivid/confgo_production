@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@mui/material/Grid2';
-import { Typography } from '@mui/material';
+import { Avatar, Typography } from '@mui/material';
 import StatusComponent from '@/components/Status/StatusComponent';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import { toTitleCase, truncateString } from '@/Utils/CommonBaseClass';
@@ -57,13 +57,31 @@ const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetit
     return (
         <Grid container className="event-card" spacing={1} flexDirection={"column"} onClick={() => navigate(routes.userEventRecap(), { state: { eventId: id } })}>
             <Grid container justifyContent={"flex-start"} display={"flex"}>
-                <Grid className="logo-box" alignContent={"center"} >
-                    {eventFullData?.assetId && <img src={`${baseUrl}asset/${eventFullData?.assetId}`} alt=''/>}
+                <Grid  alignContent={"center"} >
+                    {/* {eventFullData?.assetId && <img src={`${baseUrl}asset/${eventFullData?.assetId}`} alt=''/>} */}
+
+                    {eventFullData?.assetId !== null ? (
+                                            <Avatar
+                                                src={`${baseUrl}asset/${eventFullData?.assetId}`}
+                                                className="logo-box"
+                                                alt="User Profile"
+                                                variant="circular"
+                                            />
+                                            
+                                        ) : (
+
+                                            <Avatar className="logo-box logo-box-text">
+
+                                                {`${eventFullData?.name[0]}`.toUpperCase()}
+
+                                            </Avatar>
+
+                                        )}
                 </Grid>
                 <Grid display={"block"}>
                     <CustomTooltip title={title}>
                         <Typography className="event-card-title" >
-                            {truncateString(toTitleCase(title), 20, "Untitled")}
+                            {truncateString(toTitleCase(title), 18, "Untitled")}
                         </Typography>
                     </CustomTooltip>
                     <Grid display={"flex"} alignItems={"center"} columnGap={1}>
