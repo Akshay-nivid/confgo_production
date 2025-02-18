@@ -38,16 +38,16 @@
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #888; /*  custom color */
+    background: $clr_medium_dim_gray; /*  custom color */
     border-radius: 0.83rem !important;
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background: #555 !important; /*  hover color */
+    background: $clr_charcoal_gray !important; /*  hover color */
   }
 
   &::-webkit-scrollbar-track {
-    background: #f1f1f1; /* custom track color */
+    background:$clr_offwhite; /* custom track color */
     border-radius: 0.83rem;
     margin-top: .2rem !important;
   }
