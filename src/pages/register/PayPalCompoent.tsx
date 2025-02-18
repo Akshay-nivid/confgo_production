@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { PayPalScriptProvider, PayPalButtons } from '@paypal/react-paypal-js';
 import Grid from '@mui/material/Grid2';
 import useStore, { clearDataById, POST } from '@/Libs/store';
@@ -18,9 +18,8 @@ const PayPalButton: React.FC = () => {
     //data for plan upgrade
     const planDetails = useStore((state: any) => state?.compData?.['planDetails']) ?? {};
     const subscriptionDetails = useStore((state: any) => state?.compData?.['subscriptionDetails']) ?? {};
-
+    const paymentReferenceNumberAdmin = useStore((state: any) => state?.compData?.["paymentReferenceNumberAdmin"]?.value) ?? null
     const setDataById = useStore((state: any) => state.setDataById)
-
     const navigate = useNavigate();
     
     const initialOptions = {
@@ -60,11 +59,15 @@ const PayPalButton: React.FC = () => {
             paymentSubscription(paymentInfo);
         }
     };
+    useEffect(() => {
+        setDataById('paymentReferenceNumberAdmin', { value:  subscriptionDetails?.field_values?.id + JSON.stringify(Date.now()) })
+    }, [ subscriptionDetails?.field_values?.id])
 
     const paymentSubscription = async (paypalData: any) => {
         try {
             const requestBody = {
                 paymentMethodId: 1,
+                paymentreferencenumber: paymentReferenceNumberAdmin,
                 state: paypalData?.status,
                 errorMessage: "No error message",
                 transactionId: paypalData?.id,
@@ -119,7 +122,7 @@ const PayPalButton: React.FC = () => {
                                         ? form1?.field_values?.amount
                                         : planDetails?.field_values?.amount,
                                     },
-                                    custom_id:'test234'
+                                    custom_id:paymentReferenceNumberAdmin
                                 }],
                                 intent: 'CAPTURE'
                             });
