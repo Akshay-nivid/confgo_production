@@ -84,7 +84,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
     {
       type: 'date',
       fieldName: 'startTime',
-      label: 'Today',
+      label: 'Date',
       heading: 'Filter with Start Date'
     },
     {
