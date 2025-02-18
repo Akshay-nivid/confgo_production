@@ -155,7 +155,7 @@ function sortDates(dates: string[], ascending = true) {
   // Convert dates to a sortable format (YYYY-MM-DD)
   const convertToSortable = (dateStr: string) => {
       try {
-          const [month, day, year] = dateStr.split('-');
+          const [month, day, year] = dateStr?.split('-');
           const monthNum = monthMap[month];
           if (!monthNum) throw new Error(`Invalid month: ${month}`);
           
@@ -187,7 +187,7 @@ function sortObjectByKeyPriority(obj: any) {
   const priorityOrder = ['programs', 'addon', 'addonProp'];
 
   // Create a sorted array of keys based on the priority
-  const sortedKeys = Object.keys(obj).sort((a, b) => {
+  const sortedKeys = Object.keys(obj)?.sort((a, b) => {
     // Find the matching priority type for each key
     const aPriorityIndex = priorityOrder.findIndex(type => a.includes(type));
     const bPriorityIndex = priorityOrder.findIndex(type => b.includes(type));
@@ -258,7 +258,7 @@ export const processFormData = (formData: any, id: any, participantTypeId: strin
 
   const sortedFormData = sortObjectByKeyPriority(formData)
 
-  Object.entries(sortedFormData).forEach(([key, value]: [string, any]) => {
+  Object.entries(sortedFormData)?.forEach(([key, value]: [string, any]) => {
 
     if (key.includes('program') && value !== undefined) {
 
@@ -275,7 +275,7 @@ export const processFormData = (formData: any, id: any, participantTypeId: strin
 
       if (value === undefined || !value) return
 
-      const addonKey = parseInt(key.split('-')[1])
+      const addonKey = parseInt(key?.split('-')[1])
 
       addonGroup[addonKey] = {
 
@@ -293,7 +293,7 @@ export const processFormData = (formData: any, id: any, participantTypeId: strin
 
       if (value === undefined || value.length === 0) return
 
-      const addonKey = parseInt(key.split('-')[2])
+      const addonKey = parseInt(key?.split('-')[2])
 
       addonGroup[addonKey] = {
 
