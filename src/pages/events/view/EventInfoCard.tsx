@@ -431,7 +431,7 @@ const EventInfoCard: React.FC<any> = React.memo(
           {/* Location */}
           {eventData?.eventClass === "OFFLINE"
             && (
-              <LocationView eventData={eventData} />
+              <LocationView eventData={eventData} onSubmitHandler={onSubmitHandler} />
             )}
 
         </Grid>
