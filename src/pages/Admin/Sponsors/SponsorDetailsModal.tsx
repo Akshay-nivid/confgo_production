@@ -49,7 +49,7 @@ const SponsorDetailsModal = ({ className }: { className?: string }) => {
                             </IconButton>
                         </Box>
                         <a href={sponsorDetails?.website || ''}>
-                            <Typography className="modal-header-description">{sponsorDetails?.website || "NA"}</Typography>
+                            <Typography className="modal-header-description">{sponsorDetails?.website || " "}</Typography>
                         </a>
 
                     </Box>
@@ -61,7 +61,7 @@ const SponsorDetailsModal = ({ className }: { className?: string }) => {
                                 <EmailOutlinedIcon className="icon" />
                                 <Typography className="label">Email</Typography>
                             </Box>
-                            <Typography className="value">{sponsorDetails?.email || "NA"}</Typography>
+                            <Typography className="value">{sponsorDetails?.email || " "}</Typography>
                         </Grid>
 
                         <Grid size={{ xs: 12, md: 6 }} className="modal-group">
@@ -78,7 +78,7 @@ const SponsorDetailsModal = ({ className }: { className?: string }) => {
                                 <Typography className="label">WebSite</Typography>
                             </Box>
                             <a href="{sponsorDetails?.website}">
-                                <Typography className="value">{sponsorDetails?.website || "NA"}</Typography>
+                                <Typography className="value">{sponsorDetails?.website || " "}</Typography>
                             </a>
                         </Grid>
 
@@ -87,7 +87,7 @@ const SponsorDetailsModal = ({ className }: { className?: string }) => {
                                 <DateRangeOutlinedIcon className="icon" />
                                 <Typography className="label">Created On</Typography>
                             </Box>
-                            <Typography className="value">{getLocalTimeDate(sponsorDetails?.createdOn, "MMMM-MM-YY HH:mm A") || "NA"}</Typography>
+                            <Typography className="value">{getLocalTimeDate(sponsorDetails?.createdOn, "MM-DD-YY HH:mm A") || "NA"}</Typography>
                         </Grid>
 
                         <Grid size={{ xs: 12, md: 6 }} className="modal-group">
@@ -95,11 +95,11 @@ const SponsorDetailsModal = ({ className }: { className?: string }) => {
                                 <DateRangeOutlinedIcon className="icon" />
                                 <Typography className="label">Modified On</Typography>
                             </Box>
-                            <Typography className="value">{getLocalTimeDate(sponsorDetails?.modifiedOn, "MMMM-MM-YY HH:mm A") || "NA"}</Typography>
+                            <Typography className="value">{getLocalTimeDate(sponsorDetails?.modifiedOn, "MM-DD-YY HH:mm A") || "NA"}</Typography>
                         </Grid>
 
                         <Box className="modal-divider"></Box>
-
+                    {sponsorDetails?.logoUrl && (
                         <Grid size={{ xs: 12, md: 5 }} className="modal-group">
                             <Box display={'flex'} columnGap={.4} alignItems={"center"}>
                                 <ImageOutlinedIcon className="icon" />
@@ -109,7 +109,8 @@ const SponsorDetailsModal = ({ className }: { className?: string }) => {
                                 <img className="h-full w-full rounded-sm" src={sponsorDetails?.logoUrl ? sponsorDetails?.logoUrl : ''} alt='sponsor logo' />
                             </Box>
                         </Grid>
-
+                        )}
+                        {sponsorDetails?.bannerUrl && sponsorDetails.bannerUrl !== "https://api.confgo.com/api//asset/null" && (
                         <Grid size={{ xs: 12, md: 7 }} className="modal-group">
                             <Box display={'flex'} columnGap={.4} alignItems={"center"}>
                                 <ImageOutlinedIcon className="icon" />
@@ -119,6 +120,7 @@ const SponsorDetailsModal = ({ className }: { className?: string }) => {
                                 <img className="h-full w-full rounded-sm" src={sponsorDetails?.bannerUrl ? sponsorDetails?.bannerUrl : ''} alt='sponsor logo' />
                             </Box>
                         </Grid>
+                            )} 
                     </Grid>
 
                 </Box>
