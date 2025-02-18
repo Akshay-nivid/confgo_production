@@ -1,0 +1,27 @@
+.custom-stepper{
+    overflow-y: hidden;
+    height: 100%;
+    &-scroll-container{
+        overflow-y: auto;
+        height: 99%;
+
+        &::-webkit-scrollbar{
+            display: none;
+        }
+    }
+
+    &-main{
+        display: flex;
+        margin-top: 12.5rem !important;
+
+    }
+
+    &-container{
+        height: max-content !important;
+        margin-top: 0 !important;
+        padding-left: 3rem;
+        .custom-stepper-stepBox t{
+            width: max-content !important;
+        }
+    }
+}

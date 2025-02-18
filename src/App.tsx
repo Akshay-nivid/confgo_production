@@ -2,7 +2,7 @@ import "@/styles/main.scss";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import routes from "@/router/routes";
 import Dashboard from "@/pages/dashboard";
-import Events from "@/pages/events";
+import Events from "@/pages/events/createEvent/index";
 import CalendarRoute from "@/pages/calendar";
 import Home from "@/pages/home";
 import Pricing from "@/pages/pricing";
