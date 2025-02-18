@@ -144,7 +144,6 @@ const EventInfoCard: React.FC<any> = React.memo(
     },
   ];
 
-  console.log(eventData,"eventDataspo")
     /**
    *useEffect get specialty
    */
