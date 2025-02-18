@@ -110,8 +110,9 @@ const EventInfoCard: React.FC<any> = React.memo(
     }
   }, [eventDetailsDrawer]); // Dependency array ensures it runs when state updates
   
-  const uniqueSponsorCount = new Set(eventData?.eventSponsors.map((item:any) => item.sponsorId)).size;
-
+  //corrected the count of  speaker and sposor by removing the duplication
+  const uniqueSponsorCount = new Set(eventData?.eventSponsors.map((item:any) => item?.sponsorId)).size;
+  const uniqueSpeakerCount = new Set(eventData?.eventSpeakers.map((item:any) => item?.userId)).size;
   /** detals to loop through EventDetailCountCard*/
   const eventDetailCards = [
     {
@@ -127,7 +128,7 @@ const EventInfoCard: React.FC<any> = React.memo(
       icon: <EventDetailSponsor className="single-event-icon" />,
     },
     {
-      count: eventData?.eventSpeakers?.length || 0,
+      count: uniqueSpeakerCount || 0,
       title: "Speakers",
       description: "Experts & keynote guests",
       icon: <EventDetailSpeaker className="single-event-icon" />,
@@ -140,6 +141,7 @@ const EventInfoCard: React.FC<any> = React.memo(
     },
   ];
 
+  console.log(eventData,"eventDataspo")
     /**
    *useEffect get specialty
    */

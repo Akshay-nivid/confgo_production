@@ -60,7 +60,7 @@ const EventRecap: React.FC = React.memo(() => {
   const POST = useStore((state: any) => state.POST);
   const userDetails = useStore(state => state?.compData?.['userDetails']) ?? {};
   const Program = useStore((state: any) => state?.compData?.['programs']?.data) ?? [];
-
+  const currency = config.currency;
   /**
    * attended status
    */
@@ -270,23 +270,29 @@ if (eventData[0]?.eventClass === 'OFFLINE') {
       pdf.setFontSize(15), pdf.setFont('helvetica', 'bold');
       const paymentDate = moment(eventTicketData?.data?.PaymentDetails?.createdOn).format('Do MMMM YYYY') || "N/A";
       const transactionId = eventTicketData?.data?.PaymentDetails?.transactionId || "N/A";
-      const totalAmount = eventTicketData?.data?.PaymentDetails?.amount || "N/A";
+      const totalAmount =eventTicketData?.data?.PaymentDetails?.amount 
+      ? `${currency} ${eventTicketData.data.PaymentDetails.amount}` 
+      : "N/A";
+      const discountApplied = eventTicketData?.data?.PaymentDetails?.order?.couponDeduction ? `${currency} ${eventTicketData?.data?.PaymentDetails?.order?.couponDeduction}` 
+      : "N/A";
+      const subTotal = eventTicketData?.data?.PaymentDetails?.order?.subTotal ? `${currency} ${eventTicketData?.data?.PaymentDetails?.order?.subTotal}` : "N/A";
+      const tax = eventTicketData?.data?.PaymentDetails?.order?.tax ? `${currency} ${eventTicketData?.data?.PaymentDetails?.order?.tax}` : "N/A";
       pdf.setFont('helvetica', 'bold');
-      pdf.text('Ticket Price', horizontalPadding, 138);
+      pdf.text('Discount Applied', horizontalPadding, 138);
       pdf.setFont('helvetica', 'normal');
-      // pdf.text(eventTicketData?.data?.PaymentDetails?.amount, pageWidth / 2.3, 138);
+      pdf.text(discountApplied, pageWidth / 2.3, 138);
       pdf.setFont('helvetica', 'bold');
-      pdf.text('Tax', horizontalPadding, 148);
+      pdf.text('Sub Total', horizontalPadding, 148);
       pdf.setFont('helvetica', 'normal');
-      // pdf.text(eventTicketData?.data?.PaymentDetails?.amount, pageWidth / 2.3, 148);
+      pdf.text(subTotal, pageWidth / 2.3, 148);
       pdf.setFont('helvetica', 'bold');
-      pdf.text('Discount Applied', horizontalPadding, 158);
+      pdf.text('Tax', horizontalPadding, 158);
       pdf.setFont('helvetica', 'normal');
-      // pdf.text(eventTicketData?.data?.PaymentDetails?.amount, pageWidth / 2.3, 158);
+      pdf.text(tax, pageWidth / 2.3, 158);
       pdf.setFont('helvetica', 'bold');
       pdf.text('Total Paid', horizontalPadding, 168);
       pdf.setFont('helvetica', 'normal');
-      pdf.text(totalAmount, pageWidth / 2.3, 160);
+      pdf.text(totalAmount, pageWidth / 2.3, 168);
       pdf.setFont('helvetica', 'bold');
       pdf.text('Payment Date', horizontalPadding, 178);
       pdf.setFont('helvetica', 'normal');
