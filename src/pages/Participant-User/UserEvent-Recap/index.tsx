@@ -402,7 +402,7 @@ if (eventData[0]?.eventClass === 'OFFLINE') {
           </Grid>
           <Grid size={{ xs: 12, sm: 8 }}>
             <Tabs value={tabInfo} className="my-event-tabs" onChange={handleTabChange}>
-              <Tab label="Registered Programmes" className="account-tab-title account-tabs"></Tab>
+              <Tab label="Registered Programs" className="account-tab-title account-tabs"></Tab>
               {eventData![0]?.isAbstract === 1 && <Tab label="Upload Abstract" className="account-tab-title account-tabs"></Tab>}
             </Tabs>
           </Grid>

@@ -294,7 +294,7 @@ const HeaderSection = () => {
                 <Typography className="upload-abstract-header">Upload Abstract</Typography>
             </Grid>
             <Grid size={12} className="upload-abstract-gap-text">
-                <Typography className="upload-abstract-sub-header">Upload your abstracts to link them to the programme.</Typography>
+                <Typography className="upload-abstract-sub-header">Upload your abstracts to link them to the program.</Typography>
             </Grid>
         </Grid>
     );
