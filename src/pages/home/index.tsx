@@ -1,11 +1,12 @@
-import ViewPricingBanner from '../home-layout/ViewPricingBanner';
-import ConfrenceManagementSection from './ConfrenceManagementSection';
-import FeatureSection from './FeatureSection';
-import HeroSection from './HeroSection';
-import WhychooseSection from '../home-layout/WhychooseSection';
 import useStore, { IStoreState } from '@/Libs/store';
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { resetStore } from '@/Libs/store';
+
+const ViewPricingBanner = lazy(() => import('../home-layout/ViewPricingBanner'));
+const ConfrenceManagementSection = lazy(() => import('./ConfrenceManagementSection'));
+const FeatureSection = lazy(() => import('./FeatureSection'));
+const HeroSection = lazy(() => import('./HeroSection'));
+const WhychooseSection = lazy(() => import('../home-layout/WhychooseSection'));
 /*
  * home page component
  * @returns
@@ -27,11 +28,13 @@ const HomePage = () => {
   
   return (
     <>
-      <HeroSection />
-      <ConfrenceManagementSection />
-      <FeatureSection />
-      <WhychooseSection />
-      <ViewPricingBanner />
+      <Suspense fallback={<div>Loading...</div>}>
+        <HeroSection />
+        <ConfrenceManagementSection />
+        <FeatureSection />
+        <WhychooseSection />
+        <ViewPricingBanner />
+      </Suspense>
     </>
   );
 };

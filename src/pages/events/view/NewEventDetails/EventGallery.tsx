@@ -16,10 +16,10 @@ import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import { setDataById } from "@/Libs/store";
 
 interface CustomFile {
-  assetId: any;
-  id: string;
-  name: string;
-  sourcePath: string;
+  asset:{
+    id: string;
+    name: string;
+  }
 }
 
 /**
@@ -31,7 +31,7 @@ const EventGallery: React.FC = () => {
 
   const [files, setFiles] = useState<CustomFile[]>([]);
   const [_loading, setLoading] = useState<boolean>(true);
-  const [selectedFiles, setSelectedFiles] = useState<CustomFile[]>([]);
+  const [selectedFiles, setSelectedFiles] = useState<any[]>([]);
   const [_modalOpen, setModalOpen] = useState(false);
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
   const [gallery, setGallery] = useState(false);
@@ -107,9 +107,9 @@ const EventGallery: React.FC = () => {
    * adding break points to image masonry
    */
   const breakpointColumnsObj = {
-    default: 3,
-    1100: 2,
-    700: 1,
+    default: 6,
+    1100: 4,
+    700: 3,
   };
 
   /**
@@ -140,10 +140,10 @@ const EventGallery: React.FC = () => {
         {files?.length != 0 ? (
             <Grid container spacing={1} justifyContent="center">
               {files?.slice(0, 5)?.map((item) => (
-                <Grid key={item?.id} className="event-gallery-images">
+                <Grid key={item?.asset?.id} className="event-gallery-images">
                   <img
-                    src={`${baseURL}asset/${item?.assetId}`}
-                    alt={item?.name}
+                    src={`${baseURL}asset/${item?.asset?.id}`}
+                    alt={item?.asset?.name}
                     loading="lazy"
                     className="event-gallery-info-image"
                   />
@@ -208,14 +208,19 @@ const EventGallery: React.FC = () => {
               columnClassName="event-gallery-masonry-column"
             >
               {files?.map((item) => (
+                <>
                 <img
-                  key={item?.id}
-                  src={`${baseURL}asset/${item?.assetId}`}
-                  alt={item?.name}
+                  key={item?.asset?.id}
+                  src={`${baseURL}asset/${item?.asset?.id}`}
+                  alt={item?.asset?.name}
                   className="event-gallery-img"
                   loading="lazy"
                 />
-              ))}
+                <Grid display={"flex"} alignItems={"center"} justifyContent={"center"}>
+                  <Typography className="event-gallery-img-name">{item?.asset?.name}</Typography>
+                </Grid>
+                </>
+              ))}      
             </Masonry>
           </Box>
         </Box>
@@ -243,13 +248,15 @@ const EventGallery: React.FC = () => {
               {selectedFiles?.length !== 0 ? (
                 <>
                   {selectedFiles?.flat()?.map((file) => (
-                    <Grid key={file?.id}>
+                      <Grid key={file?.id} display={"flex"} flexDirection={"column"} alignItems={"center"} justifyContent={"center"}>
                       <img
                         src={`${baseURL}asset/${file?.id}`}
                         alt={file?.name}
                         loading="lazy"
-                        className="event-gallery-confirm-img"                      />
-                    </Grid>
+                        className="event-gallery-confirm-img"
+                      />
+                      <Typography>{file?.name}</Typography>
+                    </Grid>                
                   ))}
                 </>
               ) : (
@@ -267,7 +274,7 @@ const EventGallery: React.FC = () => {
             </Grid>
             <Grid size={12} container spacing={2} justifyContent="center">
                 <Grid size={{ xs: 12, sm: 12 }}>
-                  <CustomButton className="custom-list-save-btn" label="Submit" variant="contained" type="submit" size="large" onClick={() => addImages()} />
+                  <CustomButton className="event-gallery-save-btn" label="Submit" variant="contained" type="submit" size="large" onClick={() => addImages()} disabled={selectedFiles?.length == 0 ? true: false  }/>
                   <CustomButton className="custom-list-save-btn custom-list-restore-btn" label="Cancel" variant="outlined" size="large" onClick={() => cancelupload()}/>
                 </Grid>
               </Grid>
