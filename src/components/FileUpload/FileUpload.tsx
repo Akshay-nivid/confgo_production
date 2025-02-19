@@ -7,7 +7,7 @@ import DeleteIcon from '@mui/icons-material/Close';
 import CustomButton from '../CustomButton/CustomButton';
 import clsx from 'clsx';
 import DownloadIcon from '../../assets/svg/abstract-download.svg';
-import { PdfIcon } from '@/assets/svg';
+import { PdfIcon,UploadFileLogo } from '@/assets/svg';
 
 interface Resolution {
   width?: number | null;
@@ -226,18 +226,18 @@ const FileUpload: React.FC<FileUploadProps> = ({
         <input {...getInputProps()} disabled={disabled} />
         {selectedFiles.length === 0 && (
           <Grid>
+            <Grid display="flex" justifyContent={'center'} alignItems={'center '}>
+            <UploadFileLogo className='file-upload-Logo'/>
+            </Grid>
             {isDragActive ? (
               <Typography>Drop the files here...</Typography>
             ) : isAbstract ? (
               <Grid container className="file-upload-abstract" direction={'column'} justifyContent={'center'} alignItems={'center '}>
                 <Grid>
-                  <DownloadIcon />
-                </Grid>
-                <Grid>
                   <Typography className="file-upload-abstract-title">Attach Abstract</Typography>
                 </Grid>
                 <Grid>
-                  <Typography className="file-upload-abstract-sub-title">Choose a file(PDF, DOCX), Max file size: {maxSize}MB</Typography>
+                  <Typography className="file-upload-abstract-sub-title">Choose a file PDF, Docs/ Max. {maxSize}MB</Typography>
                 </Grid>
               </Grid>
             ) : (

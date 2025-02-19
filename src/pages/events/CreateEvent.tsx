@@ -226,8 +226,7 @@ const CreateEvent: React.FC<EventProps> =
       const startTime = new Date(data.startTime);
       const endTime = new Date(data.endTime);
       const today = new Date();
-
-
+      const abstractDate=new Date(data?.abstractDate)
 
       if(selectedFile){
         setValue('assetId',selectedFile?.id)
@@ -245,6 +244,13 @@ const CreateEvent: React.FC<EventProps> =
         setError('startTime', {
           type: 'manual',
           message: 'Dates cannot be in the past',
+        });
+        return;
+      }
+      if (abstractDate < today) {
+        setError('abstractDate', {
+          type: 'manual',
+          message: 'Abstract submission date must be a future date',
         });
         return;
       }
