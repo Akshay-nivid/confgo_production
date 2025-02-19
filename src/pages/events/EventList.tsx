@@ -74,7 +74,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
   ];
 
   const statusArray = [
-    { label: "Active", value: "ACTIVE" },
+    { label: "Pending", value: "ACTIVE" },
     { label: "Published", value: "PUBLISHED" },
     { label: "Draft", value: "DRAFTED" },
     { label: "Expired", value: "EXPIRED" },
@@ -96,7 +96,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
     },
     {
       type: 'tiles',
-      fieldName: 'statusId',
+      fieldName: 'statusName',
       label: 'Status',
       heading: 'Filter with Status',
       options: statusArray

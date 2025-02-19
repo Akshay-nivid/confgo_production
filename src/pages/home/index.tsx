@@ -1,6 +1,7 @@
 import useStore, { IStoreState } from '@/Libs/store';
 import { lazy, Suspense, useEffect } from 'react';
 import { resetStore } from '@/Libs/store';
+import { Box, CircularProgress } from '@mui/material';
 
 const ViewPricingBanner = lazy(() => import('../home-layout/ViewPricingBanner'));
 const ConfrenceManagementSection = lazy(() => import('./ConfrenceManagementSection'));
@@ -28,7 +29,18 @@ const HomePage = () => {
   
   return (
     <>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      }>
         <HeroSection />
         <ConfrenceManagementSection />
         <FeatureSection />

@@ -416,9 +416,9 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
                 </Grid>}
             </Grid>}
               </Grid>
-              <Grid>
+              {eventFullData?.status?.statusName !== 'EXPIRED' && <Grid>
                 <CustomButton className={eventFullData?.published?"event-detail-event-info-card-unpublish-btn": "event-detail-event-info-card-publish-btn"} startIcon={eventFullData?.published?<UnpublishIcon/>:<PublishIcon />} label={eventFullData?.published? "Unpublish Event": "Publish Event"} onClick={() =>{ handlePublishUnPublish()}}/>
-              </Grid>
+              </Grid>}
             </Grid>
           </Grid>
         </Grid>
