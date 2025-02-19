@@ -61,9 +61,11 @@ const MobileLayout = ({ showAlertBanner,showPaypalBanner }: { showAlertBanner: b
             <Sidebar open={true} />
           </Box>
           <Box className="flex-1 h-full overflow-y-auto layout-content">
-          <Grid size={{ xs: 12, md: 12 }}>
-            {showAlertBanner && <Grid><PaymentAlertBanner /></Grid>}
-            {showPaypalBanner&&<PayPalAlertBanner/>}
+            <Grid container paddingInline={{
+              xs: 2, sm: 0
+            }} rowSpacing={2} size={{ xs: 12, md: 12 }}>
+              {showAlertBanner && <Grid><PaymentAlertBanner /></Grid>}
+              {showPaypalBanner && <PayPalAlertBanner />}
             </Grid>
             <Box className="flex-1">
             <Outlet />
@@ -89,14 +91,14 @@ const DesktopLayout = ({ showAlertBanner,showPaypalBanner }: { showAlertBanner: 
           <Grid size={12}>
             <LayoutAppbar />
           </Grid>
-          <Grid container flexDirection={"row"} size={{ xs: 12, md: 12 }}>
+          <Grid display={"flex"} className="alert-box">
             {showAlertBanner && (
-              <Grid size={{ xs: showPaypalBanner ? 6 : 12, md: showPaypalBanner ? 6 : 12 }}>
+              <Grid  flex={1}>
                 <PaymentAlertBanner />
               </Grid>
             )}
             {showPaypalBanner && (
-              <Grid size={{ xs: showAlertBanner ? 6 : 12, md: showAlertBanner ? 6 : 12 }}>
+              <Grid flex={1}>
                 <PayPalAlertBanner />
               </Grid>
             )}

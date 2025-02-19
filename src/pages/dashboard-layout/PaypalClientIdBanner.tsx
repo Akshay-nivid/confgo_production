@@ -24,19 +24,17 @@ export const PayPalAlertBanner = () => {
 
   return (
     <Grid container size={{ xs: 12, sm: 12 }} p={3} pb={0} className="payment-alert-banner">
-      <Alert severity="warning" icon={<WarningIcon/>}>
+      <Alert severity="warning" icon={<WarningIcon />}>
         <Grid>
           <Typography className="payment-alert-banner-title">
             PayPal Client ID Missing
           </Typography>
         </Grid>
-        <Grid>
+        <Grid display={"flex"} flexDirection={{xs:"column",sm:'row'}}>
           <Typography className="payment-alert-banner-sub-title">
             It looks like your PayPal Client ID is missing. Please add it to proceed with payments and start publishing your events.
           </Typography>
-        </Grid>
-        <Grid pt={2} pb={1}>
-          <CustomButton className="payment-alert-banner-btn" label={"Add Client Id"} onClick={handleViewPlanDetails} />
+          <CustomButton className="payment-alert-banner-btn " label={"Add Client Id"} onClick={handleViewPlanDetails} />
         </Grid>
       </Alert>
     </Grid>
