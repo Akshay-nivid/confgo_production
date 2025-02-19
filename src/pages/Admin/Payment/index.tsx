@@ -109,9 +109,15 @@ const AdminPaymentList: React.FC = () => {
         {
           type: 'select',
           fieldName: 'eventId',
-          label: 'Event List',
-          heading: 'Filter with Event List',
+          label: 'Events',
+          heading: 'Filter with Event',
           options: eventvalueList
+        },
+        {
+          type: 'date',
+          fieldName: 'startTime',
+          label: 'Date',
+          heading: 'Filter with Date'
         },
       ]
  /**
@@ -292,6 +298,33 @@ const AdminPaymentList: React.FC = () => {
       }
       
     },[paymentDetail]);
+
+
+    /**
+    * Method handles the filter transformer
+    * @param filters : filters request data
+    * @returns : transformed filter request
+    */
+  const handleFilterTransformer = (filters: any) => {
+    for (let key in filters) {
+      if (key === "startTime") {
+        filters["startDate"] = filters[key]; // Convert startTime to startDate
+        delete filters["startTime"];
+      } else if (key === "endTime") {
+        filters["endDate"] = filters[key]; // Convert endTime to endDate
+        delete filters["endTime"];
+      }
+    }
+
+    // Ensure endDate gets startDate's value if missing
+    if (!filters["endDate"]) {
+      filters["endDate"] = filters["startDate"];
+    }
+
+    return filters;
+  };
+    
+
     return (
         <Grid container className="adminpayment">
             <Grid size={12} className='title-filter-container'>
@@ -312,11 +345,11 @@ const AdminPaymentList: React.FC = () => {
 
                         />
                     </Box> */}
-                    {/* <Box className="filter-button">
+                    {/* <Box className="filter-button"
                     <Filter datagridId='coupon-datagrid filter-button' fields={filterFields} />
                     </Box> */}
                     <Box className="button-container">
-                    <Filter datagridId='payment-datagrid' fields={filterFields} />
+                    <Filter datagridId='payment-datagrid' fields={filterFields} filterTransformer={handleFilterTransformer}/>
                     </Box>
                 </Box>
             </Grid>
