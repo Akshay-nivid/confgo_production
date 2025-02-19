@@ -223,11 +223,13 @@
             .label {
                 font-size: $h6;
                 font-weight: $font_normal;
-                margin-bottom: 0 !important;
+                margin-bottom: -.3rem !important;
             }
 
             .value {
                 color: $clr_blue;
+                font-size: $h1;
+                font-weight: $font_extrabold;
                 line-height: 1ch;
             }
         }

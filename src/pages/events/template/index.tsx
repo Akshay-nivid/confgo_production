@@ -22,11 +22,11 @@ type TemplateContainerProps = {
 }
 
 const templates: any = {
-  5: Template4,
+  1: Template4,
   2: Template2,
   3: Template3,
   4: Template1,
-  1: Template5,
+  5: Template5,
 };
 
 /**
