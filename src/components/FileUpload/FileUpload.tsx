@@ -233,7 +233,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
             ) : isAbstract ? (
               <Grid container className="file-upload-abstract" direction={'column'} justifyContent={'center'} alignItems={'center '}>
                 <Grid>
-                  <Typography className="file-upload-abstract-title">Attach Abstract</Typography>
+                  <Typography className="file-upload-abstract-title">Drag & drop or click here to upload.</Typography>
                 </Grid>
                 <Grid>
                   <Typography className="file-upload-abstract-sub-title">Choose a file PDF, Docs/ Max. {maxSize}MB</Typography>
