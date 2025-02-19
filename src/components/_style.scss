@@ -3,6 +3,10 @@
   font-size: 0.833rem !important;
   margin-left: 0 !important;
   margin-bottom: -0.4rem !important;
+
+  &.MuiFormHelperText-root {
+    margin-right: 0 !important;
+  }
 }
 
 .plan-card-active {
@@ -145,14 +149,14 @@
   }
 
   .MuiOutlinedInput-root.Mui-disabled {
-    .MuiOutlinedInput-notchedOutline{
+    .MuiOutlinedInput-notchedOutline {
       border-color: $clr_gray_very_light !important;
 
     }
 
-  .MuiSvgIcon-root{
-    color: $clr_gray_light !important;
-  }
+    .MuiSvgIcon-root {
+      color: $clr_gray_light !important;
+    }
 
   }
 
@@ -163,11 +167,11 @@
     background-color: $clr_white;
     padding-right: 0.5rem;
 
-    &.label-disabled{
-      color: $clr_gray_light  !important ;
+    &.label-disabled {
+      color: $clr_gray_light !important;
     }
-    
-   
+
+
     &.Mui-focused {
       font-weight: $font_normal;
 
@@ -179,7 +183,7 @@
       color: $clr_grey;
       background-color: $clr_white;
     }
-    
+
   }
 
 
@@ -211,14 +215,16 @@
     border-color: $clr_red !important;
   }
 }
-.fx-skelton{
-  border-radius: $p2 !important;
+
+.fx-skelton {
+  border-radius: .4rem !important;
   border: 0rem !important;
 }
+
 //DataGrid css starts here
 .custom-data-grid {
-  margin-top: 1rem;
-  border-radius: $p2 !important;
+  border-radius: 0.4rem !important;
+  margin: 0 !important;
   border: 0rem !important;
   font-size: $p1;
 
@@ -234,9 +240,10 @@
     background-color: $clr_gray_medium;
   }
 
-  .MuiDataGrid-columnHeader:focus-within{
+  .MuiDataGrid-columnHeader:focus-within {
     outline: none !important;
   }
+
   .MuiDataGrid-virtualScrollerRenderZone {
     overflow: scroll !important;
     max-height: calc(var(--grid-height) - 5.7rem) !important;
@@ -305,8 +312,7 @@
   }
 
   &-grid {
-    margin-left: 0.4rem;
-    margin-right: 0.4rem;
+
 
     //margin: 3rem;
     .list-title {
@@ -422,9 +428,10 @@
 }
 
 .custom-list {
-  margin-top: 2.2rem !important;
-  margin-left: 2rem !important;
-  margin-right: 2rem !important;
+  margin-top: 1.4rem !important;
+  padding-inline: 1.5rem !important;
+  // margin-left: 2rem !important;
+  // margin-right: 2rem !important;
 
   &-next-btn {
     max-height: 4rem;
@@ -469,7 +476,11 @@
     text-transform: none !important;
     font-size: $p1 !important;
     font-weight: $font_normal !important;
+    height: 100%;
 
+    @media screen and (max-width: 600px) {
+      padding-inline: 0 !important;
+    }
   }
 
   &-list-title {
@@ -513,55 +524,64 @@
   padding: 2rem;
   margin: 1rem;
   width: 36rem;
+
   &-header {
     font-size: $h5 !important;
     font-weight: $font-semibold !important;
   }
+
   &-subheader {
     font-size: $h6 !important;
     font-weight: $font-semibold !important;
     margin-top: 1.5rem !important;
     margin-bottom: 0.5rem !important;
   }
+
   &-card-template {
     padding: 0.1rem;
     background-color: $clr_gray_very_light;
     text-align: center;
     border-radius: 5px;
+
     button {
-        padding: 0.3rem;
-        color: $clr_gray_dark;
-        text-transform: none;
-        font-weight: $font_bold !important;
-        font-size:small;
+      padding: 0.3rem;
+      color: $clr_gray_dark;
+      text-transform: none;
+      font-weight: $font_bold !important;
+      font-size: small;
     }
   }
+
   &-card-template-selected {
     border: 0.15rem solid;
-    border-color: $clr_green !important;;
+    border-color: $clr_green !important;
+    ;
     background-color: $clr_gray_very_light;
     text-align: center;
     border-radius: 5px;
-    
+
     button {
-        padding: 0.3rem;
-        color: $clr_green;
-        text-transform: none;
-        font-weight: $font_bold !important;
-        font-size:small;
+      padding: 0.3rem;
+      color: $clr_green;
+      text-transform: none;
+      font-weight: $font_bold !important;
+      font-size: small;
     }
   }
+
   .seperator {
     width: 100%;
     margin: 0 auto;
     border-color: $clr_gray_medium;
   }
-  &-clear-button{
+
+  &-clear-button {
     text-transform: none !important;
     background-color: $clr_green !important;
     box-shadow: none !important;
   }
-  &-apply-button{
+
+  &-apply-button {
     text-transform: none !important;
     background-color: $clr_green !important;
     box-shadow: none !important;
@@ -604,7 +624,7 @@
     font-weight: $font_normal !important;
 
     &:hover {
-      background-color: $clr_white !important;  
+      background-color: $clr_white !important;
       color: $clr_green !important;
       border: 1px solid $clr_green ;
       /* Darker green */
@@ -615,14 +635,14 @@
 
 .custom-autopopulate {
   overflow: hidden;
-  padding-block:.65rem !important;
+  padding-block: .65rem !important;
   /* Remove the default border or outline */
-  border:0.0667rem solid $clr_light_sky_blue !important;
+  border: 0.0667rem solid $clr_light_sky_blue !important;
 }
 
-.custom-autopopulate .MuiOutlinedInput-root{
+.custom-autopopulate .MuiOutlinedInput-root {
   padding: 0 !important;
-  border:none !important; 
+  border: none !important;
 }
 
 .custom-user-search-field {
@@ -632,7 +652,7 @@
   border-radius: 0.5rem !important;
   padding-left: 0rem !important;
   width: 40rem !important;
-  background-color:$clr_gray_20_percent ;
+  background-color: $clr_gray_20_percent ;
 
   &-icon {
     color: $clr_gray_medium !important;
@@ -668,9 +688,9 @@
 }
 
 .custom-list {
-  margin-top: 2.2rem !important;
-  margin-left: 2rem !important;
-  margin-right: 2rem !important;
+  // margin-top: 2.2rem !important;
+  // margin-left: 2rem !important;
+  // margin-right: 2rem !important;
 
   &-next-btn {
     max-height: 4rem;
@@ -693,6 +713,7 @@
     font-weight: $font_normal !important;
 
   }
+
   &-filter-submit-btn {
     max-height: 4rem;
     background-color: $clr_green !important;
@@ -701,8 +722,9 @@
     box-shadow: none !important;
     font-size: $p2 !important;
     font-weight: $font_normal !important;
-    
+
   }
+
   &-filter-submit-btn:hover {
     background-color: #388e3c;
     /* Darker green */
@@ -765,7 +787,7 @@
   font-weight: $font_normal !important;
   font-size: $h6 !important;
   border-radius: 0.4167rem !important;
-  border-color:$clr_white !important;
+  border-color: $clr_white !important;
   padding-left: 0rem !important;
 
   &-icon {
@@ -773,6 +795,7 @@
     font-size: 10rem !important;
   }
 }
+
 .custom-search-event-text-field {
   max-height: 4.2rem !important;
   background-color: $clr_white !important;
@@ -790,26 +813,42 @@
 
 //DataGrid css ends here
 .custom-stepper {
-  background-color: $background;
+  background-color: $clr_white;
   padding-right: 3rem !important;
-  margin: 1rem !important;
+  padding: 1rem !important;
+
+  &-stepBox {
+    border: 0.083rem solid $clr_green !important;
+    border-radius: 4.167rem;
+  }
 
   &-main {
     border-right: 1px solid $clr_gray_very_light;
     background-color: $clr_white;
+    position: sticky !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+    display: flex !important;
+    top: 0 !important;
   }
 
   &-container {
-    width: 54.08rem !important;
+    border-left: 1px solid $clr_gray_very_light;
+    padding-left: 2rem;
+    width: 100% !important;
 
-   .MuiIconButton-root:hover {
-    background-color: transparent !important;
-   }
+    .MuiIconButton-root:hover {
+      background-color: transparent !important;
+    }
 
     .MuiStepLabel-label {
+      color: $clr_very_light_gray;
       font-size: $p2 !important;
-      font-weight: $font_medium;
-      color: $clr_field;
+      font-weight: $font_semibold;
+    }
+
+    .Mui-completed {
+      color: $clr_green !important;
     }
 
     .Mui-active {
@@ -823,6 +862,7 @@
   }
 
   &-step-icon-box {
+    margin-left: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -831,10 +871,10 @@
     border-radius: 50%;
   }
 
-  &-stepper-icon {
-    width: 15rem !important;
-    height: 15rem !important;
-  }
+  // &-stepper-icon {
+  //   width: 15rem !important;
+  //   height: 15rem !important;
+  // }
 
   &-next-button {
     margin: auto !important;
@@ -899,16 +939,60 @@
   }
 
   &-conference-details {
+    padding: 2rem;
     background-color: $clr_white;
+    justify-content: center;
+    align-items: center;
+
+    &-border {
+      border: 0.083rem solid $clr_gray_very_light;
+      padding: 1.5rem;
+      border-radius: 0.833rem;
+    }
+
+    &-review-img {
+      width: 7.333rem;
+      height: 6.583rem;
+    }
+
+    &-eventname {
+      font-weight: $font_semibold !important;
+      font-size: $h5 !important;
+    }
+
+    &-event-description {
+      color: $clr_gray_dark_text;
+      overflow: hidden;
+    }
 
     &-content {
       &-container {
-        padding: 2rem !important;
+        margin-top: 2rem !important;
+      }
+
+      &-time {
+        font-size: $p3 !important;
+      }
+
+      &-date-and-location {
+        font-weight: $font_medium !important;
+        font-size: $h5 !important;
+      }
+
+      &-scheduled-date {
+        font-size: $p5 !important;
+        font-weight: $font_semibold !important;
+      }
+
+      &-subtext {
+        font-size: $h6 !important;
+        font-weight: $font_medium !important;
+        color: $clr_field;
       }
 
       &-title {
         font-weight: $font_bold !important;
-        font-size: $h3 !important;
+        font-size: $h4 !important;
         padding-top: 1rem;
       }
 
@@ -927,18 +1011,23 @@
       }
 
       &-type {
-        height: 2.83rem;
-        border-radius: 0.66rem;
-        background-color: $clr_status_bar;
+        margin-left: 1rem;
+        height: 2rem;
+        border-radius: 4.167rem;
+        background-color: $clr_dark_orange;
         padding-left: 1rem;
         padding-right: 1rem;
-        color: $clr_cyan_blue ;
+        color: $clr_white ;
       }
 
       &-date-icon {
+        background-color: $clr_green_light;
+        border-radius: 0.417rem;
+        padding: 0.8rem;
+
         svg {
-          width: 1.5rem;
-          height: 1.5rem;
+          width: 2.2rem;
+          height: 2.2rem;
         }
       }
 
@@ -1037,7 +1126,7 @@
   }
 
   &-create-btn {
-    height:4.17rem !important;
+    height: 4.17rem !important;
     background-color: $clr_green !important;
     color: $clr_white !important;
     max-width: 19rem !important;
@@ -1134,6 +1223,7 @@
   &-sub-title {
     font-size: $p2 !important;
     font-weight: $font_medium !important;
+    margin-right: 2rem !important;
   }
 
   &-btn {
@@ -1214,26 +1304,28 @@
   }
 }
 
-.otp-container{
+.otp-container {
 
   input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 
-        /* Firefox */
-        input[type=number] {
-            -moz-appearance: textfield;
-        }
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield;
+  }
 }
 
 .no-border .MuiOutlinedInput-notchedOutline {
   border: none !important;
 }
-.no-border .MuiInputBase-input{
-  border: "none", 
+
+.no-border .MuiInputBase-input {
+  border: "none",
 }
+
 .MuiOutlinedInput-notchedOutline {
   border-color: $clr_gray_extra_light !important;
 }
@@ -1242,44 +1334,54 @@
 .no-border .MuiOutlinedInput-notchedOutline {
   border: none !important;
 }
-.no-border .MuiInputBase-input{
-  border: "none", 
+
+.no-border .MuiInputBase-input {
+  border: "none",
 }
+
 .MuiOutlinedInput-notchedOutline {
   border-color: $clr_gray_extra_light !important;
 }
 
-.custom-Time-picker{
+.custom-Time-picker {
   width: 100%;
   margin-top: 0.5rem;
   caret-color: $clr_black;
   color: $clr_black;
+
   & .label-header {
     font-weight: $font_medium;
     color: $clr_black;
   }
+
   input:-webkit-autofill {
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: $clr_black !important;
     caret-color: $clr_black;
   }
+
   & .MuiInputBase-input {
     background-color: $clr_white;
   }
-  & .MuiInputLabel-outlined{
-    color:$input_label !important;
+
+  & .MuiInputLabel-outlined {
+    color: $input_label !important;
   }
+
   &-icon-btn {
     &:focus {
       outline: none;
     }
   }
-  &-placeholder{
-    color: $clr_black !important; 
+
+  &-placeholder {
+    color: $clr_black !important;
     font-size: $p1 !important;
     font-weight: $font_normal !important;
   }
+
   input[type='number'] {
+
     // Hide spin buttons in WebKit browsers (Chrome, Safari)
     &::-webkit-inner-spin-button,
     &::-webkit-outer-spin-button {
@@ -1288,10 +1390,12 @@
     }
 
   }
+
   & .MuiInputBase-input::placeholder {
     color: $clr_gray_dark !important;
     font-size: $p1;
   }
+
   .MuiOutlinedInput-notchedOutline {
     border: 0.083rem solid $clr_gray_light;
     color: $clr_gray_extra_dark !important;
@@ -1300,6 +1404,7 @@
   .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
     border-color: $clr_gray_light;
   }
+
   .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
     border-color: $clr_gray_light;
   }
@@ -1307,35 +1412,72 @@
   .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
     border-color: $clr_gray_light;
   }
+
   .MuiInputLabel-outlined {
     color: $clr_grey;
     font-size: $p1;
     background-color: $clr_white;
     padding-right: 0.5rem;
+
     &.Mui-focused {
       font-weight: $font_normal;
     }
   }
 
-  .MuiInputLabel-root{
+  .MuiInputLabel-root {
     &.Mui-focused {
       color: $clr_grey;
       background-color: $clr_white;
     }
   }
 
-  
+
 }
-.border-error-input{
+
+.border-error-input {
   border: 0.5px solid $clr_red !important;
+
   .custom-search-text-field {
     border: 0.5px solid $clr_red !important;
   }
 }
-.speaker-search-grid{
+
+.speaker-search-grid {
   margin-bottom: 2rem;
 }
-.border-speaker{
+
+.border-speaker {
   background-color: $clr_gray_20_percent !important;
   border: 0.0667rem solid $clr_light_border_grey !important;
+}
+
+.stepper-inactive {
+  color: $clr_gray_medium !important;
+
+  &-step {
+    border: 0.083rem solid $clr_gray_medium !important;
+  }
+}
+
+.custom-datetime-picker {
+  background-color: $clr_white;
+  color: $clr_white; // Text color
+  border-radius: 8.33rem;
+  border: 1px solid $clr_charcoal_gray;
+
+  .MuiTypography-root {
+    font-size: $h6;
+  }
+
+  .MuiPickersDay-root {
+    font-size: $p2;
+  }
+
+  .MuiDateCalendar-root {
+    width: 18.33rem !important;
+  }
+
+  .MuiMultiSectionDigitalClock-root .MuiMultiSectionDigitalClockSection-root {
+    width: 5rem !important;
+  }
 }

@@ -23,7 +23,7 @@ interface User {
   phone: string;
   email: string;
   statusId: string;
-  assetId:number;
+  assetId:string;
   roleName:string;
 }
 
@@ -145,7 +145,7 @@ const UserDetail: React.FC = React.memo(() => {
         </Grid>
       {/* Registered Programs Section */}
       <Typography variant="h6" className="userdetail-data-title">
-        Registered Programmes
+        Registered Programs
       </Typography>
       <Grid container spacing={2}>
         {programs.length > 0 ? (

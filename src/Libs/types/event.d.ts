@@ -16,7 +16,7 @@ export interface IEventResponse {
   discount: number;
   statusId: number;
   slugName: string;
-  assetId: number;
+  assetId: string;
   published: boolean;
   templateId: number
 
@@ -26,7 +26,7 @@ export interface IEventResponse {
   eventCapacity: IEventCapacity[];
   eventPriceTiers: IEventPriceTier[];
   eventSpeakers: Omit<IEventSpeaker, "speakerBios">[];
-  programs: IProgram[];
+  programs: IProgram[]
   addons: IAddons[];
   eventContacts: IEventContact[];
   url: string | null;
@@ -61,7 +61,7 @@ export interface ITemplate {
   id: number;
   name: string;
   description: string;
-  assetId: number | null;
+  assetId: string | null;
   enabled: number;
   isDefault: number;
   createdBy: number;
@@ -126,7 +126,7 @@ export interface IUser {
   userDescription: string;
   statusId: number;
   acceptedTerms: null | any;
-  assetId: number;
+  assetId: string;
 
 }
 
@@ -153,7 +153,7 @@ export interface IProgram {
   isAbstract: null | boolean;
   abstractDate: string | null;
   templateId: number | null;
-  assetId: number | null;
+  assetId: string | null;
   eventStartTime: string | null;
   eventEndTime: string | null;
   status: IStatus;
@@ -165,7 +165,7 @@ export interface IProgram {
 
 
 export interface IEventSponsor {
-  bannerImgAssetId: number | null;
+  bannerImgAssetId: string | null;
 
   companyId: number;
 
@@ -173,7 +173,7 @@ export interface IEventSponsor {
 
   id: number;
 
-  logoAssetId: number | null;
+  logoAssetId: string | null;
 
   name: string;
 
@@ -212,7 +212,7 @@ export interface IAddonDetails {
 
   enabled: number;
 
-  assetId: number | null;
+  assetId: string | null;
 
   eventAddonProperties: IEventAddonProperty[];
 }
@@ -225,7 +225,7 @@ export interface IEventAddonProperty {
   eventAddonId: number;
   description: string | null;
   enabled: number;
-  assetId: number | null;
+  assetId: string | null;
 }
 
 

@@ -6,6 +6,7 @@ import CalendarIcon from '@/assets/svg/calendar-clock.svg';
 import { Typography } from "@mui/material";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
+import {Tooltip} from "@mui/material";
 
 export interface CalendarCardData {
   id: string;
@@ -70,7 +71,7 @@ export const CalendarCard: React.FC<CalendarCardProps> = ({ data }) => {
   const dynamicClass = `dashboard-calendar-card-event-${calculateDaysBetween(data?.startTime ?? "", data?.endTime ?? "")}`;
 
   return (
-    <Grid container size={{ xs: 12, sm: 12 }}>
+    <Grid container size={{ xs: 12, sm: 12 }} >
       <Grid container size={{ xs: 12, sm: 12 }} className="dashboard-calendar-card-title-container">
         <Grid className="dashboard-calendar-card-icon"><CalendarIcon /></Grid>
         <Grid container direction={'column'}>
@@ -91,11 +92,29 @@ export const CalendarCard: React.FC<CalendarCardProps> = ({ data }) => {
         <Grid container size={{ xs: 12, sm: 10 }} direction={'column'}>
           {dayArray?.map((item: any, index: number) => {
             return (
-              <Grid container className="dashboard-calendar-card-event-item" onClick={() => navigate('/calendar')}>
-                <Grid container size={{ xs: 11, sm: 11 }} justifyContent={'center'} alignItems={'center'} className={dayFormatted == item ? `dashboard-calendar-card-event ${dynamicClass}` : ''}>
-                  {index === Math.floor(calculateDaysBetween(data?.startTime ?? "", data?.endTime ?? "") / 2) && <Typography className="dashboard-calendar-card-event-title">{data?.name}</Typography>}
-                </Grid>
+              <Grid 
+              container 
+              className="dashboard-calendar-card-event-item" 
+              onClick={() => navigate('/calendar')}
+              key={index} // Adding key for performance
+            >
+              <Grid 
+                container 
+                size={{ xs: 11, sm: 11 }} 
+                justifyContent="center" 
+                alignItems="center" 
+                className={dayFormatted === item ? `dashboard-calendar-card-event ${dynamicClass}` : ''}
+              >
+                {index === Math.floor(calculateDaysBetween(data?.startTime ?? "", data?.endTime ?? "") / 2) && (
+                  <Tooltip title={data?.name || ''} arrow>
+                    <Typography 
+                      className="dashboard-calendar-card-event-title">
+                      {data?.name}
+                    </Typography>
+                  </Tooltip>
+                )}
               </Grid>
+            </Grid>
             )
           })}
         </Grid>

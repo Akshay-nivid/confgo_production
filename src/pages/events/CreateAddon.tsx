@@ -2,12 +2,12 @@ import CustomButton from '@/components/CustomButton/CustomButton';
 import CustomTextField from '@/components/CustomTextfield/CustomTextField';
 import { IconButton, Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import CloseIcon from '@mui/icons-material/Close';
 import useStore from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
-import { ApiResponse } from '../LoginOrg/loginOrg';
+import { validateRequiredField } from '@/Utils/Validation';
 
 type FormData = {
     title: string;
@@ -15,13 +15,14 @@ type FormData = {
 }
 interface createAddonProps {
     closeDrawer: () => void
-    submitHandler: () => void
+    submitHandler: (data: any) => void
 }
 
 const CreateAddon: React.FC<createAddonProps> = React.memo(({ closeDrawer, submitHandler }: createAddonProps) => {
     const { handleSubmit, control } = useForm<FormData>({});
     const POST = useStore((state: any) => state.POST);
     const setDataById = useStore((state: any) => state.setDataById);
+    const [loading, setLoading] = useState(false); // Added loading state
     /**
      * Method to handle form submission
      */
@@ -35,6 +36,7 @@ const CreateAddon: React.FC<createAddonProps> = React.memo(({ closeDrawer, submi
      */
     const handleCreateAddOn = async (formData: FormData) => {
         try {
+            setLoading(true);
             const requestBody = {
                 name: formData?.title,
                 description: formData?.description
@@ -43,9 +45,8 @@ const CreateAddon: React.FC<createAddonProps> = React.memo(({ closeDrawer, submi
             await POST({
                 url: 'addon',
                 body: requestBody,
-                successCB: (_success: ApiResponse) => {
-                    submitHandler();
-                    closeDrawer();
+                successCB: (response: any) => {
+                    submitHandler(response?.data);
                     setDataById("snackBarInfo", {
                         open: true,
                         autoHideDuration: 2000,
@@ -65,6 +66,8 @@ const CreateAddon: React.FC<createAddonProps> = React.memo(({ closeDrawer, submi
             });
         } catch (error) {
             Logger.error(error, 'CreateAddon.tsx')
+        } finally{
+          setLoading(false)
         }
     }
     return (
@@ -77,21 +80,23 @@ const CreateAddon: React.FC<createAddonProps> = React.memo(({ closeDrawer, submi
                     </IconButton>
                 </Grid>
                 <Grid flexDirection={"column"} size={12} spacing={2}>
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <Grid>
                         <Grid className="add-on-create-form-wrap">
-                            <CustomTextField placeholder='Add-on name' name='title' control={control} />
+                            <CustomTextField placeholder='Add-on name' name='title' control={control} rules={{required:validateRequiredField({ fieldName: 'Add-on Name' })}}/>
                         </Grid>
                         <Grid className="add-on-create-form-wrap" >
-                            <CustomTextField placeholder='Add-on decription' name='description' control={control} />
+                            <CustomTextField placeholder='Add-on description' name='description' control={control} rules={{required:validateRequiredField({ fieldName: 'Add-on Description' })}}/>
                         </Grid>
                         <Grid container spacing={2} justifyContent={"flex-end"}>
                             <CustomButton
                                 className='add-on-create-btn'
                                 label='Submit'
-                                type='submit'
+                                onClick={handleSubmit(onSubmit)}
+                                isLoading={loading}
+                                disabled={loading}
                             />
                         </Grid>
-                    </form>
+                    </Grid>
                 </Grid>
             </Grid>
         </>

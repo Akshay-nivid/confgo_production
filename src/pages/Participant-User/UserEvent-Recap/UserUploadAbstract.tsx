@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 import config from '../../../../config.json';
 
 interface CustomFile {
-    id: number;
+    id: string;
     name: string;
 }
 /**
@@ -99,15 +99,20 @@ const UserUploadAbstract = ({ eventData }: any) => {
     const statusArray = [
         {
             status: uploadedAbstractData?.[0]?.asset?.id ? 'uploaded' : 'default',
-            title: uploadedAbstractData?.[0]?.asset?.id ? 'uploaded' : 'Abstracts Not Uploaded',
+            title: uploadedAbstractData?.[0]?.asset?.id ? 'Abstract Uploaded' : 'Abstract Not Uploaded',
             desc: uploadedAbstractData?.[0]?.asset?.modifiedOn
             ? [`Uploaded on : ${moment.utc(uploadedAbstractData[0].asset.modifiedOn).format('Do MMM YYYY')}`]
             : []
         },
         {
             status: uploadedAbstractData?.[0]?.reviewer ? 'reviewing' : 'default',
-            title:  uploadedAbstractData?.[0]?.reviewer ? 'Reviewing' : 'Pending',
-            desc: [
+            title: uploadedAbstractData?.[0]?.statusId === 1 ||
+            uploadedAbstractData?.[0]?.statusId === 2
+            ? 'Reviewed'
+            : uploadedAbstractData?.[0]?.reviewer
+              ? 'Reviewing'
+              : 'Pending',
+               desc: [
                 uploadedAbstractData?.[0]?.reviewer?.firstName || uploadedAbstractData?.[0]?.reviewer?.lastName || uploadedAbstractData?.[0]?.modifiedOn
                   ? `Reviewed by: ${
                       uploadedAbstractData?.[0]?.reviewer?.firstName || ''
@@ -119,7 +124,7 @@ const UserUploadAbstract = ({ eventData }: any) => {
             },
            {
            status: uploadedAbstractData?.[0]?.statusId === 1 
-            ? 'Approved' 
+            ? 'approved' 
              : uploadedAbstractData?.[0]?.statusId === 2 
             ? 'rejected' 
             : 'default',
@@ -289,7 +294,7 @@ const HeaderSection = () => {
                 <Typography className="upload-abstract-header">Upload Abstract</Typography>
             </Grid>
             <Grid size={12} className="upload-abstract-gap-text">
-                <Typography className="upload-abstract-sub-header">Upload your abstracts to link them to the programme.</Typography>
+                <Typography className="upload-abstract-sub-header">Upload your abstracts to link them to the program.</Typography>
             </Grid>
         </Grid>
     );

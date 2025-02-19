@@ -50,7 +50,13 @@ const sortData = (data: any): any => {
     return {};
   }
   return data
-    .sort((a: any, b: any) => new Date(a?.startTime || a?.eventAddon?.startTime).getTime() - new Date(b?.startTime || b?.eventAddon?.startTime).getTime())
+  .filter((item: any) => item?.startTime || item?.eventAddon?.startTime) // Remove invalid items
+  .sort((a: any, b: any) => {
+    return (
+      new Date(a?.startTime || a?.eventAddon?.startTime).getTime() -
+      new Date(b?.startTime || b?.eventAddon?.startTime).getTime()
+    )
+  })
     .reduce((grouped: any, program: any) => {
       const date = moment(program?.startTime || program?.eventAddon?.startTime).format("MMM-DD-YYYY")
 
@@ -87,7 +93,16 @@ export const handleGroupData = ({ programs, addons, calculateTotal = false }: { 
   const sortedPrograms = sortData(programs);
   const sortedAddons = sortData(addons);
 
-  const formattedData = Object.entries(sortedPrograms).reduce((acc: any, [date, programData]) => {
+
+  const allkeys = sortDates([...Object.keys(sortedPrograms), ...Object.keys(sortedAddons)])
+
+  const uniqueKeys = new Set(allkeys)
+
+  const uniqueKeysList = [...uniqueKeys]
+
+
+  const formattedData = uniqueKeysList.reduce((acc: any, date) => {
+
 
 
     if (!sortedPrograms) {
@@ -99,13 +114,16 @@ export const handleGroupData = ({ programs, addons, calculateTotal = false }: { 
     }
 
     if (calculateTotal) {
-      if (Array.isArray(programData))
-        programData.map(prgm => {
+      if (Array.isArray(sortedPrograms[date]))
+        sortedPrograms[date].map(prgm => {
           acc[date].total = acc[date].total + parseFloat(prgm.amount)
         })
     }
 
-    acc[date].programs.push(...(programData as any[]))
+    if (sortedPrograms[date]) {
+    acc[date].programs.push(...(sortedPrograms[date] as any[]))
+    }
+
 
     if (sortedAddons[date]) {
       acc[date].addons.push(...sortedAddons[date]);
@@ -120,12 +138,56 @@ export const handleGroupData = ({ programs, addons, calculateTotal = false }: { 
 
 
 
+/**
+ * Sorts an array of date strings in 'MMM-DD-YYYY' format
+ * @param {string[]} dates Array of date strings in 'MMM-DD-YYYY' format
+ * @param {boolean} ascending Optional parameter to determine sort order (default: true)
+ * @returns {string[]} Sorted array of date strings in the same format
+ */
+function sortDates(dates: string[], ascending = true) {
+  // Create a mapping of month abbreviations to numbers
+  const monthMap: Record<string, string> = {
+      'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04',
+      'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08',
+      'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
+  };
+
+  // Convert dates to a sortable format (YYYY-MM-DD)
+  const convertToSortable = (dateStr: string) => {
+      try {
+          const [month, day, year] = dateStr?.split('-');
+          const monthNum = monthMap[month];
+          if (!monthNum) throw new Error(`Invalid month: ${month}`);
+          
+          // Pad day with leading zero if necessary
+          const paddedDay = day.padStart(2, '0');
+          
+          return `${year}-${monthNum}-${paddedDay}`;
+      } catch (error) {
+          console.error(`Error processing date: ${dateStr}`, error);
+          // Return a far future or past date based on ascending order
+          // This will push invalid dates to the end/beginning of the sorted array
+          return ascending ? '9999-99-99' : '0000-00-00';
+      }
+  };
+
+  // Sort the array
+  return [...dates].sort((a, b) => {
+      const dateA = convertToSortable(a);
+      const dateB = convertToSortable(b);
+      return ascending 
+          ? dateA.localeCompare(dateB)
+          : dateB.localeCompare(dateA);
+  });
+}
+
+
 function sortObjectByKeyPriority(obj: any) {
   // Define the priority order for key types
   const priorityOrder = ['programs', 'addon', 'addonProp'];
 
   // Create a sorted array of keys based on the priority
-  const sortedKeys = Object.keys(obj).sort((a, b) => {
+  const sortedKeys = Object.keys(obj)?.sort((a, b) => {
     // Find the matching priority type for each key
     const aPriorityIndex = priorityOrder.findIndex(type => a.includes(type));
     const bPriorityIndex = priorityOrder.findIndex(type => b.includes(type));
@@ -196,7 +258,7 @@ export const processFormData = (formData: any, id: any, participantTypeId: strin
 
   const sortedFormData = sortObjectByKeyPriority(formData)
 
-  Object.entries(sortedFormData).forEach(([key, value]: [string, any]) => {
+  Object.entries(sortedFormData)?.forEach(([key, value]: [string, any]) => {
 
     if (key.includes('program') && value !== undefined) {
 
@@ -205,6 +267,20 @@ export const processFormData = (formData: any, id: any, participantTypeId: strin
       }
 
       return
+    }
+
+
+    if (key.includes('addons')) {
+
+
+      if (value === undefined || !value) return
+
+      const addonKey = parseInt(key?.split('-')[1])
+
+      addonGroup[addonKey] = {
+
+        addonId: addonKey,
+      }
     }
 
 
@@ -217,7 +293,7 @@ export const processFormData = (formData: any, id: any, participantTypeId: strin
 
       if (value === undefined || value.length === 0) return
 
-      const addonKey = parseInt(key.split('-')[2])
+      const addonKey = parseInt(key?.split('-')[2])
 
       addonGroup[addonKey] = {
 
@@ -335,10 +411,12 @@ export const validateAddon = (formData:any) => {
           throw new Error(
             `Please select at least one program related to the addon you selected on ${date}.`
           );
+          
         }
       }
     }
   });
+  
 };
 
 
@@ -352,15 +430,7 @@ export const validateAddon = (formData:any) => {
 export const  validatePrograms=(programs: any) =>{
   
   if (programs.length === 0 || programs === undefined || !programs) {
-
-    setDataById("snackBarInfo", {
-      open: true,
-      autoHideDuration: 2000,
-      severity: "error",
-      message: 'Please select at least one program and addon property',
-    })
-
-    return
+    throw new Error('Please select at least one program ')
   }
   
 }
@@ -388,27 +458,3 @@ export const  validateAddonWithNoProp = (addons:any)=> {
 }
 
 
-
-
-/**
- * function to fetch event details
- * @param eventId
- * 
- */
-
-// export const fetchEventDetailsFn = async (eventId: number | undefined|null) => {
-  
-//   if(!eventId) return
-
-//   try {
-
-
-
-    
-//   } catch (error) {
-
-
-    
-//   }
-
-//  }

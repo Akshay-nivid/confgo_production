@@ -1,9 +1,11 @@
 import { Box } from '@mui/material';
 import Grid from '@mui/material/Grid2';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import { AppThemeLogo, Divider } from '@/assets/svg';
 import { useMemo } from 'react';
+import CustomButton from '@/components/CustomButton/CustomButton';
+import { resetStore } from '@/Libs/store';
 
 /**
  * Component used to draw nav bar
@@ -20,22 +22,36 @@ const Navbar = () => {
   }, [location.pathname]);
 
   const theme = useMemo(() => {
-    const defaultTheme: any = { bgcolor: 'nav-theme-white-background', color: 'nav-theme-black' };
+    const defaultTheme: { bgcolor: string; color: string } = { bgcolor: 'nav-theme-white-background', color: 'nav-theme-black' };
     return defaultTheme
   }, [location.pathname])
 
+  const navigate = useNavigate();
+  const isLoggedIn=sessionStorage.getItem('isUserLoggedIn')
+   /**
+   * Logout functionality
+   */
+   const handleLogout = () => {
+    // Clear sessionStorage and localStorage
+    sessionStorage.clear();
+    localStorage.clear();
+    resetStore();
+    navigate(routes.home()); 
+  };
   return (
     <Grid container className={`nav ${theme.bgcolor}`}>
       <Grid size={1} className="nav-spacer-left"></Grid>
       <Grid size={10} className="nav-content">
         <Box className="nav-inner">
           <Grid container>
-            <Grid className="nav-logo-container">
+            <Grid onClick={() => {
+              navigate(routes.home())
+            }} className="nav-logo-container">
                <AppThemeLogo className={`nav-logo-container-icon`} />
             </Grid>
             <Grid className="nav-links-container">
               <Grid className={`nav-links ${theme.color}`}>
-                <Link className={getLinkClassName(routes.home())} to={routes.home()}>
+                <Link  className={getLinkClassName(routes.home())} to={routes.home()}>
                   Home
                 </Link>
                 <Link className={getLinkClassName(routes.pricing())} to={routes.pricing()}>
@@ -45,12 +61,13 @@ const Navbar = () => {
                   Contact us
                 </Link>
                 <Divider  />
-                <Link className={getLinkClassName(routes.loginOrg())} to={routes.loginOrg()}>
+                {isLoggedIn == "true" ? <></> : <Link className={getLinkClassName(routes.loginOrg())} to={routes.loginOrg()}>
                   Login
-                </Link>
-                <Link className={getLinkClassName(routes.register()) + 'nav-signUp'} to={routes.register()}>
+                </Link>}
+                {isLoggedIn == "true" ? <CustomButton variant='contained' onClick={()=>handleLogout()} className={'nav-logout-btn'} label='Logout' />
+                  : <Link className={getLinkClassName(routes.register()) + 'nav-signUp'} to={routes.pricing()}>
                   Signup
-                </Link>
+                </Link>}
               </Grid>
             </Grid>
           </Grid>

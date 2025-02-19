@@ -44,15 +44,16 @@ type FormData = {
     endTime: string;
     type: string;
     properties: {
-      propertyId:string,
-      propertyName: string;
-      propertyAmount: string;
+      propertyId:string | undefined,
+      propertyName: string | undefined;
+      propertyAmount: string | undefined;
     }[];
-    propertyName:string,
-    propertyAmount:string,
+    propertyName:string | undefined,
+    propertyAmount:string | undefined,
     addonId: string;
     propertyChip:string
     dateRequired: string[];
+    addOnPropertyRequired?:string[];
     addonType:string;
     repeat:string[];
     noOfDays:string;
@@ -79,12 +80,12 @@ type FormData = {
     endTime: string;
     type: string;
     properties: {
-      propertyId:string,
-      propertyName: string;
-      propertyAmount: string;
+      propertyId:string | undefined,
+      propertyName: string  |undefined;
+      propertyAmount: string | undefined;
     }[];
-    propertyName:string,
-    propertyAmount:string,
+    propertyName:string |undefined,
+    propertyAmount:string | undefined,
     addonId: string;
     propertyChip:string;
     dateRequired: string[];
@@ -179,6 +180,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       setProgramIndex(savedAddOns?.length ? savedAddOns.length - 1 : 0);
       setEditMode(false);
       handleDrawerOpen(); // Open the drawer for the new program
+      setShowSponsorSection(false);
     }
   
     /**
@@ -303,16 +305,17 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
           dateRequired: [],
           addonType: "PAID",
           repeat: [],
-          noOfDays: "",
+          noOfDays: "", 
           sponsor:[]
         };
-        if (lastItem.properties && lastItem.properties.length== 0){
-          setError(`addOn.${lastIndex}.propertyName`, {
-            type: 'manual',
-            message: `Minimum one Addon property should be there`,
-          });
-          return;
-        }
+        //property make optional so yhe condition checking commented
+        // if (lastItem.properties && lastItem.properties.length== 0){
+        //   setError(`addOn.${lastIndex}.propertyName`, {
+        //     type: 'manual',
+        //     message: `Minimum one Addon property should be there`,
+        //   });
+        //   return;
+        // }
         const startDate = moment(eventData.startTime).startOf('day');
         const endDate = moment(eventData.endTime).startOf('day');
         const differenceInDays = endDate.diff(startDate, 'days') + (startDate.isBefore(endDate) ? 1 : 0);
@@ -348,15 +351,16 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
           setProgramIndex(addOn?.length || 0);
         }
       } else {
-        const editLastItem = addOn[addOn.length - 2];
-        const editLastIndex = addOn.length - 2;
-        if (editLastItem.properties && editLastItem.properties.length== 0){
-          setError(`addOn.${editLastIndex}.propertyName`, {
-            type: 'manual',
-            message: `Minimum one Addon property should be there`,
-          });
-          return;
-        }
+        //property make optional so the condition checking removed
+        // const editLastItem = addOn[addOn.length - 2];
+        // const editLastIndex = addOn.length - 2;
+        // if (editLastItem.properties && editLastItem.properties.length== 0){
+        //   setError(`addOn.${editLastIndex}.propertyName`, {
+        //     type: 'manual',
+        //     message: `Minimum one Addon property should be there`,
+        //   });
+        //   return;
+        // }
         // If in `editMode`, just update the program index
         setProgramIndex(addOn?.length ? addOn.length - 1 : 0);
       }
@@ -378,6 +382,9 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       setEditMode(true);
       setValue("addOn", watch("savedAddOns"));
       setProgramIndex(index);
+      const sponsorValue = watch(`addOn.${index}.sponsor`) ?? ''; // Default to empty string
+      const sValue = sponsorValue.length > 0;
+      setShowSponsorSection(sValue);
     };
 
     /**
@@ -430,7 +437,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
     const addProperty = (index: number) => {
       const values = watch();
       const propertyName = values.addOn[index].propertyName;
-      const propertyAmount = values.addOn[index].propertyAmount;
+      const propertyAmount:any = values.addOn[index].propertyAmount;
       const propertyType = watch(`addOn.${index}.type`);
     
       // Check if the propertyName and propertyAmount are valid
@@ -481,7 +488,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       updatedAddOn[index].properties = updatedAddOn[index].properties?.filter(
         prop => prop.propertyName !== ""
       );
-      updatedAddOn[index].properties.push({ ...newProperty });
+      updatedAddOn[index]?.properties.push({ ...newProperty });
     
       // Update the addOn state and reset the form fields for propertyName and propertyAmount
       setValue("addOn", updatedAddOn);
@@ -642,6 +649,13 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
       // Set the updated programs back to the form
       setValue('addOn', updatedPrograms);
     }; 
+
+    const handleNewAddon = async (data: any) => {
+      await onaddOnSubmitHandler();
+      if(data?.id){
+        setValue(`addOn.${programIndex}.addonId`, data?.id);
+      }
+    };
     return (
       <Box className="add-addons-container">
           <Grid
@@ -711,7 +725,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     
                                 </Grid>
                                 <CustomDrawer
-        children={<CreateAddon submitHandler={onaddOnSubmitHandler} closeDrawer={() => handleDrawerClose(index)} />}
+        children={<CreateAddon submitHandler={handleNewAddon} closeDrawer={() => handleDrawerClose(index)} />}
         open={addOnView}
         type="right"
         onClose={()=>handleDrawerClose(index)}
@@ -819,8 +833,18 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     </Grid>
                                   )}
                                 </Grid>
-
-                                <Grid container size={{ xs: 12 }} display={"flex"} justifyContent={"space-between"}>
+                                  
+                                <Grid>
+                                  <CustomSwitch
+                                  className="add-addons-switch-btn"
+                                  buttonColor="success"
+                                  label="Add Properties"
+                                  name={`addOn.${index}.addOnPropertyRequired`}
+                                  control={control}
+                                  />
+                                  </Grid>
+                                  {watch(`addOn.${index}.addOnPropertyRequired`) && (
+                                <Grid container size={{ xs: 12 }} display={"flex"} justifyContent={"space-between"}>                                  
                                   <Grid>
                                     <Typography
                                       textAlign={"start"}
@@ -846,6 +870,8 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     />
                                   </Grid>
                                 </Grid>
+                                )}
+                                {watch(`addOn.${index}.addOnPropertyRequired`) && (
                                 <Grid container size={{ xs: 12, sm: 12 }} display={"flex"} justifyContent={"space-between"} spacing={2}>
                                   <Grid size={{ xs: 12, sm:watch(`addOn.${index}.type`) === "PAID"?6:11}}>
                                     <CustomTextField
@@ -884,14 +910,24 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     </Grid>
                                   </Grid>
                                 </Grid>
-                                {watch(`addOn.${index}.properties`)?.length!=0&&<Grid container flexDirection={"column"}>
-                                  <Typography variant="h6">Properties</Typography>
-                                  <Grid container spacing={1}>
-                                  {watch(`addOn.${index}.properties`)?.map((item,index)=>{
-                                    return  <Chip className="add-addons-chip-item" onDelete={()=>deleteChip(item,index)} key={index+"chip"} label={`${item.propertyName} ${item?.propertyAmount ? "- $" + item.propertyAmount : ""}`}/> 
-                                  })}
+                                )}
+                                
+                                {watch(`addOn.${index}.properties`)?.length !== 0 && watch(`addOn.${index}.addOnPropertyRequired`) && (
+                                  <Grid container flexDirection="column">
+                                    <Typography variant="h6">Properties</Typography>
+                                    <Grid container spacing={1}>
+                                    {watch(`addOn.${index}.properties`)?.map((item, idx) => (
+                                    <Chip
+                                      className="add-addons-chip-item"
+                                      onDelete={() => deleteChip(item, idx)}
+                                      key={`${idx}-chip`}
+                                      label={`${item.propertyName} ${item?.propertyAmount ? `- $${item.propertyAmount}` : ""}`}
+                                    />
+                                  ))}
                                   </Grid>
-                                </Grid>}
+                                </Grid>
+                              )}
+
                                 {!showSponserSeciton ? (
                                   <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'center'}>
                                     <CustomButton
@@ -913,10 +949,10 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                 >
                                   <Grid>
                                     <CustomButton
-                                      className="add-addons-save-btn"
+                                      className="event-information-restore-btn"
                                       onClick={handleDrawerClosing}
                                       label="Cancel"
-                                      variant="contained"
+                                      variant="outlined"
                                       size="large"
                                     />
                                   </Grid>

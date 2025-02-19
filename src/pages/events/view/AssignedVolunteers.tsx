@@ -3,21 +3,26 @@ import Grid from '@mui/material/Grid2';
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import CustomAutocomplete from '@/components/CustomAutocomplete/CustomAutocomplete';
 import { useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import apiClient from '@/Libs/Https/API-client';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';
 import { Logger } from '@/Utils/Logger';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import { CloseOutlined } from '@mui/icons-material';
-import { useParams } from 'react-router-dom';
-import { setDataById } from '@/Libs/store';
+import {  useParams } from 'react-router-dom';
+import useStore, { setDataById, setNonPersistedDataById } from '@/Libs/store';
+import CustomDrawer from '@/components/CustomDrawer/CustomDrawer';
+import CreateNewUsers from '@/pages/Admin-users/CreateUsers';
 
 interface AssignedVolunteersProps {
     onClose: () => void;
     volunteerList: () => void;
+    data:any;
 }
 const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps) => {
-    const { control } = useForm();
+    let craeteUserDrawer =  useStore(state => state.nonPersistedData?.['craeteUserDrawer']?.value);
+
+    const { control,setValue } = useForm();
     const [searchResults, setSearchResults] = useState([]);
     const [loading, setLoading] = useState(false);
     // const [source, setSource] = useState<ISource | undefined>(undefined);
@@ -58,6 +63,11 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
                 Logger.error("AssignedVolunteers.tsx", error);
             }
     };
+
+    useEffect(() => {
+        volunteerList();
+      }, [craeteUserDrawer]);
+
     /**
   * Searches participants based on the query entered by the user.
   * @param query - The search query entered by the user
@@ -125,6 +135,19 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
     const handleDelete = (id: string) => {
         setAssignedVolunteers((prev) => prev.filter((volunteer) => volunteer.user.id !== id));
     };
+
+    /**
+    * drawer create speaker button
+    */
+    const createNewVolunteer = () => {
+        setNonPersistedDataById('craeteUserDrawer', { value: true })
+
+    };
+  
+    const handleSponsorSearch = async (_query: string,data:any) => {
+        setValue("search",data)
+        handleAutocompleteChange(data)
+    }
    
     return (
         <div className='assigned-volunteer-main-container'>
@@ -159,6 +182,9 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
                     loading={loading}
                     onChange={handleAutocompleteChange}
                 />
+            <Grid container className="add-program-drawer-new-speaker-link" justifyContent={'end'}  size={{xs:12}} paddingTop={1}>
+              <Typography onClick={()=>createNewVolunteer()} className="cursor-container" variant="h6">Create New Volunteer ?</Typography>
+            </Grid>
             </Grid>
 
            {assignedVolunteers.length>0 &&(<Typography gutterBottom className='assigned-volunteer-label'>
@@ -188,8 +214,16 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
                     </Grid>
                 ))}
             </Grid>
-            <div className='assigned-volunteer-button-container'>     
-                <CustomButton
+            
+            <Grid container spacing={2} bgcolor={"red"}>
+          
+        </Grid>
+
+            <Grid className='assigned-volunteer-button-container' size={12} container justifyContent={"flex-end"} spacing={0}> 
+            
+          <Grid size={12}>
+
+          <CustomButton
                     className="assigned-volunteer-button"
                     label="Submit"
                     variant="contained"
@@ -198,7 +232,14 @@ const AssignedVolunteers = ({ onClose, volunteerList }: AssignedVolunteersProps)
                     onClick={handleSubmit}
                     disabled={assignedVolunteers.length === 0 ? true:false}
                 />
-            </div>
+          </Grid>
+
+                <Grid >
+                </Grid>
+            </Grid>
+        <CustomDrawer open={craeteUserDrawer}  type="right">
+            <CreateNewUsers NoNavigation={true} defaultValue={4} onSuccess={handleSponsorSearch}/>
+        </CustomDrawer>
         </div>
 
     );

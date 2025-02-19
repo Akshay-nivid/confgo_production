@@ -1,4 +1,4 @@
-import { Typography, IconButton, Box, Avatar, Tooltip } from "@mui/material";
+import { Typography, IconButton, Box, Avatar, Tooltip, Modal, Chip } from "@mui/material";
 import { CloseOutlined } from "@mui/icons-material";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
@@ -9,7 +9,7 @@ import { useCallback, useEffect, useState } from "react";
 import moment from "moment";
 import SessionAddonDrawer from "./SessionAddonDrawer";
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
-import { POST, setDataById} from "@/Libs/store";
+import useStore, { POST, setDataById} from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
 import { truncateString } from "@/Utils/CommonBaseClass";
 import config from "../../../../config.json";
@@ -20,6 +20,7 @@ import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
 import { useParams } from "react-router-dom";
 import DrawerCreateSponosor from "../Sponsor/DrawerCreateSponsor";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import  CloseIcon  from "@mui/icons-material/Close";
 
 interface FormData {
   isPaid: "PAID" | "FREE";
@@ -38,6 +39,7 @@ interface FormData {
   speakerDesignation?:string;
   moderator:boolean;
   hallName:string
+  createHallName: string;
   speakers: {
     speakerId?: any;
     speakerName?: string;
@@ -45,7 +47,7 @@ interface FormData {
     speakerDesignation?:string;
     moderator?:boolean
   }[];
-  speakerSelection?:string;
+  speakerSelection?:any;
   sponsorId?: string;
   sponsorName?: string;
   sponsorAssetId?: string;
@@ -58,7 +60,7 @@ interface FormData {
     sponsorType?: string;
     reservedSeats?:string;
   }[];
-  sponsorSelection?: string;
+  sponsorSelection?: any;
 }
 type Speaker = {
   speakerId?: any;
@@ -126,7 +128,6 @@ interface SessionDrawerContentProps {
         endDate:selectedProgram ? selectedProgram.endTime : (eventEndTime ? eventEndTime:""),
       },
     });
-
     const isPaid = watch("isPaid");
     const [showSpeakerSection, setShowSpeakerSection] = useState(false);
     const [existingSpeakers, setExistingSpeakers] = useState<any>();
@@ -143,6 +144,11 @@ interface SessionDrawerContentProps {
     const [newSpeakerDrawerOpen, setNewSpeakerDrawerOpen] = useState(false);
     const [newSponsorDrawerOpen, setNewSponsorDrawerOpen] = useState(false);
     const [latestModerator, setLatestModerator] = useState<string | null>(null);
+    const hall = useStore((state: any) => state?.compData?.["uniqueHalls"]) ?? [];
+    const [hallModal,setHallModal]=useState(false);
+    const [newHall, setNewHall] = useState<string[]>([]);
+    const [hallOption,  setHallOption] = useState<any>([]);
+    
     const {append } = useFieldArray({
       control,
       name: "speakers",
@@ -277,6 +283,57 @@ interface SessionDrawerContentProps {
     }, );
     
     
+  const newHallName = watch("createHallName");
+//Function to add the hall
+  const addHallName = () => {
+  
+    if (!newHallName) return; // Prevent empty names
+  
+    setNewHall((prev) => {
+      if (!prev.some((hall) => hall === newHallName)) {
+        return [...prev,  newHallName]; // Add hall if unique
+      }
+      return prev; // Avoid duplicate addition
+    });
+  
+    setValue("createHallName", ""); // Clear input field
+
+  };
+/** hall Name delete from hallName options
+  * @param index
+  */
+  const deleteHallName = (index:number) => {
+    setNewHall((prev) => {
+      // Create a new array without the hall at the specified index
+      return prev.filter((_, i) => i !== index);
+    });
+  };
+
+
+// Normalize and flatten hall data from local storage
+const normalizeHalls = (data: any): string[] => {
+  if (!data) return [];
+
+  if (Array.isArray(data)) {
+    return data?.flat()?.map(String); // Flatten nested arrays and convert to strings
+  } else if (typeof data === "object") {
+    return Object?.values(data)?.flat()?.map(String); // Extract values and flatten
+  }
+  return [];
+};
+
+const closeHallModal = () => {
+  setHallModal(false);
+  setDataById('uniqueHalls',hallOption)
+};
+
+
+  // Update hallOption whenever newHall or hall changes
+// eslint-disable-next-line react-hooks/rules-of-hooks
+useEffect(() => {
+  const normalizedHalls = normalizeHalls(hall);
+  setHallOption([...new Set([...normalizedHalls, ...newHall])]); // Merge unique halls
+}, [hall, newHall]);
 
   /**
  * Filters out speakers from the `speakers` array whose `speakerId` exists in the `existingSpeakers` array.
@@ -449,7 +506,7 @@ interface SessionDrawerContentProps {
     /**
      *  Function to handle search API for user role autocomplete
      */
-    const handleSearch = async (query: string) => {
+    const handleSearch = async (query: string, data?: any) => {
       setLoading(true);
       await POST({
         url: "user/userRole/list",
@@ -463,7 +520,17 @@ interface SessionDrawerContentProps {
           limit: 30
         },
         successCB: (context: any) => {
-          setSearchResults(transformUserData(context?.data))
+          const results = transformUserData(context?.data);
+          setSearchResults(results);
+    
+          if (data) {
+            const newObj = results.find((item: any) => item.id === data.id) || null;
+            setValue("speakerSelection", newObj);
+            setValue("speakerId", newObj?.speakerId);
+            setValue("speakerAssetId", newObj?.speakerAssetId);
+            setValue("speakerName", newObj?.speakerName);
+          }
+    
           setLoading(false);
         },
         errorCB: (context: any) => {
@@ -609,6 +676,8 @@ interface SessionDrawerContentProps {
       setValue("sponsorAssetId", "");
       setValue("sponsorType", "");
       setValue("reservedSeats","")
+      setValue("sponsorSelection","")
+      
     }
 
     /**
@@ -644,6 +713,7 @@ interface SessionDrawerContentProps {
         speakerDesignation,
         moderator,
       });
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "speaker added successfully" })
       clearErrors();
       
         // Reset the speaker form fields
@@ -651,6 +721,7 @@ interface SessionDrawerContentProps {
       setValue("speakerName", "");
       setValue("speakerAssetId", "");
       setValue("speakerDesignation", "");
+      setValue("speakerSelection","");
       
     };
     
@@ -682,7 +753,7 @@ interface SessionDrawerContentProps {
           }, [])
           
     // function to update the list      
-    const handleSponsorSearch = async (query: string) => {
+    const handleSponsorSearch = async (query: string,data: any) => {
           setLoading(true);
           await POST({
             url: "sponsor/list",
@@ -696,6 +767,11 @@ interface SessionDrawerContentProps {
             },
             successCB: (context: any) => {
               setSponsorSearcResults(transformSponsorData(context?.data))
+              const newObj = transformSponsorData(context?.data)?.find((item: any) => item.id === data.id) || null;
+              setValue("sponsorSelection",newObj)
+              setValue(`sponsorId`, newObj?.sponsorId)
+              setValue(`sponsorAssetId`, newObj?.sponsorAssetId)
+              setValue(`sponsorName`, newObj?.sponsorName)
               setLoading(false);
             },
             errorCB: (context: any) => {
@@ -747,6 +823,8 @@ interface SessionDrawerContentProps {
           <Grid size={{xs:12}}>
             <CustomTextField
               name="description"
+              multiline
+              rows={6}
               placeholder="Description"
               control={control}
               rules={{required:"Description is required"}}
@@ -767,12 +845,35 @@ interface SessionDrawerContentProps {
               }}
             />
           </Grid>
-          <Grid size={12}>
-            <CustomTextField
-              name="hallName"
+          <Grid container display={"flex"} size={{ xs: 12, sm: 12 }} alignItems={"center"} >
+          <Grid size={9}>
+          <CustomAutocomplete
+              name={"hallName"}
+              options={hallOption??[]}
+              className="add-program-autocomplete"
+              getOptionLabel={(option: any) => option.hallName||option}
+              onSearch={(_query: string) => { }}
+              onChange={(e:any) => { 
+                setValue(`hallName`, e);
+              }}
               placeholder="Hall Name"
               control={control}
+              clearable={false}
+              onTextChange={(e:any)=>
+                setValue(`hallName`, e)
+              }
+              loading={false}
             />
+          </Grid>
+          <Grid size={3}>
+                        <CustomButton
+                        className="add-program-hallcreate"
+                        variant="outlined"
+                        label="Add New Hall"
+                        onClick={()=>{setHallModal(true)}}
+                        />
+
+                       </Grid>
           </Grid>
           <Grid size={12}>
           <CustomTextField
@@ -987,7 +1088,7 @@ interface SessionDrawerContentProps {
           {/* Drawer to create a new Speaker */}
           <Grid >
             <CustomDrawer
-              children={<NewSpeakerDrawer onSuccess={() => { handleSearch("") }} closeDrawer={() => setNewSpeakerDrawerOpen(false)} />}
+              children={<NewSpeakerDrawer onSuccess={handleSearch} closeDrawer={() => setNewSpeakerDrawerOpen(false)} />}
               open={newSpeakerDrawerOpen}
               type="right"
             />
@@ -1117,7 +1218,7 @@ interface SessionDrawerContentProps {
         <Grid>
         <CustomDrawer
             children={
-            <DrawerCreateSponosor onSuccess={()=>{handleSponsorSearch("")}} 
+            <DrawerCreateSponosor onSuccess={handleSponsorSearch} 
             closeDrawer={()=>
               setNewSponsorDrawerOpen(false)           
               }
@@ -1127,6 +1228,53 @@ interface SessionDrawerContentProps {
             type="right"
           />
         </Grid>
+                  <Modal  open={hallModal} >
+                              <Box  className="add-program-hall-modal">
+                                <Grid container spacing={2}>
+                                <Box className="add-program-hall-modal-container">
+                                  <Grid container spacing={1} justifyContent={"flex-end"}>
+                                  <IconButton  onClick={closeHallModal}><CloseIcon/></IconButton>
+                                  </Grid>
+
+                                 <Typography variant={"h6"}>Create Hall Name</Typography>
+                                 <Grid className="add-program-hall-modal-textField" container size={12}>
+                                  <CustomTextField
+                                    placeholder="Hall Name"
+                                    className="create-event"
+                                    control={control}
+                                    name={`createHallName`}
+                                    type="text"
+                                    rules={{
+                                      required: true,
+                                        
+                                    }}
+                                  />
+                                  </Grid>
+                                  {newHall.length > 0 && (
+                                   <Grid className="add-program-hall-modal-chipBox">
+                                    {newHall.map((item, index) => (
+                                      <Chip
+                                        key={index}
+                                         className="add-program-hall-modal-chipBox-chip"
+                                        label={item}
+                                        onDelete={()=>deleteHallName(index)}
+                                        variant="outlined"
+                                      />
+                                    ))}
+                                  </Grid>
+                                  )}
+                                 
+                                  <Grid container justifyContent={"flex-end"}>
+                                  <CustomButton
+                                  className="add-program-hall-modal-btn"
+                                  label="Save"
+                                  onClick={addHallName}
+                                  />
+                                 </Grid>
+                                </Box>
+                                </Grid>
+                              </Box>
+                            </Modal>
       </Box>
     );
   };

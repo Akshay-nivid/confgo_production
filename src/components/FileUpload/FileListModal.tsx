@@ -17,7 +17,7 @@ import Grid from "@mui/material/Grid2";
 import CloseIcon from '@mui/icons-material/Close';
 
 interface CustomFile {
-  id: number;
+  id: string;
   name: string;
   mimeType: string;
   sourcePath: string;
@@ -27,7 +27,7 @@ interface CustomFile {
 
 interface FileListModalProps {
   open: boolean;
-  handleClose: () => void;
+  handleClose: () => void | any;
   onSelectFile: (file: CustomFile[]) => void;
   companyId: Number | string | null;
   multipleSelect?: boolean;
@@ -43,6 +43,8 @@ const fetchFilesFromAPI = async (companyId: Number | string | null, searchQuery:
       companyId,
       name: searchQuery,
     },
+    sortBy: 'createdOn',
+    sortDirection: 'DESC',
     limit: 16,
   };
   return apiClient.post("/asset/list", req);

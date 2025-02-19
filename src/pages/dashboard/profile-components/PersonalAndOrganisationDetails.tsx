@@ -21,7 +21,7 @@ import config from "../../../../config.json";
 import FileUpload from "@/components/FileUpload/FileUpload";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 interface CustomFile {
-  id: number;
+  id: string;
   name: string;
 }
 
@@ -56,19 +56,41 @@ const PersonalAndOrganisationDetails:React.FC<AccountSettingProps> = React.memo(
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [uploadModalOpen, setUploadModalOpen] = useState(false); 
   const [uploadOrganisationModalOpen, setUploadOrganisationModalOpen] = useState(false); 
-  const [drawerProfileImage, setDrawerProfileImage] = useState<number | null>(profileData?.assetId || null);
+  const [drawerProfileImage, setDrawerProfileImage] = useState<string | null>(profileData?.assetId || null);
   const [organsisationDrawer, setorgansisationDrawer] = useState(false);
   const [LogoprofileData, setLogoProfileData] = useState<Company | null>(null);
-  const [drawerLogoImage, setDrawerLogoImage] = useState<number | null>(LogoprofileData?.assetId || null);
+  const [drawerLogoImage, setDrawerLogoImage] = useState<string | null>(LogoprofileData?.assetId || null);
   const [loading, setLoading] = useState(false); 
   const [compId,setCompId]=useState()
 
   const baseUrl = config.api.url;  
-  const openOrganisationDrawer =()=> setorgansisationDrawer(true)
-  const closeOrganisationDrawer = () => setorgansisationDrawer(false);
+  const openOrganisationDrawer =()=> {
+    if(LogoprofileData){
+      setValue("companyName", LogoprofileData.companyName);
+      setValue("companyAddress", LogoprofileData.companyAddress);      
+  
+    }
+    setorgansisationDrawer(true)
+  }
+  const closeOrganisationDrawer = () => {
+    setDrawerLogoImage(null);
+    setorgansisationDrawer(false);
+  }
 
-  const openDrawer = () => setIsDrawerOpen(true);
-  const closeDrawer = () => setIsDrawerOpen(false);
+  const openDrawer = () => {
+    if (profileData) {
+      setValue("firstName", profileData.firstName);
+      setValue("lastName", profileData.lastName);
+      setValue("email", profileData.email);
+      setValue("phone", profileData.phone);
+      setValue("assetId", profileData.assetId);
+    }
+    setIsDrawerOpen(true);
+  }
+  const closeDrawer = () => {
+    setDrawerProfileImage(null);
+    setIsDrawerOpen(false);
+  }
   const setDataById = useStore((state: any) => state.setDataById)
   const userDetails = useStore((state) => state?.compData?.["userDetails"]) ?? {};
   useEffect(() => {
@@ -213,6 +235,7 @@ const onSubmit = async (data: Profile) => {
         assetId: response.data?.data?.assetId,
       });
      setDataById("profileImage",{item:response?.data?.data?.assetId})
+     sessionStorage.setItem('companyUserName', `${response.data?.data?.firstName} ${response.data?.data?.lastName || ''}`);
       closeDrawer();
     }
     else{

@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid2";
 import { Controller, useForm } from 'react-hook-form';
 import useStore from '@/Libs/store';
 import apiClient from '@/Libs/Https/API-client';
-import { convertLocalToUTC, processAPIResponse } from '@/Utils/CommonBaseClass';
+import { processAPIResponse } from '@/Utils/CommonBaseClass';
 import { Logger } from '@/Utils/Logger';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
@@ -14,18 +14,18 @@ import CustomButton from './CustomButton/CustomButton';
 import EventFilterIcon from '@/assets/svg/EventFilterIcon.svg';
 import CustomDrawer from './CustomDrawer/CustomDrawer';
 import { CloseOutlined } from '@mui/icons-material';
-import moment from 'moment';
 
 type FilterProps = {
     datagridId: string;
-    fields: Array<any>
+    fields: Array<any>;
+    filterTransformer?: any;
 }
 
 /**
  * Component used to draw filter
  * @returns 
  */
-export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
+export const Filter: React.FC<FilterProps> = ({ datagridId, fields, filterTransformer }: any) => {
     const dataGridInfo = useStore(
         (state: any) => state?.compData?.[datagridId]
     ) ?? [];
@@ -42,23 +42,23 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
      * Useeffect hook populates the initial value from the datagrid request
      */
     useEffect(() => {
-        if(dataGridInfo?.source?.data?.filters){
-            const filterObj = {...dataGridInfo?.source?.data?.filters};
-            for(let i in filterObj){
+        if (dataGridInfo?.source?.data?.filters) {
+            const filterObj = { ...dataGridInfo?.source?.data?.filters };
+            for (let i in filterObj) {
                 fields?.map((item: any) => {
-                    if(item.type === 'checkBox'){
-                        setValue(item.fieldName,filterObj[i])
+                    if (item.type === 'checkBox') {
+                        setValue(item.fieldName, filterObj[i])
                     }
                 })
             }
         }
-    },[dataGridInfo?.source?.data?.filters])
+    }, [dataGridInfo?.source?.data?.filters])
 
     const handleClose = () => {
         setIsFilterModalOpen(false);
     };
 
-    
+
 
     /**
      * Method to check value is not empty
@@ -79,7 +79,7 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
     const onSubmit = (data: any) => {
         const formattedData = Object.keys(data).reduce((acc: any, key: string) => {
             if (data[key] && typeof data[key] === 'object' && dayjs(data[key]).isValid()) {
-                acc[key] = convertLocalToUTC(dayjs(data[key]).format('YYYY-MM-DD'));
+                acc[key] = (dayjs(data[key]).format('YYYY-MM-DD'));
             } else {
                 acc[key] = data[key];
             }
@@ -89,6 +89,9 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
             ...dataGridInfo?.source?.data,
         };
         req.filters = { ...dataGridInfo?.source?.data.filters, ...formattedData };
+        if(filterTransformer){
+            req.filters = filterTransformer(req.filters);
+        }  
 
         // Ensure roleEnum is excluded if roleId is set
         if (req.filters.roleId) {
@@ -138,7 +141,7 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
     }
 
     const setTodaysDate = () => {
-        const currentDate = moment(); 
+        const currentDate = dayjs();
         setValue("startTime", currentDate);
         setValue("endTime", currentDate);
         setDateTemplate('Today');
@@ -250,15 +253,32 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
     };
     return (
         <>
-            <CustomButton
-                className="custom-list-filter-btn"
-                onClick={() => setIsFilterModalOpen(true)}
-                label="Filters"
-                startIcon={<EventFilterIcon />}
-                variant="contained"
-                color="primary"
-                size="large"
-            />
+            <Grid className="filter" display={{xs:"block",sm:'none'}}>
+
+
+                <CustomButton
+                    className="custom-list-filter-btn"
+                    onClick={() => setIsFilterModalOpen(true)}
+                    label=""
+                    startIcon={<EventFilterIcon />}
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                />
+            </Grid>
+            <Grid display={{xs:"none",sm:'block'}}>
+
+
+                <CustomButton
+                    className="custom-list-filter-btn"
+                    onClick={() => setIsFilterModalOpen(true)}
+                    label="Filters"
+                    startIcon={<EventFilterIcon />}
+                    variant="contained"
+                    color="primary"
+                    size="large"
+                />
+            </Grid>
             <CustomDrawer
                 className='filter-drawer'
                 type="right"
@@ -352,8 +372,9 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
                                                     name={item.fieldName}
                                                     control={control}
                                                     defaultValue={null}
-                                                    render={({ field }) => (
-                                                        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en">
+                                                    render={({ field }) => {
+
+                                                        return <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="en">
                                                             <DatePicker
                                                                 name={item.fieldName}
                                                                 sx={{ width: '100%' }}
@@ -361,12 +382,19 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
                                                                 value={field.value || null}
                                                                 defaultValue={null}
                                                                 onChange={(newValue) => {
-                                                                    field.onChange(newValue);
-                                                                    setDateTemplate('');
+                                                                    try{
+                                                                        field.onChange(newValue);
+                                                                        setDateTemplate('');
+                                                                        setValue("endTime", '');
+                                                                    }
+                                                                    catch(e){
+                                                                        Logger.error(e)
+                                                                    }
+                                                                    
                                                                 }}
                                                             />
                                                         </LocalizationProvider>
-                                                    )}
+                                                    }}
                                                 />
                                             </Grid>
                                             <Grid size={{ xs: 12 }} margin={2} container spacing={1} sx={{ marginLeft: 0 }} >
@@ -635,7 +663,7 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields }: any) => {
                                     size="large"
                                     disabled={isSubmitting}
                                     fullWidth
-                                    //onClick={handleApplyFilters}
+                                //onClick={handleApplyFilters}
                                 />
                             </Grid>
                         </Grid>

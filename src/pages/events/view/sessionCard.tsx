@@ -4,7 +4,7 @@ import EditIcon from "@/assets/svg/event-edit.svg";
 import Grid from "@mui/material/Grid2";
 import { DeleteContributorIcon, HallIcon, WarningIcon} from "@/assets/svg";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
-import { getLocalTimeDate, truncateString } from "@/Utils/CommonBaseClass";
+import { formatedTimeRangeProgram, getLocalTimeDate, truncateString } from "@/Utils/CommonBaseClass";
 import CustomModel from "@/components/CustomModel/CustomModel";
 import { CloseOutlined } from "@mui/icons-material";
 import { setDataById } from "@/Libs/store";
@@ -57,6 +57,26 @@ const SessionCard: React.FC<SessionCardProps> = ({
 
   // const modalState= useStore((state:any)=>state.compData?.['programModal']) ??[];
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+
+  /**
+   * Method checks if the date is valid or not
+   * @param date 
+   * @returns 
+   */
+  const isValidDate = (date: any) => {
+    return moment(date, moment.ISO_8601, true).isValid();
+  };
+
+  /**
+   * Method to convert date and time to datetime
+   * @param dateString
+   * @param timeString 
+   * @returns 
+   */
+  const convertToDateTime = (dateString: any, timeString: any) => {
+    return new Date(`${dateString}T${timeString}:00`);
+};
+
   /**
    * function to access nested properties in an object.
    * @param obj - Object to search.
@@ -117,7 +137,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
       md: 3,
     }} flexDirection={"row"}
     >
-      <Grid size={12} container className="event-sessions-session-card"  >
+      <Grid size={12} container className="event-sessions-session-card hover-shadow"  >
       <Grid container size={12} className="card-header">
         <Grid size={11} container>
       {hasAddOns ? (
@@ -198,14 +218,27 @@ const SessionCard: React.FC<SessionCardProps> = ({
        </Grid>
      
        <Grid container size={12}>
-        <Typography className="card-content-description">
-           {truncateString((item.description), 25, "Untitled")}
-              </Typography>
+        {onEditClick ? (
+         <Typography className="card-content-description">
+         {truncateString((item.description), 25, "Untitled")}
+         </Typography> 
+            ): (
+         <Typography className="card-content-description">
+          {truncateString((item.description), 18, "Untitled")}
+         </Typography>)
+        }
+       
        </Grid>
-          {item.hall && <Grid size={6} container spacing={1} display={"flex"} justifyContent={"flex-start"} alignItems={"center"}>
+           {(item.hall || item?.hallName?.hallName ||item?.hallName ) &&( <Grid size={12} container spacing={1} display={"flex"} justifyContent={"flex-start"} alignItems={"center"}> 
             <HallIcon />
-            <Typography className="card-content-description">{item?.hall}</Typography>
-          </Grid>}
+            <Typography className="card-content-description">
+      {truncateString(
+        item?.hallName?.hallName || item?.hall || item?.hallName,
+        25
+      )}
+    </Typography>
+            {/* <Typography className="card-content-description">{truncateString(item?.hallName?.hallName ? item.hallName.hallName :item?.hall?item?.hall,25 :item?.hallName) }</Typography> */}
+         </Grid>)}
        <Grid className="card-content-devider">
         <Divider/>
        </Grid>
@@ -223,7 +256,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
          </Grid>
          ))
        )}
-       {/* </Grid> */}
+      
        {!hasAddOns&&item?.speakers && (
        <>
         <Grid className="card-content-heading" >
@@ -285,13 +318,28 @@ const SessionCard: React.FC<SessionCardProps> = ({
                     </Grid>
             </>
           )
-        }                 */}
-         <Grid className="card-content-timeBox" >
-         <Typography className="time" >
-                  {item[startTimeField]&&item[endTimeField]?<><span>{timeCorrection ? getLocalTimeDate(item[startTimeField]) : item[startTimeField]}</span> - 
-                  <span>{timeCorrection ? getLocalTimeDate(item[endTimeField]) : item[endTimeField]}</span></>:<span>General Addon</span>}
+        }    
+                         */}
+                           <Grid className="card-content-timeBox">
+  <Typography className="time">
+    {item[startTimeField] && item[endTimeField] ? (
+      <span>
+        <Typography className="date-box-content">
+                    <span>
+                      {timeCorrection ? getLocalTimeDate(item[startTimeField]) : moment(item[startTimeField], "HH:mm").format("hh:mm A")}
+                    </span>
+                    {' - '}
+                    <span>
+                      {timeCorrection ? getLocalTimeDate(item[endTimeField]) : moment(item[endTimeField], "HH:mm").format("hh:mm A")}
+                    </span>
         </Typography>
-        </Grid>
+      </span>
+    ) : (
+      <span>General Addon</span>
+    )}
+  </Typography>
+</Grid>
+        
         </Grid>
       </Grid>
      
@@ -332,10 +380,18 @@ const SessionCard: React.FC<SessionCardProps> = ({
 
                 <Grid maxWidth={"max-content"} container alignItems={"center"} className="date-box" > 
 
-                   <Typography className="date-box-content">
-                   {item[startTimeField]&&item[endTimeField]?<><span>{timeCorrection ? getLocalTimeDate(item[startTimeField]) : item[startTimeField]}</span> - 
-                   <span>{timeCorrection ? getLocalTimeDate(item[endTimeField]) : item[endTimeField]}</span></>:<span>General Addon</span>}
-                   </Typography>
+                <Typography className="date-box-content">
+                  {item[startTimeField] && item[endTimeField] ? (
+                    <>
+                      {formatedTimeRangeProgram(
+                        isValidDate(item[startTimeField])? item[startTimeField]: convertToDateTime(item['startDate'], item['startTime']),
+                        isValidDate(item[endTimeField])? item[endTimeField]: convertToDateTime(item['endDate'], item['endTime'])
+                      )}
+                    </>
+                  ) : (
+                    <span>General Addon</span>
+                  )}
+                </Typography>
                 </Grid>
 
                <Grid className="description-box" size={12}>
@@ -344,7 +400,16 @@ const SessionCard: React.FC<SessionCardProps> = ({
                     {item?.description}
                    </Typography>  
                 </Grid>
-               
+                 {item?.hall && (
+                <Grid className="description-box-content">
+                    <Grid className ="hall-grid">
+                   
+                          <>
+                            <HallIcon /> {item.hall}
+                          </>
+                     
+                    </Grid>
+                </Grid>   )}
                 {!hasAddOns && (
                 <>
                 { item?.speakers?.length !==0 &&

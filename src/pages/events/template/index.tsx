@@ -84,7 +84,7 @@ const TemplateContainer: React.FC<TemplateContainerProps> = React.memo(({ }) => 
 
   // check if user is logged in or not. if logged in call cart api and get the cart data
   // useEffect(() => {
-
+   
   //   const userToken = sessionStorage.getItem('token')
   //   const userRole = sessionStorage.getItem('userRole')
 
@@ -103,7 +103,7 @@ const TemplateContainer: React.FC<TemplateContainerProps> = React.memo(({ }) => 
   //   }
 
   //   return 
-
+    
   // },[])
 
   useEffect(() => () => {

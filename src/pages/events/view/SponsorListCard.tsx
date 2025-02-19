@@ -22,11 +22,15 @@ interface Sponsor{
   label:string;
 }
 
-
+interface sponsorprops {
+  drawerOpened?:boolean
+  expanded?:any
+  // eventData?:any
+}
 /**
  * Component to display a list of volunteers with search, assign and filter functionality.
  */
-const SponsorListCard = () => {
+const SponsorListCard : React.FC<sponsorprops> = ({drawerOpened,expanded}) => {
   const { id } = useParams();
   const [searchResults, setSearchResults] = useState([]);
   // const [filters, setFilters] = useState({ });
@@ -43,6 +47,10 @@ const SponsorListCard = () => {
   useEffect(() => {
     getSponsor()
   }, [])
+
+  useEffect(() => {
+    drawerOpened && expanded =='panel4-header' ? setDrawerOpen(true) : setDrawerOpen(false)
+  }, [expanded]);
 
   /**
    * Fetches the volunteer list when the component mounts.
@@ -242,7 +250,7 @@ const SponsorListCard = () => {
           <CustomAutocomplete
             name="search"
             className="custom-user-search-field"
-            placeholder="Search by ID, Name or Phone ..."
+            placeholder="Search by Name, Phone or email ..."
             control={control}
             options={searchResults}
             getOptionLabel={(option: any) =>

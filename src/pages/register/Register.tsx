@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import useStore from "@/Libs/store";
+import useStore, { clearDataById } from "@/Libs/store";
 import AddPlan from "./AddPlan";
 import CreateAccount from "./CreateAccount";
 import AddOrganization from "./AddOrganization";
@@ -27,6 +27,9 @@ const Register = () => {
   * function to handle navigate to login page
   */
   const handleLogin = () => {
+    clearDataById('form1');
+    clearDataById('form2');
+    clearDataById('form3');
     navigate(routes.loginOrg())
   }
   /*
@@ -72,7 +75,7 @@ const Register = () => {
     <Grid container className="register-main-container overflow-hidden">
       <Grid  justifyContent={'start'} direction={'column'}  className="grid-left " size={{ xs: 12, md: 7 }} >
       {!isMobileScreen &&
-        (pageSwitch.data === "CREATE_ACCOUNT_PAGE" || 
+        (
          pageSwitch.data === "ADD_ORGANIZATION_PAGE" || 
          pageSwitch.data === "PLAN_PAGE") && (
           <Grid 

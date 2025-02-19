@@ -88,6 +88,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
   const clearDataById = useStore((state:any) => state?.clearDataById)
   const [loading, setLoading] = useState(false);
   const [chipLoading, setChipLoading] = useState(false);
+  const [AttendeeTypeName,setAttendeeTypeName]=useState([])
   const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 
@@ -182,7 +183,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
   const fetchAttendeeTypeList = async () => {
     POST({
       url: "/participant/type/list",
-      body: { filters: { eventId: id ,isContributor: '0', exceptName:'General'} },
+      body: { filters: { eventId: id ,isContributor: '0', exceptName:''} },
       id: "attendeeTypeList",
       successCB: (context: any) => {
         if (context?.success) {
@@ -195,6 +196,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
           });
           setDataById('pricingTierDetails', { attendeeTypeResponse: context.data, attendeeFieldsData: groupedByDesignation })
           setValue("attendeeTypes", groupedByDesignation);
+          setAttendeeTypeName(groupedByDesignation)
         }
       },
       errorCB: (context: any) => {
@@ -212,6 +214,13 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
     const isValid = await trigger(["attendeeName"]);
     if (isValid) {
       const attendeeName = getValues("attendeeName");
+    // Check if attendeeName already exists in att[]
+    const isDuplicate = AttendeeTypeName.some((item:any) => item.attendeeName === attendeeName);
+    if (isDuplicate) {
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "Attendee type name must be unique. Please enter a different name." })
+      setLoading(false); // Re-enable button
+      return;
+    }
       const attendeeDescription = getValues("attendeeDescription");
       // Check if attendeeName is empty or not
       if (attendeeName.trim() === "") {

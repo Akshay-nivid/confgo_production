@@ -10,22 +10,49 @@ import { DataGridList } from "@/components/DataGrid/DataGridList";
 import FilterModal from "@/components/CustomFilter/FilterModal";
 import { NoUserList } from "@/assets/svg";
 import { Button} from "@mui/material";
-import useStore, { setDataById } from "@/Libs/store";
+import useStore, { setDataById ,setNonPersistedDataById} from "@/Libs/store";
+import CustomButton from "@/components/CustomButton/CustomButton";
+import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
+import AddIcon from '@mui/icons-material/Add';
+import CreateNewUsers from "@/pages/Admin-users/CreateUsers";
 
 
-const AbstractReviewer = () => {
+interface AbstractReviewerProps {
+  drawerOpen?:boolean
+  expanded?:any
+}
+
+const AbstractReviewer : React.FC<AbstractReviewerProps> = ({drawerOpen,expanded}) => {
   const { id } = useParams();
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [source, setSource] = useState<any>({});
   const adminCompanyId=useStore((state:any)=>state.compData?.['adminCompanyId']?.companyId);
-  
+
+ /**
+   * opens the usercreate drawer if there is no reviewers
+   */
+useEffect(()=>{
+  drawerOpen && expanded =='panel2-header' ? handleUserDrawer() : null
+},[expanded])
+
+
   /**
+  * Opens the "Create user Drawer" by updating the non-persisted state.
+  * This function sets `craeteUserDrawer` to `true`, triggering the drawer to open.
+  */
+  function handleUserDrawer() {
+    setNonPersistedDataById('craeteUserDrawer', { value: true })
+  };
+
+  const CreateUserDrawer =  useStore(state => state.nonPersistedData?.['craeteUserDrawer']?.value) || false;
+
+    /**
    * Fetches the initial abstract list when the component is mounted.
    */
   useEffect(() => {
     userAbstractList();
 
-  }, []);
+    }, [CreateUserDrawer]);
   /**
    * Fetch Abstract List
    * Fetches the list of abstracts submitted by users for a specific event.
@@ -37,6 +64,7 @@ const AbstractReviewer = () => {
       offset: 0,
       limit: 5,
       filters: {
+        statusId:1,
         companyId: adminCompanyId,
         roleEnums: [
           "REVIEWER"
@@ -95,6 +123,17 @@ const AbstractReviewer = () => {
 
   return (
     <Grid container>
+      <Grid container size={{ xs: 12 }} className="volunteer-list-card" spacing={2} justifyContent="flex-end">
+        <Grid container spacing={2}>
+          <CustomButton
+            className="custom-green-btn"
+            onClick={handleUserDrawer}
+            label="Create New Reviewer"
+            startIcon={<AddIcon />}
+            size="large"
+          />
+        </Grid>
+      </Grid>
       <Grid size={{ xs: 12 }}>
         <DataGridList
           dataTransformer={transformData}
@@ -111,6 +150,11 @@ const AbstractReviewer = () => {
         onClose={() => setIsFilterModalOpen(false)}
         onApplyFilters={() => { }}
       />
+
+      
+      <CustomDrawer open={CreateUserDrawer} type="right">
+        <CreateNewUsers NoNavigation={true} defaultValue={6}/>
+      </CustomDrawer>
     </Grid>
   );
 };

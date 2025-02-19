@@ -2,7 +2,7 @@ import "@/styles/main.scss";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import routes from "@/router/routes";
 import Dashboard from "@/pages/dashboard";
-import Events from "@/pages/events";
+import Events from "@/pages/events/createEvent/index";
 import CalendarRoute from "@/pages/calendar";
 import Home from "@/pages/home";
 import Pricing from "@/pages/pricing";
@@ -70,6 +70,7 @@ import SpeakerHome from "./pages/Speaker/Home";
 import SpeakersEventDetails from "./pages/Speaker/Home/SpeakersEventDetails";
 import { AccountDeletionPage } from "./pages/Delete-Account";
 import Sponsors from "./pages/Admin/Sponsors";
+import AdminPaymentList from "./pages/Admin/Payment";
 
 
 const userRoutes = [
@@ -197,6 +198,7 @@ const userRoutes = [
 ];
 
 const router = createBrowserRouter([
+ 
   // Public routes
   {
     path: routes.deleteAccount(),
@@ -325,6 +327,10 @@ const router = createBrowserRouter([
         path: routes.sponsor(),
         element: <Sponsors />,
       },
+      {
+        path:routes.adminPayment(),
+        element:<AdminPaymentList/>
+      }
     ],
   },
   {

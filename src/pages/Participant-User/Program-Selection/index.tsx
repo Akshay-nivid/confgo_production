@@ -1,6 +1,6 @@
 
 import CustomButton from "@/components/CustomButton/CustomButton";
-import useStore, { POST, GET, setDataById, IStoreState, snackBar } from "@/Libs/store";
+import useStore, { POST, GET, setDataById, IStoreState, snackBar, setNonPersistedDataById } from "@/Libs/store";
 import routes from "@/router/routes";
 import { Backdrop, Box, CircularProgress, Typography } from "@mui/material";
 import moment from "moment";
@@ -8,16 +8,18 @@ import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Navigate, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
-import {  handleClickBackButton, handleGroupData, processFormData, toggleProgramCheckboxesByDate, validateAddon, validateAddonWithNoProp, validatePrograms } from "./programsHandlers";
+import {  handleClickBackButton, handleGroupData, processFormData, toggleProgramCheckboxesByDate} from "./programsHandlers";
 import clsx from "clsx";
 import AddonCard from "../Components/AddonCard";
 import Programcard from "../Components/Programcard";
-import parse from 'html-react-parser';
 import LocalTimeDate from "@/components/LocalTimeDate/LocalTimeDate";
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import { getUserCart } from "@/pages/events/template/programHandler";
 import { IEventResponse } from "@/Libs/types/event";
 import ProgramDetailsModal from "./ProgramDetailsModal";
+import HTMLReactParser from "html-react-parser/lib/index";
+import apiClient from "@/Libs/Https/API-client";
+import { processAPIResponse } from "@/Utils/CommonBaseClass";
 
 
 export interface IProgram {
@@ -58,11 +60,15 @@ const ProgramSelection = () => {
   const { handleSubmit, setValue, getValues, reset } = methods
 
 
-  const defaultFormData = useStore((state: any) => state?.compData?.["defaultProgramData"]?.formData) || undefined;
+  // const defaultFormData = useStore((state: any) => state?.compData?.["defaultProgramData"]?.formData) || undefined;
+
+  const defaultFormData = useStore((state) => state?.nonPersistedData?.["defaultProgramData"]?.formData) || undefined;
+
 
 
   const eventData = useStore((state: IStoreState) => state?.compData?.["eventData"]) ?? undefined;
 
+  const eventInitialFetchDone = useStore(state=>state.nonPersistedData?.eventInitialFetchDone?.value) || false
 
   const eventId = useStore((state: IStoreState) => state?.compData?.eventSelected?.id)
 
@@ -70,7 +76,7 @@ const ProgramSelection = () => {
 
   const addToCartLoading = addToCartResponseData?.cart?.loading ?? false
 
-  const event: { data: IEventResponse; success: boolean; loading:boolean } = useStore((state: any) => state?.compData?.["eventData"]?.[`event/${eventId}`])
+  const event: { data: IEventResponse; success: boolean; loading: boolean } = useStore((state: any) => state?.compData?.["eventData"]?.[`event/${eventId}`])
 
   const slugName = useStore((state: IStoreState) => state?.compData?.slugName?.value) || ''
 
@@ -78,12 +84,112 @@ const ProgramSelection = () => {
 
   const templateId = useStore((state: IStoreState) => state.compData?.templateId?.id)
 
+  const cartId = useStore((state: IStoreState) => state?.compData?.userDetails?.userCart?.id)
 
   const eventDataLoading = useStore((state: any) => state?.compData?.["eventData"]?.[`event/${eventId}`]?.loading) ?? false
 
   const [currentTab, setCurrentTab] = useState(0);
 
+  const userToken = sessionStorage.getItem('token')
+  const userRole = sessionStorage.getItem('userRole')
 
+  // const isIntialGetCartCalled = useStore(state => state?.nonPersistedData.intialGetCart?.value)
+
+  /**
+   * method to handle already existing cart
+   */
+
+  // check if user is logged in or not. if logged in call cart api and get the cart data
+  useEffect(() => {
+
+
+
+
+    if (userToken && userRole === 'USER') {
+
+
+
+      // if (isIntialGetCartCalled) return // return if cart api is called for the first time
+
+      if (cartId) {
+
+        apiClient.get(`cart/${cartId}`).then((response: any) => {
+
+
+          const { status, message, data } = processAPIResponse(response, 'getCart')
+
+
+          // return if current event id and event id get from user cart history are not same
+          if (data?.cart?.parentEventId !== eventId) return
+
+          if (status) {
+
+            const formatedData = handleGroupData({
+              addons: data?.addons,
+              programs: data?.programs
+            })
+
+            const obj: any = {}
+
+
+            Object?.keys(formatedData)?.forEach((date: any) => {
+
+              formatedData[date]?.programs?.forEach((program: any) => {
+
+
+                const pKey = `${moment(program?.startTime).format('YYYY/MM/DD')}-programs`
+
+                obj[pKey] = [...(obj[pKey] || []), program?.id]
+
+              })
+
+              formatedData?.[date]?.addons?.forEach((addon: any) => {
+
+
+                obj[`addons.${addon?.id}`] = addon?.id
+
+                addon?.eventAddonProperties?.forEach((item: any) => {
+
+                  const aKey = `${moment(addon?.startTime).format('YYYY/MM/DD')}-addonProp-${addon?.id}`
+
+                  obj[aKey] = [...(obj[aKey] || []), item?.id]
+                })
+
+
+
+
+
+
+
+              })
+
+              // setDataById("defaultProgramData", { formData: obj })
+              setNonPersistedDataById("defaultProgramData", { formData: obj })
+
+
+            })
+
+            setNonPersistedDataById("intialGetCart", { value: true })
+
+          } else {
+            snackBar({ severity: 'error', message })
+            return
+          }
+
+        }).catch((err) => {
+          snackBar({ severity: 'error', message: err?.message || 'something went wrong' })
+        })
+
+        // getUserCart({ helperFn: handleNavigateToCart, cartID: cartId })
+        // setNonPersistedDataById('intialGetCart', { value: true })
+      }
+
+
+    }
+
+    return
+
+  }, [])
 
 
   /**
@@ -91,8 +197,9 @@ const ProgramSelection = () => {
     */
   useEffect(() => {
 
-      //  (async()=>await fetchEventDetailsFn(10000))()
+    //  (async()=>await fetchEventDetailsFn(10000))()
 
+    if(eventInitialFetchDone) return
     const fetchEventDetails = async () => {
 
 
@@ -122,12 +229,16 @@ const ProgramSelection = () => {
           loading: boolean;
           success: boolean;
         }) => {
+
           const formatedData = handleGroupData({
             addons: response?.data?.addons,
             programs: response?.data?.programs
           })
 
+        
+
           setDataById("eventData", { programs: formatedData });
+          setNonPersistedDataById("eventInitialFetchDone", { value: true })
         },
 
         errorCB: () => { }
@@ -137,13 +248,13 @@ const ProgramSelection = () => {
 
     fetchEventDetails();
 
-  }, []);
+  }, [eventInitialFetchDone]);
 
 
 
   function handleNavigate() {
     navigate(routes.selectedPrograms())
-}
+  }
 
   /**
    * method to handle submission of form, triggers add selected properties to cart api 
@@ -153,36 +264,52 @@ const ProgramSelection = () => {
   function handleClickNextButton(formData: any) {
 
 
+
+
     try {
 
-      validateAddon(formData)
 
-      setDataById('defaultProgramData', { formData: formData }) // storing form data for setting default values in next screen 
+      // setDataById('defaultProgramData', { formData: formData }) // storing form data for setting default values in next screen 
 
+      setNonPersistedDataById("defaultProgramData", { formData: formData })
 
       const body = processFormData(formData, eventId, participantTypeId) // processing form data to match cart api body format
 
-      const selectedPrograms = body.programIds || null;
+      const selectedPrograms = body?.programIds || null;
 
 
-      validatePrograms(selectedPrograms)
+      const apiBody = {
+        eventId: body?.eventId,
+        ...((participantTypeId && participantTypeId !== null && participantTypeId !== undefined) ? { participantTypeId: participantTypeId } : {}),
+        ...((body?.programIds && body?.programIds?.length > 0) ? { programIds: body.programIds } : {}),
+        ...((body?.addons && body?.addons?.length > 0) ? {addons: body.addons} : {})
+      }
+
+      if (selectedPrograms?.length === 0 && body?.addons?.length === 0) {
+        snackBar({ severity: "error", message: "Please select aleast one programs or addons" })
+        return
+      }
+
+      // validatePrograms(selectedPrograms)
+
+      // validateAddon(formData)
 
 
-      validateAddonWithNoProp(body?.addons)
+      // validateAddonWithNoProp(body?.addons)
 
 
       POST({
         url: 'cart',
-        body: body,
+        body: apiBody,
         id: 'addToCart',
 
         successCB: (data: any) => {
 
           const cartID = data?.data?.id
 
-          getUserCart({helperFn: handleNavigate,cartID:cartID}) 
+          getUserCart({ helperFn: handleNavigate, cartID: cartID })
 
-          
+
 
         },
         errorCB: (error: any) => {
@@ -196,9 +323,9 @@ const ProgramSelection = () => {
 
         }
       })
-    } catch (e: any) {
-
-      snackBar({ severity: "error", message: e?.message || "something went wrong", autoHideDuration: 3000 })
+    } catch (error: any) {
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+      snackBar({ severity: "error", message: errorMessage || "something went wrong", autoHideDuration: 3000 })
     }
 
   }
@@ -255,7 +382,7 @@ const ProgramSelection = () => {
    */
   useEffect(() => {
     reset(defaultFormData)
-  }, [])
+  }, [defaultFormData])
 
 
   if (eventDataLoading) {
@@ -273,6 +400,7 @@ const ProgramSelection = () => {
     }
     return <Navigate to={routes.userLogin()} />
   }
+
 
 
   return (
@@ -297,7 +425,7 @@ const ProgramSelection = () => {
 
                 <Box className="event-header-container">
                   <Typography className="event-header"><span>{event?.data?.name}</span></Typography>
-                  <Typography className="event-description" > <span>{event?.data?.description && parse(event?.data?.description)}</span></Typography>
+                  <Typography className="event-description" > <span>{event?.data?.description && HTMLReactParser(event?.data?.description)}</span></Typography>
                   <Box className="flex items-center gap-x-2">
                     <CalendarMonthOutlinedIcon />
                     <LocalTimeDate className="event-date" utcDateTime={event?.data?.startTime} />
@@ -330,7 +458,10 @@ const ProgramSelection = () => {
                         <Programcard date={date} program={program} handleToggleProgramCheckbox={handleToggleProgramCheckbox} templateId={templateId} key={index} />
 
 
+
                       ))}
+
+                     
 
                       {programs.addons?.map((addon: any) => {
 
@@ -372,7 +503,7 @@ const ProgramSelection = () => {
               </Box>
             </form>
           </FormProvider>
-          <ProgramDetailsModal className="program-selection-modal"/>
+          <ProgramDetailsModal className="program-selection-modal" />
         </Box>
       </Grid>
     </Grid>

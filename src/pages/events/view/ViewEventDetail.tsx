@@ -7,7 +7,7 @@ import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import EventInfoCard from "./EventInfoCard";
 import Sessions from "./Sessions";
-import LocationCard from "./LocationCard";
+// import LocationCard from "./LocationCard";
 import UserListCard from "./UserListCard";
 import TemplateCard from "./TemplateCard";
 import { Logger } from "@/Utils/Logger";
@@ -17,7 +17,7 @@ import { processAPIResponse, truncateString } from "@/Utils/CommonBaseClass";
 import FormBuilder from "@/components/FormBuilder";
 import StatusComponent from "@/components/Status/StatusComponent";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import useStore from "@/Libs/store";
+import useStore, { clearDataById } from "@/Libs/store";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import { useForm } from "react-hook-form";
 import PublishIcon from "@/assets/svg/publish.svg";
@@ -107,8 +107,10 @@ const ViewEventDetail = () => {
   const [openModal, setOpenModal] = useState(false);
   const [datass, setdatass] = useState();
   const [loading, setLoading] = useState(true);
-
+  const location = useLocation(); // Get the current location (URL) to detect changes
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const fullEventList = useStore((state: any) => state?.compData?.["fullEventList"]?.['event/list'].data) ?? [];
+
 
   /**
    *  Functions to open and close the drawer. 
@@ -157,6 +159,11 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
     eventPartcipantList();
   }, [])
 
+
+    // Clear uniqueHalls when the URL changes
+    useEffect(() => {
+      clearDataById("uniqueHalls"); // Clear uniqueHalls in global store when the URL changes
+    }, [location]);
   /**
    * Method handles the api call for generating slug
    */
@@ -210,6 +217,7 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
         setDataById("TeamAndRoleData",{data});
         if (data.published) {
           setValue('event', data.slugName ? `event/${data.slugName}` : '');
+          setDataById("slugUpdate",{slug:`/event/${data?.slugName}`});
           setLink(data);
         } else {
           data.slugName ? setValue('eventLink', data.slugName) : handleLinkGenerationApiCall();
@@ -240,7 +248,15 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
    * Mehod handles the publish/unpublish using the modal
    */
   const handlePublishUnPublish = () => {
-    if (datass !=0 && eventFullData?.published){
+    if(errorMessage){
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: errorMessage });
+      return
+    }
+    if(fullEventList?.[0]?.company?.companyPaypalConfigurations?.length === 0){
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: 'Please add paypal configuration to publish event' });
+      return
+    }
+    else if (datass !=0 && eventFullData?.published){
       handlePublish(eventFullData?.published)
     }
     else{
@@ -320,6 +336,13 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
     const url = `/event/${eventFullData?.slugName}`;
     window.open(url, '_blank');
   }
+
+  /**
+   * Store the slugName
+   */
+  useEffect(()=>{
+    setDataById("slugUpdate",{slug:`/event/${eventFullData?.slugName}`});
+  },[]);
 
   /**
    * Method gets triggered when successfully submitting the edit form
@@ -422,10 +445,11 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
               <EventDetailSkeleton width={600} />
             ) : (
               <>
-                <EventInfoCard eventData={eventFullData} onSubmitHandler={handleSubmitHandler} />
-                {eventFullData?.eventClass != "ONLINE" &&
+                <EventInfoCard id="event-info-card" eventData={eventFullData} onSubmitHandler={handleSubmitHandler} />
+                {/* {eventFullData?.eventClass != "ONLINE" &&
                   <LocationCard eventData={eventFullData} published={eventFullData?.published} onSubmitHandler={handleSubmitHandler} />
-                }</>
+                } */}
+                </>
             )
           }
           </TabPanel>

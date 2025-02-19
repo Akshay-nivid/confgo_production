@@ -1469,7 +1469,8 @@
             }
         }
         &-header {
-            background: url("../assets/png/template4-header.png") no-repeat center;
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
+              url("../assets/png/template4-header.png") no-repeat center;
             background-size: cover;
             height: 100vh;
             &-photo-container {
@@ -1478,6 +1479,15 @@
             &-title-container {
                 padding: 1rem;
             }
+            // &::before {
+            //     content: "";
+            //     position: absolute;
+            //     top: 0;
+            //     left: 0;
+            //     width: 100%;
+            //     height: 100%;
+            //     background: rgba(0, 0, 0, 0.5); /* Adjust opacity for darkness */
+            // }
         }
         &-headerBottom{
             position: absolute;
@@ -1627,6 +1637,14 @@
                 svg {
                     width: 2rem;
                     height: 2rem;
+                }
+            }
+
+            &-sub-container{
+                &-item{
+                    a:hover{
+                            color: $clr_blue !important;
+                    }
                 }
             }
         }
@@ -2052,6 +2070,21 @@
                     }
                 }
             }
+        }
+        .sponsor-banner-diamond{
+            max-height: 37.5rem;
+            width: auto;
+        }
+        .sponsor-banner-platinum{
+            max-height: 23.333rem;
+            width: auto;
+        }
+        .sponsor-banner-gold{
+            max-height: 22.333rem;
+            width: auto;
+        }.sponsor-banner-silver{
+            max-height: 21.333rem;
+            width: auto;
         }
     }
 
@@ -3767,4 +3800,15 @@
     font-weight: $font_semibold !important;
     // margin-bottom: 1rem !important;
 
+}
+
+.program-seat-alert-red{
+    color:$clr_red;
+    font-size: $h6 !important;
+    font-weight: $font-semibold !important;
+}
+.program-seat-alert-yellow{
+    color:$clr_orange_yellow;
+    font-size: $h6 !important;
+    font-weight: $font-semibold !important;
 }

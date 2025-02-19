@@ -1,18 +1,20 @@
 import { DataGridList } from "@/components/DataGrid/DataGridList";
-import routes from "@/router/routes";
 import Grid from "@mui/material/Grid2";
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
 import { useForm } from "react-hook-form";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import { Typography } from "@mui/material";
+import {IconButton, Typography } from "@mui/material";
 import { ISource } from "@/Libs/types/type";
 import { NoCouponDataSvg } from "@/assets/svg";
 import { Filter } from "@/components/Filter";
+import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
+import CreateCoupon from "./CreateCoupon";
+import useStore, { setNonPersistedDataById } from "@/Libs/store";
+import EditIcon from "@/assets/svg/event-edit.svg";
 
 interface FilterType {
   id?: number;
@@ -25,13 +27,14 @@ interface FilterType {
  * @author Neethu
  */
 const Coupon = () => {
-  const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState([]);
   const [filters, setFilters] = useState<FilterType>({});
   const [source, setSource] = useState<ISource | undefined>(undefined);
   const [loading, setLoading] = useState(false); // To indicate loading state for API
   const [dataLength, setDataLength] = useState(0);
   const { control } = useForm();
+  const [selectedCoupon, setSelectedCoupon] = useState({});
+  
   /**
    * Useeffect hook handles the api call
    */
@@ -40,6 +43,9 @@ const Coupon = () => {
       couponList();
     }
   }, []);
+
+
+
   // const [filterValue, setFilterValue] = useState('');
   /**
    *  Fetch summary balance when the component mounts
@@ -73,7 +79,8 @@ const Coupon = () => {
     },
     {
       type:"default", field:"code", headerName: "Coupon Code", width:200
-    }
+    },
+    { type: "custom", field: "edit", headerName: "", width: 80 }
   ];
 
   const DiscountTypeArray = [
@@ -97,12 +104,7 @@ const Coupon = () => {
     },
   ]
 
-  /**
-   * Row click navigation
-   */
-  const handleRowClick = (id: number | string) => {
-    navigate(routes.CouponView(id));
-  };
+
   // Function to handle search API for autocomplete
   const handleSearch = async (query: string) => {
     setLoading(true);
@@ -162,8 +164,34 @@ const Coupon = () => {
       discountType: item?.discountType,
       endDate: item?.endDate,
       code:item?.code,
+      edit: <IconButton onClick={() => { handleCouponDrawer(item) }} className="event-detail-event-info-card-edit-btn">
+      <EditIcon />
+    </IconButton>,
     }));
   };
+  
+  /**
+  * Opens the "Create Coupon Drawer" by updating the non-persisted state.
+  * This function sets `craeteCouponDrawer` to `true`, triggering the drawer to open.
+  */
+
+  function handleCouponDrawer(params?:any) {
+    setSelectedCoupon(params);
+    setNonPersistedDataById('craeteCouponDrawer', { value: true })
+
+  };
+
+  const CreateCouponDrawer = useStore(state => state.nonPersistedData?.['craeteCouponDrawer']?.value) || false;
+
+  /**
+  * Fetches the list of coupons whenever the `CreateCouponDrawer` dependency changes.
+  * This ensures that the coupon list is updated when a new coupon is created
+  * or when the drawer state is modified.
+  */
+  useEffect(() => {
+      couponList();
+    
+  }, [CreateCouponDrawer]);
 
   return (
     <Grid container className="custom-list">
@@ -179,7 +207,7 @@ const Coupon = () => {
           { dataLength > 0 &&
           <CustomAutocomplete
           name="search"
-          className="custom-search-text-field"
+          className="custom-search-text-field textfield-border"
           control={control}
           placeholder="Search Coupon Name"
           options={searchResults} // Dynamic options based on API results
@@ -198,19 +226,22 @@ const Coupon = () => {
             size="large"
             type="submit"
             startIcon={<AddIcon />}
-            onClick={() => {
-              navigate(routes.createCoupon());
-            }}
-            // disabled={loading}
+
+            onClick={
+              handleCouponDrawer
+              }
+           
           />
           <Filter datagridId='coupon-datagrid' fields={filterFields} />
         </Grid>
       </Grid>
-      <Grid size={{ xs: 12 }}>
+      <Grid size={{ xs: 12 }} className="shadow-app app-border-radius mt-8">
         <DataGridList
           dataTransformer={transformData}
           source={source}
-          onRowClick={(params: any) => handleRowClick(params.id)}
+          // onRowClick={(params: any) => {
+          //   handleCouponDrawer(params)
+          // }}
           title="Coupon"
           hideFooterPagination={false}
           columns={columns}
@@ -218,10 +249,21 @@ const Coupon = () => {
           noRecordIcon={<NoCouponDataSvg className="no-coupon-icon"/>}
           noRecordTitle="No Coupons Available"
           noRecordSubtitle="It looks like you haven't created any coupons yet. Start by creating your first discount coupon to boost event registrations."
-          redirectTo={() => routes.createCoupon()} // define the route
-          btnName="Create New Coupon" //define the label of btn
+          // redirectTo={() => routes.createCoupon()} // define the route
+          // btnName="Create New Coupon" //define the label of btn
         />
       </Grid>
+
+      {/* coupoun drawer */}
+
+      <Grid container size={6}>
+
+        <CustomDrawer open={CreateCouponDrawer} type={"right"}>
+          <CreateCoupon data={selectedCoupon}/>
+        </CustomDrawer>
+      </Grid>
+
+
     </Grid>
   );
 };

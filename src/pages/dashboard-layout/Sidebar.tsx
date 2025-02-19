@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-
+import AppLogo from "@/assets/app-logo.png"
 import {
   Drawer,
   List,
   ListItem,
   ListItemText,
   ListItemButton,
+
 } from '@mui/material';
 
 import {
@@ -20,6 +21,8 @@ import routes from '@/router/routes';
 import { clearDataById } from '@/Libs/store';
 
 import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined';
+import PaymentIcon from '@mui/icons-material/Payment';
+import Grid from "@mui/material/Grid2";
 
 interface SidebarProps {
   open: boolean;
@@ -63,6 +66,13 @@ const sidebarItems = [
     exact: false,
   },
   {
+    path:routes.adminPayment(),
+    icon:PaymentIcon,
+    id:'sidebar-payment-button',
+    label:'Payment',
+    exact:false
+  },
+  {
     path: routes.calendar(),
     icon: CalenderIcon,
     id:'sidebar-calender-button',
@@ -80,8 +90,8 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
   /**
    * clear the tabValue deafult value is one
    */
-  useEffect(()=>{
-     clearDataById("tabValue");
+  useEffect(() => {
+    clearDataById("tabValue");
   });
   const location = useLocation();
   const isActiveLink = (path: string, exact: boolean) => {
@@ -91,6 +101,9 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
     return isActive;
   };
 
+
+
+
   return (
     <Drawer
       variant="persistent"
@@ -98,7 +111,11 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
       open={open}
       className="sidebar-drawer-admin"
     >
-      <div className="px-[1.666rem] flex-1">
+      <div className="content flex flex-col">
+        <Grid className="logo-container">
+        
+          <img src={AppLogo} className="logo" alt="" />
+        </Grid>
         <List className="sidebar-list-admin">
           {sidebarItems.map((item) => {
             const isActive = isActiveLink(item.path, item.exact);
@@ -112,7 +129,8 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
                         isActive ? 'sidebar-list-admin-active-drawer-icon-admin' : ''
                       }
                     />
-                    <ListItemText>{item.label}</ListItemText>
+
+                    <ListItemText className='link-item'>{item.label}</ListItemText>
                   </ListItemButton>
                 </ListItem>
               </NavLink>
@@ -125,3 +143,4 @@ const Sidebar: React.FC<SidebarProps> = ({ open }) => {
 };
 
 export default Sidebar;
+

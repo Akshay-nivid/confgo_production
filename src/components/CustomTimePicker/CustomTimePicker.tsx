@@ -4,6 +4,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Control, Controller } from "react-hook-form";
 import dayjs, { Dayjs } from "dayjs";
+import { FormControl, FormHelperText } from "@mui/material";
 
 /**
  * CustomTimePicker Component
@@ -88,8 +89,8 @@ const CustomTimePicker: React.FC<BasicTimePickerProps> = React.memo(({
       <Controller
       name={name}
       control={control}
-      render={({field}) =>
-        
+      render={({ field, fieldState: { error } }) =>
+      <FormControl error={!!error} fullWidth>
         <TimePicker
         {...field}
           label={label} 
@@ -102,6 +103,10 @@ const CustomTimePicker: React.FC<BasicTimePickerProps> = React.memo(({
           ampm={ampm}
           className="custom-Time-picker"
         />
+        {error && (
+          <FormHelperText className="error-text">{error.message}</FormHelperText>
+        )}
+      </FormControl>
       }
 
     />

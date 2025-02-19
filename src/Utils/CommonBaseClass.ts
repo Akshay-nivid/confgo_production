@@ -426,3 +426,36 @@ export const convertUTCToUserTimeZone = (
     return dateInUserTimeZone.format('DD/MM/YYYY, hh:mm A');
   }
 };
+
+/**
+ * Formats the start and end date/time range.
+ * If the start and end date are on the same day, it will show the time range.
+ * If the start and end date are on different days, it will show the date range.
+ * 
+ * @param {Date | string} startDate - The start date/time to be formatted.
+ * @param {Date | string} endDate - The end date/time to be formatted.
+ * @returns {string} - The formatted date/time range.
+ */
+
+export function formatedTimeRangeProgram(
+  startDate: Date | string,
+  endDate: Date | string
+): string {
+  if (!startDate || !endDate) {
+    return '';
+  }
+
+  const start = moment.utc(startDate).local();
+  const end = moment.utc(endDate).local();
+
+  /**
+   *  Check if the start and end dates are on the same day
+   */ 
+  const sameDay = start.isSame(end, 'day');
+
+  if (sameDay) {
+    return `${start.format("MMM DD, YYYY h:mm A")} - ${end.format("h:mm A")}`;
+  } else {
+    return `${start.format("MMM DD")} - ${end.format("DD, YYYY h:mm A")}`;
+  }
+}

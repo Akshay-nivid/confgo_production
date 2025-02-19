@@ -11,7 +11,7 @@ import { z } from "zod";
 import config from "../../../../config.json";
 
 interface NewSpeakerDrawerProps {
-    onSuccess?: () => void;
+    onSuccess?: (query: any, data: any) => void;
     closeDrawer?: () => void;
 }
 const DrawerCreateSponosor: React.FC<NewSpeakerDrawerProps> = ({ onSuccess, closeDrawer }: NewSpeakerDrawerProps) => {
@@ -66,12 +66,13 @@ const DrawerCreateSponosor: React.FC<NewSpeakerDrawerProps> = ({ onSuccess, clos
         }
 
         POST({
-            url: 'sponsor', body: body, id: 'createSponsor', successCB: () => {
+            url: 'sponsor', body: body, id: 'createSponsor', successCB: (response: any) => {
+
                 form.reset();
 
                 closeDrawer && closeDrawer()
 
-                onSuccess && onSuccess()
+                onSuccess && onSuccess("", response?.data)
 
                 snackBar({ severity: 'success', message: 'Sponsor created successfully' })
 
@@ -108,7 +109,7 @@ const DrawerCreateSponosor: React.FC<NewSpeakerDrawerProps> = ({ onSuccess, clos
                 <form className='form' onSubmit={form.handleSubmit(onSubmit)}>
                     <CustomTextField control={form.control} name='name' placeholder='Sponsor Name' />
                     <CustomTextField control={form.control} name='email' placeholder='Email' />
-                    <CustomTextField control={form.control} name='phone' placeholder='Phone Number' />
+                    <CustomTextField control={form.control} name='phone' isNumeric={true} placeholder='Phone Number' />
                     <CustomTextField control={form.control} name='website' placeholder='(e.g., https://www.example.com)' label='Website Url' />
                     <Box className="form-file-upload">
                         <FormLabel className='form-file-upload-label'>Please upload the sponsor logo</FormLabel>

@@ -1,22 +1,38 @@
-.dashboard{
-    &-welcome-card{
+.dashboard {
+    &-event-list{
+        overflow-x: auto  !important;
+        .custom-list {
+            max-width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            .contents{
+                margin-bottom: 0 !important;
+            }   
+        }
+        
+    }
+    &-welcome-card {
         height: 16rem;
         background-color: $clr_white;
         padding-top: 1rem;
         border-radius: 0.41rem !important;
-        svg{
+
+        svg {
             width: 5rem;
             height: 10rem;
         }
-        &-title{
+
+        &-title {
             font-size: $h5;
             font-weight: $font_bold;
         }
-        &-sub-title{
+
+        &-sub-title {
             font-size: $p2;
             font-weight: $font_medium;
         }
-        &-create-button{
+
+        &-create-button {
             background-color: $clr_green !important;
             color: $clr_white !important;
             height: 3.5rem;
@@ -26,35 +42,45 @@
             font-size: $p3 !important;
             font-weight: $font_semibold !important;
         }
-        &-manage-button{
+
+        &-manage-button {
             background-color: $clr_white !important;
             color: $clr_green !important;
             height: 3.5rem;
             box-shadow: none !important;
-            border: 2px solid $clr_green !important;
+            border:0.166rem  solid $clr_green !important;
             margin: 2rem 0.2rem !important;
             text-transform: none !important;
             font-size: $p3 !important;
             font-weight: $font_semibold !important;
         }
     }
-    &-upcoming-event-card{
+
+    &-upcoming-event-card {
         padding: 3rem 1rem 1rem 2rem;
         background: url("../assets/svg/upcoming-event-icon.svg") no-repeat center;
         height: 16rem !important;
         background-size: cover;
         border-radius: 0.41rem !important;
-        &-title{
+
+        &-title {
             font-size: $h5 !important;
             font-weight: $font_bold !important;
             color: $clr_white !important;
+            overFlow: hidden !important;
+            text-overflow: ellipsis !important;
+            white-space: nowrap !important;
+            max-width: 100% !important;
+            cursor: pointer !important;
         }
-        &-date{
+
+        &-date {
             font-size: $h6 !important;
             font-weight: $font_medium !important;
             color: $clr_white !important;
         }
-        &-button{
+
+        &-button {
             background-color: $clr_light_orange !important;
             border-radius: 0.66rem !important;
             height: 2.91rem !important;
@@ -67,38 +93,46 @@
             cursor: pointer;
         }
     }
-    &-item-card{
+
+    &-item-card {
         background-color: $clr_white !important;
         height: 6.67rem !important;
         border-radius: 0.6rem;
-        svg{
+
+        svg {
             width: 3rem;
             height: 3rem;
         }
-        &-title{
+
+        &-title {
             font-size: $p2 !important;
             font-weight: $font_bold !important;
         }
-        &-sub-title{
+
+        &-sub-title {
             font-size: $p3 !important;
             font-weight: $font_medium !important;
             color: $clr_gray_dark_text !important;
         }
     }
-    &-pending-event-card{
+
+    &-pending-event-card {
         background-color: $clr_white !important;
         height: 9rem !important;
         border-radius: 0.6rem;
         padding: 2rem;
-        &-title{
+
+        &-title {
             font-size: $h5 !important;
             font-weight: $font_bold !important;
         }
-        &-sub-title{
+
+        &-sub-title {
             font-size: $h6 !important;
             font-weight: $font_medium !important;
         }
-        &-btn{
+
+        &-btn {
             background-color: $clr_green !important;
             color: $clr_white !important;
             text-transform: none !important;
@@ -108,211 +142,566 @@
             box-shadow: none !important;
         }
     }
-        &-event-list {
-            &-title {
-                font-size: $h5 !important;
-                font-weight: $font_bold;
-            }
-            &-sub-title {
-                font-size: $h6 !important;
-                font-weight: $font_medium;
-            }
-            &-card{
-                .custom-list{
-                    margin-left: 0 !important;
-                }
+
+    &-event-list {
+        &-title {
+            font-size: $h5 !important;
+            font-weight: $font_bold;
+        }
+
+        &-sub-title {
+            font-size: $h6 !important;
+            font-weight: $font_medium;
+        }
+
+        &-card {
+            .custom-list {
+                margin-left: 0 !important;
             }
         }
-    &-calendar-card{
+    }
+
+    &-calendar-card {
         background-color: $clr_white;
         border-radius: 0.66rem;
+        // border: 0.0833rem solid $clr_gray_very_light;
         width: 29.5rem;
-        height: 32rem;
-        margin-top: 1rem;
-        &-header{
+        height: max-content;
+        // margin-top: 1rem;
+
+        &-header {
             font-size: $p2 !important;
             font-weight: $font_bold !important;
         }
-        &-icon{
-            svg{
+
+        &-icon {
+            svg {
                 width: 2.5rem;
                 height: 2.5rem;
             }
         }
-        &-title{
+
+        &-title {
             font-size: $h6 !important;
             font-weight: $font_bold !important;
             padding-left: 1.8rem;
-            &-container{
+
+            &-container {
                 margin: 1rem;
             }
         }
-        &-sub-title{
+
+        &-sub-title {
             font-size: $p2 !important;
             font-weight: $font_semibold !important;
             padding-left: 1.8rem;
         }
-        &-day{
+
+        &-day {
             padding-left: 1.7rem;
             padding-top: 1rem;
             font-size: $p2 !important;
             font-weight: $font_bold !important;
         }
+
         &-text-item {
             height: 3.6rem;
             position: relative;
+
             &:not(:last-child) {
-                border-bottom: 1px solid $clr_medium_grey;
-              }
-            
+                border-bottom: 0.083rem solid $clr_medium_grey;
+            }
+
         }
+
         &-text-item {
             height: 3.6rem;
+
             &:not(:last-child) {
-                border-bottom: 1px solid $clr_medium_grey;
-              }
-            
+                border-bottom: 0.083rem solid $clr_medium_grey;
+            }
+
         }
+
         &-event-item {
             height: 3.6rem;
+
             &:not(:last-child) {
-                border-bottom: 1px solid $clr_medium_grey;
+                border-bottom: 0.083rem solid $clr_medium_grey;
             }
+
             cursor: pointer;
         }
+
         &-event {
             background-color: $clr_green_light;
             width: 25rem;
             border: 2px solid $clr_green_slight_light;
             border-radius: 0.66rem;
-          
+
             @for $i from 0 through 6 {
                 &-#{$i} {
-                  height: if($i > 6, #{3.6rem * 6}, #{3.6rem * ($i + 1)});
+                    height: if($i > 6, #{3.6rem * 6}, #{3.6rem * ($i + 1)});
                 }
-              }
-              &-title{
+            }
+
+            &-title {
                 font-size: $p3 !important;
                 font-weight: $font_bold !important;
-              }
-          }
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                white-space: nowrap !important;
+                max-width: 19.625rem !important;
+                cursor: pointer !important;
+            }
+        }
     }
-    &-no-event-calender{
+
+    &-no-event-calender {
         background-color: $clr_white;
-        margin: 1rem;
         border-radius: 0.5rem;
         height: 31.5rem;
-        margin-top: 1rem;
         background-image: url('../assets/svg/no-calender-event.svg');
         background-size: cover;
         background-repeat: no-repeat;
-        &-header{
+
+        &-header {
             font-size: $h6 !important;
             font-weight: $font-semibold !important;
             margin-top: 0.833rem !important;
         }
-        &-subHeader{
+
+        &-subHeader {
             font-size: $p3 !important;
             font-weight: $font_medium !important;
             margin-top: 0.833rem !important;
         }
-        &-btn{
+
+        &-btn {
             margin-top: 1rem !important;
             background-color: $clr_green !important;
             font-size: $p3 !important;
             box-shadow: none !important;
         }
-        }
-    
-        &-no-pending-event {
-            background-color: $clr_white;
-    
-            &-header {
-                font-size: $h5 !important;
-                color: $clr_black !important;
-                font-weight: $font-semibold !important;
-            }
-            &-btn {
-                    background-color: $clr_green !important;
-            }
-        
     }
-   &-empty {
-       justify-content: center;
-       background-color: $clr_white;
-       padding: 2rem;
 
-       &-header {
-           font-size: $h5 !important;
-           font-weight: $font_bold !important;
-       }
+    &-no-pending-event {
+        background-color: $clr_white;
 
-       &-sub-header {
-           font-size: $p1 !important;
-           color: $clr_gray_dark_text !important;
-           font-weight: $font_medium !important;
-           margin-bottom: 1rem !important;
-       }
+        &-header {
+            font-size: $h5 !important;
+            color: $clr_black !important;
+            font-weight: $font-semibold !important;
+        }
 
-       &-btn {
-           height: 4.17rem !important;
-           background-color: $clr_green !important;
-           box-shadow: none !important;
-           text-transform: none !important;
-           font-size: $p2 !important;
-           font-weight: $font-medium;
-       }
-   }
-    
+        &-btn {
+            background-color: $clr_green !important;
+        }
+
+    }
+
+    &-empty {
+        justify-content: center;
+        background-color: $clr_white;
+        padding: 2rem;
+
+        &-header {
+            font-size: $h5 !important;
+            font-weight: $font_bold !important;
+        }
+
+        &-sub-header {
+            font-size: $p1 !important;
+            color: $clr_gray_dark_text !important;
+            font-weight: $font_medium !important;
+            margin-bottom: 1rem !important;
+        }
+
+        &-btn {
+            height: 4.17rem !important;
+            background-color: $clr_green !important;
+            box-shadow: none !important;
+            text-transform: none !important;
+            font-size: $p2 !important;
+            font-weight: $font-medium;
+        }
+    }
+
 }
-.terms-modal{
-    .MuiDialog-paper{
+
+.terms-modal {
+    .MuiDialog-paper {
 
         padding: 2rem !important;
     }
-    &-form{
+
+    &-form {
         width: 100%;
     }
-    &-header{
+
+    &-header {
         font-weight: $font-semibold !important;
         font-size: $h5 !important;
     }
-    &-subHeader{
+
+    &-subHeader {
         font-weight: $font-semibold !important;
         font-size: $h6 !important;
     }
-    &-param{
+
+    &-param {
         font-weight: $font_normal !important;
         font-size: $p2 !important;
         color: $clr_gray_dark_text !important;
     }
-    .MuiCheckbox-root.Mui-checked{
+
+    .MuiCheckbox-root.Mui-checked {
         color: $clr_green !important;
     }
-        .MuiFormControlLabel-label {
-            font-size: $p2 !important;
-            font-weight: $font_medium !important;
-        }
-       &-accept-btn{
+
+    .MuiFormControlLabel-label {
+        font-size: $p2 !important;
+        font-weight: $font_medium !important;
+    }
+
+    &-accept-btn {
         box-shadow: none !important;
         background-color: $clr_green !important;
+
         &:disabled {
-            background-color:$clr_gray_dark !important;
-            color:$clr_white !important;
+            background-color: $clr_gray_dark !important;
+            color: $clr_white !important;
         }
-       } 
+    }
 }
 
 .custom-tooltip {
-    .MuiTooltip-tooltip{
+    .MuiTooltip-tooltip {
         background: $clr_white !important;
-        color: $clr_black !important;        
-        font-size: $p3 !important;     
-        border: 1px solid $clr_disabled !important;
-        padding: 10px;
+        color: $clr_black !important;
+        font-size: $p3 !important;
+        border: 0.083rem solid $clr_disabled !important;
+        padding: 0.833rem;
     }
-    .modal-tooltip{
-        background-color:$clr_white !important
+
+    .modal-tooltip {
+        background-color: $clr_white !important
     }
-}                 
-  
+}
+
+.adminDashBoard-upComing-Events {
+    border-radius: 0.417rem;
+
+    &-header {
+        border-top-left-radius: 0.417rem;
+        border-top-right-radius: 0.417rem;
+        padding-block: 0.5rem;
+        padding: 1rem;
+        border-bottom: 0.083rem solid $clr_gray_very_light;
+
+        .header-title {
+            font-weight: $font-medium !important;
+            font-size: $p1 !important;
+            color: $clr_neutral_gray;
+            line-height: 1.4rem !important;
+
+        }
+
+        .view-details {
+            cursor: pointer;
+
+            &-details-btn {
+                color: $clr-primary-blue;
+                font-weight: $font_normal;
+                font-size: $p2;
+            }
+        }
+
+
+        .details-arrow {
+            svg {
+                width: 1rem !important;
+                height: 1rem !important;
+            }
+        }
+    }
+
+    &-details {
+        padding-inline: 1rem;
+        padding-top: 1rem;
+        padding-bottom: 1.8333rem;
+
+        &-heading {
+            font-size: $h6 !important;
+            font-weight: $font-semibold !important;
+        }
+    }
+
+    &-about {
+        .about-title {
+            font-size: $p3 !important;
+            font-weight: $font_medium;
+            color: $light_grey !important;
+        }
+
+        .about-content {
+            font-size: $p7 !important;
+            font-weight: $font_medium !important;
+            // line-height: 1.3025rem !important;
+        }
+
+        .about-btn {
+            width: 7rem !important;
+            height: 2.5rem !important;
+            border-radius: 4.17rem !important;
+            background-color: $clr-warning-orange !important;
+            box-shadow: none;
+            font-size: $p3 !important;
+            font-weight: $font_normal !important;
+            color: $clr_black !important;
+            padding-top: 0.8rem !important;
+        }
+
+        .about-avatar {
+            background-color: $clr_purple_primary !important;
+        }
+    }
+
+}
+
+.adminDashBoard-EventsMenu {
+    &-content {
+        .heading {
+            font-weight: $font-semibold !important;
+            font-size: $h4 !important;
+        }
+
+        .DropDownBox {
+            border: 2px solid $clr_gray_40_percent !important;
+                border-radius: 0.4167rem;
+
+                &-container-mikeIcon{
+                    border-right: 2px solid $clr_gray_40_percent !important;
+                }
+
+            &-container {
+                
+                // contain: content;
+                .MuiOutlinedInput-notchedOutline {
+                    border: none !important;
+                    // background-color: #4f4545 !important;
+                    min-height: 100% !important;
+
+                }
+
+                .MuiOutlinedInput-root {
+                    margin-top: 0 !important;
+                }
+
+                .custom-text-field .MuiInputBase-input {
+                    background-color: transparent;
+                    min-height: 100% !important;
+                    border-radius: 0 !important;
+                    // border-right: 0.083rem solid $clr_text_gray;
+
+                }
+
+                &-dropDown {
+                    border: 0rem !important;
+                    min-height: 100% !important;
+                }
+
+
+                &-mikeIcon {
+                    svg {
+                        width: 2rem !important;
+                        height: 2.5rem !important;
+                    }
+
+                    &-title {
+                        font-weight: $font-medium;
+                        font-size: $p2;
+                        color: $clr_text_gray;
+                    }
+                }
+
+                &-createEvent {
+                    &-btn {
+                        height: 4.3rem !important;
+                        font-size: $p2;
+                        font-weight: $font_semibold;
+                        box-shadow: none !important;
+                        background-color: $clr_green !important;
+                        text-transform: none;
+                        
+                    }
+                }
+            }
+
+        }
+    }
+}
+
+.eventFeedBack-box {
+    &-container {
+        padding: 1.125rem !important;
+        // border: 0.083rem solid $clr_gray_very_light;
+        box-shadow:  
+        rgba(0, 0, 0, 0.12) 0rem 0rem 0.3125rem 0rem,  
+        rgba(0, 0, 0, 0.12) 0rem 0rem 0.0625rem 0rem;
+      
+        border-radius: 0.417rem;
+        background-color: $clr_white;
+
+        &-icon {
+            svg {
+                width: 3rem;
+                height: 3rem;
+            }
+        }
+
+        &-usersCount {
+            .content-count {
+                font-weight: $font_bold !important;
+                font-size: $h4 !important;
+                padding-inline: 0.3rem;
+            }
+        }
+
+        &-title {
+            .content {
+                font-weight: $font_semibold;
+                font-size: $p2 ;
+                padding-inline: 0.3rem;
+            }
+        }
+    }
+}
+
+.pending-programs {
+    padding-inline: 1.33rem;
+    padding-top: 1rem;
+    padding-block: 1rem;
+
+    &-header {
+        .heading {
+            font-size: $p2;
+            font-weight: $font-semibold;
+        }
+
+        .description {
+            font-family: $font !important;
+            font-size: $p2 !important;
+            font-weight: $font_medium !important;
+            color: $clr_text_gray;
+        }
+    }
+
+    &-time {
+        svg {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .time {
+            font-size: $font_medium;
+            font-size: $p2;
+            color: $clr_gray_dark_text !important;
+        }
+    }
+
+    &-btn {
+        .btn {
+            display: flex;
+            align-items: last center !important;
+            justify-content: center;
+            background-color: $clr_light_grey !important;
+            box-shadow: none !important;
+            color: $clr_black;
+            font-size: $p1;
+            font-weight: $font_medium;
+            text-transform: none;
+        }
+    }
+
+}
+
+.revenue-and-user-chart {
+
+    contain: contain;
+
+    .header-container {
+        padding-bottom: 2.5rem !important;
+
+        .revenue-breakdown-label {
+            font-size: $p3;
+            font-weight: $font_bold !important;
+        }
+
+        .chart-date-picker {
+
+            flex: 1;
+
+            .MuiInputBase-root {
+                cursor: pointer !important;
+            }
+
+            .MuiInputBase-input {
+                padding-block: .5rem !important;
+            }
+        }
+    }
+
+
+
+    .total-users-label {
+        font-size: $p3;
+        color: $clr_black !important;
+        font-weight: $font_bold !important;
+        }
+
+    .total-users-icon {
+        svg{
+            width: 6rem;
+            height: 6rem;
+        }
+    }
+
+    .total-users-value {
+        font-size: $h4;
+        font-weight: $font-bold;
+        margin-bottom: 1rem;
+        margin-left: .3rem;
+        color: $clr_gray_dark !important;
+    }
+
+    .pie-chart-grid {
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+            width: 0.33rem !important;
+            /* Adjust width for vertical scrollbar */
+            height: 0.33rem !important;
+            /* Adjust height for horizontal scrollbar */
+        }
+
+        &::-webkit-scrollbar-track {
+            background: #f0f0f0;
+            /* Light gray background */
+            border-radius: .83rem !important;
+            /* Round the track edges */
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: $clr_gray_faded;
+            /* Gray scrollbar */
+            border-radius: .83rem;
+            /* Round the scrollbar itself */
+        }
+
+        &::-webkit-scrollbar-thumb:hover {  
+            background: $clr_gray_faded !important;
+            /* Darker gray on hover */
+        }
+    }
+}

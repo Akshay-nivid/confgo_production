@@ -6,6 +6,7 @@ import { setDataById } from '@/Libs/store';
 import {  useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import { Backdrop, CircularProgress } from '@mui/material';
+import { OrderSummary } from '@/Libs/types/type';
 
 enum enumPaymentState {
     INITIATED = 'INITIATED',
@@ -24,7 +25,7 @@ interface IPayment {
     amount: number;
     eventId: number;
     paymentReferenceNumber: string;
-    orderId: string;
+    orderId: number;
 }
 
 interface IPaymentResponse {
@@ -138,11 +139,12 @@ interface Link {
  * Component used to handle PayPal button 
  */
 const PayPalParticipantButton: React.FC = () => {
-
+    const paypalClientId = useStore((state: any) => state?.compData?.["paypal-company-clientId"]?.["paypalConfig/list"]?.data) ?? null
     const initialOptions = {
-        clientId: "AQ9K1hDjjXSmmQz1aBt3FDjLTkrl8DRJvnUC6H6_eXAw-wzz6eC2eoYmSOEJcdN0prPUX1hsSm8bfGtK",
+        clientId: paypalClientId?.[0]?.clientId,
         currency: "USD",
         intent: "capture",
+        "disable-funding": "card"
     };
 
 
@@ -152,7 +154,7 @@ const PayPalParticipantButton: React.FC = () => {
 
     const navigate = useNavigate();
 
-    const orderData = useStore((state: any) => state?.compData?.["order"]?.["order"]?.data) ?? null
+    const orderData:OrderSummary = useStore((state) => state?.compData?.["order"]?.["order"]?.data) ?? null
 
     const paymentLoading = useStore((state: any) => state?.compData?.["payment"]?.["payment"]?.loading) ?? false
 
@@ -164,7 +166,7 @@ const PayPalParticipantButton: React.FC = () => {
 
     useEffect(() => {
         setDataById('paymentReferenceNumber', { value: orderData?.id + JSON.stringify(Date.now()) })
-    }, [orderData.id])
+    }, [orderData?.id])
 
 
     useEffect(() => {
@@ -198,7 +200,7 @@ const PayPalParticipantButton: React.FC = () => {
             })
         }
 
-    }, [orderData?.id, orderData.finalPrice])
+    }, [orderData?.id, orderData?.finalPrice])
 
 
 
@@ -211,7 +213,7 @@ const PayPalParticipantButton: React.FC = () => {
      */
     const handleApprove = async (_data: any, actions: any) => {
 
-        if (!orderData.id || !orderData.finalPrice || orderData.id === undefined || orderData.finalPrice === undefined) {
+        if (!orderData?.id || !orderData?.finalPrice || orderData?.id === undefined || orderData?.finalPrice === undefined) {
 
             setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: 'Could not find order. Please try again' });
 
@@ -318,7 +320,7 @@ const PayPalParticipantButton: React.FC = () => {
             {(checkoutLoading || paymentLoading) && <Backdrop open={true}>
                 <CircularProgress color="inherit" />
             </Backdrop>}
-            <PayPalScriptProvider options={initialOptions}>
+            {paypalClientId&&<PayPalScriptProvider options={initialOptions}>
                 <div ref={paypalButtonRef}>
                     <PayPalButtons
                         disabled={checkoutLoading || paymentLoading}
@@ -328,7 +330,7 @@ const PayPalParticipantButton: React.FC = () => {
                                 purchase_units: [{
                                     amount: {
                                         currency_code: 'USD',
-                                        value: orderData?.finalPrice,
+                                        value: JSON.stringify(orderData?.finalPrice),
                                     },
                                     custom_id: paymentReferenceNumber
                                 }],
@@ -343,7 +345,8 @@ const PayPalParticipantButton: React.FC = () => {
 
                 </div>
 
-            </PayPalScriptProvider>
+            </PayPalScriptProvider>}
+
         </Grid>
     );
 };

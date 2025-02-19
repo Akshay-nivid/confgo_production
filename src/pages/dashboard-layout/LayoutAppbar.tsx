@@ -19,7 +19,8 @@ export default function LayoutAppbar() {
   const baseUrl = config.api.url;  
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
-  const companyUserName = sessionStorage.getItem("companyUserName") || sessionStorage.getItem("name"); 
+  const userDetail=useStore((state:any)=>state.compData?.["userDetails"])  
+  const companyUserName = userDetail ? `${userDetail?.firstName ?? ""} ${userDetail?.lastName ?? ""}` : sessionStorage.getItem("companyUserName") || sessionStorage.getItem("name"); 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -73,10 +74,10 @@ export default function LayoutAppbar() {
   
   return (
     <Grid container className="appbar">
-      <Grid size={2} className="appbar-logo-container">
-      <AppThemeLogo className={`appbar-logo-container-svg`} />
+      <Grid  display={{xs:'block',md:'none'}} className="appbar-logo-container absolute ">
+      <AppThemeLogo className={`appbar-logo-container-svg h-[3rem] w-[8rem]`} />
       </Grid>
-      <Grid size={10}>
+      <Grid size={12} className="appbar-profile">
         <div className="avatar-group" onClick={handleMenuOpen}>
           <div className="flex flex-col">
             <Typography className="avatar-header-text">{companyUserName}</Typography>

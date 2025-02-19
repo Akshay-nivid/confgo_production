@@ -25,6 +25,7 @@ const AddOrganization = React.memo(() => {
     const form2 = useStore((state: any) => state?.compData?.['form2']) ?? [];
     const form3 = useStore((state: any) => state?.compData?.['form3']) ?? [];
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+    const formdata2 = useStore((state:any)=>state.compData?.form2.field_values)
     /*
      * function to handle submission of the form and create new company
      */
@@ -121,7 +122,7 @@ const AddOrganization = React.memo(() => {
                                         </Grid>
                                         <Grid container className='w-full'>
                                             <CustomTextField
-                                                defaultValue={form3?.field_values?.organizationEmail}
+                                                defaultValue={form3?.field_values?.organizationEmail ? form3?.field_values?.organizationEmail : formdata2?.email}
                                                 placeholder="Organization Email"
                                                 label="Organization Email"
                                                 control={control}
@@ -132,7 +133,7 @@ const AddOrganization = React.memo(() => {
                                         </Grid>
                                         <Grid container className='w-full'>
                                             <CustomTextField
-                                                defaultValue={form3?.field_values?.organizationPhone}
+                                                defaultValue={form3?.field_values?.organizationPhone ? form3?.field_values?.organizationPhone : formdata2?.phoneNumber}
                                                 placeholder="Organization Phone"
                                                 label="Organization Phone"
                                                 name="organizationPhone"

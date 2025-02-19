@@ -1,5 +1,5 @@
 import { useIsMobileScreen } from "@/Utils/CommonBaseClass";
-import { ArrowIconSvg, AttentionTracking, Brand, ExportPlanImg } from "@/assets/svg";
+import { ArrowIconSvg,MainEffortlesPlaningImg, MainSeamlessTrackingImg, MainYourBrandImg } from "@/assets/svg";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import routes from "@/router/routes";
 import { Typography } from "@mui/material";
@@ -64,13 +64,13 @@ const ConfrenceManagementSection = () => {
                 label="Get Started"
                 variant="outlined"
                 className="get-started-btn"
-                onClick={() => navigate(routes.loginOrg())}
+                onClick={() => navigate(routes.pricing())}
                 endIcon={<ArrowIconSvg />}
               ></CustomButton>
             </Grid>
             {!isMobileScreen && <Grid size={{xs:12,md:6}} className="export-plan-grid-right">
               <Box className="export-plan-image-wrapper">
-                <ExportPlanImg className="export-plan-image" />
+                <MainEffortlesPlaningImg className="export-plan-image" />
               </Box>
             </Grid>}
           </Grid>
@@ -98,7 +98,7 @@ const ConfrenceManagementSection = () => {
                 organized and on schedule.
               </Typography>
               {!isMobileScreen && <Box className="tracking-image-container">
-                <AttentionTracking className=" attendance-tracking-image" />
+                <MainSeamlessTrackingImg className=" attendance-tracking-image1" />
               </Box>}
             </Grid>
             <Grid
@@ -114,7 +114,7 @@ const ConfrenceManagementSection = () => {
                 Get a fully functional website to engage attendees and promote your event. It includes schedules, speaker profiles, registration, payments, and real-time updates. Customizable to reflect your brand and deliver a seamless user experience.
               </Typography>
               {!isMobileScreen && <Box className="tracking-image-container">
-                <Brand className=" attendance-tracking-image" />
+                <MainYourBrandImg className=" attendance-tracking-image2" />
               </Box>}
             </Grid>
           </Grid>

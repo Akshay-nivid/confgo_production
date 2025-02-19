@@ -19,14 +19,13 @@ import { ProgramDetailsModal } from '../template/_components';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import SpeakerDetailsModal from '../template/_components/SpeakerDetailsModal';
 import ViewMoreLink from "../../../assets/svg/view-more.svg";
-import useStore, { setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store';
+import { setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store';
 import routes from '@/router/routes';
 import { useNavigate } from 'react-router-dom';
 import SponsorShip from '../template/sponsorShipForm/SponsorShip';
 import TempHall from "../../../assets/svg/temp-hall.svg";
-import { personPlaceholder } from '@/assets/png';
-
-
+import { personPlaceholder, Tempalte4App } from '@/assets/png';
+import {YellowSeat, RedSeat} from '@/assets/svg/index';
 
 type TemplateViewProps = {
     data: any;
@@ -35,7 +34,7 @@ type TemplateViewProps = {
 /**
  * Template 
  */
-const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
+const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
 
     const classPrefix = 'event-template-template4';
     const aboutRef = useRef(null);
@@ -51,14 +50,20 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     const [minute, setMinute] = useState<string>('');
     const [second, setSecond] = useState<string>('');
     const navigate = useNavigate();
+    const [timmer,setTimmer]=useState(false);
 
-
+    const [loadingStates, setLoadingStates] = useState<Record<string, boolean>>({});
+    const [apiLoading, setApiLoading] = useState(false);
+    setDataById('companyTempId',{value:data?.companyId});
 
     /**
       * Callback function to receive the updated time values from TimerCounterComp
       * @param day,hour,minute,second
       */
     const handleTimeUpdate = (day: string, hour: string, minute: string, second: string) => {
+        if(day==="0"){
+            setTimmer(true);
+        }
         setDay(day);
         setHour(hour);
         setMinute(minute);
@@ -205,11 +210,21 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
 
     function handleSpeakerCardClick(item: any) {
 
-        setNonPersistedDataById('isSpeakerDetailsModelOpen', { value: true })
-        setNonPersistedDataById('speakerDetails', { value: item })
-
+        setLoadingStates((prev) => ({ ...prev, [item.user?.assetId]: true }));
+        setNonPersistedDataById('isSpeakerDetailsModelOpen', { value: true });
+        setNonPersistedDataById('speakerDetails', { value: item });
     }
-
+    
+    useEffect(() => {
+        if (!apiLoading) {
+            setLoadingStates((prev) => {
+                const newState = { ...prev };
+                Object.keys(newState).forEach(key => newState[key] = false);
+                return newState;
+            });
+        }
+    }, [apiLoading]);
+    
     /**
        * Method calculates the total amount
        * @param amountData : event data
@@ -354,9 +369,9 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
             "SILVER": [],
         } as any
 
-        sponsors.forEach((sponsor: any) => {
+        sponsors?.forEach((sponsor: any) => {
 
-            groupedSponsors[sponsor?.sponsorType?.name].push(sponsor)
+            groupedSponsors[sponsor?.sponsorType?.name]?.push(sponsor)
         })
 
         return groupedSponsors
@@ -365,11 +380,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
 
     const groupedSponsors = groupSponsorsByCategory(sponsors)
 
-    /**
-    * Button loder
-    */
-    const isLoading = useStore(state => state.compData?.['templateSpeakerDetails']?.['eventSpeaker/list']?.loading) || false
-
+   
     /**
      * handle program details modal 
      * 
@@ -391,11 +402,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
     const hasModerator = (subItem: any): boolean => {
         return subItem?.some((speaker: any) => speaker?.speakerBios?.[0]?.isModerator) ?? false;
     };
-
-    console.log(data, 'iiiiiiiiiiiiiii')
-
     return (
-        <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-bg`}  >
+        <Grid  container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-bg`}  >
             <Grid container size={{ xs: 12, sm: 12 }} className={classPrefix}>
                 <TopMenuHeader links={headerLinks} classPrefix={`${classPrefix}-top-menu`} data={data} onScrollToProgram={() => handleScrollTo(programRef)} onScrollToAbout={() => handleScrollTo(aboutRef)} onScrollToContributors={() => handleScrollTo(contributorsRef)} onScrollToLocation={() => handleScrollTo(LocationRef)} onScrollToBeSponsor={() => handleScrollTo(beSponsorRef)} onScrollToSponsor={() => handleScrollTo(sponsorRef)} />
                 <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-header`} />
@@ -403,7 +411,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                 <TEventDetails className={`${classPrefix}-eventDetails`} data={data} />
                 <Grid className="template4-countdown" container justifyContent={"center"}>
                     <Grid className="template4-countdown-container" size={12} justifyContent={"center"} >
-                        <TimerCounterComp
+                       {!timmer&&
+                         <TimerCounterComp
                             targetDate={getLocalTimeDate(data.startTime, 'YYYY-MM-DD HH:mm:ss')}
                             onTimeUpdate={handleTimeUpdate}
                         >
@@ -434,13 +443,13 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                     </Grid>
                                 </Grid>
                             </Grid>
-                        </TimerCounterComp>
-
+                        </TimerCounterComp> 
+                        }
                     </Grid>
                 </Grid>
                 {/* Speaker section starts here  */}
                 {data?.eventSpeakers?.length > 0 && getUniqueSpeakers(data?.eventSpeakers)?.length > 0 && <Grid id={'Contributors'} container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-event-contributors `} spacing={1} direction={'column'} justifyContent={'center'} alignItems={'center'} ref={contributorsRef}>
-                    <SpeakerDetailsModal />
+                    <SpeakerDetailsModal onApiLoadingChange={setApiLoading} />
                     <Grid className={`${classPrefix}-event-contributors-title`}>Meet Our Esteemed Speakers</Grid>
                     <Grid container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-event-contributors-item-group-container`} justifyContent={'flex-start'} alignItems={'center'} spacing={4}>
                         {data?.eventSpeakers?.length > 0 && getUniqueSpeakers(data?.eventSpeakers)?.map((item: any) => {
@@ -448,11 +457,11 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                 <Grid size={{ xs: 12, sm: 12 }} container direction={'column'} className={`${classPrefix}-event-contributors-item-container-speaker-card `}>
                                     <Grid overflow={'hidden'} className={`${classPrefix}-event-contributors-item-container-images`}>
                                         {item?.user?.assetId ? (<img
-                                            // className='w-full aspect-square max-h-[16.7rem]'
+                                           className="max-h-[16.7rem]"
                                             src={`${baseUrl}asset/${item?.user?.assetId}`}
                                             alt={item.name}
                                         />) : (
-                                            <img alt={item.name} src={personPlaceholder} className={`  aspect-square max-h-[18.2rem]`} />
+                                            <img alt={item.name} src={personPlaceholder} className={`max-h-[16.2rem]`} />
                                         )}
 
                                     </Grid>
@@ -460,7 +469,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                         <Grid className={`${classPrefix}-event-contributors-item-name`}>{`${item.user?.firstName} ${item.user?.lastName}`}</Grid>
                                         {item.user?.designation && <Grid className={`${classPrefix}-event-contributors-item-designation`} title={item.user?.designation}>{truncateString(item.user?.designation, 30)}</Grid>}
                                         <Grid className={`${classPrefix}-event-contributors-item-view-more`} ><CustomButton
-                                            isLoading={isLoading}
+                                            isLoading={loadingStates[item.user?.assetId] || false}
                                             label={'View more'}
                                             className={`${classPrefix}-event-contributors-item-view-more-button`}
                                             onClick={handleSpeakerCardClick}
@@ -594,19 +603,29 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                 className={`${classPrefix}-program-content-item ${item?.type === 'program' ? `${classPrefix}-program-content-item-program` : `${classPrefix}-program-content-item-addon`}`}
                             >
                                 <Grid container alignItems="center" size={12} >
-                                    <Grid size={{ xs: 6, sm: 4, lg: 2.5 }} container direction="row" alignItems="center" justifyContent="start" className={`${classPrefix}-program-content-time`} >
-                                        <Grid className={`${classPrefix}-program-content-time${item?.type === 'program' ? "-divider-gray" : "-divider-black"}`} size={{ xs: 3, sm: 2, lg: 3 }} container justifyContent={"center"} display={"block"}>
+                                    <Grid size={{ xs: 6, sm: 4, lg: 3 }} container direction="row" alignItems="center" justifyContent="start" className={`${classPrefix}-program-content-time`} >
+                                         <Grid  className={`${classPrefix}-program-content-time${item?.type === 'program' ? "-divider-gray" : "-divider-black"}`} size={{ xs: 3, sm: 2, lg: 3 }} container justifyContent={"center"} display={"block"}>
                                             <Typography textAlign={"center"} className={`${classPrefix}-program-content-time-day`}>{getLocalTimeDate(item.startTime, 'ddd')}</Typography>
                                             <Typography textAlign={"center"} className={`${classPrefix}-program-content-time-num`}>{getLocalTimeDate(item.startTime, 'DD')}</Typography>
-                                        </Grid>
-                                        <Grid >
-                                            <Grid container display={"flex"} alignItems={"center"} columnGap={1} rowGap={2} className={`${classPrefix}-program-content-time-icon`}>
-                                                {item?.type === 'program' ? <TemplateGrayClockIcon /> : <TemplateBlackClockIcon />}
-                                                <TimeComponent
+                                            
+                                            {moment(item?.startTime).format('YYYY-MM-DD') !== moment(item?.endTime).format('YYYY-MM-DD') && (
+                                               
+                                               <TimeComponent
+                                                    month={true}
                                                     startTime={item?.startTime}
                                                     endTime={item?.endTime}
                                                     classPrefix={`${classPrefix}-program-content-time-value`}
                                                 />
+                                            )}
+                                         </Grid>
+                                        <Grid >
+                                            <Grid  container display={"flex"} alignItems={"center"} columnGap={1} rowGap={2} className={`${classPrefix}-program-content-time-icon`}>
+                                                {item?.type === 'program' ? <TemplateGrayClockIcon /> : <TemplateBlackClockIcon />}
+                                    
+                                                <Typography  className={`${classPrefix}-program-content-time-value`}>
+                                                    {moment(item?.startTime).format('hh:mm A')} - {moment(item?.endTime).format('hh:mm A')}
+                                                </Typography>
+
                                             </Grid>
                                             <Grid container display={"flex"} alignItems={"center"} columnGap={1} className={`${classPrefix}-program-content-time-icon`}>
                                                 {item?.type === 'program' ? <TemplatePriceGrayIcon /> : <TemplatePriceBlackIcon />}
@@ -672,7 +691,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                         </Grid>
                                                     )}
                                                     {subItem?.eventSpeakers && subItem?.eventSpeakers?.length !== 0 &&
-
+                                                        
                                                         <Grid size={12} container className="mt-2" spacing={1}>
                                                             <Grid size={12} container className={`${classPrefix}-program-content-sponsor-heading`}>
 
@@ -689,7 +708,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                             </Grid>
 
                                                             {subItem?.eventSpeakers
-                                                                ?.slice()
+                                                                ?.slice() 
                                                                 ?.sort((a: any, b: any) => {
                                                                     const isModeratorA = a?.speakerBios?.[0]?.isModerator ? -1 : 1;
                                                                     const isModeratorB = b?.speakerBios?.[0]?.isModerator ? -1 : 1;
@@ -697,7 +716,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                                 })
                                                                 ?.map((speaker: any) => {
                                                                     const isModerator = speaker?.speakerBios?.[0]?.isModerator;
-
+                                                                    
                                                                     return !isModerator ? (
 
                                                                         <Avatar
@@ -722,10 +741,37 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
 
 
                                                         </Grid>}
-                                                    {item?.subItems?.length > 1 && subIndex !== item?.subItems?.length - 1 &&
-                                                        <Grid size={12} className={`${classPrefix}-program-content-divider`}>
-                                                            <Divider />
-                                                        </Grid>}
+                                                        <Grid container spacing={2} alignItems="center">
+                                                        {(item.eventParticipantEntries || []).map((entry: any, index: any) => {
+                                                            const { seatAllocated = 0, totalSeat = 1 } = entry;
+                                                            const remainingSeat = totalSeat - seatAllocated;
+                                                            const bookedPercentage = (seatAllocated / totalSeat) * 100;
+                                                            const isOverbookedRed = bookedPercentage > 85;
+                                                            const isOverbookedYellow = bookedPercentage > 70;
+
+                                                            if (!isOverbookedYellow) return null;
+                                                            return (
+                                                                <Grid container key={index}  spacing={2} alignItems="center" paddingTop={2}>
+                                                                {/* Seat Information */}
+                                                                <Grid container alignItems="center" spacing={.5}>
+                                                                  <Grid paddingBottom={.5}>
+                                                                   {isOverbookedRed ? <RedSeat fontSize={18}  /> : <YellowSeat fontSize={18} />}
+                                                                  </Grid>
+                                                                  <Grid>
+                                                                <Typography variant="body1" className={isOverbookedRed ? "program-seat-alert-red" : "program-seat-alert-yellow"}>
+                                                                  {seatAllocated} / {totalSeat} Hurry up! Only {remainingSeat} left! Secure your spot now!
+                                                                </Typography>
+                                                                  </Grid>
+                                                                </Grid>
+                                                                </Grid>
+                                                            );
+                                                            })}
+                                                        </Grid>
+                                                        {item.subItems.eventParticipantEntries}
+                                                        {item?.subItems?.length > 1 && subIndex !== item?.subItems?.length - 1 &&
+                                                    <Grid size={12} className={`${classPrefix}-program-content-divider`}>
+                                                                <Divider />
+                                                            </Grid>}                       
                                                 </Grid>
 
                                             ))
@@ -893,8 +939,11 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                                 {
                                                     items?.map((item: any) => {
                                                         return (
-                                                            <Grid size={12}>
-                                                                <img className='object-fill rounded-sm' width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
+                                                            <Grid container justifyContent={"center"} alignItems={"center"} size={12}  >
+                                                                <img 
+                                                                className='sponsor-banner-diamond'
+                                                                src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} 
+                                                                alt="" />
                                                             </Grid>
                                                         )
 
@@ -904,15 +953,19 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                         </Box>
                                     ) : key === "PLATINUM" ? items?.length > 0 && (
                                         <Grid size={12} justifyContent={'center'} container mb={5}>
-
                                             <Grid size={12}>
                                                 <Typography className='template4-sponsor-banner-text' textAlign={"center"}>{`${key && toTitleCase(key)} Sponsors`}</Typography>
                                             </Grid>
                                             {
                                                 items?.map((item: any) => {
                                                     return (
-                                                        <Grid size={{ xs: 12, sm: 6 }} >
-                                                            <img className='object-fill rounded-sm' width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
+                                                        <Grid container justifyContent={"center"} alignItems={"flex-start"}  size={{ xs: 12, sm: 6 }}>
+                                                            <img
+                                                               className='sponsor-banner-platinum'
+                                                                src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''}
+                                                                alt=""
+                                                            />
+
                                                         </Grid>
                                                     )
                                                 })
@@ -927,8 +980,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                             {
                                                 items?.map((item: any) => {
                                                     return (
-                                                        <Grid size={{ xs: 12, sm: 4 }} container direction={'row'} spacing={2}>
-                                                            <img className='object-fill rounded-sm' width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
+                                                        <Grid container justifyContent={"center"} alignItems={"flex-start"} alignContent={"flex-start"}  size={{ xs: 12, sm: 4 }}  >
+                                                            <img  className='sponsor-banner-gold'  src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
                                                         </Grid>
                                                     )
                                                 })
@@ -942,8 +995,8 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                                             {
                                                 items?.map((item: any) => {
                                                     return (
-                                                        <Grid size={{ xs: 12, sm: 3 }} container direction={'row'} spacing={2}>
-                                                            <img className='object-fill rounded-sm' height={'100%'} width={'100%'} src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
+                                                        <Grid size={{ xs: 12, sm: 3 }} container justifyContent={'center'} alignItems={"flex-start"} alignContent={"flex-start"}  >
+                                                            <img className='sponsor-banner-silver' src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
                                                         </Grid>
                                                     )
                                                 })
@@ -1008,7 +1061,23 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) => {
                     <SponsorShip eventId={data?.id} />
                 </Grid>
                 {/* Sponsor enquiry form ends here */}
-                <FooterSection classPrefix={`${classPrefix}-footer`} data={data} />
+                {/* App banner Image */}
+                <Grid 
+                  container 
+                  justifyContent={"center"} 
+                  alignItems={"center"} 
+                  alignSelf={"center"}
+                  size={12}
+                  mb={8}
+                >
+                  <Grid  size={10}>
+                    <img 
+                      src={Tempalte4App} 
+                      alt="Template 4"
+                    />
+                  </Grid>
+                </Grid>
+                <FooterSection classPrefix={`${classPrefix}-footer`} data={data} links={headerLinks} onScrollToProgram={() => handleScrollTo(programRef)} onScrollToAbout={() => handleScrollTo(aboutRef)} onScrollToContributors={() => handleScrollTo(contributorsRef)} onScrollToLocation={() => handleScrollTo(LocationRef)} onScrollToBeSponsor={() => handleScrollTo(beSponsorRef)} onScrollToSponsor={() => handleScrollTo(sponsorRef)}/>
             </Grid>
         </Grid>
     )

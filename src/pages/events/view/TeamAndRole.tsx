@@ -28,7 +28,7 @@ const TeamAndRole=()=>{
   const sponsorListData=useStore((state:any) => state?.compData?.['sponsor-lists']?.data) ?? [];
   const TeamAndRoleData =useStore((state:any)=> state?.compData?.['TeamAndRoleData']?.data) ?? [];
 
-  const [expanded, setExpanded] = React.useState<string | false>("panel2-header"); 
+  const [expanded, setExpanded] = React.useState<string | false>(abstractReviewerData?.length!== 0 && "panel2-header"); 
   const handleChange = (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
   setExpanded(isExpanded ? panel : false);
   };
@@ -60,7 +60,7 @@ const TeamAndRole=()=>{
         expanded={expanded === "panel2-header"} 
         onChange={handleChange("panel2-header")}>
         <AccordionSummary
-       expandIcon={abstractReviewerData?.length!==0 || expanded === "panel3-header"?<AccordionArrowIcon/>:<AccordionAddIcon/>}
+       expandIcon={abstractReviewerData?.length!==0 || expanded === "panel2-header"?<AccordionArrowIcon/>:<AccordionAddIcon/>}
           aria-controls="panel2-content"
           id="panel2-header"
            className="accordion-container-icon"
@@ -69,7 +69,7 @@ const TeamAndRole=()=>{
         </AccordionSummary>
       
         <AccordionDetails>
-          <AbstractReviewer /> 
+          <AbstractReviewer drawerOpen={abstractReviewerData?.length == 0  ? true : false} expanded={expanded }/> 
         </AccordionDetails>
       </Accordion>
       </Grid>
@@ -88,7 +88,7 @@ const TeamAndRole=()=>{
           <Typography className="accordion-container-heading">Volunteer</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <VolunteerListCard />
+          <VolunteerListCard eventData={TeamAndRoleData} drawerOpened={volunteerListsDta?.length == 0  ? true : false} expanded={expanded }/>
         </AccordionDetails>
       </Accordion>
       </Grid>
@@ -105,7 +105,7 @@ const TeamAndRole=()=>{
           <Typography className="accordion-container-heading">Sponsor</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <SponsorListCard />
+          <SponsorListCard drawerOpened={sponsorListData?.length == 0  ? true : false} expanded={expanded }/>
         </AccordionDetails>
       </Accordion>
       </Grid>

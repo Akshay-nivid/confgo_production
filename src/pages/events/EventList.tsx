@@ -5,28 +5,30 @@ import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
-import { useForm } from "react-hook-form";
+import {  useForm } from "react-hook-form";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import { Typography } from "@mui/material";
 import { ISource } from "@/Libs/types/type";
 import { Logger } from "@/Utils/Logger";
 import React from "react";
 import { NoEvent as NoEventIcon } from "@/assets/svg";
 import { Filter } from "@/components/Filter";
 import { StatusEnum } from "@/Utils/StatusEnum";
+import moment from "moment";
+import Typography from "@mui/material/Typography/Typography";
 
 interface EventListProps {
   hideAction?: boolean;
-  view?:any
+  view?:any;
+  dashView ? :boolean;
 }
 
 /**
  * Used to render events list
  * @author Vanisree
  */
-const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => {
+const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , dashView}) => {
   const navigate = useNavigate();
   const [searchResults, setSearchResults] = useState([]);
   let filters = { requestDate: '', eventClass: '',statusId:'' };
@@ -47,10 +49,13 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
   const eventList = useCallback(() => {
     const req = {
       offset: 0,
-      limit: 5,
-      sortBy: "id",
-      sortDirection: "DESC",
-      filters: filters,
+      limit:dashView ? 3 :5,
+      sortBy:dashView ? "startTime": "id",
+      sortDirection:dashView ? "ASC" : "DESC",
+      filters:dashView? {statusId:1,
+        startTime:moment(new Date()).add(1,'days').format('YYYY-MM-DD'),
+      }: 
+      filters
     };
 
     setSource({
@@ -69,18 +74,18 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
   ];
 
   const statusArray = [
-    { label: "Completed", value: "COMPLETED" },
-    { label: "Ongoing", value: "ONGOING" },
+    { label: "Active", value: "ACTIVE" },
     { label: "Published", value: "PUBLISHED" },
-    { label: "Pending", value: "PENDING" },
+    { label: "Draft", value: "DRAFTED" },
+    { label: "Expired", value: "EXPIRED" },
   ];
 
   const filterFields: any = [
     {
       type: 'date',
       fieldName: 'startTime',
-      label: 'Today',
-      heading: 'Filter with Request Date'
+      label: 'Date',
+      heading: 'Filter with Start Date'
     },
     {
       type: 'tiles',
@@ -120,7 +125,8 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
       width: 200,
       dateFormat: "DD/MM/YYYY",
     },
-    { type: "status", field: "statusId", headerName: "Status", width: 150,sortable: false }
+    { type: "status", field: "statusId", headerName: "Status", width: 150, sortable: false },
+    
   ];
 
   /**
@@ -138,6 +144,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
       let req: any = {
         filters: {
           name: query,
+          limit: 10
         },
       };
       const response = await await apiClient.post(`event/list`, req);
@@ -191,24 +198,32 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
      }));
    };
 
- 
+   /**
+    * Method handles the filter transformer
+    * @param filters : filters request data
+    * @returns : transformed filter request
+    */
+  const handleFilterTransformer = (filters: any) => {
+    for (let key in filters) {
+      if (key === 'endTime' && !filters[key]) {
+        filters[key] = filters['startTime'];
+      }
+    }
+    return filters
+  }
+
 
   return (
     <Grid container className="custom-list">
-      <Grid size={{ xs: 4 }}>
-        <Typography className="custom-list-list-title" gutterBottom>
-          Events
-        </Typography>
-      </Grid>
-
-      {/* Buttons for 'Create New Event' and 'Filters' */}
-      <Grid container size={{ xs: 8 }} spacing={2} justifyContent="flex-end">
+     
+      <Grid className="contents mb-8" container size={{ xs: 12 }} spacing={2} justifyContent="flex-end" flexWrap={"wrap"} >
         {!hideAction && (
           <>
-            <Grid container>
+        <Typography className='event-list-title'>Events</Typography>
+            <Grid flex={1}>
               <CustomAutocomplete
                 name="search"
-                className="custom-search-text-field"
+                className="custom-search-text-field event-search textfield-border"
                 control={control}
                 placeholder="Search Events Name"
                 options={searchResults} // Dynamic options based on API results
@@ -218,7 +233,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
                 onChange={handleAutocompleteChange}
               />
             </Grid>
-            <Grid container spacing={2} id ="event-create-new-event">
+            <Grid container size={{ xs: 12,sm:12,md:0 }} minWidth={{sm:"max-content"}} justifyContent={"flex-end"} marginLeft={{xs:"auto"}} spacing={2} id ="event-create-new-event ml-auto">
               <CustomButton
                 className="event-list-create-btn"
                 label="Create New Event"
@@ -231,12 +246,15 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
                 }}
               // disabled={loading}
               />
-              <Filter datagridId='event-datagrid' fields={filterFields} />
+              <Grid >
+              <Filter datagridId='event-datagrid' fields={filterFields} filterTransformer={handleFilterTransformer}/>
+
+              </Grid>
             </Grid>
           </>
         )}
       </Grid>
-      <Grid size={{ xs: 12 }}>
+      <Grid size={{ xs: 12 }} className="shadow-app  app-border-radius">
         <DataGridList
           dataTransformer={transformData}
           source={source}
@@ -244,7 +262,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
           title="Event"
           hideFooterPagination={hideAction ? true : false}
           columns={columns}
-          id="event-datagrid"
+          id={dashView?"dashboard-view":"event-datagrid"} 
           noRecordIcon={<NoEventIcon className="event-list-no-events-icon" />}
           noRecordSubtitle="It looks like you haven't created any events yet.Start by setting up your first conference or meeting."
           redirectTo={() => routes.createEvent()} // define the route
@@ -258,13 +276,13 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view}) => 
           justifyContent={"center"}
           alignItems={"center"}
         >
-          <CustomButton
+          {/* <CustomButton
             className="custom-list-view-all-button"
             label="View All"
             variant="outlined"
             size="large"
             onClick={() => navigate("/events")}
-          />
+          /> */}
         </Grid>
       )}
     

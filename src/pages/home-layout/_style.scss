@@ -38,6 +38,12 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+   
+  }
+
+  .nav-link{
+    font-size:$h6 !important;
+    
   }
   .nav-link.active {
     color: $clr_blue;
@@ -75,6 +81,13 @@
   &-auth-link {
     color: $clr_white;
     text-decoration: none;
+  }
+  &-logout-btn{
+    box-shadow: none !important;
+    border-radius: 0.5rem !important;
+    padding: 2rem;
+    background-color: $clr-blue !important;
+    color:$clr_white !important;
   }
 }
 

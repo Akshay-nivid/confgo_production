@@ -49,6 +49,14 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
   useEffect(() => {
     if (eventData?.programs) {
       setPrograms(eventData.programs);
+      const uniqueHalls = Array.from(
+        new Set(
+          eventData.programs
+            .map((program: any) => program?.hall)
+            .filter((hall: any) => hall) // Remove null/undefined values
+        )
+      );
+      setDataById('uniqueHalls',uniqueHalls)
     }
   }, [eventData?.programs]);
   /**
@@ -182,7 +190,6 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
    * Submiting the datas according to the conditions
    */
   const onSubmit = async (data: any) => {
-    closeDrawer();
     if (data.isPaid === "FREE") {
       data.amount = parseInt("0");
     } else {
@@ -234,6 +241,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
             severity: "success",
             message: message
           });
+          closeDrawer();
           Logger.info("Operation successful:", response.data);
         };
       

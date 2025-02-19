@@ -21,7 +21,8 @@ export const PaymentAlertBanner = () => {
    */
     const handleViewPlanDetails=()=>{
       setDataById("planMode", { mode: "upgrade" });
-      navigate(routes.planUpgrade())
+      navigate(routes.organizationUserProfile())
+      setDataById("settings", { tabIndex: 3 });
     }   
     return(
         <Grid container size={{ xs: 12, sm: 12 }} p={3} pb={0} className="payment-alert-banner">
@@ -32,12 +33,13 @@ export const PaymentAlertBanner = () => {
                     No payment done yet
                 </Typography>
                 </Grid>
-                <Grid>
+                <Grid display="flex" alignItems="center">
                 <Typography className="payment-alert-banner-sub-title">
                     Your account is almost ready!. Complete payment to start publishing your events.
                 </Typography>
+                <CustomButton className="payment-alert-banner-btn" label={"Upgrade Plan"} onClick={handleViewPlanDetails} />
                 </Grid>
-                <Grid pt={2} pb={1}><CustomButton className="payment-alert-banner-btn" label={"Upgrade Plan"} onClick={handleViewPlanDetails}/></Grid>            </Alert>
+        </Alert>
         </Grid>
     )
 }

@@ -16,29 +16,34 @@ const TEventDetails: React.FC<any> = React.memo(({ className, data }) => {
             <Grid size={1} className={`${className}-firstContainer`}>
                 <Typography> Scroll Down</Typography><DownArrow />
             </Grid>
-            <Grid size={4} container  className={`${className}-welcome`}>
+            <Grid size={4} container className={`${className}-welcome`}>
                 <Typography className={`${className}-title`}>Welcome to {data?.name}</Typography>
             </Grid>
             <Grid size={6} container direction={'column'} justifyContent={'center'} alignItems={'center'}>
                 <Grid>
                     <Typography className={`${className}-sub-header`}>{parse(data?.description)}</Typography>
                 </Grid>
-                <Grid container size={12}>
-                    <Grid container size={7} className={`${className}-icon-container`}>
+                <Grid container size={12} alignItems="flex-start">
+                    <Grid container size={8} wrap="nowrap" className={`${className}-icon-container`}>
                         <LocationIcon className={`${className}-icon-container-location`} />
                         <Grid className={`${className}-icon-container-textSection`}>
                             <Typography className={`${className}-icon-container-textSection-title`}>Venue</Typography>
                             <Typography className={`${className}-icon-container-textSection-subTitle`}>{data?.venue?.name}</Typography>
                         </Grid>
                     </Grid>
-                    <Grid container size={5} className={`${className}-icon-container`}>
-                        <CalendarIcon className={`${className}-icon-container-calender`} />
+
+
+                    <Grid container size={4} wrap="nowrap" className={`${className}-icon-container`}>
+                        <CalendarIcon className={`${className}-icon-container-calendar`} />
                         <Grid className={`${className}-icon-container-textSection`}>
-                            <Typography className={`${className}-icon-container-textSection-title`}>Calender</Typography>
-                            <Typography className={`${className}-icon-container-textSection-subTitle`}>{`${getLocalTimeDate(data.startTime ,"MMMM D")} - ${getLocalTimeDate(data.endTime,"D, YYYY")}`}</Typography>
+                            <Typography className={`${className}-icon-container-textSection-title`}>Calendar</Typography>
+                            <Typography className={`${className}-icon-container-textSection-subTitle`}>
+                                {`${getLocalTimeDate(data.startTime, "MMMM D")} - ${getLocalTimeDate(data.endTime, "D, YYYY")}`}
+                            </Typography>
                         </Grid>
                     </Grid>
                 </Grid>
+
             </Grid>
         </Grid>
     )

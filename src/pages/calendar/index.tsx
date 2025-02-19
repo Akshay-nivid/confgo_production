@@ -126,7 +126,7 @@ interface calendarProps {
  /**
   *  Transforms API response data into calendar format for user.
   */
-  const userData = UserProgram?.data.map((item: any) => ({
+  const userData = UserProgram?.data?.map((item: any) => ({
     id: item.event?.id,
     title: item.event?.name,
     start: new Date(item.event?.startTime),
@@ -150,11 +150,11 @@ interface calendarProps {
 
 
   return (
-    <Grid container size={{ xs: 12, sm: 12 }} spacing={2} className="calendar" id={id}>
+    <Grid container size={{ xs: 12, sm: 12 }} spacing={2} className="calendar " id={id}>
       <Grid size={{ xs: 12, sm: 12 }}>
         <Typography className="calendar-title">Calendar</Typography>
       </Grid>
-      <Grid size={{ xs: 12, sm: 12 }} className={containsUserCalendar?"calendar-usercontainer":"calendar-container"}>
+      <Grid size={{ xs: 12, sm: 12 }} className={containsUserCalendar?"calendar-usercontainer shadow-app":"calendar-container shadow-app"}>
       {dataInfotUser ? (
         <CustomCalendar
           id="user-calendar"

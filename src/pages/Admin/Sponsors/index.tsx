@@ -385,14 +385,14 @@ const Sponsors = () => {
     const logoId = form.watch('logoId')
 
     return (
-        <Grid container className="sponsor">
+        <Grid container  className="sponsor">
             <Grid size={12} className='title-filter-container'>
                 <Typography className='title-filter-container-title'>Sponsors</Typography>
                 <Box className='title-filter-container-filter-container'>
                     <Box className="auto-complete">
                         <CustomAutocomplete
                             name='sponsors'
-                            className='auto-complete-input'
+                            className='auto-complete-input textfield-border'
                             placeholder='search sponsors by name'
                             control={form.control} loading={false}
                             options={listData}
@@ -420,8 +420,9 @@ const Sponsors = () => {
             </Grid>
 
 
-            <Grid size={12} className="sponsor-datagrid">
+            <Grid size={12} className="sponsor-datagrid mt-8">
                 <DataGridList
+                    
                     dataTransformer={transformData}
                     source={source}
                     onRowClick={onRowClick}
@@ -453,7 +454,7 @@ const Sponsors = () => {
                             <CustomTextField control={form.control} name='name' placeholder='Sponsor Name' />
 
                             <CustomTextField control={form.control} name='email' placeholder='Email' />
-                            <CustomTextField control={form.control} name='phone' placeholder='Phone Number' />
+                            <CustomTextField control={form.control}  isNumeric={true} name='phone' placeholder='Phone Number' />
                             <CustomTextField control={form.control} name='website' placeholder='(e.g.: https://www.example.com)' label='Website Url' />
 
                             <Box className="form-file-upload ">
