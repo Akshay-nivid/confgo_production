@@ -241,7 +241,7 @@ const PlanPurchaseHistory = () => {
                 pdf.text('Charges', horizontalMargin, chargesInfoY);
                 pdf.setFontSize(10);
                 pdf.setFont('helvetica', 'normal');
-                pdf.text('Ticket Price', horizontalMargin, chargesInfoY + 9);
+                pdf.text('Subscription Amount', horizontalMargin, chargesInfoY + 9);
                 pdf.text(ticketPrice, rightColumnX + 24, chargesInfoY + 9);
                 pdf.text('Discount', horizontalMargin, chargesInfoY + 18);
                 pdf.text(discount, rightColumnX + 24, chargesInfoY + 18);
