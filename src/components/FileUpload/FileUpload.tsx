@@ -6,7 +6,6 @@ import { useDropzone, FileRejection, Accept } from 'react-dropzone';
 import DeleteIcon from '@mui/icons-material/Close';
 import CustomButton from '../CustomButton/CustomButton';
 import clsx from 'clsx';
-import DownloadIcon from '../../assets/svg/abstract-download.svg';
 import { PdfIcon,UploadFileLogo } from '@/assets/svg';
 
 interface Resolution {
