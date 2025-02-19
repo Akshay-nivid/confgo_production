@@ -264,7 +264,7 @@ const DynamicUserForm = () => {
         return <CustomTextField  {...commonProps} type="text" size="medium" />;
 
       case "number":
-        return <CustomTextField {...commonProps} type="number" size="medium" />;
+        return <CustomTextField {...commonProps} type="text" size="medium" isNumeric={true}/>;
 
       case "email":
         return <CustomTextField {...commonProps} type="email" size="medium" />;
