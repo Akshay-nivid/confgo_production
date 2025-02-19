@@ -118,7 +118,17 @@ const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetit
                     <Typography textAlign={"start"} className='title'>
                     {eventFullData?.eventClass!="ONLINE"?  "LOCATION":"URL"}
                     </Typography>
-                    <Typography className='title-value'>{eventFullData?.eventClass!="ONLINE"? truncateString(location, 12, "Location not specified"): truncateString(eventFullData?.url, 12, "URL not specified")}</Typography>
+                    {eventFullData?.eventClass !== "ONLINE" ? (
+                     <CustomTooltip title={location || "Location not specified"}>
+                    <Typography className="title-value">
+                {truncateString(location, 12, "Location not specified")}
+                  </Typography>
+                             </CustomTooltip> ) : (
+                      <Typography className="title-value">
+                        {truncateString(eventFullData?.url, 12, "URL not specified")}
+                      </Typography>)}
+
+                
                 </Grid>
             </Grid>
             {/* {Eventstatus &&
