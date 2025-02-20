@@ -136,8 +136,7 @@ const styles = StyleSheet.create({
  */
 
 const MyDocument = ({ data }: any) => {
-  console.log(">>>>>>>Data pamenty",data);
-  
+ 
   const details = data[0] || {};
 
   
