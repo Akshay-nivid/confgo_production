@@ -202,6 +202,7 @@ const NewSpeakerDrawer :React.FC<NewSpeakerDrawerProps> = ({ onSuccess, closeDra
                             name="phone"
                             placeholder="Phone Number"
                             label="Phone Number"
+                            isNumeric={true}
                             type="phone"
                             rules={{
                                 required: validateRequiredField({
