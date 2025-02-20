@@ -44,6 +44,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
   const POST = useStore((state) => state.POST);
   const PUT = useStore((state) => state.PUT);
   const setDataById = useStore((state) => state.setDataById);
+  const [programSubmitLoading,setProgramSubmitLoading] = useState<boolean>(false);
 
   //fetch the details from eventData
   useEffect(() => {
@@ -205,6 +206,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
     };
 
     try {
+      setProgramSubmitLoading(true);
       const url = isEditing
       ? isAddon && selectedProgramId
         ? `/event/addon/${selectedProgramId}`   // Add-on update URL
@@ -257,7 +259,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
         };
       
         if (isEditing) {
-        	PUT({
+        await	PUT({
             url,
             body: programData,
             id: isAddon? "updateAddon": "updateProgram",
@@ -265,7 +267,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
             errorCB,
         	});
         	} else {
-        	  POST({
+        	await  POST({
         	    url,
         	    body: programData,
         	    id: isAddon? "addAddon": "addProgram",
@@ -275,7 +277,9 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
         	}
       } catch (error) {
         Logger.error("Error processing data:", error);
-      } 
+      } finally {
+        setProgramSubmitLoading(false);
+      }
   };
 
   // Combine and sort programs and addons by startTime in ascending order
@@ -460,6 +464,7 @@ const Sessions: React.FC<SessionsProps> = ({ eventData, onSubmitHandler }) => {
             eventStartTime={eventData?.startTime}
             eventEndTime={eventData?.endTime}
             eventData={eventData}
+            submitDisable={programSubmitLoading}
           />
         }
       />

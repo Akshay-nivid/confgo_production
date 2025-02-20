@@ -6,12 +6,21 @@ import { useNavigate } from 'react-router-dom';
 /**
  * Components handle Login
  */
-const TLogout: React.FC<any> = React.memo(({ className }: { className: string }) => {
+
+interface TLogoutProps {
+    className: string;
+    onBeforeLogout?: () => void; // Adding a function as a prop
+}
+const TLogout: React.FC<TLogoutProps> = React.memo(({ className, onBeforeLogout}) => {
 
     const navigate = useNavigate();
 
     const onLogoutSuccess = React.useCallback(() => {
-    }, [navigate]);
+
+        if (onBeforeLogout) {
+            onBeforeLogout(); // TypeScript still thinks it might be undefined
+        }
+            }, [navigate]);
 
     return (
         <CustomButton

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Grid from '@mui/material/Grid2';
 import TLogin from './TLogin';
 import TRegister from './TRegister';
@@ -18,7 +18,16 @@ const AuthFormHandler: React.FC<any> = React.memo(({ className, data, onScrollTo
     const eventPriceTiersPresent = data?.eventPriceTiers !== undefined && data?.eventPriceTiers !== null && data?.eventPriceTiers?.length > 0;
     const userToken = sessionStorage.getItem('token')
     const userRole = sessionStorage.getItem('userRole')
+    const [logOut, setLogOut] = useState<boolean>(false)
 
+    //This function will regognize when the user log out
+    const LogoutAction = () => {
+      setLogOut(true)
+    }
+
+    useEffect(() => {
+
+    },[logOut])
 
      /**
      * Handles the click event for the register button
@@ -56,7 +65,7 @@ const AuthFormHandler: React.FC<any> = React.memo(({ className, data, onScrollTo
         <Grid size={12} className={className}>
             <Typography className={`${className}-title`}>{data?.name}</Typography>
             <Grid direction={'row'} container>
-                {userToken ? <TLogout className={`${className}-login`} /> : <TLogin className={`${className}-login`} onClick={loginFn}/>}
+                {userToken ? <TLogout className={`${className}-login`} onBeforeLogout={LogoutAction} /> : <TLogin className={`${className}-login`} onClick={loginFn}/>}
                 <TRegister buttonName='Register' className={`${className}-register`} onClick={(e: any) => handleClickRegister(e)}/>
             </Grid>
         </Grid>
