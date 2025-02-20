@@ -11,12 +11,14 @@ import routes from '@/router/routes';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';
 import CustomDatePicker from '@/components/CustomDatePicker/CustomDatePicker';
 import moment from 'moment';
-import { setDataById, setNonPersistedDataById } from '@/Libs/store';
+import { setDataById } from '@/Libs/store';
 import { validateAmount, validateMaxLength, validateMinLength } from '@/Utils/Validation';
 import CloseIcon from '@mui/icons-material/Close';
 
 interface EditCouponProps {
   data?: any;
+  onSuccess?: () => void;
+  closeDrawer?: () => void;
 }
 interface CouponFormData {
   name: string;
@@ -35,7 +37,7 @@ interface CouponFormData {
  * Coupon Create 
  * @author Neethu
  */
-const CreateCoupon: React.FC<EditCouponProps> = ({data}) => {
+const CreateCoupon: React.FC<EditCouponProps> = ({ closeDrawer, data, onSuccess }) => {
   const [originalData] = useState(data);
   const { control, handleSubmit, reset, watch, setValue, clearErrors, } = useForm<CouponFormData>({
     defaultValues: {
@@ -112,7 +114,8 @@ const CreateCoupon: React.FC<EditCouponProps> = ({data}) => {
           severity: "success",
           message: isEdit ? "Coupon Updated Successfully" :"Coupon Created Successfully",
         });
-        setNonPersistedDataById('craeteCouponDrawer', { value: false })
+        closeDrawer && closeDrawer();
+        onSuccess && onSuccess();
         reset();
         setTimeout(() => {
           navigate(routes.coupon()); // Redirect to the coupon list
@@ -151,12 +154,6 @@ const CreateCoupon: React.FC<EditCouponProps> = ({data}) => {
     }
   }, [startDate]);
 
-  /**
-   * Handle close create coupon drawer close
-   */
-  const closeDrawer = () => {
-     setNonPersistedDataById('craeteCouponDrawer', { value: false })
-  }
 
 
   return (

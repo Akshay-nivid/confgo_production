@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
  */
 
 const MyDocument = ({ data }: any) => {
-
+ 
   const details = data[0] || {};
 
   
@@ -155,10 +155,12 @@ const MyDocument = ({ data }: any) => {
   //id
   const invoiceNumber = details?.transactionId || "N/A";
   const orderDate = details?.order?.orderDtae;
+  
+  const programTotalAmount= details?.order?.programTotalAmount || "N/A";
+   
+  const addonTotalAmount = details?.order?.addonTotalAmount || "N/A";
 
-
-
-  const discountAmount = details?.order?.discountAmount || "N/A";
+  const priceTierDiscount = details?.order?.priceTierDiscount || "N/A";
 
   const couponDiscount = details?.order?.couponDeduction || "N/A";
 
@@ -234,22 +236,32 @@ const MyDocument = ({ data }: any) => {
           <Text style={styles.chargesHeader}>Charges</Text>
 
           <View style={styles.row}>
-            <Text style={styles.rowText}>subTotal</Text>
+            <Text style={styles.rowText}>Sub Total</Text>
             <Text style={styles.amount}>${subTotal}</Text>
           </View>
 
           <View style={styles.row}>
             <Text style={styles.rowText}>Tier Discount</Text>
-            <Text style={styles.amount}>${discountAmount}</Text>
+            <Text style={styles.amount}>${priceTierDiscount}</Text>
           </View>
 
           <View style={styles.row}>
-            <Text style={styles.rowText}>Coupon Discount</Text>
+            <Text style={styles.rowText}>Discount Amount</Text>
             <Text style={styles.amount}>${couponDiscount}</Text>
           </View>
 
+          <View style={styles.row}>
+            <Text style={styles.rowText}>program Total Amount</Text>
+            <Text style={styles.amount}>${programTotalAmount}</Text>
+          </View>
+
+          <View style={styles.row}>
+            <Text style={styles.rowText}>Adon Total Amount</Text>
+            <Text style={styles.amount}>${addonTotalAmount}</Text>
+          </View>
+
           <View style={styles.total}>
-            <Text style={styles.rowText}>Tax</Text>
+            <Text style={styles.rowText}>{details?.order?.taxInclusive===0 ?" TAX(Inclusive)" : "Tax(Exclusive)"}</Text>
             <Text style={styles.amount}>${tax}</Text>
           </View>
 

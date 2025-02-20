@@ -194,7 +194,11 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
        eventClass: item?.eventClass,
        createdOn: item?.createdOn,
        startTime:item?.startTime,
-       statusId: item?.published === true && item?.statusId == 1 ? 6 : item?.statusId,
+       statusId: item?.statusId === 7
+         ? 11
+         : item?.published === true && item?.statusId === 1
+           ? 6
+           : item?.statusId,
      }));
    };
 

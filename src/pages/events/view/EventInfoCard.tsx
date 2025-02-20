@@ -30,6 +30,7 @@ import EventContactCard from "./NewEventDetails/EventContactCard";
 import EventWebsite from "./NewEventDetails/EventWebsite";
 import EventLineChart from "./NewEventDetails/EventLineChart";
 import EventGallery from "./NewEventDetails/EventGallery";
+import CustomDateTimePicker from "@/components/CustomDateTimePicker/CustomDateTimePicker";
 
 const baseUrl = config.api.url;
 // const currency=confgo.currency;
@@ -123,24 +124,28 @@ const EventInfoCard: React.FC<any> = React.memo(
       title: "Programs",
       description: "Sessions, panels & workshops",
       icon: <EventDetailProgram className="single-event-icon" />,
+      navigation:"3",
     },
     {
       count: uniqueSponsorCount || 0,
       title: "Sponsors",
       description: "Event partners & supporters",
       icon: <EventDetailSponsor className="single-event-icon" />,
+      navigation:"2",
     },
     {
       count: uniqueSpeakerCount || 0,
       title: "Speakers",
       description: "Experts & keynote guests",
       icon: <EventDetailSpeaker className="single-event-icon" />,
+      navigation:"2",
     },
     {
       count: eventData?.registeredParticipants || 0,
       title: "Registered attendees",
       description: "Number of attendees Registered",
       icon: <EventDetailAttendee className="single-event-icon" />,
+      navigation:"5",
     },
   ];
 
@@ -157,10 +162,8 @@ const EventInfoCard: React.FC<any> = React.memo(
     if (eventData) {
       const formattedEventData = {
         ...eventData,
-        startTime: moment(eventData.startTime).format(
-          "YYYY-MM-DD"
-        ),
-        endTime: moment(eventData.endTime).format("YYYY-MM-DD"),
+        startTime: moment(eventData.startTime),
+        endTime: moment(eventData.endTime),
       };
       reset(formattedEventData);
       setEditorContent(eventData.description);
@@ -222,12 +225,12 @@ const EventInfoCard: React.FC<any> = React.memo(
    */
   const onEditSubmit= (data:any)=>{
     //checks the start tima and end time
-    const EventStart= moment(eventData?.startTime).format("MMM D, YYYY")
-    const EventEnd = moment(eventData?.endTime).format("MMM D, YYYY")
-
+    const EventStart= moment(eventData?.startTime).format("MMM D, YYYY");
+    const EventEnd = moment(eventData?.endTime).format("MMM D, YYYY");
     const startTime = moment(data?.startTime).format("MMM D, YYYY");
     const startTimes = moment(data?.startTime);
     const endTimes = moment(data?.endTime);
+    const today = moment(new Date()).format("MMM D, YYYY");
     setSubmitData(data)
     const endTime = moment(data?.endTime).format("MMM D, YYYY")
     if (startTimes.isAfter(endTimes)) {
@@ -236,6 +239,13 @@ const EventInfoCard: React.FC<any> = React.memo(
         message: 'Start date cannot be greater than end date',
       });
       return
+    }
+    if (startTime < today) {
+      setError('startTime', {
+        type: 'manual',
+        message: 'Dates cannot be in the past',
+      });
+      return;
     }
     { 
       if( EventStart != startTime || EventEnd != endTime){
@@ -251,8 +261,8 @@ const EventInfoCard: React.FC<any> = React.memo(
    * @param data
    */
   const onSubmit = async (data: any) => {
-  const formattedEndTime = `${data.endTime.split('T')[0]}T23:59`;
-  const formattedStartTime=`${data.startTime.split('T')[0]}T00:00`;
+  const formattedEndTime = `${data.endTime}`;
+  const formattedStartTime=`${data.startTime}`;
     setIsWarning(false)
     // Format the date and time fields before update request.
    let excludeKeys = ['slugName','city','address','venue','country','mapUrl','postalCode','state','status','templateId','template','eventPriceTiers','eventProgramSchedules','programs','addons','eventContacts','venueId','email','phone','venueName'];
@@ -419,7 +429,7 @@ const EventInfoCard: React.FC<any> = React.memo(
    
         {eventDetailCards?.map((card, index) => (
 
-          <EventDetailCountCard key={index} count={card.count} title={card.title} description={card.description} icon={card.icon} />
+          <EventDetailCountCard key={index} count={card.count} title={card.title} description={card.description} icon={card.icon} navigation={card.navigation}/>
 
         ))}
 
@@ -586,36 +596,27 @@ const EventInfoCard: React.FC<any> = React.memo(
                     />
                 </Grid>
                 <Grid size={{ xs: 12 }}>
-                  <CustomTextField
-                    placeholder="Start Date"
-                    control={control}
-                    name="startTime"
-                    type="date"
-                    defaultValue={moment(new Date()).format("YYYY-MM-DD")}
-                    min={moment(new Date()).format("YYYY-MM-DD")}
-                    rules={{
-                      pattern: {
-                        value: /^\d{4}-\d{2}-\d{2}$/, 
-                        message: "Please enter a valid start date (DD-MM-YYYY)"
-                      }
-                    }}
-                  />
+                  <CustomDateTimePicker
+                      placeholder="Start Date"
+                      control={control}
+                      name="startTime"
+                      defaultValue={watch('startTime')? moment(watch('startTime')).format("YYYY-MM-DD hh:mm:a") : moment().format("YYYY-MM-DD hh:mm:a")}
+                      
+                      rules={{
+                        required:true,
+                      }}
+                    />
                 </Grid>
                 <Grid size={{ xs: 12 }}>
-                  <CustomTextField
-                    placeholder="End Date"
-                    control={control}
-                    name="endTime"
-                    type="date"
-                    defaultValue={moment(new Date()).format("YYYY-MM-DD")}
-                    min={moment(new Date()).format("YYYY-MM-DD")}
-                    rules={{
-                      pattern: {
-                        value: /^\d{4}-\d{2}-\d{2}$/,
-                        message: "Please enter a valid end date (DD-MM-YYYY)"
-                      }
-                    }}
-                  />
+                  <CustomDateTimePicker
+                      placeholder="End Date"
+                      control={control}
+                      name="endTime"
+                      defaultValue={watch('endTime')? moment(watch('endTime')).format("YYYY-MM-DD hh:mm:a") : moment().format("YYYY-MM-DD hh:mm:a")}
+                      rules={{
+                        required:true,
+                      }}
+                    />
                 </Grid>
                 <Grid size={{ xs: 12 }}>
                   <CustomTextField

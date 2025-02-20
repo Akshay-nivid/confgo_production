@@ -241,7 +241,7 @@ const PlanPurchaseHistory = () => {
                 pdf.text('Charges', horizontalMargin, chargesInfoY);
                 pdf.setFontSize(10);
                 pdf.setFont('helvetica', 'normal');
-                pdf.text('Ticket Price', horizontalMargin, chargesInfoY + 9);
+                pdf.text('Subscription Amount', horizontalMargin, chargesInfoY + 9);
                 pdf.text(ticketPrice, rightColumnX + 24, chargesInfoY + 9);
                 pdf.text('Discount', horizontalMargin, chargesInfoY + 18);
                 pdf.text(discount, rightColumnX + 24, chargesInfoY + 18);
@@ -284,6 +284,15 @@ const PlanPurchaseHistory = () => {
         return moment(targetDate).format('MMMM D, YYYY');;
     }, [planData?.[0]?.subscription?.startDate]);
 
+    
+     /**
+    * Determine whether to show the "Upgrade" button based on the plan's expiration date.
+    * This ensures the "Upgrade" button is only displayed when the plan is about to expire within a week.
+    */
+      const showUpgradeButton = planData?.[0]?.subscription?.endDate 
+      ? moment(planData?.[0]?.subscription?.endDate ).diff(moment(), "days") <= 7 
+      : false;
+
     return (<Grid className="plan-billing" container >
         <Grid container className="container" size={{ xs: 12, sm: 12 }}>
             {planData?.[0] && <>
@@ -307,9 +316,12 @@ const PlanPurchaseHistory = () => {
                             <Typography className="header-value">{planData?.[0]?.subscription?.startDate && expirationDate}</Typography>
                         </Grid>
                     </Grid>
-                    <Grid container size={2} justifyContent={"flex-end"}>
-                        <CustomButton className="upgrade-btn" label="upgrade" onClick={handlePLanShow} />
-                    </Grid>
+                  {
+                  showUpgradeButton &&(
+                      <Grid container size={2} justifyContent={"flex-end"}>
+                        <CustomButton className="upgrade-btn" label="Upgrade" onClick={handlePLanShow} />
+                    </Grid>)
+                    }
                 </Grid>
             </>}
             {showPlan && <PlanBilling />}

@@ -217,6 +217,8 @@ const UserUploadAbstract = ({ eventData }: any) => {
                                 onSubmit={handleImageUpload}
                                 disabled={disabled}
                                 maxSize={10}
+                                NoRecommended={true}
+                                isAbstract={true}
                             />
                         )}
                     </Box>

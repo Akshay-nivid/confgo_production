@@ -13,7 +13,6 @@ import { NoCouponDataSvg } from "@/assets/svg";
 import { Filter } from "@/components/Filter";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CreateCoupon from "./CreateCoupon";
-import useStore, { setNonPersistedDataById } from "@/Libs/store";
 import EditIcon from "@/assets/svg/event-edit.svg";
 
 interface FilterType {
@@ -34,6 +33,7 @@ const Coupon = () => {
   const [dataLength, setDataLength] = useState(0);
   const { control } = useForm();
   const [selectedCoupon, setSelectedCoupon] = useState({});
+  const [drawerOpen,setDrawerOpen] = useState<boolean>(false);
   
   /**
    * Useeffect hook handles the api call
@@ -177,21 +177,15 @@ const Coupon = () => {
 
   function handleCouponDrawer(params?:any) {
     setSelectedCoupon(params);
-    setNonPersistedDataById('craeteCouponDrawer', { value: true })
-
+    setDrawerOpen(true);
   };
 
-  const CreateCouponDrawer = useStore(state => state.nonPersistedData?.['craeteCouponDrawer']?.value) || false;
-
   /**
-  * Fetches the list of coupons whenever the `CreateCouponDrawer` dependency changes.
-  * This ensures that the coupon list is updated when a new coupon is created
-  * or when the drawer state is modified.
+  * Fetches the list of coupons whenever a coupon is edited or a new coupon is created
   */
-  useEffect(() => {
-      couponList();
-    
-  }, [CreateCouponDrawer]);
+  function onSuccess() {
+    couponList();
+  };
 
   return (
     <Grid container className="custom-list">
@@ -258,8 +252,8 @@ const Coupon = () => {
 
       <Grid container size={6}>
 
-        <CustomDrawer open={CreateCouponDrawer} type={"right"}>
-          <CreateCoupon data={selectedCoupon}/>
+        <CustomDrawer open={drawerOpen} type={"right"}>
+          <CreateCoupon data={selectedCoupon} onSuccess={onSuccess} closeDrawer={()=>{setDrawerOpen(false)}}/>
         </CustomDrawer>
       </Grid>
 

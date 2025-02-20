@@ -67,7 +67,7 @@ const PayPalButton: React.FC = () => {
         try {
             const requestBody = {
                 paymentMethodId: 1,
-                paymentreferencenumber: paymentReferenceNumberAdmin,
+                paymentReferenceNumber: paymentReferenceNumberAdmin,
                 state: paypalData?.status,
                 errorMessage: "No error message",
                 transactionId: paypalData?.id,
