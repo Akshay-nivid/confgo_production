@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Grid from '@mui/material/Grid2';
 import TLogin from './TLogin';
 import TRegister from './TRegister';
