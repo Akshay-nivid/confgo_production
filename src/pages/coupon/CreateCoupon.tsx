@@ -17,8 +17,8 @@ import CloseIcon from '@mui/icons-material/Close';
 
 interface EditCouponProps {
   data?: any;
-  onSuccess: () => void;
-  closeDrawer: () => void;
+  onSuccess?: () => void;
+  closeDrawer?: () => void;
 }
 interface CouponFormData {
   name: string;
@@ -114,8 +114,8 @@ const CreateCoupon: React.FC<EditCouponProps> = ({ closeDrawer, data, onSuccess 
           severity: "success",
           message: isEdit ? "Coupon Updated Successfully" :"Coupon Created Successfully",
         });
-        closeDrawer();
-        onSuccess();
+        closeDrawer && closeDrawer();
+        onSuccess && onSuccess();
         reset();
         setTimeout(() => {
           navigate(routes.coupon()); // Redirect to the coupon list
