@@ -16,14 +16,14 @@ const AuthFormHandler: React.FC<any> = React.memo(({ className, data, onScrollTo
     const navigate = useNavigate();
     const location = useLocation();
     const eventPriceTiersPresent = data?.eventPriceTiers !== undefined && data?.eventPriceTiers !== null && data?.eventPriceTiers?.length > 0;
-    const userToken = sessionStorage.getItem('token')
+    const [userToken, setUserToken] = useState<any>(sessionStorage.getItem('token'));
     const userRole = sessionStorage.getItem('userRole')
 
-    //This function will regognize when the user log out
+    // //This function will recognize when the user log out
     const LogoutAction = () => {
+      setUserToken(null);
+
     }
-
-
 
      /**
      * Handles the click event for the register button
