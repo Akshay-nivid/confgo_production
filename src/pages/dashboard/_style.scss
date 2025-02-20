@@ -48,7 +48,7 @@
             color: $clr_green !important;
             height: 3.5rem;
             box-shadow: none !important;
-            border: 2px solid $clr_green !important;
+            border:0.166rem  solid $clr_green !important;
             margin: 2rem 0.2rem !important;
             text-transform: none !important;
             font-size: $p3 !important;
@@ -209,7 +209,7 @@
             position: relative;
 
             &:not(:last-child) {
-                border-bottom: 1px solid $clr_medium_grey;
+                border-bottom: 0.083rem solid $clr_medium_grey;
             }
 
         }
@@ -218,7 +218,7 @@
             height: 3.6rem;
 
             &:not(:last-child) {
-                border-bottom: 1px solid $clr_medium_grey;
+                border-bottom: 0.083rem solid $clr_medium_grey;
             }
 
         }
@@ -227,7 +227,7 @@
             height: 3.6rem;
 
             &:not(:last-child) {
-                border-bottom: 1px solid $clr_medium_grey;
+                border-bottom: 0.083rem solid $clr_medium_grey;
             }
 
             cursor: pointer;
@@ -282,6 +282,7 @@
             background-color: $clr_green !important;
             font-size: $p3 !important;
             box-shadow: none !important;
+            text-transform: none !important;
         }
     }
 

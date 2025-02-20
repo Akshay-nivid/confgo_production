@@ -33,7 +33,7 @@ const PlanPurchaseHistory = () => {
             type: "dateField",
             field: "Date",
             headerName: "Billing Date",
-            width: 200,
+            width: 180,
             dateFormat: "DD/MM/YYYY",
         },
         { type: "default", field: "plan", headerName: "Plan", width: 180 },
@@ -99,6 +99,7 @@ const PlanPurchaseHistory = () => {
                 name: <Grid alignItems={"center"} justifyContent={"flex-start"} container display={"flex"}><Grid mt={1.5}><PdfIcon width={25} height={25} /></Grid> <Typography className='nameField' ml={1} textAlign={"center"} mt={2} >{item?.transactionId}</Typography></Grid>,
                 Date: item.createdOn,
                 amount: item?.amount,
+                plan: toCamelCase(item?.subscription?.plan?.name),
                 status: <Grid className="payment-history-container-status" size={12} > <StatusComponent value={item?.state === "COMPLETED" ? '12' : "3"} /> </Grid>,
                 createdOn: item?.createdOn,
                 Receipt: <Grid container justifySelf={"center"} alignItems={"center"} mt={1.5}>
@@ -152,9 +153,9 @@ const PlanPurchaseHistory = () => {
 
                 // const companyName = paymentDetails?.company?.companyName || "N/A";
                 // const companyAddress = paymentDetails?.company?.companyAddress || "N/A";
-                const clientName = paymentDetails?.user?.name || "N/A";
-                const clientEmail = paymentDetails?.user?.email || "N/A";
-                const clientPhone = paymentDetails?.user?.phone || "N/A";
+                // const clientName = paymentDetails?.user?.name || "N/A";
+                // const clientEmail = paymentDetails?.user?.email || "N/A";
+                // const clientPhone = paymentDetails?.user?.phone || "N/A";
 
 
                 const name = paymentDetails?.user?.firstName
@@ -189,7 +190,7 @@ const PlanPurchaseHistory = () => {
                 pdf.text('Invoice', pageWidth - horizontalMargin - 30, 15);
                 pdf.setFontSize(10);
                 pdf.setFont('helvetica', 'normal');
-                pdf.text('#101020', pageWidth - horizontalMargin - 30, 20);
+                pdf.text(transactionId, pageWidth - horizontalMargin - 30, 20);
 
                 pdf.setDrawColor(200, 200, 200);
                 pdf.line(horizontalMargin, headerHeight - 10, pageWidth - horizontalMargin, headerHeight - 10);
@@ -197,17 +198,17 @@ const PlanPurchaseHistory = () => {
                 // Client Information Section
                 const clientInfoY = headerHeight; // Start Y position for Client Information
                 pdf.setFont('helvetica', 'bold');
-                pdf.text('Event Contact Info:', horizontalMargin, clientInfoY);
+                // pdf.text('Event Contact Info:', horizontalMargin, clientInfoY);
                 pdf.setFont('helvetica', 'normal');
-                pdf.text(clientName, horizontalMargin, clientInfoY + 8);
-                pdf.text(clientEmail, horizontalMargin, clientInfoY + 16);
-                pdf.text(clientPhone, horizontalMargin, clientInfoY + 24);
+                // pdf.text(clientName, horizontalMargin, clientInfoY + 8);
+                // pdf.text(clientEmail, horizontalMargin, clientInfoY + 16);
+                // pdf.text(clientPhone, horizontalMargin, clientInfoY + 24);
 
                 pdf.setFont('helvetica', 'bold');
-                pdf.text('Bill To:', horizontalMargin + 60, clientInfoY);
+                pdf.text('Bill To:', horizontalMargin , clientInfoY);
                 pdf.setFont('helvetica', 'normal');
-                pdf.text(name, horizontalMargin + 60, clientInfoY + 8);
-                pdf.text(userEmail, horizontalMargin + 60, clientInfoY + 16);
+                pdf.text(name, horizontalMargin , clientInfoY + 8);
+                pdf.text(userEmail, horizontalMargin , clientInfoY + 16);
                 // pdf.text('Palo Alto, CA, 54321', horizontalMargin + 70, clientInfoY + 15);
 
 
@@ -240,7 +241,7 @@ const PlanPurchaseHistory = () => {
                 pdf.text('Charges', horizontalMargin, chargesInfoY);
                 pdf.setFontSize(10);
                 pdf.setFont('helvetica', 'normal');
-                pdf.text('Ticket Price', horizontalMargin, chargesInfoY + 9);
+                pdf.text('Subscription Amount', horizontalMargin, chargesInfoY + 9);
                 pdf.text(ticketPrice, rightColumnX + 24, chargesInfoY + 9);
                 pdf.text('Discount', horizontalMargin, chargesInfoY + 18);
                 pdf.text(discount, rightColumnX + 24, chargesInfoY + 18);
@@ -257,7 +258,7 @@ const PlanPurchaseHistory = () => {
 
                 pdf.setFont('helvetica', 'normal');
                 pdf.setFontSize(8);
-                pdf.text('Questions:', horizontalMargin, footerY);
+                // pdf.text('Questions:', horizontalMargin, footerY);
                 // pdf.text(companyName, horizontalMargin, footerY + 5);
                 // pdf.text(paymentDetails?.company?.email, horizontalMargin, footerY + 10);
                 // pdf.text(paymentDetails?.company?.phone, horizontalMargin, footerY + 15);

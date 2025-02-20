@@ -109,6 +109,7 @@ const ViewEventDetail = () => {
   const [loading, setLoading] = useState(true);
   const location = useLocation(); // Get the current location (URL) to detect changes
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const fullEventList = useStore((state: any) => state?.compData?.["fullEventList"]?.['event/list'].data) ?? [];
 
 
   /**
@@ -249,6 +250,10 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
   const handlePublishUnPublish = () => {
     if(errorMessage){
       setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: errorMessage });
+      return
+    }
+    if(fullEventList?.[0]?.company?.companyPaypalConfigurations?.length === 0){
+      setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: 'Please add paypal configuration to publish event' });
       return
     }
     else if (datass !=0 && eventFullData?.published){
@@ -411,9 +416,9 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
                 </Grid>}
             </Grid>}
               </Grid>
-              <Grid>
+              {eventFullData?.status?.statusName !== 'EXPIRED' && <Grid>
                 <CustomButton className={eventFullData?.published?"event-detail-event-info-card-unpublish-btn": "event-detail-event-info-card-publish-btn"} startIcon={eventFullData?.published?<UnpublishIcon/>:<PublishIcon />} label={eventFullData?.published? "Unpublish Event": "Publish Event"} onClick={() =>{ handlePublishUnPublish()}}/>
-              </Grid>
+              </Grid>}
             </Grid>
           </Grid>
         </Grid>
@@ -440,7 +445,7 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
               <EventDetailSkeleton width={600} />
             ) : (
               <>
-                <EventInfoCard eventData={eventFullData} onSubmitHandler={handleSubmitHandler} />
+                <EventInfoCard id="event-info-card" eventData={eventFullData} onSubmitHandler={handleSubmitHandler} />
                 {/* {eventFullData?.eventClass != "ONLINE" &&
                   <LocationCard eventData={eventFullData} published={eventFullData?.published} onSubmitHandler={handleSubmitHandler} />
                 } */}

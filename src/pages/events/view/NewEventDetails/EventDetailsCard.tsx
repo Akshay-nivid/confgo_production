@@ -30,9 +30,13 @@ const EventDetailsCard = (eventData: any) => {
               message: "Event is Already Published !",
             });
             setDataById("eventDrawer", { value: false }); 
+            return;
+          }
+          else{
+            setDataById("eventDrawer", { value: true });   
           }
 
-        setDataById("eventDrawer", { value: true });   
+        
 
             
     }
@@ -140,14 +144,14 @@ const EventDetailsCard = (eventData: any) => {
                 <Grid size={6} container >
                     <CustomButton
                     fullWidth
-                    label="View Programmes" className="btn"
+                    label="View Programs" className="btn"
                     onClick={()=>viewProgramme(id)}
                     />
                  </Grid>
                  <Grid size={6} container>
                     <CustomButton
                     fullWidth
-                    label="Edit Event Details" className="btn2"
+                    label="Edit Event" className="btn2"
                     onClick={editDrawer}
                     />
 

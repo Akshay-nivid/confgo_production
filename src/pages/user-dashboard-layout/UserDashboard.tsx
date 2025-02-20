@@ -46,7 +46,6 @@ const UserDashboard: React.FC = React.memo(() => {
   const isMobileView = useIsMobileScreen()
   const userId = sessionStorage.getItem('userId');
   const firstCheckedIn = userCompletedEvents.data?.find((event: { checkedIn: any; }) => event.checkedIn) || null;
- 
   /**
   * Useeffect hook handles the api call 
   */
@@ -229,10 +228,10 @@ const UserDashboard: React.FC = React.memo(() => {
           }
           <Grid size={{ xs: 12 }} className="dashboard-left-profile-card">
           {isLoading ? <CircularProgress /> :
-           userCompletedEvents && Array.isArray(userCompletedEvents?.data) && userCompletedEvents?.data.length ? (
+           userCompletedEvents && Array.isArray(userCompletedEvents?.data) && userCompletedEvents?.data.length && userCompletedEvents.data.some((event: any) => event?.checkedIn) ? (
 
             isMobileView ? (
-              <EventCard Eventstatus={true} datetitle={userCompletedEvents?.data[0]?.startTime} eventFullData={userCompletedEvents?.data[0]} squareButtonLabels={[]} title={userCompletedEvents?.data[0]?.name} location={`${userCompletedEvents?.data[0]?.venue?.address}, ${userCompletedEvents?.data[0]?.venue?.city}`} />
+              <EventCard Eventstatus={true} datetitle={firstCheckedIn?.participant?.event?.startTime} eventFullData={firstCheckedIn?.participant?.event} squareButtonLabels={[]} title={firstCheckedIn?.participant?.event?.name} location={`${firstCheckedIn?.participant?.event?.venue?.address}, ${firstCheckedIn?.participant?.event?.venue?.city}`} />
             ) : (
         
               <DashboardEventCards event={firstCheckedIn?.participant?.event} />

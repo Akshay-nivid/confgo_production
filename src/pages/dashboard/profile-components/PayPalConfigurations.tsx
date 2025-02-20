@@ -15,7 +15,6 @@ const PayPalConfiguration = () => {
     [])
     const payPalData = useStore((state: any) => state?.compData?.["paypal-clientId"]?.['paypalConfig']?.data ?? "");
     const [editField,setEditField]=useState(payPalData?true:false);
-
     const methods = useForm<any>()
     const {
         handleSubmit,
@@ -56,6 +55,7 @@ const PayPalConfiguration = () => {
                 severity: "success",
                 message: "PayPal Configurations Updated Successfully",
             });
+            setDataById("showPaypalConfigAlert",{data:true});
             setEditField(true); 
             getPayPalId();
         };
@@ -86,8 +86,8 @@ const PayPalConfiguration = () => {
         }
     };
 
-    return <Grid container size={12} flexDirection={"row"} alignItems={"center"} justifyContent={"space-between"}>
-        <Grid size={{ xs: 11, sm: 11 }}>
+    return <Grid container size={12} flexDirection={"row"} alignItems={"center"} justifyContent={"space-between"} spacing={2}>
+        <Grid size={{ xs: 10, sm: 11 }}>
             <CustomTextField
                 label="PayPal Client Id"
                 control={control}
@@ -102,7 +102,7 @@ const PayPalConfiguration = () => {
                 shrink
             />
         </Grid>
-        <Grid>
+        <Grid size={{xs:2,sm:1}}>
             <CustomButton onClick={handleSubmit(handleFormSubmit)}   className="payment-configuration-button-save"  label={payPalData?"Update":"Add" }/>
         </Grid>
 

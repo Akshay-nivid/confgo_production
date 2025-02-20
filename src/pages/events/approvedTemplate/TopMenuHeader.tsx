@@ -108,7 +108,9 @@ const TopMenuHeader: React.FC<TopMenuHeaderProps> = React.memo(({ links, data, c
                     <Grid className={`${classPrefix}-logo`}>{(data?.assetId || slugInfo?.assetId) ? <img
                         className={`${classPrefix}-logo-img`}
                         src={`${baseUrl}asset/${data?.assetId ?? slugInfo?.assetId ?? ''}`}
-                    /> : <Grid></Grid>}</Grid>
+                    /> : <Grid>
+                            
+                    </Grid>}</Grid>
                     <Grid container spacing={4} className={`${classPrefix}-sub-container`}>
                         {links.map((link, index) => (
                             <Grid key={index} className={`${classPrefix}-sub-container-item`}><Link key={`${index}-link`} to={'#'} onClick={() => handleLinkClick(link?.text)}> {link?.text} </Link></Grid>

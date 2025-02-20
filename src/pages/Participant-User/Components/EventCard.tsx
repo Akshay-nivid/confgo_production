@@ -34,8 +34,7 @@ interface EventProps {
  * user Dashboard eventCard component
  */
 const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetitle, title, location, viewButton, buttonPress }) => {
-    const attendeeStatus = eventFullData?.participants[0]?.eventParticipants[0]?.event?.attendees??[];
-    
+    const attendeeStatus = eventFullData?.statusId;
     const navigate = useNavigate();
 
     /**
@@ -82,11 +81,11 @@ const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetit
                 <Grid display={"block"}>
                     <CustomTooltip title={title}>
                         <Typography className="event-card-title" >
-                            {truncateString(toTitleCase(title), 20, "Untitled")}
+                            {truncateString(toTitleCase(title), 18, "Untitled")}
                         </Typography>
                     </CustomTooltip>
                     <Grid display={"flex"} alignItems={"center"} columnGap={1}>
-                        <EventTypeText status={eventFullData.eventClass} className='eventClassType' />
+                        <EventTypeText status={eventFullData?.eventClass} className='eventClassType' />
                         <Grid className="vertical-divider" />
                             {isEndDatePast ? ( <StatusComponent value="11" />) : isStartDatePast ? (
                                 attendeeStatus?.length === 0 ? (<StatusComponent value="7" />
@@ -117,9 +116,19 @@ const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetit
                 </Grid>
                 <Grid className="left-container"  size={6}>
                     <Typography textAlign={"start"} className='title'>
-                    {eventFullData.eventClass!="ONLINE"?  "LOCATION":"URL"}
+                    {eventFullData?.eventClass!="ONLINE"?  "LOCATION":"URL"}
                     </Typography>
-                    <Typography className='title-value'>{eventFullData.eventClass!="ONLINE"? truncateString(location, 12, "Location not specified"): truncateString(eventFullData?.url, 12, "URL not specified")}</Typography>
+                    {eventFullData?.eventClass !== "ONLINE" ? (
+                     <CustomTooltip title={location || "Location not specified"}>
+                    <Typography className="title-value">
+                {truncateString(location, 12, "Location not specified")}
+                  </Typography>
+                             </CustomTooltip> ) : (
+                      <Typography className="title-value">
+                        {truncateString(eventFullData?.url, 12, "URL not specified")}
+                      </Typography>)}
+
+                
                 </Grid>
             </Grid>
             {/* {Eventstatus &&

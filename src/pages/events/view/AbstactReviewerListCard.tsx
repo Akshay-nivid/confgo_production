@@ -153,7 +153,7 @@ useEffect(()=>{
 
       
       <CustomDrawer open={CreateUserDrawer} type="right">
-        <CreateNewUsers NoNavigation={true} defaultValue={1}/>
+        <CreateNewUsers NoNavigation={true} defaultValue={6}/>
       </CustomDrawer>
     </Grid>
   );

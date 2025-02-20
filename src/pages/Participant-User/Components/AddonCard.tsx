@@ -33,64 +33,99 @@ const AddonCard = ({ templateId, addon, date }: IProgramcardProps) => {
 
   const { control, watch } = methods
 
+
   return (
     <Grid size={{ xs: 12, sm: 6, md: 4 }} className={clsx(`addon-card-${templateId}`, watch(`${formatDate(date)}-programs`)?.includes(addon?.id) ? '' : '')} >
 
       {/* <Box className="border border-orange-200 px-2 font-medium rounded-md ml-auto w-max bg-orange-100">
         <Typography fontWeight={500}>Add-on</Typography>
       </Box> */}
-      <Badge text="Add-on" type="addon" />
-      <Box display={'flex'} flexDirection={'column'}>
-        <Typography  className='addon-name'>  {truncateString(addon?.addon?.name, 23)}</Typography>
-        <Typography className="addon-description"> {truncateString(addon?.description, 23)}</Typography>
+      <Box className={"badge-container"}>
+      <Badge text="Add-on" type="addon"  />
 
-        <Box className="date-time-container">
-          <CalendarMonthOutlinedIcon />
-          <LocalTimeDate utcDateTime={addon?.startTime} format="MMMM D" timezone="auto" fallbackText="Not Available" />
+      </Box>
+      <Box display={'flex'} flexDirection={'column'} className="addon-container">
+      <Box className="addon-header">
+
+        <Typography className='addon-name'>  {truncateString(addon?.addon?.name, 23)}</Typography>
+        <Typography className="addon-description"> {truncateString(addon?.description, 23)}</Typography>
+        </Box>
+        <Box display={"flex"} alignItems={"center"} className="addon-date-container">
+          <CalendarMonthOutlinedIcon className='icon' />
+          {addon?.startTime ? <LocalTimeDate utcDateTime={addon?.startTime} format="MMMM D" timezone="auto" fallbackText="Not Available" /> : "NA"}
           <Typography>-</Typography>
-          <LocalTimeDate utcDateTime={addon?.endTime} format="MMMM D" timezone="auto" fallbackText="Not Available" />
+          {addon?.endtime ? <LocalTimeDate utcDateTime={addon?.endTime} format="MMMM D" timezone="auto" fallbackText="Not Available" /> : 'NA'}
         </Box>
 
-        <Box  className="time-container">
-          <TimerOutlinedIcon />
-          <Typography className='addon-time'>
+        <Box display={"flex"} alignItems={"center"} className="addon-time-container">
+          <TimerOutlinedIcon className='icon' />
+          {addon?.startTime ? <Typography className='addon-time'>
             {moment(addon?.startTime).format("h:mm A") + ' ' + '-' + ' ' + moment(addon?.endTime).format("h:mm A")}
-          </Typography>
+          </Typography> : 'NA'}
         </Box>
 
       </Box>
 
       <Box className="divider"></Box>
-      {(addon?.eventAddonProperties && addon?.eventAddonProperties?.length > 0) ? (
-        <Grid size={12}  className="addon-property-list-container" container columnSpacing={2}>
+      <Box className="addon-footer">
 
-          {addon.eventAddonProperties.map((property: any) => (
-            <Grid size={12} display={'flex'} alignItems={'center'} className={`addon-property-checkbox-group-${templateId}`}>
-              < CustomCheckbox
-                className="addon-prop-checkbox"
-                key={`${property?.id}-${property?.name}-${addon?.addonId}`}
-                // disabled={watch(currentAddon) === undefined || watch(currentAddon).length === 0}
-                row={true}
-                control={control}
-                required={false}
-                name={`${formatDate(date)}-addonProp-${addon?.id}`}
-                options={[
-                  { label: '', value: property?.id },
-                ]}
-              />
-              <Box className="flex items-center w-full">
-                <Typography className="addon-prop-label">{property?.name}</Typography>
-                <Typography>-</Typography>
-                <Box className="flex items-center">
-                  <Dollar className='addon-prop-money-icon' />
-                  <Typography className="addon-prop-amount">{Math.trunc(Number(property?.amount)) === 0 ? "Free" : `${property?.amount}`}</Typography>
+        {(addon?.eventAddonProperties && addon?.eventAddonProperties?.length > 0) ? (
+          <Grid size={12} className="addon-property-list-container" container columnSpacing={2}>
+
+            {addon?.eventAddonProperties?.length > 0 && addon.eventAddonProperties.map((property: any) => (
+              <Grid size={12} display={'flex'} alignItems={'center'} className={`addon-property-checkbox-group-${templateId}`}>
+                < CustomCheckbox
+                  className="addon-prop-checkbox"
+                  key={`${property?.id}-${property?.name}-${addon?.addonId}`}
+                  // disabled={watch(currentAddon) === undefined || watch(currentAddon).length === 0}
+                  row={true}
+                  control={control}
+                  required={false}
+                  name={`${formatDate(date)}-addonProp-${addon?.id}`}
+                  options={[
+                    { label: '', value: property?.id },
+                  ]}
+                />
+                <Box className="flex items-center w-full">
+                  <Typography className="addon-prop-label">{property?.name}</Typography>
+                  <Typography>-</Typography>
+                  <Box className="flex items-center justify-between ml-auto">
+                    <Dollar className='addon-prop-money-icon -mt-1' />
+                    <Typography className="addon-prop-amount">{Math.trunc(Number(property?.amount)) === 0 ? "Free" : `${property?.amount}`}</Typography>
+                  </Box>
+
                 </Box>
+              </Grid>
+            ))}
+          </Grid>
+        ) :
 
+          <Grid size={12} display={'flex'} alignItems={'center'} className={`addon-property-checkbox-group-${templateId}`}>
+            < CustomCheckbox
+              className="addon-prop-checkbox"
+              key={addon.id}
+              // disabled={watch(currentAddon) === undefined || watch(currentAddon).length === 0}
+              row={true}
+              control={control}
+              required={false}
+              name={`addons-${addon?.id}`}
+              options={[
+                { label: '', value: addon?.id },
+              ]}
+            />
+            <Box className="flex items-center w-full">
+              <Typography className="addon-prop-label">{addon?.addon?.name}</Typography>
+              <Typography>-</Typography>
+              <Box className="flex items-center justify-between ml-auto ">
+                <Dollar className='addon-prop-money-icon -mt-1' />
+                <Typography className="addon-prop-amount">{Math.trunc(Number(addon?.amount)) === 0 ? "Free" : `${addon?.amount}`}</Typography>
               </Box>
-            </Grid>
-          ))}
-        </Grid>
-      ) : <></>}
+
+            </Box>
+          </Grid>
+        }
+      </Box>
+
       {/* <Box className="absolute left-5 right-5 bottom-4">
         <Box className={`addon-checkbox-group-${templateId}`}>
           <CustomCheckbox

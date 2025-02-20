@@ -1981,7 +1981,8 @@
     height: 3.125rem !important;
     text-align: left;
     display: block;
-    font-size: $p1 !important;
+    font-size: $p3 !important;
+    text-transform: none !important;
     &-create{
          margin-top: 0.5rem !important;
         color: $clr_blue !important;
@@ -2632,6 +2633,7 @@
         border: 0.083rem solid $clr_gray_very_light;
         border-radius: 0.833rem;
         padding: 2rem;
+        cursor: pointer;
     }
     &-title{
         margin-top: 1rem;

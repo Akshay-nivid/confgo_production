@@ -426,43 +426,41 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
       const programs = watch("programs");
       const lastItem = programs[programs?.length - 1];
 
-      const eventStartDate = new Date(eventData?.startTime).getTime();
-      const eventEndDate = new Date(eventData?.endTime).getTime();
-      const programStartDate = moment(`${lastItem?.startDate} ${lastItem?.startTime}`, "YYYY-MM-DD HH:mm");
-    
+      const eventStartDate = moment(eventData?.startTime).utc().valueOf();  // Ensure event start time is in UTC
+const eventEndDate = moment(eventData?.endTime).utc().valueOf();      // Ensure event end time is in UTC
 
-      const programEndDate = moment(`${lastItem?.endDate} ${lastItem?.endTime}`, "YYYY-MM-DD HH:mm");
-      const programUtcStartDate = programStartDate.utc().valueOf();
-      const programUtcEndDate = programEndDate.utc().valueOf();
+const programStartDate = moment(`${lastItem?.startDate} ${lastItem?.startTime}`, "YYYY-MM-DD HH:mm").utc();  // Convert to UTC
+const programEndDate = moment(`${lastItem?.endDate} ${lastItem?.endTime}`, "YYYY-MM-DD HH:mm").utc();      // Convert to UTC
 
+const programUtcStartDate = programStartDate.valueOf();  // Convert to milliseconds (UTC)
+const programUtcEndDate = programEndDate.valueOf();      // Convert to milliseconds (UTC)
 
-      // check for find if the program date is after event start date
-      if (programUtcStartDate < eventStartDate) { 
-        setError(`programs.${programIndex}.startTime`, {
-          type: 'manual',
-          message: 'Start time cannot be in the past',
-        });
-        return;
-      }
+// Check if the program start date is after the event start date
+if (programUtcStartDate < eventStartDate) {
+  setError(`programs.${programIndex}.startTime`, {
+    type: 'manual',
+    message: 'Start time cannot be in the past',
+  });
+  return;
+}
 
-      // check for find if the program start date dont exceed program end date 
-      if (programUtcStartDate > programUtcEndDate) {
-        setError(`programs.${programIndex}.startDate`, {
-          type: 'manual',
-          message: 'Start date cannot be greater than end date',
-        });
-        return;
-      }
+// Check if the program start date is greater than the program end date
+if (programUtcStartDate > programUtcEndDate) {
+  setError(`programs.${programIndex}.startDate`, {
+    type: 'manual',
+    message: 'Start date cannot be greater than end date',
+  });
+  return;
+}
 
-      // check for find if the program end date dont exceed event end date
-
-      if(programUtcEndDate > eventEndDate) {
-        setError(`programs.${programIndex}.endDate`, {
-          type: 'manual',
-          message: 'End date cannot be greater than event end date',
-        });
-        return
-      }
+// Check if the program end date is greater than the event end date
+if (programUtcEndDate > eventEndDate) {
+  setError(`programs.${programIndex}.endDate`, {
+    type: 'manual',
+    message: 'End date cannot be greater than event end date',
+  });
+  return;
+}
 
 
 

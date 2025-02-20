@@ -47,12 +47,12 @@ const LoginOrg = () => {
   };
   const setDataById = useStore((state: any) => state.setDataById);
 
-  const isLoading = useStore(state => state.compData?.orgLogin?.['auth/login']?.loading) || false
 
-  const { handleSubmit, control } = useForm<FormData>();
+  const { handleSubmit, control, formState: { isSubmitting }, } = useForm<FormData>();
   const navigate = useNavigate();
 
   const isMobileScreen = useIsMobileScreen()
+
 
   /**
    * function used to handle form submission
@@ -183,7 +183,7 @@ const LoginOrg = () => {
                     variant="contained"
                     className="w-full custom-button"
                     style={{ textTransform: "none" }}
-                    disabled={isLoading}
+                    disabled={isSubmitting}
                   >
                     Log In
                   </Button>

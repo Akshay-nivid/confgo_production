@@ -74,18 +74,18 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
   ];
 
   const statusArray = [
-    { label: "Completed", value: "COMPLETED" },
-    { label: "Ongoing", value: "ONGOING" },
+    { label: "Pending", value: "ACTIVE" },
     { label: "Published", value: "PUBLISHED" },
-    { label: "Pending", value: "PENDING" },
+    { label: "Draft", value: "DRAFTED" },
+    { label: "Expired", value: "EXPIRED" },
   ];
 
   const filterFields: any = [
     {
       type: 'date',
       fieldName: 'startTime',
-      label: 'Today',
-      heading: 'Filter with Request Date'
+      label: 'Date',
+      heading: 'Filter with Start Date'
     },
     {
       type: 'tiles',
@@ -96,7 +96,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
     },
     {
       type: 'tiles',
-      fieldName: 'statusId',
+      fieldName: 'statusName',
       label: 'Status',
       heading: 'Filter with Status',
       options: statusArray
@@ -144,6 +144,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
       let req: any = {
         filters: {
           name: query,
+          limit: 10
         },
       };
       const response = await await apiClient.post(`event/list`, req);
@@ -197,8 +198,19 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
      }));
    };
 
-
-
+   /**
+    * Method handles the filter transformer
+    * @param filters : filters request data
+    * @returns : transformed filter request
+    */
+  const handleFilterTransformer = (filters: any) => {
+    for (let key in filters) {
+      if (key === 'endTime' && !filters[key]) {
+        filters[key] = filters['startTime'];
+      }
+    }
+    return filters
+  }
 
 
   return (
@@ -234,8 +246,8 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
                 }}
               // disabled={loading}
               />
-              <Grid size={{ }}>
-              <Filter datagridId='event-datagrid' fields={filterFields} />
+              <Grid >
+              <Filter datagridId='event-datagrid' fields={filterFields} filterTransformer={handleFilterTransformer}/>
 
               </Grid>
             </Grid>

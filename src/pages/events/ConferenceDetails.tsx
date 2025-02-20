@@ -199,7 +199,7 @@ const ConferenceDetails: React.FC<ConferenceDetailsProps> = React.memo(({ data,a
 					.map((date: string,index) => (
 						<Grid container size={{xs:12}}  key={date}  className="scheduled-programs-section" display={"flex"} direction={"row"}>
 							<Grid container mb={2} mt={2}>
-								<Grid className="custom-stepper-conference-details-content-scheduled-date">Programme & Add-ons | {date && moment(date).format("MMMM D yyyy")} | Day {index+1} </Grid>
+								<Grid className="custom-stepper-conference-details-content-scheduled-date">Programs & Add-ons | {date && moment(date).format("MMMM D yyyy")} | Day {index+1} </Grid>
 							</Grid>
 							<Grid container spacing={3} size={{xs:12}} alignItems={'center'}>
 								{scheduledData[date]?.map((item: any, index: number) => (

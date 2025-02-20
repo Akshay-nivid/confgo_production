@@ -57,6 +57,26 @@ const SessionCard: React.FC<SessionCardProps> = ({
 
   // const modalState= useStore((state:any)=>state.compData?.['programModal']) ??[];
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+
+  /**
+   * Method checks if the date is valid or not
+   * @param date 
+   * @returns 
+   */
+  const isValidDate = (date: any) => {
+    return moment(date, moment.ISO_8601, true).isValid();
+  };
+
+  /**
+   * Method to convert date and time to datetime
+   * @param dateString
+   * @param timeString 
+   * @returns 
+   */
+  const convertToDateTime = (dateString: any, timeString: any) => {
+    return new Date(`${dateString}T${timeString}:00`);
+};
+
   /**
    * function to access nested properties in an object.
    * @param obj - Object to search.
@@ -364,8 +384,8 @@ const SessionCard: React.FC<SessionCardProps> = ({
                   {item[startTimeField] && item[endTimeField] ? (
                     <>
                       {formatedTimeRangeProgram(
-                        item[startTimeField],
-                        item[endTimeField]
+                        isValidDate(item[startTimeField])? item[startTimeField]: convertToDateTime(item['startDate'], item['startTime']),
+                        isValidDate(item[endTimeField])? item[endTimeField]: convertToDateTime(item['endDate'], item['endTime'])
                       )}
                     </>
                   ) : (
