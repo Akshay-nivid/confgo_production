@@ -442,7 +442,7 @@ const Sponsors = () => {
             <CustomDrawer className='sponsor-drawer' open={isModalOpen} type='right'>
                 <Box className="sponsor-drawer-content">
                     <Box className="header-container">
-                        <Typography className="header-container-label">Create new sponsor</Typography>
+                        <Typography className="header-container-label"> {sponsorDrawerType === "edit" ? "Edit Sponsor" : "Create new sponsor"}</Typography>
                         <IconButton onClick={handleCloseModal}>
                             <CloseIcon className='header-container-close' />
                         </IconButton>

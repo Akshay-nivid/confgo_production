@@ -202,7 +202,7 @@ const UserDashboard: React.FC = React.memo(() => {
     <Grid size={isMobileView ?{xs:6}: {xs:12, sm:6, md: 4}}>
       <DashboardCardItem
         onClick={() => navigate("/user/my-event")}
-        count={eventAndUserCount?.data?.pastEventCount ?? 0}
+        count={eventAndUserCount?.data?.attendedSessions ?? 0}
         icon={DownloadEventIcon}
         title="Sessions Participated"
         className={isMobileView? "dashboard-left-profile-dashboard-session":""}
