@@ -402,6 +402,9 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
     const hasModerator = (subItem: any): boolean => {
         return subItem?.some((speaker: any) => speaker?.speakerBios?.[0]?.isModerator) ?? false;
     };
+
+    console.log(combinedAndSortedItems,'mmm')
+
     return (
         <Grid  container size={{ xs: 12, sm: 12 }} className={`${classPrefix}-bg`}  >
             <Grid container size={{ xs: 12, sm: 12 }} className={classPrefix}>

@@ -13,6 +13,7 @@ const TEventTimer = ({ className }: {
   const event: IEventResponse = useStore(state => state.compData?.['event']?.data);
   const target = useMemo(() => new Date(event?.startTime).getTime(), [event?.startTime]);
 
+
   const calculateTimeLeft = () => {
     const difference = target - Date.now();
 

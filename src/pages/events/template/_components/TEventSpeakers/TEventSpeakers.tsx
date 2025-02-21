@@ -16,9 +16,12 @@ import { getLocalTimeDate } from '@/Utils/CommonBaseClass';
 import { date } from 'zod';
 
 interface TEventSpeakersProps {
-    ItemWrapper: ElementType;
+    ItemWrapper?: ElementType;
+    usageType?: "DEFAULT" | "CUSTOM",
+    children?: (props:{data:IEventSpeaker[],handleModalOpen:(speaker: IEventSpeaker)=>void}) => React.ReactNode;
+    
 }
-const TEventSpeakers = ({ ItemWrapper }: TEventSpeakersProps) => {
+const TEventSpeakers = ({ ItemWrapper=<></>,usageType,children }: TEventSpeakersProps) => {
 
     const event: IEventResponse = useStore(state => state.compData?.['event']?.data) || {}
 
@@ -77,6 +80,13 @@ const TEventSpeakers = ({ ItemWrapper }: TEventSpeakersProps) => {
 
 
 
+    if (usageType === "CUSTOM") {
+        const speakers = getUniqueSpeakers(event?.eventSpeakers);
+        if(!children) return <></>
+        return children({ data: speakers,handleModalOpen });
+    }
+    
+
 
 
     return (
@@ -86,13 +96,15 @@ const TEventSpeakers = ({ ItemWrapper }: TEventSpeakersProps) => {
                     {
                         getUniqueSpeakers(event?.eventSpeakers)?.map((speaker: IEventSpeaker, index: number) => {
                             return (
-                                <ItemWrapper key={index}>
-                                    {speaker?.user?.assetId ? <img className='speaker-image object-contain' src={'https://img.freepik.com/free-psd/cute-3d-character-wearing-orange-jacket-hat-holds-canon-camera-perfect-image-travel-photography-blogs-websites_632498-32172.jpg?semt=ais_hybrid'} alt='program speaker image' />
+                                <ItemWrapper  key={index}>
+                                    <Box className="speaker-image-wrapper w-full bg-black">
+                                    {speaker?.user?.assetId ? <img  className='speaker-img ' src={speaker?.user?.assetId ? `${config.api.url}asset/${speaker?.user?.assetId}` : ""} alt='program speaker image' />
                                         :
                                         <img alt={'speaker-image'} src={personPlaceholder} className={`  aspect-square max-h-[18.2rem]`} />
 
-                                    }
-                                    <Box className='speaker-section-details'>
+                                        }
+                                    </Box>
+                                    <Box className='speaker-section-details mt-10'>
                                         <p className='speaker-name'>{speaker?.user?.firstName} {speaker?.user?.lastName}</p>
                                         <p className='speaker-designation'>{speaker?.user?.designation}</p>
                                     </Box>
@@ -114,7 +126,7 @@ const TEventSpeakers = ({ ItemWrapper }: TEventSpeakersProps) => {
 export default TEventSpeakers
 
 
-const EventSpeakerModal = () => {
+export const EventSpeakerModal = () => {
 
     function handleCloseModal() {
         setNonPersistedDataById('isSpeakerDetailsModelOpen', { value: false })

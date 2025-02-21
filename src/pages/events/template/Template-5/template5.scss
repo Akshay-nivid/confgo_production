@@ -2,12 +2,99 @@
     max-width: 1480px;
     padding-inline: 5rem;
     margin-inline: auto;
+
+    @media (max-width: 900px) {
+
+        padding-inline: 2rem;
+
+    }
+}
+
+
+$blue : #027BFF;
+$foreground: hsla(211, 100%, 95%, 1);
+$gradient-start: #3A5AFE;
+$gradient-end: #2137A7;
+
+.t5-drawer {
+    background-color: $foreground ;
+
+    .header-container {
+        background-color: $foreground ;
+        // border-bottom: 0.15rem solid $clr_gray_40_percent;
+    }
+
+    .drawer-links {
+        display: flex;
+        flex-direction: column;
+        padding-inline: 1rem;
+        padding-block: 2rem;
+        row-gap: 3rem;
+        font-size: $h6;
+        font-weight: $font_semibold;
+        // position: relative;
+
+        .sponsor-button-container {
+            bottom: 1rem;
+
+            .sponsor-button {
+                font-size: $h6;
+            
+            }
+
+
+        }
+
+        .t5-drawer-login {
+            background-color: $gradient-end;
+            color: $clr_white;
+            font-size: $h6;
+            margin-top: auto;
+        }
+
+        .t5-drawer-signup {
+            color: $clr_white;
+            border: 0.1rem solid $gradient-end;
+            color: $gradient-end;
+            font-size: $h6;
+
+        }
+    }
 }
 
 .template5 {
 
+
+
+
+
+    .header-container {
+        background-color: red;
+    }
+
     &::-webkit-scrollbar {
         display: none !important;
+    }
+
+    .burger-icon {
+        width: 4rem;
+        height: 3rem;
+        color: $gradient-end;
+
+        @media screen and (min-width: 900px) {
+            display: none;
+        }
+    }
+
+    .section-vertical-padding {
+        padding-block: 6rem;
+    }
+
+    .section-title-text {
+        font-size: $h1;
+        font-weight: $font_semibold;
+        margin-bottom: 2rem;
+        text-align: center;
     }
 
     .hero-main {
@@ -18,11 +105,19 @@
         background-position: start;
         background-repeat: no-repeat;
 
+        @media screen and (max-width: 900px) {
+            background-size: cover;
+
+        }
+
         .nav-container {
             display: flex;
             justify-content: space-between;
             padding-block: 2rem;
             margin-bottom: 5rem;
+
+
+
 
             .nav__links {
                 display: flex;
@@ -48,6 +143,10 @@
                     padding-block: .8rem;
                     border-radius: 2rem;
                 }
+
+                @media screen and (max-width: 900px) {
+                    display: none;
+                }
             }
 
         }
@@ -57,7 +156,13 @@
 
             display: flex;
             justify-content: end;
+
             padding-bottom: .5rem;
+
+            @media screen and (max-width: 600px) {
+                justify-content: start;
+
+            }
 
             &__card {
                 background-color: $clr_white;
@@ -209,7 +314,6 @@
         }
 
         &__timer {
-            column-gap: 6rem;
 
             .group {
                 display: flex;
@@ -221,14 +325,12 @@
             }
 
             .label {
-                font-size: $h6;
                 font-weight: $font_normal;
                 margin-bottom: -.3rem !important;
             }
 
             .value {
                 color: $clr_blue;
-                font-size: $h1;
                 font-weight: $font_extrabold;
                 line-height: 1ch;
             }
@@ -242,6 +344,20 @@
         background-color: $clr_gray_10_percent;
         border-radius: 1.667rem;
         padding-block: 2rem;
+
+        .speaker-image-wrapper {
+            width: 100%;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            border-radius: 1.667rem;
+
+            .speaker-img {
+
+                width: 100%;
+            }
+
+        }
+
 
         &__title {
             font-size: $h1;
@@ -258,9 +374,11 @@
             &__item {
 
 
+
                 .speaker-image {
-                    border-radius: 1.667rem;
                     margin-bottom: 1.4rem;
+                    // height: 100%;
+                    // width: 100%;
 
                 }
 
@@ -298,6 +416,224 @@
         }
     }
 
+
+    .location-section {
+        padding-block: 6rem;
+
+        &__title {
+            font-size: $h1;
+            font-weight: $font_semibold;
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+    }
+
+    .sponsor-section {
+        background: $clr_gray_10_percent;
+        border-radius: 1rem;
+
+        &__container {
+            display: flex;
+            flex-direction: column;
+            row-gap: 4rem;
+        }
+
+        .sponsor-banner-text {
+            margin-bottom: 2rem;
+            font-size: $h3;
+            font-weight: $font_bold;
+            color: $clr_gray_extra_dark
+        }
+    }
+
+
+
+    .price-tier-section {
+
+
+
+        .mbc {
+            margin-bottom: 2rem;
+        }
+
+
+
+        &__item {
+            padding-inline: 2rem;
+            padding-block: 2rem;
+            border-radius: 1rem;
+
+            &__title {
+                font-size: $h4;
+                font-weight: $font_semibold;
+            }
+
+            &__date {
+                font-size: $p6;
+            }
+
+            &__description {
+                font-size: $h6;
+                font-weight: $font_normal;
+            }
+
+            &__price {
+                font-size: $h5;
+                font-weight: $font_semibold;
+            }
+
+            &__name {
+                font-size: $h5;
+                font-weight: $font_medium;
+            }
+        }
+
+
+
+
+        .register-button-even {
+            background-color: $blue;
+            color: $clr_white;
+            border-radius: .5rem;
+            margin-top: 2rem;
+        }
+
+        .register-button-odd {
+            background-color: $clr_white;
+            color: $blue;
+            border-radius: .5rem;
+            margin-top: 2rem;
+        }
+    }
+
+
+
+    .even-item {
+        background-color: $foreground !important;
+
+    }
+
+    .odd-item {
+        background-color: $blue !important;
+        color: $clr_white !important;
+
+    }
+
+    .divider {
+        width: 100%;
+        height: 0.15rem;
+        margin-block: 2rem;
+    }
+
+    .even-divider {
+        background-color: $blue;
+
+    }
+
+    .odd-divider {
+        background-color: $clr_white;
+
+
+    }
+
+
+    .sponsor-form-section {
+        background: $clr_gray_10_percent;
+        padding-block: 2rem;
+        border-radius: 1rem;
+    }
+
+    .banner {
+
+        .banner-container {
+            background: linear-gradient(to right, $gradient-start, $gradient-end);
+            border-radius: 1.66rem;
+            padding-top: 5rem;
+            padding-inline: 4rem;
+            column-gap: 8rem;
+
+            @media (max-width: 600px) {
+                padding-top: 3rem !important;
+
+
+            }
+
+            @media (max-width: 900px) {
+                flex-direction: column-reverse;
+                padding-inline: 2rem;
+
+            }
+
+            .banner-img {
+                background: url('/src/assets/images/t5banner.png') no-repeat center;
+                background-size: contain;
+                min-height: 20rem;
+                background-repeat: no-repeat;
+                background-position: bottom;
+                width: 30rem;
+
+
+                @media (max-width: 900px) {
+                    width: 100%;
+                    max-width: 25rem;
+                    margin-inline: auto;
+
+
+                }
+            }
+
+            .banner-info-container {
+                flex: 1;
+            }
+
+            .banner-title {
+                margin-bottom: 3rem;
+                font-size: $h2;
+                font-weight: $font_semibold;
+                color: $clr_white;
+            }
+
+            .banner-subtitle {
+                font-size: $p3;
+                color: $clr_white;
+                margin-bottom: 1rem;
+            }
+
+            .banner-button-container {
+                display: flex;
+                column-gap: 1.05rem;
+                margin-bottom: 2rem;
+
+                .playstore-btn {
+                    width: 162px;
+                    height: 54px;
+                    border-radius: .66rem;
+                    // background: url('/src/assets/svg/t5playstorebtn.svg');   
+                    background-color: $clr_black;
+                    background-size: contain;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    border: 0.1rem solid $clr_white;
+                    cursor: pointer;
+                }
+
+                @media (max-width: 480px) {
+                    flex-direction: column;
+                    row-gap: 1rem;
+
+                    .playstore-btn {
+                        min-width: 100%;
+                    }
+                }
+
+                @media (max-width: 900px) {
+                    // flex-direction: column;
+                    // row-gap: 1rem;
+                }
+            }
+        }
+
+    }
 
 
 

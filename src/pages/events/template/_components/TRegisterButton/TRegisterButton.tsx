@@ -6,13 +6,13 @@ import { useNavigate } from 'react-router-dom';
 
 
 interface TRegisterButtonProps extends ButtonProps {
-    buttonUseCase?: "DEFAULT" | "TIER-CARD";
+    usageType?: "DEFAULT" | "TIER-CARD";
 
     userTypeId?: number;
 
 }
 
-const TRegisterButton = ({ userTypeId, buttonUseCase = "DEFAULT", children, ...props }: TRegisterButtonProps) => {
+const TRegisterButton = ({ userTypeId, usageType = "DEFAULT", children, ...props }: TRegisterButtonProps) => {
 
     const navigate = useNavigate();
 
@@ -46,7 +46,7 @@ const TRegisterButton = ({ userTypeId, buttonUseCase = "DEFAULT", children, ...p
 
 
 
-        if (buttonUseCase === 'DEFAULT' && isPriceTierPresent) {
+        if (usageType === 'DEFAULT' && isPriceTierPresent) {
 
             const targetElement = document.getElementById('tier');
 
