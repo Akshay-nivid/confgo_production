@@ -3,16 +3,14 @@
  * @author Nevin
  * used to reset the password for the user
  */
-import React from "react";
+import React, { useState } from "react";
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import "./accountsetting.scss";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import { useNavigate,useLocation } from "react-router-dom";
-import routes from "@/router/routes";
-import useStore, { setDataById } from "@/Libs/store";
-import { Logger } from "@/Utils/Logger";
-import { purposeTypes } from "@/Utils/CommonBaseClass";
+import { useLocation } from "react-router-dom";
+import ChangePassword from "../changePassword/ChangePassword";
+import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 
 export const userType = {
   PARTICIPANT: 'PARTICIPANT',
@@ -23,31 +21,10 @@ interface SecurityProps {
 }
 
 const Security:React.FC<SecurityProps> = React.memo(({ passEmail }) => {
-  const POST = useStore((state: any) => state.POST);
-
-  const navigate = useNavigate();
   const location = useLocation();
   const email = location.state?.email ? location.state?.email :passEmail;
   const isSsoUser = sessionStorage.getItem("ssoUser") === 'true';
-/**
- *  Initiates the password reset process by sending the user's email to the forgotPassword
- * @param email
-*/
-  const handlePasswordReset = async () => {
-    const body = { username: email, };
-    const successCB = (success: any) => {  
-        navigate(routes.userOtp(), { state: { email, purpose: purposeTypes.RESET_PASSWORD, token: success?.data?.token?.token, userId: success?.data?.token?.userId  } });          
-        setDataById("resendOtp",{token: success?.data?.token?.token}); 
-      };
-
-    POST({
-      url: 'user/forgotPassword', body: body,
-      id: 'forgotPassword',
-      successCB: successCB,
-      errorCB: (error: any) => Logger.error("error", error)
-    })
-    
-  };
+  const [showChangePswd,setShowChangePswd] = useState<boolean>(false)
 
   return (
     <Grid container className="security-container">
@@ -95,9 +72,20 @@ const Security:React.FC<SecurityProps> = React.memo(({ passEmail }) => {
               className="security-password-reset-btn"
               label="Reset Password"
               variant="contained"
-              onClick={handlePasswordReset}
+              onClick={() => {setShowChangePswd(true)}}
             />
           </Grid>
+          <CustomDrawer
+            open={showChangePswd}
+            type="right"
+            children={
+                <ChangePassword
+                  closeDrawer={() => { setShowChangePswd(false) }}
+                  successCB={() => { setShowChangePswd(false) }} 
+                  className="change-pswd-blue-btn"
+                />
+            }
+          />
         </Grid>
       </Grid>}
     </Grid>
