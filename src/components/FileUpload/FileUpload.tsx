@@ -174,6 +174,8 @@ const FileUpload: React.FC<FileUploadProps> = ({
     setIsUploading(true);
     const formData = new FormData();
     selectedFiles.forEach(file => formData.append('file', file));
+    formData.append('maxSize', maxSize.toString());
+    formData.append('acceptedTypes', acceptedFiles.join(','));
 
     await POST({
       url: 'asset',
