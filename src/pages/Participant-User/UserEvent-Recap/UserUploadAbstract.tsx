@@ -22,6 +22,8 @@ const UserUploadAbstract = ({ eventData }: any) => {
     const [uploadFiles, setUploadFiles] = useState<any>();
     const uploadedAbstractData = useStore((state: any) => state?.compData?.['fetchUserAbstract']?.['userAbstract/list']?.data) ?? [];
     const [disabled, setDisabled] = useState(false);
+    const today = moment(new Date()).format('YYYY-MM-DD');
+    const AbstarctDateEnd = eventData?.abstractDate < today ? true : false;
 
   const baseUrl = config.api.url;
 
@@ -210,14 +212,19 @@ const UserUploadAbstract = ({ eventData }: any) => {
                         {disabled ? (
                             <></>
                         ) : (
+                            <>
                             <FileUpload
                                 acceptedFiles={['application/pdf']}
                                 trimClientSide={false}
                                 resolution={{ width: 200 }}
                                 onSubmit={handleImageUpload}
-                                disabled={disabled}
+                                disabled={AbstarctDateEnd ? AbstarctDateEnd : disabled}
                                 maxSize={10}
+                                NoRecommended={true}
+                                isAbstract={true}
                             />
+                            { AbstarctDateEnd && <Typography className='upload-abstract-disable-error'>The abstract submission deadline has passed</Typography>}
+                            </>
                         )}
                     </Box>
 

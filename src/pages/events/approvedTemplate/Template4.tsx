@@ -761,9 +761,15 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                                                    {isOverbookedRed ? <RedSeat fontSize={18}  /> : <YellowSeat fontSize={18} />}
                                                                   </Grid>
                                                                   <Grid>
-                                                                <Typography variant="body1" className={isOverbookedRed ? "program-seat-alert-red" : "program-seat-alert-yellow"}>
-                                                                  {seatAllocated} / {totalSeat} Hurry up! Only {remainingSeat} left! Secure your spot now!
-                                                                </Typography>
+                                                              {remainingSeat === 0 ? (
+                                                              <Typography variant="body1" className="program-seat-alert-red">
+                                                              {seatAllocated} / {totalSeat} Unfortunately, all seats have been booked.
+                                                              </Typography>
+                                                              ) : (
+                                                              <Typography variant="body1" className={isOverbookedRed ? "program-seat-alert-red" : "program-seat-alert-yellow"}>
+                                                              {seatAllocated} / {totalSeat} Hurry up! Only {remainingSeat} left! Secure your spot now!
+                                                              </Typography>
+                                                                     )}
                                                                   </Grid>
                                                                 </Grid>
                                                                 </Grid>

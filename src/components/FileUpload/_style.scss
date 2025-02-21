@@ -138,22 +138,23 @@
  width: 100%;
  padding: 1rem;
 
+ &-Logo{
+    height: 3.35rem !important;
+    width: 3.35rem !important;
+ }
+
  &-dropzone {
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 0.25rem dashed $clr_gray_very_light;
+  border:  0.167rem dashed $clr_cyan_lime_green;
   border-radius: 0.5rem;
   padding: 4rem 2rem;
   width: 100%;
-  background-color: $background;
+  background-color:$clr_pale_lime_green ;
   transition: border-color 0.3s ease;
-
-  &:hover {
-   border-color: $input_label;
-  }
 
   // Display text for drag & drop or click
   & .MuiTypography-root {
@@ -261,10 +262,10 @@
     &-sub-title{
         font-size: $p2 !important;
         font-weight: $font_medium !important;
-        color: $clr_black !important;
+        color: $clr_neutral_gray !important;
     }
     &-dropzone {
-        background-color: $clr_white !important;
+        border: 0.167rem dashed $clr_cyan_lime_green;
     }
  }
 }

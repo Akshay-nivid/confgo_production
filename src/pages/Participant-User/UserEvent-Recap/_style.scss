@@ -278,6 +278,11 @@
         }
 
     }
+    &-disable-error{
+        color: $clr_red_danger;
+        margin-left: 1rem !important;
+        font-size: $p2 !important;
+    }
 
 
     .right-grid{
