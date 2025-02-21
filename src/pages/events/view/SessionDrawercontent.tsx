@@ -92,6 +92,7 @@ interface SessionDrawerContentProps {
     eventStartTime:any;
     eventData:any
     submitHandler:()=>void;
+    submitDisable: boolean;
   }
   
   const SessionDrawerContent: React.FC<SessionDrawerContentProps> = ({
@@ -103,7 +104,8 @@ interface SessionDrawerContentProps {
     closeDrawer,
     isAddon, // Destructuring the isAddon prop
     eventData,
-    submitHandler
+    submitHandler,
+    submitDisable,
   }) => {
     const {
       control,
@@ -148,7 +150,6 @@ interface SessionDrawerContentProps {
     const [hallModal,setHallModal]=useState(false);
     const [newHall, setNewHall] = useState<string[]>([]);
     const [hallOption,  setHallOption] = useState<any>([]);
-    
     const {append } = useFieldArray({
       control,
       name: "speakers",
@@ -1209,7 +1210,7 @@ useEffect(() => {
             <Grid container justifyContent="right">
               <CustomButton
                 label="Submit"
-                onClick={handleSubmit(handleSubmitRequest)}
+                onClick={!submitDisable ? handleSubmit(handleSubmitRequest) : undefined}
                 className="event-sessions-edit-button"
               />
             </Grid>

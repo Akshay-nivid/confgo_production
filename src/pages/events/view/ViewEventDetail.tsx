@@ -110,7 +110,7 @@ const ViewEventDetail = () => {
   const location = useLocation(); // Get the current location (URL) to detect changes
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const fullEventList = useStore((state: any) => state?.compData?.["fullEventList"]?.['event/list'].data) ?? [];
-
+  const [publishLoading, setPublishLoading] = useState<boolean>(false);
 
   /**
    *  Functions to open and close the drawer. 
@@ -267,6 +267,8 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
    * Mehod handles the publish/unpublish of the event
    */
   const handlePublish = async (published: boolean | undefined) => {
+    try{
+      setPublishLoading(true)
     !published && await updateSlug()
     const req = {
       eventId: id,
@@ -284,8 +286,12 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
     else {
       setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: message });
     }
+  } catch(error){
+      Logger.error("Error publishing event:", error)
+  } finally{
+    setPublishLoading(false)
   }
-
+  }
   /**
    * Method handles the on blur event for the event link field
    * @param event : event parameter
@@ -516,7 +522,7 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
       cancelAction={() => setOpenModal(false)}
       header="Ready to Publish"
       subHeader="Are you sure you want to publish this event? Once published, it will be visible to attendees."
-      submitAction={() => handlePublish(eventFullData?.published)}
+      submitAction={() => !publishLoading ? handlePublish(eventFullData?.published) : undefined}
       submitLabel="Publish"
       modalClassName="publish-modal"
     />}
