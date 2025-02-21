@@ -375,7 +375,12 @@ const abstarctValue = useStore((state: any) => state?.compData?.["tabValue"]?.va
               </Grid>
               <Grid>
                 {eventFullData?.statusId &&
-                  <Grid sx={{ml:2}}><StatusComponent value={eventFullData?.statusId ==1 && eventFullData?.published ? "6" : eventFullData?.statusId.toString()} /></Grid>}
+                  <Grid sx={{ ml: 2 }}><StatusComponent value={eventFullData?.statusId === 7
+                    ? "11"
+                    : eventFullData?.published === true && eventFullData?.statusId === 1
+                      ? "6"
+                      : eventFullData?.statusId.toString()} />
+                  </Grid>}
               </Grid>
             </Grid>)}
             <Grid container spacing={2}>
