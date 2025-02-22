@@ -5,10 +5,10 @@ import { Logger } from "@/Utils/Logger";
 import { StatusEnum } from "@/Utils/StatusEnum";
 import { Avatar, AvatarGroup, Button, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import moment from "moment";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import config from "../../../config.json";
+import { formatDate } from "@/Utils/CommonBaseClass";
 
 
 /**
@@ -35,23 +35,18 @@ const OngoingEvents = (data: any) => {
         : navigate(routes.viewEvent(id))
     };
     
-
-      useEffect(() => {
+    useEffect(() => {
+        // Start blinking effect
         const interval = setInterval(() => {
           setIsVisible((prev) => !prev);
         }, 500); // Adjust blink speed (milliseconds)
+      
+        // Fetch speaker list
+        fetchSpeakerList();
+      
+        // Cleanup function
         return () => clearInterval(interval);
       }, []);
-
-
-    /**
-     * Fetch Speaker List
-     */
-    useEffect(() => {
-
-        fetchSpeakerList();
-
-    }, []);
 
 
     /**
@@ -95,17 +90,7 @@ const OngoingEvents = (data: any) => {
 
             <Grid size={12} className="adminDashBoard-upComing-Events-header" container  >
 
-                <Grid size={6} container alignItems={"center"}> <Typography className="header-title">Ongoing Event</Typography><div 
-                    style={{
-                    width: '.833rem',
-                    height: '.833rem',
-                    backgroundColor: 'red',
-                    borderRadius: '50%',
-                    marginBottom:'.25rem',
-                    marginLeft:'-.166rem',
-                    opacity: isVisible ? .5 : 0,
-                  }}  
-                />
+                <Grid size={6} container alignItems={"center"}> <Typography className="header-title">Ongoing Event</Typography><div  className={`live-icon ${isVisible ? "visible" : ""}`} />
                 </Grid>
 
                 <Grid display={"flex"} justifyItems={"flex-end"} alignItems={"center"} gap={1} size={6} justifyContent={"flex-end"}>
@@ -148,7 +133,7 @@ const OngoingEvents = (data: any) => {
                         <Grid size={9} >
                             <Typography className="about-content">
 
-                                {moment(data?.data?.startTime).format("MMMM D")}-{moment(data?.data?.endTime).format("D, YYYY")}
+                                {formatDate(data?.data?.startTime,"MMMM D")}-{formatDate(data?.data?.endTime,"D, YYYY")}
 
                             </Typography>
                         </Grid>

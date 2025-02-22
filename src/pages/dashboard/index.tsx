@@ -23,6 +23,7 @@ import EventFeedBack from "./EventFeedBack";
 import PendingProgram from "./PendingProgram";
 import RevenueAndUserChart from "./RevenueAndUserChart";
 import OngoingEvents from "./OngoingEvents";
+import { formatDate } from "@/Utils/CommonBaseClass";
 
 const Dashboard = () => {
   const POST = useStore((state: any) => state.POST);
@@ -141,7 +142,7 @@ const Dashboard = () => {
           offset: 0,
           filters: {
             published: 1,
-            startTime: moment(new Date()).format('YYYY-MM-DD hh:mm'),
+            startTime: formatDate(new Date(),'YYYY-MM-DD HH:mm')
           }
         },
 
