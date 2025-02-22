@@ -92,7 +92,7 @@ const EventDetailsCard = (eventData: any) => {
 
                             <Typography className="date">
 
-                            {moment(startTime).format("MMM D, hh:mm A") + " - " + moment(endTime).format("MMM D,hh:mm A, YYYY ")
+                            {moment(startTime).format("MMM D, hh:mm A") + " - " + moment(endTime).format("MMM D,hh:mm A ")
                             }
                               
                             </Typography>

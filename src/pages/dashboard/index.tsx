@@ -22,6 +22,7 @@ import EventDropDown from "./EventDropDown";
 import EventFeedBack from "./EventFeedBack";
 import PendingProgram from "./PendingProgram";
 import RevenueAndUserChart from "./RevenueAndUserChart";
+import OngoingEvents from "./OngoingEvents";
 
 const Dashboard = () => {
   const POST = useStore((state: any) => state.POST);
@@ -34,7 +35,8 @@ const Dashboard = () => {
   const [open, setOpen] = useState<boolean>(false);
   const handleOpen = () => setOpen(true);//true 
   const handleClose = () => setOpen(false);
-  const acceptedTerms = sessionStorage.getItem('acceptedTerms')
+  const acceptedTerms = sessionStorage.getItem('acceptedTerms');
+  const [ongoingData, setOngoingData] = useState<any>(null);
   /**
    * Useeffect hook handles the api call for fetching upcoming event list and pending event list
    */
@@ -43,11 +45,11 @@ const Dashboard = () => {
     fetchFullEventList();
     fetchUpcomingEventList();
     fetchPendingEventList();
+    fetchOngoingEventList();
     if (acceptedTerms == '0') {
       handleOpen();
     }
   }, []);
-
   /**
   * Method fetch the company count
   */
@@ -126,6 +128,41 @@ const Dashboard = () => {
   }
 
   /**
+   * Function used to fetch the currently on going event
+   */
+  const fetchOngoingEventList = async () => {
+    try {
+      await POST({
+        url: 'event/eventList',
+        body: {
+          sortDirection: "asc",
+          sortBy: "startTime",
+          limit: 2,
+          offset: 0,
+          filters: {
+            published: 1,
+            startTime: moment(new Date()).format('YYYY-MM-DD hh:mm'),
+          }
+        },
+
+        id: 'ongoingEventList',
+        successCB: (context: any) => {
+          if (context?.success) {
+            setOngoingData(context?.data?.[0]);
+          }
+          console.log("dddd")
+        },
+        errorCB: (context: any) => {
+          Logger.error('Dashboard', context?.message);
+        }
+      });
+    } catch (error) {
+      Logger.error('Dashboard', error);
+
+    }
+  }
+
+  /**
   * Method fetch the pending event list
   */
   const fetchPendingEventList = async () => {
@@ -159,7 +196,6 @@ const Dashboard = () => {
     }
   }
 
-
   if (fullEventList?.data?.length == 0) return <NoDataDashBoard />
   return (pendingEventList?.success ?
     <>
@@ -186,8 +222,8 @@ const Dashboard = () => {
         </Grid>
 
         <Grid size={{ xs: 12,lg: 4 }} height={"max-content"} container rowSpacing={2} columnSpacing={2}>
-
-          {upcomingData ? <Grid size={{ xs: 12,md:6,lg:12 }} className="dashboard-calendar-card shadow-app" > <UpComingEvents data={upcomingData} /> </Grid> :
+          {ongoingData ? (<Grid size={{xs:12, md:6,lg:12 }} className="dashboard-calendar-card shadow-app"> <OngoingEvents data={ongoingData}/> </Grid> ):
+          upcomingData ? (<Grid size={{ xs: 12,md:6,lg:12 }} className="dashboard-calendar-card shadow-app" > <UpComingEvents data={upcomingData} /> </Grid>) : (
             <Grid size={{ xs: 12,md:12,lg:12 }} container  className="dashboard-no-event-calender shadow-app" justifyContent={"center"} alignItems={"center"} alignContent={"center"} flexDirection={"column"}>
               <CalenderNoData width={50} height={50} />
               <Typography className="dashboard-no-event-calender-header">No Events Scheduled</Typography>
@@ -198,7 +234,7 @@ const Dashboard = () => {
                 onClick={() => navigate(routes.createEvent())}
               />
             </Grid>
-          }
+          )}
 
 
           {upcomingData &&
