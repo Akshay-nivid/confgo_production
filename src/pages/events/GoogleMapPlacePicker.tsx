@@ -132,7 +132,7 @@ const GoogleMapPlacePicker = ({ onClose, createEvent = false, randomNumber }: Go
     <>
     {createEvent ? (
       <Grid container className="event-location-container" spacing={1}>
-      <Grid  size={{xs:10}} className="event-location-input">
+      <Grid  size={{xs:12}} className="event-location-input">
         <ReactGooglePlacesAutocomplete
           selectProps={{
             value: selectedPlace,

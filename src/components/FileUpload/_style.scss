@@ -156,10 +156,6 @@
   background-color:$clr_pale_lime_green ;
   transition: border-color 0.3s ease;
 
-  &:hover {
-   border-color: $input_label;
-  }
-
   // Display text for drag & drop or click
   & .MuiTypography-root {
    font-size: 1.2rem;

@@ -45,7 +45,18 @@ interface AccountSettingProps {
   const [profileData, setProfileData] = useState<Profile | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const openDrawer = () => setIsDrawerOpen(true);
+  // const openDrawer = () => setIsDrawerOpen(true);
+  const openDrawer = () => {
+    if (profileData) {
+      setValue("firstName", profileData.firstName);
+      setValue("lastName", profileData.lastName);
+      setValue("email", profileData.email);
+      setValue("phone", profileData.phone);
+      setDrawerProfileImage(profileData.assetId || null); 
+    }
+    setIsDrawerOpen(true);
+  };
+  
   const closeDrawer = () => setIsDrawerOpen(false);
   const setDataById = useStore((state: any) => state.setDataById)
   const userDetails = useStore((state) => state?.compData?.["userDetails"]) ?? {};

@@ -273,7 +273,7 @@ const UserOtp = () => {
             Verify Your Account
           </Typography>
           <Typography textAlign={'center'} className="header-subtitle">
-            {`Enter the OTP sent ${eventData?.data?.phone}`}
+            {`Enter the OTP sent ${eventData?.data?.email}`}
             <br />
             {`   to complete the process.`}
           </Typography>
