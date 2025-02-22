@@ -130,7 +130,10 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields, filterTransf
      */
 
     const handleClear = () => {
-        reset();
+        reset({
+            startDate: null,  // Explicitly resetting to null
+            endDate: null}
+        );
         fields?.forEach((item: any) => {
             setValue(item.fieldName, item?.defaultValue || '')
         })

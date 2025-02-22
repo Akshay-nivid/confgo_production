@@ -101,7 +101,7 @@ const AdminUsersList = () => {
         },
         id: 'user-updated',
         successCB: (_data: any) => {
-          setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "User Deleted Successfully" });
+          setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "User Deleted Successfully" });
           UserRoleList();
 
         },

@@ -36,7 +36,7 @@ const Dashboard = () => {
   const handleOpen = () => setOpen(true);//true 
   const handleClose = () => setOpen(false);
   const acceptedTerms = sessionStorage.getItem('acceptedTerms');
-  const [ongoingData, setOngoingData] = useState<any>(null);
+  const [ongoingData, setOngoingData] = useState<any[]>([]);
   /**
    * Useeffect hook handles the api call for fetching upcoming event list and pending event list
    */
@@ -137,7 +137,7 @@ const Dashboard = () => {
         body: {
           sortDirection: "asc",
           sortBy: "startTime",
-          limit: 2,
+          limit: 100,
           offset: 0,
           filters: {
             published: 1,
@@ -148,20 +148,38 @@ const Dashboard = () => {
         id: 'ongoingEventList',
         successCB: (context: any) => {
           if (context?.success) {
-            setOngoingData(context?.data?.[0]);
+            setOngoingData(context?.data);
           }
-          console.log("dddd")
         },
         errorCB: (context: any) => {
           Logger.error('Dashboard', context?.message);
         }
       });
+
     } catch (error) {
       Logger.error('Dashboard', error);
 
     }
   }
+// Function to get the currently ongoing event and select the first one in ascending order.
+  const getOngoingEvent = (ongoingData:any) => {
+    const currentTime = moment().format('YYYY-MM-DD HH:mm')// Get current time
 
+    // Filter events where currentTime is between startTime and endTime
+    const filteredEvents = ongoingData.filter((event:any) => {
+      const start = moment(event.startTime).format('YYYY-MM-DD hh:mm')//);
+      const end =  moment(event.endTime).format('YYYY-MM-DD hh:mm') ;
+      return currentTime >= start && currentTime <= end;
+    });
+    // Sort by startTime in ascending order
+    const sortedEvents = filteredEvents.sort((a: any, b: any) => a.startTime - b.startTime);
+
+    // Return the first ongoing event or null if none found
+    return sortedEvents.length > 0 ? sortedEvents[0] : null;
+
+  };
+  
+  const firstOngoingEvent = getOngoingEvent(ongoingData);
   /**
   * Method fetch the pending event list
   */
@@ -222,7 +240,7 @@ const Dashboard = () => {
         </Grid>
 
         <Grid size={{ xs: 12,lg: 4 }} height={"max-content"} container rowSpacing={2} columnSpacing={2}>
-          {ongoingData ? (<Grid size={{xs:12, md:6,lg:12 }} className="dashboard-calendar-card shadow-app"> <OngoingEvents data={ongoingData}/> </Grid> ):
+          {firstOngoingEvent ? (<Grid size={{xs:12, md:6,lg:12 }} className="dashboard-calendar-card shadow-app"> <OngoingEvents data={firstOngoingEvent}/> </Grid> ):
           upcomingData ? (<Grid size={{ xs: 12,md:6,lg:12 }} className="dashboard-calendar-card shadow-app" > <UpComingEvents data={upcomingData} /> </Grid>) : (
             <Grid size={{ xs: 12,md:12,lg:12 }} container  className="dashboard-no-event-calender shadow-app" justifyContent={"center"} alignItems={"center"} alignContent={"center"} flexDirection={"column"}>
               <CalenderNoData width={50} height={50} />
