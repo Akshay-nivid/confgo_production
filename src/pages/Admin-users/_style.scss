@@ -101,3 +101,14 @@
         max-width: 100% !important;
       }
 }
+
+.action-text{
+    font-family:$font !important;
+    font-size: $p2 !important;
+}
+
+.action-icon {
+    width: 1.16rem;
+    height: 1.16rem;
+    margin-right: 0.5rem;
+  }

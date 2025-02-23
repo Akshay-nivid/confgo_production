@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box/Box'
 import './sponsor.scss'
-import { Avatar, FormLabel, IconButton, Typography } from '@mui/material'
+import { Avatar, FormLabel, IconButton, Menu, MenuItem, Typography } from '@mui/material'
 import CustomAutocomplete from '@/components/CustomAutocomplete/CustomAutocomplete'
 import { useForm } from 'react-hook-form'
 import CustomButton from '@/components/CustomButton/CustomButton'
@@ -17,10 +17,11 @@ import { NoEvent as NoEventIcon } from "@/assets/svg";
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import config from "../../../../config.json";
-import { Delete, Edit } from '@mui/icons-material'
 import Grid from '@mui/material/Grid2';
 import SponsorDetailsModal from './SponsorDetailsModal'
 import clsx from 'clsx'
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
 
 /**
  * Component for Sponsors list,create,edit and delete
@@ -37,7 +38,9 @@ const Sponsors = () => {
     const isDeleteSponsorPending = useStore(state => state.compData?.['deleteSponsor']?.[`sponsor/delete/${sponsorId}`]?.loading) || false
     const sponsorDrawerType = useStore(state => state.nonPersistedData.sponsorDrawerType?.value)
     const isEditSponsorLoading = useStore(state => state.compData?.['createSponsor']?.[`sponsor/edit/${sponsorId}`]?.loading) || false
-
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const [currentUserId, setCurrentUserId] = useState<number | null>(null);
+    const [rowData, setRowData] = useState<number | null>(null);
 
     const schema = z.object({
         name: z.string({ message: "Name is required" }).min(3, { message: "Name is required" }),
@@ -108,31 +111,31 @@ const Sponsors = () => {
     }
 
     const columns = [
-        { type: "default", field: "id", headerName: "ID", width: 100 },
+        { type: "default", field: "id", headerName: "ID", width: 80 },
         {
             type: "custom",
             field: "logo",
             headerName: "Logo",
-            width: 150,
+            width: 130,
 
         },
         {
-            type: "default",
+            type: "custom",
             field: "name",
             headerName: "Name",
-            width: 200,
+            width: 150,
         },
         {
-            type: "default",
+            type: "custom",
             field: "email",
             headerName: "Email",
-            width: 210,
+            width: 200,
         },
         {
             type: "default",
             field: "phone",
             headerName: "Phone",
-            width: 180,
+            width: 150,
         },
         {
             type: "dateField",
@@ -141,18 +144,7 @@ const Sponsors = () => {
             width: 150,
             dateFormat: "DD/MM/YYYY",
         },
-        {
-            type: "custom",
-            field: "edit",
-            headerName: " ",
-            width: 70,
-        },
-        {
-            type: "custom",
-            field: "delete",
-            headerName: " ",
-            width: 70,
-        },
+        { type: "custom", field: "actions", headerName: "", width: 150 },
 
     ];
 
@@ -218,6 +210,23 @@ const Sponsors = () => {
         handleOpenModal('edit')
     }
 
+    const handleMenuOpen = (
+        event: React.MouseEvent<HTMLElement>,
+        userId: number,
+        item: any
+    ) => {
+        event.stopPropagation();
+        setAnchorEl(event.currentTarget);
+        setCurrentUserId(userId);
+        setRowData(item);
+    };
+    
+    const handleMenuClose = () => {
+        setAnchorEl(null);
+        setCurrentUserId(null);
+        setRowData(null);
+      };
+
 
 
     /**
@@ -238,12 +247,11 @@ const Sponsors = () => {
                 website: item?.website,
                 logo: <Avatar className='top-2' src={item?.logoAssetId ? `${baseUrl}/asset/${item?.logoAssetId}` : ''} >{item?.name?.slice(0, 2)}</Avatar>,
 
-                delete: <IconButton disabled={isDeleteSponsorPending} onClick={(e) => handleClickDelete(e, item?.id)}>
-                    <Delete />
-                </IconButton>,
-                edit: <IconButton disabled={isDeleteSponsorPending} onClick={(e) => handleClickEdit(e, item)}>
-                    <Edit />
-                </IconButton>,
+                actions: (
+                    <IconButton onClick={(e) => handleMenuOpen(e, item.id, item)}>
+                      <MoreHorizIcon />
+                    </IconButton>
+                  ),
                 bannerUrl: `${baseUrl}/asset/${item?.bannerImgAssetId}`,
                 bannerId: item?.bannerImgAssetId,
                 logoId: item?.logoAssetId,
@@ -293,25 +301,25 @@ const Sponsors = () => {
 
     function onRowClick(data: any) {
 
+        if (!anchorEl) {
+            setNonPersistedDataById('sponsorAdminDetails', {
+                value: {
+                    name: data?.row?.name,
+                    email: data?.row?.email,
+                    phone: data?.row?.phone,
+                    website: data?.row?.website,
+                    createdOn: data?.row?.createdOn,
+                    modifiedOn: data?.row?.modifiedOn,
+                    logoUrl: data?.row?.logo?.props?.src,
+                    bannerUrl: data?.row?.bannerUrl,
+                    bannerId: data?.row?.bannerId,
+                    logoId: data?.row?.logoId
 
-        setNonPersistedDataById('sponsorAdminDetails', {
-            value: {
-                name: data?.row?.name,
-                email: data?.row?.email,
-                phone: data?.row?.phone,
-                website: data?.row?.website,
-                createdOn: data?.row?.createdOn,
-                modifiedOn: data?.row?.modifiedOn,
-                logoUrl: data?.row?.logo?.props?.src,
-                bannerUrl: data?.row?.bannerUrl,
-                bannerId: data?.row?.bannerId,
-                logoId: data?.row?.logoId
+                }
+            })
 
-            }
-        })
-
-        setNonPersistedDataById('isAdminSponsorDetailsModalOpen', { value: true })
-
+            setNonPersistedDataById('isAdminSponsorDetailsModalOpen', { value: true })
+        }
     }
 
     /**
@@ -421,6 +429,28 @@ const Sponsors = () => {
 
 
             <Grid size={12} className="sponsor-datagrid mt-8">
+            <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+          MenuListProps={{
+            "aria-labelledby": "long-button",
+          }}
+        >
+          <MenuItem onClick={(e) => handleClickEdit(e, rowData)}>
+          <img src="/src/assets/png/writing.png" alt="Edit" className="action-icon" />
+            <Typography className="action-text">Edit</Typography>
+          </MenuItem>
+          <MenuItem onClick={(e) => {
+          if (currentUserId !== null) {
+             handleClickDelete(e, currentUserId); 
+           }
+           }}>
+
+            <DeleteIcon className="action-icon" />
+            <Typography className="action-text">Delete</Typography>
+          </MenuItem>
+        </Menu>
                 <DataGridList
                     
                     dataTransformer={transformData}

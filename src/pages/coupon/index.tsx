@@ -7,13 +7,15 @@ import { useForm } from "react-hook-form";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import {IconButton, Typography } from "@mui/material";
+import {IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import { ISource } from "@/Libs/types/type";
 import { NoCouponDataSvg } from "@/assets/svg";
 import { Filter } from "@/components/Filter";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CreateCoupon from "./CreateCoupon";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import EditIcon from "@/assets/svg/event-edit.svg";
+import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
 
 interface FilterType {
   id?: number;
@@ -33,7 +35,10 @@ const Coupon = () => {
   const [dataLength, setDataLength] = useState(0);
   const { control } = useForm();
   const [selectedCoupon, setSelectedCoupon] = useState({});
-  const [drawerOpen,setDrawerOpen] = useState<boolean>(false);
+  const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [currentUserId, setCurrentUserId] = useState<number | null>(null);
+  const [rowData, setRowData] = useState<number | null>(null);
   
   /**
    * Useeffect hook handles the api call
@@ -67,20 +72,20 @@ const Coupon = () => {
   }, []);
 
   const columns = [
-    { type: "default", field: "id", headerName: "ID", width: 130 },
-    { type: "default", field: "name", headerName: "Coupon Name", width: 200 },
-    { type: "default", field: "discountType", headerName: "Type", width: 250 },
+    { type: "default", field: "id", headerName: "ID", width: 120 },
+    { type: "custom", field: "name", headerName: "Coupon Name", width: 250 },
+    { type: "default", field: "discountType", headerName: "Type", width: 200 },
     {
       type: "dateField",
       field: "endDate",
       headerName: "Expiry Date",
-      width: 200,
+      width: 150,
       dateFormat: "DD/MM/YYYY",
     },
     {
-      type:"default", field:"code", headerName: "Coupon Code", width:200
+      type:"default", field:"code", headerName: "Coupon Code", width:150
     },
-    { type: "custom", field: "edit", headerName: "", width: 80 }
+    { type: "custom", field: "actions", headerName: "", width: 150 }
   ];
 
   const DiscountTypeArray = [
@@ -150,6 +155,24 @@ const Coupon = () => {
     }
   };
 
+
+  const handleMenuOpen = (
+    event: React.MouseEvent<HTMLElement>,
+    userId: number,
+    item: any
+  ) => {
+    setAnchorEl(event.currentTarget);
+    setCurrentUserId(userId);
+    setRowData(item);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setCurrentUserId(null);
+    setRowData(null);
+  };
+
+
    /**
    * Transforms the raw data from the API to match the required format for the DataGrid component.
    * @param data - The raw data from API response
@@ -163,10 +186,12 @@ const Coupon = () => {
       name: item?.name,
       discountType: item?.discountType,
       endDate: item?.endDate,
-      code:item?.code,
-      edit: <IconButton onClick={() => { handleCouponDrawer(item) }} className="event-detail-event-info-card-edit-btn">
-      <EditIcon />
-    </IconButton>,
+      code: item?.code,
+      actions: (
+        <IconButton onClick={(e) => handleMenuOpen(e, item.id, item)}>
+          <MoreHorizIcon />
+        </IconButton>
+      )
     }));
   };
   
@@ -178,6 +203,7 @@ const Coupon = () => {
   function handleCouponDrawer(params?:any) {
     setSelectedCoupon(params);
     setDrawerOpen(true);
+    handleMenuClose();
   };
 
   /**
@@ -230,6 +256,19 @@ const Coupon = () => {
         </Grid>
       </Grid>
       <Grid size={{ xs: 12 }} className="shadow-app app-border-radius mt-8">
+      <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+          MenuListProps={{
+            "aria-labelledby": "long-button",
+          }}
+        >
+          <MenuItem onClick={(e) => handleCouponDrawer(rowData)}>
+          <img src="/src/assets/png/writing.png" alt="Edit" className="action-icon" />
+            <Typography className="action-text">Edit</Typography>
+          </MenuItem>
+        </Menu>
         <DataGridList
           dataTransformer={transformData}
           source={source}
