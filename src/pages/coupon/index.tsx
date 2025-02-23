@@ -14,7 +14,6 @@ import { Filter } from "@/components/Filter";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CreateCoupon from "./CreateCoupon";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import EditIcon from "@/assets/svg/event-edit.svg";
 import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
 
 interface FilterType {
@@ -267,6 +266,11 @@ const Coupon = () => {
           <MenuItem onClick={(e) => handleCouponDrawer(rowData)}>
           <img src="/src/assets/png/writing.png" alt="Edit" className="action-icon" />
             <Typography className="action-text">Edit</Typography>
+          </MenuItem>
+          <MenuItem>
+
+            <DeleteIcon className="action-icon" />
+            <Typography className="action-text">Delete</Typography>
           </MenuItem>
         </Menu>
         <DataGridList

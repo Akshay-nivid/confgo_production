@@ -129,7 +129,7 @@ const Sponsors = () => {
             type: "custom",
             field: "email",
             headerName: "Email",
-            width: 200,
+            width: 150,
         },
         {
             type: "default",
@@ -208,6 +208,7 @@ const Sponsors = () => {
             bannerId: data?.bannerImgAssetId || ''
         })
         handleOpenModal('edit')
+        handleMenuClose();
     }
 
     const handleMenuOpen = (
@@ -289,7 +290,7 @@ const Sponsors = () => {
                 snackBar({ severity: 'error', message: error?.message || 'something went wrong' })
             }
         })
-
+        handleMenuClose();
     }
 
     /**

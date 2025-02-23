@@ -17,7 +17,6 @@ import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CreateNewUsers from "./CreateUsers";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import EditUserDrawer from "./EditUserDrawer";
-import EditIcon from "@/assets/svg/event-edit.svg";
 import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
