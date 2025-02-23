@@ -14,14 +14,14 @@ import AmountIcon from "../../../../../assets/svg/speaker-amount.svg"
 import { IPrograms } from '@/Libs/types/type';
 import { getLocalTimeDate } from '@/Utils/CommonBaseClass';
 import { date } from 'zod';
-
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 interface TEventSpeakersProps {
     ItemWrapper?: ElementType;
     usageType?: "DEFAULT" | "CUSTOM",
-    children?: (props:{data:IEventSpeaker[],handleModalOpen:(speaker: IEventSpeaker)=>void}) => React.ReactNode;
-    
+    children?: (props: { data: IEventSpeaker[], handleModalOpen: (speaker: IEventSpeaker) => void }) => React.ReactNode;
+
 }
-const TEventSpeakers = ({ ItemWrapper=<></>,usageType,children }: TEventSpeakersProps) => {
+const TEventSpeakers = ({ ItemWrapper = <></>, usageType, children }: TEventSpeakersProps) => {
 
     const event: IEventResponse = useStore(state => state.compData?.['event']?.data) || {}
 
@@ -82,10 +82,10 @@ const TEventSpeakers = ({ ItemWrapper=<></>,usageType,children }: TEventSpeakers
 
     if (usageType === "CUSTOM") {
         const speakers = getUniqueSpeakers(event?.eventSpeakers);
-        if(!children) return <></>
-        return children({ data: speakers,handleModalOpen });
+        if (!children) return <></>
+        return children({ data: speakers, handleModalOpen });
     }
-    
+
 
 
 
@@ -96,11 +96,11 @@ const TEventSpeakers = ({ ItemWrapper=<></>,usageType,children }: TEventSpeakers
                     {
                         getUniqueSpeakers(event?.eventSpeakers)?.map((speaker: IEventSpeaker, index: number) => {
                             return (
-                                <ItemWrapper  key={index}>
+                                <ItemWrapper key={index}>
                                     <Box className="speaker-image-wrapper w-full bg-black">
-                                    {speaker?.user?.assetId ? <img  className='speaker-img ' src={speaker?.user?.assetId ? `${config.api.url}asset/${speaker?.user?.assetId}` : ""} alt='program speaker image' />
-                                        :
-                                        <img alt={'speaker-image'} src={personPlaceholder} className={`  aspect-square max-h-[18.2rem]`} />
+                                        {speaker?.user?.assetId ? <img className='speaker-img ' src={speaker?.user?.assetId ? `${config.api.url}asset/${speaker?.user?.assetId}` : ""} alt='program speaker image' />
+                                            :
+                                            <img alt={'speaker-image'} src={personPlaceholder} className={`  aspect-square max-h-[18.2rem]`} />
 
                                         }
                                     </Box>
@@ -113,7 +113,7 @@ const TEventSpeakers = ({ ItemWrapper=<></>,usageType,children }: TEventSpeakers
                             )
                         })
                     }
-                    <EventSpeakerModal />
+                    <TEventSpeakerModal />
 
                 </>
                 :
@@ -126,7 +126,7 @@ const TEventSpeakers = ({ ItemWrapper=<></>,usageType,children }: TEventSpeakers
 export default TEventSpeakers
 
 
-export const EventSpeakerModal = () => {
+export const TEventSpeakerModal = () => {
 
     function handleCloseModal() {
         setNonPersistedDataById('isSpeakerDetailsModelOpen', { value: false })
@@ -142,7 +142,10 @@ export const EventSpeakerModal = () => {
         <Modal className='TEventSpeakers-speaker-details-modal' open={isSpeakerModalOpen}>
             <Box onClick={handleCloseModal} className="TEventSpeakers-speaker-details-modal__overlay">
                 <Box className="TEventSpeakers-speaker-details-modal__content">
+
                     <Box className="TEventSpeakers-speaker-details-modal__content__details">
+                        <CloseRoundedIcon onClick={handleCloseModal} className='icon' />
+
                         <Avatar className='TEventSpeakers-speaker-details-modal__content__details__img'></Avatar>
                         <Box className="TEventSpeakers-speaker-details-modal__content__details__info">
                             <h3 className='TEventSpeakers-speaker-details-modal__content__details__info__name'>{speakerDetails?.speaker?.user?.firstName || 'Unknown'}</h3>
@@ -171,7 +174,7 @@ export const EventSpeakerModal = () => {
                     </Box>
                 </Box>
             </Box>
-        </Modal>
+        </Modal >
     )
 }
 

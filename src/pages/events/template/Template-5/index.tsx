@@ -7,7 +7,7 @@ import Nav5 from './Nav5'
 import { CalendarEventIcon } from '@/assets/svg'
 import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
 import AboutSection5 from './AboutSection5'
-import TEventTimer from '../_components/TEventTimer/TEventTimer'
+import TEventTimer from '../../../Micro-site/Templates/Template-components/TEventTimer/TEventTimer'
 import Grid from "@mui/material/Grid2";
 import TEventSpeakers from '../_components/TEventSpeakers/TEventSpeakers'
 import TLocationMap from '../_components/TLocation/TLocation'
@@ -78,7 +78,7 @@ const Template5 = () => {
                 <h2 className='speakers-section__title'>Meet Our Esteemed Speakers</h2>
 
                 <Grid className="speakers-section__container" container justifyContent={"center"} columnSpacing={4} rowSpacing={6}>
-                    <TEventSpeakers ItemWrapper={({ children }) => <Grid className='speakers-section__container__item' size={{xs:12,sm:6,md:4,lg:3}} >
+                    <TEventSpeakers ItemWrapper={({ children }) => <Grid className='speakers-section__container__item' size={{ xs: 12, sm: 6, md: 4, lg: 3 }} >
                         {children}
                     </Grid>
                     } />
@@ -139,7 +139,7 @@ const Template5 = () => {
                                                         {
                                                             items?.map((item: any) => {
                                                                 return (
-                                                                    <Grid container  justifyContent={"center"} alignItems={"flex-start"} size={{ xs: 12, sm: 6 }}>
+                                                                    <Grid container justifyContent={"center"} alignItems={"flex-start"} size={{ xs: 12, sm: 6 }}>
                                                                         <img
                                                                             className='sponsor-banner-platinum app-border-radius shadow-app'
                                                                             src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''}
@@ -160,7 +160,7 @@ const Template5 = () => {
                                                         {
                                                             items?.map((item: ISponsor) => {
                                                                 return (
-                                                                    <Grid container  justifyContent={"center"} alignItems={"flex-start"} alignContent={"flex-start"} size={{ xs: 12, sm: 4 }}  >
+                                                                    <Grid container justifyContent={"center"} alignItems={"flex-start"} alignContent={"flex-start"} size={{ xs: 12, sm: 4 }}  >
                                                                         <img className='sponsor-banner-gold app-border-radius shadow-app' src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
                                                                     </Grid>
                                                                 )
@@ -175,7 +175,7 @@ const Template5 = () => {
                                                         {
                                                             items?.map((item: ISponsor) => {
                                                                 return (
-                                                                    <Grid  size={{ xs: 12, sm: 3 }} container justifyContent={'center'} alignItems={"flex-start"} alignContent={"flex-start"}  >
+                                                                    <Grid size={{ xs: 12, sm: 3 }} container justifyContent={'center'} alignItems={"flex-start"} alignContent={"flex-start"}  >
                                                                         <img className='sponsor-banner-silver app-border-radius shadow-app' src={item?.sponsor?.bannerImgAssetId ? `${baseUrl}asset/${item?.sponsor?.bannerImgAssetId}` : ''} alt="" />
                                                                     </Grid>
                                                                 )
@@ -201,7 +201,7 @@ const Template5 = () => {
 
             <Box className="price-tier-section main section-vertical-padding ">
                 <p className='price-section__title section-title-text'>Registration & Ticketing</p>
-                <Grid id='tier' size={{xs:12,md:12}} className="" justifyContent={"center"} columnSpacing={4} rowSpacing={4} container >
+                <Grid id='tier' size={{ xs: 12, md: 12 }} className="" justifyContent={"center"} columnSpacing={4} rowSpacing={4} container >
                     {/* <TLocationMap /> */}
                     <TEventPriceTiers>
 
@@ -212,7 +212,7 @@ const Template5 = () => {
                                         console.log(priceTier, "priceTier")
                                         const isEven = index % 2 === 0;
                                         return (
-                                            <Grid className={clsx("price-tier-section__item shadow-app", isEven && 'even-item', !isEven && 'odd-item')} size={{xs:12,md:6}} maxWidth={'35rem'}>
+                                            <Grid className={clsx("price-tier-section__item shadow-app", isEven && 'even-item', !isEven && 'odd-item')} size={{ xs: 12, md: 6 }} maxWidth={'35rem'}>
                                                 <Typography className='price-tier-section__item__title mbc'>{priceTier?.[0].participantType?.name}</Typography>
                                                 <Box className={clsx("divider mbc ", isEven && 'even-divider', !isEven && 'odd-divider')}></Box>
                                                 {
@@ -273,8 +273,8 @@ const Template5 = () => {
                     </Box>
                 </Grid>
             </Box>
-        <TFooter/>
-            
+            <TFooter />
+
         </Box >
     )
 }

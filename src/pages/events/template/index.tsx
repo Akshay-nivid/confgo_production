@@ -14,12 +14,13 @@ import Template4 from '../approvedTemplate/Template4';
 import { Backdrop, CircularProgress } from '@mui/material';
 import MaintenancePage from './MaintenancePage';
 import Template5 from './Template-5';
+import Template6 from '@/pages/Micro-site/Templates/Template-6';
 type TemplateContainerProps = {
-    id?: number;
+  id?: number;
 }
 
 const templates: any = {
-  1: Template5,
+  1: Template6,
   2: Template2,
   3: Template3,
   4: Template1
@@ -30,24 +31,24 @@ const templates: any = {
  */
 const TemplateContainer: React.FC<TemplateContainerProps> = React.memo(({ }) => {
 
-    const { id, entityId, slug } = useParams();
+  const { id, entityId, slug } = useParams();
 
-    const temp = typeof id === 'number' ? id : Number(id) || 1;
-    const GET = useStore((state: any) => state.GET);
-    const dataInfo = useStore((state: any) => state?.compData?.['templateEventDetails']?.[`event/${entityId}`]) ?? [];
-    const slugInfo = useStore((state: any) => state?.compData?.['slugEventDetails']?.[`event/slug/${slug}`]) ?? [];
-    const clearDataById = useStore((state: any) => state?.clearDataById);
-    const navigate = useNavigate();
-    // const isIntialGetCartCalled = useStore(state=>state?.nonPersistedData[NonPersistedKeys.INITIAL_GET_CART]?.value)
-    const [publish, setpublish] = useState<boolean>(false);
-    const [loading, setloading] = useState<boolean>(true);
+  const temp = typeof id === 'number' ? id : Number(id) || 1;
+  const GET = useStore((state: any) => state.GET);
+  const dataInfo = useStore((state: any) => state?.compData?.['templateEventDetails']?.[`event/${entityId}`]) ?? [];
+  const slugInfo = useStore((state: any) => state?.compData?.['slugEventDetails']?.[`event/slug/${slug}`]) ?? [];
+  const clearDataById = useStore((state: any) => state?.clearDataById);
+  const navigate = useNavigate();
+  // const isIntialGetCartCalled = useStore(state=>state?.nonPersistedData[NonPersistedKeys.INITIAL_GET_CART]?.value)
+  const [publish, setpublish] = useState<boolean>(false);
+  const [loading, setloading] = useState<boolean>(true);
 
   // const cartId = useStore(state => state.compData?.userDetails?.userCart?.id) || null; 
-    
-  
-    /**
-  * Useeffect hook handles the api call for fetching event details
-  */
+
+
+  /**
+* Useeffect hook handles the api call for fetching event details
+*/
   useEffect(() => {
     if (entityId) {
       fetchEventDetails();
@@ -71,10 +72,10 @@ const TemplateContainer: React.FC<TemplateContainerProps> = React.memo(({ }) => 
     clearDataById('defaultProgramData')
   }, [])
 
-    /**
+  /**
 * Method fetch the event details
 */
-const fetchEventDetails = async () => {
+  const fetchEventDetails = async () => {
     try {
       setloading(true);
       await GET({
@@ -101,7 +102,7 @@ const fetchEventDetails = async () => {
         url: `event/slug/${slug}`,
         id: 'slugEventDetails',
         successCB: (context: any) => {
-          setDataById('event',{data: context?.data});
+          setDataById('event', { data: context?.data });
           const eventData = context?.data;
           setDataById('eventSelected', { id: eventData?.id });
           setDataById('slugName', { value: slug });
@@ -127,7 +128,7 @@ const fetchEventDetails = async () => {
    * @param slugData : slug details
    * @returns : template id
    */
-  const findTemp = ( temp: any, slugData: any) => {
+  const findTemp = (temp: any, slugData: any) => {
     return slugData?.templateId || temp;
   }
 
@@ -135,7 +136,7 @@ const fetchEventDetails = async () => {
 
   return loading ? (
     <Backdrop open={true}>
-    <CircularProgress color="inherit" size={20} />
+      <CircularProgress color="inherit" size={20} />
     </Backdrop>
   ) : publish ? (
     <Grid container size={{ xs: 12, sm: 12 }} className={`event-template${!slug ? " event-template-preview" : ""}`} spacing={1}>
@@ -148,7 +149,7 @@ const fetchEventDetails = async () => {
       )}
     </Grid>
   ) : (
-    <MaintenancePage/>
+    <MaintenancePage />
   );
 });
 
