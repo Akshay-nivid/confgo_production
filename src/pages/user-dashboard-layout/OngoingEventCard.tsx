@@ -188,7 +188,7 @@ const OngoingEventCard = (id: any) => {
             {eventFullData?.eventClass}
           </Grid>
         </Grid>
-        {uniqueSpeakers.length > 0 && (
+        {uniqueSpeakers?.length > 0 && (
           <>
             <Grid size={4}>
               <Typography className="ongoing-event-detail">Speakers</Typography>
@@ -200,7 +200,7 @@ const OngoingEventCard = (id: any) => {
                     className="ongoing-event-speaker"
                     gap={1}
                   >
-                    {uniqueSpeakers.map(
+                    {uniqueSpeakers?.map(
                       (speaker: any, index: number) =>
                         index < 5 && (
                           <Grid
@@ -229,7 +229,7 @@ const OngoingEventCard = (id: any) => {
                           </Grid>
                         )
                     )}
-                    {uniqueSpeakers.length > 5 && (
+                    {uniqueSpeakers?.length > 5 && (
                       <Grid
                         container
                         justifyContent={"flex-end"}

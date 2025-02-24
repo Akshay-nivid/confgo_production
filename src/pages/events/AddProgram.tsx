@@ -144,7 +144,7 @@ const typeArray = [
 
 const AddProgram: React.FC<ProgramProps> = React.memo(
   ({ formSubmit, formDraftSubmit, onSubmitHandler, onDraftSubmitHandler, data, onSaveHandler, eventData }) => {
-    const { handleSubmit, control, watch, setValue, setError, setFocus, resetField, trigger ,getValues} = useForm<FormData>({
+    const { handleSubmit, control, watch, setValue, setError, setFocus, resetField, trigger } = useForm<FormData>({
       defaultValues: {
         programs: [
           {
@@ -1149,7 +1149,7 @@ if (programUtcEndDate > eventEndDate) {
                                   validate: (value) => {
                                     const selectedDate = moment(value);
                                     const startTime = moment(eventData?.startTime).format("YYYY-MM-DD");
-                                    const ProgramEnd = moment(getValues(`programs.${index}.endDate`)).format("YYYY-MM-DD");
+                                    const ProgramEnd = moment(watch(`programs.${index}.endDate`)).format("YYYY-MM-DD");
                                     //check whether selected date is on or after startTime
                                     if (!selectedDate.isSameOrAfter(startTime)) {
                                       return `Start date must be on or after ${startTime}`;

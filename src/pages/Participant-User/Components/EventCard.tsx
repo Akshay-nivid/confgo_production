@@ -79,7 +79,7 @@ const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetit
                                         )}
                 </Grid>
                 <Grid display={"block"}>
-                    <Tooltip title={title} arrow className='qwert'>
+                    <Tooltip title={title} arrow>
                         <Typography className="event-card-title" >
                             {truncateString(toTitleCase(title), 18, "Untitled")}
                         </Typography>
