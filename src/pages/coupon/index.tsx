@@ -36,7 +36,7 @@ const Coupon = () => {
   const [selectedCoupon, setSelectedCoupon] = useState({});
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [currentUserId, setCurrentUserId] = useState<number | null>(null);
+  const [_currentUserId, setCurrentUserId] = useState<number | null>(null);
   const [rowData, setRowData] = useState<number | null>(null);
   
   /**
@@ -263,7 +263,7 @@ const Coupon = () => {
             "aria-labelledby": "long-button",
           }}
         >
-          <MenuItem onClick={(e) => handleCouponDrawer(rowData)}>
+          <MenuItem onClick={(_e) => handleCouponDrawer(rowData)}>
           <img src="/src/assets/png/writing.png" alt="Edit" className="action-icon" />
             <Typography className="action-text">Edit</Typography>
           </MenuItem>

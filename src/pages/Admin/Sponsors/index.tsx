@@ -35,7 +35,6 @@ const Sponsors = () => {
     const listData = sponsorResponseData?.data || []
     // const sponsorId = useStore(state => state?.compData?.['sponsorId']?.value) || null;
     const sponsorId = useStore(state=>state.nonPersistedData.sponsorId?.value)
-    const isDeleteSponsorPending = useStore(state => state.compData?.['deleteSponsor']?.[`sponsor/delete/${sponsorId}`]?.loading) || false
     const sponsorDrawerType = useStore(state => state.nonPersistedData.sponsorDrawerType?.value)
     const isEditSponsorLoading = useStore(state => state.compData?.['createSponsor']?.[`sponsor/edit/${sponsorId}`]?.loading) || false
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
