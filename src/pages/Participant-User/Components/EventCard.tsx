@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from '@mui/material/Grid2';
-import { Avatar, Typography } from '@mui/material';
+import { Avatar, Tooltip, Typography } from '@mui/material';
 import StatusComponent from '@/components/Status/StatusComponent';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import { toTitleCase, truncateString } from '@/Utils/CommonBaseClass';
@@ -79,11 +79,11 @@ const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetit
                                         )}
                 </Grid>
                 <Grid display={"block"}>
-                    <CustomTooltip title={title}>
+                    <Tooltip title={title} arrow className='qwert'>
                         <Typography className="event-card-title" >
                             {truncateString(toTitleCase(title), 18, "Untitled")}
                         </Typography>
-                    </CustomTooltip>
+                    </Tooltip>
                     <Grid display={"flex"} alignItems={"center"} columnGap={1}>
                         <EventTypeText status={eventFullData?.eventClass} className='eventClassType' />
                         <Grid className="vertical-divider" />

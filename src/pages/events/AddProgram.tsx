@@ -144,7 +144,7 @@ const typeArray = [
 
 const AddProgram: React.FC<ProgramProps> = React.memo(
   ({ formSubmit, formDraftSubmit, onSubmitHandler, onDraftSubmitHandler, data, onSaveHandler, eventData }) => {
-    const { handleSubmit, control, watch, setValue, setError, setFocus, resetField, trigger } = useForm<FormData>({
+    const { handleSubmit, control, watch, setValue, setError, setFocus, resetField, trigger ,getValues} = useForm<FormData>({
       defaultValues: {
         programs: [
           {
@@ -424,7 +424,8 @@ const AddProgram: React.FC<ProgramProps> = React.memo(
     const onSave: SubmitHandler<FormData> = () => {
 
       const programs = watch("programs");
-      const lastItem = programs[programs?.length - 1];
+      const selectedIndex = editMode ? programIndex : programs.length - 1
+      const lastItem = programs?.[selectedIndex];
 
       const eventStartDate = moment(eventData?.startTime).utc().valueOf();  // Ensure event start time is in UTC
 const eventEndDate = moment(eventData?.endTime).utc().valueOf();      // Ensure event end time is in UTC
@@ -435,7 +436,7 @@ const programEndDate = moment(`${lastItem?.endDate} ${lastItem?.endTime}`, "YYYY
 const programUtcStartDate = programStartDate.valueOf();  // Convert to milliseconds (UTC)
 const programUtcEndDate = programEndDate.valueOf();      // Convert to milliseconds (UTC)
 
-// Check if the program start date is after the event start date
+
 if (programUtcStartDate < eventStartDate) {
   setError(`programs.${programIndex}.startTime`, {
     type: 'manual',
@@ -446,18 +447,18 @@ if (programUtcStartDate < eventStartDate) {
 
 // Check if the program start date is greater than the program end date
 if (programUtcStartDate > programUtcEndDate) {
-  setError(`programs.${programIndex}.startDate`, {
+  setError(`programs.${programIndex}.startTime`, {
     type: 'manual',
-    message: 'Start date cannot be greater than end date',
+    message: 'Start Time cannot be greater than end Time',
   });
   return;
 }
 
 // Check if the program end date is greater than the event end date
 if (programUtcEndDate > eventEndDate) {
-  setError(`programs.${programIndex}.endDate`, {
+  setError(`programs.${programIndex}.endTime`, {
     type: 'manual',
-    message: 'End date cannot be greater than event end date',
+    message: 'End Time cannot be greater than event end Time',
   });
   return;
 }
@@ -572,6 +573,7 @@ if (programUtcEndDate > eventEndDate) {
       } else {
         // If in `editMode`, just update the program index
         setProgramIndex(programs?.length ? programs.length - 1 : 0);
+        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: "Program successfully updated" })
       }
 
       // Trigger the save handler with the current programs
@@ -1143,7 +1145,25 @@ if (programUtcEndDate > eventEndDate) {
                                 min={moment(eventData?.startTime).format("YYYY-MM-DD")}
                                 max={moment(eventData?.endTime).format("YYYY-MM-DD")}
                                 rules={{
-                                  required: true
+                                  required: true,
+                                  validate: (value) => {
+                                    const selectedDate = moment(value);
+                                    const startTime = moment(eventData?.startTime).format("YYYY-MM-DD");
+                                    const ProgramEnd = moment(getValues(`programs.${index}.endDate`)).format("YYYY-MM-DD");
+                                    //check whether selected date is on or after startTime
+                                    if (!selectedDate.isSameOrAfter(startTime)) {
+                                      return `Start date must be on or after ${startTime}`;
+                                    }
+                                    //check whether selected date is on or before endTime
+                                    if (selectedDate.isAfter(moment(eventData?.endTime).format("YYYY-MM-DD"))) {
+                                      return `End date must be on or before ${moment(eventData?.endTime).format("YYYY-MM-DD")}`;
+                                    }
+                                    //check whether selected date is before selected Enddate
+                                    if(selectedDate.isAfter(ProgramEnd)){
+                                      return `Start Date must be earlier than End date`;
+                                    }
+                                    return true;
+                                  }
                                 }}
                               />
                             </Grid>
@@ -1173,7 +1193,21 @@ if (programUtcEndDate > eventEndDate) {
                                 min={moment(eventData?.startTime).format("YYYY-MM-DD")}
                                 max={moment(eventData?.endTime).format("YYYY-MM-DD")}
                                 rules={{
-                                  required: true
+                                  required: true,
+                                  validate: (value) => {
+                                    const selectedDate = moment(value);
+                                    const endDate = moment(eventData?.endTime).format("YYYY-MM-DD");
+                                    //check whether selected date is on or before endTime
+                                    if (!selectedDate.isSameOrBefore(endDate)) {
+                                      return `End date must be on or before ${endDate}`;
+                                    }
+                                    //check whether selected date is on or after startTime
+                                    if (selectedDate.isBefore(moment(eventData?.startTime).format("YYYY-MM-DD"))) {
+                                      return `End date must be on or after ${moment(eventData?.startTime).format("YYYY-MM-DD")}`;
+                                    }
+                                
+                                    return true;
+                                  }
                                 }}
                               />
                             </Grid>
@@ -1423,14 +1457,21 @@ if (programUtcEndDate > eventEndDate) {
             </Box>
           </Grid>
         </CustomDrawer>
+        <Grid container direction="column" size={{ xs: 12, sm: 7 }}>
+          <Grid >
+            <Typography className="create-event-title">
+              Add Programs
+            </Typography>
+            <Typography className="create-event-title-sub">
+              Define your program details and set the stage for your event.
+            </Typography>
+          </Grid>
         <Grid
           container
           direction={"row"}
           className="add-program-program-display-container"
-          size={{ xs: 12, sm: 7 }}
           spacing={2}
           key='add-program-display-container'
-          mt={{ xs: 2, sm: 4 }}
           sx={{ height: { xs: 200, sm: 300, md: 400 } }}
           p={3}
           justifyContent={'center'}
@@ -1518,6 +1559,7 @@ if (programUtcEndDate > eventEndDate) {
               size="large"
             />
           </Grid>
+        </Grid>
         </Grid>
         {/* Drawer to create a new Speaker */}
         <Grid >
