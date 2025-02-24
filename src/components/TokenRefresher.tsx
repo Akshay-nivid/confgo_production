@@ -22,8 +22,8 @@ const TokenRefresher = () => {
 
     refreshTokenAsync();
 
-    // Set an interval to refresh the token every 6 hours
-    const intervalId = setInterval(refreshTokenAsync, 6 * 60 * 60 * 1000);
+    // Set an interval to refresh the token every 15 minutes
+    const intervalId = setInterval(refreshTokenAsync, 15 * 60 * 1000);
 
     return () => clearInterval(intervalId);
   }, []);

@@ -15,6 +15,8 @@ import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CreateCoupon from "./CreateCoupon";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
+import { PUT, setDataById } from "@/Libs/store";
+import { Logger } from "@/Utils/Logger";
 
 interface FilterType {
   id?: number;
@@ -36,7 +38,7 @@ const Coupon = () => {
   const [selectedCoupon, setSelectedCoupon] = useState({});
   const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [_currentUserId, setCurrentUserId] = useState<number | null>(null);
+  const [currentCouponId, setCurrentCouponId] = useState<number | null>(null);
   const [rowData, setRowData] = useState<number | null>(null);
   
   /**
@@ -157,20 +159,47 @@ const Coupon = () => {
 
   const handleMenuOpen = (
     event: React.MouseEvent<HTMLElement>,
-    userId: number,
+    couponId: number,
     item: any
   ) => {
     setAnchorEl(event.currentTarget);
-    setCurrentUserId(userId);
+    setCurrentCouponId(couponId);
     setRowData(item);
   };
 
   const handleMenuClose = () => {
     setAnchorEl(null);
-    setCurrentUserId(null);
+    setCurrentCouponId(null);
     setRowData(null);
   };
 
+  /**
+   * deletes a coupon by updating statusId
+   * @param id 
+   */
+  const handleCouponDelete = async (id: number) => {
+      try {
+        await PUT({
+          url: `coupon/${id}`,
+          body: {
+            statusId: 2
+          },
+          id: 'coupon-delete',
+          successCB: (_data: any) => {
+            setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "Coupon Deleted Successfully" });
+            couponList();
+  
+          },
+          errorCB: (context: any) => {
+            setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
+          }
+        });
+      } catch (error) {
+        Logger.error("Error in coupon delete", error)
+      }
+      handleMenuClose();
+  
+    }
 
    /**
    * Transforms the raw data from the API to match the required format for the DataGrid component.
@@ -267,7 +296,11 @@ const Coupon = () => {
           <img src="/src/assets/png/writing.png" alt="Edit" className="action-icon" />
             <Typography className="action-text">Edit</Typography>
           </MenuItem>
-          <MenuItem>
+          <MenuItem onClick={() => {
+            if (currentCouponId !== null) {
+              handleCouponDelete(currentCouponId);
+            }
+          }}>
 
             <DeleteIcon className="action-icon" />
             <Typography className="action-text">Delete</Typography>
