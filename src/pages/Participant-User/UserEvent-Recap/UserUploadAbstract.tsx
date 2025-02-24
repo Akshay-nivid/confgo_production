@@ -222,6 +222,7 @@ const UserUploadAbstract = ({ eventData }: any) => {
                                 maxSize={10}
                                 NoRecommended={true}
                                 isAbstract={true}
+                                allowDrop={!AbstarctDateEnd && !disabled}
                             />
                             { AbstarctDateEnd && <Typography className='upload-abstract-disable-error'>The abstract submission deadline has passed</Typography>}
                             </>

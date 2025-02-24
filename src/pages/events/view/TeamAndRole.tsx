@@ -1,6 +1,6 @@
 import { Accordion, AccordionDetails, AccordionSummary, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-// import SepekerCard from "./SpeakerCard";
+import SepekerCard from "./SpeakerCard";
 import VolunteerListCard from "./VolunteerListCard";
 //import AddIcon from '@mui/icons-material/Add';
 //import RemoveIcon from '@mui/icons-material/Remove';
@@ -22,7 +22,7 @@ import { AccordionAddIcon, AccordionArrowIcon } from "@/assets/svg";
  */
 
 const TeamAndRole=()=>{
-  // const speakerData = useStore((state: any) => state?.compData?.["speaker-lists"]?.data) ?? []; 
+  const speakerData = useStore((state: any) => state?.compData?.["speaker-lists"]?.data) ?? []; 
   const abstractReviewerData= useStore((state:any)=>state?.compData?.['AbstractReviewer-list']?.data) ?? [];
   const volunteerListsDta=useStore((state:any)=>state?.compData?.['volunteer-lists']?.data) ?? [];
   const sponsorListData=useStore((state:any) => state?.compData?.['sponsor-lists']?.data) ?? [];
@@ -35,25 +35,6 @@ const TeamAndRole=()=>{
 
     return(
      <Grid className="accordion-container" container spacing={3}>
-      {/* <Grid size={12}>
-        <Accordion   className="accordion-container-box"
-        expanded={expanded === "panel1-header"} 
-        onChange={handleChange("panel1-header")}>
-        <AccordionSummary
-          expandIcon={speakerData?.length!==0?<AccordionArrowIcon />:<AccordionAddIcon/>}
-          aria-controls="panel1-content"
-          id="panel1-header"
-          className="accordion-container-icon" 
-        >
-          <Typography className="accordion-container-heading">Speaker</Typography>
-        </AccordionSummary>
-        {TeamAndRoleData?.id&&
-        <AccordionDetails>
-          <SepekerCard  eventData={TeamAndRoleData} />
-        </AccordionDetails>
-         }
-      </Accordion>
-      </Grid> */}
       {TeamAndRoleData?.isAbstract===1&&
       <Grid size={12}>
       <Accordion className="accordion-container-box"
@@ -107,6 +88,25 @@ const TeamAndRole=()=>{
         <AccordionDetails>
           <SponsorListCard drawerOpened={sponsorListData?.length == 0  ? true : false} expanded={expanded }/>
         </AccordionDetails>
+      </Accordion>
+      </Grid>
+      <Grid size={12}>
+        <Accordion   className="accordion-container-box"
+        expanded={expanded === "panel1-header"} 
+        onChange={handleChange("panel1-header")}>
+        <AccordionSummary
+          expandIcon={speakerData?.length!==0?<AccordionArrowIcon />:<AccordionAddIcon/>}
+          aria-controls="panel1-content"
+          id="panel1-header"
+          className="accordion-container-icon" 
+        >
+          <Typography className="accordion-container-heading">Speaker</Typography>
+        </AccordionSummary>
+        {TeamAndRoleData?.id&&
+        <AccordionDetails>
+          <SepekerCard  eventData={TeamAndRoleData} />
+        </AccordionDetails>
+         }
       </Accordion>
       </Grid>
       </Grid>   
