@@ -47,7 +47,6 @@ const SponsorListCard: React.FC<sponsorprops> = ({
   const { control } = useForm();
 
   useEffect(() => {
-    console.log("12")
     getSponsor();
   }, []);
 
