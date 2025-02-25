@@ -20,7 +20,6 @@ const T6speakers = () => {
 
                 <TEventSpeakers usageType="CUSTOM">
                     {({ data, handleModalOpen }) => {
-                        console.log(data)
                         return (
                             <Grid container columnSpacing={4} rowSpacing={4} className="t6-speakers-container">
                                 {data?.map((speaker: any) => (

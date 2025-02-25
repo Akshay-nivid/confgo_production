@@ -23,8 +23,7 @@ const TEventSpeakers = ({ ItemWrapper = 'div', usageType, children }: TEventSpea
 
 
 
-    const speakerDetails = useStore(state => state.nonPersistedData.speakerDetails?.value) || {}
-    console.log(speakerDetails, 'speaker details')
+    // const speakerDetails = useStore(state => state.nonPersistedData.speakerDetails?.value) || {}
 
     /**
 * Extracts unique speakers from a given list based on their `userId`.
@@ -48,7 +47,6 @@ const TEventSpeakers = ({ ItemWrapper = 'div', usageType, children }: TEventSpea
     }
 
 
-    // console.log(event?.programs, 'event speakers')
 
     const groupedObj: { [key: number]: IProgram[] } = {}
 
@@ -132,7 +130,6 @@ export const TEventSpeakerModal = () => {
 
     const speakerDetails: { speaker: IEventSpeaker, programs: IProgram[] } = useStore(state => state.nonPersistedData?.speakerDetails?.value) || {}
 
-    console.log(speakerDetails)
 
     return (
         <Modal className='TEventSpeakers-speaker-details-modal' open={isSpeakerModalOpen}>

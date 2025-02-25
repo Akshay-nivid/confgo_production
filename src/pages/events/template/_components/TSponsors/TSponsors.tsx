@@ -46,7 +46,6 @@ function groupSponsorsByCategory(sponsors: ISponsor[]) {
        const uniqueSponsorsMap = new Map<number, any>();
 
        sponsors.forEach((sponsor: ISponsor) => {
-        console.log(sponsor,'jijijijijijiji')
         if (!uniqueSponsorsMap.has(sponsor.sponsorId)) {
             uniqueSponsorsMap.set(sponsor.sponsorId, sponsor);
         }
@@ -71,13 +70,11 @@ const TSponsors:React.FC<TSponsorsProps> = ({children}) => {
 
     const eventData:IEventResponse = useStore(state=>state.compData?.event?.data)
 
-    console.log(eventData?.eventSponsors)
 
     const sponsors = getUniqueSponsors(eventData?.eventSponsors)
 
     const groupedSponsors = groupSponsorsByCategory(sponsors)
     
-    console.log(groupedSponsors,'groued')
 
 
   return <>{children({data:groupedSponsors})}</>

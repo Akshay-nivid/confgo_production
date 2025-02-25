@@ -16,7 +16,6 @@ const T6priceTier = () => {
                     <TEventPriceTiers>
                         {
                             ({ data }) => {
-                                console.log(data, 'price tiers')
                                 return (
                                     <>
                                         {

@@ -96,7 +96,6 @@ const ProgramSelection = () => {
 
   const cart = useStore((state: IStoreState) => state?.nonPersistedData?.cart)
 
-  console.log(cart)
 
   // const isIntialGetCartCalled = useStore(state => state?.nonPersistedData.intialGetCart?.value)
 

@@ -57,14 +57,11 @@ const AddonCard = ({ templateId, addon, date }: IProgramcardProps) => {
 
   function handleClickAddonProp(addonProp: IEventAddonProperty) {
 
-    console.log(addonProp, 'addonProp')
 
     const target = cart.addons?.findIndex((item: any) => {
-      console.log(item)
       return item?.addonId === addonProp?.eventAddonId
     })
 
-    console.log(target, 'targetIndex')
 
 
 

@@ -209,7 +209,6 @@ const Template5 = () => {
                             ({ data }) => (
                                 <>
                                     {Object.entries(data)?.map(([_, priceTier], index: number) => {
-                                        console.log(priceTier, "priceTier")
                                         const isEven = index % 2 === 0;
                                         return (
                                             <Grid className={clsx("price-tier-section__item shadow-app", isEven && 'even-item', !isEven && 'odd-item')} size={{ xs: 12, md: 6 }} maxWidth={'35rem'}>

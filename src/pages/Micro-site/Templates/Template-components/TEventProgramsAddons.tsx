@@ -5,7 +5,6 @@ const TEventProgramsAddons = () => {
 
     const eventData:IEventResponse = useStore((state:IStoreState)=>state.compData?.event?.data);
 
-    console.log(eventData, 'eventData')
 
   return (
     <div>TEventProgramsAddons</div>

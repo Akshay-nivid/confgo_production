@@ -11,12 +11,7 @@ const TProgram : React.FC<DataContainerProps> =  ({children}) => {
 
   const event: IEventResponse = useStore(state => state.compData?.['event']?.data);
 
-  console.log(event)
-  
-  
     
-    
-  console.log(event)
   return children({ event } as any)
 }
 
