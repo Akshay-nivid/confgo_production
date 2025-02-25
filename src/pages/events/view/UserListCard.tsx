@@ -131,7 +131,6 @@ const handleRowClick=(id:string |number)=>{
   const filterFields: any = [
     {
       type: 'dateRange',
-      fieldName: 'startTime',
       heading: 'Filter with Registration Date'
     },
   ]
