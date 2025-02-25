@@ -157,7 +157,7 @@ const Programcard = ({ templateId, program, date }: IProgramcardProps) => {
 
 
             <Grid container spacing={2} alignItems="center">
-                {(program.eventParticipantEntries || []).map((entry: any, index: any) => {
+                {(program?.eventParticipantEntries || []).map((entry: any, index: any) => {
                     const { seatAllocated = 0, totalSeat = 1 } = entry;
                     const remainingSeat = totalSeat - seatAllocated;
                     const bookedPercentage = (seatAllocated / totalSeat) * 100;
@@ -209,7 +209,7 @@ const Programcard = ({ templateId, program, date }: IProgramcardProps) => {
                 </Grid>
             </Box>
             <Grid container spacing={2} alignItems="center" className='aboslute bottom-0 pl-5'>
-                    {(program.eventParticipantEntries || []).map((entry: any, index: any) => {
+                    {(program?.eventParticipantEntries || []).map((entry: any, index: any) => {
                         const { seatAllocated = 0, totalSeat = 1 } = entry;
                         const remainingSeat = totalSeat - seatAllocated;
                         const bookedPercentage = (seatAllocated / totalSeat) * 100;
