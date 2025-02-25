@@ -216,7 +216,7 @@ const Programcard = ({ templateId, program, date }: IProgramcardProps) => {
                         const isOverbookedRed = bookedPercentage > 85;
                         const isOverbookedYellow = bookedPercentage > 70;
 
-                        // if (!isOverbookedYellow || remainingSeat === 0) return null;
+                        if (!isOverbookedYellow || remainingSeat === 0) return null;
                         return (
                             <Grid container key={index} spacing={2} alignItems="center" paddingBottom={1}>
                                 {/* Seat Information */}
