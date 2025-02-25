@@ -8,7 +8,6 @@ const T6about = ({ eventData }: { eventData?: IEventResponse }) => {
             <Box className='main'>
                 <h1 className='template-section-title about-section-title'>{eventData?.name}</h1>
                 <h1 className='about-section-description'>{HTMLReactParser(eventData?.description || '')}</h1>
-
             </Box>
 
         </Box>

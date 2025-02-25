@@ -33,7 +33,7 @@ const T6speakers = () => {
                                                 height: "100%",
                                                 borderRadius: "1.66rem",
                                                 position: "relative",
-                                                background: "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0,0,0,0.1) 100%)",
+                                                background: "linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(0,0,0,0.4) 100%)",
                                             }}
                                         >
                                             <Box sx={{ position: "absolute", top: 16, right: 16, zIndex: 2 }}>

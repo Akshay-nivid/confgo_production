@@ -5,20 +5,21 @@
     height: auto !important;
     cursor: pointer;
 
-    .logo-box{
-        background-color:$clr_light_blue;
+    .logo-box {
+        background-color: $clr_light_blue;
         border-radius: 50%;
         width: 5rem;
         height: 5rem;
         object-fit: cover !important;
-        &-text{
-            background-color:$clr_light_blue!important;
+
+        &-text {
+            background-color: $clr_light_blue !important;
             color: $clr_white;
             font-size: $h2 !important;
             font-weight: $font-bold !important;
         }
-             
-        
+
+
     }
 
     .vertical-divider {
@@ -26,11 +27,12 @@
         background-color: $clr_black;
         height: 1.2rem;
         margin-inline: 0.2rem;
-        }
-    .horizontal-dotted-divider{
+    }
+
+    .horizontal-dotted-divider {
         border-top: 2px dashed $clr_light_quill_grey;
-        width: 100%;             
-        margin: 15px 0;  
+        width: 100%;
+        margin: 15px 0;
         // padding-top: 1rem;
         // padding-bottom: 1rem;            
     }
@@ -112,7 +114,7 @@
             font-size: $p6 !important; // Further reduce for small screens
         }
     }
-    
+
 
     &-location {
         font-family: $font;
@@ -174,7 +176,8 @@
 
 
 
-
+$blue: #027BFF;
+$blue_dark: #014A99;
 
 .program-checkbox-group,
 .addon-checkbox-group {
@@ -345,11 +348,12 @@
 
         }
 
-        .badge-container{
+        .badge-container {
             position: absolute;
             right: 1rem;
-            top:1rem ;
+            top: 1rem;
         }
+
         .icon {
             margin-right: .5rem;
             margin-top: -.4rem;
@@ -423,7 +427,7 @@
 
         .addon-prop-amount {
             font-size: $h5 !important;
-            font-weight: $font-semibold  !important;
+            font-weight: $font-semibold !important;
             color: $clr_gray_dark_text !important;
         }
     }
@@ -578,4 +582,70 @@
     color: $clr_orange_yellow;
     font-size: $p1 !important;
 
+}
+
+
+.program-selection-program-card {
+
+    .program-card-btn {
+        box-shadow: none;
+        border-radius: .4rem;
+        padding-block: .6rem;
+        font-size: .95rem;
+
+
+    }
+
+
+
+    .program-card-btn-6 {
+        background: linear-gradient(to right, #027BFF);
+
+    }
+
+    .program-card-btn-6-active {
+        background: linear-gradient(to right, #027BFF) !important;
+    }
+
+    .program-card-btn-1 {
+        background: $clr_charcoal_cyan ;
+
+    }
+
+    .program-card-btn-1-active {
+        background: $clr_charcoal_cyan  !important;
+    }
+}
+
+.program-selection-addon-card {
+    .addon-property-checkbox {
+        // flex items-center justify-between ml-auto w-6 h-6 bg-teal- border-2 border-gray-800 rounded mr-4 cursor-pointer
+        cursor: pointer;
+        width: 1.9rem;
+        height: 1.9rem;
+        border-width: .2rem;
+        border-radius: .5rem;
+        margin-right: 1rem;
+
+    }
+
+    .addon-property-checkbox-1 {
+        border-color: $clr_charcoal_cyan;
+
+        &-active {
+            background-color: $clr_charcoal_cyan;
+        }
+    }
+
+    .addon-property-checkbox-6 {
+        border-color: $blue;
+
+        &-active {
+            background-color: $blue;
+        }
+    }
+
+    .addon-property-checkbox-icon {
+        color: $clr_white;
+    }
 }

@@ -93,6 +93,11 @@ const ProgramSelection = () => {
   const userToken = sessionStorage.getItem('token')
   const userRole = sessionStorage.getItem('userRole')
 
+
+  const cart = useStore((state: IStoreState) => state?.nonPersistedData?.cart)
+
+  console.log(cart)
+
   // const isIntialGetCartCalled = useStore(state => state?.nonPersistedData.intialGetCart?.value)
 
   /**
@@ -265,6 +270,11 @@ const ProgramSelection = () => {
 
 
 
+    if (cart?.addons?.length === 0 && cart?.programIds?.length === 0) {
+      snackBar({ severity: 'error', message: 'please select atleas a program or addon' })
+      return
+    }
+
 
     try {
 
@@ -281,8 +291,9 @@ const ProgramSelection = () => {
       const apiBody = {
         eventId: body?.eventId,
         ...((participantTypeId && participantTypeId !== null && participantTypeId !== undefined) ? { participantTypeId: participantTypeId } : {}),
-        ...((body?.programIds && body?.programIds?.length > 0) ? { programIds: body.programIds } : {}),
-        ...((body?.addons && body?.addons?.length > 0) ? {addons: body.addons} : {})
+        ...((cart?.programIds && cart?.programIds?.length > 0) ? { programIds: cart.programIds } : {}),
+        ...((cart?.addons && cart?.addons?.length > 0) ? {addons: cart.addons} : {})
+        // ...cart
       }
 
       if (selectedPrograms?.length === 0 && body?.addons?.length === 0) {
