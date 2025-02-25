@@ -167,8 +167,9 @@ import PichartIcon from "./piechart-icon.svg"
 
 import YellowSeat from "./yelllowseat.svg";
 import RedSeat from "./redseat.svg";
-import UploadFileLogo from "./upload-file-logo.svg"
-
+import UploadFileLogo from "./upload-file-logo.svg";
+import NewDrawerClose from "./new-drawer-close.svg";
+import SpeakerDashBoard from "./speaker-no-program.svg";
 export {
   MainBottomBanner,
   MainYourBrandImg,
@@ -338,5 +339,7 @@ export {
   PichartIcon,
   YellowSeat,
   RedSeat,
-  UploadFileLogo
+  UploadFileLogo,
+  NewDrawerClose,
+  SpeakerDashBoard
 };

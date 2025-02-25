@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, TextField, FormControlLabel, FormControl, InputLabel, Select, MenuItem, Checkbox, FormGroup, Typography, RadioGroup, Radio, IconButton } from '@mui/material';
+import { Button, TextField, FormControlLabel, FormControl, InputLabel, Select, MenuItem, Checkbox, FormGroup, Typography, RadioGroup, Radio} from '@mui/material';
 import Grid from "@mui/material/Grid2";
 import { Controller, useForm } from 'react-hook-form';
 import useStore from '@/Libs/store';
@@ -13,7 +13,8 @@ import dayjs from 'dayjs';
 import CustomButton from './CustomButton/CustomButton';
 import EventFilterIcon from '@/assets/svg/EventFilterIcon.svg';
 import CustomDrawer from './CustomDrawer/CustomDrawer';
-import { CloseOutlined } from '@mui/icons-material';
+import { NewDrawerClose } from '@/assets/svg';
+
 
 type FilterProps = {
     datagridId: string;
@@ -289,16 +290,16 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields, filterTransf
                 children={
                     <form onSubmit={handleSubmit(onSubmit)} className='filter' >
                         <Grid className="filter-drawer" spacing={3}>
-                            <Grid container justifyContent={"space-between"} mb={1}>
+                            <Grid container justifyContent={"space-between"} mb={1}  display={"flex"} alignItems={"center"}>
                                 <Typography className="filter-drawer-header">
                                     Filter
                                 </Typography>
-                                <IconButton onClick={() => setIsFilterModalOpen(false)}>
-                                    <CloseOutlined />
-                                </IconButton>
+                                <Grid onClick={() => setIsFilterModalOpen(false)} className="filter-drawer-icon">
+                                    <NewDrawerClose />
+                                </Grid>
                             </Grid>
                             {fields?.map((item: any) => (
-                                <Grid key={item.fieldName} >
+                                <Grid key={item.fieldName}>
                                     <Typography className="filter-drawer-subheader">
                                         {item.heading}
                                     </Typography>

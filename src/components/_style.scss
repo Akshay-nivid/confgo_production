@@ -524,8 +524,16 @@
   padding: 2rem;
   margin: 1rem;
   width: 36rem;
-
+  &-icon{ 
+      cursor: pointer;
+    svg{
+      width: 1.4rem !important;
+      height: 1.4rem !important;
+   
+    }
+  }
   &-header {
+    text-align: end !important;
     font-size: $h5 !important;
     font-weight: $font-semibold !important;
   }
