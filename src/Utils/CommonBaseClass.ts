@@ -459,3 +459,13 @@ export function formatedTimeRangeProgram(
     return `${start.format("MMM DD")} - ${end.format("DD, YYYY h:mm A")}`;
   }
 }
+
+/**
+ * Formats a given date using Moment.js.
+ * @param date The date to format (string | Date | null)
+ * @param format The desired format (default: "YYYY-MM-DD HH:mm")
+ * @returns Formatted date string or empty string if date is invalid
+ */
+export const formatDate = (date: string | Date | null, format: string = "YYYY-MM-DD HH:mm") => {
+  return date ? moment(date).format(format) : "";
+};

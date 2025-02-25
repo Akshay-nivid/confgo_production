@@ -384,8 +384,8 @@ const SessionCard: React.FC<SessionCardProps> = ({
                   {item[startTimeField] && item[endTimeField] ? (
                     <>
                       {formatedTimeRangeProgram(
-                        isValidDate(item[startTimeField])? item[startTimeField]: convertToDateTime(item['startDate'], item['startTime']),
-                        isValidDate(item[endTimeField])? item[endTimeField]: convertToDateTime(item['endDate'], item['endTime'])
+                        isValidDate(item[startTimeField])? item[startTimeField]: convertToDateTime(item['startDate'] || item['date'], item['startTime']),
+                        isValidDate(item[endTimeField])? item[endTimeField]: convertToDateTime(item['endDate'] || item['date'], item['endTime'])
                       )}
                     </>
                   ) : (
