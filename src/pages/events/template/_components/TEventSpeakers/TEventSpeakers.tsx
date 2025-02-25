@@ -4,16 +4,12 @@ import { ElementType } from 'react';
 import config from '../../../../../../config.json';
 import { Avatar, Box, Modal } from '@mui/material';
 import { personPlaceholder } from '@/assets/png';
-import Grid from '@mui/material/Grid2';
-import { Arrow2Left } from '@/assets/svg';
-import { ArrowRight } from '@mui/icons-material';
+
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import "./TEventspeakers.scss";
 import ClockIcon from "../../../../../assets/svg/speaker-clock.svg";
 import AmountIcon from "../../../../../assets/svg/speaker-amount.svg"
-import { IPrograms } from '@/Libs/types/type';
 import { getLocalTimeDate } from '@/Utils/CommonBaseClass';
-import { date } from 'zod';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 interface TEventSpeakersProps {
     ItemWrapper?: ElementType;
@@ -21,7 +17,7 @@ interface TEventSpeakersProps {
     children?: (props: { data: IEventSpeaker[], handleModalOpen: (speaker: IEventSpeaker) => void }) => React.ReactNode;
 
 }
-const TEventSpeakers = ({ ItemWrapper = <></>, usageType, children }: TEventSpeakersProps) => {
+const TEventSpeakers = ({ ItemWrapper = 'div', usageType, children }: TEventSpeakersProps) => {
 
     const event: IEventResponse = useStore(state => state.compData?.['event']?.data) || {}
 
@@ -182,7 +178,6 @@ export const TEventSpeakerModal = () => {
 
 const ProgramCard = ({ className, data }: { className: string, data: IProgram }) => {
 
-    const currency = config.currency;
     return (
         <Box className={className}>
             <Box className="event-speakers-program-card__date-container" display={"flex"} flexDirection={"column"} alignItems={"center"} paddingRight={2}>

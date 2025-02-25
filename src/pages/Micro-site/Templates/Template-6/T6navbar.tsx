@@ -8,7 +8,7 @@ const T6navbar = ({ eventData }: { eventData?: IEventResponse }) => {
     return (
         <TemplateNavbar className='t6-navbar main' eventData={eventData}>
             {
-                ({ data }) => (
+                () => (
                     <Box className="links-container">
                         <Box className='links'>
                             <TLink className='link-item' usageType='Header' targetelementId='speakers' >Speakers</TLink>

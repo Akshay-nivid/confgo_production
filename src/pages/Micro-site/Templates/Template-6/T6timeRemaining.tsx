@@ -1,6 +1,5 @@
 import { IEventResponse } from '@/Libs/types/event'
 import { Box, Typography } from '@mui/material'
-import React from 'react'
 import TEventTimer from '../Template-components/TEventTimer/TEventTimer'
 
 const T6timeRemaining = ({ eventData }: { eventData?: IEventResponse }) => {

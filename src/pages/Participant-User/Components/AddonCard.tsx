@@ -3,16 +3,14 @@ import { Typography, Box } from '@mui/material'
 import Grid from '@mui/material/Grid2'
 import moment from 'moment'
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
-import CustomCheckbox from '@/components/CustomCheckbox/CustomCheckbox'
 import { formatDate } from '../Program-Selection/programsHandlers'
 import clsx from 'clsx'
 import { convertUTCToUserTimeZone, truncateString } from '@/Utils/CommonBaseClass';
-import LocalTimeDate from '@/components/LocalTimeDate/LocalTimeDate';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import Badge from './Badge';
 import { useFormContext } from 'react-hook-form';
 import useStore, { setNonPersistedDataById } from '@/Libs/store';
-import { IAddon, IEventAddonProperty } from '@/Libs/types/event';
+import {  IEventAddonProperty } from '@/Libs/types/event';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import CheckIcon from '@mui/icons-material/Check';
 
@@ -34,7 +32,7 @@ const AddonCard = ({ templateId, addon, date }: IProgramcardProps) => {
 
   const methods = useFormContext();
 
-  const { control, watch } = methods
+  const { watch } = methods
 
   const cart = useStore(state => state.nonPersistedData?.cart)
 
@@ -105,9 +103,9 @@ const AddonCard = ({ templateId, addon, date }: IProgramcardProps) => {
 
 
 
-  function isAddon(addonId: number) {
-    cart?.addons?.some((item: any) => item?.addonId === addonId)
-  }
+  // function isAddon(addonId: number) {
+  //   cart?.addons?.some((item: any) => item?.addonId === addonId)
+  // }
   function isAddonProp(addonProp: IEventAddonProperty) {
     const index = cart?.addons?.findIndex((item: any) => item?.addonId === addonProp?.eventAddonId)
 

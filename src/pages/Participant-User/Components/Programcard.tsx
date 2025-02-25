@@ -3,12 +3,10 @@ import { Typography, Box, Tooltip } from '@mui/material'
 import Grid from '@mui/material/Grid2'
 import moment from 'moment'
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
-import CustomCheckbox from '@/components/CustomCheckbox/CustomCheckbox'
 import { formatDate } from '../Program-Selection/programsHandlers'
 import clsx from 'clsx'
 import { truncateString } from '@/Utils/CommonBaseClass';
-import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
+
 import LocalTimeDate from '@/components/LocalTimeDate/LocalTimeDate';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import { useFormContext } from 'react-hook-form';
@@ -16,7 +14,6 @@ import useStore, { setNonPersistedDataById } from '@/Libs/store';
 import HTMLReactParser from 'html-react-parser/lib/index';
 
 import { YellowSeat, RedSeat } from '@/assets/svg/index';
-import { IProgram } from '@/Libs/types/event';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import { Check } from '@mui/icons-material';
 interface IProgramcardProps {
@@ -33,11 +30,11 @@ interface IProgramcardProps {
  * @returns {JSX.Element} Programcard component
  */
 
-const Programcard = ({ templateId, handleToggleProgramCheckbox, program, date }: IProgramcardProps) => {
+const Programcard = ({ templateId, program, date }: IProgramcardProps) => {
 
     const methods = useFormContext();
 
-    const { control, setValue, watch } = methods
+    const {  watch } = methods
     /**
      * Handles the click event on the view details button
      * Sets the isProgramDetailsModelOpen state to true and sets the programDetails state to the program object

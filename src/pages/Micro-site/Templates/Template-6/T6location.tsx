@@ -1,6 +1,5 @@
 import TLocationMap from '@/pages/events/template/_components/TLocation/TLocation'
 import { Box } from '@mui/material'
-import React from 'react'
 
 const T6location = () => {
     return (

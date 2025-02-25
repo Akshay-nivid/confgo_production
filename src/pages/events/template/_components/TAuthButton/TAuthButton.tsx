@@ -1,5 +1,4 @@
-import useStore, { setDataById, snackBar } from '@/Libs/store';
-import { IEventResponse } from '@/Libs/types/event';
+import  { setDataById } from '@/Libs/store';
 import routes from '@/router/routes';
 import { handleLogout } from '@/Utils/CommonBaseClass';
 import Button, { ButtonProps } from '@mui/material/Button/Button'

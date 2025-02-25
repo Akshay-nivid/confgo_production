@@ -5,7 +5,6 @@ import Grid from '@mui/material/Grid2';
 
 import config from '../../../../../config.json';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
-import SpeakerDetailsModal from '@/pages/events/template/_components/SpeakerDetailsModal';
 
 const T6speakers = () => {
 
@@ -24,7 +23,7 @@ const T6speakers = () => {
                         console.log(data)
                         return (
                             <Grid container columnSpacing={4} rowSpacing={4} className="t6-speakers-container">
-                                {data?.map((speaker: any, index: number) => (
+                                {data?.map((speaker: any) => (
                                     <Grid key={speaker?.id} justifyContent={"center"} size={{ xs: 12, sm: 6, md: 4, lg: 3 }} className="t6-speakers-container">
 
                                         <Card

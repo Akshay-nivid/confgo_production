@@ -13,14 +13,12 @@ import Template2 from './Template2';
 import Template4 from '../approvedTemplate/Template4';
 import { Backdrop, CircularProgress } from '@mui/material';
 import MaintenancePage from './MaintenancePage';
-import Template5 from './Template-5';
-import Template6 from '@/pages/Micro-site/Templates/Template-6';
 type TemplateContainerProps = {
   id?: number;
 }
 
 const templates: any = {
-  1: Template5,
+  1: Template4,
   2: Template2,
   3: Template3,
   4: Template1
