@@ -23,7 +23,6 @@ import EventFeedBack from "./EventFeedBack";
 import PendingProgram from "./PendingProgram";
 import RevenueAndUserChart from "./RevenueAndUserChart";
 import OngoingEvents from "./OngoingEvents";
-import { formatDate } from "@/Utils/CommonBaseClass";
 
 const Dashboard = () => {
   const POST = useStore((state: any) => state.POST);
