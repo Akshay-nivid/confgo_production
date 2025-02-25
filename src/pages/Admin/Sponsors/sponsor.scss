@@ -111,33 +111,31 @@
             width: 0 !important;
             display: none !important;
         }
-
-
         &-content {
-            width: 100vw !important;
-            max-width: 50rem !important;
+            min-width: 39.08rem   !important;
             background-color: $clr_white;
             height: 100vh !important;
-            padding-block: 3rem;
+            padding-block: 1rem;
             padding-inline: 3rem;
             position: relative;
             scrollbar-width: 0 !important;
             overflow-y: hidden;
             display: flex;
             flex-direction: column;
-
+            padding-inline: 2rem;
+            
             .header-container {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                margin-bottom: 3rem;
-
-
+                padding-block: 2.1875rem;
                 &-close {
+                    cursor:  pointer;
                     svg {
-                        color: $clr_gray_faded !important;
-                        height: 1rem;
-                        width: 1rem;
+
+                        height: 1.4rem !important;
+                        width: 1.4rem !important;
+
                     }
 
                 }
