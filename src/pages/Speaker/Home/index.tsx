@@ -1,39 +1,49 @@
 /**
  * Component handles the speaker dashboard
  */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid2';
 import { Typography } from '@mui/material';
 import { findEventStatus } from '@/Utils/CommonBaseClass';
-import useStore from '@/Libs/store';
 import { DataGridList } from '@/components/DataGrid/DataGridList';
 import { NoEvent as NoEventIcon } from "@/assets/svg";
 import StatusComponent from '@/components/Status/StatusComponent';
 import { useNavigate } from 'react-router-dom';
 import routes from "@/router/routes";
+import { ISource } from '@/Libs/types/type';
 
 
 
 const SpeakerHome: React.FC<any> = () => {
 
-    const speakerUserId = useStore((state: any) => state.compData?.["participantUserData"])?.id;
-    const speakerName = sessionStorage.getItem("name");
-    const navigate = useNavigate();
+   
+      const [source, setSource] = useState<ISource | undefined>(undefined);
 
-    const eventSpeakerListReq = {
-        offset: 0,
-        limit: 5,
-        sortBy: "id",
-        sortDirection: "DESC",
-        filters: { userId: speakerUserId },
-    };
+      const speakerName = sessionStorage.getItem("name");
 
-    const eventSpeakerListSource = {
-        method: "POST",
-        data: eventSpeakerListReq,
-        url: `eventSpeaker/list`,
-        listName: "eventSpeakerList",
-    };
+      const navigate = useNavigate();
+
+   /**
+   * fetch datas of Events
+   */
+    useEffect(()=>{
+          (async()=>{
+            const eventSpeakerListReq = {
+                offset: 0,
+                limit: 100,
+                sortBy: "id",
+                sortDirection: "DESC",
+            };
+            setSource({
+            url:`eventSpeaker/assigned/events`,
+            method:"POST",
+            data: eventSpeakerListReq,
+            listName: 'eventSpeakerList',
+            })
+        }
+
+          )();
+    },[]);
 
     const columns = [
         { type: "default", field: "eventId", headerName: "ID", width: 150 },
@@ -48,10 +58,11 @@ const SpeakerHome: React.FC<any> = () => {
     ];
 
     /**
-* Row click navigation
-*/
+    *Row click navigation
+    */
     const handleRowClick = (data: any) => {
-        navigate(routes.speakerDetails(data?.event?.id))
+   
+        navigate(routes.speakerDetails(data?.id))
     };
 
     /**
@@ -64,10 +75,10 @@ const SpeakerHome: React.FC<any> = () => {
         return data.map((item: any) => {
             return {
                 ...item,
-                eventId: item?.event?.id,
-                eventName: item?.event?.name,
-                eventType: item?.event?.eventClass,
-                eventStatus: <Grid container style={{ display: 'flex', alignItems: 'center' }} className="speaker-home-list-status"><StatusComponent className="data-grid-status" value={findEventStatus(item?.event)} /></Grid>
+                eventId:item?.id,
+                eventName:item?.name,
+                eventType:item?.eventClass,
+                eventStatus: <Grid container style={{ display: 'flex', alignItems: 'center' }} className="speaker-home-list-status"><StatusComponent className="data-grid-status" value={findEventStatus(item?.id)} /></Grid>
             };
         });
     };
@@ -81,12 +92,12 @@ const SpeakerHome: React.FC<any> = () => {
             </Grid>
             <Grid size={{ xs: 12, sm: 12 }}>
                 <DataGridList
-                    source={eventSpeakerListSource}
+                    source={source}
                     dataTransformer={transformData}
                     onRowClick={(params: any) => handleRowClick(params.row)}
                     title="Events"
                     columns={columns}
-                    id="event-speaker-home-list"
+                    id="event-speaker-home-lists"
                     noRecordIcon={<NoEventIcon className="event-list-no-events-icon" />}
                     noRecordSubtitle="It seems you are not associated with any events."
                     hideFooterPagination={false}
