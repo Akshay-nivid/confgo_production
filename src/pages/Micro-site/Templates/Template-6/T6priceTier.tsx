@@ -19,7 +19,7 @@ const T6priceTier = () => {
                                 return (
                                     <>
                                         {
-                                            Object?.entries(data).map(([key, priceTier], index: number) => {
+                                           data&& Object?.entries(data)?.map(([key, priceTier], index: number) => {
                                                 const isEven = (index + 1) % 2 === 0
                                                 return (
                                                     <Grid size={{ xs: 10, md: 5 }} key={key} className={clsx('tier-item', isEven ? 'even-item' : 'odd-item')}>
