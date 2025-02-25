@@ -7,7 +7,6 @@ import clsx from 'clsx';
 
 const TemplateNavbar = ({ children, eventData, className }: { children: (props: { data?: IEventResponse }) => React.ReactNode, eventData?: IEventResponse; className?: string }) => {
 
-    console.log(eventData, 'eventData')
 
     const baseUrl = config.api.url
 
