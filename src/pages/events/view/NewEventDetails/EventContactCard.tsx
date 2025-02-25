@@ -14,9 +14,8 @@ const EventContactCard=(id:any)=>{
   
     const event = useStore( (state: any) => state.compData?.eventIdData?.[`event/${data}`]  ) || {};
     
-      const [{phone}]=event?.data?.eventContacts || [{}];
-      const [{email}]=event?.data?.eventContacts || [{}];
-
+  
+    
     /**
      * Fetching Event contact Details
      */
@@ -51,17 +50,20 @@ const EventContactCard=(id:any)=>{
         {
             id:1,
             icon:<EventMessage/>,
-            info:email
+            info:event?.data?.eventContacts[0]?.email
         },
         {
             id:2,
             icon:<EventPhone/>,
-            info:phone
+            info:event?.data?.eventContacts[0]?.phone
         }
 
     ]
-
+    if (event?.data?.eventContacts.length === 0) {
+        return null;
+      }
    return(
+    
     <Grid container className="EventContactCard-grid" size={12} spacing={0}>
         
         <Grid className="EventContactCard-grid-box"  size={12} container spacing={2}>
