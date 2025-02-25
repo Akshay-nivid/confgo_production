@@ -17,7 +17,12 @@ export const initialNonPersistedData = {
     sponsorDrawerType: { value: null },
 
     sponsorId: { value: null },
-    
+
+    cart: {
+        programIds: [],
+        addons: [],
+    }
+    ,
     sponsorAdminDetails: {
         value: {
             name: null,

@@ -29,6 +29,7 @@ export interface IEventResponse {
   programs: IProgram[]
   addons: IAddons[];
   eventContacts: IEventContact[];
+  eventSponsors: IEventSponsor[];
   url: string | null;
   specialtyId: number;
   speciality: ISpeciality;
@@ -159,7 +160,7 @@ export interface IProgram {
   status: IStatus;
   eventParticipantEntries: Partial<IEventCapacity>;
   eventSpeakers: IEventSpeaker[];
-  eventSponsors: IEventSponsor[];
+  eventSponsors: ISponsor[];
 
 }
 
@@ -241,4 +242,28 @@ export interface ISpeciality {
   id: number;
   name: string;
   description: string;
+}
+
+
+
+
+export interface IEventSponsorType {
+  id: number;
+  name: string;
+  description: string;
+}
+
+
+interface ISponsor {
+  id: number;
+  sponsorId: number;
+  sponsorTypeId: number;
+  eventId: number;
+  parentEventId: number;
+  eventAddonId: number | null;
+  eventAddonPropertyId: number | null;
+  reservedSeats: number | null;
+  statusId: number;
+  sponsor: IEventSponsor;
+  sponsorType: IEventSponsorType;
 }

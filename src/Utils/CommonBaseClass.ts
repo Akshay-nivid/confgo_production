@@ -19,7 +19,17 @@ export function processAPIResponse(response: any, api: string) {
       status = false;
       message = resData.message;
       sessionStorage.clear();
-      // window.location.href = "/organization/login";
+      
+      const isCompany = sessionStorage.getItem('userLoggedInType') === 'COMPANYADMIN' 
+
+      if (isCompany) {
+      window.location.href = "/organization/login";
+        
+      } else {
+      window.location.href = "/user/login";
+        
+      }
+
       return { status, message, data };
     } else if (response.status === 401 && api.includes("login")) {
       status = false;
@@ -449,3 +459,13 @@ export function formatedTimeRangeProgram(
     return `${start.format("MMM DD")} - ${end.format("DD, YYYY h:mm A")}`;
   }
 }
+
+/**
+ * Formats a given date using Moment.js.
+ * @param date The date to format (string | Date | null)
+ * @param format The desired format (default: "YYYY-MM-DD HH:mm")
+ * @returns Formatted date string or empty string if date is invalid
+ */
+export const formatDate = (date: string | Date | null, format: string = "YYYY-MM-DD HH:mm") => {
+  return date ? moment(date).format(format) : "";
+};

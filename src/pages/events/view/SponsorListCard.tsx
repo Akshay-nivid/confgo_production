@@ -3,7 +3,7 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { ISource } from "@/Libs/types/type";
 import Grid from "@mui/material/Grid2";
 import { useCallback, useEffect, useState } from "react";
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from "@mui/icons-material/Add";
 import { useForm } from "react-hook-form";
 import apiClient from "@/Libs/Https/API-client";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
@@ -17,20 +17,23 @@ import AssignedSponsors from "./AssignedSponsor";
 import config from "../../../../config.json";
 import { POST, setDataById } from "@/Libs/store";
 
-interface Sponsor{
+interface Sponsor {
   value: number;
-  label:string;
+  label: string;
 }
 
 interface sponsorprops {
-  drawerOpened?:boolean
-  expanded?:any
+  drawerOpened?: boolean;
+  expanded?: any;
   // eventData?:any
 }
 /**
  * Component to display a list of volunteers with search, assign and filter functionality.
  */
-const SponsorListCard : React.FC<sponsorprops> = ({drawerOpened,expanded}) => {
+const SponsorListCard: React.FC<sponsorprops> = ({
+  drawerOpened,
+  expanded,
+}) => {
   const { id } = useParams();
   const [searchResults, setSearchResults] = useState([]);
   // const [filters, setFilters] = useState({ });
@@ -38,53 +41,55 @@ const SponsorListCard : React.FC<sponsorprops> = ({drawerOpened,expanded}) => {
   const [loading, setLoading] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const closeOrganisationDrawer = () => setDrawerOpen(false);
-  const [sponsorType,setSponsorType]=useState<Sponsor[]>([]);
+  const [sponsorType, setSponsorType] = useState<Sponsor[]>([]);
   const [isSponsorTypeLoading, setIsSponsorTypeLoading] = useState(true); // Track loading state for sponsorType
-
 
   const { control } = useForm();
 
   useEffect(() => {
-    getSponsor()
-  }, [])
+    getSponsor();
+  }, []);
 
   useEffect(() => {
-    drawerOpened && expanded =='panel4-header' ? setDrawerOpen(true) : setDrawerOpen(false)
+    drawerOpened && expanded == "panel4-header"
+      ? setDrawerOpen(true)
+      : setDrawerOpen(false);
   }, [expanded]);
 
   /**
    * Fetches the volunteer list when the component mounts.
    */
   useEffect(() => {
-
     sponsorList();
   }, []);
-   const getSponsor=async ()=>{
+  const getSponsor = async () => {
     setIsSponsorTypeLoading(true); // Set loading state to true
-            await POST({
-                url:'sponsorType/list',
-                body:{},
-                id:'sponsorType-list',
-                successCB: (_context: any) => {
-                  let _sponsor:any=[];
-                  _context.data.forEach((item: any) => {
-                    _sponsor.push({
-                      value: item?.id,
-                      label: item?.name
-                    })
-                  })
-                  setSponsorType(_sponsor)
-                  setIsSponsorTypeLoading(false); // Set loading state to false after data is fetched
-
-                }, 
-                errorCB: (context: any) => {
-                    setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
-                    setIsSponsorTypeLoading(false); // Set loading state to false after data is fetched
-
-                }
-            });
-        }
-  
+    await POST({
+      url: "sponsorType/list",
+      body: {},
+      id: "sponsorType-list",
+      successCB: (_context: any) => {
+        let _sponsor: any = [];
+        _context.data.forEach((item: any) => {
+          _sponsor.push({
+            value: item?.id,
+            label: item?.name,
+          });
+        });
+        setSponsorType(_sponsor);
+        setIsSponsorTypeLoading(false); // Set loading state to false after data is fetched
+      },
+      errorCB: (context: any) => {
+        setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "error",
+          message: context?.message,
+        });
+        setIsSponsorTypeLoading(false); // Set loading state to false after data is fetched
+      },
+    });
+  };
 
   /**
    * Function to set the initial request configuration for fetching volunteer data.
@@ -93,9 +98,9 @@ const SponsorListCard : React.FC<sponsorprops> = ({drawerOpened,expanded}) => {
     const req = {
       offset: 0,
       limit: 5,
-      filters:{
-      parentEventId:id,
-      }
+      filters: {
+        parentEventId: id,
+      },
     };
 
     setSource({
@@ -123,9 +128,19 @@ const SponsorListCard : React.FC<sponsorprops> = ({drawerOpened,expanded}) => {
         name: item?.name,
         email: item?.email,
         phone: item?.phone,
-        sponsorType:  sponsorType.find(type => type.value === item?.eventSponsors[0]?.sponsorTypeId)?.label || '-', 
+        sponsorType:
+          sponsorType.find(
+            (type) => type.value === item?.eventSponsors[0]?.sponsorTypeId
+          )?.label || "-",
         status: item?.statusId,
-        logo: <Avatar className='top-2' src={`${baseUrl}/asset/${item?.logoAssetId}`} >{item?.name?.slice(0, 2)}</Avatar>,
+        logo: (
+          <Avatar
+            className="top-2"
+            src={`${baseUrl}/asset/${item?.logoAssetId}`}
+          >
+            {item?.name?.slice(0, 2)}
+          </Avatar>
+        ),
       };
     });
   };
@@ -142,9 +157,8 @@ const SponsorListCard : React.FC<sponsorprops> = ({drawerOpened,expanded}) => {
           offset: 0,
           limit: 5,
           filters: {
-            parentEventId:id,
+            parentEventId: id,
             name: selected?.name,
-
           },
         },
         url: `sponsor/list`,
@@ -152,7 +166,6 @@ const SponsorListCard : React.FC<sponsorprops> = ({drawerOpened,expanded}) => {
       });
     }
   };
-
 
   /**
    * Searches sponsor based on the query entered by the user.
@@ -163,18 +176,12 @@ const SponsorListCard : React.FC<sponsorprops> = ({drawerOpened,expanded}) => {
     try {
       const req = {
         filters: {
-          parentEventId:id,
+          parentEventId: id,
           name: query,
         },
       };
-      const response =  await apiClient.post(
-        `sponsor/list`,
-        req
-      );
-      const { status, data } = processAPIResponse(
-        response,
-        "eventSponsorList"
-      );
+      const response = await apiClient.post(`sponsor/list`, req);
+      const { status, data } = processAPIResponse(response, "eventSponsorList");
       if (status) {
         setSearchResults(data);
       }
@@ -193,8 +200,7 @@ const SponsorListCard : React.FC<sponsorprops> = ({drawerOpened,expanded}) => {
       field: "logo",
       headerName: "Logo",
       width: 110,
-
-  },
+    },
     { type: "default", field: "name", headerName: "Name", width: 150 },
     {
       type: "default",
@@ -233,9 +239,7 @@ const SponsorListCard : React.FC<sponsorprops> = ({drawerOpened,expanded}) => {
 
   const onClose = () => {
     closeOrganisationDrawer();
-  }
-
-
+  };
 
   return (
     <Grid container>
@@ -253,9 +257,7 @@ const SponsorListCard : React.FC<sponsorprops> = ({drawerOpened,expanded}) => {
             placeholder="Search by Name, Phone or email ..."
             control={control}
             options={searchResults}
-            getOptionLabel={(option: any) =>
-              option?.name || ""
-            }
+            getOptionLabel={(option: any) => option?.name || ""}
             onSearch={handleSearch}
             loading={loading}
             onChange={handleAutocompleteChange}
@@ -274,23 +276,22 @@ const SponsorListCard : React.FC<sponsorprops> = ({drawerOpened,expanded}) => {
         </Grid>
       </Grid>
       <Grid size={{ xs: 12 }}>
-      {!isSponsorTypeLoading && (
-        <DataGridList
-          dataTransformer={transformData}
-          source={source}
-          title="Sponsors"
-          hideFooterPagination={false}
-          columns={columns}
-          id="sponsor-lists"
-          noRecordIcon={<NoCouponDataSvg className="no-coupon-icon"/>}
-          noRecordSubtitle="cIt looks like you haven't assigned any sponsor yet ."
-        />
-      )}
+        {!isSponsorTypeLoading && (
+          <DataGridList
+            dataTransformer={transformData}
+            source={source}
+            title="Sponsors"
+            hideFooterPagination={false}
+            columns={columns}
+            id="sponsor-lists"
+            noRecordIcon={<NoCouponDataSvg className="no-coupon-icon" />}
+            noRecordSubtitle="cIt looks like you haven't assigned any sponsor yet ."
+          />
+        )}
       </Grid>
 
       <CustomDrawer open={drawerOpen} type="right">
-        <AssignedSponsors onClose={onClose}   sponsorList={sponsorList} 
- />
+        <AssignedSponsors onClose={onClose} sponsorList={sponsorList} />
       </CustomDrawer>
     </Grid>
   );

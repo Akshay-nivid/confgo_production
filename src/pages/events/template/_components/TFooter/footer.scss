@@ -1,0 +1,51 @@
+$light-text: hsla(0, 0%, 90%, 1);
+
+.template-footer {
+
+
+    background-color: $clr_medium_black;
+    min-height: 18rem;
+    color: $clr_white;
+    padding-block: $h1;
+
+
+
+
+    .logo {
+        // svg {
+        width: 10rem;
+        height: 4rem;
+        // }
+    }
+
+    .social-icon {
+        // svg {
+        width: 2rem;
+        height: 2rem;
+        // }
+    }
+
+    &-sub-container {
+        &-item {
+            a:hover {
+                color: $clr_blue !important;
+            }
+        }
+    }
+
+    .text-small {
+        font-size: $p1;
+
+    }
+
+    .copyright {
+        color: $light-text;
+        text-align: end;
+        margin-top: 4rem;
+        font-size: $p3;
+    }
+
+
+
+
+}

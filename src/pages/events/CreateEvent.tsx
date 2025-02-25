@@ -371,6 +371,15 @@ const CreateEvent: React.FC<EventProps> =
     setRandomNumber(Math.floor(Math.random()*1000000)); //generate random 6 digit
   };
 
+  //hook used to fetch the value suddenly when the address selected
+  useEffect(() => {
+    if (watch("address")) {
+      setValue("venueName", watch("venueName"));
+      setValue("city", watch("city"));
+      setValue("state", watch("state"));
+      setValue("postalCode", watch("postalCode"));
+    }
+  }, [watch("address")]);
 
     /**
    * Handle closing the Google Place Picker
@@ -553,8 +562,47 @@ const CreateEvent: React.FC<EventProps> =
                         />  
                          {isPlacePickerOpen && (
         <GoogleMapPlacePicker createEvent={true} randomNumber={randomNumber} onClose={handlePlacePickerClose} />
-      )}                   
-                  </Grid>
+      )}           
+
+                          
+                  </Grid>          
+
+                  )}
+                  {watch("type") !=="ONLINE"  && watch('address') !== undefined && (
+                    <>
+                    <Grid size={{ xs:12, sm:6}}>
+                      <CustomTextField
+                      placeholder="Venue Name"
+                      control={control}
+                      name="venueName"
+                      type="text"
+                      />
+                    </Grid>
+                    <Grid size={{ xs:12, sm:6}}>
+                       <CustomTextField
+                      placeholder="City"
+                      control={control}
+                      name="city"
+                      type="text"
+                      />
+                    </Grid>
+                    <Grid size={{ xs:12, sm:6}}>
+                       <CustomTextField
+                      placeholder="State"
+                      control={control}
+                      name="state"
+                      type="text"
+                      />
+                    </Grid>
+                    <Grid size={{ xs:12, sm:6}}>
+                       <CustomTextField
+                      placeholder="Zip Code"
+                      control={control}
+                      name="postalCode"
+                      type="text"
+                      />
+                    </Grid>
+                    </>
                   )}
                   {watch("type") !== "OFFLINE" && (
                     <Grid size={{ xs: 12, sm: 12 }}>

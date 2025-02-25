@@ -63,8 +63,7 @@ const EventDropDown = (data: any): JSX.Element => {
      */
 
     useEffect(() => {
-
-        if (!publishedEventInitialFetchDone) {
+        if (publishedEventInitialFetchDone) {
             setValue('fieldType', publishedEvent?.[0]?.id);
             setNonPersistedDataById("publishedEventInitialFetchDone", { value: true })
         }

@@ -14,8 +14,9 @@ import CustomButton from '@/components/CustomButton/CustomButton';
 import DashboardEventCards from './DashboardEventCard';
 import NoCalenderData from './NoCalenderData';
 import NoDataCard from './NoDataCard';
-import { useIsMobileScreen } from '@/Utils/CommonBaseClass';
+import { formatUTCDateTime, useIsMobileScreen } from '@/Utils/CommonBaseClass';
 import EventCard from '../Participant-User/Components/EventCard';
+import OngoingEventCard from './OngoingEventCard';
 
 export interface CalendarCardData {
   id: string;
@@ -46,6 +47,8 @@ const UserDashboard: React.FC = React.memo(() => {
   const isMobileView = useIsMobileScreen()
   const userId = sessionStorage.getItem('userId');
   const firstCheckedIn = userCompletedEvents.data?.find((event: { checkedIn: any; }) => event.checkedIn) || null;
+  const today=formatUTCDateTime(new Date().toISOString()).split("T")[0]
+  const EventStartDate = formatUTCDateTime(userEvents?.startTime).split("T")[0]
   /**
   * Useeffect hook handles the api call 
   */
@@ -85,6 +88,7 @@ const UserDashboard: React.FC = React.memo(() => {
   * fetch upcoming events
   */
   const fetchUpcomingEvents = async () => {
+    const formattedDate=formatUTCDateTime(new Date().toISOString().split("T")[0] + "T00:00")
     try {
       setIsCalendarLoading(true);
       await POST({
@@ -95,7 +99,7 @@ const UserDashboard: React.FC = React.memo(() => {
           sortBy: "id",
           sortDirection: "ASC",
           filters: {
-            "startTime": new Date().toISOString().replace("T", " ").split(".")[0]
+            "startTime": formattedDate.replace("T"," ")
           },
         },
         id: 'userLatestEvents',
@@ -250,6 +254,7 @@ const UserDashboard: React.FC = React.memo(() => {
         <Grid container className="dashboard-right-calendar" >
             {isCalendarLoading ? <CircularProgress /> :
             userEvents && Array.isArray(userEvents['event/list']?.data) && userEvents['event/list']?.data.length > 0 ? 
+              EventStartDate == today ? <OngoingEventCard data={userEvents['event/list']?.data}/> : 
               <CalendarCard data={userEvents} />
               :<NoCalenderData/>
             }

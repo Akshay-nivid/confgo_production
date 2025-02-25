@@ -32,6 +32,7 @@ export interface ApiResponse {
     acceptedTerms: number;
     companyId: any;
     phone: string;
+    refreshToken: string;
   };
 }
 
@@ -100,7 +101,7 @@ const LoginOrg = () => {
    * @param data - The response data from the API.
    */
   const handleLoginSuccess = async (data: ApiResponse['data']) => {
-    const { userRole, token, firstName, lastName, subscriptionStatus, companyId, email, phone, acceptedTerms, id } = data;
+    const { userRole, token, firstName, lastName, subscriptionStatus, companyId, email, phone, acceptedTerms, id, refreshToken } = data;
 
     sessionStorage.clear();
     sessionStorage.setItem('isUserLoggedIn', 'true');
@@ -108,6 +109,7 @@ const LoginOrg = () => {
     sessionStorage.setItem('token', token);
     sessionStorage.setItem('ssoUser', 'false');
     sessionStorage.setItem('userId', id?.toString());
+    sessionStorage.setItem('refreshToken', refreshToken)
     // Set the authentication token for API client
     apiClient.setToken(token);
     // Check if the user is of type "COMPANY"

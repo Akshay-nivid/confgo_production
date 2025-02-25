@@ -706,3 +706,16 @@
         }
     }
 }
+
+.live-icon {
+    width: 0.833rem;
+    height: 0.833rem;
+    background-color: $clr_medium_red;
+    border-radius: 50%;
+    margin-bottom: 0.25rem;
+    opacity: 0; // Default state
+  
+    &.visible {
+      opacity: 0.5; // When `isVisible` is true
+    }
+  }
