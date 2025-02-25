@@ -37,7 +37,7 @@ const TEventSpeakers = ({ ItemWrapper = 'div', usageType, children }: TEventSpea
     function getUniqueSpeakers(speakers: any) {
         const uniqueSpeakersMap = new Map<number, any>();
 
-        speakers.forEach((speaker: any) => {
+        speakers?.forEach((speaker: any) => {
             if (!uniqueSpeakersMap.has(speaker.userId)) {
                 uniqueSpeakersMap.set(speaker.userId, speaker);
             }
