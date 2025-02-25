@@ -5,7 +5,7 @@ import routes from "@/router/routes";
 import { toCamelCase } from "@/Utils/CommonBaseClass";
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 /*
@@ -16,6 +16,7 @@ const PlanBilling: React.FC<any> = () => {
     const navigate = useNavigate();
     const planLoaded = useStore((state: any) => state?.nonPersistedData?.['plan-data']?.value) ?? false;
     const planData = useStore((state: any) => state?.compData?.['plan-list-data']?.['plan/list']?.data) ?? [];
+    const [isDisabled, setIsDisabled] = useState(false);
     /*
     * get state data if selected plan data is there
     */
@@ -51,8 +52,13 @@ const PlanBilling: React.FC<any> = () => {
      * function to change the state and store selected plan
      */
     const handleClick = (plan?: any) => {
-        setDataById('planDetails', { field_values: { ...plan } });
-        navigate(routes.upgradePlanPayment());
+        if (!isDisabled) {
+            // Set button to disabled state
+            setIsDisabled(true);
+
+            setDataById('planDetails', { field_values: { ...plan } });
+            navigate(routes.upgradePlanPayment());
+        }
     }
 
     const planMapper: Record<string, React.ReactNode> = {
@@ -113,6 +119,7 @@ const PlanBilling: React.FC<any> = () => {
                                     variant="outlined"
                                     label={plan?.name == "ENTERPRISE_PLAN" ? "Contact Us" : "Choose this plan"}
                                     onClick={plan?.name != "ENTERPRISE_PLAN" ? () => handleClick(plan) : () => handleContactUs()}
+                                    disabled={isDisabled}
                                     fullWidth
                                 />
                             </Grid>
