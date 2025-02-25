@@ -19,7 +19,17 @@ export function processAPIResponse(response: any, api: string) {
       status = false;
       message = resData.message;
       sessionStorage.clear();
-      // window.location.href = "/organization/login";
+      
+      const isCompany = sessionStorage.getItem('userLoggedInType') === 'COMPANYADMIN' 
+
+      if (isCompany) {
+      window.location.href = "/organization/login";
+        
+      } else {
+      window.location.href = "/user/login";
+        
+      }
+
       return { status, message, data };
     } else if (response.status === 401 && api.includes("login")) {
       status = false;

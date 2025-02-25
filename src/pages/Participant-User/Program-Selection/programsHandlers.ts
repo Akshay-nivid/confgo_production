@@ -164,7 +164,6 @@ function sortDates(dates: string[], ascending = true) {
           
           return `${year}-${monthNum}-${paddedDay}`;
       } catch (error) {
-          console.error(`Error processing date: ${dateStr}`, error);
           // Return a far future or past date based on ascending order
           // This will push invalid dates to the end/beginning of the sorted array
           return ascending ? '9999-99-99' : '0000-00-00';
