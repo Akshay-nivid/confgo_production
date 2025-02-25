@@ -71,7 +71,11 @@ const PlanBilling: React.FC<any> = () => {
      * It updates the global state based on the mode and navigates to the appropriate route.
      */
     const handleContactUs = () => {
-        navigate(routes.contact());
+        if (!isDisabled) {
+            // Set button to disabled state
+            setIsDisabled(true);
+            navigate(routes.contact());
+        }
     }
 
     return <Grid container size={{ xs: 12, sm: 12 }} spacing={1}>
