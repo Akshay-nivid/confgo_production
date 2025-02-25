@@ -135,7 +135,7 @@ const AdminPaymentList: React.FC = () => {
         amount: item?.amount,
         status: <Grid  className="payment-history-container-status" size={12} > <StatusComponent  value={item?.state ==="COMPLETED"?'12':"3"}  /> </Grid> ,
         createdOn: item?.createdOn,
-        Receipt: <Grid container justifySelf={"center"}><CustomButton variant='outlined' label={"[Download]"} className="textButton" onClick={() => {
+        Receipt: <Grid container  className="payment-history-container-receipt" justifySelf={"center"}><CustomButton variant='outlined' label={"[Download]"} className="textButton" onClick={() => {
           handlePdfGenerate(item.id);
         }}/></Grid>,
         PaymentMethod: item.paymentReferenceNumber

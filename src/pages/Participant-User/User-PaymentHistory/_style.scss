@@ -10,6 +10,10 @@
    }
    &-status{
     margin-block:1rem;
+    }
+   &-receipt{
+    display: flex !important; 
+    min-height: 100% !important; 
    }
    .no-event{
     width: 29.69rem;   
