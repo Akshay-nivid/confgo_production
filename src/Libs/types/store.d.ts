@@ -26,7 +26,7 @@ export interface NonPersistedData {
         programIds: number[],
         addons: {
             addon: IAddon,
-            addonProperties: IAddonProperty[]
+            propertyIds: IAddonProperty[]
         }[],
         
     }

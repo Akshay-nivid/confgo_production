@@ -5,6 +5,7 @@ import { Box } from '@mui/material'
 
 const T6navbar = ({ eventData }: { eventData?: IEventResponse }) => {
 
+
     return (
         <TemplateNavbar className='t6-navbar main' eventData={eventData}>
             {

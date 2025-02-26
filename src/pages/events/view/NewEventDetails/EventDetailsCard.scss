@@ -28,13 +28,14 @@
 
         }
     }
-    &-time{
+    .Info-time{
         .svg{
            svg{
             width: 2.6rem;
             height: 2.6rem;
            }      
         }
+        .heading{
         .title{
             font-size: $p2;
             font-weight: $font_bold;
@@ -43,6 +44,7 @@
             font-size: $h6;
             font-weight: $font-medium;
         }
+    }
     }
     &-viewProgram{
         padding-right: 1rem;

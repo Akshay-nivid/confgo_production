@@ -5,13 +5,17 @@ import Grid from '@mui/material/Grid2';
 
 import config from '../../../../../config.json';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
+import { IEventResponse } from '@/Libs/types/event';
 
-const T6speakers = () => {
+const T6speakers = ({eventData}:{eventData?: IEventResponse}) => {
 
     const baseUrl = config.api.url
 
+    const isSpeakers = Array.isArray(eventData?.eventSpeakers) && eventData?.eventSpeakers.length > 0
+
     return (
-        <Box className='t6-speakers-section'>
+    <>
+        {isSpeakers ? <Box className='t6-speakers-section'>
             <Box className='main'>
                 <h3 className='template-section-title  t6-speakers-section-title'>Meet Our Esteemed Speakers</h3>
             </Box>
@@ -23,7 +27,7 @@ const T6speakers = () => {
                         return (
                             <Grid container columnSpacing={4} rowSpacing={4} className="t6-speakers-container">
                                 {data?.map((speaker: any) => (
-                                    <Grid key={speaker?.id} justifyContent={"center"} size={{ xs: 12, sm: 6, md: 4, lg: 3 }} className="t6-speakers-container">
+                                    <Grid key={speaker?.id} justifyContent={"center"} size={{ xs: 12, sm: 6, md: 4, lg: 4 }} className="t6-speakers-container">
 
                                         <Card
                                             sx={{
@@ -96,7 +100,8 @@ const T6speakers = () => {
             </Grid >
             <TEventSpeakerModal />
 
-        </Box >
+            </Box >:<></>}
+            </>
     )
 }
 

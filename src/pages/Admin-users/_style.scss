@@ -1,5 +1,5 @@
 .admin-users{
-    width: 100%;
+    // width: 100%;
     max-width: 39.08rem;
     background-color: $clr_white;
     padding-block: 2.1875rem;
@@ -13,12 +13,12 @@
         margin-bottom: auto !important;
         
         &-drawerClose{
-            cursor: pointer;
             padding-right: 1rem !important;
             svg{
-            width: 1.4rem !important;
-            height: 1.4rem !important;
-           
+                cursor: pointer;
+                width: 1.5rem;
+                height: 1.5rem;
+                margin-bottom: 0.3rem;
              
         }
         }

@@ -1,15 +1,26 @@
 .create-coupon {
+
   &-container {
-    background-color: $clr_white;
-    margin: 1rem;
-    border-radius: 0.9rem;
-    width: 100%;
-    max-width: 40rem;
+    max-width: 37.08rem;
+   
+    &-header-box{
+      margin-block: 2rem;
+      position: sticky;
+      top: 0;
+
+      svg{
+        cursor: pointer;
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-bottom: 0.3rem;
+      }
   }
-  &-form {
-    padding-top: 1rem !important;
-    padding-bottom: 3rem !important;
   }
+  
+  // &-form {
+  //   padding-top: 1rem !important;
+  //   padding-bottom: 3rem !important;
+  // }
   &-next-btn {
     max-height: 4rem;
     background-color: $clr_green !important;
@@ -58,7 +69,6 @@
     font-size: $p2 !important;
     font-weight: $font_medium !important;
 }
-  
 }
 .no-coupon-icon{
   height: 13.83rem;

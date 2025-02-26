@@ -36,6 +36,12 @@ const AddonCard = ({ templateId, addon, date }: IProgramcardProps) => {
 
   const cart = useStore(state => state.nonPersistedData?.cart)
 
+  /**
+   * Handles the click event on the add-on card.
+   * If the add-on is already in the cart, it removes it.
+   * If the add-on is not in the cart, it adds it.
+   * @param {number} addonId - The id of the add-on to be added or removed.
+   */
   function handleAddonClick(addonId: number) {
 
     const targetIndex = cart.addons?.findIndex((item: any) => item?.addonId === addonId)
@@ -55,6 +61,15 @@ const AddonCard = ({ templateId, addon, date }: IProgramcardProps) => {
 
   }
 
+/**
+ * Toggles the selection of an add-on property in the cart.
+ * If the add-on property is already selected, it will be removed.
+ * If it is not selected, it will be added.
+ * If no properties remain selected for an add-on, the add-on itself is removed from the cart.
+ * 
+ * @param {IEventAddonProperty} addonProp - The add-on property to toggle.
+ */
+
   function handleClickAddonProp(addonProp: IEventAddonProperty) {
 
 
@@ -69,16 +84,16 @@ const AddonCard = ({ templateId, addon, date }: IProgramcardProps) => {
 
       const currentData = cart?.addons?.[target];
 
-      const index = currentData?.addonProperties?.findIndex((item: any) => item === addonProp?.id)
+      const index = currentData?.propertyIds?.findIndex((item: any) => item === addonProp?.id)
 
-      const addonProperties = index !== -1 ? [...currentData?.addonProperties?.filter((item: any) => item !== addonProp?.id)] : [...currentData?.addonProperties, addonProp?.id]
+      const addonProperties = index !== -1 ? [...currentData?.propertyIds?.filter((item: any) => item !== addonProp?.id)] : [...currentData?.propertyIds, addonProp?.id]
 
 
       if (addonProperties.length === 0) {
         setNonPersistedDataById('cart', { ...cart, addons: [...cart?.addons?.filter((item: any) => item?.addonId !== addonProp?.eventAddonId)] });
 
       } else {
-        setNonPersistedDataById('cart', { ...cart, addons: [...cart?.addons?.filter((item: any) => item?.addonId !== addonProp?.eventAddonId), { ...currentData, addonProperties: addonProperties }] });
+        setNonPersistedDataById('cart', { ...cart, addons: [...cart?.addons?.filter((item: any) => item?.addonId !== addonProp?.eventAddonId), { ...currentData, propertyIds: addonProperties }] });
 
       }
 
@@ -86,7 +101,7 @@ const AddonCard = ({ templateId, addon, date }: IProgramcardProps) => {
 
 
     } else {
-      const data = { addonId: addonProp?.eventAddonId, addonProperties: [addonProp?.id] }
+      const data = { addonId: addonProp?.eventAddonId, propertyIds: [addonProp?.id] }
 
       setNonPersistedDataById('cart', { ...cart, addons: [...cart?.addons, data] });
     }
@@ -99,16 +114,21 @@ const AddonCard = ({ templateId, addon, date }: IProgramcardProps) => {
   }
 
 
-
-  // function isAddon(addonId: number) {
-  //   cart?.addons?.some((item: any) => item?.addonId === addonId)
-  // }
+  /**
+   * Function checks if the given addon property is already selected in the cart.
+   * It loops through the cart and checks if the addonId of the property matches
+   * any of the addonId in the cart. If it does, it then checks if the propertyId
+   * of the given addon property is present in the array of propertyIds of the
+   * matching addon in the cart. If it is, it returns true, otherwise it returns false.
+   * @param {IEventAddonProperty} addonProp - The addon property to be checked.
+   * @returns {boolean} - True if the addon property is selected in the cart, false otherwise.
+   */
   function isAddonProp(addonProp: IEventAddonProperty) {
     const index = cart?.addons?.findIndex((item: any) => item?.addonId === addonProp?.eventAddonId)
 
     if (index === -1) return
 
-    return cart?.addons?.[index]?.addonProperties?.some((item: any) => item === addonProp?.id)
+    return cart?.addons?.[index]?.propertyIds?.some((item: any) => item === addonProp?.id)
 
 
   }

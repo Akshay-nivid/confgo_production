@@ -374,14 +374,24 @@
          
     }
     &-drawer{
-        width: 40rem !important;
-        height: 30rem;
-        padding-inline:2rem;
-        &-heading{
-            font-size: $h3 !important;
-            font-weight: $font-bold;
-            padding-top: 1rem;
-        }
+        min-width: 37.08rem !important;
+        padding-inline:2.833rem !important;
+        &-Box {
+            margin-block: 1rem !important;
+        &-icon{
+                svg {
+                    cursor: pointer;
+                    width: 1.5rem;
+                    height: 1.5rem;
+                    margin-bottom: 0.3rem;
+                }
+            }
+        
+                &-heading {
+                    font-size: $h3 !important;
+                    font-weight: $font-bold;
+                }
+    }
     }
    &-saved-addons{
     min-height: 20rem !important;
@@ -1695,15 +1705,26 @@
 
 
 }
-
-.registration-fee-list {
-    padding: 1.333rem !important;
-    &-heading {
+.configure-drawer{
+      max-width: 37.08rem !important;
+      .box{
+        padding-inline: 2.08rem;
+        padding-block: 2rem;
+      .heading {
         font-weight: $font_semibold !important;
         font-size: $h5 !important;
-        padding: 1.333rem !important;
+      
     }
-
+    .icon{
+        cursor: pointer;
+    svg{
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+    }
+}
+.registration-fee-list {
+   
     &-sub-heading {
         font-weight: $font_medium !important;
         font-size: $h6 !important;
@@ -1772,6 +1793,7 @@
     }
 
 
+}
 }
 
 .unpublish-modal {
@@ -2164,14 +2186,25 @@
          
     }
     &-drawer{
-        width: 40rem !important;
-        height: 30rem;
-        padding-inline:2rem;
+        padding-inline:2.833rem;
+        min-width: 37.08rem !important;
+        &-content{
+            padding-block: 2rem;
+            position: sticky;
+            top: 0;
         &-heading{
-            font-size: $h3 !important;
-            font-weight: $font-bold;
-            padding-top: 1rem;
+            font-size: $h5 !important;
+            font-weight: $font-semibold !important;
         }
+        &-close{
+            svg{
+                cursor: pointer;
+                width: 1.5rem;
+                height: 1.5rem;
+                margin-bottom: 0.3rem;
+            }
+        }
+    }
     }
    &-saved-addons{
     min-height: 20rem !important;
