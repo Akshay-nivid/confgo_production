@@ -268,7 +268,7 @@ const Dashboard = () => {
 
 
           {upcomingData &&
-            <Grid size={{ xs: 12,md:6,lg:12 }} container  className="dashboard-calendar-card shadow-app" >
+            <Grid size={{ xs: 12,md:6,lg:12 }} container display={"flex"} alignItems={"center"} justifyContent={"center"}   className="dashboard-calendar-card shadow-app" >
 
               <PendingProgram />
 

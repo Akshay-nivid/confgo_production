@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Typography,IconButton } from '@mui/material';
+import {Typography,IconButton, Box } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useForm } from 'react-hook-form';
 import CustomTextField from '@/components/CustomTextfield/CustomTextField';
@@ -14,6 +14,7 @@ import moment from 'moment';
 import { setDataById } from '@/Libs/store';
 import { validateAmount, validateMaxLength, validateMinLength } from '@/Utils/Validation';
 import CloseIcon from '@mui/icons-material/Close';
+import { NewDrawerClose } from '@/assets/svg';
 
 interface EditCouponProps {
   data?: any;
@@ -163,23 +164,22 @@ const CreateCoupon: React.FC<EditCouponProps> = ({ closeDrawer, data, onSuccess 
       <Grid container size={12} justifyContent='center' alignItems='center' spacing={4} >
         <Grid size={{ xs: 12, sm: 10 }} className="create-coupon-grid">
 
-          <Grid size={{ xs: 12, sm: 12 }} container>
-            <Grid container size={10}>
+          <Grid size={{ xs: 12, sm: 12 }}
+          className="create-coupon-container-header-box"
+          display={"flex"} alignItems={"center"} justifyContent={"space-between"}>
+          
 
               <Typography textAlign={'center'} lineHeight={2} className='create-coupon-title'>
                 {isEdit ? 'Edit Coupon' :'Create New Coupon'}
               </Typography>
 
-            </Grid>
-
-            <Grid size={2} justifyContent={"flex-end"}  container className='create-coupon-title-DrawerClose' >
-
+            
            
-              <IconButton onClick={closeDrawer}>
-                    <CloseIcon/>
-                </IconButton>
+              <Box onClick={closeDrawer}>
+                    <NewDrawerClose/>
+                </Box>
 
-            </Grid>
+         
 
           </Grid>
           <Grid size={12} className="create-coupon-form">
