@@ -2,14 +2,14 @@ import { Box, Typography, } from '@mui/material'
 import Grid from '@mui/material/Grid2'
 import TEventPriceTiers from '@/pages/events/template/_components/TEventPriceTiers/TEventPriceTiers'
 import clsx from 'clsx'
-import { IEventPriceTier, IEventResponse } from '@/Libs/types/event'
+import { IEventPriceTier } from '@/Libs/types/event'
 import { convertUTCToUserTimeZone } from '@/Utils/CommonBaseClass'
 import TRegisterButton from '@/pages/events/template/_components/TRegisterButton/TRegisterButton'
+import useValidateEventData from '../programHandler'
 
-const T6priceTier = ({ eventData }: { eventData?: IEventResponse }) => {
+const T6priceTier = () => {
 
-
-    const isEventPriceTiers = Array.isArray(eventData?.eventPriceTiers) && eventData.eventPriceTiers.filter(Boolean).length > 0;
+    const { isEventPriceTiers } = useValidateEventData()
 
     return (
         <>
@@ -24,10 +24,10 @@ const T6priceTier = ({ eventData }: { eventData?: IEventResponse }) => {
                                     return (
                                         <>
                                             {
-                                                Object?.entries(data).map(([key, priceTier], index: number) => {
+                                                data && Object?.entries(data)?.map(([key, priceTier], index: number) => {
                                                     const isEven = (index + 1) % 2 === 0
                                                     return (
-                                                        <Grid maxWidth={{xs:600}} size={{ xs: 12, md: 5 }} key={key} className={clsx('tier-item', isEven ? 'even-item' : 'odd-item')}>
+                                                        <Grid size={{ xs: 10, md: 5 }} key={key} className={clsx('tier-item', isEven ? 'even-item' : 'odd-item')}>
                                                             <h5 className='tier-item-title'>{priceTier[0]?.participantType?.name}</h5>
                                                             <Box className={clsx('divider', isEven ? 'even-divider' : 'odd-divider')}></Box>
                                                             {
@@ -61,7 +61,10 @@ const T6priceTier = ({ eventData }: { eventData?: IEventResponse }) => {
 
                     </Grid>
                 </Box>
-            </Box > : null
+            </Box>
+                :
+                <></>
+
             }
         </>
     )

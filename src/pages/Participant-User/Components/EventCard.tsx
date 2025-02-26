@@ -34,18 +34,23 @@ interface EventProps {
  * user Dashboard eventCard component
  */
 const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetitle, title, location, viewButton, buttonPress }) => {
-    const attendeeStatus = eventFullData?.statusId;
+    
+    const attendeeStatus = eventFullData?.participants[0]?.eventParticipants[0]?.event?.eventAttendees;
     const navigate = useNavigate();
 
     /**
      * Compares the given end date (`datetitle?.endTime`) with today's date.
      * Compares the given start date (`datetitle?.startTime`) with today's date.
     */
-    const today = moment().startOf('day');
+    // const today = moment().startOf('day');
     const endDate = moment(datetitle?.endTime);
     const startDate = moment(datetitle?.startTime);
-    const isEndDatePast = endDate.isBefore(today, 'day');
-    const isStartDatePast = startDate.isBefore(today,'day');
+
+    const now = moment(); // Get current date and time
+
+     const isEndDatePast = endDate.isBefore(now);
+     const isStartDatePast = startDate.isBefore(now);
+    
     /**
     * Handles event propagation
     */
