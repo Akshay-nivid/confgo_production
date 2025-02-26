@@ -18,6 +18,7 @@ import useStore, { GET } from '@/Libs/store';
 import AddAddOns from '../AddAddons';
 import LeftArrowIcon from '@/assets/svg/left-arrow.svg';
 import moment from 'moment';
+import TopSection from "./createEventTopSection";
 
 const steps = [
   { label: 'Add Event Details', description: '' },
@@ -722,7 +723,12 @@ const Events = () => {
     <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper"  >
       <Grid size={{ xs: 12 }} display={"flex"} height={'100%'}>
 
-        <Grid container size={{ xs: 12, sm: 12 }}  className="custom-stepper-scroll-container">
+      <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper-scroll-container">
+            {activeStep != 3 && (
+              <Grid container size={10} paddingLeft={8}>
+                <TopSection />
+              </Grid>
+            )}
           {activeStep === 0 && (
             <CreateEvent
               formSubmit={formSubmit?.event}
