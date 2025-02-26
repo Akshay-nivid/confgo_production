@@ -469,6 +469,7 @@
     &-program-display-items {
       overflow-y: auto;
       max-height: 20rem;
+      max-width: 45rem !important;
     }
 
     &-display-container {
@@ -545,6 +546,18 @@
         border: none !important;
         border-radius: 0.416rem !important;
         text-transform: none !important;
+      }
+      &-speaker-image-cloe-icon{
+        background-color: $clr_red !important;
+        height: 1.8rem;
+        width: 1.8rem;
+        border: 0.14rem solid $clr_gray_30_percent;
+        cursor: pointer;
+        position: absolute;
+        right: 0;
+            svg {
+                color: $clr_gray_30_percent;
+            }
       }
       &-new-speaker-link{
         color: $clr_greenish_blue !important;
