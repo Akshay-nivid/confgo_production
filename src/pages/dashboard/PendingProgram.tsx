@@ -24,18 +24,20 @@ const PendingProgram = () => {
      * programs of UpcomingEvent
      */
     const programsData = useStore((state: any) => state?.compData?.upcomingEventList?.['event/eventList']?.data?.[0]) ?? [];
-
+    
 
     const tomorrow = moment().add(1, "days").startOf("day"); // Tomorrow at 00:00:00
 
     /**
-     * Filter upcoming program
+     * Filter upcoming program with compare with tommoorrow date 
      */
-    const latestProgram = programsData?.events?.filter((event: any) => moment(event.startTime).isSameOrAfter(tomorrow))
-        .sort((a: any, b: any) => moment(b.startTime).diff(moment(a.startTime)))
-    [0];
 
-
+    const latestProgram = programsData?.events?.filter((event: any) => 
+        moment(event.startTime).isSameOrAfter(tomorrow))
+        .sort((a: any) => 
+          moment(a.startTime).diff(moment(tomorrow)))
+        [0];
+   
 
     /**
     * Row click navigation
@@ -47,20 +49,25 @@ const PendingProgram = () => {
     };
 
     return (
+        <Grid > {latestProgram ===null ?(
+            <Typography variant="h5">No upcoming programs available</Typography>
+        ):(
         <Grid container size={12} className="pending-programs" spacing={2}>
+
+         
             <Grid size={12} container spacing={1} className="pending-programs-header" >
 
 
                 <Grid size={12} >
                     <Typography className="heading">
-                        {latestProgram?.name}
+                        {latestProgram?.name?latestProgram?.name:'Name is empty'}
                     </Typography>
 
                 </Grid>
 
                 <Grid size={12} className="description">
                     <Typography>
-                        {truncateString(latestProgram?.description, 50)}
+                        {latestProgram?.description?truncateString(latestProgram?.description, 50):'Description is empty'}
 
                     </Typography>
 
@@ -103,6 +110,8 @@ const PendingProgram = () => {
                 </Grid>
 
             </Grid>
+        </Grid>
+  )}
         </Grid>
     )
 }

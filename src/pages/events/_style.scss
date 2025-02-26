@@ -1705,15 +1705,26 @@
 
 
 }
-
-.registration-fee-list {
-    padding: 1.333rem !important;
-    &-heading {
+.configure-drawer{
+      max-width: 37.08rem !important;
+      .box{
+        padding-inline: 2.08rem;
+        padding-block: 2rem;
+      .heading {
         font-weight: $font_semibold !important;
         font-size: $h5 !important;
-        padding: 1.333rem !important;
+      
     }
-
+    .icon{
+        cursor: pointer;
+    svg{
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+    }
+}
+.registration-fee-list {
+   
     &-sub-heading {
         font-weight: $font_medium !important;
         font-size: $h6 !important;
@@ -1782,6 +1793,7 @@
     }
 
 
+}
 }
 
 .unpublish-modal {

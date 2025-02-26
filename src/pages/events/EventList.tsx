@@ -280,13 +280,13 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
           justifyContent={"center"}
           alignItems={"center"}
         >
-          {/* <CustomButton
+          <CustomButton
             className="custom-list-view-all-button"
             label="View All"
             variant="outlined"
             size="large"
             onClick={() => navigate("/events")}
-          /> */}
+          />
         </Grid>
       )}
     

@@ -19,7 +19,6 @@ import CreateAddon from "./CreateAddon";
 import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
 import { validateRequiredField } from "@/Utils/Validation";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import { CloseOutlined } from "@mui/icons-material";
 import { NewDrawerClose, NoAddons } from "@/assets/svg";
 import confgo  from "../../../config.json"
 import SponsorAddonForm from "./Sponsor/SponosrAddonForm";

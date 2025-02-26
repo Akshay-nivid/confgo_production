@@ -28,13 +28,13 @@ const RevenueAndUserChart = () => {
     useEffect(() => {
 
 
-        if (!eventId) return
+         if (!eventId) return
         
         (async () => {
             try {
                 setNonPersistedDataById('chartDataLoading', { value: true })
                 const response = await apiClient.post("dashboard/revenueCount", {
-                    eventId: eventId
+                    eventId: Number(eventId)
                 });
 
                 const { data, status, message } = processAPIResponse(response, "revenueCount");

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {Typography,IconButton, Box } from '@mui/material';
+import {Typography,Box } from '@mui/material';
 import Grid from '@mui/material/Grid2';
 import { useForm } from 'react-hook-form';
 import CustomTextField from '@/components/CustomTextfield/CustomTextField';
@@ -13,7 +13,6 @@ import CustomDatePicker from '@/components/CustomDatePicker/CustomDatePicker';
 import moment from 'moment';
 import { setDataById } from '@/Libs/store';
 import { validateAmount, validateMaxLength, validateMinLength } from '@/Utils/Validation';
-import CloseIcon from '@mui/icons-material/Close';
 import { NewDrawerClose } from '@/assets/svg';
 
 interface EditCouponProps {
