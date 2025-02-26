@@ -75,6 +75,7 @@ const UserLogin = (props: UserProps) => {
   const storeDetails = (data: any) => {
     sessionStorage.clear();
     sessionStorage.setItem("token", data?.token);
+    sessionStorage.setItem("refreshToken", data?.refreshToken);
     sessionStorage.setItem("userToken", data?.token);
     sessionStorage.setItem("userId", data?.id?.toString());
     sessionStorage.setItem('userLoggedInType', data?.userRole?.roleName);

@@ -52,6 +52,12 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose }) => {
   const isMobile = useIsMobileScreen(); // Adjust breakpoint as needed
 
   const isActiveLink = (path: string, exact: boolean) => {
+    const currentPath = location.pathname;
+    //to make event active while in eventinfo
+    if (path === routes.userMyEvents() && currentPath.includes('event-recap')) {
+      return true;
+    }
+
     return exact
       ? location.pathname.includes(path)
       : location.pathname.startsWith(path);

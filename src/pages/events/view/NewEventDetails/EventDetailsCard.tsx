@@ -67,7 +67,7 @@ const EventDetailsCard = (eventData: any) => {
             </Grid>
 
         
-            <Grid container size={12} spacing={3} mt={3} className="Event-BasicInfo-time">
+            <Grid container size={12} spacing={3} mt={3} className="Info-time">
             {/* {boxArray?.map((item:any,index:any) => ( */}
                 <Grid size={12} display={"flex"} gap={1} >
 
@@ -92,7 +92,7 @@ const EventDetailsCard = (eventData: any) => {
 
                             <Typography className="date">
 
-                            {moment(startTime).format("MMM D, hh:mm A") + " - " + moment(endTime).format("MMM D,hh:mm A ")
+                            {moment(startTime).format("MMM D, hh:mm A") + " - " + moment(endTime).format("MMM D,hh:mm A")
                             }
                               
                             </Typography>
@@ -105,7 +105,7 @@ const EventDetailsCard = (eventData: any) => {
 
             </Grid>
 
-            <Grid container size={12} spacing={3} mt={3} className="Event-BasicInfo-time" justifyContent={{sm:"flex-start",lg:"flex-end"}}>
+            <Grid container size={12} spacing={3} mt={3} className="Info-time" justifyContent={{sm:"flex-start",lg:"flex-end"}}>
                 {eventClass==="OFFLINE" &&(
                 <Grid size={6} display={"flex"} gap={1}  justifyContent={"flex-start"}>
 

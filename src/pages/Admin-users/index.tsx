@@ -15,10 +15,10 @@ import useStore, { PUT, setDataById, setNonPersistedDataById } from "@/Libs/stor
 import { NoUserList } from "@/assets/svg";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CreateNewUsers from "./CreateUsers";
-import { IconButton } from "@mui/material";
-import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
+import { IconButton, Menu, MenuItem } from "@mui/material";
 import EditUserDrawer from "./EditUserDrawer";
-import EditIcon from "@/assets/svg/event-edit.svg";
+import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
 interface Role {
   value: string,
@@ -50,6 +50,10 @@ const AdminUsersList = () => {
   const [roleList, setRoleList] = useState<Role[]>([]);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<UserData | null>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [currentUserId, setCurrentUserId] = useState<number | null>(null);
+  const [rowData, setRowData] = useState<number | null>(null);
+
 
   /**
    * Fetches the userRole list when the component mounts.
@@ -89,6 +93,22 @@ const AdminUsersList = () => {
     return;
   }, []);
 
+  const handleMenuOpen = (
+    event: React.MouseEvent<HTMLElement>,
+    userId: number,
+    item: any
+  ) => {
+    setAnchorEl(event.currentTarget);
+    setCurrentUserId(userId);
+    setRowData(item);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setCurrentUserId(null);
+    setRowData(null);
+  };
+
   /**
    * delete user
    */
@@ -112,6 +132,7 @@ const AdminUsersList = () => {
     } catch (error) {
       Logger.error("Error in user/update/id api call ", error)
     }
+    handleMenuClose();
 
   }
 
@@ -129,6 +150,7 @@ const AdminUsersList = () => {
     };
     setIsDrawerOpen(true);
     setSelectedUser(transformedEditData);
+    handleMenuClose();
   };
 
   /**
@@ -154,15 +176,11 @@ const AdminUsersList = () => {
         email: item?.email,
         phone: item?.phone,
         status: item?.user?.statusId,
-        edit: <IconButton onClick={(e) => { handleRowClick(e, item) }} className="event-detail-event-info-card-edit-btn">
-          <EditIcon />
-        </IconButton>,
-        inActive: <IconButton
-          onClick={() => handleDelete(item?.id)}
-        >
-          <DeleteIcon />
-        </IconButton>
-        // <Button>Delete</Button>
+        actions: (
+          <IconButton onClick={(e) => handleMenuOpen(e, item.id, item)}>
+            <MoreHorizIcon />
+          </IconButton>
+        ),
       };
     });
   };
@@ -174,7 +192,7 @@ const AdminUsersList = () => {
       url: 'role/list',
       body: {
         filters: {
-          statusId:1
+          statusId: 1
         },
         "offset": 0,
         "limit": 100,
@@ -214,7 +232,7 @@ const AdminUsersList = () => {
           offset: 0,
           limit: 5,
           filters: {
-             statusId:1,
+            statusId: 1,
             userId: selected.id,
             companyId: companyId,
             roleEnums: [
@@ -244,7 +262,7 @@ const AdminUsersList = () => {
     try {
       let req = {
         filters: {
-          statusId:1,
+          statusId: 1,
           name: query,
           companyId: companyId,
           roleEnums: [
@@ -295,9 +313,8 @@ const AdminUsersList = () => {
       headerName: "Phone No",
       width: 150,
     },
-    { type: "status", field: "statusId", headerName: "Status", width: 150 },
-    { type: "custom", field: "edit", headerName: "", width: 80 },
-    { type: "custom", field: "inActive", headerName: "", width: 80 },
+    { type: "status", field: "statusId", headerName: "Status", width: 120 },
+    { type: "custom", field: "actions", headerName: "", width: 150 },
   ];
 
   const filterFields: any = [
@@ -361,7 +378,7 @@ const AdminUsersList = () => {
           />
         </Grid>
         <Grid container
-         className="user-filter-container"
+          className="user-filter-container"
         >
           <CustomButton
             className="create-coupon-create-btn"
@@ -377,6 +394,28 @@ const AdminUsersList = () => {
         </Grid>
       </Grid>
       <Grid size={{ xs: 12 }} className="shadow-app app-border-radius mt-8">
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+          MenuListProps={{
+            "aria-labelledby": "long-button",
+          }}
+        >
+          <MenuItem onClick={(e) => handleRowClick(e, rowData)}>
+           <img src="/src/assets/png/writing.png" alt="Edit" className="action-icon" />
+            <Typography className="action-text">Edit</Typography>
+          </MenuItem>
+          <MenuItem onClick={() => {
+            if (currentUserId !== null) {
+              handleDelete(currentUserId);
+            }
+          }}>
+
+            <DeleteIcon className="action-icon" />
+            <Typography className="action-text">Delete</Typography>
+          </MenuItem>
+        </Menu>
         <DataGridList
           dataTransformer={transformData}
           source={source}

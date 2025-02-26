@@ -71,6 +71,7 @@ import SpeakersEventDetails from "./pages/Speaker/Home/SpeakersEventDetails";
 import { AccountDeletionPage } from "./pages/Delete-Account";
 import Sponsors from "./pages/Admin/Sponsors";
 import AdminPaymentList from "./pages/Admin/Payment";
+import TokenRefresher from "./components/TokenRefresher";
 
 
 const userRoutes = [
@@ -384,6 +385,7 @@ function App() {
         />
       )}
       <RouterProvider router={router} />
+      <TokenRefresher/>
     </>
   );
 }
