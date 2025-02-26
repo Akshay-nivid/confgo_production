@@ -170,6 +170,8 @@ import RedSeat from "./redseat.svg";
 import UploadFileLogo from "./upload-file-logo.svg";
 import NewDrawerClose from "./new-drawer-close.svg";
 import SpeakerDashBoard from "./speaker-no-program.svg";
+import EnterpriceWhiteIcon from "./EntrepriseWhiteIcon.svg";
+import WhiteTickIcon from "./WhiteTickIcon.svg";
 export {
   MainBottomBanner,
   MainYourBrandImg,
@@ -341,5 +343,7 @@ export {
   RedSeat,
   UploadFileLogo,
   NewDrawerClose,
-  SpeakerDashBoard
+  SpeakerDashBoard,
+  EnterpriceWhiteIcon,
+  WhiteTickIcon,
 };

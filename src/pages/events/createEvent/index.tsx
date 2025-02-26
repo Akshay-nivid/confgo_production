@@ -131,7 +131,7 @@ const Events = () => {
   const { setDataById }: any = useStore();
   const [draftForm, setDraftForm] = useState(false);
   const eventInfo = useStore((state: any) => state?.compData?.getEventDetails?.[`event/${id}`]?.data)
-
+  const [submitLoader, setSubmitLoader] = useState<boolean>(false)
 
   // const [isDirty, setIsDirty] = useState(false); 
   // /**
@@ -312,6 +312,7 @@ const Events = () => {
    * Method handles the final submission of all forms
    */
   const handleSubmit = async () => {
+    setSubmitLoader(true);
     try {
       const req = createFormRequest(formData)
       const response = await apiClient.post('event', req);
@@ -326,6 +327,9 @@ const Events = () => {
     }
     catch (e) {
       Logger.error('Create Event', e)
+    }
+    finally{
+      setSubmitLoader(false);
     }
   };
 
@@ -801,7 +805,7 @@ const Events = () => {
                     } ${activeStep === 1 && !(formData?.program?.[0]?.name || formData?.program?.[0]?.addonId) ? 'disabled-button' : ''}`}
                   onClick={activeStep === 3 ? handleSubmit : handleNext}
                   label={activeStep === 3 ? 'Submit' : 'Next'}
-                  disabled={(activeStep === steps.length) || (activeStep === 1 && !(formData?.program?.[0]?.name || formData?.program?.[0]?.addonId))}
+                  disabled={(activeStep === steps.length) || (activeStep === 1 && !(formData?.program?.[0]?.name || formData?.program?.[0]?.addonId)) || submitLoader}
                 />}
               </Grid>
             </Grid>

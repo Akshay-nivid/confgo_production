@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import useStore, { clearDataById } from '@/Libs/store';
 import { toCamelCase } from '@/Utils/CommonBaseClass';
 import Grid from "@mui/material/Grid2";
-import { ArrowIconSvg, BasicPlainIcon, BlueTickIcon, EnterPriseFeeIcon, ProPlanIcon, StandardPlanIcon } from '@/assets/svg';
+import { ArrowIconSvg, BasicPlainIcon, BlueTickIcon, EnterpriceWhiteIcon, ProPlanIcon, StandardPlanIcon, WhiteTickIcon } from '@/assets/svg';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import HTMLReactParser from 'html-react-parser/lib/index';
 
@@ -26,7 +26,7 @@ export const PlanCard: React.FC<PlanCardProps> = ({ data }) => {
     "BASIC_PLAN": <BasicPlainIcon />,
     "STANDARD_PLAN": <StandardPlanIcon />,
     "PRO_PLAN": <ProPlanIcon />,
-    "ENTERPRISE_PLAN":<EnterPriseFeeIcon/>
+    "ENTERPRISE_PLAN":<EnterpriceWhiteIcon/>
   }
 
   const mode = useStore((state) => state?.compData?.planMode?.mode);
@@ -56,14 +56,14 @@ export const PlanCard: React.FC<PlanCardProps> = ({ data }) => {
   }
   return (
     <Box className=" plancard__container">
-      <Box className="plancard__content">
-        <Box display={"flex"}className="plancard__header">
+      <Box className={ data?.name!="ENTERPRISE_PLAN" ? "plancard__content" :"plancard__content_enterprice"} >
+        <Box display={"flex"}className={data.name!="ENTERPRISE_PLAN"? "plancard__header" :"plancard__header_entreprise"}>
           <Grid className="plancard__icon">{planMapper[data?.name]}</Grid>
           <Grid container flexDirection={'column'}>
-            <Typography className="plancard__title">
+            <Typography className={data.name!="ENTERPRISE_PLAN"?"plancard__title":"plancard__title_entreprise"}>
               {toCamelCase(data?.name)}
             </Typography>
-            <Typography className="plancard__subtitle ">
+            <Typography className= {data.name!="ENTERPRISE_PLAN"?"plancard__subtitle ":"plancard__subtitle_entreprise"}>
               {toCamelCase(data?.organizationType)}
             </Typography>
           </Grid>
@@ -83,10 +83,10 @@ export const PlanCard: React.FC<PlanCardProps> = ({ data }) => {
         </Box> */}
          <Grid container justifyContent={"space-between"} size={12} className="plancard-plan-description" display={"flex"} alignItems={"flex-start"}  >
           <Grid size={1}>
-            <BlueTickIcon/>
-            </Grid>
+          {data.name !== "ENTERPRISE_PLAN" ? <BlueTickIcon/>: <WhiteTickIcon />}
+          </Grid>
             <Grid size={11}>
-            <Typography textAlign={"start"} className="plancard__subtitle" ml={1}>
+            <Typography textAlign={"start"} className={data.name !== "ENTERPRISE_PLAN" ? "plancard__subtitle" : "plancard__subtitle_entreprise"} ml={1}>
               {HTMLReactParser(data.eventAllotment)}
             </Typography>
             </Grid>

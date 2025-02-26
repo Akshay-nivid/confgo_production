@@ -81,7 +81,7 @@ const LoginOrg = () => {
       POST({
         url: 'auth/login',
         body,
-        id: 'orgLogin',
+        id: 'org-login',
         successCB: (response) => {
           handleLoginSuccess(response?.data);
         },
