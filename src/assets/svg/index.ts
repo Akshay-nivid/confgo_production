@@ -172,6 +172,8 @@ import NewDrawerClose from "./new-drawer-close.svg";
 import SpeakerDashBoard from "./speaker-no-program.svg";
 import EnterpriceWhiteIcon from "./EntrepriseWhiteIcon.svg";
 import WhiteTickIcon from "./WhiteTickIcon.svg";
+import ToRight from "./Right-Create-event.svg";
+
 export {
   MainBottomBanner,
   MainYourBrandImg,
@@ -346,4 +348,5 @@ export {
   SpeakerDashBoard,
   EnterpriceWhiteIcon,
   WhiteTickIcon,
+  ToRight
 };
