@@ -142,7 +142,7 @@ const Dashboard = () => {
           offset: 0,
           filters: {
             published: 1,
-            startTime: formatDate(new Date(),'YYYY-MM-DD HH:mm')
+            startTime:new Date().toISOString()
           }
         },
 

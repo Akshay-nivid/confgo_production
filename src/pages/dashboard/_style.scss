@@ -710,10 +710,9 @@
 .live-icon {
     width: 0.833rem;
     height: 0.833rem;
-    background-color: red;
+    background-color: $clr_medium_red;
     border-radius: 50%;
     margin-bottom: 0.25rem;
-    margin-left: -0.166rem;
     opacity: 0; // Default state
   
     &.visible {
