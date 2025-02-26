@@ -13,6 +13,7 @@ import TFooter from '@/pages/events/template/_components/TFooter/TFooter'
 
 
 const Template6 = () => {
+
     return (
         <TemplateWrapper className='template-6'>
             <T6heroSection />
