@@ -1,11 +1,10 @@
 import { useForm, useFieldArray } from "react-hook-form";
 import Grid from "@mui/material/Grid2";
-import { Box, Chip, IconButton, Typography } from "@mui/material";
+import { Box, Chip,Typography } from "@mui/material";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
 import DeleteIcon from "../../../assets/svg/Close_circle.svg";
 import CustomDatePicker from "@/components/CustomDatePicker/CustomDatePicker";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import { CloseOutlined } from "@mui/icons-material";
 import PricingTable from "./PricingTable";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -15,6 +14,7 @@ import moment from "moment";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import { formatUTCDateTime } from "@/Utils/CommonBaseClass";
+import { NewDrawerClose } from "@/assets/svg";
 // import { watch } from "fs";
 
 interface Attendee {
@@ -525,22 +525,27 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
   }, [pricingFields])
   
   return (
+    <Grid  className="configure-drawer">
+
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
       <Grid
         container
         justifyContent={"space-between"}
         alignItems="center"
         size={{ xs: 12 }}
+        className="box"
+
       >
         <Typography
-          className="registration-fee-list-heading"
+          className="heading"
         >
           Registration Fee Structure
+
         </Typography>
 
-        <IconButton onClick={closeDrawer}>
-          <CloseOutlined />
-        </IconButton>
+        <Grid onClick={closeDrawer} className="icon">
+          <NewDrawerClose/>
+        </Grid>
       </Grid>
       <Box sx={{ maxWidth: 600 }}>
         {/* add attendee type form */}
@@ -719,6 +724,7 @@ const PricingTierConfigure: React.FC<pricingTierConfigureProps> = ({
         </Grid>
       </Box>
     </form>
+    </Grid>
   );
 };
 
