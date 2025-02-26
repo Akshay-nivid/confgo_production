@@ -112,7 +112,7 @@
             display: none !important;
         }
         &-content {
-            min-width: 39.08rem   !important;
+            min-width: 39rem !important;
             background-color: $clr_white;
             height: 100vh !important;
             padding-block: 1rem;
@@ -122,20 +122,19 @@
             overflow-y: hidden;
             display: flex;
             flex-direction: column;
-            padding-inline: 2rem;
             
             .header-container {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 padding-block: 2.1875rem;
+             
                 &-close {
                     cursor:  pointer;
                     svg {
-
-                        height: 1.4rem !important;
-                        width: 1.4rem !important;
-
+                        width: 1.5rem;
+                        height: 1.5rem;
+                        margin-bottom: 0.3rem;
                     }
 
                 }
