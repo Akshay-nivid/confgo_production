@@ -164,7 +164,7 @@ const RevenueAndUserChart = () => {
                                     <Loader />
                                 </Grid> :
 
-                                chartData?.pieChartData?.length === 0 ?
+                                chartData?.pieChartData?.length === 0 || Object.keys(chartData).length === 0?
 
                                     <Grid size={12} display={'flex'} justifyContent={'center'} alignItems={'center'} flexDirection={"column"} className='total-users-icon'>
                                         
