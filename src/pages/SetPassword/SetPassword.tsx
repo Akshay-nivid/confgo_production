@@ -13,7 +13,7 @@ import { useIsMobileScreen } from '@/Utils/CommonBaseClass';
  */
 
 const SetPassword = () => {
-  const [isOtpVerified, setIsOtpVerified] = useState(false);
+  const [isOtpVerified, setIsOtpVerified] = useState(true);
 
   const isMobileScreen = useIsMobileScreen();
 
