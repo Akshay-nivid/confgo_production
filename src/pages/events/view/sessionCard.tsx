@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Typography, IconButton, Divider,Button, Menu, Avatar } from "@mui/material";
+import { Typography, IconButton, Divider,Button, Menu, Avatar, Box } from "@mui/material";
 import EditIcon from "@/assets/svg/event-edit.svg";
 import Grid from "@mui/material/Grid2";
 import { DeleteContributorIcon, HallIcon, WarningIcon} from "@/assets/svg";
@@ -372,7 +372,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
             <Grid container size={11} flexDirection={"column"}>
 
                 <Grid size={12} maxWidth={"auto"}  alignItems={"center"}>
-
+ 
                     <Typography className="heading">
                     {title}
                     </Typography>
@@ -393,6 +393,22 @@ const SessionCard: React.FC<SessionCardProps> = ({
                   )}
                 </Typography>
                 </Grid>
+
+              {hasAddOns && item?.eventAddonProperties.length >0 && (
+                  <Grid container size={12} display={"flex"} flexDirection={"column"} className="addon-property" >
+                     <Typography className="addon-header">Add-ons properties</Typography>
+                {item?.eventAddonProperties.map((props: any) => (
+                    <Grid display={"flex"}key={props.id} className="content pl-1 mt-1 "  flexDirection={"column"}  >
+                     
+                     <Box display="flex"  ><Typography className="content-head">Item-</Typography> <Typography className="content-data">{props.name}</Typography></Box>
+
+                  <Box display="flex" ><Typography className="content-head">Price-</Typography> <Typography className="content-data">{props.amount}</Typography></Box> 
+
+                     
+                  </Grid>
+                ))}
+                </Grid>
+              )}
 
                <Grid className="description-box" size={12}>
 

@@ -131,7 +131,7 @@
 
     &-upload-box-container {
         width: 100%;
-        border: 1px dashed $clr_disabled;
+        border: 1px dashed $clr_green;
         position: relative;
         border-radius: $p4;
         height:12.58rem;
@@ -432,6 +432,7 @@
         background-color: $clr_white;
         padding-left: 1rem;
         width: 100%;
+        margin-top: 2rem;
     }
 
     &-next-btn {
@@ -2417,7 +2418,6 @@
         text-align: center !important;
         font-weight: $font_bold !important;
         font-size: $h3 !important;
-        padding-top: 2rem !important;
         padding-bottom: 2rem !important;
     }
 
@@ -2675,8 +2675,9 @@
             }
         }
         .description-box{
-            margin-top: 1.9167rem;
+            margin-top: 1rem;
             margin-bottom: 3.5rem;
+            
             &-content{
                 color: $clr_gray_dark_text !important   ;
                 font-size: $h6 !important;
@@ -2684,6 +2685,23 @@
                 line-height: 2.2rem;
                 padding-inline:0.5833rem;
             }
+        }
+       .addon-property{
+                margin-top:1rem ;
+                
+                .addon-header{
+                    color: $clr_black !important   ;
+                    font-size: $p2 !important;
+                    font-weight: $font_semibold !important;
+                    line-height: 1.75rem;
+                }
+
+                .content{
+                    &-head{
+                       font-size: $p3;
+                       font-weight: $font-semibold;
+                    }
+                }
         }
 
         .speaker-box{
@@ -2789,4 +2807,34 @@
         width: 2.833rem;
     }
   
-}  
+}
+.create-top-section {
+    font-weight: $font_bold !important;
+    font-size: $h4 !important;
+
+    &-items {
+        font-weight: $font_semibold !important;
+        font-size: $p2 !important;
+        color: $clr_gray_medium;
+    }
+
+    &-event {
+        font-weight: $font_semibold !important;
+        font-size: $p2 !important;
+    }
+
+    &-img {
+        height: 1.5rem;
+        width: 1.5rem;
+    }
+
+    &-next {
+        height: 0.833rem;
+        width: 0.833rem;
+    }
+
+    &-nav {
+        cursor: pointer;
+    }
+
+}

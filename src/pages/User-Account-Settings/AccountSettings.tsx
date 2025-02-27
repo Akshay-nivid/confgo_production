@@ -6,16 +6,15 @@
 
 import React from "react";
 import Grid from "@mui/material/Grid2";
-import { Avatar, Box, Button, IconButton, Modal, Typography } from "@mui/material";
+import { Avatar, Box, Button,IconButton, Modal, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import "./accountsetting.scss";
 import { useCallback, useEffect, useState } from "react";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import { CloseOutlined } from "@mui/icons-material";
 import apiClient from "@/Libs/Https/API-client"; 
-import { EditIconRound, Google } from "@/assets/svg";
+import { EditIconRound, Google, NewDrawerClose } from "@/assets/svg";
 import useStore from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
 import config from "../../../config.json";
@@ -208,6 +207,7 @@ const handleImageUpload = (uploadedFile: CustomFile) => {
             </Typography>
           </Grid>
 
+          { !profileData?.isSsoUser&&(
           <Grid size={{ xs: 12, sm: 6 }}>
             <Typography  className="account-user-detail1">
               Phone Number
@@ -215,7 +215,8 @@ const handleImageUpload = (uploadedFile: CustomFile) => {
             <Typography variant="body1" className="account-user-detail2">
               {profileData?.phone || ""}
             </Typography>
-          </Grid>
+          </Grid>)}
+          
         </Grid>
       </Grid>
 
@@ -230,16 +231,20 @@ const handleImageUpload = (uploadedFile: CustomFile) => {
 
       <CustomDrawer open={isDrawerOpen} type="right">
         <Grid container className="account-drawer">
-          <Grid size={6} container className="account-drawer-text">
+          <Grid size={12} display={"flex"}  justifyContent={"space-between"}  alignItems={"center"} className="account-drawer-text">
+
             <Typography className="account-title account-drawer-textfield">Personal Information</Typography >
-            <IconButton onClick={closeDrawer}className="settings-close" >
-              <CloseOutlined />
-            </IconButton>
+
+            <Grid onClick={closeDrawer}className="settings-close" >
+
+              <NewDrawerClose />
+              
+            </Grid>
           </Grid>
           <Grid size={12} className="connected">
             <form onSubmit={handleSubmit(onSubmit)}>
-              <Grid container direction="column" spacing={2}>
-              <Grid container direction='row'>
+              <Grid container direction="column" spacing={3}>
+              <Grid container direction='row' alignItems={"center"}>
                 {profileData?.assetId || drawerProfileImage != null ? (
                     <Avatar
                       src={drawerProfileImage
@@ -255,9 +260,12 @@ const handleImageUpload = (uploadedFile: CustomFile) => {
                       {`${profileData?.firstName[0]}${profileData?.lastName[0]}`.toUpperCase()}
                     </Avatar>
                   )}
-                <Button className="main-user-profile-upload-btn" onClick={openmodal} >
-                  Upload New Photo
-                </Button></Grid>
+                  <Grid height="max-content" >
+                  <CustomButton className="main-user-profile-upload-btnx"  onClick={openmodal} label="Upload New Photo" />
+
+                  </Grid>
+              
+                          </Grid>
               
                 <Grid size={12}>
                   <CustomTextField name="firstName" placeholder="First Name" control={control} requiredField />

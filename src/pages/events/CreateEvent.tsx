@@ -22,7 +22,7 @@ import confgo  from "../../../config.json"
 import PublicOffOutlinedIcon from '@mui/icons-material/PublicOffOutlined';
 import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
 import RssFeedOutlinedIcon from '@mui/icons-material/RssFeedOutlined';
-import UploadLogo from '../../assets/svg/uploadLogo.svg'
+import UploadLogo from '../../assets/svg/Upload-logo.svg';
 import { Close } from "@mui/icons-material";
 import UploadedIcon from '../../assets/svg/CreateEventimageIcon.svg'; // Replace with your actual UploadedIcon
 import CustomDateTimePicker from "@/components/CustomDateTimePicker/CustomDateTimePicker";
@@ -397,7 +397,7 @@ const CreateEvent: React.FC<EventProps> =
           alignItems="center"
           spacing={2}
         >
-          <Grid size={{ xs: 12, sm: 12 }} container m={8}>
+          <Grid size={{ xs: 12, sm: 12 }} container m={8} marginTop={2}>
             <Grid>
               <Typography
                 variant="h3"
@@ -584,6 +584,7 @@ const CreateEvent: React.FC<EventProps> =
                       control={control}
                       name="city"
                       type="text"
+                      rules={{required:"City is a required field"}}
                       />
                     </Grid>
                     <Grid size={{ xs:12, sm:6}}>
@@ -600,6 +601,14 @@ const CreateEvent: React.FC<EventProps> =
                       control={control}
                       name="postalCode"
                       type="text"
+                      isNumeric={true}
+                      rules={{
+                        required: "Zip Code is a required field",
+                        maxLength: validateMaxLength({
+                          maxLength: 6,
+                          fieldName: 'postalCode',
+                        }),
+                      }} 
                       />
                     </Grid>
                     </>
@@ -733,8 +742,8 @@ const CreateEvent: React.FC<EventProps> =
   
             <Typography className="create-event-upload-box-container-button-text"> Upload Logo</Typography>
             <Typography variant="body2">
-              Choose a file to upload, Max file size: 5MB.<br />
-              Recommended ratio: 16:9 for best fit
+              Choose a file to upload, Max file size: 1MB.<br />
+              Recommended ratio Min.200 × 200 (Pixels)
             </Typography>
             </button>
           </Grid>
