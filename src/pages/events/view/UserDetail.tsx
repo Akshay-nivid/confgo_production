@@ -161,31 +161,23 @@ const UserDetail: React.FC = React.memo(() => {
                   <StatusComponent className="user-status" value={program?.status}/>
                 )}
               </Grid>
-              {program?.name?.length > 40 ? (
+              
                 <CustomTooltip title={program?.name}>
                   <Typography variant="h6" className="userdetail-name">
                     {truncateString(program?.name, 40)}
                   </Typography>
                 </CustomTooltip>
-              ) : (
-                <Typography variant="h6" className="userdetail-name">
-                  {program?.name}
-                </Typography>
-              )}
+             
 
              {mode?.eventClass ==="OFFLINE"?(
 
-                 program?.location?.length > 35 ? (
+                
                   <CustomTooltip title={program?.location}>
                     <Typography variant="body2" className="userdetail-card-data">
-                      Location: {truncateString(program?.location, 35)}
+                      Location: {truncateString(program?.location, 20)}
                     </Typography>
                   </CustomTooltip>
-                ) : (
-                  <Typography variant="body2" className="userdetail-card-data">
-                    Location: {program?.location}
-                  </Typography>
-                )
+               
 
               ):(
                 <Typography>URL:{mode?.url}</Typography>) }

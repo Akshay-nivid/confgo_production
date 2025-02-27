@@ -2,17 +2,22 @@
     position: relative;
     display: inline-block;
   }
+  
   .custom-tooltip-content {
     visibility: hidden;
-    background-color: $clr_gray_dark_text;
-    color:$clr_white ;
+    background-color: $clr_black;
+    color: $clr_white;
     text-align: center;
     border-radius: 4px;
     padding: 5px;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+    bottom: 100%; 
     white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s ease; /* Smooth fade-in effect */
+
   }
   .custom-tooltip-wrapper:hover .custom-tooltip-content {
     visibility: visible;
