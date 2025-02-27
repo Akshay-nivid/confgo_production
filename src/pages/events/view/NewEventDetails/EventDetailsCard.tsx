@@ -69,7 +69,7 @@ const EventDetailsCard = (eventData: any) => {
         
             <Grid container size={12} spacing={3} mt={3} className="Info-time">
             {/* {boxArray?.map((item:any,index:any) => ( */}
-                <Grid size={12} display={"flex"} gap={1} >
+                <Grid size={12} display={"flex"} gap={1}>
 
                     <Grid container justifyContent={"center"} alignItems={"center"} className="svg">
 
@@ -80,7 +80,7 @@ const EventDetailsCard = (eventData: any) => {
 
                     <Grid   container size={12}>
 
-                        <Grid container    size={12} >
+                        <Grid container    size={12} className="heading">
 
                             <Typography className="title">
 
@@ -118,7 +118,7 @@ const EventDetailsCard = (eventData: any) => {
 
                     <Grid   container size={12}>
 
-                        <Grid container    size={12} >
+                        <Grid container    size={12}  className="heading">
 
                             <Typography className="title">
 

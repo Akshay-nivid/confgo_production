@@ -1,3 +1,4 @@
+import { IProgram } from "./event";
 
 /**
 * Define types for the state
@@ -21,6 +22,14 @@ export interface CompData {
 
 export interface NonPersistedData {
     [key: string]: any;
+    cart: {
+        programIds: number[],
+        addons: {
+            addon: IAddon,
+            propertyIds: IAddonProperty[]
+        }[],
+        
+    }
     checkUserPaymentinitialFetchDone: { value: boolean };
     isProgramDetailsModelOpen: { value: boolean },
     programDetails: { value: any }

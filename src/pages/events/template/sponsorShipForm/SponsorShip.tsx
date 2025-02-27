@@ -117,7 +117,6 @@ const SponsorShip = (Id: any) => {
                 resetFormValues();
             },
             errorCB: (error: any) => {
-                console.log(error)
                 Logger.error("error", error)
             }
         })

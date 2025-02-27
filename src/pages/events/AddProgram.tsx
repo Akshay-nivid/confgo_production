@@ -13,7 +13,7 @@ import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import moment from "moment";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
 import  { POST, setDataById } from "@/Libs/store";
-import { NoProgramIcon, WarningIcon } from "@/assets/svg";
+import { NewDrawerClose, NoProgramIcon, WarningIcon } from "@/assets/svg";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import { CloseOutlined } from "@mui/icons-material";
 import { Logger } from "@/Utils/Logger";
@@ -994,19 +994,22 @@ if (programUtcEndDate > eventEndDate) {
     return (
       <Grid container className="add-program-container" justifyContent={'center'} spacing={4}>
         <CustomDrawer open={drawerOpen} type="right">
-          <Grid container spacing={2} padding={2} className="add-program-drawer">
+          <Grid container spacing={2} padding={2} className="add-program-drawer" >
             <Grid
               size={{ xs: 12 }}
               container
               justifyContent="space-between"
               alignItems="center"
+              className="add-program-drawer-Box"
             >
-              <Typography className="add-program-drawer-heading">
+              <Typography className="add-program-drawer-Box-heading">
                 Add Program
               </Typography>
-              <IconButton onClick={closeDrawer}>
-                <CloseOutlined />
-              </IconButton>
+
+              <Box onClick={closeDrawer} className="add-program-drawer-Box-icon">
+                <NewDrawerClose />
+              </Box>
+
             </Grid>
             <Box className={"add-program-form-wrapper1"}>
               <form onSubmit={handleSubmit(onSubmit)}>

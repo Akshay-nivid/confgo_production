@@ -7,6 +7,7 @@ import useStore, { POST } from "@/Libs/store";
 import { useEffect, useState } from "react";
 import Box from '@mui/material/Box/Box';
 import { PayPalAlertBanner } from './PaypalClientIdBanner';
+import { useIsMobileScreen } from '@/Utils/CommonBaseClass';
 
 /**
  * component used to render layout
@@ -19,6 +20,8 @@ const Layout = () => {
   const showPayPalConfigAlert = useStore((state: any) => state?.compData?.showPaypalConfigAlert?.data);
   const dataInfo = useStore((state: any) => state?.compData?.["paymentBanner"]?.['subscription/verify']?.data) ?? [];
   const fullEventList = useStore((state: any) => state?.compData?.["fullEventList"]?.['event/list'].data) ?? [];
+  const isMobileScreen = useIsMobileScreen();
+
   useEffect(() => {
     const showBanner =
       dataInfo?.subscriptionStatus === false &&
@@ -41,8 +44,8 @@ const Layout = () => {
 
   return (
     <>
-      <MobileLayout showAlertBanner={showAlertBanner} showPaypalBanner={showPaypalBanner} />
-      <DesktopLayout showAlertBanner={showAlertBanner} showPaypalBanner={showPaypalBanner} />
+      {isMobileScreen? <MobileLayout showAlertBanner={showAlertBanner} showPaypalBanner={showPaypalBanner} />:
+      <DesktopLayout showAlertBanner={showAlertBanner} showPaypalBanner={showPaypalBanner} />}
     </>
   );
 };

@@ -23,7 +23,6 @@ import EventFeedBack from "./EventFeedBack";
 import PendingProgram from "./PendingProgram";
 import RevenueAndUserChart from "./RevenueAndUserChart";
 import OngoingEvents from "./OngoingEvents";
-import { formatDate } from "@/Utils/CommonBaseClass";
 
 const Dashboard = () => {
   const POST = useStore((state: any) => state.POST);
@@ -215,10 +214,22 @@ const Dashboard = () => {
     }
   }
 
-  if (fullEventList?.data?.length == 0) return <NoDataDashBoard />
-  return (pendingEventList?.success ?
+  if (fullEventList?.data?.length == 0){
+    return (
+      <>
+        <NoDataDashBoard />
+        <TermsAndConditon open={open} onClose={handleClose} />
+      </>
+    )
+  }
+    
+    
+  
+  return (
     <>
-      <TermsAndConditon open={open} onClose={handleClose} />
+    {pendingEventList?.success ? 
+    <>
+     
 
 
       <Grid container width={'100%'} padding={2} columnSpacing={2} rowSpacing={4}>
@@ -257,7 +268,7 @@ const Dashboard = () => {
 
 
           {upcomingData &&
-            <Grid size={{ xs: 12,md:6,lg:12 }} container  className="dashboard-calendar-card shadow-app" >
+            <Grid size={{ xs: 12,md:6,lg:12 }} container display={"flex"} alignItems={"center"} justifyContent={"center"}   className="dashboard-calendar-card shadow-app" >
 
               <PendingProgram />
 
@@ -280,7 +291,9 @@ const Dashboard = () => {
 
       </Grid>
     </> :
-    <Grid container justifyContent={'center'} height={'100%'} alignItems={"center"}><CircularProgress color="success" /> </Grid>)
+    <Grid container justifyContent={'center'} height={'100%'} alignItems={"center"}><CircularProgress color="success" /> </Grid>}
+    </>
+  )
 };
 
 export default Dashboard;

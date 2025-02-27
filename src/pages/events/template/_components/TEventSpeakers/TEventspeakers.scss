@@ -1,0 +1,202 @@
+.TEventSpeakers {
+
+    &-speaker-details-modal {
+
+
+
+        &__overlay {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-inline: 1.5rem;
+
+
+
+        }
+
+        &__content {
+            padding: 1.6rem;
+            background-color: $clr_white;
+            width: 100%;
+            max-width: 65rem;
+            border-radius: .5rem;
+            overflow-y: auto;
+            height: max-content;
+            max-height: 90%;
+            position: relative;
+
+            .icon {
+                position: absolute;
+                cursor: pointer;
+                top: 2rem;
+                right: 2rem;
+                fill: $clr_black;
+
+            }
+
+            &::-webkit-scrollbar {
+                display: none !important;
+            }
+
+            &__details {
+                display: flex;
+                column-gap: 1.667rem;
+
+                &__info {
+                    margin-bottom: 2rem;
+
+                    &__name {
+                        font-size: $h4;
+                        font-weight: $font_semibold;
+                    }
+
+                    &__designation {
+                        font-size: $p1;
+                        font-weight: $font_semibold;
+                        margin-bottom: .5rem;
+                    }
+
+                    &__description {
+                        font-size: $p2;
+                        color: $clr_gray_dark_text;
+                        font-weight: $font_medium;
+                    }
+                }
+
+
+            }
+
+            &__program {
+                &__title {
+                    font-size: $h5;
+                    font-weight: $font_semibold;
+                    margin-bottom: 2rem;
+                }
+            }
+
+        }
+
+        .horizontal-divider {
+            min-width: 100% !important;
+            min-height: .083rem !important;
+            background-color: $clr_gray_faded;
+            margin-block: 2.2rem;
+
+        }
+    }
+
+
+}
+
+.event-speakers-program-card {
+    display: flex;
+
+
+    &__date-container {
+        padding-right: 2rem !important;
+
+        &__day {
+            font-size: $p2;
+            font-weight: $font_semibold;
+
+        }
+
+        &__month {
+            font-size: $h4 ;
+            font-weight: $font_semibold ;
+
+        }
+    }
+
+    &__date-price {
+
+        min-width: max-content;
+        padding-left: 1.5rem;
+        padding-right: 3rem;
+        display: flex;
+        flex-direction: column;
+        row-gap: .5rem;
+
+        &__time {
+            display: flex;
+            column-gap: .8rem;
+            color: $clr_dim_gray !important;
+
+            &__icon {
+                color: $clr_dim_gray !important;
+                width: 1.4rem;
+                height: 1.5rem;
+                margin-top: .15rem;
+            }
+
+            &__value {
+                font-size: $p2 !important;
+                font-weight: $font_semibold !important;
+            }
+        }
+
+        &__price {
+            display: flex;
+            column-gap: .8rem;
+
+            &__icon {
+                color: $clr_dim_gray !important;
+                width: 1.4rem;
+                height: 1.5rem;
+                margin-top: .15rem;
+            }
+
+            &__value {
+                font-size: $p2 !important;
+                font-weight: $font_semibold !important;
+                color: $clr_dim_gray !important;
+
+            }
+        }
+
+    }
+
+    &__vertical-divider {
+        min-height: 100%;
+        min-width: 0.083rem;
+        background-color: $clr_gray_faded;
+        margin-block: .5rem;
+    }
+
+    &__name-container {
+
+        padding-left: 2rem;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        contain: strict;
+
+        &__name {
+            font-size: $h6 !important;
+            font-weight: $font_semibold !important;
+            max-width: 100% !important;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            margin-bottom: .2rem;
+        }
+
+        &__description {
+            font-size: $p2 !important;
+            font-weight: $font_normal !important;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            max-width: 100% !important;
+            color: $clr_gray_dark_text !important;
+
+        }
+    }
+
+
+
+
+
+}

@@ -167,7 +167,9 @@ import PichartIcon from "./piechart-icon.svg"
 
 import YellowSeat from "./yelllowseat.svg";
 import RedSeat from "./redseat.svg";
-import UploadFileLogo from "./upload-file-logo.svg"
+import UploadFileLogo from "./upload-file-logo.svg";
+import NewDrawerClose from "./new-drawer-close.svg";
+import SpeakerDashBoard from "./speaker-no-program.svg";
 import EnterpriceWhiteIcon from "./EntrepriseWhiteIcon.svg";
 import WhiteTickIcon from "./WhiteTickIcon.svg";
 export {
@@ -340,6 +342,8 @@ export {
   YellowSeat,
   RedSeat,
   UploadFileLogo,
+  NewDrawerClose,
+  SpeakerDashBoard,
   EnterpriceWhiteIcon,
   WhiteTickIcon,
 };

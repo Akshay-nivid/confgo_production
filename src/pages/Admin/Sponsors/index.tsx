@@ -6,14 +6,14 @@ import { useForm } from 'react-hook-form'
 import CustomButton from '@/components/CustomButton/CustomButton'
 import AddIcon from "@mui/icons-material/Add";
 import CustomDrawer from '@/components/CustomDrawer/CustomDrawer'
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "../../../assets/svg/Close.svg"
 import useStore, { POST, setNonPersistedDataById, snackBar } from '@/Libs/store'
 import CustomTextField from '@/components/CustomTextfield/CustomTextField'
 import FileUpload from '@/components/FileUpload/FileUpload'
 import { DataGridList } from '@/components/DataGrid/DataGridList'
 import React, { useCallback, useEffect, useState } from 'react'
 import { ISource } from '@/Libs/types/type'
-import { NoEvent as NoEventIcon } from "@/assets/svg";
+import { NewDrawerClose, NoEvent as NoEventIcon } from "@/assets/svg";
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import config from "../../../../config.json";
@@ -235,7 +235,7 @@ const Sponsors = () => {
      * @param {any} data - The raw data from the API response.
      * @returns {Array} Transformed data for the DataGrid.
      */
-    const transformData = (data: any) => {
+    const transformData = (data: any): Array<any> => {
         const newData = data.map((item: any) => {
             return {
                 id: item?.id,
@@ -469,13 +469,15 @@ const Sponsors = () => {
             </Grid>
 
 
-            <CustomDrawer className='sponsor-drawer' open={isModalOpen} type='right'>
+            <CustomDrawer className='sponsor-drawer' open={isModalOpen} type='right' >
                 <Box className="sponsor-drawer-content">
                     <Box className="header-container">
-                        <Typography className="header-container-label">Create new sponsor</Typography>
-                        <IconButton onClick={handleCloseModal}>
-                            <CloseIcon className='header-container-close' />
-                        </IconButton>
+                        <Typography className="header-container-label"> {sponsorDrawerType === "edit" ? "Edit Sponsor" : "Create new sponsor"}</Typography>
+                        <Grid onClick={handleCloseModal}className='header-container-close'>
+                            
+                            <NewDrawerClose  />
+
+                        </Grid>
                     </Box>
 
                     <Box>

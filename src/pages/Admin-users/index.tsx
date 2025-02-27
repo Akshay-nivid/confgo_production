@@ -314,7 +314,7 @@ const AdminUsersList = () => {
       width: 150,
     },
     { type: "status", field: "statusId", headerName: "Status", width: 120 },
-    { type: "custom", field: "actions", headerName: "", width: 150 },
+    { type: "custom", field: "actions", headerName: "", width: 150 ,sortable: false},
   ];
 
   const filterFields: any = [

@@ -5,15 +5,15 @@ import FileListModal from "@/components/FileUpload/FileListModal";
 import useStore, { setNonPersistedDataById } from "@/Libs/store";
 import routes from "@/router/routes";
 import { validateEmail, validateRequiredField } from "@/Utils/Validation";
-import { Badge, Button, Typography,IconButton } from "@mui/material";
+import { Badge, Button, Typography} from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import config from "../../../config.json";
 import { useLocation } from "react-router-dom";
-import {UplodIcon ,RemoveIcon} from "@/assets/svg";
-import CloseIcon from '@mui/icons-material/Close';
+import {UplodIcon ,RemoveIcon, NewDrawerClose} from "@/assets/svg";
+
 interface userProps{
     NoNavigation?:boolean
     defaultValue?:any
@@ -212,18 +212,23 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshU
 
     return <Grid container className='admin-users' spacing={2} >
 
-        <Grid size={12} container >
+        <Grid size={12} container display="flex"  alignItems={"center"} 
+                          justifyContent="space-between">
 
-            <Grid size={10}  >
-                <Typography className="admin-users-header">Create New User</Typography>
-            </Grid>
-            <Grid size={2} justifyContent={"flex-end"} container className="admin-users-header-DrawerClose">
+         
+
+          <Typography className="admin-users-header">Create New User</Typography>
+
             
             
-             <IconButton onClick={closeDrawer}>
-                    <CloseIcon/>
-                </IconButton>
-            </Grid>
+             <Grid onClick={closeDrawer} className="admin-users-header-drawerClose">
+
+             <NewDrawerClose />
+
+             </Grid>
+                    
+             
+          
         </Grid>
         <Grid className="admin-users-form-wrap" container size={12}>
             <form onSubmit={handleSubmit(onSubmit)}>

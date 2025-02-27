@@ -4,7 +4,7 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomRadio from "@/components/CustomRadio/CustomRadio";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import { Box, Button, Chip, IconButton, Tooltip, Typography } from "@mui/material";
+import { Box, Chip, IconButton, Tooltip, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import React, { useEffect, useState } from "react";
 import { useForm, SubmitHandler, useFieldArray} from "react-hook-form";
@@ -19,8 +19,7 @@ import CreateAddon from "./CreateAddon";
 import CustomSwitch from "@/components/CustomSwitch/CustomSwitch";
 import { validateRequiredField } from "@/Utils/Validation";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import { CloseOutlined } from "@mui/icons-material";
-import { NoAddons } from "@/assets/svg";
+import { NewDrawerClose, NoAddons } from "@/assets/svg";
 import confgo  from "../../../config.json"
 import SponsorAddonForm from "./Sponsor/SponosrAddonForm";
 import { POST, setDataById } from "@/Libs/store";
@@ -687,15 +686,21 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                   <Box className={"form-wrapper1"}>
                      {isDrawerOpen && (
                     <CustomDrawer  open={true} type={"right"}>
-                      <Grid container  className="add-addons-drawer">
-                        <Grid size={12} container flexDirection={"row"} >
-                          <Grid size={6}>
-                          <Typography className="event-information-edit-heading" mb={2}>Add Ons</Typography></Grid>
-                          <Grid justifyContent={"flex-end"} container  size={6}>
-                           <Button onClick={handleDrawerClosing} className="add-addons-drawer-close">
-                                    <CloseOutlined />
-                                  </Button></Grid>
+
+                  <Grid   className="add-addons-drawer" >
+                    
+                       <Grid size={12} display={"flex"} justifyContent={"space-between"} className="add-addons-drawer-content" alignItems={"center"} >
+            
+                        <Typography className="add-addons-drawer-content-heading" >Add Add-Ons</Typography>
+                        
+                        
+                        <Grid onClick={handleDrawerClosing} className="add-addons-drawer-content-close">
+
+                          <NewDrawerClose />
+
                         </Grid>
+                      
+                    </Grid>
                        
                     <form id="addOnform" onSubmit={handleSubmit(onSubmit)}>
                       {fields.map((field, index) => {

@@ -1,0 +1,36 @@
+import { setNonPersistedDataById } from '@/Libs/store';
+import React from 'react'
+import { Link } from 'react-router-dom'
+
+
+
+interface TLinkProps extends React.HTMLAttributes<HTMLAnchorElement> {
+    to?: string;
+    targetelementId: "speakers" | "sponsors" | "programs" | "location" | "tickets" | "sponsor-form";
+    children: React.ReactNode,
+    usageType?:"Drawer" | "Header"
+}
+function handleCloseDrawer() { 
+    setNonPersistedDataById("templateDrawerOpen",{value:false})
+}
+const TLink = ({ to, ...props }: TLinkProps) => {
+
+    function handleClickLink() {
+
+        if (props.usageType === "Drawer") {
+            handleCloseDrawer()
+        }
+
+        const element = document.getElementById(props.targetelementId);
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+
+    return (
+        <Link {...props} to={to ? to : '#'} onClick={props.onClick ? props.onClick : handleClickLink}>{props.children}</Link>
+    )
+}
+
+export default TLink

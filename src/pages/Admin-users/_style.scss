@@ -1,23 +1,25 @@
 .admin-users{
-    width: 100%;
-    max-width: 40rem;
+    // width: 100%;
+    max-width: 39.08rem;
     background-color: $clr_white;
-    padding: 1rem;
+    padding-block: 2.1875rem;
     border-radius: 0.5rem;
+    padding-inline: 2rem;
 
     &-header{
-        margin-left: 1rem !important;
+       padding-inline: 1rem;
         font-weight: $font_bold !important;
-        font-size: $h4 !important;
-        &-DrawerClose{
-            padding-top: 0.35rem;
-            padding-inline:1.3rem;
+        font-size: $h5 !important;
+        margin-bottom: auto !important;
+        
+        &-drawerClose{
+            padding-right: 1rem !important;
             svg{
-            width: 1.5rem !important;
-            height: 1.5rem !important;
-            // &:hover{
-            //     background-color:$clr_gray_extra_light;
-            // }
+                cursor: pointer;
+                width: 1.5rem;
+                height: 1.5rem;
+                margin-bottom: 0.3rem;
+             
         }
         }
     }

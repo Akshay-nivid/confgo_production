@@ -95,7 +95,7 @@ const PaymentHistory: React.FC = React.memo(() => {
                
                     
           <CustomButton label={"[Download]"} className="download-Receipt" onClick={() => {
-          }}/>,
+          }}/>
                   
               </PDFDownloadLink>,
       

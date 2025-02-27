@@ -1,36 +1,55 @@
 import useStore from "@/Libs/store";
 import Grid from '@mui/material/Grid2';
 import PaymentMethod from "../register/PaymentMethod";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Logger } from "@/Utils/Logger";
 import { CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";
+import React from "react";
 
 
 /**
  * PlanUpgrade Component triggers the creation of a subscription
  * and displays the `PaymentMethod` component for completing the payment.
  */
-const PlanUpgrade = () => {
+const PlanUpgrade = React.memo(() =>  {
   const planDetails = useStore((state: any) => state?.compData?.['planDetails']) ?? [];
   const POST = useStore((state: any) => state.POST);
   const setDataById = useStore((state: any) => state.setDataById);
   const subscriptionDetails = useStore((state: any) => state?.compData?.['subscriptionDetails']) ?? null;
   const navigate = useNavigate();
+  // Track if API call has already been made
+  const isApiCalled = useRef(false);
+
 
   /**
    * Initiates the subscription creation process.
    */
   useEffect(() => {
-      createSubscription();
+     !isApiCalled.current && createSubscription();
   }, [])
+
+
 
   /**
    * Sends a POST request to the subscription endpoint with the selected plan ID.
    * Sets the response data in the global state..
    */
   const createSubscription = async () => {
+    if (isApiCalled.current) {
+      Logger.info("Subscription API already called, skipping...");
+      return;
+    }
+
+    if (!planDetails?.field_values?.id) {
+      Logger.warn("Plan ID is missing, subscription creation aborted.");
+      return;
+    }
+
+    isApiCalled.current = true; // Mark API as called
+
+
     try {
       const successCallback = (context: any) => {
         setDataById('subscriptionDetails', { field_values: context.data });
@@ -65,5 +84,5 @@ const PlanUpgrade = () => {
       {subscriptionDetails ? (<PaymentMethod />) : (<Grid><CircularProgress /></Grid>)}
     </Grid>
   );
-  }
+  })
 export default PlanUpgrade;

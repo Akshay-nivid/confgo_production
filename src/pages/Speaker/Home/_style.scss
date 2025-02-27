@@ -1,5 +1,11 @@
 .speaker-home {
     padding: 1rem 6.5rem 1rem 6.5rem;
+    @media screen and (max-width: 600px) {
+        padding: 1rem ;
+    }
+    &-upload-file{
+        box-shadow: none !important;
+    }
     &-banner {
         &-container {
             margin-top: 1rem;
@@ -29,8 +35,78 @@
         }
     }
     &-left-section{
-        border-right: 1px solid $clr_light_border_grey;
+        border: 0.0833rem solid $clr_light_border_grey;
+        border-radius: 0.4167rem !important;
+        min-height: max-content !important;
+        &-upolodtime{
+            &-box2{
+                min-height: 5rem !important;
+                border-right: 0.0833rem solid $clr_light_border_grey ;
+                @media screen and (max-width: 1440px) {
+                 padding-right: 0.5rem !important;
+                }
+            .titles{
+           font-size: $h6 !important;
+           font-weight:$font_medium  !important;
+           color: $light_grey;
+           line-height: 2rem;
+            }
+            .content{
+                font-size: $h6 !important;
+                font-weight:$font_semibold  !important;
+                color: $clr_black;
+                line-height: 2rem;
+            }
+        }
+         &-box{
+                min-height: 5rem !important;
+                 padding-left: 1rem;
+                 
+            .titles{
+           font-size: $h6 !important;
+           font-weight:$font_medium  !important;
+           color: $light_grey;
+           line-height: 2rem;
+            }
+            .content{
+                font-size: $h6 !important;
+                font-weight:$font_semibold  !important;
+                color: $clr_black;
+                line-height: 2rem;
+            }
+        }
+        &-box3{
+            min-height: 5rem !important;
+            border-left: 0.0833rem solid $clr_light_border_grey ;
+            padding-left: 1rem;
+            @media screen and (max-width: 600px) {
+                border-left: none  !important;
+                    padding-left: 0rem !important;
+            }
+            // @media screen and (min-width: 600.0833rem) and (max-width: 1440px) {
+            //     border-left: 0.0833rem solid $clr_light_border_grey;
+            //     padding-left: 1rem !important;
+            // }
+        .titles{
+       font-size: $h6 !important;
+       font-weight:$font_medium  !important;
+       color: $light_grey;
+       line-height: 2rem;
+        }
+        .content{
+            font-size: $h6 !important;
+            font-weight:$font_semibold  !important;
+            color: $clr_black;
+            line-height: 2rem;
+        }
+    }
+    }
+        &-des{
+            font-size: $p2 !important;
+            font-weight: $font_semibold !important;
+        }
         &-title{
+          
             padding-top: 1rem;
             font-size: $h5 !important;
             font-weight: $font-semibold !important;
@@ -55,9 +131,10 @@
         }
         &-uploaded-container{
             position: relative; 
-            border: 1px solid $clr_light_border_grey;
+            border: 0.0833rem solid $clr_light_border_grey;
             padding: 1rem;
             border-radius: 0.65rem;
+            background-color: light_cyan_color;
             svg {
                 width: 2rem;
                 height: 2rem;
@@ -86,6 +163,18 @@
     &-list-status{
         .data-grid-status{
             margin-top: 0.8rem !important;
+        }
+    }
+
+    &-noData{
+        svg{
+            width: 13.33rem;
+            height: 13.33rem;
+        }
+        .text{
+            font-weight:$font_bold;
+            font-size:$p5 ;
+            text-align: center;
         }
     }
 }
