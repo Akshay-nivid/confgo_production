@@ -1,7 +1,6 @@
 /** Component to create a new speaker User */
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import FileListModal from "@/components/FileUpload/FileListModal";
 import useStore from "@/Libs/store";
 import { validateEmail, validateRequiredField } from "@/Utils/Validation";
 import { Box, FormLabel, IconButton, Typography } from "@mui/material";
@@ -25,11 +24,7 @@ type RoleList = {
     modifiedBy: string | null; 
     modifiedOn: string;    
   };
-  interface CustomFile {
-    id: string;
-    name: string;
-    sourcePath: string;
-  }
+
   interface NewSpeakerDrawerProps {
     onSuccess?: (query: any, data: any) => void;
     closeDrawer: () => void;
@@ -39,9 +34,7 @@ type RoleList = {
 */ 
 const NewSpeakerDrawer :React.FC<NewSpeakerDrawerProps> = ({ onSuccess, closeDrawer}) =>{
     const [selectedFile, setSelectedFile] = useState<any>(null);
-    const [modalOpen, setModalOpen] = useState(false);
     const baseUrl = config.api.url;
-    const companyId = sessionStorage.getItem('companyId');
     type FormData = {
         firstName: string,
         lastName: string,
@@ -146,9 +139,9 @@ const NewSpeakerDrawer :React.FC<NewSpeakerDrawerProps> = ({ onSuccess, closeDra
     /**
      *function to handle clean file state
      */
-  const handleFileDelete = () => {
-    setSelectedFile(null);
-  };
+//   const handleFileDelete = () => {
+//     setSelectedFile(null);
+//   };
     return <Grid container className='add-program-drawer' spacing={2}>
       <Grid
         size={{ xs: 12 }}
