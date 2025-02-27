@@ -132,7 +132,7 @@ const ProgramDetailsModal = () => {
                                 </Grid>
                                 <Grid className="content-speaker-container-speaker-list" container size={12}>
                                     {programDetails?.eventSpeakers
-                                        ?.sort((_a: any, b: any) => (b?.speakerBios?.[0]?.isModerator ? 1 : -1)) 
+                                        ?.slice().sort((_a: any, b: any) => (b?.speakerBios?.[0]?.isModerator ? 1 : -1)) 
                                         .map((speaker: any) => {
                                              const isModerator = speaker?.speakerBios?.[0]?.isModerator;
                                             return (

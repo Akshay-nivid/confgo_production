@@ -168,7 +168,8 @@ import PichartIcon from "./piechart-icon.svg"
 import YellowSeat from "./yelllowseat.svg";
 import RedSeat from "./redseat.svg";
 import UploadFileLogo from "./upload-file-logo.svg"
-
+import EnterpriceWhiteIcon from "./EntrepriseWhiteIcon.svg";
+import WhiteTickIcon from "./WhiteTickIcon.svg";
 export {
   MainBottomBanner,
   MainYourBrandImg,
@@ -338,5 +339,7 @@ export {
   PichartIcon,
   YellowSeat,
   RedSeat,
-  UploadFileLogo
+  UploadFileLogo,
+  EnterpriceWhiteIcon,
+  WhiteTickIcon,
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useTransition } from "react";
 import { Modal, Box, Typography, FormLabel } from "@mui/material";
 import apiClient from "@/Libs/Https/API-client";
 import { Logger } from "@/Utils/Logger";
@@ -36,6 +36,8 @@ const EventGallery: React.FC = () => {
   const [uploadModalOpen, setUploadModalOpen] = useState(false);
   const [gallery, setGallery] = useState(false);
   const baseURL = config.api.url;
+  const [imageSubmission, setImageSubmission] = useState(false);
+
 
   /**
    * function to fetch images for an event
@@ -67,6 +69,7 @@ const EventGallery: React.FC = () => {
    */
   const handleEditClick = () => {
     setGallery(true);
+
   };
 
   /**
@@ -80,6 +83,7 @@ const EventGallery: React.FC = () => {
    * function to submit the image that needs to upload
    */
   const onSubmit = async () => {
+    setImageSubmission(true)
     try {
       const req = {
         eventId: eventId,
@@ -100,6 +104,7 @@ const EventGallery: React.FC = () => {
     } finally {
       setLoading(false);
       setUploadModalOpen(false);
+      setImageSubmission(false)
     }
   };
 
@@ -274,7 +279,7 @@ const EventGallery: React.FC = () => {
             </Grid>
             <Grid size={12} container spacing={2} justifyContent="center">
                 <Grid size={{ xs: 12, sm: 12 }}>
-                  <CustomButton className="event-gallery-save-btn" label="Submit" variant="contained" type="submit" size="large" onClick={() => addImages()} disabled={selectedFiles?.length == 0 ? true: false  }/>
+                  <CustomButton className="event-gallery-save-btn" label="Submit" variant="contained" type="submit" size="large" onClick={() => addImages()} disabled={selectedFiles?.length == 0 || imageSubmission  }/>
                   <CustomButton className="custom-list-save-btn custom-list-restore-btn" label="Cancel" variant="outlined" size="large" onClick={() => cancelupload()}/>
                 </Grid>
               </Grid>
