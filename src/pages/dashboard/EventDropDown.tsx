@@ -60,26 +60,19 @@ const EventDropDown = (data: any): JSX.Element => {
 
     /**
      * Set default value for fieldType from the provided event data
+     * Save selected eventId type to the store using the watch hook
      */
-
+  
     useEffect(() => {
         if (publishedEventInitialFetchDone) {
             setValue('fieldType', publishedEvent?.[0]?.id);
+            setNonPersistedDataById("CustomSelectData", { data: watch('fieldType') });
             setNonPersistedDataById("publishedEventInitialFetchDone", { value: true })
         }
 
 
-    }, [data]);
-
-    /**
-     * Save selected eventId type to the store using the watch hook
-     */
-
-    useEffect(() => {
-
-        setNonPersistedDataById("CustomSelectData", { data: watch('fieldType') });
-
-    }, [watch('fieldType')]);
+    }, [data,watch('fieldType')]);
+   
 
     return (
         <Grid container size={12} className="adminDashBoard-EventsMenu">
