@@ -676,30 +676,30 @@ const handleDownloadPdf = () => {
       </Typography>
 
       <Grid>
-    {categories.map(({ label, key }) => (
-      attendanceDetails[key].length > 0 && ( 
+    {categories?.map(({ label, key }) => (
+      attendanceDetails?.[key]?.length > 0 && ( 
         <Grid key={key}>
           <Typography className="all-details-attendence-label">
             {label}
           </Typography>
           <Grid container spacing={2}>
-            {attendanceDetails[key].map((program: any) => (
-              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={program.id}>
+            {attendanceDetails?.[key]?.map((program: any) => (
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={program?.id}>
                 <Grid className="userdetail-event-card">
                   <Grid container direction="row" className="userdetail-time-status">
                     <Typography className="userdetail-time">
-                      {formatDateTimeRange({ date: program.startTime, format: "h:mm A" })}-
-                      {formatDateTimeRange({ date: program.endTime, format: "h:mm A" })}
+                      {formatDateTimeRange({ date: program?.startTime, format: "h:mm A" })}-
+                      {formatDateTimeRange({ date: program?.endTime, format: "h:mm A" })}
                     </Typography>
-                    {program.statusId && (
-                      <StatusComponent className="user-status" value={program.statusId} />
+                    {program?.statusId && (
+                      <StatusComponent className="user-status" value={program?.statusId} />
                     )}
                   </Grid>
                   <Typography className="userdetail-name">
-                    {program.name}
+                    {program?.name} 
                   </Typography>
                   <Typography className="userdetail-card-data">
-                    Location:{ `${program.venue?.city},${program.venue?.country}`}
+                    Location:{ `${program?.venue?.city},${program?.venue?.country}`}
                   </Typography>
                 </Grid>
               </Grid>
@@ -714,9 +714,9 @@ const handleDownloadPdf = () => {
         <Grid spacing={2} className="all-details-attendance-grid">
           <Typography className="all-details-title">Uploaded Files</Typography>
           <Grid container size={{xs:12}} spacing={2} alignItems="center" direction="row">
-          {Array.isArray(files) && files.length > 0 && 
+          {Array.isArray(files) && files?.length > 0 && 
           files.map((file: any) => (
-           <Grid key={file.id}>
+           <Grid key={file?.id}>
           <button
            style={{
            all: "unset", // Resets all default button styles

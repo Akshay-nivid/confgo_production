@@ -584,6 +584,7 @@ const CreateEvent: React.FC<EventProps> =
                       control={control}
                       name="city"
                       type="text"
+                      rules={{required:"City is a required field"}}
                       />
                     </Grid>
                     <Grid size={{ xs:12, sm:6}}>
@@ -600,6 +601,14 @@ const CreateEvent: React.FC<EventProps> =
                       control={control}
                       name="postalCode"
                       type="text"
+                      isNumeric={true}
+                      rules={{
+                        required: "Zip Code is a required field",
+                        maxLength: validateMaxLength({
+                          maxLength: 6,
+                          fieldName: 'postalCode',
+                        }),
+                      }} 
                       />
                     </Grid>
                     </>
