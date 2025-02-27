@@ -131,7 +131,7 @@
 
     &-upload-box-container {
         width: 100%;
-        border: 1px dashed $clr_disabled;
+        border: 1px dashed $clr_green;
         position: relative;
         border-radius: $p4;
         height:12.58rem;
@@ -432,6 +432,7 @@
         background-color: $clr_white;
         padding-left: 1rem;
         width: 100%;
+        margin-top: 2rem;
     }
 
     &-next-btn {
@@ -468,6 +469,7 @@
     &-program-display-items {
       overflow-y: auto;
       max-height: 20rem;
+      max-width: 45rem !important;
     }
 
     &-display-container {
@@ -544,6 +546,18 @@
         border: none !important;
         border-radius: 0.416rem !important;
         text-transform: none !important;
+      }
+      &-speaker-image-cloe-icon{
+        background-color: $clr_red !important;
+        height: 1.8rem;
+        width: 1.8rem;
+        border: 0.14rem solid $clr_gray_30_percent;
+        cursor: pointer;
+        position: absolute;
+        right: 0;
+            svg {
+                color: $clr_gray_30_percent;
+            }
       }
       &-new-speaker-link{
         color: $clr_greenish_blue !important;
@@ -2316,7 +2330,6 @@
         text-align: center !important;
         font-weight: $font_bold !important;
         font-size: $h3 !important;
-        padding-top: 2rem !important;
         padding-bottom: 2rem !important;
     }
 
@@ -2706,4 +2719,34 @@
         width: 2.833rem;
     }
   
-}  
+}
+.create-top-section {
+    font-weight: $font_bold !important;
+    font-size: $h4 !important;
+
+    &-items {
+        font-weight: $font_semibold !important;
+        font-size: $p2 !important;
+        color: $clr_gray_medium;
+    }
+
+    &-event {
+        font-weight: $font_semibold !important;
+        font-size: $p2 !important;
+    }
+
+    &-img {
+        height: 1.5rem;
+        width: 1.5rem;
+    }
+
+    &-next {
+        height: 0.833rem;
+        width: 0.833rem;
+    }
+
+    &-nav {
+        cursor: pointer;
+    }
+
+}

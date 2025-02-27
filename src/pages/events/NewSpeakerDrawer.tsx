@@ -1,15 +1,16 @@
 /** Component to create a new speaker User */
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import FileListModal from "@/components/FileUpload/FileListModal";
 import useStore from "@/Libs/store";
 import { validateEmail, validateRequiredField } from "@/Utils/Validation";
-import { IconButton, Typography } from "@mui/material";
+import { Box, FormLabel, IconButton, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import config from "../../../config.json";
 import { CloseOutlined } from "@mui/icons-material";
+import CloseIcon from '@mui/icons-material/Close';
+import FileUpload from "@/components/FileUpload/FileUpload";
 interface Role{
     value:number,
     label:string
@@ -23,11 +24,7 @@ type RoleList = {
     modifiedBy: string | null; 
     modifiedOn: string;    
   };
-  interface CustomFile {
-    id: string;
-    name: string;
-    sourcePath: string;
-  }
+
   interface NewSpeakerDrawerProps {
     onSuccess?: (query: any, data: any) => void;
     closeDrawer: () => void;
@@ -37,9 +34,7 @@ type RoleList = {
 */ 
 const NewSpeakerDrawer :React.FC<NewSpeakerDrawerProps> = ({ onSuccess, closeDrawer}) =>{
     const [selectedFile, setSelectedFile] = useState<any>(null);
-    const [modalOpen, setModalOpen] = useState(false);
     const baseUrl = config.api.url;
-    const companyId = sessionStorage.getItem('companyId');
     type FormData = {
         firstName: string,
         lastName: string,
@@ -126,12 +121,27 @@ const NewSpeakerDrawer :React.FC<NewSpeakerDrawerProps> = ({ onSuccess, closeDra
         });
     };
 
+    //Function to upload the avathar image
+    const handleFileUpload = (file: any) => {
+        if (!file) return;
+      
+        setSelectedFile(file);
+        setValue('assetId', file.id); // Update form state with asset ID
+      };
+
+      //Function to remove the selected vathar image
+      const handleRemoveImage = (event: any) => {
+        event.preventDefault();
+        setSelectedFile(null);
+        setValue('assetId', ''); // Reset form field
+      };
+
     /**
      *function to handle clean file state
      */
-  const handleFileDelete = () => {
-    setSelectedFile(null);
-  };
+//   const handleFileDelete = () => {
+//     setSelectedFile(null);
+//   };
     return <Grid container className='add-program-drawer' spacing={2}>
       <Grid
         size={{ xs: 12 }}
@@ -234,7 +244,7 @@ const NewSpeakerDrawer :React.FC<NewSpeakerDrawerProps> = ({ onSuccess, closeDra
                 </Grid>
                 <Grid container display={"flex"} size={12} justifyContent={"space-between"} alignItems={"center"}>
                     <Grid size={{xs:12,sm:12}}>
-                    <Grid
+                    {/* <Grid
                           className="create-event-btn-container"
                           container
                           justifyContent={"flex-start"}
@@ -260,8 +270,26 @@ const NewSpeakerDrawer :React.FC<NewSpeakerDrawerProps> = ({ onSuccess, closeDra
                               />
                             )}
                           </Grid>
-                        </Grid>
-                            <Grid container direction={'row'} alignItems={'center'} justifyContent={"center"} alignContent={"center"}>
+                        </Grid> */}
+
+                        <Box className="form-file-upload">
+                        <FormLabel className='form-file-upload-label'>Upload your avathar</FormLabel>
+                       { selectedFile ?  (
+                        <Box className="form-file-upload-image-banner" >
+                            <Box className='relative w-max flex gap-x-1'>
+                                <img src={`${baseUrl}/asset/${selectedFile.id}`} alt='' />
+                                <IconButton onClick={(e) => handleRemoveImage(e)} className="add-program-drawer-speaker-image-cloe-icon">
+                                <CloseIcon />
+                                </IconButton>
+                            </Box>
+                        </Box>
+                        ) :
+                       (     <FileUpload onSubmit={(file) => handleFileUpload(file)} className="form-file-upload-input" />
+                    )}             
+                    </Box>
+
+
+                            {/* <Grid container direction={'row'} alignItems={'center'} justifyContent={"center"} alignContent={"center"}>
                                 {selectedFile && (
                                     <Grid className="create-event-btn-container-img-box" >
                                         <img className="create-event-btn-container-img-box-image"
@@ -285,10 +313,10 @@ const NewSpeakerDrawer :React.FC<NewSpeakerDrawerProps> = ({ onSuccess, closeDra
                                     />
                                 </Grid>
                                 )}
-                            </Grid>
+                            </Grid> */}
                         </Grid>
                     </Grid>
-                <Grid className="admin-users-submit-btn-container" display={"flex"} size={12} justifyContent={"center"} alignItems={"center"} >
+                <Grid className="admin-users-submit-btn-container" display={"flex"} size={12} justifyContent={"end"} alignItems={"center"} paddingBottom={1} >
                     <CustomButton type="submit" className="admin-users-submit-btn-container-btn" label="Submit" />
                 </Grid>
                 </Grid>

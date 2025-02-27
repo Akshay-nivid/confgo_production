@@ -29,6 +29,7 @@ const AdminPaymentList: React.FC = () => {
    *  * `columns` defines the structure of each column in the DataGridList component.
    */
   const columns = [
+    { type: "default", field: "id", headerName: "ID", width: 100, sortable: true },
     { type: "custom", field: "name", headerName: "Name", width: 220 },
     {
       type: "dateField",

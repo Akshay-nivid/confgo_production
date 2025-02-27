@@ -103,7 +103,8 @@ export const PlanSection = () => {
             <Grid
               size={{ xs: 12, sm: 6, md: 3 }}
               key={index}
-              className="plansection__card"
+              spacing={2}
+              className="plansection_card"
             >
               <PlanCard data={row} />
             </Grid>
