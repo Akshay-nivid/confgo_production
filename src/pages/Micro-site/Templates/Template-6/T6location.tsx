@@ -9,7 +9,7 @@ const T6location = ({ eventData }: { eventData?: IEventResponse }) => {
         <>
             {isOffline ? <Box className="template-6-location">
 
-                <Box className='main'>
+                <Box id="location" className='main'>
                     <h3 className='template-6-location-title template-section-title '>
                         Location
                     </h3>

@@ -170,7 +170,9 @@ import RedSeat from "./redseat.svg";
 import UploadFileLogo from "./upload-file-logo.svg";
 import NewDrawerClose from "./new-drawer-close.svg";
 import SpeakerDashBoard from "./speaker-no-program.svg";
+import Coupon2 from "./coupon2.svg"
 export {
+  Coupon2,
   MainBottomBanner,
   MainYourBrandImg,
   MainSeamlessTrackingImg,

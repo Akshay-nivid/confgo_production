@@ -10,14 +10,15 @@ import { truncateString } from '@/Utils/CommonBaseClass';
 import LocalTimeDate from '@/components/LocalTimeDate/LocalTimeDate';
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import { useFormContext } from 'react-hook-form';
-import useStore, { setNonPersistedDataById } from '@/Libs/store';
+import { setNonPersistedDataById } from '@/Libs/store';
 import HTMLReactParser from 'html-react-parser/lib/index';
 
 import { YellowSeat, RedSeat } from '@/assets/svg/index';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import { Check } from '@mui/icons-material';
+import useProgramAddonToggle from '../Program-Selection/useProgramAddonToggle';
 interface IProgramcardProps {
-    templateId: number | null | undefined, handleToggleProgramCheckbox: (param: string) => void, program: any, date: string
+    templateId: number | null | undefined, program: any, date: string
 }
 
 /**
@@ -46,44 +47,7 @@ const Programcard = ({ templateId, program, date }: IProgramcardProps) => {
         setNonPersistedDataById('programDetails', { value: program })
     }
 
-
-
-
-    const cart = useStore((state) => state?.nonPersistedData?.cart)
-
-
-    /**
-     * Handles the click event on the program card
-     * If the program is already in the cart, it removes it
-     * If the program is not in the cart, it adds it
-     * @param {IProgram} program program object
-     */
-
-
-    function handleClick(programId: number) {
-
-        const targetIndex = cart?.programIds?.findIndex((item: any) => item === programId)
-
-        if (targetIndex !== -1) {
-
-            const updatedCart = [...cart?.programIds?.filter((item: any) => item !== programId)];
-
-            setNonPersistedDataById('cart', { ...cart, programIds: updatedCart });
-        } else {
-            const updatedCart = [...cart?.programIds, programId];
-
-            setNonPersistedDataById('cart', { ...cart, programIds: updatedCart });
-        }
-
-    }
-
-
-
-    function isProgramInCart(programId: number) {
-        return cart?.programIds?.includes(programId);
-    }
-
-
+    const { handleProgramClick, isProgramInCart } = useProgramAddonToggle();
 
     return (
         <Grid size={{ xs: 12, md: 6, lg: 4 }} className={clsx(`program-card-${templateId} program-selection-program-card`, watch(`${formatDate(date)}-programs`)?.includes(program?.id) ? '' : '')} >
@@ -156,7 +120,31 @@ const Programcard = ({ templateId, program, date }: IProgramcardProps) => {
             </Box>
 
 
-            <Grid container spacing={2} alignItems="center">
+            <Box className="divider"></Box>
+
+
+            <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} padding={1.6} >
+                <Box className="">
+                    <Grid display={'flex'} alignItems={'center'} className="price-group">
+                        <Dollar className="program-money-icon -mt-1" />
+                        <Typography className='program-price'>{Math.trunc(Number(program?.amount)) === 0 ? "Free" : `${program?.amount}`}</Typography>
+                    </Grid>
+
+
+                </Box>
+
+
+
+                <Box className="divider"></Box>
+
+
+
+                <Grid size={4} className={`program-checkbox-group-${templateId}`}>
+
+                    <CustomButton fullWidth startIcon={isProgramInCart(program?.id) ? <Check className="" /> : null} className={clsx(`program-card-btn-${templateId} program-card-btn`, isProgramInCart(program?.id) && `program-card-btn-${templateId}-active`)} label={isProgramInCart(program?.id) ? "Added" : "Add"} onClick={() => handleProgramClick(program?.id)} />
+                </Grid>
+            </Box>
+            <Grid container spacing={2} alignItems="center" className='aboslute bottom-0 pl-5'>
                 {(program?.eventParticipantEntries || []).map((entry: any, index: any) => {
                     const { seatAllocated = 0, totalSeat = 1 } = entry;
                     const remainingSeat = totalSeat - seatAllocated;
@@ -164,7 +152,7 @@ const Programcard = ({ templateId, program, date }: IProgramcardProps) => {
                     const isOverbookedRed = bookedPercentage > 85;
                     const isOverbookedYellow = bookedPercentage > 70;
 
-                    if (!isOverbookedYellow) return null;
+                    if (!isOverbookedYellow || remainingSeat === 0) return null;
                     return (
                         <Grid container key={index} spacing={2} alignItems="center" paddingBottom={1}>
                             {/* Seat Information */}
@@ -183,58 +171,6 @@ const Programcard = ({ templateId, program, date }: IProgramcardProps) => {
                     );
                 })}
             </Grid>
-
-            <Box className="divider"></Box>
-
-
-            <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} padding={1.6} >
-                <Box className="">
-                    <Grid display={'flex'} alignItems={'center'} className="price-group">
-                        <Dollar className="program-money-icon -mt-1" />
-                        <Typography className='program-price'>{Math.trunc(Number(program?.amount)) === 0 ? "Free" : `${program?.amount}`}</Typography>
-                    </Grid>
-
-
-                </Box>
-
-                
-
-                <Box className="divider"></Box>
-
-
-             
-                <Grid size={4} className={`program-checkbox-group-${templateId}`}>
-
-                    <CustomButton fullWidth startIcon={isProgramInCart(program?.id) ? <Check className="" /> : null} className={clsx(`program-card-btn-${templateId} program-card-btn`, isProgramInCart(program?.id) && `program-card-btn-${templateId}-active`)} label={isProgramInCart(program?.id) ? "Added" : "Add"} onClick={() => handleClick(program?.id)} />
-                </Grid>
-            </Box>
-            <Grid container spacing={2} alignItems="center" className='aboslute bottom-0 pl-5'>
-                    {(program?.eventParticipantEntries || []).map((entry: any, index: any) => {
-                        const { seatAllocated = 0, totalSeat = 1 } = entry;
-                        const remainingSeat = totalSeat - seatAllocated;
-                        const bookedPercentage = (seatAllocated / totalSeat) * 100;
-                        const isOverbookedRed = bookedPercentage > 85;
-                        const isOverbookedYellow = bookedPercentage > 70;
-
-                        if (!isOverbookedYellow || remainingSeat === 0) return null;
-                        return (
-                            <Grid container key={index} spacing={2} alignItems="center" paddingBottom={1}>
-                                {/* Seat Information */}
-                                <Grid container alignItems="center" spacing={0.5}>
-                                    <Grid paddingBottom={.5}>
-                                        {isOverbookedRed ? <RedSeat fontSize={15} /> : <YellowSeat fontSize={15} />}
-                                    </Grid>
-                                    <Grid>
-                                        <Typography variant="body1" className={isOverbookedRed ? "program-card-seat-alert-red" : "program-card-seat-alert-yellow"}>
-                                            Only {remainingSeat} seats left!
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
-
-                            </Grid>
-                        );
-                    })}
-                </Grid>
 
         </Grid>
     )

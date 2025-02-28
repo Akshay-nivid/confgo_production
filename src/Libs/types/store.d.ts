@@ -6,7 +6,10 @@ import { IProgram } from "./event";
 export interface CompData {
     [key: string]: any;
     adminCompanyId?:{companyId:number};
-    couponData?: { ["coupon/applyCoupon"]: IParticipantCoupon };
+     couponData?: {
+        'coupon/applyCoupon': IParticipantCoupon;
+        'coupon/removeCoupon': IParticipantCoupon;
+      };
     order?: { order: IParticipantOrder };
     previousRoute?: { url: string };
     finalPrice?: { value: null | string | undefined };
