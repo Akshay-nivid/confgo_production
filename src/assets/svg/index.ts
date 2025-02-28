@@ -171,9 +171,6 @@ import NewDrawerClose from "./new-drawer-close.svg";
 import SpeakerDashBoard from "./speaker-no-program.svg";
 import EnterpriceWhiteIcon from "./EntrepriseWhiteIcon.svg";
 import WhiteTickIcon from "./WhiteTickIcon.svg";
-import T7MapPin from "./t7-map-pin-line.svg";
-import T7Email from "./t7-mail-line.svg";
-import T7Phone from "./t7-phone.svg";
 import ToRight from "./Right-Create-event.svg";
 
 export {
@@ -350,8 +347,5 @@ export {
   SpeakerDashBoard,
   EnterpriceWhiteIcon,
   WhiteTickIcon,
-  T7MapPin,
-  T7Email,
-  T7Phone,
   ToRight
 };
