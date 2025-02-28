@@ -65,7 +65,6 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   shrink?:boolean
   closeIcon?: boolean;
   onClear?: () => void; 
-  onWheel?: (e: React.WheelEvent<HTMLInputElement>) => void;
 }
 
 interface InputPropsType {
