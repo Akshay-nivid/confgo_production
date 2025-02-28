@@ -143,7 +143,7 @@ const RevenueAndUserChart = () => {
 
 
                     <Grid justifyContent={"center"} flex={1} display={"flex"} alignItems={"center"} size={12} minWidth={'100%'} >
-                        {isLoading ? <Loader /> : (!chartData || chartData?.barChartData?.length === 0) ? <CustomBarChart barProps={{ dataKey: 'revenue' }} chartData={barChartDataArray} />: <CustomBarChart barProps={{ dataKey: 'revenue' }} chartData={chartData?.barChartData} />}
+                        {isLoading ? <Loader /> : (Object.keys(chartData)?.length === 0  || chartData?.barChartData?.length === 0 ) ? <CustomBarChart barProps={{ dataKey: 'revenue' }} chartData={barChartDataArray} />: <CustomBarChart barProps={{ dataKey: 'revenue' }} chartData={chartData?.barChartData} />}
                     </Grid>
 
                 </>

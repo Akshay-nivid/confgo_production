@@ -17,7 +17,7 @@ import {
   PathValue,
   RegisterOptions,
 } from "react-hook-form";
-import { useState } from "react";
+import {useState } from "react";
 import clsx from "clsx";
 import InfoIcon from '@mui/icons-material/Info';
 
@@ -116,7 +116,6 @@ const CustomTextField = <T extends FieldValues>({
    */
   const inputProps = () => {
     const propsObj: InputPropsType = {};
-
     if (props.prefixIconButton) {
       propsObj.startAdornment = (
         <InputAdornment position="start">
@@ -287,6 +286,7 @@ const CustomTextField = <T extends FieldValues>({
                   const numericValue = (props.isNumeric)? e.target.value.replace(/[^0-9]/g, ""):e.target.value;
                   field.onChange(numericValue); 
                 }}
+                onWheel={(e:any) => e.target.blur()}
                 
               />
               {showError && error?.message && (

@@ -113,6 +113,7 @@
         }
         &-content {
             min-width: 39rem !important;
+            max-width: 39rem !important;
             background-color: $clr_white;
             height: 100vh !important;
             padding-block: 1rem;

@@ -244,13 +244,13 @@ const SessionCard: React.FC<SessionCardProps> = ({
        </Grid>
 
       
-      {hasAddOns && item?.eventAddonProperties && (
-         item?.eventAddonProperties.map((props: any) => (
-          <Grid container size={12} key={props.id}> 
+      {hasAddOns && item?.eventAddonProperties?.length>0 && (
+         item?.eventAddonProperties?.map((props: any) => (
+          <Grid container size={12} key={props?.id}> 
           <Grid display={"flex"} direction={"column"}>
             <Typography className="card-content-description" >
-            {`Items: ${props.name}`}-
-            {`Price: ${props.amount}`}
+            {`Items: ${props?.name}`}-
+            {`Price: ${props?.amount}`}
           </Typography>
             </Grid>
          </Grid>
@@ -394,15 +394,15 @@ const SessionCard: React.FC<SessionCardProps> = ({
                 </Typography>
                 </Grid>
 
-              {hasAddOns && item?.eventAddonProperties.length >0 && (
+              {hasAddOns && item?.eventAddonProperties?.length >0 && (
                   <Grid container size={12} display={"flex"} flexDirection={"column"} className="addon-property" >
                      <Typography className="addon-header">Add-ons properties</Typography>
-                {item?.eventAddonProperties.map((props: any) => (
+                {item?.eventAddonProperties?.map((props: any) => (
                     <Grid display={"flex"}key={props.id} className="content pl-1 mt-1 "  flexDirection={"column"}  >
                      
-                     <Box display="flex"  ><Typography className="content-head">Item-</Typography> <Typography className="content-data">{props.name}</Typography></Box>
+                     <Box display="flex"  ><Typography className="content-head">Item-</Typography> <Typography className="content-data">{props?.name}</Typography></Box>
 
-                  <Box display="flex" ><Typography className="content-head">Price-</Typography> <Typography className="content-data">{props.amount}</Typography></Box> 
+                  <Box display="flex" ><Typography className="content-head">Price-</Typography> <Typography className="content-data">{props?.amount}</Typography></Box> 
 
                      
                   </Grid>
