@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid2";
 import { useForm } from "react-hook-form";
 import MikeIcon from "../../assets/svg/karaoke.svg"
 import CustomButton from "@/components/CustomButton/CustomButton";
-import { setNonPersistedDataById } from "@/Libs/store";
+import useStore, { setNonPersistedDataById } from "@/Libs/store";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { truncateString } from "@/Utils/CommonBaseClass";

@@ -12,9 +12,7 @@ const EventContactCard=(id:any)=>{
 
     const {data}=id;
     const currency = confgo?.currency
-    useEffect(()=>{
-        
-    })
+    
     const event = useStore( (state: any) => state.compData?.eventIdData?.[`event/${data}`]  ) || {};
     
   
