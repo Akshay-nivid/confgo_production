@@ -244,9 +244,9 @@ const SessionCard: React.FC<SessionCardProps> = ({
        </Grid>
 
       
-      {hasAddOns && item?.eventAddonProperties.length>0 && (
+      {hasAddOns && item?.eventAddonProperties?.length>0 && (
          item?.eventAddonProperties?.map((props: any) => (
-          <Grid container size={12} key={props.id}> 
+          <Grid container size={12} key={props?.id}> 
           <Grid display={"flex"} direction={"column"}>
             <Typography className="card-content-description" >
             {`Items: ${props?.name}`}-
@@ -400,9 +400,9 @@ const SessionCard: React.FC<SessionCardProps> = ({
                 {item?.eventAddonProperties?.map((props: any) => (
                     <Grid display={"flex"}key={props.id} className="content pl-1 mt-1 "  flexDirection={"column"}  >
                      
-                     <Box display="flex"  ><Typography className="content-head">Item-</Typography> <Typography className="content-data">{props.name}</Typography></Box>
+                     <Box display="flex"  ><Typography className="content-head">Item-</Typography> <Typography className="content-data">{props?.name}</Typography></Box>
 
-                  <Box display="flex" ><Typography className="content-head">Price-</Typography> <Typography className="content-data">{props.amount}</Typography></Box> 
+                  <Box display="flex" ><Typography className="content-head">Price-</Typography> <Typography className="content-data">{props?.amount}</Typography></Box> 
 
                      
                   </Grid>
