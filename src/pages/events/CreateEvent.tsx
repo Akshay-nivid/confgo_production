@@ -397,7 +397,7 @@ const CreateEvent: React.FC<EventProps> =
           alignItems="center"
           spacing={2}
         >
-          <Grid size={{ xs: 12, sm: 12 }} container m={8}>
+          <Grid size={{ xs: 12, sm: 12 }} container m={8} marginTop={2}>
             <Grid>
               <Typography
                 variant="h3"
@@ -584,6 +584,7 @@ const CreateEvent: React.FC<EventProps> =
                       control={control}
                       name="city"
                       type="text"
+                      rules={{required:"City is a required field"}}
                       />
                     </Grid>
                     <Grid size={{ xs:12, sm:6}}>
@@ -600,6 +601,14 @@ const CreateEvent: React.FC<EventProps> =
                       control={control}
                       name="postalCode"
                       type="text"
+                      isNumeric={true}
+                      rules={{
+                        required: "Zip Code is a required field",
+                        maxLength: validateMaxLength({
+                          maxLength: 6,
+                          fieldName: 'postalCode',
+                        }),
+                      }} 
                       />
                     </Grid>
                     </>

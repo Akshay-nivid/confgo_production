@@ -2086,6 +2086,26 @@
             max-height: 21.333rem;
             width: auto;
         }
+        $banner-background-clr1:#225B49;
+        $banner-background-clr2:#5BA18B;
+        .t4-banner{
+                margin-block: 5rem;
+                .banner-container{
+                    background: linear-gradient(to right, $banner-background-clr1, $banner-background-clr2);
+                    @media (max-width: 600px) {
+                     display: block;
+                    }
+                    .banner-img{
+                        @media (max-width: 600px) {
+                            margin-block: 0.5rem ;
+                            background-position: top;
+                           } 
+                    } 
+                }
+                .banner-info-container {
+                    flex: none;
+                }
+            }
     }
 
 

@@ -103,7 +103,7 @@ const PayPalConfiguration = () => {
             />
         </Grid>
         <Grid size={{xs:2,sm:1}}>
-            <CustomButton onClick={handleSubmit(handleFormSubmit)}   className="payment-configuration-button-save"  label={payPalData?"Update":"Add" }/>
+            <CustomButton onClick={handleSubmit(handleFormSubmit)}   className="payment-configuration-button-save"  label={payPalData?.clientId ? "Update":"Add" }/>
         </Grid>
 
     </Grid>

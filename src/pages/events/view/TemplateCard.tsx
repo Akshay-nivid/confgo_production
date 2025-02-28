@@ -9,9 +9,10 @@ import Template3 from '../../../assets/png/template3-preview.png'
 import Template1 from '../../../assets/png/template4-preview.png'
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CheckCircleIcon from '../../../assets/svg/template-select.svg'
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useStore from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
+import TemplateCustomizeCard from "./TemplateCustomizeCard";
 
 
 
@@ -21,7 +22,8 @@ const TemplateCard = (data: any) => {
   const PUT = useStore((state: any) => state.PUT);
   const templateInfo = useStore((state: any) => state?.compData?.['templateList']?.[`template/list`]?.data) ?? [];
   const templates = [Template1, Template2, Template3, Template4];
-  //const setDataById = useStore((state: any) => state.setDataById);
+  const [customizeConfig, setCustomizeConfig] = useState<any>({});
+
 
 
   /**
@@ -43,8 +45,14 @@ const TemplateCard = (data: any) => {
    * @param temp : template id
    */
   const handlePreview = (temp: any) => {
-    const url = `/event/detail/${data?.eventData?.id}/template/${temp?.id}/preview`;
-    window.open(url, '_blank');
+    setCustomizeConfig({
+      id: temp?.id,
+      entityId: data?.eventData?.id,
+      editMode: true,
+      colorId: data?.eventData?.color?.id
+    });
+    //const url = `/event/detail/${data?.eventData?.id}/template/${temp?.id}/preview`;
+    //window.open(url, '_blank');
   }
 
   const handleItem = (_tempItem: any) => {
@@ -105,28 +113,32 @@ const TemplateCard = (data: any) => {
     }
   }
 
+  const handleCustomizeCancel = () => {
+    setCustomizeConfig({});
+  }
+
 
   return (
     <Grid className="event-detail-template-card" container spacing={2}>
-      <Grid container size={{ xs: 12, md: 12 }}>
+      {customizeConfig?.editMode? <TemplateCustomizeCard metaData={customizeConfig} onCancel={handleCustomizeCancel} onSubmitHandler={data?.onSubmitHandler}/>:<><Grid container size={{ xs: 12, md: 12 }}>
         <Typography className="event-detail-template-card-header" >
           Templates
         </Typography>
       </Grid>
-      <Grid container className="event-detail-template-card-selection" >
+      <Grid container className="event-detail-template-card-selection" spacing={2}>
         {templateInfo && createTemplateData(templateInfo)?.map((item: any) => (
           <Grid className={item.selected ? `event-detail-template-card-selection-container event-detail-template-card-selection-container-selected` : `event-detail-template-card-selection-container`}>
             <Grid container className="event-detail-template-card-selection-container-icon-container" justifyContent={'flex-end'}>{item.selected && <CheckCircleIcon />}</Grid>
             <Grid container className="event-detail-template-card-selection-container-overlay" spacing={2} direction={'column'}>
               {!item.selected && <CustomButton onClick={() => handleApply(item)} label="Apply Theme" className="event-detail-template-card-selection-container-overlay-apply-button" />}
-              <CustomButton onClick={() => handlePreview(item)} label="Preview Theme" className="event-detail-template-card-selection-container-overlay-preview-button" />
+              <CustomButton onClick={() => handlePreview(item)} label="Customize" className="event-detail-template-card-selection-container-overlay-preview-button" />
             </Grid>
             <Grid className="event-detail-template-card-selection-preview-container" onClick={() => handleItem(item)}>
               <img id={item.id.toString()} src={item.image} alt={item.name} />
             </Grid>
           </Grid>
         ))}
-      </Grid>
+      </Grid></>}
     </Grid>
   );
 };

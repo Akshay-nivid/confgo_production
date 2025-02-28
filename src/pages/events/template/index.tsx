@@ -13,8 +13,11 @@ import Template2 from './Template2';
 import Template4 from '../approvedTemplate/Template4';
 import { Backdrop, CircularProgress } from '@mui/material';
 import MaintenancePage from './MaintenancePage';
-type TemplateContainerProps = {
-  id?: number;
+interface TemplateContainerProps {
+  id?: string;
+  templateId?: string;
+  eventId?: string;
+  colorId?: string;
 }
 
 const templates: any = {
@@ -27,10 +30,12 @@ const templates: any = {
 /**
  * Component handles the template creation
  */
-const TemplateContainer: React.FC<TemplateContainerProps> = React.memo(({ }) => {
+const TemplateContainer: React.FC<TemplateContainerProps> = React.memo(({ templateId, eventId }) => {
 
-  const { id, entityId, slug } = useParams();
-
+  const params = useParams();
+  const id = templateId || params.id;
+  const entityId = params.entityId || eventId;
+  const slug = params.slug;
   const temp = typeof id === 'number' ? id : Number(id) || 1;
   const GET = useStore((state: any) => state.GET);
   const dataInfo = useStore((state: any) => state?.compData?.['templateEventDetails']?.[`event/${entityId}`]) ?? [];
@@ -79,6 +84,9 @@ const TemplateContainer: React.FC<TemplateContainerProps> = React.memo(({ }) => 
       await GET({
         url: `event/${entityId}`,
         id: 'templateEventDetails',
+        successCB:(context:any)=>{
+          setDataById('event', { data: context?.data });
+        },
         errorCB: (context: any) => {
           Logger.error('TemplateView.tsx', context?.message);
         }

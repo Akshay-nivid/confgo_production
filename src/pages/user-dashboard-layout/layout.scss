@@ -874,6 +874,67 @@
   }
 }
 }
+.ongoing-event {
+  &-grid {
+    border: 0.083rem solid $clr_gray_very_light;
+    padding: 2rem;
+    border-radius: 0.83rem;
+    cursor: pointer;
+  }
+  &-name-live-grid{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  &-name {
+    font-weight: $font_semibold !important;
+    font-size: $p2 !important;
+  }
+
+  &-type {
+    width: 7rem !important;
+    border-radius: 4.17rem !important;
+    background-color: $clr-warning-orange !important;
+    font-size: $p3 !important;
+    font-weight: $font-medium !important;
+    color: $clr_white !important;
+    padding-top: 0.3rem !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &-speaker {
+    display: flex;
+  }
+
+  &-live {
+    width: 0.417rem;
+    height: 0.417rem;
+    background-color: $clr_red;
+    border-radius: 50%;
+    transition: opacity 0.5s ease-in-out;
+    &-dot{
+      display: flex;
+      align-items: center;
+      gap: 0.417rem;
+    }
+  }
+
+  &-detail {
+    font-weight: $font_medium !important;
+    font-size: $p3 !important;
+    color: $light_grey ;
+
+    &-display {
+      font-weight: $font_medium !important;
+      font-size: $p7 !important;
+      color: $clr_gray_dark_text
+    }
+  }
+}
 
 
 .summit-card {

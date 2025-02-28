@@ -31,7 +31,7 @@ interface DetailProps {
  * it contains all the information reguarding the user
  */
 const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => { 
-  const [tabValue, setTabValue] = useState(1); // Default to tab 1
+  const [tabValue, setTabValue] = useState(userdetail?.formData?.length !=0 ? 1 : 2); // Default to tab 1
   const [isModalOpen, setModalOpen] = useState(false); // State to control modal
   const [selectedFile, setSelectedFile] = useState<any>(null); // State for selected file
   const baseUrl = config.api.url;
@@ -430,7 +430,7 @@ const handleDownloadPdf = () => {
   return (
     <Grid>
       <Tabs value={tabValue} className="main-account-tabs" onChange={(_event, newValue) => handleTabChange(newValue)}>
-        <Tab value={1} label="User Information" className="main-account-tab-title account-tabs"/>
+        {userdetail?.formData?.length && <Tab value={1} label="User Information" className="main-account-tab-title account-tabs"/>}
         <Tab value={2} label="Payment Details" className="main-account-tab-title account-tabs"/>
         <Tab value={3} label="Attendance Details" className="main-account-tab-title account-tabs"/>
         <Tab value={4} label="Documents" className="main-account-tab-title account-tabs"/>
@@ -676,30 +676,30 @@ const handleDownloadPdf = () => {
       </Typography>
 
       <Grid>
-    {categories.map(({ label, key }) => (
-      attendanceDetails[key].length > 0 && ( 
+    {categories?.map(({ label, key }) => (
+      attendanceDetails?.[key]?.length > 0 && ( 
         <Grid key={key}>
           <Typography className="all-details-attendence-label">
             {label}
           </Typography>
           <Grid container spacing={2}>
-            {attendanceDetails[key].map((program: any) => (
-              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={program.id}>
+            {attendanceDetails?.[key]?.map((program: any) => (
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={program?.id}>
                 <Grid className="userdetail-event-card">
                   <Grid container direction="row" className="userdetail-time-status">
                     <Typography className="userdetail-time">
-                      {formatDateTimeRange({ date: program.startTime, format: "h:mm A" })}-
-                      {formatDateTimeRange({ date: program.endTime, format: "h:mm A" })}
+                      {formatDateTimeRange({ date: program?.startTime, format: "h:mm A" })}-
+                      {formatDateTimeRange({ date: program?.endTime, format: "h:mm A" })}
                     </Typography>
-                    {program.statusId && (
-                      <StatusComponent className="user-status" value={program.statusId} />
+                    {program?.statusId && (
+                      <StatusComponent className="user-status" value={program?.statusId} />
                     )}
                   </Grid>
                   <Typography className="userdetail-name">
-                    {program.name}
+                    {program?.name} 
                   </Typography>
                   <Typography className="userdetail-card-data">
-                    Location:{ `${program.venue?.city},${program.venue?.country}`}
+                    Location:{ `${program?.venue?.city},${program?.venue?.country}`}
                   </Typography>
                 </Grid>
               </Grid>
@@ -714,9 +714,9 @@ const handleDownloadPdf = () => {
         <Grid spacing={2} className="all-details-attendance-grid">
           <Typography className="all-details-title">Uploaded Files</Typography>
           <Grid container size={{xs:12}} spacing={2} alignItems="center" direction="row">
-          {Array.isArray(files) && files.length > 0 && 
+          {Array.isArray(files) && files?.length > 0 && 
           files.map((file: any) => (
-           <Grid key={file.id}>
+           <Grid key={file?.id}>
           <button
            style={{
            all: "unset", // Resets all default button styles
