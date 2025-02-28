@@ -287,6 +287,7 @@ const CustomTextField = <T extends FieldValues>({
                   const numericValue = (props.isNumeric)? e.target.value.replace(/[^0-9]/g, ""):e.target.value;
                   field.onChange(numericValue); 
                 }}
+                onWheel={(e:any) => e.target.blur()}
                 
               />
               {showError && error?.message && (

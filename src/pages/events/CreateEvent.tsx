@@ -678,7 +678,6 @@ const CreateEvent: React.FC<EventProps> =
                   </Grid>
                   <Grid size={{ xs: 12, sm: 12 }}>
                     <CustomTextField
-                    onWheel={(e:any) => e.target.blur()}
                       prefix={currency}
                       placeholder="Price"
                       control={control}
