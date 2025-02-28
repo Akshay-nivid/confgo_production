@@ -1,5 +1,6 @@
 import Box from '@mui/material/Box/Box'
 import './sponsor.scss'
+import noSponsor from '@/assets/png/sponsor-no-data.png';
 import { Avatar, FormLabel, IconButton, Menu, MenuItem, Typography } from '@mui/material'
 import CustomAutocomplete from '@/components/CustomAutocomplete/CustomAutocomplete'
 import { useForm } from 'react-hook-form'
@@ -462,8 +463,13 @@ const Sponsors = () => {
                     id="sponsor-datagrid"
                     key={'sponsor-list-datagrid'}
 
-                    noRecordIcon={<NoEventIcon className="event-list-no-events-icon" />}
-                    noRecordSubtitle="It looks like you haven't created any events yet.Start by setting up your first conference or meeting."
+                    noRecordIcon={
+                    //  <NoEventIcon className="event-list-no-events-icon" />
+                    <img src={noSponsor} alt="No sponsor Available" />
+                }
+                noRecordTitle="No Sponsors Yet"
+                    noRecordSubtitle="Add sponsors to showcase their support and enhance your event’s visibility. Start building valuable partnerships now."
+
 
                 />
             </Grid>

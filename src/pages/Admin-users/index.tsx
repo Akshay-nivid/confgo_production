@@ -12,7 +12,7 @@ import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
 import { Filter } from "@/components/Filter";
 import useStore, { PUT, setDataById, setNonPersistedDataById } from "@/Libs/store";
-import { NoUserList } from "@/assets/svg";
+import noUser from '@/assets/png/user-no-data.png';
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CreateNewUsers from "./CreateUsers";
 import { IconButton, Menu, MenuItem } from "@mui/material";
@@ -312,8 +312,9 @@ const AdminUsersList = () => {
       field: "phone",
       headerName: "Phone No",
       width: 150,
+      sortable: false
     },
-    { type: "status", field: "statusId", headerName: "Status", width: 120 },
+    { type: "status", field: "statusId", headerName: "Status", width: 120,sortable: false },
     { type: "custom", field: "actions", headerName: "", width: 150 ,sortable: false},
   ];
 
@@ -424,8 +425,12 @@ const AdminUsersList = () => {
           columns={columns}
           id="data-role-list"
           // onRowClick={(params:any) => handleRowClick(params.row)}
-          noRecordIcon={<NoUserList className="userdetail-noimage" />}
-          noRecordSubtitle="It's looks like you haven't created any users yet."
+          noRecordIcon={
+          // <NoUserList className="userdetail-noimage" />
+          <img  src={noUser} alt="No User Available" />
+        }
+        noRecordTitle="No Users Found"
+        noRecordSubtitle="Manage event team members and assign roles for smooth collaboration. Add users to start organizing efficiently."
         />
       </Grid>
       <Grid>

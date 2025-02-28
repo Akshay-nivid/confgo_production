@@ -1111,9 +1111,9 @@
     border-radius: 0.9rem;
     padding-top: 6rem;
   }
-
+  
   &-image {
-    margin-top: 10rem !important;
+    margin-top: -7rem !important;
   }
 
   &-title {
@@ -1121,7 +1121,7 @@
     font-weight: $font_semibold !important;
     font-size: $p5 !important;
     justify-content: center !important;
-    margin-top: 3rem !important;
+    margin-top: 0rem !important;
     color: $clr_black !important;
   }
 
@@ -1131,7 +1131,7 @@
     text-align: center;
     margin-bottom: 2rem !important;
     color: $clr_gray_extra_dark !important;
-  }
+    }
 
   &-create-btn {
     height: 4.17rem !important;

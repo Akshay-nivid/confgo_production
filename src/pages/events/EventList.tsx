@@ -12,11 +12,11 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { ISource } from "@/Libs/types/type";
 import { Logger } from "@/Utils/Logger";
 import React from "react";
-import { NoEvent as NoEventIcon } from "@/assets/svg";
 import { Filter } from "@/components/Filter";
 import { StatusEnum } from "@/Utils/StatusEnum";
 import moment from "moment";
 import Typography from "@mui/material/Typography/Typography";
+import noEventData from '@/assets/png/event-no-data.png';
 
 interface EventListProps {
   hideAction?: boolean;
@@ -267,10 +267,14 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
           hideFooterPagination={hideAction ? true : false}
           columns={columns}
           id={dashView?"dashboard-view":"event-datagrid"} 
-          noRecordIcon={<NoEventIcon className="event-list-no-events-icon" />}
-          noRecordSubtitle="It looks like you haven't created any events yet.Start by setting up your first conference or meeting."
-          redirectTo={() => routes.createEvent()} // define the route
-          btnName="Create New Event" //define the label of btn
+          noRecordIcon={
+          // <NoEventIcon className="event-list-no-events-icon" />
+          <img className="no-dashbrd-data-img"  src={noEventData} alt="No Payment Available" />
+        }
+          noRecordTitle="No Events Created Yet"
+          noRecordSubtitle="Start creating your first event and manage everything from scheduling to participant registration—all in one place"
+          // redirectTo={() => routes.createEvent()} // define the route
+          // btnName="Create New Event" //define the label of btn
         />
       </Grid>
       {hideAction && view && (
