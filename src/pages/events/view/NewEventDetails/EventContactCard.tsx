@@ -16,7 +16,6 @@ const EventContactCard=(id:any)=>{
         
     })
     const event = useStore( (state: any) => state.compData?.eventIdData?.[`event/${data}`]  ) || {};
-    console.log(">>>>>>>>event",event?.data);
     
   
     
@@ -73,11 +72,12 @@ const EventContactCard=(id:any)=>{
         },
        
     ]
-    const filteredBoxArray = boxArray.filter(item => item.info); // Remove items where info is empty
+    /**
+     *  Remove items where info is empty
+     */
+    const filteredBoxArray = boxArray.filter(item => item.info); 
 
-    // if (event?.data?.eventContacts?.[0]?.phone === null  && event?.data?.eventContacts?.[0]?.email === null) {
-    //     return null;
-    //   }
+   
    return(
     
     <Grid container className="EventContactCard-grid"  size={12} spacing={0}>
