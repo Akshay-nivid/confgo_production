@@ -88,6 +88,7 @@ const OtpComponent: React.FC<OtpComponentProps> = ({onOtpVerify}) => {
    * @param phone 
    */
 const getOtp=(phone:string)=>{
+  setIsResendDisabled(true);
   const requestBody = {
     phone: userData?.phone ?? phone,
     type:userDetails?.data?.tokenType==="FORGOT_PASSWORD_OTP"?"RESET_PASSWORD_OTP":userDetails?.data?.tokenType
@@ -103,6 +104,7 @@ const getOtp=(phone:string)=>{
     },
     errorCB: (error:any) => {
       snackBar({ severity: 'error', message: error?.message || 'something went wrong' })
+      setIsResendDisabled(false);
   }
   })
 }

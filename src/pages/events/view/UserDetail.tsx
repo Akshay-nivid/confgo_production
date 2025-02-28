@@ -12,10 +12,11 @@ import Grid from "@mui/material/Grid2";
 import StatusComponent from "@/components/Status/StatusComponent";
 import "./userdetail.scss";
 import React from "react";
-import { formatDateTimeRange } from "@/Utils/CommonBaseClass";
+import { formatDateTimeRange, truncateString } from "@/Utils/CommonBaseClass";
 import { CallingIcon, MailIcon } from "@/assets/svg";
 import UserAllDetail from "./userAllDetail";
 import config from "../../../../config.json";
+import CustomTooltip from "@/components/CustomToolTip/CustomTooltip";
 interface User {
   id: string;
   firstName: string;
@@ -160,14 +161,26 @@ const UserDetail: React.FC = React.memo(() => {
                   <StatusComponent className="user-status" value={program?.status}/>
                 )}
               </Grid>
-              <Typography variant="h6" className="userdetail-name">
-                {program?.name}
-              </Typography>
-             {mode?.eventClass ==="OFFLINE"?(<Typography variant="body2" className="userdetail-card-data">
-                Location: {program?.location}
-              </Typography>):(
-                <Typography>URL:{mode?.url}</Typography>) }
+              
+                <CustomTooltip title={program?.name}>
+                  <Typography variant="h6" className="userdetail-name">
+                    {truncateString(program?.name, 40)}
+                  </Typography>
+                </CustomTooltip>
              
+
+             {mode?.eventClass ==="OFFLINE"?(
+
+                
+                  <CustomTooltip title={program?.location}>
+                    <Typography variant="body2" className="userdetail-card-data">
+                      Location: {truncateString(program?.location, 20)}
+                    </Typography>
+                  </CustomTooltip>
+               
+
+              ):(
+                <Typography>URL:{mode?.url}</Typography>) }
             </Grid>
           </Grid>
         )))

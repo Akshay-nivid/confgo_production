@@ -164,7 +164,6 @@ import EventDetailSponsor from "./event-details-sponsor.svg";
 import EventDetailSpeaker from "./event-detail-speaker.svg";
 import EventDetailAttendee from "./event-detail-attendence.svg";
 import PichartIcon from "./piechart-icon.svg"
-
 import YellowSeat from "./yelllowseat.svg";
 import RedSeat from "./redseat.svg";
 import UploadFileLogo from "./upload-file-logo.svg";
@@ -175,6 +174,8 @@ import WhiteTickIcon from "./WhiteTickIcon.svg";
 import T7MapPin from "./t7-map-pin-line.svg";
 import T7Email from "./t7-mail-line.svg";
 import T7Phone from "./t7-phone.svg";
+import ToRight from "./Right-Create-event.svg";
+
 export {
   MainBottomBanner,
   MainYourBrandImg,
@@ -351,5 +352,6 @@ export {
   WhiteTickIcon,
   T7MapPin,
   T7Email,
-  T7Phone
+  T7Phone,
+  ToRight
 };
