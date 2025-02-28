@@ -17,11 +17,12 @@ import {
   PathValue,
   RegisterOptions,
 } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import clsx from "clsx";
 import InfoIcon from '@mui/icons-material/Info';
 
 interface ICustomTextFieldProps<T extends FieldValues> {
+  scroll?:string;
   prefixIconButton?: React.ReactNode;
   prefixIcon?: React.ReactNode;
   prefix?:string;
@@ -68,6 +69,8 @@ interface ICustomTextFieldProps<T extends FieldValues> {
 }
 
 interface InputPropsType {
+  onKeyDown?: (e: React.KeyboardEvent) => void;
+  onWheel?: (e: React.WheelEvent) => void;
   startAdornment?: React.ReactNode;
   endAdornment?: React.ReactNode;
   min?: string | number;
@@ -116,7 +119,40 @@ const CustomTextField = <T extends FieldValues>({
    */
   const inputProps = () => {
     const propsObj: InputPropsType = {};
+   
+    /**
+    * useEffect to block mouse wheel scroll and arrow keys for number fields when scroll="blockScroll"
+    * Remove the event listeners to avoid memory leaks when component unmounts or dependencies change
+    */
 
+    useEffect(() => {
+
+      // Ensure the input field element is correctly targeted
+      const inputElement = document.getElementById(name);
+    
+      if (inputElement && props.scroll === "blockScroll" && type === "number") {
+        const handleWheel = (e: WheelEvent) => {
+          e.preventDefault();
+        };
+    
+        const handleKeyDown = (e: KeyboardEvent) => {
+          if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+            e.preventDefault(); // Block up and down arrow keys
+          }
+        };
+    
+        // Add event listeners for wheel and keydown
+        inputElement.addEventListener("wheel", handleWheel, { passive: false });
+        inputElement.addEventListener("keydown", handleKeyDown);
+    
+        // Cleanup event listeners on component unmount
+        return () => {
+          inputElement.removeEventListener("wheel", handleWheel);
+          inputElement.removeEventListener("keydown", handleKeyDown);
+        };
+      }
+    }, [props.scroll, type, name]);
+    
     if (props.prefixIconButton) {
       propsObj.startAdornment = (
         <InputAdornment position="start">
