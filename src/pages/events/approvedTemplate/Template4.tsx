@@ -24,8 +24,9 @@ import routes from '@/router/routes';
 import { useNavigate } from 'react-router-dom';
 import SponsorShip from '../template/sponsorShipForm/SponsorShip';
 import TempHall from "../../../assets/svg/temp-hall.svg";
-import { personPlaceholder, Tempalte4App } from '@/assets/png';
+import { personPlaceholder } from '@/assets/png';
 import {YellowSeat, RedSeat} from '@/assets/svg/index';
+import BannerSection from '@/pages/Micro-site/Templates/Template-components/Banner/Banner-section';
 
 type TemplateViewProps = {
     data: any;
@@ -1070,21 +1071,7 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                 </Grid>
                 {/* Sponsor enquiry form ends here */}
                 {/* App banner Image */}
-                <Grid 
-                  container 
-                  justifyContent={"center"} 
-                  alignItems={"center"} 
-                  alignSelf={"center"}
-                  size={12}
-                  mb={8}
-                >
-                  <Grid  size={10}>
-                    <img 
-                      src={Tempalte4App} 
-                      alt="Template 4"
-                    />
-                  </Grid>
-                </Grid>
+                <BannerSection className='t4-banner'/>
                 <FooterSection classPrefix={`${classPrefix}-footer`} data={data} links={headerLinks} onScrollToProgram={() => handleScrollTo(programRef)} onScrollToAbout={() => handleScrollTo(aboutRef)} onScrollToContributors={() => handleScrollTo(contributorsRef)} onScrollToLocation={() => handleScrollTo(LocationRef)} onScrollToBeSponsor={() => handleScrollTo(beSponsorRef)} onScrollToSponsor={() => handleScrollTo(sponsorRef)}/>
             </Grid>
         </Grid>

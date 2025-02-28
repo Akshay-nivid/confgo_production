@@ -84,6 +84,9 @@ const TemplateContainer: React.FC<TemplateContainerProps> = React.memo(({ templa
       await GET({
         url: `event/${entityId}`,
         id: 'templateEventDetails',
+        successCB:(context:any)=>{
+          setDataById('event', { data: context?.data });
+        },
         errorCB: (context: any) => {
           Logger.error('TemplateView.tsx', context?.message);
         }
