@@ -131,7 +131,7 @@
 
     &-upload-box-container {
         width: 100%;
-        border: 1px dashed $clr_disabled;
+        border: 1px dashed $clr_green;
         position: relative;
         border-radius: $p4;
         height:12.58rem;
@@ -374,14 +374,24 @@
          
     }
     &-drawer{
-        width: 40rem !important;
-        height: 30rem;
-        padding-inline:2rem;
-        &-heading{
-            font-size: $h3 !important;
-            font-weight: $font-bold;
-            padding-top: 1rem;
-        }
+        min-width: 37.08rem !important;
+        padding-inline:2.833rem !important;
+        &-Box {
+            margin-block: 1rem !important;
+        &-icon{
+                svg {
+                    cursor: pointer;
+                    width: 1.5rem;
+                    height: 1.5rem;
+                    margin-bottom: 0.3rem;
+                }
+            }
+        
+                &-heading {
+                    font-size: $h3 !important;
+                    font-weight: $font-bold;
+                }
+    }
     }
    &-saved-addons{
     min-height: 20rem !important;
@@ -422,6 +432,7 @@
         background-color: $clr_white;
         padding-left: 1rem;
         width: 100%;
+        margin-top: 2rem;
     }
 
     &-next-btn {
@@ -458,6 +469,7 @@
     &-program-display-items {
       overflow-y: auto;
       max-height: 20rem;
+      max-width: 45rem !important;
     }
 
     &-display-container {
@@ -534,6 +546,18 @@
         border: none !important;
         border-radius: 0.416rem !important;
         text-transform: none !important;
+      }
+      &-speaker-image-cloe-icon{
+        background-color: $clr_red !important;
+        height: 1.8rem;
+        width: 1.8rem;
+        border: 0.14rem solid $clr_gray_30_percent;
+        cursor: pointer;
+        position: absolute;
+        right: 0;
+            svg {
+                color: $clr_gray_30_percent;
+            }
       }
       &-new-speaker-link{
         color: $clr_greenish_blue !important;
@@ -1187,6 +1211,94 @@
                 }
             }
         }
+        &-customize {
+
+
+            &-theme {
+        
+                @mixin theme-item($index, $dark-color, $light-color, $bg-color: $clr_platinum_gray) {
+        
+                    &-items#{$index},
+                    &-default {
+                        width: 12rem;
+                        height: 7rem;
+                        border-radius: 0.83rem;
+                        background-color: $bg-color;
+                        margin-bottom: 1rem;
+                        cursor: pointer;
+        
+                        &-dark,
+                        &-light {
+                            width: 2.58rem;
+                            height: 2.58rem;
+                            border-radius: 50%;
+                            margin: 1rem;
+                        }
+        
+                        &-dark {
+                            background-color: $dark-color;
+                        }
+        
+                        &-light {
+                            background-color: $light-color;
+                        }
+                    }
+                }
+        
+                @include theme-item(1, $clr_green, $clr_light_leaf_green);
+                @include theme-item(2, $clr_cyan_blue, $clr-bright-blue);
+                @include theme-item(3, $clr_dark_red, $clr_fire_red);
+                @include theme-item(4, $clr_rust_orange, $clr_bright_orange);
+                @include theme-item('default', $clr_charcoal_cyan, $clr_teal, $clr_light_grey);
+        
+                &-selected-border {
+                    border: 0.2rem solid $clr_green !important;
+                    cursor: default;
+                }
+            }
+        
+            &-title-container {
+                padding-bottom: 2rem;
+                border-bottom: 0.04rem solid $clr_gray_very_light;
+            }
+        
+            &-sub-title {
+                font-size: $p5 !important;
+                font-weight: $font_semibold !important;
+                padding: 1rem 0 1rem 0;
+            }
+        
+            &-content {
+                font-size: $p2 !important;
+                font-weight: $font_normal !important;
+                padding-bottom: 0.5rem;
+            }
+        
+            &-cancel-button {
+                background-color: $clr_white !important;
+                color: $clr_green !important;
+                height: 3rem;
+                border-radius: 0.41rem !important;
+                font-size: $p2 !important;
+                font-weight: $font_semibold !important;
+                width: 8rem;
+                text-transform: none !important;
+                margin-right: 1rem !important;
+            }
+        
+            &-apply-button {
+                background-color: $clr_green !important;
+                color: $clr_white !important;
+                height: 3rem;
+                border-radius: 0.41rem !important;
+                font-size: $p2 !important;
+                font-weight: $font_semibold !important;
+                width: 12rem;
+                text-transform: none !important;
+            }
+        
+        
+        }
     }
 
     &-status-box-active {
@@ -1695,15 +1807,26 @@
 
 
 }
-
-.registration-fee-list {
-    padding: 1.333rem !important;
-    &-heading {
+.configure-drawer{
+      max-width: 37.08rem !important;
+      .box{
+        padding-inline: 2.08rem;
+        padding-block: 2rem;
+      .heading {
         font-weight: $font_semibold !important;
         font-size: $h5 !important;
-        padding: 1.333rem !important;
+      
     }
-
+    .icon{
+        cursor: pointer;
+    svg{
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+    }
+}
+.registration-fee-list {
+   
     &-sub-heading {
         font-weight: $font_medium !important;
         font-size: $h6 !important;
@@ -1772,6 +1895,7 @@
     }
 
 
+}
 }
 
 .unpublish-modal {
@@ -2164,14 +2288,25 @@
          
     }
     &-drawer{
-        width: 40rem !important;
-        height: 30rem;
-        padding-inline:2rem;
+        padding-inline:2.833rem;
+        min-width: 37.08rem !important;
+        &-content{
+            padding-block: 2rem;
+            position: sticky;
+            top: 0;
         &-heading{
-            font-size: $h3 !important;
-            font-weight: $font-bold;
-            padding-top: 1rem;
+            font-size: $h5 !important;
+            font-weight: $font-semibold !important;
         }
+        &-close{
+            svg{
+                cursor: pointer;
+                width: 1.5rem;
+                height: 1.5rem;
+                margin-bottom: 0.3rem;
+            }
+        }
+    }
     }
    &-saved-addons{
     min-height: 20rem !important;
@@ -2283,7 +2418,6 @@
         text-align: center !important;
         font-weight: $font_bold !important;
         font-size: $h3 !important;
-        padding-top: 2rem !important;
         padding-bottom: 2rem !important;
     }
 
@@ -2541,8 +2675,9 @@
             }
         }
         .description-box{
-            margin-top: 1.9167rem;
+            margin-top: 1rem;
             margin-bottom: 3.5rem;
+            
             &-content{
                 color: $clr_gray_dark_text !important   ;
                 font-size: $h6 !important;
@@ -2550,6 +2685,23 @@
                 line-height: 2.2rem;
                 padding-inline:0.5833rem;
             }
+        }
+       .addon-property{
+                margin-top:1rem ;
+                
+                .addon-header{
+                    color: $clr_black !important   ;
+                    font-size: $p2 !important;
+                    font-weight: $font_semibold !important;
+                    line-height: 1.75rem;
+                }
+
+                .content{
+                    &-head{
+                       font-size: $p3;
+                       font-weight: $font-semibold;
+                    }
+                }
         }
 
         .speaker-box{
@@ -2655,4 +2807,34 @@
         width: 2.833rem;
     }
   
-}  
+}
+.create-top-section {
+    font-weight: $font_bold !important;
+    font-size: $h4 !important;
+
+    &-items {
+        font-weight: $font_semibold !important;
+        font-size: $p2 !important;
+        color: $clr_gray_medium;
+    }
+
+    &-event {
+        font-weight: $font_semibold !important;
+        font-size: $p2 !important;
+    }
+
+    &-img {
+        height: 1.5rem;
+        width: 1.5rem;
+    }
+
+    &-next {
+        height: 0.833rem;
+        width: 0.833rem;
+    }
+
+    &-nav {
+        cursor: pointer;
+    }
+
+}

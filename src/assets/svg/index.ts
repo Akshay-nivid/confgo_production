@@ -164,13 +164,19 @@ import EventDetailSponsor from "./event-details-sponsor.svg";
 import EventDetailSpeaker from "./event-detail-speaker.svg";
 import EventDetailAttendee from "./event-detail-attendence.svg";
 import PichartIcon from "./piechart-icon.svg"
-
 import YellowSeat from "./yelllowseat.svg";
 import RedSeat from "./redseat.svg";
 import UploadFileLogo from "./upload-file-logo.svg";
 import NewDrawerClose from "./new-drawer-close.svg";
 import SpeakerDashBoard from "./speaker-no-program.svg";
 import Coupon2 from "./coupon2.svg"
+import EnterpriceWhiteIcon from "./EntrepriseWhiteIcon.svg";
+import WhiteTickIcon from "./WhiteTickIcon.svg";
+import T7MapPin from "./t7-map-pin-line.svg";
+import T7Email from "./t7-mail-line.svg";
+import T7Phone from "./t7-phone.svg";
+import ToRight from "./Right-Create-event.svg";
+
 export {
   Coupon2,
   MainBottomBanner,
@@ -343,5 +349,11 @@ export {
   RedSeat,
   UploadFileLogo,
   NewDrawerClose,
-  SpeakerDashBoard
+  SpeakerDashBoard,
+  EnterpriceWhiteIcon,
+  WhiteTickIcon,
+  T7MapPin,
+  T7Email,
+  T7Phone,
+  ToRight
 };

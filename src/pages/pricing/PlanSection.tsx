@@ -7,6 +7,7 @@ import apiClient from '@/Libs/Https/API-client';
 import { processAPIResponse } from '@/Utils/CommonBaseClass';
 import { Logger } from '@/Utils/Logger';
 import { useLocation } from 'react-router-dom';
+import { CircularProgress } from '@mui/material';
 
 /**
  * Plan Section ui component
@@ -94,20 +95,27 @@ export const PlanSection = () => {
         <Grid
           size={12}
           display={'flex'}
-          columnSpacing={{ xs:1, md: 2 }}
-          rowSpacing={{xs:1,md:0}}
+          columnSpacing={{ xs: 1, md: 2 }}
+          rowSpacing={{ xs: 1, md: 0 }}
           container
           className="plansection__cards"
         >
-          {planList.map((row, index) => (
-            <Grid
-              size={{ xs: 12, sm: 6, md: 3 }}
-              key={index}
-              className="plansection__card"
-            >
-              <PlanCard data={row} />
+          {planList && planList.length > 0 ? (
+            planList.map((row, index) => (
+              <Grid
+                size={{ xs: 12, sm: 6, md: 3 }}
+                key={index}
+                spacing={2}
+                className="plansection_card"
+              >
+                <PlanCard data={row} />
+              </Grid>
+            ))
+          ) : (
+            <Grid size={{ xs:12, sm:12 }} display="flex" justifyContent="center">
+              <CircularProgress />
             </Grid>
-          ))}
+          )}
         </Grid>
       </Grid>
     </Grid>

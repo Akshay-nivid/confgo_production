@@ -18,6 +18,7 @@ import useStore, { GET } from '@/Libs/store';
 import AddAddOns from '../AddAddons';
 import LeftArrowIcon from '@/assets/svg/left-arrow.svg';
 import moment from 'moment';
+import TopSection from "./createEventTopSection";
 
 const steps = [
   { label: 'Add Event Details', description: '' },
@@ -131,7 +132,7 @@ const Events = () => {
   const { setDataById }: any = useStore();
   const [draftForm, setDraftForm] = useState(false);
   const eventInfo = useStore((state: any) => state?.compData?.getEventDetails?.[`event/${id}`]?.data)
-
+  const [submitLoader, setSubmitLoader] = useState<boolean>(false)
 
   // const [isDirty, setIsDirty] = useState(false); 
   // /**
@@ -312,6 +313,7 @@ const Events = () => {
    * Method handles the final submission of all forms
    */
   const handleSubmit = async () => {
+    setSubmitLoader(true);
     try {
       const req = createFormRequest(formData)
       const response = await apiClient.post('event', req);
@@ -326,6 +328,9 @@ const Events = () => {
     }
     catch (e) {
       Logger.error('Create Event', e)
+    }
+    finally{
+      setSubmitLoader(false);
     }
   };
 
@@ -722,7 +727,12 @@ const Events = () => {
     <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper"  >
       <Grid size={{ xs: 12 }} display={"flex"} height={'100%'}>
 
-        <Grid container size={{ xs: 12, sm: 12 }}  className="custom-stepper-scroll-container">
+      <Grid container size={{ xs: 12, sm: 12 }} className="custom-stepper-scroll-container">
+            {activeStep != 3 && (
+              <Grid container size={10} paddingLeft={8}>
+                <TopSection />
+              </Grid>
+            )}
           {activeStep === 0 && (
             <CreateEvent
               formSubmit={formSubmit?.event}
@@ -801,7 +811,7 @@ const Events = () => {
                     } ${activeStep === 1 && !(formData?.program?.[0]?.name || formData?.program?.[0]?.addonId) ? 'disabled-button' : ''}`}
                   onClick={activeStep === 3 ? handleSubmit : handleNext}
                   label={activeStep === 3 ? 'Submit' : 'Next'}
-                  disabled={(activeStep === steps.length) || (activeStep === 1 && !(formData?.program?.[0]?.name || formData?.program?.[0]?.addonId))}
+                  disabled={(activeStep === steps.length) || (activeStep === 1 && !(formData?.program?.[0]?.name || formData?.program?.[0]?.addonId)) || submitLoader}
                 />}
               </Grid>
             </Grid>

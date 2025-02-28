@@ -235,7 +235,7 @@ const Sponsors = () => {
      * @param {any} data - The raw data from the API response.
      * @returns {Array} Transformed data for the DataGrid.
      */
-    const transformData = (data: any) => {
+    const transformData = (data: any): Array<any> => {
         const newData = data.map((item: any) => {
             return {
                 id: item?.id,

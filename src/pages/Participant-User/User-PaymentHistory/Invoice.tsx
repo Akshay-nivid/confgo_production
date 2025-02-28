@@ -135,9 +135,9 @@ const styles = StyleSheet.create({
  * 
  */
 
-const MyDocument = ({ data }: any) => {
+const MyDocument = ({ data,itemId }: any) => {
  
-  const details = data[0] || {};
+  const details = data.find((item:any) => item.id === itemId);
 
   
   // Company Info

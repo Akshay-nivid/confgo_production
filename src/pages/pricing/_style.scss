@@ -55,10 +55,11 @@
 
 .plancard {
   &__container {
-    background: linear-gradient(to bottom, $clr_offwhite, transparent);
+    // background: linear-gradient(to bottom, $clr_offwhite, transparent);
     padding: 1.0rem;
-    border-radius: 2.5rem;
+    border-radius: $h5!important;
     min-height: 28rem;
+    width: 23rem !important;
    
   }
 
@@ -67,14 +68,30 @@
     width: 100%;
     padding-block: 2.083rem;
     padding-inline: 1.033rem;
-    border-radius: 1.85rem;
-    box-shadow: $clr_gray_light 0rem 0.25rem 0.667rem;
+    border-radius: $h5;
+    border: 1px solid $clr_gray_very_light;
+  min-height: 28rem;
+  }
+  
+  &__content_enterprice {
+    background: linear-gradient(360deg, #195AD8 0%, #1FA0F0 100%);;
+    width: 100%;
+    padding-block: 2.083rem;
+    padding-inline: 1.033rem;
+    border-radius: $h5;
+    border: 1px solid $clr_gray_very_light;
   min-height: 28rem;
   }
 
   &__header {
     column-gap: 1.0rem;
     margin-bottom: 2.91rem;
+  }
+
+  &__header_entreprise {
+    column-gap: 1.0rem;
+    margin-bottom: 2.91rem;
+    color:$clr_white;
   }
 
   &__icon {
@@ -92,10 +109,23 @@
  
   }
 
+  &__title_entreprise {
+    font-size: $h5 !important;
+    font-weight: $font_semibold !important;
+    color:$clr_white;
+  }
+ 
   &__subtitle {
     padding-inline-start: 0.2rem;
     color: $clr_sub_header !important;
-    font-size: $p3 !important;
+    font-size: $p2 !important;
+    font-weight: $font_medium !important;
+
+  }
+  &__subtitle_entreprise {
+    padding-inline-start: 0.2rem;
+    color: $clr_white !important;
+    font-size: $p2 !important;
     font-weight: $font_medium !important;
 
   }
@@ -107,6 +137,12 @@
     padding-bottom: 0.5rem;
   }
 
+  &__text_entreprice {
+    color: $clr_white !important;
+    font-size: $p1 !important;
+    font-weight: $font_medium !important;
+    padding-bottom: 0.5rem;
+  }
   &__price_conatiner {
     margin-bottom: 1rem !important;
 
@@ -117,10 +153,13 @@
     
     }
     .annually-text{
-      font-size: $p2 !important;
+      font-size: $h6 !important;
+      font-weight:$font_normal ;
+      color:$clr_text_grey;
     }
     .enterprise_des{
       font-size: $p5 !important;
+      color:$clr_white;
       font-weight: $font-semibold !important;
     }
 
@@ -132,8 +171,8 @@
   }
   &-plan-description{
     svg{
-      width:2rem;
-      height: 2rem;
+      width:$h5;
+      height: $h5;
     }
     margin-bottom: 2rem;
 
@@ -190,9 +229,9 @@
     height: 4.5rem;
     border-radius: 0.83rem !important;
     border: 0.17rem solid $clr_blue !important;
-    background-color: $clr_blue !important;
+    background-color: $clr_white !important;
     text-transform: none !important;
-    color: $clr_white !important;
+    color: $clr_blue !important;
     font-size: $p2 !important;
     box-shadow: none !important;
 
@@ -206,6 +245,16 @@
 
   &__button:hover {
     background-color: $clr_blue !important;
+    color: $clr_white !important;
+
+    svg {
+      path {
+        fill: $clr_white;
+      }
+    }
+  }
+  &__buttonEnterprise:hover {
+        background-color: $clr_blue !important;
     color: $clr_white !important;
 
     svg {

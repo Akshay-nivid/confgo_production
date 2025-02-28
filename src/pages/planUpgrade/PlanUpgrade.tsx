@@ -6,13 +6,14 @@ import { Logger } from "@/Utils/Logger";
 import { CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";
+import React from "react";
 
 
 /**
  * PlanUpgrade Component triggers the creation of a subscription
  * and displays the `PaymentMethod` component for completing the payment.
  */
-const PlanUpgrade = () => {
+const PlanUpgrade = React.memo(() =>  {
   const planDetails = useStore((state: any) => state?.compData?.['planDetails']) ?? [];
   const POST = useStore((state: any) => state.POST);
   const setDataById = useStore((state: any) => state.setDataById);
@@ -26,7 +27,7 @@ const PlanUpgrade = () => {
    * Initiates the subscription creation process.
    */
   useEffect(() => {
-      createSubscription();
+     !isApiCalled.current && createSubscription();
   }, [])
 
 
@@ -83,5 +84,5 @@ const PlanUpgrade = () => {
       {subscriptionDetails ? (<PaymentMethod />) : (<Grid><CircularProgress /></Grid>)}
     </Grid>
   );
-  }
+  })
 export default PlanUpgrade;
