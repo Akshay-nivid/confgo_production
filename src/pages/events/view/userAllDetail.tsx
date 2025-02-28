@@ -31,7 +31,7 @@ interface DetailProps {
  * it contains all the information reguarding the user
  */
 const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => { 
-  const [tabValue, setTabValue] = useState(1); // Default to tab 1
+  const [tabValue, setTabValue] = useState(userdetail?.formData?.length !=0 ? 1 : 2); // Default to tab 1
   const [isModalOpen, setModalOpen] = useState(false); // State to control modal
   const [selectedFile, setSelectedFile] = useState<any>(null); // State for selected file
   const baseUrl = config.api.url;
@@ -430,7 +430,7 @@ const handleDownloadPdf = () => {
   return (
     <Grid>
       <Tabs value={tabValue} className="main-account-tabs" onChange={(_event, newValue) => handleTabChange(newValue)}>
-        <Tab value={1} label="User Information" className="main-account-tab-title account-tabs"/>
+        {userdetail?.formData?.length && <Tab value={1} label="User Information" className="main-account-tab-title account-tabs"/>}
         <Tab value={2} label="Payment Details" className="main-account-tab-title account-tabs"/>
         <Tab value={3} label="Attendance Details" className="main-account-tab-title account-tabs"/>
         <Tab value={4} label="Documents" className="main-account-tab-title account-tabs"/>

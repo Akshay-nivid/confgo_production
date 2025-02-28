@@ -1,0 +1,84 @@
+$gradient-start: #3A5AFE;
+$gradient-end: #2137A7;
+.banner {
+    .banner-container {
+        background: linear-gradient(to right, $gradient-start, $gradient-end);
+        border-radius: 1.66rem;
+        padding-top: 5rem;
+        padding-inline: 4rem;
+        column-gap: 8rem;
+
+        @media (max-width: 600px) {
+            padding-top: 3rem !important;
+        }
+
+        @media (max-width: 900px) {
+            flex-direction: column-reverse;
+            padding-inline: 2rem;
+        }
+        .banner-img {
+            background: url('/src/assets/images/t5banner.png') no-repeat center;
+            background-size: contain;
+            min-height: 20rem;
+            background-repeat: no-repeat;
+            background-position: bottom;
+            width: 30rem;
+            @media (max-width: 900px) {
+                width: 100%;
+                max-width: 25rem;
+                margin-inline: auto;
+            }
+        }
+
+        .banner-info-container {
+            flex: 1;
+        }
+
+        .banner-title {
+            margin-bottom: 3rem;
+            font-size: $h2;
+            font-weight: $font_semibold;
+            color: $clr_white;
+        }
+
+        .banner-subtitle {
+            font-size: $p3;
+            color: $clr_white;
+            margin-bottom: 1rem;
+        }
+
+        .banner-button-container {
+            display: flex;
+            column-gap: 1.05rem;
+            margin-bottom: 2rem;
+
+            .playstore-btn {
+                width: 13.5rem;
+                height: 4.5rem;
+                border-radius: .66rem;
+                // background: url('/src/assets/svg/t5playstorebtn.svg');   
+                background-color: $clr_black;
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                border: 0.1rem solid $clr_white;
+                cursor: pointer;
+            }
+
+            @media (max-width: 480px) {
+                flex-direction: column;
+                row-gap: 1rem;
+
+                .playstore-btn {
+                    min-width: 100%;
+                }
+            }
+
+            @media (max-width: 900px) {
+                // flex-direction: column;
+                // row-gap: 1rem;
+            }
+        }
+    }
+
+}

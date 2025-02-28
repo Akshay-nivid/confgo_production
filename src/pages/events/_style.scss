@@ -1211,6 +1211,94 @@
                 }
             }
         }
+        &-customize {
+
+
+            &-theme {
+        
+                @mixin theme-item($index, $dark-color, $light-color, $bg-color: $clr_platinum_gray) {
+        
+                    &-items#{$index},
+                    &-default {
+                        width: 12rem;
+                        height: 7rem;
+                        border-radius: 0.83rem;
+                        background-color: $bg-color;
+                        margin-bottom: 1rem;
+                        cursor: pointer;
+        
+                        &-dark,
+                        &-light {
+                            width: 2.58rem;
+                            height: 2.58rem;
+                            border-radius: 50%;
+                            margin: 1rem;
+                        }
+        
+                        &-dark {
+                            background-color: $dark-color;
+                        }
+        
+                        &-light {
+                            background-color: $light-color;
+                        }
+                    }
+                }
+        
+                @include theme-item(1, $clr_green, $clr_light_leaf_green);
+                @include theme-item(2, $clr_cyan_blue, $clr-bright-blue);
+                @include theme-item(3, $clr_dark_red, $clr_fire_red);
+                @include theme-item(4, $clr_rust_orange, $clr_bright_orange);
+                @include theme-item('default', $clr_charcoal_cyan, $clr_teal, $clr_light_grey);
+        
+                &-selected-border {
+                    border: 0.2rem solid $clr_green !important;
+                    cursor: default;
+                }
+            }
+        
+            &-title-container {
+                padding-bottom: 2rem;
+                border-bottom: 0.04rem solid $clr_gray_very_light;
+            }
+        
+            &-sub-title {
+                font-size: $p5 !important;
+                font-weight: $font_semibold !important;
+                padding: 1rem 0 1rem 0;
+            }
+        
+            &-content {
+                font-size: $p2 !important;
+                font-weight: $font_normal !important;
+                padding-bottom: 0.5rem;
+            }
+        
+            &-cancel-button {
+                background-color: $clr_white !important;
+                color: $clr_green !important;
+                height: 3rem;
+                border-radius: 0.41rem !important;
+                font-size: $p2 !important;
+                font-weight: $font_semibold !important;
+                width: 8rem;
+                text-transform: none !important;
+                margin-right: 1rem !important;
+            }
+        
+            &-apply-button {
+                background-color: $clr_green !important;
+                color: $clr_white !important;
+                height: 3rem;
+                border-radius: 0.41rem !important;
+                font-size: $p2 !important;
+                font-weight: $font_semibold !important;
+                width: 12rem;
+                text-transform: none !important;
+            }
+        
+        
+        }
     }
 
     &-status-box-active {

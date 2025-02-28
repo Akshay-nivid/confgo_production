@@ -136,6 +136,7 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
             if (item.type === 'status') {
                 return {
                     ...item,
+                    sortingOrder: ['asc', 'desc'], 
                     cellClassName: 'default-label flex',
                     renderCell: (params: any) => {
                         return <StatusComponent className="data-grid-status" value={params.value} />;
@@ -145,12 +146,39 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
             if (item.type === 'default') {
                 return {
                     ...item,
+                    sortingOrder: ['asc', 'desc'], 
                     cellClassName: 'default-label',
-                    renderCell: (params: { value: any }) => <div>{item.prefix? `${item.prefix} ${params.value}`: params.value}</div>
+                    renderCell: (params: { value: any }) => <div>{item.prefix? `${item.prefix} ${params.value}`: params.value}</div>,
+                    sortComparator: (v1: any, v2: any) => {
+                        // Handle null/undefined values
+                        if (v1 === null || v1 === undefined) return -1;
+                        if (v2 === null || v2 === undefined) return 1;
+                        
+                        // If there's a prefix and values are strings, try to extract numeric values
+                        if (item.prefix && typeof v1 === 'string' && typeof v2 === 'string') {
+                            // Try to parse as numbers after removing any non-numeric characters
+                            const num1 = parseFloat(v1.replace(/[^\d.-]/g, ''));
+                            const num2 = parseFloat(v2.replace(/[^\d.-]/g, ''));
+                            
+                            // If both successfully parsed to numbers, compare numerically
+                            if (!isNaN(num1) && !isNaN(num2)) {
+                                return num1 - num2;
+                            }
+                        }
+                        
+                        // If both are numbers, compare numerically
+                        if (typeof v1 === 'number' && typeof v2 === 'number') {
+                            return v1 - v2;
+                        }
+                        
+                        // Default to string comparison for everything else
+                        return v1.toString().localeCompare(v2.toString());
+                    }
                 };
             } else if (item.type === 'dateField') {
                 return {
                     ...item,
+                    sortingOrder: ['asc', 'desc'], 
                     cellClassName: 'default-label',
                     renderCell: (params: { value: any }) => <div>{moment(params.value).format(item?.dateFormat ? item?.dateFormat : 'DD/MM/YYYY')}</div>
                 }
@@ -159,6 +187,7 @@ export const DataGridList: React.FC<DataGridListProps> = ({ id, columns, hideFoo
                 return {
                     ...item,
                     cellClassName: 'default-label',
+                    sortingOrder: ['asc', 'desc'], 
                     renderCell: (params: any) => {
                         const customElement = params.value;
                         if (React.isValidElement(customElement)) {

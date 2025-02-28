@@ -6,7 +6,7 @@
 
 import React from "react";
 import Grid from "@mui/material/Grid2";
-import { Avatar, Box, Button,IconButton, Modal, Typography } from "@mui/material";
+import { Avatar, Box,IconButton, Modal, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import "./accountsetting.scss";
 import { useCallback, useEffect, useState } from "react";

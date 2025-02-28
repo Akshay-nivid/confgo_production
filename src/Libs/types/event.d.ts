@@ -19,7 +19,8 @@ export interface IEventResponse {
   assetId: string;
   published: boolean;
   templateId: number
-
+  companyPhone:number;
+  companyEmail:string;
   venue: IVenue;
   status: IStatus;
   template: ITemplate;

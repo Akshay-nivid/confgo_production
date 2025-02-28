@@ -164,7 +164,6 @@ import EventDetailSponsor from "./event-details-sponsor.svg";
 import EventDetailSpeaker from "./event-detail-speaker.svg";
 import EventDetailAttendee from "./event-detail-attendence.svg";
 import PichartIcon from "./piechart-icon.svg"
-
 import YellowSeat from "./yelllowseat.svg";
 import RedSeat from "./redseat.svg";
 import UploadFileLogo from "./upload-file-logo.svg";

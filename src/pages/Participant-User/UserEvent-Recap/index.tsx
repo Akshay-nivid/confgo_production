@@ -7,8 +7,8 @@ import React from 'react';
 import useStore from '@/Libs/store';
 import StatusComponent from '@/components/Status/StatusComponent';
 import { useLocation } from 'react-router-dom';
-import QRCode from 'qrcode';
-import jsPDF from 'jspdf';
+// import QRCode from 'qrcode';
+// import jsPDF from 'jspdf';
 import moment from 'moment';
 import { SkeletonList } from '@/components/Skeleton';
 import UserUploadAbstract from './UserUploadAbstract';
@@ -16,6 +16,8 @@ import { Mapper } from '@/components/Mapper/Mapper';
 import DateRangeIcon from "@mui/icons-material/DateRange";
 import config from "../../../../config.json";
 import { AddOnIcon, ProgramIcon } from '@/assets/svg';
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import MyDocument from "../UserEvent-Recap/TicketPDF";
 
 /**
  *
@@ -60,7 +62,7 @@ const EventRecap: React.FC = React.memo(() => {
   const POST = useStore((state: any) => state.POST);
   const userDetails = useStore(state => state?.compData?.['userDetails']) ?? {};
   const Program = useStore((state: any) => state?.compData?.['programs']?.data) ?? [];
-  const currency = config.currency;
+  // const currency = config.currency;
   /**
    * attended status
    */
@@ -139,173 +141,173 @@ const EventRecap: React.FC = React.memo(() => {
   /**
    * handle to generate the pdf
    */
-  const handlePdfGenerate = async () => {
-    try {
-      const pdf = new jsPDF({
-        orientation: 'portrait', // Use landscape if needed
-        unit: 'mm',
-        format: [149.53, 268], // Custom size in mm
-      });
-      const horizontalPadding = 10; // Padding on left and right
-      const verticalPadding = 3; // Padding on top and bottom
-      const pageWidth = pdf.internal.pageSize.width;
-      const currentYPosition = verticalPadding;
+//   const handlePdfGenerate = async () => {
+//     try {
+//       const pdf = new jsPDF({
+//         orientation: 'portrait', // Use landscape if needed
+//         unit: 'mm',
+//         format: [149.53, 268], // Custom size in mm
+//       });
+//       const horizontalPadding = 10; // Padding on left and right
+//       const verticalPadding = 3; // Padding on top and bottom
+//       const pageWidth = pdf.internal.pageSize.width;
+//       const currentYPosition = verticalPadding;
 
-      // Fill the entire page with white (ID card size)
-      pdf.setFillColor(255, 255, 255); // White color
-      pdf.rect(0, 0, 85.6, 53.98, 'F'); // ID card dimensions
-      pdf.setFont('helvetica', 'bold');
-      pdf.setTextColor(51, 51, 51); 
-      pdf.setFontSize(19)
-      pdf.text(eventData?.[0]?.name ? toTitleCase(eventData[0]?.name) : '', horizontalPadding-4, currentYPosition + 8);
-      pdf.setTextColor(0, 0, 0); // Reset to black for the rest of the text
+//       // Fill the entire page with white (ID card size)
+//       pdf.setFillColor(255, 255, 255); // White color
+//       pdf.rect(0, 0, 85.6, 53.98, 'F'); // ID card dimensions
+//       pdf.setFont('helvetica', 'bold');
+//       pdf.setTextColor(51, 51, 51); 
+//       pdf.setFontSize(19)
+//       pdf.text(eventData?.[0]?.name ? toTitleCase(eventData[0]?.name) : '', horizontalPadding-4, currentYPosition + 8);
+//       pdf.setTextColor(0, 0, 0); // Reset to black for the rest of the text
 
-      // pdf.setFontSize(8), pdf.setFont('helvetica', 'normal');
+//       // pdf.setFontSize(8), pdf.setFont('helvetica', 'normal');
 
 
-      pdf.setFontSize(10), pdf.setFont('helvetica', 'normal');
-      // pdf.setFont('Inter','',500)
-      //   pdf.text('Your Gateway to Innovation and Technology!',horizontalPadding,currentYPosition+10)
+//       pdf.setFontSize(10), pdf.setFont('helvetica', 'normal');
+//       // pdf.setFont('Inter','',500)
+//       //   pdf.text('Your Gateway to Innovation and Technology!',horizontalPadding,currentYPosition+10)
 
-      // Adjust the Y position for the line to be below the text
-      const lineYPosition = currentYPosition + 15; // You can adjust this value depending on your font size and line spacing
+//       // Adjust the Y position for the line to be below the text
+//       const lineYPosition = currentYPosition + 15; // You can adjust this value depending on your font size and line spacing
 
-      // Draw the line just below the text
-      pdf.setLineWidth(0.8); // Set the line width
-      pdf.setDrawColor(4, 128, 211); 
-      pdf.setFontSize(18);
+//       // Draw the line just below the text
+//       pdf.setLineWidth(0.8); // Set the line width
+//       pdf.setDrawColor(4, 128, 211); 
+//       pdf.setFontSize(18);
       
-      pdf.line(5, lineYPosition, 145, lineYPosition);
-      const text = 'Ticket Details';
-      pdf.setFont('helvetica', 'bold');
-      const textWidth = (pdf.getStringUnitWidth(text) * 12) / pdf.internal.scaleFactor;
+//       pdf.line(5, lineYPosition, 145, lineYPosition);
+//       const text = 'Ticket Details';
+//       pdf.setFont('helvetica', 'bold');
+//       const textWidth = (pdf.getStringUnitWidth(text) * 12) / pdf.internal.scaleFactor;
 
       
-      const xPosition = (pageWidth - textWidth) / 2; // Center horizontally
-      pdf.text(text, xPosition-10, 28);
+//       const xPosition = (pageWidth - textWidth) / 2; // Center horizontally
+//       pdf.text(text, xPosition-10, 28);
 
-      pdf.setFontSize(15), pdf.setFont('helvetica', 'bold');
+//       pdf.setFontSize(15), pdf.setFont('helvetica', 'bold');
 
-      pdf.text('Attendee Name', horizontalPadding, 48);
-      pdf.setFont('helvetica', 'normal');
-      pdf.text(userDetails?.firstName + ' ' + userDetails?.lastName, pageWidth / 2.3, 48);
-      pdf.setFont('helvetica', 'bold');
-      // pdf.text('Ticket Id',horizontalPadding,45)
-      // pdf.setFont("helvetica", "normal");
-      // pdf.text('TECH2024-12345',pageWidth/2,45)
-      // pdf.setFont('helvetica', 'bold');
-      // pdf.text('Ticket Id', horizontalPadding, 60);
-      pdf.setFont('helvetica', 'bold');
-      pdf.text('Event Name', horizontalPadding, 58);
-      pdf.setFont('helvetica', 'normal');
-      pdf.text(eventData?.[0]?.name, pageWidth / 2.3, 58);
-      pdf.setFont('helvetica', 'bold');
-      pdf.text('Event Date', horizontalPadding, 68);
-      pdf.setFont('helvetica', 'normal');
-      pdf.text(moment(eventData?.[0]?.startTime).format('MMMM D, YYYY'), pageWidth / 2.3, 68);
-      pdf.setFont('helvetica', 'bold');
-      pdf.text('Location', horizontalPadding, 78);
-      pdf.setFont('helvetica', 'normal');
-      let locationText = '';
-if (eventData[0]?.eventClass === 'OFFLINE') {
-  locationText = eventData[0]?.venue?.address || 'N/A';
-} else if (eventData[0]?.eventClass === 'HYBRID') {
-  locationText = `${eventData[0]?.venue?.address || 'N/A'}\n${eventData[0]?.url || 'N/A'}`;
-} else if (eventData[0]?.eventClass === 'ONLINE') {
-  locationText = eventData[0]?.url || 'N/A';
-}
-      // Calculate the maximum width for the text
-      const maxWidth = pageWidth / 2;
+//       pdf.text('Attendee Name', horizontalPadding, 48);
+//       pdf.setFont('helvetica', 'normal');
+//       pdf.text(userDetails?.firstName + ' ' + userDetails?.lastName, pageWidth / 2.3, 48);
+//       pdf.setFont('helvetica', 'bold');
+//       // pdf.text('Ticket Id',horizontalPadding,45)
+//       // pdf.setFont("helvetica", "normal");
+//       // pdf.text('TECH2024-12345',pageWidth/2,45)
+//       // pdf.setFont('helvetica', 'bold');
+//       // pdf.text('Ticket Id', horizontalPadding, 60);
+//       pdf.setFont('helvetica', 'bold');
+//       pdf.text('Event Name', horizontalPadding, 58);
+//       pdf.setFont('helvetica', 'normal');
+//       pdf.text(eventData?.[0]?.name, pageWidth / 2.3, 58);
+//       pdf.setFont('helvetica', 'bold');
+//       pdf.text('Event Date', horizontalPadding, 68);
+//       pdf.setFont('helvetica', 'normal');
+//       pdf.text(moment(eventData?.[0]?.startTime).format('MMMM D, YYYY'), pageWidth / 2.3, 68);
+//       pdf.setFont('helvetica', 'bold');
+//       pdf.text('Location', horizontalPadding, 78);
+//       pdf.setFont('helvetica', 'normal');
+//       let locationText = '';
+// if (eventData[0]?.eventClass === 'OFFLINE') {
+//   locationText = eventData[0]?.venue?.address || 'N/A';
+// } else if (eventData[0]?.eventClass === 'HYBRID') {
+//   locationText = `${eventData[0]?.venue?.address || 'N/A'}\n${eventData[0]?.url || 'N/A'}`;
+// } else if (eventData[0]?.eventClass === 'ONLINE') {
+//   locationText = eventData[0]?.url || 'N/A';
+// }
+//       // Calculate the maximum width for the text
+//       const maxWidth = pageWidth / 2;
 
-      // Split the text into multiple lines based on the max width
-      const lines = pdf.splitTextToSize(locationText, maxWidth);
+//       // Split the text into multiple lines based on the max width
+//       const lines = pdf.splitTextToSize(locationText, maxWidth);
 
-      // Set the initial Y position for the text
+//       // Set the initial Y position for the text
 
-      // Loop through each line and add it to the PDF, with proper Y positioning
-      lines.forEach((line: any, index: any) => {
-        pdf.text(line, pageWidth / 2.3, 78 + index * 9); // Increment Y position for each line
-      });
+//       // Loop through each line and add it to the PDF, with proper Y positioning
+//       lines.forEach((line: any, index: any) => {
+//         pdf.text(line, pageWidth / 2.3, 78 + index * 9); // Increment Y position for each line
+//       });
 
-            // Draw the line just below the text
-            pdf.setLineWidth(0.8); // Set the line width
-            pdf.setDrawColor(4, 128, 211); 
-            pdf.setFontSize(18);
+//             // Draw the line just below the text
+//             pdf.setLineWidth(0.8); // Set the line width
+//             pdf.setDrawColor(4, 128, 211); 
+//             pdf.setFontSize(18);
             
-            pdf.line(5, 108, 145, 108);
+//             pdf.line(5, 108, 145, 108);
                       
             
-      const qrCodeTopRight = await QRCode.toDataURL(eventTicketData?.data?.ParticipantDetails?.qrCode);
-      // Adjust QR code size to fit nicely on the ID card
-      pdf.addImage(qrCodeTopRight, 'PNG', pageWidth / 3, 208, 50, 50); // Position (60, 10), size 20x20 mm
-      // Draw the line just below the text
+//       const qrCodeTopRight = await QRCode.toDataURL(eventTicketData?.data?.ParticipantDetails?.qrCode);
+//       // Adjust QR code size to fit nicely on the ID card
+//       pdf.addImage(qrCodeTopRight, 'PNG', pageWidth / 3, 208, 50, 50); // Position (60, 10), size 20x20 mm
+//       // Draw the line just below the text
 
-      // Draw the line just below the text
-      pdf.setLineWidth(0.8); // Set the line width
-      pdf.setDrawColor(4, 128, 211); 
-      pdf.setFontSize(18);
-      pdf.line(5, 198, 145, 198);
+//       // Draw the line just below the text
+//       pdf.setLineWidth(0.8); // Set the line width
+//       pdf.setDrawColor(4, 128, 211); 
+//       pdf.setFontSize(18);
+//       pdf.line(5, 198, 145, 198);
 
-      // Set line color (optional)
-      pdf.setDrawColor(4, 128, 211); // Black color (RGB)
+//       // Set line color (optional)
+//       pdf.setDrawColor(4, 128, 211); // Black color (RGB)
 
-      // Set line width (optional)
-      pdf.setLineWidth(0.5); // Default is 0.2 mm, you can set it higher for a thicker line
-      //
-      // pdf.setFont("helvetica", "bold");
-      // pdf.text('Additional Info',horizontalPadding,125);
-      // pdf.setFont("helvetica", "normal");
-      // pdf.text('Additional Info',horizontalPadding,135);
+//       // Set line width (optional)
+//       pdf.setLineWidth(0.5); // Default is 0.2 mm, you can set it higher for a thicker line
+//       //
+//       // pdf.setFont("helvetica", "bold");
+//       // pdf.text('Additional Info',horizontalPadding,125);
+//       // pdf.setFont("helvetica", "normal");
+//       // pdf.text('Additional Info',horizontalPadding,135);
 
-      pdf.setFont('helvetica', 'bold');
+//       pdf.setFont('helvetica', 'bold');
 
-      pdf.text('Payment Information', xPosition - 17, 118);
-      //   pdf.text('Ticket Price', horizontalPadding, 135)
-      //   pdf.setFont("helvetica", "normal");
-      //   pdf.text('100', pageWidth / 2, 135)
-      //   pdf.setFont("helvetica", "bold");
-      //   pdf.text('Discount Applied', horizontalPadding, 145)
-      //   pdf.setFont("helvetica", "normal");
-      //   pdf.text('20', pageWidth / 2, 145);
-      pdf.setFontSize(15), pdf.setFont('helvetica', 'bold');
-      const paymentDate = moment(eventTicketData?.data?.PaymentDetails?.createdOn).format('Do MMMM YYYY') || "N/A";
-      const transactionId = eventTicketData?.data?.PaymentDetails?.transactionId || "N/A";
-      const totalAmount =eventTicketData?.data?.PaymentDetails?.amount 
-      ? `${currency} ${eventTicketData.data.PaymentDetails.amount}` 
-      : "N/A";
-      const discountApplied = eventTicketData?.data?.PaymentDetails?.order?.couponDeduction ? `${currency} ${eventTicketData?.data?.PaymentDetails?.order?.couponDeduction}` 
-      : "N/A";
-      const subTotal = eventTicketData?.data?.PaymentDetails?.order?.subTotal ? `${currency} ${eventTicketData?.data?.PaymentDetails?.order?.subTotal}` : "N/A";
-      const tax = eventTicketData?.data?.PaymentDetails?.order?.tax ? `${currency} ${eventTicketData?.data?.PaymentDetails?.order?.tax}` : "N/A";
-      pdf.setFont('helvetica', 'bold');
-      pdf.text('Discount Applied', horizontalPadding, 138);
-      pdf.setFont('helvetica', 'normal');
-      pdf.text(discountApplied, pageWidth / 2.3, 138);
-      pdf.setFont('helvetica', 'bold');
-      pdf.text('Sub Total', horizontalPadding, 148);
-      pdf.setFont('helvetica', 'normal');
-      pdf.text(subTotal, pageWidth / 2.3, 148);
-      pdf.setFont('helvetica', 'bold');
-      pdf.text('Tax', horizontalPadding, 158);
-      pdf.setFont('helvetica', 'normal');
-      pdf.text(tax, pageWidth / 2.3, 158);
-      pdf.setFont('helvetica', 'bold');
-      pdf.text('Total Paid', horizontalPadding, 168);
-      pdf.setFont('helvetica', 'normal');
-      pdf.text(totalAmount, pageWidth / 2.3, 168);
-      pdf.setFont('helvetica', 'bold');
-      pdf.text('Payment Date', horizontalPadding, 178);
-      pdf.setFont('helvetica', 'normal');
-      pdf.text(paymentDate, pageWidth / 2.3, 178);
-      pdf.setFont('helvetica', 'bold');
-      pdf.text('Transaction Id', horizontalPadding, 188);
-      pdf.setFont('helvetica', 'normal');
-      pdf.text(transactionId, pageWidth / 2.3, 188);
-      pdf.save('my-ticket.pdf');
-    } catch (error) {
-      console.error('Error loading image or generating PDF:', error);
-    }
-  };
+//       pdf.text('Payment Information', xPosition - 17, 118);
+//       //   pdf.text('Ticket Price', horizontalPadding, 135)
+//       //   pdf.setFont("helvetica", "normal");
+//       //   pdf.text('100', pageWidth / 2, 135)
+//       //   pdf.setFont("helvetica", "bold");
+//       //   pdf.text('Discount Applied', horizontalPadding, 145)
+//       //   pdf.setFont("helvetica", "normal");
+//       //   pdf.text('20', pageWidth / 2, 145);
+//       pdf.setFontSize(15), pdf.setFont('helvetica', 'bold');
+//       const paymentDate = moment(eventTicketData?.data?.PaymentDetails?.createdOn).format('Do MMMM YYYY') || "N/A";
+//       const transactionId = eventTicketData?.data?.PaymentDetails?.transactionId || "N/A";
+//       const totalAmount =eventTicketData?.data?.PaymentDetails?.amount 
+//       ? `${currency} ${eventTicketData.data.PaymentDetails.amount}` 
+//       : "N/A";
+//       const discountApplied = eventTicketData?.data?.PaymentDetails?.order?.couponDeduction ? `${currency} ${eventTicketData?.data?.PaymentDetails?.order?.couponDeduction}` 
+//       : "N/A";
+//       const subTotal = eventTicketData?.data?.PaymentDetails?.order?.subTotal ? `${currency} ${eventTicketData?.data?.PaymentDetails?.order?.subTotal}` : "N/A";
+//       const tax = eventTicketData?.data?.PaymentDetails?.order?.tax ? `${currency} ${eventTicketData?.data?.PaymentDetails?.order?.tax}` : "N/A";
+//       pdf.setFont('helvetica', 'bold');
+//       pdf.text('Discount Applied', horizontalPadding, 138);
+//       pdf.setFont('helvetica', 'normal');
+//       pdf.text(discountApplied, pageWidth / 2.3, 138);
+//       pdf.setFont('helvetica', 'bold');
+//       pdf.text('Sub Total', horizontalPadding, 148);
+//       pdf.setFont('helvetica', 'normal');
+//       pdf.text(subTotal, pageWidth / 2.3, 148);
+//       pdf.setFont('helvetica', 'bold');
+//       pdf.text('Tax', horizontalPadding, 158);
+//       pdf.setFont('helvetica', 'normal');
+//       pdf.text(tax, pageWidth / 2.3, 158);
+//       pdf.setFont('helvetica', 'bold');
+//       pdf.text('Total Paid', horizontalPadding, 168);
+//       pdf.setFont('helvetica', 'normal');
+//       pdf.text(totalAmount, pageWidth / 2.3, 168);
+//       pdf.setFont('helvetica', 'bold');
+//       pdf.text('Payment Date', horizontalPadding, 178);
+//       pdf.setFont('helvetica', 'normal');
+//       pdf.text(paymentDate, pageWidth / 2.3, 178);
+//       pdf.setFont('helvetica', 'bold');
+//       pdf.text('Transaction Id', horizontalPadding, 188);
+//       pdf.setFont('helvetica', 'normal');
+//       pdf.text(transactionId, pageWidth / 2.3, 188);
+//       pdf.save('my-ticket.pdf');
+//     } catch (error) {
+//       console.error('Error loading image or generating PDF:', error);
+//     }
+//   };
   const tabInfo = useStore((state: any) => state?.compData?.['eventTab'])?.tabIndex || 0;
 
 /***
@@ -392,9 +394,14 @@ if (eventData[0]?.eventClass === 'OFFLINE') {
                 </Typography>
               </Grid>
               <Grid size={12} className="event-recap-first-grid-buttons">
-                <Button className="event-recap-first-grid-buttons-firstButton" onClick={() => handlePdfGenerate()}>
+                {/* <Button className="event-recap-first-grid-buttons-firstButton" onClick={() => handlePdfGenerate()}>
                   Download Ticket
-                </Button>
+                </Button> */}
+                <PDFDownloadLink document={<MyDocument data={eventData} userDetails={userDetails} eventTicketData={eventTicketData}/>} fileName="Ticket.pdf" onClick={()=>{}} >
+                <Button className="event-recap-first-grid-buttons-firstButton" onClick={() => {}}>
+                  Download Ticket
+                </Button>                   
+                </PDFDownloadLink>,
                 {/* button hiidden */}
                 <Button className="event-recap-first-grid-buttons-secondButton">Cancel Event</Button>
               </Grid>
