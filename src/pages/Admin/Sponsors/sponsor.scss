@@ -207,15 +207,15 @@
                     }
 
                     &-image-banner {
-                        width: max-content;
+                        object-fit: contain;
                         max-width: 100%;
-                        display: flex;
                         background-color: $clr_gray_10_percent;
                         margin-block: 1rem;
 
 
                         img {
-                            height: 100%;
+                            max-width: 25.33rem;
+                            height: auto;
                             object-fit: contain;
                         }
                     }

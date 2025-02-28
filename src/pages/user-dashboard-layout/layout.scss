@@ -874,3 +874,78 @@
   }
 }
 }
+
+
+.summit-card {
+  width: 100%;
+  padding: 1.33rem;
+  border:.5px solid $clr_light_border_grey;
+  border-radius: .833rem;
+  background-color: $clr_white;
+  margin-top: .7rem;
+  
+  .date-tag {
+    background-color: $clr_orange_dark;
+    padding: .5rem 1rem;
+    border-radius: 5px;
+    display: inline-block;
+    width: 15.833rem;
+    height: 2.41rem; 
+    margin-bottom: 1rem;
+    span {
+      font-size: $p2;
+      font-weight: $font_medium;
+      color: $clr_black;
+    }
+  }
+  
+  .summit-title {
+    font-size: $h5;
+    font-weight: $font_semibold;
+    margin: 0 0 .43rem 0;
+    color: $clr_black;
+  }
+  
+  .summit-details {
+    .location-row {
+      margin-bottom: 0.667rem; 
+      
+      .label-container {
+        min-width: 5.833rem;
+        flex-shrink: 0;
+      }
+      
+      .value-container {
+        word-break: break-word;
+      }
+      
+      .label {
+        font-weight:$font_medium;
+      }
+      
+      .value {
+        font-weight: normal;
+      }
+    }
+    
+    .status-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.667rem; 
+      
+      .label {
+        font-weight: $font_medium;
+        min-width: 5.833rem; 
+      }
+    }
+    
+    .status-badge {
+      background-color:lighten($clr_green_slight_light, 15%);;
+      color: $clr_white;
+      padding: 0.333rem 1rem; 
+      border-radius: 0.5rem; 
+      font-size: 1.167rem; 
+      font-weight:$font_medium;
+    }
+  }
+}

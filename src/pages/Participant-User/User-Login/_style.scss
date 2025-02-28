@@ -68,7 +68,7 @@
       font-weight: $font-medium;
 
       .signup-text-highlight {
-        color: $clr_black;
+        color: $clr_blue;
         font-weight: $font-bold;
       }
     }
@@ -76,6 +76,7 @@
     .forgot-password-text {
       font-size: $p2;
       font-weight: $font-bold;
+      color: $clr_blue;
       cursor: pointer;
     }
   }

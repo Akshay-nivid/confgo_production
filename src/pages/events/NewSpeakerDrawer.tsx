@@ -275,7 +275,7 @@ const NewSpeakerDrawer :React.FC<NewSpeakerDrawerProps> = ({ onSuccess, closeDra
                         <Box className="form-file-upload">
                         <FormLabel className='form-file-upload-label'>Upload your avathar</FormLabel>
                        { selectedFile ?  (
-                        <Box className="form-file-upload-image-banner" >
+                        <Box className="add-program-drawer-image-banner" >
                             <Box className='relative w-max flex gap-x-1'>
                                 <img src={`${baseUrl}/asset/${selectedFile.id}`} alt='' />
                                 <IconButton onClick={(e) => handleRemoveImage(e)} className="add-program-drawer-speaker-image-cloe-icon">

@@ -546,6 +546,19 @@
         border-radius: 0.416rem !important;
         text-transform: none !important;
       }
+      &-image-banner {
+        object-fit: contain;
+        max-width: 100%;
+        background-color: $clr_gray_10_percent;
+        margin-block: 1rem;
+
+
+        img {
+            max-width: 25.33rem;
+            height: auto;
+            object-fit: contain;
+        }
+    }
       &-speaker-image-cloe-icon{
         background-color: $clr_red !important;
         height: 1.8rem;
@@ -553,7 +566,10 @@
         border: 0.14rem solid $clr_gray_30_percent;
         cursor: pointer;
         position: absolute;
+        display: flex !important;
         right: 0;
+        transform: translate(-55%, -55%) !important; // Moves it slightly outwards without negative values
+
             svg {
                 color: $clr_gray_30_percent;
             }
