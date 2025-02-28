@@ -17,7 +17,6 @@ import NoDataCard from './NoDataCard';
 import { formatUTCDateTime, useIsMobileScreen } from '@/Utils/CommonBaseClass';
 import EventCard from '../Participant-User/Components/EventCard';
 import OngoingEventCard from './OngoingEventCard';
-import { UpcomingEventCard } from '../dashboard/UpcomingEventCard';
 import SummitCard from './SummitCard';
 import moment from 'moment';
 
@@ -238,7 +237,6 @@ const UserDashboard: React.FC = React.memo(() => {
         title={upCommingEvent?.data?.[0]?.name}
         location={upCommingEvent?.data?.[0]?.venue?.address}
         url={upCommingEvent?.data?.[0]?.url}
-        status="Pending"
       />
     ) : (
       <NoDataCard title={'No Upcoming Events'} description={"It looks like you haven’t registered for any upcoming events. Don’t miss out on exciting opportunities!"} />

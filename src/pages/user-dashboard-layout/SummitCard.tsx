@@ -5,7 +5,6 @@ interface SummitCardProps {
   date?: string;
   title?: string;
   location?: string;
-  status?: 'Registered' | 'Pending' | 'Cancelled';
   url?: string;
 }
 
@@ -13,7 +12,6 @@ const SummitCard: React.FC<SummitCardProps> = ({
   date,
   title,
   location,
-  status,
   url
 }) => {
   return (
