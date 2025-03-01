@@ -172,6 +172,8 @@ import SpeakerDashBoard from "./speaker-no-program.svg";
 import EnterpriceWhiteIcon from "./EntrepriseWhiteIcon.svg";
 import WhiteTickIcon from "./WhiteTickIcon.svg";
 import ToRight from "./Right-Create-event.svg";
+import NewPrice from "./price-event.svg";
+import Abstracts from "./abstracts.svg"
 
 export {
   MainBottomBanner,
@@ -347,5 +349,7 @@ export {
   SpeakerDashBoard,
   EnterpriceWhiteIcon,
   WhiteTickIcon,
-  ToRight
+  ToRight,
+  NewPrice,
+  Abstracts
 };
