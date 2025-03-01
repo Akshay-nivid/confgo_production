@@ -2289,11 +2289,11 @@
     }
     &-drawer{
         padding-inline:2.833rem;
-        min-width: 37.08rem !important;
+        min-width: 39.08rem !important;
         &-content{
             padding-block: 2rem;
-            position: sticky;
-            top: 0;
+            // position: sticky;
+            // top: 0;
         &-heading{
             font-size: $h5 !important;
             font-weight: $font-semibold !important;

@@ -758,7 +758,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                 </Grid>
                                  {
                                   <>{watch(`addOn.${index}.dateRequired`)&& <>
-                                <Grid size={{ xs: 12, sm: 4 }}>
+                                <Grid size={{ xs: 12, sm: 6 }}>
                                   <CustomTextField
                                     className="create-event"
                                     placeholder="Date"
@@ -770,7 +770,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     max={moment(eventData.endTime).format("YYYY-MM-DD")}
                                   />
                                 </Grid>
-                                <Grid size={{ xs: 4 }}>
+                                <Grid size={{ xs: 3 }}>
                                     <CustomTextField
                                       className="create-event"
                                       placeholder="Start Time"
@@ -784,7 +784,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                       }}
                                     />
                                   </Grid>
-                                    <Grid size={{ xs: 4 }}>
+                                    <Grid size={{ xs: 3 }}>
                                       <CustomTextField
                                         className="create-event"
                                         placeholder="End Time"
