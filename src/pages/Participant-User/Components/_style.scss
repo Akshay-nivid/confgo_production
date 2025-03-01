@@ -5,11 +5,18 @@
     height: auto !important;
     cursor: pointer;
 
+    .logo-container {
+        background-color: $background;
+        border-radius: 1.67rem;
+        width: 5rem;
+        height: 5rem;
+        justify-items: center;
+    }
     .logo-box {
         background-color: $clr_light_blue;
         border-radius: 50%;
-        width: 5rem;
-        height: 5rem;
+        width: 4rem;
+        height: 4rem;
         object-fit: cover !important;
 
         &-text {
