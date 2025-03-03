@@ -17,6 +17,8 @@ import NoDataCard from './NoDataCard';
 import { formatUTCDateTime, useIsMobileScreen } from '@/Utils/CommonBaseClass';
 import EventCard from '../Participant-User/Components/EventCard';
 import OngoingEventCard from './OngoingEventCard';
+import SummitCard from './SummitCard';
+import moment from 'moment';
 
 export interface CalendarCardData {
   id: string;
@@ -48,7 +50,8 @@ const UserDashboard: React.FC = React.memo(() => {
   const userId = sessionStorage.getItem('userId');
   const firstCheckedIn = userCompletedEvents.data?.find((event: { checkedIn: any; }) => event.checkedIn) || null;
   const today=formatUTCDateTime(new Date().toISOString()).split("T")[0]
-  const EventStartDate = formatUTCDateTime(userEvents?.startTime).split("T")[0]
+  const EventStartDate = formatUTCDateTime(userEvents?.startTime).split("T")[0];
+  const upCommingEvent = userEvents["event/list"];
   /**
   * Useeffect hook handles the api call 
   */
@@ -165,6 +168,8 @@ const UserDashboard: React.FC = React.memo(() => {
       setIsLoading(false);
     }
   }
+  const formattedDate = moment(upCommingEvent?.data?.[0]?.eventStartTime).format("MMMM D, YYYY");
+
   return (
     <Grid container size={12} className="dashboard" spacing={1}  >
       {/* left */}
@@ -224,6 +229,21 @@ const UserDashboard: React.FC = React.memo(() => {
   
             </Grid>}
         </Grid>
+        {isMobileView && (
+  <Grid size={12}>
+    {upCommingEvent?.data?.length > 0 ? (
+      <SummitCard
+        date={formattedDate}
+        title={upCommingEvent?.data?.[0]?.name}
+        location={upCommingEvent?.data?.[0]?.venue?.address}
+        url={upCommingEvent?.data?.[0]?.url}
+      />
+    ) : (
+      <NoDataCard title={'No Upcoming Events'} description={"It looks like you haven’t registered for any upcoming events. Don’t miss out on exciting opportunities!"} />
+    )}
+  </Grid>
+)}
+
         <Grid size={12}> 
           {!isMobileView &&
           <Typography className="dashboard-left-profile-accounttitle" gutterBottom>
@@ -242,7 +262,7 @@ const UserDashboard: React.FC = React.memo(() => {
             )
           ):
           (
-            <NoDataCard/>
+            <NoDataCard title={"No Addended Events"} description={"It looks like you haven't attended any events yet. Don't miss out on exciting opportunities!"}/>
           )}
           </Grid>
         </Grid>

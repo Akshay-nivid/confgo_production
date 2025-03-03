@@ -7,11 +7,16 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import { useNavigate } from 'react-router-dom';
 import { CalendarNoEvent } from "@/assets/svg";
 
+interface noDataCard{
+  title:string;
+  description:string;
+
+}
 /**
  * Reusable no events card
  * @author Neethu
  */
-const NoDataCard: React.FC = React.memo(() => {
+const NoDataCard: React.FC<noDataCard> = React.memo(({title,description}) => {
   const navigate = useNavigate();
   return (
     <Grid
@@ -22,9 +27,9 @@ const NoDataCard: React.FC = React.memo(() => {
       <Grid container>
         <Grid container size={7}>
           <Grid size={12}>
-            <Typography className="dashboard-left-profile-accounttitle" variant="body1">No Attended Events</Typography>
+            <Typography className="dashboard-left-profile-accounttitle" variant="body1">{title}</Typography>
             <Typography className="no-records-subtitle">
-              It looks like you haven’t registered for any upcoming events. Don’t miss out on exciting opportunities!
+              {description}
             </Typography>
           </Grid>
           <Grid size={12}>
