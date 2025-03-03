@@ -7,7 +7,11 @@ interface SummitCardProps {
   location?: string;
   url?: string;
 }
-
+/**
+ * The component used to display the details of upcomming event in mobile view
+ * @param param0 
+ * @returns 
+ */
 const SummitCard: React.FC<SummitCardProps> = ({
   date,
   title,
