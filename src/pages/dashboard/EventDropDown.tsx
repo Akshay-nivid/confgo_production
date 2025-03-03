@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid2";
 import { useForm } from "react-hook-form";
 import MikeIcon from "../../assets/svg/karaoke.svg"
 import CustomButton from "@/components/CustomButton/CustomButton";
-import useStore, { setNonPersistedDataById } from "@/Libs/store";
+import { setNonPersistedDataById } from "@/Libs/store";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { truncateString } from "@/Utils/CommonBaseClass";
@@ -25,7 +25,7 @@ const EventDropDown = (data: any): JSX.Element => {
 
 
     const navigate = useNavigate();
-    const publishedEventInitialFetchDone = useStore(state => state.nonPersistedData?.publishedEventInitialFetchDone?.value) || false
+    // const publishedEventInitialFetchDone = useStore(state => state.nonPersistedData?.publishedEventInitialFetchDone?.value) || false
 
     /**
      * Filtered only Published events
@@ -64,10 +64,10 @@ const EventDropDown = (data: any): JSX.Element => {
      */
   
     useEffect(() => {
-        if (publishedEventInitialFetchDone) {
+        if (publishedEvent?.[0]) {
             setValue('fieldType', publishedEvent?.[0]?.id);
-            setNonPersistedDataById("CustomSelectData", { data: watch('fieldType') });
-            setNonPersistedDataById("publishedEventInitialFetchDone", { value: true })
+            setNonPersistedDataById("CustomSelectData", { data: publishedEvent?.[0]?.id });
+            // setNonPersistedDataById("publishedEventInitialFetchDone", { value: true })
         }
 
 

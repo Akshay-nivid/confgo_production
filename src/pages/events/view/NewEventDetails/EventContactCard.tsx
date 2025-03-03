@@ -1,17 +1,18 @@
-import { EventMessage, EventPhone } from "@/assets/svg";
+import { Abstracts, EventMessage, EventPhone, NewPrice} from "@/assets/svg";
 import useStore, { GET } from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
 import { Typography } from "@mui/material";
 import Grid  from "@mui/material/Grid2";
 import { useEffect } from "react";
-
+import confgo from "../../../../../config.json";
 /*
  * conponent for Event Contact Details
  */
 const EventContactCard=(id:any)=>{
 
     const {data}=id;
-  
+    const currency = confgo?.currency
+    
     const event = useStore( (state: any) => state.compData?.eventIdData?.[`event/${data}`]  ) || {};
     
   
@@ -49,64 +50,75 @@ const EventContactCard=(id:any)=>{
     const boxArray=[
         {
             id:1,
-            icon:<EventMessage/>,
-            info:event?.data?.eventContacts[0]?.email
+            icon:event?.data?.amount?<NewPrice/>:'',
+           info: event?.data?.amount ? `${currency}${event?.data?.amount}` : ''
         },
         {
             id:2,
-            icon:<EventPhone/>,
-            info:event?.data?.eventContacts[0]?.phone
-        }
-
+            icon:event?.data?.abstractDate?<Abstracts/>:'',
+            info:event?.data?.abstractDate?event?.data?.abstractDate:''
+        },
+        {
+            id:3,
+            icon:event?.data?.eventContacts[0]?.email?<EventMessage/>:'',
+            info:event?.data?.eventContacts[0]?.email?event?.data?.eventContacts[0]?.email:''
+        },
+        {
+            id:4,
+            icon: event?.data?.eventContacts[0]?.phone?<EventPhone/> : '',
+            info:event?.data?.eventContacts[0]?.phone?event?.data?.eventContacts[0]?.phone:''
+        },
+       
     ]
-    if (event?.data?.eventContacts.length === 0) {
-        return null;
-      }
+    /**
+     *  Remove items where info is empty
+     */
+    const filteredBoxArray = boxArray.filter(item => item.info); 
+
+   
    return(
     
-    <Grid container className="EventContactCard-grid" size={12} spacing={0}>
+    <Grid container className="EventContactCard-grid"  size={12} spacing={0}>
         
-        <Grid className="EventContactCard-grid-box"  size={12} container spacing={2}>
+        <Grid className="EventContactCard-grid-box"  size={12} container spacing={event?.data?.eventContacts?.[0]?.length >0 ?0 :2} maxHeight={'max-content'}>
                <Grid>
 
                 <Typography className="heading-title">
                     
-                Contact Informations
+                Event Informations
 
                 </Typography>
 
                </Grid>
 
-               {boxArray?.map((item:any,index:any)=>(
-
-               <Grid size={12} display={"flex"} gap={2} key={index}>
-               
-
-                <Grid className="EventContactCard-grid-box-details"  >
-                     
-                     {item?.icon}
+               {filteredBoxArray?.every(item => !item.info) ? (
+                   <Grid size={12} display={"flex"} justifyContent={"center"} alignItems={"center"}>No Contacts Available</Grid>
+               ) : (
+                filteredBoxArray?.map((item: any, index: any) => (
+                       <Grid size={12} display={"flex"} key={index}  alignItems={"center"} gap={2}  maxHeight={"max-content"}>
 
 
-                </Grid>
+                           <Grid className="EventContactCard-grid-box-details">
 
-                <Grid display={"flex"} justifyContent={"center"} alignItems={"center"} className=" EventContactCard-grid-box-content ">
+                               {item?.icon}
 
-                    <Typography className="mail-phn">
 
-                   {item?.info}
+                           </Grid>
 
-                    </Typography>
-                </Grid>
+                           <Grid display={"flex"} justifyContent={"center"} alignItems={"center"} className=" EventContactCard-grid-box-content ">
 
- </Grid> ))}
- 
+                               <Typography className="mail-phn">
+
+                                   {item?.info}
+
+                               </Typography>
+                           </Grid>
+
+                       </Grid>))
+               )}
+
         </Grid>
 
-        {/* call
-        
-              <Grid container size={4}>
-                 <EventContactCard data={eventData?.id}/>
-              </Grid> */}
 
     </Grid>
    )

@@ -113,6 +113,7 @@
         }
         &-content {
             min-width: 39rem !important;
+            max-width: 39rem !important;
             background-color: $clr_white;
             height: 100vh !important;
             padding-block: 1rem;
@@ -223,9 +224,9 @@
                     &-image-logo-close {
 
                         background-color: $clr_red;
-                        height: 1.8rem;
-                        width: 1.8rem;
-                        border: 0.14rem solid $clr_gray_30_percent;
+                        height: 2.3rem;
+                        width: 2.3rem;
+                        // border: 0.14rem solid $clr_gray_30_percent;
                         cursor: pointer;
                         position: absolute;
                         right: 0;
