@@ -48,7 +48,7 @@ const T7SponsorContact = ({ eventData }: { eventData?: IEventResponse }) => {
                     </Grid>
                 </Grid>
                 <Grid size={{ xs: 12, sm: 7 }} className="t7-sponosor-contact-form-t7-form-container">
-                    <SponosrContactForm Id={eventData?.id} customStyle={'sponsor-header'} />
+                    <SponosrContactForm customStyle={'sponsor-header'} />
                 </Grid>
             </Grid>
         </Grid>

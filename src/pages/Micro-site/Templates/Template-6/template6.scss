@@ -1,6 +1,10 @@
 .template-6 {
     position: relative;
 
+    .section-vertical-padding {
+        padding-block: 5rem;
+    }
+
     .t6-navbar {
         padding-block: 2rem;
         position: absolute;
@@ -176,6 +180,9 @@
             &-title {
                 font-weight: $font_semibold;
                 margin-bottom: 1rem;
+                max-width: 80%;
+                text-align: center;
+                margin-inline: auto;
             }
 
             &-description {
@@ -270,7 +277,7 @@
         }
 
         .tiers-container {
-            max-width: 1016px;
+            max-width: 85rem;
             margin-inline: auto;
 
             .tier-item {

@@ -9,6 +9,7 @@ import useStore, { setDataById } from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import clsx from 'clsx';
+import { IEventResponse } from '@/Libs/types/event';
 
 interface FormData {
     name: string;
@@ -31,12 +32,23 @@ interface FormData {
  * @returns {JSX.Element} The rendered JSX content for the sponsorship form.
  */
 interface SponosrContactFormProps {
-    Id:any
+    eventData?: IEventResponse;
     customStyle?: any; // Accepts custom styles
   }
 
-const SponosrContactForm = ({Id,customStyle}:SponosrContactFormProps) => {
-    const eventId = Id?.eventId;
+/**
+ * Component for Sponsor Contact Form
+ * 
+ * This functional component renders the sponsor contact form, allowing users to fill in their details and submit sponsorship requests.
+ * It includes fields for user input, validation messages, and a ReCAPTCHA for additional security.
+ * 
+ * @param {SponosrContactFormProps} props - Props for the component.
+ * @param {IEventResponse} props.eventData - Event data from the store.
+ * @param {any} [props.customStyle] - Custom styles for the component. Accepts object with className keys.
+ * @returns {JSX.Element} The rendered JSX content for the sponsor contact form.
+ */
+const SponosrContactForm = ({eventData,customStyle}:SponosrContactFormProps) => {
+    const eventId = eventData?.id;
     const { handleSubmit, control, formState: { errors }, setValue, register } = useForm<FormData>({
         reValidateMode: "onSubmit"
     });
@@ -127,7 +139,7 @@ const SponosrContactForm = ({Id,customStyle}:SponosrContactFormProps) => {
         })
     }
     return (
-        <Grid container className={clsx('sponsor-page',customStyle)} size={{ lg: 12 }}>
+        <Grid container className={clsx('sponsor-page main',customStyle)} size={{ lg: 12 }}>
             <Typography ml={1} variant='h4'>Become Sponsor</Typography>
             <Grid container className='sponsor-content' size={12} spacing={2} >
                 <Grid container className='sponsor-content-wrapper' size={{ lg: 12, xs: 12 }} spacing={3} justifyContent='center' >

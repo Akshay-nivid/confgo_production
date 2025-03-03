@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Navigate, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid2";
-import {  handleClickBackButton, handleGroupData, processFormData, toggleProgramCheckboxesByDate} from "./programsHandlers";
+import { handleClickBackButton, handleGroupData } from "./programsHandlers";
 import clsx from "clsx";
 import AddonCard from "../Components/AddonCard";
 import Programcard from "../Components/Programcard";
@@ -57,7 +57,7 @@ const ProgramSelection = () => {
   const navigate = useNavigate();
   const methods = useForm<any>({ defaultValues: {} });
 
-  const { handleSubmit, setValue, getValues, reset } = methods
+  const { handleSubmit, reset } = methods
 
 
   // const defaultFormData = useStore((state: any) => state?.compData?.["defaultProgramData"]?.formData) || undefined;
@@ -68,7 +68,7 @@ const ProgramSelection = () => {
 
   const eventData = useStore((state: IStoreState) => state?.compData?.["eventData"]) ?? undefined;
 
-  const eventInitialFetchDone = useStore(state=>state.nonPersistedData?.eventInitialFetchDone?.value) || false
+  const eventInitialFetchDone = useStore(state => state.nonPersistedData?.eventInitialFetchDone?.value) || false
 
   const eventId = useStore((state: IStoreState) => state?.compData?.eventSelected?.id)
 
@@ -94,7 +94,10 @@ const ProgramSelection = () => {
   const userRole = sessionStorage.getItem('userRole')
 
 
+
   const cart = useStore((state: IStoreState) => state?.nonPersistedData?.cart)
+
+
 
 
   // const isIntialGetCartCalled = useStore(state => state?.nonPersistedData.intialGetCart?.value)
@@ -128,52 +131,40 @@ const ProgramSelection = () => {
 
           if (status) {
 
-            const formatedData = handleGroupData({
-              addons: data?.addons,
-              programs: data?.programs
-            })
-
-            const obj: any = {}
-
-
-            Object?.keys(formatedData)?.forEach((date: any) => {
-
-              formatedData[date]?.programs?.forEach((program: any) => {
-
-
-                const pKey = `${moment(program?.startTime).format('YYYY/MM/DD')}-programs`
-
-                obj[pKey] = [...(obj[pKey] || []), program?.id]
-
-              })
-
-              formatedData?.[date]?.addons?.forEach((addon: any) => {
-
-
-                obj[`addons.${addon?.id}`] = addon?.id
-
-                addon?.eventAddonProperties?.forEach((item: any) => {
-
-                  const aKey = `${moment(addon?.startTime).format('YYYY/MM/DD')}-addonProp-${addon?.id}`
-
-                  obj[aKey] = [...(obj[aKey] || []), item?.id]
-                })
-
-
-
-
-
-
-
-              })
-
-              // setDataById("defaultProgramData", { formData: obj })
-              setNonPersistedDataById("defaultProgramData", { formData: obj })
-
-
-            })
-
             setNonPersistedDataById("intialGetCart", { value: true })
+
+
+            const allData = [...(data?.addons || []), ...(data?.programs || [])]
+
+            if (allData.length === 0) return
+
+            const cartItems = allData.reduce((acc, item: any) => {
+
+              if (item?.addonId) {
+
+                if (item?.eventAddonProperties?.length === 0) {
+
+                  acc.addons.push({
+                    addonId: item?.id
+                  })
+                } else {
+                  acc.addons.push({
+                    addonId: item?.id,
+                    propertyIds: item?.eventAddonProperties?.map((item: any) => item?.id)
+                  })
+                }
+
+              } else {
+                acc?.programIds?.push(item?.id)
+              }
+
+              return acc
+
+            }
+
+              , { programIds: [], addons: [] })
+
+            setNonPersistedDataById('cart', { ...cart, ...cartItems })
 
           } else {
             snackBar({ severity: 'error', message })
@@ -201,9 +192,7 @@ const ProgramSelection = () => {
     */
   useEffect(() => {
 
-    //  (async()=>await fetchEventDetailsFn(10000))()
-
-    if(eventInitialFetchDone) return
+    if (eventInitialFetchDone) return
     const fetchEventDetails = async () => {
 
 
@@ -239,7 +228,7 @@ const ProgramSelection = () => {
             programs: response?.data?.programs
           })
 
-        
+
 
           setDataById("eventData", { programs: formatedData });
           setNonPersistedDataById("eventInitialFetchDone", { value: true })
@@ -265,9 +254,7 @@ const ProgramSelection = () => {
    * @param formData 
    * @returns 
    */
-  function handleClickNextButton(formData: any) {
-
-
+  function handleClickNextButton() {
 
     if (cart?.addons?.length === 0 && cart?.programIds?.length === 0) {
       snackBar({ severity: 'error', message: 'please select atleas a program or addon' })
@@ -276,36 +263,12 @@ const ProgramSelection = () => {
 
 
     try {
-
-
-      // setDataById('defaultProgramData', { formData: formData }) // storing form data for setting default values in next screen 
-
-      setNonPersistedDataById("defaultProgramData", { formData: formData })
-
-      const body = processFormData(formData, eventId, participantTypeId) // processing form data to match cart api body format
-
-      const selectedPrograms = body?.programIds || null;
-
-
       const apiBody = {
-        eventId: body?.eventId,
+        eventId: eventId,
         ...((participantTypeId && participantTypeId !== null && participantTypeId !== undefined) ? { participantTypeId: participantTypeId } : {}),
         ...((cart?.programIds && cart?.programIds?.length > 0) ? { programIds: cart.programIds } : {}),
-        ...((cart?.addons && cart?.addons?.length > 0) ? {addons: cart.addons} : {})
-        // ...cart
+        ...((cart?.addons && cart?.addons?.length > 0) ? { addons: cart.addons } : {})
       }
-
-      if (selectedPrograms?.length === 0 && body?.addons?.length === 0) {
-        snackBar({ severity: "error", message: "Please select aleast one programs or addons" })
-        return
-      }
-
-      // validatePrograms(selectedPrograms)
-
-      // validateAddon(formData)
-
-
-      // validateAddonWithNoProp(body?.addons)
 
 
       POST({
@@ -315,11 +278,11 @@ const ProgramSelection = () => {
 
         successCB: (data: any) => {
 
+
           const cartID = data?.data?.id
 
+          setNonPersistedDataById('shouldPostCart', { value: false })
           getUserCart({ helperFn: handleNavigate, cartID: cartID })
-
-
 
         },
         errorCB: (error: any) => {
@@ -341,51 +304,7 @@ const ProgramSelection = () => {
   }
 
 
-  /**
-   * When user toggles an addon checkbox, this function is called.
-   * It takes the key of the checkbox as an argument. The key is in the format of "date-ADDON-addonId"
-   * It first splits the key into date, ADDON, and addonId. Then it sets the value of the corresponding checkbox in the form to undefined.
-   * This is used to remove the addon from the cart when the user unchecks the checkbox.
-   * @param key - the key of the checkbox in the format of "date-ADDON-addonId"
-   */
-  function onToggleAddonCheckBox(key: string) {
 
-    const formData = getValues()
-
-
-    const [date, _, id] = key.split("-")
-
-    const addonProps = getValues(`${date}-addonProp-${id}`)
-
-    if (addonProps === undefined || !addonProps || addonProps.length === 0) {
-      snackBar({ severity: "error", message: "Please select at least one property" })
-      return
-    }
-
-    const inputKey = `${date}-addonProp-${id}`
-
-    if (inputKey in formData) {
-      const updateFormData = { ...formData, [inputKey]: undefined }
-      reset(updateFormData)
-      return
-    }
-
-    return
-  }
-
-
-
-
-  /**
-   * Handles toggling of a program checkbox. It takes the key of the checkbox as an argument.
-   * The key is in the format of "date-PROGRAM-programId". It calls the toggleProgramCheckboxesByDate function
-   * which takes care of toggling the checkbox and setting the value of the corresponding program to undefined
-   * if the checkbox is unchecked. This is used to remove the program from the cart when the user unchecks the checkbox.
-   * @param key - the key of the checkbox in the format of "date-PROGRAM-programId"
-   */
-  function handleToggleProgramCheckbox(key: string) {
-    toggleProgramCheckboxesByDate({ key, setValue, getValues })
-  }
 
   /**
    * setting form default value
@@ -465,13 +384,13 @@ const ProgramSelection = () => {
 
                       {programs?.programs?.map((program: IProgram, index: number) => (
 
-                        <Programcard date={date} program={program} handleToggleProgramCheckbox={handleToggleProgramCheckbox} templateId={templateId} key={index} />
+                        <Programcard date={date} program={program} templateId={templateId} key={index} />
 
 
 
                       ))}
 
-                     
+
 
                       {programs.addons?.map((addon: any) => {
 
@@ -479,7 +398,7 @@ const ProgramSelection = () => {
 
                         return (
                           <>
-                            <AddonCard addon={addon} date={date} onToggleAddonCheckBox={onToggleAddonCheckBox} templateId={templateId} key={addon.id} />
+                            <AddonCard addon={addon} date={date} templateId={templateId} key={addon.id} />
                           </>
                         )
                       })}
@@ -496,10 +415,6 @@ const ProgramSelection = () => {
                   </>
                 ))}
               </Box>
-
-
-
-
 
               <Box className={`navigation-button-container-${templateId}`}>
 

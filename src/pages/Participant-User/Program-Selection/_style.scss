@@ -80,9 +80,14 @@
         border: .15rem solid $clr_charcoal_cyan ;
       }
 
+      &-5 {
+        background-color: $clr_blue !important;
+        border: .15rem solid $clr_blue;
+      }
+
       &-6 {
         background-color: $clr_blue !important;
-        // border: .15rem solid $clr_charcoal_cyan ;
+        border: .15rem solid $clr_blue;
       }
 
     }

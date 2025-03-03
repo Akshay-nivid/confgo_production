@@ -4,11 +4,28 @@ import React from 'react';
 import { IEventResponse } from '@/Libs/types/event';
 import config from '../../../../../config.json'
 import clsx from 'clsx';
+import { setNonPersistedDataById } from '@/Libs/store';
 
+/**
+ * TemplateNavbar component renders a navigation bar for event templates.
+ * It accepts three props: `children`, `eventData`, and `className`.
+ * `children` is a function that accepts an object with `data` property and returns a React node.
+ * `eventData` is an object of type `IEventResponse` that is used to get the logo image.
+ * `className` is a string that is used to add a class name to the root element of the component.
+ * 
+ * The component renders a navigation bar with the logo of the event, navigation links, and a menu icon.
+ * The menu icon is clickable and sets the value of `templateDrawer` in the store to `true` when clicked.
+ */
 const TemplateNavbar = ({ children, eventData, className }: { children: (props: { data?: IEventResponse }) => React.ReactNode, eventData?: IEventResponse; className?: string }) => {
 
 
     const baseUrl = config.api.url
+
+
+    const handleClickMenuIcon = () => {
+        
+        setNonPersistedDataById( 'templateDrawer', {value: true })
+    }
 
     return (
         <Box className={clsx("template-navbar", className)}>
@@ -18,7 +35,7 @@ const TemplateNavbar = ({ children, eventData, className }: { children: (props: 
             <Box className="nav-content-container">
                 {children({ data: eventData })}
             </Box>
-            <Box className='menu-container'>
+            <Box onClick={handleClickMenuIcon} className='menu-container'>
                 <MenuRoundedIcon className="menu-icon" />
             </Box>
 
