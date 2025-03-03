@@ -9,10 +9,12 @@ import T6speakers from './T6speakers'
 import T6location from './T6location'
 import T6priceTier from './T6priceTier'
 import TFooter from '@/pages/events/template/_components/TFooter/TFooter'
+import T6Sponsors from './T6Sponsors'
+import T6SponsorContact from './T6SponsorContact'
 import BannerSection from '../Template-components/Banner/Banner-section'
-import SponosrContactForm from '../Template-components/SponsorContactForm'
 import T6Drawer from './T6Drawer'
 import { Box } from '@mui/material'
+import SponosrContactForm from '../Template-components/SponsorContactForm'
 
 
 
@@ -27,6 +29,8 @@ const Template6 = () => {
             <T6speakers />
             <T6location />
             <T6priceTier />
+            <T6Sponsors/>
+            <T6SponsorContact/>
             <Box className="max-w-[80rem] mx-auto section-vertical-padding">
             <SponosrContactForm />  
             </Box>

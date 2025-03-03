@@ -266,6 +266,96 @@
         }
 
     }
+    .sponsor-section {
+        padding-block: 5rem;
+        background: $clr_gray_10_percent;
+        border-radius: 1rem;
+
+        &__container {
+            display: flex;
+            flex-direction: column;
+            row-gap: 4rem;
+        }
+
+        .sponsor-banner-text {
+            margin-bottom: 2rem;
+            font-size: $h3;
+            font-weight: $font_bold;
+            color: $clr_gray_extra_dark
+        }
+    }
+    .t6-sponosor-contact-form {
+        padding-block: 3rem;
+        display: block;
+    .left-section{
+       align-items: flex-start;
+        .title{
+            text-align: center;
+            font-size: $h2 !important;
+            font-weight: $font-semibold !important;
+        }
+        .description{
+        color: $clr_neutral_gray !important;
+        font-weight:$font_normal !important;
+        }
+     
+    }
+    .venue-container{
+        display: flex;
+        column-gap: 2rem;
+        row-gap: 2rem;
+        align-items: center;
+        .avathar{
+            background-color: #027BFF !important;
+            color: $clr_white;
+        }
+        .field-value{
+            display: flex;
+            flex-direction: column; 
+            justify-content: space-between; 
+            align-items: flex-start;
+            height: 100%; 
+        }
+    }
+    .star{
+        display: none;
+    }
+    .sponsor-header{
+        background-color: $clr_white !important;
+        padding-block: 2.417rem;
+        padding-inline: 2.25rem;
+        margin-top: 0rem;    
+        border-radius: 0.833rem;
+        .form-header{
+            display: none;
+        }
+        &-input{
+            border-bottom: none !important;
+            border-radius: 0.417rem !important;
+
+        }
+        &-textarea{
+            width: 100%;
+            border-bottom: $clr_gray_extra_light !important;
+                    height: 7rem !important;
+                    // border: 0.09375rem solid $clr_gray_extra_light;
+                    padding: 1rem;
+                    outline: 0.0625rem solid $clr_gray_extra_light !important;
+
+        }
+        &-textarea:focus-visible {
+            outline: 0.0625rem solid $clr_gray_extra_light !important;
+        }
+        &-button{
+            background-color: #027BFF !important;
+            border-radius: 2.917rem !important;
+            width: 13.667rem !important;
+
+
+        }
+       
+    }
+    }
 
     .t6-tier-section {
         padding-block: 5rem;
