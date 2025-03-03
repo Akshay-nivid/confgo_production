@@ -68,6 +68,7 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshU
     const setDataById = useStore((state: any) => state.setDataById);
     const { handleSubmit, control, reset, setValue, getValues } = useForm<FormData>();
     const [roleList, setRoleList] = useState<Role[]>([])
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     /**
     * handle form submission 
     */
@@ -108,6 +109,7 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshU
     * handle create new user
     */
     const createUser = async (data: FormData) => {
+        setIsLoading(true)
         const companyId = sessionStorage.getItem('companyId');
         await POST({
             url: 'user',
@@ -157,6 +159,8 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshU
                                     navigate(`/events/detail/${eventId}`, { state: { tabId: "2" } });
 
                                 }
+                                setIsLoading(false); // Reset loading state after nested operation completes
+
                             },
                             errorCB: () => {
                                 setDataById("snackBarInfo", {
@@ -165,8 +169,11 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshU
                                     severity: "error",
                                     message: "Error in assigning volunteer.",
                                 });
+                                setIsLoading(false); // Reset loading state on nested error
                             },
                         });
+                    } else {
+                        setIsLoading(false)
                     }
 
                     NoNavigation ? null : navigate(routes.users());
@@ -178,6 +185,7 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshU
             },
             errorCB: (context: any) => {
                 setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
+                setIsLoading(false);
             }
 
         });
@@ -413,7 +421,7 @@ const CreateNewUsers:React.FC<userProps> = ({NoNavigation,defaultValue, refreshU
                     
                     </Grid>
                     <Grid container size={12} justifyContent={"flex-end"}> 
-                          <CustomButton type="submit" className="admin-users-submit-btn-container-btn" label="Submit" />
+                          <CustomButton type="submit" className="admin-users-submit-btn-container-btn" label="Submit" disabled={isLoading} />
                     </Grid>
                 </Grid>
             </form>

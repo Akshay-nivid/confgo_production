@@ -17,7 +17,7 @@
 
 .main {
 
-    max-width: 1536px;
+    max-width: 128rem;
     padding-inline: 4rem;
     margin-inline: auto;
 
@@ -99,6 +99,57 @@
         }
     }
 }
+
+
+.template-drawer {
+    .drawer-wrapper {
+        width: 100vw !important;
+        max-width: 33rem;
+        background-color: rgb(0, 0, 0);
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+
+
+    }
+
+    .drawer-header {
+        padding-block: 1.5rem;
+        padding-inline: 1rem;
+        display: flex;
+        align-items: center;
+        border-bottom: 0.1rem solid $clr_gray_dark_text;
+
+        .close-icon {
+            margin-left: auto;
+            height: 2rem;
+            width: 2rem;
+            color:  $clr_gray_light;
+            cursor: pointer;
+        }
+    }
+
+    .drawer-content{
+        padding-inline: 1rem;
+        flex:1;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+row-gap: 1rem;
+padding-top: 1rem;
+        .item{
+            padding-block: 1rem;
+            padding-inline: 1rem;
+            border-bottom: 0.1rem solid rgb(22, 22, 22);
+            color: $clr_gray_light;
+            font-size: $p2;
+            font-weight: $font-medium;
+            cursor: pointer;
+        }
+    }
+}
+
 
 @media screen and (max-width: 600px) {
 
