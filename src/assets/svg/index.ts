@@ -179,7 +179,8 @@ import PaymentNoData from "./paymentNoData.svg";
 import EventsNoData from "./EventsNoData.svg";
 import SponsorNoData from "./sponsorNoData.svg";
 import UserNoData from "./UserNoData.svg";
-import CouponNoData from "./CouponNoData.svg"
+import CouponNoData from "./CouponNoData.svg";
+import Writing from "./Writing.svg";
 
 export {
   Coupon2,
@@ -363,5 +364,6 @@ export {
   EventsNoData,
   SponsorNoData,
   UserNoData,
-  CouponNoData
+  CouponNoData,
+  Writing
 };

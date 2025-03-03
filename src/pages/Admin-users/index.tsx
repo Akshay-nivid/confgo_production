@@ -19,6 +19,8 @@ import EditUserDrawer from "./EditUserDrawer";
 import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import {UserNoData} from "@/assets/svg";
+import {Writing} from "@/assets/svg";
+
 
 interface Role {
   value: string,
@@ -404,7 +406,8 @@ const AdminUsersList = () => {
           }}
         >
           <MenuItem onClick={(e) => handleRowClick(e, rowData)}>
-           <img src="/src/assets/png/writing.png" alt="Edit" className="action-icon" />
+           {/* <img src="/src/assets/png/writing.png" alt="Edit" className="action-icon" /> */}
+           <Writing className="action-icon"/>
             <Typography className="action-text">Edit</Typography>
           </MenuItem>
           <MenuItem onClick={() => {
