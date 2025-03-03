@@ -6,9 +6,11 @@ import parse from 'html-react-parser';
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
 import { getLocalTimeDate } from "@/Utils/CommonBaseClass";
 import TodayOutlinedIcon from '@mui/icons-material/TodayOutlined';
+/**
+ * Componet for Template 4 About
+ * @param eventData
+ */
 const T4About = ({ eventData }: { eventData?: IEventResponse }) => {
-    console.log(eventData,'full eventData getting here>>>>')
-
     return (
         <Grid className="w-full t4-event-description-container">
             <Grid className="mt-10 main">

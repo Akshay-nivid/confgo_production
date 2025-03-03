@@ -11,6 +11,9 @@ import T4Sponsors from "./T4Sponsors";
 import T4TimeRemaining from "./T4TimeRemaining";
 import './template4.scss';
 import BannerSection from "../Template-components/Banner/Banner-section";
+/**
+ * Componet for Template 4 Parent compoent
+ */
 const NewTemplate4 = () => {
 
     return (

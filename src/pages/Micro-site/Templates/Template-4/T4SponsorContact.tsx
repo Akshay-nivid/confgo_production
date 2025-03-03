@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid2";
 import SponosrContactForm from "../Template-components/SponsorContactForm";
 import { Typography } from "@mui/material";
 /**
- * Componet for Template 7 Sponsor contact form
+ * Componet for Template 4 Sponsor contact form
  * @param eventData
  */
 const T4SponsorContact = ({ eventData }: { eventData?: IEventResponse }) => {

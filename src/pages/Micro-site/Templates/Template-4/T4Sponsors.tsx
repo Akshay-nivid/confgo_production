@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid2";
 import config from '../../../../../config.json';
 import { toTitleCase } from "@/Utils/CommonBaseClass";
 /**
- * Componet for Template 7 sponsors
+ * Componet for Template 4 sponsors
  */
 const T4Sponsors=()=>{
     const baseUrl = config?.api?.url;

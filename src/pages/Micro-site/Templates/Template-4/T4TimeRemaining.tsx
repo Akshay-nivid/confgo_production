@@ -1,7 +1,10 @@
 import { IEventResponse } from '@/Libs/types/event'
 import { Box, Typography } from '@mui/material'
 import TEventTimer from '../Template-components/TEventTimer/TEventTimer'
-
+/**
+ * Componet for Template 4 TimeRemaining
+ * @param eventData
+ */
 const T4TimeRemaining = ({ eventData }: { eventData?: IEventResponse }) => {
 
     const isTime = (eventData?.startTime !== null || eventData?.startTime !== undefined) ? true : false

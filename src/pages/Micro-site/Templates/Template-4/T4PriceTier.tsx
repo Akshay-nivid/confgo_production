@@ -6,7 +6,7 @@ import { IEventPriceTier } from '@/Libs/types/event'
 import { convertUTCToUserTimeZone } from '@/Utils/CommonBaseClass'
 import TRegisterButton from '@/pages/events/template/_components/TRegisterButton/TRegisterButton'
 /**
- * Componet for Template 7 price tier
+ * Componet for Template 4 price tier
  */
 const T4PriceTier = () => {
     return (

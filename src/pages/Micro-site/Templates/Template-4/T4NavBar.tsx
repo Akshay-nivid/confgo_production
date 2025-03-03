@@ -2,7 +2,10 @@ import { IEventResponse } from '@/Libs/types/event'
 import TemplateNavbar from '../Template-components/TemplateNavbar'
 import TLink from '../Template-components/TLink'
 import { Box } from '@mui/material'
-
+/**
+ * Componet for Template 4 Navbar
+ * @param eventData
+ */
 const T4Navbar = ({ eventData }: { eventData?: IEventResponse }) => {
     return (
         <TemplateNavbar className='t4-navbar main' eventData={eventData}>

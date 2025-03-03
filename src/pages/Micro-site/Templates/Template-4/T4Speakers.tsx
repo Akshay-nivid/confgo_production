@@ -7,9 +7,9 @@ import { personPlaceholder } from '@/assets/png';
 import ArrowRightAltOutlinedIcon from '@mui/icons-material/ArrowRightAltOutlined';
 
 /**
- * Componet for Template 7 speakers
+ * Componet for Template 4 speakers
  */
-const T4Speakers = () => { 
+const T4Speakers = () => {
     const baseUrl = config.api.url
     return (
         <Box id="speakers" className='t4-speakers-section'>
@@ -62,7 +62,7 @@ const T4Speakers = () => {
                                                 <Grid container justifyContent={"flex-start"}>
                                                     <Grid display={"flex"} className="speaker-view" onClick={() => handleModalOpen(speaker)}>
                                                         <Typography>View More</Typography>
-                                                        <ArrowRightAltOutlinedIcon/>
+                                                        <ArrowRightAltOutlinedIcon />
                                                     </Grid>
                                                 </Grid>
                                             </CardContent>
