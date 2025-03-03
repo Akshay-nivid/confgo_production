@@ -35,7 +35,7 @@ const T6SponsorContact = ({ eventData }: { eventData?: IEventResponse }) => {
                     <Typography textAlign={'center'} className="description">Unlock unique opportunities to showcase your brand and connect with our audience. Fill out the form below to explore sponsorship possibilities tailored to your goals.</Typography>
                 </Grid>
                 <Grid size={{ xs: 12, sm: 12 }} className="t7-sponosor-contact-form-t7-form-container">
-                    <SponosrContactForm Id={eventData?.id} customStyle={'sponsor-header'} />
+                    <SponosrContactForm customStyle={'sponsor-header'} />
                 </Grid>
 
             </Grid>

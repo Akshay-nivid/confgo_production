@@ -36,7 +36,8 @@
       font-size: $p1;
       color: $clr_sub_header;
     }
-    .discount{
+
+    .discount {
       color: $clr_red;
     }
   }
@@ -123,6 +124,7 @@
 
       }
     }
+
     &-4 {
       .back-button {
         border-color: $clr_charcoal_cyan;
@@ -263,18 +265,19 @@
     color: $clr_gray_dark_text;
   }
 
-  .program-price-container{
+  .program-price-container {
     padding-top: 0.8333rem !important;
     padding-bottom: 1.667rem !important;
   }
-  .program-price{
+
+  .program-price {
     font-size: $h4 !important;
     font-weight: $font-semibold !important;
     margin-left: -0.45rem !important;
     margin-top: 0.083rem !important;
   }
 
-  .date-container{
+  .date-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -286,7 +289,7 @@
   }
 
 
-  .time-container{
+  .time-container {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -302,35 +305,6 @@
   .program-list-item {
     width: max-content;
     margin-top: 1.66rem !important;
-
-    .MuiFormControl-root {
-      width: 100%;
-    }
-
-    .MuiFormControlLabel-root {
-      padding: 0 !important;
-      margin: 0 !important;
-
-      .MuiButtonBase-root {
-        padding: 0 !important;
-      }
-    }
-
-    .MuiCheckbox-root {
-      width: 100%;
-      max-width: 10rem;
-
-      svg {
-        fill: none !important;
-        border-radius: .5rem;
-        width: 100% !important;
-        height: 2.8rem !important;
-        padding-inline: 4rem;
-
-      }
-
-
-    }
   }
 
   .checked {
@@ -379,126 +353,100 @@
       background-color: $clr_white;
     }
 
-    .addon-checkbox-group {
-      position: relative;
-      width: max-content;
+  
+}
 
-      .MuiFormControl-root {
-        width: 100%;
-      }
+.addon-prop-checkobox {
+  padding-block: .86rem !important;
+}
 
-      .MuiFormControlLabel-root {
-        padding: 0 !important;
-        margin: 0 !important;
+.subtotal-container {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+  padding-top: 2rem;
+  padding-bottom: 2.5rem;
 
-        .MuiButtonBase-root {
-          padding: 0 !important;
-        }
-      }
-
-
-      .MuiCheckbox-root {
-        width: 100%;
-        max-width: 10rem;
-
-        svg {
-          fill: none !important;
-          background-color: $clr_black !important;
-          border-radius: .5rem;
-          width: 100% !important;
-          height: 2.8rem !important;
-          padding-inline: 4rem;
-        }
+  .total-text {
+    font-size: $h5;
+    font-weight: $font_bold;
+  }
+}
 
 
-      }
 
-      .MuiFormControlLabel-root.Mui-disabled svg {
-        background-color: $clr_gray_faded !important;
-      }
+.coupon-container {
+  margin-top: .5rem;
+  width: 100%;
+  margin-bottom: .5rem;
+  padding-inline: 1rem;
+  padding-block: 1.5rem;
+  background-color: $clr_gray_10_percent;
 
+
+}
+
+.coupon-header-text {
+  margin-bottom: 1.4rem;
+}
+
+.apply-coupon-button {
+  height: 100%;
+  width: 100%;
+  color: $clr_white;
+  border-color: $clr_white;
+  border-radius: 0.5rem;
+  font-size: $p1;
+  min-width: max-content;
+  background-color: $clr_green;
+
+  .icon {
+    fill: $clr_white !important;
+    margin-top: -0.2rem;
+  }
+
+}
+
+.coupon-banner-container {
+  border: .0083rem solid $clr_green;
+  // border-radius: .5rem;
+  padding: 1.66rem;
+  background-color: $clr_green_light !important;
+
+  .coupon-code {
+    font-size: $h6 !important;
+    font-weight: $font-semibold !important;
+
+    span {
+      font-size: $p2 !important;
+      font-weight: $font-normal !important;
     }
   }
 
-  .addon-prop-checkobox {
-    padding-block: .86rem !important;
+}
+
+
+.divider {
+  height: 0.1rem;
+  width: 100%;
+  background-color: $clr_gray_extra_light;
+}
+
+.navigation-btn-group-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 0.8rem;
+  padding-block: 3rem;
+
+  .back-btn {
+    min-width: 8rem;
   }
 
-  .subtotal-container {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-    padding-top: 2rem;
-    padding-bottom: 2.5rem;
-
-    .total-text {
-      font-size: $h5;
-      font-weight: $font_bold;
-    }
+  .next-btn {
+    min-width: 8rem;
   }
-
-
-
-  .coupon-container {
-    margin-top: 1.66rem;
-    width: 100%;
-    margin-bottom: 2rem;
-
-    .coupon-header-text {
-      margin-bottom: 1.4rem;
-    }
-
-    .apply-coupon-button {
-      height: 100%;
-      width: 100%;
-      color: $clr_black;
-      border-color: $clr_black;
-      border-radius: 0.5rem;
-      font-size: $p1;
-
-    }
-  }
-
-  .coupon-banner-container {
-    border: .0083rem solid $clr_green;
-    border-radius: .5rem;
-    padding: 1.66rem;
-    background-color: $clr_green_light !important;
-
-    .coupon-code {
-      font-size: $h6 !important;
-      font-weight: $font-semibold !important;
-
-      span {
-        font-size: $p2 !important;
-        font-weight: $font-normal !important;
-      }
-    }
-
-  }
-
-
-  .divider {
-    height: 0.1rem;
-    width: 100%;
-    background-color: $clr_gray_extra_light;
-  }
-
-  .navigation-btn-group-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    column-gap: 0.8rem;
-    padding-block: 3rem;
-
-    .back-btn {
-      min-width: 8rem;
-    }
-
-    .next-btn {
-      min-width: 8rem;
-    }
-  }
+}
 
 
 
@@ -751,32 +699,6 @@
     font-weight: $font-medium !important;
   }
 
-  .MuiFormControl-root {
-    width: 100%;
-  }
-
-  .MuiFormControlLabel-root {
-    padding: 0 !important;
-    margin: 0 !important;
-
-    .MuiButtonBase-root {
-      padding: 0 !important;
-    }
-  }
-
-  .MuiCheckbox-root {
-    width: 100%;
-    max-width: 10rem;
-
-    svg {
-      fill: none !important;
-      border-radius: 0.5rem;
-      width: 100% !important;
-      height: 2.8rem !important;
-      padding-inline: 4rem;
-
-    }
-  }
 
 }
 
@@ -791,7 +713,50 @@
   .selected-programs-main {
     width: 100% !important;
   }
-  .selected-program-card{
-    padding-inline: 0  !important;
+
+  .selected-program-card {
+    padding-inline: 0 !important;
   }
+}
+
+.selected-programs-main {
+
+  .addon-property-checkbox {
+    cursor: pointer;
+    width: 1.9rem;
+    height: 1.9rem;
+    border-width: .2rem;
+    border-radius: .5rem;
+    margin-right: 1rem;
+  }
+
+  .addon-property-checkbox-icon {
+    color: $clr_white;
+  }
+
+  .selected-program-card-btn {
+    box-shadow: none;
+    border-radius: .4rem;
+    padding-block: .6rem;
+    font-size: .95rem;
+    padding-inline: 4rem !important;
+  }
+
+  // ========================t-1
+
+  .addon-property-checkbox-1 {
+    border: 0.15rem solid;
+    border-color: $clr_charcoal_cyan;
+
+
+    &-active {
+      background-color: $clr_charcoal_cyan !important;
+    }
+  }
+
+  .selected-program-card-btn-1 {
+    background-color: $clr_charcoal_cyan !important;
+  }
+
+
 }

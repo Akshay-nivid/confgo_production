@@ -9,13 +9,12 @@ import { convertUTCToUserTimeZone, truncateString } from '@/Utils/CommonBaseClas
 import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined';
 import Badge from './Badge';
 import { useFormContext } from 'react-hook-form';
-import useStore, { setNonPersistedDataById } from '@/Libs/store';
-import {  IEventAddonProperty } from '@/Libs/types/event';
-import CustomButton from '@/components/CustomButton/CustomButton';
+
 import CheckIcon from '@mui/icons-material/Check';
+import useProgramAddonToggle from '../Program-Selection/useProgramAddonToggle';
 
 interface IProgramcardProps {
-  templateId: number | null | undefined, onToggleAddonCheckBox: (param: string) => void, addon: any, date: string
+  templateId: number | null | undefined, addon: any, date: string
 }
 /**
  * AddonCard component renders a single add-on event card with 
@@ -34,104 +33,10 @@ const AddonCard = ({ templateId, addon, date }: IProgramcardProps) => {
 
   const { watch } = methods
 
-  const cart = useStore(state => state.nonPersistedData?.cart)
-
-  /**
-   * Handles the click event on the add-on card.
-   * If the add-on is already in the cart, it removes it.
-   * If the add-on is not in the cart, it adds it.
-   * @param {number} addonId - The id of the add-on to be added or removed.
-   */
-  function handleAddonClick(addonId: number) {
-
-    const targetIndex = cart.addons?.findIndex((item: any) => item?.addonId === addonId)
 
 
 
-    if (targetIndex !== -1) {
-      const updatedCart = [...cart?.addons?.filter((item: any) => item?.addonId !== addonId)];
-
-      setNonPersistedDataById('cart', { ...cart, addons: updatedCart });
-    } else {
-
-      const updatedCart = [...(cart?.addons || []), { addonId }];
-      updatedCart.push(addon);
-      setNonPersistedDataById('cart', { ...cart, addons: updatedCart });
-    }
-
-  }
-
-/**
- * Toggles the selection of an add-on property in the cart.
- * If the add-on property is already selected, it will be removed.
- * If it is not selected, it will be added.
- * If no properties remain selected for an add-on, the add-on itself is removed from the cart.
- * 
- * @param {IEventAddonProperty} addonProp - The add-on property to toggle.
- */
-
-  function handleClickAddonProp(addonProp: IEventAddonProperty) {
-
-
-    const target = cart.addons?.findIndex((item: any) => {
-      return item?.addonId === addonProp?.eventAddonId
-    })
-
-
-
-
-    if (target !== -1) {
-
-      const currentData = cart?.addons?.[target];
-
-      const index = currentData?.propertyIds?.findIndex((item: any) => item === addonProp?.id)
-
-      const addonProperties = index !== -1 ? [...currentData?.propertyIds?.filter((item: any) => item !== addonProp?.id)] : [...currentData?.propertyIds, addonProp?.id]
-
-
-      if (addonProperties.length === 0) {
-        setNonPersistedDataById('cart', { ...cart, addons: [...cart?.addons?.filter((item: any) => item?.addonId !== addonProp?.eventAddonId)] });
-
-      } else {
-        setNonPersistedDataById('cart', { ...cart, addons: [...cart?.addons?.filter((item: any) => item?.addonId !== addonProp?.eventAddonId), { ...currentData, propertyIds: addonProperties }] });
-
-      }
-
-
-
-
-    } else {
-      const data = { addonId: addonProp?.eventAddonId, propertyIds: [addonProp?.id] }
-
-      setNonPersistedDataById('cart', { ...cart, addons: [...cart?.addons, data] });
-    }
-
-
-
-
-
-
-  }
-
-
-  /**
-   * Function checks if the given addon property is already selected in the cart.
-   * It loops through the cart and checks if the addonId of the property matches
-   * any of the addonId in the cart. If it does, it then checks if the propertyId
-   * of the given addon property is present in the array of propertyIds of the
-   * matching addon in the cart. If it is, it returns true, otherwise it returns false.
-   * @param {IEventAddonProperty} addonProp - The addon property to be checked.
-   * @returns {boolean} - True if the addon property is selected in the cart, false otherwise.
-   */
-  function isAddonProp(addonProp: IEventAddonProperty) {
-    const index = cart?.addons?.findIndex((item: any) => item?.addonId === addonProp?.eventAddonId)
-
-    if (index === -1) return
-
-    return cart?.addons?.[index]?.propertyIds?.some((item: any) => item === addonProp?.id)
-
-
-  }
+  const { isAddonProp, handleClickAddonProp, handleAddonClick,isAddonInCart } = useProgramAddonToggle()
 
   return (
     <Grid size={{ xs: 12, md: 6, lg: 4 }} className={clsx(`addon-card-${templateId} program-selection-addon-card`, watch(`${formatDate(date)}-programs`)?.includes(addon?.id) ? '' : '')} >
@@ -196,7 +101,8 @@ const AddonCard = ({ templateId, addon, date }: IProgramcardProps) => {
         ) :
 
           <Grid size={12} display={'flex'} alignItems={'center'} className={`addon-property-checkbox-group-${templateId}`}>
-            <CustomButton onClick={() => handleAddonClick(addon?.addonId)} label='add' />
+            <CustomAddonProButton templateId={templateId} onClick={() => handleAddonClick(addon?.id)} className={isAddonInCart(addon?.id) ? `addon-property-checkbox-${templateId}-active` : ''} />
+
             <Box className="flex items-center w-full">
               <Typography className="addon-prop-label">{addon?.addon?.name}</Typography>
               <Typography>-</Typography>

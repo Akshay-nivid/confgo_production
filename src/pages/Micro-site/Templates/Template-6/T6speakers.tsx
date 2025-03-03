@@ -7,6 +7,8 @@ import config from '../../../../../config.json';
 import ArrowOutwardIcon from '@mui/icons-material/ArrowOutward';
 import { IEventResponse } from '@/Libs/types/event';
 
+import { personPlaceholder } from '@/assets/png';
+
 const T6speakers = ({eventData}:{eventData?: IEventResponse}) => {
 
     const baseUrl = config.api.url
@@ -16,7 +18,7 @@ const T6speakers = ({eventData}:{eventData?: IEventResponse}) => {
     return (
     <>
         {isSpeakers ? <Box className='t6-speakers-section'>
-            <Box className='main'>
+            <Box id="speakers" className='main'>
                 <h3 className='template-section-title  t6-speakers-section-title'>Meet Our Esteemed Speakers</h3>
             </Box>
 
@@ -25,9 +27,9 @@ const T6speakers = ({eventData}:{eventData?: IEventResponse}) => {
                 <TEventSpeakers usageType="CUSTOM">
                     {({ data, handleModalOpen }) => {
                         return (
-                            <Grid container columnSpacing={4} rowSpacing={4} className="t6-speakers-container">
+                            <Grid container size={12} columnSpacing={4} rowSpacing={4} className="t6-speakers-container">
                                 {data?.map((speaker: any) => (
-                                    <Grid key={speaker?.id} justifyContent={"center"} size={{ xs: 12, sm: 6, md: 4, lg: 4 }} className="t6-speakers-container">
+                                    <Grid key={speaker?.id} justifyContent={"center"} size={{ xs: 12, sm: 6, md: 4, lg: 3 }} className="t6-speakers-container">
 
                                         <Card
                                             sx={{
@@ -53,10 +55,10 @@ const T6speakers = ({eventData}:{eventData?: IEventResponse}) => {
                                             <CardMedia
                                                 className='speaker-image'
                                                 component="img"
-                                                image={`${baseUrl}/asset/${speaker?.user?.assetId}`}
+                                                image={ speaker?.user?.assetId ?`${baseUrl}/asset/${speaker?.user?.assetId}`:personPlaceholder}
                                                 alt="Doctor profile"
                                                 sx={{
-                                                    objectFit: "cover",
+                                                    height: "100%",
                                                 }}
                                             />
 
@@ -78,7 +80,7 @@ const T6speakers = ({eventData}:{eventData?: IEventResponse}) => {
                                                         marginBottom: 1,
                                                     }}
                                                 >
-                                                    Dr. John Anderson
+                                                    Dr. John Anderson 
                                                 </Typography>
                                                 <Typography
                                                     variant="subtitle1"

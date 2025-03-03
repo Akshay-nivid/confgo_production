@@ -270,7 +270,6 @@ $blue_dark: #014A99;
         border-radius: .5rem !important;
         position: relative !important;
         box-shadow: $clr_gray_30_percent 0rem 0.083rem .167rem 0;
-
         .divider {
             height: .12rem;
             background-color: $clr_gray_30_percent;
@@ -491,7 +490,7 @@ $blue_dark: #014A99;
 
 .program-card,
 .addon-card {
-
+height: max-content;
     &-1,
     &-2,
     &-3,
@@ -593,18 +592,28 @@ $blue_dark: #014A99;
 
 
 .program-selection-program-card {
+    height: max-content !important;
 
     .program-card-btn {
         box-shadow: none;
         border-radius: .4rem;
         padding-block: .6rem;
         font-size: .95rem;
+    }
 
+     // ====================t-1
+
+     .program-card-btn-1 {
+        background: $clr_charcoal_cyan ;
 
     }
 
+    .program-card-btn-1-active {
+        background: $clr_charcoal_cyan !important;
+    }
 
 
+    // =================== t-6
     .program-card-btn-6 {
         background: linear-gradient(to right, #027BFF);
 
@@ -614,17 +623,15 @@ $blue_dark: #014A99;
         background: linear-gradient(to right, #027BFF) !important;
     }
 
-    .program-card-btn-1 {
-        background: $clr_charcoal_cyan ;
+   
 
-    }
-
-    .program-card-btn-1-active {
-        background: $clr_charcoal_cyan  !important;
-    }
 }
 
+
+
+
 .program-selection-addon-card {
+    height: max-content !important;
     .addon-property-checkbox {
         // flex items-center justify-between ml-auto w-6 h-6 bg-teal- border-2 border-gray-800 rounded mr-4 cursor-pointer
         cursor: pointer;
@@ -636,6 +643,14 @@ $blue_dark: #014A99;
 
     }
 
+    .addon-property-checkbox-icon {
+        color: $clr_white;
+    }
+
+
+
+    // ======================================
+
     .addon-property-checkbox-1 {
         border-color: $clr_charcoal_cyan;
 
@@ -643,6 +658,8 @@ $blue_dark: #014A99;
             background-color: $clr_charcoal_cyan;
         }
     }
+
+
 
     .addon-property-checkbox-6 {
         border-color: $blue;
@@ -652,7 +669,5 @@ $blue_dark: #014A99;
         }
     }
 
-    .addon-property-checkbox-icon {
-        color: $clr_white;
-    }
+
 }
