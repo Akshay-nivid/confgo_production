@@ -7,17 +7,48 @@ import { Box } from '@mui/material'
  * @param eventData
  */
 const T4Navbar = ({ eventData }: { eventData?: IEventResponse }) => {
+    const links=[
+        {
+            className:"link-item",
+            usageType:'Header',
+            targetelementId:'speakers',
+            label:'Speakers'
+        },
+        {
+            className:"link-item",
+            usageType:'Header',
+            targetelementId:'sponsors',
+            label:'Sponsors'
+        },
+        {
+            className:"link-item",
+            usageType:'Header',
+            targetelementId:'programs',
+            label:'Programs'
+        },
+        {
+            className:"link-item",
+            usageType:'Header',
+            targetelementId:'location',
+            label:'Location'
+        },
+        {
+            className:"link-item",
+            usageType:'Header',
+            targetelementId:'tickets',
+            label:'Ticket'
+        },
+
+    ]
     return (
         <TemplateNavbar className='t4-navbar main' eventData={eventData}>
             {
                 () => (
                     <Box className="links-container">
                         <Box className='links'>
-                            <TLink className='link-item' usageType='Header' targetelementId='speakers' >Speakers</TLink>
-                            <TLink className='link-item' usageType='Header' targetelementId='sponsors' >Sponsors</TLink>
-                            <TLink className='link-item' usageType='Header' targetelementId='programs' >Programs</TLink>
-                            <TLink className='link-item' usageType='Header' targetelementId='location' >Location</TLink>
-                            <TLink className='link-item' usageType='Header' targetelementId='tickets' >Ticket</TLink>
+                            {links?.map((item: any) => (
+                                <TLink className={item?.className} usageType={item?.usageType} targetelementId={item?.targetelementId} >{item?.label}</TLink>
+                            ))}
                         </Box>
                         <TLink className='sponsor-button' usageType='Header' targetelementId='sponsor-form' >Become Sponsor</TLink>
                     </Box>
