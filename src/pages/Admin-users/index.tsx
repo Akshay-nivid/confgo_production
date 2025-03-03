@@ -426,7 +426,7 @@ const AdminUsersList = () => {
           id="data-role-list"
           // onRowClick={(params:any) => handleRowClick(params.row)}
           noRecordIcon={
-          <UserNoData className="userdetail-noimage" />
+          <UserNoData />
           }
         noRecordTitle="No Users Found"
         noRecordSubtitle="Manage event team members and assign roles for smooth collaboration. Add users to start organizing efficiently."

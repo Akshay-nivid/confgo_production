@@ -361,7 +361,7 @@ const AdminPaymentList: React.FC = () => {
       ) : (
             <Grid size={12} className="sponsor-datagrid sahdow-app mt-6 ">
                 <DataGridList
-                  noRecordIcon={ <PaymentNoData className="payment-icon"/>  }
+                  noRecordIcon={ <PaymentNoData/>  }
                     noRecordTitle="No Payments Recorded " 
                     noRecordSubtitle="Track participant payments and manage event finances with ease. Once transactions start rolling in, you’ll see them here."
                     dataTransformer={transformData}

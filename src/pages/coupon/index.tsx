@@ -317,7 +317,7 @@ const Coupon = () => {
           columns={columns}
           id="coupon-datagrid"
           noRecordIcon={
-          <CouponNoData className="no-coupon-icon"/>
+          <CouponNoData />
          }
           noRecordTitle="No Coupons Available"
           noRecordSubtitle="Offer discounts and special deals to attract more participants. Create coupons and manage promotions effortlessly."

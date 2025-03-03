@@ -464,7 +464,7 @@ const Sponsors = () => {
                     key={'sponsor-list-datagrid'}
 
                     noRecordIcon={
-                     <SponsorNoData className="sponsor-no-data" />
+                     <SponsorNoData />
                     }
                 noRecordTitle="No Sponsors Yet"
                     noRecordSubtitle="Add sponsors to showcase their support and enhance your event’s visibility. Start building valuable partnerships now."

@@ -312,6 +312,7 @@
   }
 
   &-grid {
+   
 
 
     //margin: 3rem;
@@ -1104,25 +1105,30 @@
 .no-record {
   display: flex;
 
+
   &-container {
     width: '100%';
     background-color: $clr_white;
-    margin: 1rem;
     border-radius: 0.9rem;
-    padding-top: 6rem;
+    padding-top: 2rem;
+    svg{
+      
+        height:20rem !important;
+        width: 100% !important; 
+      }
+    
    }
   
   &-image {
-    margin-top: -6rem !important;
-    margin-left: 11rem !important;
-  }
+    margin-top: 1rem !important;
+    
+    }
 
   &-title {
     display: flex;
     font-weight: $font_semibold !important;
     font-size: $p5 !important;
     justify-content: center !important;
-    margin-top: -11rem !important;
     color: $clr_black !important;
   }
 
@@ -1461,20 +1467,4 @@
   .MuiMultiSectionDigitalClock-root .MuiMultiSectionDigitalClockSection-root {
     width: 5rem !important;
   }
-}
-.sponsor-no-data{
-  height:30rem !important;
-  width: 30rem !important; 
-}
-.events-no-data-icon{
-  height:30rem !important;
-  width:30rem !important;
-}
-.userdetail-noimage{
-  width: 30rem !important;
-  height: 30rem !important;
-  }
-  .payment-icon{
-    height:30rem !important;
-    width: 30rem !important;
 }

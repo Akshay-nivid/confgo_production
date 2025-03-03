@@ -267,7 +267,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
           columns={columns}
           id={dashView?"dashboard-view":"event-datagrid"} 
           noRecordIcon={
-           <EventsNoData className="events-no-data-icon" />
+           <EventsNoData />
            }
           noRecordTitle="No Events Created Yet"
           noRecordSubtitle="Start creating your first event and manage everything from scheduling to participant registration—all in one place"
