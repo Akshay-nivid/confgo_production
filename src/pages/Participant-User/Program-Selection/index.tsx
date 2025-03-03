@@ -133,7 +133,6 @@ const ProgramSelection = () => {
 
             setNonPersistedDataById("intialGetCart", { value: true })
 
-            console.log(data, 'ookokokok')
 
             const allData = [...(data?.addons || []), ...(data?.programs || [])]
 

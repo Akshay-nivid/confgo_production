@@ -9,6 +9,7 @@ import useStore, { setDataById } from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import clsx from 'clsx';
+import { IEventResponse } from '@/Libs/types/event';
 
 interface FormData {
     name: string;
@@ -31,12 +32,12 @@ interface FormData {
  * @returns {JSX.Element} The rendered JSX content for the sponsorship form.
  */
 interface SponosrContactFormProps {
-    Id:any
+    eventData?: IEventResponse;
     customStyle?: any; // Accepts custom styles
   }
 
-const SponosrContactForm = ({Id,customStyle}:SponosrContactFormProps) => {
-    const eventId = Id?.eventId;
+const SponosrContactForm = ({eventData,customStyle}:SponosrContactFormProps) => {
+    const eventId = eventData?.id;
     const { handleSubmit, control, formState: { errors }, setValue, register } = useForm<FormData>({
         reValidateMode: "onSubmit"
     });
@@ -127,7 +128,7 @@ const SponosrContactForm = ({Id,customStyle}:SponosrContactFormProps) => {
         })
     }
     return (
-        <Grid container className={clsx('sponsor-page',customStyle)} size={{ lg: 12 }}>
+        <Grid container className={clsx('sponsor-page main',customStyle)} size={{ lg: 12 }}>
             <Typography ml={1} variant='h4'>Become Sponsor</Typography>
             <Grid container className='sponsor-content' size={12} spacing={2} >
                 <Grid container className='sponsor-content-wrapper' size={{ lg: 12, xs: 12 }} spacing={3} justifyContent='center' >

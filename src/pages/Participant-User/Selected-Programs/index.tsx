@@ -128,10 +128,8 @@ const SelectedPrograms = () => {
         body: apiBody,
         id: 'addToCart',
         successCB: (context) => {
-          console.log(context)
           getUserCart({
             cartID: context?.data?.id, helperFn: (data) => {
-              console.log(data, '////')
 
               if (data?.addons?.length === 0 && data?.programs?.length === 0) {
                 navigate(routes.programSelection())

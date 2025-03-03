@@ -1,6 +1,10 @@
 .template-6 {
     position: relative;
 
+    .section-vertical-padding {
+        padding-block: 5rem;
+    }
+
     .t6-navbar {
         padding-block: 2rem;
         position: absolute;
