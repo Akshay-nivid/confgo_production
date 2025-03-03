@@ -1,20 +1,11 @@
 import CustomButton from "@/components/CustomButton/CustomButton";
-import CustomCheckbox from "@/components/CustomCheckbox/CustomCheckbox";
-import CustomTextField from "@/components/CustomTextfield/CustomTextField";
-import { Backdrop, Box, Chip, CircularProgress, IconButton, Typography } from "@mui/material";
+import { Backdrop, Box, Chip, CircularProgress, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import { useForm } from "react-hook-form";
-import { CouponIcon } from "@/assets/svg";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import moment from "moment";
-import useStore, { clearDataById, GET, IStoreState, POST, setNonPersistedDataById, snackBar } from "@/Libs/store";
+import useStore, { GET, IStoreState, POST, setNonPersistedDataById, snackBar } from "@/Libs/store";
 import routes from "@/router/routes";
-import { processFormData, formatDate } from "../Program-Selection/programsHandlers";
-import { EventRegistrationSuccessIcon } from "@/assets/svg";
-import CloseIcon from '@mui/icons-material/Close';
 import TimerOutlinedIcon from '@mui/icons-material/TimerOutlined';
-import AddIcon from '@mui/icons-material/Add';
-import DeleteIcon from '@mui/icons-material/Delete';
 import Badge from "../Components/Badge";
 import { Dollar } from '@/assets/svg'
 import LocalTimeDate from "@/components/LocalTimeDate/LocalTimeDate";
@@ -22,14 +13,19 @@ import CalendarMonthOutlinedIcon from '@mui/icons-material/CalendarMonthOutlined
 import { getUserCart } from "@/pages/events/template/programHandler";
 import { handleCartProcessing } from "../Payment-Method/programHandler";
 import { useEffect } from "react";
+import clsx from "clsx";
+import CheckIcon from '@mui/icons-material/Check';
+import BillInfo from "./BillInfo";
+import AddCoupon from "./AddCoupon";
+import useProgramAddonToggle from "../Program-Selection/useProgramAddonToggle";
 
+import { Check } from '@mui/icons-material';
 /**
  * Compoennt used to render selected program
  */
 const SelectedPrograms = () => {
 
 
-  const userToken = sessionStorage.getItem("userToken");
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -39,7 +35,6 @@ const SelectedPrograms = () => {
 
   const setDataById = useStore((state: IStoreState) => state.setDataById);
 
-  const couponData = useStore((state: IStoreState) => state?.compData?.couponData?.['coupon/applyCoupon']) ?? null
   const cartInfo = useStore((state) => state?.compData?.addToCart)
 
   const eventId = useStore((state: IStoreState) => state?.compData?.["eventSelected"]?.id) ?? null;
@@ -47,7 +42,6 @@ const SelectedPrograms = () => {
   const cartId = cartInfo?.cart.data?.id ?? null
   const participantTypeId = useStore((state) => state?.compData?.["participantTypeId"]?.value) ?? '';
 
-  const cartData = useStore((state) => state.compData?.getCart?.[`cart/${cartId}`]) ?? null
 
 
 
@@ -55,26 +49,31 @@ const SelectedPrograms = () => {
 
   const orderLoading = useStore((state: IStoreState) => state?.compData?.["order"]?.order?.loading)
   const addToCartLoading = useStore((state: IStoreState) => state?.compData?.addToCart?.cart?.loading) ?? false
-  const removeCouponLoading = useStore((state: IStoreState) => state.compData?.couponData?.["coupon/applyCoupon"]?.loading) ?? false
 
+  const fetchCartLoading = useStore(state => state.nonPersistedData?.getCartLoading?.value) ?? false
 
   const templateId = useStore((state: IStoreState) => state?.compData?.["templateId"]?.id)
   const classNamePrefix = `selected-programs-main-${templateId}`
+  const couponData = useStore((state: IStoreState) => state?.compData?.couponData?.['coupon/applyCoupon']) ?? null
+
+  const shouldPostCart = useStore((state: IStoreState) => state?.nonPersistedData?.shouldPostCart?.value) ?? false
 
 
-  const selectedFormValues = useStore((state: IStoreState) => state?.nonPersistedData?.["defaultProgramData"]?.formData)
-  const { control, setValue, getValues, watch, reset } = useForm({
 
-    defaultValues: {
-      ...selectedFormValues,
-      coupon: undefined,
-    }
 
-  });
+  const { handleClickAddonProp, isAddonProp, isProgramInCart, isAddonInCart, handleProgramClick, handleAddonClick } = useProgramAddonToggle()
+
+  const cart = useStore((state: IStoreState) => state?.nonPersistedData?.cart)
+
 
   useEffect(() => {
     getPayPalConfigurations(companyId);
   }, [])
+
+
+
+
+
 
   /**
    * get the paypal configurations of the company
@@ -92,70 +91,8 @@ const SelectedPrograms = () => {
   }
 
 
-  /**
-   * Resets the coupon data in the store
-   */
-  function handleRemoveCoupon() {
 
-    POST({
-      url: 'coupon/removeCoupon',
-      id: 'couponData',
-      body: { cartId: cartId },
-      successCB: (removeCouponResponse: { data: { finalPrice: number | string }, loading: boolean, success: boolean }) => {
 
-        setDataById('finalPrice', { value: removeCouponResponse?.data?.finalPrice })
-
-        clearDataById("couponData")
-
-        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: 'Coupon removed successfully' })
-      }
-
-    })
-
-  }
-
-  /**
-   * method to handle apply coupon api
-   * @returns 
-   */
-  function handleClickApplyCoupon() {
-
-    const couponCode = getValues("coupon")
-
-    if (!couponCode) {
-      return
-    }
-
-    const body = {
-      code: couponCode,
-      cartId: cartId
-    }
-
-    /**
-     * calling apply coupon api
-     */
-    POST({
-      url: 'coupon/applyCoupon',
-      body: body,
-      id: 'couponData',
-      successCB: (couponResponse: any) => {
-
-        setValue('coupon', '')
-
-        setDataById('finalPrice', { value: couponResponse?.data?.total })
-
-        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: 'Coupon applied successfully' })
-
-      },
-      errorCB: (error: any) => {
-
-        setValue('coupon', '')
-
-        setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: error?.message })
-
-      }
-    })
-  }
 
 
   /**
@@ -167,6 +104,49 @@ const SelectedPrograms = () => {
     navigate(route)
   }
 
+
+  useEffect(() => {
+
+  // this is prevent api call on mount
+    if (shouldPostCart === false) {
+      setNonPersistedDataById('shouldPostCart', { value: true })
+      return
+    }
+
+    try {
+
+      const apiBody = {
+        eventId: eventId,
+        ...((participantTypeId && participantTypeId !== null && participantTypeId !== undefined) ? { participantTypeId: participantTypeId } : {}),
+        ...((cart?.programIds && cart?.programIds?.length > 0) ? { programIds: cart.programIds } : {}),
+        ...((cart?.addons && cart?.addons?.length > 0) ? { addons: cart.addons } : {})
+      }
+
+
+      POST({
+        url: 'cart',
+        body: apiBody,
+        id: 'addToCart',
+        successCB: (context) => {
+          getUserCart({
+            cartID: context?.data?.id, helperFn: (data) => {
+
+              if (data?.addons?.length === 0 && data?.programs?.length === 0) {
+                navigate(routes.programSelection())
+              }
+            }
+          })
+        }
+      })
+
+
+    } catch (e) {
+
+    }
+
+
+
+  }, [cart?.programIds?.length, cart?.addons])
 
   /**
    * Handles the submission of the selected programs form by making an API call to create an order.
@@ -207,8 +187,7 @@ const SelectedPrograms = () => {
             if (dynamicFormResponseData.data.length === 0) {
 
               handleCartProcessing({ helperFn: handleDynamicNavigation, grandTotal: finalPrice, orderId: orderResponse?.data?.id, eventId: eventId })
-              // navigate(routes.userPaymentMethod())
-              // return
+             
             }
 
             else {
@@ -239,82 +218,8 @@ const SelectedPrograms = () => {
 
   }
 
-  /**
-   * method to handle checkbox toggle, updates the form data and makes a call to edit cart api
-   * if no program is selected, it navigates to program selection page
-   * if program is selected, it makes a call to get cart api after updating the cart
-   * and then navigates to user payment method page
-   * @param key 
-   */
-  function onCheckboxToggle() {
 
-    const formData = getValues()
-
-    // setDataById('defaultProgramData', { formData: formData })
-    setNonPersistedDataById('defaultProgramData', { formData: formData })
-
-    const body = processFormData(formData, eventId, participantTypeId)
-
-    if (body.programIds.length === 0) {
-
-      setDataById("formatedCartData", { formatedData: null })
-
-      navigate(routes.programSelection())
-
-      return;
-    }
-
-    handleAddAndGetCart(body, formData)
-
-  }
-
-
-
-
-
-
-
-
-  /**
-   * Makes a call to edit cart API and then gets the cart data.
-   * If the request is successful, it formats the data and stores it in the state.
-   * If the request fails, it shows an error message on the screen.
-   * @param body - Cart body data
-   * @param formData - Form data
-   */
-  function handleAddAndGetCart(body: any, formData: any) {
-    POST({
-      url: 'cart',
-      body: body,
-      id: 'addToCart',
-
-      successCB: () => {
-
-        getUserCart({
-          helperFn: () => {
-            setTimeout(() => {
-              reset(formData)
-            }, 1)
-          },
-          cartID: cartId
-        })
-
-      },
-      errorCB: (error: any) => {
-
-        setDataById("snackBarInfo", {
-          open: true,
-          autoHideDuration: 2000,
-          severity: "error",
-          message: error?.message,
-        });
-
-      }
-    })
-  }
-
-
-  if (addToCartLoading) {
+  if (addToCartLoading || fetchCartLoading) {
     return (
       <Backdrop open={true}>
         <CircularProgress color="inherit" />
@@ -377,7 +282,6 @@ const SelectedPrograms = () => {
                           </Typography>
                         </Box>
 
-                        {/* <Typography className="card-header">Program</Typography> */}
 
                       </Grid>
 
@@ -393,9 +297,7 @@ const SelectedPrograms = () => {
                               </Grid>
                               <Badge text="Program" type="program" />
 
-                              {/* <Grid className="program-price">
-                                <Chip className="price-chip" size="medium" icon={<AttachMoneyOutlinedIcon />} label={Math.trunc(item?.amount) === 0 ? "free" : `${item?.amount}`} />
-                              </Grid> */}
+
 
                             </Grid>
 
@@ -416,19 +318,11 @@ const SelectedPrograms = () => {
 
                             </Grid>
                             <Grid className="checkbox-container">
-                              <CustomCheckbox
 
-                                onChange={() => onCheckboxToggle()}
-                                control={control}
-                                className="cart-checkbox"
-                                id="program"
-                                name={`${formatDate(date)}-programs`}
-                                setValue={setValue}
-                                options={[
-                                  { label: '', value: item?.id },
-                                ]}
-                              />
-                              <Typography className="add-text">{watch(`${formatDate(date)}-programs`)?.includes(item?.id) ? <> Remove <DeleteIcon /> </> : <> Add <AddIcon /> </>}</Typography>
+                              <Grid size={4} className={`selected-program-checkbox-group-${templateId}`}>
+
+                                <CustomButton fullWidth startIcon={isProgramInCart(item?.id) ? <Check className="" /> : null} className={clsx(`selected-program-card-btn-${templateId} selected-program-card-btn`, isProgramInCart(item?.id) && `selected-program-card-btn-${templateId}-active`)} label={isProgramInCart(item?.id) ? "Added" : "Add"} onClick={() => handleProgramClick(item?.id)} />
+                              </Grid>
 
                             </Grid>
 
@@ -443,7 +337,6 @@ const SelectedPrograms = () => {
                             return (
 
                               <Grid key={addon.id}>
-                                {/* {index === 0 && <Grid textAlign={'center'} size={12} className="card-header card-header-wrapper">Addon</Grid>} */}
                                 <Grid className="addon-list-item-wrapper" size={12} container key={addon?.eventAddon?.id}>
 
 
@@ -457,9 +350,6 @@ const SelectedPrograms = () => {
 
                                       <Badge text="Addon-on" type="addon" />
 
-                                      {/* <Grid size={12} className="time-chip-container" width={"max-content"}>
-                                        <Chip className="time-chip" size="medium" icon={<TimerOutlinedIcon />} label={moment(addon?.startTime).format("h:mm A") + ' ' + '-' + ' ' + moment(addon?.endTime).format("h:mm A")} />
-                                      </Grid> */}
 
 
 
@@ -491,7 +381,6 @@ const SelectedPrograms = () => {
                                     {/* <Grid size={6}>- ${addon?.amount}</Grid> */}
                                   </Grid>
 
-                                  {/* {(addon?.eventAddonProperties[0] !== null && addon?.eventAddonProperties?.length > 0) && <Grid className='card-sub-header mt_2 mb_1'>Addon Prop :</Grid>} */}
 
                                   <div className="divider2"></div>
 
@@ -503,19 +392,9 @@ const SelectedPrograms = () => {
                                         return property !== null && (
 
                                           <Grid size={12} display={'flex'} alignItems={'center'} justifyContent={"space-between"} className={`addon-property-checkbox-group-${templateId}`}>
-                                            < CustomCheckbox
-                                              className="addon-prop-checkbox"
-                                              key={property?.id}
-                                              row={true}
-                                              onChange={() => onCheckboxToggle()}
-                                              control={control}
-                                              // required={false}
-                                              name={`${formatDate(date)}-addonProp-${addon?.id}`}
-                                              options={[
-                                                { label: '', value: property?.id },
-                                              ]}
-                                            />
-                                            {/* <Typography className="add-on-prop-label">{property?.name}-{property?.amount}</Typography> */}
+
+                                            <CustomAddonProButton templateId={templateId} className={isAddonProp(property) ? `addon-property-checkbox-${templateId}-active` : ''} onClick={() => { handleClickAddonProp(property) }} />
+
                                             <Box className="flex items-center w-full">
                                               <Typography className="addon-prop-label">{property?.name}</Typography>
                                               <Typography>-</Typography>
@@ -538,19 +417,8 @@ const SelectedPrograms = () => {
 
 
                                   }
-                                  {addon?.eventAddonProperties?.[0] === null  &&<Grid size={12} display={'flex'} alignItems={'center'} justifyContent={"space-between"} className={`addon-property-checkbox-group-${templateId}`}>
-                                    < CustomCheckbox
-                                      className="addon-prop-checkbox"
-                                      key={addon?.id}
-                                      row={true}
-                                      onChange={() => onCheckboxToggle()}
-                                      control={control}
-                                      // required={false}
-                                      name={`addons-${addon?.id}`}
-                                      options={[
-                                        { label: '', value: addon?.id },
-                                      ]}
-                                    />
+                                  {addon?.eventAddonProperties?.[0] === null && <Grid size={12} display={'flex'} alignItems={'center'} justifyContent={"space-between"} className={`addon-property-checkbox-group-${templateId}`}>
+                                    <CustomAddonProButton templateId={templateId} className={isAddonInCart(addon?.id) ? `addon-property-checkbox-${templateId}-active` : ''} onClick={() => { handleAddonClick(addon?.id) }} />
                                     {/* <Typography className="add-on-prop-label">{property?.name}-{property?.amount}</Typography> */}
                                     <Box className="flex items-center w-full">
                                       <Typography className="addon-prop-label">{addon?.addon?.name}</Typography>
@@ -577,97 +445,11 @@ const SelectedPrograms = () => {
               </>
             ))
           }
-          {userToken && (
-            !couponData?.data?.coupon?.code ? (
-              <Grid className="coupon-container">
 
-                <Typography className="apply-coupon-header">
-                  Apply Coupons
-                </Typography>
+          <AddCoupon />
 
-                <Grid container rowSpacing={2} columnSpacing={3}>
+          <BillInfo />
 
-                  <Grid size={{ xs: 12, md: 8 }}>
-                    <CustomTextField
-                      control={control}
-                      name="coupon"
-                      placeholder="Apply Coupon Code"
-                    />
-                  </Grid>
-
-                  <Grid size={{ xs: 12, md: 4 }}>
-                    <CustomButton
-                      className="apply-coupon-button"
-                      label="Apply Coupon"
-                      size="large"
-                      variant="outlined"
-                      onClick={handleClickApplyCoupon}
-                      startIcon={!couponData?.loading ? <CouponIcon className="coupon-icon" /> : <></>}
-                      isLoading={couponData?.loading || false}
-                    />
-                  </Grid>
-
-                </Grid>
-
-              </Grid>
-            ) : (
-
-              <Grid display={'flex'} justifyContent={'space-between'} size={12} className="coupon-banner-container  ">
-
-
-                <Grid display={'flex'} columnGap={2} alignItems={'center'}>
-                  <EventRegistrationSuccessIcon fontSize={'3.5rem'} />
-                  <Box>
-                    <Typography className="coupon-code">{couponData?.data?.coupon?.code.toUpperCase()} <span className="ml-1">applied</span></Typography>
-                    <Typography></Typography>
-                  </Box>
-                </Grid>
-
-
-                <IconButton onClick={handleRemoveCoupon}>
-                  {removeCouponLoading ? <CircularProgress size={20} /> : <CloseIcon />}
-                </IconButton>
-
-              </Grid>
-            )
-          )}
-
-          <Grid container flexDirection={"column"} className="bill-details-container shadow">
-
-            <Grid container flexDirection={"row"} className="mb_2" justifyContent={"space-between"}>
-              <Typography className="sub-text">Event amount</Typography>
-              <Typography className="sub-text">$ {Number(cartData?.data?.eventAmount).toFixed(2)}</Typography>
-            </Grid>
-
-
-            <Grid container flexDirection={"row"} className="mb_2" justifyContent={"space-between"}>
-              <Typography className="sub-text">Program amount</Typography>
-              <Typography className="sub-text">$ {Number(cartData?.data?.programTotal).toFixed(2)}</Typography>
-            </Grid>
-
-            <Grid container flexDirection={"row"} className="mb_2" justifyContent={"space-between"}>
-              <Typography className="sub-text">Addon amount</Typography>
-              <Typography className="sub-text">$ {Number(cartData?.data?.addonTotal).toFixed(2)}</Typography>
-            </Grid>
-
-            {cartData?.data?.priceTierDiscount && <Grid container flexDirection={"row"} className="mb_2" justifyContent={"space-between"}>
-              <Typography className="sub-text">Tier Discount</Typography>
-              <Typography className="sub-text">$ {Number(cartData?.data?.priceTierDiscount).toFixed(2)}</Typography>
-            </Grid>}
-
-            {couponData?.data?.coupon?.code && <Grid className="mb_2" container flexDirection={"row"} justifyContent={"space-between"}>
-              <Typography className="sub-text">Coupon Applied</Typography>
-              <Typography className="sub-text discount"> - $ {Number(couponData.data?.discountAmount).toFixed(2)}</Typography>
-            </Grid>}
-
-            <Grid className="divider mb_2" ></Grid>
-
-            <Grid container flexDirection={"row"} justifyContent={"space-between"}>
-              <Typography className="total-text">Grand Total</Typography>
-              <Typography className="total-text">$ {Number(finalPrice).toFixed(2)}</Typography>
-            </Grid>
-
-          </Grid>
           <Box className="spacer"></Box>
           <Grid className={`navigation-button-container-${templateId}`}>
             <CustomButton
@@ -696,3 +478,13 @@ export default SelectedPrograms;
 
 
 
+
+const CustomAddonProButton = ({ onClick, className, templateId }: { onClick: () => void, className: string, templateId: number | null | undefined }) => {
+  return (
+    <Box onClick={onClick} className={clsx("addon-property-checkbox", `addon-property-checkbox-${templateId}`, className)}>
+      {
+        className === `addon-property-checkbox-${templateId}-active` ? <CheckIcon className='addon-property-checkbox-icon' /> : ''
+      }
+    </Box>
+  )
+}

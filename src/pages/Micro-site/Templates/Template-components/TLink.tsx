@@ -15,6 +15,12 @@ function handleCloseDrawer() {
     setNonPersistedDataById("templateDrawerOpen", { value: false })
 }
 
+/**
+ * TLink is a component that displays a link.
+ * It will scroll to the element with the id of targetelementId when clicked.
+ * If usageType is "Drawer", it will close the drawer when clicked.
+ * The link will be hidden if the corresponding data is not available (e.g. speakers, sponsors, location, tickets).
+ */
 const TLink = ({ to, ...props }: TLinkProps) => {
 
 

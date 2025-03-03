@@ -169,6 +169,7 @@ import RedSeat from "./redseat.svg";
 import UploadFileLogo from "./upload-file-logo.svg";
 import NewDrawerClose from "./new-drawer-close.svg";
 import SpeakerDashBoard from "./speaker-no-program.svg";
+import Coupon2 from "./coupon2.svg"
 import EnterpriceWhiteIcon from "./EntrepriseWhiteIcon.svg";
 import WhiteTickIcon from "./WhiteTickIcon.svg";
 import ToRight from "./Right-Create-event.svg";
@@ -181,6 +182,7 @@ import UserNoData from "./UserNoData.svg";
 import CouponNoData from "./CouponNoData.svg"
 
 export {
+  Coupon2,
   MainBottomBanner,
   MainYourBrandImg,
   MainSeamlessTrackingImg,

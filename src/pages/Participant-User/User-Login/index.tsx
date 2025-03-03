@@ -74,6 +74,9 @@ const UserLogin = (props: UserProps) => {
    */
   const storeDetails = (data: any) => {
     sessionStorage.clear();
+    if(data?.userRole?.roleName === "COMPANYADMIN"){
+      sessionStorage.setItem('companyId',data?.companyId );
+    }
     sessionStorage.setItem("token", data?.token);
     sessionStorage.setItem("refreshToken", data?.refreshToken);
     sessionStorage.setItem("userToken", data?.token);
