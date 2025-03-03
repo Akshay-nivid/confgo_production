@@ -9,6 +9,8 @@ import T6speakers from './T6speakers'
 import T6location from './T6location'
 import T6priceTier from './T6priceTier'
 import TFooter from '@/pages/events/template/_components/TFooter/TFooter'
+import T6Sponsors from './T6Sponsors'
+import T6SponsorContact from './T6SponsorContact'
 
 
 
@@ -23,6 +25,8 @@ const Template6 = () => {
             <T6speakers />
             <T6location />
             <T6priceTier />
+            <T6Sponsors/>
+            <T6SponsorContact/>
             <TFooter />
         </TemplateWrapper>
     )
