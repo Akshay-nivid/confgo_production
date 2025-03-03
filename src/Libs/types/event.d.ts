@@ -1,7 +1,7 @@
 /**
  * Event response data type
  */
-export interface IEventResponse {
+export interface  IEventResponse {
   id: number;
   name: string;
   description: string;

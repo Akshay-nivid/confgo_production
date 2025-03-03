@@ -81,6 +81,7 @@ const userRoutes = [
       {
         path: routes.userLogin(),
         element: <UserLogin id="user-login" />,
+        
       },
       {
         path: routes.userRegister(),
@@ -365,6 +366,7 @@ const router = createBrowserRouter([
   {
     path: routes.participantHome(),
     element: <ParticipantHome />,
+   
   },
 
   

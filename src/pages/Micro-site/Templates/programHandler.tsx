@@ -9,7 +9,6 @@ const useValidateEventData = () => {
     );
     const isEventPriceTiers = Boolean(Array.isArray(eventData?.eventPriceTiers) && eventData.eventPriceTiers.length);
 
-    console.log({ isEventPriceTiers, isSpeakers, isSponsors, isLocation });
 
     return { isEventPriceTiers, isSpeakers, isSponsors, isLocation };
 };

@@ -1,8 +1,6 @@
 
-import { setDataById } from "@/Libs/store";
 import routes from "@/router/routes";
 import moment from "moment";
-import { UseFormSetValue, UseFormGetValues } from "react-hook-form";
 
 
 /**
@@ -318,56 +316,6 @@ export const processFormData = (formData: any, id: any, participantTypeId: strin
 
 
 
-/**
- * Toggles the program checkboxes by date.
- *
- * This function takes a key parameter to determine the date and toggles
- * the corresponding checkboxes in the form data. It clears the values
- * of fields that match the date and have keys starting with "addon".
- * It also sets the form data by ID.
- *
- * @param {Object} params - The parameters for the function.
- * @param {string} params.key - The key representing the date for which
- *   the checkboxes should be toggled.
- * @param {UseFormGetValues<any>} params.getValues - A function to get
- *   the current form values.
- * @param {UseFormSetValue<any>} params.setValue - A function to set
- *   the value of a form field.
- * @param {Function} params.setDataById - A function to set data by ID.
- */
-export function toggleProgramCheckboxesByDate(
-  { key,
-    getValues,
-    setValue,
-  }: {
-    key: string,
-    getValues: UseFormGetValues<any>,
-    setValue: UseFormSetValue<any>,
-  }
-) {
-
-
-  const formData = getValues();
-
-
-  if (formData[key].length === 0 || formData[key] === undefined) {
-
-
-    const [date] = key.split("-");
-
-    Object.keys(formData).forEach((fieldKey) => {
-
-      if (fieldKey.startsWith(`${date}-addon`) || fieldKey.startsWith(`${date}-addonProp`)) {  // If the field key includes the specific date and matches programs, clear its value
-
-        setValue(fieldKey, undefined);
-
-      }
-    });
-
-  }
-
-}
-
 
 
 export const handleClickBackButton = (slugName: string, navigate: (params: any) => void) => {
@@ -385,75 +333,9 @@ export const handleClickBackButton = (slugName: string, navigate: (params: any) 
 
 
 
-/**
- * Validates the addon form data. This function is called when the user
- * submits the program selection form. It checks if the user has selected
- * at least one program related to the addon they selected. If not, it
- * throws an error message.
- *
- * @param {Object} formData - The form data object.
- * @throws {Error} - If the user hasn't selected at least one program related
- *   to the addon they selected.
- */
-export const validateAddon = (formData:any) => {
-  Object.entries(formData).forEach(([key, value]) => {
-    // Check if the key corresponds to an addon property
-    if (key.includes('addonProp')) {
-      // Ensure the value is defined and is an array
-      if (Array.isArray(value) && value.length > 0) {
-        const [date] = key.split('-'); // Extract the date portion of the key
-        const programId = `${date}-programs`; // Construct the related program key
-
-        const programs = formData[programId];
-
-        if (!Array.isArray(programs) || programs.length === 0) {
-          throw new Error(
-            `Please select at least one program related to the addon you selected on ${date}.`
-          );
-          
-        }
-      }
-    }
-  });
-  
-};
 
 
 
-/**
- * Validates if the user has selected at least one program and addon property.
- * If not, it shows an error message.
- * @param {Array} programs - The programs selected by the user.
- * @returns {void}
- */
-export const  validatePrograms=(programs: any) =>{
-  
-  if (programs.length === 0 || programs === undefined || !programs) {
-    throw new Error('Please select at least one program ')
-  }
-  
-}
 
-
-export const  validateAddonWithNoProp = (addons:any)=> {
-  
-  const addonsWithNoAddonProp = addons && addons.some((addon: any) => {
-
-    return addon?.propertyIds !== undefined && addon?.propertyIds?.length === 0
-
-  })
-
-
-   if (addonsWithNoAddonProp) {
-        setDataById("snackBarInfo", {
-          open: true,
-          autoHideDuration: 2000,
-          severity: "error",
-          message: 'Please select at least one property for each selected addon.',
-        });
-        return;
-      }
-
-}
 
 
