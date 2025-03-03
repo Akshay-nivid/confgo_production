@@ -9,7 +9,7 @@ import Grid from "@mui/material/Grid2";
 import StatusComponent from "@/components/Status/StatusComponent";
 import "./userdetail.scss";
 import React from "react";
-import { formatDateTimeRange, toTitleCase } from "@/Utils/CommonBaseClass";
+import {  formatDateTimeRange } from "@/Utils/CommonBaseClass";
 import NoEvents from "../../Participant-User/No-Event/NoEvent"
 import UserUploadedFileCard from "./UserUploadedFileCard";
 import config from "../../../../config.json";
@@ -37,8 +37,6 @@ const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => {
   const baseUrl = config.api.url;
   const [isIdproof, setisIdproof] = useState(false);
   const [isPass, setIsPass] = useState(false);
-  const [pdfUrl, setPdfUrl] = useState('');
-  const [invoicePdfurl, setInvoicePdfUrl] = useState('');
   const [isInvoice,setIsInvoice] = useState(false);
   const [isCertificate, setIsCertificate] = useState(false)
   const [certificatePdfUrl, setCertificatePdfUrl] = useState('');
@@ -83,15 +81,15 @@ const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => {
     setisIdproof(true);
   };
 
-  const handleOpenModalPass = () => {
-    setModalOpen(true);
-    setIsPass(true)
-  }
+  // const handleOpenModalPass = () => {
+  //   setModalOpen(true);
+  //   setIsPass(true)
+  // }
 
-  const handleopenModeInvoice =() => {
-    setModalOpen(true);
-    setIsInvoice(true);
-  }
+  // const handleopenModeInvoice =() => {
+  //   setModalOpen(true);
+  //   setIsInvoice(true);
+  // }
 
   const handleOpenModalCertificate =() => {
     setModalOpen(true);
@@ -120,9 +118,10 @@ const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => {
 
     const companyName = userdetail?.details?.event?.company?.companyName || "N/A";
     const companyAddress = userdetail?.details?.event?.company?.companyAddress || "N/A";
-    const clientName =userdetail?.details?.user?.name || "N/A";
-    const clientEmail =userdetail?.details?.user?.email || "N/A";
-    const clientPhone = userdetail?.details?.user?.phone || "N/A";
+    const companyEmail = userdetail?.details?.event?.company?.email || "N/A";
+    const eventPhone = userdetail?.details?.event?.eventContacts?.[0]?.phone || "N/A";
+    const clientName =userdetail?.details?.event?.name || "N/A";
+    const clientEmail =userdetail?.details?.event?.eventContacts?.[0]?.email || "N/A";
 
 
     const name = userdetail?.details?.user?.firstName
@@ -135,10 +134,14 @@ const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => {
       : "N/A";
     const transactionId = userdetail?.payment?.transactionId || "N/A";
     const refNumber = userdetail?.payment?.paymentReferenceNumber || "N/A";
-    const ticketPrice = userdetail?.details?.event?.amount || "N/A";
     const discount = userdetail?.payment?.order?.discountAmount || "N/A";
     const finalPrice = userdetail?.payment?.order?.finalPrice || "N/A";
-    
+    const addonTotal = userdetail?.payment?.order?.addonTotalAmount || "N/A";
+    const programTotal = userdetail?.payment?.order?.programTotalAmount || "N/A";
+    const tax = userdetail?.payment?.order?.tax || "N/A";
+    const tierDiscount = userdetail?.payment?.order?.priceTierDiscount || "N/A";
+    const subTotal = userdetail?.payment?.order?.subTotal || "N/A";
+    const eventAmount = userdetail?.details?.event?.amount || "N/A";
     // General settings
     const pageWidth = pdf.internal.pageSize.width;
     const horizontalMargin = 15;
@@ -151,6 +154,8 @@ const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => {
     pdf.setFontSize(10);
     pdf.setFont('helvetica', 'normal');
     pdf.text(companyAddress, horizontalMargin, 20);
+    pdf.setFont('helvetica', 'normal');
+    pdf.text(companyEmail, horizontalMargin, 25);
 
     pdf.setFont('helvetica', 'bold');
     pdf.setFontSize(16);
@@ -162,20 +167,26 @@ const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => {
     pdf.setDrawColor(200, 200, 200);
     pdf.line(horizontalMargin, headerHeight -10, pageWidth - horizontalMargin, headerHeight-10);
 
+    const maxWidth = 50; // Adjust based on PDF width
     // Client Information Section
     const clientInfoY = headerHeight; // Start Y position for Client Information
     pdf.setFont('helvetica', 'bold');
     pdf.text('Event Contact Info:', horizontalMargin, clientInfoY);
     pdf.setFont('helvetica', 'normal');
+    const wrappedEmail = pdf.splitTextToSize(clientEmail, maxWidth);
+
     pdf.text(clientName, horizontalMargin, clientInfoY + 8);
-    pdf.text(clientEmail, horizontalMargin, clientInfoY + 16);
-    pdf.text(clientPhone, horizontalMargin, clientInfoY + 24);
+    pdf.text(wrappedEmail, horizontalMargin, clientInfoY + 16); 
+    const emailHeight = wrappedEmail.length * 6; // 8px per line
+
+    pdf.text(eventPhone, horizontalMargin, clientInfoY + 16 + emailHeight);
   
     pdf.setFont('helvetica', 'bold');
     pdf.text('Bill To:', horizontalMargin + 60, clientInfoY);
     pdf.setFont('helvetica', 'normal');
     pdf.text(name, horizontalMargin + 60, clientInfoY + 8);
-    pdf.text(userEmail, horizontalMargin + 60, clientInfoY + 16);
+    const wrappedUserEmail = pdf.splitTextToSize(userEmail, maxWidth);
+    pdf.text(wrappedUserEmail, horizontalMargin + 60, clientInfoY + 16);
   
 
     // Align Client Name, Issue Date, Due Date, and Amount Due properly
@@ -207,31 +218,42 @@ const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => {
     pdf.text('Charges', horizontalMargin, chargesInfoY);
     pdf.setFontSize(10);
     pdf.setFont('helvetica', 'normal');
-    pdf.text('Ticket Price', horizontalMargin, chargesInfoY + 9);
-    pdf.text(ticketPrice, rightColumnX + 24, chargesInfoY +9);
-    pdf.text('Discount', horizontalMargin, chargesInfoY + 18);
-    pdf.text(discount, rightColumnX + 24, chargesInfoY + 18);
+    pdf.text('Sub Total', horizontalMargin, chargesInfoY + 9);
+    pdf.text(subTotal, rightColumnX + 24, chargesInfoY +9);
+    pdf.text('Tier Discount', horizontalMargin, chargesInfoY + 18);
+    pdf.text(tierDiscount, rightColumnX + 24, chargesInfoY + 18);
+    pdf.text('Discount Amount', horizontalMargin, chargesInfoY + 27);
+    pdf.text(discount, rightColumnX + 24, chargesInfoY + 27);
+    pdf.text('Event Amount', horizontalMargin, chargesInfoY + 36);
+    pdf.text(eventAmount, rightColumnX + 24, chargesInfoY + 36);
+    pdf.text('Program Total Amount', horizontalMargin, chargesInfoY + 45);
+    pdf.text(programTotal, rightColumnX + 24, chargesInfoY + 45);
+    pdf.text('Addon Total Amount', horizontalMargin, chargesInfoY + 54);
+    pdf.text(addonTotal, rightColumnX + 24, chargesInfoY + 54);
+    pdf.text('Tax(Inclusive)', horizontalMargin, chargesInfoY + 63);
+    pdf.text(tax, rightColumnX + 24, chargesInfoY + 63);
+
   
     // Total
     pdf.setFont('helvetica', 'bold');
-    pdf.text('Total', horizontalMargin, chargesInfoY + 27);
-    pdf.text(finalPrice, rightColumnX + 24, chargesInfoY + 27);
+    pdf.text('Grand Toatal', horizontalMargin, chargesInfoY + 72);
+    pdf.text(finalPrice, rightColumnX + 24, chargesInfoY + 72);
   
     // Footer
     const footerY = pdf.internal.pageSize.height - 30;
     pdf.setDrawColor(200, 200, 200);
     pdf.line(horizontalMargin, footerY - 5, pageWidth - horizontalMargin, footerY - 5);
   
-    pdf.setFont('helvetica', 'normal');
-    pdf.setFontSize(8);
-    pdf.text('Questions:', horizontalMargin, footerY);
-    pdf.text(companyName, horizontalMargin, footerY + 5);
+    // pdf.setFont('helvetica', 'normal');
+    // pdf.setFontSize(8);
+    // pdf.text('Questions:', horizontalMargin, footerY);
+    // pdf.text(companyName, horizontalMargin, footerY + 5);
   
     // Save PDF
     const pdfBlob = pdf.output('blob'); // Generate the PDF as a blob
         const pdfUrl = URL.createObjectURL(pdfBlob); // Create a blob URL
-        setInvoicePdfUrl(pdfUrl);
-  handleopenModeInvoice();
+        window.open(pdfUrl, '_blank'); // Open in a new tab
+
   } catch (error) {
     Logger.error('Error generating PDF:', error);
   }
@@ -242,69 +264,103 @@ const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => {
    * Function to generate the pass
   */
   const handlePdfGeneratePass = async () => {
-      try {
-        const pdf = new jsPDF({
-          orientation: 'portrait', // Use landscape if needed
-          unit: 'mm',
-          format: [149.53, 204.17],
-        });
-        const horizontalPadding = 10; 
-        const verticalPadding = 3; 
-        const pageWidth = pdf.internal.pageSize.width;
-        const currentYPosition = verticalPadding;
-        // Fill the entire page with white (ID card size)
-        pdf.setFillColor(255, 255, 255);
-        pdf.rect(0, 0, 85.6, 53.98, 'F');
+    try {
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4',
+      });
+  
+      const pageWidth = pdf.internal.pageSize.width;
+      let currentY = 20;
+      const paddingX = 15;
+  
+      // Title Section
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(28);
+      pdf.text(userdetail?.details?.event?.name, paddingX-4, currentY);
+      pdf.setFontSize(12);
+      pdf.setFont('helvetica', 'italic');
+      // pdf.text('Your Gateway to Innovation and Technology!', pageWidth / 2, currentY + 8, { align: 'center' });
+      pdf.setDrawColor(0);
+      pdf.line(10, currentY + 14, pageWidth - 10, currentY + 14);
+      currentY += 30;
+      
+      // Ticket Details Section
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(18);
+      pdf.text('Ticket Details', pageWidth / 2, currentY, { align: 'center' });
+      currentY += 12;
+  
+      const ticketDetails = [
+        { label: 'Attendee Name:', value: `${userdetail?.details?.user?.firstName} ${userdetail?.details?.user?.lastName}` },
+        { label: 'Event Name:', value: userdetail?.details?.event?.name || "N/A" },
+        { label: 'Event Date:', value: `${moment(userdetail?.details?.event?.eventStartTime).format('MMMM D YYYY')} - ${moment(userdetail?.details?.event?.eventEndTime).format('MMMM D YYYY')}`  },
+        { label: 'Event Time:', value:  `${moment(userdetail?.details?.event?.eventStartTime).format('hh:mm A')} - ${moment(userdetail?.details?.event?.eventEndTime).format('hh:mm A')}`  },
+        { label: 'Location:', value: userdetail?.programs?.[0]?.event?.venue?.name || "N/A" }
+      ];
+  
+      pdf.setFontSize(13);
+      ticketDetails.forEach(detail => {
         pdf.setFont('helvetica', 'bold');
-        // Generate the QR code image URL
-        pdf.text(userdetail?.details?.event?.name ? toTitleCase(userdetail?.details?.event?.name) : '', horizontalPadding, currentYPosition + 2);
-  
-        // Adjust the Y position for the line to be below the text
-        const lineYPosition = currentYPosition + 15; // You can adjust this value depending on your font size and line spacing
-  
-        // Draw the line just below the text
-        pdf.setLineWidth(0.5); // Set the line width
-        pdf.setDrawColor(4, 128, 211); // Set the line color (black)
-        pdf.line(5, lineYPosition, 145, lineYPosition);
-        const text = 'Ticket Details';
-        pdf.setFont('helvetica', 'bold');
-        const textWidth = (pdf.getStringUnitWidth(text) * 12) / pdf.internal.scaleFactor;
-  
-        const xPosition = (pageWidth - textWidth) / 2; // Center horizontally
-        pdf.text(text, xPosition, 25);
-  
-        pdf.text('Attendee Name', horizontalPadding, 35);
+        pdf.text(detail.label, paddingX, currentY);
         pdf.setFont('helvetica', 'normal');
-        pdf.text(userdetail?.details?.user?.firstName + ' ' + userdetail?.details?.user?.lastName, pageWidth / 2, 35);
+        pdf.text(detail.value, paddingX + 65, currentY, { maxWidth: pageWidth - paddingX - 65 });
+        currentY += 8;
+      });
+      
+      currentY += 6;
+      pdf.line(10, currentY, pageWidth - 10, currentY);
+      currentY += 12;
+  
+      // Payment Information Section
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(18);
+      pdf.text('Payment Information', pageWidth / 2, currentY, { align: 'center' });
+      currentY += 12;
+  
+      const paymentDetails = [
+        { label: 'Sub Total:', value: userdetail?.payment?.order?.subTotal || "N/A"  },
+        { label: 'Tax:', value: userdetail?.payment?.order?.tax || "N/A" },
+        { label: 'Discount Applied:', value: userdetail?.payment?.order?.discountAmount || "N/A" },
+        { label: 'Total Paid:', value: userdetail?.payment?.order?.finalPrice || "N/A" },
+        { label: 'Payment Date:', value: moment(userdetail?.payment?.createdOn).format('MMMM D YYYY hh:mm:A') || "N/A"},
+        { label: 'Transaction ID:', value: userdetail?.payment?.transactionId || "N/A" }
+      ];
+  
+      pdf.setFontSize(13);
+      paymentDetails.forEach(detail => {
         pdf.setFont('helvetica', 'bold');
-        pdf.setFont('helvetica', 'bold');
-        pdf.text('Event Name', horizontalPadding, 45);
+        pdf.text(detail.label, paddingX, currentY);
         pdf.setFont('helvetica', 'normal');
-        pdf.text(userdetail?.details?.event?.name, pageWidth / 2, 45);
-        pdf.setFont('helvetica', 'bold');
-        pdf.text('Event Date', horizontalPadding, 55);
-        pdf.setFont('helvetica', 'normal');
-        pdf.text(moment(userdetail?.details?.event?.starttime).format('MMMM D, YYYY'), pageWidth / 2, 55);
+        pdf.text(detail.value, paddingX + 65, currentY);
+        currentY += 8;
+      });
+      
+      currentY += 6;
+      pdf.line(10, currentY, pageWidth - 10, currentY);
+      currentY += 12;
   
-        // Split the text into multiple lines based on the max width
-        const qrCodeTopRight = await QRCode.toDataURL(userdetail?.details?.qrCode);
-        // Adjust QR code size to fit nicely on the ID card
-        pdf.addImage(qrCodeTopRight, 'PNG', pageWidth / 2 - 20, currentYPosition + 75, 30, 30); // Position (60, 10), size 20x20 mm
-        // Set line color (optional)
-        pdf.setDrawColor(4, 128, 211); // Black color (RGB)
+      // QR Code Section
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(16);
+      // pdf.text('Scan QR Code for Verification', pageWidth / 2, currentY, { align: 'center' });
+      currentY += 10;
+      
+      const qrCodeUrl = await QRCode.toDataURL(userdetail?.details?.qrCode, { margin: 1, scale: 10 });
+      pdf.addImage(qrCodeUrl, 'PNG', pageWidth / 2 - 25, currentY, 50, 50);
+      currentY += 60;
   
-        // Set line width (optional)
-        pdf.setLineWidth(0.5); // Default is 0.2 mm, you can set it higher for a thicker line
+      // Generate and open the PDF
+      const pdfBlob = pdf.output('blob');
+      const pdfUrl = URL.createObjectURL(pdfBlob);
+      window.open(pdfUrl, '_blank');
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    }
+  };
   
-       
-        const pdfBlob = pdf.output('blob'); // Generate the PDF as a blob
-        const pdfUrl = URL.createObjectURL(pdfBlob); // Create a blob URL
-        setPdfUrl(pdfUrl); // Set the blob URL to state
-        handleOpenModalPass()     
-      } catch (error) {
-        Logger.error('Error loading image or generating PDF:', error);
-      }
-    };
+  
 
 /**
  * Function to generate the certificate
@@ -409,19 +465,11 @@ const date = moment(userdetail?.details?.createdOn).format('DD-MM-YYYY') || 'N/A
  * Function to downloading the pdf while clicking the download icon
  */
 const handleDownloadPdf = () => {
-  if (pdfUrl) {
-    const link = document.createElement('a');
-    link.href = pdfUrl; 
-    link.click(); 
-  } else if (certificatePdfUrl) {
+ if (certificatePdfUrl) {
     const link = document.createElement('a');
     link.href = certificatePdfUrl; 
     link.click(); 
-  } else if (invoicePdfurl) {
-    const link = document.createElement('a');
-    link.href = invoicePdfurl; 
-    link.click(); 
-  }
+  } 
    else {
     Logger.error('PDF URL is not available.');
   }
@@ -513,7 +561,7 @@ const handleDownloadPdf = () => {
             </Grid>
           
             {/* PDF Preview Section */}
-            <iframe
+            {/* <iframe
               src={`${pdfUrl}#toolbar=0`}
               title="PDF Preview"
               width="100%"
@@ -521,7 +569,7 @@ const handleDownloadPdf = () => {
               style={{
                 border: "none",
               }}
-            ></iframe>
+            ></iframe> */}
           </>
           
           )
@@ -554,13 +602,13 @@ const handleDownloadPdf = () => {
             </Grid>
 
            {/* PDF Preview Section */}
-          <iframe
+          {/* <iframe
             src={`${invoicePdfurl}#toolbar=0`}
             title="PDF Preview"
             width="100%"
             height="100%"
             style={{ border: 'none' }}
-          ></iframe>
+          ></iframe> */}
       </>
           )}
           {isCertificate &&(
