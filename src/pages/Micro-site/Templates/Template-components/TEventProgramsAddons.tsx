@@ -1,6 +1,21 @@
 import useStore, { setNonPersistedDataById } from "@/Libs/store";
 import { IEventResponse } from "@/Libs/types/event"
 
+/**
+ * TEventProgramsAddons Component
+ * 
+ * This component renders a tab container with content rendered by the children function.
+ * The content is grouped by date and time, and each tab represents a date, and the content of each tab is grouped by time.
+ * The selected date is stored in the non persisted state and can be retrieved or updated by the handleTabChange function.
+ * 
+ * @param eventData - The event data object, containing the programs and addons properties.
+ * @param children - A function that renders the content of each tab, it receives an object with the following properties:
+ * - data: The grouped data, an object with the date as key and an array of time groups as value, each time group is an object with time and items properties.
+ * - tabs: An array of dates, each date is a key in the grouped data object.
+ * - selectedDate: The selected date, the key of the currently selected tab.
+ * - handleTabChange: A function to update the selected date, it receives the new selected date as argument.
+ */
+
 const TEventProgramsAddons = ({ eventData,children }: { eventData?: IEventResponse,children:(data:any)=>React.ReactNode }) => {
 
   

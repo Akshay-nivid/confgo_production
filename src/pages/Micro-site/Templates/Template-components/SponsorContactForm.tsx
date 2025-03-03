@@ -36,6 +36,17 @@ interface SponosrContactFormProps {
     customStyle?: any; // Accepts custom styles
   }
 
+/**
+ * Component for Sponsor Contact Form
+ * 
+ * This functional component renders the sponsor contact form, allowing users to fill in their details and submit sponsorship requests.
+ * It includes fields for user input, validation messages, and a ReCAPTCHA for additional security.
+ * 
+ * @param {SponosrContactFormProps} props - Props for the component.
+ * @param {IEventResponse} props.eventData - Event data from the store.
+ * @param {any} [props.customStyle] - Custom styles for the component. Accepts object with className keys.
+ * @returns {JSX.Element} The rendered JSX content for the sponsor contact form.
+ */
 const SponosrContactForm = ({eventData,customStyle}:SponosrContactFormProps) => {
     const eventId = eventData?.id;
     const { handleSubmit, control, formState: { errors }, setValue, register } = useForm<FormData>({
