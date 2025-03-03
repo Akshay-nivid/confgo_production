@@ -758,7 +758,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                 </Grid>
                                  {
                                   <>{watch(`addOn.${index}.dateRequired`)&& <>
-                                <Grid size={{ xs: 12, sm: 4 }}>
+                                <Grid size={{ xs: 12, sm: 6 }}>
                                   <CustomTextField
                                     className="create-event"
                                     placeholder="Date"
@@ -770,7 +770,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                     max={moment(eventData.endTime).format("YYYY-MM-DD")}
                                   />
                                 </Grid>
-                                <Grid size={{ xs: 4 }}>
+                                <Grid size={{ xs: 3 }}>
                                     <CustomTextField
                                       className="create-event"
                                       placeholder="Start Time"
@@ -784,7 +784,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                                       }}
                                     />
                                   </Grid>
-                                    <Grid size={{ xs: 4 }}>
+                                    <Grid size={{ xs: 3 }}>
                                       <CustomTextField
                                         className="create-event"
                                         placeholder="End Time"
@@ -1017,7 +1017,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
                     >
                       <Grid size={{ xs: 8, sm: 9 }} direction={'column'}>
                         <Grid size={{ xs: 12 }}><Typography  className="add-addons-display-item-name"> {addOnOptions?.find((option: any) => option?.value === field?.addonId)?.label || 'Unknown'}</Typography> </Grid>
-                        <Grid size={{ xs: 12}}><Typography className="add-addons-display-item-description">{field.description}</Typography></Grid>               
+                        <Grid size={{ xs: 12}}><Typography  className="add-addons-display-item-description truncate-text">{field.description}</Typography></Grid>
                       </Grid>
 
                       <Grid size={{ xs: 4, sm: 3 }}  container justifyContent={"flex-end"}>

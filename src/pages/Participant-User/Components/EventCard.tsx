@@ -62,7 +62,7 @@ const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetit
     return (
         <Grid container className="event-card" spacing={1} flexDirection={"column"} onClick={() => navigate(routes.userEventRecap(), { state: { eventId: id } })}>
             <Grid container justifyContent={"flex-start"} display={"flex"}>
-                <Grid  alignContent={"center"} >
+                <Grid  alignContent={"center"} className='logo-container'>
                     {/* {eventFullData?.assetId && <img src={`${baseUrl}asset/${eventFullData?.assetId}`} alt=''/>} */}
 
                     {eventFullData?.assetId !== null ? (

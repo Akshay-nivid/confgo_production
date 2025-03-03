@@ -1,7 +1,7 @@
 // import CustomButton from "@/components/CustomButton/CustomButton";
 import {
   // IconButton, Modal, 
-  Avatar,Typography } from "@mui/material";
+  Avatar} from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import { useEffect, useState } from "react";
 // import { SubmitHandler, useForm } from "react-hook-form";
@@ -416,52 +416,6 @@ const SpeakerCard = (eventData: any) => {
       flexDirection={"column"}
     >
       <Grid container size={{ xs: 12, sm: 12 }}>
-        <Grid
-          className="event-detail-speakers-card-speaker-list"
-          direction={"row"}
-          display={"flex"}
-          size={{ xs: 12, sm: 12 }}
-        >
-          <Grid direction={"column"} size={{ xs: 12, sm: 12 }}>
-            <Grid
-              container
-              justifyContent={"space-between"}
-              size={{ xs: 12, sm: 12 }}
-            >
-              <Grid>
-                <Typography className="event-detail-speakers-card-speaker-header">
-                  Speakers
-                </Typography>
-              </Grid>
-              {/* <Grid>
-                <CustomButton
-                  className="event-detail-speakers-card-speaker-assign-button"
-                  variant="outlined"
-                  label="Assign"
-                  onClick={handleDrawerOpen}
-                  startIcon={<AddIcon />}
-                  size="large"
-                />
-
-              </Grid> */}
-            </Grid>
-            <Grid container mt={2}></Grid>
-            <Typography
-              variant="h6"
-              className="event-detail-speakers-card-speaker-content"
-            >
-              Speakers allows you to easily add and manage key
-              participants in your event, such as speakers, sponsors
-            </Typography>
-            <Typography
-              variant="h6"
-              className="event-detail-speakers-card-speaker-content"
-            >
-              guests, and other contributors. Keep track of all the important
-              roles to ensure a smooth and successful event experience.
-            </Typography>
-          </Grid>
-        </Grid>
         <Grid
           className="event-detail-speakers-card-list-row"
           container
