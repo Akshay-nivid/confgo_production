@@ -173,6 +173,8 @@ import Coupon2 from "./coupon2.svg"
 import EnterpriceWhiteIcon from "./EntrepriseWhiteIcon.svg";
 import WhiteTickIcon from "./WhiteTickIcon.svg";
 import ToRight from "./Right-Create-event.svg";
+import NewPrice from "./price-event.svg";
+import Abstracts from "./abstracts.svg"
 
 export {
   Coupon2,
@@ -349,5 +351,7 @@ export {
   SpeakerDashBoard,
   EnterpriceWhiteIcon,
   WhiteTickIcon,
-  ToRight
+  ToRight,
+  NewPrice,
+  Abstracts
 };
