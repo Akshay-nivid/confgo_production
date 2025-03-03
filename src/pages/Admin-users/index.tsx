@@ -12,13 +12,13 @@ import Typography from "@mui/material/Typography";
 import AddIcon from "@mui/icons-material/Add";
 import { Filter } from "@/components/Filter";
 import useStore, { PUT, setDataById, setNonPersistedDataById } from "@/Libs/store";
-import noUser from '@/assets/png/user-no-data.png';
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CreateNewUsers from "./CreateUsers";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import EditUserDrawer from "./EditUserDrawer";
 import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import {UserNoData} from "@/assets/svg";
 
 interface Role {
   value: string,
@@ -426,9 +426,8 @@ const AdminUsersList = () => {
           id="data-role-list"
           // onRowClick={(params:any) => handleRowClick(params.row)}
           noRecordIcon={
-          // <NoUserList className="userdetail-noimage" />
-          <img  src={noUser} alt="No User Available" />
-        }
+          <UserNoData className="userdetail-noimage" />
+          }
         noRecordTitle="No Users Found"
         noRecordSubtitle="Manage event team members and assign roles for smooth collaboration. Add users to start organizing efficiently."
         />

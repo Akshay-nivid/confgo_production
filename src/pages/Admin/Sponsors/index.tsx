@@ -1,6 +1,5 @@
 import Box from '@mui/material/Box/Box'
 import './sponsor.scss'
-import noSponsor from '@/assets/png/sponsor-no-data.png';
 import { Avatar, FormLabel, IconButton, Menu, MenuItem, Typography } from '@mui/material'
 import CustomAutocomplete from '@/components/CustomAutocomplete/CustomAutocomplete'
 import { useForm } from 'react-hook-form'
@@ -23,6 +22,7 @@ import SponsorDetailsModal from './SponsorDetailsModal'
 import clsx from 'clsx'
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
+import { SponsorNoData } from '@/assets/svg';
 
 /**
  * Component for Sponsors list,create,edit and delete
@@ -464,9 +464,8 @@ const Sponsors = () => {
                     key={'sponsor-list-datagrid'}
 
                     noRecordIcon={
-                    //  <NoEventIcon className="event-list-no-events-icon" />
-                    <img src={noSponsor} alt="No sponsor Available" />
-                }
+                     <SponsorNoData className="sponsor-no-data" />
+                    }
                 noRecordTitle="No Sponsors Yet"
                     noRecordSubtitle="Add sponsors to showcase their support and enhance your event’s visibility. Start building valuable partnerships now."
 

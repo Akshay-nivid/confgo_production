@@ -16,8 +16,7 @@ import { Filter } from "@/components/Filter";
 import { StatusEnum } from "@/Utils/StatusEnum";
 import moment from "moment";
 import Typography from "@mui/material/Typography/Typography";
-import noEventData from '@/assets/png/event-no-data.png';
-
+import { EventsNoData } from "@/assets/svg";
 interface EventListProps {
   hideAction?: boolean;
   view?:any;
@@ -268,9 +267,8 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
           columns={columns}
           id={dashView?"dashboard-view":"event-datagrid"} 
           noRecordIcon={
-          // <NoEventIcon className="event-list-no-events-icon" />
-          <img className="no-dashbrd-data-img"  src={noEventData} alt="No Payment Available" />
-        }
+           <EventsNoData className="events-no-data-icon" />
+           }
           noRecordTitle="No Events Created Yet"
           noRecordSubtitle="Start creating your first event and manage everything from scheduling to participant registration—all in one place"
           // redirectTo={() => routes.createEvent()} // define the route

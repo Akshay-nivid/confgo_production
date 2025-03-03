@@ -16,7 +16,7 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
 import { PUT, setDataById } from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
-import noCoupon from '@/assets/png/coupon-no-data.png';
+import {CouponNoData} from "@/assets/svg";
 
 interface FilterType {
   id?: number;
@@ -317,9 +317,8 @@ const Coupon = () => {
           columns={columns}
           id="coupon-datagrid"
           noRecordIcon={
-          // <NoCouponDataSvg className="no-coupon-icon"/>
-          <img  src={noCoupon} alt="No Payment Available" />
-        }
+          <CouponNoData className="no-coupon-icon"/>
+         }
           noRecordTitle="No Coupons Available"
           noRecordSubtitle="Offer discounts and special deals to attract more participants. Create coupons and manage promotions effortlessly."
           // redirectTo={() => routes.createCoupon()} // define the route
