@@ -38,7 +38,6 @@ const SelectedPrograms = () => {
   const cartInfo = useStore((state) => state?.compData?.addToCart)
 
   const eventId = useStore((state: IStoreState) => state?.compData?.["eventSelected"]?.id) ?? null;
-  const companyId = useStore((state: any) => state?.compData?.['companyTempId']?.value ?? '');
   const cartId = cartInfo?.cart.data?.id ?? null
   const participantTypeId = useStore((state) => state?.compData?.["participantTypeId"]?.value) ?? '';
 
@@ -66,29 +65,12 @@ const SelectedPrograms = () => {
   const cart = useStore((state: IStoreState) => state?.nonPersistedData?.cart)
 
 
-  useEffect(() => {
-    getPayPalConfigurations(companyId);
-  }, [])
 
 
 
 
 
 
-  /**
-   * get the paypal configurations of the company
-   */
-  const getPayPalConfigurations = (companyId: any) => {
-    POST({
-      id: 'paypal-company-clientId',
-      url: "paypalConfig/list",
-      body: {
-        filters: {
-          companyId: companyId
-        }
-      }
-    })
-  }
 
 
 

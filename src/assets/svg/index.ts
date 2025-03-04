@@ -177,7 +177,7 @@ import NewPrice from "./price-event.svg";
 import Abstracts from "./abstracts.svg";
 import PaymentNoData from "./paymentNoData.svg";
 import EventsNoData from "./EventsNoData.svg";
-import SponsorNoData from "./sponsorNoData.svg";
+import SponsorNoData from "./SponsorNoData.svg";
 import UserNoData from "./UserNoData.svg";
 import CouponNoData from "./CouponNoData.svg";
 import Writing from "./Writing.svg";

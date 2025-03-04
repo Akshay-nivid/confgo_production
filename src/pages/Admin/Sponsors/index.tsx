@@ -13,7 +13,7 @@ import FileUpload from '@/components/FileUpload/FileUpload'
 import { DataGridList } from '@/components/DataGrid/DataGridList'
 import React, { useCallback, useEffect, useState } from 'react'
 import { ISource } from '@/Libs/types/type'
-import { NewDrawerClose, NoEvent as NoEventIcon } from "@/assets/svg";
+import { NewDrawerClose } from "@/assets/svg";
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import config from "../../../../config.json";
