@@ -13,25 +13,26 @@ import {
   // StripeIcon,
   // UpiIcon,
 } from "@/assets/svg";
-import useStore, { IStoreState, setDataById } from "@/Libs/store";
+import useStore, { IStoreState, POST, setDataById } from "@/Libs/store";
 import PayPalParticipantButton from "./PaypalPartcipantComponent";
 import { useNavigate } from "react-router-dom";
 import routes from "@/router/routes";
 import { OrderSummary } from "@/Libs/types/type";
+import { useEffect,useState } from "react";
 
 /**
  * This component renders the payment method page, which displays the programs and their corresponding costs, the food and its corresponding cost, and the total cost of the programs and food. It also displays the different payment methods available to the user.
  * @returns {JSX.Element} The payment method page component.
  */
 const PaymentMethod = () => {
-
+const[renderPaypalBtn,setRenderPaypalBtn]=useState(false);
 
   const orderData: OrderSummary = useStore((state: IStoreState) => state.compData?.order?.order?.data)
 
   const eventId = useStore(state => state?.compData?.["eventSelected"]?.id)
 
   const eventAmount = useStore((state: IStoreState) => state?.compData?.["eventData"]?.[`event/${eventId}`]?.data?.amount) || null
-
+  const companyId = useStore((state: any) => state?.compData?.['companyTempId']?.value ?? '');
   // const handleChange =
   //   (panel: string) => (_: React.SyntheticEvent, isExpanded: boolean) => {
   //     setExpanded(isExpanded ? panel : false);
@@ -46,7 +47,24 @@ const PaymentMethod = () => {
     navigate(routes.dynamicUserForm());
   }
 
+  useEffect(() => {
+    getPayPalConfigurations(companyId);
+  }, [])
 
+  const getPayPalConfigurations = (companyId: any) => {
+    POST({
+      id: 'paypal-company-clientId',
+      url: "paypalConfig/list",
+      body: {
+        filters: {
+          companyId: companyId
+        }
+      },
+      successCB:(_context:any)=>{
+        setRenderPaypalBtn(true);
+      }
+    })
+  }
 
   return (
     <Grid container className="payment-method shadow">
@@ -121,7 +139,7 @@ const PaymentMethod = () => {
           Choose Payment Method
         </Typography>
         <Box className="payment-method-list px-10">
-          <PayPalParticipantButton />
+          {renderPaypalBtn&&<PayPalParticipantButton />}
 
           {/* <Accordion
             expanded={expanded === "panel1"}
