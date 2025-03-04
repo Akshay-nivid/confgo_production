@@ -248,7 +248,7 @@ const CreateEvent: React.FC<EventProps> =
         });
         return;
       }
-      if (abstractDate < today && isAbstract === "true") { 
+      if ((abstractDate < today ) && (isAbstract === "true")) { 
         setError('abstractDate', { type: 'manual', message: 'Abstract submission date must be a future date' });
         return
     } else {

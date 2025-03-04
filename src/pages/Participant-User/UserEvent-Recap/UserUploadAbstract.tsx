@@ -192,7 +192,7 @@ const UserUploadAbstract = ({ eventData }: any) => {
                         <Grid className="upload-abstract-comments-container border-bottom-blue padding-x-20" size={12}>
                             <Typography className="upload-abstract-comments-container-header ">Comment</Typography>
                             <Grid container className="upload-abstract-comments-container-gap" size={12} alignItems={'center'} spacing={1}>
-                                {uploadedAbstractData[0]?.reviewer?.assetId ?  (
+                                {uploadedAbstractData?.[0]?.reviewer?.assetId ?  (
                                 <Avatar
                                     src={`${baseUrl}asset/${uploadedAbstractData[0]?.reviewer?.assetId}`}
                                     alt="" />

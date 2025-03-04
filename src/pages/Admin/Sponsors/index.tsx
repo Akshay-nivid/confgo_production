@@ -343,14 +343,10 @@ const Sponsors = () => {
         } else {
             form.clearErrors('website');
         }
-        if(data?.logoId == ""){
-            setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "Please upload Logo" })
-        return
-        }
-        if(data?.bannerId == ""){
-            setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "Please upload Banner" })
-        return
-        }    
+        if (data?.logoId === "" || data?.bannerId === "") {
+            setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: data?.logoId === "" ? "Please upload Logo" : "Please upload Banner" });
+            return;
+          }   
 
         const companyId = sessionStorage.getItem('companyId') || '';
 
