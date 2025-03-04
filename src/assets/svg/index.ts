@@ -173,7 +173,8 @@ import EnterpriceWhiteIcon from "./EntrepriseWhiteIcon.svg";
 import WhiteTickIcon from "./WhiteTickIcon.svg";
 import ToRight from "./Right-Create-event.svg";
 import NewPrice from "./price-event.svg";
-import Abstracts from "./abstracts.svg"
+import Abstracts from "./abstracts.svg";
+import HybridIcon from "./Hybrid-svg.svg";
 
 export {
   MainBottomBanner,
@@ -351,5 +352,6 @@ export {
   WhiteTickIcon,
   ToRight,
   NewPrice,
-  Abstracts
+  Abstracts,
+  HybridIcon
 };

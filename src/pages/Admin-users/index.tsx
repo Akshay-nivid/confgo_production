@@ -305,7 +305,7 @@ const AdminUsersList = () => {
       type: "custom",
       field: "email",
       headerName: "Email",
-      width: 180
+      width: 255
     },
     {
       type: "default",
@@ -313,7 +313,7 @@ const AdminUsersList = () => {
       headerName: "Phone No",
       width: 150,
     },
-    { type: "status", field: "statusId", headerName: "Status", width: 120 },
+    { type: "status", field: "statusId", headerName: "Status", width: 150 },
     { type: "custom", field: "actions", headerName: "", width: 150 ,sortable: false},
   ];
 
