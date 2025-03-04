@@ -166,7 +166,6 @@ const SpeakersEventDetails: React.FC<any> = () => {
         const endMonth = moment(endDate).format("MMMM");
         const endDay = moment(endDate).format("D");
         const endYear = moment(endDate).format("YYYY");
-
         if (startMonth === endMonth && startYear === endYear) {
             return startDay === endDay ? `${startMonth} ${startDay}` : `${startMonth} ${startDay}-${endDay}`;
         } else if (startYear === endYear) {
@@ -183,19 +182,27 @@ const SpeakersEventDetails: React.FC<any> = () => {
            
             <Grid container className="speaker-home" size={{ xs: 12, sm: 12 }} id={id}>
 
-                {!isMobileScreen &&
-                    <IconButton
-                        onClick={() => navigate(routes.speakerHome())}
-                    >
-                        <LeftArrowIcon />
-
-                    </IconButton>}
 
                 <Grid size={12} container gap={2} >
 
                     <Grid container size={{ lg: 12, sm: 12 }} spacing={1} justifyContent={"flex-start"} alignItems={"center"}>
 
-                        <Grid ><Typography className="speaker-home-left-section-title">Your Scheduled Sessions</Typography></Grid>
+                    <Grid container alignItems="center" spacing={.3}>
+
+                          {!isMobileScreen && (
+                            <Grid > 
+                                <IconButton
+                                   onClick={() => navigate(routes.speakerHome())}
+                                >
+                                    <LeftArrowIcon />
+
+                                </IconButton>
+                            </Grid>
+                        )}
+                        <Grid>
+                            <Typography className="speaker-home-left-section-title">Your Scheduled Sessions</Typography>
+                        </Grid>
+                        </Grid>
                         {
                             loader ? (
 
@@ -232,7 +239,7 @@ const SpeakersEventDetails: React.FC<any> = () => {
                                                             <Typography className="content">
 
                                                                 {
-                                                                    formatDateRange(item?.event?.startTime, item?.event?.endtTime)
+                                                                    formatDateRange(item?.event?.startTime, item?.event?.endTime)
                                                                 }
 
                                                             </Typography>
@@ -244,7 +251,7 @@ const SpeakersEventDetails: React.FC<any> = () => {
 
                                                             <Typography className="content">
 
-                                                                {`${moment(item?.event?.startTime).format("h:mm A")} - ${moment(item?.event?.endtTime).format("h:mm A")}`}
+                                                                {`${moment(item?.event?.startTime).format("h:mm A")} - ${moment(item?.event?.endTime).format("h:mm A")}`}
 
                                                             </Typography>
 
