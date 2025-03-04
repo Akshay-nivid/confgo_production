@@ -15,6 +15,9 @@
             font-weight: $font_normal;
             color: $clr_gray_dark_text;
             overflow: hidden;
+            .view-more{
+                color: $clr_cyan_lime_green !important;
+            }
         }
         .about-btn {
             width: 7rem !important;

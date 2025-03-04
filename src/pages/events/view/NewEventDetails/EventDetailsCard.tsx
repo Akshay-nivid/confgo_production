@@ -1,5 +1,5 @@
 import Grid from "@mui/material/Grid2";
-import {Chip, Typography } from "@mui/material";
+import {Box, Chip, Typography } from "@mui/material";
 import HTMLReactParser from 'html-react-parser/lib/index';
 import { EventCalendar, EventLocation, HybridIcon} from "@/assets/svg";
 import moment from "moment";
@@ -8,6 +8,7 @@ import useStore, { setDataById } from "@/Libs/store";
 import { truncateString } from "@/Utils/CommonBaseClass";
 import { useEffect, useState } from "react";
 import { Logger } from "@/Utils/Logger";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 const EventDetailsCard = (eventData: any) => {
 
 
@@ -72,10 +73,10 @@ const EventDetailsCard = (eventData: any) => {
   
       navigator.clipboard.writeText(copyUrl)
         .then(() => {
-          setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: 'Text copied to clipboard' });
+          setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: 'Url copied to clipboard' });
         })
         .catch((err) => {
-          Logger.error("Failed to copy text: ", err);
+          Logger.error("Failed to copy Url: ", err);
         });
     }
   }
@@ -106,7 +107,7 @@ const EventDetailsCard = (eventData: any) => {
                            <span className=""> {showFullText ? HTMLReactParser(description)  : HTMLReactParser(truncatedString)}
 
                             {description?.length > 210 &&(
-                         <span className="text-cyan-400"> {showFullText ? "View Less" : "View More" }</span> 
+                         <span className="view-more"> {showFullText ? "View Less" : "View More" }</span> 
                          )}
                            </span>
                             
@@ -176,7 +177,7 @@ const EventDetailsCard = (eventData: any) => {
                 </Grid>)}
 
                 {url &&(
-                <Grid size={12} display={"flex"} gap={1}  justifyContent={"flex-start"} className="cursor-pointer" onClick={handleEventCopy} >    
+                <Grid size={12} display={"flex"} gap={1}  justifyContent={"flex-start"} className="cursor-pointer" >    
 
                     <Grid container justifyContent={"center"} alignItems={"center"} className="svg" >
 
@@ -189,13 +190,17 @@ const EventDetailsCard = (eventData: any) => {
 
                         
 
-                        <Grid container  size={12}>
+                        <Grid container  size={12} display={"flex"} justifyContent={"space-between"}>
 
                             <Typography className="date">
 
                               {url}
                           
                             </Typography>
+
+                            <Box onClick={handleEventCopy} >
+                                <ContentCopyIcon/>
+                            </Box>
 
                         </Grid>
                     </Grid>
