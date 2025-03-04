@@ -230,7 +230,7 @@ const EventInfoCard: React.FC<any> = React.memo(
     const startTime = moment(data?.startTime).format("MMM D, YYYY");
     const startTimes = moment(data?.startTime);
     const endTimes = moment(data?.endTime);
-    const today = moment(new Date()).format("MMM D, YYYY");
+    const today = moment(new Date());
     setSubmitData(data)
     const endTime = moment(data?.endTime).format("MMM D, YYYY")
     if (startTimes.isAfter(endTimes)) {
@@ -240,7 +240,7 @@ const EventInfoCard: React.FC<any> = React.memo(
       });
       return
     }
-    if (startTime < today) {
+    if (startTimes.isBefore(today)) {
       setError('startTime', {
         type: 'manual',
         message: 'Dates cannot be in the past',
