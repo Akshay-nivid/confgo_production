@@ -620,13 +620,14 @@ const CreateEvent: React.FC<EventProps> =
                         control={control}
                         name="url"
                         type="text"
-                        rules={{ required: watch("type") === "ONLINE" }}
+                        rules={{ required: watch("type") === "ONLINE",
+                          pattern: {
+                            value: /^https:\/\/.+/,
+                            message: "Only HTTPS URLs are allowed"
+                          }
+                         }}
                       />
-                      {errors.url && (
-                        <Typography color="error" variant="body2">
-                          {errors.url.message}
-                        </Typography>
-                      )}
+                      
                     </Grid>
                   )}
                    <Grid size={{xs:12}}>
