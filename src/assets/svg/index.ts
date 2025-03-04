@@ -361,7 +361,7 @@ export {
   ToRight,
   NewPrice,
   Abstracts,
-  HybridIcon
+  HybridIcon,
   PaymentNoData,
   EventsNoData,
   SponsorNoData,
