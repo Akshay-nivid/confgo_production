@@ -111,12 +111,12 @@ const Sponsors = () => {
     }
 
     const columns = [
-        { type: "default", field: "id", headerName: "ID", width: 80 },
+        { type: "default", field: "id", headerName: "ID", width: 100 },
         {
             type: "custom",
             field: "logo",
             headerName: "Logo",
-            width: 130,
+            width: 120,
 
         },
         {
@@ -129,7 +129,7 @@ const Sponsors = () => {
             type: "custom",
             field: "email",
             headerName: "Email",
-            width: 150,
+            width: 255,
         },
         {
             type: "default",
@@ -144,7 +144,7 @@ const Sponsors = () => {
             width: 150,
             dateFormat: "DD/MM/YYYY",
         },
-        { type: "custom", field: "actions", headerName: "", width: 150 },
+        { type: "custom", field: "actions", headerName: "", width: 150 ,sortable: false},
 
     ];
 
