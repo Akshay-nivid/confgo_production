@@ -1,7 +1,7 @@
 /**
  * Component displays the top menu section of the template
  */
-import useStore, { clearDataById, resetStore, setDataById } from '@/Libs/store';
+import useStore, { clearDataById, resetNonPersistedData, resetStore, setDataById } from '@/Libs/store';
 import { getUserToken, handleLogout, useIsMobileOrTabletScreen } from '@/Utils/CommonBaseClass';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import routes from '@/router/routes';
@@ -130,6 +130,7 @@ const TopMenuSection: React.FC<TopMenuSectionProps> = React.memo(({ data, classP
                 sessionStorage.clear();
                 localStorage.clear();
                 resetStore();
+                resetNonPersistedData();
                 navigate(routes.eventExternalLink(slugName), { replace: true });
             }
         });
