@@ -7,7 +7,7 @@ import CustomButton from '@/components/CustomButton/CustomButton'
 import AddIcon from "@mui/icons-material/Add";
 import CustomDrawer from '@/components/CustomDrawer/CustomDrawer'
 import CloseIcon from "../../../assets/svg/Close.svg"
-import useStore, { POST, setNonPersistedDataById, snackBar } from '@/Libs/store'
+import useStore, { POST, setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store'
 import CustomTextField from '@/components/CustomTextfield/CustomTextField'
 import FileUpload from '@/components/FileUpload/FileUpload'
 import { DataGridList } from '@/components/DataGrid/DataGridList'
@@ -343,6 +343,10 @@ const Sponsors = () => {
         } else {
             form.clearErrors('website');
         }
+        if (data?.logoId === "" || data?.bannerId === "") {
+            setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: data?.logoId === "" ? "Please upload Logo" : "Please upload Banner" });
+            return;
+          }   
 
         const companyId = sessionStorage.getItem('companyId') || '';
 

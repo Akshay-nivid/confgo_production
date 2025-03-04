@@ -151,6 +151,7 @@ const CreateEvent: React.FC<EventProps> =
       const errorFieldMap: { [key: string]: string } = {
         name: '[name="name"]',
         description:  '#react-quill-description',
+        abstractDate :'[name=abstractDate]',
         phone: '[name="phone"]',
         email: '[name="email"]',
         startTime: '[name="startTime"]',
@@ -247,13 +248,12 @@ const CreateEvent: React.FC<EventProps> =
         });
         return;
       }
-      if (abstractDate < today) {
-        setError('abstractDate', {
-          type: 'manual',
-          message: 'Abstract submission date must be a future date',
-        });
-        return;
-      }
+      if ((abstractDate < today ) && (isAbstract === "true")) { 
+        setError('abstractDate', { type: 'manual', message: 'Abstract submission date must be a future date' });
+        return
+    } else {
+        clearErrors('abstractDate');
+    }
     //store the dates to compare 
       useStore.getState().setDataById("event-date", { startDate: startTime });
       useStore.getState().setDataById("event-date", { endDate: endTime });
