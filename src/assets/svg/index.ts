@@ -174,7 +174,13 @@ import EnterpriceWhiteIcon from "./EntrepriseWhiteIcon.svg";
 import WhiteTickIcon from "./WhiteTickIcon.svg";
 import ToRight from "./Right-Create-event.svg";
 import NewPrice from "./price-event.svg";
-import Abstracts from "./abstracts.svg"
+import Abstracts from "./abstracts.svg";
+import PaymentNoData from "./paymentNoData.svg";
+import EventsNoData from "./EventsNoData.svg";
+import SponsorNoData from "./sponsorNoData.svg";
+import UserNoData from "./UserNoData.svg";
+import CouponNoData from "./CouponNoData.svg";
+import Writing from "./Writing.svg";
 
 export {
   Coupon2,
@@ -353,5 +359,11 @@ export {
   WhiteTickIcon,
   ToRight,
   NewPrice,
-  Abstracts
+  Abstracts,
+  PaymentNoData,
+  EventsNoData,
+  SponsorNoData,
+  UserNoData,
+  CouponNoData,
+  Writing
 };
