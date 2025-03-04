@@ -6,6 +6,22 @@ import './timer.scss'
 import useStore from '@/Libs/store';
 import { IEventResponse } from '@/Libs/types/event';
 
+/**
+ * TEventTimer is a React functional component that displays a countdown timer
+ * based on the event's start time retrieved from a global store.
+ * 
+ * Props:
+ * - className (string, optional): An optional CSS class name for custom styling.
+ * 
+ * Functionality:
+ * - Calculates the time remaining until the event start time.
+ * - Updates the countdown every second using a setInterval.
+ * - Stops updating when the countdown reaches zero.
+ * 
+ * Returns:
+ * - A JSX element that displays the countdown in days, hours, minutes, and seconds.
+ */
+
 const TEventTimer = ({ className }: {
   className?: string,
 }) => {

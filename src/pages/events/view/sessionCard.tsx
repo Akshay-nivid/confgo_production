@@ -369,18 +369,15 @@ const SessionCard: React.FC<SessionCardProps> = ({
         <Grid container className="event-sessions-program-modal" size={10}  >
           <Grid container size={6}  className="display-container">
 
-            <Grid container size={11} flexDirection={"column"}>
+            <Grid container size={12} flexDirection={"column"}>
 
-                <Grid size={12} maxWidth={"auto"}  alignItems={"center"}>
- 
-                    <Typography className="heading">
+                <Grid container size={12} alignContent={'center'} justifyContent={'space-between'} className='session-modal-header'> 
+                  <Grid size={{xs:11}}>
+                    <Typography className="session-modal-header-title">
                     {title}
                     </Typography>
-                </Grid>
 
-                <Grid maxWidth={"max-content"} container alignItems={"center"} className="date-box" > 
-
-                <Typography className="date-box-content">
+                <Typography className="session-modal-header-description">
                   {item[startTimeField] && item[endTimeField] ? (
                     <>
                       {formatedTimeRangeProgram(
@@ -393,7 +390,13 @@ const SessionCard: React.FC<SessionCardProps> = ({
                   )}
                 </Typography>
                 </Grid>
-
+                <Grid size={{xs:1}}>
+                  <IconButton onClick={closeDrawer} className="session-modal-close">
+                    <CloseOutlined />
+                  </IconButton>
+                </Grid>
+              </Grid>
+              <Grid p={2}>
               {hasAddOns && item?.eventAddonProperties?.length >0 && (
                   <Grid container size={12} display={"flex"} flexDirection={"column"} className="addon-property" >
                      <Typography className="addon-header">Add-ons properties</Typography>
@@ -586,12 +589,7 @@ const SessionCard: React.FC<SessionCardProps> = ({
                 </>
               )}
          </Grid>
-         <Grid   minHeight={"2rem"} className="mt-8">
-         <IconButton onClick={closeDrawer}>
-         <CloseOutlined />
-         </IconButton>
-         </Grid>
-        
+        </Grid>
         </Grid>
         </Grid>
       </CustomModel>

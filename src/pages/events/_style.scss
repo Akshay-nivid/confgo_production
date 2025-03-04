@@ -547,6 +547,19 @@
         border-radius: 0.416rem !important;
         text-transform: none !important;
       }
+      &-image-banner {
+        object-fit: contain;
+        max-width: 100%;
+        background-color: $clr_gray_10_percent;
+        margin-block: 1rem;
+
+
+        img {
+            max-width: 25.33rem;
+            height: auto;
+            object-fit: contain;
+        }
+    }
       &-speaker-image-cloe-icon{
         background-color: $clr_red !important;
         height: 1.8rem;
@@ -554,7 +567,10 @@
         border: 0.14rem solid $clr_gray_30_percent;
         cursor: pointer;
         position: absolute;
+        display: flex !important;
         right: 0;
+        transform: translate(-55%, -55%) !important; // Moves it slightly outwards without negative values
+
             svg {
                 color: $clr_gray_30_percent;
             }
@@ -2289,11 +2305,11 @@
     }
     &-drawer{
         padding-inline:2.833rem;
-        min-width: 37.08rem !important;
+        min-width: 39.08rem !important;
         &-content{
             padding-block: 2rem;
-            position: sticky;
-            top: 0;
+            // position: sticky;
+            // top: 0;
         &-heading{
             font-size: $h5 !important;
             font-weight: $font-semibold !important;
@@ -2653,7 +2669,7 @@
     background-color:transparent; 
      .display-container{
          background-color:$clr_white !important;
-         padding-inline: 1rem !important;
+         padding-inline: 0.2rem !important;
          border-radius: .7rem;
        .heading{
         font-family: $font !important;
@@ -2683,7 +2699,7 @@
                 font-size: $h6 !important;
                 font-weight: $font_medium !important;
                 line-height: 2.2rem;
-                padding-inline:0.5833rem;
+                // padding-inline:0.5833rem;
             }
         }
        .addon-property{
@@ -2837,4 +2853,25 @@
         cursor: pointer;
     }
 
+}
+.session-modal-header {
+  padding-inline: 1.5rem;
+  padding-bottom: 1.5rem;
+  padding-top: 1.5rem;
+  background-color: $clr_gray_20_percent;
+  border-radius: .3rem .3rem 0 0;
+
+  &-title {
+    font-size: $h4 !important;
+    font-weight: $font_semibold !important;
+  }
+
+  &-description {
+    font-size: $p2 !important;
+    font-weight: $font_normal !important;
+  }
+}
+
+.session-modal-close {
+  border: 0.083rem solid $clr_gray_faded !important;
 }
