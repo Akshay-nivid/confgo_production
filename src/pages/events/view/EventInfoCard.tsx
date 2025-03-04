@@ -178,6 +178,7 @@ const EventInfoCard: React.FC<any> = React.memo(
       setValue("mapUrl",eventData?.venue?.mapUrl);
       setValue("phone",eventData?.eventContacts?.[0]?.phone)
       setValue("email",eventData?.eventContacts?.[0]?.email)
+      setValue("abstractDate",eventData?.abstractDate ? eventData?.abstractDate :moment(new Date()).format("YYYY-MM-DD"))
       setOriginalData(eventData);
     }
   }, [eventData, reset]);

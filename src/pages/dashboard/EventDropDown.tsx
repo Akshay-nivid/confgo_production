@@ -62,16 +62,26 @@ const EventDropDown = (data: any): JSX.Element => {
      * Set default value for fieldType from the provided event data
      * Save selected eventId type to the store using the watch hook
      */
-  
+ 
     useEffect(() => {
-        if (publishedEvent?.[0]) {
+
+
+        if (publishedEvent?.length>0) {
             setValue('fieldType', publishedEvent?.[0]?.id);
-            setNonPersistedDataById("CustomSelectData", { data: publishedEvent?.[0]?.id });
-            // setNonPersistedDataById("publishedEventInitialFetchDone", { value: true })
         }
 
 
-    }, [data,watch('fieldType')]);
+    }, [data]);
+    
+    /**
+     * changing eventId based on the value watch('fieldType')
+     */
+    useEffect(()=>{
+        
+        if (publishedEvent?.length>0)
+        setNonPersistedDataById("CustomSelectData", { data:watch('fieldType') });
+        
+    },[watch('fieldType')]);
    
 
     return (
