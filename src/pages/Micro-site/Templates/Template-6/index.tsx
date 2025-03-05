@@ -13,8 +13,6 @@ import T6Sponsors from './T6Sponsors'
 import T6SponsorContact from './T6SponsorContact'
 import BannerSection from '../Template-components/Banner/Banner-section'
 import T6Drawer from './T6Drawer'
-import { Box } from '@mui/material'
-import SponosrContactForm from '../Template-components/SponsorContactForm'
 
 
 
