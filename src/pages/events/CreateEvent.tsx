@@ -103,17 +103,7 @@ const CreateEvent: React.FC<EventProps> =
       formState: { errors },
     } = methods;
  
-    const eventName = watch("name");
-    useEffect(() => {
-      if (eventName?.length > 255) {
-        setError("name", {
-          type: "manual",
-          message: "Event name cannot exceed 255 characters.",
-        });
-      } else {
-        clearErrors("name");
-      }
-    }, [eventName]);
+   
   
 
   const [editorContent, setEditorContent] = useState("");
