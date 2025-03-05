@@ -17,6 +17,7 @@ import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
 import { PUT, setDataById } from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
 import {CouponNoData} from "@/assets/svg";
+import {Writing} from "@/assets/svg";
 
 interface FilterType {
   id?: number;
@@ -293,7 +294,8 @@ const Coupon = () => {
           }}
         >
           <MenuItem onClick={(_e) => handleCouponDrawer(rowData)}>
-          <img src="/src/assets/png/writing.png" alt="Edit" className="action-icon" />
+          {/* <img src="/src/assets/png/writing.png" alt="Edit" className="action-icon" /> */}
+           <Writing className="action-icon"/>
             <Typography className="action-text">Edit</Typography>
           </MenuItem>
           <MenuItem onClick={() => {
