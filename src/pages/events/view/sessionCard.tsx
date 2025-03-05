@@ -397,6 +397,12 @@ const SessionCard: React.FC<SessionCardProps> = ({
                 </Grid>
               </Grid>
               <Grid p={2}>
+              <Grid className="description-box" size={12}>
+
+           <Typography className="description-box-content">
+            {item?.description}
+            </Typography>  
+            </Grid>
               {hasAddOns && item?.eventAddonProperties?.length >0 && (
                   <Grid container size={12} display={"flex"} flexDirection={"column"} className="addon-property" >
                      <Typography className="addon-header">Add-ons properties</Typography>
@@ -413,12 +419,6 @@ const SessionCard: React.FC<SessionCardProps> = ({
                 </Grid>
               )}
 
-               <Grid className="description-box" size={12}>
-
-                   <Typography className="description-box-content">
-                    {item?.description}
-                   </Typography>  
-                </Grid>
                  {item?.hall && (
                 <Grid className="description-box-content">
                     <Grid className ="hall-grid">
