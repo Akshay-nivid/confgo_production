@@ -287,6 +287,9 @@
     .t6-sponosor-contact-form {
         padding-block: 3rem;
         display: block;
+        .become-sponsor-title{
+            display: none !important;
+        }
     .left-section{
        align-items: flex-start;
         .title{

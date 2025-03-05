@@ -31,9 +31,6 @@ const Template6 = () => {
             <T6priceTier />
             <T6Sponsors/>
             <T6SponsorContact/>
-            <Box className="max-w-[80rem] mx-auto section-vertical-padding">
-            <SponosrContactForm />  
-            </Box>
             <BannerSection/>
             <TFooter />
             <T6Drawer/>
