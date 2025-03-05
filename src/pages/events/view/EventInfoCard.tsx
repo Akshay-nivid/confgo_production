@@ -27,10 +27,11 @@ import { EventDetailAttendee, EventDetailProgram, EventDetailSpeaker, EventDetai
 import EventDetailsCard from "./NewEventDetails/EventDetailsCard";
 import LocationView from "./NewEventDetails/LocationView";
 import EventContactCard from "./NewEventDetails/EventContactCard";
-import EventWebsite from "./NewEventDetails/EventWebsite";
 import EventLineChart from "./NewEventDetails/EventLineChart";
 import EventGallery from "./NewEventDetails/EventGallery";
 import CustomDateTimePicker from "@/components/CustomDateTimePicker/CustomDateTimePicker";
+import EventWebsite from "./NewEventDetails/EventWebsite";
+
 
 const baseUrl = config.api.url;
 // const currency=confgo.currency;
@@ -177,6 +178,7 @@ const EventInfoCard: React.FC<any> = React.memo(
       setValue("mapUrl",eventData?.venue?.mapUrl);
       setValue("phone",eventData?.eventContacts?.[0]?.phone)
       setValue("email",eventData?.eventContacts?.[0]?.email)
+      setValue("abstractDate",eventData?.abstractDate ? eventData?.abstractDate :moment(new Date()).format("YYYY-MM-DD"))
       setOriginalData(eventData);
     }
   }, [eventData, reset]);
@@ -390,39 +392,6 @@ const EventInfoCard: React.FC<any> = React.memo(
   return (
     <Grid container className="event-detail-event-info-card" spacing={2}>
 
-      {/* <Grid
-        size={{ xs: 12 }}
-        container
-        justifyContent="flex-start"
-      >
-       
-         {eventData?.assetId ?
-         <Grid size={12}>
-       {eventData?.assetId!=0&&<Grid size={{ xs: 12 }}>
-        <Grid container flexDirection={"row"} direction={"row"}>
-                        <Grid>
-                          <Grid
-                            container
-                            className="create-event-btn-container-img-box"
-                            key={'event-information-logo-id'}
-                            alignItems={"flex-start"}
-                          >
-                            <Grid>
-                              <img
-                                src={`${baseUrl}asset/${eventData?.assetId}`}
-                                alt={'Business'}
-                              />
-                            </Grid>
-                          </Grid>
-                        </Grid>
-                  </Grid>
-        </Grid>} 
-        </Grid>
-         : null} 
-         </Grid> */}
-       
-
-
 
       <Grid container size={12} spacing={0} columnSpacing={1} rowSpacing={1}>
 
@@ -433,26 +402,19 @@ const EventInfoCard: React.FC<any> = React.memo(
 
         ))}
 
-        <Grid container size={{ lg: eventData?.eventClass === "OFFLINE" ? 8 : 12, sm: 12 }} maxHeight={"max-content"}>
+        <Grid container  maxHeight={"max-content"} size={{lg:8,sm:12}}>
 
           <EventDetailsCard data={eventData} />
 
-        </Grid>
 
+          <Grid container size={{ lg: 4, sm: 12 }} >
 
-        <Grid container size={{ lg: 4, sm: 12 }} spacing={0} maxHeight={"max-content"} rowSpacing={2} >
+            {/* EventGallery */}
+            <EventGallery />
 
-          {/* Location */}
-          {eventData?.eventClass === "OFFLINE"
-            && (
-              <LocationView eventData={eventData} onSubmitHandler={onSubmitHandler} />
-            )}
+          </Grid>
 
-        </Grid>
-
-        <Grid container size={12}>
-
-          <Grid size={{ lg: 5, sm: 12 }}>
+          <Grid size={{ lg: 8, sm: 12 }} container mb={1}>
 
             {/* Attende charts */}
 
@@ -460,22 +422,20 @@ const EventInfoCard: React.FC<any> = React.memo(
 
           </Grid>
 
-          <Grid container size={{ lg: 3, sm: 12 }}>
+        </Grid>
+        <Grid size={{lg:4,sm:12}} container columnSpacing={1}maxHeight={'max-content'} >
+          
+        {eventData?.venue?.mapUrl && (
 
-            {/* EventGallery */}
-            <EventGallery />
+            <LocationView eventData={eventData} onSubmitHandler={onSubmitHandler}/>
+       
+          )}
 
-          </Grid>
 
-          <Grid container size={{ lg: 4, sm: 12 }}>
+        <EventContactCard data={eventData?.id} />
+        
+        <EventWebsite published={eventData?.published} />
 
-            {/* Contact */}
-            <EventContactCard data={eventData?.id} />
-
-            {/* website */}
-            <EventWebsite published={eventData?.published} />
-
-          </Grid>
 
         </Grid>
 

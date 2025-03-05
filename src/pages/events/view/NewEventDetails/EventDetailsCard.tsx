@@ -1,14 +1,31 @@
 import Grid from "@mui/material/Grid2";
-import { Chip, Typography } from "@mui/material";
+import {Box, Chip, Typography } from "@mui/material";
 import HTMLReactParser from 'html-react-parser/lib/index';
-import { EventCalendar, EventLocation} from "@/assets/svg";
+import { EventCalendar, EventLocation, HybridIcon} from "@/assets/svg";
 import moment from "moment";
 import CustomButton from "@/components/CustomButton/CustomButton";
-import { setDataById } from "@/Libs/store";
+import useStore, { setDataById } from "@/Libs/store";
+import { truncateString } from "@/Utils/CommonBaseClass";
+import { useEffect, useState } from "react";
+import { Logger } from "@/Utils/Logger";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 const EventDetailsCard = (eventData: any) => {
 
-    const { name, eventClass, description, startTime, endTime ,venue,id} = eventData?.data || {};
- 
+
+    const { name, eventClass, description, startTime, endTime ,venue,id,url} = eventData?.data || {};
+
+    /**
+     * store the url
+     */
+    useEffect(()=>{
+
+    setDataById("urlId",{url:url});
+      
+    },[]);
+
+    const copyUrl = useStore((state : any)=>state?.compData?.['urlId']?.url);
+
+       
     /**
      * Natigate to program Details page
      */
@@ -40,17 +57,40 @@ const EventDetailsCard = (eventData: any) => {
 
             
     }
+    const [showFullText, setShowFullText] = useState(false);
+    /**
+    * Truncate text
+    */
+    const truncatedString =truncateString(description,210);
 
-   
+
+     /**
+   * Method handles the copy to clipboard functionality
+   */
+  const handleEventCopy = () => {
+    
+    if (copyUrl) {
+  
+      navigator.clipboard.writeText(copyUrl)
+        .then(() => {
+          setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'success', message: 'Url copied to clipboard' });
+        })
+        .catch((err) => {
+          Logger.error("Failed to copy Url: ", err);
+        });
+    }
+  }
     return (
         <Grid container size={12} className="Event-BasicInfo">
 
             <Grid className="Event-BasicInfo-titles" size={12} container spacing={1}>
 
                 <Grid display={'flex'} size={12} flexWrap={"nowrap"} >
+
                     <Typography className="heading">
                         {name} 
                     </Typography>
+                    
                     <Chip label={eventClass} className="about-btn min-w-max" ></Chip>
 
                 </Grid>
@@ -58,17 +98,32 @@ const EventDetailsCard = (eventData: any) => {
 
 
                {description&&
-                <Grid className="description" spacing={0}>
+                <Grid className="description" spacing={0} display="flex" >
                    
-                    {HTMLReactParser(description)}
                     
-                </Grid>}
+                    <Typography  className=" cursor-pointer inline" onClick={() => setShowFullText(!showFullText)} >
+
+
+                           <span className=""> {showFullText ? HTMLReactParser(description)  : HTMLReactParser(truncatedString)}
+
+                            {description?.length > 210 &&(
+                         <span className="view-more"> {showFullText ? "View Less" : "View More" }</span> 
+                         )}
+                           </span>
+                            
+
+                        </Typography>
+                      
+                      
+                </Grid>
+                
+                }
 
             </Grid>
 
-        
-            <Grid container size={12} spacing={3} mt={3} className="Info-time">
-            {/* {boxArray?.map((item:any,index:any) => ( */}
+        <Grid  container size={12} spacing={1}>
+            <Grid container size={{lg:6,sm:12}} spacing={2} mt={3} className="Info-time" >
+           
                 <Grid size={12} display={"flex"} gap={1}>
 
                     <Grid container justifyContent={"center"} alignItems={"center"} className="svg">
@@ -78,15 +133,8 @@ const EventDetailsCard = (eventData: any) => {
 
                     </Grid>
 
-                    <Grid   container size={12}>
+                    <Grid   container size={12} display={"flex"} alignItems={"center"}>
 
-                        <Grid container    size={12} className="heading">
-
-                            <Typography className="title">
-
-                            Date & Time
-                            </Typography>
-                        </Grid>
 
                         <Grid container  size={12}>
 
@@ -101,13 +149,9 @@ const EventDetailsCard = (eventData: any) => {
                     </Grid>
 
                 </Grid>
-            
 
-            </Grid>
-
-            <Grid container size={12} spacing={3} mt={3} className="Info-time" justifyContent={{sm:"flex-start",lg:"flex-end"}}>
-                {eventClass==="OFFLINE" &&(
-                <Grid size={6} display={"flex"} gap={1}  justifyContent={"flex-start"}>
+                { venue?.address&&(
+                <Grid size={12} display={"flex"} gap={1}  justifyContent={"flex-start"}>
 
                     <Grid container justifyContent={"center"} alignItems={"center"} className="svg" >
 
@@ -116,16 +160,8 @@ const EventDetailsCard = (eventData: any) => {
 
                     </Grid>
 
-                    <Grid   container size={12}>
+                    <Grid   container size={12} display={"flex"} alignItems={"center"}>
 
-                        <Grid container    size={12}  className="heading">
-
-                            <Typography className="title">
-
-                               Location
-
-                            </Typography>
-                        </Grid>
 
                         <Grid container  size={12}>
 
@@ -139,16 +175,51 @@ const EventDetailsCard = (eventData: any) => {
                     </Grid>
 
                 </Grid>)}
-                <Grid size={{lg:6,sm:12}} className="Event-BasicInfo-viewProgram"  display={"flex"} alignItems={"end"} justifyContent={"flex-end"} gap={1}>
+
+                {url &&(
+                <Grid size={12} display={"flex"} gap={1}  justifyContent={"flex-start"} className="cursor-pointer" >    
+
+                    <Grid container justifyContent={"center"} alignItems={"center"} className="svg" >
+
+                       
+                    <HybridIcon/>
+
+                    </Grid>
+
+                    <Grid   container size={12} display={"flex"} alignItems={"center"}>
+
+                        
+
+                        <Grid container  size={12} display={"flex"} justifyContent={"space-between"}>
+
+                            <Typography className="date">
+
+                              {url}
+                          
+                            </Typography>
+
+                            <Box onClick={handleEventCopy} >
+                                <ContentCopyIcon/>
+                            </Box>
+
+                        </Grid>
+                    </Grid>
+
+                </Grid>)}
+
+            </Grid>
+           
+            <Grid size={{lg:6,sm:12}} className=" Event-BasicInfo-viewProgram"  display={"flex"} alignItems={"flex-end"}  justifyContent={{ sm: "flex-start", lg: "center" }}  gap={1}>
                 
-                <Grid size={6} container >
+                <Grid flex={1}  >
                     <CustomButton
                     fullWidth
                     label="View Programs" className="btn"
                     onClick={()=>viewProgramme(id)}
                     />
                  </Grid>
-                 <Grid size={6} container>
+                 
+                 <Grid flex={1} >
                     <CustomButton
                     fullWidth
                     label="Edit Event" className="btn2"
@@ -157,10 +228,11 @@ const EventDetailsCard = (eventData: any) => {
 
                  </Grid>
 
-                </Grid> 
-          
+             
 
             </Grid>
+            </Grid>
+           
 
 
         </Grid>

@@ -7,7 +7,7 @@ import CustomButton from '@/components/CustomButton/CustomButton'
 import AddIcon from "@mui/icons-material/Add";
 import CustomDrawer from '@/components/CustomDrawer/CustomDrawer'
 import CloseIcon from "../../../assets/svg/Close.svg"
-import useStore, { POST, setNonPersistedDataById, snackBar } from '@/Libs/store'
+import useStore, { POST, setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store'
 import CustomTextField from '@/components/CustomTextfield/CustomTextField'
 import FileUpload from '@/components/FileUpload/FileUpload'
 import { DataGridList } from '@/components/DataGrid/DataGridList'
@@ -111,12 +111,12 @@ const Sponsors = () => {
     }
 
     const columns = [
-        { type: "default", field: "id", headerName: "ID", width: 80 },
+        { type: "default", field: "id", headerName: "ID", width: 100 },
         {
             type: "custom",
             field: "logo",
             headerName: "Logo",
-            width: 130,
+            width: 120,
 
         },
         {
@@ -129,7 +129,7 @@ const Sponsors = () => {
             type: "custom",
             field: "email",
             headerName: "Email",
-            width: 150,
+            width: 255,
         },
         {
             type: "default",
@@ -144,7 +144,7 @@ const Sponsors = () => {
             width: 150,
             dateFormat: "DD/MM/YYYY",
         },
-        { type: "custom", field: "actions", headerName: "", width: 150 },
+        { type: "custom", field: "actions", headerName: "", width: 150 ,sortable: false},
 
     ];
 
@@ -343,6 +343,10 @@ const Sponsors = () => {
         } else {
             form.clearErrors('website');
         }
+        if (data?.logoId === "" || data?.bannerId === "") {
+            setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: data?.logoId === "" ? "Please upload Logo" : "Please upload Banner" });
+            return;
+          }   
 
         const companyId = sessionStorage.getItem('companyId') || '';
 
