@@ -809,7 +809,6 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
           <Grid size={{ xs: 6 }}>
             <CustomTextField
               prefixIcon={<AttachMoneyIcon />}
-              // disabled={isPaid === "PAID" ? false : true}
               name="propertyAmount"
               placeholder="Price"
               control={control}

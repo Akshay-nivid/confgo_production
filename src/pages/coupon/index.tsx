@@ -294,7 +294,6 @@ const Coupon = () => {
           }}
         >
           <MenuItem onClick={(_e) => handleCouponDrawer(rowData)}>
-          {/* <img src="/src/assets/png/writing.png" alt="Edit" className="action-icon" /> */}
            <Writing className="action-icon"/>
             <Typography className="action-text">Edit</Typography>
           </MenuItem>
