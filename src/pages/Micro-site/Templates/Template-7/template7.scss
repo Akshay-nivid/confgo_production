@@ -1,5 +1,6 @@
 .template-7{
     position: relative;
+
     .t7-navbar{
         .links-container{
             padding: 1rem;
@@ -39,6 +40,11 @@
         min-height: 100%;
         display: flex;
         align-items: flex-end;
+        background-repeat: no-repeat;
+        @media screen and (max-width: 600px) {
+            min-height: 90%;
+            background-position: 60%;
+        }
         .content{
             margin-left: 10%;
             display: flex;
@@ -74,7 +80,6 @@
                 .event-title-box{
                     // background-color: antiquewhite;
                     margin-block: 2.417rem;
-                    width: 55rem;
                     .title{
                         text-align: left !important;
                         color: $clr_white !important;
@@ -470,6 +475,143 @@
     .section-vertical-padding {
         padding-block: 6rem;
     }
+    .t7-program-addon{
+        padding-block: 5rem;
+       
+        .tab-container{
+            background-color: #EEF6FF;
+            border-top-right-radius: 0.833rem;
+            border-bottom-right-radius: 0.833rem;
+            border-top-left-radius: 0.833rem;
+            border-bottom-left-radius: 0.833rem;
+            display: flex;
+            justify-content: center;
+            align-items: center; 
+            overflow-inline: auto !important;    
+            overflow-y: visible !important;     
+            white-space: nowrap;
+            scrollbar-width: none;
+          
+            
+            &-item{
+                cursor: pointer;
+                padding-block: 1rem;
+                background-color: #EEF6FF;
+                 padding-inline:auto;
+                 margin-inline:auto ;
+                 overflow: visible !important;
+                width:25.833rem;
+                @media screen and (max-width:600px){
+                width: auto;
+                }
+                .title{
+                    font-size: $h5 !important;
+                    // color:$clr_white;
+                    font-weight: $font_bold !important; 
+                    @media screen and (max-width:600px) {
+                        font-size: $p2 !important;
+                    } 
+                } 
+                .date{
+                    // color:$clr_white !important;
+                    font-weight: $font-semibold !important;
+                    font-size:$h6 !important;
+                    @media screen and (max-width:600px){
+                        font-size: $p3 !important;
+                        }
+                }
+                @media (max-width: 600px) {
+                   width: auto;
+                   }
+
+            }
+            &-selected{
+                cursor: pointer;
+                padding-block: 1rem;
+                background-color:#336AEA;
+                 padding-inline:auto;
+                 margin-inline:auto ;
+                 overflow: visible !important;
+                width:25.833rem; 
+                @media screen and (max-width:600px){
+                    width: auto;
+                    }
+                .title{
+                    font-size: $h5 !important;
+                    color:$clr_white;
+                    font-weight: $font_bold !important;  
+                    @media screen and (max-width:600px){
+                        font-size: $p2 !important;
+                        }
+                } 
+                .date{
+                    color:$clr_white !important;
+                    font-weight: $font-semibold !important;
+                    font-size:$h6 !important;
+                    @media screen and (max-width:600px){
+                        font-size: $p3 !important;
+                        }
+                }
+                @media (max-width: 600px) {
+                    width: auto;
+                    }
+
+            }
+           
+            
+        }
+        .prm-add-container{
+            // height: 20.417rem;
+            border:1px solid #CCCCCC;
+            border-radius: 0.5rem;
+            .contents{
+                background-color: #B6D8FF;
+                display: flex;
+                flex-direction: row;
+            }
+            @media (max-width: 600px) {
+                height: auto;
+                }
+        }
+        .addonbox{
+            border-radius: 0.5rem;
+            background-color: #E8F3FF;
+            padding: 0.5rem;
+        }
+        .sponosr-img-container{
+            width: 3rem;
+            height: 3rem;
+        }
+        .prg-title{
+            padding-block: 1rem;
+            // width: 15rem;
+            p{
+                font-weight: $font_semibold;
+                font-size: $p1;
+            }
+        }
+        .prg-description{
+            padding-block: 1rem;
+            // width: 15rem;
+        }
+        .prg-time-container{
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            svg{
+                color: #027BFF;
+            }
+            .text{
+                color:#027BFF;
+                font-weight: $font-semibold !important;
+            }
+        }
+
+    }
+    .template-navbar .menu-container .menu-icon{
+        color: black; 
+    } 
+    
 
 
 
