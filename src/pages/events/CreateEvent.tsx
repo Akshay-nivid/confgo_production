@@ -103,6 +103,7 @@ const CreateEvent: React.FC<EventProps> =
       formState: { errors },
     } = methods;
  
+   
   
 
   const [editorContent, setEditorContent] = useState("");
