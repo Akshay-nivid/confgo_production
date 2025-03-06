@@ -37,10 +37,9 @@ interface FileListModalProps {
  * function to fetch file 
 @param companyId,searchQuery
  */
-const fetchFilesFromAPI = async (companyId: Number | string | null, searchQuery: string) => {
+const fetchFilesFromAPI = async (searchQuery: string) => {
   const req = {
     filters: {
-      companyId,
       name: searchQuery,
     },
     sortBy: 'createdOn',
@@ -74,7 +73,7 @@ const FileListModal: React.FC<FileListModalProps> = ({
     async (searchQuery: string = "") => {
       try {
         setLoading(true);
-        const response = await fetchFilesFromAPI(companyId, searchQuery);
+        const response = await fetchFilesFromAPI(searchQuery);
         const { data } = response.data;
         if (Array.isArray(data)) {
           setFiles(data);
