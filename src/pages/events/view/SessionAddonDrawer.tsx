@@ -796,7 +796,8 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
           />
         </Grid >
         <Grid size={12} container className="border border-gray-100 w-full py-6 p-4 rounded-md " rowSpacing={2}>
-          <Grid size={{ xs: 6 }}>
+        <Grid size={{ xs: isPaid === "PAID" ? 6 : 12 }}>
+
             <CustomTextField name="propertyName" placeholder="PropertyName" control={control} 
             // rules={{
             //   validate: () => Array.isArray(addonProperties) && addonProperties.length > 0 || "Please add at least one property"
@@ -804,10 +805,10 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
             />
           </Grid>
 
+            {isPaid ==="PAID" && (
           <Grid size={{ xs: 6 }}>
             <CustomTextField
               prefixIcon={<AttachMoneyIcon />}
-              disabled={isPaid === "PAID" ? false : true}
               name="propertyAmount"
               placeholder="Price"
               control={control}
@@ -819,7 +820,8 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
                 },
               }}
             />
-          </Grid>
+          </Grid>)}
+
 
           <Grid size={12} mt={1}>
             {/* <IconButton className="add-program-prop-add" onClick={handleAddProperty}>

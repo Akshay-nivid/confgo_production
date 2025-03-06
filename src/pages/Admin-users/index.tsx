@@ -307,7 +307,7 @@ const AdminUsersList = () => {
       type: "custom",
       field: "email",
       headerName: "Email",
-      width: 180
+      width: 255
     },
     {
       type: "default",

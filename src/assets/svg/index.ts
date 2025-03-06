@@ -175,6 +175,7 @@ import WhiteTickIcon from "./WhiteTickIcon.svg";
 import ToRight from "./Right-Create-event.svg";
 import NewPrice from "./price-event.svg";
 import Abstracts from "./abstracts.svg";
+import HybridIcon from "./hybrid-svg.svg";
 import PaymentNoData from "./paymentNoData.svg";
 import EventsNoData from "./EventsNoData.svg";
 import SponsorNoData from "./SponsorNoData.svg";
@@ -360,6 +361,7 @@ export {
   ToRight,
   NewPrice,
   Abstracts,
+  HybridIcon,
   PaymentNoData,
   EventsNoData,
   SponsorNoData,

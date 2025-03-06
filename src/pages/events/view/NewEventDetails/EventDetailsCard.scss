@@ -15,6 +15,9 @@
             font-weight: $font_normal;
             color: $clr_gray_dark_text;
             overflow: hidden;
+            .view-more{
+                color: $clr_cyan_lime_green !important;
+            }
         }
         .about-btn {
             width: 7rem !important;
@@ -36,13 +39,10 @@
            }      
         }
         .heading{
-        .title{
-            font-size: $p2;
-            font-weight: $font_bold;
-        }
+        
         .date{
-            font-size: $h6;
-            font-weight: $font-medium;
+            font-size: $h6 !important;
+            font-weight: $font-medium !important;
         }
     }
     }
@@ -57,12 +57,14 @@
              font-size: $p2;
              font-weight: $font_medium; 
              text-transform: none;
-            min-width: max-content;
+            // min-width: max-conte nt;
+            width: 100% !important;
             min-height: 3.3rem;
 
 
         }
         .btn2{
+            width: 100% !important;
             border-radius:  0.4167rem;
             box-shadow: none !important;
             background-color: $clr_green !important;
@@ -70,7 +72,7 @@
             font-size: $p2;
             font-weight: $font_medium; 
             text-transform: none;
-            min-width: max-content;
+            // min-width: max-content;
             min-height: 3.3rem;
             &:hover {
                 background-color: $clr_green !important; 

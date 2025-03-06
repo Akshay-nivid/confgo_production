@@ -30,7 +30,7 @@ import GoogleMapPlacePicker from "../../GoogleMapPlacePicker";
 /**
  * Interface for props
  */
-interface LocationCardProps {
+export interface LocationCardProps {
     eventData?: any;
     published?: boolean;
     onSubmitHandler?: any;
@@ -47,7 +47,7 @@ interface Coordinates {
 /**
  * Component to list the location on a map
  */
-const LocationView = ({ eventData, published, onSubmitHandler }: LocationCardProps) => {
+const LocationView = ({ eventData, published, onSubmitHandler}: LocationCardProps) => {
 
 
 

@@ -103,6 +103,7 @@ const CreateEvent: React.FC<EventProps> =
       formState: { errors },
     } = methods;
  
+   
   
 
   const [editorContent, setEditorContent] = useState("");
@@ -151,6 +152,7 @@ const CreateEvent: React.FC<EventProps> =
       const errorFieldMap: { [key: string]: string } = {
         name: '[name="name"]',
         description:  '#react-quill-description',
+        abstractDate :'[name=abstractDate]',
         phone: '[name="phone"]',
         email: '[name="email"]',
         startTime: '[name="startTime"]',
@@ -247,13 +249,12 @@ const CreateEvent: React.FC<EventProps> =
         });
         return;
       }
-      if (abstractDate < today) {
-        setError('abstractDate', {
-          type: 'manual',
-          message: 'Abstract submission date must be a future date',
-        });
-        return;
-      }
+      if ((abstractDate < today ) && (isAbstract === "true")) { 
+        setError('abstractDate', { type: 'manual', message: 'Abstract submission date must be a future date' });
+        return
+    } else {
+        clearErrors('abstractDate');
+    }
     //store the dates to compare 
       useStore.getState().setDataById("event-date", { startDate: startTime });
       useStore.getState().setDataById("event-date", { endDate: endTime });
@@ -620,13 +621,14 @@ const CreateEvent: React.FC<EventProps> =
                         control={control}
                         name="url"
                         type="text"
-                        rules={{ required: watch("type") === "ONLINE" }}
+                        rules={{ required: watch("type") === "ONLINE",
+                          pattern: {
+                            value: /^https:\/\/.+/,
+                            message: "Only HTTPS URLs are allowed"
+                          }
+                         }}
                       />
-                      {errors.url && (
-                        <Typography color="error" variant="body2">
-                          {errors.url.message}
-                        </Typography>
-                      )}
+                      
                     </Grid>
                   )}
                    <Grid size={{xs:12}}>
