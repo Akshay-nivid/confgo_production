@@ -140,7 +140,7 @@ const SponosrContactForm = ({eventData,customStyle}:SponosrContactFormProps) => 
     }
     return (
         <Grid container className={clsx('sponsor-page main',customStyle)} size={{ lg: 12 }}>
-            <Typography ml={1} variant='h4'>Become Sponsor</Typography>
+            <Typography ml={1} className='become-sponsor-title' variant='h4'>Become Sponsor</Typography>
             <Grid container className='sponsor-content' size={12} spacing={2} >
                 <Grid container className='sponsor-content-wrapper' size={{ lg: 12, xs: 12 }} spacing={3} justifyContent='center' >
                     <Grid container size={{ xs: 12}} paddingInline={1.6} spacing={0} className='sponsor-form' sx={{ order: { xs: 1, lg: 2 } }}  >

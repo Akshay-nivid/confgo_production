@@ -44,6 +44,11 @@ const TRegisterButton = ({ userTypeId, usageType = "DEFAULT", children, ...props
             return
         }
 
+        if (event?.availableSeats === 0) {
+            snackBar({ severity: 'error', message: `Registration is currently unavailable as the admin’s plan seat limit has been reached. For inquiries, please contact the event organizers at ${event?.companyEmail}` });
+            return
+        }
+
 
 
         if (usageType === 'DEFAULT' && isPriceTierPresent) {
@@ -62,6 +67,8 @@ const TRegisterButton = ({ userTypeId, usageType = "DEFAULT", children, ...props
             snackBar({ severity: 'error', message: 'You are already registered' })
             return;
         }
+
+        
 
         navigate(routes.programSelection(), { state: { userTypeId: userTypeId ? userTypeId : undefined } });
 

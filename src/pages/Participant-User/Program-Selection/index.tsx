@@ -140,9 +140,13 @@ const ProgramSelection = () => {
 
             const cartItems = allData.reduce((acc, item: any) => {
 
+              if(item?.startTime && new Date(item?.startTime) < new Date()) {
+                return acc
+              }
+
               if (item?.addonId) {
 
-                if (item?.eventAddonProperties?.length === 0) {
+                if (item?.eventAddonProperties?.length === 0 || item?.eventAddonProperties?.[0] === null  ) {
 
                   acc.addons.push({
                     addonId: item?.id
@@ -174,9 +178,6 @@ const ProgramSelection = () => {
         }).catch((err) => {
           snackBar({ severity: 'error', message: err?.message || 'something went wrong' })
         })
-
-        // getUserCart({ helperFn: handleNavigateToCart, cartID: cartId })
-        // setNonPersistedDataById('intialGetCart', { value: true })
       }
 
 
