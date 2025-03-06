@@ -12,6 +12,7 @@ import { useFormContext } from 'react-hook-form';
 
 import CheckIcon from '@mui/icons-material/Check';
 import useProgramAddonToggle from '../Program-Selection/useProgramAddonToggle';
+import { snackBar } from '@/Libs/store';
 
 interface IProgramcardProps {
   templateId: number | null | undefined, addon: any, date: string
@@ -36,7 +37,7 @@ const AddonCard = ({ templateId, addon, date }: IProgramcardProps) => {
 
 
 
-  const { isAddonProp, handleClickAddonProp, handleAddonClick,isAddonInCart } = useProgramAddonToggle()
+  const { isAddonProp, handleClickAddonProp, handleAddonClick, isAddonInCart } = useProgramAddonToggle()
 
   return (
     <Grid size={{ xs: 12, md: 6, lg: 4 }} className={clsx(`addon-card-${templateId} program-selection-addon-card`, watch(`${formatDate(date)}-programs`)?.includes(addon?.id) ? '' : '')} >
@@ -51,8 +52,8 @@ const AddonCard = ({ templateId, addon, date }: IProgramcardProps) => {
       <Box display={'flex'} flexDirection={'column'} className="addon-container">
         <Box className="addon-header">
 
-          <Typography className='addon-name'>  {truncateString(addon?.addon?.name, 23)}</Typography>
-          <Typography className="addon-description"> {truncateString(addon?.description, 23)}</Typography>
+          <Typography className='addon-name'>  {truncateString(addon?.addon?.name, 50)}</Typography>
+          <Typography className="addon-description"> {truncateString(addon?.description, 50)}</Typography>
         </Box>
         <Box display={"flex"} alignItems={"center"} className="addon-date-container">
           <CalendarMonthOutlinedIcon className='icon' />
@@ -83,7 +84,13 @@ const AddonCard = ({ templateId, addon, date }: IProgramcardProps) => {
               <Grid size={12} display={'flex'} alignItems={'center'} className={`addon-property-checkbox-group-${templateId}`}>
 
                 <Box className="flex items-center w-full ">
-                  <CustomAddonProButton templateId={templateId} onClick={() => handleClickAddonProp(property)} className={isAddonProp(property) ? `addon-property-checkbox-${templateId}-active` : ''} />
+                  {(addon?.startTime && new Date(addon?.startTime) >= new Date()) ? <CustomAddonProButton templateId={templateId} onClick={() => {
+                    if (addon?.startTime && new Date(addon?.startTime) < new Date()) {
+                      snackBar({ severity: 'error', message: 'The program has already started or expired.' })
+                    } else {
+                      handleClickAddonProp(property)
+                    }
+                  }} className={isAddonProp(property) ? `addon-property-checkbox-${templateId}-active` : ''} /> : <p className='text-xl text-red-700'>Expired</p>}
                   <Box display={'flex'} mt={.6} alignItems={'center'} flex={1}>
 
                     <Typography className="addon-prop-label ">{property?.name}</Typography>
@@ -101,15 +108,30 @@ const AddonCard = ({ templateId, addon, date }: IProgramcardProps) => {
         ) :
 
           <Grid size={12} display={'flex'} alignItems={'center'} className={`addon-property-checkbox-group-${templateId}`}>
-            <CustomAddonProButton templateId={templateId} onClick={() => handleAddonClick(addon?.id)} className={isAddonInCart(addon?.id) ? `addon-property-checkbox-${templateId}-active` : ''} />
+            {(addon?.startTime && new Date(addon?.startTime) >= new Date()) ? <CustomAddonProButton templateId={templateId} onClick={() => {
+              if (addon?.startTime && new Date(addon?.startTime) < new Date()) {
+                snackBar({ severity: 'error', message: 'The program has already started or expired.' })
+              } else {
+                handleAddonClick(addon?.id)
+              }
+            }} className={isAddonInCart(addon?.id) ? `addon-property-checkbox-${templateId}-active` : ''} /> : <p className='text-xl text-red-700'>Expired</p>}
 
             <Box className="flex items-center w-full">
-              <Typography className="addon-prop-label">{addon?.addon?.name}</Typography>
-              <Typography>-</Typography>
-              <Box className="flex items-center justify-between ml-auto ">
-                <Dollar className='addon-prop-money-icon -mt-1' />
-                <Typography className="addon-prop-amount">{Math.trunc(Number(addon?.amount)) === 0 ? "Free" : `${addon?.amount}`}</Typography>
+              {(addon?.startTime && new Date(addon?.startTime) >= new Date()) ?
+                <>
+                  <Typography className="addon-prop-label">{addon?.addon?.name}</Typography>
+                  <Typography>-</Typography>
+                </>
+                : ''}
+              {Math.trunc(Number(addon?.amount)) === 0 ? <Box className="flex items-center justify-between ml-auto ">
+                <Typography className="addon-prop-amount "> Free </Typography>
               </Box>
+                :
+                <Box className="flex items-center justify-between ml-auto ">
+                <Dollar className='addon-prop-money-icon -mt-1' />
+                <Typography className="addon-prop-amount">{addon?.amount}</Typography>
+              </Box>
+            }
 
             </Box>
           </Grid>

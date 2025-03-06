@@ -39,7 +39,7 @@ const T6SponsorContact = ({ eventData }: { eventData?: IEventResponse }) => {
                 </Grid>
 
             </Grid>
-            <Grid container spacing={2}>
+            <Grid container px={{xs:0,sm:4}} spacing={2}>
                 {eventLocation.map((item: any) => (
                     <Grid container marginInline={'auto'} size={{ xs: 12, sm: 4, md: 4 }} key={item.id}>
                         <Grid className="venue-container main">

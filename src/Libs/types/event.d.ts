@@ -10,6 +10,7 @@ export interface  IEventResponse {
   venueId: number;
   eventClass: "OFFLINE" | "ONLINE" | "HYBRID";
   interval: string;
+  availableSeats: number;
   companyId: string;
   title: string;
   amount: string;
