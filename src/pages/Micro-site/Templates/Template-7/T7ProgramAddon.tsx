@@ -37,7 +37,7 @@ const T7ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                         return (
                             <>
                                 <Box className="tab-container ">
-                                    {data?.tabs.map((item: any, index: number) => (
+                                    {data?.tabs?.map((item: any, index: number) => (
                                         <Box onClick={() => data.handleTabChange(item)} className={data.selectedDate != item ? "tab-container-item" : "tab-container-selected overflow-visible z-10 before:-z-10 relative before:content-[' '] before:absolute before:h-8 before:w-8  before:bg-[#336AEA] before:-bottom-2 before:overflow-visible  before:transform before:rotate-45 before:left-1/2 before:-translate-x-1/2"} key={item + index}>
                                             <Box className={'gap-2 '}>
                                                 <Typography className="title z-10" textAlign={'center'}>Day {index + 1}</Typography>
@@ -53,28 +53,28 @@ const T7ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                     {selectedData?.map((item: any, index: number) => {
                                         // const isFullWidth = item.items.length === 3;
                                         let itemSize: any = { xs: 12, sm: 4 };
-                                        if (item.items.length === 3) {
+                                        if (item?.items?.length === 3) {
                                             itemSize = { xs: 12, sm: 12 };
-                                        } else if (item.items.length === 2) {
+                                        } else if (item?.items?.length === 2) {
                                             itemSize = { xs: 12, sm: 'auto' };
                                         }
 
                                         let childItemSize: any = { xs: 12, sm: 12 };
-                                        if (item.items.length === 3) {
+                                        if (item?.items?.length === 3) {
                                             childItemSize = { xs: 12, sm: 4 };
-                                        } else if (item.items.length === 2) {
+                                        } else if (item?.items?.length === 2) {
                                             childItemSize = { xs: 12, sm: 'auto' }
                                         }
 
                                         return (
                                             <Grid container className="prm-add-container" key={"main" + index} size={itemSize} onClick={() => data?.handleModalOpen(item?.items)}>
                                                 <Grid container size={12} >
-                                                    {item.items.map((prg: any, prgIndex: number) => {
+                                                    {item?.items?.map((prg: any, prgIndex: number) => {
                                                         return <Grid container className={prg?.addonId ? "addonbox p-2" : "p-2"} display={"flex"} size={childItemSize} key={prgIndex} justifyContent={"space-between"}   >
                                                             <Grid>
                                                                 <Grid container justifyContent={"space-between"}>
                                                                     <Box display={'block'}>
-                                                                        {prg.eventSponsors.length > 0 &&
+                                                                        {prg?.eventSponsors?.length > 0 &&
                                                                             <Typography>Sponsored by</Typography>}
                                                                         {prg?.eventSponsors?.map((sponsor: any) => {
                                                                             return (
