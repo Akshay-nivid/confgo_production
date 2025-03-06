@@ -433,7 +433,7 @@ const EventInfoCard: React.FC<any> = React.memo(
 
         ))}
 
-        <Grid container size={{ lg: eventData?.eventClass === "OFFLINE" ? 8 : 12, sm: 12 }} maxHeight={"max-content"}>
+        <Grid container size={{ lg: eventData?.eventClass === "OFFLINE" || eventData?.eventClass === "HYBRID" ? 8 : 12, sm: 12 }} maxHeight={"max-content"}>
 
           <EventDetailsCard data={eventData} />
 
@@ -443,7 +443,7 @@ const EventInfoCard: React.FC<any> = React.memo(
         <Grid container size={{ lg: 4, sm: 12 }} spacing={0} maxHeight={"max-content"} rowSpacing={2} >
 
           {/* Location */}
-          {eventData?.eventClass === "OFFLINE"
+          {eventData?.eventClass === "OFFLINE" || eventData.eventClass === "HYBRID"
             && (
               <LocationView eventData={eventData} onSubmitHandler={onSubmitHandler} />
             )}
