@@ -57,7 +57,7 @@ const Programcard = ({ templateId, program, date }: IProgramcardProps) => {
                 <Box className="flex justify-between">
                     <Tooltip title={program?.name}>
 
-                        <p className="text-2xl font-semibold mb-1">{truncateString(program?.name, 23)}</p>
+                        <p className="text-2xl font-semibold mb-1">{truncateString(program?.name, 30)}</p>
                     </Tooltip>
 
                     <p onClick={handleClickViewDetails} className="underline cursor-pointer">View details</p>
@@ -65,7 +65,7 @@ const Programcard = ({ templateId, program, date }: IProgramcardProps) => {
                 </Box>
                 <Tooltip title={HTMLReactParser(program?.description || '')}>
 
-                    <p className="text-md font-normal">{truncateString(program?.description, 40)}</p>
+                    <p className="text-md font-normal">{truncateString(program?.description, 55)}</p>
                 </Tooltip>
                 <Box className="program-badge">
                     <p className="text-md leading-none">Program</p>
@@ -125,10 +125,14 @@ const Programcard = ({ templateId, program, date }: IProgramcardProps) => {
 
             <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} padding={1.6} >
                 <Box className="">
+                  { Math.trunc(Number(program?.amount)) === 0 ? <Grid display={'flex'} alignItems={'center'} className="price-group">
+                        <Typography className='program-price'>Free</Typography>
+                    </Grid>
+                    :
                     <Grid display={'flex'} alignItems={'center'} className="price-group">
                         <Dollar className="program-money-icon -mt-1" />
-                        <Typography className='program-price'>{Math.trunc(Number(program?.amount)) === 0 ? "Free" : `${program?.amount}`}</Typography>
-                    </Grid>
+                        <Typography className='program-price'>{program?.amount}</Typography>
+                    </Grid>}
 
 
                 </Box>
@@ -141,12 +145,13 @@ const Programcard = ({ templateId, program, date }: IProgramcardProps) => {
 
                 <Grid size={4} className={`program-checkbox-group-${templateId}`}>
 
-                    <CustomButton fullWidth startIcon={isProgramInCart(program?.id) ? <Check className="" /> : null} className={clsx(`program-card-btn-${templateId} program-card-btn`, isProgramInCart(program?.id) && `program-card-btn-${templateId}-active`)} label={isProgramInCart(program?.id) ? "Added" : "Add"} onClick={() => handleProgramClick(program?.id)} />
+                   {program?.startTime && new Date(program.startTime) >= new Date() ? <CustomButton   fullWidth startIcon={isProgramInCart(program?.id) ? <Check className="" /> : null} className={clsx(`program-card-btn-${templateId} program-card-btn`, isProgramInCart(program?.id) && `program-card-btn-${templateId}-active`)} label={isProgramInCart(program?.id) ? "Added" : "Add"} onClick={() => handleProgramClick(program?.id)} /> : <p className='text-xl text-red-700 text-center'>Expired</p>}
                 </Grid>
             </Box>
             <Grid container spacing={2} alignItems="center" className='aboslute bottom-0 pl-5'>
                 {(program?.eventParticipantEntries || []).map((entry: any, index: any) => {
-                    const { seatAllocated = 0, totalSeat = 1 } = entry;
+                    console.log(program?.eventParticipantEntries)
+                    const { seatAllocated , totalSeat } = entry;
                     const remainingSeat = totalSeat - seatAllocated;
                     const bookedPercentage = (seatAllocated / totalSeat) * 100;
                     const isOverbookedRed = bookedPercentage > 85;
