@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import {  CalenderEventMobIcon, DashboardUserMobIcon, paymentHistoryMobIcon, SettingsDashBoardMobIcon,MyEventsMobIcon } from '@/assets/svg';
+import {  CalenderEventMobIcon, DashboardUserMobIcon, PaymentHistoryMobIcon, SettingsDashBoardMobIcon,MyEventsMobIcon } from '@/assets/svg';
 import {  Drawer, List, ListItem, ListItemText, ListItemButton, Divider } from '@mui/material';
 import routes from '@/router/routes';
 import { useIsMobileScreen } from '@/Utils/CommonBaseClass';
@@ -26,7 +26,7 @@ const sidebarItems = [
   },
   {
     path: routes.paymentHistory(),
-    icon: paymentHistoryMobIcon,
+    icon: PaymentHistoryMobIcon,
     label: 'Payment History',
     exact: true,
   },
