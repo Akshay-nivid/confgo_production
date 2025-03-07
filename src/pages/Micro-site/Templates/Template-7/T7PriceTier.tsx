@@ -10,7 +10,7 @@ import TRegisterButton from '@/pages/events/template/_components/TRegisterButton
  */
 const T7PriceTier = () => {
     return (
-        <Box sx={{backgroundColor:"white"}} >
+        <Box id="tickets" className='bg-white' >
             <Box className='main t7-tier-section'>
                 <h3 className='template-section-title t7-tier-section-title '>Registration & Ticketing</h3>
                 <Grid container justifyContent={'center'} columnSpacing={6} rowSpacing={4} className='tiers-container'>

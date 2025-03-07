@@ -78,6 +78,7 @@ const EventRecap: React.FC = React.memo(() => {
   useEffect(() => {
     EventDetails();
     eventTicketDataApi();
+    setDataById('eventTab', { tabIndex: 0 });
   }, []);
 
 
