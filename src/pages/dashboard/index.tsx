@@ -37,6 +37,7 @@ const Dashboard = () => {
   const handleClose = () => setOpen(false);
   const acceptedTerms = sessionStorage.getItem('acceptedTerms');
   const [ongoingData, setOngoingData] = useState<any[]>([]);
+  const companyId = sessionStorage.getItem('companyId')
   /**
    * Useeffect hook handles the api call for fetching upcoming event list and pending event list
    */
@@ -126,7 +127,6 @@ const Dashboard = () => {
 
     }
   }
-
   /**
    * Function used to fetch the currently on going event
    */
@@ -141,7 +141,7 @@ const Dashboard = () => {
           offset: 0,
           filters: {
             published: 1,
-            startTime:new Date().toISOString()
+            companyId:companyId,
           }
         },
 
@@ -178,7 +178,6 @@ const Dashboard = () => {
     return sortedEvents.length > 0 ? sortedEvents[0] : null;
 
   };
-  
   const firstOngoingEvent = getOngoingEvent(ongoingData);
   /**
   * Method fetch the pending event list
@@ -223,8 +222,7 @@ const Dashboard = () => {
     )
   }
     
-    
-  
+
   return (
     <>
     {pendingEventList?.success ? 
