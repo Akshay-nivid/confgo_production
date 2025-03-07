@@ -89,7 +89,7 @@ import MailIcon from './mailIcon.svg';
 import MenuIcon from './Vector.svg';
 import DashboardUserMobIcon from './DashboardUserMobIcon.svg';
 import MyEventsMobIcon from './MyEventsMobIcon.svg';
-import paymentHistoryMobIcon from './PaymentHistoryMobIcon.svg';
+import PaymentHistoryMobIcon from './PaymentHistoryMobIcon.svg';
 import CalenderEventMobIcon from './CalenderEventMobIcon.svg';
 import SettingsDashBoardMobIcon from './SettingsDashBoarsmobIcon.svg';
 import UploadedFile from './uploaded-file.svg';
@@ -292,7 +292,7 @@ export {
   MenuIcon,
   DashboardUserMobIcon,
   MyEventsMobIcon,
-  paymentHistoryMobIcon,
+  PaymentHistoryMobIcon,
   CalenderEventMobIcon,
   SettingsDashBoardMobIcon,
   UploadedFile,
