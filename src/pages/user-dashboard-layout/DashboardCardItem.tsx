@@ -14,26 +14,27 @@ interface DashboardCardItemProps {
   titleClassName?: string; // Optional prop for the title's class name
   countClassName?: string; // Optional prop for the count's class name
   contentClassName?: string;
+  backgroundColor?: string;
 }
 
 /**
  * Reusable card component for the dashboard
  * @author Neethu
  */
-const DashboardCardItem: React.FC<DashboardCardItemProps> = React.memo(({ icon: Icon, title, onClick,count,className = "", 
+const DashboardCardItem: React.FC<DashboardCardItemProps> = React.memo(({ icon: Icon, title, onClick,count,className = "",backgroundColor 
  }) => {
   const isMobileView = useIsMobileScreen()
   return(
-  <Card variant="outlined" className={`dashboard-card ${className}`}  onClick={onClick}>
+  <Card variant="outlined" className={`dashboard-card ${className}`}  onClick={onClick}  sx={{ backgroundColor: backgroundColor || "white" }} >
     <CardContent className={isMobileView? "dashboard-content-card":""}>
       <Box className={`dashboard-card-icon`} display="flex" justifyContent="left" mb={2}>
         {Icon && <Icon />}
       </Box>
-      <Typography className={`dashboard-card-title`}  component="div"  >
-        {title}
-      </Typography>
       <Typography className={`dashboard-card-count`}  component="div" >
         {count}
+      </Typography>
+      <Typography className={`dashboard-card-title`}  component="div"  >
+        {title}
       </Typography>
     </CardContent>
   </Card>

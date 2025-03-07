@@ -183,6 +183,18 @@ import UserNoData from "./UserNoData.svg";
 import CouponNoData from "./CouponNoData.svg";
 import Writing from "./Writing.svg";
 
+import viewEventButton from "./vieweventbtn.svg";
+import TotalAmountIcon from "./TotalAmountIcon.svg";
+import TotalEventIcon from "./TotalEventIcon.svg";
+import SessionParticipatedIcon from "./SessionParticipatedIcon.svg";
+import TransactionHistoryFileIcon from "./TransactionHistoryFileIcon.svg";
+import AllEventIcon from "./AllEventIcon.svg";
+import DownloadTicketIcon from "./DownloadTicketIcon.svg";
+import RightPointerArrow from './rightpointarrow.svg';
+import ViewEventButtonBlue from './vieweventbuttonblue.svg';
+import UpcomingImage from './UpcommingImage.svg';
+import DashBoardContainer from "./dashboardcontainer.svg";
+import DownArrowIcon from "./DownArrowIcon.svg";
 export {
   Coupon2,
   MainBottomBanner,
@@ -367,5 +379,17 @@ export {
   SponsorNoData,
   UserNoData,
   CouponNoData,
-  Writing
+  Writing,
+  viewEventButton,
+  TotalAmountIcon,
+  SessionParticipatedIcon,
+  TotalEventIcon,
+  TransactionHistoryFileIcon,
+  AllEventIcon,
+  DownloadTicketIcon,
+  RightPointerArrow,
+  ViewEventButtonBlue,
+  UpcomingImage,
+  DashBoardContainer,
+  DownArrowIcon,
 };

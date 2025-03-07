@@ -5,7 +5,7 @@ import { Typography } from "@mui/material";
 
 import CustomButton from "@/components/CustomButton/CustomButton";
 import { useNavigate } from 'react-router-dom';
-import { CalendarNoEvent } from "@/assets/svg";
+import { UpcomingImage } from "@/assets/svg";
 
 interface noDataCard{
   title:string;
@@ -41,7 +41,7 @@ const NoDataCard: React.FC<noDataCard> = React.memo(({title,description}) => {
           </Grid>
         </Grid>
         <Grid size={4} >
-          <CalendarNoEvent className="no-records-image" />
+          <UpcomingImage className="no-records-image" />
         </Grid>
       </Grid>
 
