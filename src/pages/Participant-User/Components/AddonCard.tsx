@@ -55,7 +55,7 @@ const AddonCard = ({ templateId, addon, date }: IProgramcardProps) => {
           <Typography className='addon-name'>  {truncateString(addon?.addon?.name, 50)}</Typography>
           <Typography className="addon-description"> {truncateString(addon?.description, 50)}</Typography>
         </Box>
-        <Box display={"flex"} alignItems={"center"} className="addon-date-container">
+        {addon?.startTime&&<Box display={"flex"} alignItems={"center"} className="addon-date-container">
           <CalendarMonthOutlinedIcon className='icon' />
           {/* {addon?.startTime ? <LocalTimeDate utcDateTime={addon?.startTime} format="MMMM D" timezone="auto" fallbackText="Not Available" /> : "NA"} */}
           {convertUTCToUserTimeZone(addon?.startTime, "MMMM D")}
@@ -63,14 +63,14 @@ const AddonCard = ({ templateId, addon, date }: IProgramcardProps) => {
           {convertUTCToUserTimeZone(addon?.endTime, "MMMM D")}
 
           {/* {addon?.endtime ? <LocalTimeDate utcDateTime={addon?.endTime} format="MMMM D" timezone="auto" fallbackText="Not Available" /> : 'NA'} */}
-        </Box>
+        </Box>}
 
-        <Box display={"flex"} alignItems={"center"} className="addon-time-container">
+        {addon?.endTime&&<Box display={"flex"} alignItems={"center"} className="addon-time-container">
           <TimerOutlinedIcon className='icon' />
           {addon?.startTime ? <Typography className='addon-time'>
             {moment(addon?.startTime).format("h:mm A") + ' ' + '-' + ' ' + moment(addon?.endTime).format("h:mm A")}
           </Typography> : 'NA'}
-        </Box>
+        </Box>}
 
       </Box>
 
@@ -108,7 +108,7 @@ const AddonCard = ({ templateId, addon, date }: IProgramcardProps) => {
         ) :
 
           <Grid size={12} display={'flex'} alignItems={'center'} className={`addon-property-checkbox-group-${templateId}`}>
-            {(addon?.startTime && new Date(addon?.startTime) >= new Date()) ? <CustomAddonProButton templateId={templateId} onClick={() => {
+            {(addon?.startTime && new Date(addon?.startTime) >= new Date() || !addon?.startTime || !addon?.endTime) ? <CustomAddonProButton templateId={templateId} onClick={() => {
               if (addon?.startTime && new Date(addon?.startTime) < new Date()) {
                 snackBar({ severity: 'error', message: 'The program has already started or expired.' })
               } else {
