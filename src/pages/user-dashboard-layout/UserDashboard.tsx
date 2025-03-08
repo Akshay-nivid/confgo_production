@@ -49,9 +49,10 @@ const UserDashboard: React.FC = React.memo(() => {
   const isMobileView = useIsMobileScreen()
   const userId = sessionStorage.getItem('userId');
   const firstCheckedIn = userCompletedEvents.data?.find((event: { checkedIn: any; }) => event.checkedIn) || null;
-  const today=formatUTCDateTime(new Date().toISOString()).split("T")[0]
-  const EventStartDate = formatUTCDateTime(userEvents?.startTime).split("T")[0];
+  const today=moment(new Date().toISOString())
+  const EventStartDate = moment(userEvents?.startTime)
   const upCommingEvent = userEvents["event/list"];
+  const EventEndDate = moment(userEvents?.endTime)
   /**
   * Useeffect hook handles the api call 
   */
@@ -91,7 +92,7 @@ const UserDashboard: React.FC = React.memo(() => {
   * fetch upcoming events
   */
   const fetchUpcomingEvents = async () => {
-    const formattedDate=formatUTCDateTime(new Date().toISOString().split("T")[0] + "T00:00")
+    const formattedDate=formatUTCDateTime(new Date().toISOString())
     try {
       setIsCalendarLoading(true);
       await POST({
@@ -274,7 +275,7 @@ const UserDashboard: React.FC = React.memo(() => {
         <Grid container className="dashboard-right-calendar" >
             {isCalendarLoading ? <CircularProgress /> :
             userEvents && Array.isArray(userEvents['event/list']?.data) && userEvents['event/list']?.data.length > 0 ? 
-              EventStartDate == today ? <OngoingEventCard data={userEvents['event/list']?.data}/> : 
+            today.isBetween(EventStartDate, EventEndDate, "minute", "[]") ? <OngoingEventCard data={userEvents['event/list']?.data}/> : 
               <CalendarCard data={userEvents} />
               :<NoCalenderData/>
             }
