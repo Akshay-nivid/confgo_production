@@ -54,64 +54,69 @@ const UserLayout = () => {
         }
       });
     } catch (error: any) {
-      Logger.error("Error fetching event by slugname",error)
+      Logger.error("Error fetching event by slugname", error)
       snackBar({ severity: 'error', message: error?.message || 'something went wrong' })
     }
   };
 
-/**
- * Fetches participant data and checks if user has already paid for the event.
- * Runs on component mount or update.
- */
+  const user = sessionStorage.getItem('userId');
+
+  /**
+   * Fetches participant data and checks if user has already paid for the event.
+   * Runs on component mount or update.
+   */
 
   useEffect(() => {
-    
-    (async () => { 
+
+    (async () => {
       await checkPublished();
 
-      const user = sessionStorage.getItem('userId');
-      
-      if (!user) return
-      
 
-      if (user) { 
+      if (!user) return
+
+
+      if (user) {
 
         if (!initialFetchDone) {
-          
+
           try {
             const response = await apiClient.post('participant/existing', { eventId: eventId })
-            
+
             const { data, status } = processAPIResponse(response, 'participant/existing');
-            
+
             setDataById('payedUser', data)
 
-            setNonPersistedDataById('checkUserPaymentinitialFetchDone',{ value: true })
-    
-            if (status) { 
-    
+            setNonPersistedDataById('checkUserPaymentinitialFetchDone', { value: true })
+
+            if (status) {
+
               if (data?.participant) {
                 snackBar({ severity: 'error', message: 'You have already paid for this event' })
-                navigate(routes.userHome())
-                
+
+                const setNavigationTimeOut = setTimeout(() => {
+
+                  navigate(routes.userHome())
+                }, 1000)
+                clearTimeout(setNavigationTimeOut)
               }
-  
+
             }
-            
-          } catch (err:any) {
-    
-            snackBar({severity:'error',message:err?.response?.data?.message ||err?.message || 'something went wrong'})
+
+          } catch (err: any) {
+
+            snackBar({ severity: 'error', message: err?.response?.data?.message || err?.message || 'something went wrong' })
           }
-          
+
         } else {
 
           if (initialFetchDone) {
 
             if (payedUser?.participant) {
-              snackBar({severity:'error',message:'You have already paid for this event'})
+              snackBar({ severity: 'error', message: 'You have already paid for this event' })
               navigate(routes.userHome())
             }
-  
-    
+
+
           }
           return
         }
@@ -121,7 +126,7 @@ const UserLayout = () => {
     })()
 
 
-  }, [location.pathname])
+  }, [location.pathname,user])
 
 
 
@@ -130,7 +135,7 @@ const UserLayout = () => {
 
   return (
     <Box className="user-layout">
-      
+
       <Nav templateId={templateId} />
       <Box className="user-layout-content">
         <Box className="user-layout-card">

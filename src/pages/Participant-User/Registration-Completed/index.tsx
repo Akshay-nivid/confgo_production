@@ -5,7 +5,6 @@ import CustomButton from "@/components/CustomButton/CustomButton";
 import useStore, { IStoreState } from "@/Libs/store";
 import routes from "@/router/routes";
 import { useNavigate } from "react-router-dom";
-//import { Navigate } from "react-router-dom";
 import QRCodeDisplay from "@/components/QRCodeDisplay/QRCodeDisplay";
 import { OrderSummary } from "@/Libs/types/type";
 
@@ -13,7 +12,6 @@ const RegistrationCompleted = () => {
 
   const navigate = useNavigate();
 
-  const finalPrice = useStore((state: any) => state?.compData?.["finalPrice"]?.value)
   //const slugName = useStore((state: any) => state?.compData?.["slugName"]?.value)
   const orderData: OrderSummary = useStore((state: IStoreState) => state?.compData?.["order"]?.["order"]?.data) || null
   //const isCheckout = useStore((state: IStoreState) => state?.compData?.cartCheckout?.checkout) || false 
@@ -21,20 +19,8 @@ const RegistrationCompleted = () => {
   const regData = useStore((state: IStoreState) => state?.compData?.registrationCompleteData) || null
 
   const eventAmount = useStore((state: IStoreState) => state?.compData?.["eventData"]?.[`event/${regData?.event?.id}`]?.data?.amount) || null
-  
-  // if (isCheckout === false) {
 
-  //   if (!slugName) {
-
-  //     const token = sessionStorage.getItem("token")
-  //     if (!token) {
-  //       return <Navigate to={routes.userLogin()} />;
-  //     }
-  //     return <Navigate to={routes.userHome()} />;
-  //   }
-  //   return <Navigate to={routes.eventExternalLink(slugName)} />
-  // }
-
+  const taxType = orderData?.taxInclusive ? 'inc.' : 'excl.'
   return (
     <Box className="pb-5">
     <Grid container className="event-registration-completed shadow">
@@ -80,14 +66,19 @@ const RegistrationCompleted = () => {
             </Box>
 
             <Box className="payment-bill-item">
-              <Typography className="info-text">Food Total</Typography>
-              <Typography className="info-text value">${orderData?.addonTotal ?? 0}</Typography>
+              <Typography className="info-text">Addon Total</Typography>
+              <Typography className="info-text value">${orderData?.addonTotal.toFixed(2) ?? 0}</Typography>
+              </Box>
+              
+              <Box className="payment-bill-item">
+              <Typography className="info-text">Tier discount</Typography>
+              <Typography className="info-text value">${orderData?.priceTierDiscount ?? 0}</Typography>
             </Box>
           </Box>
           <Box className="divider"></Box>
           <Box className="payment-bill-details">
            {orderData?.tax > 0 && <Box className="payment-bill-item">
-              <Typography className="info-text">Tax</Typography>
+              <Typography className="info-text">Tax <span className="text-lg font-normal">{`(${taxType})`}</span></Typography>
               <Typography className="info-text value">${orderData?.tax ?? 0}</Typography>
             </Box>}
             <Box className="payment-bill-item">
@@ -96,7 +87,7 @@ const RegistrationCompleted = () => {
             </Box>
             <Box className="payment-bill-item">
               <Typography className="info-text">Coupon Code Applied</Typography>
-              <Typography className="info-text value">${couponData?.discountAmount ?? 0}</Typography>
+              <Typography className="info-text value">${couponData?.discountAmount?.toFixed(2) ?? 0}</Typography>
             </Box>
           </Box>
           <Box className="divider"></Box>
@@ -105,7 +96,7 @@ const RegistrationCompleted = () => {
               Grand Total
             </Typography>
             <Typography className="grand-total-info-text">
-              $ {finalPrice ?? 0} </Typography>
+              $ {orderData?.finalPrice ?? '-'} </Typography>
           </Box>
         </Box>
       </Grid>

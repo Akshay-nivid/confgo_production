@@ -12,11 +12,10 @@ import Grid from "@mui/material/Grid2";
 import StatusComponent from "@/components/Status/StatusComponent";
 import "./userdetail.scss";
 import React from "react";
-import { formatDateTimeRange, truncateString } from "@/Utils/CommonBaseClass";
 import { CallingIcon, MailIcon } from "@/assets/svg";
 import UserAllDetail from "./userAllDetail";
 import config from "../../../../config.json";
-import CustomTooltip from "@/components/CustomToolTip/CustomTooltip";
+import SessionCard from "./sessionCard";
 interface User {
   id: string;
   firstName: string;
@@ -44,7 +43,6 @@ const UserDetail: React.FC = React.memo(() => {
   const [userdetailData,setuserdetailData]=useState()
   const [programs, setPrograms] = useState<Program[]>([]);
   const baseUrl = config.api.url;
-  const [mode,setMode]=useState<any>('')
   useEffect(() => {
     eventParticipantList();
   }, [id]);
@@ -58,9 +56,7 @@ const UserDetail: React.FC = React.memo(() => {
       if (response.data.status === "Success") {
         
         const data = response?.data?.data;
-        const eventMode=data?.details?.event;
         
-        setMode(eventMode);  
         setuserdetailData(data);
 
         const userData = {
@@ -85,6 +81,8 @@ const UserDetail: React.FC = React.memo(() => {
             endTime: program.event?.endTime,
             status: program.event?.statusId,
             speaker: program.event?.speaker,
+            description: program.event?.description,
+            speakers:program.event?.eventSpeakers?.map(({ user, ...event }:any) => ({...event,...user,  speakerAssetId: user.assetId})) || []
         }));
         setPrograms(programData);
       }
@@ -148,45 +146,25 @@ const UserDetail: React.FC = React.memo(() => {
       <Typography variant="h6" className="userdetail-data-title">
         Registered Programs
       </Typography>
-      <Grid container spacing={2}>
-        {programs.length > 0 ? (
-        programs.map((program, index) => (
-          <Grid size={{ xs: 12, sm: 6, md: 4 }} key={index}>
-            <Grid className="userdetail-event-card">
-              <Grid container direction="row" className="userdetail-time-status">
-                <Typography className="userdetail-time" variant="subtitle2">
-                  {formatDateTimeRange({ date: program?.startTime,format: "h:mm A",})}-{formatDateTimeRange({ date: program.endTime,format: "h:mm A",})}
-                </Typography>
-                {program.status && (
-                  <StatusComponent className="user-status" value={program?.status}/>
-                )}
-              </Grid>
-              
-                <CustomTooltip title={program?.name}>
-                  <Typography variant="h6" className="userdetail-name">
-                    {truncateString(program?.name, 40)}
-                  </Typography>
-                </CustomTooltip>
-             
+      <Grid container spacing={2} className="event-sessions-session-list">
+        {programs.map((item: any, index: number) => {
+          return (
+            <SessionCard
+              key={index}
+              index={index + 1}
+              item={item}
+              timeCorrection={true}
+              hasAddOns={item?.eventAddonId ? true : false}
+              titleField={"name"}
+              startTimeField="startTime"
+              endTimeField="endTime"
+              fields={[]}
+            />
+          );
+        }
+        )}
 
-             {mode?.eventClass ==="OFFLINE"?(
-
-                
-                  <CustomTooltip title={program?.location}>
-                    <Typography variant="body2" className="userdetail-card-data">
-                      Location: {truncateString(program?.location, 20)}
-                    </Typography>
-                  </CustomTooltip>
-               
-
-              ):(
-                <Typography>URL:{mode?.url}</Typography>) }
-            </Grid>
-          </Grid>
-        )))
-        : (
-      <Typography>No programs registered.</Typography>)}
-      </Grid>  
+      </Grid>
       <Grid className="userdetails-alldetails">
       <UserAllDetail userdetail={userdetailData}/>
       </Grid>

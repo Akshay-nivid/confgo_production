@@ -59,7 +59,7 @@ const Layout = () => {
 const MobileLayout = ({ showAlertBanner,showPaypalBanner }: { showAlertBanner: boolean ,showPaypalBanner:boolean}) => {
 
   return (
-    <Box width={"100%"} display={{ xs: 'block', md: 'none' }}>
+    <Box width={"100%"} >
       <Box className="h-screen overflow-hidden flex flex-col">
         <LayoutAppbar />
         <Box className=" h-full flex overflow-x-hidden">
@@ -88,7 +88,7 @@ const MobileLayout = ({ showAlertBanner,showPaypalBanner }: { showAlertBanner: b
  */
 const DesktopLayout = ({ showAlertBanner,showPaypalBanner }: { showAlertBanner: boolean,showPaypalBanner:boolean }) => {
   return (
-    <Box display={{ xs: 'none', md: 'block' }}>
+    <Box>
       <Grid className="layout-container" container width={'100%'}>
         <Grid minWidth={'5.88rem'} size={{ xs: 0, md: 2 }}>
           <Sidebar open={true} />
