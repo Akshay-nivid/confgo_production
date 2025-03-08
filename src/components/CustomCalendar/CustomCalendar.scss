@@ -1,183 +1,40 @@
-.fc-daygrid-event,
-.fc-timegrid-event {
-  border: none !important;
-  color: inherit;
+
+.fc-button-primary{
+  color: $clr_gray_medium !important;
+  background-color: $clr_white !important;
+  text-transform: capitalize !important;
+  border: 0.1642rem solid $clr_medium_grey !important;
+}
+.fc-button-active{
+  font-weight: $font_bold!important;
+  color: $clr_black !important;
+}
+.fc-button:hover{
+  font-weight: $font_bold!important;
+  color: $clr_black !important;
+}
+.fc-sticky {
+  position: sticky;
+  top: 0px;
+}
+.fc-event-time {
+  max-width: max-content !important;
+  background-color: seashell !important;
+  border: 0.0833rem solid rgb(167, 80, 18) !important;
+  border-radius: 5px !important;
+font-size: $p2 !important;
+font-weight: 700 !important; 
+}
+.fc-event-title{
+  font-size: $h6 !important;
+  font-weight: $font_bold !important; 
 }
 
-.fc-event-title {
-  color: inherit !important;
-}
-
-.fc-v-event {
-  margin-top: 0.2rem !important;
-  background-color: transparent !important;
-}
-
-.fc-event-main {
-  background-color: transparent !important;
-}
-
-.fc-event {
-  &.fc-daygrid-event {
-    background-color: transparent !important;
+.fc-daygrid-more-link {
+  background: $background !important;
+  text-align: center !important;
+  border-radius: 4px !important;
+  &:hover {
+    box-shadow: 0 0.167rem 0.333rem rgba(0, 0, 0, 0.1);
   }
 }
-
-.fc-toolbar-title {
-  font-weight: bold;
-  font-size: $p6;
-  color: $clr_gray_dark_text;
-}
-
-.calendar-time {
-  color: $clr_white;
-  font-weight: $font_extramaxbold !important;
-  font-family: Inter;
-  font-size: $p2 ;
-  line-height: 1.6483rem;
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  padding: 0.1rem !important;
-}
-
-.calendar-titles {
-  font-weight: $font_bold !important;
-  font-size: $p3 !important;
-  color: $text_primary_dark ;
-  width: 10rem !important;
-}
-
-
-
-
-
-.fc-timegrid-slot {
-
-  height: 4rem !important;
-}
-
-.calendar-container {
-  padding: 0 !important;
-}
-
-
-
-.calendar-wrapper {
-  padding: 0 !important;
-
-
-  .fc-scrollgrid {
-    border-left: none !important;
-  
-  }
-  
-  
-  
-  .fc-scrollgrid-section-liquid>td {
-    border: none !important;
-  }
-  
-  .fc-theme-standard td{
-    border-color: #EEEFF2 !important;
-    border-width: .17rem !important;
-  }
-  .fc-theme-standard th{
-    border-color: #EEEFF2 !important;
-    border-width: .17rem !important;
-  }
-  
-  
-  .fc-theme-standard .fc-scrollgrid{
-    border: none !important;
-  }
-
-  .fc-toolbar{
-  margin-block: 2.66rem !important;
-  padding-inline:2.66rem !important ;
-  }
-
-  .fc-toolbar-chunk {
-    display: flex !important;
-    column-gap: 1rem !important;
-
-    button {
-      background-color: $clr_white !important;
-      color: #B3B3B3 !important;
-      margin-inline: 1rem;
-      border-width: .17rem;
-      border-radius: 0.37rem !important;
-      border-color: #EEEFF2;
-      font-weight: $font_bold !important;
-      font-size: $p3 !important;
-      height:3.33rem !important;
-      min-width: 4.5rem ;
-      padding-inline: 1.5rem;
-
-      &:hover {
-        border-color: #EEEFF2 !important;
-      }
-
-    }
-
-    .fc-button-active {
-      color: #404040 !important;
-      border-color: #EEEFF2 !important;
-      box-shadow: none !important;
-      border-width: .17rem;
-
-    }
-
-    .fc-toolbar-title {
-      font-size: $p3 !important;
-      font-weight: $font_bold !important;
-    }
-  }
-
-  .fc-toolbar-chunk:nth-child(1) {
-    .fc-today-button {
-      color: #404040 !important;
-      border-color: #EEEFF2 !important;
-    }
-  }
-
-  .fc-dayGridMonth-view {
-    
-
-
-
-    .fc-daygrid-day-number {
-      font-weight: $font_bold !important;
-      font-size: $h5 !important;
-      color: #404040 !important;
-    }
-
-    .fc-daygrid-day-frame {
-      max-height: 4rem !important;
-      overflow: hidden;
-    }
-
-    .fc-col-header-cell {
-      position: relative !important;
-      height: 4rem;
-
-      .fc-col-header-cell-cushion {
-        position: absolute !important;
-        top: 50% !important;
-        left: 50% !important;
-        transform: translate(-50%, -50%) !important;
-        font-weight: $font_bold !important;
-        font-size: $p2 !important;
-        color: #404040 !important;
-      }
-
-    }
-
-  }
-
-  .fc-multimonth-month{
-    width: 100% !important;
-  }
-
-}
-
