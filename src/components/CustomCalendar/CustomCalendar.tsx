@@ -59,12 +59,12 @@ export const CustomCalendar: React.FC<CalendarProps> = ({
   return (
     <div className="calendar-container" id={id}>
       <FullCalendar
-       plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-       initialView={currentView}
-       events={events}
-       nowIndicator={true}
-       slotMinTime="00:00:00"
-       slotMaxTime="24:00:00"
+        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+        initialView={currentView}
+        events={events}
+        nowIndicator={true}
+        slotMinTime="00:00:00"
+        slotMaxTime="24:00:00"
         eventClick={handleEventClick}
         dateClick={handleDateChange}
         viewDidMount={(viewInfo: any) => setCurrentView(viewInfo.view.type)}
@@ -91,28 +91,28 @@ export const CustomCalendar: React.FC<CalendarProps> = ({
             allDayText: 'Day'
           },
         }}
-       eventDidMount={(eventInfo) => {
-        const el = eventInfo.el;
-        const eventId = parseInt(eventInfo.event.id) || 0;
-        const colorIndex = eventId % colorPalette.length;
-        const { bg, text, border } = colorPalette[colorIndex];
-        
-        el.style.backgroundColor = bg;
-        el.style.color = text;
-        el.style.borderLeft = `3px solid ${border}`;
-        el.style.borderRadius = '4px';
-        el.style.padding = '2px 4px';
+        eventDidMount={(eventInfo) => {
+          const el = eventInfo.el;
+          const eventId = parseInt(eventInfo.event.id) || 0;
+          const colorIndex = eventId % colorPalette.length;
+          const { bg, text, border } = colorPalette[colorIndex];
 
-        const textElements = el.querySelectorAll('.fc-event-title, .fc-event-time');
-        textElements.forEach(element => {
-          (element as HTMLElement).style.color = text;
-        });
+          el.style.backgroundColor = bg;
+          el.style.color = text;
+          el.style.borderLeft = `0.25rem solid ${border}`;
+          el.style.borderRadius = '0.333rem';
+          el.style.padding = '0.167rem 0.333rem';
+          
+          const textElements = el.querySelectorAll('.fc-event-title, .fc-event-time');
+          textElements.forEach(element => {
+            (element as HTMLElement).style.color = text;
+          });
 
-        el.querySelectorAll('*').forEach(child => {
-          (child as HTMLElement).style.color = text;
-        });
-      }}
-      initialDate={selectedDate}
+          el.querySelectorAll('*').forEach(child => {
+            (child as HTMLElement).style.color = text;
+          });
+        }}
+        initialDate={selectedDate}
         eventOverlap={true}
       />
     </div>
