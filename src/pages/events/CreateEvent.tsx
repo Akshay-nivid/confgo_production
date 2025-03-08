@@ -103,6 +103,7 @@ const CreateEvent: React.FC<EventProps> =
       formState: { errors },
     } = methods;
  
+   
   
 
   const [editorContent, setEditorContent] = useState("");
@@ -601,11 +602,11 @@ const CreateEvent: React.FC<EventProps> =
                       control={control}
                       name="postalCode"
                       type="text"
-                      isNumeric={true}
+                      isNumeric={false}
                       rules={{
                         required: "Zip Code is a required field",
                         maxLength: validateMaxLength({
-                          maxLength: 6,
+                          maxLength: 10,
                           fieldName: 'postalCode',
                         }),
                       }} 

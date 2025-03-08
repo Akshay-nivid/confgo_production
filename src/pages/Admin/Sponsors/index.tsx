@@ -23,6 +23,7 @@ import clsx from 'clsx'
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
 import { SponsorNoData } from '@/assets/svg';
+import {Writing} from "@/assets/svg";
 
 /**
  * Component for Sponsors list,create,edit and delete
@@ -443,7 +444,8 @@ const Sponsors = () => {
           }}
         >
           <MenuItem onClick={(e) => handleClickEdit(e, rowData)}>
-          <img src="/src/assets/png/writing.png" alt="Edit" className="action-icon" />
+          {/* <img src="/src/assets/png/writing.png" alt="Edit" className="action-icon" /> */}
+            <Writing className="action-icon"/>
             <Typography className="action-text">Edit</Typography>
           </MenuItem>
           <MenuItem onClick={(e) => {

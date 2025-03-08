@@ -82,7 +82,6 @@ const OngoingEvents = (data: any) => {
             Logger.error("SpeakerCard.tsx", error);
         }
     };
-
     return (
 
 
@@ -90,7 +89,7 @@ const OngoingEvents = (data: any) => {
 
             <Grid size={12} className="adminDashBoard-upComing-Events-header" container  >
 
-                <Grid size={6} container alignItems={"center"}> <Typography className="header-title">Ongoing Event</Typography><div  className={`live-icon ${isVisible ? "visible" : ""}`} />
+                <Grid size={6} container alignItems={"center"}>  <div  className={`live-icon ${isVisible ? "visible" : ""}`} /> <Typography className="ongoing-event-header-title">Ongoing Event</Typography>
                 </Grid>
 
                 <Grid display={"flex"} justifyItems={"flex-end"} alignItems={"center"} gap={1} size={6} justifyContent={"flex-end"}>

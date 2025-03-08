@@ -13,23 +13,29 @@ import T7timeRemaining from './T7TimeRemaining';
 import './template7.scss';
 import BannerSection from '../Template-components/Banner/Banner-section';
 import T7Sponsors from './T7Sponors';
+import T7ProgramAddon from './T7ProgramAddon';
+import useValidateEventData from '../programHandler';
+import T7Drawer from './T7Drawer';
 /**
- * Componet for Template 7
+ * Componet for Template 7 parent
  */
 const Template7=()=>{
+    const {isEventPriceTiers,isLocation,isSpeakers,isSponsors} = useValidateEventData()
     return(
         <TemplateWrapper className='template-7'>
             <T7Navbar/>
             <T7HeroSection/>
             <T7About/>
             <T7timeRemaining/>
-            <T7Speakers/>
-            <T7Location/>
-            <T7PriceTier/>
+            <T7ProgramAddon/>
+            {isSpeakers&&<T7Speakers/>}
+            {isLocation&&<T7Location/>}
+            {isEventPriceTiers&&<T7PriceTier/>}
             <T7SponsorContact/>
-            <T7Sponsors/>
+            {isSponsors&&<T7Sponsors/>}
             <BannerSection className='t7-banner'/>
             <TFooter />
+            <T7Drawer/>
         </TemplateWrapper>
 
     )

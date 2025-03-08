@@ -27,7 +27,7 @@ const T7HeroSection = ({ eventData }: { eventData?: IEventResponse }) => {
                         </Typography>
                     </Grid>
                     <Grid className="event-title-box">
-                        <Typography className="title">{eventData?.name || 'No name'}</Typography>
+                        <p className="title">{eventData?.name || 'No name'}</p>
                     </Grid>
                     <Grid className="auth-buttons-container">
                     <TAuthButton authType='LOGIN' className="auth-btn">Login</TAuthButton>
@@ -35,8 +35,6 @@ const T7HeroSection = ({ eventData }: { eventData?: IEventResponse }) => {
                         <TRegisterButton className='reg-btn' />
                     </Grid>
                 </Grid>
-
-
             </Grid>
         </Grid>
     )

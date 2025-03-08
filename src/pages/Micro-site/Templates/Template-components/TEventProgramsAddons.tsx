@@ -1,5 +1,6 @@
 import useStore, { setNonPersistedDataById } from "@/Libs/store";
 import { IEventResponse } from "@/Libs/types/event"
+import TEventProgramAddonsModal from "./Modal/TEventProgramAddonsModal";
 
 /**
  * TEventProgramsAddons Component
@@ -32,6 +33,23 @@ const TEventProgramsAddons = ({ eventData,children }: { eventData?: IEventRespon
   function handleTabChange(date: string) {
 
     setNonPersistedDataById('selectedDate', { value: date });
+  }
+  /**
+   * Opens a modal to display program/addon details
+   * 
+   * This function handles opening the modal by:
+   * 1. Setting the program/addon data in the store
+   * 2. Setting a timeout to show the modal after 2 seconds
+   * 
+   * @param {any} item - The program/addon item to display in the modal
+   */
+  function handleModalOpen(item:any){
+    try{
+      setNonPersistedDataById('programAddonData',{value:item});
+
+    }finally{
+        setNonPersistedDataById('isProgramAddonModelOpen', { value: true })
+    }
   }
 
 
@@ -106,9 +124,17 @@ const TEventProgramsAddons = ({ eventData,children }: { eventData?: IEventRespon
 
 
 
-  const data = { data: groupedItems, tabs: Object.keys(groupedItems),selectedDate,handleTabChange };
+  const data = { data: groupedItems, tabs: Object.keys(groupedItems),selectedDate,handleTabChange,handleModalOpen };
 
-  return  children(data)
+  return (
+    <>
+
+      {children(data)}
+
+      <TEventProgramAddonsModal />
+
+    </>
+  )
 }
 
 export default TEventProgramsAddons
