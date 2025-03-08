@@ -40,7 +40,7 @@ const BillInfo = () => {
 
             {cartData?.data?.priceTierDiscount && <Grid container flexDirection={"row"} className="mb_2" justifyContent={"space-between"}>
                 <Typography className="sub-text">Tier Discount</Typography>
-                <Typography className="sub-text">$ {Number(cartData?.data?.priceTierDiscount).toFixed(2)}</Typography>
+                <Typography className="sub-text discount"> - $ {Number(cartData?.data?.priceTierDiscount).toFixed(2)}</Typography>
             </Grid>}
 
             {couponData?.data?.coupon?.code && <Grid className="mb_2" container flexDirection={"row"} justifyContent={"space-between"}>

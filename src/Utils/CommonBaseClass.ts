@@ -469,3 +469,16 @@ export function formatedTimeRangeProgram(
 export const formatDate = (date: string | Date | null, format: string = "YYYY-MM-DD HH:mm") => {
   return date ? moment(date).format(format) : "";
 };
+
+
+/**
+ * Method to get user type
+ * @returns 
+ */
+
+export const getUserType = () => {
+
+  const userRole : "SPEAKER" | "REVIEWER" | "USER" | "COMPANYADMIN" | null = sessionStorage.getItem('userLoggedInType') as "SPEAKER" | "REVIEWER" | "USER" | "COMPANYADMIN" | null;
+
+  return userRole;
+ }
