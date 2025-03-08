@@ -21,11 +21,14 @@ interface CalendarProps {
   onNavigate?: (dateInfo: any) => void;
   defaultDate?: Date;
 }
-
+/**
+ * 
+ * @param param0 Custom Calendar
+ * @returns 
+ */
 export const CustomCalendar: React.FC<CalendarProps> = ({
   id,
   events,
-
   onSelectEvent,
   onNavigate,
   defaultDate,
