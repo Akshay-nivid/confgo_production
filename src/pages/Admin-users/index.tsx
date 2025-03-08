@@ -18,8 +18,9 @@ import { IconButton, Menu, MenuItem } from "@mui/material";
 import EditUserDrawer from "./EditUserDrawer";
 import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import {UserNoData} from "@/assets/svg";
+import {UserNoData, WarningIcon} from "@/assets/svg";
 import {Writing} from "@/assets/svg";
+import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
 
 
 interface Role {
@@ -55,6 +56,8 @@ const AdminUsersList = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [currentUserId, setCurrentUserId] = useState<number | null>(null);
   const [rowData, setRowData] = useState<number | null>(null);
+  const [isWarning, setIsWarning] = useState(false);
+  const [currentSelectedRow, setCurrentSelectedRow] = useState<any | null>(null);
 
 
   /**
@@ -112,9 +115,21 @@ const AdminUsersList = () => {
   };
 
   /**
-   * delete user
-   */
-  const handleDelete = async (id: number) => {
+     * Handles the deletion of a user by an confirmation modal
+     * @param {any} rowData - The data object containing user details, including roles.
+ */
+  const handleDelete = async (rowData:any) => {
+    setIsWarning(true);
+    setCurrentSelectedRow(rowData);
+    handleMenuClose();
+  }
+
+  /**
+   * Deletes the user by its id
+   * @param {number} id - The unique identifier of the user to be updated.
+ */
+  async function deleteUser(id:number){
+    setIsWarning(false);
     try {
       await PUT({
         url: `user/update/${id}`,
@@ -134,7 +149,6 @@ const AdminUsersList = () => {
     } catch (error) {
       Logger.error("Error in user/update/id api call ", error)
     }
-    handleMenuClose();
 
   }
 
@@ -412,7 +426,7 @@ const AdminUsersList = () => {
           </MenuItem>
           <MenuItem onClick={() => {
             if (currentUserId !== null) {
-              handleDelete(currentUserId);
+              handleDelete(rowData);
             }
           }}>
 
@@ -448,6 +462,20 @@ const AdminUsersList = () => {
         </CustomDrawer>
       </Grid>
 
+          <>
+              <CustomActionModal
+                icon={<WarningIcon className="unpublish-modal-icon" />}
+                open={isWarning}
+                onClose={() => setIsWarning(false)}
+                cancelLabel="Cancel"
+                cancelAction={() => setIsWarning(false)}
+                header="Warning"
+                subHeader={`This user is currently assigned as a "${currentSelectedRow?.userRoles?.[0]?.role?.roleName}" in an "event names" Please unassign them before deleting`}
+                submitAction={() => deleteUser(currentSelectedRow?.id)}
+                submitLabel="Ok"
+                modalClassName="unpublish-modal"
+              />
+          </>
     </Grid>
   );
 
