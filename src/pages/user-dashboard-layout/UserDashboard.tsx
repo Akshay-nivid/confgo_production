@@ -2,13 +2,12 @@
 import Grid from '@mui/material/Grid2';
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, CircularProgress, Divider, Typography } from "@mui/material";
+import { Box, CircularProgress,Typography } from "@mui/material";
 import DashboardCardItem from './DashboardCardItem';
-import {  DownloadCertsIcon, DownloadEventIcon, EventsSvg, HeartEventIcon, PaymentDashboardIcon,  TransactionHistoryIcon } from '@/assets/svg';
+import {  AllEventIcon, DownloadTicketIcon, RightPointerArrow,  SessionParticipatedIcon,  TotalAmountIcon,  TotalEventIcon,  TransactionHistoryFileIcon, viewEventButton } from '@/assets/svg';
 import React from 'react';
 import useStore from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
-import { CalendarCard } from '../dashboard/CalendarCard';
 // import moment from 'moment';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import DashboardEventCards from './DashboardEventCard';
@@ -16,9 +15,10 @@ import NoCalenderData from './NoCalenderData';
 import NoDataCard from './NoDataCard';
 import { formatUTCDateTime, useIsMobileScreen } from '@/Utils/CommonBaseClass';
 import EventCard from '../Participant-User/Components/EventCard';
-import OngoingEventCard from './OngoingEventCard';
 import SummitCard from './SummitCard';
 import moment from 'moment';
+import UpComingEvents from '../dashboard/UpcomingEvents';
+import OngoingEvents from '../dashboard/OngoingEvents';
 
 export interface CalendarCardData {
   id: string;
@@ -34,7 +34,6 @@ export interface CalendarCardData {
 const UserDashboard: React.FC = React.memo(() => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [isCalendarLoading, setIsCalendarLoading] = useState(false);
   const [isCountLoading, setIsCountLoading] = useState(false);
   const setDataById = useStore((state: any) => state.setDataById);
   const POST = useStore((state: any) => state.POST);
@@ -49,19 +48,17 @@ const UserDashboard: React.FC = React.memo(() => {
   const isMobileView = useIsMobileScreen()
   const userId = sessionStorage.getItem('userId');
   const firstCheckedIn = userCompletedEvents.data?.find((event: { checkedIn: any; }) => event.checkedIn) || null;
-  const today=moment(new Date().toISOString())
-  const EventStartDate = moment(userEvents?.startTime)
   const upCommingEvent = userEvents["event/list"];
-  const EventEndDate = moment(userEvents?.endTime)
+  const[ongoingData, setOngoingData] = useState();
   /**
   * Useeffect hook handles the api call 
   */
   useEffect(() => {
+    fetchOngoingEvents()
     fetchUpcomingEvents();
     fetchPastEvents();
     getDashboardCount();
   }, [])
-
 
   /**
   * fetch upcoming events
@@ -94,7 +91,6 @@ const UserDashboard: React.FC = React.memo(() => {
   const fetchUpcomingEvents = async () => {
     const formattedDate=formatUTCDateTime(new Date().toISOString())
     try {
-      setIsCalendarLoading(true);
       await POST({
         url: "event/list",
         body: {
@@ -131,10 +127,51 @@ const UserDashboard: React.FC = React.memo(() => {
       Logger.error("An error occurred event/list/filter:", error);
 
     }
-    finally {
-      setIsCalendarLoading(false);
-    }
+
   }
+//To fetch the ongoing events
+  const fetchOngoingEvents = async () => {
+    try {
+      await POST({
+        url: "event/list",
+        body: {
+          limit:100,
+          sortBy: "id",
+          sortDirection: "ASC",
+        
+        },
+        id: 'userOngoingEvents',
+        successCB: (context:any) => {
+          if (context?.success && context?.data.length > 0) {
+            const event = context.data;
+            setOngoingData(event)
+            
+          }
+        },
+        errorCB: (context: any) => {
+          setDataById("snackBarInfo", {
+            open: true,
+            autoHideDuration: 2000,
+            severity: "error",
+            message: context?.message,
+          });
+        },
+      });
+    } catch (error) {
+      Logger.error("An error occurred event/list/filter:", error);
+
+    }
+
+  }
+
+  const currentDate = new Date();
+
+  const activeEvents = (ongoingData || [])?.filter((event: any) => 
+    new Date(event.eventStartTime) <= currentDate && new Date(event.eventEndTime) >= currentDate
+  );
+
+  const activeEvent = activeEvents?.[0] || null;
+
   /**
   * fetch completed events /last attended events
   */
@@ -170,7 +207,6 @@ const UserDashboard: React.FC = React.memo(() => {
     }
   }
   const formattedDate = moment(upCommingEvent?.data?.[0]?.eventStartTime).format("MMMM D, YYYY");
-
   return (
     <Grid container size={12} className="dashboard" spacing={1}  >
       {/* left */}
@@ -190,6 +226,7 @@ const UserDashboard: React.FC = React.memo(() => {
           </Grid>
           <Grid size={12} className="dashboard-left-profile-buttongroup">
             <CustomButton
+              svgIcon={viewEventButton}
               className="dashboard-left-profile-button"
               label="View Events"
               onClick={() => navigate('/user/my-event')}
@@ -207,22 +244,24 @@ const UserDashboard: React.FC = React.memo(() => {
           {isCountLoading ? <CircularProgress /> :
             <Grid container  size={{ xs: 12}}>
               <Grid size={{ xs: 12, sm: 6, md: 4 }}>
-                <DashboardCardItem onClick={() => navigate("/user/my-event")} count={eventAndUserCount?.data?.totalEventCount ?? 0} icon={EventsSvg} title="Total Events Registered" className={isMobileView? 'dashboard-left-profile-dashboard-event': ""}/>
+                <DashboardCardItem backgroundColor="rgba(122,220,190,0.2)" onClick={() => navigate("/user/my-event")} count={eventAndUserCount?.data?.totalEventCount ?? 0} icon={TotalEventIcon} title="Events Registered" className={isMobileView? 'dashboard-left-profile-dashboard-event': ""} />
               </Grid>
     <Grid size={isMobileView ?{xs:6}: {xs:12, sm:6, md: 4}}>
       <DashboardCardItem
+        backgroundColor='rgba(235,208,145,0.2)'
         onClick={() => navigate("/user/my-event")}
         count={eventAndUserCount?.data?.attendedSessions ?? 0}
-        icon={DownloadEventIcon}
+        icon={SessionParticipatedIcon}
         title="Sessions Participated"
         className={isMobileView? "dashboard-left-profile-dashboard-session":""}
       />
     </Grid>
     <Grid size={isMobileView ? {xs:6} :{xs:12, sm:6, md: 4 }}>
       <DashboardCardItem
+        backgroundColor='rgba(241,243,244,1)'
         onClick={() => navigate("/user/payment-history")}
         count={eventAndUserCount?.data?.totalAmountPaid ?? 0}
-        icon={PaymentDashboardIcon}
+        icon={TotalAmountIcon}
         title="Total Amount Paid"
         className={isMobileView ? "dashboard-left-profile-dashboard-session" :""}
       />
@@ -232,14 +271,17 @@ const UserDashboard: React.FC = React.memo(() => {
         </Grid>
         {isMobileView && (
   <Grid size={12}>
-    {upCommingEvent?.data?.length > 0 ? (
+    {upCommingEvent?.data?.length > 0 ? (<>
+       <Typography className="dashboard-left-profile-accounttitle" gutterBottom>
+       Upcoming Event
+     </Typography>
       <SummitCard
         date={formattedDate}
         title={upCommingEvent?.data?.[0]?.name}
         location={upCommingEvent?.data?.[0]?.venue?.address}
         url={upCommingEvent?.data?.[0]?.url}
       />
-    ) : (
+    </>) : (
       <NoDataCard title={'No Upcoming Events'} description={"It looks like you haven’t registered for any upcoming events. Don’t miss out on exciting opportunities!"} />
     )}
   </Grid>
@@ -255,9 +297,12 @@ const UserDashboard: React.FC = React.memo(() => {
           {isLoading ? <CircularProgress /> :
            userCompletedEvents && Array.isArray(userCompletedEvents?.data) && userCompletedEvents?.data.length && userCompletedEvents.data.some((event: any) => event?.checkedIn) ? (
 
-            isMobileView ? (
+            isMobileView ? (<>
+            <Typography className="dashboard-left-profile-accounttitle" gutterBottom>
+              Attended Event
+            </Typography>
               <EventCard Eventstatus={true} datetitle={firstCheckedIn?.participant?.event?.startTime} eventFullData={firstCheckedIn?.participant?.event} squareButtonLabels={[]} title={firstCheckedIn?.participant?.event?.name} location={`${firstCheckedIn?.participant?.event?.venue?.address}, ${firstCheckedIn?.participant?.event?.venue?.city}`} />
-            ) : (
+              </>) : (
         
               <DashboardEventCards event={firstCheckedIn?.participant?.event} />
             )
@@ -272,16 +317,18 @@ const UserDashboard: React.FC = React.memo(() => {
       {/* Right Column */}
       <Grid size={{ xs: 12, md: 4 }} className="dashboard-right" justifyContent="flex-end">
       {!isMobileView && (
-        <Grid container className="dashboard-right-calendar" >
-            {isCalendarLoading ? <CircularProgress /> :
-            userEvents && Array.isArray(userEvents['event/list']?.data) && userEvents['event/list']?.data.length > 0 ? 
-            today.isBetween(EventStartDate, EventEndDate, "minute", "[]") ? <OngoingEventCard data={userEvents['event/list']?.data}/> : 
-              <CalendarCard data={userEvents} />
-              :<NoCalenderData/>
-            }
-         
-        </Grid>
-      )}
+  <Grid container className="dashboard-right-calendar">
+    {activeEvent ? (
+      <OngoingEvents data={activeEvent} />
+    ) : upCommingEvent?.data?.length > 0 ? (
+      <UpComingEvents data={upCommingEvent?.data?.[0]} />
+    ) : (
+      <NoCalenderData />
+    )} 
+
+  </Grid>
+)}
+
         <Grid className="dashboard-right-events">
           {/* title */}
           <Typography className="dashboard-subhead" gutterBottom>
@@ -291,15 +338,13 @@ const UserDashboard: React.FC = React.memo(() => {
           <Grid  >
            <Box>
             <Grid size={12} mt={1} className="dashboard-left-profile-card-recent" onClick={() => navigate('/user/payment-history')}>
-              <TransactionHistoryIcon fontSize={24} />   View Payment History
+              <TransactionHistoryFileIcon fontSize={24} />   View Payment History <RightPointerArrow className='dashboard-left-profile-card-recent-arrow' />
             </Grid>
-            <Divider className='dashboard-left-profile-card-recent-dividers' />
             <Grid size={12} mt={1}  className="dashboard-left-profile-card-recent" onClick={() => navigate('/user/my-event')}>
-              <HeartEventIcon fontSize={24} /> View All My Events
+              <AllEventIcon fontSize={24} /> View All My Events <RightPointerArrow className='dashboard-left-profile-card-recent-arrow' />
             </Grid>
-            <Divider className='dashboard-left-profile-card-recent-dividers' />
             <Grid size={12} mt={1}  className="dashboard-left-profile-card-recent" onClick={() => navigate('/user/my-event')} >
-              <DownloadCertsIcon fontSize={24} /> Download Tickets & Certificates
+              <DownloadTicketIcon fontSize={24} /> Download Tickets & Certificates <RightPointerArrow className='dashboard-left-profile-card-recent-arrow' />
             </Grid>
             </Box>
           

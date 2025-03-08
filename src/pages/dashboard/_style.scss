@@ -709,14 +709,24 @@
 }
 
 .live-icon {
-    width: 0.833rem;
-    height: 0.833rem;
-    background-color: $clr_medium_red;
+    width: 0.733rem;
+    height: 0.733rem;
+    background-color: $clr_red;
     border-radius: 50%;
     margin-bottom: 0.25rem;
     opacity: 0; // Default state
   
     &.visible {
-      opacity: 0.5; // When `isVisible` is true
+      opacity: 1; // When `isVisible` is true
+    }
+  }
+
+  .ongoing-event {
+    &-header-title {
+        font-weight: $font-medium !important;
+        font-size: $p1 !important;
+        color: $clr_black;
+        line-height: 1.4rem !important;
+        margin-left: 0rem !important;
     }
   }
