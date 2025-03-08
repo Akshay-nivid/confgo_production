@@ -62,7 +62,8 @@ const routes = {
   upgradePlanPayment: ()=> "/planUpgrade/payment",
   planUpgradePricing: () => "/planUpgrade/pricing",
   sponsor:()=>"/sponsor",
-  adminPayment:()=>"/payment-history"
+  adminPayment: () => "/payment-history",
+  sepakerAccountSettings: () => "/speaker/account-settings",
 };
 
 export default routes;

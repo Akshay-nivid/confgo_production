@@ -28,6 +28,9 @@
         font-size: $p1 !important;
         color: $clr_gray_dark_text;
         margin-bottom: .5rem;
+        word-break: break-word;
+        overflow-wrap: break-word; 
+        hyphens: auto !important; 
       }
 
       .event-date {

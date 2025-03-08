@@ -17,6 +17,7 @@ import { YellowSeat, RedSeat } from '@/assets/svg/index';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import { Check } from '@mui/icons-material';
 import useProgramAddonToggle from '../Program-Selection/useProgramAddonToggle';
+import { useMemo } from 'react';
 interface IProgramcardProps {
     templateId: number | null | undefined, program: any, date: string
 }
@@ -49,6 +50,37 @@ const Programcard = ({ templateId, program, date }: IProgramcardProps) => {
 
     const { handleProgramClick, isProgramInCart } = useProgramAddonToggle();
 
+
+    const availableSeats = useMemo(() => {
+
+        if (!program?.eventParticipantEntries || program?.eventParticipantEntries.length === 0) return null;
+
+        const { seatAllocated, totalSeat } = program?.eventParticipantEntries[0];
+
+
+        if (totalSeat === 0) return null;
+
+        const remainingSeat = totalSeat - seatAllocated;
+        const bookedPercentage = (seatAllocated / totalSeat) * 100;
+        const isOverbookedRed = bookedPercentage > 85;
+        const isOverbookedYellow = bookedPercentage > 70;
+
+        const seatFull = totalSeat > 0 ? totalSeat === seatAllocated : false;
+
+        return {
+            remainingSeat,
+            isOverbookedRed,
+            isOverbookedYellow,
+            totalSeat,
+            seatAllocated,
+            seatFull
+
+        }
+
+    }, [program?.id]);
+
+
+
     return (
         <Grid size={{ xs: 12, md: 6, lg: 4 }} className={clsx(`program-card-${templateId} program-selection-program-card`, watch(`${formatDate(date)}-programs`)?.includes(program?.id) ? '' : '')} >
 
@@ -60,14 +92,14 @@ const Programcard = ({ templateId, program, date }: IProgramcardProps) => {
                         <p className="text-2xl font-semibold mb-1">{truncateString(program?.name, 30)}</p>
                     </Tooltip>
 
-                    <p onClick={handleClickViewDetails} className="underline cursor-pointer">View details</p>
+                    <p onClick={handleClickViewDetails} className="underline cursor-pointer min-w-max">View details</p>
 
                 </Box>
                 <Tooltip title={HTMLReactParser(program?.description || '')}>
 
                     <p className="text-md font-normal">{truncateString(program?.description, 55)}</p>
                 </Tooltip>
-                <Box className="program-badge">
+                <Box className="program-badge mt-4">
                     <p className="text-md leading-none">Program</p>
                 </Box>
             </Box>
@@ -125,14 +157,14 @@ const Programcard = ({ templateId, program, date }: IProgramcardProps) => {
 
             <Box display={"flex"} justifyContent={"space-between"} alignItems={"center"} padding={1.6} >
                 <Box className="">
-                  { Math.trunc(Number(program?.amount)) === 0 ? <Grid display={'flex'} alignItems={'center'} className="price-group">
+                    {Math.trunc(Number(program?.amount)) === 0 ? <Grid display={'flex'} alignItems={'center'} className="price-group">
                         <Typography className='program-price'>Free</Typography>
                     </Grid>
-                    :
-                    <Grid display={'flex'} alignItems={'center'} className="price-group">
-                        <Dollar className="program-money-icon -mt-1" />
-                        <Typography className='program-price'>{program?.amount}</Typography>
-                    </Grid>}
+                        :
+                        <Grid display={'flex'} alignItems={'center'} className="price-group">
+                            <Dollar className="program-money-icon -mt-1" />
+                            <Typography className='program-price'>{program?.amount}</Typography>
+                        </Grid>}
 
 
                 </Box>
@@ -143,43 +175,107 @@ const Programcard = ({ templateId, program, date }: IProgramcardProps) => {
 
 
 
+
                 <Grid size={4} className={`program-checkbox-group-${templateId}`}>
+                    {!availableSeats?.seatFull && program?.startTime && new Date(program.startTime) >= new Date() && (
+                        <CustomButton
+                            fullWidth
+                            startIcon={isProgramInCart(program?.id) ? <Check /> : null}
+                            className={clsx(
+                                `program-card-btn-${templateId} program-card-btn`,
+                                isProgramInCart(program?.id) && `program-card-btn-${templateId}-active`
+                            )}
+                            label={isProgramInCart(program?.id) ? "Added" : "Add"}
+                            onClick={() => handleProgramClick(program?.id)}
+                        />
+                    )}
 
-                   {program?.startTime && new Date(program.startTime) >= new Date() ? <CustomButton   fullWidth startIcon={isProgramInCart(program?.id) ? <Check className="" /> : null} className={clsx(`program-card-btn-${templateId} program-card-btn`, isProgramInCart(program?.id) && `program-card-btn-${templateId}-active`)} label={isProgramInCart(program?.id) ? "Added" : "Add"} onClick={() => handleProgramClick(program?.id)} /> : <p className='text-xl text-red-700 text-center'>Expired</p>}
                 </Grid>
+
+
             </Box>
-            <Grid container spacing={2} alignItems="center" className='aboslute bottom-0 pl-5'>
-                {(program?.eventParticipantEntries || []).map((entry: any, index: any) => {
-                    console.log(program?.eventParticipantEntries)
-                    const { seatAllocated , totalSeat } = entry;
-                    const remainingSeat = totalSeat - seatAllocated;
-                    const bookedPercentage = (seatAllocated / totalSeat) * 100;
-                    const isOverbookedRed = bookedPercentage > 85;
-                    const isOverbookedYellow = bookedPercentage > 70;
+            <Box className="px-5">
+                <AvailableSeats {...availableSeats} />
 
-                    if (!isOverbookedYellow || remainingSeat === 0) return null;
-                    return (
-                        <Grid container key={index} spacing={2} alignItems="center" paddingBottom={1}>
-                            {/* Seat Information */}
-                            <Grid container alignItems="center" spacing={0.5}>
-                                <Grid paddingBottom={.5}>
-                                    {isOverbookedRed ? <RedSeat fontSize={15} /> : <YellowSeat fontSize={15} />}
-                                </Grid>
-                                <Grid>
-                                    <Typography variant="body1" className={isOverbookedRed ? "program-card-seat-alert-red" : "program-card-seat-alert-yellow"}>
-                                        Only {remainingSeat} seats left!
-                                    </Typography>
-                                </Grid>
-                            </Grid>
-
-                        </Grid>
-                    );
-                })}
-            </Grid>
-
+            </Box>
         </Grid>
     )
 }
 
 
 export default Programcard
+
+
+const AvailableSeats = (availableSeats: any) => {
+
+
+    if (!availableSeats) return null;
+
+    const { isOverbookedRed, isOverbookedYellow, remainingSeat, totalSeat, seatFull } = availableSeats;
+
+    if (totalSeat === 0) return null;
+
+    // const remainingSeat = totalSeat - seatAllocated;
+    // const bookedPercentage = (seatAllocated / totalSeat) * 100;
+    // const isOverbookedRed = bookedPercentage > 85;
+    // const isOverbookedYellow = bookedPercentage > 70;
+
+    if (!isOverbookedYellow) return null;
+
+    return (
+        <Grid container alignItems="center" spacing={0.5}>
+            <Grid paddingBottom={0.5}>
+                {isOverbookedRed ? <RedSeat fontSize={15} /> : isOverbookedYellow ? <YellowSeat fontSize={15} /> : null}
+            </Grid>
+            <Grid>
+                <Typography
+                    variant="body1"
+                    className={isOverbookedRed ? "program-card-seat-alert-red" : "program-card-seat-alert-yellow"}
+                >
+                    {seatFull ? "No seats available" : `Only ${remainingSeat} seats left!`}
+                </Typography>
+            </Grid>
+        </Grid>
+    );
+};
+
+
+// {(program?.eventParticipantEntries && program?.eventParticipantEntries?.length > 0) && <Grid container spacing={2} alignItems="center" className='aboslute bottom-0 pl-5'>
+//                 {(program?.eventParticipantEntries || []).map((entry: any, index: any) => {
+//                     const { seatAllocated, totalSeat } = entry;
+//                     const remainingSeat = totalSeat - seatAllocated;
+//                     const bookedPercentage = (seatAllocated / totalSeat) * 100;
+//                     const isOverbookedRed = bookedPercentage > 85;
+//                     const isOverbookedYellow = bookedPercentage > 70;
+
+//                     if (totalSeat === 0 || !isOverbookedYellow) return null;
+//                     return (
+//                         <Grid container key={index} spacing={2} alignItems="center" paddingBottom={1}>
+//                             {/* Seat Information */}
+//                             {(totalSeat > 0 && (totalSeat === seatAllocated)) ?
+//                                 <Grid container alignItems="center" spacing={0.5}>
+//                                     {/* <Grid paddingBottom={.5}>
+//                                         {isOverbookedRed ? <RedSeat fontSize={15} /> : isOverbookedYellow ? <YellowSeat fontSize={15} /> : <></>}
+//                                     </Grid> */}
+//                                     <Grid>
+//                                         <Typography variant="body1" className={"program-card-seat-alert-red"}>
+//                                             No seats available
+//                                         </Typography>
+//                                     </Grid>
+//                                 </Grid> :
+//                                 <Grid container alignItems="center" spacing={0.5}>
+//                                     <Grid paddingBottom={.5}>
+//                                         {isOverbookedRed ? <RedSeat fontSize={15} /> : isOverbookedYellow ? <YellowSeat fontSize={15} /> : <></>}
+//                                     </Grid>
+//                                     <Grid>
+//                                         <Typography variant="body1" className={isOverbookedRed ? "program-card-seat-alert-red" : "program-card-seat-alert-yellow"}>
+//                                             Only {remainingSeat} seats left!
+//                                         </Typography>
+//                                     </Grid>
+//                                 </Grid>
+//                             }
+
+//                         </Grid>
+//                     );
+//                 })}
+//             </Grid>}

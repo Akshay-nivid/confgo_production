@@ -178,6 +178,10 @@ const userRoutes = [
         path: routes.speakerDetails(":id"),
         element: <SpeakersEventDetails />,
       },
+      {
+        path: routes.sepakerAccountSettings(),
+        element: <Account/>,
+      },
     ]
   },
   {

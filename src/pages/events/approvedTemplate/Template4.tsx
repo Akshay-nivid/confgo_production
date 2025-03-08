@@ -1060,7 +1060,15 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
                                                 }
                                             </Grid>
 
-                                            <Grid container justifyContent={'center'} alignItems={'flex-end'} className={`${classPrefix}-ticketing-register-button-container`}><CustomButton onClick={isCompany ? undefined : () => handleClickRegister(amountCalculatedData[participantType]?.[0])} label="Register Now" className={`${classPrefix}-ticketing-register-button`} /></Grid>
+                                            <Grid container justifyContent={'center'} alignItems={'flex-end'} className={`${classPrefix}-ticketing-register-button-container`}><CustomButton onClick={isCompany ? undefined : () => {
+                                                if (data?.endTime && new Date(data.endTime).getTime() < Date.now()) {
+                                                   
+                                                snackBar({ severity: 'error', message: 'Event has ended already' });
+                                                return;
+                                              }
+                                              
+                                                handleClickRegister(amountCalculatedData[participantType]?.[0])
+                                            }} label="Register Now" className={`${classPrefix}-ticketing-register-button`} /></Grid>
 
                                         </Grid>)
                                 })
