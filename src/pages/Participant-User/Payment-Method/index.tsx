@@ -66,6 +66,9 @@ const[renderPaypalBtn,setRenderPaypalBtn]=useState(false);
     })
   }
 
+
+  const taxType = orderData?.taxInclusive ? "inc." : "excl.";
+
   return (
     <Grid container className="payment-method shadow">
       <Grid size={12} overflow={"hidden"}>
@@ -119,7 +122,7 @@ const[renderPaypalBtn,setRenderPaypalBtn]=useState(false);
           <Box className="payment-grand-total-container  -mt-3">
             <Typography className="sub-total-info-text">
               Tax
-              <span className="text-lg font-light ml-2">({orderData?.taxPercentage}%)</span>
+              <span className="text-lg font-light ml-2">({orderData?.taxPercentage}% {taxType })</span>
             </Typography>
             <Typography className="sub-total-info-text value">$ {orderData?.tax.toFixed(2)}</Typography>
           </Box>

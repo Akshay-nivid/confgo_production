@@ -1,3 +1,4 @@
+import {  ViewEventButtonBlue } from '@/assets/svg';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import { Typography } from '@mui/material';
 import Grid from '@mui/material/Grid2';
@@ -23,7 +24,8 @@ const NoCalenderData: React.FC = React.memo(() => {
       </Grid>
       <Grid size={12}>
         <CustomButton
-          className="dashboard-left-profile-button"
+          svgIcon={ViewEventButtonBlue}
+          className="nocalendar-card-view-event-button"
           label="View Events"
           onClick={() => navigate('/user/my-event')}
         />

@@ -35,7 +35,7 @@ interface EventProps {
  */
 const EventCard: React.FC<EventProps> = React.memo(({ id, eventFullData, datetitle, title, location, viewButton, buttonPress }) => {
     
-    const attendeeStatus = eventFullData?.participants[0]?.eventParticipants[0]?.event?.eventAttendees;
+    const attendeeStatus = eventFullData?.participants?.[0]?.eventParticipants?.[0]?.event?.eventAttendees;
     const navigate = useNavigate();
 
     /**
