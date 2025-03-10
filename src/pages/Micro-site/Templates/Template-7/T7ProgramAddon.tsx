@@ -7,8 +7,8 @@ import config from '../../../../../config.json';
 import DescriptionComponent from "@/pages/events/template/DescriptionComponent";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import TimeComponent from "@/pages/events/template/TimeComponent";
-import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
-import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
+import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 
 /**
  * T7ProgramAddon Component
@@ -70,9 +70,9 @@ const T7ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                             <Grid container className="prm-add-container" key={"main" + index} size={itemSize} onClick={() => data?.handleModalOpen(item?.items)}>
                                                 <Grid container size={12} >
                                                     {item?.items?.map((prg: any, prgIndex: number) => {
-                                                        return <Grid container className={prg?.addonId ? "addonbox p-2" : "p-2"} display={"flex"} size={childItemSize} key={prgIndex} justifyContent={"space-between"}   >
+                                                        return <Grid container className={prg?.addonId ? "addonbox p-2" : "p-2"} display={"flex"} size={12} key={prgIndex} justifyContent={"space-between"}   >
                                                             <Grid>
-                                                                <Grid container justifyContent={"space-between"}>
+                                                                <Grid size={12} container justifyContent={"space-between"}>
                                                                     <Box display={'block'}>
                                                                         {prg?.eventSponsors?.length > 0 &&
                                                                             <Typography>Sponsored by</Typography>}
@@ -135,7 +135,7 @@ const T7ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                                                 </Box>}
                                                                 <Box className="prg-time-container">
                                                                     <Box display={"flex"}>
-                                                                        <AccessTimeRoundedIcon />
+                                                                        <AccessTimeFilledIcon />
                                                                         <TimeComponent
                                                                             month={false}
                                                                             startTime={prg?.startTime}
@@ -143,7 +143,7 @@ const T7ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                                                             classPrefix={`text`}
                                                                         />
                                                                     </Box>
-                                                                    <Box display={"flex"}>< LocalOfferOutlinedIcon />
+                                                                    <Box display={"flex"}>< LocalOfferIcon />
                                                                         <p className="text">${prg?.amount}</p>
                                                                     </Box>
                                                                 </Box>
