@@ -5,6 +5,7 @@ import FacebookIcon from '@/assets/svg/template1-facebook.svg';
 import InstagramIcon from '@/assets/svg/template1-instagram.svg';
 import TwitterIcon from '@/assets/svg/template1-twitter.svg';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 
 const TFooter = () => {
@@ -53,7 +54,7 @@ const TFooter = () => {
 
                         </Box>
                     </Box>
-                    <Typography className='copyright'>© 2024 — Copyright</Typography>
+                    <Typography className='copyright'>© {moment().year()} — Copyright</Typography>
                 </Box>
                 </Box>
             </Box>

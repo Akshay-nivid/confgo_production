@@ -438,6 +438,8 @@
     .t7-banner{
         margin-block: 5rem;
         .banner-container{
+            padding-inline: 2rem;
+            column-gap: 2rem;
             display: flex;
             flex-direction: row-reverse;
             background: linear-gradient(to right, $banner-background-clr1, $banner-background-clr2);

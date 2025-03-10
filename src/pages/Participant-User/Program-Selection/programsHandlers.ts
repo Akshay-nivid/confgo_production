@@ -102,7 +102,7 @@ export const handleGroupData = ({ programs, addons, calculateTotal = false }: { 
 
   // Add a "general" key to the unique keys if there are addons without dates
   if (addons) {
-    const addonsWithoutDate = addons.filter((addon: any) => !addon.date);
+    const addonsWithoutDate = addons.filter((addon: any) => !addon.startTime);
     if (addonsWithoutDate.length > 0) {
       uniqueKeysList.unshift('general');
     }
