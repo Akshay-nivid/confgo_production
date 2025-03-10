@@ -607,6 +607,17 @@
                 font-weight: $font-semibold !important;
             }
         }
+        .prg-location-container{
+            align-items: center;
+            gap: 0.5rem;
+            svg{
+                color: #919191;
+            }
+            p{
+                color: #919191;
+                font-weight: $font-semibold;
+            }
+        }
 
     }
     .template-navbar .menu-container .menu-icon{
