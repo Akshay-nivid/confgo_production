@@ -1,15 +1,31 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
+import LogoutWhiteIcon from '@/assets/svg/LogoutWhiteIcon.svg';
 import {  CalenderEventMobIcon, DashboardUserMobIcon, PaymentHistoryMobIcon, SettingsDashBoardMobIcon,MyEventsMobIcon } from '@/assets/svg';
 import {  Drawer, List, ListItem, ListItemText, ListItemButton, Divider } from '@mui/material';
 import routes from '@/router/routes';
 import { useIsMobileScreen } from '@/Utils/CommonBaseClass';
 import Grid from '@mui/material/Grid2'
 import CloseIcon from '@mui/icons-material/Close';
+import { resetStore} from '@/Libs/store';
 interface MobileDashboardSideMenuProps {
   open: boolean;
   onClose: () => void; // Add onClose for closing in mobile view
 }
+
+/**
+ * Logout functionality
+ */
+const handleLogout = () => {
+  // Clear sessionStorage and localStorage
+  sessionStorage.clear();
+  localStorage.clear();
+  setTimeout(() => {
+    resetStore();
+  }, 500);
+  // Navigate to login
+  window.location.href=routes.userLogin();
+};
 
 const sidebarItems = [
   {
@@ -43,7 +59,16 @@ const sidebarItems = [
     exact: true,
     state: { tabIndex: 0 }, 
   },
+  {
+    path: null, 
+    icon: LogoutWhiteIcon,
+    label: 'LogOut',
+    onClick: handleLogout,
+    exact: true,
+    state: { tabIndex: 0 }, 
+  },
 ];
+
 
 /**
  * Componet used for side bar menu of mobile view
@@ -78,6 +103,40 @@ const MobileDashboardSideMenu: React.FC<MobileDashboardSideMenuProps> = ({ open,
         <Grid className = "user-sidebar-dashboard-responsive-menu-container">
             <Grid className = "user-sidebar-dashboard-responsive-menu-container-item-list">
             <List className="user-sidebar-list">
+  {sidebarItems.map((item, index) => {
+    if (!item.path) {
+      // If path is null, render a button instead
+      return (
+        <React.Fragment key={index}>
+          <ListItem>
+            <ListItemButton onClick={item.onClick}>
+              <item.icon className="inactive-drawer-icon" />
+              <ListItemText>{item.label}</ListItemText>
+            </ListItemButton>
+          </ListItem>
+          {index < sidebarItems.length - 1 && <Divider className="line-divider" />}
+        </React.Fragment>
+      );
+    }
+
+    const isActive = isActiveLink(item.path, item.exact);
+    return (
+      <React.Fragment key={item.path}>
+        <NavLink to={item.path} state={item.state} onClick={isMobile ? onClose : undefined}>
+          <ListItem>
+            <ListItemButton>
+              <item.icon className={isActive ? 'active-drawer-icon' : 'inactive-drawer-icon'} />
+              <ListItemText className={isActive ? 'active-link' : ''}>{item.label}</ListItemText>
+            </ListItemButton>
+          </ListItem>
+        </NavLink>
+        {index < sidebarItems.length - 1 && <Divider className="line-divider" />}
+      </React.Fragment>
+    );
+  })}
+</List>
+
+            {/* <List className="user-sidebar-list">
           {sidebarItems.map((item, index) => {
             const isActive = isActiveLink(item.path, item.exact);
             return (
@@ -96,7 +155,7 @@ const MobileDashboardSideMenu: React.FC<MobileDashboardSideMenuProps> = ({ open,
               </React.Fragment>
             );
           })}
-        </List>  
+        </List>   */}
             </Grid>
         </Grid>
     </Drawer>

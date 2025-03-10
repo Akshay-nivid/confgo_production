@@ -8,11 +8,11 @@ import Template1 from './Template1';
 import useStore, { setDataById } from '@/Libs/store';
 import { Logger } from '@/Utils/Logger';
 import routes from '@/router/routes';
-import Template3 from './Template3';
 import Template2 from './Template2';
-import Template4 from '../approvedTemplate/Template4';
 import { Backdrop, CircularProgress } from '@mui/material';
 import MaintenancePage from './MaintenancePage';
+import Template4 from '../approvedTemplate/Template4';
+import Template7 from '@/pages/Micro-site/Templates/Template-7';
 interface TemplateContainerProps {
   id?: string;
   templateId?: string;
@@ -22,8 +22,8 @@ interface TemplateContainerProps {
 
 const templates: any = {
   1: Template4,
-  2: Template2,
-  3: Template3,
+  2: Template7,
+  3: Template2,
   4: Template1
 };
 
