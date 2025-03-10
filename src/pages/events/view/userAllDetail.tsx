@@ -6,7 +6,6 @@
 import { useState } from "react";
 import { Box, Modal, Tab, Tabs, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
-import StatusComponent from "@/components/Status/StatusComponent";
 import "./userdetail.scss";
 import React from "react";
 import {  formatDateTimeRange } from "@/Utils/CommonBaseClass";
@@ -22,6 +21,7 @@ import { Logger } from "@/Utils/Logger";
 import  CloseIcon  from "../../../assets/svg/CloseModal.svg";
 import DownloadModal from "../../../assets/svg/DownloadModal.svg"
 import confgo  from "../../../../config.json"
+import SessionCard from "./sessionCard";
 
 interface DetailProps {
   userdetail: any;
@@ -64,7 +64,29 @@ const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => {
   const PaymentDetails = userdetail.payment;
 
   //stores the attendees informations 
-  const attendanceDetails = userdetail.attendanceDetails
+  const attendanceDetails = userdetail?.attendanceDetails;
+  /**
+   * transform Attandence details
+   */
+  const transformAttendanceData = (attendanceDetails: any) => {
+    // Extract relevant keys that may contain program data
+    const possibleKeys = ["attendedPrograms", "upcomingPrograms", "absentPrograms"];
+  
+    // Find the first available key that contains data
+    const activeKey = possibleKeys.find((key) => Array.isArray(attendanceDetails?.[key]));
+  
+    // If no valid data array is found, return an empty array
+    if (!activeKey) return [];
+  
+    return attendanceDetails[activeKey].map(({ program, attendeeData }: any) => ({
+      ...program,
+      // speaker: program.speakers, // Replace with actual speakers if available
+      // sponsor: program.sponsors, // Replace with actual sponsors if available
+      checkInTime: attendeeData?.scanTime || "N/A",
+      paymentStatus: PaymentDetails.state, 
+    }));
+  };
+
   const categories = [
     { label: "Event Sessions Attended", key: "attendedPrograms" },
     { label: "Upcoming Event Sessions", key: "upcomingPrograms" },
@@ -731,7 +753,26 @@ const handleDownloadPdf = () => {
             {label}
           </Typography>
           <Grid container spacing={2}>
-            {attendanceDetails?.[key]?.map((program: any) => (
+            <Grid container spacing={2} className="event-sessions-session-list">
+            {transformAttendanceData(attendanceDetails)?.map((program: any, index: number) => { 
+              return (
+                <SessionCard
+                  key={index}
+                  index={index + 1}
+                  item={program} // Pass entire object
+                  timeCorrection={true}
+                  titleField={"name"}
+                  startTimeField="startTime"
+                  endTimeField="endTime"
+                  fields={[]}
+                  hasAddOns={program?.eventAddonId ? true : false}
+                />
+              );
+            })}
+
+
+            </Grid>
+            {/* {attendanceDetails?.[key]?.map((program: any) => (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={program?.id}>
                 <Grid className="userdetail-event-card">
                   <Grid container direction="row" className="userdetail-time-status">
@@ -751,7 +792,7 @@ const handleDownloadPdf = () => {
                   </Typography>
                 </Grid>
               </Grid>
-            ))}
+            ))} */}
           </Grid>
         </Grid>
       )
