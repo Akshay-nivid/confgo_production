@@ -3,6 +3,7 @@
  */
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import Template7 from '../../../assets/png/template7-preview.png';
 import Template4 from '../../../assets/png/template1-preview.png'
 import Template2 from '../../../assets/png/template2-preview.png'
 import Template3 from '../../../assets/png/template3-preview.png'
@@ -10,7 +11,7 @@ import Template1 from '../../../assets/png/template4-preview.png'
 import CustomButton from "@/components/CustomButton/CustomButton";
 import CheckCircleIcon from '../../../assets/svg/template-select.svg'
 import { useEffect} from "react";
-import useStore from "@/Libs/store";
+import useStore, { PUT } from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
 // import TemplateCustomizeCard from "./TemplateCustomizeCard";
 
@@ -21,7 +22,7 @@ const TemplateCard = (data: any) => {
   const POST = useStore((state: any) => state.POST);
   // const PUT = useStore((state: any) => state.PUT);
   const templateInfo = useStore((state: any) => state?.compData?.['templateList']?.[`template/list`]?.data) ?? [];
-  const templates = [Template1, Template2, Template3, Template4];
+  const templates = [Template1, Template7, Template2, Template3, Template4];
   // const [customizeConfig, setCustomizeConfig] = useState<any>({});
 
 
@@ -76,7 +77,7 @@ const TemplateCard = (data: any) => {
       await POST({
         url: `template/list`,
         id: 'templateList',
-        body: { enabled: 1, limit: 4 },
+        body: { enabled: 1, limit: 5 },
         errorCB: (context: any) => {
           Logger.error('TemplateView.tsx', context?.message);
         }
@@ -91,27 +92,27 @@ const TemplateCard = (data: any) => {
    * Method handles the template selection updation
    * @param item : template id
    */
-  // const handleApply = async (item: any) => {
-  //   try {
-  //     await PUT({
-  //       url: `event/template/${data?.eventData?.id}`,
-  //       id: 'templateUpdate',
-  //       body: { templateId: item.id },
-  //       successCB: (context: any) => {
-  //         if (context?.success) {
-  //           data?.onSubmitHandler && data?.onSubmitHandler();
+  const handleApply = async (item: any) => {
+    try {
+      await PUT({
+        url: `event/template/${data?.eventData?.id}`,
+        id: 'templateUpdate',
+        body: { templateId: item.id },
+        successCB: (context: any) => {
+          if (context?.success) {
+            data?.onSubmitHandler && data?.onSubmitHandler();
 
-  //         }
-  //       },
-  //       errorCB: (context: any) => {
-  //         Logger.error('TemplateView.tsx', context?.message);
-  //       }
-  //     });
-  //   } catch (error) {
-  //     Logger.error('TemplateView.tsx', error);
+          }
+        },
+        errorCB: (context: any) => {
+          Logger.error('TemplateView.tsx', context?.message);
+        }
+      });
+    } catch (error) {
+      Logger.error('TemplateView.tsx', error);
 
-  //   }
-  // }
+    }
+  }
 
   // const handleCustomizeCancel = () => {
   //   setCustomizeConfig({});
@@ -130,7 +131,7 @@ const TemplateCard = (data: any) => {
           <Grid className={item.selected ? `event-detail-template-card-selection-container event-detail-template-card-selection-container-selected` : `event-detail-template-card-selection-container`}>
             <Grid container className="event-detail-template-card-selection-container-icon-container" justifyContent={'flex-end'}>{item.selected && <CheckCircleIcon />}</Grid>
             <Grid container className="event-detail-template-card-selection-container-overlay" spacing={2} direction={'column'}>
-              {/* {!item.selected && <CustomButton onClick={() => handleApply(item)} label="Apply Theme" className="event-detail-template-card-selection-container-overlay-apply-button" />} */}
+              {!item.selected && <CustomButton onClick={() => handleApply(item)} label="Apply Theme" className="event-detail-template-card-selection-container-overlay-apply-button" />}
               <CustomButton onClick={() => handlePreview(item)} label="Preview Theme" className="event-detail-template-card-selection-container-overlay-preview-button" />
             </Grid>
             <Grid className="event-detail-template-card-selection-preview-container" onClick={() => handleItem(item)}>

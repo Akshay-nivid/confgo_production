@@ -82,28 +82,34 @@ const PaymentHistory: React.FC = React.memo(() => {
    */
   const transformData = (data: any) => {
     if (!data) return [];
-    return data.map((item: any) => {
-      return {
-        ...item,
-        name:  <Tooltip title={item?.event?.name} arrow>{item?.event?.name}</Tooltip>,
-        Date: item.createdOn,
-        amount: item?.amount,
-        status: <Grid  className="payment-history-container-status" size={12} > <StatusComponent  value={item?.state ==="COMPLETED"?'12':"3"}  /> </Grid> ,
-        createdOn: item?.createdOn,
-        
-        Receipt:<PDFDownloadLink document={<MyDocument data={data} itemId={item?.id} />} fileName="Invoice.pdf"  onClick={()=>{}}>
-               
-                    
-          <CustomButton label={"[Download]"} className="download-Receipt" onClick={() => {
-          }}/>
-                  
-              </PDFDownloadLink>,
-      
-        PaymentMethod: item.paymentMethod.handler
-
-      };
-    });
+  
+    return data
+      .filter((item: any) => item?.state !== "INITIATED") 
+      .map((item: any) => {
+        return {
+          ...item,
+          name: <Tooltip title={item?.event?.name} arrow>{item?.event?.name}</Tooltip>,
+          Date: item.createdOn,
+          amount: item?.amount,
+          status: (
+              <Grid  className="payment-history-container-status" size={12} >
+                 <StatusComponent  value={item?.state ==="COMPLETED"?'12':"3"}  /> 
+              </Grid>
+          ),
+          createdOn: item?.createdOn,
+          Receipt: (
+            <PDFDownloadLink
+              document={<MyDocument data={data} itemId={item?.id} />}
+              fileName="Invoice.pdf"
+            >
+              <CustomButton label={"[Download]"} className="download-Receipt" />
+            </PDFDownloadLink>
+          ),
+          PaymentMethod: item.paymentMethod.handler,
+        };
+      });
   };
+  
   useEffect(() => {
     payments();
   }, []);
