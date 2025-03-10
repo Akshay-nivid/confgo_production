@@ -88,7 +88,7 @@ const ProgramSelection = () => {
 
   const eventDataLoading = useStore((state: any) => state?.compData?.["eventData"]?.[`event/${eventId}`]?.loading) ?? false
 
-  const [currentTab, setCurrentTab] = useState(0);
+  const [currentTab, setCurrentTab] = useState<any>(0);
 
   const userToken = sessionStorage.getItem('token')
   const userRole = sessionStorage.getItem('userRole')
@@ -369,18 +369,13 @@ const ProgramSelection = () => {
 
                 <Box className="tab-btn-container">
                   <Box className="tab-btn-inner-container">
-                    {eventData?.programs && eventData?.programs && Object.entries(eventData.programs).map(([date]: any, index) => (
-                      <CustomButton onClick={() => setCurrentTab(index)} className={clsx("tab-btn", currentTab === index ? `active-${templateId}` : `inactive-${templateId}`)} label={`Day-${index + 1} ${moment(date).format("MMM DD, YYYY")}`} />
-                    ))}
+                    {eventData?.programs && eventData?.programs && Object.entries(eventData.programs).map(([date]: any, index) => {
+                      return <CustomButton onClick={() => setCurrentTab(index)} className={clsx("tab-btn", currentTab === index ? `active-${templateId}` : `inactive-${templateId}`)} label={date === 'general' ? 'General Addons' : `Day-${index + 1} ${moment(date).format("MMM DD, YYYY")}`} />
+                    })}
                   </Box>
-
-
                 </Box>
-
                 {eventData?.programs && eventData?.programs && Object.entries(eventData.programs).map(([date, programs]: any, index) => index === currentTab && (
-
                   <>
-
                     <Grid container className="program-addon-container" rowSpacing={{ xs: 3 }} columnSpacing={3} >
 
                       {programs?.programs?.map((program: IProgram, index: number) => (
@@ -399,7 +394,7 @@ const ProgramSelection = () => {
 
                         return (
                           <>
-                            <AddonCard addon={addon} date={date} templateId={templateId} key={addon.id} />
+                            <AddonCard addon={addon} date={currentTab=='general'?'': date} templateId={templateId} key={addon.id} />
                           </>
                         )
                       })}
