@@ -78,12 +78,12 @@ const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => {
     // If no valid data array is found, return an empty array
     if (!activeKey) return [];
   
-    return attendanceDetails[activeKey].map(({ program, attendeeData }: any) => ({
+    return attendanceDetails[activeKey]?.map(({ program, attendeeData }: any) => ({
       ...program,
       // speaker: program.speakers, // Replace with actual speakers if available
       // sponsor: program.sponsors, // Replace with actual sponsors if available
       checkInTime: attendeeData?.scanTime || "N/A",
-      paymentStatus: PaymentDetails.state, 
+      paymentStatus: PaymentDetails?.state, 
     }));
   };
 
