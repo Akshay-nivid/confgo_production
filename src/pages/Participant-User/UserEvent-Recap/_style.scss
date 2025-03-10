@@ -429,3 +429,13 @@
 .event-recap-first-grid-buttons-firstButton{
     width: auto !important;
 }
+
+
+.event-status-label {
+    background-color: #28a745;
+    color: white;
+    padding: 0.375rem 1rem; 
+    border-radius: 0.5rem;
+    font-weight: $font_bold !important;
+    font-size: $p2;
+}
