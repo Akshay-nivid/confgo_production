@@ -593,14 +593,14 @@ const SessionCard: React.FC<SessionCardProps> = ({
                 )}
                 <Grid container spacing={2}>
                   {item?.checkInTime &&
-                    <Grid container size={12} display={"flex"} flexDirection={"column"} className="addon-property" >
+                    <Grid container size={12} display={"flex"} flexDirection={"row"} >
                        <CalenderIcon fontSize="small" />
                        <Typography className="checkin-time-label">Check-in Time</Typography>
                        <Typography className="checkin-time-value">{item?.checkInTime || "--:--"}</Typography>
                     </Grid>
                   }
                   {item?.paymentStatus &&
-                    <Grid container size={12} display={"flex"} flexDirection={"column"} className="addon-property" >
+                    <Grid container size={12} display={"flex"} flexDirection={"row"}>
                       <PaymentHistoryIcon fontSize="small" />
                       <Typography className="payment-info-label">Payment Information</Typography>
                       <Grid>

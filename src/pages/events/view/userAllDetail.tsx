@@ -83,7 +83,7 @@ const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => {
       // speaker: program.speakers, // Replace with actual speakers if available
       // sponsor: program.sponsors, // Replace with actual sponsors if available
       checkInTime: attendeeData?.scanTime || "N/A",
-      paymentStatus: PaymentDetails?.state, 
+      paymentStatus: PaymentDetails.state, 
     }));
   };
 
@@ -750,10 +750,10 @@ const handleDownloadPdf = () => {
       attendanceDetails?.[key]?.length > 0 && ( 
         <Grid key={key}>
           <Typography className="all-details-attendence-label">
-            {label}
+            {label} 
           </Typography>
           <Grid container spacing={2}>
-            <Grid container spacing={2} className="event-sessions-session-list">
+            <Grid container spacing={2} size={8} className="event-sessions-session-list">
             {transformAttendanceData(attendanceDetails)?.map((program: any, index: number) => { 
               return (
                 <SessionCard
