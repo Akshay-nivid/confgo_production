@@ -350,6 +350,7 @@ const EventRecap: React.FC = React.memo(() => {
     setDataById('eventTab', { tabIndex: newIndex });
   };
 
+
   return (
     <>
       {eventLoading  || eventDataLoading ? (
@@ -364,13 +365,14 @@ const EventRecap: React.FC = React.memo(() => {
           </Grid>
           <Grid container className="padding-x-20 event-info">
             <Grid container size={12} columnSpacing={2} className="event-recap-first-grid">
-              <Grid>
-                <Typography className="event-recap-first-grid-text">{eventData?.[0]?.name ? toTitleCase(eventData?.[0]?.name) : ''}</Typography>
-              </Grid>
-              <Grid>
-                <Typography className="event-recap-first-grid-status-text">
-                  <StatusComponent className="event-recap-first-grid-status" value={eventData?.data?.statusId.toString()} />
+                <Typography className="event-recap-first-grid-text">
+                  {eventData?.[0]?.name ? toTitleCase(eventData?.[0]?.name) : ''}
                 </Typography>
+                
+                <Typography className="event-recap-first-grid-status-text">
+                  <span className="event-status-label">{eventData?.[0]?.eventClass}</span>
+                </Typography>
+              <Grid>
               </Grid>
               <Grid size={12}>
                 <Typography className="event-recap-first-grid-address">
@@ -391,10 +393,19 @@ const EventRecap: React.FC = React.memo(() => {
                     date: eventData?.[0]?.endTime,
                     format: 'h:mm A',
                   })}
-                  <span className="mx-2">|</span>
-                  {eventData?.[0]?.eventClass === "OFFLINE" ? 
-                  `${eventData?.[0]?.venue?.city}, ${eventData?.[0]?.venue?.address}`:eventData?.[0]?.eventClass}
                 </Typography>
+              </Grid>
+              <Grid size={12}>
+                {(eventData?.[0]?.eventClass === 'OFFLINE' || eventData?.[0]?.eventClass === 'HYBRID') && (
+                  <div>
+                    <Typography className="event-recap-first-grid-address">
+                      Location: {eventData?.[0]?.venue?.name}
+                    </Typography>
+                    <Typography className="event-recap-first-grid-address">
+                      Event Link: <a className='event-recap-first-grid-status-text' href={eventData?.[0]?.venue?.mapUrl} target="_blank" rel="noopener noreferrer">{eventData?.[0]?.venue?.mapUrl}</a>
+                    </Typography>
+                  </div>
+                )}
               </Grid>
               <Grid size={12} className="event-recap-first-grid-buttons">
                 {/* <Button className="event-recap-first-grid-buttons-firstButton" onClick={() => handlePdfGenerate()}>
