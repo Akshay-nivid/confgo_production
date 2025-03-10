@@ -43,7 +43,6 @@ const UserDetail: React.FC = React.memo(() => {
   const [userdetailData,setuserdetailData]=useState()
   const [programs, setPrograms] = useState<Program[]>([]);
   const baseUrl = config.api.url;
-  const [mode,setMode]=useState<any>('')
   useEffect(() => {
     eventParticipantList();
   }, [id]);
@@ -57,9 +56,7 @@ const UserDetail: React.FC = React.memo(() => {
       if (response.data.status === "Success") {
         
         const data = response?.data?.data;
-        const eventMode=data?.details?.event;
         
-        setMode(eventMode);  
         setuserdetailData(data);
 
         const userData = {
