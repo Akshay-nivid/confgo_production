@@ -39,6 +39,11 @@ const AuthFormHandler: React.FC<any> = React.memo(({ className, data, onScrollTo
       snackBar({ severity: 'error', message: 'please login using participant credentials' })
       return
     }
+
+    if (new Date(data?.endDate).getTime() < new Date().getTime()) {
+      snackBar({ severity: 'error', message: 'Event has ended' })
+      return
+    }
     if (eventPriceTiersPresent) {
 
       onScrollToTier()
