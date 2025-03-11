@@ -69,14 +69,14 @@ const T7ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
 
                                         return (
                                             <Grid container className="prm-add-container" key={"main" + index} size={itemSize} onClick={() => data?.handleModalOpen(item?.items)}>
-                                                <Grid container size={12} >
+                                                <Grid container size={12}>
                                                     {item?.items?.map((prg: any, prgIndex: number) => {
                                                         return <Grid container className={prg?.addonId ? "addonbox p-2" : "p-2"} display={"flex"} size={childItemSize} key={prgIndex} justifyContent={"space-between"}   >
-                                                            <Grid>
-                                                                <Grid size={12} container justifyContent={"space-between"}>
+                                                            <Grid size={12} display={'block'}>
+                                                                <Grid  container justifyContent={"space-between"}>
                                                                     <Box display={'block'}>
-                                                                        {prg?.eventSponsors?.length > 0 &&
-                                                                            <Typography>Sponsored by</Typography>}
+                                                                        {prg?.eventSponsors?.length > 0?
+                                                                            <Typography variant="h6">Sponsored by</Typography>:<Box className="mt-24"></Box>}
                                                                         {prg?.eventSponsors?.map((sponsor: any) => {
                                                                             return (
                                                                                 <Box key={sponsor?.sponsor?.id} className="inline-flex">
@@ -85,11 +85,14 @@ const T7ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                                                                             <img
                                                                                                 alt={sponsor?.sponsor?.name}
                                                                                                 src={`${baseUrl}asset/${sponsor?.sponsor?.logoAssetId}`}
+                                                                                                width={35}
+                                                                                                height={35}
+                                                                                            
                                                                                             />
                                                                                         </Grid>
                                                                                     ) : (
                                                                                         <Box className='flex-col gap-4' >
-                                                                                            <Avatar className="sponosr-img-container" alt={sponsor?.sponsor?.name} src="" />
+                                                                                            <Avatar className="sponosr-img-container" alt={sponsor?.sponsor?.name}  sx={{ width: 35, height: 35, objectFit: 'cover' }} src="" />
                                                                                         </Box>
                                                                                     )}
                                                                                 </Box>
@@ -98,7 +101,7 @@ const T7ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                                                     </Box>
                                                                     <Grid>
                                                                         {prg.eventSpeakers?.length > 0 ?
-                                                                            <Typography>Speakers</Typography>:<Box className="pt-16"></Box>}
+                                                                            <Typography variant="h6">Speakers</Typography>:<Box className="pt-16"></Box>}
                                                                         {prg?.eventSpeakers?.map((speaker: any) => {
                                                                             return (
                                                                                 <Box key={speaker?.user?.id} className="inline-flex">
@@ -107,12 +110,12 @@ const T7ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                                                                             <Avatar
                                                                                                 alt={speaker?.user?.firstName}
                                                                                                 src={`${baseUrl}asset/${speaker?.user?.assetId}`}
-                                                                                                sx={{ width: 30, height: 30, objectFit: 'cover' }}
+                                                                                                sx={{ width: 35, height: 35, objectFit: 'cover' }}
                                                                                             />
                                                                                         </Grid>
                                                                                     ) : (
                                                                                         <Box>
-                                                                                            <Avatar sx={{ width: 30, height: 30 }} alt={speaker?.user?.firstName} src="" />
+                                                                                            <Avatar  sx={{ width: 35, height: 35, objectFit: 'cover' }} alt={speaker?.user?.firstName} src="" />
                                                                                         </Box>
                                                                                     )}
                                                                                 </Box>
@@ -130,7 +133,7 @@ const T7ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                                                         classPrefix={`prg-description`}
                                                                     />
                                                                 </Box>
-                                                                {prg?.hall && <Box className="inline-flex col-span-1" alignItems={'center'} justifyContent={'center'}>
+                                                                {prg?.hall && <Box className="inline-flex col-span-1 prg-location-container" alignItems={'center'} justifyContent={'center'}>
                                                                     <LocationOnIcon />
                                                                     <Typography>{prg?.hall}</Typography>
                                                                 </Box>}
