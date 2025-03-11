@@ -100,6 +100,7 @@ export const Filter: React.FC<FilterProps> = ({ datagridId, fields, filterTransf
         }
 
         req['start'] = 0;
+        req['offset'] = 0;
         let dataSource: any = { ...dataGridInfo?.source }
         dataSource.data = checkValueIsNotEmpty(req);
         handleApiCall(dataSource, dataGridInfo?.dataTransformer)
