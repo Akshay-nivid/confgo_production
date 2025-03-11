@@ -435,6 +435,10 @@
     align-items: center;
     padding-right: $h2;
     border-right: 0.06rem solid $clr_light_border_grey;
+   &-heading{
+    font-size: $h3 !important;
+    font-weight: $font_semibold !important;
+   }
 
     &-profile {
       color: $clr_white;
@@ -649,12 +653,12 @@
       font-weight: $font_medium !important;
       font-size: $p2 !important;
       color: $clr_black ;
-      padding-left: 1rem;
+      padding-left: 1.125rem;
       justify-content: left !important;
     }
 
     &-count {
-      padding-left: 1rem;
+      padding-left: 1.125rem;
       font-weight: $font_semibold !important;
       font-size: $h4 !important;
       color: $clr_black ;

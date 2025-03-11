@@ -52,7 +52,8 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
       sortBy:dashView ? "startTime": "id",
       sortDirection:dashView ? "ASC" : "DESC",
       filters:dashView? {statusId:1,
-        startTime:moment(new Date()).add(1,'days').format('YYYY-MM-DD'),
+      published:1,
+        // startTime:moment(new Date()).add(1,'days').format('YYYY-MM-DD'),
       }: 
       filters
     };
@@ -269,8 +270,8 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
           noRecordIcon={
            <EventsNoData />
            }
-          noRecordTitle="No Events Created Yet"
-          noRecordSubtitle="Start creating your first event and manage everything from scheduling to participant registration—all in one place"
+          noRecordTitle={dashView?"No Published Events Yet":"No Events Created Yet"}
+          noRecordSubtitle={dashView?"Once you publish an event it will appear here.":"Start creating your first event and manage everything from scheduling to participant registration—all in one place."}
           // redirectTo={() => routes.createEvent()} // define the route
           // btnName="Create New Event" //define the label of btn
         />
