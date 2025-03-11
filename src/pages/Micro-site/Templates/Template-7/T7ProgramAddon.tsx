@@ -10,6 +10,7 @@ import TimeComponent from "@/pages/events/template/TimeComponent";
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import LocalOfferIcon from '@mui/icons-material/LocalOffer';
 import { RedSeat, YellowSeat } from "@/assets/svg";
+import TitleComponent from "@/pages/events/template/TitleComponent";
 
 /**
  * T7ProgramAddon Component
@@ -124,7 +125,11 @@ const T7ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                                                     </Grid>
                                                                 </Grid>
                                                                 <Box className="prg-title text-element">
-                                                                    <Typography>{prg?.addonId ? prg?.addon?.name : prg?.name}</Typography>
+                                                                    <TitleComponent
+                                                                        title={prg?.addonId ? prg?.addon?.name : prg?.name}
+                                                                        classPrefix={`prg-title`}
+                                                                    />
+                                                                    {/* <Typography>{prg?.addonId ? prg?.addon?.name : prg?.name}</Typography> */}
                                                                 </Box>
                                                                 <Box className='text-element'>
                                                                     <DescriptionComponent

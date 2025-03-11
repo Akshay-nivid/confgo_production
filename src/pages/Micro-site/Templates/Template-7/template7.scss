@@ -587,15 +587,16 @@
         }
         .prg-title{
             padding-block: 1rem;
-            // width: 15rem;
             p{
                 font-weight: $font_semibold !important;
-                font-size: $h3;
+                font-size: $h4;
                
             }
         }
         .text-element {
             height:7.083rem; 
+            overflow: hidden;
+            scrollbar-width: none;
             @media screen and (max-width:900px) {
                 height: fit-content;
             }
