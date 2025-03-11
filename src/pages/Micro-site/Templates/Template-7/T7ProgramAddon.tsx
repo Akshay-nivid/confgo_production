@@ -7,8 +7,9 @@ import config from '../../../../../config.json';
 import DescriptionComponent from "@/pages/events/template/DescriptionComponent";
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import TimeComponent from "@/pages/events/template/TimeComponent";
-import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
-import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
+import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
+import LocalOfferIcon from '@mui/icons-material/LocalOffer';
+import { RedSeat, YellowSeat } from "@/assets/svg";
 
 /**
  * T7ProgramAddon Component
@@ -72,7 +73,7 @@ const T7ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                                     {item?.items?.map((prg: any, prgIndex: number) => {
                                                         return <Grid container className={prg?.addonId ? "addonbox p-2" : "p-2"} display={"flex"} size={childItemSize} key={prgIndex} justifyContent={"space-between"}   >
                                                             <Grid>
-                                                                <Grid container justifyContent={"space-between"}>
+                                                                <Grid size={12} container justifyContent={"space-between"}>
                                                                     <Box display={'block'}>
                                                                         {prg?.eventSponsors?.length > 0 &&
                                                                             <Typography>Sponsored by</Typography>}
@@ -96,8 +97,8 @@ const T7ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                                                         })}
                                                                     </Box>
                                                                     <Grid>
-                                                                        {prg.eventSpeakers?.length > 0 &&
-                                                                            <Typography>Speakers</Typography>}
+                                                                        {prg.eventSpeakers?.length > 0 ?
+                                                                            <Typography>Speakers</Typography>:<Box className="pt-16"></Box>}
                                                                         {prg?.eventSpeakers?.map((speaker: any) => {
                                                                             return (
                                                                                 <Box key={speaker?.user?.id} className="inline-flex">
@@ -129,13 +130,14 @@ const T7ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                                                         classPrefix={`prg-description`}
                                                                     />
                                                                 </Box>
-                                                                {prg?.hall && <Box className="inline-flex">
+                                                                {prg?.hall && <Box className="inline-flex col-span-1" alignItems={'center'} justifyContent={'center'}>
                                                                     <LocationOnIcon />
                                                                     <Typography>{prg?.hall}</Typography>
                                                                 </Box>}
+                                                                <Grid display={'flex'}>
                                                                 <Box className="prg-time-container">
                                                                     <Box display={"flex"}>
-                                                                        <AccessTimeRoundedIcon />
+                                                                        <AccessTimeFilledIcon />
                                                                         <TimeComponent
                                                                             month={false}
                                                                             startTime={prg?.startTime}
@@ -143,9 +145,42 @@ const T7ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                                                             classPrefix={`text`}
                                                                         />
                                                                     </Box>
-                                                                    <Box display={"flex"}>< LocalOfferOutlinedIcon />
+                                                                    <Box display={"flex"}>< LocalOfferIcon />
                                                                         <p className="text">${prg?.amount}</p>
                                                                     </Box>
+                                                                </Box>
+                                                                </Grid>
+                                                                <Box display={'flex'}>
+                                                                    {(prg?.eventParticipantEntries || []).map((entry: any, index: any) => {
+                                                                        const { seatAllocated = 0, totalSeat = 1 } = entry;
+                                                                        const remainingSeat = totalSeat - seatAllocated;
+                                                                        const bookedPercentage = (seatAllocated / totalSeat) * 100;
+                                                                        const isOverbookedRed = bookedPercentage > 85;
+                                                                        const isOverbookedYellow = bookedPercentage > 70;
+
+                                                                        if (!isOverbookedYellow) return null;
+                                                                        return (
+                                                                            <Grid container key={index} spacing={2} alignItems="center" >
+                                                                                {/* Seat Information */}
+                                                                                <Grid container alignItems="center" spacing={.5}>
+                                                                                    <Grid paddingBottom={.5}>
+                                                                                        {isOverbookedRed ? <RedSeat fontSize={18} /> : <YellowSeat fontSize={18} />}
+                                                                                    </Grid>
+                                                                                    <Grid>
+                                                                                        {remainingSeat === 0 ? (
+                                                                                            <Typography variant="body1" className="program-seat-alert-red">
+                                                                                                {seatAllocated} / {totalSeat} Unfortunately, all seats have been booked.
+                                                                                            </Typography>
+                                                                                        ) : (
+                                                                                            <Typography variant="body1" className={isOverbookedRed ? "program-seat-alert-red" : "program-seat-alert-yellow"}>
+                                                                                                {seatAllocated} / {totalSeat} Hurry up! Only {remainingSeat} left! Secure your spot now!
+                                                                                            </Typography>
+                                                                                        )}
+                                                                                    </Grid>
+                                                                                </Grid>
+                                                                            </Grid>
+                                                                        );
+                                                                    })}
                                                                 </Box>
                                                             </Grid>
 

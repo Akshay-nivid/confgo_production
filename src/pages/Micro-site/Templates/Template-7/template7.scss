@@ -37,6 +37,7 @@
         background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/src/assets/png/template-7-hero.webp');
         padding-block: 6rem;
         position: relative;
+        background-size: cover;
         min-height: 100%;
         display: flex;
         align-items: flex-end;
@@ -438,6 +439,8 @@
     .t7-banner{
         margin-block: 5rem;
         .banner-container{
+            padding-inline: 2rem;
+            column-gap: 2rem;
             display: flex;
             flex-direction: row-reverse;
             background: linear-gradient(to right, $banner-background-clr1, $banner-background-clr2);

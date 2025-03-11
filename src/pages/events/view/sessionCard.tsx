@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Typography, IconButton, Divider, Button, Menu, Avatar, Box } from "@mui/material";
 import EditIcon from "@/assets/svg/event-edit.svg";
 import Grid from "@mui/material/Grid2";
-import { DeleteContributorIcon, HallIcon, WarningIcon } from "@/assets/svg";
+import { DeleteContributorIcon, HallIcon, SeatIcon, WarningIcon} from "@/assets/svg";
 import CustomActionModal from "@/components/CustomActionModal/CustomActionModal";
 import { formatedTimeRangeProgram, getLocalTimeDate, truncateString } from "@/Utils/CommonBaseClass";
 import CustomModel from "@/components/CustomModel/CustomModel";
@@ -434,6 +434,26 @@ const SessionCard: React.FC<SessionCardProps> = ({
                   </Grid>)}
                 {!hasAddOns && (
                   <>
+                  {item?.eventParticipantEntries?.[0]?.totalSeat && (
+
+                    <Grid size={12} display={"flex"} flexDirection={"column"} className="seat-box" >
+
+                      <Typography className="seat-box-heading">
+                        Total Seats
+                      </Typography>
+
+                      <Typography display={"flex"} gap={1} alignItems={"center"}className="seat-box-heading" >
+
+                        <SeatIcon />
+
+                        {item?.eventParticipantEntries?.[0]?.totalSeat}
+
+                      </Typography>
+
+                    </Grid>)}
+                   
+                
+
                     {item?.speakers && item?.speakers?.length !== 0 &&
                       <Grid className="speaker-box" size={12} minHeight={"5rem"} >
 
@@ -593,14 +613,14 @@ const SessionCard: React.FC<SessionCardProps> = ({
                 )}
                 <Grid container spacing={2}>
                   {item?.checkInTime &&
-                    <Grid container size={12} display={"flex"} flexDirection={"column"} className="addon-property" >
+                    <Grid container size={12} display={"flex"} flexDirection={"row"} >
                        <CalenderIcon fontSize="small" />
                        <Typography className="checkin-time-label">Check-in Time</Typography>
                        <Typography className="checkin-time-value">{item?.checkInTime || "--:--"}</Typography>
                     </Grid>
                   }
                   {item?.paymentStatus &&
-                    <Grid container size={12} display={"flex"} flexDirection={"column"} className="addon-property" >
+                    <Grid container size={12} display={"flex"} flexDirection={"row"}>
                       <PaymentHistoryIcon fontSize="small" />
                       <Typography className="payment-info-label">Payment Information</Typography>
                       <Grid>

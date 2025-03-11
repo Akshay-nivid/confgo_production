@@ -22,7 +22,7 @@ interface calendarProps {
   const location = useLocation(); 
   const containsUserCalendar = location.pathname.indexOf('user/calendar') !== -1;
   const dataInfotUser = useStore((state: IStoreState) => state?.compData?.['eventList']?.["event/registered/eventList"]);
-  const UserProgram=useStore((state:any)=>state?.compData?.['programs']); 
+
   /**
    * Useeffect hook clears the state data while unmounting
    */
@@ -46,51 +46,42 @@ interface calendarProps {
    */
   const fetchData = async (filters: { startTime: string, endTime: string }) => {
     try {
+      const commonRequestBody = {
+        offset: 0,
+        sortBy: "id",
+        sortDirection: "DESC",
+        limit: 1000,
+        filters
+      };
+      const commonErrorHandler = (context: any) => {
+        setDataById("snackBarInfo", {
+          open: true,
+          autoHideDuration: 2000,
+          severity: "error",
+          message: context?.message || "An error occurred",
+        });
+      };
       if(id==="company-calendar"){
        POST({
         url: "event/eventList",
-        body: {
-          offset: 0,
-          sortBy: "id",
-          sortDirection: "DESC",
-          limit: 1000,
-          filters
-        },
+        body: commonRequestBody,
         id: "eventList",
-        errorCB: (context: any) => {
-          setDataById("snackBarInfo",{
-            open: true,
-            autoHideDuration: 2000,
-            severity: "error",
-            message: context?.message,
-          });
-        },
+        errorCB: commonErrorHandler,
       });
     }
     else{
+      if(id==="user-calendar"){
        POST({
         url: "event/registered/eventList",
-        body: {
-          offset: 0,
-          sortBy: "id",
-          sortDirection: "DESC",
-          limit: 1000,
-          filters
-        },
+        body:commonRequestBody,
         id: "eventList",
         successCB:(context:any)=>{
-          setDataById("programs",{data:context?.data[0]?.participants?.[0]?.eventParticipants})
+          setDataById("programs",{data:context?.data})
           },
-        errorCB: (context: any) => {
-          setDataById("snackBarInfo",{
-            open: true,
-            autoHideDuration: 2000,
-            severity: "error",
-            message: context?.message,
-          });
-        },
+          errorCB: commonErrorHandler,
       });
     }
+  }
     } catch (error) {
       Logger.error("An error occurred:", error);
     }
@@ -104,34 +95,14 @@ interface calendarProps {
    */
   const transformEventData = (data: any) => {
     return data?.map((event: any) => ({
-      id: event.id,
-      title: event.name || "No Title",
-      start: new Date(event.startTime),
-      // end: new Date(event.endTime),
-      description: event.description || "No Description",
+      id: event?.id,
+      title: event?.name || "No Title",
+      start: new Date(event?.startTime),
+      end: new Date(event?.endTime),
+      description: event?.description || "No Description",
     }));
   }
- /**
-  *  Transforms API response data into calendar format for admin.
-  */
-  const programs = dataInfo?.data?.flatMap((event: any) => 
-    event?.events?.map((program: any) => ({
-        id:program.id,
-        title: program.name,
-         start: new Date(program.startTime),
-        description: program.description,
-    }))
-);
 
- /**
-  *  Transforms API response data into calendar format for user.
-  */
-  const userData = UserProgram?.data?.map((item: any) => ({
-    id: item.event?.id,
-    title: item.event?.name,
-    start: new Date(item.event?.startTime),
-    description: item.event?.description,
-  }));
   /**
    * Method handles the click event in the calendar
    * @param event : event parameter
@@ -157,22 +128,18 @@ interface calendarProps {
       <Grid size={{ xs: 12, sm: 12 }} className={containsUserCalendar?"calendar-usercontainer shadow-app":"calendar-container shadow-app"}>
       {dataInfotUser ? (
         <CustomCalendar
-          id="user-calendar"
-          events={dataInfotUser?.data && transformEventData(dataInfotUser?.data)}
-          programs={dataInfotUser?.data && userData}
-          onSelectEvent={handleSelectEvent}
-          onNavigate={handleNavigate}
-          defaultDate={new Date()}
-        />
+            id="user-calendar"
+            events={dataInfotUser?.data && transformEventData(dataInfotUser?.data)}
+            onSelectEvent={handleSelectEvent}
+            onNavigate={handleNavigate}
+            defaultDate={new Date()}/>
       ) : (
         <CustomCalendar
-          id="company-calendar"
-          events={dataInfo?.data && transformEventData(dataInfo?.data)}
-          programs={dataInfo?.data && programs}
-          onSelectEvent={handleSelectEvent}
-          onNavigate={handleNavigate}
-          defaultDate={new Date()}
-        />
+              id="company-calendar"
+              events={dataInfo?.data && transformEventData(dataInfo?.data)}
+              onSelectEvent={handleSelectEvent}
+              onNavigate={handleNavigate}
+              defaultDate={new Date()} />
       )}
       </Grid>
     </Grid>)
