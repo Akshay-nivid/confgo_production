@@ -13,6 +13,7 @@ import T6Sponsors from './T6Sponsors'
 import T6SponsorContact from './T6SponsorContact'
 import BannerSection from '../Template-components/Banner/Banner-section'
 import T6Drawer from './T6Drawer'
+import T6ProgramAddon from './T6ProgramAddon'
 
 
 
@@ -25,6 +26,7 @@ const Template6 = () => {
             <T6about />
             <T6timeRemaining />
             <T6speakers />
+            <T6ProgramAddon/>
             <T6location />
             <T6priceTier />
             <T6Sponsors/>

@@ -658,6 +658,12 @@ height: max-content;
             background-color: $clr_charcoal_cyan;
         }
     }
+    .addon-property-checkbox-2{
+        border-color:  $clr_bright_mint_green;
+        &-active {
+            background-color:  $clr_bright_mint_green;
+        }
+    }
 
 
 

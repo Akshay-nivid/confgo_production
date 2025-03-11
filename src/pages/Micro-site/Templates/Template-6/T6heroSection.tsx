@@ -5,6 +5,8 @@ import { LocationOn, CalendarToday } from "@mui/icons-material"
 import LanguageIcon from '@mui/icons-material/Language';
 import Card from '@mui/material/Card/Card'
 import { convertUTCToUserTimeZone } from '@/Utils/CommonBaseClass'
+import TAuthButton from '@/pages/events/template/_components/TAuthButton/TAuthButton';
+import TRegisterButton from '@/pages/events/template/_components/TRegisterButton/TRegisterButton';
 
 const T6heroSection = ({ eventData }: { eventData?: IEventResponse }) => {
     return (
@@ -16,9 +18,8 @@ const T6heroSection = ({ eventData }: { eventData?: IEventResponse }) => {
                     <h1 className={clsx('template-section-title', 'hero-title')}>{eventData?.name || 'No name'} </h1>
                     <Card
                         className='hero-card'
-
                     >
-                        <Stack spacing={4}>
+                        <Stack spacing={2} direction={'column'}>
                             {eventData?.eventClass === "OFFLINE" ? <Stack direction="row" spacing={2} alignItems="start">
                                 <Box
                                     className="icon-container">
@@ -69,6 +70,11 @@ const T6heroSection = ({ eventData }: { eventData?: IEventResponse }) => {
                                     </p>
                                 </Box>
                             </Stack>
+                        </Stack>
+                        <Stack className='auth-button-container' direction={'row'}>
+                            <TAuthButton authType='LOGIN' className="auth-btn">Login</TAuthButton>
+                            <TAuthButton authType='LOGOUT' className="auth-btn">Logout</TAuthButton>
+                            <TRegisterButton className='reg-btn' />
                         </Stack>
                     </Card>
                 </Box>
