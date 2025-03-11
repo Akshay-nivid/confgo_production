@@ -53,8 +53,7 @@ const EventList: React.FC<EventListProps> = React.memo(({ hideAction ,view , das
       sortDirection:dashView ? "ASC" : "DESC",
       filters:dashView? {statusId:1,
       published:1,
-        // startTime:moment(new Date()).add(1,'days').format('YYYY-MM-DD'),
-      }: 
+       }: 
       filters
     };
 
