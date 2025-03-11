@@ -85,7 +85,7 @@ const CreateAddon: React.FC<createAddonProps> = React.memo(({ closeDrawer, submi
                             <CustomTextField placeholder='Add-on name' name='title' control={control} rules={{required:validateRequiredField({ fieldName: 'Add-on Name' })}}/>
                         </Grid>
                         <Grid className="add-on-create-form-wrap" >
-                            <CustomTextField placeholder='Add-on description' name='description' control={control} rules={{required:validateRequiredField({ fieldName: 'Add-on Description' })}}/>
+                            <CustomTextField placeholder='Add-on description' name='description' control={control} />
                         </Grid>
                         <Grid container spacing={2} justifyContent={"flex-end"}>
                             <CustomButton
