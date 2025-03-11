@@ -65,18 +65,6 @@ const SelectedPrograms = () => {
   const cart = useStore((state: IStoreState) => state?.nonPersistedData?.cart)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
   /**
    * Navigates to the dynamic user form page
    * @param route - The route to navigate to

@@ -27,8 +27,8 @@ const Template7=()=>{
             <T7HeroSection/>
             <T7About/>
             <T7timeRemaining/>
-            <T7ProgramAddon/>
             {isSpeakers&&<T7Speakers/>}
+            <T7ProgramAddon/>
             {isLocation&&<T7Location/>}
             {isEventPriceTiers&&<T7PriceTier/>}
             <T7SponsorContact/>

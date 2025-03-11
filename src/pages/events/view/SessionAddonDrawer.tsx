@@ -97,7 +97,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
 
 
 
-  const { control, setValue, handleSubmit, watch, reset, setError, clearErrors } = useForm<FormData>({
+  const { control, setValue, handleSubmit, watch, reset, setError, clearErrors,resetField } = useForm<FormData>({
     defaultValues: {
       isPaid: isEditing && selectedAddOn?.amount > 0 ? "PAID" : "FREE",
       startTime: selectedAddOn ? selectedAddOn.startTime : "",
@@ -116,6 +116,7 @@ const SessionAddonDrawer: React.FC<SessionAddonDrawerProps> = ({ isEditing, sele
    * Closes the add-on drawer.
    */
   const handleDrawerClose = () => {
+    resetField("addonId")
     setNewAddonView(false);
   };
 

@@ -91,17 +91,25 @@ export const handleGroupData = ({ programs, addons, calculateTotal = false }: { 
   const sortedPrograms = sortData(programs);
   const sortedAddons = sortData(addons);
 
+  // Collect all dates from programs and addons
+  const allkeys = sortDates([...Object.keys(sortedPrograms), ...Object.keys(sortedAddons)]);
 
-  const allkeys = sortDates([...Object.keys(sortedPrograms), ...Object.keys(sortedAddons)])
+  // Create a unique set of dates
+  const uniqueKeys = new Set(allkeys);
 
-  const uniqueKeys = new Set(allkeys)
+  // Convert the unique set to a list
+  const uniqueKeysList = [...uniqueKeys];
 
-  const uniqueKeysList = [...uniqueKeys]
+  // Add a "general" key to the unique keys if there are addons without dates
+  if (addons) {
+    const addonsWithoutDate = addons.filter((addon: any) => !addon.startTime);
+    if (addonsWithoutDate.length > 0) {
+      uniqueKeysList.unshift('general');
+    }
+  }
 
-
+  // Format the data
   const formattedData = uniqueKeysList.reduce((acc: any, date) => {
-
-
 
     if (!sortedPrograms) {
       throw new Error('Programs data is required and must be an object');
@@ -111,28 +119,34 @@ export const handleGroupData = ({ programs, addons, calculateTotal = false }: { 
       acc[date] = { addons: [], programs: [], total: 0 };
     }
 
+    // If calculateTotal is true, sum the amount for programs
     if (calculateTotal) {
-      if (Array.isArray(sortedPrograms[date]))
+      if (Array.isArray(sortedPrograms[date])) {
         sortedPrograms[date].map(prgm => {
-          acc[date].total = acc[date].total + parseFloat(prgm.amount)
-        })
+          acc[date].total = acc[date].total + parseFloat(prgm.amount);
+        });
+      }
     }
 
+    // Add programs to the corresponding date group
     if (sortedPrograms[date]) {
-    acc[date].programs.push(...(sortedPrograms[date] as any[]))
+      acc[date].programs.push(...(sortedPrograms[date] as any[]));
     }
 
-
+    // Add addons to the corresponding date group or "general" group
     if (sortedAddons[date]) {
       acc[date].addons.push(...sortedAddons[date]);
+    } else if (date === 'general') {
+      const addonsWithoutDate = addons.filter((addon: any) => !addon.startTime && !addon.endTime);
+      acc[date].addons.push(...addonsWithoutDate);
     }
-
 
     return acc;
   }, {});
 
-  return formattedData
+  return formattedData;
 }
+
 
 
 
