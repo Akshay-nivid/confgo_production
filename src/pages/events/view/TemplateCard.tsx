@@ -25,7 +25,6 @@ const TemplateCard = (data: any) => {
   const templateInfo = useStore((state: any) => state?.compData?.['templateList']?.[`template/list`]?.data) ?? [];
   const templates = [Template1, Template7, Template6,Template2, Template3, Template4];
   // const [customizeConfig, setCustomizeConfig] = useState<any>({});
-  const backgroundColor=['#3B5B5A','#D4E1FF','#4E4E4E'];
 
 
 
@@ -40,7 +39,6 @@ const TemplateCard = (data: any) => {
       name: item.name,
       image: templates[index] || null,
       selected: item.id === data?.eventData?.templateId,
-      backgroundColor:backgroundColor[index]||null
     }));
   }
 
