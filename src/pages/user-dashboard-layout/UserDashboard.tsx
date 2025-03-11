@@ -212,6 +212,9 @@ const UserDashboard: React.FC = React.memo(() => {
       {/* left */}
       <Grid container size={{ xs: 12, md: 7 }}   className="dashboard-left"
       >
+        <Grid >
+        <Typography className="dashboard-left-heading">Dashboard</Typography>
+        </Grid>
         <Grid size={12} className="dashboard-left-profile">
           <Grid size={12} className="dashboard-left-profile-textgroup">
             <Typography className="dashboard-left-profile-title" gutterBottom>
