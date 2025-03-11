@@ -42,7 +42,7 @@ const T6SponsorContact = ({ eventData }: { eventData?: IEventResponse }) => {
             <Grid container px={{xs:0,sm:4}} spacing={2}>
                 {eventLocation.map((item: any) => (
                     <Grid container marginInline={'auto'} size={{ xs: 12, sm: 4, md: 4 }} key={item.id}>
-                        <Grid className="venue-container main">
+                        {item.value&&<Grid className="venue-container main">
                             <Avatar className="avathar">
                                 {item.icon}
                             </Avatar>
@@ -50,7 +50,7 @@ const T6SponsorContact = ({ eventData }: { eventData?: IEventResponse }) => {
                                 <Typography variant="subtitle2"> {item?.header}</Typography>
                                 <Typography variant="subtitle1">{item?.value}</Typography>
                             </Grid>
-                        </Grid>
+                        </Grid>}
                     </Grid>
                 ))}
             </Grid>

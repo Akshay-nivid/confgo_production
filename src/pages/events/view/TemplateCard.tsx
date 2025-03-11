@@ -3,6 +3,7 @@
  */
 import { Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
+import Template6 from '../../../assets/png/template6-preview.png';
 import Template7 from '../../../assets/png/template7-preview.png';
 import Template4 from '../../../assets/png/template1-preview.png'
 import Template2 from '../../../assets/png/template2-preview.png'
@@ -22,8 +23,9 @@ const TemplateCard = (data: any) => {
   const POST = useStore((state: any) => state.POST);
   // const PUT = useStore((state: any) => state.PUT);
   const templateInfo = useStore((state: any) => state?.compData?.['templateList']?.[`template/list`]?.data) ?? [];
-  const templates = [Template1, Template7, Template2, Template3, Template4];
+  const templates = [Template1, Template7, Template6,Template2, Template3, Template4];
   // const [customizeConfig, setCustomizeConfig] = useState<any>({});
+  const backgroundColor=['#3B5B5A','#D4E1FF','#4E4E4E'];
 
 
 
@@ -38,6 +40,7 @@ const TemplateCard = (data: any) => {
       name: item.name,
       image: templates[index] || null,
       selected: item.id === data?.eventData?.templateId,
+      backgroundColor:backgroundColor[index]||null
     }));
   }
 
