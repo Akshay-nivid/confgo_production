@@ -35,11 +35,11 @@ const T6ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                 {
                     (data) => {
                         // Find the selected data based on the selected date
-                        const selectedData = data?.data[data.selectedDate];
+                        const selectedData = data?.data[data?.selectedDate];
                         return (
                             <>
                                 <Box className="tab-container ">
-                                    {data?.tabs.map((item: any, index: number) => (
+                                    {data?.tabs?.map((item: any, index: number) => (
                                         <Box onClick={() => data.handleTabChange(item)} className={data.selectedDate != item ? "tab-container-item" : "tab-container-selected"} key={item + index}>
                                             <Box>
                                                 <Typography className="date z-10" textAlign={'center'}>
@@ -54,13 +54,13 @@ const T6ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                         return (
                                             <Grid container className="prm-add-container" key={"main" + index} size={12} >
                                                 <Grid container size={12} >
-                                                    {item.items.map((prg: any, prgIndex: number) => {
+                                                    {item?.items?.map((prg: any, prgIndex: number) => {
                                                         return <Grid container className={prg?.addonId ? "addonbox" : `${item.items.length > 1 && item.items.length - 1 != prgIndex ? 'border-b-2 mx-4 my-1' : 'mx-4 my-1'}`} display={"flex"} size={12} key={prgIndex} justifyContent={"space-between"}   >
                                                             <Grid container flexDirection={'column'} alignContent={"flex-end"} size={12}>
                                                                 <Grid container display={'flex'} justifyContent={'space-between'} size={12}>
                                                                     <Grid display={'flex'} columnGap={2} alignItems={'center'}>
                                                                         <Box display={'block'}>
-                                                                            {prg.eventSponsors.length > 0 &&
+                                                                            {prg?.eventSponsors?.length > 0 &&
                                                                                 <Typography>Sponsored by</Typography>}
                                                                             {prg?.eventSponsors?.map((sponsor: any) => {
                                                                                 return (
@@ -82,7 +82,7 @@ const T6ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                                                             })}
                                                                         </Box>
                                                                         <Grid>
-                                                                            {prg.eventSpeakers?.length > 0 &&
+                                                                            {prg?.eventSpeakers?.length > 0 &&
                                                                                 <Typography>Speakers</Typography>}
                                                                             {prg?.eventSpeakers?.map((speaker: any) => {
                                                                                 return (
@@ -106,11 +106,11 @@ const T6ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                                                         </Grid>
                                                                     </Grid>
                                                                     <Grid>
-                                                                        {item.items.length > 1 && prgIndex == 0 ? (
+                                                                        {item?.items?.length > 1 && prgIndex == 0 ? (
                                                                             <Avatar onClick={() => data?.handleModalOpen(item?.items)} className="view-detail-btn">
                                                                                 <ArrowOutwardRoundedIcon />
                                                                             </Avatar>
-                                                                        ) : item.items.length === 1 ? (
+                                                                        ) : item?.items?.length === 1 ? (
                                                                             <Avatar onClick={() => data?.handleModalOpen(item?.items)} className="view-detail-btn">
                                                                                 <ArrowOutwardRoundedIcon />
                                                                             </Avatar>
@@ -145,44 +145,42 @@ const T6ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                                                         <p className="text">${prg?.amount}</p>
                                                                     </Box>
                                                                     <Box display={'flex'}>
-                                                                                        {(prg?.eventParticipantEntries || []).map((entry: any, index: any) => {
-                                                                                            const { seatAllocated = 0, totalSeat = 1 } = entry;
-                                                                                            const remainingSeat = totalSeat - seatAllocated;
-                                                                                            const bookedPercentage = (seatAllocated / totalSeat) * 100;
-                                                                                            const isOverbookedRed = bookedPercentage > 85;
-                                                                                            const isOverbookedYellow = bookedPercentage > 70;
+                                                                        {(prg?.eventParticipantEntries || [])?.map((entry: any, index: any) => {
+                                                                            const { seatAllocated = 0, totalSeat = 1 } = entry;
+                                                                            const remainingSeat = totalSeat - seatAllocated;
+                                                                            const bookedPercentage = (seatAllocated / totalSeat) * 100;
+                                                                            const isOverbookedRed = bookedPercentage > 85;
+                                                                            const isOverbookedYellow = bookedPercentage > 70;
 
-                                                                                            if (!isOverbookedYellow) return null;
-                                                                                            return (
-                                                                                                <Grid container key={index} spacing={2} alignItems="center" >
-                                                                                                    {/* Seat Information */}
-                                                                                                    <Grid container alignItems="center" spacing={.5}>
-                                                                                                        <Grid paddingBottom={.5}>
-                                                                                                            {isOverbookedRed ? <RedSeat fontSize={18} /> : <YellowSeat fontSize={18} />}
-                                                                                                        </Grid>
-                                                                                                        <Grid>
-                                                                                                            {remainingSeat === 0 ? (
-                                                                                                                <Typography variant="body1" className="program-seat-alert-red">
-                                                                                                                    {seatAllocated} / {totalSeat} Unfortunately, all seats have been booked.
-                                                                                                                </Typography>
-                                                                                                            ) : (
-                                                                                                                <Typography variant="body1" className={isOverbookedRed ? "program-seat-alert-red" : "program-seat-alert-yellow"}>
-                                                                                                                    {seatAllocated} / {totalSeat} Hurry up! Only {remainingSeat} left! Secure your spot now!
-                                                                                                                </Typography>
-                                                                                                            )}
-                                                                                                        </Grid>
-                                                                                                    </Grid>
-                                                                                                </Grid>
-                                                                                            );
-                                                                                        })}
-                                                                                    </Box>
+                                                                            if (!isOverbookedYellow) return null;
+                                                                            return (
+                                                                                <Grid container key={index} spacing={2} alignItems="center" >
+                                                                                    {/* Seat Information */}
+                                                                                    <Grid container alignItems="center" spacing={.5}>
+                                                                                        <Grid paddingBottom={.5}>
+                                                                                            {isOverbookedRed ? <RedSeat fontSize={18} /> : <YellowSeat fontSize={18} />}
+                                                                                        </Grid>
+                                                                                        <Grid>
+                                                                                            {remainingSeat === 0 ? (
+                                                                                                <Typography variant="body1" className="program-seat-alert-red">
+                                                                                                    {seatAllocated} / {totalSeat} Unfortunately, all seats have been booked.
+                                                                                                </Typography>
+                                                                                            ) : (
+                                                                                                <Typography variant="body1" className={isOverbookedRed ? "program-seat-alert-red" : "program-seat-alert-yellow"}>
+                                                                                                    {seatAllocated} / {totalSeat} Hurry up! Only {remainingSeat} left! Secure your spot now!
+                                                                                                </Typography>
+                                                                                            )}
+                                                                                        </Grid>
+                                                                                    </Grid>
+                                                                                </Grid>
+                                                                            );
+                                                                        })}
+                                                                    </Box>
                                                                 </Box>
                                                             </Grid>
                                                         </Grid>
-
                                                     })}
                                                 </Grid>
-
                                             </Grid>
                                         );
                                     })}
