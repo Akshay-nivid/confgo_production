@@ -43,7 +43,7 @@ const T6ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                         <Box onClick={() => data.handleTabChange(item)} className={data.selectedDate != item ? "tab-container-item" : "tab-container-selected"} key={item + index}>
                                             <Box>
                                                 <Typography className="date z-10" textAlign={'center'}>
-                                                    {moment(item).format('MMMM D')}
+                                                    {moment(item)?.format('MMMM D')}
                                                 </Typography>
                                             </Box>
                                         </Box>
