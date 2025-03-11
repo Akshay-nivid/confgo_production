@@ -92,26 +92,31 @@ export const CustomCalendar: React.FC<CalendarProps> = ({
           },
         }}
         eventDidMount={(eventInfo) => {
-          const el = eventInfo.el;
-          const eventId = parseInt(eventInfo.event.id) || 0;
-          const colorIndex = eventId % colorPalette.length;
-          const { bg, text, border } = colorPalette[colorIndex];
-
-          el.style.backgroundColor = bg;
-          el.style.color = text;
-          el.style.borderLeft = `0.25rem solid ${border}`;
-          el.style.borderRadius = '0.333rem';
-          el.style.padding = '0.167rem 0.333rem';
-          
-          const textElements = el.querySelectorAll('.fc-event-title, .fc-event-time');
-          textElements.forEach(element => {
-            (element as HTMLElement).style.color = text;
-          });
-
-          el.querySelectorAll('*').forEach(child => {
-            (child as HTMLElement).style.color = text;
-          });
+          try {
+            const el = eventInfo.el;
+            const eventId = parseInt(eventInfo.event.id) || 0;
+            const colorIndex = eventId % colorPalette.length;
+            const { bg, text, border } = colorPalette[colorIndex];
+        
+            el.style.backgroundColor = bg;
+            el.style.color = text;
+            el.style.borderLeft = `0.25rem solid ${border}`;
+            el.style.borderRadius = '0.333rem';
+            el.style.padding = '0.167rem 0.333rem';
+            
+            const textElements = el.querySelectorAll('.fc-event-title, .fc-event-time');
+            textElements.forEach(element => {
+              (element as HTMLElement).style.color = text;
+            });
+        
+            el.querySelectorAll('*').forEach(child => {
+              (child as HTMLElement).style.color = text;
+            });
+          } catch (error) {
+            console.error('Error in eventDidMount:', error);
+          }
         }}
+        
         initialDate={selectedDate}
         eventOverlap={true}
       />
