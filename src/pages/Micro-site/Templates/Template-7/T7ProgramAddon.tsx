@@ -101,7 +101,7 @@ const T7ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                                                     </Box>
                                                                     <Grid>
                                                                         {prg.eventSpeakers?.length > 0 ?
-                                                                            <Typography variant="h6">Speakers</Typography>:<Box className="pt-16"></Box>}
+                                                                            <Typography variant="h6">Speakers</Typography>:<Box className="mt-24"></Box>}
                                                                         {prg?.eventSpeakers?.map((speaker: any) => {
                                                                             return (
                                                                                 <Box key={speaker?.user?.id} className="inline-flex">
