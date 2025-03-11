@@ -123,10 +123,10 @@ const T7ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                                                         })}
                                                                     </Grid>
                                                                 </Grid>
-                                                                <Box className="prg-title">
+                                                                <Box className="prg-title text-element">
                                                                     <Typography>{prg?.addonId ? prg?.addon?.name : prg?.name}</Typography>
                                                                 </Box>
-                                                                <Box>
+                                                                <Box className='text-element'>
                                                                     <DescriptionComponent
                                                                         temp={"temp4"}
                                                                         description={prg?.description}

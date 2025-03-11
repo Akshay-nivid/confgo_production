@@ -594,6 +594,12 @@
                
             }
         }
+        .text-element {
+            height:7.083rem; 
+            @media screen and (max-width:900px) {
+                height: fit-content;
+            }
+        }
         .prg-description{
             color:#919191;
             padding-block: 1rem;
