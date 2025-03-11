@@ -15,13 +15,13 @@
 }
 .fc-sticky {
   position: sticky;
-  top: 0px;
+  top: 0rem !important;
 }
 .fc-event-time {
   max-width: max-content !important;
   background-color: seashell !important;
   border: 0.0833rem solid rgb(167, 80, 18) !important;
-  border-radius: 5px !important;
+  border-radius: 0.4167rem !important;
 font-size: $p2 !important;
 font-weight: 700 !important; 
 }

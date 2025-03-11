@@ -195,6 +195,7 @@ import ViewEventButtonBlue from './vieweventbuttonblue.svg';
 import UpcomingImage from './UpcommingImage.svg';
 import DashBoardContainer from "./dashboardcontainer.svg";
 import DownArrowIcon from "./DownArrowIcon.svg";
+import SeatIcon from "./seat-count.svg";
 export {
   Coupon2,
   MainBottomBanner,
@@ -392,4 +393,5 @@ export {
   UpcomingImage,
   DashBoardContainer,
   DownArrowIcon,
+  SeatIcon
 };
