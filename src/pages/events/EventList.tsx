@@ -14,7 +14,6 @@ import { Logger } from "@/Utils/Logger";
 import React from "react";
 import { Filter } from "@/components/Filter";
 import { StatusEnum } from "@/Utils/StatusEnum";
-import moment from "moment";
 import Typography from "@mui/material/Typography/Typography";
 import { EventsNoData } from "@/assets/svg";
 interface EventListProps {
