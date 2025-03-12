@@ -6,6 +6,7 @@ import InstagramIcon from '@/assets/svg/template1-instagram.svg';
 import TwitterIcon from '@/assets/svg/template1-twitter.svg';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import TLink from '../TLink/TLink';
 
 
 const TFooter = () => {
@@ -46,12 +47,11 @@ const TFooter = () => {
                     <Box className="links-conatiner text-small" display={'flex'} columnGap={4}>
                         <Box display={'flex'} rowGap={4} flexDirection={'column'}>
                             <Link to={'#'}>Home</Link>
-                            <Link to={'#'}>Speakers</Link>
+                            <TLink className='link-item' usageType='Header' targetelementId='speakers' >Speakers</TLink>
                         </Box>
                         <Box textAlign={'end'} className="text-small" display={'flex'} rowGap={4} flexDirection={'column'}>
-                            <Link to={'#'}>Sponsors</Link>
-                            <Link to={'#'}>Location</Link>
-
+                        <TLink className='link-item' usageType='Header' targetelementId='sponsors' >Sponsors</TLink>
+                        <TLink className='link-item' usageType='Header' targetelementId='location' >Location</TLink>
                         </Box>
                     </Box>
                     <Typography className='copyright'>© {moment().year()} — Copyright</Typography>
