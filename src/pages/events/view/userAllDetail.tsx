@@ -298,11 +298,16 @@ const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => {
       const paddingX = 15;
   
       // Title Section
+      
       pdf.setFont('helvetica', 'bold');
       pdf.setFontSize(28);
-      pdf.text(userdetail?.details?.event?.name, paddingX-4, currentY);
+      const maxTitleWidth = pageWidth - (2 * paddingX);  
+      const titleLines = pdf.splitTextToSize(userdetail?.details?.event?.name, maxTitleWidth);
+      pdf.text(titleLines, paddingX - 4, currentY);
+      currentY += titleLines.length * 10; 
       pdf.setFontSize(12);
       pdf.setFont('helvetica', 'italic');
+
       // pdf.text('Your Gateway to Innovation and Technology!', pageWidth / 2, currentY + 8, { align: 'center' });
       pdf.setDrawColor(0);
       pdf.line(10, currentY + 14, pageWidth - 10, currentY + 14);
@@ -336,6 +341,9 @@ const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => {
       currentY += 12;
   
       // Payment Information Section
+
+      const amountPaid = userdetail?.payment?.order?.finalPrice || 0;
+      if (amountPaid > 0) {
       pdf.setFont('helvetica', 'bold');
       pdf.setFontSize(18);
       pdf.text('Payment Information', pageWidth / 2, currentY, { align: 'center' });
@@ -362,7 +370,7 @@ const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => {
       currentY += 6;
       pdf.line(10, currentY, pageWidth - 10, currentY);
       currentY += 12;
-  
+    }
       // QR Code Section
       pdf.setFont('helvetica', 'bold');
       pdf.setFontSize(16);
