@@ -171,10 +171,11 @@ useEffect(() => {
           )}
         </View>
 
+        
         <View style={styles.divider} />
-
         {/* Payment Information */}
-        <View style={styles.paymentSection}>
+        {SubTotal >0  && (
+          <View style={styles.paymentSection}>
           <Text style={styles.sectionTitle}>Payment Information</Text>
 
           <View style={styles.row}>
@@ -207,7 +208,11 @@ useEffect(() => {
             <Text style={styles.boldDetails}>{TransactionId}</Text>
           </View>
         </View>
-        <View style={styles.divider} />
+       
+         )} 
+      
+       {SubTotal > 0 && <View style={styles.divider} />}
+        
         <View>
           {qrCode && (
             <View style={styles.qrCode}>
