@@ -9,8 +9,8 @@
         
     }
     .userdetail-title-name{
-        font-size: $h4;
-        font-weight: $font_semibold;
+        font-size: $h3;
+        font-weight: $font_bold;
         margin-right: 1rem;
     }
     .userdetail-title-personal{
@@ -59,8 +59,9 @@
         font-weight: $font_semibold;
     }
     .userdetail-data-image{
-        width:2rem !important;
-        height: 2rem !important;
+        width:1.7rem !important;
+        height: 1.7rem !important;
+       
     }
     .userdetail-data-title{
         margin-top: 2.8333rem !important;
@@ -92,10 +93,10 @@
     height: 5rem!important;
 }
 .userdetail-data-grid{
-    align-items: center;
-        border: 0.083rem solid $clr_light_border_grey !important;
+       align-items: center;
        border-radius: 0.667rem;
        padding: 1rem 1.333rem;
+       color: $clr_medium_dim_gray;
 }
 .all-details{
     &-attendance-grid{
