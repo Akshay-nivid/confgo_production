@@ -10,7 +10,7 @@ const T7About = ({ eventData }: { eventData?: IEventResponse }) => {
     return (
         <Grid className='template-7-about'>
             <Grid className='main'>
-                <Typography className='template-section-title about-section-title'>{eventData?.name}</Typography>
+                <Typography className='template-section-title about-section-title'>Welcome to {eventData?.name}</Typography>
                 <Typography className='about-section-description'>{HTMLReactParser(eventData?.description || '')}</Typography>
             </Grid>
 

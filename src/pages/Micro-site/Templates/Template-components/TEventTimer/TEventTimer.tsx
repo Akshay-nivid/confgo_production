@@ -1,6 +1,5 @@
-
 import React, { useState, useEffect, useMemo } from 'react'
-import { Box } from '@mui/material'
+import { Box, Typography } from '@mui/material'
 import clsx from 'clsx'
 import './timer.scss'
 import useStore from '@/Libs/store';
@@ -28,7 +27,7 @@ const TEventTimer = ({ className }: {
 
   const event: IEventResponse = useStore(state => state.compData?.['event']?.data);
   const target = useMemo(() => new Date(event?.startTime).getTime(), [event?.startTime]);
-
+  const end = useMemo(() => new Date(event?.endTime).getTime(), [event?.endTime]);
 
   const calculateTimeLeft = () => {
     const difference = target - Date.now();
@@ -51,11 +50,27 @@ const TEventTimer = ({ className }: {
   };
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const [eventStatus, setEventStatus] = useState('');
 
   useEffect(() => {
+    const updateEventStatus = () => {
+      const currentTime = Date.now();
+      if (currentTime >= end) {
+        setEventStatus('Event Ended');
+      } else if (currentTime >= target && currentTime < end) {
+        setEventStatus('Event Ongoing');
+      } 
+    };
+
+    // Check event status on mount and whenever target or end changes
+    updateEventStatus();
+
     const timer = setInterval(() => {
       const currentTimeLeft = calculateTimeLeft();
       setTimeLeft(currentTimeLeft);
+
+      // Recalculate event status on each tick
+      updateEventStatus();
 
       if (currentTimeLeft.days === 0 &&
         currentTimeLeft.hours === 0 &&
@@ -66,10 +81,13 @@ const TEventTimer = ({ className }: {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [target]);
+  }, [target, end]);
 
   return (
     <Box className={clsx('template-timer', className)}>
+      {eventStatus=='Event Ended'||eventStatus=='Event Ongoing'?<Box className="status">
+        <Typography variant='h4'>{eventStatus}</Typography>
+      </Box>:  <>
       <Box className='group'>
         <Box className='value-container'>
           <p className='day-value value'>{timeLeft.days.toString().padStart(2, '0')}</p>
@@ -94,6 +112,7 @@ const TEventTimer = ({ className }: {
         </Box>
         <p className='second-label label'>Seconds</p>
       </Box>
+      </>}
     </Box>
   );
 };

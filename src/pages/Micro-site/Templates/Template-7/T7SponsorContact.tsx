@@ -40,8 +40,8 @@ const T7SponsorContact = ({ eventData }: { eventData?: IEventResponse }) => {
                                  {item?.icon}
                                 </Avatar>
                                 <Grid >
-                                    <Typography variant="subtitle2"> {item?.header}</Typography>
-                                    <Typography variant="subtitle1">{item?.value}</Typography>
+                                    <Typography variant="h6"> {item?.header}</Typography>
+                                    <Typography variant="h6">{item?.value}</Typography>
                                 </Grid>
                             </Grid>
                         ))}
