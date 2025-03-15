@@ -64,6 +64,7 @@ const routes = {
   sponsor:()=>"/sponsor",
   adminPayment: () => "/payment-history",
   sepakerAccountSettings: () => "/speaker/account-settings",
+  reviewerAccountSettings: () => "/reviewer/account-settings",
 };
 
 export default routes;

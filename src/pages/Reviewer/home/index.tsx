@@ -23,6 +23,7 @@ interface IDataListItem {
   event: {
     eventClass: string;
     name: string;
+    startTime: string;
   };
 }
 
@@ -82,7 +83,7 @@ const ReviewerHome = () => {
     {
       type: 'dateField',
       field: 'createdOn',
-      headerName: 'Created Date',
+      headerName: 'Uploaded Date',
       width: 250,
       dateFormat: 'DD/MM/YYYY',
     },
@@ -167,18 +168,17 @@ const ReviewerHome = () => {
    * @param data - The raw data from API response
    * @returns Transformed data for DataGrid
    */
-  const transformData =
-    (data: IDataListItem[] = []) => {
-      // setAbstractList(data);
-
-      return data.map(item => ({
+  const transformData = (data: IDataListItem[] = []) => {
+    return data.map(item => {
+      return {
         ...item,
         eventClass: item.event?.eventClass,
         eventName: item.event?.name,
-        statusId: convertStatusId(item?.statusId)
-      }));
-
-    }
+        startTime: item.event?.startTime,
+        statusId: convertStatusId(item?.statusId),
+      };
+    });
+  };
 
   const summaryData: { id: number; title: 'Total Abstracts' | 'Pending for Review' | 'Reviewed Abstracts' | 'Approved' | 'Rejected'; value: number }[] = [
     {

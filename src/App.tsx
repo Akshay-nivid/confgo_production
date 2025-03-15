@@ -199,6 +199,10 @@ const userRoutes = [
         element: <ReviewDetailsPage />,
         path:routes.reviewDetails(":id"),
       },
+      {
+        path: routes.reviewerAccountSettings(),
+        element: <Account/>,
+      },
     ]
   },
 ];
