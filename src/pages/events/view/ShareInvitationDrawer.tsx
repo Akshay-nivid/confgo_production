@@ -49,6 +49,7 @@ const ShareInvitationDrawer: React.FC<ShareInvitationDrawerProps> = ({
     const req = {
       eventName: eventData?.name,
       eventUrl: `${subDomain}${eventURL}`,
+      eventId: eventData?.id,
       emails: data.emails,
       notes: data.notes,
     };

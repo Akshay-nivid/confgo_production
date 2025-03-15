@@ -89,7 +89,7 @@ const UserDashboard: React.FC = React.memo(() => {
   * fetch upcoming events
   */
   const fetchUpcomingEvents = async () => {
-    const formattedDate=formatUTCDateTime(new Date().toISOString().split("T")[0] + "T00:00")
+    const formattedDate=formatUTCDateTime(new Date().toISOString())
     try {
       await POST({
         url: "event/list",
