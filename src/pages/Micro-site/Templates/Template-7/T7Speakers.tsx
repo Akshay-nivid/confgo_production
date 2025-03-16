@@ -18,6 +18,7 @@ const T7Speakers = () => {
             <Grid container className="main mt-10">
                 <TEventSpeakers usageType="CUSTOM">
                     {({ data, handleModalOpen }) => {
+                        
                         return (
                             <Grid container columnSpacing={4} rowSpacing={4} marginInline={'auto'} flex={1} >
                                 {data?.map((speaker: any) => {
@@ -29,19 +30,13 @@ const T7Speakers = () => {
                                                 component="img"
                                                 image={`${baseUrl}/asset/${speaker?.user?.assetId}`}
                                                 alt="Doctor profile"
-                                                sx={{
-                                                    objectFit: "contain",
-                                                    height: 300,
-                                                }}
+                                                className='speaker-img-card'
                                             />
                                                 : <CardMedia
                                                     component="img"
                                                     image={personPlaceholder}
                                                     alt="Doctor profile"
-                                                    sx={{
-                                                        objectFit: "contain",
-                                                        height: 300,
-                                                    }}
+                                                    className='speaker-img-card'
                                                 />}
 
                                             <CardContent
@@ -53,14 +48,14 @@ const T7Speakers = () => {
                                                     {speaker?.user?.firstName}{" "}{speaker?.user?.lastName}
                                                 </Typography>
                                                 <Typography
-                                                    variant="subtitle1"
+                                                    variant="h6"
                                                     className='speaker-job'
                                                 >
-                                                    Cardiologist, Harvard Medical School
+                                                    {speaker?.user?.designation}
                                                 </Typography>
                                                 <Grid container justifyContent={"center"}>
                                                     <Grid className="speaker-view" onClick={() => handleModalOpen(speaker)}>
-                                                        <Typography>View More</Typography>
+                                                        <Typography className='view-more'>View More</Typography>
                                                     </Grid>
                                                 </Grid>
                                             </CardContent>

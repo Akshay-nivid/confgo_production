@@ -11,7 +11,7 @@ import SessionAddonDrawer from "./SessionAddonDrawer";
 import CustomAutocomplete from "@/components/CustomAutocomplete/CustomAutocomplete";
 import useStore, { POST, setDataById} from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
-import { truncateString } from "@/Utils/CommonBaseClass";
+import { formatUTCDateTime, truncateString } from "@/Utils/CommonBaseClass";
 import config from "../../../../config.json";
 import DeleteIcon from "@/assets/svg/delete-program-icon.svg";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
@@ -367,6 +367,48 @@ useEffect(() => {
 
       const startDates = moment(startDate)
       const endDates = moment(endDate);
+      const EventStartDate = formatUTCDateTime(eventStartTime).split("T")[0]
+      const EventEndDate = formatUTCDateTime(eventEndTime).split("T")[0]
+      // to compare selected dates with event start date
+      if (startDate < EventStartDate){
+        setError(`startDate`, {
+          type: 'manual',
+          message: 'Start date must be greater than event start date',
+        });
+        return
+      }
+     // to compare selected end dates with event end date
+      if (endDate > EventEndDate){
+        setError(`endDate`, {
+          type: 'manual',
+          message: 'End date must be less than Event End date',
+        });
+        return
+      }
+      // if selected start date is same as that of event start date then compare time
+      if(moment(EventStartDate).isSame(moment(startDate))){
+        const selectedStartTime = moment(startDateTime, "YYYY-MM-DDTHH:mm");
+        // to compare selected time with event start time
+        if(selectedStartTime.isBefore(moment(eventStartTime))){
+          setError(`startTime`, {
+            type: 'manual',
+            message: 'Start time cannot be earlier than event Satrt time',    
+        });
+        return;
+        }
+      }
+      //to compare selected end date is same as that of event end date then compare time
+      if(moment(EventEndDate).isSame(moment(endDate))){
+        const selectedEndTime = moment(endDateTime, "YYYY-MM-DDTHH:mm");
+        // to compare selected end time with event end time
+        if(selectedEndTime.isAfter(moment(eventEndTime))){
+          setError(`endTime`, {
+            type: 'manual',
+            message: 'End time cannot be after than event end time',      
+        });
+        return;
+        }
+      }
       if (startDate > endDate) {
         setError(`startDate`, {
           type: 'manual',

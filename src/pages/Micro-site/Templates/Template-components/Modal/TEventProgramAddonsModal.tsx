@@ -76,7 +76,7 @@ const TEventProgramAddonsModal = () => {
                                     return <Box className="bg-slate-100 p-3 gap-2 mb-5" key={data?.id + index}>
                                         <p className='content-header-container-header'>{data?.addonId ? data?.addon?.name : data?.name}</p>
                                         <Box className="content-date-container">
-                                            <p> {`${getLocalTimeDate(data?.startTime, "MMMM DD YYYY h:mm A")} - ${getLocalTimeDate(data?.endTime, "h:mm A")}`}</p>
+                                            {data?.startTime&&<p> {`${getLocalTimeDate(data?.startTime, "MMMM DD YYYY h:mm A")} - ${getLocalTimeDate(data?.endTime, "h:mm A")}`}</p>}
                                         </Box>
                                         <Box className="content-description-container">
                                             <p>{data?.description}</p>

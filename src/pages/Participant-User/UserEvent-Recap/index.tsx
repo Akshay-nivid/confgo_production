@@ -415,7 +415,7 @@ const EventRecap: React.FC = React.memo(() => {
                 <Button className="event-recap-first-grid-buttons-firstButton" onClick={() => {}}>
                   Download Ticket
                 </Button>                   
-                </PDFDownloadLink>,
+                </PDFDownloadLink>
                 {/* button hiidden */}
                 <Button className="event-recap-first-grid-buttons-secondButton">Cancel Event</Button>
               </Grid>

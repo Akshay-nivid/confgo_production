@@ -27,7 +27,7 @@ const PaymentHistory: React.FC = React.memo(() => {
    *  * `columns` defines the structure of each column in the DataGridList component.
    */
   const columns = [
-    { type: "default", field: "name", headerName: "Event Name", width: 250 },
+    { type: "custom", field: "name", headerName: "Event Name", width: 250 },
     {
       type: "dateField",
       field: "Date",

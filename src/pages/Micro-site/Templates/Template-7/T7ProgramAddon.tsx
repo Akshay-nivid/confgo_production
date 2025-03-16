@@ -39,17 +39,17 @@ const T7ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                         return (
                             <>
                                 <Box className="tab-container ">
-                                    {data?.tabs?.map((item: any, index: number) => (
-                                        <Box onClick={() => data.handleTabChange(item)} className={data.selectedDate != item ? "tab-container-item" : "tab-container-selected overflow-visible z-10 before:-z-10 relative before:content-[' '] before:absolute before:h-8 before:w-8  before:bg-[#336AEA] before:-bottom-2 before:overflow-visible  before:transform before:rotate-45 before:left-1/2 before:-translate-x-1/2"} key={item + index}>
+                                    {data?.tabs?.map((item: any, index: number) => {
+                                        return <Box onClick={() => data.handleTabChange(item)} className={data.selectedDate != item ? "tab-container-item" : "tab-container-selected overflow-visible z-10 before:-z-10 relative before:content-[' '] before:absolute before:h-8 before:w-8  before:bg-[#336AEA] before:-bottom-2 before:overflow-visible  before:transform before:rotate-45 before:left-1/2 before:-translate-x-1/2"} key={item + index}>
                                             <Box className={'gap-2 '}>
-                                                <Typography className="title z-10" textAlign={'center'}>Day {index + 1}</Typography>
+                                                <Typography className="title z-10" textAlign={'center'}>{item==='general'?"General":`Day ${index + 1}`}</Typography>
                                                 <Typography className="date z-10" textAlign={'center'}>
-                                                    {moment(item).format('MMMM D')}
+                                                   {item==='general'?"Addons":moment(item).format('MMMM D')}
                                                 </Typography>
 
                                             </Box>
                                         </Box>
-                                    ))}
+                    })}
                                 </Box>
                                 <Grid className="mt-10" container spacing={2}>
                                     {selectedData?.map((item: any, index: number) => {
@@ -58,14 +58,14 @@ const T7ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                         if (item?.items?.length === 3) {
                                             itemSize = { xs: 12, sm: 12 };
                                         } else if (item?.items?.length === 2) {
-                                            itemSize = { xs: 12, sm: 'auto' };
+                                            itemSize = { xs: 12, sm:6 };
                                         }
 
                                         let childItemSize: any = { xs: 12, sm: 12 };
                                         if (item?.items?.length === 3) {
                                             childItemSize = { xs: 12, sm: 4 };
                                         } else if (item?.items?.length === 2) {
-                                            childItemSize = { xs: 12, sm: 'auto' }
+                                            childItemSize = { xs: 12, sm:6 }
                                         }
 
                                         return (
@@ -93,7 +93,7 @@ const T7ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                                                                         </Grid>
                                                                                     ) : (
                                                                                         <Box className='flex-col gap-4' >
-                                                                                            <Avatar className="sponosr-img-container" alt={sponsor?.sponsor?.name}  sx={{ width: 35, height: 35, objectFit: 'cover' }} src="" />
+                                                                                            <Avatar className="sponosr-img-container" alt={sponsor?.sponsor?.name}/>
                                                                                         </Box>
                                                                                     )}
                                                                                 </Box>
@@ -101,27 +101,38 @@ const T7ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                                                         })}
                                                                     </Box>
                                                                     <Grid>
-                                                                        {prg.eventSpeakers?.length > 0 ?
-                                                                            <Typography variant="h6">Speakers</Typography>:<Box className="mt-24"></Box>}
-                                                                        {prg?.eventSpeakers?.map((speaker: any) => {
-                                                                            return (
-                                                                                <Box key={speaker?.user?.id} className="inline-flex">
-                                                                                    {speaker?.user?.assetId ? (
-                                                                                        <Grid>
-                                                                                            <Avatar
-                                                                                                alt={speaker?.user?.firstName}
-                                                                                                src={`${baseUrl}asset/${speaker?.user?.assetId}`}
-                                                                                                sx={{ width: 35, height: 35, objectFit: 'cover' }}
-                                                                                            />
-                                                                                        </Grid>
-                                                                                    ) : (
-                                                                                        <Box>
-                                                                                            <Avatar  sx={{ width: 35, height: 35, objectFit: 'cover' }} alt={speaker?.user?.firstName} src="" />
+                                                                        {prg.eventSpeakers?.length > 0 ? (
+                                                                            <>
+                                                                                <Typography variant="h6">Speakers</Typography>
+                                                                                <Box className="inline-flex">
+                                                                                    {prg.eventSpeakers?.slice(0, 4).map((speaker: any) => (
+                                                                                        <Box key={speaker?.user?.id} className="inline-flex">
+                                                                                            {speaker?.user?.assetId ? (
+                                                                                                <Grid>
+                                                                                                    <Avatar
+                                                                                                        alt={speaker?.user?.firstName}
+                                                                                                        src={`${baseUrl}asset/${speaker?.user?.assetId}`}
+                                                                                                    />
+                                                                                                </Grid>
+                                                                                            ) : (
+                                                                                                <Box>
+                                                                                                    <Avatar  alt={speaker?.user?.firstName} src="" />
+                                                                                                </Box>
+                                                                                            )}
+                                                                                        </Box>
+                                                                                    ))}
+                                                                                    {/* Show the remaining count if there are more than 4 speakers */}
+                                                                                    {prg.eventSpeakers.length > 4 && (
+                                                                                        <Box className="inline-flex items-center justify-center">
+                                                                                             <Avatar  src="" >  +{prg.eventSpeakers.length - 4}</Avatar>
                                                                                         </Box>
                                                                                     )}
                                                                                 </Box>
-                                                                            );
-                                                                        })}
+                                                                            </>
+                                                                        ) : (
+                                                                            <Box className="mt-24"></Box>
+                                                                        )}
+
                                                                     </Grid>
                                                                 </Grid>
                                                                 <Box className="prg-title text-element">
@@ -144,7 +155,7 @@ const T7ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                                                 </Box>}
                                                                 <Grid display={'flex'}>
                                                                 <Box className="prg-time-container">
-                                                                    <Box display={"flex"}>
+                                                                    {prg?.startIme&&<Box display={"flex"}>
                                                                         <AccessTimeFilledIcon />
                                                                         <TimeComponent
                                                                             month={false}
@@ -152,9 +163,9 @@ const T7ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                                                             endTime={prg?.endTime}
                                                                             classPrefix={`text`}
                                                                         />
-                                                                    </Box>
-                                                                    <Box display={"flex"}>< LocalOfferIcon />
-                                                                        <p className="text">${prg?.amount}</p>
+                                                                    </Box>}
+                                                                    <Box display={"flex"} className="gap-2 align-middle">< LocalOfferIcon />
+                                                                        <p className="text">{prg?.amount==0?"FREE":`${prg?.amount}`}</p>
                                                                     </Box>
                                                                 </Box>
                                                                 </Grid>
