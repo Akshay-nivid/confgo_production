@@ -353,109 +353,207 @@ const EventRecap: React.FC = React.memo(() => {
 
   return (
     <>
-      {eventLoading  || eventDataLoading ? (
+      {eventLoading || eventDataLoading ? (
         <SkeletonList height={20} className="mt-4" />
       ) : (
         <Grid className="event-recap" container>
-          <Grid container size={{ xs: 12, sm: 12 }} justifyContent={'space-between'} flexDirection={'row'} className="padding-x-20">
+          <Grid
+            container
+            size={{ xs: 12, sm: 12 }}
+            justifyContent={"space-between"}
+            flexDirection={"row"}
+            className="padding-x-20"
+          >
             <Grid size={{ xs: 12, sm: 6, md: 6 }}>
               <Typography className="event-recap-header">My Events</Typography>
             </Grid>
-           
           </Grid>
           <Grid container className="padding-x-20 event-info">
-            <Grid container size={12} columnSpacing={2} className="event-recap-first-grid">
-                <Typography className="event-recap-first-grid-text">
-                  {eventData?.[0]?.name ? toTitleCase(eventData?.[0]?.name) : ''}
-                </Typography>
-                
-                <Typography className="event-recap-first-grid-status-text">
-                  <span className="event-status-label">{eventData?.[0]?.eventClass}</span>
-                </Typography>
-              <Grid>
-              </Grid>
+            <Grid
+              container
+              size={12}
+              columnSpacing={2}
+              className="event-recap-first-grid"
+            >
+              <Typography className="event-recap-first-grid-text">
+                {eventData?.[0]?.name ? toTitleCase(eventData?.[0]?.name) : ""}
+              </Typography>
+
+              <Typography className="event-recap-first-grid-status-text">
+                <span className="event-status-label">
+                  {eventData?.[0]?.eventClass}
+                </span>
+              </Typography>
+              <Grid></Grid>
               <Grid size={12}>
                 <Typography className="event-recap-first-grid-address">
                   {formatDateTimeRange({
                     date: eventData?.[0]?.startTime,
-                    format: 'MMM D, YYYY',
-                  })}-{formatDateTimeRange({
-                    date: eventData?.[0]?.endTime,
-                    format: 'MMM D, YYYY',
-                  })}
-                  <span className="mx-2">|</span>
-                  {formatDateTimeRange({
-                    date: eventData?.[0]?.startTime,
-                    format: 'h:mm A',
+                    format: "MMM D, YYYY",
                   })}
                   -
                   {formatDateTimeRange({
                     date: eventData?.[0]?.endTime,
-                    format: 'h:mm A',
+                    format: "MMM D, YYYY",
+                  })}
+                  <span className="mx-2">|</span>
+                  {formatDateTimeRange({
+                    date: eventData?.[0]?.startTime,
+                    format: "h:mm A",
+                  })}
+                  -
+                  {formatDateTimeRange({
+                    date: eventData?.[0]?.endTime,
+                    format: "h:mm A",
                   })}
                 </Typography>
               </Grid>
               <Grid size={12}>
-                {(eventData?.[0]?.eventClass === 'OFFLINE' || eventData?.[0]?.eventClass === 'HYBRID') && (
-                  <div>
+                <Grid size={12}>
+                  {eventData?.[0]?.eventClass === "OFFLINE" && (
+                    <div>
+                      <Typography className="event-recap-first-grid-address">
+                        Location: {eventData?.[0]?.venue?.name}
+                      </Typography>
+                      <Typography className="event-recap-first-grid-address">
+                        <span>Map Link: </span>
+                        <a
+                          className="event-recap-first-grid-status-text"
+                          href={eventData?.[0]?.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {eventData?.[0]?.venue?.mapUrl}
+                        </a>
+                      </Typography>
+                    </div>
+                  )}
+
+                  {eventData?.[0]?.eventClass === "HYBRID" && (
+                    <div>
+                      <Typography className="event-recap-first-grid-address">
+                        Location: {eventData?.[0]?.venue?.name}
+                      </Typography>
+                      <Typography className="event-recap-first-grid-address">
+                        <span>Event Link: </span>
+                        <a
+                          className="event-recap-first-grid-status-text"
+                          href={eventData?.[0]?.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {eventData?.[0]?.url}
+                        </a>
+                      </Typography>
+                    </div>
+                  )}
+
+                  {eventData?.[0]?.eventClass === "ONLINE" && (
                     <Typography className="event-recap-first-grid-address">
-                      Location: {eventData?.[0]?.venue?.name}
+                      <span>Event Link: </span>
+                      <a
+                        className="event-recap-first-grid-status-text"
+                        href={eventData?.[0]?.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {eventData?.[0]?.url}
+                      </a>
                     </Typography>
-                    <Typography className="event-recap-first-grid-address">
-                      Event Link: <a className='event-recap-first-grid-status-text' href={eventData?.[0]?.venue?.mapUrl} target="_blank" rel="noopener noreferrer">{eventData?.[0]?.venue?.mapUrl}</a>
-                    </Typography>
-                  </div>
-                )}
+                  )}
+                </Grid>
               </Grid>
+
               <Grid size={12} className="event-recap-first-grid-buttons">
                 {/* <Button className="event-recap-first-grid-buttons-firstButton" onClick={() => handlePdfGenerate()}>
                   Download Ticket
                 </Button> */}
-                <PDFDownloadLink document={<MyDocument data={eventData} userDetails={userDetails} eventTicketData={eventTicketData}/>} fileName="Ticket.pdf" onClick={()=>{}} >
-                <Button className="event-recap-first-grid-buttons-firstButton" onClick={() => {}}>
-                  Download Ticket
-                </Button>                   
+                <PDFDownloadLink
+                  document={
+                    <MyDocument
+                      data={eventData}
+                      userDetails={userDetails}
+                      eventTicketData={eventTicketData}
+                    />
+                  }
+                  fileName="Ticket.pdf"
+                  onClick={() => {}}
+                >
+                  <Button
+                    className="event-recap-first-grid-buttons-firstButton"
+                    onClick={() => {}}
+                  >
+                    Download Ticket
+                  </Button>
                 </PDFDownloadLink>
                 {/* button hiidden */}
-                <Button className="event-recap-first-grid-buttons-secondButton">Cancel Event</Button>
+                <Button className="event-recap-first-grid-buttons-secondButton">
+                  Cancel Event
+                </Button>
               </Grid>
             </Grid>
           </Grid>
           <Grid size={{ xs: 12, sm: 8 }}>
-            <Tabs value={tabInfo} className="my-event-tabs" onChange={handleTabChange}>
-              <Tab label="Registered Programs" className="account-tab-title account-tabs"></Tab>
-              {eventData![0]?.isAbstract === 1 && <Tab label="Upload Abstract" className="account-tab-title account-tabs"></Tab>}
+            <Tabs
+              value={tabInfo}
+              className="my-event-tabs"
+              onChange={handleTabChange}
+            >
+              <Tab
+                label="Registered Programs"
+                className="account-tab-title account-tabs"
+              ></Tab>
+              {eventData![0]?.isAbstract === 1 && (
+                <Tab
+                  label="Upload Abstract"
+                  className="account-tab-title account-tabs"
+                ></Tab>
+              )}
             </Tabs>
           </Grid>
           <Grid size={{ xs: 12, sm: 4 }} className="border-bottom "></Grid>
           {tabInfo === 0 ? (
             Object.keys(groupedData)
-            .filter((date) => date !== "Invalid date")
-            .map((date) => (
-              <Grid size={12} key={date}>
-                {/* Date Header */}
-                <Box className="event-sessions-date-header" display="flex" alignItems="center">
-                  <DateRangeIcon sx={{ mr: 1 }} />
-                  <Typography variant="h6">
-                    {moment(date).format("MMMM D YYYY")}
-                  </Typography>
-                </Box>     
-               <Grid container spacing={2} className="event-sessions-session-list">
-                {Array.isArray(groupedData[date]) && (
-                <Mapper
-                  MapperData={groupedData[date]}
-                  component={RegisteredProgramCard}
-                  helperData={attendeeStatus}
-                  WrapperComponent={({ children }) => (
-                    <Grid columnSpacing={2} rowSpacing={2} className="event-recap-second-grid padding-x-20 pb-8" container size={12}>
-                      {children}
-                    </Grid>
-                  )}
-                />
-                )}
-               </Grid>
-              </Grid>
-          ))
+              .filter((date) => date !== "Invalid date")
+              .map((date) => (
+                <Grid size={12} key={date}>
+                  {/* Date Header */}
+                  <Box
+                    className="event-sessions-date-header"
+                    display="flex"
+                    alignItems="center"
+                  >
+                    <DateRangeIcon sx={{ mr: 1 }} />
+                    <Typography variant="h6">
+                      {moment(date).format("MMMM D YYYY")}
+                    </Typography>
+                  </Box>
+                  <Grid
+                    container
+                    spacing={2}
+                    className="event-sessions-session-list"
+                  >
+                    {Array.isArray(groupedData[date]) && (
+                      <Mapper
+                        MapperData={groupedData[date]}
+                        component={RegisteredProgramCard}
+                        helperData={attendeeStatus}
+                        WrapperComponent={({ children }) => (
+                          <Grid
+                            columnSpacing={2}
+                            rowSpacing={2}
+                            className="event-recap-second-grid padding-x-20 pb-8"
+                            container
+                            size={12}
+                          >
+                            {children}
+                          </Grid>
+                        )}
+                      />
+                    )}
+                  </Grid>
+                </Grid>
+              ))
           ) : (
             <UserUploadAbstract eventData={eventData && eventData![0]} />
           )}
