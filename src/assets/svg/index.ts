@@ -174,8 +174,19 @@ import EnterpriceWhiteIcon from "./EntrepriseWhiteIcon.svg";
 import WhiteTickIcon from "./WhiteTickIcon.svg";
 import ToRight from "./Right-Create-event.svg";
 import NewPrice from "./price-event.svg";
-import Abstracts from "./abstracts.svg"
-
+import Abstracts from "./abstracts.svg";
+import viewEventButton from "./vieweventbtn.svg";
+import TotalAmountIcon from "./TotalAmountIcon.svg";
+import TotalEventIcon from "./TotalEventIcon.svg";
+import SessionParticipatedIcon from "./SessionParticipatedIcon.svg";
+import TransactionHistoryFileIcon from "./TransactionHistoryFileIcon.svg";
+import AllEventIcon from "./AllEventIcon.svg";
+import DownloadTicketIcon from "./DownloadTicketIcon.svg";
+import RightPointerArrow from './rightpointarrow.svg';
+import ViewEventButtonBlue from './vieweventbuttonblue.svg';
+import UpcomingImage from './UpcommingImage.svg';
+import DashBoardContainer from "./dashboardcontainer.svg";
+import DownArrowIcon from "./DownArrowIcon.svg";
 export {
   Coupon2,
   MainBottomBanner,
@@ -353,5 +364,17 @@ export {
   WhiteTickIcon,
   ToRight,
   NewPrice,
-  Abstracts
+  Abstracts,
+  viewEventButton,
+  TotalAmountIcon,
+  SessionParticipatedIcon,
+  TotalEventIcon,
+  TransactionHistoryFileIcon,
+  AllEventIcon,
+  DownloadTicketIcon,
+  RightPointerArrow,
+  ViewEventButtonBlue,
+  UpcomingImage,
+  DashBoardContainer,
+  DownArrowIcon,
 };

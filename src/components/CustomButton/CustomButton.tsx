@@ -16,6 +16,7 @@ interface CustomButtonProps {
   endIcon?: React.ReactNode;
   type?: 'button' | 'submit';
   isLoading?: boolean;
+  svgIcon?: React.ElementType; // Accepts an SVG component
 }
 
 /**
@@ -34,6 +35,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   startIcon,
   endIcon,
   type,
+  svgIcon: SvgIcon,
   isLoading=false
 }) => {
   return (
@@ -50,6 +52,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
     >
       {label}
       {isLoading ?<CircularProgress className='circular-progress ml-2' color='inherit' size={18}/>:<></>}
+      {SvgIcon && <SvgIcon className="svg-icon" />} {/* Render as JSX element */}
     </Button>
   );
 };

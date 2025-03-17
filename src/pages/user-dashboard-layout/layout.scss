@@ -48,8 +48,8 @@
 // sidebar
 .user-sidebar-dashboard {
   height: 100% !important;
-  border-right: 0.06rem solid $clr_light_border_grey;
-
+  background-color: $clr_light_skin_color !important;
+  justify-content: flex-start !important;
   // background:transparent !important;
   & .MuiPaper-root {
     background: transparent !important;
@@ -63,9 +63,12 @@
   }
 
   .user-sidebar-list {
-    padding-left: 3rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
     min-width: 20rem;
     flex-shrink: 0;
+    display: flex;
+    
 
     .MuiListItem-padding {
       padding: 0;
@@ -79,13 +82,14 @@
     .MuiListItemButton-root {
       display: flex;
       column-gap: 0.483rem;
-      padding: 1rem 3.2rem;
+      // padding: 1rem 3.2rem;
       border-radius: 0.417rem;
       color: $clr_black;
 
       &:hover {
         color: $clr_blue;
-        background-color: transparent !important;
+        background-color: $clr_white !important;
+        border-radius:.66rem ;
         svg path{
           stroke: $clr_blue !important ;
         }
@@ -99,9 +103,12 @@
     }
 
     .active {
+      display: flex;
       color: $clr_blue !important;
       stroke: $clr_blue !important;
-      background-color: transparent !important;
+      background-color: $clr_white !important;
+      align-items: center!important;
+      border-radius:.66rem;
 
       span {
         color: transparent !important;
@@ -267,7 +274,6 @@
 
 .appbars {
   box-shadow: 0rem 0.8rem 5rem 0rem $medium_grey !important;
-  border-bottom-width: 0.0416rem;
   border-bottom-color: $clr_appbar_border;
   display: flex;
   overflow: hidden;
@@ -278,7 +284,7 @@
   z-index: 100;
 
   &-logo-container {
-    background-color: $clr_white;
+    background-color: $clr_light_skin_color;
     height: 6.666rem;
     display: flex;
     align-items: center;
@@ -370,6 +376,19 @@
     }
   }
 }
+
+.appbars-group-down-arrow {
+  align-self: center;
+  
+}
+
+.bigger-icon {
+  font-size: 1rem !important; // Adjust the size as needed
+}
+.bigger-icon:hover {
+  transform: scale(1.2); // Increase the size on hover
+  color: $clr_blue; // Change the color on hover (optional)
+}
 .img-space{
   margin-right: 1.5rem !important;
 }
@@ -421,10 +440,13 @@
       color: $clr_white;
       border-radius: 0.8rem;
       align-content: center !important;
-      background: url('/src/assets/png/user-background.png');
+      background: url('/src/assets/svg//dashboardcontainer.svg');
       background-repeat: no-repeat;
+      background-position: center !important;
+      background-size:auto !important;
       margin-bottom: $p3 !important;
       padding-left: $p2 !important;
+      height: 181px !important;
       &-textgroup{
         margin-top: 2.5rem;
       }
@@ -439,6 +461,9 @@
         font-weight: $font_semibold !important;
         display: inline-block;
         line-height: $p2;
+        width: 134px;
+        height:22px;
+        gap: 11px !important;
 
         &-wave-icon {
           display: inline-block;
@@ -453,7 +478,7 @@
       }
 
       &-subtitle {
-        margin-bottom: 1.9rem !important;
+        margin-bottom: 2.9rem !important;
         display: block;
         font-size: $h4 !important;
         font-weight: $font_semibold !important;
@@ -467,13 +492,22 @@
       }
 
       &-button {
-        background: $clr_white !important;
-        color: $clr_blue !important;
+        background: $clr_black_gray !important;
+        color: $clr_white !important;
         text-transform: none !important;
         font-size: 1rem !important;
         font-weight: $font_medium;
         line-height: 1.4rem;
         box-shadow: none !important;
+        border-radius: 3.33rem !important;
+        width: 11rem !important;
+        height: 3rem !important;
+        gap: .5rem;
+        padding: 0rem !important;
+        .svg-icon {
+          width: 1.66rem!important; /* Increase size */
+          height: 1.66rem !important;
+        }
       }
 
       &-viewbutton {
@@ -499,16 +533,22 @@
           padding-right: $h2;
           padding-left: $h2;
         }
+        &-green{
+          background-color: $clr_green!important;
+        }
 
         &-status {
           display: flex !important;
           align-items: center;
           gap: 1.2rem;
+          font-weight: $font_medium !important;
+          font-size:$p2 !important;
         }
 
         &-block {
           font-size: $h6 !important;
           display: flex !important;
+          font-weight: $font_medium !important;
 
           gap: 1rem;
 
@@ -540,7 +580,14 @@
           font-weight: $font_semibold;
           font-size: $p2;
           height: 4.5rem;
-          background-color: transparent;
+          background-color: $clr_very_light_blue;
+          padding: .5rem;
+          border-radius: .66rem;
+          ;
+
+          &-arrow {
+            margin-left: auto!important;
+          }
 
           &-dividers {
             border-top: 0.0625rem solid $clr_gray_very_light;
@@ -576,14 +623,14 @@
   }
 
   &-subhead {
-    font-size: $p2 !important;
+    font-size: $p5 !important;
     font-weight: $font_bold !important;
   }
 
   &-card {
     text-align: left;
-    background: $clr_white !important;
-    width: 15rem;
+    background: $clr_white;
+    width: 13.5rem;
     height: 13.3rem;
 
     .MuiCardContent-root {
@@ -633,7 +680,7 @@
 
     &-subtitle {
       margin-top: 0.5rem !important;
-      margin-bottom: 2rem !important;
+     margin-bottom: 2rem !important;
       padding-right: 2rem !important;
       font-size: 1.1rem !important;
       font-weight: $font_normal;
@@ -661,6 +708,8 @@
         }
       }
       &-subtitle{
+        margin-bottom: 1.9rem !important;
+
         font-size: $p5 !important;
         font-weight:$font_bold !important ;
       }
@@ -683,7 +732,9 @@
           }
         }
       }
-
+      &-dashboard-session{
+        padding-left: 0rem !important;
+      }
       &-dashboard-event{
         width: 100% !important;
         height: 5.833rem !important;
@@ -1008,5 +1059,34 @@
       font-size: 1.167rem; 
       font-weight:$font_medium;
     }
+  }
+}
+
+.status{
+  background-color:$clr_status_bar;
+  color: $clr_cyan_blue;
+  border-radius:.5rem;
+  padding: .5rem;
+  justify-items: "center";
+}
+
+.nocalendar-card{
+  &-view-event-button{
+    background: $clr_white !important;
+        color: $clr_blue !important;
+        text-transform: none !important;
+        font-size: 1rem !important;
+        font-weight: $font_medium;
+        line-height: 1.4rem;
+        box-shadow: none !important;
+        border-radius: 3.33rem !important;
+        width: 11rem !important;
+        height: 3rem !important;
+        gap: .5rem;
+        padding: 0rem !important;
+        .svg-icon {
+          width: 2rem!important; /* Increase size */
+          height: 2rem !important;
+        }
   }
 }

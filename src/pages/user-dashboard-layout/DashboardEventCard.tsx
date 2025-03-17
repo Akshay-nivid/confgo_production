@@ -1,7 +1,6 @@
 import React from "react";
 import Grid from '@mui/material/Grid2';
 import { Tooltip, Typography } from "@mui/material";
-import StatusComponent from "@/components/Status/StatusComponent";
 import moment from 'moment';
 
 interface DashboardEventCardProps {
@@ -51,7 +50,9 @@ const DashboardEventCards: React.FC<DashboardEventCardProps> = React.memo(({ eve
                 </Typography>
             </Grid>
             <Grid size={12} mt={2} className="dashboard-left-profile-card-status" >
-                Status  <StatusComponent className="status-componenet" value={event?.statusId.toString()} />
+                Status     <Grid className="status-componenet">
+      <Typography className="status">Attended</Typography>
+    </Grid>
             </Grid>
             <Grid size={12} mt={2} className="dashboard-left-profile-card-block">
 

@@ -1,11 +1,10 @@
 import * as React from 'react';
-import Typography from '@mui/material/Typography';
 import { Avatar, Divider, Menu, MenuItem } from '@mui/material';
-import { SettingsIcon, LogoutIcon, DownArrowSvg, ResetPassword } from '@/assets/svg';
+import { SettingsIcon, LogoutIcon, ResetPassword, DownArrowIcon } from '@/assets/svg';
 import Grid from '@mui/material/Grid2';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
-import { processAPIResponse, toSentenceCase, useIsMobileScreen } from '@/Utils/CommonBaseClass';
+import { processAPIResponse, useIsMobileScreen } from '@/Utils/CommonBaseClass';
 import useStore, { resetStore, setDataById } from '@/Libs/store';
 import MenuIcon from "../../assets/svg/Vector.svg"
 import { useEffect, useState } from 'react';
@@ -123,9 +122,9 @@ const LayoutAppbar: React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =
       </Grid>
       )}
       {!isMobileView ? (
-      <Grid  className="appbars-right" container>
-        <Grid size={2} className="appbars-group" onClick={handleMenuOpen} >
-          <Grid size={1} className="appbars-group-img" mb={0}>
+      <Grid  className="appbars-right" container >
+        {/* <Grid size={2} className="appbars-group"  > */}
+          <Grid size={1} className="appbars-group-img" mb={0}  onClick={handleMenuOpen}>
           {picture ? (
           <Avatar
           src={`${baseUrl}asset/${picture}`}
@@ -140,22 +139,24 @@ const LayoutAppbar: React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =
          ) : (
          <Avatar className="appbars-group-avatar" />
          )}
-
           </Grid>
+          <Grid  onClick={handleMenuOpen} alignContent={'center'} className="appbars-group-down-arrow-container">    
+          <DownArrowIcon className='appbars-group-down-arrow bigger-icon'/>
+         </Grid>
           {/* Name and Role */}
-          <Grid size={7} className="appbars-group-textgroup">
+          {/* <Grid size={7} className="appbars-group-textgroup">
             <Grid size={12}>
               <Typography className="appbars-group-text">{userDetails?.firstName} {userDetails?.lastName}</Typography>
             </Grid>
             <Grid size={12}>
               <Typography className="appbars-group-subheader-text">{toSentenceCase(userDetails?.userRole?.roleName)}</Typography>
             </Grid>
-          </Grid>
+          </Grid> */}
           {/* Arrow Dropdown Icon */}
-          <Grid size={2} className="appbars-group-arrow-container">
+          {/* <Grid size={2} className="appbars-group-arrow-container">
             <DownArrowSvg className="appbars-group-arrow-down" />
-          </Grid>
-        </Grid>
+          </Grid> */}
+        {/* </Grid> */}
         <Menu
           open={Boolean(anchorEl)}
           anchorEl={anchorEl}
