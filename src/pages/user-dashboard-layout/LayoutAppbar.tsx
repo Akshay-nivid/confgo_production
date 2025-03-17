@@ -43,6 +43,8 @@ const LayoutAppbar: React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const navigate = useNavigate();
   const role = getUserType();
+
+  
   /**
    * handle appbar open
    */
@@ -78,11 +80,14 @@ const LayoutAppbar: React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =
     setAnchorEl(null);
     setDataById('settings', { tabIndex: 0 });
 
+   
+
     if (role === 'USER') {
       navigate(routes.accountsettings(), { state: { email: userDetails?.email } })
     } else if (role === 'SPEAKER') {
       navigate(routes.sepakerAccountSettings(), { state: { email: userDetails?.email } })
-
+    } else if (role === 'REVIEWER') {
+      navigate(routes.reviewerAccountSettings())
     }
     
   };
@@ -92,9 +97,7 @@ const LayoutAppbar: React.FC<LayoutAppbarProps> = React.memo(({ userDetails }) =
    */
   const handleResetPassword = () => {
     setAnchorEl(null);
-    useStore.getState().setDataById("settings", { tabIndex: 1, email: userDetails?.email });
-
-    navigate(routes.accountsettings(), { state: { email: userDetails?.email } })
+    navigate(routes.SetPassword());
   };
   const isMobileView = useIsMobileScreen();
 
