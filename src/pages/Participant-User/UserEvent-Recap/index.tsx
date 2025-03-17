@@ -419,7 +419,7 @@ const EventRecap: React.FC = React.memo(() => {
                         <span>Map Link: </span>
                         <a
                           className="event-recap-first-grid-status-text"
-                          href={eventData?.[0]?.url}
+                          href={eventData?.[0]?.venue?.mapUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                         >
