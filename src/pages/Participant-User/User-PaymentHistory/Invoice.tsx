@@ -256,7 +256,7 @@ const MyDocument = ({ data,itemId }: any) => {
           </View>
 
           <View style={styles.row}>
-            <Text style={styles.rowText}>Adon Total Amount</Text>
+            <Text style={styles.rowText}>Addon Total Amount</Text>
             <Text style={styles.amount}>${addonTotalAmount}</Text>
           </View>
 
