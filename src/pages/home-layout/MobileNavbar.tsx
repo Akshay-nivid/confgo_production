@@ -33,7 +33,7 @@ const MobileNavbar: React.FC<any> = React.memo(() => {
                 open={openDrawer}
                 className='mobile-drawer'
                 type="right"
-                children={<Drawer />}
+                children={<Drawer closeDrawer={handleIconClick}/>}
                 onClose={handleIconClick}
             />
         </>
@@ -45,7 +45,7 @@ export default MobileNavbar;
 /**
  * Drawer component
  */
-export const Drawer: React.FC<any> = React.memo(() => {
+export const Drawer: React.FC<{ closeDrawer: () => void }> = React.memo(({closeDrawer}) => {
     const navigate = useNavigate();
 
     const options = [
@@ -64,12 +64,12 @@ export const Drawer: React.FC<any> = React.memo(() => {
     return (
         <Grid container size={12}>
             <Grid container size={12} justifyContent={'flex-end'} alignItems={'center'} alignContent={'center'} className='drawer-close-icon'>
-                <CloseIcon />
+                <CloseIcon onClick={closeDrawer}/>
             </Grid>
             <Grid className='drawer-container'>
                 {options?.map((item: any) => {
                     return (
-                        <Grid onClick={() => handleNavigate(item?.link)} className="drawer-link">
+                      <Grid onClick={() => { closeDrawer(); handleNavigate(item?.link) }} className="drawer-link">
                             {item?.title}
                         </Grid>
                     )

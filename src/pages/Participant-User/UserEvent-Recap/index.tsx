@@ -68,6 +68,8 @@ const EventRecap: React.FC = React.memo(() => {
    */
   const attendeeStatus = eventData[0]?.participants[0]?.eventParticipants[0]?.event?.attendees ?? [];
 
+  const eventDataLoading = useStore((state: any) => state?.compData?.['attendedPrograms']?.['event/registered/eventList']?.loading) ?? [];
+
 
   
   /**
@@ -76,6 +78,7 @@ const EventRecap: React.FC = React.memo(() => {
   useEffect(() => {
     EventDetails();
     eventTicketDataApi();
+    setDataById('eventTab', { tabIndex: 0 });
   }, []);
 
 
@@ -349,7 +352,7 @@ const EventRecap: React.FC = React.memo(() => {
 
   return (
     <>
-      {eventLoading ? (
+      {eventLoading  || eventDataLoading ? (
         <SkeletonList height={20} className="mt-4" />
       ) : (
         <Grid className="event-recap" container>

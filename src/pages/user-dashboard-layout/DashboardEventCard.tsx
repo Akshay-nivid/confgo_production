@@ -2,6 +2,8 @@ import React from "react";
 import Grid from '@mui/material/Grid2';
 import { Tooltip, Typography } from "@mui/material";
 import moment from 'moment';
+import { truncateString } from "@/Utils/CommonBaseClass";
+
 
 interface DashboardEventCardProps {
     event: {
@@ -77,9 +79,11 @@ const DashboardEventCards: React.FC<DashboardEventCardProps> = React.memo(({ eve
                     { event?.eventClass =="ONLINE" ? "URL" : "Location"}
                     </Typography>
                     { event?.eventClass =="ONLINE" ? (
-                    <Typography className="dashboard-left-profile-card-block-content">
-                        {event?.url}
-                    </Typography>
+                  <Typography className="dashboard-left-profile-card-block-content">
+                  <Tooltip title={event?.url} arrow>
+                    <span>{truncateString(event?.url, 20)}</span>
+                  </Tooltip>
+                </Typography>
                     ) : (
                     <Tooltip
                         title={`${event?.venue?.address}, ${event?.venue?.city}`}

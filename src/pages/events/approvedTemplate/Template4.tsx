@@ -328,7 +328,10 @@ const Template4: React.FC<TemplateViewProps> = React.memo(({ data }) =>{
 
         const isEventEnded = startData < new Date()
 
-
+        if (data?.availableSeats === 0) {
+            snackBar({ severity: 'error', message: `Registration is currently unavailable as the admin’s plan seat limit has been reached. For inquiries, please contact the event organizers at ${data?.companyEmail}` });
+            return
+        }
 
         if (isEventEnded) {
             snackBar({ severity: 'error', message: "The event has ended." })

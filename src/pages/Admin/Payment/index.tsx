@@ -1,4 +1,3 @@
-import { NoPayment } from '@/assets/svg';
 // import CustomAutocomplete from '@/components/CustomAutocomplete/CustomAutocomplete';
 import CustomButton from '@/components/CustomButton/CustomButton';
 import { DataGridList } from '@/components/DataGrid/DataGridList';
@@ -14,6 +13,9 @@ import moment from 'moment';
 import React, { useCallback, useEffect, useState } from 'react';
 // import { useForm } from 'react-hook-form';
 import config from '../../../../config.json';
+import { PaymentNoData } from '@/assets/svg';
+
+
 /**
  * componet for payment list
  */
@@ -357,10 +359,11 @@ const AdminPaymentList: React.FC = () => {
             {isLoading ? (
         <CircularProgress />
       ) : (
-            <Grid size={12} className="sponsor-datagrid sahdow-app mt-8">
+            <Grid size={12} className="sponsor-datagrid sahdow-app mt-6 ">
                 <DataGridList
-                  noRecordIcon={<NoPayment className="icon"/>}
-                    noRecordSubtitle="It looks like you haven’t made any payments. Once you start registering for events, your payment history will appear here."
+                  noRecordIcon={ <PaymentNoData/>  }
+                    noRecordTitle="No Payments Recorded " 
+                    noRecordSubtitle="Track participant payments and manage event finances with ease. Once transactions start rolling in, you’ll see them here."
                     dataTransformer={transformData}
                     source={source}
                     // onRowClick={onRowClick}

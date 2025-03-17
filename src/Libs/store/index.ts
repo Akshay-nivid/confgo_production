@@ -13,6 +13,7 @@ export interface IStoreState {
     clearDataById: (id: string) => void;
     setUserInfo: (data: any) => void;
     resetStore: () => void;
+    resetNonPersistedData:()=>void;
     setNonPersistedDataById: (
         id: string,
         data: any
@@ -114,7 +115,9 @@ const useStore = create<IStoreState>()(
                 resetStore: () => set(() => ({
                     compData: {}
                 })),
-    
+                resetNonPersistedData: () => set(() => ({
+                    nonPersistedData:initialNonPersistedData
+                })),
                 POST: async ({ url, body, id, successCB, errorCB }: ApiRequestOptions) => {
                     // Set loading state
                     get().setDataById(id, { [url]: { loading: true } });
@@ -213,5 +216,5 @@ const useStore = create<IStoreState>()(
    )
 );
 
-export const { POST, GET, PUT, DELETE, setDataById, clearDataById, resetStore, snackBar, setNonPersistedDataById } = useStore.getState();
+export const { POST, GET, PUT, DELETE, setDataById, clearDataById, resetStore, snackBar, setNonPersistedDataById,resetNonPersistedData } = useStore.getState();
 export default useStore;

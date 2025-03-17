@@ -89,7 +89,7 @@ import MailIcon from './mailIcon.svg';
 import MenuIcon from './Vector.svg';
 import DashboardUserMobIcon from './DashboardUserMobIcon.svg';
 import MyEventsMobIcon from './MyEventsMobIcon.svg';
-import paymentHistoryMobIcon from './PaymentHistoryMobIcon.svg';
+import PaymentHistoryMobIcon from './PaymentHistoryMobIcon.svg';
 import CalenderEventMobIcon from './CalenderEventMobIcon.svg';
 import SettingsDashBoardMobIcon from './SettingsDashBoarsmobIcon.svg';
 import UploadedFile from './uploaded-file.svg';
@@ -175,6 +175,14 @@ import WhiteTickIcon from "./WhiteTickIcon.svg";
 import ToRight from "./Right-Create-event.svg";
 import NewPrice from "./price-event.svg";
 import Abstracts from "./abstracts.svg";
+import HybridIcon from "./hybrid-svg.svg";
+import PaymentNoData from "./paymentNoData.svg";
+import EventsNoData from "./EventsNoData.svg";
+import SponsorNoData from "./SponsorNoData.svg";
+import UserNoData from "./UserNoData.svg";
+import CouponNoData from "./CouponNoData.svg";
+import Writing from "./Writing.svg";
+
 import viewEventButton from "./vieweventbtn.svg";
 import TotalAmountIcon from "./TotalAmountIcon.svg";
 import TotalEventIcon from "./TotalEventIcon.svg";
@@ -296,7 +304,7 @@ export {
   MenuIcon,
   DashboardUserMobIcon,
   MyEventsMobIcon,
-  paymentHistoryMobIcon,
+  PaymentHistoryMobIcon,
   CalenderEventMobIcon,
   SettingsDashBoardMobIcon,
   UploadedFile,
@@ -365,6 +373,13 @@ export {
   ToRight,
   NewPrice,
   Abstracts,
+  HybridIcon,
+  PaymentNoData,
+  EventsNoData,
+  SponsorNoData,
+  UserNoData,
+  CouponNoData,
+  Writing,
   viewEventButton,
   TotalAmountIcon,
   SessionParticipatedIcon,

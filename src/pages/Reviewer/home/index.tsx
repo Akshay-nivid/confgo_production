@@ -262,7 +262,7 @@ const ReviewerHome = () => {
           <Typography className="banner-title">
             Welcome, {userDetails?.firstName} {userDetails?.lastName}! 👋
           </Typography>
-          <Typography className="banner-subtitle">Manage your tasks for Global Healthcare Innovations Summit 2024.</Typography>
+          <Typography className="banner-subtitle">Manage your tasks for assigned events</Typography>
         </Grid>
 
         <Grid size={11} className="abstracts-summary-container">

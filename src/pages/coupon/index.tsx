@@ -9,7 +9,6 @@ import { processAPIResponse } from "@/Utils/CommonBaseClass";
 import CustomButton from "@/components/CustomButton/CustomButton";
 import {IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import { ISource } from "@/Libs/types/type";
-import { NoCouponDataSvg } from "@/assets/svg";
 import { Filter } from "@/components/Filter";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import CreateCoupon from "./CreateCoupon";
@@ -17,6 +16,8 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
 import { PUT, setDataById } from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
+import {CouponNoData} from "@/assets/svg";
+import {Writing} from "@/assets/svg";
 
 interface FilterType {
   id?: number;
@@ -293,7 +294,7 @@ const Coupon = () => {
           }}
         >
           <MenuItem onClick={(_e) => handleCouponDrawer(rowData)}>
-          <img src="/src/assets/png/writing.png" alt="Edit" className="action-icon" />
+           <Writing className="action-icon"/>
             <Typography className="action-text">Edit</Typography>
           </MenuItem>
           <MenuItem onClick={() => {
@@ -316,9 +317,11 @@ const Coupon = () => {
           hideFooterPagination={false}
           columns={columns}
           id="coupon-datagrid"
-          noRecordIcon={<NoCouponDataSvg className="no-coupon-icon"/>}
+          noRecordIcon={
+          <CouponNoData />
+         }
           noRecordTitle="No Coupons Available"
-          noRecordSubtitle="It looks like you haven't created any coupons yet. Start by creating your first discount coupon to boost event registrations."
+          noRecordSubtitle="Offer discounts and special deals to attract more participants. Create coupons and manage promotions effortlessly."
           // redirectTo={() => routes.createCoupon()} // define the route
           // btnName="Create New Coupon" //define the label of btn
         />

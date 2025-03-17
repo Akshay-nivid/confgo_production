@@ -312,6 +312,7 @@
   }
 
   &-grid {
+   
 
 
     //margin: 3rem;
@@ -1104,24 +1105,30 @@
 .no-record {
   display: flex;
 
+
   &-container {
     width: '100%';
     background-color: $clr_white;
-    margin: 1rem;
     border-radius: 0.9rem;
-    padding-top: 6rem;
-  }
-
+    padding-top: 2rem;
+    svg{
+      
+        height:20rem !important;
+        width: 100% !important; 
+      }
+    
+   }
+  
   &-image {
-    margin-top: 10rem !important;
-  }
+    margin-top: 1rem !important;
+    
+    }
 
   &-title {
     display: flex;
     font-weight: $font_semibold !important;
     font-size: $p5 !important;
     justify-content: center !important;
-    margin-top: 3rem !important;
     color: $clr_black !important;
   }
 
@@ -1131,7 +1138,7 @@
     text-align: center;
     margin-bottom: 2rem !important;
     color: $clr_gray_extra_dark !important;
-  }
+    }
 
   &-create-btn {
     height: 4.17rem !important;

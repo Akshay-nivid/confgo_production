@@ -7,13 +7,13 @@ import CustomButton from '@/components/CustomButton/CustomButton'
 import AddIcon from "@mui/icons-material/Add";
 import CustomDrawer from '@/components/CustomDrawer/CustomDrawer'
 import CloseIcon from "../../../assets/svg/Close.svg"
-import useStore, { POST, setNonPersistedDataById, snackBar } from '@/Libs/store'
+import useStore, { POST, setDataById, setNonPersistedDataById, snackBar } from '@/Libs/store'
 import CustomTextField from '@/components/CustomTextfield/CustomTextField'
 import FileUpload from '@/components/FileUpload/FileUpload'
 import { DataGridList } from '@/components/DataGrid/DataGridList'
 import React, { useCallback, useEffect, useState } from 'react'
 import { ISource } from '@/Libs/types/type'
-import { NewDrawerClose, NoEvent as NoEventIcon } from "@/assets/svg";
+import { NewDrawerClose } from "@/assets/svg";
 import z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import config from "../../../../config.json";
@@ -22,6 +22,8 @@ import SponsorDetailsModal from './SponsorDetailsModal'
 import clsx from 'clsx'
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import DeleteIcon from "@/assets/svg/DeleteIcon.svg";
+import { SponsorNoData } from '@/assets/svg';
+import {Writing} from "@/assets/svg";
 
 /**
  * Component for Sponsors list,create,edit and delete
@@ -110,12 +112,12 @@ const Sponsors = () => {
     }
 
     const columns = [
-        { type: "default", field: "id", headerName: "ID", width: 80 },
+        { type: "default", field: "id", headerName: "ID", width: 100 },
         {
             type: "custom",
             field: "logo",
             headerName: "Logo",
-            width: 130,
+            width: 120,
 
         },
         {
@@ -128,7 +130,7 @@ const Sponsors = () => {
             type: "custom",
             field: "email",
             headerName: "Email",
-            width: 150,
+            width: 255,
         },
         {
             type: "default",
@@ -143,7 +145,7 @@ const Sponsors = () => {
             width: 150,
             dateFormat: "DD/MM/YYYY",
         },
-        { type: "custom", field: "actions", headerName: "", width: 150 },
+        { type: "custom", field: "actions", headerName: "", width: 150 ,sortable: false},
 
     ];
 
@@ -342,6 +344,10 @@ const Sponsors = () => {
         } else {
             form.clearErrors('website');
         }
+        if (data?.logoId === "" || data?.bannerId === "") {
+            setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: data?.logoId === "" ? "Please upload Logo" : "Please upload Banner" });
+            return;
+          }   
 
         const companyId = sessionStorage.getItem('companyId') || '';
 
@@ -438,7 +444,8 @@ const Sponsors = () => {
           }}
         >
           <MenuItem onClick={(e) => handleClickEdit(e, rowData)}>
-          <img src="/src/assets/png/writing.png" alt="Edit" className="action-icon" />
+          {/* <img src="/src/assets/png/writing.png" alt="Edit" className="action-icon" /> */}
+            <Writing className="action-icon"/>
             <Typography className="action-text">Edit</Typography>
           </MenuItem>
           <MenuItem onClick={(e) => {
@@ -462,8 +469,12 @@ const Sponsors = () => {
                     id="sponsor-datagrid"
                     key={'sponsor-list-datagrid'}
 
-                    noRecordIcon={<NoEventIcon className="event-list-no-events-icon" />}
-                    noRecordSubtitle="It looks like you haven't created any events yet.Start by setting up your first conference or meeting."
+                    noRecordIcon={
+                     <SponsorNoData />
+                    }
+                noRecordTitle="No Sponsors Yet"
+                    noRecordSubtitle="Add sponsors to showcase their support and enhance your event’s visibility. Start building valuable partnerships now."
+
 
                 />
             </Grid>

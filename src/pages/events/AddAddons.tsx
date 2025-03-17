@@ -26,6 +26,7 @@ import { POST, setDataById } from "@/Libs/store";
 import { Logger } from "@/Utils/Logger";
 import config from "../../../config.json";
 import DrawerCreateSponosor from "./Sponsor/DrawerCreateSponsor";
+import { formatDate } from "@/Utils/CommonBaseClass";
 
 type Sponsor={
   sponsorId?:string;
@@ -315,7 +316,7 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
         //   });
         //   return;
         // }
-        const startDate = moment(eventData.startTime).startOf('day');
+        const startDate = moment(lastItem.date).startOf('day');
         const endDate = moment(eventData.endTime).startOf('day');
         const differenceInDays = endDate.diff(startDate, 'days') + (startDate.isBefore(endDate) ? 1 : 0);
         if (parseInt(lastItem?.noOfDays) > differenceInDays) {
@@ -335,6 +336,25 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
             const currentDate = new Date(newAddon.date);
             currentDate.setDate(currentDate.getDate() + i);  
             newAddon.date = currentDate.toISOString().split('T')[0];
+
+            // Checks if it is the last day's add-on (on the event's end day), ensure it does not exceed the event's end time
+            if (i === differenceInDays - 1) {
+              const eventEndDateTime = moment(eventData.endTime);
+              const addOnStartDateTime = moment(`${newAddon.date} ${newAddon.startTime}`, "YYYY-MM-DD HH:mm");
+              const addOnEndDateTime = moment(`${newAddon.date} ${newAddon.endTime}`, "YYYY-MM-DD HH:mm");
+
+              // If the add-on's end time or start time exceeds the event's end time, adjust it
+              if (addOnEndDateTime.isAfter(eventEndDateTime)) {
+                newAddon.endTime = eventEndDateTime.format("HH:mm");
+                setDataById('snackBarInfo', { open: true, autoHideDuration: 4000, severity: 'info', message: `To match the event schedule, the add-on on ${newAddon.date} will now end at time ${newAddon.endTime}.` })
+
+              }
+              if (addOnStartDateTime.isAfter(eventEndDateTime)) {
+                newAddon.startTime = eventEndDateTime.format("HH:mm");
+                setDataById('snackBarInfo', { open: true, autoHideDuration: 4000, severity: 'info', message: `To match the event schedule, the add-on on ${newAddon.date} will now start at time ${newAddon.startTime}.` })
+              }
+            }
+          
             //update newPrograms Array
             newPrograms.push(newAddon);
           }
@@ -343,6 +363,32 @@ const AddAddOns: React.FC<ProgramProps> = React.memo(
           append(newAddon); 
           setProgramIndex(addOn?.length || 0);
         } else {
+          // Ensure the add-on's start and end times do not exceed the event's end time
+          const eventDate = formatDate(eventData.endTime,"YYYY-MM-DD");
+          const addonDate = formatDate(lastItem.date,"YYYY-MM-DD")
+          const eventEndDateTime = moment(eventData.endTime);
+          const addOnEndDateTime = moment(`${lastItem.date} ${lastItem.endTime}`, "YYYY-MM-DD HH:mm");
+          const addOnStartDateTime = moment(`${lastItem.date} ${lastItem.startTime}`, "YYYY-MM-DD HH:mm");
+          if (addonDate > eventDate) { // String comparison (YYYY-MM-DD format ensures correct order)
+            setError(`addOn.${lastIndex}.date`, {
+              type: "manual",
+              message: "Exceeds event date",
+            });
+            return;
+          }
+          const invalidTimeField = addOnStartDateTime.isAfter(eventEndDateTime)
+            ? "startTime"
+            : addOnEndDateTime.isAfter(eventEndDateTime)
+              ? "endTime"
+              : null;
+
+          if (invalidTimeField) {
+            setError(`addOn.${lastIndex}.${invalidTimeField}`, {
+              type: "manual",
+              message: "Exceeds event time",
+            });
+            return;
+          }
           newPrograms.push(newAddon);
         // Update both `savedAddOns` and the local `programs` array
           setValue("savedAddOns", addOn);

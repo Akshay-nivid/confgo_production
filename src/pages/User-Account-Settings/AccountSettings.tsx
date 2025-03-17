@@ -6,7 +6,7 @@
 
 import React from "react";
 import Grid from "@mui/material/Grid2";
-import { Avatar, Box,IconButton, Modal, Typography } from "@mui/material";
+import { Avatar, Box,CircularProgress,IconButton, Modal, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import "./accountsetting.scss";
 import { useCallback, useEffect, useState } from "react";
@@ -20,7 +20,6 @@ import { Logger } from "@/Utils/Logger";
 import config from "../../../config.json";
 import FileUpload from "@/components/FileUpload/FileUpload";
 import { processAPIResponse } from "@/Utils/CommonBaseClass";
-
 interface CustomFile {
   id: string;
   name: string;
@@ -157,14 +156,26 @@ const handleImageUpload = (uploadedFile: CustomFile) => {
 };
 
   return (
-    <Grid container className="account-main-grid">
-      <Grid size={8} className="account-profile-grid account-margin">
+    
+    
+    <Grid container className="account-main-grid" >
+       
+   
+      <Grid size={8} className="account-profile-grid account-margin ">
+
+        
+      {profileData===null  ? (
+              <Grid display={"flex"} justifyContent={"center"} alignItems={"center"} minHeight={"20rem"} >
+              <Loader  /></Grid>
+            ) : ( <>
         <Grid size={12} className="account-title-grid ">
           <Typography className="account-title accountsettings-margin">Personal Information</Typography>
           <IconButton onClick={openDrawer} className="event-detail-event-info-card-edit-btn">
           <EditIconRound/>
           </IconButton>
         </Grid>
+        
+
         <Grid className="account-profile-image connected">
           {profileData?.assetId ? (
             <Avatar
@@ -218,7 +229,12 @@ const handleImageUpload = (uploadedFile: CustomFile) => {
           </Grid>)}
           
         </Grid>
+
+        </>)}
+
       </Grid>
+      
+
 
       {profileData?.isSsoUser&&<Grid size={8} className="account-profile-grid connected connected-grid account-margin connected-margin">
       <Typography className="account-title">Connected accounts</Typography>
@@ -322,7 +338,14 @@ const handleImageUpload = (uploadedFile: CustomFile) => {
         </Box>
       </Modal>
     </Grid>
+  
   );
 });
 
 export default AccountSetting;
+
+const Loader = () => {
+    return (
+        <CircularProgress color='success' size={"2rem"} />
+    )
+}

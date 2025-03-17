@@ -13,8 +13,6 @@ import T6Sponsors from './T6Sponsors'
 import T6SponsorContact from './T6SponsorContact'
 import BannerSection from '../Template-components/Banner/Banner-section'
 import T6Drawer from './T6Drawer'
-import { Box } from '@mui/material'
-import SponosrContactForm from '../Template-components/SponsorContactForm'
 
 
 
@@ -31,9 +29,6 @@ const Template6 = () => {
             <T6priceTier />
             <T6Sponsors/>
             <T6SponsorContact/>
-            <Box className="max-w-[80rem] mx-auto section-vertical-padding">
-            <SponosrContactForm />  
-            </Box>
             <BannerSection/>
             <TFooter />
             <T6Drawer/>
