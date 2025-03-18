@@ -58,7 +58,7 @@ const T7ProgramAddon = ({ eventData }: { eventData?: IEventResponse }) => {
                                         if (item?.items?.length === 3) {
                                             itemSize = { xs: 12, sm: 12 };
                                         } else if (item?.items?.length === 2) {
-                                            itemSize = { xs: 12, sm:6 };
+                                            itemSize = { xs: 12, sm:8 };
                                         }
 
                                         let childItemSize: any = { xs: 12, sm: 12 };
