@@ -256,7 +256,7 @@ const MyDocument = ({ data,itemId }: any) => {
           </View>
 
           <View style={styles.row}>
-            <Text style={styles.rowText}>Adon Total Amount</Text>
+            <Text style={styles.rowText}>Addon Total Amount</Text>
             <Text style={styles.amount}>${addonTotalAmount}</Text>
           </View>
 
@@ -281,7 +281,7 @@ const MyDocument = ({ data,itemId }: any) => {
           </View>
 
           <View style={styles.footerSection}>
-            <Text style={styles.footerTitle}>Questions:</Text>
+            <Text style={styles.footerTitle}>Contacts:</Text>
             <Text style={styles.footerText}>{companyName}</Text>
             <Text style={styles.footerText}>{companyEmail}</Text>
             <Text style={styles.footerText}>{companyPhone}</Text>

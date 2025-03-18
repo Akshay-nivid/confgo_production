@@ -736,9 +736,10 @@ useEffect(() => {
       const moderator = values?.moderator
       const isDuplicate = values?.speakers?.some((speaker: any) => speaker.speakerId === speakerId);
       if(isDuplicate){
-        setError(`speakerSelection`, { type: "manual", message: "Speaker Already assigned. please select another speaker" });
-        return;
-      }
+        // setError(`speakerSelection`, { type: "manual", message: "Speaker Already assigned. please select another speaker" });
+          setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: "speaker is already added." })
+          return;
+         }
     
       if (!speakerId) {
         setError(`speakerSelection`, { type: "manual", message: "Please select a speaker" });
@@ -1025,9 +1026,11 @@ useEffect(() => {
                 <Typography className="add-program-drawer-heading">
                   Assign Speakers
                 </Typography>
-                <IconButton onClick={() => setShowSpeakerSection(false)}>
-                  <CloseOutlined />
-                </IconButton>
+               {watch(`speakers`)?.length === 0 && (
+               <IconButton onClick={() => setShowSpeakerSection(false)}>
+               <CloseOutlined />
+               </IconButton>
+              )}
               </Grid>{/*end of speaker header section */}
               <Grid size={{ xs: 12 }}>
                 <CustomAutocomplete
