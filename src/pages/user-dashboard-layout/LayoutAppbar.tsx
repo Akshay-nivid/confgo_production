@@ -5,7 +5,7 @@ import Grid from '@mui/material/Grid2';
 import { useNavigate } from 'react-router-dom';
 import routes from '@/router/routes';
 import { getUserType, processAPIResponse, useIsMobileScreen } from '@/Utils/CommonBaseClass';
-import useStore, { resetStore, setDataById } from '@/Libs/store';
+import { resetStore, setDataById } from '@/Libs/store';
 import MenuIcon from "../../assets/svg/Vector.svg"
 import { useEffect, useState } from 'react';
 import MobileDashboardSideMenu from './MobileDashboardSideMenu';
