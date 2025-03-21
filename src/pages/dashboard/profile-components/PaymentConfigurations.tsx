@@ -169,7 +169,9 @@ const PaymentConfigurations: React.FC<SecurityProps> = React.memo(({ }) => {
                             label=""
                             options={typeArray}
                             row={true}
-                            value={taxData?.data?.[0]?.id ? taxData?.data?.[0]?.taxInclusive:true}
+                            // value={taxData?.data?.[0]?.id ? taxData?.data?.[0]?.taxInclusive:true}
+                            value={taxData?.data?.[0]?.id ? String(taxData?.data?.[0]?.taxInclusive) : 'false'}
+                
                             readonly={editField}
                         />
                     </Grid>

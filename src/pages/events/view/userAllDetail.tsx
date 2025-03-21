@@ -252,13 +252,15 @@ const UserAllDetail: React.FC <DetailProps> = ({ userdetail }) => {
     pdf.text(programTotal, rightColumnX + 24, chargesInfoY + 45);
     pdf.text('Addon Total Amount', horizontalMargin, chargesInfoY + 54);
     pdf.text(addonTotal, rightColumnX + 24, chargesInfoY + 54);
-    pdf.text('Tax(Inclusive)', horizontalMargin, chargesInfoY + 63);
+    // pdf.text('Tax(Inclusive)', horizontalMargin, chargesInfoY + 63);
+    pdf.text(userdetail?.payment?.order?.taxInclusive ? 'Tax(Inclusive)' : 'Tax(Exclusive)', horizontalMargin, chargesInfoY + 63);
+   
     pdf.text(tax, rightColumnX + 24, chargesInfoY + 63);
 
   
     // Total
     pdf.setFont('helvetica', 'bold');
-    pdf.text('Grand Toatal', horizontalMargin, chargesInfoY + 72);
+    pdf.text('Grand Total', horizontalMargin, chargesInfoY + 72);
     pdf.text(finalPrice, rightColumnX + 24, chargesInfoY + 72);
   
     // Footer
