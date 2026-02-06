@@ -1,0 +1,43 @@
+/**
+ * Middleware
+ * Author: sarathavs
+ */
+import { Application } from 'express';
+import helmet from 'helmet';
+import bodyParser from 'body-parser';
+import morgan from 'morgan';
+import cors from 'cors';
+
+export default function applyMiddleware(app: Application) {
+  app.use(
+    helmet({
+      crossOriginResourcePolicy: { policy: 'cross-origin' }, // Allows cross-origin access to resources
+    })
+  );
+  app.use(bodyParser.json()); // Parsing JSON requests
+  app.use(morgan('dev')); // Logging HTTP requests
+  // CORS configuration to allow any localhost port and subdomains of confgo.com
+  app.use(
+    cors({
+      origin: (origin, callback) => {
+        // Allow requests with no origin (e.g., mobile apps, Postman, etc.)
+        if (!origin) return callback(null, true);
+
+        // Allow localhost on any port
+        const localhostRegex = /^http:\/\/localhost:\d+$/;
+
+        // Allow any subdomain of confgo.com
+        const confgoSubdomainRegex =
+          /^https?:\/\/([a-zA-Z0-9-]+\.)*confgo\.com$/;
+
+        if (localhostRegex.test(origin) || confgoSubdomainRegex.test(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
+      methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
+      credentials: true,
+    })
+  );
+}

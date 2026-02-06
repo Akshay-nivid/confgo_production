@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome Email</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <style>
+      body {
+        background: #f2f5f8;
+        color: #3c4043;
+        margin: 0;
+        font-family: "Open Sans", sans-serif;
+        padding: 30px 0;
+        -webkit-font-smoothing: subpixel-antialiased;
+        -webkit-text-stroke: 1px transparent;
+      }
+
+      table {
+        margin: 0 auto;
+        border-spacing: 0;
+        background: #f2f5f8;
+      }
+
+      .email-container {
+        width: 600px;
+        background: #fff;
+        border-radius: 5px;
+        padding: 30px;
+      }
+
+      .email-header img {
+        display: block;
+        margin: 0 auto;
+        padding: 30px;
+      }
+
+      .email-content {
+        text-align: left;
+        color: #384860;
+        font-family: "Inter", sans-serif;
+      }
+
+      .email-content p {
+        margin: 0;
+        padding: 14px;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+      .email-content p.title {
+        font-size: 20px;
+        font-weight: 600;
+      }
+
+      .email-content ul {
+        padding: 14px;
+        list-style-type: disc;
+        color: #384860;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+
+      .email-content ul li {
+        margin-bottom: 8px;
+      }
+
+      .cta-button {
+        display: inline-block;
+        background: #c4095e;
+        color: #fff !important;
+        text-decoration: none;
+        padding: 12.8px 25.6px;
+        border-radius: 6.4px;
+        font-size: 14px;
+        margin: 10px 15px 20px;
+      }
+
+      .email-footer {
+        font-size: 14px;
+        color: #384860;
+      }
+
+      .email-footer a {
+        color: #c4095e;
+        text-decoration: none;
+      }
+
+      .footer-bar {
+        background: #262534;
+        color: #fff;
+        padding: 30px;
+        text-align: center;
+        font-size: 14px;
+      }
+    </style>
+    <script>
+      window.onload = function () {
+        document.getElementById("year").textContent = new Date().getFullYear();
+      };
+    </script>
+  </head>
+
+  <body
+    style="
+      background: #f2f5f8;
+      color: #3c4043;
+      margin: 0;
+      font-family: &quot;Open Sans&quot;, sans-serif;
+      padding: 30px 0;
+      -webkit-font-smoothing: subpixel-antialiased;
+      -webkit-text-stroke: 1px transparent;
+    "
+  >
+    <div>
+      <!-- Header -->
+      <table>
+        <tr>
+          <td class="email-header">
+            <img src="https://confgo.com/assets/logo2.png" width="150" alt="ConfGo Logo" />
+          </td>
+        </tr>
+      </table>
+
+      <!-- Main Content -->
+      <table class="email-container">
+        <tr>
+          <td>
+            <a href="https://play.google.com/store/apps/details?id=com.nivid.participant_App">
+              <img src="https://confgo.com/assets/participant.jpg" style="width: 100%; margin: 0 auto; display: block" />
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <td class="email-content">
+            <p class="title">Welcome to {{eventName}}!</p>
+            <p class="title">Your Ticket Details are inside!</p>
+            <p>Hello {{contactName}},</p>
+            <p>
+              We are thrilled to confirm that your registration for <b>{{eventName}}</b> has been successfully processed. We are excited to have you join us!
+            </p>
+            <p>Below are your details:</p>
+            <ul>
+              <li>Event Name: {{eventName}}</li>
+              <li>Username: {{email}}</li>
+              <li>Date: {{date}}</li>
+              <li>Location: {{location}}</li>
+              {{#if url}}
+              <li>Click to participate: <a href="{{url}}">{{url}}</a></li>
+              {{/if}}
+            </ul>
+            <a href="https://confgo.com/user/login" target="_blank" class="cta-button">Get Started</a>
+            <p>Warm Regards,<br />The {{eventName}} Team</p>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Footer -->
+      <table class="email-container" style="margin-top: 10px">
+        <tr>
+          <td class="email-footer">
+            <p>If you have any questions or complaints, feel free to reach out at <a href="mailto:info@confgo.com">info@confgo.com</a>.</p>
+            <p>This is an auto-generated email. Please do not reply.</p>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Footer Bar -->
+      <table style="background: #262534; width: 600px; padding: 30px; margin-top: 20px">
+        <tr>
+          <td class="footer-bar">©{{year}} confgo.com All rights reserved</td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>
