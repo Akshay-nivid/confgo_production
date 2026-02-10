@@ -8,39 +8,35 @@ import FileListModal from "@/components/FileUpload/FileListModal";
 import { Box, IconButton, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid2";
 import moment from "moment";
-import React, { useCallback, useEffect,useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import CustomDrawer from "@/components/CustomDrawer/CustomDrawer";
 import { validateEmail } from "@/Utils/Validation";
-import { validateMaxLength } from '@/Utils/Validation';
+import { validateMaxLength } from "@/Utils/Validation";
 import GoogleMapPlacePicker from "./GoogleMapPlacePicker";
-import useStore, { setDataById } from "@/Libs/store";
+import useStore from "@/Libs/store";
 import CustomSelect from "@/components/CustomSelectBox/CustomSelect";
-import confgo  from "../../../config.json"
-import PublicOffOutlinedIcon from '@mui/icons-material/PublicOffOutlined';
-import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
-import RssFeedOutlinedIcon from '@mui/icons-material/RssFeedOutlined';
-import UploadLogo from '../../assets/svg/Upload-logo.svg';
+import confgo from "../../../config.json";
+import PublicOffOutlinedIcon from "@mui/icons-material/PublicOffOutlined";
+import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
+import RssFeedOutlinedIcon from "@mui/icons-material/RssFeedOutlined";
+import UploadLogo from "../../assets/svg/Upload-logo.svg";
 import { Close } from "@mui/icons-material";
-import UploadedIcon from '../../assets/svg/CreateEventimageIcon.svg'; // Replace with your actual UploadedIcon
+import UploadedIcon from "../../assets/svg/CreateEventimageIcon.svg"; // Replace with your actual UploadedIcon
 import CustomDateTimePicker from "@/components/CustomDateTimePicker/CustomDateTimePicker";
-import { AbstractSelectedGray} from "@/assets/svg";
+import { AbstractSelectedGray } from "@/assets/svg";
 import { AbstractSelectedGreen } from "@/assets/svg";
 import { AbstractNonSelectedGray } from "@/assets/svg";
 import { AbstractNonSelectedGreen } from "@/assets/svg";
+import { fetchConferenceUrl } from "./Api";
+
 type EventProps = {
   formSubmit: boolean;
   formDraftSubmit: boolean;
-  onSubmitHandler: (
-    event: React.FormEvent<HTMLFormElement>,
-    type: string
-  ) => void;
-  onDraftSubmitHandler: (
-    event: any,
-    type: string
-  ) => void;
+  onSubmitHandler: (event: React.FormEvent<HTMLFormElement>, type: string) => void;
+  onDraftSubmitHandler: (event: any, type: string) => void;
   data: any;
 };
 
@@ -59,217 +55,231 @@ type FormData = {
   country: string;
   postalCode: string;
   url: string;
+  meetingUniqueId: string;
   amount: string;
   specialtyId: string;
-  assetId:string;
+  assetId: string;
   phone: string;
   email: string;
-  isAbstract:boolean;
-  abstractDate:Date;
-  assetName?:string;
+  isAbstract: boolean;
+  abstractDate: Date;
+  assetName?: string;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-interface CustomFile {  
+interface CustomFile {
   id: string;
   name: string;
   sourcePath: string;
 }
 
 const typeArray = [
-  { label: "Offline", value: "OFFLINE", icon:<PublicOffOutlinedIcon/> },
-  { label: "Online", value: "ONLINE", icon:<PublicOutlinedIcon/> },
-  { label: "Hybrid", value: "HYBRID", icon:<RssFeedOutlinedIcon/> },
+  { label: "Offline", value: "OFFLINE", icon: <PublicOffOutlinedIcon /> },
+  { label: "Online", value: "ONLINE", icon: <PublicOutlinedIcon /> },
+  { label: "Hybrid", value: "HYBRID", icon: <RssFeedOutlinedIcon /> },
 ];
 
-const AbstractArray =[
-  {label:"Allow Uplaod Abstartct", value:true, ic:<AbstractSelectedGray/>, selectedIcon:<AbstractSelectedGreen/>},
-  {label:"Don't Allow Uplaod Abstartct", value:false, ic:<AbstractNonSelectedGray/>, selectedIcon:<AbstractNonSelectedGreen/>}
-]
-interface Specialty{
-  value:number,
-  label:string
+const AbstractArray = [
+  { label: "Upload Abstartct", value: true, ic: <AbstractSelectedGray />, selectedIcon: <AbstractSelectedGreen /> },
+  { label: "Don't Upload Abstartct", value: false, ic: <AbstractNonSelectedGray />, selectedIcon: <AbstractNonSelectedGreen /> },
+];
+interface Specialty {
+  value: number;
+  label: string;
 }
-const CreateEvent: React.FC<EventProps> =
-  ({ formSubmit, formDraftSubmit, onSubmitHandler, onDraftSubmitHandler, data }) => {
-    const methods = useForm<FormData>()
-    const {
-      handleSubmit,
-      control,
-      setValue,
-      watch,
-      setError,
-      clearErrors,
-      formState: { errors },
-    } = methods;
- 
-   
-  
-
+const CreateEvent: React.FC<EventProps> = ({ formSubmit, formDraftSubmit, onSubmitHandler, onDraftSubmitHandler, data }) => {
+  const methods = useForm<FormData>();
+  const {
+    handleSubmit,
+    control,
+    setValue,
+    watch,
+    setError,
+    clearErrors,
+    formState: { errors },
+  } = methods;
+  const [uniqueId, setUniqueId] = useState<string | null>(null);
   const [editorContent, setEditorContent] = useState("");
-  const [submitted, setSubmitted] = useState(false); 
+  const [submitted, setSubmitted] = useState(false);
   const [selectedFile, setSelectedFile] = useState<any>(null);
   const [modalOpen, setModalOpen] = useState(false);
-  const companyId = sessionStorage.getItem('companyId');
-  const [drawerOpen,setDrawerOpen]=useState(false);
+  const companyId = sessionStorage.getItem("companyId");
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [isInitialRender, setIsInitialRender] = useState(true);
   const POST = useStore((state: any) => state.POST);
-  const [specialty,setspecialty]=useState<Specialty[]>([]);
-  const [specialtyName,setspecialtyName]=useState();
-  const currency=confgo.currency;
+  const [specialty, setspecialty] = useState<Specialty[]>([]);
+  const [specialtyName, setspecialtyName] = useState();
+  const currency = confgo.currency;
   const [isPlacePickerOpen, setPlacePickerOpen] = useState(false);
   const [randomNumber, setRandomNumber] = useState<any>();
+  const { setDataById }: any = useStore();
+  const compData = useStore((state) => state.compData);
 
-    // Watch values from the form
-    const fields: ('mapUrl' | 'postalCode' | 'venueName' | 'city' | 'address')[] = ['mapUrl', 'postalCode', 'venueName', 'city','address'];
-    const mapUrl = watch('mapUrl');
-    const postalCode = watch('postalCode');
-    const venueName = watch('venueName');
-    const city = watch('city');
-    const address = watch('address');
 
-    const removeEmojis = (text: any) => {
-      return text.replace(/\p{Extended_Pictographic}/gu, '');
-    };    
+  useEffect(() => {
+    if (!compData?.uniqueId?.value) {
+      handlefetchUrl()
+    } else {
+      setUniqueId(compData?.uniqueId?.value);
+    }
+  }, []);
 
-    /**
-     * Method handles the on change event for description editor
-     * @param value : event value
-     */
-    const handleChange = (value: any) => {
-      const filteredContent = removeEmojis(value);
-      setEditorContent(filteredContent);
-      setValue("description", filteredContent);
-      if (filteredContent && filteredContent !== "<p><br></p>") {
-        clearErrors("description"); 
-      }
+  const handlefetchUrl=async()=>{
+    let conf = await fetchConferenceUrl()
+    setDataById("uniqueId", { value: conf?.value, id: conf?.id });
+  }
+
+
+
+  // Watch values from the form
+  const fields: ("mapUrl" | "postalCode" | "venueName" | "city" | "address")[] = ["mapUrl", "postalCode", "venueName", "city", "address"];
+  const mapUrl = watch("mapUrl");
+  const postalCode = watch("postalCode");
+  const venueName = watch("venueName");
+  const city = watch("city");
+  const address = watch("address");
+
+  const removeEmojis = (text: any) => {
+    return text.replace(/\p{Extended_Pictographic}/gu, "");
+  };
+
+  /**
+   * Method handles the on change event for description editor
+   * @param value : event value
+   */
+  const handleChange = (value: any) => {
+    const filteredContent = removeEmojis(value);
+    setEditorContent(filteredContent);
+    setValue("description", filteredContent);
+    if (filteredContent && filteredContent !== "<p><br></p>") {
+      clearErrors("description");
+    }
+  };
+  const isError = submitted && (editorContent === "" || editorContent === "<p><br></p>");
+  /**
+   * This method ensures that the field with validation errors or requiring attention and Scrolls smoothly to that field
+   */
+  const scrollToError = useCallback(() => {
+    const errorFieldMap: { [key: string]: string } = {
+      name: '[name="name"]',
+      description: "#react-quill-description",
+      abstractDate: "[name=abstractDate]",
+      phone: '[name="phone"]',
+      email: '[name="email"]',
+      startTime: '[name="startTime"]',
+      endTime: '[name="endTime"]',
+      amount: '[name="amount"]',
+      url: '[name="url"]',
+      mapUrl: '[name="mapUrl"]',
+      venueName: '[name="venueName"]',
+      address: '[name="address"]',
+      country: '[name="country"]',
+      state: '[name="state"]',
+      city: '[name="city"]',
+      postalCode: '[name="postalCode"]',
     };
-    const isError = submitted && (editorContent === "" || editorContent === "<p><br></p>"); 
-/**
- * This method ensures that the field with validation errors or requiring attention and Scrolls smoothly to that field
- */
-    const scrollToError = useCallback(() => {
-      const errorFieldMap: { [key: string]: string } = {
-        name: '[name="name"]',
-        description:  '#react-quill-description',
-        abstractDate :'[name=abstractDate]',
-        phone: '[name="phone"]',
-        email: '[name="email"]',
-        startTime: '[name="startTime"]',
-        endTime: '[name="endTime"]',
-        amount: '[name="amount"]',
-        url: '[name="url"]',
-        mapUrl: '[name="mapUrl"]',
-        venueName: '[name="venueName"]',
-        address: '[name="address"]',
-        country: '[name="country"]',
-        state: '[name="state"]',
-        city: '[name="city"]',
-        postalCode: '[name="postalCode"]',
-      };
-      const errorKeys = Object.keys(errors);
+    const errorKeys = Object.keys(errors);
 
-      if (errorKeys.length > 0) {
-        const firstErrorKey = errorKeys[0];
-        const selector = errorFieldMap[firstErrorKey];
+    if (errorKeys.length > 0) {
+      const firstErrorKey = errorKeys[0];
+      const selector = errorFieldMap[firstErrorKey];
 
-        if (selector) {
-          const errorElement = document.querySelector(selector);
+      if (selector) {
+        const errorElement = document.querySelector(selector);
 
-          if (errorElement) {
-            errorElement.scrollIntoView({ behavior: "smooth", block: "center",});
-            // Try to focus on the first focusable element within the error element
-            const focusableElement = errorElement.querySelector("input, textarea") || errorElement;
-            if (focusableElement) {
-              (focusableElement as HTMLElement).focus();
-            }
+        if (errorElement) {
+          errorElement.scrollIntoView({ behavior: "smooth", block: "center" });
+          // Try to focus on the first focusable element within the error element
+          const focusableElement = errorElement.querySelector("input, textarea") || errorElement;
+          if (focusableElement) {
+            (focusableElement as HTMLElement).focus();
           }
         }
       }
-    }, [errors]);
-
-    /**
-     * Useeffect hook handles the form submission based on the formSubmit variable
-     */
-    useEffect(() => {
-      if(Object.keys(errors).length > 0){
-        scrollToError();
-      }
-      if (formSubmit) {
-        handleSubmit(onSubmit)();
-      }
-    }, [formSubmit]);
-
-    /**
-     * Useeffect hook handles the form submission based on the formSubmit variable
-     */
-    useEffect(() => {
-      if (formDraftSubmit) {
-        setValue("assetId", selectedFile?.id);
-        onDraftSubmitHandler && onDraftSubmitHandler(watch(), "EVENT");
-      }
-    }, [formDraftSubmit]);
-
-    /**
-     * Method handles the form submission
-     * @param data
-     */
-    const onSubmit: SubmitHandler<FormData> = (data: any) => {
-
-     // checks whether the description content is empty or not
-      if (editorContent === "" || editorContent === "<p><br></p>") {
-        setSubmitted(true); // Set submitted to true.
-        setError(`description`, {
-              type: 'manual',
-               message: 'description is required',
-             });
-        return;
-      }
-      const startTime = new Date(data.startTime);
-      const endTime = new Date(data.endTime);
-      const today = new Date();
-      const abstractDate=new Date(data?.abstractDate)
-
-      if(selectedFile){
-        setValue('assetId',selectedFile?.id)
-        setValue('assetName',selectedFile?.name)
-      }
-      if (startTime > endTime) {
-        setError(`startTime`, {
-          type: 'manual',
-          message: 'Start date cannot be greater than end date',
-        });
-        return
-      }
-
-      if (startTime < today) {
-        setError('startTime', {
-          type: 'manual',
-          message: 'Dates cannot be in the past',
-        });
-        return;
-      }
-      if ((abstractDate < today ) && (isAbstract === "true")) { 
-        setError('abstractDate', { type: 'manual', message: 'Abstract submission date must be a future date' });
-        return
-    } else {
-        clearErrors('abstractDate');
     }
-    //store the dates to compare 
-      useStore.getState().setDataById("event-date", { startDate: startTime });
-      useStore.getState().setDataById("event-date", { endDate: endTime });
+  }, [errors]);
 
-      onSubmitHandler && onSubmitHandler(data, "EVENT");
-    };
-
-    useEffect(() => {
-      if (selectedFile) {
-        setValue("assetId", selectedFile?.id);
-        setValue("assetName", selectedFile?.name)
-      }
-    }, [selectedFile]);
   /**
-   * it watches the location fields whether it is filled or not 
+   * Useeffect hook handles the form submission based on the formSubmit variable
+   */
+  useEffect(() => {
+    if (Object.keys(errors).length > 0) {
+      scrollToError();
+    }
+    if (formSubmit) {
+      handleSubmit(onSubmit)();
+    }
+  }, [formSubmit]);
+
+  /**
+   * Useeffect hook handles the form submission based on the formSubmit variable
+   */
+  useEffect(() => {
+    if (formDraftSubmit) {
+      setValue("assetId", selectedFile?.id);
+      onDraftSubmitHandler && onDraftSubmitHandler(watch(), "EVENT");
+    }
+  }, [formDraftSubmit]);
+
+  /**
+   * Method handles the form submission
+   * @param data
+   */
+  const onSubmit: SubmitHandler<FormData> = (data: any) => {
+    // checks whether the description content is empty or not
+    if (editorContent === "" || editorContent === "<p><br></p>") {
+      setSubmitted(true); // Set submitted to true.
+      setError(`description`, {
+        type: "manual",
+        message: "description is required",
+      });
+      return;
+    }
+    const startTime = new Date(data.startTime);
+    const endTime = new Date(data.endTime);
+    const today = new Date();
+    const abstractDate = new Date(data?.abstractDate);
+
+    if (selectedFile) {
+      setValue("assetId", selectedFile?.id);
+      setValue("assetName", selectedFile?.name);
+    }
+    if (startTime > endTime) {
+      setError(`startTime`, {
+        type: "manual",
+        message: "Start date cannot be greater than end date",
+      });
+      return;
+    }
+
+    if (startTime < today) {
+      setError("startTime", {
+        type: "manual",
+        message: "Dates cannot be in the past",
+      });
+      return;
+    }
+    if (abstractDate < today && isAbstract === "true") {
+      setError("abstractDate", { type: "manual", message: "Abstract submission date must be a future date" });
+      return;
+    } else {
+      clearErrors("abstractDate");
+    }
+    //store the dates to compare
+    useStore.getState().setDataById("event-date", { startDate: startTime });
+    useStore.getState().setDataById("event-date", { endDate: endTime });
+
+    onSubmitHandler && onSubmitHandler(data, "EVENT");
+  };
+
+  useEffect(() => {
+    if (selectedFile) {
+      setValue("assetId", selectedFile?.id);
+      setValue("assetName", selectedFile?.name);
+    }
+  }, [selectedFile]);
+  /**
+   * it watches the location fields whether it is filled or not
    */
   useEffect(() => {
     if (isInitialRender) {
@@ -283,93 +293,102 @@ const CreateEvent: React.FC<EventProps> =
         clearErrors(field);
       }
     });
-  }, [mapUrl, clearErrors, setError, errors, isInitialRender, postalCode, venueName, city,address]);
+  }, [mapUrl, clearErrors, setError, errors, isInitialRender, postalCode, venueName, city, address]);
 
-    /**
-     * Useeffect hook set the form values based on the data
-     */
-    useEffect(() => {
-      if (data) {
-        setFormValues(data, setValue);
-        data?.description && setEditorContent(data?.description);
-      } else {
-        setValue("type", "OFFLINE");
-      }
-    }, [data]);
+  /**
+   * Useeffect hook set the form values based on the data
+   */
+  useEffect(() => {
+    if (data) {
+      setFormValues(data, setValue);
+      data?.description && setEditorContent(data?.description);
+    } else {
+      setValue("type", "OFFLINE");
+    }
+  }, [data]);
 
+  /**
+   *  Configuration for the editor toolbar
+   */
+  const modules = {
+    toolbar: [
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["bold", "italic", "underline"],
+    ],
+  };
 
-    /**
-     *  Configuration for the editor toolbar
-     */
-    const modules = {
-      toolbar: [
-        [{ 'list': 'ordered'}, { 'list': 'bullet' }], 
-        ['bold', 'italic', 'underline'],
-      ]
-    };
-
-
-     /**
+  /**
    *function to handle clean file state
    */
   const handleFileDelete = () => {
     setSelectedFile(null);
-    setValue('assetId', ''); // Clear assetId in watch
+    setValue("assetId", ""); // Clear assetId in watch
   };
   /**
    *useEffect set assestId
    */
   useEffect(() => {
-    if(watch('assetId')){
+    if (watch("assetId")) {
       setSelectedFile({
-        id: watch('assetId'),
-        name: watch('assetName') ||"bussiness"
-    });
+        id: watch("assetId"),
+        name: watch("assetName") || "bussiness",
+      });
     }
-},[])
+  }, []);
 
   /**
    *useEffect get specialty
    */
-   useEffect(() => {
-    getspecialty()
-},[])
+  useEffect(() => {
+    getspecialty();
+    // setUniqueId();
+  }, []);
 
-    /**
-    * get full specialty list 
-    */
-    const getspecialty=async ()=>{
-      await POST({
-          url:'specialty/list',
-          body:{},
-          id:'specialty-list',
-          successCB: (_context: any) => {
-            let _speciality:any=[];
-            _context.data.forEach((item: any) => {
-              _speciality.push({
-                value: item?.id,
-                label: item?.name
-              })
-            })
-            setspecialty(_speciality)
-            //to match the name of speciality
-            if(data?.specialtyId){
-              const Name = _speciality?.filter((item:any)=> item?.value == data?.specialtyId)
-              setspecialtyName(Name?.[0]?.label)
-            }
-          }, 
-          errorCB: (context: any) => {
-              setDataById('snackBarInfo', { open: true, autoHideDuration: 2000, severity: 'error', message: context?.message });
-          }
-      });
-  }
+  useEffect(() => {
+    const type = watch("type");
+    if (uniqueId && type !== "OFFLINE") {
+      setValue("url", `${uniqueId}`);
+      setValue("meetingUniqueId", uniqueId);
+    } else {
+      setValue("url", "");
+    }
+  }, [uniqueId, watch("type")]);
 
-   /**
+  /**
+   * get full specialty list
+   */
+  const getspecialty = async () => {
+    await POST({
+      url: "specialty/list",
+      body: {},
+      id: "specialty-list",
+      successCB: (_context: any) => {
+        let _speciality: any = [];
+        _context.data.forEach((item: any) => {
+          _speciality.push({
+            value: item?.id,
+            label: item?.name,
+          });
+        });
+        setspecialty(_speciality);
+        //to match the name of speciality
+        if (data?.specialtyId) {
+          const Name = _speciality?.filter((item: any) => item?.value == data?.specialtyId);
+          setspecialtyName(Name?.[0]?.label);
+        }
+      },
+      errorCB: (context: any) => {
+        setDataById("snackBarInfo", { open: true, autoHideDuration: 2000, severity: "error", message: context?.message });
+      },
+    });
+  };
+
+  /**
    * Open the Google Place Picker
    */
-   const handleTextFieldClick = () => {
+  const handleTextFieldClick = () => {
     setPlacePickerOpen(true);
-    setRandomNumber(Math.floor(Math.random()*1000000)); //generate random 6 digit
+    setRandomNumber(Math.floor(Math.random() * 1000000)); //generate random 6 digit
   };
 
   //hook used to fetch the value suddenly when the address selected
@@ -382,47 +401,30 @@ const CreateEvent: React.FC<EventProps> =
     }
   }, [watch("address")]);
 
-    /**
+  /**
    * Handle closing the Google Place Picker
    */
-    const handlePlacePickerClose = () => {
-      setPlacePickerOpen(false);
-    };
-    const isAbstract:any = watch('isAbstract');
-    return (
-      <Box className="create-event-container">
-        <Grid
-          container
-          size={{ xs: 12, sm: 12 }}
-          justifyContent="center"
-          alignItems="center"
-          spacing={2}
-        >
-          <Grid size={{ xs: 12, sm: 12 }} container m={8} marginTop={2}>
-            <Grid>
-              <Typography
-                variant="h3"
-                lineHeight={2}
-                className="create-event-title"
-              >
-                Event Details
-              </Typography>
-              <Typography
-                variant="h5"
-                className="create-event-title-sub"
-              >
-                Provide the essential information for your event to get started.
-              </Typography>
-            </Grid>
-            <Grid>
-              <FormProvider {...methods}>
+  const handlePlacePickerClose = () => {
+    setPlacePickerOpen(false);
+  };
+  const isAbstract: any = watch("isAbstract");
+
+  return (
+    <Box className="create-event-container">
+      <Grid container size={{ xs: 12, sm: 12 }} justifyContent="center" alignItems="center" spacing={2}>
+        <Grid size={{ xs: 12, sm: 12 }} container m={8} marginTop={2}>
+          <Grid>
+            <Typography variant="h3" lineHeight={2} className="create-event-title">
+              Event Details
+            </Typography>
+            <Typography variant="h5" className="create-event-title-sub">
+              Provide the essential information for your event to get started.
+            </Typography>
+          </Grid>
+          <Grid>
+            <FormProvider {...methods}>
               <form onSubmit={handleSubmit(onSubmit)}>
-                <Grid
-                  container
-                  spacing={2}
-                  alignItems={"center"}
-                  justifyContent={"center"}
-                >
+                <Grid container spacing={2} alignItems={"center"} justifyContent={"center"}>
                   {/* <Grid size={{ xs: 12, sm: 12 }}>
                     <CustomRadio
                       className="add-program-radio-btn"
@@ -434,80 +436,74 @@ const CreateEvent: React.FC<EventProps> =
                       value={"OFFLINE"}
                     />
                   </Grid> */}
-                  <Grid container spacing={2} size={{xs:12}}>
-                  <Grid size={{ xs: 12, sm: 6 }}>
-                    <CustomTextField                      
-                      className="add-program-text-Field"
-                      placeholder="Event Name"
-                      control={control}
-                      name="name"
-                      type="text"
-                      rules={{
-                        required: "Event name is a required field",
-                        maxLength: validateMaxLength({
-                          maxLength: 255,
-                          fieldName: 'Event Name',
-                        }),
-                      }} 
+                  <Grid container spacing={2} size={{ xs: 12 }}>
+                    <Grid size={{ xs: 12, sm: 6 }}>
+                      <CustomTextField
+                        className="add-program-text-Field"
+                        placeholder="Event Name"
+                        control={control}
+                        name="name"
+                        type="text"
+                        rules={{
+                          required: "Event name is a required field",
+                          maxLength: validateMaxLength({
+                            maxLength: 255,
+                            fieldName: "Event Name",
+                          }),
+                        }}
                       />
+                    </Grid>
+                    <Grid size={{ xs: 12, sm: 6 }}>
+                      <CustomSelect
+                        className="add-program-select"
+                        name="specialtyId"
+                        control={control}
+                        label="Category"
+                        options={specialty}
+                        defaultValue={specialtyName ? specialtyName : data?.speciality?.name}
+                        onChange={() => setValue("isAbstract", false)}
+                      />
+                    </Grid>
+                    {watch("specialtyId") == "1" && (
+                      <Grid size={{ xs: 12 }}>
+                        <CustomRadio
+                          className="create-event-abstartct-radio-button"
+                          options={AbstractArray.map((option) => ({
+                            ...option,
+                            icon: option.value === (isAbstract === "true" || isAbstract === true || isAbstract === 1) ? option.selectedIcon : option.ic,
+                          }))}
+                          name="isAbstract"
+                          control={control}
+                          value={false}
+                          row={true} // Horizontal layout
+                        />
                       </Grid>
-                      <Grid size={{ xs: 12, sm:6 }}>
-                    <CustomSelect
-                    className="add-program-select"
-                    name="specialtyId"
-                    control={control}
-                    label="Category"
-                    options={specialty}
-                    defaultValue={specialtyName ? specialtyName : data?.speciality?.name}
-                    onChange={() => setValue('isAbstract',false)}
-                    />
-                  </Grid>
-                  {watch('specialtyId')=='1'&&
-                  <Grid size={{ xs: 12 }}   >
-                    <CustomRadio
-                      className="create-event-abstartct-radio-button"
-                      options={AbstractArray.map((option) => ({
-                        ...option,
-                        icon: option.value === (isAbstract === "true" || isAbstract === true || isAbstract === 1) 
-                        ? option.selectedIcon 
-                        : option.ic
-                      }))}                      
-                      name="isAbstract"
-                      control={control}
-                      value={false}
-                      row={true} // Horizontal layout
-                  />
-                  </Grid>}
-                  {String(watch("isAbstract")) =='true' && watch('specialtyId')=='1'&&
-                  <Grid size={{xs:12,sm:6}}>
-                    <CustomTextField
-                      placeholder="Abstract Submission Date"
-                      control={control}
-                      name="abstractDate"
-                      type="date"
-                      className="create-event"
-                      defaultValue={moment(new Date()).format("YYYY-MM-DD")}
-                      min={moment(new Date()).format("YYYY-MM-DD")}
-                      rules={{
-                        required:true,
-                        pattern: {
-                          value: /^\d{4}-\d{2}-\d{2}$/, 
-                          message: "Please enter a valid start date (DD-MM-YYYY)"
-                        }
-                      }}
-                    />
-                  </Grid>}
+                    )}
+                    {String(watch("isAbstract")) == "true" && watch("specialtyId") == "1" && (
+                      <Grid size={{ xs: 12, sm: 6 }}>
+                        <CustomTextField
+                          placeholder="Abstract Submission Date"
+                          control={control}
+                          name="abstractDate"
+                          type="date"
+                          className="create-event"
+                          defaultValue={moment(new Date()).format("YYYY-MM-DD")}
+                          min={moment(new Date()).format("YYYY-MM-DD")}
+                          rules={{
+                            required: true,
+                            pattern: {
+                              value: /^\d{4}-\d{2}-\d{2}$/,
+                              message: "Please enter a valid start date (DD-MM-YYYY)",
+                            },
+                          }}
+                        />
+                      </Grid>
+                    )}
                   </Grid>
 
-              
-                  <Grid
-                    size={{ xs: 12, sm: 12 }}
-                    mb={0}
-                    className="create-event-description"
-                  >
-                   
+                  <Grid size={{ xs: 12, sm: 12 }} mb={0} className="create-event-description">
                     <ReactQuill
-                     className={`react-quill-editor ${isError ? "create-event-description-error" : ""}`}
+                      className={`react-quill-editor ${isError ? "create-event-description-error" : ""}`}
                       value={editorContent}
                       onChange={handleChange}
                       theme="snow"
@@ -517,101 +513,77 @@ const CreateEvent: React.FC<EventProps> =
                     />
                   </Grid>
 
-                  <Grid size={{xs:12}}>
-                    <Typography
-                      variant="h3"
-                      className="create-event-title"
-                    >
-                    Event Type and Location
+                  <Grid size={{ xs: 12 }}>
+                    <Typography variant="h3" className="create-event-title">
+                      Event Type and Location
                     </Typography>
                   </Grid>
-                  <Grid size={{xs:12}}  >
-  <Box className="create-event-parent"  >
-    <CustomRadio
-      className="create-event-radio-btn "
-      control={control}
-      name="type"
-      label=""
-      options={typeArray}
-      row={true} // Horizontal layout
-      labelPlacement="start"
-      value={"OFFLINE"}
-    />
-  </Box>
-</Grid>
+                  <Grid size={{ xs: 12 }}>
+                    <Box className="create-event-parent">
+                      <CustomRadio
+                        className="create-event-radio-btn "
+                        control={control}
+                        name="type"
+                        label=""
+                        options={typeArray}
+                        row={true} // Horizontal layout
+                        labelPlacement="start"
+                        value={"OFFLINE"}
+                      />
+                    </Box>
+                  </Grid>
                   {watch("type") !== "ONLINE" && (
-                  <Grid size={{ xs: 12, sm:12 }}>      
-                        <CustomTextField
-                          placeholder="Venue"
-                          control={control}
-                          name="address"
-                          readOnly={true}
-                          shrink={watch('address')!==''&&watch('address')!==undefined?true:undefined}
-                          type="text"
-                          onClick={handleTextFieldClick} // Open the place picker on click
-                          rules={{ required: watch("type") === "OFFLINE" }}
-                          closeIcon={true}
-                          onClear={() => {
-                            setValue("address", "");
-                            setValue("venueName", "");
-                            setValue("state", "");
-                            setValue("country", "");
-                            setValue("mapUrl", "");
-                            setValue("city", "");
-                            setValue("postalCode", "");
-                          }} 
-                        />  
-                         {isPlacePickerOpen && (
-        <GoogleMapPlacePicker createEvent={true} randomNumber={randomNumber} onClose={handlePlacePickerClose} />
-      )}           
-
-                          
-                  </Grid>          
-
-                  )}
-                  {watch("type") !=="ONLINE"  && watch('address') !== undefined && (
-                    <>
-                    <Grid size={{ xs:12, sm:6}}>
+                    <Grid size={{ xs: 12, sm: 12 }}>
                       <CustomTextField
-                      placeholder="Venue Name"
-                      control={control}
-                      name="venueName"
-                      type="text"
+                        placeholder="Venue"
+                        control={control}
+                        name="address"
+                        readOnly={true}
+                        shrink={watch("address") !== "" && watch("address") !== undefined ? true : undefined}
+                        type="text"
+                        onClick={handleTextFieldClick} // Open the place picker on click
+                        rules={{ required: watch("type") === "OFFLINE" }}
+                        closeIcon={true}
+                        onClear={() => {
+                          setValue("address", "");
+                          setValue("venueName", "");
+                          setValue("state", "");
+                          setValue("country", "");
+                          setValue("mapUrl", "");
+                          setValue("city", "");
+                          setValue("postalCode", "");
+                        }}
                       />
+                      {isPlacePickerOpen && <GoogleMapPlacePicker createEvent={true} randomNumber={randomNumber} onClose={handlePlacePickerClose} />}
                     </Grid>
-                    <Grid size={{ xs:12, sm:6}}>
-                       <CustomTextField
-                      placeholder="City"
-                      control={control}
-                      name="city"
-                      type="text"
-                      rules={{required:"City is a required field"}}
-                      />
-                    </Grid>
-                    <Grid size={{ xs:12, sm:6}}>
-                       <CustomTextField
-                      placeholder="State"
-                      control={control}
-                      name="state"
-                      type="text"
-                      />
-                    </Grid>
-                    <Grid size={{ xs:12, sm:6}}>
-                       <CustomTextField
-                      placeholder="Zip Code"
-                      control={control}
-                      name="postalCode"
-                      type="text"
-                      isNumeric={false}
-                      rules={{
-                        required: "Zip Code is a required field",
-                        maxLength: validateMaxLength({
-                          maxLength: 10,
-                          fieldName: 'postalCode',
-                        }),
-                      }} 
-                      />
-                    </Grid>
+                  )}
+                  {watch("type") !== "ONLINE" && watch("address") !== undefined && (
+                    <>
+                      <Grid size={{ xs: 12, sm: 6 }}>
+                        <CustomTextField placeholder="Venue Name" control={control} name="venueName" type="text" />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 6 }}>
+                        <CustomTextField placeholder="City" control={control} name="city" type="text" rules={{ required: "City is a required field" }} />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 6 }}>
+                        <CustomTextField placeholder="State" control={control} name="state" type="text" />
+                      </Grid>
+                      <Grid size={{ xs: 12, sm: 6 }}>
+                        <CustomTextField
+                          placeholder="Zip Code"
+                          control={control}
+                          name="postalCode"
+                          type="text"
+                          isNumeric={false}
+                          rules={{
+                            required: "Zip Code is a required field",
+                            maxLength: validateMaxLength({
+                              maxLength: 10,
+                              fieldName: "postalCode",
+                            }),
+                          }}
+                        />
+                      </Grid>
                     </>
                   )}
                   {watch("type") !== "OFFLINE" && (
@@ -621,22 +593,22 @@ const CreateEvent: React.FC<EventProps> =
                         control={control}
                         name="url"
                         type="text"
-                        rules={{ required: watch("type") === "ONLINE",
+                        value={uniqueId || ""}
+                        readOnly={true}
+                        copyValue={true}
+                        rules={{
+                          required: watch("type") === "ONLINE",
                           pattern: {
                             value: /^https:\/\/.+/,
-                            message: "Only HTTPS URLs are allowed"
-                          }
-                         }}
+                            message: "Only HTTPS URLs are allowed",
+                          },
+                        }}
                       />
-                      
                     </Grid>
                   )}
-                   <Grid size={{xs:12}}>
-                    <Typography
-                      variant="h3"
-                      className="create-event-title"
-                    >
-                    Event Time
+                  <Grid size={{ xs: 12 }}>
+                    <Typography variant="h3" className="create-event-title">
+                      Event Time
                     </Typography>
                   </Grid>
                   <Grid size={{ xs: 12, sm: 6 }}>
@@ -644,14 +616,13 @@ const CreateEvent: React.FC<EventProps> =
                       placeholder="Start Date"
                       control={control}
                       name="startTime"
-                      defaultValue={watch('startTime')? moment(watch('startTime')).format("YYYY-MM-DD hh:mm:a") : moment().format("YYYY-MM-DD hh:mm:a")}
-                      
+                      defaultValue={watch("startTime") ? moment(watch("startTime")).format("YYYY-MM-DD hh:mm:a") : moment().format("YYYY-MM-DD hh:mm:a")}
                       rules={{
-                        required:true,
+                        required: true,
                         pattern: {
                           // value: /^\d{4}-\d{2}-\d{2}\s([01][0-9]|2[0-3]):[0-5][0-9]$/,
                           // message: "Please enter a valid start date (DD-MM-YYYY hh:mm A)"
-                        }
+                        },
                       }}
                     />
                   </Grid>
@@ -660,22 +631,19 @@ const CreateEvent: React.FC<EventProps> =
                       placeholder="End Date"
                       control={control}
                       name="endTime"
-                      defaultValue={watch('endTime')? moment(watch('endTime')).format("YYYY-MM-DD hh:mm:a") : moment().format("YYYY-MM-DD hh:mm:a")}
+                      defaultValue={watch("endTime") ? moment(watch("endTime")).format("YYYY-MM-DD hh:mm:a") : moment().format("YYYY-MM-DD hh:mm:a")}
                       rules={{
-                        required:true,
+                        required: true,
                         pattern: {
                           // value: /^\d{4}-\d{2}-\d{2}\s([01][0-9]|2[0-3]):[0-5][0-9]$/,
-                          message: "Please enter a valid end date (DD-MM-YYYY)"
-                        }
+                          message: "Please enter a valid end date (DD-MM-YYYY)",
+                        },
                       }}
                     />
                   </Grid>
-                  <Grid size={{xs:12}}>
-                    <Typography
-                      variant="h3"
-                      className="create-event-title"
-                    >
-                    Event Price
+                  <Grid size={{ xs: 12 }}>
+                    <Typography variant="h3" className="create-event-title">
+                      Event Price
                     </Typography>
                   </Grid>
                   <Grid size={{ xs: 12, sm: 12 }}>
@@ -687,94 +655,71 @@ const CreateEvent: React.FC<EventProps> =
                       type="number"
                       rules={{
                         pattern: {
-                        value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
-                          message:
-                            "Enter a valid price (up to 2 decimal places & Zero not accepted)price up to 1Crore",
-                        }
+                          value: /^(0?[1-9]|[1-9]\d{0,7})(\.\d{1,2})?$/,
+                          message: "Enter a valid price (up to 2 decimal places & Zero not accepted)price up to 1Crore",
+                        },
                       }}
                     />
                   </Grid>
-                  <Grid size={{xs:12}}>
-                    <Typography
-                      variant="h3"
-                      className="create-event-title"
-                    >
-                    Event Logo
+                  <Grid size={{ xs: 12 }}>
+                    <Typography variant="h3" className="create-event-title">
+                      Event Logo
                     </Typography>
                   </Grid>
                   {selectedFile ? (
-          <>
-                            <Grid container size={{ xs: 12 }}>
+                    <>
+                      <Grid container size={{ xs: 12 }}>
+                        <Grid className="create-event-uploaded-card" direction="column">
+                          {/* Close Button */}
+                          <IconButton onClick={handleFileDelete} className="create-event-uploaded-card-close-icon">
+                            <Close fontSize="small" />
+                          </IconButton>
 
-            <Grid className="create-event-uploaded-card" direction="column">
+                          <Grid display={"flex"} className="event-upload-document" container direction="row" justifyItems="center" spacing={1}>
+                            <UploadedIcon />
+                            <Typography className="uploaded-container-text">{selectedFile.name}</Typography>
+                          </Grid>
+                        </Grid>
+                      </Grid>
+                    </>
+                  ) : (
+                    <>
+                      <Grid container size={{ xs: 12 }}>
+                        <Grid size={{ xs: 12 }} container alignItems="center" justifyContent="center" className="create-event-upload-box-container">
+                          <Grid>
+                            <button type="button" onClick={() => setModalOpen(true)} className="create-event-upload-box-container-button">
+                              <UploadLogo className="create-event-upload-box-container-button-text" />
 
-      {/* Close Button */}
-      <IconButton
-        onClick={handleFileDelete}
-        className="create-event-uploaded-card-close-icon"
-      >
-        <Close fontSize="small" />
-      </IconButton>
+                              <Typography className="create-event-upload-box-container-button-text"> Upload Logo</Typography>
+                              <Typography variant="body2">
+                                Choose a file to upload, Max file size: 1MB.
+                                <br />
+                                Recommended ratio Min.200 × 200 (Pixels)
+                              </Typography>
+                            </button>
+                          </Grid>
+                        </Grid>
 
-      <Grid display={"flex"} className="event-upload-document" container direction="row"  justifyItems='center' spacing={1}>
-        <UploadedIcon />
-        <Typography className="uploaded-container-text">
-          {selectedFile.name}
-        </Typography>
-      </Grid>
-
-    
-    </Grid>
-    </Grid>
-          </>
-        ) : (
-          <>
-                  <Grid container size={{ xs: 12 }}>
-                  <Grid size={{xs:12}}
-        container 
-        alignItems="center" 
-        justifyContent="center" 
-        className="create-event-upload-box-container"
-        
-      >
-       
-          <Grid >
-            <button type="button" onClick={() => setModalOpen(true)} className="create-event-upload-box-container-button">
-            <UploadLogo className="create-event-upload-box-container-button-text"/>
-  
-            <Typography className="create-event-upload-box-container-button-text"> Upload Logo</Typography>
-            <Typography variant="body2">
-              Choose a file to upload, Max file size: 1MB.<br />
-              Recommended ratio Min.200 × 200 (Pixels)
-            </Typography>
-            </button>
-          </Grid>
-        
-      </Grid>
-
-      {modalOpen && (
-        <FileListModal
-          open={modalOpen}
-          handleClose={() => setModalOpen(false)}
-          onSelectFile={(files: CustomFile[]) => {
-            if (files && files.length > 0) {
-              setSelectedFile(files[0]);
-            }
-            setModalOpen(false);
-          }}
-          companyId={companyId}
-          multipleSelect={false}
-          imagesPerRow={4}
-        />
-      )}
-                  </Grid>
-                  </>
+                        {modalOpen && (
+                          <FileListModal
+                            open={modalOpen}
+                            handleClose={() => setModalOpen(false)}
+                            onSelectFile={(files: CustomFile[]) => {
+                              if (files && files.length > 0) {
+                                setSelectedFile(files[0]);
+                              }
+                              setModalOpen(false);
+                            }}
+                            companyId={companyId}
+                            multipleSelect={false}
+                            imagesPerRow={4}
+                          />
+                        )}
+                      </Grid>
+                    </>
                   )}
-                    <Grid size={{xs:12}}>
-                    <Typography
-                      variant="h3"
-                      className="create-event-title"
-                    >
+                  <Grid size={{ xs: 12 }}>
+                    <Typography variant="h3" className="create-event-title">
                       Contact Informations
                     </Typography>
                   </Grid>
@@ -786,10 +731,10 @@ const CreateEvent: React.FC<EventProps> =
                       name="phone"
                       type="text"
                       isNumeric={true}
-                       rules={{
-                        required: 'Phone is required',
-                      //   pattern: validatePhoneNumber({})
-                       }}
+                      rules={{
+                        required: "Phone is required",
+                        //   pattern: validatePhoneNumber({})
+                      }}
                     />
                   </Grid>
                   <Grid size={{ xs: 12, sm: 6 }}>
@@ -800,12 +745,12 @@ const CreateEvent: React.FC<EventProps> =
                       name="email"
                       type="email"
                       rules={{
-                        required: 'Email is required',
-                        pattern: validateEmail({})
+                        required: "Email is required",
+                        pattern: validateEmail({}),
                       }}
                     />
                   </Grid>
-{/*                   
+                  {/*
                   <Grid size={{ xs: 12, sm: 6 }}>
                     <CustomTextField
                       placeholder="Start Date"
@@ -818,7 +763,7 @@ const CreateEvent: React.FC<EventProps> =
                       rules={{
                         required:"Start date is a required field.",
                         pattern: {
-                          value: /^\d{4}-\d{2}-\d{2}$/, 
+                          value: /^\d{4}-\d{2}-\d{2}$/,
                           message: "Please enter a valid start date (DD-MM-YYYY)"
                         }
                       }}
@@ -892,7 +837,7 @@ const CreateEvent: React.FC<EventProps> =
                       rules={{
                         required:"Abstract Submission Date is required",
                         pattern: {
-                          value: /^\d{4}-\d{2}-\d{2}$/, 
+                          value: /^\d{4}-\d{2}-\d{2}$/,
                           message: "Please enter a valid start date (DD-MM-YYYY)"
                         }
                       }}
@@ -942,12 +887,12 @@ const CreateEvent: React.FC<EventProps> =
                         <CustomTextField
                           placeholder="Venue URL (must be a Google Maps link with latitude and longitude)"
                           control={control}
-                          name="mapUrl" 
-                          type="text" 
+                          name="mapUrl"
+                          type="text"
                           shrink={watch('mapUrl') !== '' && watch('mapUrl') !== undefined ? true : undefined}
                           readOnly
                           rules={{
-                            required: true,                                                                  
+                            required: true,
                           }}
                         />
                       </Grid>
@@ -1022,17 +967,14 @@ const CreateEvent: React.FC<EventProps> =
                     </>
                   )} */}
                 </Grid>
-                  <CustomDrawer open={drawerOpen} type="right" children={
-                   <GoogleMapPlacePicker onClose={()=>setDrawerOpen(false)}/>
-                  } />
+                <CustomDrawer open={drawerOpen} type="right" children={<GoogleMapPlacePicker onClose={() => setDrawerOpen(false)} />} />
               </form>
-              </FormProvider>
-            </Grid>
+            </FormProvider>
           </Grid>
         </Grid>
-      </Box>
-    );
-  }
-
+      </Grid>
+    </Box>
+  );
+};
 
 export default CreateEvent;
