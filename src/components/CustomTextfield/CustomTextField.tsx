@@ -64,7 +64,8 @@ interface ICustomTextFieldProps<T extends FieldValues> {
   showError?: boolean;
   shrink?:boolean
   closeIcon?: boolean;
-  onClear?: () => void; 
+  copyValue?: boolean;
+  onClear?: () => void;
 }
 
 interface InputPropsType {
@@ -148,7 +149,7 @@ const CustomTextField = <T extends FieldValues>({
           {props.suffixIconSecondButton && <IconButton onClick={props.handleToggleSuffixSecondIcon}>
             {props.suffixIconSecondButton}
           </IconButton>
-            
+
           }
         </InputAdornment>
       );
@@ -172,7 +173,7 @@ const CustomTextField = <T extends FieldValues>({
     }
     if(type==="date"){
       if(props.minDate){
-        propsObj.min = props.minDate; 
+        propsObj.min = props.minDate;
       }
       if(props.maxDate){
         propsObj.max=props.maxDate
@@ -284,10 +285,10 @@ const CustomTextField = <T extends FieldValues>({
                 {...inputProps()}
                 onChange={(e) => {
                   const numericValue = (props.isNumeric)? e.target.value.replace(/[^0-9]/g, ""):e.target.value;
-                  field.onChange(numericValue); 
+                  field.onChange(numericValue);
                 }}
                 onWheel={(e:any) => e.target.blur()}
-                
+
               />
               {showError && error?.message && (
                 <FormHelperText className="error-text">
