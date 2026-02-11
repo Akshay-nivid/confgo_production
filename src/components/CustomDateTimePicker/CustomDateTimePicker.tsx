@@ -23,8 +23,8 @@ interface CustomDateTimePickerProps {
 
 /**
  * Component for selecting  date and time
- * @param param0 
- * @returns 
+ * @param param0
+ * @returns
  */
 const CustomDateTimePicker: React.FC<CustomDateTimePickerProps> = ({
   control,
@@ -49,10 +49,10 @@ const CustomDateTimePicker: React.FC<CustomDateTimePickerProps> = ({
   //Function used to handle the changes
   const handleChange = (newValue: Moment | null) => {
     setValue(newValue);
-    if (onChange) {
-      const formattedValue = newValue?.format(format) || null;
-      onChange(formattedValue);
-    }
+    // if (onChange) {
+    //   const formattedValue = newValue?.format(format) || null;
+    //   onChange(formattedValue);
+    // }
   };
 
   return (
@@ -63,33 +63,28 @@ const CustomDateTimePicker: React.FC<CustomDateTimePickerProps> = ({
           name={name}
           control={control}
           rules={rules}
-          defaultValue={defaultValue}
           render={({ field, fieldState: { error } }) => (
-            <>
-              <DateTimePicker
-                {...field}
-                value={value}
-                onChange={(newValue) => {
-                  handleChange(newValue);
-                  field.onChange(newValue?.toISOString() || null);
-                }}
-                minDateTime={moment()} 
-                slotProps={{
-                  textField: {
-                    error: !!error?.message,
-                    placeholder: placeholder,
-                    fullWidth: true,
-                    helperText: error?.message || "",
-                  },
-                  desktopPaper: {
-                    className: "custom-datetime-picker",
-                  },
-                }}
-              />
-              
-            </>
+            <DateTimePicker
+              value={field.value ? moment(field.value) : null}
+
+              onChange={(newValue) => {
+                handleChange(newValue);
+                field.onChange(newValue ? newValue.toISOString() : null);
+
+              }}
+              minDateTime={moment()}
+              slotProps={{
+                textField: {
+                  error: !!error?.message,
+                  placeholder: placeholder,
+                  fullWidth: true,
+                  helperText: error?.message || "",
+                },
+              }}
+            />
           )}
         />
+
       </LocalizationProvider>
     </FormControl>
   );
