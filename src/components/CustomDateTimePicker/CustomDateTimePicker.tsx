@@ -32,28 +32,28 @@ const CustomDateTimePicker: React.FC<CustomDateTimePickerProps> = ({
   label,
   placeholder,
   rules,
-  defaultValue,
-  format = "YYYY-MM-DD HH:mm",
-  onChange,
+  // defaultValue,
+  // format = "YYYY-MM-DD HH:mm",
+  // onChange,
 }) => {
-  const [value, setValue] = useState<Moment | null>(
-    defaultValue ? moment(defaultValue) : null
-  );
+  // const [value, setValue] = useState<Moment | null>(
+  //   defaultValue ? moment(defaultValue) : null
+  // );
 
-  useEffect(() => {
-    if (defaultValue) {
-      const parsedValue = moment(defaultValue);
-      setValue(parsedValue.isValid() ? parsedValue : null);
-    }
-  }, [defaultValue]);
-  //Function used to handle the changes
-  const handleChange = (newValue: Moment | null) => {
-    setValue(newValue);
-    // if (onChange) {
-    //   const formattedValue = newValue?.format(format) || null;
-    //   onChange(formattedValue);
-    // }
-  };
+  // useEffect(() => {
+  //   if (defaultValue) {
+  //     const parsedValue = moment(defaultValue);
+  //     setValue(parsedValue.isValid() ? parsedValue : null);
+  //   }
+  // }, [defaultValue]);
+  // //Function used to handle the changes
+  // const handleChange = (newValue: Moment | null) => {
+  //   setValue(newValue);
+  //   // if (onChange) {
+  //   //   const formattedValue = newValue?.format(format) || null;
+  //   //   onChange(formattedValue);
+  //   // }
+  // };
 
   return (
     <FormControl fullWidth>
@@ -68,7 +68,7 @@ const CustomDateTimePicker: React.FC<CustomDateTimePickerProps> = ({
               value={field.value ? moment(field.value) : null}
 
               onChange={(newValue) => {
-                handleChange(newValue);
+                // handleChange(newValue);
                 field.onChange(newValue ? newValue.toISOString() : null);
 
               }}

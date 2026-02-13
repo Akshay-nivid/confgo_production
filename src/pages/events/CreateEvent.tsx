@@ -117,21 +117,19 @@ const CreateEvent: React.FC<EventProps> = ({ formSubmit, formDraftSubmit, onSubm
 
 
   useEffect(() => {
+
     if (!compData?.uniqueId?.value) {
-      handlefetchUrl()
+      handlefetchUrl();
     } else {
-      setUniqueId(compData?.uniqueId?.value);
+      setUniqueId(compData.uniqueId.value);
     }
-  }, []);
+  }, [compData]);
 
   const handlefetchUrl=async()=>{
     let conf = await fetchConferenceUrl()
     setDataById("uniqueId", { value: conf?.value, id: conf?.id });
   }
 
-
-
-  // Watch values from the form
   const fields: ("mapUrl" | "postalCode" | "venueName" | "city" | "address")[] = ["mapUrl", "postalCode", "venueName", "city", "address"];
   const mapUrl = watch("mapUrl");
   const postalCode = watch("postalCode");
