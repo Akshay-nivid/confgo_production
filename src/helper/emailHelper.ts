@@ -111,10 +111,11 @@ export const sendEmail = async ({
     }
 
     // Send mail asynchronously
-    const info = await transporter.sendMail(mailOptions);
-    Logger.log('sendEmail info > ', info);
+    // const info = await transporter.sendMail(mailOptions);
+    // Logger.log('sendEmail info > ', info);
 
-    Logger.log(`sendEmail response: ${info.messageId}`);
+    // Logger.log(`sendEmail response: ${info.messageId}`);
+    Logger.log('sendEmail mailOptions > ', mailOptions);
     return true;
   } catch (error) {
     Logger.error('sendEmail error:', error);
