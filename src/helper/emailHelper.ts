@@ -83,9 +83,9 @@ export const sendEmail = async ({
       logger: true,
     });
 
-    // Define mail options
+    // Define mail options (use 'from' for better deliverability - noreply addresses often get blocked)
     const mailOptions: Record<string, any> = {
-      from: emailConfig.username,
+      from: emailConfig.from,
       to: to,
       cc: cc,
       subject: subject,

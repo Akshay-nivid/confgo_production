@@ -10,6 +10,8 @@ interface IEmailConfig {
   port: number;
   smtp: string;
   secure: boolean;
+  /** Sender/from address for outgoing emails (use real address for better deliverability vs noreply) */
+  from: string;
 }
 
 // Create the email configuration object
@@ -20,4 +22,5 @@ export const emailConfig: IEmailConfig = {
   port: Number(process.env.EMAIL_PORT!),
   smtp: process.env.EMAIL_SMTP!,
   secure: process.env.EMAIL_SECURE === 'true', // Set to true if using 465, otherwise false
+  from: process.env.EMAIL_FROM || 'confgobusiness@gmail.com',
 };
