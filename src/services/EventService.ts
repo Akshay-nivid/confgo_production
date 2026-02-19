@@ -281,6 +281,7 @@ export class EventService {
           eventAllotment = JSON.parse(subscription?.plan?.dataValues.eventLimits);
         }
         //Event count checking based on subscription plan
+      
         if (subscription?.dataValues.id && conductedEvents.length >= eventAllotment.totalEvent) {
           await this.subscriptionBaseService.update(subscription?.dataValues.id, { statusId: enumSubscriptionStatus.EXPIRED }, undefined, transaction);
           const errorMessage = `Can't Create the Event; You are not subscribed or subscription expired.`;

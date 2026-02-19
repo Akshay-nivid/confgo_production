@@ -444,7 +444,7 @@ export class NotificationService {
     company?: Company,
     transaction?: Transaction
   ) {
-    try { 
+    try {
       const event = await this.eventBaseService.findById(
         invitationData.eventId,
         {
@@ -456,16 +456,15 @@ export class NotificationService {
           ],
         }
       );
-      if(!event){
+      if (!event) {
         const errorMessage = `Event with Id ${invitationData.eventId} not found.`;
         Logger.error(errorMessage);
         throw new Error(errorMessage);
       }
-      const actionData =
-        await this.getNotificationSettingByActionName(
-          'EVENT_SHARE',
-          transaction
-        );
+      const actionData = await this.getNotificationSettingByActionName(
+        'EVENT_SHARE',
+        transaction
+      );
 
       // Loop through each email in the invitation data and send an email notification.
       invitationData.emails.forEach(async (email) => {
@@ -474,15 +473,19 @@ export class NotificationService {
         const [date, time] = formattedDate.split('T'); // Split at 'T'
         if (actionData) {
           const metaDetails = {
-            year:new Date().getFullYear().toString(),
+            year: new Date().getFullYear().toString(),
             EVENTNAME: invitationData.eventName,
             EVENTURL: invitationData.eventUrl,
-            LOCATION: event?.venue ? event?.venue.dataValues.name +','+ event?.venue.dataValues.city : `it's a Online Event`, 
+            LOCATION: event?.venue
+              ? event?.venue.dataValues.name +
+                ',' +
+                event?.venue.dataValues.city
+              : `it's a Online Event`,
             DATE: date,
             TIME: time.split('.')[0],
             email: email,
             NOTES: invitationData.notes,
-            companyName: company?.dataValues.companyName
+            companyName: company?.dataValues.companyName,
           };
           //notification create request
           const req: NotificationCreateDTO = {
@@ -495,11 +498,7 @@ export class NotificationService {
             modifiedBy: userId,
           };
           //Add email send entry to notification
-          await this.createNotification(
-            userId,
-            req,
-            transaction
-          );
+          await this.createNotification(userId, req, transaction);
         }
       });
     } catch (error) {
@@ -562,56 +561,53 @@ export class NotificationService {
     }
   }
 
+  /**
+   * List events.
+   * @param eventData - The data to list event.
+   * @param transaction - Optional transaction to ensure atomicity.
+   * @returns A promise that resolves to the list Event.
+   */
+  async listNotifications(
+    filters: NotificationFilterDTO,
+    limit: number,
+    offset: number,
+    sortBy: string,
+    sortDirection: string,
+    userId: number
+  ): Promise<{ rows: Notification[]; count: number }> {
+    try {
+      const condition: WhereOptions = {};
 
-    /**
-     * List events.
-     * @param eventData - The data to list event.
-     * @param transaction - Optional transaction to ensure atomicity.
-     * @returns A promise that resolves to the list Event.
-     */
-    async listNotifications(
-      filters: NotificationFilterDTO,
-      limit: number,
-      offset: number,
-      sortBy: string,
-      sortDirection: string,
-      userId: number
-    ): Promise<{ rows: Notification[]; count: number }> {
-      try {
-        const condition: WhereOptions = {};
-       
-        // Apply event filters based on provided filters object
-        if (filters?.type) {
-          condition.type =  filters.type;
-        }
-        else{
-          condition.type ='EMAIL'; //By default list Email Notifications
-        }
-        if (filters?.id) {
-          condition.id = filters.id;
-        }
-        if (filters?.sendStatus) {
-          condition.sendStatus = filters.sendStatus;
-        }
-        else{
-          condition.sendStatus = 1;
-        }
-        if (filters?.userId) {
-          condition.userId = filters.userId;
-        }
-  
-        // Fetch parent events that match the condition
-        const { count, rows } = await this.notificationBaseService.findAndCountAll({
+      // Apply event filters based on provided filters object
+      if (filters?.type) {
+        condition.type = filters.type;
+      } else {
+        condition.type = 'EMAIL'; //By default list Email Notifications
+      }
+      if (filters?.id) {
+        condition.id = filters.id;
+      }
+      if (filters?.sendStatus) {
+        condition.sendStatus = filters.sendStatus;
+      } else {
+        condition.sendStatus = 1;
+      }
+      if (filters?.userId) {
+        condition.userId = filters.userId;
+      }
+
+      // Fetch parent events that match the condition
+      const { count, rows } =
+        await this.notificationBaseService.findAndCountAll({
           where: { ...condition },
-         
+
           order: [[sortBy, sortDirection.toUpperCase()]],
         });
-  
-    
-        return { rows: rows, count:count};
-      } catch (error) {
-        Logger.error('Error listing notifications:', error);
-        throw error;
-      }
+
+      return { rows: rows, count: count };
+    } catch (error) {
+      Logger.error('Error listing notifications:', error);
+      throw error;
     }
+  }
 }

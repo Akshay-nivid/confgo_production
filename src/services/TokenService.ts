@@ -34,11 +34,11 @@ export class TokenService {
   private tokenBaseService: BaseService<Token>;
   private userBaseService: BaseService<User>;
   private tokenStatusBaseService: BaseService<TokenStatus>;
-  private notificationSettingBaseService: BaseService<NotificationSetting>
+  private notificationSettingBaseService: BaseService<NotificationSetting>;
   private notificationBaseService: BaseService<Notification>;
   private emailConfigBaseService: BaseService<EmailConfig>;
   private authBaseService: BaseService<UserAuth>;
-  
+
   constructor() {
     // Cast the Token model explicitly to match the expected constructor signature
     this.tokenBaseService = new BaseService(
@@ -55,17 +55,19 @@ export class TokenService {
     );
 
     this.notificationSettingBaseService = new BaseService(
-      NotificationSetting as unknown as { new (): NotificationSetting } & typeof NotificationSetting
+      NotificationSetting as unknown as {
+        new (): NotificationSetting;
+      } & typeof NotificationSetting
     );
 
-    this.notificationBaseService= new BaseService(
+    this.notificationBaseService = new BaseService(
       Notification as unknown as { new (): Notification } & typeof Notification
     );
     this.emailConfigBaseService = new BaseService(
-          EmailConfig as unknown as {
-            new (): EmailConfig;
-          } & typeof EmailConfig
-        );
+      EmailConfig as unknown as {
+        new (): EmailConfig;
+      } & typeof EmailConfig
+    );
     this.authBaseService = new BaseService(
       UserAuth as unknown as { new (): UserAuth } & typeof UserAuth
     );
@@ -136,7 +138,7 @@ export class TokenService {
 
     // Set the expiry time for the token (10 minutes from now)
     const expiryTime = new Date();
-    expiryTime.setHours(expiryTime.getHours()  + 24);
+    expiryTime.setHours(expiryTime.getHours() + 24);
 
     return {
       uid,
@@ -226,8 +228,10 @@ export class TokenService {
       // Generate OTP and Token
       const tData = this.generateOtp();
 
-      const template = await this.notificationSettingBaseService.findOne({ where: { actionName: 'OTP_SENDING' } });
-      if(template){
+      const template = await this.notificationSettingBaseService.findOne({
+        where: { actionName: 'OTP_SENDING' },
+      });
+      if (template) {
         const notificationReq = {
           templateId: template?.dataValues.id,
           userId: userData.dataValues.id,
@@ -235,7 +239,10 @@ export class TokenService {
           metadata: JSON.stringify({
             contactName: userData.dataValues.firstName,
             otp: tData.otp,
-            expiryTime: tData.expiryTime.toISOString().replace('T', ' ').split('.')[0],
+            expiryTime: tData.expiryTime
+              .toISOString()
+              .replace('T', ' ')
+              .split('.')[0],
             email: userData.dataValues.email,
           }),
           sendStatus: 1,
@@ -245,16 +252,19 @@ export class TokenService {
         };
         await this.notificationBaseService.create(notificationReq, transaction);
 
-         // Send an quick email notification for user registration
-         await this.sendEmailNotification(
+        // Send an quick email notification for user registration
+        await this.sendEmailNotification(
           {
             actionName: 'OTP_SENDING',
             toAddress: userData.dataValues.email,
-            mailVars:{
-              year:new Date().getFullYear().toString(),
+            mailVars: {
+              year: new Date().getFullYear().toString(),
               contactName: userData.dataValues.firstName,
               otp: tData.otp.toString(),
-              expiryTime: tData.expiryTime.toISOString().replace('T', ' ').split('.')[0],
+              expiryTime: tData.expiryTime
+                .toISOString()
+                .replace('T', ' ')
+                .split('.')[0],
               email: userData.dataValues.email,
             },
           },
@@ -295,68 +305,66 @@ export class TokenService {
   /**
    * Send quick email OTP notification for users
    * @param actionName
-   * @param mailVars 
-   * @param transaction 
-   * @returns 
+   * @param mailVars
+   * @param transaction
+   * @returns
    */
-   async sendEmailNotification(
-      {
-        actionName,
-        toAddress,
-        cc,
-        mailVars,
-        attachments,
-      }: {
-        actionName: string;
-        cc?: string;
-        toAddress: string;
-        mailVars?: MailVars;
-        attachments?: Array<{
-          filename: string;
-          content: Buffer;
-          path?: string;
-          contentType?: string;
-        }>;
-        message?: string; // Optional parameter
-      },
-      transaction?: Transaction
-    ): Promise<boolean> {
-      
-      //action name fetching
-      const actionData = await this.notificationSettingBaseService.findOne({
-        where: { actionName: actionName },
-        transaction,
-      });
-      if (
-        actionData === null ||
-        !actionData.dataValues ||
-        actionData.dataValues.isEnabled === 0 ||
-        actionData.dataValues.email === 0
-      ) {
-        return false;
-      }
-      //email config settings
-      const emailConfigData = await this.emailConfigBaseService.findOne({
-        where: { configName: actionName },
-        transaction,
-      });
-
-  
-      if (!emailConfigData || !emailConfigData.dataValues.enabled) {
-        return false;
-      }
-      //send email
-      await sendEmail({
-        subject: emailConfigData.dataValues.subject,
-        templateMail: emailConfigData.dataValues.template,
-        to: toAddress,
-        cc: cc,
-        mailVars: mailVars,
-        attachments,
-      });
-  
-      return true;
+  async sendEmailNotification(
+    {
+      actionName,
+      toAddress,
+      cc,
+      mailVars,
+      attachments,
+    }: {
+      actionName: string;
+      cc?: string;
+      toAddress: string;
+      mailVars?: MailVars;
+      attachments?: Array<{
+        filename: string;
+        content: Buffer;
+        path?: string;
+        contentType?: string;
+      }>;
+      message?: string; // Optional parameter
+    },
+    transaction?: Transaction
+  ): Promise<boolean> {
+    //action name fetching
+    const actionData = await this.notificationSettingBaseService.findOne({
+      where: { actionName: actionName },
+      transaction,
+    });
+    if (
+      actionData === null ||
+      !actionData.dataValues ||
+      actionData.dataValues.isEnabled === 0 ||
+      actionData.dataValues.email === 0
+    ) {
+      return false;
     }
+    //email config settings
+    const emailConfigData = await this.emailConfigBaseService.findOne({
+      where: { configName: actionName },
+      transaction,
+    });
+
+    if (!emailConfigData || !emailConfigData.dataValues.enabled) {
+      return false;
+    }
+    //send email
+    await sendEmail({
+      subject: emailConfigData.dataValues.subject,
+      templateMail: emailConfigData.dataValues.template,
+      to: toAddress,
+      cc: cc,
+      mailVars: mailVars,
+      attachments,
+    });
+
+    return true;
+  }
 
   /**
    * Get Token Status
@@ -410,7 +418,7 @@ export class TokenService {
           throw new Error(errorMessage);
         }
       }
-      
+
       // Find the token where expiryTime is greater than or equal to the current date
       const result = await this.tokenBaseService.findOne({
         where: {
