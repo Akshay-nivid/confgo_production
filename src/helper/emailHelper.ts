@@ -10,6 +10,29 @@ import { Logger } from '../utils/logger';
 import { emailConfig } from '../config/emailConfig';
 import config from '../config/index';
 
+// Reuse single transporter to avoid "Too many login attempts" from Gmail
+let transporter: nodemailer.Transporter | null = null;
+
+function getTransporter() {
+  if (!transporter) {
+    transporter = nodemailer.createTransport({
+      secure: emailConfig.secure,
+      host: emailConfig.host,
+      port: emailConfig.port,
+      auth: {
+        user: emailConfig.username,
+        pass: emailConfig.password,
+      },
+      debug: true,
+      logger: true,
+      pool: true,
+      maxConnections: 3,
+      maxMessages: 100,
+    });
+  }
+  return transporter;
+}
+
 // Interface for the mail variables used in the email template
 export interface MailVars {
   [key: string]: string;
@@ -71,17 +94,7 @@ export const sendEmail = async ({
       parsedContents = parsedContents.replace(re, mailData[key]);
     }
 
-    const transporter = nodemailer.createTransport({
-      secure: emailConfig.secure,
-      host: emailConfig.host,
-      port: emailConfig.port,
-      auth: {
-        user: emailConfig.username,
-        pass: emailConfig.password,
-      },
-      debug: true,
-      logger: true,
-    });
+    const transporter = getTransporter();
 
     // Define mail options (use 'from' for better deliverability - noreply addresses often get blocked)
     const mailOptions: Record<string, any> = {
@@ -102,8 +115,6 @@ export const sendEmail = async ({
     Logger.log('sendEmail info > ', info);
 
     Logger.log(`sendEmail response: ${info.messageId}`);
-    // Close the transporter
-    transporter.close();
     return true;
   } catch (error) {
     Logger.error('sendEmail error:', error);
